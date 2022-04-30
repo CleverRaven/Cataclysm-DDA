@@ -179,6 +179,8 @@ struct body_part_type {
          */
         std::vector<sub_bodypart_str_id> sub_parts;
 
+        std::map<units::mass, int> encumbrance_per_weight;
+
         cata::flat_set<json_character_flag> flags;
         cata::flat_set<json_character_flag> conditional_flags;
 

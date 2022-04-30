@@ -1370,21 +1370,23 @@
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
     "proficiencies": [ "prof_wound_care" ],
     "items": {
-      "both": [
-        "pants",
-        "dress_shirt",
-        "mask_dust",
-        "gloves_medical",
-        "socks",
-        "dress_shoes",
-        "coat_lab",
-        "water_clean",
-        "bandages",
-        "adhesive_bandages",
-        "aspirin",
-        "stethoscope",
-        "pudding"
-      ],
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "gloves_medical",
+          "socks",
+          "dress_shoes",
+          "coat_lab",
+          "water_clean",
+          "bandages",
+          "adhesive_bandages",
+          "aspirin",
+          "stethoscope",
+          "pudding"
+        ],
+        "entries": [ { "item": "mask_dust", "variant": "white_mask_dust" } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -4152,7 +4154,6 @@
           "gloves_medical",
           "wristwatch",
           "boots",
-          "mask_dust",
           "mbag",
           "bandages",
           "stethoscope",
@@ -4160,7 +4161,11 @@
           "syringe",
           "morphine"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "full_1st_aid" },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -4220,7 +4225,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "mask_dust", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "mask_dust", "variant": "camo_mask_dust", "custom-flags": [ "no_auto_equip" ] },
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
@@ -4529,7 +4534,10 @@
     "description": "You are a true American patriot, dressed with star-spangled clothing from head to toes.  The government has fallen, but the nation lives on with its people.",
     "points": -1,
     "items": {
-      "both": { "items": [ "american_flag", "socks", "sneakers", "wristwatch" ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "both": {
+        "items": [ "american_flag", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "flag_mask_dust" } ]
+      },
       "male": [ "flag_shirt", "flag_pants", "flag_swimsuit" ],
       "female": {
         "items": [ "flag_jumpsuit" ],
