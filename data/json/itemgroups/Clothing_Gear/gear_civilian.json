@@ -61,7 +61,8 @@
       [ "flyer", 10 ],
       [ "thermos", 5 ],
       [ "hairbrush", 25 ],
-      [ "comb_pocket", 50 ]
+      [ "comb_pocket", 50 ],
+      [ "ankle_wallet_pouch", 1 ]
     ]
   },
   {
@@ -79,6 +80,7 @@
       { "group": "stoner", "prob": 5 },
       { "group": "cannedfood", "prob": 10, "count": [ 1, 3 ] },
       { "group": "wallet_duct_tape_full", "prob": 1 },
+      { "item": "ankle_wallet_pouch", "prob": 1 }
       { "item": "drink_hobo", "prob": 1 }
     ]
   },
@@ -115,6 +117,9 @@
       [ "slingpack", 19 ],
       [ "travelpack", 10 ],
       [ "petpack", 1 ],
+      [ "armrig", 3 ],
+      [ "leg_small_bag", 3 ],
+      [ "leg_bag", 1 ],
       [ "bookstrap", 1 ],
       [ "pockknife", 14 ],
       [ "knife_swissarmy", 10 ],
@@ -255,6 +260,7 @@
       [ "bandana", 15 ],
       [ "towel", 90 ],
       { "group": "wallets", "prob": 90 },
+      [ "ankle_wallet_pouch", 40 ],
       [ "longshirt", 80 ],
       [ "shorts_cargo", 50 ],
       [ "pants_cargo", 70 ],

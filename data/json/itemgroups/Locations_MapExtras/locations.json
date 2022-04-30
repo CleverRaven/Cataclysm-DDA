@@ -1692,7 +1692,8 @@
       { "item": "soap", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "detergent", "prob": 5, "charges": [ 1, 20 ] },
       { "item": "knitting_needles", "prob": 1 },
-      { "item": "survnote", "prob": 2 }
+      { "item": "survnote", "prob": 2 },
+      { "item": "ankle_wallet_pouch", "prob": 5 }
     ]
   },
   {
