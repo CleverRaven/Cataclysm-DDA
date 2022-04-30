@@ -61,6 +61,7 @@
     "difficulty": 4,
     "time": "50 m",
     "reversible": true,
+    "decomp_learn": 4,
     "book_learn": [ [ "advanced_electronics", 3 ], [ "mag_electronics", 4 ], [ "textbook_electronics", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 }, { "proficiency": "prof_elec_soldering" } ],
     "using": [ [ "soldering_standard", 12 ] ],
