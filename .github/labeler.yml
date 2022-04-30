@@ -51,8 +51,8 @@
 
 
 "EOC: Effects On Condition":
-  - "**/effect_on_condition**"
-  - data/json/addictions_eocs.json
+  - "**/**effect_on_condition**"
+  - "**/**eocs**"
 
 "Fields / Furniture / Terrain / Traps":
   - "**/furniture**"
@@ -84,7 +84,7 @@
 
 "Items: Armor / Clothing":
   - "**/armor/**/*"
-  
+
 "Items: Battery / UPS":
   - "**/battery**"
 
@@ -147,7 +147,7 @@
   - "**/ammo/**/*"
 
 "Items: Gunmod / Toolmod":
-  - "**/gunmod/**/*"
+  - "**/gunmod**"
   - "**/toolmod**"
 
 "SDL: Tiles / Sound":
@@ -156,7 +156,7 @@
 
 "Scenarios":
   - "**/scenario**"
-  - data/json/start_locations.json
+  - "**/**start_location**"
 
 "Translation":
   - lang/**/*
