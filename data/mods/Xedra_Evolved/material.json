@@ -60,5 +60,46 @@
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
     ]
+  },
+  {
+    "type": "material",
+    "id": "moon_tears",
+    "name": "Moon tears",
+    "density": 13,
+    "bash_resist": 13,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "cut_resist": 20,
+    "bullet_resist": 16,
+    "acid_resist": 10,
+    "fire_resist": 10,
+    "elec_resist": 10,
+    "chip_resist": 40,
+    "repaired_with": "moon_tear_ingot",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
+    "id": "moon_tears_fine_chain",
+    "name": "Moon tears fine chain",
+    "density": 13,
+    "bash_resist": 13,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "cut_resist": 20,
+    "bullet_resist": 16,
+    "acid_resist": 10,
+    "fire_resist": 10,
+    "elec_resist": 10,
+    "chip_resist": 40,
+    "repaired_with": "moon_tear_chain_link",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "breathability": "GOOD"
   }
 ]
