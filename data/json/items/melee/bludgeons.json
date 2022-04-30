@@ -1181,7 +1181,7 @@
     "description": "A wooden staff weapon used in Okinawan martial arts.  Finely sanded and treated with oil for integrity.",
     "price": 4000,
     "material": [ "wood" ],
-    "techniques": [ "WBLOCK_2", "SWEEP" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1500 g",
