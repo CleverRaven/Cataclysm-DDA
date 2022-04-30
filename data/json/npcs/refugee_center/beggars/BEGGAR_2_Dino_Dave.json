@@ -216,13 +216,15 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
-    "dynamic_line": {
+    "dynamic_line": { "and": [
+    "Well… I had it all pretty together,/u0400", {
       "u_has_var": "beggars_recruited",
       "type": "general",
       "context": "recruit",
       "value": "yes",
-      "yes": "Well… I had it all pretty together, but the others have left, and now the masters won't let me build my sanctuary.  Can you help me figure them out?",
-      "no": "That's it!  I'm just gonna need a little time to get it all set up.  Thanks.  You've helped me a lot.  I'm feeling much more myself with all this to keep me going."
+      "yes": "but the others have left, and/u0400",
+    "no": "and I feel bad with all the help you've given me already, but/u0400" },
+"now the masters won't let me build my sanctuary.  I know I can't build it in here, they wouldn't allow it.  They won't listen to me when I ask for a safe place.  They just want me to disappear, like the others.  Can you help me figure them out?"    ]
     },
     "responses": [
       {
@@ -230,7 +232,8 @@
         "text": "Why don't you leave this place?  Come with me, I could use some help out there.",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOIN"
       },
-      { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" }
+      { "text": "Sure, Dave.  One last favor, I think I can talk to Smokes about finding you a place to go.", "effect": {"assign_mission": "MISSION_BEGGAR_2_PERMISSION"}, "topic": "TALK_DONE" },
+      { "text": "I'll have to think on that, Dave, I've done a lot already.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -351,6 +354,79 @@
       "success": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
       "success_lie": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
       "failure": "No!  Oh god, no, this can't be happening…"
+    }
+  },
+  {
+    "id": "MISSION_BEGGAR_2_PERMISSION",
+    "type": "mission_definition",
+    "name": { "str": "Find Dave a place to call home." },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_var": "Dave_Permission", "type": "mission", "value": true },
+    "count": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I have it, I have it all, but I can't find a place to put it.  Will you ask the masters?  Maybe?  I've tried but they ignore me.",
+      "offer": "I have it, I have it all, but I can't find a place to put it.  Will you ask the masters?  Maybe?  I've tried but they ignore me.  I just need a place to put it all, a place I can be safe, and not make anyone upset.",
+      "accepted": "Thank you!  I'm sorry, I thought we were done, but we can do this!",
+      "rejected": "Oh man, but we're so close!",
+      "advice": "Maybe somewhere they can't see me?  Where I can just be me?",
+      "inquire": "Did you ask the masters?",
+      "success": "The roof!  So high!  So lofty!  Come see me there, my friend.  I will not disappoint you.",
+      "success_lie": "I don't understand.",
+      "failure": "No!  Oh god, no, this can't be happening…"
+    },
+    "end": {
+      "effect": [
+        { "global_add_var": "dave_castle_stage", "value": 1 },
+        { "npc_first_topic": "TALK_DINODAVE_1" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
+        { "mapgen_update": "cardboard_castle", "om_terrain": "evac_center_13_z1" },
+        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" }
+      ]
+    },
+    {
+      "type": "mapgen",
+      "update_mapgen_id": "cardboard_castle",
+      "method": "json",
+      "object": {
+        "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+        "place_nested": [ { "chunks": [ "cardboard_castle_1" ], "x": 0, "y": 16 } ]
+      }
+    },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cardboard_castle_1",
+    "//": "First iteration of Dino Dave's cardboard castle.",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "       ",
+        " |-||| ",
+        " |_CC| ",
+        " |___| ",
+        " |-||| ",
+        " |_BB| ",
+        " ||||| "
+      ],
+      "furniture": {
+        "|": { "terrain": "f_wall_cardboard" },
+        "_": { "terrain": "f_door_cardboard" },
+        "-": { "terrain": "f_floor_cardboard" },
+        "C": { "terrain": "f_cardboard_box" },
+        "B": { "terrain": "f_bed_cardboard" }
+      }
+    }
+  }
+    {
+      "type": "mapgen",
+      "update_mapgen_id": "refcenter_unlock_roofstairs",
+      "method": "json",
+      "object": {
+        "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+      }
     }
   }
 ]
