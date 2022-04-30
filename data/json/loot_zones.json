@@ -252,6 +252,13 @@
     "description": "Favorite items inside of this zone are ignored by \"sort out loot\" zone-action."
   },
   {
+    "id": "LOOT_ITEM_GROUP",
+    "type": "LOOT_ZONE",
+    "name": "Loot: item_group",
+    "can_be_personal": false,
+    "description": "Destination for items from an item_group"
+  },
+  {
     "id": "NO_AUTO_PICKUP",
     "type": "LOOT_ZONE",
     "name": "No Auto Pickup",

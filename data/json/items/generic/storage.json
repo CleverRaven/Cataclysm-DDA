@@ -30,7 +30,7 @@
     "color": "light_gray",
     "pocket_data": [
       {
-        "description": "Small carabiner",
+        "description": "Small carabiner.",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "2 L",
@@ -40,7 +40,7 @@
         "moves": 150
       },
       {
-        "description": "Small carabiner",
+        "description": "Small carabiner.",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "2 L",
@@ -50,7 +50,7 @@
         "moves": 150
       },
       {
-        "description": "Small carabiner",
+        "description": "Small carabiner.",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "2 L",
@@ -60,7 +60,7 @@
         "moves": 150
       },
       {
-        "description": "Large carabiner",
+        "description": "Large carabiner.",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "4 L",
@@ -70,7 +70,7 @@
         "moves": 150
       },
       {
-        "description": "Large carabiner",
+        "description": "Large carabiner.",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "4 L",

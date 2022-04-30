@@ -131,6 +131,13 @@
       { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 672 },
       { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 2160 },
       {
+        "monster": "mon_dromaeosaurus",
+        "weight": 150,
+        "cost_multiplier": 10,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "NIGHT" ]
+      },
+      {
         "monster": "mon_stenonychosaurus",
         "weight": 150,
         "cost_multiplier": 10,

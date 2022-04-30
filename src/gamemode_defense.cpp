@@ -30,7 +30,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pldata.h"
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"

@@ -72,6 +72,8 @@ static auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 static activity_id act;
 static std::pair<std::string, std::string> engine_external_id_and_variant;
 
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -605,7 +607,8 @@ void sounds::process_sound_markers( Character *you )
                        you->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
                   ( you->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
                   ( you->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
-                !you->has_effect( effect_narcosis ) ) {
+                !you->has_effect( effect_narcosis ) &&
+                !you->has_bionic( bio_sleep_shutdown ) ) {
                 //Not kidding about sleep-through-firefight
                 you->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );

@@ -154,9 +154,9 @@
     "name": { "str": "Reflex Photophore" },
     "points": -1,
     "description": "A photophore has grown from your head.  You can't consciously control it, and it might start to shine in response to your emotions or your physiological state.",
-    "cost": 1,
+    "cost": 9,
     "time": 810000,
-    "hunger": true,
+    "kcal": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
     "changes_to": [ "BIOLUM1" ],
     "types": [ "BIOLUM" ],
@@ -205,9 +205,9 @@
     "points": 1,
     "description": "A photophore has grown from your head; you can make it glow softly.  This will make you very visible in the dark, ideal for attracting a partner during mating season.",
     "active": true,
-    "cost": 1,
+    "cost": 9,
     "time": 810000,
-    "hunger": true,
+    "kcal": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM0" ],
@@ -232,9 +232,9 @@
     "points": 2,
     "description": "You can make your photophore glow brightly.",
     "active": true,
-    "cost": 1,
+    "cost": 9,
     "time": 405000,
-    "hunger": true,
+    "kcal": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM1" ],
@@ -335,6 +335,16 @@
     "threshreq": [ "THRESH_ELFA" ],
     "category": [ "ELFA" ],
     "hearing_modifier": 1.75
+  },
+  {
+    "type": "mutation",
+    "id": "INATTENTIVE",
+    "name": { "str": "Inattentive" },
+    "points": -2,
+    "starting_trait": true,
+    "description": "You never paid attention to your surroundings and specifically to people around you.  You can't judge intent of critters you see.",
+    "purifiable": false,
+    "valid": false
   },
   {
     "type": "mutation",
@@ -883,10 +893,10 @@
     "prereqs": [ "ADRENALINE" ],
     "category": [ "BEAST" ],
     "active": true,
-    "cost": 10,
+    "cost": 90,
     "time": 10,
     "fatigue": true,
-    "hunger": true,
+    "kcal": true,
     "thirst": true,
     "dodge_modifier": 2,
     "movecost_modifier": 0.9
@@ -996,7 +1006,7 @@
     "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
   },
   {
@@ -1225,6 +1235,20 @@
     "types": [ "HEALING" ],
     "healing_resting": -0.9,
     "mending_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "NOHEAL",
+    "name": { "str": "Irreparable" },
+    "points": -12,
+    "description": "Whatever caused the end of the world affected you in a horrible way.  Your wounds will never heal on their own and your broken limbs will never mend.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "HEALING" ],
+    "healing_resting": -1.0,
+    "mending_modifier": 0,
+    "flags": [ "NO_MINIMAL_HEALING" ]
   },
   {
     "type": "mutation",
@@ -1490,7 +1514,7 @@
     "points": -1,
     "description": "Alcohol and drugs go straight to your head.  You suffer the negative effects of these for longer.",
     "starting_trait": true,
-    "category": [ "MEDICAL" ],
+    "category": [ "MEDICAL", "INSECT" ],
     "cancels": [ "TOLERANCE" ]
   },
   {
@@ -2384,13 +2408,13 @@
     "points": 1,
     "visibility": 6,
     "ugliness": 2,
-    "bodytemp_modifiers": [ 250, 500 ],
-    "bodytemp_sleep": 100,
-    "description": "Light fur has grown to cover your entire body, providing slight protection from cold.",
-    "category": [ "SPIDER", "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "INSECT", "URSINE" ],
+    "bodytemp_sleep": 75,
+    "description": "Light fur has grown to cover your entire body, providing marginal protection against attacks and slight protection from cold.",
+    "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR", "RABBIT_FUR" ]
+    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "RABBIT_FUR" ],
+    "integrated_armor": [ "integrated_lightfur" ]
   },
   {
     "type": "mutation",
@@ -2399,14 +2423,13 @@
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
-    "bodytemp_sleep": 500,
-    "description": "Thick black fur has grown to cover your entire body, providing marginal protection against attacks, and considerable protection from cold.",
+    "bodytemp_sleep": 200,
+    "description": "Thick black fur has grown to cover your entire body, providing minor protection against attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
     "changes_to": [ "URSINE_FUR" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "CATTLE", "RAT", "URSINE" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_fur" ]
   },
   {
     "type": "mutation",
@@ -2415,14 +2438,12 @@
     "points": 4,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
-    "bodytemp_sleep": 500,
-    "description": "Your fur has grown out and thickened, providing noticeable protection from attacks as well as considerable insulation.",
-    "//": "Weak, marginal, and noticeable protection all translate to +1. Is this intended?",
+    "bodytemp_sleep": 250,
+    "description": "Your fur has grown out and thickened, providing great protection from attacks as well as considerable insulation.",
     "types": [ "SKIN" ],
-    "prereqs": [ "LIGHTFUR" ],
+    "prereqs": [ "FUR" ],
     "category": [ "URSINE" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_ursine_fur" ]
   },
   {
     "type": "mutation",
@@ -2431,13 +2452,12 @@
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
-    "bodytemp_sleep": 500,
-    "description": "Dense gray fur has grown to cover your entire body, providing marginal protection against attacks, and considerable protection from cold.",
+    "bodytemp_sleep": 200,
+    "description": "Dense gray fur has grown to cover your entire body, providing noticeable protection against attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "LUPINE" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_lupine_fur" ]
   },
   {
     "type": "mutation",
@@ -2446,13 +2466,13 @@
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 500, 1000 ],
-    "bodytemp_sleep": 300,
-    "description": "You've grown sleek brown fur, providing some protection from cold.",
+    "bodytemp_sleep": 150,
+    "description": "You've grown sleek fur, providing minor protection against attacks, and some protection from cold.",
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "leads_to": [ "LYNX_FUR" ],
-    "category": [ "BEAST", "FELINE", "MOUSE" ]
+    "category": [ "BEAST", "FELINE", "MOUSE" ],
+    "integrated_armor": [ "integrated_feline_fur" ]
   },
   {
     "type": "mutation",
@@ -2461,19 +2481,18 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 1,
-    "description": "Your fur has grown out significantly around your cheeks and neck.  It provides minor protection against attacks.",
+    "description": "Your fur has grown out significantly around your cheeks and neck, providing excellent protection from attacks.",
     "prereqs": [ "FELINE_FUR" ],
     "category": [ "FELINE" ],
-    "armor": [ { "part_types": [ "head", "mouth" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_lynx_fur" ]
   },
   {
     "type": "mutation",
     "id": "PATCHSKIN1",
-    "name": { "str": "Patchwork Skin" },
+    "name": { "str": "Jumbled Skin" },
     "points": 2,
     "visibility": 10,
     "ugliness": 6,
-    "bodytemp_modifiers": [ 125, 250 ],
     "bodytemp_sleep": 50,
     "description": "Your skin has mutated into an amalgamation of fur and scales.",
     "movecost_swim_modifier": 0.95,
@@ -2489,23 +2508,50 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1 } ],
     "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "PATCHSKIN2" ]
+    "changes_to": [ "PATCHSKIN2" ],
+    "integrated_armor": [ "integrated_patchskin1" ]
   },
   {
     "type": "mutation",
     "id": "PATCHSKIN2",
-    "name": { "str": "Thickened Patchwork Skin" },
+    "name": { "str": "Patchwork Skin" },
     "points": 4,
     "visibility": 10,
     "ugliness": 8,
-    "bodytemp_modifiers": [ 250, 500 ],
     "bodytemp_sleep": 100,
-    "description": "Your skin has mutated into an amalgamation of thickened fur and scales.",
+    "description": "Your skin has mutated into an amalgamation of thickened fur, scales, and more.",
     "movecost_swim_modifier": 0.9,
+    "wet_protection": [
+      { "part": "head", "ignored": 3 },
+      { "part": "leg_l", "ignored": 8 },
+      { "part": "leg_r", "ignored": 8 },
+      { "part": "foot_l", "ignored": 3 },
+      { "part": "foot_r", "ignored": 3 },
+      { "part": "arm_l", "ignored": 9 },
+      { "part": "arm_r", "ignored": 9 },
+      { "part": "hand_l", "ignored": 2 },
+      { "part": "hand_r", "ignored": 2 },
+      { "part": "torso", "ignored": 15 }
+    ],
+    "category": [ "CHIMERA" ],
+    "types": [ "SKIN" ],
+    "prereqs": [ "PATCHSKIN1" ],
+    "changes_to": [ "PATCHSKIN3" ],
+    "integrated_armor": [ "integrated_patchskin2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PATCHSKIN3",
+    "name": { "str": "Patchwork Armor" },
+    "points": 6,
+    "visibility": 10,
+    "ugliness": 12,
+    "bodytemp_sleep": 125,
+    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, bone, and even something close to kevlar.",
+    "movecost_swim_modifier": 0.85,
     "wet_protection": [
       { "part": "head", "ignored": 3 },
       { "part": "leg_l", "ignored": 10 },
@@ -2518,23 +2564,25 @@
       { "part": "hand_r", "ignored": 2 },
       { "part": "torso", "ignored": 20 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 2 } ],
     "category": [ "CHIMERA" ],
+    "threshreq": [ "THRESH_CHIMERA" ],
     "types": [ "SKIN" ],
-    "prereqs": [ "PATCHSKIN1" ]
+    "prereqs": [ "PATCHSKIN2" ],
+    "integrated_armor": [ "integrated_patchskin3" ]
   },
   {
     "type": "mutation",
     "id": "CHITIN",
-    "name": { "str": "Chitinous Skin" },
+    "name": { "str": "Epicuticle" },
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
-    "description": "Your epidermis has turned into a thin, flexible layer of chitin.  It provides minor protection from cutting wounds.  Slightly reduces wet effects.",
+    "description": "Your epidermis has turned into a thin, flexible layer of chitin.  It provides decent physical protection.  Slightly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "CHITIN2", "CHITIN_FUR" ],
+    "leads_to": [ "CHITIN2", "CHITIN_FUR", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "category": [ "SPIDER", "INSECT" ],
+    "integrated_armor": [ "integrated_chitin" ],
     "wet_protection": [
       { "part": "head", "ignored": 1 },
       { "part": "leg_l", "ignored": 5 },
@@ -2546,23 +2594,21 @@
       { "part": "hand_l", "ignored": 1 },
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
-    ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2, "cut": 2 } ]
+    ]
   },
   {
     "type": "mutation",
     "id": "CHITIN2",
-    "name": { "str": "Chitinous Armor" },
+    "name": { "str": "Chitin Carapace" },
     "points": 2,
     "visibility": 6,
     "ugliness": 3,
     "bash_dmg_bonus": 2,
-    "mixed_effect": true,
-    "description": "You've grown a chitin exoskeleton, much like that of an insect.  It provides considerable physical protection, and make your punches hit a little harder but reduces your Dexterity by 1.  Somewhat reduces wet effects.",
-    "types": [ "SKIN" ],
+    "description": "You've grown a chitin exoskeleton, much like that of an insect.  It provides considerable physical protection, and make your punches hit a little harder.  Somewhat reduces wet effects.",
     "prereqs": [ "CHITIN" ],
-    "changes_to": [ "CHITIN3" ],
+    "leads_to": [ "CHITIN3" ],
     "category": [ "SPIDER", "INSECT" ],
+    "integrated_armor": [ "integrated_chitin2" ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
       { "part": "leg_l", "ignored": 9 },
@@ -2574,23 +2620,21 @@
       { "part": "hand_l", "ignored": 2 },
       { "part": "hand_r", "ignored": 2 },
       { "part": "torso", "ignored": 18 }
-    ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 4, "cut": 4 } ],
-    "passive_mods": { "dex_mod": -1 }
+    ]
   },
   {
     "type": "mutation",
     "id": "CHITIN3",
-    "name": { "str": "Chitinous Plate" },
+    "name": { "str": "Sclerotin Plate" },
     "points": 2,
     "visibility": 8,
     "ugliness": 5,
-    "bash_dmg_bonus": 3,
-    "description": "You've grown a chitin exoskeleton made of thick, stiff plates.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
-    "types": [ "SKIN" ],
-    "prereqs": [ "CHITIN2", "CHITIN_FUR2" ],
+    "bash_dmg_bonus": 4,
+    "description": "You've grown a sclerotin exoskeleton, akin to an organic suit of platemail.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
+    "prereqs": [ "CHITIN2" ],
     "category": [ "SPIDER" ],
-    "changes_to": [ "CHITIN_FUR3" ],
+    "leads_to": [ "CHITIN_FUR3" ],
+    "integrated_armor": [ "integrated_chitin3", "integrated_chitin3_claws" ],
     "wet_protection": [
       { "part": "head", "ignored": 4 },
       { "part": "leg_l", "ignored": 14 },
@@ -2602,22 +2646,6 @@
       { "part": "hand_l", "ignored": 3 },
       { "part": "hand_r", "ignored": 3 },
       { "part": "torso", "ignored": 26 }
-    ],
-    "encumbrance_always": [
-      [ "torso", 10 ],
-      [ "head", 10 ],
-      [ "arm_l", 10 ],
-      [ "arm_r", 10 ],
-      [ "hand_l", 10 ],
-      [ "hand_r", 10 ],
-      [ "leg_l", 10 ],
-      [ "leg_r", 10 ],
-      [ "foot_l", 10 ],
-      [ "foot_r", 10 ]
-    ],
-    "restricts_gear": [ "head" ],
-    "armor": [
-      { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 8, "cut": 8, "bullet": 1 }
     ],
     "passive_mods": { "dex_mod": -1 }
   },
@@ -2631,11 +2659,9 @@
     "bodytemp_modifiers": [ 100, 150 ],
     "bodytemp_sleep": 50,
     "description": "You've developed some sort of hair growing out of your chitin.  It's a bit warmer than not having hair.",
-    "types": [ "SKIN" ],
-    "prereqs": [ "CHITIN", "LIGHTFUR" ],
+    "prereqs": [ "CHITIN" ],
     "category": [ "SPIDER" ],
-    "changes_to": [ "CHITIN_FUR2" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2, "cut": 2 } ]
+    "changes_to": [ "CHITIN_FUR2" ]
   },
   {
     "type": "mutation",
@@ -2647,11 +2673,10 @@
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
     "description": "Your chitin hair has thickened and spread across your body.  It provides minor warmth and helps you sense nearby vibrations.",
-    "types": [ "SKIN" ],
     "prereqs": [ "CHITIN_FUR" ],
+    "leads_to": [ "CF_HAIR" ],
     "category": [ "SPIDER" ],
-    "changes_to": [ "CHITIN_FUR3", "CHITIN3" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 4, "cut": 4 } ]
+    "changes_to": [ "CHITIN_FUR3" ]
   },
   {
     "type": "mutation",
@@ -2662,28 +2687,11 @@
     "ugliness": 4,
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
-    "description": "Your exoskeleton has hardened considerably, imposing a further -1 to Dexterity, and boasts a fine coat of hairs that put feline whiskers to shame.",
-    "encumbrance_always": [
-      [ "torso", 10 ],
-      [ "head", 10 ],
-      [ "arm_l", 10 ],
-      [ "arm_r", 10 ],
-      [ "hand_l", 10 ],
-      [ "hand_r", 10 ],
-      [ "leg_l", 10 ],
-      [ "leg_r", 10 ],
-      [ "foot_l", 10 ],
-      [ "foot_r", 10 ]
-    ],
-    "types": [ "SKIN" ],
+    "description": "Your thick exoskeleton boasts a fine coat of hairs that put feline whiskers to shame.",
     "prereqs": [ "CHITIN_FUR2", "CHITIN3" ],
+    "leads_to": [ "CF_HAIR" ],
     "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ],
-    "restricts_gear": [ "head" ],
-    "armor": [
-      { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 8, "cut": 8, "bullet": 1 }
-    ],
-    "passive_mods": { "dex_mod": -1 }
+    "category": [ "SPIDER" ]
   },
   {
     "type": "mutation",
@@ -2726,8 +2734,8 @@
     "ugliness": 3,
     "description": "Some of the quills on your arms have become quite loose.  By flinging your arms, you can fire off these quills as projectiles.",
     "active": true,
-    "cost": 10,
-    "hunger": true,
+    "cost": 90,
+    "kcal": true,
     "ranged_mutation": { "type": "mut_quills", "message": "You fire off some of your quills." },
     "prereqs": [ "QUILLS" ]
   },
@@ -2738,51 +2746,84 @@
     "points": 3,
     "visibility": 3,
     "ugliness": 2,
-    "description": "Your skin is light green and has a slightly woody quality to it.  This provides a weak armor, and helps you retain moisture, resulting in less thirst.  Greatly decreases wet penalties.",
+    "description": "Your skin is light green and has a slightly woody quality to it.  This provides armor and helps you retain moisture, resulting in less thirst.  Greatly decreases wet penalties.",
     "types": [ "SKIN" ],
-    "changes_to": [ "BARK" ],
-    "leads_to": [ "THORNS", "LEAVES" ],
+    "leads_to": [ "BARK", "THORNS", "LEAVES" ],
     "category": [ "PLANT", "ELFA" ],
-    "wet_protection": [
-      { "part": "head", "neutral": 4 },
-      { "part": "leg_l", "neutral": 5 },
-      { "part": "leg_r", "neutral": 5 },
-      { "part": "foot_l", "neutral": 1 },
-      { "part": "foot_r", "neutral": 1 },
-      { "part": "arm_l", "neutral": 4 },
-      { "part": "arm_r", "neutral": 4 },
-      { "part": "hand_l", "neutral": 1 },
-      { "part": "hand_r", "neutral": 1 },
-      { "part": "torso", "neutral": 10 }
-    ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1 } ],
-    "thirst_modifier": -0.2
+    "thirst_modifier": -0.2,
+    "integrated_armor": [ "integrated_plantskin" ]
   },
   {
     "type": "mutation",
     "id": "BARK",
-    "name": { "str": "Bark" },
+    "name": { "str": "Protective Bark" },
     "points": 5,
     "visibility": 10,
     "ugliness": 3,
-    "description": "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting damage and minor protection from fire.  Greatly reduces wet effects.",
-    "types": [ "SKIN" ],
+    "description": "Your skin is coated in a light bark, like that of a tree.  This provides powerful armor and makes you nearly waterproof.",
     "prereqs": [ "PLANTSKIN" ],
-    "leads_to": [ "THORNS" ],
+    "changes_to": [ "BARK2_a", "BARK2_b", "BARK2_c" ],
     "category": [ "PLANT" ],
-    "wet_protection": [
-      { "part": "head", "ignored": 5 },
-      { "part": "leg_l", "ignored": 16 },
-      { "part": "leg_r", "ignored": 16 },
-      { "part": "foot_l", "ignored": 5 },
-      { "part": "foot_r", "ignored": 5 },
-      { "part": "arm_l", "ignored": 14 },
-      { "part": "arm_r", "ignored": 14 },
-      { "part": "hand_l", "ignored": 4 },
-      { "part": "hand_r", "ignored": 4 },
-      { "part": "torso", "ignored": 30 }
-    ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 2 } ]
+    "integrated_armor": [ "integrated_bark" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BARK2_a",
+    "name": { "str": "Shifting Bark (Distributed)" },
+    "points": 6,
+    "visibility": 10,
+    "ugliness": 3,
+    "purifiable": false,
+    "description": "Your warped bark can be shifted in function, and is currently spread evenly.  Activate to better protect your torso, at the cost of other areas.",
+    "prereqs": [ "BARK" ],
+    "category": [ "PLANT" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "active": true,
+    "integrated_armor": [ "integrated_bark2_a" ],
+    "transform": {
+      "target": "BARK2_b",
+      "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
+      "active": false,
+      "moves": 350
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "BARK2_b",
+    "name": { "str": "Shifting Bark (Consolidated)" },
+    "points": 6,
+    "visibility": 10,
+    "ugliness": 3,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your warped bark can be shifted in function, and is currently consolidated on your torso.  Activate to shift your bark into a lattice, increasing bulk but providing better protection for the entire body.",
+    "active": true,
+    "integrated_armor": [ "integrated_bark2_b" ],
+    "transform": {
+      "target": "BARK2_c",
+      "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
+      "active": false,
+      "moves": 350
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "BARK2_c",
+    "name": { "str": "Shifting Bark (Latticed)" },
+    "points": 6,
+    "visibility": 10,
+    "ugliness": 3,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your warped bark can be shifted in function, and is currently expanded into a sturdy lattice.  Activate to collapse the lattice, returning to an evenly distributed form.",
+    "active": true,
+    "integrated_armor": [ "integrated_bark2_c" ],
+    "transform": {
+      "target": "BARK2_a",
+      "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
+      "active": false,
+      "moves": 350
+    }
   },
   {
     "type": "mutation",
@@ -2793,7 +2834,7 @@
     "ugliness": 4,
     "pierce_dmg_bonus": 2,
     "description": "Your skin is covered in small, woody thorns.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage.  Your punches may also deal extra damage.",
-    "prereqs": [ "BARK" ],
+    "prereqs": [ "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "category": [ "PLANT" ]
   },
   {
@@ -2914,8 +2955,8 @@
     "threshreq": [ "THRESH_MYCUS" ],
     "category": [ "MYCUS" ],
     "active": true,
-    "cost": 8,
-    "hunger": true,
+    "cost": 69,
+    "kcal": true,
     "thirst": true
   },
   {
@@ -2949,8 +2990,8 @@
     "threshreq": [ "THRESH_MYCUS" ],
     "category": [ "MYCUS" ],
     "active": true,
-    "cost": 10,
-    "hunger": true,
+    "cost": 90,
+    "kcal": true,
     "thirst": true,
     "fatigue": true
   },
@@ -2968,8 +3009,8 @@
     "threshreq": [ "THRESH_MYCUS" ],
     "category": [ "MYCUS" ],
     "active": true,
-    "cost": 10,
-    "hunger": true,
+    "cost": 90,
+    "kcal": true,
     "thirst": true,
     "fatigue": true
   },
@@ -3138,7 +3179,7 @@
     "category": [ "INSECT" ],
     "threshreq": [ "THRESH_INSECT" ],
     "active": true,
-    "cost": 15,
+    "cost": 95,
     "thirst": true,
     "attacks": [
       {
@@ -3782,9 +3823,9 @@
     "description": "You're burning calories like crazy to heal your wounds.",
     "copy-from": "EATHEALTH",
     "valid": false,
-    "cost": 1,
+    "cost": 9,
     "time": 1,
-    "hunger": true,
+    "kcal": true,
     "healing_awake": 300.0,
     "healing_resting": 350.0,
     "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 }
@@ -4404,10 +4445,10 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
     "active": true,
-    "cost": 20,
+    "cost": 174,
     "time": 10,
     "fatigue": true,
-    "hunger": true,
+    "kcal": true,
     "thirst": true,
     "movecost_modifier": 0.75
   },
@@ -4435,14 +4476,14 @@
     "butchering_quality": 4,
     "consume_time_modifier": 0.5,
     "mixed_effect": true,
-    "description": "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and provide a slicing unarmed attack, but prevent wearing mouthwear.  Slightly reduces wet effects.",
+    "description": "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and provide a slicing unarmed attack.  Slightly reduces wet effects.",
     "types": [ "TEETH", "MUZZLE" ],
     "prereqs": [ "MOUTH_FLAPS" ],
     "changes_to": [ "FANGS_SPIDER" ],
+    "leads_to": [ "PROBOSCIS" ],
     "category": [ "INSECT", "SPIDER" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
-    "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
+    "integrated_armor": [ "integrated_mandibles" ],
     "attacks": {
       "attack_text_u": "You bite %s with your fangs",
       "attack_text_npc": "%1$s bites %2$s with their fangs",
@@ -4459,7 +4500,7 @@
     "points": 2,
     "visibility": 6,
     "ugliness": 6,
-    "description": "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.",
+    "description": "You have developed deadly extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.",
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
     "prereqs": [ "MANDIBLES" ],
@@ -4467,6 +4508,7 @@
     "category": [ "SPIDER" ],
     "consume_time_modifier": 2.0,
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
+    "integrated_armor": [ "integrated_fangs_spider" ],
     "attacks": {
       "attack_text_u": "You bite %s with your fangs",
       "attack_text_npc": "%1$s bites %2$s with their fangs",
@@ -4548,10 +4590,10 @@
     "prereqs": [ "MUCUS_SECRETION" ],
     "category": [ "GASTROPOD" ],
     "active": true,
-    "cost": 20,
+    "cost": 174,
     "time": 100,
     "thirst": true,
-    "hunger": true
+    "kcal": true
   },
   {
     "type": "mutation",
@@ -4658,9 +4700,9 @@
     "category": [ "SPIDER" ],
     "leads_to": [ "WEB_RAPPEL", "WEB_ROPE" ],
     "active": true,
-    "cost": 8,
+    "cost": 69,
     "time": 100,
-    "hunger": true,
+    "kcal": true,
     "thirst": true
   },
   {
@@ -4673,8 +4715,8 @@
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
     "active": true,
-    "cost": 15,
-    "hunger": true,
+    "cost": 95,
+    "kcal": true,
     "active_flags": [ "WEB_RAPPEL" ]
   },
   {
@@ -4687,8 +4729,8 @@
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
     "active": true,
-    "cost": 30,
-    "hunger": true,
+    "cost": 260,
+    "kcal": true,
     "thirst": true,
     "spawn_item": { "type": "rope_30", "message": "You spin a rope from your silk." }
   },
@@ -5662,9 +5704,7 @@
     "ugliness": 7,
     "description": "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
     "purifiable": false,
-    "types": [ "TEETH", "MUZZLE" ],
-    "prereqs": [ "EYEBULGE", "COMPOUND_EYES" ],
-    "threshreq": [ "THRESH_INSECT" ],
+    "prereqs": [ "MANDIBLES" ],
     "category": [ "INSECT" ],
     "active": true,
     "restricts_gear": [ "mouth" ]
@@ -6216,8 +6256,8 @@
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
     "active": true,
-    "cost": 40,
-    "hunger": true,
+    "cost": 347,
+    "kcal": true,
     "thirst": true
   },
   {
@@ -6335,8 +6375,8 @@
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ],
     "active": true,
-    "cost": 10,
-    "hunger": true,
+    "cost": 90,
+    "kcal": true,
     "thirst": true,
     "spawn_item": { "type": "vine_30", "message": "You detach a vine from your body." },
     "attacks": [
@@ -6404,6 +6444,7 @@
     "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "SAPROPHAGE" ],
     "threshreq": [ "THRESH_PLANT" ],
+    "changes_to": [ "CHLOROMORPH" ],
     "category": [ "PLANT" ],
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
   },
@@ -6417,7 +6458,7 @@
     "description": "Every inch of your skin is packed with chlorophyll and you have strong roots.  Sleeping on diggable soil will satisfy any hunger or thirst you might have.  Activate this mutation to force yourself to sleep until nightfall.",
     "purifiable": false,
     "types": [ "LEGS" ],
-    "prereqs": [ "ROOTS2", "ROOTS3" ],
+    "prereqs": [ "ROOTS3" ],
     "prereqs2": [ "SAPROPHAGE" ],
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
@@ -6433,7 +6474,7 @@
     "name": { "str": "Mycorrhizal Communion" },
     "points": 2,
     "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom.  Activate next to a tree to gradually gain overmap vision through connected forests.",
-    "prereqs": [ "HAIRROOTS", "ROOTS2", "ROOTS3" ],
+    "prereqs": [ "HAIRROOTS", "ROOTS2", "ROOTS3", "CHLOROMORPH" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
     "active": true,

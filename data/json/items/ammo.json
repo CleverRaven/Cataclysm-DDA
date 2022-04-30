@@ -1356,7 +1356,7 @@
     "id": "graphite",
     "name": { "str_sp": "graphite" },
     "symbol": "!",
-    "description": "Graphite powder mixed with a clay binder.  Produces grey or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation and natural aging.",
+    "description": "Graphite powder mixed with a clay binder.  Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation and natural aging.",
     "volume": "1 ml",
     "weight": "1 mg",
     "color": "dark_gray",

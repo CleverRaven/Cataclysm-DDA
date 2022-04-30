@@ -22,7 +22,6 @@
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "optional.h"
-#include "pldata.h" // add_type
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -140,7 +139,7 @@ struct islot_comestible {
         int addict = 0;
 
         /** effects of addiction */
-        add_type add = add_type::NONE;
+        addiction_id add = addiction_id::NULL_ID();
 
         /** stimulant effect */
         int stim = 0;
@@ -300,7 +299,8 @@ struct armor_portion_data {
     // how breathable this part of the armor is
     // cached from the material data
     // only tracked for amalgamized body parts entries
-    int breathability = 0; // NOLINT(cata-serialize)
+    // if left the default -1 the value will be recalculated,
+    int breathability = -1; // NOLINT(cata-serialize)
 
     // if this item is rigid, can't be worn with other rigid items
     bool rigid = false; // NOLINT(cata-serialize)

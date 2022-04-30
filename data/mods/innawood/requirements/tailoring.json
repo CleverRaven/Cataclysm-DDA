@@ -4,5 +4,30 @@
     "type": "requirement",
     "//": "All kinds of clothing buttons.",
     "components": [ [ [ "button_plastic", 1 ], [ "button_wood", 1 ], [ "button_steel", 1 ], [ "button_bronze", 1 ] ] ]
+  },
+  {
+    "id": "plastic_molding",
+    "type": "requirement",
+    "//": "Melting and reshaping plastic items through the use of vacuum forming molds, per 70 g of plastic. Usually takes 30 minutes per unit.",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "makeshift_vacuum_mold", 4 ], [ "vac_mold", 2 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "id": "tailoring_cotton",
+    "type": "requirement",
+    "//": "Crafting cotton items, per 101 g of cotton; 10 g + excessive weight of material is wasted, producing rags and cotton scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 22 ], [ "sheet_fibercloth", 22 ] ], [ [ "filament", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "tailoring_cotton_patchwork",
+    "type": "requirement",
+    "//": "Crafting possibly-patchwork cotton items, per 101 g of cotton; 10 g + excessive weight of material is wasted, producing rags and cotton scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet)",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "sheet_cotton", 22 ], [ "sheet_cotton_patchwork", 1 ], [ "sheet_fibercloth", 22 ] ],
+      [ [ "filament", 1, "LIST" ] ]
+    ]
   }
 ]

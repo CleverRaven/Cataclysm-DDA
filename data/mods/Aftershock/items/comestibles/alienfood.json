@@ -74,7 +74,7 @@
     "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": "frostbitten human stomach",
-    "description": "A shriveled grey stomach, it hasn't seen use in a very long time.",
+    "description": "A shriveled gray stomach, it hasn't seen use in a very long time.",
     "weight": "72 g",
     "volume": "250 ml",
     "vitamins": [ [ "mutant_toxin", 25 ] ],

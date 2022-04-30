@@ -260,7 +260,19 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "professions": [ "svictim", "tweaker" ],
+    "professions": [
+      "svictim",
+      "naked",
+      "unemployed",
+      "homeless",
+      "hitchhiker",
+      "patriot",
+      "clown",
+      "lost_sub",
+      "spouse",
+      "musician",
+      "true_foodperson"
+    ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
     "flags": [ "FIRE_START", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -733,11 +745,13 @@
       "lawyer",
       "politician",
       "dancer",
+      "cheerleader",
       "spouse",
       "musician",
       "chef",
       "groundskeeper",
       "homemaker",
+      "ninja",
       "mafia_boss",
       "major-general"
     ],

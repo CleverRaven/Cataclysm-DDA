@@ -21,13 +21,25 @@
         "text": "[3 merch] I'll have a shave.",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
-        "effect": [ "buy_shave", { "u_sell_item": "FMCNote", "count": 3 }, "barber_beard" ]
+        "effect": [
+          {
+            "u_sell_item": "FMCNote",
+            "count": 3,
+            "true_eocs": { "id": "eoc_barber_shave", "effect": [ "buy_shave", "barber_beard" ] }
+          }
+        ]
       },
       {
         "text": "[6 merch] I'll get a haircut.",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
-        "effect": [ "buy_haircut", { "u_sell_item": "FMCNote", "count": 6 }, "barber_hair" ]
+        "effect": [
+          {
+            "u_sell_item": "FMCNote",
+            "count": 6,
+            "true_eocs": { "id": "eoc_barber_hair", "effect": [ "buy_haircut", "barber_hair" ] }
+          }
+        ]
       },
       { "text": "Maybe another time…", "topic": "TALK_DONE" }
     ]

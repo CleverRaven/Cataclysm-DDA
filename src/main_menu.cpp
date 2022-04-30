@@ -36,7 +36,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "pldata.h"
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "sdlsound.h"
@@ -1218,7 +1217,7 @@ void main_menu::world_tab()
                     bool query_yes = false;
                     bool do_delete = false;
                     if( sel3 == 0 ) { // Delete World
-                        if( query_yn( _( "Delete the world and all saves?" ) ) ) {
+                        if( query_yn( _( "Delete the world and all saves within?" ) ) ) {
                             query_yes = true;
                             do_delete = true;
                         }
