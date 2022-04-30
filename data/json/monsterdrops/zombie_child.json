@@ -5,9 +5,21 @@
     "//": "contains cloth for an average zombie child",
     "id": "default_zombie_children_clothes",
     "entries": [
-      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      {
+        "distribution": [
+          { "group": "coats_unisex", "prob": 90, "damage": [ 1, 4 ] },
+          { "item": "football_armor", "prob": 10, "damage": [ 1, 4 ] }
+        ],
+        "prob": 20
+      },
       { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
+      {
+        "distribution": [
+          { "group": "hatstore_hats", "prob": 50, "damage": [ 1, 4 ] },
+          { "group": "child_hats", "prob": 50, "damage": [ 1, 4 ] }
+        ],
+        "prob": 20
+      },
       { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
       {
@@ -34,7 +46,13 @@
                 ]
               },
               { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
-              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  { "group": "shoes_unisex", "prob": 50, "damage": [ 1, 4 ] },
+                  { "group": "child_shoes", "prob": 50, "damage": [ 1, 4 ] }
+                ],
+                "prob": 30
+              },
               { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
               { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] }
             ]
@@ -48,7 +66,14 @@
                   {
                     "collection": [
                       { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
-                      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          { "group": "child_shoes", "prob": 50, "damage": [ 1, 4 ] },
+                          { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+                          { "group": "shoes_womens", "prob": 20, "damage": [ 1, 4 ] }
+                        ],
+                        "prob": 30
+                      },
                       { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
                       {
                         "distribution": [
@@ -66,7 +91,14 @@
                       {
                         "distribution": [ { "item": "dress", "prob": 70, "damage": [ 1, 4 ] }, { "item": "sundress", "prob": 50, "damage": [ 1, 4 ] } ]
                       },
-                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          { "group": "dress_shoes", "prob": 60, "damage": [ 1, 4 ] },
+                          { "group": "child_shoes", "prob": 20, "damage": [ 1, 4 ] },
+                          { "group": "shoes_womens", "prob": 20, "damage": [ 1, 4 ] }
+                        ],
+                        "prob": 30
+                      },
                       {
                         "collection": [
                           {
@@ -82,7 +114,14 @@
                     "collection": [
                       { "group": "costume_cheerleader_set_any", "damage": [ 1, 4 ] },
                       { "item": "pom_poms", "prob": 50, "damage": [ 1, 4 ] },
-                      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          { "group": "shoes_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                          { "group": "child_shoes", "prob": 35, "damage": [ 1, 4 ] },
+                          { "group": "shoes_womens", "prob": 5, "damage": [ 1, 4 ] }
+                        ],
+                        "prob": 30
+                      },
                       {
                         "distribution": [
                           {

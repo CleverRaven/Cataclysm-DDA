@@ -356,7 +356,9 @@ class wear_inventory_preset: public armor_inventory_preset
         {}
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_armor() && !you.is_worn( *loc ) &&
+            return loc->is_armor() &&
+                   ( !loc.has_parent() || !is_worn_ablative( loc.parent_item(), loc ) ) &&
+                   !you.is_worn( *loc ) &&
                    ( bp != bodypart_id( "bp_null" ) ? loc->covers( bp ) : true );
         }
 

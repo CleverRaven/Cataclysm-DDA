@@ -234,7 +234,6 @@ TEST_CASE( "tripoint_range_predicates_radius", "[tripoint_range]" )
     2, []( const tripoint & pt ) {
         return pt.z < 0;
     }, 2 );
-    // NOLINTBEGIN(cata-use-named-point-constants)
     std::vector<tripoint> expected = {
         { -2, -2, -2 }, { -1, -2, -2 }, { 0, -2, -2 }, { 1, -2, -2 }, { 2, -2, -2 },
         { -2, -1, -2 }, { -1, -1, -2 }, { 0, -1, -2 }, { 1, -1, -2 }, { 2, -1, -2 },
@@ -244,11 +243,10 @@ TEST_CASE( "tripoint_range_predicates_radius", "[tripoint_range]" )
 
         { -2, -2, -1 }, { -1, -2, -1 }, { 0, -2, -1 }, { 1, -2, -1 }, { 2, -2, -1 },
         { -2, -1, -1 }, { -1, -1, -1 }, { 0, -1, -1 }, { 1, -1, -1 }, { 2, -1, -1 },
-        { -2,  0, -1 }, { -1,  0, -1 }, { 0,  0, -1 }, { 1,  0, -1 }, { 2,  0, -1 },
+        { -2,  0, -1 }, { -1,  0, -1 }, tripoint_below, { 1,  0, -1 }, { 2,  0, -1 },
         { -2,  1, -1 }, { -1,  1, -1 }, { 0,  1, -1 }, { 1,  1, -1 }, { 2,  1, -1 },
         { -2,  2, -1 }, { -1,  2, -1 }, { 0,  2, -1 }, { 1,  2, -1 }, { 2,  2, -1 },
     };
-    // NOLINTEND(cata-use-named-point-constants)
     REQUIRE( tested.size() == expected.size() );
     size_t i = 0;
     for( const tripoint &pt : tested ) {

@@ -167,6 +167,7 @@ class basecamp
 
         std::string board_name() const;
         std::vector<point> directions; // NOLINT(cata-serialize)
+        std::vector<std::vector<ui_mission_id>> hidden_missions;
         std::vector<tripoint_abs_omt> fortifications;
         std::vector<expansion_salt_water_pipe *> salt_water_pipes;
         std::string name;
@@ -216,6 +217,9 @@ class basecamp
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
+        std::string name_display_of( const mission_id miss_id );
+        void handle_hide_mission( const point &dir );
+        void handle_reveal_mission( const point &dir );
         bool has_water();
 
         // recipes, gathering, and craft support functions
@@ -377,6 +381,9 @@ class basecamp
         void add_assignee( character_id id );
         void remove_assignee( character_id id );
         std::vector<npc_ptr> get_npcs_assigned();
+        void hide_mission( ui_mission_id id );
+        void reveal_mission( ui_mission_id id );
+        bool is_hidden( ui_mission_id id );
         // Save/load
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
@@ -402,6 +409,7 @@ class basecamp
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
         std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
+        std::vector<std::vector<ui_mission_id>> temp_ui_mission_keys;   // NOLINT(cata-serialize)
         inventory _inv; // NOLINT(cata-serialize)
         bool by_radio = false; // NOLINT(cata-serialize)
 };
