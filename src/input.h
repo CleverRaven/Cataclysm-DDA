@@ -854,7 +854,7 @@ class input_context
          * Return a user presentable list of actions that conflict with the
          * proposed keybinding. Returns an empty string if nothing conflicts.
          */
-        std::string get_conflicts( const input_event &event ) const;
+        std::string get_conflicts( const input_event &event, const std::string &ignore_action ) const;
         /**
          * Clear an input_event from all conflicting keybindings that are
          * registered by this input_context.

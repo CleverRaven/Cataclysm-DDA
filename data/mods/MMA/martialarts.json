@@ -591,17 +591,6 @@
       }
     ],
     "techniques": [ "mma_tec_tiger_claw_break" ],
-    "weapons": [
-      "bagh_nakha",
-      "battleaxe",
-      "battleaxe_inferior",
-      "battleaxe_fake",
-      "bio_claws_weapon",
-      "hand_axe",
-      "hatchet",
-      "kukri",
-      "makeshift_axe"
-    ],
-    "weapon_category": [ "GREAT_AXES" ]
+    "weapon_category": [ "CLAWS", "HAND_AXES", "GREAT_AXES", "EXEMPLAR_WEAPON_TIGER_CLAW" ]
   }
 ]

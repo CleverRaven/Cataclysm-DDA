@@ -193,6 +193,7 @@ static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 struct Character::auto_toggle_bionic_result {
@@ -926,6 +927,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
+            if( has_trait( trait_PYROMANIA ) ) {
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            }
             mod_moves( -100 );
         } else {
             refund_power();

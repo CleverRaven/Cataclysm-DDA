@@ -24,7 +24,7 @@ class ui_adaptor;
  * Example:
  *
  * std::string action = query_popup()
- *                      .context( "YESNOCANCEL" ) // input context to use
+ *                      .context( "YESNOQUIT" ) // input context to use
  *                      .message( "%s", _( "Do you want to save before jumping into the lava?" ) )
  *                      .option( "YES" ) // yes, save before jumping
  *                      .option( "NO" ) // no, don't save before jumping

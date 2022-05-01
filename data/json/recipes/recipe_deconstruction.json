@@ -490,6 +490,22 @@
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
+    "result": "gartersheath1",
+    "type": "uncraft",
+    "time": "20 s",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "gartersheath2",
+    "type": "uncraft",
+    "time": "30 s",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
     "result": "leather_belt",
     "type": "uncraft",
     "time": "1 m",
