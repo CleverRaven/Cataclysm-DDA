@@ -102,6 +102,7 @@ Use the `Home` key to return to the top.
     - [Armor](#armor)
       - [Armor Portion Data](#armor-portion-data)
         - [Encumbrance](#encumbrance)
+        - [Encumbrance_modifiers](#encumbrance_modifiers)
         - [Coverage](#coverage)
         - [Covers](#covers)
         - [Specifically Covers](#specifically-covers)
