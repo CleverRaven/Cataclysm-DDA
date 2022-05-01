@@ -124,7 +124,7 @@
     "id": "matches",
     "type": "TOOL",
     "name": { "str": "matchbook" },
-    "description": "This is a small book of matches with a coarse strike surface on the outside flap.  Matches may be carried to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
+    "description": "This is a small book of matches with a coarse strike surface on the outside flap.  Matches may be carried to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire. Due to the matches being lightly glued on the matchbook, they can be removed, but not replaced on the book.",
     "weight": "10 g",
     "volume": "10 ml",
     "price": 10,
@@ -135,7 +135,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "holster": true, "ammo_restriction": { "match": 20 } } ],
     "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
-    "flags": [ "FIRESTARTER", "NO_RELOAD", "NO_UNLOAD", "WATER_BREAK" ]
+    "flags": [ "FIRESTARTER", "NO_RELOAD", "WATER_BREAK" ]
   },
   {
     "id": "ref_matches",

@@ -1029,7 +1029,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "tools": [ [ [ "matches", 20 ] ] ]
+    "tools": [ [ [ "matches", 20 ], [ "ref_matches", 20 ] ] ]
   },
   {
     "type": "recipe",
