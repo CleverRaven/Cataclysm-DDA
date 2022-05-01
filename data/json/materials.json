@@ -2650,5 +2650,25 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged"
+  },
+  {
+  "type": "material",
+  "id": "ammonia",
+  "name": "Ammonia",
+  "specific_heat_liquid": 3.13,
+  "specific_heat_solid": 4.22,
+  "latent_heat": 332,
+  "freezing_point": -77.73,
+  },
+  {
+  "type": "material",
+  "id": "liquid_ammonia",
+  "name": "Liquid Ammonia",
+  "//": "Assumes refrigerated to below -33.3°C or PSI.  Liquid weight (5.15 lb/gal)/(.62 kg/l).  Energy density (liquid) 11.5 MJ/L)"
+  "specific_heat_liquid": 3.13,
+  "specific_heat_solid": 4.22,
+  "latent_heat": 332,
+  "freezing_point": -77.73,
+  "fuel_data": { "energy": 11.5 }
   }
 ]
