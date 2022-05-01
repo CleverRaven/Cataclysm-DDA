@@ -313,6 +313,6 @@
     "type": "mapgen",
     "update_mapgen_id": "light_on_MUT_SE_2",
     "method": "json",
-    "object": { "place_terrain": [ { "ter": "t_strconc_floor_olight", "x": 14, "y": 3 } ] }
+    "object": { "place_terrain": [ { "ter": "t_strconc_floor_olight", "x": 14, "y": 3, "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ] } ] }
   }
 ]
