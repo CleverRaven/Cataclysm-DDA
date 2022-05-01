@@ -1,3 +1,7 @@
+if (NOT $ENV{DevEnvDir})
+ set(ENV{DevEnvDir} "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE")
+endif()
+set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe CACHE PATH "")
 add_compile_options(
         /MP # cl.exe build with multiple processes
         /utf-8 # set source and execution character sets to UTF-8

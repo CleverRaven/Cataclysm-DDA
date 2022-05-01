@@ -4,7 +4,6 @@
     {
       "name": "base",
       "description": "Base Build Configuration",
-      "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
       "hidden": true
@@ -24,6 +23,7 @@
       "inherits": [ "windows" ],
       "description": "Visual C++ Configuration",
       "toolchainFile": "${sourceDir}/build-scripts/MSVC.cmake",
+      "generator": "Ninja",
       "hidden": true
     },
     {
