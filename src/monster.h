@@ -487,7 +487,7 @@ class monster : public Creature
         bool provocative_sound = false; // Are we wandering toward something we think is alive?
         int wandf = 0;       // Urge to is_wandering - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-        std::vector<item> bionic_inv; // "installed" bionics - not active, but tracked for respawn and dissection
+        std::vector<item> bionic_inv; // "installed" bionics - not active. tracked for respawn/dissection
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster

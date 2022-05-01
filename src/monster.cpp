@@ -2577,11 +2577,11 @@ void monster::die( Creature *nkiller )
                 get_map().add_item_or_charges( pos(), it );
             }
         }
-        for (const auto& bionic : bionic_inv) {
-            if (corpse) {
-                corpse->put_in(bionic, item_pocket::pocket_type::CORPSE);
+        for( const auto &bionic : bionic_inv ) {
+            if( corpse ) {
+                corpse->put_in( bionic, item_pocket::pocket_type::CORPSE );
             } else {
-                get_map().add_item(pos(), bionic);
+                get_map().add_item( pos(), bionic );
             }
         }
         if( corpse ) {
@@ -3038,9 +3038,9 @@ void monster::init_from_item( item &itm )
             itm.remove_item( *it );
         }
         //Move installed bionics
-        for (item* bionic : itm.all_items_top(item_pocket::pocket_type::CORPSE)) {
-            bionic_inv.push_back(*bionic);
-            itm.remove_item(*bionic);
+        for( item *bionic : itm.all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+            bionic_inv.push_back( *bionic );
+            itm.remove_item( *bionic );
         }
     } else {
         // must be a robot
