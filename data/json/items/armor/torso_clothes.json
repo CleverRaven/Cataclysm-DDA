@@ -15,6 +15,79 @@
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 70, "encumbrance": 2, "volume_encumber_modifier": 0.3 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "long waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black long waist apron" },
+        "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue long waist apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red long waist apron" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink long waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral long waist apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo long waist apron" },
+        "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull long waist apron" },
+        "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid long waist apron" },
+        "description": "It's colored white and with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic long waist apron" },
+        "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1,
+        "append": true
+      }
     ]
   },
   {
@@ -44,6 +117,79 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "short waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black short waist apron" },
+        "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue short waist apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red short waist apron" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink short waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral short waist apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo short waist apron" },
+        "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull short waist apron" },
+        "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid short waist apron" },
+        "description": "It's colored white and with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic short waist apron" },
+        "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1,
+        "append": true
       }
     ]
   },
