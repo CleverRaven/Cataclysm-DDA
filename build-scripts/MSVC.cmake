@@ -47,4 +47,7 @@ add_link_options(
     /MANIFEST:NO
 )
 
+cmake_policy(SET CMP0092 NEW) # remove /W3
+cmake_policy(SET CMP0117 NEW) # remove /GR (RTTI)
+
 include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
