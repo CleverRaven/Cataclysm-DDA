@@ -1349,50 +1349,20 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
     if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
-    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
-                            : input_context::allow_all_keys;
 
-    const int color_num = rng( 0, 6 );
-    std::string color;
-    switch( color_num ) {
-        case 0:
-            color = "light_red";
-            break;
-        case 1:
-            color = "red";
-            break;
-        case 2:
-            color = "green";
-            break;
-        case 3:
-            color = "light_green";
-            break;
-        case 4:
-            color = "blue";
-            break;
-        case 5:
-            color = "light_blue";
-            break;
-        case 6:
-            color = "yellow";
-            break;
-    }
-
-    std::string color_string = force_uc && !is_keycode_mode_supported()
-                               ? "<color_" + color + "> %s</color> (Case Sensitive)"
-                               : "<color_" + color + "> %s</color>";
+    static const std::vector<nc_color> color_list = {
+        c_light_red, c_red, c_green, c_light_green,
+        c_blue, c_light_blue, c_yellow
+    };
+    const nc_color color = random_entry( color_list );
 
     query_popup()
-    .preferred_keyboard_mode( keyboard_mode::keycode )
     .context( "YES_QUERY" )
-    .message(
-        pgettext( "yes_query",
-                  color_string.c_str() ),
-        text )
-    .option( "YES0", allow_key )
-    .option( "YES1", allow_key )
-    .option( "YES2", allow_key )
+    .message( "%s", text )
+    .option( "YES0" )
+    .option( "YES1" )
+    .option( "YES2" )
+    .default_color( color )
     .query();
 
     // ensure it never happens again during this activity - shouldn't be an issue anyway

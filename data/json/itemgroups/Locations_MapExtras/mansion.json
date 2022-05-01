@@ -1401,6 +1401,7 @@
       { "item": "elec_hairtrimmer", "prob": 20, "charges": [ 0, 50 ] },
       [ "thread", 20 ],
       [ "purse", 20 ],
+      { "item": "leg_bag", "variant": "purple_leg_bag", "prob": 1 },
       { "item": "shavingkit", "prob": 10, "charges": [ 0, 10 ] },
       { "item": "sewing_kit", "prob": 10, "charges-min": 0 },
       [ "mag_beauty", 10 ],

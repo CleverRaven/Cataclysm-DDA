@@ -292,7 +292,7 @@ void trade_ui::_draw_header()
                                          trade_selector::ACTION_SWITCH_PANES ),
                                            c_yellow ) ) );
     center_print( _header_w, header_size - 2, c_white,
-                  string_format( _( "%s to auto-balance with highlighted item" ),
+                  string_format( _( "%s to auto balance with highlighted item" ),
                                  colorize( _panes[_you]->get_ctxt()->get_desc(
                                          trade_selector::ACTION_AUTOBALANCE ),
                                            c_yellow ) ) );
