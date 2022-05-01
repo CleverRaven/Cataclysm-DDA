@@ -105,7 +105,11 @@
       { "item": "boots_hiking", "prob": 50 },
       { "item": "boots_steel", "prob": 25 },
       { "item": "sneakers_steel", "prob": 18 },
-      { "item": "fishing_waders", "prob": 25 }
+      { "item": "fishing_waders", "prob": 25 },
+      { "item": "leg_bag", "prob": 15 },
+      { "item": "leg_small_bag", "prob": 10 },
+      { "item": "armrig", "prob": 10 },
+      { "item": "ankle_wallet_pouch", "prob": 5 }
     ]
   },
   {
@@ -1337,6 +1341,10 @@
       [ "flask_hip", 2 ],
       [ "bholster", 5 ],
       [ "bbholster", 4 ],
+      [ "leg_bag", 8 ],
+      [ "leg_small_bag", 4 ],
+      [ "armrig", 8 ],
+      [ "ankle_wallet_pouch", 2 ],
       [ "tux", 1 ],
       [ "dress_wedding", 1 ],
       [ "kasaya", 1 ],
@@ -1779,7 +1787,8 @@
       { "item": "slingpack", "prob": 8 },
       { "item": "rucksack", "prob": 20 },
       { "item": "backpack_leather", "prob": 8 },
-      { "item": "briefcase", "prob": 10 }
+      { "item": "briefcase", "prob": 10 },
+      { "item": "leg_bag", "prob": 1 }
     ]
   },
   {
@@ -3047,6 +3056,7 @@
       [ "leg_warmers", 20 ],
       [ "corset", 10 ],
       [ "corset_waist", 10 ],
+      [ "leg_bag", 8 ],
       [ "pants_army", 10 ],
       [ "army_top", 20 ],
       [ "tux", 1 ],
@@ -3156,7 +3166,8 @@
       [ "santa_beard", 5 ],
       [ "santa_hat", 4 ],
       [ "vampire_fangs", 5 ],
-      [ "mask_skull", 4 ]
+      [ "mask_skull", 4 ],
+      [ "ankle_wallet_pouch", 5 ]
     ]
   },
   {
@@ -3490,7 +3501,10 @@
           { "item": "slingpack", "prob": 65 },
           { "item": "purse", "prob": 70 },
           { "item": "briefcase", "prob": 40 },
-          { "item": "hk_briefcase", "prob": 1 }
+          { "item": "hk_briefcase", "prob": 1 },
+          { "item": "leg_bag", "prob": 1 },
+          { "item": "leg_small_bag", "prob": 1 },
+          { "item": "armrig", "prob": 1 }
         ],
         "prob": 60
       },

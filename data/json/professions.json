@@ -2406,7 +2406,11 @@
           "wristwatch",
           "multitool"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "sheath", "contents-item": "knife_trench" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "sheath", "contents-item": "knife_trench" },
+          { "item": "leg_bag", "variant": "black_leg_bag" }
+        ]
       },
       "male": [ "boxer_shorts", "tank_top" ],
       "female": [ "bra", "boy_shorts" ]
