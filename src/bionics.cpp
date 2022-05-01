@@ -193,6 +193,7 @@ static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 struct Character::auto_toggle_bionic_result {
@@ -340,6 +341,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
+    assign( jsobj, "power_trickle", power_trickle, false, 0_kJ );
 
     optional( jsobj, was_loaded, "time", charge_time, 0 );
 
@@ -925,6 +927,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
+            if( has_trait( trait_PYROMANIA ) ) {
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            }
             mod_moves( -100 );
         } else {
             refund_power();
@@ -1547,6 +1554,8 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
 
 void Character::passive_power_gen( const bionic &bio )
 {
+    mod_power_level( bio.info().power_trickle );
+
     const float passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
     if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( fuel_type_muscle ) ||
         passive_fuel_efficiency == 0.0 ) {
@@ -2176,7 +2185,8 @@ float Character::bionics_adjusted_skill( bool autodoc, int skill_level ) const
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                            static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
-    adjusted_skill *= env_surgery_bonus( 1 ) + get_effect_int( effect_assisted );
+    adjusted_skill += get_effect_int( effect_assisted );
+    adjusted_skill *= env_surgery_bonus( 1 );
     return adjusted_skill;
 }
 

@@ -4,18 +4,26 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "female_underwear_top" },
-      { "group": "female_underwear_bottom" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "bondage_suit" }, { "item": "bondage_mask", "prob": 50 } ], "prob": 10 },
+          {
+            "collection": [
+              { "group": "private_resort_dancer_torso", "prob": 40 },
+              { "group": "private_resort_dancer_underwear_top", "prob": 60 },
+              { "group": "private_resort_dancer_legs", "prob": 50 },
+              { "group": "private_resort_dancer_underwear_bottom", "prob": 90 }
+            ],
+            "prob": 90
+          }
+        ],
+        "prob": 95
+      },
       { "group": "private_resort_dancer_fancy", "prob": 50 },
-      { "item": "stockings", "prob": 60 },
-      { "item": "garter_belt", "prob": 60 },
-      { "item": "nanoskirt", "prob": 80 },
-      { "group": "accesories_personal_womens", "prob": 40 },
-      { "item": "bondage_mask", "prob": 5 },
-      { "item": "bondage_suit", "prob": 5 },
+      { "group": "accesories_personal_womens", "prob": 40, "count": [ 0, 2 ] },
+      { "group": "clothing_glasses", "prob": 25 },
       { "group": "shoes_womens", "prob": 66 },
-      { "item": "halter_top", "prob": 40 },
-      { "group": "clothing_glasses", "prob": 25 }
+      { "collection": [ { "item": "stockings" }, { "item": "garter_belt", "prob": 50 } ], "prob": 66 }
     ]
   },
   {
@@ -33,6 +41,58 @@
       { "item": "leather_collar", "prob": 50 },
       { "item": "fur_collar", "prob": 10 },
       { "item": "maid_hat", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "private_resort_dancer_torso",
+    "//": "For the dancer zombie, only torso clothing to be normally worn with underwear.",
+    "items": [
+      [ "corset_loose", 20 ],
+      [ "corset_waist", 10 ],
+      [ "apron_leather", 10 ],
+      { "item": "apron_cotton", "variant": "maid_apron", "prob": 40 },
+      { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
+      [ "cheerleader_top_short", 10 ],
+      [ "halter_top", 50 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "private_resort_dancer_underwear_top",
+    "//": "For the dancer zombie, only torso underwear.",
+    "items": [
+      [ "bra", 30 ],
+      [ "bikini_top", 30 ],
+      [ "bikini_top_leather", 60 ],
+      [ "bikini_top_fur", 60 ],
+      [ "corset", 20 ],
+      [ "corset_waist", 10 ],
+      [ "rope_6", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "private_resort_dancer_legs",
+    "//": "For the dancer zombie, only leg clothing to be normally worn with underwear.",
+    "items": [
+      [ "nanoskirt", 90 ],
+      [ "skirt_leather", 50 ],
+      [ "cheerleader_skirt_short", 15 ],
+      [ "skirt", 10 ],
+      [ "chaps_leather", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "private_resort_dancer_underwear_bottom",
+    "//": "For the dancer zombie, only upper legs underwear.",
+    "items": [
+      [ "panties", 30 ],
+      [ "bikini_bottom", 30 ],
+      [ "hot_pants", 60 ],
+      [ "hot_pants_leather", 60 ],
+      [ "hot_pants_fur", 60 ]
     ]
   },
   {
@@ -64,7 +124,8 @@
       { "item": "long_undertop", "prob": 25 },
       { "item": "dress_shoes", "prob": 80 },
       { "item": "tie_skinny", "prob": 50 },
-      { "item": "dress_shirt", "prob": 95 }
+      { "item": "dress_shirt", "prob": 95 },
+      { "item": "knife_combat", "container-item": "gartersheath1", "prob": 1 }
     ]
   },
   {
@@ -78,7 +139,8 @@
         "prob": 90
       },
       { "group": "private_resort_maid_dress", "prob": 100 },
-      { "item": "maid_hat", "prob": 66 }
+      { "item": "maid_hat", "prob": 66 },
+      { "item": "knife_combat", "container-item": "gartersheath1", "prob": 15 }
     ]
   },
   {
@@ -93,7 +155,8 @@
       { "item": "tie_bow", "prob": 90 },
       { "item": "dress_shirt", "prob": 95 },
       { "item": "porkpie", "prob": 60 },
-      { "item": "apron_leather", "prob": 30 }
+      { "item": "apron_cotton", "prob": 30 },
+      { "item": "apron_leather", "prob": 5 }
     ]
   },
   {
@@ -188,6 +251,6 @@
     "id": "private_resort_maid_dress",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "maid_dress", 20 ], [ "maid_dress_short", 80 ] ]
+    "items": [ [ "maid_dress", 20 ], [ "maid_dress_short", 70 ], { "item": "apron_cotton", "variant": "maid_apron", "prob": 10 } ]
   }
 ]

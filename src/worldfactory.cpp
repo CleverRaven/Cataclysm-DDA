@@ -456,7 +456,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
     ui.on_screen_resize( init_windows );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w_worlds_border, BORDER_COLOR, _( " WORLD SELECTION " ) );
+        draw_border( w_worlds_border, BORDER_COLOR, _( "World selection" ) );
         mvwputch( w_worlds_border, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
         mvwputch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
 
@@ -837,7 +837,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
+        draw_border( w_border, BORDER_COLOR, _( "Active world mods" ) );
         wnoutrefresh( w_border );
 
         draw_mod_list( w_mods, start, static_cast<size_t>( cursor ), world_mods,

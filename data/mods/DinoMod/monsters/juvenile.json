@@ -2,18 +2,19 @@
   {
     "id": "mon_dilophosaurus_juvenile",
     "type": "MONSTER",
-    "name": "magenta and green two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "name": "dilophosaurus juvenile",
+    "description": "A small bipedal dinosaur juvenile with large eyes and sharp teeth.",
     "default_faction": "dilophosaurus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "brown_white",
+    "copy-from": "mon_dilophosaurus",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 65, "into": "mon_dilophosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "SWIMS" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_ceratosaurus_juvenile",
     "type": "MONSTER",
+    "name": "ceratosaurus juvenile",
     "default_faction": "ceratosaurus_juvenile",
     "copy-from": "mon_dilophosaurus_juvenile",
     "upgrades": { "age_grow": 90, "into": "mon_ceratosaurus" }
@@ -22,14 +23,25 @@
     "id": "mon_spinosaurus_juvenile",
     "type": "MONSTER",
     "name": "spinosaurus juvenile",
-    "description": "A huge predatory dinosaur juvenile with a large fan on its back.",
+    "description": "A huge dinosaur juvenile with sharp teeth and a large fan on its back.",
     "default_faction": "spinosaurus_juvenile",
     "copy-from": "mon_spinosaurus",
-    "aggression": 50,
-    "hp": 200,
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_spinosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "SWIMS" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_torvosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "torvosaurus juvenile",
+    "description": "A large bipedal dinosaur juvenile with sharp teeth.",
+    "default_faction": "torvosaurus_juvenile",
+    "copy-from": "mon_torvosaurus",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_torvosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_allosaurus_juvenile",
@@ -40,11 +52,10 @@
     "copy-from": "mon_allosaurus",
     "volume": "750 L",
     "weight": "750 kg",
-    "aggression": 50,
-    "hp": 100,
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 150, "into": "mon_allosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_acrocanthosaurus_juvenile",
@@ -55,11 +66,10 @@
     "copy-from": "mon_acrocanthosaurus",
     "volume": "750 L",
     "weight": "750 kg",
-    "aggression": 50,
-    "hp": 100,
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_acrocanthosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_siats_juvenile",
@@ -70,26 +80,38 @@
     "copy-from": "mon_siats",
     "volume": "750 L",
     "weight": "750 kg",
-    "aggression": 50,
-    "hp": 100,
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_siats" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_dryptosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "dryptosaurus juvenile",
+    "description": "Large teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with claws and a feathered mullet and tail.",
+    "default_faction": "dryptosaurus_juvenile",
+    "copy-from": "mon_dryptosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_dryptosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_appalachiosaurus_juvenile",
     "type": "MONSTER",
     "name": "appalachiosaurus juvenile",
-    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with two small arms and a feathered mullet and tail.",
+    "description": "Large teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with two small arms and a feathered mullet and tail.",
     "default_faction": "appalachiosaurus_juvenile",
     "copy-from": "mon_appalachiosaurus",
     "volume": "750 L",
     "weight": "750 kg",
-    "aggression": 50,
-    "hp": 100,
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_appalachiosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_gorgosaurus_juvenile",
@@ -100,26 +122,24 @@
     "copy-from": "mon_gorgosaurus",
     "volume": "750 L",
     "weight": "750 kg",
-    "aggression": 50,
-    "hp": 100,
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_gorgosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_albertosaurus_juvenile",
     "type": "MONSTER",
     "name": "albertosaurus juvenile",
-    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with long strong arms and a feathered mullet and tail.",
+    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with short strong arms and a feathered mullet and tail.",
     "default_faction": "albertosaurus_juvenile",
     "copy-from": "mon_albertosaurus",
     "volume": "750 L",
     "weight": "750 kg",
-    "aggression": 50,
-    "hp": 100,
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_albertosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_qianzhousaurus_juvenile",
@@ -130,26 +150,38 @@
     "copy-from": "mon_qianzhousaurus",
     "volume": "750 L",
     "weight": "750 kg",
-    "aggression": 50,
-    "hp": 100,
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_qianzhousaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_daspletosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "daspletosaurus juvenile",
+    "description": "This large, bipedal dinosaur juvenile has long, sharp teeth.",
+    "default_faction": "daspletosaurus_juvenile",
+    "copy-from": "mon_daspletosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_daspletosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_tyrannosaurus_juvenile",
     "type": "MONSTER",
     "name": "tyrannosaurus juvenile",
-    "description": "A huge predatory dinosaur juvenile with large sharp teeth.",
+    "description": "A large predatory dinosaur juvenile with large sharp teeth.",
     "default_faction": "tyrannosaurus_juvenile",
     "copy-from": "mon_tyrannosaurus",
     "volume": "750 L",
     "weight": "750 kg",
-    "aggression": 50,
-    "hp": 100,
+    "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_gallimimus_juvenile",
@@ -175,7 +207,8 @@
     "melee_cut": 1,
     "dodge": 2,
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
-    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_small"
   },
@@ -243,6 +276,7 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
+    "families": [ "prof_intro_biology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_sauropod_body" ],
     "hp": 200,
     "aggression": -10,
@@ -310,16 +344,16 @@
     "id": "mon_stegosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "description": "A small four-legged plant-eating dinosaur juvenile, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
   },
   {
     "id": "mon_dyoplosaurus_juvenile",
     "type": "MONSTER",
     "name": "brown and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_stegosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_dyoplosaurus" }
   },
   {
@@ -344,8 +378,7 @@
     "id": "mon_camptosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and yellow four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_stegosaurus_juvenile",
     "color": "yellow",
     "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
   },
@@ -353,9 +386,10 @@
     "id": "mon_hadrosaurus_juvenile",
     "type": "MONSTER",
     "name": "gray and magenta two-legged juvenile",
-    "description": "A small two-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A small two-legged plant-eating dinosaur juvenile, it could be from a number of different species.",
+    "copy-from": "mon_camptosaurus_juvenile",
     "color": "yellow",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
   },
   {
@@ -385,7 +419,7 @@
   {
     "id": "mon_pachycephalosaurus_juvenile",
     "type": "MONSTER",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_stegosaurus_juvenile",
     "upgrades": { "age_grow": 70, "into": "mon_pachycephalosaurus" }
   },
   {
@@ -395,7 +429,8 @@
     "description": "A huge four-legged plant-eating dinosaur juvenile with a beak, two horns, and a broad bony nose.",
     "copy-from": "mon_pachyrhinosaurus",
     "hp": 200,
-    "upgrades": { "age_grow": 365, "into": "mon_pachyrhinosaurus" }
+    "upgrades": { "age_grow": 365, "into": "mon_pachyrhinosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_pentaceratops_juvenile",
@@ -422,7 +457,8 @@
     "description": "A huge four-legged plant-eating dinosaur juvenile with a bony crest, beak, and horns.",
     "copy-from": "mon_triceratops",
     "hp": 200,
-    "upgrades": { "age_grow": 365, "into": "mon_triceratops" }
+    "upgrades": { "age_grow": 365, "into": "mon_triceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_pteranodon_juvenile",

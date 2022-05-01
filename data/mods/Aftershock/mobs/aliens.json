@@ -52,6 +52,7 @@
     "vision_day": 15,
     "vision_night": 5,
     "harvest": "alien_arthropod",
+    "dissect": "dissect_insect_sample_single",
     "special_attacks": [
       { "id": "garlander_web" },
       {

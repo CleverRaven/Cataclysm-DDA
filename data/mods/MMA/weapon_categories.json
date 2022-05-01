@@ -3,5 +3,10 @@
     "type": "weapon_category",
     "id": "DESERT_SWORDS",
     "name": "DESERT SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "EXEMPLAR_WEAPON_TIGER_CLAW",
+    "name": "EXEMPLAR WEAPON"
   }
 ]

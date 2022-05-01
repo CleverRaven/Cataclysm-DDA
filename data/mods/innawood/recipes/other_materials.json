@@ -91,5 +91,54 @@
       [ [ "forge", 60 ] ]
     ],
     "components": [ [ [ "glass_shard", 2 ] ], [ [ "chem_sulphur", 1 ] ], [ [ "scrap", 1 ] ], [ [ "charcoal", 1 ] ] ]
+  },
+  {
+    "result": "sheet_fibercloth",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "plant_fibre", 5 ] ] ]
+  },
+  {
+    "result": "sheet_fibercloth",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "id_suffix": "spinningwheel",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "batch_time_factors": [ 70, 1 ],
+    "time": "30 s",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plant_fibre", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "plastic_chunk",
+    "id_suffix": "from chitin",
+    "//": "Abstracted production of chitosan, using acid to demineralise chitin powder then lye to deacetylate.",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "90 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 2 ],
+    "result_mult": 15,
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "meal_chitin_piece", 30 ] ], [ [ "lye", 4 ] ], [ [ "any_strong_acid", 1, "LIST" ] ] ]
   }
 ]

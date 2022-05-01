@@ -153,6 +153,7 @@ class material_type
         float thickness_multiple() const;
 
         // converts from the breathability enum to a fixed integer value from 0-100
+        static int breathability_to_rating( breathability_rating breathability );
         int breathability() const;
         cata::optional<int> wind_resist() const;
         bool edible() const;

@@ -4,7 +4,6 @@
 
 #include "enums.h" // IWYU pragma: associated
 #include "npc_favor.h" // IWYU pragma: associated
-#include "pldata.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -35,6 +34,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
+#include "addiction.h"
 #include "assign.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -82,6 +82,7 @@
 #include "lru_cache.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_memory.h"
 #include "mapdata.h"
@@ -4052,7 +4053,7 @@ void tripoint::serialize( JsonOut &jsout ) const
 void addiction::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "type_enum", type );
+    json.member( "type", type );
     json.member( "intensity", intensity );
     json.member( "sated", sated );
     json.end_object();
@@ -4061,7 +4062,74 @@ void addiction::serialize( JsonOut &json ) const
 void addiction::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
-    type = static_cast<add_type>( jo.get_int( "type_enum" ) );
+    // legacy
+    if( jo.has_int( "type_enum" ) ) {
+        enum class add_type_legacy : int {
+            NONE,
+            CAFFEINE,
+            ALCOHOL,
+            SLEEP,
+            PKILLER,
+            SPEED,
+            CIG,
+            COKE,
+            CRACK,
+            MUTAGEN,
+            DIAZEPAM,
+            MARLOSS_R,
+            MARLOSS_B,
+            MARLOSS_Y,
+            NUM_ADD_TYPES
+        };
+        switch( static_cast<add_type_legacy>( jo.get_int( "type_enum" ) ) ) {
+            case add_type_legacy::CAFFEINE:
+                type = STATIC( addiction_id( "caffeine" ) );
+                break;
+            case add_type_legacy::ALCOHOL:
+                type = STATIC( addiction_id( "alcohol" ) );
+                break;
+            case add_type_legacy::SLEEP:
+                type = STATIC( addiction_id( "sleeping pill" ) );
+                break;
+            case add_type_legacy::PKILLER:
+                type = STATIC( addiction_id( "opiate" ) );
+                break;
+            case add_type_legacy::SPEED:
+                type = STATIC( addiction_id( "amphetamine" ) );
+                break;
+            case add_type_legacy::CIG:
+                type = STATIC( addiction_id( "nicotine" ) );
+                break;
+            case add_type_legacy::COKE:
+                type = STATIC( addiction_id( "cocaine" ) );
+                break;
+            case add_type_legacy::CRACK:
+                type = STATIC( addiction_id( "crack" ) );
+                break;
+            case add_type_legacy::MUTAGEN:
+                type = STATIC( addiction_id( "mutagen" ) );
+                break;
+            case add_type_legacy::DIAZEPAM:
+                type = STATIC( addiction_id( "diazepam" ) );
+                break;
+            case add_type_legacy::MARLOSS_R:
+                type = STATIC( addiction_id( "marloss_r" ) );
+                break;
+            case add_type_legacy::MARLOSS_B:
+                type = STATIC( addiction_id( "marloss_b" ) );
+                break;
+            case add_type_legacy::MARLOSS_Y:
+                type = STATIC( addiction_id( "marloss_y" ) );
+                break;
+            case add_type_legacy::NONE:
+            case add_type_legacy::NUM_ADD_TYPES:
+            default:
+                type = addiction_id::NULL_ID();
+                break;
+        }
+    } else {
+        jo.read( "type", type );
+    }
     intensity = jo.get_int( "intensity" );
     jo.read( "sated", sated );
 }
@@ -4153,6 +4221,21 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "dumping_spot", dumping_spot );
+        json.member( "hidden_missions" );
+        json.start_array();
+        for( const auto &list : hidden_missions ) {
+            json.start_object();
+            json.member( "dir" );
+            json.start_array();
+            for( const auto &miss_id : list ) {
+                json.start_object();
+                json.member( "mission_id", string_of( miss_id.id ) );
+                json.end_object();
+            }
+            json.end_array();
+            json.end_object();
+        }
+        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {
@@ -4222,6 +4305,25 @@ void basecamp::deserialize( const JsonObject &data )
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     data.read( "dumping_spot", dumping_spot );
+    for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
+        std::vector<ui_mission_id> temp;
+        hidden_missions.push_back( temp );
+    }
+    int tab_num = base_camps::TAB_MAIN;
+    for( JsonObject list : data.get_array( "hidden_missions" ) ) {
+        list.allow_omitted_members();
+        for( JsonObject miss_id_json : list.get_array( "dir" ) ) {
+            miss_id_json.allow_omitted_members();
+            std::string miss_id_string;
+            miss_id_json.read( "mission_id", miss_id_string );
+            ui_mission_id miss_id;
+            miss_id.id = mission_id_of( miss_id_string );
+            miss_id.ret = false;
+            hidden_missions[tab_num].push_back( miss_id );
+        }
+        tab_num++;
+    }
+
     for( JsonObject edata : data.get_array( "expansions" ) ) {
         edata.allow_omitted_members();
         expansion_data e;
@@ -4334,8 +4436,16 @@ void cata_variant::deserialize( JsonIn &jsin )
         *this = cata_variant::make<cata_variant_type::bool_>( jsin.get_bool() );
     } else {
         jsin.start_array();
-        if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
-            jsin.error( "Failed to read cata_variant" );
+        int const rewind = jsin.tell();
+        // FIXME: add_type migration - remove after 0.G
+        if( jsin.get_string() == "add_type" ) {
+            type_ = cata_variant_type::addiction_id;
+            value_ = add_type_legacy_conv( jsin.get_string() );
+        } else {
+            jsin.seek( rewind );
+            if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
+                jsin.error( "Failed to read cata_variant" );
+            }
         }
         jsin.end_array();
     }

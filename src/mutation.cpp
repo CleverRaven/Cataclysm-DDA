@@ -10,6 +10,7 @@
 #include "avatar_action.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "character_attire.h"
 #include "character.h"
 #include "color.h"
 #include "condition.h"
@@ -57,6 +58,7 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
@@ -395,14 +397,21 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         recalc_hp();
     }
 
+    for( const itype_id &armor : branch.integrated_armor ) {
+        item tmparmor( armor );
+        wear_item( tmparmor, false );
+    }
+
     remove_worn_items_with( [&]( item & armor ) {
         if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
+            return false;
+        }
+        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
             return false;
         }
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-
         // if an item gives an enchantment it shouldn't break or be shoved off
         for( const enchantment &ench : armor.get_enchantments() ) {
             for( const trait_id &inner_mut : ench.get_mutations() ) {
@@ -478,6 +487,13 @@ void Character::mutation_loss_effect( const trait_id &mut )
         branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
+
+    for( const itype_id &popped_armor : branch.integrated_armor ) {
+        remove_worn_items_with( [&]( item & armor ) {
+            return armor.typeId() == popped_armor;
+        } );
+    }
+
     if( !branch.enchantments.empty() ) {
         recalculate_enchantment_cache();
         recalculate_bodyparts();
@@ -642,7 +658,7 @@ void Character::activate_mutation( const trait_id &mut )
         }
         if( mdata.hunger ) {
             // burn some energy
-            mod_stored_nutr( cost );
+            mod_stored_kcal( cost );
         }
         if( mdata.thirst ) {
             mod_thirst( cost );
@@ -749,7 +765,7 @@ void Character::activate_mutation( const trait_id &mut )
             return;
         }
 
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
             add_msg_if_player(
@@ -758,9 +774,10 @@ void Character::activate_mutation( const trait_id &mut )
 
         assign_activity( ACT_TREE_COMMUNION );
 
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
-            const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
-                                               30_minutes ) : rng( 60_minutes, 90_minutes );
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
+            const time_duration startup_time = ( has_trait( trait_ROOTS3 ) ||
+                                                 has_trait( trait_CHLOROMORPH ) ) ? rng( 15_minutes,
+                                                         30_minutes ) : rng( 60_minutes, 90_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
         } else {
