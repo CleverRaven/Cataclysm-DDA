@@ -255,5 +255,22 @@
     "symbol": "~",
     "color": "white",
     "ammo_type": "propane"
+  },
+  {
+  "id": "ammonia_liquid",
+  "type": "AMMO",
+  "name": { "str_sp": "liquid ammonia" },
+  "description": "Liquid ammonia, held under high pressure.",
+  "weight": "136 g",
+  "volume:" 200 ml",
+  "count" 10,
+  "stack_size": 10,
+  "category": "chems",
+  "phase": "liquid",
+  "container": "ammonia_tank",
+  "material": "ammonia_liquid",
+  "symbol": "~",
+  "color": "yellow",
+  "ammo_type": "ammonia_liquid"
   }
 ]
