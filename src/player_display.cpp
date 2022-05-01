@@ -967,7 +967,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
 
     if( customize_character ) {
         right_print( w_tip, 0, 8, c_light_gray, string_format(
-                         _( "[<color_yellow>%s</color>]Customize character" ),
+                         _( "[<color_yellow>%s</color>] Customize character" ),
                          ctxt.get_desc( "SWITCH_GENDER" ) ) );
     }
 
