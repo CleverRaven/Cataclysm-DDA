@@ -274,7 +274,7 @@
     "symbol": "~",
     "quench": -96,
     "healthy": -20,
-    "description": "This is anhydrous ammonia, a useful chemical compound. It must be stored under pressure or refrigerated. Don't even think about drinking it.",
+    "description": "This is anhydrous ammonia, a useful chemical compound.  It must be stored under pressure or refrigerated.  Don't even think about drinking it.",
     "price": 67,
     "price_postapoc": 50,
     "volume": "250 ml",
