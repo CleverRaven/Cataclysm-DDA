@@ -1983,6 +1983,8 @@
       { "item": "dive_bag", "prob": 5 },
       { "item": "jedi_cloak", "prob": 1 },
       { "item": "apron_cotton", "prob": 30 },
+      { "item": "waist_apron_long", "prob": 10 },
+      { "item": "waist_apron_short", "prob": 5 },
       { "item": "apron_leather", "prob": 5 },
       { "item": "apron_plastic", "prob": 5 },
       { "item": "clown_suit", "prob": 1 },

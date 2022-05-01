@@ -53,6 +53,8 @@
       [ "apron_leather", 10 ],
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 40 },
       { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
+      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 30 },
+      { "item": "waist_apron_short", "variant": "gothic_apron", "prob": 10 },
       [ "cheerleader_top_short", 10 ],
       [ "halter_top", 50 ]
     ]
@@ -156,6 +158,8 @@
       { "item": "dress_shirt", "prob": 95 },
       { "item": "porkpie", "prob": 60 },
       { "item": "apron_cotton", "prob": 30 },
+      { "item": "waist_apron_long", "prob": 5 },
+      { "item": "waist_apron_short", "prob": 5 },
       { "item": "apron_leather", "prob": 5 }
     ]
   },
@@ -251,6 +255,11 @@
     "id": "private_resort_maid_dress",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "maid_dress", 20 ], [ "maid_dress_short", 70 ], { "item": "apron_cotton", "variant": "maid_apron", "prob": 10 } ]
+    "items": [
+      [ "maid_dress", 20 ],
+      [ "maid_dress_short", 65 ],
+      { "item": "apron_cotton", "variant": "maid_apron", "prob": 10 },
+      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 5 }
+    ]
   }
 ]

@@ -229,7 +229,59 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white_hat_chef",
+        "name": { "str": "toque" },
+        "description": "It's colored white.",
+        "weight": 60,
+        "append": true
+      },
+      {
+        "id": "black_hat_chef",
+        "name": { "str": "black toque" },
+        "description": "It's colored black.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_hat_chef",
+        "name": { "str": "blue toque" },
+        "description": "It's a royal blue color.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_hat_chef",
+        "name": { "str": "red toque" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_hat_chef",
+        "name": { "str": "pink toque" },
+        "description": "It's colored pink.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "yellow_hat_chef",
+        "name": { "str": "yellow toque" },
+        "description": "It's colored yellow.",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "camo_hat_chef",
+        "name": { "str": "camo chef's jacket" },
+        "description": "It has camouflage dye.",
+        "weight": 2,
+        "append": true
+      }
+    ]
   },
   {
     "id": "hat_cotton",

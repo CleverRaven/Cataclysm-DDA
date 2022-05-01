@@ -494,6 +494,8 @@
       { "item": "cereal3", "prob": 45 },
       { "group": "kitchen_appliances", "prob": 253 },
       { "item": "apron_cotton", "prob": 25 },
+      { "item": "waist_apron_long", "prob": 7 },
+      { "item": "waist_apron_short", "prob": 4 },
       { "item": "apron_leather", "prob": 2 },
       { "item": "hat_chef", "prob": 2 },
       { "item": "jacket_chef", "prob": 2 },

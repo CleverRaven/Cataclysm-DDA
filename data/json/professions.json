@@ -566,10 +566,11 @@
     "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_baking", "prof_baking_desserts_1", "prof_frying" ],
     "items": {
       "both": {
-        "items": [ "hat_chef", "pants_checkered", "socks", "dress_shoes" ],
+        "items": [ "pants_checkered", "socks", "dress_shoes" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "knife_butcher", "container-item": "sheath" },
+          { "item": "hat_chef", "variant": "white_hat_chef" },
           { "item": "jacket_chef", "variant": "white_jacket_chef" },
           { "item": "apron_cotton", "variant": "generic_apron_cotton" }
         ]

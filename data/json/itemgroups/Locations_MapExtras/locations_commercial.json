@@ -1559,6 +1559,8 @@
       [ "apron_leather", 10 ],
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 20 },
       { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
+      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 20 },
+      { "item": "waist_apron_short", "variant": "gothic_apron", "prob": 15 },
       [ "skirt_leather", 15 ],
       [ "nanoskirt", 15 ],
       [ "skirt", 10 ],
