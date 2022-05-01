@@ -226,7 +226,17 @@
         "&": "t_floor",
         "+": "t_door_c"
       },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty", "u": "f_cupboard", "s": "f_sink", "&": "f_trashcan"},
+      "furniture": {
+        "c": "f_counter",
+        "C": "f_chair",
+        "t": "f_table",
+        "r": "f_rack",
+        "k": "f_wood_keg",
+        "v": "f_fvat_empty",
+        "u": "f_cupboard",
+        "s": "f_sink",
+        "&": "f_trashcan"
+      },
       "place_npcs": [ { "class": "ranch_bartender", "x": 12, "y": 12 }, { "class": "scavenger_merc", "x": 5, "y": 11 } ],
       "place_items": [ { "item": "ranch_bartender_glass_water", "x": 6, "y": 11, "chance": 100, "faction": "tacoma_commune" } ],
       "place_item": [
@@ -234,9 +244,9 @@
         { "item": "tacoma_drink_token", "x": 6, "y": 11, "faction": "tacoma_commune" },
         { "item": "bucket_wood", "x": 13, "y": 15, "faction": "tacoma_commune" },
         { "item": "sponge", "x": 13, "y": 15, "faction": "tacoma_commune" },
-        { "item": "rag", "x": 13, "y": 15, "faction": "tacoma_commune", "repeat": [2, 4] },
-        { "item": "glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [15, 30] },
-        { "item": "shot_glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [10, 20] }
+        { "item": "rag", "x": 13, "y": 15, "faction": "tacoma_commune", "repeat": [ 2, 4 ] },
+        { "item": "glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [ 15, 30 ] },
+        { "item": "shot_glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [ 10, 20 ] }
       ]
     }
   },
@@ -1157,8 +1167,6 @@
     "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_glass_water",
     "method": "json",
-    "object": {
-      "place_items": [ { "item": "ranch_bartender_glass_water", "x": 11, "y": 12, "chance": 100 } ]
-    }
+    "object": { "place_items": [ { "item": "ranch_bartender_glass_water", "x": 11, "y": 12, "chance": 100 } ] }
   }
 ]

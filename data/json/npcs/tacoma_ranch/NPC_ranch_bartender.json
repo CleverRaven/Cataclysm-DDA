@@ -145,7 +145,15 @@
   {
     "id": "TALK_RANCH_BARKEEP_TAP",
     "type": "talk_topic",
-    "dynamic_line": "Our selection is a bit limited at the moment.",
+    "dynamic_line": {
+      "npc_has_trait": "NPC_WHISKEY",
+      "yes": [
+        "Take a look at our selection and let me know what you're interested in.",
+        "We have a decent variety of drinks.  What interests you?",
+        "What are you in the mood for?"
+      ],
+      "no": "Our selection is a bit limited at the moment.  If you're willing to help out, I can get some more variety in here."
+    },
     "responses": [
       {
         "text": "Just a glass of water, please.",
@@ -163,6 +171,7 @@
       {
         "text": "[$12] I'll take a shot of brandy.",
         "topic": "TALK_DONE",
+        "condition": { "npc_has_trait": "NPC_BRANDY" },
         "effect": [
           { "u_spend_cash": 1200 },
           { "mapgen_update": "tacoma_commune_shot_brandy", "om_terrain": "ranch_camp_51" },
@@ -172,6 +181,7 @@
       {
         "text": "[$12] I'll take a shot of rum.",
         "topic": "TALK_DONE",
+        "condition": { "npc_has_trait": "NPC_RUM" },
         "effect": [
           { "u_spend_cash": 1200 },
           { "mapgen_update": "tacoma_commune_shot_rum", "om_terrain": "ranch_camp_51" },
@@ -181,6 +191,7 @@
       {
         "text": "[$15] I'll take a shot of whiskey.",
         "topic": "TALK_DONE",
+        "condition": { "npc_has_trait": "NPC_WHISKEY" },
         "effect": [
           { "u_spend_cash": 1500 },
           { "mapgen_update": "tacoma_commune_shot_whiskey", "om_terrain": "ranch_camp_51" },
