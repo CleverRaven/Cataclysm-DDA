@@ -49,5 +49,11 @@
         "TILES": "True"
       }
     }
+  ],
+  "buildPresets": [
+    {
+      "name": "x64-release",
+      "configurePreset": "x64-release"
+    }
   ]
 }
