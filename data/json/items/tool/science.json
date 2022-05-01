@@ -620,6 +620,7 @@
         "ammo_restriction": { "ammonia_liquid": 8 },
         "watertight": true
       }
+	  ]
   },
   {
     "id": "hygrometer",

@@ -2664,7 +2664,7 @@
   "type": "material",
   "id": "liquid_ammonia",
   "name": "Liquid Ammonia",
-  "//": "Assumes refrigerated to below -33.3°C or PSI.  Liquid weight (5.15 lb/gal)/(.62 kg/l).  Energy density (liquid) 11.5 MJ/L)"
+  "//": "Assumes refrigerated to below -33.3°C or PSI.  Liquid weight (5.15 lb/gal)/(.62 kg/l).  Energy density (liquid) 11.5 MJ/L)",
   "specific_heat_liquid": 3.13,
   "specific_heat_solid": 4.22,
   "latent_heat": 332,
