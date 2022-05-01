@@ -14,7 +14,6 @@ static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
 static const efftype_id effect_bandaged( "bandaged" );
 
-static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_bandages( "bandages" );
 
 static const skill_id skill_firstaid( "firstaid" );
