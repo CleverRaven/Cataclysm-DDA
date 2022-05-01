@@ -958,7 +958,8 @@
         "message_good": false
       },
       {
-        "result": [ "t_fencegate_c" ],     "valid_terrain": [ "t_fencegate_o" ],
+        "result": [ "t_fencegate_c" ],
+        "valid_terrain": [ "t_fencegate_o" ],
         "message": "A door slams shut!",
         "message_good": false
       },
@@ -987,7 +988,6 @@
     "id": "EOC_PORTAL_STORM_VOICES_1",
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
     "effect": { "u_message": "PORTAL_STORM_VOICES_1", "snippet": true }
-    
   },
   {
     "type": "effect_on_condition",
