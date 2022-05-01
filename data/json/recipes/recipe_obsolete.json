@@ -698,5 +698,15 @@
     "type": "recipe",
     "result": "dragonskin",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sourdough_young",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sourdough_split",
+    "obsolete": true
   }
 ]
