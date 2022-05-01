@@ -807,139 +807,85 @@ std::vector<tripoint> route_best_workbench( const Character &you, const tripoint
     return std::vector<tripoint>();
 
 }
+
+namespace
+{
+
+construction const *
+_find_alt_construction( tripoint const &loc, construction_id const &idx,
+                        cata::optional<construction_id> const &part_con_idx,
+                        std::function<bool( construction const & )> const &filter )
+{
+    std::vector<construction *> cons = constructions_by_filter( filter );
+    for( construction const *el : cons ) {
+        if( ( part_con_idx and * part_con_idx == el->id ) or
+            ( el->pre_terrain != idx->post_terrain and can_construct( *el, loc ) ) ) {
+            return el;
+        }
+    }
+    return nullptr;
+}
+
+} // namespace
+
 static activity_reason_info find_base_construction(
-    const std::vector<construction> &list_constructions,
     Character &you,
     const inventory &inv,
     const tripoint &loc,
     const cata::optional<construction_id> &part_con_idx,
-    const construction_id &idx,
-    std::set<construction_id> &used )
+    const construction_id &idx )
 {
-    const construction &build = idx.obj();
+    bool cc = can_construct( idx.obj(), loc );
+    construction const *con = nullptr;
+
+    if( !cc ) {
+        // try to build a variant from the same group
+        con = _find_alt_construction( loc, idx, part_con_idx, [&idx]( construction const & it ) {
+            return it.group == idx->group;
+        } );
+        if( con == nullptr ) {
+            // try to build a pre-requisite from a different group
+            con = _find_alt_construction( loc, idx, part_con_idx, [&idx]( construction const & it ) {
+                return it.group != idx->group and !it.post_terrain.empty() and
+                       it.post_terrain == idx->pre_terrain;
+            } );
+        }
+        cc = con != nullptr;
+    }
+
+    const construction &build = con == nullptr ? idx.obj() : *con;
+    bool pcb = player_can_build( you, inv, build );
     //already done?
     map &here = get_map();
     const furn_id furn = here.furn( loc );
     const ter_id ter = here.ter( loc );
-    if( !build.post_terrain.empty() ) {
-        if( build.post_is_furniture ) {
-            if( furn_id( build.post_terrain ) == furn ) {
-                return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, idx );
-            }
-        } else {
-            if( ter_id( build.post_terrain ) == ter ) {
-                return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, idx );
-            }
-        }
+    if( !build.post_terrain.empty() and
+        ( ( !build.post_is_furniture and ter_id( build.post_terrain ) == ter ) or
+          ( build.post_is_furniture and furn_id( build.post_terrain ) == furn ) ) ) {
+        return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, build.id );
+    }
+
+    const bool has_skill = you.meets_skill_requirements( build );
+    if( !has_skill ) {
+        return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, build.id );
     }
     //if there's an appropriate partial construction on the tile, then we can work on it, no need to check inventories.
-    const bool has_skill = you.meets_skill_requirements( build );
-    if( part_con_idx && *part_con_idx == idx ) {
-        if( !has_skill ) {
-            return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, idx );
-        }
-        return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, idx );
-    }
-    //can build?
-    const bool cc = can_construct( build, loc );
-    const bool pcb = player_can_build( you, inv, build );
-    if( !has_skill ) {
-        return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, idx );
-    }
-    if( cc ) {
-        if( pcb ) {
-            return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, idx );
-        }
-        //can't build with current inventory, do not look for pre-req
-        return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
-    }
-
-    // there are no pre-requisites.
-    // so we need to potentially fetch components
-    if( build.pre_terrain.empty() && build.pre_special( loc ) ) {
-        return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
-    } else if( !build.pre_special( loc ) ) {
-        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
-    }
-
-    // can't build it
-    // maybe we can build the pre-requisite instead
-    // see if the reason is because of pre-terrain requirement
-    if( !build.pre_terrain.empty() &&
-        ( ( build.pre_is_furniture &&
-            furn_id( build.pre_terrain ) == furn ) ||
-          ( !build.pre_is_furniture &&
-            ter_id( build.pre_terrain ) == ter ) ) ) {
-        // the pre-req is already built, so the reason is due to lack of tools/components
-        return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
-    }
-
-    //we can't immediately build it, looking for pre-req
-    used.insert( idx );
-    cata::optional<do_activity_reason> reason = { };
-    construction_id pre_req_idx( -1 );
-    //first step: try only constructions with the same group
-    //second step: try all constructions
-    for( int try_num = 0; try_num < 2; ++try_num ) {
-        for( const construction &pre_build : list_constructions ) {
-            //skip if already checked this one
-            if( pre_build.id == idx || used.find( pre_build.id ) != used.end() ) {
-                continue;
-            }
-            //skip unknown
-            if( pre_build.post_terrain.empty() ) {
-                continue;
-            }
-            //skip if it is not a pre-build required or gives the same result
-            if( pre_build.post_terrain != build.pre_terrain &&
-                pre_build.post_terrain != build.post_terrain ) {
-                continue;
-            }
-            //at first step, try to get building with the same group
-            if( try_num == 0 &&
-                pre_build.group != build.group ) {
-                continue;
-            }
-            activity_reason_info act_info_pre = find_base_construction( list_constructions,
-                                                you, inv, loc, part_con_idx, pre_build.id, used );
-            if( act_info_pre.can_do ) {
-                return activity_reason_info::build( do_activity_reason::CAN_DO_PREREQ, true,
-                                                    *act_info_pre.con_idx );
-            }
-            //find first pre-req failed reason
-            if( !reason ) {
-                reason = act_info_pre.reason;
-                pre_req_idx = *act_info_pre.con_idx;
-            }
-            if( act_info_pre.reason == do_activity_reason::ALREADY_DONE ) {
-                //pre-req is already here, but we still can't build over it
-                reason.reset();
-                break;
-            }
-        }
-    }
-    //have a partial construction which is not leading to the required construction
     if( part_con_idx ) {
-        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
-    }
-    //pre-req failed?
-    if( reason ) {
-        if( *reason == do_activity_reason::NO_COMPONENTS ) {
-            return activity_reason_info::build( do_activity_reason::NO_COMPONENTS_PREREQ, false, pre_req_idx );
-        }
-        return activity_reason_info::build( *reason, false, pre_req_idx );
-    }
-    if( !pcb ) {
-        return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
-    }
-    //check if construction allows items at the location
-    if( build.post_flags.count( "keep_items" ) == 0 ) {
-        const map_stack stuff_there = here.i_at( loc );
-        if( !stuff_there.empty() ) {
+        if( *part_con_idx != build.id ) {
+            //have a partial construction which is not leading to the required construction
             return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
         }
+        return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
     }
-    //only cc failed, no pre-req
+    //can build?
+    if( cc ) {
+        if( pcb ) {
+            return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
+        }
+        //can't build with current inventory, do not look for pre-req
+        return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, build.id );
+    }
+
     return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
 }
 
@@ -1292,7 +1238,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_MULTIPLE_CONSTRUCTION ) {
-        const std::vector<construction> &list_constructions = get_constructions();
         zones = mgr.get_zones( zone_type_CONSTRUCTION_BLUEPRINT,
                                here.getglobal( src_loc ) );
         const partial_con *part_con = here.partial_con_at( src_loc );
@@ -1301,16 +1246,15 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             part_con_idx = part_con->id;
         }
 
-        // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
-        const inventory pre_inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
+        tripoint const nearest_src_loc = square_dist( you.pos(), src_loc ) == 1
+                                         ? you.pos()
+                                         : route_adjacent( you, src_loc ).back();
+        const inventory pre_inv = you.crafting_inventory( nearest_src_loc, PICKUP_RANGE );
         if( !zones.empty() ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
             const construction_id index = options.get_index();
-            std::set<construction_id> used_idx;
-            const activity_reason_info act_info = find_base_construction( list_constructions, you, pre_inv,
-                                                  src_loc, part_con_idx, index, used_idx );
-            return act_info;
+            return find_base_construction( you, pre_inv, src_loc, part_con_idx, index );
         }
     } else if( act == ACT_MULTIPLE_FARM ) {
         zones = mgr.get_zones( zone_type_FARM_PLOT, here.getglobal( src_loc ) );
@@ -2591,8 +2535,6 @@ static requirement_check_result generic_multi_activity_check_requirement(
         }
         return requirement_check_result::SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
-               reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
-               reason == do_activity_reason::NO_COMPONENTS_PREREQ_2 ||
                reason == do_activity_reason::NEEDS_PLANTING ||
                reason == do_activity_reason::NEEDS_TILLING ||
                reason == do_activity_reason::NEEDS_CHOPPING ||
@@ -2622,10 +2564,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
         }
         add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots, combined_spots );
 
-        if( ( reason == do_activity_reason::NO_COMPONENTS ||
-              reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
-              reason == do_activity_reason::NO_COMPONENTS_PREREQ_2 ) &&
-            act_id == ACT_MULTIPLE_CONSTRUCTION ) {
+        if( reason == do_activity_reason::NO_COMPONENTS && act_id == ACT_MULTIPLE_CONSTRUCTION ) {
             if( !act_info.con_idx ) {
                 debugmsg( "no construction selected" );
                 return requirement_check_result::SKIP_LOCATION;
@@ -2811,8 +2750,7 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             you.backlog.push_front( player_activity( act_id ) );
             return false;
         }
-    } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ||
-               reason == do_activity_reason::CAN_DO_PREREQ ) {
+    } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
         if( here.partial_con_at( src_loc ) ) {
             you.backlog.push_front( player_activity( act_id ) );
             you.assign_activity( ACT_BUILD );
