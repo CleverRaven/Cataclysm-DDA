@@ -438,28 +438,30 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             return _text;
         } else if( action == "HISTORY_UP" ) {
             if( !_identifier.empty() ) {
-                if( _hist_use_uilist ) {
-                    show_history( ret );
-                } else {
-                    update_input_history( ret, true );
+                if( edit.empty() ) {
+                    if( _hist_use_uilist ) {
+                        show_history( ret );
+                    } else {
+                        update_input_history( ret, true );
+                    }
                 }
             } else {
                 _handled = false;
             }
         } else if( action == "HISTORY_DOWN" ) {
             if( !_identifier.empty() ) {
-                if( !_hist_use_uilist ) {
+                if( edit.empty() && !_hist_use_uilist ) {
                     update_input_history( ret, false );
                 }
             } else {
                 _handled = false;
             }
         } else if( action == "TEXT.RIGHT" ) {
-            if( _position + 1 <= static_cast<int>( ret.size() ) ) {
+            if( edit.empty() && _position + 1 <= static_cast<int>( ret.size() ) ) {
                 _position++;
             }
         } else if( action == "TEXT.LEFT" ) {
-            if( _position > 0 ) {
+            if( edit.empty() && _position > 0 ) {
                 _position--;
             }
         } else if( action == "TEXT.CLEAR" ) {
@@ -471,9 +473,13 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 ret.erase( _position, 1 );
             }
         } else if( action == "TEXT.HOME" ) {
-            _position = 0;
+            if( edit.empty() ) {
+                _position = 0;
+            }
         } else if( action == "TEXT.END" ) {
-            _position = ret.size();
+            if( edit.empty() ) {
+                _position = ret.size();
+            }
         } else if( action == "TEXT.DELETE" ) {
             if( _position < static_cast<int>( ret.size() ) ) {
                 ret.erase( _position, 1 );
