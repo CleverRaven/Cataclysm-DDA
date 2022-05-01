@@ -148,12 +148,20 @@
     "dynamic_line": "Our selection is a bit limited at the moment.",
     "responses": [
       {
-        "text": "[$8] I'll take a beer",
+        "text": "Just a glass of water, please.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "mapgen_update": "tacoma_commune_glass_water", "om_terrain": "ranch_camp_51" },
+          { "u_message": "<npc_name> sets a glass of water on the counter.", "type": "good", "popup": true }
+        ]
+      },
+      {
+        "text": "[$8] I'll take a beer.",
         "topic": "TALK_DONE",
         "effect": { "u_buy_item": "beer", "container": "bottle_glass", "count": 2, "cost": 800 }
       },
       {
-        "text": "[$12] I'll take a shot of brandy",
+        "text": "[$12] I'll take a shot of brandy.",
         "topic": "TALK_DONE",
         "effect": [
           { "u_spend_cash": 1200 },
@@ -162,7 +170,7 @@
         ]
       },
       {
-        "text": "[$12] I'll take a shot of rum",
+        "text": "[$12] I'll take a shot of rum.",
         "topic": "TALK_DONE",
         "effect": [
           { "u_spend_cash": 1200 },
@@ -171,7 +179,7 @@
         ]
       },
       {
-        "text": "[$15] I'll take a shot of whiskey",
+        "text": "[$15] I'll take a shot of whiskey.",
         "topic": "TALK_DONE",
         "effect": [
           { "u_spend_cash": 1500 },
