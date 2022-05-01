@@ -17,6 +17,11 @@ static bool is_linebreak( const uint32_t uc )
     return uc == '\n';
 }
 
+static bool break_before( const uint32_t uc )
+{
+    return uc >= 0x2E80;
+}
+
 static bool break_after( const uint32_t uc )
 {
     return uc == ' ' || uc >= 0x2E80;
@@ -86,6 +91,15 @@ folded_text::folded_text( const std::string &str, const int line_width )
         const int cw = linebreak ? 0 : std::max( 0, mk_wcwidth( uc ) );
         cpts += 1;
         width += cw;
+        // can we break before the current character?
+        if( break_before( uc ) && src_curr > src_start
+            // break with at least one word character before
+            && src_word > src_start ) {
+            src_break = src_curr;
+            bytes_break = bytes_curr;
+            cpts_break = cpts_curr;
+            width_break = width_curr;
+        }
         // if the characters so far do not fit in a single line
         if( width > width_start + line_width ) {
             if( src_break > src_start ) {
