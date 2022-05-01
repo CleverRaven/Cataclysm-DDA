@@ -958,8 +958,7 @@
         "message_good": false
       },
       {
-        "result": [ "t_fencegate_c" ],
-        "valid_terrain": [ "t_fencegate_o" ],
+        "result": [ "t_fencegate_c" ],     "valid_terrain": [ "t_fencegate_o" ],
         "message": "A door slams shut!",
         "message_good": false
       },
@@ -986,50 +985,21 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_1",
-    "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
-    "effect": [
-      { "u_location_variable": { "global_val": "indoor_voices" }, "min_radius": 3, "max_radius": 10 },
-      {
-        "u_make_sound": "PORTAL_STORM_VOICES_1",
-        "target_var": { "global_val": "indoor_voices" },
-        "volume": 40,
-        "type": "speech",
-        "snippet": true
-      }
-    ]
+    "effect": { "u_message": "PORTAL_STORM_VOICES_1", "snippet": true }
+    
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_2",
-    "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
-    "effect": [
-      { "u_location_variable": { "global_val": "indoor_voices" }, "min_radius": 3, "max_radius": 10 },
-      {
-        "u_make_sound": "PORTAL_STORM_VOICES_2",
-        "target_var": { "global_val": "indoor_voices" },
-        "volume": 60,
-        "type": "speech",
-        "snippet": true
-      }
-    ]
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } } ] },
+    "effect": { "u_message": "PORTAL_STORM_VOICES_2", "snippet": true }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_3",
-    "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
-    "effect": [
-      { "u_location_variable": { "global_val": "indoor_voices" }, "min_radius": 3, "max_radius": 10 },
-      {
-        "u_make_sound": "PORTAL_STORM_VOICES_3",
-        "target_var": { "global_val": "indoor_voices" },
-        "volume": 80,
-        "type": "speech",
-        "snippet": true
-      }
-    ]
+    "effect": { "u_message": "PORTAL_STORM_VOICES_3", "snippet": true }
   },
   {
     "type": "effect_on_condition",
