@@ -1227,8 +1227,6 @@ bool avatar::cant_see( const tripoint &p )
                                       current_angle ) );
 
 
-
-    /*
     if( upper_bound > 2 * pi ) {
         upper_bound = upper_bound - 2 * pi;
     }
@@ -1236,12 +1234,16 @@ bool avatar::cant_see( const tripoint &p )
     if( lower_bound < 0 ) {
         lower_bound = lower_bound + 2 * pi;
     }
-    */
 
-    if( rl_dist( p, pos() ) < 15 ||
-        ( current_angle >  lower_bound  &&
-          current_angle < upper_bound ) ) {
+    if( rl_dist( p, pos() ) < 15 ) {
         return false;
+    } else if( lower_bound > upper_bound ) {
+        return !( current_angle >= lower_bound ||
+                  current_angle <= upper_bound );
+
+    } else {
+        return !( current_angle >= lower_bound &&
+                  current_angle <= upper_bound );
     }
 
     return true;
