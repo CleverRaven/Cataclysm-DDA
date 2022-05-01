@@ -18,7 +18,7 @@ static void test_diet( const time_duration &dur, npc &dude,
         // They lightly correspond to breakfast, dinner, supper, night snack
         // No, they don't. The correspond to one meal each day.
         dude.mod_daily_health( hmod_changes_per_day[ index ],
-                              sgn( hmod_changes_per_day[ index ] ) * 200 );
+                               sgn( hmod_changes_per_day[ index ] ) * 200 );
         dude.update_health();
         health_samples.emplace_back( dude.get_lifestyle() );
     }
