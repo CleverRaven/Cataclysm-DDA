@@ -1756,7 +1756,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": {  },
+    "upgrades": { "half_life": 15, "into": "mon_sothronychus_brute" },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
@@ -1783,7 +1783,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": {  },
+    "upgrades": { "half_life": 15, "into": "mon_sanzu_brute" },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
@@ -1810,7 +1810,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": {  },
+    "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
@@ -1818,7 +1818,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sutahraptor",
-    "name": { "str_sp": "Utah Bones" },
+    "name": { "str_sp": "skeletal utahraptor" },
     "copy-from": "mon_zutahraptor",
     "color": "white",
     "material": [ "bone" ],
@@ -1837,7 +1837,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": {  },
+    "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
@@ -2829,9 +2829,141 @@
   {
     "type": "MONSTER",
     "id": "mon_sallimimus_hulk",
-    "name": { "str_sp": "skeletal ornithomimid juggernaut" },
+    "name": { "str_sp": "skeletal beaked juggernaut" },
     "copy-from": "mon_sallimimus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
+    "diff": 5,
+    "proportional": { "hp": 2.5 },
+    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "bleed_rate": 0,
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 54 },
+      { "id": "stretch_attack" },
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+    ],
+    "volume": "1000 L",
+    "weight": "1000 kg"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sothronychus_brute",
+    "name": { "str": "skeletal nothronychus brute" },
+    "copy-from": "mon_sothronychus",
+    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh, long neck and claws.  Joints and cracks around its body ooze with black goo.",
+    "proportional": { "hp": 5 },
+    "relative": {
+      "melee_dice": -1,
+      "melee_dice_sides": 2,
+      "melee_cut": 6,
+      "armor_bash": 12,
+      "armor_cut": 15,
+      "armor_bullet": 6,
+      "vision_day": 35,
+      "vision_night": 3
+    },
+    "bleed_rate": 0,
+    "upgrades": { "half_life": 12, "into": "mon_sothronychus_hulk" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sothronychus_hulk",
+    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "copy-from": "mon_sallimimus_brute",
+    "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
+    "diff": 5,
+    "proportional": { "hp": 2.5 },
+    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "bleed_rate": 0,
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 54 },
+      { "id": "stretch_attack" },
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+    ],
+    "volume": "1000 L",
+    "weight": "1000 kg"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sanzu_brute",
+    "name": { "str": "skeletal anzu brute" },
+    "copy-from": "mon_sanzu",
+    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh, long neck and beak.  Joints and cracks around its body ooze with black goo.",
+    "proportional": { "hp": 5 },
+    "relative": {
+      "melee_dice": -1,
+      "melee_dice_sides": 2,
+      "melee_cut": 6,
+      "armor_bash": 12,
+      "armor_cut": 15,
+      "armor_bullet": 6,
+      "vision_day": 35,
+      "vision_night": 3
+    },
+    "bleed_rate": 0,
+    "upgrades": { "half_life": 12, "into": "mon_sanzu_hulk" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sanzu_hulk",
+    "name": { "str_sp": "skeletal beaked juggernaut" },
+    "copy-from": "mon_sanzu_brute",
+    "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting beak suggest some kind of two legged beaked dinosaur.",
+    "diff": 5,
+    "proportional": { "hp": 2.5 },
+    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "bleed_rate": 0,
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 54 },
+      { "id": "stretch_attack" },
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+    ],
+    "volume": "1000 L",
+    "weight": "1000 kg"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sutahraptor_brute",
+    "name": { "str": "skeletal dromaeosaurid brute" },
+    "copy-from": "mon_sutahraptor",
+    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh, claws, and sharp teeth.  Joints and cracks around its body ooze with black goo.",
+    "proportional": { "hp": 5 },
+    "relative": {
+      "melee_dice": -1,
+      "melee_dice_sides": 2,
+      "melee_cut": 6,
+      "armor_bash": 12,
+      "armor_cut": 15,
+      "armor_bullet": 6,
+      "vision_day": 35,
+      "vision_night": 3
+    },
+    "bleed_rate": 0,
+    "upgrades": { "half_life": 12, "into": "mon_sutahraptor_hulk" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sutahraptor_hulk",
+    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "copy-from": "mon_sutahraptor_brute",
+    "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting claws and sharp teeth suggest some kind of two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
