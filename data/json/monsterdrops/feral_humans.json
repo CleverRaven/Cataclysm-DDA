@@ -128,7 +128,20 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_maids_death_drops_knife",
-    "entries": [ { "item": "knife_chef", "prob": 100, "damage": [ 0, 3 ] }, { "group": "default_maid_clothes", "prob": 100 } ]
+    "entries": [
+      {
+        "distribution": [
+          { "item": "knife_chef", "prob": 50, "damage": [ 0, 3 ] },
+          { "item": "knife_butcher", "prob": 50, "damage": [ 0, 3 ] }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "default_maid_clothes", "prob": 50, "damage": [ 1, 4 ] },
+          { "group": "default_chef_clothes", "prob": 50, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -213,6 +226,66 @@
                   }
                 ]
               }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for a feral chef",
+    "id": "default_chef_clothes",
+    "entries": [
+      { "item": "hat_chef", "prob": 80, "damage": [ 1, 4 ] },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 5 },
+      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 80, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "item": "jacket_chef", "prob": 100, "damage": [ 1, 4 ] },
+              {
+                "distribution": [ { "item": "pants", "prob": 45, "damage": [ 1, 4 ] }, { "item": "pants_checkered", "prob": 55, "damage": [ 1, 4 ] } ],
+                "prob": 85
+              },
+              {
+                "distribution": [
+                  { "item": "apron_cotton", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "waist_apron_long", "prob": 30, "damage": [ 1, 4 ] },
+                  { "item": "waist_apron_short", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "item": "dress_shoes", "prob": 80, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "jacket_chef", "prob": 100, "damage": [ 1, 4 ] },
+              {
+                "distribution": [ { "item": "pants", "prob": 45, "damage": [ 1, 4 ] }, { "item": "pants_checkered", "prob": 55, "damage": [ 1, 4 ] } ],
+                "prob": 85
+              },
+              {
+                "distribution": [
+                  { "item": "apron_cotton", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "waist_apron_long", "prob": 30, "damage": [ 1, 4 ] },
+                  { "item": "waist_apron_short", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "item": "dress_shoes", "prob": 80, "damage": [ 1, 4 ] }
             ]
           }
         ]
