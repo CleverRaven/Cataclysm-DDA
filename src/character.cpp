@@ -4304,7 +4304,9 @@ void Character::update_health()
 
     if( calendar::once_every( 1_days ) ) {
         mod_health_tally( effective_daily_health );
-        mod_livestyle( get_health_tally() / 7 );
+        int mean_daily_health = get_health_tally() / 7;
+        mod_livestyle( mean_daily_health );
+        mod_health_tally( -mean_daily_health );
     }
 
     // And daily_health decays over time.
