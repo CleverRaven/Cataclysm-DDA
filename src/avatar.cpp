@@ -1193,6 +1193,60 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_your_followers );
 }
 
+bool avatar::cant_see( const tripoint &p )
+{
+    double pi = 2 * acos( 0.0 );
+
+    // calc based on recoil
+    if( !last_target_pos.has_value() ) {
+        return false;
+    }
+
+    const tripoint local_last_target = get_map().getlocal( last_target_pos.value() );
+
+    float base_angle = atan2f( local_last_target.y - posy(),
+                               local_last_target.x - posx() );
+    float current_angle = atan2f( p.y - posy(), p.x - posx() );
+
+    if( base_angle < 0 ) {
+        base_angle = base_angle + 2 * pi;
+    }
+
+    if( current_angle < 0 ) {
+        current_angle = current_angle + 2 * pi;
+    }
+
+
+    float range = 3.0f - 3.0f * steadiness;
+
+    // pin between pi and negative pi
+    float upper_bound = base_angle + range;
+    float lower_bound = base_angle - range;
+
+    add_msg_if_player( string_format( "upper: %f lower: %f current: %f", upper_bound, lower_bound,
+                                      current_angle ) );
+
+
+
+    /*
+    if( upper_bound > 2 * pi ) {
+        upper_bound = upper_bound - 2 * pi;
+    }
+
+    if( lower_bound < 0 ) {
+        lower_bound = lower_bound + 2 * pi;
+    }
+    */
+
+    if( rl_dist( p, pos() ) < 15 ||
+        ( current_angle >  lower_bound  &&
+          current_angle < upper_bound ) ) {
+        return false;
+    }
+
+    return true;
+}
+
 void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
     if( can_switch_to( new_mode ) ) {

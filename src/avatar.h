@@ -252,6 +252,9 @@ class avatar : public Character
         // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
         std::string preferred_aiming_mode;
 
+        // checks if the point is blocked based on characters current aiming state
+        bool cant_see( const tripoint &p );
+
         void set_movement_mode( const move_mode_id &mode ) override;
 
         // Cycles to the next move mode.

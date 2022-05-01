@@ -661,8 +661,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
 
     // possibly reduce view if aiming (also blocks light)
     if( get_avatar().activity.id() == activity_id( "ACT_AIM" ) ) {
-        if( rl_dist( p, get_avatar().pos() ) > 15 && ( -3 < atan2f( p.y, p.x ) ||
-                atan2f( p.y, p.x ) < 3 ) ) {
+        if( get_avatar().cant_see( p ) ) {
             return { true, 0.0 };
         }
     }

@@ -883,6 +883,7 @@ class Character : public Creature, public visitable
         int dodges_left;
 
         double recoil = MAX_RECOIL;
+        double steadiness = 1.0;
 
         std::string custom_profession;
 

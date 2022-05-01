@@ -1638,7 +1638,7 @@ static double calculate_aim_cap( const Character &you, const tripoint &target )
     return min_recoil;
 }
 
-static int print_aim( const Character &you, const catacurses::window &w, int line_number,
+static int print_aim( Character &you, const catacurses::window &w, int line_number,
                       input_context &ctxt, item *weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
 {
@@ -1658,7 +1658,7 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
     // 0 is the best the player can do.
     const double steady_score = std::max( 0.0, predicted_recoil - min_dispersion );
     // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - ( steady_score / steadiness_range );
+    you.steadiness = 1.0 - ( steady_score / steadiness_range );
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
@@ -1669,7 +1669,7 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
     };
 
     const double range = rl_dist( you.pos(), pos );
-    line_number = print_steadiness( w, line_number, steadiness );
+    line_number = print_steadiness( w, line_number, you.steadiness );
     return print_ranged_chance( you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
                                 dispersion,
                                 confidence_config,
