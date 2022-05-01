@@ -63,9 +63,7 @@
       "I'm a survivor, same as you.  Searching for meaning out here in the wilderness, same as you.  Our paths converge here, like two stars in the night, pulled in by each others' gravity.  We both found just a little warmth in the darkness.  That's all there is, <name_g>.",
       "It's hard to say exactly what I'm doing out here, but I guess one thing just leads to another.  Self-reliance, you know?  'Trust thyself!'  I think I have that one around here somewhere…  We might have burned it, actually.  Not much use thinking like that now, is there?  I guess that guy never had a buddy making sure he didn't get his face eaten off in his sleep.",
       "Before this I had a trailer a little ways away.  Now I live here.  I've seen so many folks come through here, every size, every shape… in all kinds of shape.  Everyone's got a story.  Some of them won't tell, but you can see it on their face.  I mean, literally, on their face.  Soft and smooth, then they haven't been camping long.  But a lot of them are cracked and leathery from the sun.  Most of them never had a shot at a real life anyway.  You grow up poor, you'll always be poor.  Especially with some of the problems they got.",
-      "I'm pretty new to this kind of living.  Got thrown out of my apartment after… well, you're just being nice when you ask, aren't you?  It doesn't matter now anyway.  I'm here and I'm still alive.",
-      "Living it up!  I always loved wandering around in places I didn't belong.  Now, in a way, it's like the whole world belongs to me.",
-      "Searching, surviving, scavenging.  One man's trash is another man's improvised weapon.  You look like you get it."
+      "I'm pretty new to this kind of living.  Got thrown out of my apartment after… well, you're just being nice when you ask, aren't you?  It doesn't matter now anyway.  I'm here and I'm still alive."
     ],
     "responses": [
       { "text": "Hm.", "topic": "TALK_NONE" }

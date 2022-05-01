@@ -193,7 +193,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_STORY",
-    "dynamic_line": "I used to be a chemist.  Well, I am a chemist, but before <the_cataclysm>, I worked out in a factory actually synthesizing chemicals, and even worked in the lab to try out some new, experimental combinations.  I've been out here for a little while now and I even brought some of my equipment.  I found a couple things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
+    "dynamic_line": "I used to be a chemist.  Well, I am a chemist, but before <the_cataclysm> I worked out in a factory actually synthesizing chemicals, and even worked in the lab to try out some new, experimental combinations.  I've been out here for a little while now and I even brought some of my equipment.  I found a couple things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
     "responses": [
       {
         "text": "Hmm.",
@@ -204,7 +204,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_HOME",
-    "dynamic_line": "It looks like some old shack, or a someplace someone like me once lived in.  I found it out here while I was trying to escape all the <zombies> in the city, and I decided to stay.",
+    "dynamic_line": "It looks like some old shack, or someplace someone like me once lived in.  I found it out here while I was trying to escape all the <zombies> in the city, and I decided to stay.",
     "responses": [
       {
         "text": "Hmm.",
@@ -251,7 +251,7 @@
         "effect": [
           {
             "u_buy_item": "disinfectant",
-            "cost": 2500,
+            "cost": 1500,
             "count": 10
           }
         ],
@@ -352,7 +352,7 @@
         "effect": [
           {
             "u_buy_item": "disinfectant",
-            "cost": 2500,
+            "cost": 1500,
             "count": 10
           }
         ],
@@ -385,7 +385,7 @@
         "effect": [
           {
             "u_buy_item": "antibiotics",
-            "cost": 2000,
+            "cost": 3000,
             "count": 10
           }
         ],
