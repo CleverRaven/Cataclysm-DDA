@@ -362,6 +362,14 @@
     "brewable": { "time": "14 days", "results": [ "hopped_mead", "yeast" ] }
   },
   {
+    "id": "brew_spiced_mead",
+    "copy-from": "brew_mead",
+    "name": { "str": "spiced mead must" },
+    "description": "Unfermented spiced mead.  Diluted honey infused with spices and yeast.",
+    "type": "COMESTIBLE",
+    "brewable": { "time": "14 days", "results": [ "spiced_mead", "yeast" ] }
+  },
+  {
     "type": "COMESTIBLE",
     "id": "brew_dandelion_wine",
     "looks_like": "dandelion_wine",
