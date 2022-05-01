@@ -5735,9 +5735,7 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     Character *patient = patientID == get_avatar().getID() ? &get_avatar() :
                          dynamic_cast<Character *>( g->find_npc( patientID ) );
     if( !patient ) {
-        who.add_msg_if_player( m_bad,
-                               _( "Your patient can no longer be found so you stop using the %s." ),
-                               name );
+        debugmsg( "Your patient can no longer be found so you stop using the %s.", name );
         act.set_to_null();
         act.values.clear();
         return;

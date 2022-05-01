@@ -14,10 +14,10 @@ static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
 static const efftype_id effect_bandaged( "bandaged" );
 
-static const skill_id skill_firstaid( "firstaid" );
-
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_bandages( "bandages" );
+
+static const skill_id skill_firstaid( "firstaid" );
 
 static void process_activity_interrupt( Character &guy, const int interrupt_time )
 {
@@ -40,12 +40,11 @@ TEST_CASE( "avatar does healing", "[activity][firstaid][avatar]" )
     clear_avatar();
     clear_map();
     const bodypart_id right_arm( "arm_r" );
-    npc &dunsel = spawn_npc( { 1, 1 }, "test_talker" );
+    npc &dunsel = spawn_npc( point_east, "test_talker" );
     set_time( calendar::turn_zero + 12_hours );
-    dunsel.pos() = dummy.pos() + tripoint( 1, 0, 0 );
+    dunsel.pos() = dummy.pos() + point_east;
     dummy.set_skill_level( skill_firstaid, 10 );
     int moves = 500;
-    item &backpack = dummy.i_add( item( itype_backpack_hiking ) );
     item &bandages = dummy.i_add( item( itype_bandages ) );
     int start_bandage_count = bandages.count();
     REQUIRE( dummy.has_item( bandages ) );
@@ -99,12 +98,11 @@ TEST_CASE( "npc does healing", "[activity][firstaid][npc]" )
     clear_avatar();
     clear_map();
     const bodypart_id right_arm( "arm_r" );
-    npc &dunsel = spawn_npc( { 1, 1 }, "test_talker" );
+    npc &dunsel = spawn_npc( point_east, "test_talker" );
     set_time( calendar::turn_zero + 12_hours );
-    dunsel.pos() = dummy.pos() + tripoint( 1, 0, 0 );
+    dunsel.pos() = dummy.pos() + point_east;
     dunsel.set_skill_level( skill_firstaid, 10 );
     int moves = 500;
-    item &backpack = dunsel.i_add( item( itype_backpack_hiking ) );
     item &bandages = dunsel.i_add( item( itype_bandages ) );
     int start_bandage_count = bandages.count();
     REQUIRE( dunsel.has_item( bandages ) );
