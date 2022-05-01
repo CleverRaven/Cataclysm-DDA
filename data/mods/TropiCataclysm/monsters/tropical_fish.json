@@ -210,7 +210,7 @@
     "id": "mon_fish_goldfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": { "str": "goldfish", "str_pl": "goldfishes" },
+    "name": { "str_sp": "goldfish" },
     "description": "A tiny domestic fish related to the carp.  This one must be part of a feral population but still keeps the golden hue of its domestic counterpart."
   },
   {
