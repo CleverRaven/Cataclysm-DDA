@@ -4301,9 +4301,6 @@ void Character::update_health()
     if( effective_healthy_mod == 0 ) {
         effective_healthy_mod = get_daily_health();
     }
-    int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
-    int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
-    mod_daily_health( healthy_mod, healthy_mod_cap );
 
     if( calendar::once_every( 1_days ) ) {
         mod_health_tally( get_daily_health() );

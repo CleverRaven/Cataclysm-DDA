@@ -1620,6 +1620,11 @@ void Character::suffer()
     }
     //Suffer from enchantments
     enchantment_cache->activate_passive( *this );
+    if( calendar::once_every( 30_minutes ) ) {
+        int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
+        int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
+        mod_daily_health( healthy_mod, healthy_mod_cap );
+    }
 }
 
 bool Character::irradiate( float rads, bool bypass )
