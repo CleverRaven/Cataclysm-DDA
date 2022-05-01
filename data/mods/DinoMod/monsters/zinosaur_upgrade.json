@@ -1296,7 +1296,7 @@
   {
     "type": "MONSTER",
     "id": "mon_silophosaurus",
-    "name": { "str": "skeletal dilophosaurus" },
+    "name": { "str_sp": "skeletal dilophosaurus" },
     "copy-from": "mon_zilophosaurus",
     "looks_like": "mon_zyrannosaurus",
     "color": "white",
@@ -1324,7 +1324,7 @@
   {
     "type": "MONSTER",
     "id": "mon_seratosaurus",
-    "name": { "str": "skeletal ceratosaurus" },
+    "name": { "str_sp": "skeletal ceratosaurus" },
     "copy-from": "mon_zeratosaurus",
     "looks_like": "mon_zyrannosaurus",
     "color": "white",
@@ -2721,7 +2721,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallosaurus_brute",
-    "name": { "str": "skeletal allosaurusoid brute" },
+    "name": { "str": "skeletal allosaurusid brute" },
     "copy-from": "mon_sallosaurus",
     "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotten flesh and toothy jaws.  Joints and cracks around its body ooze with black goo.",
     "proportional": { "hp": 5 },
