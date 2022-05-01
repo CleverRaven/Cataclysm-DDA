@@ -461,7 +461,8 @@ class item : public visitable
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
         void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                                    bool debug, const bodypart_id &bp = bodypart_id(), bool combine_opposites = false ) const;
+                                    bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void pet_armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -798,8 +799,10 @@ class item : public visitable
         bool all_pockets_rigid() const;
 
         // gets all pockets contained in this item
-        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
-        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_contained_pockets() const;
+        std::vector<item_pocket *> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_standard_pockets() const;
+        std::vector<item_pocket *> get_all_standard_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -1516,7 +1519,8 @@ class item : public visitable
         /*@{*/
         ret_val<bool> can_contain( const item &it, const bool nested = false,
                                    const bool ignore_rigidity = false,
-                                   const bool ignore_pkt_settings = true ) const;
+                                   const bool ignore_pkt_settings = true,
+                                   const item_location &parent_it = item_location() ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
@@ -2530,9 +2534,7 @@ class item : public visitable
         inline void remove_old_owner() const {
             old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( const faction_id &new_owner ) {
-            owner = new_owner;
-        }
+        void set_owner( const faction_id &new_owner );
         void set_owner( const Character &c );
         inline void remove_owner() const {
             owner = faction_id::NULL_ID();
@@ -2717,8 +2719,7 @@ class item : public visitable
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
         /** Returns true if protection info was printed as well */
-        bool armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
-                                     bool header = true, int reduce_encumbrance_by = 0 ) const;
+        bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
     public:
         enum class sizing : int {

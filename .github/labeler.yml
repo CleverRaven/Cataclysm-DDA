@@ -49,8 +49,19 @@
   - data/json/construction_group.json
   - data/json/deconstruction.json
 
+"Fields / Furniture / Terrain / Traps":
+  - "**/furniture**"
+
+"Items: Food / Vitamins":
+  - "**/food**"
+  - "**/comestibles**"
+
 "NPC / Factions":
-  - "**/npcs/**/*"
+  - "**/npc**"
+
+"Melee":
+  - "**/melee**"
+  - "**/**techniques**"
 
 "Info / User Interface":
   - "**/ui/**/*"
@@ -64,6 +75,11 @@
 
 "Items: Containers":
   - "**/**containers**"
+  - "**/**storage**"
+  - "**/**sheath**"
+  - "**/**holster**"
+  - "**/**ammo_pouch**"
+  - "**/**bandolier**"
 
 "Appliance/Power Grid":
   - "**/appliance**"
@@ -99,6 +115,9 @@
   - "**/mapgen_palettes/**/*"
   - "**/overmap/**/*"
   - "**/overmap**"
+
+"Martial Arts":
+  - "**/martialarts**"
 
 "Player Faction Base / Camp":
   - "src/basecamp.*"
@@ -153,9 +172,19 @@
 
 "Mods: TropiCataclysm 🌴":
   - data/mods/TropiCataclysm/**/*
+  
+"Mods: Tamable Wildlife":
+  - data/mods/Tamable_Wildlife/**/*
 
 "Mods":
   - data/mods/**/*
 
+"Mechanics: Enchantments / Spells":
+  - "**/enchantments**"
+  - "**/spells**"
+
 "Mechanics: Weather":
   - "**/weather**"
+
+"Vehicles":
+  - "**/vehicle**"

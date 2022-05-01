@@ -387,6 +387,7 @@ crosshair
 crossin
 crosstie
 croupiere
+crowdfunded
 cryomask
 crystaltender
 ctivate
@@ -842,6 +843,7 @@ insufflation
 insulative
 interestin
 interjected
+interjects
 interlayer
 intolerances
 intoxications
@@ -927,6 +929,7 @@ kunst
 kzzz
 l
 labbit
+lactobacillus
 lajatang
 lamellar
 landshark
@@ -950,6 +953,7 @@ leverpostej
 lewede
 leylines
 lickin
+lidded
 lifegiver
 lifestraw
 lightnin
@@ -1349,6 +1353,7 @@ pushmower
 pussywillows
 pwn
 pyrolusite
+parabellum
 pyrophoric
 pyrrolidone
 q
@@ -1413,6 +1418,7 @@ reimpose
 reluctancy
 remodulator
 rended
+rearwards
 renderer
 renfaires
 rennet
@@ -1542,6 +1548,7 @@ sightedness
 siloed
 siloing
 sinensis
+sixgun
 skeletonized
 skeltal
 skirmisher
@@ -1763,6 +1770,7 @@ treelines
 tribot
 tricorne
 trifacet
+trifacets
 trilaser
 tripcore
 troglobite

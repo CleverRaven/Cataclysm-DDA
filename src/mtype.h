@@ -346,6 +346,12 @@ struct mtype {
         ::weakpoints weakpoints;
         weakpoint_families families;
 
+    private:
+        std::vector<weakpoints_id> weakpoints_deferred;
+        ::weakpoints weakpoints_deferred_inline;
+
+    public:
+
         // Pet food category this monster is in
         pet_food_data petfood;
 

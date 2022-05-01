@@ -613,15 +613,15 @@
     "category": "container",
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
-    "weight": "151 g",
-    "volume": "2100 ml",
-    "longest_side": "22 cm",
+    "weight": "50 g",
+    "volume": "2250 ml",
+    "longest_side": "21 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "2000 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_volume": "2100 ml",
+        "max_contains_weight": "8 kg",
         "max_item_length": "20 cm"
       }
     ],
@@ -633,39 +633,15 @@
     "color": "brown"
   },
   {
-    "id": "box_small_wood",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "small wooden box", "str_pl": "small wooden boxes" },
-    "description": "A small wooden box a few inches on each side, just about right for holding a few small items.",
-    "weight": "400 g",
-    "volume": "2010 ml",
-    "longest_side": "181 mm",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "1350 ml",
-        "max_contains_weight": "4536 g",
-        "max_item_length": "167 mm"
-      }
-    ],
-    "price": 2000,
-    "price_postapoc": 5,
-    "material": [ "wood" ],
-    "symbol": "[",
-    "color": "brown"
-  },
-  {
     "id": "box_medium",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "cardboard box", "str_pl": "cardboard boxes" },
     "looks_like": "box_small",
     "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
-    "weight": "850 g",
-    "volume": "50100 ml",
-    "longest_side": "50 cm",
+    "weight": "400 g",
+    "volume": "51000 ml",
+    "longest_side": "51 cm",
     "//": "(25x40x50)",
     "price": 0,
     "price_postapoc": 0,
@@ -675,7 +651,7 @@
         "rigid": true,
         "max_contains_volume": "50000 ml",
         "max_contains_weight": "20 kg",
-        "max_item_length": "60 cm"
+        "max_item_length": "50 cm"
       }
     ],
     "material": [ "cardboard" ],
@@ -689,10 +665,10 @@
     "name": { "str": "large cardboard box", "str_pl": "large cardboard boxes" },
     "looks_like": "box_medium",
     "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
-    "weight": "1250 g",
-    "volume": "325000 ml",
-    "longest_side": "90 cm",
-    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x90x60)",
+    "weight": "2 kg",
+    "volume": "329000 ml",
+    "longest_side": "91 cm",
+    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x60x60)",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "cardboard" ],
@@ -704,7 +680,7 @@
         "rigid": true,
         "max_contains_volume": "324000 ml",
         "max_contains_weight": "50 kg",
-        "max_item_length": "100 cm"
+        "max_item_length": "90 cm"
       }
     ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
@@ -716,10 +692,10 @@
     "name": { "str": "reinforced large cardboard box", "str_pl": "reinforced large cardboard boxes" },
     "looks_like": "box_large",
     "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.",
-    "weight": "2610 g",
-    "volume": "330000 ml",
-    "longest_side": "90 cm",
-    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x90x60)",
+    "weight": "4 kg",
+    "volume": "334000 ml",
+    "longest_side": "91 cm",
+    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x60x60)",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "cardboard" ],
@@ -731,10 +707,242 @@
         "rigid": true,
         "max_contains_volume": "324000 ml",
         "max_contains_weight": "100 kg",
-        "max_item_length": "100 cm"
+        "max_item_length": "90 cm"
       }
     ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box_large_reinforced" }
+  },
+  {
+    "id": "box_oversize",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "oversize cardboard box", "str_pl": "oversize cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.",
+    "weight": "2000 g",
+    "volume": "205000 ml",
+    "longest_side": "201 cm",
+    "//": "(200x50x20)",
+    "price": 0,
+    "price_postapoc": 10,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200000 ml",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "200 cm"
+      }
+    ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_small_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small wooden box", "str_pl": "small wooden boxes" },
+    "description": "A small wooden box.  Beautifully made, perhaps it could hold something precious.",
+    "weight": "650 g",
+    "volume": "3200 ml",
+    "longest_side": "22 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2100 ml",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "20 cm"
+      }
+    ],
+    "//": "~7x20x15 or ~4x22x22",
+    "price": 2000,
+    "price_postapoc": 5,
+    "material": [ "wood" ],
+    "symbol": "[",
+    "color": "brown"
+  },
+  {
+    "id": "box_medium_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wooden box", "str_pl": "wooden boxes" },
+    "looks_like": "box_small_wood",
+    "description": "A hefty wooden box.  Great for storing items.",
+    "weight": "5200 g",
+    "volume": "58800 ml",
+    "longest_side": "52 cm",
+    "//": "(25x40x50)",
+    "price": 2000,
+    "price_postapoc": 20,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50000 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "50 cm"
+      }
+    ],
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_large_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large wooden box", "str_pl": "large wooden boxes" },
+    "looks_like": "box_small_wood",
+    "description": "A small wooden crate.  Sturdy, but still light enough to be moved.",
+    "weight": "41600 g",
+    "volume": "394400 ml",
+    "longest_side": "92 cm",
+    "//": "(60x60x90)",
+    "price": 5000,
+    "price_postapoc": 40,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "324000 ml",
+        "max_contains_weight": "250 kg",
+        "max_item_length": "90 cm"
+      }
+    ],
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_oversize_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "oversize wooden box", "str_pl": "oversize wooden boxes" },
+    "looks_like": "box_small_wood",
+    "description": "An oversize wooden box, big enough to fit some longer items.  Great for storage.",
+    "weight": "34400 g",
+    "volume": "255600 ml",
+    "longest_side": "202 cm",
+    "//": "(200x50x20)",
+    "price": 5000,
+    "price_postapoc": 40,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200000 ml",
+        "max_contains_weight": "250 kg",
+        "max_item_length": "200 cm"
+      }
+    ],
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_small_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small metal box", "str_pl": "small metal boxes" },
+    "description": "A small metal box.  It could hold even the densest of items.",
+    "weight": "750 g",
+    "volume": "2196 ml",
+    "longest_side": "21 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2100 ml",
+        "max_contains_weight": "80 kg",
+        "max_item_length": "20 cm"
+      }
+    ],
+    "//": "~7x20x15 or ~4x22x22",
+    "price": 3000,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
+    "id": "box_medium_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "metal box", "str_pl": "metal boxes" },
+    "looks_like": "box_small_metal",
+    "description": "A strong metal box.  Great for packing your heaviest items.",
+    "weight": "6000 g",
+    "volume": "50750 ml",
+    "longest_side": "51 cm",
+    "//": "(25x40x50)",
+    "price": 8000,
+    "price_postapoc": 40,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50000 ml",
+        "max_contains_weight": "200 kg",
+        "max_item_length": "50 cm"
+      }
+    ],
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
+    "id": "box_large_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large metal box", "str_pl": "large metal boxes" },
+    "looks_like": "box_small_metal",
+    "description": "A small metal crate.  The slim profile makes storage that little bit easier.",
+    "weight": "48 kg",
+    "volume": "330000 ml",
+    "longest_side": "91 cm",
+    "//": "(60x60x90)",
+    "price": 16000,
+    "price_postapoc": 80,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "324000 ml",
+        "max_contains_weight": "500 kg",
+        "max_item_length": "90 cm"
+      }
+    ],
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
+    "id": "box_oversize_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "oversize metal box", "str_pl": "oversize metal boxes" },
+    "looks_like": "box_small_metal",
+    "description": "An oversize metal box, big enough to fit some longer items.  The slim profile makes storage that little bit easier.",
+    "weight": "48 kg",
+    "volume": "206000 ml",
+    "longest_side": "201 cm",
+    "//": "(200x50x20)",
+    "price": 16000,
+    "price_postapoc": 80,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200000 ml",
+        "max_contains_weight": "500 kg",
+        "max_item_length": "200 cm"
+      }
+    ],
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "light_gray"
   },
   {
     "id": "bucket",
@@ -1812,7 +2020,7 @@
         "moves": 100,
         "watertight": true,
         "rigid": true,
-        "item_restriction": [ "smart_phone" ]
+        "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music" ]
       }
     ]
   },

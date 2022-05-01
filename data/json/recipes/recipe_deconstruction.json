@@ -162,15 +162,6 @@
     "components": [ [ [ "silver_small", 2 ] ], [ [ "gold_small", 2 ] ] ]
   },
   {
-    "result": "vac_oven_small_done",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "15 m",
-    "components": [ [ [ "hi_q_shatter", 420 ] ], [ [ "vac_oven_small", 1 ] ] ]
-  },
-  {
     "result": "ear_spool",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -3065,7 +3056,7 @@
     "result": "knife_butcher",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "blade", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+    "components": [ [ [ "spike", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3073,7 +3064,7 @@
     "result": "knife_carving",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "blade", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "spike", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3081,7 +3072,7 @@
     "result": "knife_chef",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "blade", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "spike", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3468,6 +3459,30 @@
     "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 7 ] ] ]
+  },
+  {
+    "result": "hc_steel_lump",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "hc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "result": "mc_steel_lump",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "mc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "result": "lc_steel_lump",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "lc_steel_chunk", 4 ] ] ]
   },
   {
     "result": "pocketwatch",
@@ -4524,7 +4539,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 15 ] ] ]
+    "components": [ [ [ "cardboard", 4 ] ] ]
   },
   {
     "result": "box_medium",
@@ -4532,7 +4547,7 @@
     "time": "3 m 30 s",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 85 ] ] ]
+    "components": [ [ [ "cardboard", 35 ] ] ]
   },
   {
     "result": "box_large",
@@ -4540,7 +4555,15 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 125 ] ] ]
+    "components": [ [ [ "cardboard", 180 ] ] ]
+  },
+  {
+    "result": "box_small_wood",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "splinter", 4 ] ] ]
   },
   {
     "result": "washing_machine",
@@ -4602,6 +4625,27 @@
     ]
   },
   {
+    "result": "household_dishwasher",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "time": "2 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "cable", 15 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "pipe_fittings", 6 ] ],
+      [ [ "cu_pipe", 5 ] ]
+    ]
+  },
+  {
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "solarpack",
     "type": "uncraft",
@@ -4645,6 +4689,25 @@
       [ [ "steel_chunk", 4 ] ],
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
+    ]
+  },
+  {
+    "result": "stationary_water_purifier",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "60 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "hose", 4 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "pipe_fittings", 2 ] ],
+      [ [ "solder_wire", 10 ] ],
+      [ [ "cu_pipe", 4 ] ]
     ]
   },
   {
@@ -4763,6 +4826,42 @@
       [ [ "steel_plate", 3 ] ],
       [ [ "blade", 2 ] ],
       [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "air_compressor",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "120 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "cable", 8 ] ],
+      [ [ "hose", 4 ] ],
+      [ [ "motor", 1 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "pipe_fittings", 4 ] ],
+      [ [ "solder_wire", 8 ] ]
+    ]
+  },
+  {
+    "result": "hydraulic_press",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "120 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "steel_lump", 4 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 2 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "chain", 1 ] ],
       [ [ "motor_small", 1 ] ]
     ]
   },

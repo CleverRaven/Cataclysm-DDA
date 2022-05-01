@@ -1646,7 +1646,7 @@
     "type": "COMESTIBLE",
     "copy-from": "venom_gland",
     "name": { "str": "sac of paralytic venom", "str_pl": "sacs of paralytic venom" },
-    "description": "This greyish, flexible vesicle is filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
+    "description": "This grayish, flexible vesicle is filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
     "material": [ "veggy" ],
     "color": "light_gray",
     "fun": -50

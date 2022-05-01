@@ -1,10 +1,81 @@
 [
   {
+    "id": "apron_cotton",
+    "repairs_like": "apron_leather",
+    "type": "ARMOR",
+    "name": { "str": "cotton apron" },
+    "description": "An apron made of cotton.",
+    "copy-from": "apron_leather",
+    "volume": "1750 ml",
+    "weight": "357 g",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "color": "white",
+    "material_thickness": 1.5,
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "cotton apron" },
+        "description": "A white apron made of cotton, commonly used by chefs, professional or otherwise.",
+        "weight": 50
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black cotton apron" },
+        "description": "A black apron made of cotton, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue cotton apron" },
+        "description": "A royal blue apron made of cotton, commonly used by supermarket workers around the world.",
+        "weight": 15
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink cotton apron" },
+        "description": "A neon pink apron made of cotton, commonly used by women or men who do not fear weird looks.",
+        "weight": 3
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral cotton apron" },
+        "description": "A floral and colorful yellow apron made of cotton, perfect for cooking outdoors.",
+        "weight": 2
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo cotton apron" },
+        "description": "A cotton apron with camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull apron" },
+        "description": "A black cotton apron with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid apron" },
+        "description": "A white cotton apron with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic apron" },
+        "description": "A jet black apron made of cotton with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1
+      }
+    ]
+  },
+  {
     "id": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "leather apron" },
     "description": "An apron made of leather.",
-    "weight": "1950 g",
+    "weight": "680 g",
     "volume": "2250 ml",
     "price": 1500,
     "price_postapoc": 50,
@@ -14,7 +85,7 @@
     "looks_like": "vest_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "torso" ], "coverage": 70, "encumbrance": 2, "volume_encumber_modifier": 0.3 },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 70,
@@ -38,10 +109,21 @@
         "moves": 80
       }
     ],
-    "warmth": 15,
+    "warmth": 2,
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "apron_plastic",
+    "repairs_like": "apron_leather",
+    "type": "ARMOR",
+    "name": { "str": "plastic apron" },
+    "description": "An apron made of plastic, gives a good protection against chemicals splatter.",
+    "copy-from": "apron_leather",
+    "weight": "391 g",
+    "material": [ "plastic" ],
+    "color": "light_cyan"
   },
   {
     "id": "apron_cut_resistant",
@@ -50,14 +132,17 @@
     "name": { "str": "cut-resistant apron" },
     "description": "An apron made of Kevlar fabric.",
     "copy-from": "apron_leather",
+    "weight": "576 g",
     "price": 3800,
-    "material": [ "kevlar" ]
+    "material": [ "kevlar" ],
+    "color": "dark_gray",
+    "material_thickness": 2.5
   },
   {
     "id": "bee_dress",
     "repairs_like": "dress",
     "type": "ARMOR",
-    "name": { "str_sp": "bee dress" },
+    "name": { "str": "bee dress", "str_pl": "bee dresses" },
     "description": "A short black and yellow dress, reminiscent of a bee.  It includes bee wings, a hood, and a pair of antenna.",
     "weight": "739 g",
     "volume": "4000 ml",
@@ -169,7 +254,7 @@
     "id": "cheerleader_top",
     "repairs_like": "tank_top",
     "type": "ARMOR",
-    "name": { "str_sp": "cheerleader top" },
+    "name": { "str": "cheerleader tank top" },
     "description": "A red cheerleader tank top.  It has the words \"Cheers\" printed on its front.",
     "weight": "120 g",
     "volume": "250 ml",
@@ -188,7 +273,7 @@
     "id": "cheerleader_top_short",
     "repairs_like": "tank_top",
     "type": "ARMOR",
-    "name": { "str_sp": "short cheerleader top" },
+    "name": { "str": "short cheerleader tank top" },
     "description": "A red and short cheerleader tank top.  It has the words \"Cheers\" printed on its front.",
     "weight": "100 g",
     "volume": "250 ml",
@@ -1235,7 +1320,7 @@
       {
         "id": "my_little_nazgul_tshirt",
         "name": { "str": "My Little Nazgûl t-shirt" },
-        "description": "A light grey t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
+        "description": "A light gray t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
         "weight": 1
       },
       {

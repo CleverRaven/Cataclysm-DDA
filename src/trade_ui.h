@@ -38,6 +38,7 @@ class trade_selector : public inventory_drop_selector
         shared_ptr_fast<ui_adaptor> get_ui() const;
         input_context const *get_ctxt() const;
 
+        static constexpr char const *ACTION_AUTOBALANCE = "AUTO_BALANCE";
         static constexpr char const *ACTION_SWITCH_PANES = "SWITCH_LISTS";
         static constexpr char const *ACTION_TRADE_OK = "CONFIRM";
         static constexpr char const *ACTION_TRADE_CANCEL = "QUIT";
@@ -86,6 +87,7 @@ class trade_ui
 
         trade_result_t perform_trade();
         void recalc_values_cpane();
+        void autobalance();
         void resize();
 
         constexpr static int header_size = 5;

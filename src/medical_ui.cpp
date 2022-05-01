@@ -315,7 +315,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
     // Hotkey Helper
     std::string desc;
     desc = string_format( _(
-                              "[<color_yellow>%s/%s</color>]Scroll Info [<color_yellow>%s</color>]Apply Item [<color_yellow>%s</color>]Keybindings" ),
+                              "[<color_yellow>%s/%s</color>] Scroll info [<color_yellow>%s</color>] Use item [<color_yellow>%s</color>] Keybindings" ),
                           ctxt.get_desc( "SCROLL_INFOBOX_UP" ), ctxt.get_desc( "SCROLL_INFOBOX_DOWN" ),
                           ctxt.get_desc( "APPLY" ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
 
@@ -326,7 +326,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
         right_print( window, 1, right_indent, c_white, desc );
     }
 
-    const std::string TITLE_STR = " MEDICAL ";
+    const std::string TITLE_STR = "Medical";
 
     // Window Title
     if( WIDTH - ( details_width + utf8_width( TITLE_STR ) > WIDTH / 2 ) ) {

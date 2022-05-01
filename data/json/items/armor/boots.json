@@ -1516,7 +1516,7 @@
     "looks_like": "socks",
     "color": "light_blue",
     "material_thickness": 0.01,
-    "flags": [ "WATERPROOF", "OVERSIZE" ],
+    "flags": [ "WATERPROOF", "OVERSIZE", "SOFT" ],
     "armor": [ { "encumbrance": 3, "coverage": 70, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {

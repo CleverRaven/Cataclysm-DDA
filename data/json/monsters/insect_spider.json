@@ -692,7 +692,7 @@
     "id": "mon_centipede_mega",
     "type": "MONSTER",
     "name": { "str": "armored centipede" },
-    "description": "A huge mutated centipede covered in interlocking chitinous plates of metallic grey, reminding you more of a runaway train car than any living animal.  Its mandibles end in jagged points, seemingly specialised to hunt prey at least as well-armored as itself.  You really don't want to try if you'd fare better.",
+    "description": "A huge mutated centipede covered in interlocking chitinous plates of metallic gray, reminding you more of a runaway train car than any living animal.  Its mandibles end in jagged points, seemingly specialised to hunt prey at least as well-armored as itself.  You really don't want to try if you'd fare better.",
     "symbol": "A",
     "color": "dark_gray",
     "copy-from": "base_centipede",

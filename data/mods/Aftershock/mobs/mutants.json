@@ -36,7 +36,7 @@
     "id": "mon_cryokinetic",
     "type": "MONSTER",
     "copy-from": "mon_mutant_cryo",
-    "description": "Sky blue irises with grey floating flecks cover the entirety of the eye.  Flurries seem to emanate from around them.",
+    "description": "Sky blue irises with gray floating flecks cover the entirety of the eye.  Flurries seem to emanate from around them.",
     "hp": 90,
     "color": "light_blue",
     "aggression": 30,

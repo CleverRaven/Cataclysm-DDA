@@ -958,11 +958,14 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             }
 
             if( blink && overmap_buffer.has_vehicle( omp ) ) {
-                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::OVERMAP_NOTE, "" ) ) {
-                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::OVERMAP_NOTE,
+                const std::string tile_id = overmap_buffer.get_vehicle_tile_id( omp );
+                if( find_tile_looks_like( tile_id, TILE_CATEGORY::OVERMAP_NOTE, "" ) ) {
+                    draw_from_id_string( tile_id, TILE_CATEGORY::OVERMAP_NOTE,
                                          "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 } else {
-                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::OVERMAP_NOTE,
+                    const std::string ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
+                    std::string note_name = "note_" + ter_sym + "_cyan";
+                    draw_from_id_string( note_name, TILE_CATEGORY::OVERMAP_NOTE,
                                          "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 }
             }
@@ -1762,6 +1765,7 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
             return -1;
         // The following are simple translations:
         case SDLK_KP_ENTER:
+            return KEY_ENTER;
         case SDLK_RETURN:
         case SDLK_RETURN2:
             return '\n';
