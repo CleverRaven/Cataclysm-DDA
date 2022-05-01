@@ -124,7 +124,7 @@
     "id": "matches",
     "type": "TOOL",
     "name": { "str": "matchbook" },
-    "description": "This is a small book of matches with a coarse strike surface on the outside flap.  Matches may be carried to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire. Due to the matches being lightly glued on the matchbook, they can be removed, but not replaced on the book.",
+    "description": "This is a small book of matches with a coarse strike surface on the outside flap.  Matches may be carried to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.  Due to the matches being lightly glued on the matchbook, they can be removed, but not replaced on the book.",
     "weight": "10 g",
     "volume": "10 ml",
     "price": 10,
