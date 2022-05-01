@@ -601,9 +601,9 @@
     "id": "ammonia_tank",
     "type": "TOOL",
     "name": { "str": "ammonia tank" },
-    "description": "This is a tank of compressed ammonia gas.  Extremely useful, just not by itself.",
-    "weight": "2268 g",
-    "volume": "1500 ml",
+    "description": "This is a heavy portable tank for storing liquid ammonia at room temperature.",
+    "weight": "1500 g",
+    "volume": "2500 ml",
     "price": 1000,
     "price_postapoc": 500,
     "to_hit": -4,
@@ -611,10 +611,15 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 24,
-    "max_charges": 24,
-    "charges_per_use": 1,
     "looks_like": "oxygen_tank"
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "ammo_restriction": { "ammonia_liquid": 8 },
+        "watertight": true
+      }
   },
   {
     "id": "hygrometer",

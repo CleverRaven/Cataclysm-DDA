@@ -264,8 +264,8 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "ammonia",
-    "name": { "str_sp": "ammonia" },
+    "id": "ammonia_liquid",
+    "name": { "str_sp": "liquid ammonia" },
     "weight": "124 g",
     "color": "white",
     "flags": [ "CORROSIVE" ],
@@ -279,7 +279,7 @@
     "price_postapoc": 50,
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 2,
+    "charges": 1,
     "category": "chems",
     "freezing_point": -78
   },
