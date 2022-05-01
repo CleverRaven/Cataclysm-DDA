@@ -70,7 +70,8 @@
       { "weight": "1300 g", "encumbrance": 20 },
       { "weight": "1600 g", "encumbrance": 30 },
       { "weight": "2200 g", "encumbrance": 50 },
-      { "weight": "5600 g", "encumbrance": 80 }
+      { "weight": "5600 g", "encumbrance": 80 },
+      { "weight": "10000 g", "encumbrance": 160 }
     ]
   },
   {
