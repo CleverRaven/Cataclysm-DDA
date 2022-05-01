@@ -89,6 +89,37 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "tacoma_commune_bar_13",
+    "object": {
+      "mapgensize": [ 20, 20 ],
+      "rows": [
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "       ........     ",
+        "       ........     ",
+        "       ........     ",
+        "....................",
+        "....................",
+        "....................",
+        "....................",
+        "....................",
+        "...............     ",
+        "...............     ",
+        "...............     ",
+        "   ..........       ",
+        "   ..........       ",
+        "   ..........       "
+      ],
+      "terrain": { ".": "t_dirt" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_14",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -130,22 +161,22 @@
         "                    ",
         "                    ",
         "                    ",
-        "       w..wwwww     ",
+        "       wffwwwww     ",
         "       w..w...w     ",
         "       w..w...w     ",
-        "www00www..ww.www..ww",
+        "www00wwwffwwfwwwffww",
         "w.............w....w",
-        "w..................w",
+        "w.............f....w",
         "0.............w....w",
         "0.............wwwwww",
         "w.............w     ",
         "w.............w     ",
         "wwww........www     ",
-        "   .........w       ",
-        "   .........w       ",
+        "   f........w       ",
+        "   f........w       ",
         "   wwww00wwww       "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirt", "0": "t_window_empty" }
+      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_empty", "f": "t_door_frame" }
     }
   },
   {
@@ -188,7 +219,6 @@
         "+": "t_door_c"
       },
       "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" },
-      "//": "there used to be some logic to not place a bartender if there already was one, but it broke a lot and didn't place a bartender at all. Just place the bartender and sometimes the TC bar is so busy that they have two people on staff.",
       "place_npcs": [ { "class": "ranch_bartender", "x": 12, "y": 12 }, { "class": "scavenger_merc", "x": 5, "y": 11 } ]
     }
   },
