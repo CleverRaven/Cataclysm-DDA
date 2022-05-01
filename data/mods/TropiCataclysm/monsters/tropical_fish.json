@@ -2,7 +2,7 @@
   {
     "id": "mon_fish_crab",
     "type": "MONSTER",
-    "name": { "str_sp": "crab" },
+    "name": { "str": "crab" },
     "description": "A crustacean belonging to either Trichodactylidae or Pseudothelphusidae.  Freshwater crabs are widely spread around Central and South America, some even found in mountain streams.",
     "default_faction": "fish",
     "bodytype": "crab",
