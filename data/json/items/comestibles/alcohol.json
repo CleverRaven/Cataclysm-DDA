@@ -933,7 +933,7 @@
     "name": { "str_sp": "hopped mead" },
     "copy-from": "mead",
     "description": "Homebrewed Honey wine, spiced with a hint of hops.  Goes down bittersweet.",
-    "fun": 14
+    "fun": 12
   },
   {
     "type": "COMESTIBLE",
