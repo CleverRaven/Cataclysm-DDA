@@ -1828,8 +1828,8 @@ class firstaid_activity_actor : public activity_actor
 {
     public:
         firstaid_activity_actor() = default;
-        firstaid_activity_actor( int moves, std::string name ) : moves( moves ),
-            name( std::move( name ) ) {}
+        firstaid_activity_actor( int moves, std::string name, character_id patientID ) : moves( moves ),
+            name( std::move( name ) ), patientID( patientID ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_FIRSTAID" );
@@ -1849,6 +1849,7 @@ class firstaid_activity_actor : public activity_actor
     private:
         int moves;
         std::string name;
+        character_id patientID;
 };
 
 class forage_activity_actor : public activity_actor

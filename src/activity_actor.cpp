@@ -5732,10 +5732,19 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    // TODO: Store the patient somehow, retrieve here
-    Character &patient = who;
+    Character *patient = patientID == get_avatar().getID() ? &get_avatar() :
+                         dynamic_cast<Character *>( g->find_npc( patientID ) );
+    if( !patient ) {
+        who.add_msg_if_player( m_bad,
+                               _( "Your patient can no longer be found so you stop using the %s." ),
+                               name );
+        act.set_to_null();
+        act.values.clear();
+        return;
+    }
     const bodypart_id healed = bodypart_id( act.str_values[0] );
-    const int charges_consumed = actor->finish_using( who, patient, *used_tool, healed );
+    const int charges_consumed = actor->finish_using( who, *patient,
+                                 *used_tool, healed );
     who.consume_charges( it, charges_consumed );
 
     // Erase activity and values.
@@ -5749,18 +5758,20 @@ void firstaid_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves", moves );
     jsout.member( "name", name );
+    jsout.member( "patientID", patientID );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> firstaid_activity_actor::deserialize( JsonValue &jsin )
 {
-    firstaid_activity_actor actor( {}, {} );
+    firstaid_activity_actor actor( {},  {}, {} );
 
     JsonObject data = jsin.get_object();
 
     data.read( "moves", actor.moves );
     data.read( "name", actor.name );
+    data.read( "patientID", actor.patientID );
 
     return actor.clone();
 }

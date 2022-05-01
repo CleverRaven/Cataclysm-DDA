@@ -3411,19 +3411,12 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
-    // TODO NPCs can use first aid now, but they can't use the firstaid_activity_actor
-    if( !p.is_npc() ) {
-        // Assign first aid long action.
-        p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname() ) ) );
-        p.activity.targets.emplace_back( p, &it );
-        p.activity.str_values.emplace_back( hpp.c_str() );
-        p.moves = 0;
-        return 0;
-    }
-
-    p.moves -= cost;
-    p.add_msg_if_player( m_good, _( "You use your %s." ), it.tname() );
-    return it.type->charges_to_use();
+    p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname(),
+                                        patient.getID() ) ) );
+    p.activity.targets.emplace_back( p, &it );
+    p.activity.str_values.emplace_back( hpp.c_str() );
+    p.moves = 0;
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> heal_actor::clone() const
@@ -3579,6 +3572,10 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
     }
 
     healer.add_msg_if_player( _( "You finish using the %s." ), it.tname() );
+
+    if( u_see && !healer.is_avatar() ) {
+        add_msg( _( "%s finishes using the %s." ), healer.disp_name(), it.tname() );
+    }
 
     for( const auto &eff : effects ) {
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
@@ -3743,10 +3740,6 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
         healed = pick_part_to_heal( healer, patient, menu_header, limb_power, head_bonus, torso_bonus,
                                     get_stopbleed_level( healer ), bite, infect, force, get_bandaged_level( healer ),
                                     get_disinfected_level( healer ) );
-    }
-
-    if( healed != bodypart_id( "bp_null" ) ) {
-        finish_using( healer, patient, it,  healed );
     }
 
     return healed;
