@@ -10,7 +10,9 @@
 #include "debug.h"
 #include "diary.h"
 #include "input.h"
+#include "options.h"
 #include "output.h"
+#include "popup.h"
 #include "string_editor_window.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -366,12 +368,32 @@ void diary::edit_page_ui( const std::function<catacurses::window()> &create_wind
 
     string_editor_window ed( create_window, new_text );
 
-    const std::pair<bool, std::string> result = ed.query_string();
-    new_text = result.second;
+    do {
+        const std::pair<bool, std::string> result = ed.query_string();
+        new_text = result.second;
 
-    if( !result.first && old_text != new_text ) {
-        if( !query_yn( _( "Save entry?" ) ) ) {
-            new_text = old_text;
+        // Confirmed or unchanged
+        if( result.first || old_text == new_text ) {
+            break;
         }
-    }
+
+        const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+        const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
+                                : input_context::allow_all_keys;
+        const std::string action = query_popup()
+                                   .context( "YESNOQUIT" )
+                                   .message( "%s", _( "Save entry?" ) )
+                                   .option( "YES", allow_key )
+                                   .option( "NO", allow_key )
+                                   .allow_cancel( true )
+                                   .default_color( c_light_red )
+                                   .query()
+                                   .action;
+        if( action == "YES" ) {
+            break;
+        } else if( action == "NO" ) {
+            new_text = old_text;
+            break;
+        }
+    } while( true );
 }
