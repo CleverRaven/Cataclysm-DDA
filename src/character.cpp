@@ -4295,23 +4295,17 @@ void Character::update_health()
         set_daily_health( -200 );
     }
 
-    // Active leukocyte breeder will keep your health near 100
-    int effective_healthy_mod = enchantment_cache->modify_value(
-                                    enchant_vals::mod::EFFECTIVE_HEALTH_MOD, 0 );
-    if( effective_healthy_mod == 0 ) {
-        effective_healthy_mod = get_daily_health();
+    // Active leukocyte breeder will keep your mean health_tally near 100
+    int effective_daily_health = enchantment_cache->modify_value(
+                                     enchant_vals::mod::EFFECTIVE_HEALTH_MOD, 0 );
+    if( effective_daily_health == 0 ) {
+        effective_daily_health = get_daily_health();
     }
 
     if( calendar::once_every( 1_days ) ) {
-        mod_health_tally( get_daily_health() );
+        mod_health_tally( effective_daily_health );
         mod_livestyle( get_health_tally() / 7 );
     }
-
-    // Health tends toward daily_health.
-    // For small differences, it changes 4 points per day
-    // For large ones, up to ~40% of the difference per day
-    int health_change = effective_healthy_mod - get_lifestyle();
-    mod_livestyle( sgn( health_change ) * std::max( 1, std::abs( health_change ) / 10 ) );
 
     // And daily_health decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
