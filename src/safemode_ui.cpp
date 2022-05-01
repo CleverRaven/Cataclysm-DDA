@@ -268,14 +268,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             tab++;
             if( tab >= MAX_TAB ) {
                 tab = 0;
-                line = 0;
             }
+            line = 0;
         } else if( action == "PREV_TAB" ) {
             tab--;
             if( tab < 0 ) {
                 tab = MAX_TAB - 1;
-                line = 0;
             }
+            line = 0;
         } else if( action == "QUIT" ) {
             break;
         } else if( tab == CHARACTER_TAB && player_character.name.empty() ) {

@@ -100,7 +100,7 @@
     "price": 100,
     "price_postapoc": 25,
     "fun": 1,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -168,7 +168,7 @@
     "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
     "price": 100,
     "price_postapoc": 25,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "fun": 1
   },
   {
@@ -1083,7 +1083,7 @@
     "price": 100,
     "price_postapoc": 25,
     "fun": 1,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You no longer need to worry about asthma attacks, at least for a while.",
@@ -1166,7 +1166,7 @@
     "calories": 0,
     "description": "A bitter tea made by boiling willow bark in water, used since ancient times as a mild painkiller.",
     "fun": -2,
-    "delete": { "flags": [ "EATEN_HOT" ] },
+    "delete": { "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ] },
     "use_action": { "type": "consume_drug", "effects": [ { "id": "pkill1", "duration": 90 }, { "id": "nausea", "duration": "5 m" } ] }
   },
   {
