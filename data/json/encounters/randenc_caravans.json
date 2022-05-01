@@ -71,7 +71,6 @@
         {
           "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": "<", "time": "1 d" }
         },
-        { "not": { "days_since_cataclysm": 14 } },
         { "not": { "u_at_om_location": "roadstop_a" } },
         { "not": { "is_season": "winter" } }
       ]
