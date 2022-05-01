@@ -2278,14 +2278,14 @@ Examples of various usages syntax:
 ```
 
 The usages line is only required for items that have qualities that allow 
-special actions on use. See [Use Actions](#use-actions) for specific actions
-and documentation.
+special actions on activation. See [Use Actions](#use-actions) for specific
+actions and documentation.
 
 IDs of actions and the plaintext action description for the player are defined
 in item_actions.json.
 
 Each usage must be defined first by the minimum level of the tool quality that
-is required for that  action to be possible, then the ID of the action or array
+is required for that action to be possible, then the ID of the action or array
 of actions that is possible with that tool quality level or greater.
 
 As shown in the examples, one or more actions for multiple tool levels may be
