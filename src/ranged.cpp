@@ -77,6 +77,21 @@
 #include "vpart_position.h"
 #include "weakpoint.h"
 
+static const ammotype ammo_12mm( "12mm" );
+static const ammotype ammo_120mm( "120mm" );
+static const ammotype ammo_40x46mm( "40x46mm" );
+static const ammotype ammo_40x53mm( "40x53mm" );
+static const ammotype ammo_66mm( "66mm" );
+static const ammotype ammo_84x246mm( "84x246mm" );
+static const ammotype ammo_arrow( "arrow" );
+static const ammotype ammo_atgm( "atgm" );
+static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_flammable( "flammable" );
+static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
+static const ammotype ammo_m235( "m235" );
+static const ammotype ammo_metal_rail( "metal_rail" );
+static const ammotype ammo_RPG7( "RPG-7" );
+
 static const bionic_id bio_railgun( "bio_railgun" );
 
 static const character_modifier_id
@@ -878,10 +893,16 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         const itype_id current_ammo = gun.ammo_current();
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
-            if( current_ammo == itype_flammable || current_ammo == itype_66mm ||
-                current_ammo == itype_84x246mm || current_ammo == itype_m235 ) {
+            const std::set<ammotype> &at = gun.ammo_types();
+            if( at.count( ammo_flammable ) ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+            } else if( at.count( ammo_66mm ) || at.count( ammo_120mm ) || at.count( ammo_84x246mm ) ||
+                       at.count( ammo_m235 ) || at.count( ammo_atgm ) || at.count( ammo_RPG7 ) ||
+                       at.count( ammo_homebrew_rocket ) ) {
+                add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames burst out!" ) );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
