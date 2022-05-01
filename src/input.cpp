@@ -887,11 +887,13 @@ bool input_context::action_uses_input( const std::string &action_id,
     return std::find( events.begin(), events.end(), event ) != events.end();
 }
 
-std::string input_context::get_conflicts( const input_event &event ) const
+std::string input_context::get_conflicts(
+    const input_event &event, const std::string &ignore_action ) const
 {
     return enumerate_as_string( registered_actions.begin(), registered_actions.end(),
-    [ this, &event ]( const std::string & action ) {
-        return action_uses_input( action, event ) ? get_action_name( action ) : std::string();
+    [ this, &event, &ignore_action ]( const std::string & action ) {
+        return action != ignore_action && action_uses_input( action, event )
+               ? get_action_name( action ) : std::string();
     } );
 }
 
@@ -979,7 +981,10 @@ void input_context::register_action( const std::string &action_descriptor,
         handling_coordinate_input = true;
     }
 
-    registered_actions.push_back( action_descriptor );
+    if( std::find( registered_actions.begin(), registered_actions.end(),
+                   action_descriptor ) == registered_actions.end() ) {
+        registered_actions.push_back( action_descriptor );
+    }
     if( !name.empty() ) {
         action_name_overrides[action_descriptor] = name;
     }
@@ -1517,13 +1522,15 @@ action_id input_context::display_menu( const bool permit_execute_action )
                                               .query()
                                               .evt;
 
-                if( action_uses_input( action_id, new_event ) ) {
+                if( action_uses_input( action_id, new_event )
+                    // Allow adding keys already used globally to local bindings
+                    && ( status == s_add_global || is_local ) ) {
                     popup_getkey( _( "This key is already used for %s." ), name );
                     status = s_show;
                     continue;
                 }
 
-                const std::string conflicts = get_conflicts( new_event );
+                const std::string conflicts = get_conflicts( new_event, action_id );
                 const bool has_conflicts = !conflicts.empty();
                 bool resolve_conflicts = false;
 
