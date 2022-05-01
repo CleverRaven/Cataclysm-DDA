@@ -203,7 +203,7 @@
     "id": "mon_fish_angelfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": { "str": "angelfish", "str_pl": "angelfishes" },
+    "name": { "str_sp": "angelfish" },
     "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semi aggressive in captivity."
   },
   {
