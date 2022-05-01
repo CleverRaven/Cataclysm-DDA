@@ -32,7 +32,7 @@ set(CMAKE_CXX_FLAGS_INIT "\
 # /Zc:wchar_t   # wchar_t Is Native Type
 add_compile_definitions(
     _SCL_SECURE_NO_WARNINGS
-    _CTR_SECURE_NO_WARNINGS
+    _CRT_SECURE_NO_WARNINGS
     WIN32_LEAN_AND_MEAN
     LOCALIZE
     USE_VCPKG
