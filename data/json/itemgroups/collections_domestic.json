@@ -1148,6 +1148,7 @@
       [ "dragonskin", 2 ],
       [ "knife_hunting", 25 ],
       [ "throwing_knife", 25 ],
+      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 5 },
       [ "throwing_axe", 25 ],
       [ "binoculars", 50 ],
       [ "crossbow", 20 ],
