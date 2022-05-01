@@ -198,8 +198,8 @@
         "                    ",
         "                    ",
         "        ++          ",
-        "        .. r..      ",
-        "        .. r..      ",
+        "        .. rrr      ",
+        "        .. r.r      ",
         "   ]]   ++  +   ++  ",
         " ............& .... ",
         " CC..CtC...c..+.... ",
@@ -238,7 +238,10 @@
         "&": "f_trashcan"
       },
       "place_npcs": [ { "class": "ranch_bartender", "x": 12, "y": 12 }, { "class": "scavenger_merc", "x": 5, "y": 11 } ],
-      "place_items": [ { "item": "ranch_bartender_glass_water", "x": 6, "y": 11, "chance": 100, "faction": "tacoma_commune" } ],
+      "place_items": [
+        { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 2, 3 ], "faction": "tacoma_commune" },
+        { "item": "ranch_bartender_glass_water", "x": 6, "y": 11, "chance": 100, "faction": "tacoma_commune" }
+      ],
       "place_item": [
         { "item": "shot_glass", "x": 6, "y": 11, "faction": "tacoma_commune" },
         { "item": "tacoma_drink_token", "x": 6, "y": 11, "faction": "tacoma_commune" },
@@ -285,8 +288,8 @@
       "mapgensize": [ 20, 20 ],
       "rows": [
         "wwww00www00wwww     ",
-        "+             w     ",
-        "+             wqqqqq",
+        "f             w     ",
+        "f             wqqqqq",
         "w             w....q",
         "0             w....q",
         "w             w....q",
@@ -305,7 +308,7 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", "+": "t_door_c", ".": "t_dirt", "q": "t_wall_half", "0": "t_window_empty" },
+      "terrain": { "w": "t_wall", "f": "t_door_frame", ".": "t_dirt", "q": "t_wall_half", "0": "t_window_empty" },
       "furniture": { "k": "f_wood_keg" }
     }
   },
@@ -317,8 +320,8 @@
       "mapgensize": [ 20, 20 ],
       "rows": [
         "    ]]   ]]         ",
-        " .............      ",
-        " ............. wwwww",
+        "+.............      ",
+        "+............. wwwww",
         " ............. ....w",
         "]............. ....]",
         " ............. ....w",
@@ -337,7 +340,7 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass" }
+      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c" }
     }
   },
   {
@@ -731,6 +734,32 @@
         "wwwww+wwwww  "
       ],
       "terrain": { "w": "t_window", ".": "t_dirt", "+": "t_door_c" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_greenhouse_bartender_beets",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "             ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " r           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        "             "
+      ],
+      "furniture": { "r": "f_rack", "b": "f_planter" },
+      "sealed_item": { "b": { "item": { "item": "seed_sugar_beet", "chance": 100 }, "furniture": "f_planter_seedling" } },
+      "item": { "r": { "item": "g_shovel", "chance": 100 } }
     }
   },
   {

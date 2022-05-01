@@ -236,7 +236,12 @@
     "end": {
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_1" ], "x": 0, "y": 0 } ]
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_1" ], "x": 0, "y": 0 } ],
+        "place_items": [
+          { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 1, 2 ], "faction": "tacoma_commune" },
+          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -266,7 +271,12 @@
       "effect": { "npc_add_trait": "NPC_BRANDY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_2" ], "x": 0, "y": 0 } ]
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_2" ], "x": 0, "y": 0 } ],
+        "place_items": [
+          { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 1, 2 ], "faction": "tacoma_commune" },
+          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -294,10 +304,20 @@
     },
     "end": {
       "effect": { "npc_add_trait": "NPC_RUM" },
-      "update_mapgen": {
-        "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3" ], "x": 0, "y": 0 } ]
-      }
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_51",
+          "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3" ], "x": 0, "y": 0 } ],
+          "place_items": [
+            { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+            { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_52",
+          "place_nested": [ { "chunks": [ "tacoma_commune_greenhouse_bartender_beets" ], "x": 2, "y": 10 } ]
+        }
+      ]
     }
   },
   {
@@ -326,7 +346,11 @@
       "effect": { "npc_add_trait": "NPC_WHISKEY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 3, "y": 1 } ]
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 3, "y": 1 } ],
+        "place_items": [
+          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -351,6 +375,16 @@
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": {
+        "om_terrain": "ranch_camp_51",
+        "place_item": [ { "item": "55gal_drum", "x": 18, "y": 3, "repeat": 2, "faction": "tacoma_commune" } ],
+        "place_items": [
+          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+        ]
+      }
     }
   }
 ]
