@@ -84,7 +84,7 @@
         "description": "This is a tank for ammonia.  Holds up to 10 liters.",
         "rigid": true,
         "watertight": true,
-        "ammo_restriction": { "ammonia_liquid": 10000 }
+        "ammo_restriction": { "ammonia_liquid": 2000 }
       },
       {
         "pocket_type": "CONTAINER",
@@ -449,7 +449,7 @@
     "name": { "str": "exosuit dynamic maneuvering unit" },
     "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across rough terrain and gaps. The thrust is not sufficent for flight in a gravity well, but can still launch you forward at extreme speed.",
     "weight": "10 kg",
-    "volume": "5 L",
+    "volume": "10 L",
     "price": "10 kUSD",
     "to_hit": -2,
     "bashing": 6,
@@ -459,6 +459,14 @@
     "ammo": [ "ammonia_liquid" ],
     "use_action": { "type": "cast_spell", "spell_id": "spell_exosuit_jetpack", "no_fail": true, "level": 5 },
     "flags": [ "CANT_WEAR", "EXO_LARGE_GADGET" ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "description": "This is a tank for ammonia.  Holds up to 5 liters.",
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "ammonia_liquid": 1000 }
+      },
   },
   {
     "id": "exo_forcefield",
