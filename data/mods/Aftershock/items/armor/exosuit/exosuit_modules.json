@@ -84,7 +84,7 @@
         "description": "This is a tank for ammonia.  Holds up to 10 liters.",
         "rigid": true,
         "watertight": true,
-        "ammo_restriction": { "ammonia_liquid": 10000 }
+        "ammo_restriction": { "ammonia_liquid": 2000 }
       },
       {
         "pocket_type": "CONTAINER",
