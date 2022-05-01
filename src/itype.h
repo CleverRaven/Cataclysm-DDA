@@ -22,7 +22,6 @@
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "optional.h"
-#include "pldata.h" // add_type
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -140,7 +139,7 @@ struct islot_comestible {
         int addict = 0;
 
         /** effects of addiction */
-        add_type add = add_type::NONE;
+        addiction_id add = addiction_id::NULL_ID();
 
         /** stimulant effect */
         int stim = 0;
@@ -234,10 +233,27 @@ struct part_material {
     void deserialize( const JsonObject &jo );
 };
 
+// values for attributes related to encumbrance
+enum class encumbrance_modifier : int {
+    IMBALANCED = 0,
+    RESTRICTS_NECK,
+    WELL_SUPPORTED,
+    NONE,
+    last
+};
+
+template<>
+struct enum_traits<encumbrance_modifier> {
+    static constexpr encumbrance_modifier last = encumbrance_modifier::last;
+};
+
 struct armor_portion_data {
 
     // The base volume for an item
     const units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
+
+    // descriptors used to infer encumbrance
+    std::vector<encumbrance_modifier> encumber_modifiers;
 
     // How much this piece encumbers the player.
     int encumber = 0;
@@ -300,7 +316,8 @@ struct armor_portion_data {
     // how breathable this part of the armor is
     // cached from the material data
     // only tracked for amalgamized body parts entries
-    int breathability = 0; // NOLINT(cata-serialize)
+    // if left the default -1 the value will be recalculated,
+    int breathability = -1; // NOLINT(cata-serialize)
 
     // if this item is rigid, can't be worn with other rigid items
     bool rigid = false; // NOLINT(cata-serialize)
@@ -319,6 +336,12 @@ struct armor_portion_data {
      * coverage. However only cover 35% of the overall leg.
      */
     int max_coverage( bodypart_str_id bp ) const;
+
+    // helper function to return encumbrance value by descriptor and weight
+    int calc_encumbrance( units::mass weight, bodypart_id bp ) const;
+
+    // converts a specific encumbrance modifier to an actual encumbrance value
+    static int convert_descriptor_to_int( encumbrance_modifier em );
 
     void deserialize( const JsonObject &jo );
 };
@@ -387,7 +410,7 @@ struct islot_armor {
         std::vector<std::string> valid_mods;
 
         /**
-         * If the item in question has any sub coverage when testing for encumberance
+         * If the item in question has any sub coverage when testing for encumbrance
          */
         bool has_sub_coverage = false;
 

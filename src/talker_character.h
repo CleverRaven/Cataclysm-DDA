@@ -54,6 +54,10 @@ class talker_character_const: public talker
         int get_dex_max() const override;
         int get_int_max() const override;
         int get_per_max() const override;
+        int get_str_bonus() const override;
+        int get_dex_bonus() const override;
+        int get_int_bonus() const override;
+        int get_per_bonus() const override;
         units::energy power_cur() const override;
         units::energy power_max() const override;
         int mana_cur() const override;
@@ -79,6 +83,7 @@ class talker_character_const: public talker
         bool is_wearing( const itype_id &item_id ) const override;
         int charges_of( const itype_id &item_id ) const override;
         bool has_charges( const itype_id &item_id, int count ) const override;
+        bool has_charges( const itype_id &item_id, int count, bool in_tools ) const override;
         bool has_amount( const itype_id &item_id, int count ) const override;
         int get_amount( const itype_id &item_id ) const override;
         int cash() const override;
@@ -112,6 +117,8 @@ class talker_character_const: public talker
         int focus_cur() const override;
         int get_rad() const override;
         int get_stim() const override;
+        int get_addiction_intensity( const addiction_id &add_id ) const override;
+        int get_addiction_turns( const addiction_id &add_id ) const override;
         int get_pkill() const override;
         int get_stamina() const override;
         int get_sleep_deprivation() const override;
@@ -159,6 +166,10 @@ class talker_character: public talker_character_const
         void set_dex_max( int value ) override;
         void set_int_max( int value ) override;
         void set_per_max( int value ) override;
+        void set_str_bonus( int value ) override;
+        void set_dex_bonus( int value ) override;
+        void set_int_bonus( int value ) override;
+        void set_per_bonus( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
@@ -176,6 +187,7 @@ class talker_character: public talker_character_const
         // inventory, buying, and selling
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;
+        std::list<item> use_charges( const itype_id &item_name, int count, bool in_tools ) override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         void i_add( const item &new_item ) override;
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;
@@ -193,6 +205,7 @@ class talker_character: public talker_character_const
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
                          time_duration decay_started, bool capped ) override;
         void remove_morale( const morale_type &old_morale ) override;
+        void set_addiction_turns( const addiction_id &add_id, int amount ) override;
         void mod_focus( int ) override;
         void set_rad( int ) override;
         void set_stim( int ) override;

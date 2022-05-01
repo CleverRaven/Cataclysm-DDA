@@ -258,7 +258,7 @@ void input_manager::init()
     }
 }
 
-static constexpr int current_keybinding_version = 1;
+static constexpr int current_keybinding_version = 2;
 
 void input_manager::load( const std::string &file_name, bool is_user_preferences )
 {
@@ -355,7 +355,32 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
                 }
             }
 
-            events.insert( events.end(), new_events.begin(), new_events.end() );
+            for( const input_event &evt : new_events ) {
+                if( std::find( events.begin(), events.end(), evt ) == events.end() ) {
+                    events.emplace_back( evt );
+                }
+            }
+
+            if( is_user_preferences && version <= 1 ) {
+                // Add keypad enter to old keybindings with return key
+                for( const input_event &evt : new_events ) {
+                    input_event new_evt = evt;
+                    bool has_return = false;
+                    // As of version 2 the key sequence actually only supports
+                    // one key, so we just replace all return with enter
+                    if( new_evt.type == input_event_t::keyboard_char ) {
+                        for( int &key : new_evt.sequence ) {
+                            if( key == '\n' ) {
+                                key = KEY_ENTER;
+                                has_return = true;
+                            }
+                        }
+                    }
+                    if( has_return && std::find( events.begin(), events.end(), new_evt ) == events.end() ) {
+                        events.emplace_back( new_evt );
+                    }
+                }
+            }
         }
 
         // In case this is the second file containing user preferences,
@@ -505,10 +530,13 @@ void input_manager::init_keycode_mapping()
     add_keyboard_char_keycode_pair( KEY_ESCAPE,    translate_marker_context( "key name", "ESC" ) );
     add_keyboard_char_keycode_pair( KEY_BACKSPACE,
                                     translate_marker_context( "key name", "BACKSPACE" ) );
+    add_keyboard_char_keycode_pair( KEY_DC,        translate_marker_context( "key name", "DELETE" ) );
     add_keyboard_char_keycode_pair( KEY_HOME,      translate_marker_context( "key name", "HOME" ) );
     add_keyboard_char_keycode_pair( KEY_BREAK,     translate_marker_context( "key name", "BREAK" ) );
     add_keyboard_char_keycode_pair( KEY_END,       translate_marker_context( "key name", "END" ) );
     add_keyboard_char_keycode_pair( '\n',          translate_marker_context( "key name", "RETURN" ) );
+    add_keyboard_char_keycode_pair( KEY_ENTER,
+                                    translate_marker_context( "key name", "KEYPAD_ENTER" ) );
 
     for( int c = 0; IS_CTRL_CHAR( c ); c++ ) {
         // Some codes fall into this range but have more common names we'd prefer to use.
@@ -859,11 +887,13 @@ bool input_context::action_uses_input( const std::string &action_id,
     return std::find( events.begin(), events.end(), event ) != events.end();
 }
 
-std::string input_context::get_conflicts( const input_event &event ) const
+std::string input_context::get_conflicts(
+    const input_event &event, const std::string &ignore_action ) const
 {
     return enumerate_as_string( registered_actions.begin(), registered_actions.end(),
-    [ this, &event ]( const std::string & action ) {
-        return action_uses_input( action, event ) ? get_action_name( action ) : std::string();
+    [ this, &event, &ignore_action ]( const std::string & action ) {
+        return action != ignore_action && action_uses_input( action, event )
+               ? get_action_name( action ) : std::string();
     } );
 }
 
@@ -951,7 +981,10 @@ void input_context::register_action( const std::string &action_descriptor,
         handling_coordinate_input = true;
     }
 
-    registered_actions.push_back( action_descriptor );
+    if( std::find( registered_actions.begin(), registered_actions.end(),
+                   action_descriptor ) == registered_actions.end() ) {
+        registered_actions.push_back( action_descriptor );
+    }
     if( !name.empty() ) {
         action_name_overrides[action_descriptor] = name;
     }
@@ -1489,13 +1522,15 @@ action_id input_context::display_menu( const bool permit_execute_action )
                                               .query()
                                               .evt;
 
-                if( action_uses_input( action_id, new_event ) ) {
+                if( action_uses_input( action_id, new_event )
+                    // Allow adding keys already used globally to local bindings
+                    && ( status == s_add_global || is_local ) ) {
                     popup_getkey( _( "This key is already used for %s." ), name );
                     status = s_show;
                     continue;
                 }
 
-                const std::string conflicts = get_conflicts( new_event );
+                const std::string conflicts = get_conflicts( new_event, action_id );
                 const bool has_conflicts = !conflicts.empty();
                 bool resolve_conflicts = false;
 

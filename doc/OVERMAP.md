@@ -986,3 +986,37 @@ by the frequency assigned to the city building within the `region_settings`. Con
 ]
 
 ```
+
+## Cities
+
+Object of `city` type define cities that would appear on overmap in specific location.
+Note that no random cities would be spawned if there is at least one city defined.
+
+### Fields
+
+|    Identifier     |                                        Description                                         |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| `id`              | Id of the city.                                                                            |
+| `database_id`     | Id of the city in MA database.                                                             |
+| `name`            | Name of the city.                                                                          |
+| `population`      | Original population of the city.                                                           |
+| `size`            | Size of the city.                                                                          |
+| `pos_om`          | location of the city (in overmap coordinates).                                             |
+| `pos`             | location of the city (in overmap terrain coordinates).                                     |
+
+### Example
+
+```json
+{
+  {
+    "type": "city",
+    "id": "35",
+    "database_id": 35,
+    "name": "BOSTON",
+    "population": 617594,
+    "size": 64,
+    "pos_om": [ 46, 15 ],
+    "pos": [ 57, 94 ]
+  }
+}
+```

@@ -43,9 +43,10 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmap_ui.h"
 #include "path_info.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -384,6 +385,8 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     prof = get_scenario()->weighted_random_profession();
     randomize_hobbies();
+    starting_city = cata::nullopt;
+    world_origin = cata::nullopt;
     random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
@@ -1850,7 +1853,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
             } else {
                 for( const addiction &a : prof_addictions ) {
                     const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                    buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
+                    buffer += string_format( format, a.type->get_name().translated(), a.intensity ) + "\n";
                 }
             }
 
@@ -2288,7 +2291,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             } else {
                 for( const addiction &a : prof_addictions ) {
                     const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                    buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
+                    buffer += string_format( format, a.type->get_name().translated(), a.intensity ) + "\n";
                 }
             }
 
@@ -3447,7 +3450,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             w_traits = catacurses::newwin( TERMY - 10, ncol2, point( beginx2, 9 ) );
             w_bionics = catacurses::newwin( TERMY - 10, ncol3, point( beginx3, 9 ) );
             w_proficiencies = catacurses::newwin( TERMY - 20, 19, point( 2, 15 ) );
-            w_hobbies = catacurses::newwin( TERMY - 10, ncol4, point( beginx4, 9 ) );
+            // Extra - 11 to avoid overlap with long text in w_guide.
+            w_hobbies = catacurses::newwin( TERMY - 10 - 11, ncol4, point( beginx4, 9 ) );
             w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
             w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
             w_skills = catacurses::newwin( TERMY - 10, 23, point( 22, 9 ) );
@@ -3491,6 +3495,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    if( get_option<bool>( "SELECT_STARTING_CITY" ) ) {
+        ctxt.register_action( "CHOOSE_CITY" );
+    }
     ctxt.register_action( "CHOOSE_LOCATION" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
@@ -3730,7 +3737,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
                                 _( "Press <color_light_green>%s</color> to pick a random name, "
                                    "<color_light_green>%s</color> to randomize all description values, "
-                                   "<color_light_green>%s</color> to randomize all but scenario or "
+                                   "<color_light_green>%s</color> to randomize all but scenario, or "
                                    "<color_light_green>%s</color> to randomize everything." ),
                                 ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
                                 ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
@@ -3748,9 +3755,15 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                             _( "Press <color_light_green>%s</color> to switch gender." ),
                             ctxt.get_desc( "CHANGE_GENDER" ) );
 
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to select a specific starting location." ),
-                            ctxt.get_desc( "CHOOSE_LOCATION" ) );
+            if( !get_option<bool>( "SELECT_STARTING_CITY" ) ) {
+                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
+                                _( "Press <color_light_green>%s</color> to select a specific starting location." ),
+                                ctxt.get_desc( "CHOOSE_LOCATION" ) );
+            } else {
+                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
+                                _( "Press <color_light_green>%s</color> to select a specific starting city and <color_light_green>%s</color> to select a specific starting location." ),
+                                ctxt.get_desc( "CHOOSE_CITY" ), ctxt.get_desc( "CHOOSE_LOCATION" ) );
+            }
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
@@ -3839,7 +3852,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
-                    wprintz( w_addictions, c_white, string_format( format, addiction_name( a ), a.intensity ) );
+                    wprintz( w_addictions, c_white, string_format( format, a.type->get_name().translated(),
+                             a.intensity ) );
                 }
             }
         } else {
@@ -3851,7 +3865,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
                     wprintz( w_addictions, c_light_gray, "\n" );
-                    wprintz( w_addictions, c_light_gray, string_format( format, addiction_name( a ), a.intensity ) );
+                    wprintz( w_addictions, c_light_gray, string_format( format, a.type->get_name().translated(),
+                             a.intensity ) );
                 }
             }
         }
@@ -4062,6 +4077,19 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             you.randomize_heartrate();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
+        } else if( action == "CHOOSE_CITY" ) {
+            std::vector<city> cities( city::get_all() );
+            const auto cities_cmp_population = []( const city & a, const city & b ) {
+                return std::tie( a.population, a.name ) > std::tie( b.population, b.name );
+            };
+            std::sort( cities.begin(), cities.end(), cities_cmp_population );
+            uilist cities_menu;
+            ui::omap::setup_cities_menu( cities_menu, cities );
+            cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+            if( c.has_value() ) {
+                you.starting_city = c;
+                you.world_origin = c->pos_om;
+            }
         } else if( action == "CHOOSE_LOCATION" ) {
             select_location.query();
             if( select_location.ret == RANDOM_START_LOC_ENTRY ) {

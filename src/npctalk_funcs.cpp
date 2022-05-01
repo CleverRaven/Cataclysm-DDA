@@ -480,17 +480,20 @@ void talk_function::insult_combat( npc &p )
 void talk_function::bionic_install( npc &p )
 {
     avatar &player_character = get_avatar();
-    item_location bionic = game_menus::inv::install_bionic( player_character, player_character, true );
+    item_location bionic = game_menus::inv::install_bionic( p, player_character, true );
 
     if( !bionic ) {
         return;
     }
 
-    const item *tmp = bionic.get_item();
+    item *tmp = bionic.get_item();
+    tmp->set_var( VAR_TRADE_IGNORE, 1 );
     const itype &it = *tmp->type;
 
-    signed int price = tmp->price( true ) * 2;
-    if( !npc_trading::pay_npc( p, price ) ) {
+    signed int price = npc_trading::bionic_install_price( p, player_character, bionic );
+    bool const ret = npc_trading::pay_npc( p, price );
+    tmp->erase_var( VAR_TRADE_IGNORE );
+    if( !ret ) {
         return;
     }
 

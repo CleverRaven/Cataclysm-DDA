@@ -79,11 +79,5 @@
     "id": "Mass Grave",
     "overmaps": [  ],
     "occurrences": [ 0, 0 ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Mine Entrance",
-    "overmaps": [  ],
-    "occurrences": [ 0, 0 ]
   }
 ]

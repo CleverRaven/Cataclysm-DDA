@@ -186,7 +186,32 @@
     "type": "item_group",
     "//": "ESAPI vest plus plates",
     "subtype": "distribution",
-    "entries": [ { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "used_kitted_medium_vest" } ]
+    "entries": [
+      {
+        "item": "ballistic_vest_esapi",
+        "variant": "swat_ballistic_vest",
+        "contents-group": "used_kitted_medium_vest",
+        "prob": 7
+      },
+      {
+        "collection": [
+          { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "some_esapi_plates" },
+          { "item": "tacvest" }
+        ],
+        "prob": 2
+      },
+      {
+        "collection": [
+          { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "some_esapi_plates" },
+          {
+            "item": "heavy_load_bearing_vest_breacher",
+            "contents-group": "custom_light_lbv",
+            "contents-item": "remington_870_breacher"
+          }
+        ],
+        "prob": 1
+      }
+    ]
   },
   {
     "id": "swat_ballistic_vest_pristine",
@@ -548,6 +573,8 @@
       { "item": "bucket", "prob": 4 },
       { "item": "sheath", "prob": 13 },
       { "item": "bootsheath", "prob": 8 },
+      { "item": "leg_sheath6", "prob": 2 },
+      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 1 },
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "knife_rm42", "prob": 4 },
       { "item": "survnote", "prob": 1 },

@@ -168,8 +168,8 @@
     "warmth": 0,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "BLIND" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ] } ]
+    "flags": [ "BLIND", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "ear_plugs",
@@ -443,7 +443,7 @@
         "default_magazine": "light_minus_battery_cell"
       }
     ],
-    "armor": [ { "coverage": 15, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -898,6 +898,73 @@
     }
   },
   {
+    "id": "ar_glasses_basic",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "pair of basic AR glasses", "str_pl": "pairs of basic AR glasses" },
+    "description": "A pair of compact augmented reality glasses with some basic functionality.  There is a camera at the rim, and it has an alarm clock feature.",
+    "weight": "65 g",
+    "volume": "720 ml",
+    "price": 50000,
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": [ "CAMERA" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      }
+    ],
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ],
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "WATCH", "ALARMCLOCK", "FRAGILE", "WATER_BREAK" ]
+  },
+  {
+    "id": "ar_glasses_advanced",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "pair of advanced AR glasses", "str_pl": "pairs of camping AR glasses" },
+    "description": "An expensive model of augmented reality glasses, with adaptive light correction and some gadgets, designed to be compatible with corrective glasses.  An augmented reality overlay allow the user to zoom, and it displays handy information about local topology.",
+    "weight": "170 g",
+    "volume": "750 ml",
+    "price": 300000,
+    "price_postapoc": 400,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      },
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0
+      }
+    ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ],
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "ZOOM", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "SUN_GLASSES", "THERMOMETER", "WATER_BREAK" ]
+  },
+  {
     "id": "helmet_eod",
     "type": "TOOL_ARMOR",
     "category": "armor",
@@ -1117,7 +1184,8 @@
       "SWIM_GOGGLES",
       "SUN_GLASSES",
       "NO_REPAIR",
-      "NANOFAB_REPAIR"
+      "NANOFAB_REPAIR",
+      "PADDED"
     ],
     "armor": [
       {
@@ -1217,7 +1285,8 @@
       "GNV_EFFECT",
       "CLIMATE_CONTROL",
       "NO_REPAIR",
-      "NANOFAB_REPAIR"
+      "NANOFAB_REPAIR",
+      "PADDED"
     ]
   },
   {
@@ -2071,85 +2140,6 @@
       "target": "mask_h20survivorxl"
     },
     "environmental_protection": 16
-  },
-  {
-    "type": "TOOL",
-    "id": "folding_poncho",
-    "symbol": ",",
-    "color": "yellow",
-    "name": { "str": "folded poncho" },
-    "description": "A folded lightweight plastic rain poncho with a hood.  Use it to unfold for use.",
-    "price": 5000,
-    "price_postapoc": 50,
-    "material": [ "plastic" ],
-    "weight": "280 g",
-    "volume": "250 ml",
-    "use_action": [ "UNPACK_ITEM" ]
-  },
-  {
-    "id": "folding_poncho_on",
-    "repairs_like": "sheet",
-    "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "yellow",
-    "name": { "str": "unfolded poncho" },
-    "description": "A lightweight plastic rain poncho with a hood.  Use it to fold for storage.",
-    "price": 5000,
-    "price_postapoc": 50,
-    "material": [ "plastic" ],
-    "weight": "280 g",
-    "volume": "1500 ml",
-    "to_hit": -3,
-    "revert_to": "folding_poncho",
-    "use_action": [ "PACK_ITEM" ],
-    "flags": [ "WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER" ],
-    "environmental_protection": 1,
-    "material_thickness": 0.1,
-    "armor": [ { "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
-  },
-  {
-    "type": "TOOL",
-    "id": "emer_blanket",
-    "repairs_like": "sheet",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "folded emergency blanket" },
-    "description": "A folded blanket made of space-age materials that covers your most important body parts.  Use it to unfold for use.",
-    "price": 425,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "weight": "622 g",
-    "volume": "500 ml",
-    "use_action": [ "UNPACK_ITEM" ]
-  },
-  {
-    "id": "emer_blanket_on",
-    "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "light_gray",
-    "name": { "str": "emergency blanket" },
-    "description": "A blanket made of space-age material that covers your most important body parts.  Use it to fold for storage.",
-    "price": 425,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "weight": "622 g",
-    "volume": "2500 ml",
-    "to_hit": -3,
-    "revert_to": "emer_blanket",
-    "use_action": [ "PACK_ITEM" ],
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
-    "warmth": 50,
-    "environmental_protection": 1,
-    "material_thickness": 0.1,
-    "armor": [
-      {
-        "encumbrance": 50,
-        "coverage": 90,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
-      }
-    ]
   },
   {
     "id": "rad_monitor",

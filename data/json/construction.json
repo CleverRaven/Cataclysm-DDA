@@ -3179,6 +3179,17 @@
   },
   {
     "type": "construction",
+    "id": "app_water_purifier",
+    "group": "place_water_purifier",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "stationary_water_purifier", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_arcade_machine",
     "group": "place_arcade_machine",
     "category": "APPLIANCE",
@@ -3284,6 +3295,28 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "jointer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_hydraulic_press",
+    "group": "place_hydraulic_press",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "hydraulic_press", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_air_compressor",
+    "group": "place_air_compressor",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "air_compressor", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -3403,6 +3436,50 @@
   },
   {
     "type": "construction",
+    "id": "app_battery_car",
+    "group": "place_car_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "battery_car", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_washing_machine",
+    "group": "place_washing_machine",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "household_washing_machine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_dishwasher",
+    "group": "place_dishwasher",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "household_dishwasher", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_autoclave",
+    "group": "place_autoclave",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 2 ] ],
+    "time": "6 m",
+    "components": [ [ [ "autoclave", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",
@@ -3420,6 +3497,28 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 s",
     "components": [ [ [ "standing_floodlight", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "ap_foot_locker_recharge_station",
+    "group": "place_ap_foot_locker_recharge_station",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "4 m",
+    "components": [ [ [ "foot_locker_recharge_station", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "ap_box_battery_charger",
+    "group": "place_ap_box_battery_charger",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "2 m",
+    "components": [ [ [ "box_battery_charger", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -3936,6 +4035,18 @@
     "components": [ [ [ "2x4", 20 ] ], [ [ "string_36", 15 ] ], [ [ "nail", 25 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_spinwheel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scutch_breaker",
+    "group": "build_stationary_scutcher",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "2 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 30 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_scutch_breaker"
   },
   {
     "type": "construction",
@@ -5245,5 +5356,17 @@
     "components": [ [ [ "training_dummy_heavy", 1 ] ] ],
     "pre_special": "check_down_OK",
     "post_terrain": "f_training_dummy_heavy"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clayoven",
+    "group": "build_clay_oven",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+    "time": "3 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "rock", 30 ] ], [ [ "fire_brick", 10 ] ], [ [ "clay_lump", 15 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_clay_oven"
   }
 ]

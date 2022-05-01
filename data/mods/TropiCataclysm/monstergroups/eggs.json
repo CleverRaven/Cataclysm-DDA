@@ -232,5 +232,11 @@
     "type": "monstergroup",
     "default": "mon_triffid_podling",
     "monsters": [ { "monster": "mon_triffid_podling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_FUNGUS",
+    "type": "monstergroup",
+    "default": "mon_fungaloid_saproling",
+    "monsters": [ { "monster": "mon_fungaloid_saproling", "freq": 100, "cost_multiplier": 1 } ]
   }
 ]

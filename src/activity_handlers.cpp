@@ -129,7 +129,6 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
-static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -191,7 +190,6 @@ static const harvest_drop_type_id harvest_drop_skin( "skin" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
@@ -319,7 +317,6 @@ activity_handlers::finish_functions = {
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
-    { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish },
 };
@@ -363,13 +360,13 @@ bool activity_handlers::resume_for_multi_activities( Character &you )
 static bool check_butcher_dissect( const int roll )
 {
     // Failure rates for dissection rolls
-    // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
+    // 100% at roll 0, 66% at roll 1, 50% at roll 2, 40% @ 3, 33% @ 4, 28% @ 5, ... , 16% @ 10
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll = %i", roll );
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Failure chance = %f%%",
-                   ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
-    const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
+                   ( 19.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
+    const bool failed = x_in_y( 10, ( 10 + roll * 5 ) );
     return !failed;
 }
 
@@ -524,7 +521,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     if( action == butcher_type::DISSECT && ( corpse_item.has_flag( flag_QUARTERED ) ||
             corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
         you.add_msg_if_player( m_info,
-                               _( "It would be futile to search for implants inside this badly damaged corpse." ) );
+                               _( "It would be futile to dissect this badly damaged corpse." ) );
         act.targets.pop_back();
         return;
     }
@@ -763,6 +760,8 @@ static int roll_butchery_dissect( int skill_level, int dex, int tool_quality )
 
     if( tool_quality < 0 ) {
         skill_shift -= rng_float( 0, -tool_quality / 5.0 );
+    } else {
+        skill_shift += std::min( tool_quality, 4 );
     }
 
     return static_cast<int>( std::round( skill_shift ) );
@@ -810,7 +809,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
-    const int entry_count = mt.harvest->get_all().size();
+    const int entry_count = ( action == butcher_type::DISSECT &&
+                              !mt.dissect.is_empty() ) ? mt.dissect->get_all().size() : mt.harvest->get_all().size();
     int monster_weight_remaining = monster_weight;
     int practice = 0;
 
@@ -820,7 +820,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     map &here = get_map();
-    for( const harvest_entry &entry : *mt.harvest ) {
+    for( const harvest_entry &entry : ( action == butcher_type::DISSECT &&
+                                        !mt.dissect.is_empty() ) ? *mt.dissect : *mt.harvest ) {
         const int skill_level = butchery_dissect_skill_level( you, tool_quality, entry.type );
         const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
         practice += ( 4 + butchery ) / entry_count;
@@ -831,7 +832,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
-        } else if( !entry.type->dissect_only() ) {
+        } else if( action != butcher_type::DISSECT ) {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
@@ -844,29 +845,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             drop = item::find_type( drop_id );
         }
 
-        if( entry.type->dissect_only() ) {
-            if( action == butcher_type::FIELD_DRESS ) {
-                const translation msg = entry.type->field_dress_msg( false );
-                if( !msg.empty() ) {
-                    add_msg( m_bad, msg.translated() );
-                }
-                continue;
-            }
-            if( action == butcher_type::QUICK ||
-                action == butcher_type::FULL ||
-                action == butcher_type::DISMEMBER ) {
-                const translation msg = entry.type->butcher_msg( false );
-                if( !msg.empty() ) {
-                    add_msg( m_bad, msg.translated() );
-                }
-                continue;
-            }
-        }
         if( action == butcher_type::DISSECT ) {
             int roll = roll_butchery_dissect( skill_level, you.dex_cur,
                                               tool_quality ) - corpse_item->damage_level();
             roll = roll < 0 ? 0 : roll;
-            roll = std::min( entry.max, roll );
             add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
                            0 - corpse_item->damage_level() );
             bool dissect_success = false;
@@ -1108,8 +1090,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     if( action == butcher_type::DISSECT ) {
-        you.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
-                      0 ) + 4 );
+        you.practice( skill_firstaid, std::max( 0, practice ), mt.size + std::min( tool_quality, 3 ) + 2 );
         mt.families.practice_dissect( you );
     } else {
         you.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
@@ -3716,20 +3697,4 @@ void activity_handlers::study_spell_finish( player_activity *act, Character *you
     if( act->values[2] == -1 ) {
         you->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
     }
-}
-
-//This is just used for robofac_intercom_mission_2
-void activity_handlers::mind_splicer_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-
-    if( act->targets.size() != 1 || !act->targets[0] ) {
-        debugmsg( "Incompatible arguments to: activity_handlers::mind_splicer_finish" );
-        return;
-    }
-    item &data_card = *act->targets[0];
-    you->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
-    you->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
-    data_card.clear_items();
-    data_card.put_in( item( itype_mind_scan_robofac ), item_pocket::pocket_type::SOFTWARE );
 }

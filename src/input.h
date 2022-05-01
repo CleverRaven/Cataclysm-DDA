@@ -44,7 +44,7 @@ static constexpr int KEY_HOME       =
     0x106;    /* home key */
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
-static constexpr int KEY_DC         = 0x151;    /* Delete Character */
+static constexpr int KEY_DC         = 0x14A;    /* Delete Character */
 static constexpr int KEY_F0         = 0x108;
 inline constexpr int KEY_F( const int n )
 {
@@ -854,7 +854,7 @@ class input_context
          * Return a user presentable list of actions that conflict with the
          * proposed keybinding. Returns an empty string if nothing conflicts.
          */
-        std::string get_conflicts( const input_event &event ) const;
+        std::string get_conflicts( const input_event &event, const std::string &ignore_action ) const;
         /**
          * Clear an input_event from all conflicting keybindings that are
          * registered by this input_context.

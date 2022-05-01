@@ -70,7 +70,7 @@ foreach (LANG ${LANGUAGES})
                     -o ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-dda.mo
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     if (RELEASE)
-        if (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+        if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
             #install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
         else ()
             install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR})

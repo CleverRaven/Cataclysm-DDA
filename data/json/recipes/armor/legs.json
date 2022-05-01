@@ -230,7 +230,7 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ]
+    "using": [ [ "tailoring_cotton", 3 ], [ "fastener_small", 1 ] ]
   },
   {
     "result": "skirt",
@@ -418,8 +418,9 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
-    "skill_used": "tailor",
-    "difficulty": 5,
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 4 ],
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
@@ -449,7 +450,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
-    "difficulty": 5,
+    "difficulty": 4,
+    "skills_required": [ "tailor", 4 ],
     "time": "8 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
@@ -966,7 +968,7 @@
     "time": "20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "reversible": true,
-    "using": [ [ "tailoring_cotton", 3 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {

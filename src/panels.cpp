@@ -236,20 +236,18 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
-            const bool vehicle_here = overmap_buffer.has_vehicle( omp );
             if( overmap_buffer.has_note( omp ) ) {
                 const std::string &note_text = overmap_buffer.note( omp );
                 std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
                 ter_sym = sym_color.first;
                 ter_color = sym_color.second;
             } else if( !seen ) {
-                // Always grey # for unseen
+                // Always gray # for unseen
                 ter_sym = "#";
                 ter_color = c_dark_gray;
-            } else if( vehicle_here ) {
-                // Always cyan c for vehicle
+            } else if( overmap_buffer.has_vehicle( omp ) ) {
                 ter_color = c_cyan;
-                ter_sym = "c";
+                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
             } else {
                 // Otherwise, get symbol and color appropriate for the terrain
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
@@ -2122,7 +2120,7 @@ static void draw_border_win( catacurses::window &w, const std::vector<int> &colu
                              int popup_height )
 {
     werase( w );
-    decorate_panel( _( "SIDEBAR OPTIONS" ), w );
+    decorate_panel( _( "Sidebar options" ), w );
     // Draw vertical separators
     mvwvline( w, point( column_widths[0] + 1, 1 ), 0, popup_height - 2 );
     mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0, popup_height - 2 );

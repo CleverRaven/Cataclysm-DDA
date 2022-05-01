@@ -490,17 +490,13 @@ bool overmapbuffer::has_camp( const tripoint_abs_omt &p )
 
 bool overmapbuffer::has_vehicle( const tripoint_abs_omt &p )
 {
-    if( p.z() ) {
-        return false;
-    }
-
     const overmap_with_local_coords om_loc = get_existing_om_global( p );
     if( !om_loc ) {
         return false;
     }
 
     for( const auto &v : om_loc.om->vehicles ) {
-        if( v.second.p == om_loc.local.xy() ) {
+        if( v.second.p.xy() == om_loc.local.xy() ) {
             return true;
         }
     }
@@ -511,19 +507,60 @@ bool overmapbuffer::has_vehicle( const tripoint_abs_omt &p )
 std::vector<om_vehicle> overmapbuffer::get_vehicle( const tripoint_abs_omt &p )
 {
     std::vector<om_vehicle> result;
-    if( p.z() != 0 ) {
-        return result;
-    }
     const overmap_with_local_coords om_loc = get_existing_om_global( p );
     if( !om_loc ) {
         return result;
     }
     for( const auto &ov : om_loc.om->vehicles ) {
-        if( ov.second.p == om_loc.local.xy() ) {
+        if( ov.second.p.xy() == om_loc.local.xy() ) {
             result.push_back( ov.second );
         }
     }
     return result;
+}
+
+std::string overmapbuffer::get_vehicle_ter_sym( const tripoint_abs_omt &omt )
+{
+    std::string ter_sym;
+    std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omt );
+    int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
+    for( om_vehicle vehicle : vehicles ) {
+        int temp_distance = std::abs( vehicle.p.z() - omt.z() );
+        if( temp_distance < distance ) {
+            distance = temp_distance;
+            if( vehicle.p.z() == omt.z() ) {
+                return "c"; // Break to always show vehicles on current level first
+            } else if( vehicle.p.z() > omt.z() ) {
+                ter_sym = "^";
+            } else {
+                ter_sym = "v";
+            }
+        }
+    }
+
+    return ter_sym;
+}
+
+std::string overmapbuffer::get_vehicle_tile_id( const tripoint_abs_omt &omt )
+{
+    std::string tile_id;
+    std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omt );
+    int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
+    for( om_vehicle vehicle : vehicles ) {
+        int temp_distance = std::abs( vehicle.p.z() - omt.z() );
+        if( temp_distance < distance ) {
+            distance = temp_distance;
+            if( vehicle.p.z() == omt.z() ) {
+                return "overmap_remembered_vehicle"; // Break to always show vehicles on current level first
+            } else if( vehicle.p.z() > omt.z() ) {
+                tile_id = "overmap_remembered_vehicle_above";
+            } else {
+                tile_id = "overmap_remembered_vehicle_below";
+            }
+        }
+    }
+
+    return tile_id;
 }
 
 void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_power )
@@ -670,7 +707,7 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point_abs_ms &old_msp )
     const overmap_with_local_coords old_om_loc = get_om_global( old_omt );
     const overmap_with_local_coords new_om_loc = get_om_global( new_omt );
     if( old_om_loc.om == new_om_loc.om ) {
-        new_om_loc.om->vehicles[veh->om_id].p = new_om_loc.local.xy();
+        new_om_loc.om->vehicles[veh->om_id].p = new_om_loc.local;
     } else {
         old_om_loc.om->vehicles.erase( veh->om_id );
         add_vehicle( veh );
@@ -715,7 +752,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
         id++;
     }
     om_vehicle &tracked_veh = om_loc.om->vehicles[id];
-    tracked_veh.p = om_loc.local.xy();
+    tracked_veh.p = om_loc.local;
     tracked_veh.name = veh->name;
     veh->om_id = id;
 }

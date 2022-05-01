@@ -173,6 +173,23 @@
   },
   {
     "type": "SPELL",
+    "id": "small_fungal_raptor_spawn",
+    "name": { "str": "Summon Fungal Raptors" },
+    "description": "Summons a few fungal raptors.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_casting_time": 500,
+    "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_fungal_raptor"
+  },
+  {
+    "type": "SPELL",
     "id": "spawning_zombie_die",
     "name": { "str": "Spawning Zombie Die" },
     "description": "For zombies that are spawning something and die in the process.",

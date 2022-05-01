@@ -58,6 +58,7 @@
       { "item": "bucket", "prob": 90 },
       { "item": "boots_rubber", "prob": 90 },
       { "item": "gloves_rubber", "prob": 90 },
+      { "item": "apron_plastic", "prob": 40 },
       { "item": "chem_hydrogen_peroxide", "prob": 40, "charges-min": 4 },
       { "item": "soap", "count": [ 1, 2 ], "prob": 70 },
       { "item": "detergent", "count": [ 1, 2 ], "prob": 80 },

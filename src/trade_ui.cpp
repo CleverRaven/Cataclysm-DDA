@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "character.h"
+#include "clzones.h"
 #include "color.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -13,6 +14,7 @@
 #include "item.h"
 #include "npc.h"
 #include "npctrade.h"
+#include "npctrade_utils.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -48,8 +50,8 @@ trade_preset::trade_preset( Character const &you, Character const &trader )
 
 bool trade_preset::is_shown( item_location const &loc ) const
 {
-    return inventory_selector_preset::is_shown( loc ) and loc->is_owned_by( _u ) and
-           loc->made_of( phase_id::SOLID ) and
+    return !loc->has_var( VAR_TRADE_IGNORE ) and inventory_selector_preset::is_shown( loc ) and
+           loc->is_owned_by( _u ) and loc->made_of( phase_id::SOLID ) and
            ( !_u.is_wielding( *loc ) or !loc->has_flag( json_flag_NO_UNWIELD ) );
 }
 
@@ -101,7 +103,27 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     _panes[_trader]->add_character_items( trader );
     if( trader.mission == NPC_MISSION_SHOPKEEP ) {
         _panes[_trader]->categorize_map_items( true );
-        _panes[_trader]->add_nearby_items( PICKUP_RANGE );
+
+        add_fallback_zone( trader );
+
+        zone_manager &zmgr = zone_manager::get_manager();
+
+        // FIXME: migration for traders in old saves - remove after 0.G
+        zone_data const *const fallback =
+            zmgr.get_zone_at( trader.get_location(), true, trader.get_fac_id() );
+        bool const legacy = fallback != nullptr and fallback->get_name() == fallback_name;
+
+        if( legacy ) {
+            _panes[_trader]->add_nearby_items( PICKUP_RANGE );
+        } else {
+            std::unordered_set<tripoint> const src =
+                zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
+
+            for( tripoint const &pt : src ) {
+                _panes[_trader]->add_map_items( pt );
+                _panes[_trader]->add_vehicle_items( pt );
+            }
+        }
     } else if( !trader.is_player_ally() ) {
         _panes[_trader]->add_nearby_items( 1 );
     }
@@ -174,6 +196,21 @@ void trade_ui::recalc_values_cpane()
         _balance = _cost + _trade_values[_you] - _trade_values[_trader];
     }
     _header_ui.invalidate_ui();
+}
+
+void trade_ui::autobalance()
+{
+    int const sign = _cpane == _you ? -1 : 1;
+    if( ( sign < 0 and _balance < 0 ) or ( sign > 0 and _balance > 0 ) ) {
+        inventory_entry &entry = _panes[_cpane]->get_active_column().get_highlighted();
+        size_t const avail = entry.get_available_count() - entry.chosen_count;
+        double const price = npc_trading::trading_price( *_parties[-_cpane + 1], *_parties[_cpane],
+                             entry_t{ entry.any_item(), 1 } ) * sign;
+        double const num = _balance / price;
+        double const extra = sign < 0 ? std::ceil( num ) : std::floor( num );
+        _panes[_cpane]->toggle_entry( entry, entry.chosen_count +
+                                      std::min( static_cast<size_t>( extra ), avail ) );
+    }
 }
 
 void trade_ui::resize()
@@ -253,5 +290,10 @@ void trade_ui::_draw_header()
                   string_format( _( "%s to switch panes" ),
                                  colorize( _panes[_you]->get_ctxt()->get_desc(
                                          trade_selector::ACTION_SWITCH_PANES ),
+                                           c_yellow ) ) );
+    center_print( _header_w, header_size - 2, c_white,
+                  string_format( _( "%s to auto-balance with highlighted item" ),
+                                 colorize( _panes[_you]->get_ctxt()->get_desc(
+                                         trade_selector::ACTION_AUTOBALANCE ),
                                            c_yellow ) ) );
 }

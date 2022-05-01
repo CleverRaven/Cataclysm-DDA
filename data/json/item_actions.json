@@ -111,11 +111,6 @@
   },
   {
     "type": "item_action",
-    "id": "MIND_SPLICER",
-    "name": { "str": "Extract data from memory banks" }
-  },
-  {
-    "type": "item_action",
     "id": "ROBOTCONTROL",
     "name": { "str": "Hack a robot" }
   },
@@ -288,11 +283,6 @@
     "type": "item_action",
     "id": "ANTIPARASITIC",
     "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
-    "id": "AUTOCLAVE",
-    "name": { "str": "Sterilize" }
   },
   {
     "type": "item_action",
