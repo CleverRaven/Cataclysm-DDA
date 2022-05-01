@@ -108,7 +108,6 @@ static const efftype_id effect_worked_on( "worked_on" );
 static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
 static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 
-static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
