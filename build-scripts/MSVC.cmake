@@ -30,6 +30,11 @@ set(CMAKE_CXX_FLAGS_INIT "\
 # /Zc:forScope  # Force Conformance in for Loop Scope
 # /Zc:inline    # Remove unreferenced COMDAT
 # /Zc:wchar_t   # wchar_t Is Native Type
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT
+"/Oi"
+)
+# /Ob1 # Inline Function Expansion (1 = only when marked as such)
+# /Oi  # Generate Intrinsic Functions
 add_compile_definitions(
     _SCL_SECURE_NO_WARNINGS
     _CRT_SECURE_NO_WARNINGS
