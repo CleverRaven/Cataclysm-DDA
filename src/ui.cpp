@@ -809,10 +809,12 @@ void uilist::show()
         }
     }
 
+    cata::optional<point> cursor_pos;
     if( filter_popup ) {
         mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
         mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
         filter_popup->query( /*loop=*/false, /*draw_only=*/true );
+        cursor_pos = point( getcurx( window ), getcury( window ) );
     } else {
         if( !filter.empty() ) {
             mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
@@ -824,6 +826,11 @@ void uilist::show()
     wnoutrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
+    }
+
+    if( cursor_pos ) {
+        wmove( window, cursor_pos.value() );
+        wnoutrefresh( window );
     }
 }
 

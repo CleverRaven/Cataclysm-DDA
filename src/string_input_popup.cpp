@@ -251,6 +251,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     mvwprintz( w, point( _startx, _starty ), _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
     // Print the cursor in its own color
+    point cursor_pos;
     if( _position >= 0 && static_cast<size_t>( _position ) < ret.length() ) {
         utf8_wrapper cursor = ret.substr( _position, 1 );
         size_t a = _position;
@@ -261,15 +262,18 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             cursor = ret.substr( a, _position - a + 1 );
         }
         const size_t left_over = ret.substr( 0, a ).display_width() - shift;
-        mvwprintz( w, point( _startx + left_over, _starty ), _cursor_color, "%s", cursor.c_str() );
+        cursor_pos = point( _startx + left_over, _starty );
+        mvwprintz( w, cursor_pos, _cursor_color, "%s", cursor.c_str() );
         start_x_edit += left_over;
     } else if( _max_length > 0
                && ret.display_width() >= static_cast<size_t>( _max_length ) ) {
-        mvwprintz( w, point( _startx + sx, _starty ), _cursor_color, " " );
+        cursor_pos = point( _startx + sx, _starty );
+        mvwprintz( w, cursor_pos, _cursor_color, " " );
         start_x_edit += sx;
         sx++; // don't override trailing ' '
     } else {
-        mvwprintz( w, point( _startx + sx, _starty ), _cursor_color, "_" );
+        cursor_pos = point( _startx + sx, _starty );
+        mvwprintz( w, cursor_pos, _cursor_color, "_" );
         start_x_edit += sx;
         sx++; // don't override trailing '_'
     }
@@ -294,6 +298,8 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
         mvwprintz( w, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
     }
 
+    // Move curses cursor to text cursor for screen readers and IME preview positioning
+    wmove( w, cursor_pos );
     wnoutrefresh( w );
 }
 
