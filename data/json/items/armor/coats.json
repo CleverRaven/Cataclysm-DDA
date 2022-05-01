@@ -1037,7 +1037,7 @@
       {
         "id": "skull_jacket_chef",
         "name": { "str": "skull chef's jacket" },
-        "description": "It's colored white with a giant skull in between crossen kitchen knives painted at the front and back.  Perfect for the apocalyptic chef.",
+        "description": "It's colored white with a giant skull in between crossed kitchen knives painted at the front and back.  Perfect for the apocalyptic chef.",
         "weight": 1,
         "append": true
       }
