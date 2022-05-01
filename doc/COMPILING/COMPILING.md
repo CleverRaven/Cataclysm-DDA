@@ -130,6 +130,15 @@ Instructions for compiling on a Debian-based system. The package names here are 
 
 The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
 
+#Gentoo
+If you want sound and graphics, make sure:
+USE="flac fluidsynth mad midi mod modplug mp3 playtools vorbis wav png" emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf
+You can possibly get away with smaller dependancies, but this is bare minimal needed AFAICJ
+Once libs above are installed:
+go into git clone directory
+make -j32 TILES=1 SOUND=1 RELEASE=1
+change "-j32" to ammount of CPU cores you have.
+
 ## Linux (native) ncurses builds
 
 Dependencies:
