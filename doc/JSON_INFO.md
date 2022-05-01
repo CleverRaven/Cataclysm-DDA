@@ -2258,7 +2258,7 @@ The `id` must be exact as it is hardcoded to look for that.
 
 Defined in tool_qualities.json.
 
-Format:
+Format and syntax:
 ```C++
 {
   "type": "tool_quality",
@@ -2268,15 +2268,18 @@ Format:
 },
 ```
 
-Examples of various usages formats:
-`"usages": [ [ 1, [ "PICK_LOCK" ] ] ]`
-`"usages": [ [ 2, [ "LUMBER" ] ] ]`
-`"usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]`
-`"usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ]`
-`"usages": [ [ 1, [ "CHOP_TREE", "CHOP_LOGS" ] ], [ 2, [ "LUMBER" ] ] ]`
+Examples of various usages syntax:
+```C++
+"usages": [ [ 1, [ "PICK_LOCK" ] ] ]
+"usages": [ [ 2, [ "LUMBER" ] ] ]
+"usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+"usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ]
+"usages": [ [ 1, [ "CHOP_TREE", "CHOP_LOGS" ] ], [ 2, [ "LUMBER" ] ] ]
+```
 
-The usage line is only required for items that have qualities that allow
-special actions on use. See USE ACTIONS for specific actions and documentation.
+The usages line is only required for items that have qualities that allow 
+special actions on use. See [Use Actions](#use-actions) for specific actions
+and documentation.
 
 IDs of actions and the plaintext action description for the player are defined
 in item_actions.json.
@@ -2290,7 +2293,7 @@ defined and if multiple levels are defined, those must be defined in a
 higher order array.
 
 Comment lines using the normal `"//"` (or `"//1"`, or higher numbers) format are
-allowed (see COMMENTS).
+allowed (see [Comments](#comments)).
 
 Qualities are (non-exclusively) associated with items in the various item
 definitions in the json files by adding a `"qualities":` line.
