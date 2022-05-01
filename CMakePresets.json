@@ -48,12 +48,29 @@
         "LOCALIZE": "False",
         "TILES": "True"
       }
+    },
+    {
+      "name": "x64-debug",
+      "inherits": [ "x64-windows-static" ],
+      "displayName": "x64 Debug",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment. (Debug)",
+      "cacheVariables": {
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/FindVCPKG.cmake",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CURSES": "False",
+        "LOCALIZE": "False",
+        "TILES": "True"
+      }
     }
   ],
   "buildPresets": [
     {
       "name": "x64-release",
       "configurePreset": "x64-release"
+    },
+    {
+      "name": "x64-debug",
+      "configurePreset": "x64-debug"
     }
   ]
 }
