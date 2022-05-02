@@ -355,6 +355,9 @@ class target_ui
         // Aim for 10 turns. Returns 'false' if ran out of moves
         bool action_aim();
 
+        // drop aim so you can look around
+        bool action_drop_aim();
+
         // Aim and shoot. Returns 'false' if ran out of moves
         bool action_aim_and_shoot( const std::string &action );
 
@@ -937,6 +940,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
         // Cap
         recoil = std::min( MAX_RECOIL, recoil );
+    }
+
+    if( is_avatar() ) {
+        as_avatar()->aim_cache_dirty = true;
     }
 
     return curshot;
@@ -2349,6 +2356,12 @@ target_handler::trajectory target_ui::run()
                 loop_exit_code = ExitCode::Timeout;
                 break;
             }
+        } else if( action == "STOPAIM" ) {
+            if( status != Status::Good ) {
+                continue;
+            }
+
+            action_drop_aim();
         } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
             if( status != Status::Good ) {
                 continue;
@@ -2466,6 +2479,7 @@ void target_ui::init_window_and_input()
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
+        ctxt.register_action( "STOPAIM" );
 
         aim_types = you->get_aim_types( *relevant );
         for( aim_type &type : aim_types ) {
@@ -3114,6 +3128,17 @@ bool target_ui::action_aim()
     return you->moves > 0;
 }
 
+bool target_ui::action_drop_aim()
+{
+    you->recoil = MAX_RECOIL;
+    you->steadiness = 0.0f;
+
+    // We've changed pc.recoil, update penalty
+    recalc_aim_turning_penalty();
+
+    return true;
+}
+
 bool target_ui::action_aim_and_shoot( const std::string &action )
 {
     std::vector<aim_type>::iterator it;
@@ -3384,7 +3409,11 @@ void target_ui::draw_controls_list( int text_y )
         std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
                                          bound_key( "AIM" ).short_description() );
 
+        std::string dropaim = string_format( _( "[%s] to stop aiming." ),
+                                             bound_key( "STOPAIM" ).short_description() );
+
         lines.push_back( {2, colored( col_fire, aim )} );
+        lines.push_back( { 2, colored( col_fire, dropaim ) } );
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&

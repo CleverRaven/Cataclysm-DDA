@@ -1131,6 +1131,15 @@
   },
   {
     "type": "keybinding",
+    "id": "STOPAIM",
+    "category": "TARGET",
+    "name": "Stop Aiming",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "," }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "AIMED_SHOT",
     "category": "TARGET",
     "name": "Aimed Shot",
