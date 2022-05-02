@@ -13,7 +13,7 @@
     "has_generic_rewards": true,
     "dialogue": {
         "describe": "I need three drive belts.",
-        "offer": "Some of our machinery received some damage before <the_cataclysm> and we were waiting on some replacement parts.  Now that we don't have them, we need replacements.  Get us three drive belts, and I'll give you some credit with us.",
+        "offer": "Some of our machinery received some damage before <the_cataclysm> and we were waiting on replacement parts.  Now everything's changed and those parts are more important than ever.  Get us three drive belts and I'll give you some credit with us.",
         "advice": "If you can't find actual drive belts on engines, a good replacement can be made from a belt and some duct tape.  Nothing difficult.",
         "accepted": "I'll be here when you get back.  Good luck!",
         "rejected": "Someone's got to do it.",
@@ -38,7 +38,7 @@
     "has_generic_rewards": true,
     "dialogue": {
         "describe": "I need 1,000 nails.",
-      "offer": "Along with those drive belts, we were waiting for some nails for structural repairs.  Due to <the_cataclysm>, we never received them.  So, I need you to get us 1,000 nails. We'll pay you fairly.",
+      "offer": "Along with those drive belts, we were waiting for some nails for structural repairs.  Due to <the_cataclysm>, we obviously never received them.  So, I need you to get us 1,000 nails. We'll pay you fairly.",
       "advice": "Taking apart some furniture in town should get what you need.",
         "accepted": "I'll be here when you get back.  Good luck!",
         "rejected": "Someone's got to do it.",
@@ -71,15 +71,13 @@
     "has_generic_rewards": true,
     "dialogue": {
         "describe": "I need 6,800 nails.",
-      "offer": "While fairly sturdy, the metal fence around this place won't hold out for long.  So, we've decided to replace it with a wall.  However, the nails we had were used to repair our existing structures, and they weren't nearly enough.  After some calculations, we need 6,800 nails to do it.  That may seem like a lot, but we're willing to give you a ton of credit for it.",
-      "advice": "Dismantling a building somewhere in town could get you wnat you need.",
+      "offer": "While fairly sturdy, the metal fence around this place won't hold out for long.  So, we've decided to replace it with a wall.  However, the nails we had were used to repair our existing structures, and they weren't nearly enough.  After some calculations, we need 6,800 nails to do it.  That may seem like a lot, but we're willing to give you a TON of credit for it.",
+      "advice": "You might have to do more than just scrapping a bunch of furniture.  Dismantling a building somewhere in town could get you what you need.",
         "accepted": "I'll be here when you get back.  Good luck!",
         "rejected": "Well, I suppose that's reasonable.",
         "inquire": "Do you have the nails?",
         "success": "That's absolutely amazing!  I can't thank you enough for this!",
-
-        "success_lie": "You're fucking scammer <name_b>!",
-
+        "success_lie": "You're a fucking scammer, <name_b>!",
         "failure": "That's unfortunate.  I guess we'll have to find someone else to do it."
     }
   },
@@ -128,10 +126,10 @@
     "has_generic_rewards": true,
     "dialogue": {
         "describe": "Go negotiate a trade agreement.",
-      "offer": "While some of us were out scavenging we spotted an old evac shelter that looks like it might have some people inside.  I want you to go over there, find whoever runs the joint, and see if we can make a deal with them for some processed lumber.  This will be invaluable to our survival.",
+      "offer": "While some of us were out scavenging, we spotted an old evac shelter that looks like it might have some people inside.  I want you to go over there, find whoever runs the joint, and see if we can make a deal with them for some processed lumber.  This will be invaluable to our survival.",
       "advice": "It should be pretty simple making the deal, but I'd recommend taking a car over there myself.",
         "accepted": "I'll be here when you get back.  Good luck!",
-        "rejected": "Please? This is really important to us.",
+        "rejected": "Please give it a try?  This is really important to us.",
         "inquire": "What did they say about the deal?",
         "success": "Thank you!  We're set for life on this one!",
         "success_lie": "How does this help us?",

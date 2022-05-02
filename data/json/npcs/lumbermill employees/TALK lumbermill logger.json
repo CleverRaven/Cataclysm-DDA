@@ -50,7 +50,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_LOGGER_STORY",
-    "dynamic_line": "Not much to it.  I worked here as a logger before <the_cataclysm> began.  When all went to hell, I was on the job, and had to hole up here with my coworkers.  Good news is we all came out fine, so the boss decided to keep the mill running.  I don't know how much longer we can last, though; till' we get some customers.",
+    "dynamic_line": "Not much to it.  I worked here as a logger before <the_cataclysm> began.  When all went to hell, I was on the job and had to hole up here with my coworkers.  Good news is we all came out fine, so the boss decided to keep the mill running.  I don't know how much longer we can last, though; not unless we make some contact with other people.  Customers, I guess you might call 'em.",
     "responses": [
       { "text": "Hope it goes well.", "topic": "TALK_NONE" }
     ]
