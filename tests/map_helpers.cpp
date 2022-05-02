@@ -176,12 +176,23 @@ void player_add_headlamp()
     you.worn.wear_item( you, headlamp, false, true );
 }
 
+void set_time_to_day()
+{
+    time_point noon = calendar::turn - time_past_midnight( calendar::turn ) + 12_hours;
+    if( noon < calendar::turn ) {
+        noon = noon + 1_days;
+    }
+    set_time( noon );
+}
+
 // Set current time of day, and refresh map and caches for the new light level
 void set_time( const time_point &time )
 {
     calendar::turn = time;
     g->reset_light_level();
-    int z = get_player_character().posz();
+    Character &you = get_player_character();
+    int z = you.posz();
+    you.recalc_sight_limits();
     map &here = get_map();
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
