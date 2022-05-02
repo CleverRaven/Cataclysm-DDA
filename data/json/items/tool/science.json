@@ -611,7 +611,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "looks_like": "oxygen_tank"
+    "looks_like": "oxygen_tank",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
