@@ -6,6 +6,11 @@
   },
   {
     "type": "item_group",
+    "id": "ranch_doctor_filing_cabinets",
+    "items": [ { "item": "book_binder", "prob": 1, "charges": [ 25, 50 ] } ]
+  },
+  {
+    "type": "item_group",
     "//": "Subset of surgery item_group with only basic and non quest conflicting items",
     "id": "ranch_nurse_clinic_surgery",
     "items": [
