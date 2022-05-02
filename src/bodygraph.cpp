@@ -176,6 +176,9 @@ void bodygraph::check() const
 
 #define BPGRAPH_HEIGHT 24
 
+using part_tuple =
+    std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
+
 struct bodygraph_display {
     const Character *u;
     bodygraph_id id;
@@ -186,7 +189,12 @@ struct bodygraph_display {
     catacurses::window w_partlist;
     catacurses::window w_graph;
     catacurses::window w_info;
-    std::vector<std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *>> partlist;
+    // For each tuple:
+    //   0 = bodypart or parent of subpart
+    //   1 = subpart (if viewing a sub part)
+    //   2 = bodygraph data for this part
+    //   3 = part is present on character
+    std::vector<part_tuple> partlist;
     bodygraph_info info;
     std::vector<std::string> info_txt;
     int partlist_width = 0;
@@ -313,8 +321,9 @@ void bodygraph_display::draw_partlist()
         txt.insert( 0, colorize( i == sel_part ? ">" : " ", c_yellow ) );
         txt.append( !std::get<2>( bgt )->nested_graph.is_null() ?
                     colorize( ">", i == sel_part ? hilite( c_light_green ) : c_light_green ) : " " );
+        nc_color clr = std::get<3>( bgt ) ? c_white : c_dark_gray;
         trim_and_print( w_partlist, point( 0, y++ ), partlist_width,
-                        i == sel_part ? hilite( c_white ) : c_white, txt );
+                        i == sel_part ? hilite( clr ) : clr, txt );
     }
     wnoutrefresh( w_partlist );
 }
@@ -330,6 +339,16 @@ static const bodygraph_id &get_bg_rows( const bodygraph_id &bgid )
 void bodygraph_display::draw_graph()
 {
     werase( w_graph );
+    if( !!id->parent_bp && !u->has_part( *id->parent_bp ) ) {
+        center_print( w_graph, BPGRAPH_HEIGHT / 2 - 1, c_light_red,
+                      //~ 1$ = 2nd person pronoun (You), 2$ = body part (left arm)
+                      string_format( u->is_avatar() ? _( "%1$s do not have a %2$s." ) :
+                                     //~ 1$ = name of character, 2$ = body part (left arm)
+                                     _( "%1$s does not have a %2$s." ), u->disp_name( false, true ),
+                                     id->parent_bp->obj().name.translated() ) );
+        wnoutrefresh( w_graph );
+        return;
+    }
     const bodygraph_part *selected_graph = std::get<2>( partlist[sel_part] );
     std::string selected_sym;
     if( !!selected_graph ) {
@@ -348,7 +367,18 @@ void bodygraph_display::draw_graph()
             nc_color col = id->fill_color;
             auto iter = id->parts.find( rid->rows[i][j] );
             if( iter != id->parts.end() ) {
-                sym = iter->second.sym;
+                bool missing_section = true;
+                for( const bodypart_id &bp : iter->second.bodyparts ) {
+                    if( u->has_part( bp ) ) {
+                        missing_section = false;
+                    }
+                }
+                for( const sub_bodypart_id &sp : iter->second.sub_bodyparts ) {
+                    if( u->has_part( sp->parent ) ) {
+                        missing_section = false;
+                    }
+                }
+                sym = missing_section ? " " : iter->second.sym;
             }
             if( rid->rows[i][j] == " " ) {
                 col = c_unset;
@@ -365,14 +395,16 @@ void bodygraph_display::draw_graph()
 void bodygraph_display::draw_info()
 {
     werase( w_info );
-    int y = 0;
-    for( unsigned i = top_info; i < info_txt.size() && y < BPGRAPH_HEIGHT - 2; i++, y++ ) {
-        if( info_txt[i] == "--" ) {
-            for( int x = 1; x < info_width - 2; x++ ) {
-                mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
+    if( std::get<3>( partlist[sel_part] ) ) {
+        int y = 0;
+        for( unsigned i = top_info; i < info_txt.size() && y < BPGRAPH_HEIGHT - 2; i++, y++ ) {
+            if( info_txt[i] == "--" ) {
+                for( int x = 1; x < info_width - 2; x++ ) {
+                    mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
+                }
+            } else {
+                trim_and_print( w_info, point( 1, y ), info_width - 2, c_white, info_txt[i] );
             }
-        } else {
-            trim_and_print( w_info, point( 1, y ), info_width - 2, c_white, info_txt[i] );
         }
     }
     wnoutrefresh( w_info );
@@ -384,15 +416,15 @@ void bodygraph_display::prepare_partlist()
     for( const auto &bgp : id->parts ) {
         for( const bodypart_id &bid : bgp.second.bodyparts ) {
             partlist.emplace_back( std::make_tuple( bid, static_cast<const sub_body_part_type *>( nullptr ),
-                                                    &bgp.second ) );
+                                                    &bgp.second, u->has_part( bid ) ) );
         }
         for( const sub_bodypart_id &sid : bgp.second.sub_bodyparts ) {
-            partlist.emplace_back( std::make_tuple( sid->parent.id(), &*sid, &bgp.second ) );
+            const bodypart_id bid = sid->parent.id();
+            partlist.emplace_back( std::make_tuple( bid, &*sid, &bgp.second, u->has_part( bid ) ) );
         }
     }
     std::sort( partlist.begin(), partlist.end(),
-               []( const std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *> &a,
-    const std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *> &b ) {
+    []( const part_tuple & a, const part_tuple & b ) {
         if( !!std::get<1>( a ) && !!std::get<1>( b ) ) {
             return std::get<1>( a )->name.translated_lt( std::get<1>( b )->name );
         }
@@ -410,6 +442,12 @@ void bodygraph_display::prepare_infolist()
 {
     // reset info for a new read
     info = bodygraph_info();
+    info_txt.clear();
+
+    // if character doesn't have this part, don't generate info
+    if( !std::get<3>( partlist[sel_part] ) ) {
+        return;
+    }
 
     const bodypart_id &bp = std::get<0>( partlist[sel_part] );
 
@@ -431,7 +469,6 @@ void bodygraph_display::prepare_infolist()
     u->worn.prepare_bodymap_info( info, bp, sub_parts, *u );
 
     // update info text cache
-    info_txt.clear();
     prepare_infotext( true );
 }
 
@@ -524,7 +561,9 @@ shared_ptr_fast<ui_adaptor> bodygraph_display::create_or_get_ui_adaptor()
         current_ui->on_screen_resize( [this]( ui_adaptor & cui ) {
             init_ui_windows();
             info_txt.clear();
-            prepare_infotext( false );
+            if( !partlist.empty() && std::get<3>( partlist[sel_part] ) ) {
+                prepare_infotext( false );
+            }
             cui.position_from_window( w_border );
         } );
         current_ui->mark_resize();

@@ -1335,6 +1335,7 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
     return { bgp.sym, c_light_green };
 }
 
+// TODO: Cache the result
 std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
         int width, int max_height, int &height )
 {
