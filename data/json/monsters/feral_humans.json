@@ -713,5 +713,36 @@
     "zombify_into": "mon_zombie_soldier",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_feral_swimmer_kickboard",
+    "type": "MONSTER",
+    "name": { "str": "feral swimmer" },
+    "description": "Clad in swimwear and with a swimming kickboard in hand, this once normal person is now a bloodthirsty maniac, capable of swimming behind its victims and drown them with a smile on its face.",
+    "copy-from": "mon_feral_human_pipe",
+    "color": "light_blue",
+    "melee_dice_sides": 2,
+    "death_drops": "feral_swimmer_death_drops_kickboard",
+    "zombify_into": "mon_zombie_swimmer_base",
+    "extend": { "flags": [ "SWIMS" ] }
+  },
+  {
+    "id": "mon_feral_diver_knife",
+    "type": "MONSTER",
+    "name": { "str": "feral diver" },
+    "description": "Once an avid diver, this masked maniac now follows its prey until the deepest of the oceans, wielding a dive knife with which to murder them.",
+    "copy-from": "mon_feral_swimmer_kickboard",
+    "color": "blue",
+    "melee_dice": 2,
+    "melee_dice_sides": 5,
+    "melee_cut": 4,
+    "dodge": 2,
+    "armor_bash": 2,
+    "armor_cut": 1,
+    "armor_bullet": 1,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor" ],
+    "extend": { "flags": [ "WATER_CAMOUFLAGE", "NO_BREATHE" ] },
+    "delete": { "flags": [ "SMELLS" ] },
+    "death_drops": "feral_diver_death_drops_knife"
   }
 ]

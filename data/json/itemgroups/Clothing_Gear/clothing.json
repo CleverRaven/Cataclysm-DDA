@@ -2132,6 +2132,7 @@
       [ "dive_bag", 35 ],
       [ "wicker_backpack", 10 ],
       [ "flotation_vest", 30 ],
+      [ "swimming_kickboard", 5 ],
       [ "diving_watch", 5 ],
       [ "wristwatch", 5 ],
       [ "small_scuba_tank", 5 ],
@@ -2233,6 +2234,66 @@
       [ "fish_sandwich", 2 ],
       [ "mango", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_head",
+    "//": "Only diving appropriate headgear, not including masks or glasses.",
+    "items": [ [ "wetsuit_hood", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_masks",
+    "//": "Only diving appropriate masks, it needs to let the user breath underwater.",
+    "items": [ { "item": "rebreather", "prob": 100, "charges": [ 0, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_glasses",
+    "//": "Only diving appropriate glasses, it needs to let the user see underwater.",
+    "items": [ [ "goggles_swim", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_suits",
+    "//": "Only diving appropriate (even if not optimal) suits of torso + pants.",
+    "items": [
+      { "group": "swimmer_wetsuit", "damage": [ 1, 4 ], "prob": 95 },
+      {
+        "distribution": [ { "group": "diving_torso", "damage": [ 1, 4 ] }, { "group": "diving_pants", "damage": [ 1, 4 ] } ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_torso",
+    "//": "Only diving appropriate torso clothing.  To be expanded later with rash guards.",
+    "items": [ [ "bikini_top", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_pants",
+    "//": "Only diving appropriate legs clothing.  To be expanded later with rash guards.",
+    "items": [ [ "bikini_bottom", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_gloves",
+    "//": "Only diving appropriate gloves.",
+    "items": [ [ "wetsuit_gloves", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_shoes",
+    "//": "Only diving appropriate footgear.",
+    "items": [ [ "swim_fins", 50 ], [ "wetsuit_booties", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_accessories",
+    "//": "Only diving appropriate accesories.",
+    "items": [ [ "dive_bag", 25 ], [ "diving_watch", 25 ], [ "small_scuba_tank", 25 ], [ "scuba_tank", 25 ] ]
   },
   {
     "type": "item_group",

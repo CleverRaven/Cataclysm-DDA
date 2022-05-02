@@ -585,6 +585,7 @@
     "//": "For fishing themed locations",
     "items": [
       [ "flotation_vest", 50 ],
+      [ "swimming_kickboard", 5 ],
       [ "plastic_sheet", 10 ],
       [ "fishing_waders", 5 ],
       [ "wetsuit", 10 ],
