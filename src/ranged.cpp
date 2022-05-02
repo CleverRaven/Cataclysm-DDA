@@ -89,8 +89,9 @@ static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
-static const ammotype ammo_metal_rail( "metal_rail" );
 static const ammotype ammo_RPG_7( "RPG-7" );
+static const ammotype ammo_metal_rail( "metal_rail" );
+
 
 static const bionic_id bio_railgun( "bio_railgun" );
 
