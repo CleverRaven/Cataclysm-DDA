@@ -54,7 +54,7 @@
       "}": "f_rack",
       "a": "f_dishwasher",
       "b": "f_oven",
-      "C": "f_console_broken",
+      "C": "f_console_broken_table",
       "c": "f_fridge",
       "d": "f_counter",
       "D": "f_trashcan",
@@ -125,9 +125,9 @@
         { "item": "mechanics", "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 3 ] }
       ],
-      ")": [  
-        { "item": "office_supplies", "chance": 80, "repeat": [ 2, 11 ] }, 
-        { "item": "office_mess", "chance": 30, "repeat": [ 0, 3 ] } 
+      ")": [
+        { "item": "office_supplies", "chance": 80, "repeat": [ 2, 11 ] },
+        { "item": "office_mess", "chance": 30, "repeat": [ 0, 3 ] }
       ],
       "{": [
         { "item": "maps_milspec", "chance": 15 },
@@ -295,17 +295,17 @@
         { "item": "book_military", "chance": 5 },
         { "item": "book_survival", "chance": 5 },
         { "item": "literature", "chance": 5 },
-        { "item": "novels", "chance": 5 },
+        { "item": "novels", "chance": 75, "repeat": [ 6, 20 ] },
         { "item": "hardware_books", "chance": 5 },
         { "item": "dojo_manuals", "chance": 5 },
         { "item": "exotic_books", "chance": 2 },
         { "item": "carpentrybooks", "chance": 5 },
         { "item": "religious_books", "chance": 75, "repeat": [ 0, 3 ] },
         { "item": "manuals", "chance": 5 },
-        { "item": "textbooks", "chance": 60, "repeat": [ 2, 20 ] },
+        { "item": "textbooks", "chance": 5 },
         { "item": "lab_bookshelves", "chance": 5 },
         { "item": "tailorbooks", "chance": 5 },
-        { "item": "magazines", "chance": 10 }
+        { "item": "magazines", "chance": 40, "repeat": [ 1, 3 ] }
       ],
       "Л": [ { "item": "clothing_work_set", "chance": 70, "repeat": [ 0, 15 ] } ],
       "β": [
