@@ -214,7 +214,7 @@
   },
   {
     "id": "TALK_CABIN_CHEMIST_BULK_SELL",
-    "//": "This is all the dialogue related to buying bulk chemicals. It should remain somewhat prohibitively expensive so the chemist doesn't become a one-stop shop for survival needs.",
+    "//": "This is all the dialogue related to buying bulk chemicals.  It should remain somewhat prohibitively expensive so the chemist doesn't become a one-stop shop for survival needs.",
     "type": "talk_topic",
     "dynamic_line": [
       "I'll see what I've got around here for you.  I've gotta warn you: it's gonna be expensive.  Hard to stay supplied in the apocalypse, you know.  What do you need?"
@@ -236,11 +236,22 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some disinfectant.  [40$]",
+        "text": "I'll buy some disinfectant.  [30$]",
         "effect": [
           {
             "u_buy_item": "disinfectant",
             "container" : "bottle_plastic_small",
+            "cost": 3000,
+            "count": 20
+          }
+        ],
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "I'll buy some aspirin.  [40$]",
+        "effect": [
+          {
+            "u_buy_item": "aspirin",
             "cost": 4000,
             "count": 20
           }
@@ -248,45 +259,34 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some aspirin.  [50$]",
-        "effect": [
-          {
-            "u_buy_item": "aspirin",
-            "cost": 5000,
-            "count": 20
-          }
-        ],
-        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
-      },
-      {
-        "text": "I'll buy some sprayable fungicide.  [50$]",
+        "text": "I'll buy some sprayable fungicide.  [40$]",
         "effect": [
           {
             "u_buy_item": "gas_fungicidal",
             "container" : "jug_plastic",
-            "cost": 5000,
+            "cost": 4000,
             "count": 1500
           }
         ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antibiotics.  [100$]",
+        "text": "I'll buy some antibiotics.  [80$]",
         "effect": [
           {
             "u_buy_item": "antibiotics",
-            "cost": 10000,
+            "cost": 8000,
             "count": 20
           }
         ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antifungal drugs.  [150$]",
+        "text": "I'll buy some antifungal drugs.  [140$]",
         "effect": [
           {
             "u_buy_item": "antifungal",
-            "cost": 15000,
+            "cost": 14000,
             "count": 20
           }
         ],
@@ -305,12 +305,12 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some napalm.  [350$]",
+        "text": "I'll buy some napalm.  [300$]",
         "effect": [
           {
             "u_buy_item": "napalm",
             "container" : "jerrycan",
-            "cost": 35000,
+            "cost": 30000,
             "count": 10000
           }
         ],
@@ -341,11 +341,22 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some disinfectant.  [40$]",
+        "text": "I'll buy some disinfectant.  [30$]",
         "effect": [
           {
             "u_buy_item": "disinfectant",
             "container" : "bottle_plastic_small",
+            "cost": 3000,
+            "count": 20
+          }
+        ],
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "I'll buy some aspirin.  [40$]",
+        "effect": [
+          {
+            "u_buy_item": "aspirin",
             "cost": 4000,
             "count": 20
           }
@@ -353,45 +364,34 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some aspirin.  [50$]",
-        "effect": [
-          {
-            "u_buy_item": "aspirin",
-            "cost": 5000,
-            "count": 20
-          }
-        ],
-        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
-      },
-      {
-        "text": "I'll buy some sprayable fungicide.  [50$]",
+        "text": "I'll buy some sprayable fungicide.  [40$]",
         "effect": [
           {
             "u_buy_item": "gas_fungicidal",
             "container" : "jug_plastic",
-            "cost": 5000,
+            "cost": 4000,
             "count": 1500
           }
         ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antibiotics.  [100$]",
+        "text": "I'll buy some antibiotics.  [80$]",
         "effect": [
           {
             "u_buy_item": "antibiotics",
-            "cost": 10000,
+            "cost": 8000,
             "count": 20
           }
         ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antifungal drugs.  [150$]",
+        "text": "I'll buy some antifungal drugs.  [140$]",
         "effect": [
           {
             "u_buy_item": "antifungal",
-            "cost": 15000,
+            "cost": 14000,
             "count": 20
           }
         ],
@@ -410,12 +410,12 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some napalm.  [350$]",
+        "text": "I'll buy some napalm.  [300$]",
         "effect": [
           {
             "u_buy_item": "napalm",
             "container" : "jerrycan",
-            "cost": 35000,
+            "cost": 30000,
             "count": 10000
           }
         ],
