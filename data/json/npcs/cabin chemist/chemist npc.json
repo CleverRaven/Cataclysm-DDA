@@ -204,7 +204,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_HOME",
-    "dynamic_line": "Not my place, just somewhere I ended up.  Some old shack, maybe a hunting cabin or something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
+    "dynamic_line": "Not my place, just somewhere I ended up.  Some old shack, maybe a hunting cabin or something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here, that's all I'm saying.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
     "responses": [
       {
         "text": "Hmm.",
@@ -236,12 +236,12 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some disinfectant.  [30$]",
+        "text": "I'll buy some disinfectant.  [25$]",
         "effect": [
           {
             "u_buy_item": "disinfectant",
             "container" : "bottle_plastic_small",
-            "cost": 3000,
+            "cost": 2500,
             "count": 20
           }
         ],
@@ -271,11 +271,11 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antibiotics.  [80$]",
+        "text": "I'll buy some antibiotics.  [120$]",
         "effect": [
           {
             "u_buy_item": "antibiotics",
-            "cost": 8000,
+            "cost": 12000,
             "count": 20
           }
         ],
@@ -341,12 +341,12 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some disinfectant.  [30$]",
+        "text": "I'll buy some disinfectant.  [25$]",
         "effect": [
           {
             "u_buy_item": "disinfectant",
             "container" : "bottle_plastic_small",
-            "cost": 3000,
+            "cost": 2500,
             "count": 20
           }
         ],
@@ -376,11 +376,11 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antibiotics.  [80$]",
+        "text": "I'll buy some antibiotics.  [120$]",
         "effect": [
           {
             "u_buy_item": "antibiotics",
-            "cost": 8000,
+            "cost": 12000,
             "count": 20
           }
         ],
