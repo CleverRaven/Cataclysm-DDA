@@ -1134,9 +1134,7 @@
     "id": "STOPAIM",
     "category": "TARGET",
     "name": "Stop Aiming",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "," }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
   },
   {
     "type": "keybinding",
