@@ -77,8 +77,8 @@
 #include "vpart_position.h"
 #include "weakpoint.h"
 
-static const ammotype ammo_12mm( "12mm" );
 static const ammotype ammo_120mm( "120mm" );
+static const ammotype ammo_12mm( "12mm" );
 static const ammotype ammo_40x46mm( "40x46mm" );
 static const ammotype ammo_40x53mm( "40x53mm" );
 static const ammotype ammo_66mm( "66mm" );
