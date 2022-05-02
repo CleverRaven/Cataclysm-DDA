@@ -53,16 +53,9 @@
     "dynamic_line": [
       "I was homeless before everything went down, just camping out here for a while.  Stuck up <name_b>s shunned me for my condition, but they're all dead now.  I guess I'm better off than they are.",
       "I guess you probably wouldn't have noticed this place before shit hit the fan, but I've been down here for quite a while.",
-      "Stupid <name_b>s don't care at all.  Totally invisible to them, that's what I'm doing here!  Well, look at 'em now!  Just as clueless in death as in life, if you ask me.",
-      "Nothing to it.  Before… all this, it didn't take much to find yourself here.  And I guess it just made sense to stay.  We seem to be doing better than most, anyway.",
-      "What kind of answer are you looking for?  I'm fucked up, okay?  You wouldn't be in a place like this if you weren't.  I don't wanna get into it.",
-      "I've spent a long time living like this, if that's what you're asking.  Not trying to make you <sad>, so I won't go into the long of it.  But the short of it: all it takes is one slip up and you're out of the projects.  Day one.  Ain't right, if you ask me.",
-      "Unlucky, I suppose.  Or lucky, in a certain light.  I'm an optimist, so I guess I'm thankful to be alive after everything that's happened.  Not to mention, the government wouldn't let me have weapons THIS fun before <the_cataclysm>!",
-      "In prison, out of prison, always paying into the system.  But hey, I guess <the_cataclysm> is one way to erase all that from existence.  The debt, the record, and the <name_b>s that ruined my life just the same! Look at me now!",
+      "Nothing to it.  Before <the_cataclysm>, it didn't take much to find yourself here.  And I guess it just made sense to stay.  We seem to be doing better than most, anyway.",
       "Surviving, as I always have.  Is that what you mean?",
-      "It's hard to say exactly what I'm doing out here, but I guess one thing just leads to another.  Self-reliance, you know?  'Trust thyself!'  I think I have that one around here somewhere…  We might have burned it, actually.  Not much use thinking like that now, is there?  I guess that guy never had a buddy making sure he didn't get his face eaten off in his sleep.",
-      "Before this I had a trailer a little ways away.  Now I live here.  I've seen so many folks come through here, every size, every shape… in all kinds of shape.  Everyone's got a story.  Some of them won't tell, but you can see it on their face.  I mean, literally, on their face.  Soft and smooth, then they haven't been camping long.  But a lot of them are cracked and leathery from the sun.  Most of them never had a shot at a real life anyway.  You grow up poor, you'll always be poor.  Especially with some of the problems they got.",
-      "I'm pretty new to this kind of living.  Got thrown out of my apartment after… well, you're just being nice when you ask, aren't you?  It doesn't matter now anyway.  I'm here and I'm still alive."
+      "It's hard to say exactly what I'm doing out here, but I guess one thing just leads to another… well, you're just being nice when you ask, aren't you?  It doesn't matter now anyway.  I'm here and I'm still alive."
     ],
     "responses": [
       { "text": "Hm.", "topic": "TALK_NONE" }

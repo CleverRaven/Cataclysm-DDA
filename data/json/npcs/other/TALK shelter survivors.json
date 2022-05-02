@@ -29,7 +29,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR_CALM",
-    "dynamic_line": "Oh, you're not one of them.  Those <zombies>, I mean. Come on in, just don't cause any trouble.",
+    "dynamic_line": "Oh, you're not one of them.  Those <zombies>, I mean.  Come on in, just don't cause any trouble.",
 
     "responses": [
       { "text": "Alright, let's chat.", "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO" },
@@ -60,7 +60,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR_STORY",
-    "dynamic_line": "When shit hit the fan, I ran out here to this emergency shelter.  Fortunately, the place hadn't been looted yet, and there weren't any <zombies> lurking around here.",
+    "dynamic_line": "When shit hit the fan, I ran out here to this emergency shelter.  Fortunately, the place hadn't been looted yet and there weren't any <zombies> lurking around here.",
 
     "responses": [
       { "text": "Wow.", "topic": "TALK_NONE" }
