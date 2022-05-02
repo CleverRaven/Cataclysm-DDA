@@ -31,7 +31,7 @@
     "bonus_int": {
       "rng": [
         1,
-        3
+        2
       ]
     },
     "shopkeeper_item_group": "cabin_chemist_sell",
