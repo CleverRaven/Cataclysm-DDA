@@ -1213,6 +1213,7 @@
       { "item": "crack", "prob": 8, "charges": [ 1, 4 ] },
       [ "crackpipe", 37 ],
       { "item": "lsd", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "ketene_lamp", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "chemistry_set", "prob": 50, "charges": [ 0, 500 ] },
       { "group": "ammo_pocket_batteries_full", "prob": 70 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },

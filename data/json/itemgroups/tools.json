@@ -637,6 +637,7 @@
       [ "still_lab", 3 ],
       [ "gelbox", 5 ],
       [ "microcentrifuge", 5 ],
+      [ "ketene_lamp", 1 ],
       [ "stopcock", 3 ],
       [ "beaker", 5 ],
       [ "gradcylinder", 5 ],
