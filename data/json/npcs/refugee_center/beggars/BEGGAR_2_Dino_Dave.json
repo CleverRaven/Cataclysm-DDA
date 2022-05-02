@@ -77,36 +77,28 @@
         "topic": "TALK_MISSION_OFFER"
       },
       {
-        "condition": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] },
+        "condition": {
+          "and": [ "has_no_available_mission", "has_no_assigned_mission", { "not": { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" } } ]
+        },
         "text": "What are you going to do with all that cardboard now?",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
         "effect": { "u_add_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" }
       },
       {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
-        "text": "Cardboard?",
-        "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD"
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
+            { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" }
+          ]
+        },
+        "text": "We've done it, Dave!  Smokes says you can build yourself a house up on the roof if you want.  You've got to keep it nice and clean, and help out the people down here by looking out for zombies, but you can still use the washrooms and things downstairs when you need to.  What do you say?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_PERMISSION"
       },
-      {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
-        "text": "Why are you sitting out here?",
-        "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE"
-      },
-      {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
-        "text": "Are you seriously wearing a dinosaur costume?",
-        "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR"
-      },
-      {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
-        "text": "Do you need something to eat?",
-        "topic": "TALK_REFUGEE_BEGGAR_2_GIVE_FOOD"
-      },
-      {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
-        "text": "Get away from me.",
-        "topic": "TALK_DONE"
-      },
+      { "text": "Cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
+      { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
+      { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
+      { "text": "Do you need something to eat?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVE_FOOD" },
+      { "text": "Get away from me.", "topic": "TALK_DONE" },
       { "text": "…", "topic": "TALK_DONE" }
     ]
   },
@@ -218,14 +210,14 @@
     "id": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
     "dynamic_line": {
       "and": [
-        "Well… I had it all pretty together,/u0400",
+        "Well… I had it all pretty together,\u0020",
         {
           "u_has_var": "beggars_recruited",
           "type": "general",
           "context": "recruit",
           "value": "yes",
-          "yes": "but the others have left, and/u0400",
-          "no": "and I feel bad with all the help you've given me already, but/u0400"
+          "yes": "but the others have left, and\u0020",
+          "no": "and I feel bad with all the help you've given me already, but\u0020"
         },
         "now the masters won't let me build my sanctuary.  I know I can't build it in here, they wouldn't allow it.  They won't listen to me when I ask for a safe place.  They just want me to disappear, like the others.  Can you help me figure them out?"
       ]
@@ -246,9 +238,31 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_PERMISSION",
+    "dynamic_line": "The roof!  So high!  So lofty!  I can hardly believe it!  This will be a nicer house than I had before everything went funny.  I can watch out, I'm happy to do that.  And it'll be nice to still have a bathroom!  Come see me there, my friend.  I will not disappoint you.",
+    "speaker_effect": {
+      "effect": [
+        { "finish_mission": "MISSION_BEGGAR_2_PERMISSION", "success": true },
+        { "npc_first_topic": "TALK_DINODAVE_1" },
+        { "mapgen_update": "cardboard_castle_1_main", "om_terrain": "evac_center_13_z1" },
+        { "npc_teleport": { "npc_val": "dave_castle" } },
+        { "mapgen_update": "cardboard_castle_1_roof", "om_terrain": "evac_center_13_z2" }
+      ]
+    },
+    "responses": [ { "text": "I'll see you on the rooftop.  Good luck, Dave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_JOIN",
     "dynamic_line": "No!  I just got everything together.  I am not leaving, not now.  Everything's finally coming together!",
-    "responses": [ { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "Well, OK then, Dave.  One last favor, I think I can talk to Smokes about finding you a place to go.",
+        "effect": { "assign_mission": "MISSION_BEGGAR_2_PERMISSION" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "I'll have to think on it, Dave, I've done a lot already.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "MISSION_BEGGAR_2_BOX_SMALL",
@@ -276,7 +290,7 @@
   {
     "id": "MISSION_BEGGAR_2_DUCT_TAPE",
     "type": "mission_definition",
-    "name": { "str": "Bring a roll of duct tape" },
+    "name": { "str": "Bring a roll of duct tape (200 charges)" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -367,11 +381,11 @@
   {
     "id": "MISSION_BEGGAR_2_PERMISSION",
     "type": "mission_definition",
-    "name": { "str": "Find Dave a place to call home." },
+    "name": { "str": "Talk to Smokes about finding Dave a place to call home." },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "Dave_Permission", "type": "mission", "value": true },
+    "goal_condition": { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" },
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -387,23 +401,9 @@
     },
     "end": {
       "effect": [
-        { "u_add_var": "dave_castle_stage", "value": 1 },
-        { "npc_first_topic": "TALK_DINODAVE_1" },
+        { "u_adjust_var": "dave_castle_stage", "adjustment": 1 },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
-        { "mapgen_update": "cardboard_castle_1_main", "om_terrain": "evac_center_13_z1" },
-        { "mapgen_update": "cardboard_castle_1_roof", "om_terrain": "evac_center_13_z2" },
-        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" },
-        {
-          "set_queue_effect_on_condition": [
-            {
-              "id": "EOC_DinoDaveCardboardCastle1",
-              "effect": [ { "npc_set_goal": { "om_terrain": "evac_center_13_z1", "z": 1, "offset_x": 3, "offset_y": 19 } } ],
-              "affect_nearby_npcs": true,
-              "npc_range": 15,
-              "npcs_to_affect": "Dino Dave, beggar"
-            }
-          ]
-        }
+        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" }
       ]
     }
   },
@@ -412,8 +412,9 @@
     "update_mapgen_id": "cardboard_castle_1_main",
     "method": "json",
     "object": {
-      "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "place_nested": [ { "chunks": [ "cardboard_castle_1_main" ], "x": 0, "y": 16 } ]
+      "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal_c", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_nested": [ { "chunks": [ "cardboard_castle_1_main" ], "x": 0, "y": 17 } ],
+      "set": [ { "point": "variable", "id": "dave_castle", "x": 4, "y": 19 } ]
     }
   },
   {
@@ -428,22 +429,21 @@
     "nested_mapgen_id": "cardboard_castle_1_main",
     "//": "First iteration of Dino Dave's cardboard castle - main floor.",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "       ",
-        " |-||| ",
-        " |_CC| ",
-        " |___| ",
-        " |-||| ",
-        " |_BB| ",
-        " ||||| "
+        "||-|||",
+        "|__CC|",
+        "|____|",
+        "||-|||",
+        "|__BB|",
+        "||||||"
       ],
       "furniture": {
-        "|": { "terrain": "f_cardboard_wall" },
-        "_": { "terrain": "f_cardboard_door" },
-        "-": { "terrain": "f_cardboard_floor" },
-        "C": { "terrain": "f_cardboard_box" },
-        "B": { "terrain": "f_floor_mattress" }
+        "|": "f_cardboard_wall",
+        "-": "f_cardboard_door",
+        "_": "f_cardboard_floor",
+        "C": "f_cardboard_box",
+        "B": "f_floor_mattress"
       }
     }
   },
@@ -453,23 +453,27 @@
     "nested_mapgen_id": "cardboard_castle_1_roof",
     "//": "First iteration of Dino Dave's cardboard castle - roof.",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "       ",
-        " _____ ",
-        " _____ ",
-        " _____ ",
-        " _____ ",
-        " _____ ",
-        " _____ "
+        "______",
+        "______",
+        "______",
+        "______",
+        "______",
+        "______"
       ],
-      "furniture": { "_": { "terrain": "f_cardboard_roof" } }
+      "furniture": { "_": "f_cardboard_roof" }
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "refcenter_unlock_roofstairs",
     "method": "json",
-    "object": { "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_door_metal_c", "x": 1, "y": 14 },
+        { "point": "terrain", "id": "t_door_metal_c", "x": 22, "y": 14 }
+      ]
+    }
   }
 ]
