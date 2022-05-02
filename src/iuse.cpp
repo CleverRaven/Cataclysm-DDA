@@ -84,7 +84,6 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "popup.h" // For play_game
 #include "recipe.h"
@@ -127,11 +126,15 @@ static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WASH( "ACT_WASH" );
+
+static const addiction_id addiction_marloss_b( "marloss_b" );
+static const addiction_id addiction_marloss_r( "marloss_r" );
+static const addiction_id addiction_marloss_y( "marloss_y" );
+static const addiction_id addiction_nicotine( "nicotine" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -249,7 +252,6 @@ static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
-static const itype_id itype_data_card( "data_card" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
@@ -286,7 +288,6 @@ static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
-static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
@@ -328,8 +329,6 @@ static const quality_id qual_GLARE( "GLARE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
-
-static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
@@ -378,6 +377,7 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -613,7 +613,7 @@ cata::optional<int> iuse::smoking( Character *p, item *it, bool, const tripoint 
         }
     }
     if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
-                add_type::CIG ) + 1 ) ) {
+                addiction_nicotine ) + 1 ) ) {
         p->add_msg_if_player( m_bad, _( "Ugh, too much smoke… you feel nasty." ) );
     }
 
@@ -641,7 +641,7 @@ cata::optional<int> iuse::ecig( Character *p, item *it, bool, const tripoint & )
     p->mod_hunger( -1 );
     p->add_effect( effect_cig, 10_minutes );
     if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
-                add_type::CIG ) + 1 ) ) {
+                addiction_nicotine ) + 1 ) ) {
         p->add_msg_if_player( m_bad, _( "Ugh, too much nicotine… you feel nasty." ) );
     }
     return it->type->charges_to_use();
@@ -1277,8 +1277,8 @@ static void spawn_spores( const Character &p )
 
 static void marloss_common( Character &p, item &it, const trait_id &current_color )
 {
-    static const std::map<trait_id, add_type> mycus_colors = {{
-            { trait_MARLOSS_BLUE, add_type::MARLOSS_B }, { trait_MARLOSS_YELLOW, add_type::MARLOSS_Y }, { trait_MARLOSS, add_type::MARLOSS_R }
+    static const std::map<trait_id, addiction_id> mycus_colors = {{
+            { trait_MARLOSS_BLUE, addiction_marloss_b }, { trait_MARLOSS_YELLOW, addiction_marloss_y }, { trait_MARLOSS, addiction_marloss_r }
         }
     };
 
@@ -1287,7 +1287,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
                              _( "As you eat the %s, you have a near-religious experience, feeling at one with your surroundings…" ),
                              it.tname() );
         p.add_morale( MORALE_MARLOSS, 100, 1000 );
-        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             if( pr.first != current_color ) {
                 p.add_addiction( pr.second, 50 );
             }
@@ -1299,7 +1299,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
     }
 
     int marloss_count = std::count_if( mycus_colors.begin(), mycus_colors.end(),
-    [&p]( const std::pair<trait_id, add_type> &pr ) {
+    [&p]( const std::pair<trait_id, addiction_id> &pr ) {
         return p.has_trait( pr.first );
     } );
 
@@ -1361,7 +1361,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         /** @EFFECT_INT slightly reduces sleep duration when eating Mycus+goo */
         p.fall_asleep( 10_hours - p.int_cur *
                        1_minutes ); // Hope you were eating someplace safe.  Mycus v. goo in your guts is no joke.
-        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
         }
@@ -1372,7 +1372,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
                              _( "You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground…" ) );
         /** @EFFECT_INT reduces sleep duration when eating wrong color Marloss */
         p.fall_asleep( 40_minutes - 1_minutes * p.int_cur / 2 );
-        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
         }
@@ -1389,7 +1389,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.add_msg_if_player( _( "You feel a strange warmth spreading throughout your body…" ) );
         p.set_mutation( current_color );
         // Give us addictions to the other two colors, but cure one for current color
-        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             if( pr.first == current_color ) {
                 p.rem_addiction( pr.second );
             } else {
@@ -1531,9 +1531,9 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
                 fe.marlossify( nearby_pos );
             }
         }
-        p->rem_addiction( add_type::MARLOSS_R );
-        p->rem_addiction( add_type::MARLOSS_B );
-        p->rem_addiction( add_type::MARLOSS_Y );
+        p->rem_addiction( addiction_marloss_r );
+        p->rem_addiction( addiction_marloss_b );
+        p->rem_addiction( addiction_marloss_y );
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
@@ -1999,10 +1999,10 @@ class exosuit_interact
             ctxt.register_action( "CONFIRM" );
             ctxt.register_action( "QUIT" );
             ctxt.register_action( "ANY_INPUT" );
-            pocket_count = it->get_all_contained_pockets().value().size();
+            pocket_count = it->get_all_contained_pockets().size();
             height = std::max( pocket_count, height_default ) + 2;
             width_menu = 30;
-            for( const item_pocket *pkt : it->get_all_contained_pockets().value() ) {
+            for( const item_pocket *pkt : it->get_all_contained_pockets() ) {
                 int tmp = utf8_width( get_pocket_name( pkt ) );
                 if( tmp > width_menu ) {
                     width_menu = tmp;
@@ -2053,7 +2053,7 @@ class exosuit_interact
         void draw_menu() {
             werase( w_menu );
             int row = 0;
-            for( const item_pocket *pkt : suit->get_contents().get_all_contained_pockets().value() ) {
+            for( const item_pocket *pkt : suit->get_all_contained_pockets() ) {
                 nc_color colr = row == cur_pocket ? h_white : c_white;
                 mvwprintz( w_menu, point( 0, row ), colr, get_pocket_name( pkt ) );
                 row++;
@@ -2064,7 +2064,7 @@ class exosuit_interact
         void draw_iteminfo() {
             std::vector<iteminfo> dummy;
             std::vector<iteminfo> suitinfo;
-            item_pocket *pkt = suit->get_contents().get_all_contained_pockets().value()[cur_pocket];
+            item_pocket *pkt = suit->get_all_contained_pockets()[cur_pocket];
             pkt->general_info( suitinfo, cur_pocket, true );
             pkt->contents_info( suitinfo, cur_pocket, true );
             item_info_data data( suit->tname(), suit->type_name(), suitinfo, dummy, scroll_pos );
@@ -2111,7 +2111,7 @@ class exosuit_interact
                 } else if( action == "CONFIRM" ) {
                     scroll_pos = 0;
                     int nmoves = insert_replace_mod(
-                                     suit->get_contents().get_all_contained_pockets().value()[cur_pocket], suit );
+                                     suit->get_all_contained_pockets()[cur_pocket], suit );
                     moves = moves > nmoves ? moves : nmoves;
                 } else if( action == "UP" ) {
                     cur_pocket--;
@@ -2228,7 +2228,7 @@ cata::optional<int> iuse::manage_exosuit( Character *p, item *it, bool, const tr
     if( !p->is_avatar() ) {
         return cata::nullopt;
     }
-    if( !it->get_contents().get_all_contained_pockets().success() ) {
+    if( it->get_all_contained_pockets().empty() ) {
         add_msg( m_warning, _( "Your %s does not have any pockets to contain modules." ), it->tname() );
         return cata::nullopt;
     }
@@ -3971,6 +3971,11 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
             here.add_field( dest, fd_incendiary, 3 );
         }
 
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+        }
     }
     return 0;
 }
@@ -3984,6 +3989,11 @@ cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tri
         for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
             here.add_field( pt, fd_fire, intensity );
+        }
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
         return 1;
     } else if( it->charges > 0 ) {
@@ -4970,46 +4980,6 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     it->put_in( blood, item_pocket::pocket_type::CONTAINER );
     p->mod_moves( -to_moves<int>( 5_seconds ) );
     return it->type->charges_to_use();
-}
-
-//This is just used for robofac_intercom_mission_2
-cata::optional<int> iuse::mind_splicer( Character *p, item *it, bool, const tripoint & )
-{
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
-        if( map_it.typeId() == itype_rmi2_corpse &&
-            query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
-                      map_it.color_in_inventory() ) ) ) {
-
-            auto filter = []( const item & it ) {
-                return it.typeId() == itype_data_card;
-            };
-            avatar *you = p->as_avatar();
-            item_location loc;
-            if( you != nullptr ) {
-                loc = game_menus::inv::titled_filter_menu( filter, *you, _( "Select storage media" ) );
-            }
-            if( !loc ) {
-                add_msg( m_info, _( "Nevermind." ) );
-                return cata::nullopt;
-            }
-            item &data_card = *loc;
-            ///\EFFECT_DEX makes using the mind splicer faster
-            ///\EFFECT_FIRSTAID makes using the mind splicer faster
-            const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
-                    skill_firstaid ) - 1 ) - 10_minutes * ( p->get_dex() - 8 ), 30_minutes );
-
-            player_activity act( ACT_MIND_SPLICER, to_moves<int>( time ) );
-            act.targets.emplace_back( *p, &data_card );
-            p->assign_activity( act );
-            return it->type->charges_to_use();
-        }
-    }
-    add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );
-    return cata::nullopt;
 }
 
 void iuse::cut_log_into_planks( Character &p )
@@ -8338,101 +8308,6 @@ static bool multicooker_hallu( Character &p )
             return false;
     }
 
-}
-
-cata::optional<int> iuse::autoclave( Character *p, item *it, bool t, const tripoint &pos )
-{
-    if( t ) {
-        if( !it->ammo_sufficient( p ) ) {
-            add_msg( m_bad, _( "The autoclave ran out of charge and stopped before completing its cycle." ) );
-            it->active = false;
-            it->erase_var( "CYCLETIME" );
-            it->unset_flag( flag_NO_UNLOAD );
-            return 0;
-        }
-
-        int Cycle_time = it->get_var( "CYCLETIME", 0 );
-        Cycle_time -= 1;
-        if( Cycle_time <= 0 ) {
-            it->active = false;
-            it->erase_var( "CYCLETIME" );
-            it->unset_flag( flag_NO_UNLOAD );
-            item *cbm = it->get_item_with( []( const item & it ) {
-                return it.is_bionic() && !it.has_flag( flag_NO_PACKED );
-            } );
-            cbm->unset_flag( flag_NO_STERILE );
-        } else {
-            it->set_var( "CYCLETIME", Cycle_time );
-        }
-    } else if( !it->active ) {
-        if( p->is_underwater() ) {
-            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return cata::nullopt;
-        }
-
-        bool empty = true;
-        item *clean_cbm = it->get_item_with(
-        []( const item & it ) {
-            return it.is_bionic();
-        } );
-
-        if( clean_cbm ) {
-            empty = false;
-            if( query_yn( _( "Autoclave already contains a CBM.  Do you want to remove it?" ) ) ) {
-                get_map().add_item( pos, *clean_cbm );
-                it->remove_item( *clean_cbm );
-                if( !query_yn( _( "Do you want to use the autoclave?" ) ) ) {
-                    return 0;
-                }
-                empty = true;
-            }
-        }
-
-        //Using power_draw seem to consume random amount of battery so +100 to be safe
-        static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
-                                        ( 90_minutes ) ) / 1000 + 100;
-        if( power_need > it->ammo_remaining( p ) ) {
-            popup( _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
-                   power_need );
-            return cata::nullopt;
-        }
-
-        item_location to_sterile;
-        if( empty ) {
-            to_sterile = game_menus::inv::sterilize_cbm( *p );
-            if( !to_sterile ) {
-                return cata::nullopt;
-            }
-        }
-
-        if( query_yn( _( "Start the autoclave?" ) ) ) {
-            requirement_data reqs = *requirement_data_autoclave_item;
-            for( const auto &e : reqs.get_components() ) {
-                p->consume_items( e, 1, is_crafting_component );
-            }
-            for( const auto &e : reqs.get_tools() ) {
-                p->consume_tools( e );
-            }
-            p->invalidate_crafting_inventory();
-
-            if( empty ) {
-                const item *cbm = to_sterile.get_item();
-                it->put_in( *cbm, item_pocket::pocket_type::CONTAINER );
-                to_sterile.remove_item();
-            }
-
-            it->activate();
-            it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
-            it->set_flag( flag_NO_UNLOAD );
-            return it->type->charges_to_use();
-        }
-    } else {
-        int Cycle_time = it->get_var( "CYCLETIME", 0 );
-        add_msg( _( "The cycle will be completed in %s." ),
-                 to_string( time_duration::from_seconds( Cycle_time ) ) );
-    }
-
-    return 0;
 }
 
 cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tripoint &pos )

@@ -146,6 +146,16 @@
     "type": "ARMOR",
     "name": { "str": "bikini top" },
     "description": "A simple bikini top.",
+    "variant_type": "generic",
+    "variants": [
+      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 90 },
+      {
+        "id": "flag_bikini_top",
+        "name": { "str": "flag bikini top" },
+        "description": "A simple bikini top embroidered with the pattern of an American flag",
+        "weight": 10
+      }
+    ],
     "weight": "32 g",
     "volume": "250 ml",
     "price": 1800,

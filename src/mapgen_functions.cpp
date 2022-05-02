@@ -3246,6 +3246,12 @@ void madd_field( map *m, const point &p, field_type_id type, int intensity )
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 
+void mremove_fields( map *m, const point &p )
+{
+    tripoint actual_location( p, m->get_abs_sub().z() );
+    m->clear_fields( actual_location );
+}
+
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )
 {
     for( const tripoint &p : dat.m.points_on_zlevel() ) {

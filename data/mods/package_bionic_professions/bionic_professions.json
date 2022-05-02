@@ -47,7 +47,8 @@
       "bio_targeting",
       "bio_infrared",
       "bio_metabolics",
-      "bio_power_storage_mkII"
+      "bio_power_storage_mkII",
+      "bio_recoil"
     ],
     "traits": [ "PROF_CYBERCOP" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "pistol" } ],
@@ -281,7 +282,6 @@
         "items": [
           "gloves_medical",
           "socks",
-          "mask_dust",
           "dress_shirt",
           "pants",
           "dress_shoes",
@@ -293,7 +293,12 @@
           "oxycodone",
           "wristwatch"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "full_1st_aid" }, { "item": "medium_battery_cell", "charges": 500 } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "full_1st_aid" },
+          { "item": "medium_battery_cell", "charges": 500 },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -676,6 +681,11 @@
       "bio_ankles",
       "bio_trip",
       "bio_stiff",
+      "bio_glowy",
+      "bio_faulty_electromagnetic_leak",
+      "bio_faulty_grossfood",
+      "bio_radleak",
+      "bio_sleep_shutdown",
       "bio_armor_head",
       "bio_armor_torso",
       "bio_armor_arms",
@@ -683,7 +693,8 @@
       "bio_armor_eyes",
       "bio_razors",
       "bio_power_storage",
-      "bio_torsionratchet"
+      "bio_trickle",
+      "bio_trickle"
     ],
     "items": { "both": [ "subsuit_xl", "footrags", "hat_noise_cancelling" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
   },
@@ -700,7 +711,7 @@
       "bio_sleepy",
       "bio_trip",
       "bio_spasm",
-      "bio_metabolics",
+      "bio_lampoil",
       "bio_power_storage_mkII",
       "bio_painkiller",
       "bio_climate",

@@ -309,7 +309,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -3,
-    "healthy": 1,
     "calories": 4,
     "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
     "price": 50,
@@ -376,7 +375,6 @@
     "color": "green",
     "use_action": [ "SEED" ],
     "quench": -1,
-    "healthy": 1,
     "calories": 17,
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
     "price": 100,
@@ -712,7 +710,6 @@
     "looks_like": "hickory_nut",
     "symbol": "%",
     "quench": -6,
-    "healthy": -2,
     "calories": 9,
     "description": "Coffee pods taken from a Kentucky coffeetree.  If washed thoroughly and roasted, you could use them to make a dark and bitter brew much like coffee.",
     "price": 100,
@@ -756,7 +753,6 @@
     "container": "bag_plastic",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
-    "addiction_type": "caffeine",
     "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ]
   },
   {

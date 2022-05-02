@@ -5,7 +5,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "Hub 01 HWP" },
-    "description": "The Hub 01 Hybrid Weapons Platform.  Made with a combination of dark finished steel, blue polymer furniture, and a number of proprietary bolts and fixings to hold the pieces in place, this weapon looks like it belongs in a science fiction movie.  The body has 'MULTI CALIBER' inlaid in the steel near a quick release for exchanging the installed barrel and changing a magazine well adaptor.",
+    "description": "The Hub 01 Hybrid Weapons Platform, or just the HWP.  With its combination of black-finished steel, blue polymer furniture, and a number of proprietary bolts and fasteners to hold the pieces in place, this weapon looks like it belongs in a science fiction movie.  The body has \"MULTI CALIBER\" inlaid in the steel, near a quick release used both to exchange the installed barrel and to change the magazine well's adapter.",
     "weight": "2500 g",
     "volume": "4000 ml",
     "longest_side": "50 cm",
@@ -15,7 +15,7 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
-    "color": "dark_gray",
+    "color": "blue",
     "ammo": [ "NULL" ],
     "ranged_damage": { "damage_type": "stab", "amount": -2 },
     "modes": [  ],
@@ -36,7 +36,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "robofac40", "robofac20", "robofac10", "robofac60", "exodiiBRmag" ]
+        "item_restriction": [ "robofac40", "robofac20", "robofac50", "robofac100", "robofac10", "robofac60", "exodiiBRmag" ]
       }
     ]
   },
@@ -67,7 +67,7 @@
     "handling_modifier": 4,
     "loudness_modifier": 14,
     "overwrite_min_cycle_recoil": 1350,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with '5.56 NATO ASSAULT' stamped into the metal and an integrated muzzle break."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"5.56 NATO ASSAULT\" stamped into the metal and an integrated muzzle brake."
   },
   {
     "id": "robofac_gun_smg",
@@ -95,7 +95,7 @@
     "handling_modifier": 2,
     "loudness_modifier": -50,
     "overwrite_min_cycle_recoil": 450,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with '9mm Parabellum PDW' stamped into the metal and an integrated silencer."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"9mm Parabellum PDW\" stamped into the metal and an integrated silencer."
   },
   {
     "id": "robofac_gun_dmr",
@@ -124,7 +124,7 @@
     "handling_modifier": 2,
     "loudness_modifier": -10,
     "overwrite_min_cycle_recoil": 2700,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with '7.62 NATO DMR' stamped into the metal and an integrated flash hider."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"7.62 NATO DMR\" stamped into the metal and an integrated flash hider."
   },
   {
     "id": "robofac_gun_shotgun",
@@ -152,7 +152,7 @@
     "shot_spread_multiplier_modifier": -0.3,
     "flags": [ "CHOKE" ],
     "overwrite_min_cycle_recoil": 1250,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with '00 CQC' stamped into the metal and an integrated choke."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"00 CQC\" stamped into the metal and an integrated choke."
   },
   {
     "id": "robofac_gun_exodii",
@@ -178,7 +178,7 @@
     "ammo_modifier": [ "123ln" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "overwrite_min_cycle_recoil": 3500,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with 'EXODIC' stamped into the metal.  The typo appears to be intentional."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"EXODIC\" stamped into the metal.  The typo appears to be intentional."
   },
   {
     "id": "robofac_laser_sight",
@@ -205,7 +205,7 @@
     "id": "robofac40",
     "type": "MAGAZINE",
     "name": { "str": "HWP 40-round 5.56 magazine" },
-    "description": "A high capacity 40-round box magazine for use with the Hub 01 Hybrid Weapons Platform.",
+    "description": "A high-capacity 40-round box magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "265 g",
     "volume": "390 ml",
     "longest_side": "236 mm",
@@ -258,8 +258,8 @@
     "id": "robofac20",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 20-round .308 magazine" },
-    "description": "A 20-round 308 magazine for use with the Hub 01 Hybrid Weapons Platform.",
+    "name": { "str": "HWP 20-round 7.62 magazine" },
+    "description": "A 20-round stick magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "180 g",
     "volume": "320 ml",
     "longest_side": "152 mm",
@@ -271,5 +271,40 @@
     "ammo_type": [ "308" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 20 } } ]
+  },
+  {
+    "id": "robofac50",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "HWP 50-round 7.62 drum magazine" },
+    "description": "A 50-round drum magazine for use with the Hub 01 Hybrid Weapons Platform.",
+    "weight": "400 g",
+    "volume": "1 L",
+    "longest_side": "232 mm",
+    "price": 8900,
+    "price_postapoc": 750,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "308" ],
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 50 } } ]
+  },
+  {
+    "id": "robofac100",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "HWP 100-round 5.56 double drum magazine" },
+    "description": "A bulky 100-round double drum magazine for use with the Hub 01 Hybrid Weapons Platform.",
+    "weight": "1700 g",
+    "volume": "1200 ml",
+    "longest_side": "300 mm",
+    "price": 8900,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223" ],
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
   }
 ]

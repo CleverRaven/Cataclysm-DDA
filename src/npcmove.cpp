@@ -4385,9 +4385,15 @@ std::string npc_action_name( npc_action action )
             return "Escape explosion";
         case npc_player_activity:
             return "Performing activity";
-        default:
+        case npc_noop:
+            return "Do nothing";
+        case npc_do_attack:
+            return "Attack";
+        case num_npc_actions:
             return "Unnamed action";
     }
+
+    return "Unnamed action";
 }
 
 void print_action( const char *prepend, npc_action action )

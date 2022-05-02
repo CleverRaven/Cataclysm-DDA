@@ -125,6 +125,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_torvosaurus",
+    "name": "torvosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_torvosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_allosaurus",
     "name": "allosaurus egg",
     "copy-from": "egg_dino_theropod",
@@ -178,6 +185,13 @@
     "name": "qianzhousaurus egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_qianzhousaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_daspletosaurus",
+    "name": "daspletosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_daspletosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -255,6 +269,13 @@
     "name": "utahraptor egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_utahraptor"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dromaeosaurus",
+    "name": "dromaeosaurus egg",
+    "copy-from": "egg_dino_theropod_small",
+    "rot_spawn": "GROUP_EGG_dromaeosaurus"
   },
   {
     "type": "COMESTIBLE",

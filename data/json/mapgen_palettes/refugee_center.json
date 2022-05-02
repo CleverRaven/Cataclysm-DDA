@@ -53,6 +53,7 @@
       "t": "f_toilet",
       "u": "f_utility_shelf",
       "v": "f_utility_shelf",
+      "w": "f_utility_shelf",
       "z": "f_crate_c",
       "}": "f_rubble",
       "~": "f_shower"
@@ -72,6 +73,13 @@
         [ "t_region_shrub", 70 ],
         [ "t_region_tree", 3 ],
         [ "t_water_sh", 3 ]
+      ],
+      "~": [
+        [ "t_region_groundcover", 400 ],
+        [ "t_region_groundcover_forest", 50 ],
+        [ "t_region_shrub", 30 ],
+        [ "t_region_tree", 2 ],
+        [ "t_water_sh", 1 ]
       ],
       "|": [ [ "t_chainfence", 30 ], [ "t_chainfence_posts", 4 ], [ "t_region_groundcover_forest", 2 ], "t_region_shrub" ],
       "_": [ [ "t_pavement", 300 ], [ "t_region_groundcover_barren", 6 ], "t_region_groundcover_forest" ]

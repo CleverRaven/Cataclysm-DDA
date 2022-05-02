@@ -32,6 +32,18 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
+    "id": "mon_torvosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "torvosaurus juvenile",
+    "description": "A large bipedal dinosaur juvenile with sharp teeth.",
+    "default_faction": "torvosaurus_juvenile",
+    "copy-from": "mon_torvosaurus",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_torvosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_allosaurus_juvenile",
     "type": "MONSTER",
     "name": { "str": "juvenile allosaurus", "str_pl": "juvenile allosauruses" },
@@ -144,6 +156,20 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
+    "id": "mon_daspletosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "daspletosaurus juvenile",
+    "description": "This large, bipedal dinosaur juvenile has long, sharp teeth.",
+    "default_faction": "daspletosaurus_juvenile",
+    "copy-from": "mon_daspletosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_daspletosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_tyrannosaurus_juvenile",
     "type": "MONSTER",
     "name": "tyrannosaurus juvenile",
@@ -181,6 +207,7 @@
     "melee_cut": 1,
     "dodge": 2,
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
+    "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_small"
@@ -249,6 +276,7 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
+    "families": [ "prof_intro_biology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_sauropod_body" ],
     "hp": 200,
     "aggression": -10,

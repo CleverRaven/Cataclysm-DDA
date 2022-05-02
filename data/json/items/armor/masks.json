@@ -18,6 +18,16 @@
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ]
   },
   {
+    "id": "balaclava_skull",
+    "type": "ARMOR",
+    "repairs_like": "balclava",
+    "copy-from": "balclava",
+    "name": { "str": "skull balaclava" },
+    "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
+    "warmth": 10,
+    "material_thickness": 0.2
+  },
+  {
     "id": "balaclava_cut_resistant",
     "type": "ARMOR",
     "name": { "str": "cut-resistant balaclava" },
@@ -154,10 +164,84 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 2,
-    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "mouth" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white_mask_dust",
+        "name": { "str": "white dust mask" },
+        "description": "It's a clean white color, like the ones doctors use.",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "blue_mask_dust",
+        "name": { "str": "blue dust mask" },
+        "description": "It's colored light blue.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "black_mask_dust",
+        "name": { "str": "black dust mask" },
+        "description": "It's colored black.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "flower_mask_dust",
+        "name": { "str": "flower dust mask" },
+        "description": "It's yellow and decorated in a pattern full of flowers.",
+        "weight": 6,
+        "append": true
+      },
+      {
+        "id": "camo_mask_dust",
+        "name": { "str": "camo dust mask" },
+        "description": "It's painted in camouflage dye.",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "mustache_mask_dust",
+        "name": { "str": "mustache dust mask" },
+        "description": "It has a large mustache painted on it.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_mask_dust",
+        "name": { "str": "skull dust mask" },
+        "description": "It's black and with a skull mouth decoration.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "cartoon_mask_dust",
+        "name": { "str": "cartoon dust mask" },
+        "description": "It has cartoon characters painted on it.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "steampunk_mask_dust",
+        "name": { "str": "steampunk dust mask" },
+        "description": "It's colored black and with a steampunk design.  Very fashionable.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "flag_mask_dust",
+        "name": { "str": "flag dust mask" },
+        "description": "It's embroidered with the pattern of an American flag.  Perfect for a real patriot.",
+        "weight": 2,
+        "append": true
+      }
+    ]
   },
   {
     "id": "mask_guy_fawkes",
+    "repairs_like": "mask_hockey",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Guy Fawkes mask" },
@@ -219,6 +303,28 @@
     "environmental_protection": 1,
     "flags": [ "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head", "mouth" ] } ]
+  },
+  {
+    "id": "mask_skull",
+    "type": "ARMOR",
+    "category": "armor",
+    "repairs_like": "mask_hockey",
+    "name": { "str": "skull mask" },
+    "description": "A plastic skull mask that covers the face.  Spooky.",
+    "weight": "50 g",
+    "volume": "750 ml",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "mask_hockey",
+    "color": "white",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "santa_beard",

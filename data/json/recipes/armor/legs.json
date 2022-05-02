@@ -240,6 +240,7 @@
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_cotton", 15 ], [ "fastener_small", 1 ] ],
     "byproducts": [ [ "scrap_cotton", 5 ], [ "cotton_patchwork", 4 ] ]
+    "using": [ [ "tailoring_cotton", 3 ], [ "fastener_small", 1 ] ]
   },
   {
     "result": "skirt",
@@ -430,8 +431,9 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
-    "skill_used": "tailor",
-    "difficulty": 5,
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 4 ],
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
@@ -461,7 +463,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
-    "difficulty": 5,
+    "difficulty": 4,
+    "skills_required": [ "tailor", 4 ],
     "time": "8 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],

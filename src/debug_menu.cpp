@@ -183,6 +183,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::BENCHMARK: return "BENCHMARK";
         case debug_menu::debug_menu_index::OM_TELEPORT: return "OM_TELEPORT";
         case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
+        case debug_menu::debug_menu_index::OM_TELEPORT_CITY: return "OM_TELEPORT_CITY";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
@@ -271,7 +272,7 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
         { uilist_entry( debug_menu_index::DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
         { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
-        { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
+        { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set auto move route" ) ) },
         { uilist_entry( debug_menu_index::CONTROL_NPC, true, 'x', _( "Control NPC follower" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
@@ -353,12 +354,16 @@ static int vehicle_uilist()
 
 static int teleport_uilist()
 {
-    const std::vector<uilist_entry> uilist_initializer = {
+    std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
         { uilist_entry( debug_menu_index::LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT_COORDINATES, true, 'p', _( "Teleport - specific overmap coordinates" ) ) },
     };
+
+    const bool teleport_city_enabled = get_option<bool>( "SELECT_STARTING_CITY" );
+    uilist_initializer.emplace_back( uilist_entry( debug_menu_index::OM_TELEPORT_CITY,
+                                     teleport_city_enabled, 'c', _( "Teleport - specific city" ) ) );
 
     return uilist( _( "Teleport…" ), uilist_initializer );
 }
@@ -1159,6 +1164,23 @@ static void teleport_overmap( bool specific_coordinates = false )
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
+static void teleport_city()
+{
+    std::vector<city> cities( city::get_all() );
+    const auto cities_cmp_population = []( const city & a, const city & b ) {
+        return std::tie( a.population, a.name ) > std::tie( b.population, b.name );
+    };
+    std::sort( cities.begin(), cities.end(), cities_cmp_population );
+    uilist cities_menu;
+    ui::omap::setup_cities_menu( cities_menu, cities );
+    cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+    if( c.has_value() ) {
+        const tripoint_abs_omt where = tripoint_abs_omt(
+                                           project_to<coords::omt>( c->pos_om ) + c->pos.raw(), 0 );
+        g->place_player_overmap( where );
+    }
+}
+
 static void spawn_nested_mapgen()
 {
     uilist nest_menu;
@@ -1667,7 +1689,7 @@ static void character_edit_menu()
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attack" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
-    nmenu.addentry( D_WRITE_EOCS, true, 'w', "%s",
+    nmenu.addentry( D_WRITE_EOCS, true, 'W', "%s",
                     _( "Write effect_on_condition(s) to eocs.output" ) );
     nmenu.addentry( D_EDIT_VARS, true, 'v', "%s", _( "Edit vars" ) );
 
@@ -2852,6 +2874,9 @@ void debug()
             break;
         case debug_menu_index::OM_TELEPORT_COORDINATES:
             debug_menu::teleport_overmap( true );
+            break;
+        case debug_menu_index::OM_TELEPORT_CITY:
+            debug_menu::teleport_city();
             break;
         case debug_menu_index::TRAIT_GROUP:
             trait_group::debug_spawn();

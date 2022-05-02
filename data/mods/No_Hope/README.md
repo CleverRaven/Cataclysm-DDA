@@ -32,7 +32,7 @@ The major goal is to make Cataclysm harder and harsher. To achieve this goal, I 
 
 - Removed all turrets from military vehicles.
 
-- All LMOE shelter now have a rather high chance to spawn bandits inside.
+- Most LMOE shelters now have a rather high chance to spawn bandits inside. Empty LMOEs now has very low chance (5% per overmap) to spawn.
 
 - Slightly reduced stamina burn rate while walking.
 
@@ -41,3 +41,5 @@ The major goal is to make Cataclysm harder and harsher. To achieve this goal, I 
 - Reduced chance to drop military gear from zombie soldiers.
 
 - Gave all mechas ability to protect their operators from melee and ranged damage.
+
+- Returned CBM loot in most places it was removed from (electronic stores, toxic dumps, sewage treatment plants etc).

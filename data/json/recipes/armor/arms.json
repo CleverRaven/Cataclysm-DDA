@@ -225,6 +225,7 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
     "difficulty": 4,
+    "skills_required": [ "tailor", 4 ],
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],

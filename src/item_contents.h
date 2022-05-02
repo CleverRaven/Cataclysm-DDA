@@ -168,8 +168,14 @@ class item_contents
         units::volume get_used_holster_volume() const;
 
         // gets all CONTAINER pockets contained in this item
-        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
-        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_contained_pockets() const;
+        std::vector<item_pocket *> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_standard_pockets() const;
+        std::vector<item_pocket *> get_all_standard_pockets();
+        std::vector<const item_pocket *>
+        get_pockets( std::function<bool( item_pocket const & )> const &filter ) const;
+        std::vector<item_pocket *>
+        get_pockets( std::function<bool( item_pocket const & )> const &filter );
 
         // called when adding an item as pockets
         // to a molle item

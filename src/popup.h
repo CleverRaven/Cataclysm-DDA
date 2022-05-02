@@ -24,7 +24,7 @@ class ui_adaptor;
  * Example:
  *
  * std::string action = query_popup()
- *                      .context( "YESNOCANCEL" ) // input context to use
+ *                      .context( "YESNOQUIT" ) // input context to use
  *                      .message( "%s", _( "Do you want to save before jumping into the lava?" ) )
  *                      .option( "YES" ) // yes, save before jumping
  *                      .option( "NO" ) // no, don't save before jumping
@@ -164,6 +164,7 @@ class query_popup
         query_popup &on_top( bool top );
         /**
          * Whether to show the popup in `FULL_SCREEN_HEIGHT` and `FULL_SCREEN_WIDTH`.
+         * The name is a misnomer from legacy code, the popup is not actually full-screen.
          **/
         query_popup &full_screen( bool full );
         /**

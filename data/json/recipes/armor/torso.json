@@ -1011,20 +1011,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "dragonskin",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "difficulty": 5,
-    "time": "8 h",
-    "reversible": true,
-    "decomp_learn": 4,
-    "autolearn": true,
-    "components": [ [ [ "dragonskinempty", 1 ] ], [ [ "ceramicdisks", 8 ] ] ]
-  },
-  {
     "result": "peacoat",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -2630,5 +2616,46 @@
     "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "tools": [ [ [ "water", -10 ] ] ],
     "components": [ [ [ "migo_plate_overgrown", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "poncho_makeshift",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": "12 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "bag_garbage", 1 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "result": "suspenders_cloth",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_cotton", 1 ], [ "clasps", 3 ], [ "fabric_standard_nostretch", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "result": "suspenders_leather",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "2 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   }
 ]

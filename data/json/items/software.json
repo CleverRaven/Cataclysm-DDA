@@ -166,6 +166,13 @@
     "description": "Precise step-by-step instructions and other required data for installation of Titanium Skeletal Bracing CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
   },
   {
+    "id": "AID_bio_trickle",
+    "type": "GENERIC",
+    "copy-from": "AID_abstract",
+    "name": { "str_sp": "Trickle Charger CBM installation data" },
+    "description": "Precise step-by-step instructions and other required data for installation of Trickle Charger CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
+  },
+  {
     "id": "software",
     "type": "GENERIC",
     "name": { "str_sp": "software" },
@@ -236,15 +243,6 @@
     "description": "Logistical data on subterranean train routes and schedules.",
     "price": 200,
     "price_postapoc": 0
-  },
-  {
-    "id": "mind_scan_robofac",
-    "type": "GENERIC",
-    "name": { "str_sp": "neural data" },
-    "symbol": "#",
-    "container": "data_card",
-    "description": "Data stolen from a dead scientist memory banks.  Is the owner of these thoughts still hidden here, amidst the unreadable data; or are these just a collection of the precious moments of someone's life?\n\nWhatever the case, the idea of perpetually keeping a part of you within a metallic pill makes you feel uncomfortable.",
-    "flags": [ "NO_DROP" ]
   },
   {
     "id": "software_electronics_reference",
