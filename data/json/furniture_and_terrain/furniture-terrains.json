@@ -140,13 +140,9 @@
     "move_cost_mod": 0,
     "description": "A flat floor made of sheets of cardboard duct-taped together overtop a plastic sheet.",
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT","ORGANIC", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ORGANIC", "EASY_DECONSTRUCT" ],
     "deconstruct": {
-      "items": [
-        { "item": "cardboard", "count": 10 },
-        { "item": "paper", "count": 50 },
-        { "item": "plastic_sheet", "count": 2 }
-      ]
+      "items": [ { "item": "cardboard", "count": 10 }, { "item": "paper", "count": 50 }, { "item": "plastic_sheet", "count": 2 } ]
     },
     "bash": {
       "str_min": 1,
@@ -169,7 +165,7 @@
     "move_cost_mod": 0,
     "description": "A sloped roof made of cardboard boxes, stuffed with scrap cardboard and paper and layered atop each other.  Sheets of plastic are carefully arrayed on top to shed water.  It looks like it could last a season or two at least before crumbling.",
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT","ORGANIC", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ORGANIC", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "box_small", "count": 10 },
@@ -241,7 +237,7 @@
     "coverage": 100,
     "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is closed.",
     "required_str": -1,
-    "flags": [ "NOITEM",  "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "flags": [ "NOITEM", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
     "deconstruct": {
       "items": [
         { "item": "box_large", "count": 1 },
