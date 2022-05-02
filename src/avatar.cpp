@@ -1217,7 +1217,8 @@ bool avatar::cant_see( const tripoint &p )
     }
 
 
-    float range = 3.0f - 3.0f * steadiness;
+    float range = 3.0f - 3.0f * calc_steadiness( *this, &get_wielded_item(),
+                  last_target_pos.value(), recoil );
 
     // pin between pi and negative pi
     float upper_bound = base_angle + range;

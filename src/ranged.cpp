@@ -970,6 +970,37 @@ int throw_cost( const Character &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
+// Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
+static double calculate_aim_cap( const Character &you, const tripoint &target )
+{
+    double min_recoil = 0.0;
+    const Creature *victim = get_creature_tracker().creature_at( target, true );
+    // No p.sees_with_specials() here because special senses are not precise enough
+    // to give creature's exact size & position, only which tile it occupies
+    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
+        const int range = rl_dist( you.pos(), target );
+        // Get angle of triangle that spans the target square.
+        const double angle = 2 * atan2( 0.5, range );
+        // Convert from radians to arcmin.
+        min_recoil = 60 * 180 * angle / M_PI;
+    }
+    return min_recoil;
+}
+
+double calc_steadiness( const Character &you, item *weapon, const tripoint &pos,
+                        double predicted_recoil )
+{
+    const double min_recoil = calculate_aim_cap( you, pos );
+    const double effective_recoil = you.most_accurate_aiming_method_limit( *weapon );
+    const double min_dispersion = std::max( min_recoil, effective_recoil );
+    const double steadiness_range = MAX_RECOIL - min_dispersion;
+    // This is a relative measure of how steady the player's aim is,
+    // 0 is the best the player can do.
+    const double steady_score = std::max( 0.0, predicted_recoil - min_dispersion );
+    // Fairly arbitrary cap on steadiness...
+    return 1.0 - ( steady_score / steadiness_range );
+}
+
 int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
 {
     // +200 per dodge point at 0 dexterity
@@ -1621,23 +1652,6 @@ static bool pl_sees( const Creature &cr )
     return u.sees( cr ) || u.sees_with_infrared( cr ) || u.sees_with_specials( cr );
 }
 
-// Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
-static double calculate_aim_cap( const Character &you, const tripoint &target )
-{
-    double min_recoil = 0.0;
-    const Creature *victim = get_creature_tracker().creature_at( target, true );
-    // No p.sees_with_specials() here because special senses are not precise enough
-    // to give creature's exact size & position, only which tile it occupies
-    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
-        const int range = rl_dist( you.pos(), target );
-        // Get angle of triangle that spans the target square.
-        const double angle = 2 * atan2( 0.5, range );
-        // Convert from radians to arcmin.
-        min_recoil = 60 * 180 * angle / M_PI;
-    }
-    return min_recoil;
-}
-
 static int print_aim( Character &you, const catacurses::window &w, int line_number,
                       input_context &ctxt, item *weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
@@ -1650,15 +1664,12 @@ static int print_aim( Character &you, const catacurses::window &w, int line_numb
     dispersion_sources dispersion = you.get_weapon_dispersion( *weapon );
     dispersion.add_range( you.recoil_vehicle() );
 
-    const double min_recoil = calculate_aim_cap( you, pos );
-    const double effective_recoil = you.most_accurate_aiming_method_limit( *weapon );
-    const double min_dispersion = std::max( min_recoil, effective_recoil );
-    const double steadiness_range = MAX_RECOIL - min_dispersion;
-    // This is a relative measure of how steady the player's aim is,
-    // 0 is the best the player can do.
-    const double steady_score = std::max( 0.0, predicted_recoil - min_dispersion );
-    // Fairly arbitrary cap on steadiness...
-    you.steadiness = 1.0 - ( steady_score / steadiness_range );
+    double steadiness = calc_steadiness( you, weapon, pos, predicted_recoil );
+
+    // if we are still aiming at the same spot update for the characters view
+    if( you.last_target_pos && get_map().getlocal( you.last_target_pos.value() ) == pos ) {
+        you.steadiness = steadiness;
+    }
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
@@ -1669,7 +1680,7 @@ static int print_aim( Character &you, const catacurses::window &w, int line_numb
     };
 
     const double range = rl_dist( you.pos(), pos );
-    line_number = print_steadiness( w, line_number, you.steadiness );
+    line_number = print_steadiness( w, line_number, steadiness );
     return print_ranged_chance( you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
                                 dispersion,
                                 confidence_config,
