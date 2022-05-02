@@ -494,7 +494,8 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "place_monster": [
-        { "monster": "mon_zombie", "x": [ 0, 8 ], "y": [ 0, 8 ], "chance": 95, "repeat": [ 3, 4 ] },
+        { "monster": "mon_zombie", "x": [ 0, 8 ], "y": [ 0, 8 ], "chance": 95, "repeat": [ 2, 4 ] },
+        { "monster": "mon_zombie_runner", "x": [ 0, 8 ], "y": [ 0, 8 ], "chance": 100, "repeat": [ 1, 2 ] },
         { "monster": "mon_feral_human_pipe", "x": [ 0, 8 ], "y": [ 0, 8 ], "chance": 45, "repeat": [ 1, 2 ] },
         { "monster": "mon_feral_human_crowbar", "x": [ 0, 8 ], "y": [ 0, 8 ], "chance": 45, "repeat": [ 1, 2 ] },
         { "monster": "mon_feral_human_axe", "x": [ 0, 8 ], "y": [ 0, 8 ], "chance": 45, "repeat": [ 1, 2 ] }
