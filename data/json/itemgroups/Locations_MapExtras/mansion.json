@@ -1236,6 +1236,7 @@
       [ "mop", 25 ],
       [ "mop_folded", 15 ],
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
+      { "item": "chem_washing_soda", "prob": 5, "charges-min": 1 },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
       { "item": "bleach", "prob": 20, "charges-min": 1 },

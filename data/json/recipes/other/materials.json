@@ -734,19 +734,15 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "result_mult": 4,
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal", -1 ] ],
-      [ [ "forge", 25 ] ],
-      [ [ "surface_heat", 15, "LIST" ] ]
+      [ [ "forge", 25 ], [ "oxy_torch", 5 ] ]
     ],
     "components": [
       [ [ "material_sand", 10 ] ],
-      [ [ "ammonia", 1 ] ],
-      [ [ "salt", 20 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
-      [ [ "material_quicklime", 2 ], [ "bone_meal_any", 1, "LIST" ] ]
+      [ [ "chem_washing_soda", 41 ] ],
+      [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ]
     ]
   },
   {

@@ -95,6 +95,7 @@
               { "item": "detergent", "count": [ 0, 2 ] },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "prob": 45 },
+              { "item": "chem_washing_soda", "prob": 10 },
               { "item": "ammonia", "prob": 15 },
               { "item": "vinegar", "prob": 10 }
             ],
@@ -157,6 +158,7 @@
               { "item": "box_small", "prob": 5 },
               { "item": "bag_plastic", "prob": 5 },
               { "item": "bowl_plastic", "prob": 5 },
+              { "item": "chem_washing_soda", "charges-min": 1, "prob": 10 },
               { "item": "ammonia", "charges-min": 1, "prob": 15 }
             ],
             "prob": 15
@@ -191,6 +193,7 @@
       { "item": "brush", "prob": 90 },
       { "item": "bleach", "prob": 45 },
       { "item": "ammonia", "prob": 25 },
+      { "item": "chem_washing_soda", "prob": 20 },
       { "item": "mirror", "prob": 12 },
       { "group": "full_1st_aid", "prob": 60 },
       { "item": "paper", "count": [ 1, 3 ] },
