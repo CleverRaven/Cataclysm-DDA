@@ -55,7 +55,7 @@
       "I guess you probably wouldn't have noticed this place before shit hit the fan, but I've been down here for quite a while.",
       "Nothing to it.  Before <the_cataclysm>, it didn't take much to find yourself here.  And I guess it just made sense to stay.  We seem to be doing better than most, anyway.",
       "Surviving, as I always have.  Is that what you mean?",
-      "It's hard to say exactly what I'm doing out here, but I guess one thing just leads to another… well, you're just being nice when you ask, aren't you?  It doesn't matter now anyway.  I'm here and I'm still alive."
+      "It's hard to say exactly what I'm doing out here, but I guess one thing just leads to another and… well, you're just being nice when you ask, aren't you?  It doesn't matter now anyway.  I'm here and I'm still alive."
     ],
     "responses": [
       { "text": "Hm.", "topic": "TALK_NONE" }
