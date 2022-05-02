@@ -46,6 +46,7 @@
       "[": "f_table",
       "^": "f_machinery_heavy",
       "_": "f_machinery_electronic",
+      ")": "f_table",
       "{": "f_table",
       "!": [ "f_ergometer", "f_ergometer_mechanical" ],
       ":": "f_machinery_light",
@@ -124,7 +125,15 @@
         { "item": "mechanics", "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 3 ] }
       ],
-      "{": [ { "item": "maps_milspec", "chance": 15 } ],
+      ")": [  
+        { "item": "office_supplies", "chance": 80, "repeat": [ 2, 7 ] }, 
+        { "item": "office_mess", "chance": 30, "repeat": [ 2, 7 ] } 
+      ],
+      "{": [
+        { "item": "maps_milspec", "chance": 15 },
+        { "item": "office_supplies", "chance": 80, "repeat": [ 2, 7 ] },
+        { "item": "office_mess", "chance": 30, "repeat": [ 2, 7 ] }
+      ],
       "}": [
         { "item": "drugs_emergency", "chance": 30, "repeat": [ 1, 3 ] },
         { "item": "drugs_pharmacy", "chance": 30, "repeat": [ 1, 3 ] },
@@ -162,7 +171,7 @@
       "G": [
         { "item": "loaded_lbv", "chance": 45, "repeat": [ 0, 2 ] },
         { "item": "military_standard_grenades", "chance": 55, "repeat": [ 1, 2 ] },
-        { "item": "infantry_common_gear", "chance": 55  },
+        { "item": "infantry_common_gear", "chance": 55 },
         { "item": "infantry_medical_gear", "chance": 30 },
         { "item": "guns_milspec", "chance": 50 },
         { "item": "ammo_milspec", "chance": 50 },
@@ -204,25 +213,25 @@
         { "item": "electronics", "chance": 55, "repeat": [ 0, 2 ] },
         { "item": "supplies_electronics", "chance": 45, "repeat": [ 0, 8 ] }
       ],
-      "F": [ { "item": "office_paper", "chance": 45, "repeat": [ 0, 8 ] } ],
+      "F": [ { "item": "file_room", "chance": 70, "repeat": [ 5, 12 ] } ],
       "Y": [ { "item": "clothing_work_set", "chance": 45, "repeat": [ 2, 11 ] } ],
       "r": [
         { "item": "clothing_work_set", "chance": 25, "repeat": [ 0, 2 ] },
-        { "item": "clothing_military", "chance": 20, "repeat": [ 0, 2 ] },
-        { "item": "clothing_military_pilot", "chance": 15, "repeat": [ 0, 2 ] },
+        { "item": "clothing_military_distribution", "chance": 20, "repeat": [ 0, 2 ] },
+        { "item": "clothing_military_pilot_distribution", "chance": 15, "repeat": [ 0, 2 ] },
         { "item": "gi", "chance": 10, "repeat": [ 0, 2 ] },
         { "item": "allclothes", "chance": 10, "repeat": [ 0, 2 ] }
       ],
       "Z": [
         { "item": "clothing_work_set", "chance": 25 },
-        { "item": "clothing_military", "chance": 20 },
-        { "item": "clothing_military_pilot", "chance": 15 },
+        { "item": "clothing_military_distribution", "chance": 20 },
+        { "item": "clothing_military_pilot_distribution", "chance": 15 },
         { "item": "gi", "chance": 10 },
         { "item": "allclothes", "chance": 10 }
       ],
-       "W": [
-        { "item": "clothing_military", "chance": 30, "custom-flags": [ "FILTHY" ] },
-        { "item": "clothing_military_pilot", "chance": 20, "custom-flags": [ "FILTHY" ] },
+      "W": [
+        { "item": "clothing_military_distribution", "chance": 30, "custom-flags": [ "FILTHY" ] },
+        { "item": "clothing_military_pilot_distribution", "chance": 20, "custom-flags": [ "FILTHY" ] },
         { "item": "gi", "chance": 5, "custom-flags": [ "FILTHY" ] },
         { "item": "allclothes", "chance": 15, "custom-flags": [ "FILTHY" ] }
       ],
