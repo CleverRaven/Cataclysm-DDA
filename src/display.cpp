@@ -1389,31 +1389,23 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
         return "";
     }
 
-    std::map<std::string, std::pair<std::string, nc_color>> sym_col_map;
-    for( const auto &part : graph->parts ) {
-        sym_col_map.emplace( part.first, get_bodygraph_bp_sym_color( u, part.second ) );
-    }
+    auto process_sym = [&u]( const bodygraph_part * bgp, const std::string & sym ) {
+        if( !bgp ) {
+            return sym;
+        }
+        std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp );
+        return colorize( sym_col.first, sym_col.second );
+    };
+
+    std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height );
+    height = rows.size();
 
     std::string ret;
-    height = 0;
-    for( int y = 0; y < max_height && static_cast<size_t>( y ) < graph->rows.size(); y++ ) {
-        height++;
-        if( y > 0 ) {
-            ret.append( 1, '\n' );
-        }
-        for( int x = 0; x < width && static_cast<size_t>( x ) < graph->rows[y].size(); x++ ) {
-            std::string sym = graph->fill_sym.empty() ? graph->rows[y][x] : graph->fill_sym;
-            nc_color clr = graph->fill_color;
-            auto iter = sym_col_map.find( graph->rows[y][x] );
-            if( iter != sym_col_map.end() ) {
-                sym = iter->second.first;
-                clr = iter->second.second;
-            }
-            if( graph->rows[y][x] == " " ) {
-                sym = " ";
-            }
-            ret.append( colorize( sym, clr ) );
-        }
+    std::string sep;
+    for( const std::string &row : rows ) {
+        ret.append( sep );
+        ret.append( row );
+        sep = "\n";
     }
 
     // Rebuild bodygraph text cache

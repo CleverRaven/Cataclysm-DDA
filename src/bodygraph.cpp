@@ -339,56 +339,17 @@ static const bodygraph_id &get_bg_rows( const bodygraph_id &bgid )
 void bodygraph_display::draw_graph()
 {
     werase( w_graph );
-    if( !!id->parent_bp && !u->has_part( *id->parent_bp ) ) {
-        center_print( w_graph, BPGRAPH_HEIGHT / 2 - 1, c_light_red,
-                      //~ 1$ = 2nd person pronoun (You), 2$ = body part (left arm)
-                      string_format( u->is_avatar() ? _( "%1$s do not have a %2$s." ) :
-                                     //~ 1$ = name of character, 2$ = body part (left arm)
-                                     _( "%1$s does not have a %2$s." ), u->disp_name( false, true ),
-                                     id->parent_bp->obj().name.translated() ) );
-        wnoutrefresh( w_graph );
-        return;
-    }
+
     const bodygraph_part *selected_graph = std::get<2>( partlist[sel_part] );
-    std::string selected_sym;
-    if( !!selected_graph ) {
-        for( const auto &bgp : id->parts ) {
-            if( selected_graph == &bgp.second ) {
-                selected_sym = bgp.first;
-            }
-        }
+    auto process_sym = [&]( const bodygraph_part * bgp, const std::string & sym ) {
+        return colorize( sym, bgp != nullptr && selected_graph == bgp ?
+                         selected_graph->sel_color : id->fill_color );
+    };
+    std::vector<std::string> rows = get_bodygraph_lines( *u, process_sym, id );
+    for( int y = 0; static_cast<size_t>( y ) < rows.size(); y++ ) {
+        trim_and_print( w_graph, point( 0, y ), BPGRAPH_MAXCOLS, c_white, rows[y] );
     }
-    const bool hflip = !!id->mirror;
-    const bodygraph_id &rid = get_bg_rows( id );
-    for( unsigned i = 0; i < rid->rows.size() && i < BPGRAPH_MAXROWS; i++ ) {
-        int j = hflip ? rid->rows[i].size() - 1 : 0;
-        for( int x = 0 ; x < BPGRAPH_MAXCOLS && j < BPGRAPH_MAXCOLS && j >= 0; hflip ? j-- : j++, x++ ) {
-            std::string sym = id->fill_sym.empty() ? rid->rows[i][j] : id->fill_sym;
-            nc_color col = id->fill_color;
-            auto iter = id->parts.find( rid->rows[i][j] );
-            if( iter != id->parts.end() ) {
-                bool missing_section = true;
-                for( const bodypart_id &bp : iter->second.bodyparts ) {
-                    if( u->has_part( bp ) ) {
-                        missing_section = false;
-                    }
-                }
-                for( const sub_bodypart_id &sp : iter->second.sub_bodyparts ) {
-                    if( u->has_part( sp->parent ) ) {
-                        missing_section = false;
-                    }
-                }
-                sym = missing_section ? " " : iter->second.sym;
-            }
-            if( rid->rows[i][j] == " " ) {
-                col = c_unset;
-                sym = " ";
-            } else if( rid->rows[i][j] == selected_sym ) {
-                col = id->parts.at( selected_sym ).sel_color;
-            }
-            mvwputch( w_graph, point( x, i ), col, sym );
-        }
-    }
+
     wnoutrefresh( w_graph );
 }
 
@@ -631,4 +592,65 @@ void display_bodygraph( const Character &u, const bodygraph_id &id )
 {
     bodygraph_display bgd( &u, id );
     bgd.display();
+}
+
+std::vector<std::string> get_bodygraph_lines( const Character &u,
+        const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height )
+{
+    width = ( width <= 0 || width > BPGRAPH_MAXCOLS ) ? BPGRAPH_MAXCOLS : width;
+    height = ( height <= 0 || height > BPGRAPH_MAXROWS ) ? BPGRAPH_MAXROWS : height;
+
+    std::vector<std::string> ret;
+
+    // Bodypart not present on character
+    if( !!id->parent_bp && !u.has_part( *id->parent_bp ) ) {
+        std::string txt = string_format( u.is_avatar() ?
+                                         //~ 1$ = 2nd person pronoun (You), 2$ = body part (left arm)
+                                         _( "%1$s do not have a %2$s." ) :
+                                         //~ 1$ = name of character, 2$ = body part (left arm)
+                                         _( "%1$s does not have a %2$s." ), u.disp_name( false, true ),
+                                         id->parent_bp->obj().name.translated() );
+        for( int y = 0; y < height; y++ ) {
+            if( y == height / 2 ) {
+                txt.insert( txt.begin(), center_text_pos( txt, 0, width ), ' ' );
+                ret.emplace_back( colorize( txt, c_light_red ) );
+            } else {
+                ret.emplace_back( std::string( width, ' ' ) );
+            }
+        }
+        return ret;
+    }
+
+    const bool hflip = !!id->mirror;
+    const bodygraph_id &rid = get_bg_rows( id );
+    for( int i = 0; static_cast<size_t>( i ) < rid->rows.size() && i < height; i++ ) {
+        std::string ret_row;
+        int j = hflip ? rid->rows[i].size() - 1 : 0;
+        for( int x = 0 ; x < width && j < BPGRAPH_MAXCOLS && j >= 0; hflip ? j-- : j++, x++ ) {
+            std::string sym = id->fill_sym.empty() ? rid->rows[i][j] : id->fill_sym;
+            auto iter = id->parts.find( rid->rows[i][j] );
+            const bodygraph_part *bgp = nullptr;
+            if( iter != id->parts.end() ) {
+                bgp = &iter->second;
+                bool missing_section = true;
+                for( const bodypart_id &bp : iter->second.bodyparts ) {
+                    if( u.has_part( bp ) ) {
+                        missing_section = false;
+                    }
+                }
+                for( const sub_bodypart_id &sp : iter->second.sub_bodyparts ) {
+                    if( u.has_part( sp->parent ) ) {
+                        missing_section = false;
+                    }
+                }
+                sym = missing_section ? " " : iter->second.sym;
+            }
+            if( rid->rows[i][j] == " " ) {
+                sym = " ";
+            }
+            ret_row.append( fragment_cb( bgp, sym ) );
+        }
+        ret.emplace_back( ret_row );
+    }
+    return ret;
 }
