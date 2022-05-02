@@ -66,5 +66,25 @@
     "name": { "str": "cyan scarf" },
     "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long sought peace soon follows, for better or for worse.",
     "color": "cyan"
+  },
+  {
+    "id": "grass_keffiyeh",
+    "type": "ARMOR",
+    "name": { "str": "grass keffiyeh" },
+    "description": "A grass sheet with cords to wear like a Middle-Eastern headdress.  It's a bit itchy, but can keep your head and mouth a bit warmer if there's nothing in the way.",
+    "weight": "152 g",
+    "volume": "1250 ml",
+    "price": 10,
+    "price_postapoc": 5,
+    "to_hit": -1,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "green",
+    "warmth": 15,
+    "material_thickness": 1,
+    "environmental_protection": 0,
+    "flags": [ "OVERSIZE", "COLLAR", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ]
   }
 ]
