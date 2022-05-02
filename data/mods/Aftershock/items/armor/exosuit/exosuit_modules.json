@@ -64,41 +64,6 @@
     ]
   },
   {
-    "id": "exo_back_ammonia",
-    "type": "TOOL_ARMOR",
-    "category": "exosuit",
-    "name": { "str": "exosuit ammonia ICE power supply", "str_pl": "exosuit ammonia ICE power supplies" },
-    "description": "Designed to attach to an exosuit's back, this is an internal combustion engine generator with an integrated UPS, fueled by liquid ammonia.  This unit is large and occupies the rear hardpoints.",
-    "weight": "20 kg",
-    "volume": "25 L",
-    "material": [ "steel", "plastic" ],
-    "symbol": "#",
-    "looks_like": "1cyl_combustion",
-    "color": "dark_gray",
-    "ammo": "ammonia_liquid",
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE" ],
-    "armor": [ { "encumbrance": 0, "coverage": 40, "covers": [ "torso" ] } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "description": "This is a tank for ammonia.  Holds up to 10 liters.",
-        "rigid": true,
-        "watertight": true,
-        "ammo_restriction": { "ammonia_liquid": 2000 }
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "description": "This is a mounting point for armor protecting the PSU.",
-        "ablative": true,
-        "rigid": true,
-        "max_contains_volume": "10 L",
-        "max_contains_weight": "145 kg",
-        "flag_restriction": [ "EXO_PSU_PLATE" ],
-        "moves": 60
-      }
-    ]
-  },
-  {
     "id": "exo_large_aux_power",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
