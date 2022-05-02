@@ -528,9 +528,7 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel",
-    "requirements": {
-      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
-    }
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -542,9 +540,7 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A reinforced solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "reinforced_solar_panel",
-    "requirements": {
-      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
-    }
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -556,9 +552,7 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "An upgraded solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel_v2",
-    "requirements": {
-      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
-    }
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -570,9 +564,7 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "An upgraded reinforced solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "reinforced_solar_panel_v2",
-    "requirements": {
-      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
-    }
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
     "type": "vehicle_part",
