@@ -110,17 +110,6 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
-static const itype_id itype_12mm( "12mm" );
-static const itype_id itype_40x46mm( "40x46mm" );
-static const itype_id itype_40x53mm( "40x53mm" );
-static const itype_id itype_66mm( "66mm" );
-static const itype_id itype_84x246mm( "84x246mm" );
-static const itype_id itype_arrow( "arrow" );
-static const itype_id itype_bolt( "bolt" );
-static const itype_id itype_flammable( "flammable" );
-static const itype_id itype_m235( "m235" );
-static const itype_id itype_metal_rail( "metal_rail" );
-
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_case_hardened_steel( "case_hardened_steel" );
 static const material_id material_glass( "glass" );
@@ -1917,21 +1906,23 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_current() == itype_40x46mm || ammo_current() == itype_40x53mm ) {
+    const std::set<ammotype> &at = ammo_types();
+    if( at.count( ammo_40x46mm ) || at.count( ammo_40x53mm ) ) {
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    } else if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
+    } else if( at.count( ammo_12mm ) || at.count( ammo_metal_rail ) ) {
         // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
-               ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
+    } else if( at.count( ammo_flammable ) || at.count( ammo_66mm ) || at.count( ammo_120mm ) ||
+               at.count( ammo_84x246mm ) || at.count( ammo_m235 ) || at.count( ammo_atgm ) ||
+               at.count( ammo_RPG7 ) || at.count( ammo_homebrew_rocket ) ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_current() == itype_arrow ) {
+    } else if( at.count( ammo_arrow ) ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_current() == itype_bolt ) {
+    } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
     }
 
