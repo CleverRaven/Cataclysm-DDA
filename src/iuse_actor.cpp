@@ -3574,7 +3574,8 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
     healer.add_msg_if_player( _( "You finish using the %s." ), it.tname() );
 
     if( u_see && !healer.is_avatar() ) {
-        add_msg( _( "%s finishes using the %s." ), healer.disp_name(), it.tname() );
+        //~ Healing complete message. %1$s is healer name, %2$s is item name.
+        add_msg( _( "%1$s finishes using the %2$s." ), healer.disp_name(), it.tname() );
     }
 
     for( const auto &eff : effects ) {
