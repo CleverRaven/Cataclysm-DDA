@@ -106,7 +106,7 @@
       "special_attacks": [ { "id": "cut_throat" }, { "type": "leap", "cooldown": 15, "max_range": 5 } ],
       "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
       "placate_triggers": [ "MEAT" ],
-      "harvest": "mammal_fur_feline",
+      "harvest": "mammal_fur",
       "reproduction": { "baby_monster": "mon_cave_lion_cub", "baby_count": 3, "baby_timer": 700 },
       "baby_flags": [ "SPRING" ],
       "flags": [
