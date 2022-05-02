@@ -460,6 +460,20 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
+    "result": "leg_small_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_cotton", 2 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
     "result": "chestpouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -930,6 +944,21 @@
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
   },
   {
+    "result": "leg_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "5 h 30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_cotton_patchwork", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
+  },
+  {
     "result": "makeshift_knapsack",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1110,6 +1139,42 @@
     ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
+  },
+  {
+    "result": "leg_sheath6",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "throw", 1 ],
+    "time": "4 h 30 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 5 ], [ "clasps", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
+    "result": "gartersheath1",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "melee", 1 ],
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 2 ], [ "plastic_molding", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
+  },
+  {
+    "result": "gartersheath2",
+    "type": "recipe",
+    "copy-from": "gartersheath1",
+    "time": "2 h",
+    "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "plastic_molding", 2 ] ]
   },
   {
     "result": "sheath",
@@ -1744,6 +1809,19 @@
     ]
   },
   {
+    "result": "ankle_wallet_pouch",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "fastener_small", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
     "result": "bookstrap",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1767,5 +1845,20 @@
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "cordage_short", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "suspenders_holster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "2 h 30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 3 ] ],
+    "components": [ [ [ "holster", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   }
 ]

@@ -54,6 +54,7 @@ static const itype_id itype_pockknife( "pockknife" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
+static const itype_id itype_thread( "thread" );
 static const itype_id itype_water( "water" );
 
 static const morale_type morale_food_good( "morale_food_good" );
@@ -74,6 +75,7 @@ static const recipe_id recipe_armguard_chitin( "armguard_chitin" );
 static const recipe_id recipe_armguard_larmor( "armguard_larmor" );
 static const recipe_id recipe_armguard_lightplate( "armguard_lightplate" );
 static const recipe_id recipe_armguard_metal( "armguard_metal" );
+static const recipe_id recipe_balclava( "balclava" );
 static const recipe_id recipe_blanket( "blanket" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
@@ -92,6 +94,7 @@ static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
 static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 
@@ -1702,6 +1705,115 @@ TEST_CASE( "recipe byproducts and byproduct groups", "[recipes][crafting]" )
                 { itype_test_gum, { { count_gum *batch * lo, count_gum *batch * hi }, 0 } }
             };
             CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+    }
+}
+
+TEST_CASE( "tools with charges as components", "[crafting]" )
+{
+    const int rags_in_recipe = 4;
+    const int threads_in_recipe = 3;
+    map &m = get_map();
+    Character &c = get_player_character();
+    item pocketknife( itype_pockknife );
+    item sew_kit( itype_sewing_kit );
+    item thread( "thread" );
+    item rag( "rag" );
+    thread.charges = 100;
+    sew_kit.put_in( thread, item_pocket::pocket_type::MAGAZINE );
+    REQUIRE( sew_kit.ammo_remaining() == 100 );
+    clear_and_setup( c, m, pocketknife );
+    c.learn_recipe( &*recipe_balclava );
+    c.set_skill_level( skill_survival, 10 );
+
+    GIVEN( "sewing kit with thread on the ground" ) {
+        REQUIRE( m.i_at( c.pos() ).empty() );
+        c.i_add_or_drop( sew_kit );
+        c.i_add_or_drop( thread );
+        c.i_add_or_drop( rag, rags_in_recipe );
+        WHEN( "crafting a balaclava" ) {
+            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos() );
+            cmd.execute( true );
+            item res = cmd.create_in_progress_craft();
+            THEN( "craft uses the free thread instead of tool ammo as component" ) {
+                CHECK( !res.is_null() );
+                CHECK( res.is_craft() );
+                int rags = 0;
+                int threads = 0;
+                for( const item &comp : res.components ) {
+                    if( comp.typeId() == itype_rag ) {
+                        rags += comp.count_by_charges() ? comp.charges : 1;
+                    } else if( comp.typeId() == itype_thread ) {
+                        threads += comp.count_by_charges() ? comp.charges : 1;
+                    } else {
+                        FAIL( "found unexpected component " << comp.typeId().str() );
+                    }
+                }
+                CHECK( rags == rags_in_recipe );
+                CHECK( threads == threads_in_recipe );
+                rags = 0;
+                threads = 0;
+                int threads_in_tool = 0;
+                for( const item &i : m.i_at( c.pos() ) ) {
+                    if( i.typeId() == itype_rag ) {
+                        rags += i.count_by_charges() ? i.charges : 1;
+                    } else if( i.typeId() == itype_thread ) {
+                        threads += i.count_by_charges() ? i.charges : 1;
+                    } else if( i.typeId() == itype_sewing_kit ) {
+                        threads_in_tool += i.ammo_remaining();
+                    }
+                }
+                CHECK( rags == 0 );
+                CHECK( threads == 100 - threads_in_recipe );
+                CHECK( threads_in_tool == 100 );
+            }
+        }
+    }
+
+    GIVEN( "sewing kit with thread in inventory" ) {
+        const item backpack( "debug_backpack" );
+        item_location pack_loc( c, & **c.wear_item( backpack, false ) );
+        REQUIRE( !!pack_loc.get_item() );
+        REQUIRE( pack_loc->is_container_empty() );
+        c.i_add_or_drop( sew_kit );
+        c.i_add_or_drop( thread );
+        c.i_add_or_drop( rag, rags_in_recipe );
+        WHEN( "crafting a balaclava" ) {
+            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos() );
+            cmd.execute( true );
+            item res = cmd.create_in_progress_craft();
+            THEN( "craft uses the free thread instead of tool ammo as component" ) {
+                CHECK( !res.is_null() );
+                CHECK( res.is_craft() );
+                int rags = 0;
+                int threads = 0;
+                for( const item &comp : res.components ) {
+                    if( comp.typeId() == itype_rag ) {
+                        rags += comp.count_by_charges() ? comp.charges : 1;
+                    } else if( comp.typeId() == itype_thread ) {
+                        threads += comp.count_by_charges() ? comp.charges : 1;
+                    } else {
+                        FAIL( "found unexpected component " << comp.typeId().str() );
+                    }
+                }
+                CHECK( rags == rags_in_recipe );
+                CHECK( threads == threads_in_recipe );
+                rags = 0;
+                threads = 0;
+                int threads_in_tool = 0;
+                for( const item *i : pack_loc->all_items_top() ) {
+                    if( i->typeId() == itype_rag ) {
+                        rags += i->count_by_charges() ? i->charges : 1;
+                    } else if( i->typeId() == itype_thread ) {
+                        threads += i->count_by_charges() ? i->charges : 1;
+                    } else if( i->typeId() == itype_sewing_kit ) {
+                        threads_in_tool += i->ammo_remaining();
+                    }
+                }
+                CHECK( rags == 0 );
+                CHECK( threads == 100 - threads_in_recipe );
+                CHECK( threads_in_tool == 100 );
+            }
         }
     }
 }

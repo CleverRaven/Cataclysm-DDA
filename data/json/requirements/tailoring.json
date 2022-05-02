@@ -10,42 +10,48 @@
     "id": "armor_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "link_sheet", 1 ] ], [ [ "chain_link", 25 ] ] ]
   },
   {
     "id": "armor_lc_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "lc_link_sheet", 1 ] ], [ [ "lc_chain_link", 25 ] ] ]
   },
   {
     "id": "armor_mc_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "mc_link_sheet", 1 ] ], [ [ "mc_chain_link", 25 ] ] ]
   },
   {
     "id": "armor_hc_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "hc_link_sheet", 1 ] ], [ [ "hc_chain_link", 25 ] ] ]
   },
   {
     "id": "armor_ch_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "ch_link_sheet", 1 ] ], [ [ "ch_chain_link", 25 ] ] ]
   },
   {
     "id": "armor_qt_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "qt_link_sheet", 1 ] ], [ [ "qt_chain_link", 25 ] ] ]
   },
   {

@@ -44,16 +44,16 @@ class distribution
 };
 
 struct shopkeeper_item_group {
-    item_group_id id;
-    int trust;
-    bool strict;
+    item_group_id id = item_group_id( "EMPTY_GROUP" );
+    int trust = 0;
+    bool strict = false;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
-    bool rigid;
+    bool rigid = false;
 
-    shopkeeper_item_group() : id( item_group_id( "EMPTY_GROUP" ) ), trust( 0 ), strict( false ) {}
-    shopkeeper_item_group( const std::string &id, int trust, bool strict ) :
-        id( item_group_id( id ) ), trust( trust ), strict( strict ) {}
+    shopkeeper_item_group() = default;
+    shopkeeper_item_group( const std::string &id, int trust, bool strict, bool rigid = false ) :
+        id( item_group_id( id ) ), trust( trust ), strict( strict ), rigid( rigid ) {}
 
     void deserialize( const JsonObject &jo );
 };

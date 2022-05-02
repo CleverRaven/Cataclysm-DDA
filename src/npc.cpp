@@ -54,6 +54,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "npctrade_utils.h"
 #include "npctalk.h"
 #include "options.h"
 #include "output.h"
@@ -1875,8 +1876,7 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         return;
     }
 
-    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
-    if( player_character.is_deaf() ) {
+    if( player_character.is_deaf() && !player_character.is_blind() ) {
         add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ),
                                 get_name() );
     }
@@ -1889,6 +1889,9 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         add_msg( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
         return;
     }
+
+    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
+
     // Sound happens even if we can't hear it
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
@@ -2011,7 +2014,9 @@ int npc::max_willing_to_owe() const
 void npc::shop_restock()
 {
     // NPCs refresh every week, since the last time you checked in
-    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 0_days ) ) {
+    time_duration const elapsed =
+        restock != calendar::turn_zero ? calendar::turn - restock : 0_days;
+    if( ( restock != calendar::turn_zero ) && ( elapsed < 0_days ) ) {
         return;
     }
 
@@ -2036,10 +2041,8 @@ void npc::shop_restock()
         return;
     }
 
-    units::volume total_space = volume_capacity();
-    if( mission == NPC_MISSION_SHOPKEEP ) {
-        total_space = units::from_liter( 5000 );
-    }
+    add_fallback_zone( *this );
+    consume_items_in_zones( *this, elapsed );
 
     std::list<item> ret;
     int shop_value = 75000;
@@ -2078,13 +2081,12 @@ void npc::shop_restock()
     if( !value_groups.empty() ) {
         int count = 0;
         bool last_item = false;
-        while( shop_value > 0 && total_space > 0_ml && !last_item ) {
+        while( shop_value > 0 && !last_item ) {
             item tmpit = item_group::item_from( random_entry( value_groups ), calendar::turn );
-            if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
+            if( !tmpit.is_null() ) {
                 tmpit.set_owner( *this );
                 ret.push_back( tmpit );
                 shop_value -= tmpit.price( true );
-                total_space -= tmpit.volume();
                 count += 1;
                 last_item = count > 10 && one_in( 100 );
             }
@@ -2099,9 +2101,15 @@ void npc::shop_restock()
         }
     }
 
-    has_new_items = true;
-    inv->clear();
-    inv->push_back( ret );
+    if( mission == NPC_MISSION_SHOPKEEP ) {
+        distribute_items_to_npc_zones( ret, *this );
+    } else {
+        for( const item &i : ret ) {
+            i_add( i, true, nullptr, nullptr, true, false );
+        }
+        DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                << "shop_restock() called on NPC who is not a shopkeeper " << name;
+    }
 }
 
 int npc::minimum_item_value() const
@@ -2134,65 +2142,49 @@ int npc::value( const item &it, int market_price ) const
         // NPCs won't be interested in buying active explosives
         return -1000;
     }
-
-    // faction currency trades at market price
-    if( my_fac && my_fac->currency == it.typeId() ) {
+    if( mission == NPC_MISSION_SHOPKEEP ||
+        // faction currency trades at market price
+        ( my_fac != nullptr && my_fac->currency == it.typeId() ) ) {
         return market_price;
     }
+
     const item weapon = get_wielded_item();
-    int ret = 0;
-    // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
-    double weapon_val = weapon_value( it ) - weapon_value( weapon );
-    if( weapon_val > 0 ) {
-        ret += weapon_val;
-    }
+    float ret = 1;
+    if( it.is_maybe_melee_weapon() || it.is_gun() ) {
+        double weapon_val = weapon_value( it ) - weapon_value( weapon );
 
-    if( it.is_food() ) {
-        int comestval = 0;
-        if( nutrition_for( it ) > 0 || it.get_comestible()->quench > 0 ) {
-            comestval++;
-        }
-        if( get_hunger() > 40 ) {
-            comestval += ( nutrition_for( it ) + get_hunger() - 40 ) / 6;
-        }
-        if( get_thirst() > 40 ) {
-            comestval += ( it.get_comestible()->quench + get_thirst() - 40 ) / 4;
-        }
-        if( comestval > 0 && will_eat( it ).success() ) {
-            ret += comestval;
+        if( weapon_val > 0 ) {
+            ret += weapon_val * 0.0002;
         }
     }
 
-    if( it.is_ammo() ) {
-        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
-            // TODO: magazines - don't count ammo as usable if the weapon isn't.
-            ret += 14;
+    if( it.is_food() && will_eat( it ).success() ) {
+        int const kcal_need = get_healthy_kcal() - get_stored_kcal() + stomach.get_calories();
+        int const quench_need = get_thirst();
+        if( kcal_need > compute_effective_nutrients( it ).kcal() * 2 ) {
+            ret += std::min( 3.0, 0.00005 * kcal_need );
         }
-
-        if( has_gun_for_ammo( it.ammo_type() ) ) {
-            // TODO: consider making this cumulative (once was)
-            ret += 14;
+        if( quench_need > it.get_comestible()->quench * 2 ) {
+            ret += std::min( 3.0, 0.0055 * quench_need );
         }
-    }
-
-    if( it.is_book() ) {
+    } else if( it.is_ammo() ) {
+        // TODO: magazines - don't count ammo as usable if the weapon isn't.
+        if( ( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) ||
+            has_gun_for_ammo( it.ammo_type() ) ) {
+            ret += 0.2;
+        }
+    } else if( it.is_book() ) {
         auto &book = *it.type->book;
-        ret += book.fun;
-        if( book.skill && get_knowledge_level( book.skill ) < book.level &&
-            get_knowledge_level( book.skill ) >= book.req ) {
-            ret += book.level * 3;
+        ret += book.fun * 0.01;
+        int const skill = get_knowledge_level( book.skill );
+        if( book.skill && skill < book.level && skill >= book.req ) {
+            ret += ( book.level - skill ) * 0.1;
         }
+    } else if( it.is_tool() && !has_amount( it.typeId(), 1 ) ) {
+        // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
+        ret += 0.1;
     }
-
-    // Practical item value is more important than price
-    ret *= 50;
-
-    // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
-    if( it.is_tool() && !has_amount( it.typeId(), 1 ) ) {
-        ret += market_price * 0.2; // 20% premium for fresh tools
-    }
-    ret += market_price;
-    return ret;
+    return std::round( ret * market_price );
 }
 
 void healing_options::clear_all()
@@ -2526,6 +2518,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_ATTACK:
             return Attitude::HOSTILE;
         case MATT_NULL:
+        case MATT_UNKNOWN:
         case NUM_MONSTER_ATTITUDES:
             break;
     }
@@ -3198,6 +3191,7 @@ void npc::on_load()
         hallucination = true;
     }
     effect_on_conditions::load_existing_character( *this );
+    shop_restock();
 }
 
 constexpr tripoint_abs_omt npc::no_goal_point;

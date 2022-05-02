@@ -97,6 +97,7 @@ static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
+static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
 static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
 static const activity_id ACT_HACKING( "ACT_HACKING" );
@@ -512,7 +513,7 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 
 void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 {
-    who.add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
+    who.add_msg_if_player( m_info, _( "Auto drive canceled." ) );
     who.omt_path.clear();
     if( player_vehicle ) {
         player_vehicle->stop_autodriving( false );
@@ -6083,6 +6084,7 @@ deserialize_functions = {
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
     { ACT_HACKING, &hacking_activity_actor::deserialize },

@@ -273,6 +273,12 @@
     "//": "each of these equals 12 inches of thread for use when sewing items requiring advanced thread.",
     "components": [ [ [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ] ]
   },
+	{
+    "id": "filament_durable",
+    "type": "requirement",
+    "//": "Materials for use when sewing high end items, restricted to only the aramid threads. This was added in the middle of the tailoring overhaul and is actually half of the thread needed for the new calculations, so i'll be migrating to advanced_filament",
+    "components": [ [ [ "thread_kevlar", 1 ], [ "thread_nomex", 1 ] ] ]
+  },
   {
     "id": "glazing",
     "type": "requirement",
@@ -350,6 +356,12 @@
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from steel",
     "components": [ [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "id": "rock_flaking_any",
+    "type": "requirement",
+    "//": "Rocks that can be used for knapping.",
+    "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ], [ "flint", 1 ] ] ]
   },
   {
     "id": "waterproofing",

@@ -298,8 +298,8 @@ input_context uilist::create_main_input_context() const
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "HOME" );
-    ctxt.register_action( "END" );
+    ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
+    ctxt.register_action( "END", to_translation( "Go to last entry" ) );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     if( allow_cancel ) {
@@ -319,12 +319,30 @@ input_context uilist::create_main_input_context() const
 input_context uilist::create_filter_input_context() const
 {
     input_context ctxt( input_category, keyboard_mode::keychar );
+    // string input popup actions
+    ctxt.register_action( "TEXT.LEFT" );
+    ctxt.register_action( "TEXT.RIGHT" );
+    ctxt.register_action( "TEXT.QUIT" );
+    ctxt.register_action( "TEXT.CONFIRM" );
+    ctxt.register_action( "TEXT.CLEAR" );
+    ctxt.register_action( "TEXT.BACKSPACE" );
+    ctxt.register_action( "TEXT.HOME" );
+    ctxt.register_action( "TEXT.END" );
+    ctxt.register_action( "TEXT.DELETE" );
+#if defined( TILES )
+    ctxt.register_action( "TEXT.PASTE" );
+#endif
+    ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" );
+    // uilist actions
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
+    ctxt.register_action( "END", to_translation( "Go to last entry" ) );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_action( "ANY_INPUT" );
     return ctxt;
 }
 
@@ -387,7 +405,6 @@ void uilist::inputfilter()
     input_context ctxt = create_filter_input_context();
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->context( ctxt ).text( filter )
-    .ignore_custom_actions( false )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
     do {
@@ -819,7 +836,7 @@ int uilist::scroll_amount_from_action( const std::string &action )
     } else if( action == "HOME" ) {
         return -fselected;
     } else if( action == "END" ) {
-        return entries.size() - fselected;
+        return entries.size() - fselected - 1;
     } else if( action == "DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
@@ -1010,7 +1027,10 @@ void uilist::query( bool loop, int timeout )
             /* nothing */
         } else if( filtering && ret_act == "FILTER" ) {
             inputfilter();
-        } else if( iter != keymap.end() ) {
+        } else if( ret_act == "ANY_INPUT" && iter != keymap.end() ) {
+            // only handle "ANY_INPUT" since "HELP_KEYBINDINGS" is already
+            // handled by the input context and the caller might want to handle
+            // its custom actions
             selected = iter->second;
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;

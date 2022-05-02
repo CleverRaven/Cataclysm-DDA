@@ -3,6 +3,7 @@
 #include "display.h"
 #include "flag.h"
 #include "game.h"
+#include "make_static.h"
 #include "map.h"
 #include "messages.h"
 #include "morale_types.h"
@@ -15,6 +16,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -672,11 +675,11 @@ void Character::update_bodytemp()
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
-            if( bp == body_part_torso && temp_after <= BODYTEMP_COLD ) {
+            if( bp == body_part_torso && temp_after <= BODYTEMP_COLD && !has_bionic( bio_sleep_shutdown ) ) {
                 add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                 wake_up();
             } else if( bp != body_part_torso && temp_after <= BODYTEMP_VERY_COLD &&
-                       has_effect( effect_frostbite ) ) {
+                       has_effect( effect_frostbite ) && !has_bionic( bio_sleep_shutdown ) ) {
                 add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
                 wake_up();
             }
@@ -1222,7 +1225,8 @@ void Character::update_heartrate_index()
     float hr_nicotine_mod = 0.0f;
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
-        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( add_type::CIG ) + 1 ) ) {
+        if( get_effect_dur( effect_cig ) >
+            10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
             hr_nicotine_mod = 0.4f;
         } else {
             hr_nicotine_mod = 0.1f;

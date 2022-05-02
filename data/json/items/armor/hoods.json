@@ -365,5 +365,27 @@
     "environmental_protection": 1,
     "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ],
     "armor": [ { "coverage": 95, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "hood_ninja",
+    "repairs_like": "balclava",
+    "type": "ARMOR",
+    "name": { "str": "ninja hood" },
+    "description": "A black hood commonly used by ninjas.",
+    "weight": "80 g",
+    "volume": "1000 ml",
+    "price": 3500,
+    "price_postapoc": 20,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "balclava",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 5 }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ]
   }
 ]

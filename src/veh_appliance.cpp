@@ -2,6 +2,7 @@
 #include "handle_liquid.h"
 #include "inventory.h"
 #include "itype.h"
+#include "map_iterator.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
@@ -23,10 +24,71 @@ static const quality_id qual_HOSE( "HOSE" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
+static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
+
+static const vproto_id vehicle_prototype_none( "none" );
+
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_WIRING( "WIRING" );
+
+
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
 // TODO: make this dynamic in the future.
 static const int win_width = 60;
+
+vpart_id vpart_appliance_from_item( const itype_id &item_id )
+{
+    for( const std::pair<const vpart_id, vpart_info> &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.base_item == item_id && vp.has_flag( flag_APPLIANCE ) ) {
+            return vp.get_id();
+        }
+    }
+    debugmsg( "item %s is not base item of any appliance!", item_id.c_str() );
+    return vpart_ap_standing_lamp;
+}
+
+void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::optional<item> &base )
+{
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
+
+    if( !veh ) {
+        debugmsg( "error constructing vehicle" );
+        return;
+    }
+
+    if( base ) {
+        item copied = *base;
+        veh->install_part( point_zero, vpart, std::move( copied ) );
+    } else {
+        veh->install_part( point_zero, vpart );
+    }
+    veh->name = vpart->name();
+
+    veh->add_tag( flag_APPLIANCE );
+
+    // Update the vehicle cache immediately,
+    // or the appliance will be invisible for the first couple of turns.
+    here.add_vehicle_to_cache( veh );
+
+    // Connect to any neighbouring appliances or wires once
+    std::unordered_set<const vehicle *> connected_vehicles;
+    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+        const optional_vpart_position vp = here.veh_at( trip );
+        if( !vp ) {
+            continue;
+        }
+        const vehicle &veh_target = vp->vehicle();
+        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
+                veh->connect( p, trip );
+                connected_vehicles.insert( &veh_target );
+            }
+        }
+    }
+}
 
 // uilist_callback whose sole responsibility is to draw the
 // connecting borders between the uilist and the info window.
@@ -356,7 +418,8 @@ void veh_app_interact::rename()
 
 void veh_app_interact::remove()
 {
-    vehicle_part &vp = veh->part( veh->part_at( a_point ) );
+    int const part = veh->part_at( a_point );
+    vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
     const vpart_info &vpinfo = vp.info();
     const requirement_data reqs = vpinfo.removal_requirements();
     Character &you = get_player_character();

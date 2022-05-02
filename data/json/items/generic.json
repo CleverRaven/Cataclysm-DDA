@@ -157,6 +157,38 @@
   },
   {
     "type": "GENERIC",
+    "id": "small_printout_portal_storm_data",
+    "name": { "str": "short NRE printout" },
+    "category": "books",
+    "description": "A sequence of overlapping numbers plotted in thermal paper, at times so so densely packed that they disappear into thick blots of oxide colored ink.  A few number sequences repeat in an almost orderly fashion, but you cant tell wether that means anything.",
+    "weight": "1 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "4 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "medium_printout_portal_storm_data",
+    "copy-from": "small_printout_portal_storm_data",
+    "name": { "str": "NRE printout" },
+    "description": "A long sequence of overlapping numbers plotted in thermal paper, at times so densely packed that they disappear into thick blots of oxide colored ink.  Blots and numbers appear to be arranged in a strangely pleasing pattern.",
+    "weight": "3 g",
+    "volume": "8 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "large_printout_portal_storm_data",
+    "copy-from": "small_printout_portal_storm_data",
+    "name": { "str": "long NRE printout" },
+    "description": "A very, very long sequence of overlapping numbers plotted in thermal paper.  It is almost 15 feet long.",
+    "weight": "10 g",
+    "volume": "50 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -325,22 +357,6 @@
     "weight": "50 g",
     "volume": "250 ml",
     "to_hit": -4
-  },
-  {
-    "type": "GENERIC",
-    "id": "ceramicdisks",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "set of 100 ceramic disk", "str_pl": "ceramic disks" },
-    "description": "A set of small slightly elongated disks, made of high-grade ceramic.  They remind you of scales.",
-    "price": 0,
-    "price_postapoc": 25,
-    "material": [ "lightceramic" ],
-    "weight": "100 g",
-    "volume": "250 ml",
-    "bashing": 1,
-    "to_hit": -3
   },
   {
     "type": "GENERIC",
@@ -587,19 +603,21 @@
     "to_hit": -3
   },
   {
+    "id": "robofac_hardcase",
     "type": "GENERIC",
-    "id": "data_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "data card" },
-    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.",
-    "price": 10000,
-    "price_postapoc": 50,
-    "material": [ "plastic" ],
-    "weight": "18 g",
-    "volume": "1 ml",
-    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
-    "to_hit": -3
+    "name": { "str": "DARPA hard case" },
+    "description": "A heavy and very durable protective case made of steel and thick plastic, locked with a six dials.  A sticker with the logo of DARPA is attached to the front, but looking at the surface, you can see that another marking - formerly stenciled into the material - was recently and hastily destroyed.",
+    "weight": "1202 g",
+    "volume": "7958 ml",
+    "longest_side": "30 cm",
+    "price": 0,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "bashing": 4,
+    "material": [ "steel", "thermo_resin" ],
+    "symbol": "?",
+    "looks_like": "briefcase",
+    "color": "light_gray",
+    "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
@@ -1023,15 +1041,49 @@
     "symbol": "{",
     "color": "white",
     "name": { "str": "household washing machine" },
-    "description": "An appliance used to do laundry, not of much use without power and plumbing.  You could probably scrap it for parts.",
+    "description": "An appliance used to do laundry, not of much use without power and water.  Can be placed as an appliance.",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "steel" ],
-    "weight": "31752 g",
-    "volume": "125 L",
+    "weight": "66 kg",
+    "volume": "500 L",
+    "longest_side": "116cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "135 L",
+        "max_contains_weight": "15 kg"
+      }
+    ],
     "bashing": 5,
-    "to_hit": -5,
-    "use_action": { "type": "deploy_furn", "furn_type": "f_washer" }
+    "to_hit": -5
+  },
+  {
+    "type": "GENERIC",
+    "id": "household_dishwasher",
+    "symbol": "{",
+    "color": "white",
+    "name": { "str": "household dishwasher" },
+    "description": "An appliance used to clean dishes, not much of a use without power and water.  Can be placed as an appliance.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "weight": "41 kg",
+    "volume": "300 L",
+    "longest_side": "84 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "120 L",
+        "max_contains_weight": "15 kg"
+      }
+    ],
+    "bashing": 5,
+    "to_hit": -5
   },
   {
     "type": "GENERIC",
@@ -2527,6 +2579,14 @@
     "color": "light_blue",
     "name": { "str": "topaz", "str_pl": "topazes" },
     "description": "A sparkling blue topaz."
+  },
+  {
+    "type": "GENERIC",
+    "id": "onyx",
+    "copy-from": "garnet",
+    "color": "dark_gray",
+    "name": { "str": "onyx", "str_pl": "onyxes" },
+    "description": "A beautiful black onyx."
   },
   {
     "type": "GENERIC",

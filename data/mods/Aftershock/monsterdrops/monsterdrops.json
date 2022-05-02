@@ -292,7 +292,6 @@
     "type": "harvest",
     "message": "<centipede_harvest>",
     "entries": [
-      { "drop": "insect_sample", "type": "mutagen_group" },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.01 },

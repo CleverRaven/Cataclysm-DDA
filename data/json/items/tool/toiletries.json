@@ -103,6 +103,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "use_action": [ "MOP" ]
   },
   {
@@ -121,6 +122,8 @@
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "mop",
+    "weapon_category": [ "QUARTERSTAVES" ],
+    "flags": [ "FRAGILE_MELEE" ],
     "use_action": [ "MOP" ]
   },
   {

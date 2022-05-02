@@ -173,6 +173,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
+    optional( jo, was_loaded, "inherits_flags", inherits_flags );
     // if ablative also flag as a holster so it only holds 1 item
     if( ablative ) {
         holster = true;
@@ -1111,10 +1112,10 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                translated_sealed_prefix(),
                                pocket_number ) );
         } else if( is_ablative() && !contents.empty() ) {
-            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>pocket %d</bold>: %s" ),
+            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pocket %d</bold>: %s" ),
                                pocket_number, contents.front().display_name() ) );
         } else {
-            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>pocket %d</bold>" ),
+            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pocket %d</bold>" ),
                                pocket_number ) );
         }
     }
@@ -1766,6 +1767,11 @@ void item_pocket::set_usability( bool show )
 bool item_pocket::airtight() const
 {
     return data->airtight;
+}
+
+bool item_pocket::inherits_flags() const
+{
+    return data->inherits_flags;
 }
 
 bool item_pocket::allows_speedloader( const itype_id &speedloader_id ) const

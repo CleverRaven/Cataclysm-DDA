@@ -1,13 +1,13 @@
 [
   {
     "type": "MOD_INFO",
-    "id": "tropicalpack",
+    "id": "tropicata",
     "name": "TropiCataclysm",
     "authors": [ "Xarit" ],
-    "description": "WIP for a tropical themed region, it started as a fork of Desert Region but the plan is to evolve into its own thing.",
+    "description": "Changes the setting from New England to an undescribed region in the tropics, initially based out of Desert Region mod.",
     "category": "content",
     "dependencies": [ "dda" ],
-    "version": "0.60",
+    "version": "0.70",
     "obsolete": false
   }
 ]
