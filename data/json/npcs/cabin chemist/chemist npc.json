@@ -34,7 +34,7 @@
         2
       ]
     },
-    "shopkeeper_item_group": "cabin_chemist_sell",
+    "shopkeeper_item_group": [ { "group": "cabin_chemist_sell", "rigid": true } ],
     "skills": [
       {
         "skill": "ALL",
