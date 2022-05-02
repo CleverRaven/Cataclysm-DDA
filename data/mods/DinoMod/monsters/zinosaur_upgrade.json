@@ -1372,7 +1372,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 15, "into": "mon_skinosaurus_brute" },
+    "upgrades": { "half_life": 15, "into": "mon_skinosaurus_brute", "into_group": "" },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
