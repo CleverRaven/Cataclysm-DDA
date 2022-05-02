@@ -505,5 +505,18 @@
       [ "dnd_handbook", 5 ],
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "//": "Simpler games that would be found in communal areas, such as evac shelters.",
+    "id": "games_basic",
+    "items": [
+      { "item": "deck_of_cards", "prob": 100, "count": [ 1, 4 ] },
+      [ "chess", 50 ],
+      [ "checkers", 50 ],
+      [ "battleship", 30 ],
+      [ "monopoly", 10 ],
+      [ "clue", 10 ]
+    ]
   }
 ]
