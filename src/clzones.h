@@ -172,6 +172,12 @@ class blueprint_options : public zone_options, public mark_option
         query_con_result query_con();
 
     public:
+        blueprint_options() = default;
+        blueprint_options( std::string mark, construction_group_str_id const &group,
+                           construction_id const &index )
+            : mark( std::move( mark ) ), group( group ), index( index ) {
+        }
+
         std::string get_mark() const override {
             return mark;
         }
