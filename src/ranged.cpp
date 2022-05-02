@@ -2791,6 +2791,9 @@ int target_ui::dist_fn( const tripoint &p )
 
 void target_ui::set_last_target()
 {
+    if( !you->last_target_pos.has_value() || you->last_target_pos.value() != get_map().getabs( dst ) ) {
+        you->aim_cache_dirty = true;
+    }
     you->last_target_pos = get_map().getabs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
@@ -2935,6 +2938,9 @@ void target_ui::update_turrets_in_range()
 
 void target_ui::recalc_aim_turning_penalty()
 {
+    // since we are recalcing recoil dirty the aimm cache
+    you->aim_cache_dirty = true;
+
     if( status != Status::Good ) {
         // We don't care about invalid situations
         predicted_recoil = MAX_RECOIL;

@@ -1837,6 +1837,10 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
+        // Generate the cache of where the player can see based on aiming
+        // single cache doesn't care about z level
+        void build_aim_cache();
+
 
     protected:
         void generate_lightmap( int zlev );

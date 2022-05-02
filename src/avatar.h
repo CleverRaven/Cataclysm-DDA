@@ -255,6 +255,9 @@ class avatar : public Character
         // checks if the point is blocked based on characters current aiming state
         bool cant_see( const tripoint &p );
 
+        // rebuilds the full aim cache for the character if it is dirty
+        void rebuild_aim_cache();
+
         void set_movement_mode( const move_mode_id &mode ) override;
 
         // Cycles to the next move mode.
@@ -358,6 +361,8 @@ class avatar : public Character
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
+        bool aim_cache_dirty = false;
+
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
@@ -411,6 +416,9 @@ class avatar : public Character
          * The Character data in this object is not relevant/used.
          */
         std::unique_ptr<npc> shadow_npc;
+
+        // true when the space is still visible when aiming
+        bool aim_cache[MAPSIZE_X][MAPSIZE_Y];
 };
 
 avatar &get_avatar();
