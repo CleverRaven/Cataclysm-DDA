@@ -197,7 +197,7 @@
     "type": "ARMOR",
     "name": { "str": "baseball cap" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A Red Sox cap.  It provides a little bit of warmth.",
+    "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth.  Traditionally worn by baseball players.",
     "weight": "88 g",
     "volume": "500 ml",
     "price": 2500,
@@ -210,7 +210,28 @@
     "material_thickness": 0.1,
     "environmental_protection": 2,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_hatball",
+        "name": { "str": "baseball cap" },
+        "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth.  Traditionally worn by baseball players.",
+        "weight": 40
+      },
+      {
+        "id": "baseball_fan_hatball",
+        "name": { "str": "baseball fan cap" },
+        "description": "A snapback baseball cap displaying the logo of a local baseball team.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 5
+      },
+      {
+        "id": "football_fan_hatball",
+        "name": { "str": "football fan cap" },
+        "description": "A snapback baseball cap displaying the logo of a local football team.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "hat_chef",
