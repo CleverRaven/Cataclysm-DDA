@@ -18,7 +18,7 @@
 	"dialogue": {
       "describe": "I need help…",
 	  "offer": "Since business is increasing around here, I've decided to start selling more specialized metal.  Problem is, I can't separate the metal out.  Fortunately, I found some old schematics on a machine for this sort of thing.  If you could get me 20 magnetrons, I can melt down the sorted stuff into bars.  I can quickly pay you in raw materials.",
-	  "advice": "Magnetrons can be found in microwaves. An apartment block should have tons of them.",
+	  "advice": "Magnetrons can be found in microwaves.  An apartment block should have tons of them.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",
       "inquire": "Do you have the magnetrons?",
@@ -123,11 +123,11 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "Go negotiate a trade agreement.",
-	  "offer": "Business had been booming since you made a deal with that refugee center.  The last caravan that came by here mentioned something about a blacksmith down an old road.  I think I might have another business opportunity, so I need you to go over there and make another deal.",
+	  "offer": "Business has been booming since you made a deal with that refugee center.  The last caravan that came by here mentioned something about a blacksmith down some old road.  Sounds like another business opportunity, so I need you to go over there and make a deal.",
 	  "advice": "It should be pretty simple making the contract, but I'd recommend taking a car over there myself.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Please?  This is really important to me.",
-      "inquire": "What did they say about it?",
+      "inquire": "What did they say about the agreement?",
       "success": "Thank you!",
       "success_lie": "How does this help us?",
       "failure": "That's unfortunate.  I guess we'll have to find someone else to trade with."
