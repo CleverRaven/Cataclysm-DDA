@@ -1,4 +1,5 @@
 #include "avatar.h"
+#include "bodygraph.h"
 #include "character.h"
 #include "display.h"
 #include "game.h"
@@ -1311,6 +1312,65 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
         names.emplace_back( name );
     }
     return format_widget_multiline( names, max_height, width, height );
+}
+
+static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Character &u,
+        const bodygraph_part &bgp )
+{
+    const bodypart_id &bid = bgp.sub_bodyparts.empty() ?
+                             bgp.bodyparts.front() : bgp.sub_bodyparts.front()->parent.id();
+    if( !u.has_part( bid ) ) {
+        return { " ", c_black }; // character is missing this part
+    }
+    const int cur_hp = u.get_part_hp_cur( bid );
+    const int max_hp = u.get_part_hp_max( bid );
+    const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
+    if( cur_hp_pcnt < 0.25f ) {
+        return { bgp.sym, c_red };
+    } else if( cur_hp_pcnt < 0.5f ) {
+        return { bgp.sym, c_light_red };
+    } else if( cur_hp_pcnt < 0.75f ) {
+        return { bgp.sym, c_yellow };
+    }
+    return { bgp.sym, c_light_green };
+}
+
+std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
+        int width, int max_height, int &height )
+{
+    bodygraph_id graph( graph_id );
+    if( graph.is_null() || !graph.is_valid() || graph->rows.empty() ) {
+        height = 1;
+        return "";
+    }
+
+    std::map<std::string, std::pair<std::string, nc_color>> sym_col_map;
+    for( const auto &part : graph->parts ) {
+        sym_col_map.emplace( part.first, get_bodygraph_bp_sym_color( u, part.second ) );
+    }
+
+    std::string ret;
+    height = 0;
+    for( int y = 0; y < max_height && static_cast<size_t>( y ) < graph->rows.size(); y++ ) {
+        height++;
+        if( y > 0 ) {
+            ret.append( 1, '\n' );
+        }
+        for( int x = 0; x < width && static_cast<size_t>( x ) < graph->rows[y].size(); x++ ) {
+            std::string sym = graph->fill_sym.empty() ? graph->rows[y][x] : graph->fill_sym;
+            nc_color clr = graph->fill_color;
+            auto iter = sym_col_map.find( graph->rows[y][x] );
+            if( iter != sym_col_map.end() ) {
+                sym = iter->second.first;
+                clr = iter->second.second;
+            }
+            if( graph->rows[y][x] == " " ) {
+                sym = " ";
+            }
+            ret.append( colorize( sym, clr ) );
+        }
+    }
+    return ret;
 }
 
 // Print monster info to the given window

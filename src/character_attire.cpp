@@ -1,5 +1,6 @@
 #include "character_attire.h"
 
+#include "bodygraph.h"
 #include "character.h"
 #include "display.h"
 #include "event.h"

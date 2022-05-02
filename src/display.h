@@ -117,6 +117,10 @@ std::pair<std::string, nc_color> weather_text_color( const Character &u );
 std::string colorized_compass_text( const cardinal_direction dir, int width );
 std::string colorized_compass_legend_text( int width, int max_height, int &height );
 
+// Get color-coded body graph representing body part HP
+std::string colorized_bodygraph_text( const Character &u, const std::string graph_id, int width,
+                                      int max_height, int &height );
+
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
 // Returns color which this limb would have in healing menus

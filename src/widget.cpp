@@ -117,6 +117,8 @@ std::string enum_to_string<widget_var>( widget_var data )
         // Description functions
         case widget_var::activity_text:
             return "activity_text";
+        case widget_var::body_graph:
+            return "body_graph";
         case widget_var::bp_armor_outer_text:
             return "bp_armor_outer_text";
         case widget_var::date_text:
@@ -825,6 +827,7 @@ bool widget::uses_text_function()
 {
     switch( _var ) {
         case widget_var::activity_text:
+        case widget_var::body_graph:
         case widget_var::bp_armor_outer_text:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
@@ -884,6 +887,12 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
     switch( _var ) {
         case widget_var::activity_text:
             desc = display::activity_text_color( ava );
+            break;
+        case widget_var::body_graph:
+            desc.first = display::colorized_bodygraph_text( ava, "full_body_widget",
+                         _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
             break;
         case widget_var::bp_armor_outer_text:
             desc.first = ava.worn.get_armor_display( only_bp() );
