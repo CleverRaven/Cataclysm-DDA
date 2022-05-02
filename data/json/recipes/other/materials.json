@@ -734,11 +734,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "result_mult": 4,
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ] ],
-      [ [ "forge", 25 ], [ "oxy_torch", 5 ] ]
-    ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 25 ], [ "oxy_torch", 5 ] ] ],
     "components": [
       [ [ "material_sand", 10 ] ],
       [ [ "chem_washing_soda", 41 ] ],

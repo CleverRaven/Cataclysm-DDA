@@ -53,10 +53,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [
-      [ [ "chem_acetic_acid", 3 ] ],
-      [ [ "material_limestone", 54 ], [ "material_quicklime", 24 ] ]
-    ]
+    "components": [ [ [ "chem_acetic_acid", 3 ] ], [ [ "material_limestone", 54 ], [ "material_quicklime", 24 ] ] ]
   },
   {
     "type": "recipe",
@@ -71,10 +68,7 @@
     "batch_time_factors": [ 80, 2 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SEPARATE", "level": 1 } ],
-    "components": [
-      [ [ "chem_acetone", 1 ] ],
-      [ [ "bleach", 6 ] ]
-    ]
+    "components": [ [ [ "chem_acetone", 1 ] ], [ [ "bleach", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -89,7 +83,12 @@
     "time": "12 h",
     "batch_time_factors": [ 99, 2 ],
     "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "SEPARATE", "level": 1 } ],
+    "qualities": [
+      { "id": "CHEM", "level": 2 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "SEPARATE", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "rag", -1 ] ] ],
     "components": [
       [
@@ -120,10 +119,7 @@
     "batch_time_factors": [ 80, 2 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "chem_muriatic_acid", 1 ] ],
-      [ [ "material_limestone", 45 ], [ "material_quicklime", 24 ] ]
-    ]
+    "components": [ [ [ "chem_muriatic_acid", 1 ] ], [ [ "material_limestone", 45 ], [ "material_quicklime", 24 ] ] ]
   },
   {
     "type": "recipe",
