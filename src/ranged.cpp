@@ -83,13 +83,13 @@ static const ammotype ammo_40x46mm( "40x46mm" );
 static const ammotype ammo_40x53mm( "40x53mm" );
 static const ammotype ammo_66mm( "66mm" );
 static const ammotype ammo_84x246mm( "84x246mm" );
+static const ammotype ammo_RPG_7( "RPG-7" );
 static const ammotype ammo_arrow( "arrow" );
 static const ammotype ammo_atgm( "atgm" );
 static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
-static const ammotype ammo_RPG_7( "RPG-7" );
 static const ammotype ammo_metal_rail( "metal_rail" );
 
 
