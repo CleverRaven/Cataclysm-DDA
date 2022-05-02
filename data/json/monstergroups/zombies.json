@@ -686,5 +686,15 @@
       { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "name": "GROUP_FOOTBALL",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_null", "weight": 300 },
+      { "monster": "mon_zombie_tough", "weight": 150, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_runner", "weight": 150, "pack_size": [ 1, 1 ] },
+      { "monster": "mon_zombie_fat", "weight": 100, "pack_size": [ 4, 6 ] }
+    ]
   }
 ]
