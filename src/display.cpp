@@ -37,11 +37,51 @@ static const itype_id fuel_type_muscle( "muscle" );
 
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
+// Cache for the bodygraph widget string
+static disp_bodygraph_cache disp_bg_cache;
 
 disp_overmap_cache::disp_overmap_cache()
 {
     _center = overmap::invalid_tripoint;
     _mission = overmap::invalid_tripoint;
+}
+
+disp_bodygraph_cache::disp_bodygraph_cache()
+{
+    _bp_cur_max.clear();
+}
+
+bool disp_bodygraph_cache::is_valid_for( const Character &u ) const
+{
+    std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::only_main );
+    for( const auto &bp : _bp_cur_max ) {
+        if( std::find( cur_parts.begin(), cur_parts.end(), bp.first ) == cur_parts.end() ) {
+            // cached bodypart no longer on character
+            return false;
+        }
+    }
+    for( const bodypart_id &bp : cur_parts ) {
+        auto iter = _bp_cur_max.find( bp );
+        if( iter == _bp_cur_max.end() ) {
+            // uncached bodypart
+            return false;
+        }
+        if( iter->second.first != u.get_part_hp_cur( bp ) ||
+            iter->second.second != u.get_part_hp_max( bp ) ) {
+            // values differ
+            return false;
+        }
+    }
+    return true;
+}
+
+void disp_bodygraph_cache::rebuild( const Character &u, const std::string &bg_wgt_str )
+{
+    _bp_cur_max.clear();
+    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        _bp_cur_max.emplace( bp, std::pair<int, int> { u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) } );
+    }
+    _graph_wgt_str = bg_wgt_str;
 }
 
 // Get remotely controlled vehicle, or vehicle character is inside of
@@ -1335,10 +1375,14 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
     return { bgp.sym, c_light_green };
 }
 
-// TODO: Cache the result
 std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
         int width, int max_height, int &height )
 {
+    if( disp_bg_cache.is_valid_for( u ) ) {
+        // Nothing changed, just retrieve from cache
+        return disp_bg_cache.get_val();
+    }
+
     bodygraph_id graph( graph_id );
     if( graph.is_null() || !graph.is_valid() || graph->rows.empty() ) {
         height = 1;
@@ -1371,6 +1415,10 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
             ret.append( colorize( sym, clr ) );
         }
     }
+
+    // Rebuild bodygraph text cache
+    disp_bg_cache.rebuild( u, ret );
+
     return ret;
 }
 
