@@ -20,7 +20,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "Hello there.  Nice to see you, <name_g>.",
-      "no": "Who are you?  Would you like to buy anything?"
+      "no": "Haven't seen another face in quite a while.  Not a living one, at least.  State your business.  You got any use for some of this scrap metal?"
     },
     "speaker_effect": { "effect": { "npc_add_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
@@ -78,7 +78,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_FORT",
-    "dynamic_line": "Like I said, I was already here when the dead got pissed off.  On another note, this place had some barbed wire and plenty of stuff to make weapons out of.  The walls are my own making.",
+    "dynamic_line": "Like I said, I was already here when the dead got pissed off.  This place had some barbed wire, metalworking tools, and plenty of stuff to make weapons out of.  Even the walls are my own making.",
     "responses": [
       { "text": "Interesting.", "topic": "TALK_NONE" },
       { "text": "Think I could stay here?", "topic": "TALK_NPC_SCRAP_TRADER_HOME_STAY" }
@@ -112,33 +112,38 @@
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some small sheet metal.  [10$]",
-        "effect": [ { "u_buy_item": "sheet_metal_small", "cost": 1000, "count": 10 } ],
+        "text": "I'll buy some small sheet metal.  [5$]",
+        "effect": [ { "u_buy_item": "sheet_metal_small", "cost": 500, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some steel chunks.  [20$]",
-        "effect": [ { "u_buy_item": "steel_chunk", "cost": 2000, "count": 10 } ],
+        "text": "I'll buy some steel chunks.  [10$]",
+        "effect": [ { "u_buy_item": "steel_chunk", "cost": 1000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some steel lumps.  [60$]",
-        "effect": [ { "u_buy_item": "steel_lump", "cost": 6000, "count": 10 } ],
+        "text": "I'll buy some steel lumps.  [30$]",
+        "effect": [ { "u_buy_item": "steel_lump", "cost": 3000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some low carbon steel.  [80$]",
-        "effect": [ { "u_buy_item": "lc_steel_chunk", "cost": 8000, "count": 10 } ],
+        "text": "I'll buy some sheet metal.  [50$]",
+        "effect": [ { "u_buy_item": "sheet_metal", "cost": 5000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some medium carbon steel.  [100$]",
-        "effect": [ { "u_buy_item": "mc_steel_chunk", "cost": 10000, "count": 10 } ],
+        "text": "I'll buy some low carbon steel.  [60$]",
+        "effect": [ { "u_buy_item": "lc_steel_lump", "cost": 6000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "I'll buy some medium carbon steel.  [80$]",
+        "effect": [ { "u_buy_item": "mc_steel_lump", "cost": 8000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },      
       {
-        "text": "I'll buy some high carbon steel.  [120$]",
-        "effect": [ { "u_buy_item": "hc_steel_chunk", "cost": 12000, "count": 10 } ],
+        "text": "I'll buy some high carbon steel.  [100$]",
+        "effect": [ { "u_buy_item": "hc_steel_lump", "cost": 10000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       }
     ]
@@ -162,33 +167,38 @@
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some small sheet metal.  [10$]",
-        "effect": [ { "u_buy_item": "sheet_metal_small", "cost": 1000, "count": 10 } ],
+        "text": "I'll buy some small sheet metal.  [5$]",
+        "effect": [ { "u_buy_item": "sheet_metal_small", "cost": 500, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some steel chunks.  [20$]",
-        "effect": [ { "u_buy_item": "steel_chunk", "cost": 2000, "count": 10 } ],
+        "text": "I'll buy some steel chunks.  [10$]",
+        "effect": [ { "u_buy_item": "steel_chunk", "cost": 1000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some steel lumps.  [60$]",
-        "effect": [ { "u_buy_item": "steel_lump", "cost": 6000, "count": 10 } ],
+        "text": "I'll buy some steel lumps.  [30$]",
+        "effect": [ { "u_buy_item": "steel_lump", "cost": 3000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some low carbon steel.  [80$]",
-        "effect": [ { "u_buy_item": "lc_steel_chunk", "cost": 8000, "count": 10 } ],
+        "text": "I'll buy some sheet metal.  [50$]",
+        "effect": [ { "u_buy_item": "sheet_metal", "cost": 5000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some medium carbon steel.  [100$]",
-        "effect": [ { "u_buy_item": "mc_steel_chunk", "cost": 10000, "count": 10 } ],
+        "text": "I'll buy some low carbon steel.  [60$]",
+        "effect": [ { "u_buy_item": "lc_steel_lump", "cost": 6000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "I'll buy some medium carbon steel.  [80$]",
+        "effect": [ { "u_buy_item": "mc_steel_lump", "cost": 8000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       },      
       {
-        "text": "I'll buy some high carbon steel.  [120$]",
-        "effect": [ { "u_buy_item": "hc_steel_chunk", "cost": 12000, "count": 10 } ],
+        "text": "I'll buy some high carbon steel.  [100$]",
+        "effect": [ { "u_buy_item": "hc_steel_lump", "cost": 10000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       }
     ]

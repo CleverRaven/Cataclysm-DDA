@@ -17,7 +17,7 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need help…",
-	  "offer": "Since business is increasing around here, I've decided to start selling more specialized metal.  Problem is, I can't separate the metal out.  Fortunately, I found some old schematics on a machine for this sort of thing.  If you could get me 20 magnetrons, I can melt down the sorted stuff into bars.  I can quickly pay you in raw materials.",
+	  "offer": "Since business is increasing around here, I've decided to start selling more specialized metal.  Problem is, I can't separate the metal out.  Fortunately, I found some old schematics on a machine for this sort of thing.  If you could get me 25 magnetrons, I can melt down the sorted stuff into bars.  I can quickly pay you in raw materials.",
 	  "advice": "Magnetrons can be found in microwaves.  An apartment block should have tons of them.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",
@@ -96,7 +96,7 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "Go negotiate a trade agreement.",
-	  "offer": "I was out scavenging recently, and I found one of those old evac shelters.  Turns out the computer was still on, and had an address for a refugee center.  I figure they might want some spare metal, so I need you to go over there and strike a deal with them.",
+	  "offer": "I was out scavenging recently, and I found one of those old evac shelters.  Turns out the computer was still on and had an address for a refugee center.  I figure they might want some spare metal, so I need you to go over there and strike a deal with them.",
 	  "advice": "It should be pretty simple making the deal, but I'd recommend taking a car over there myself.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Please?  This is really important to me.",
