@@ -2259,7 +2259,7 @@
     "//": "Only diving appropriate (even if not optimal) suits of torso + pants.",
     "items": [
       { "group": "swimmer_wetsuit", "prob": 95 },
-      { "distribution": [ { "group": "diving_torso" }, { "group": "diving_pants"} ], "prob": 5 }
+      { "distribution": [ { "group": "diving_torso" }, { "group": "diving_pants" } ], "prob": 5 }
     ]
   },
   {
