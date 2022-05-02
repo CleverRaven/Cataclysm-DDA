@@ -204,7 +204,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_HOME",
-    "dynamic_line": "It's some old shack, maybe a hunting cabin or maybe something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
+    "dynamic_line": "Not my place, just somewhere I ended up.  Some old shack, maybe a hunting cabin or something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
     "responses": [
       {
         "text": "Hmm.",
