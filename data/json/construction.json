@@ -3179,6 +3179,17 @@
   },
   {
     "type": "construction",
+    "id": "app_water_purifier",
+    "group": "place_water_purifier",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "stationary_water_purifier", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_arcade_machine",
     "group": "place_arcade_machine",
     "category": "APPLIANCE",
@@ -3284,6 +3295,28 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "jointer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_hydraulic_press",
+    "group": "place_hydraulic_press",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "hydraulic_press", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_air_compressor",
+    "group": "place_air_compressor",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "air_compressor", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -5175,7 +5208,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_gravel", "count": [ 350, 500 ] } ],
+    "byproducts": [ { "item": "material_gravel", "count": [ 7, 10 ] } ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_dirt"
   },

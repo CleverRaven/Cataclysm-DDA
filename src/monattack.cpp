@@ -834,7 +834,7 @@ bool mattack::shockstorm( monster *z )
     bool seen = player_character.sees( *z );
     map &here = get_map();
 
-    bool can_attack = z->sees( *target );
+    bool can_attack = z->sees( *target ) && rl_dist( z->pos(), target->pos() ) <= 12;
     std::vector<tripoint> path = here.find_clear_path( z->pos(), target->pos() );
     for( const tripoint &point : path ) {
         if( here.impassable( point ) &&

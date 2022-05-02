@@ -72,23 +72,23 @@ static void show_mutations_titlebar( const catacurses::window &window,
     }
     if( menu_mode == mutation_menu_mode::activating ) {
         desc += colorize( _( "Activating" ),
-                          c_green ) + "  " + shortcut_desc( _( "%s to examine mutation, " ),
+                          c_green ) + "  " + shortcut_desc( _( "%s Examine, " ),
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == mutation_menu_mode::examining ) {
         desc += colorize( _( "Examining" ),
-                          c_light_blue ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
+                          c_light_blue ) + "  " + shortcut_desc( _( "%s Activate, " ),
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == mutation_menu_mode::hiding ) {
-        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
+        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s Activate, " ),
                 ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != mutation_menu_mode::reassigning ) {
-        desc += shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
+        desc += shortcut_desc( _( "%s Reassign, " ), ctxt.get_desc( "REASSIGN" ) );
     }
-    desc += shortcut_desc( _( "%s to toggle sprite visibility, " ), ctxt.get_desc( "TOGGLE_SPRITE" ) );
-    desc += shortcut_desc( _( "%s to change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+    desc += shortcut_desc( _( "%s Toggle sprite visibility, " ), ctxt.get_desc( "TOGGLE_SPRITE" ) );
+    desc += shortcut_desc( _( "%s Change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
     wnoutrefresh( window );
@@ -227,7 +227,7 @@ void avatar::power_mutations()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( wBio );
-        draw_border( wBio, BORDER_COLOR, _( " MUTATIONS " ) );
+        draw_border( wBio, BORDER_COLOR, _( "Mutations" ) );
         // Draw line under title
         mvwhline( wBio, point( 1, HEADER_LINE_Y ), LINE_OXOX, WIDTH - 2 );
         // Draw symbols to connect additional lines to border

@@ -1141,6 +1141,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_water_purifier",
+    "name": "Place Stationary Water Purifier"
+  },
+  {
+    "type": "construction_group",
     "id": "place_arcade_machine",
     "name": "Place Arcade Machine"
   },
@@ -1188,6 +1193,16 @@
     "type": "construction_group",
     "id": "place_jointer",
     "name": "Place Jointer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_hydraulic_press",
+    "name": "Place Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_air_compressor",
+    "name": "Place Air Compressor"
   },
   {
     "type": "construction_group",

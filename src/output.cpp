@@ -1412,6 +1412,53 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
     draw_tabs( w, tab_texts, it - tab_texts.begin() );
 }
 
+best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, const int &selected,
+                                const int &allowed_size, const int &spacer_size, const int &continuation_marker_size )
+{
+    int best_fit_length = 0;
+    best_fit returnVal;
+    returnVal.start = 0;
+    returnVal.length = 0;
+    int adjusted_allowed_size = allowed_size;
+    for( int num_fitting = static_cast<int>( size_of_items_to_fit.size() ); num_fitting > 0;
+         --num_fitting ) {
+        //Iterate through all possible places the list can start
+        for( int start_index = 0;
+             start_index <= static_cast<int>( size_of_items_to_fit.size() ) - num_fitting; ++start_index ) {
+            int space_required = 0;
+            int cont_marker_allowance = 0;
+            bool selected_response_included = false;
+            for( int i = start_index; i < ( num_fitting + start_index ); ++i ) {
+                space_required += size_of_items_to_fit[i] + spacer_size;
+                if( i == selected ) {
+                    selected_response_included = true;
+                }
+            }
+            //Check if this selection fits, accounting for an indicator that the list continues at the front if necessary
+            if( start_index != 0 &&
+                start_index + num_fitting != static_cast<int>( size_of_items_to_fit.size() ) ) {
+                cont_marker_allowance = spacer_size + continuation_marker_size;
+            }
+            if( space_required < ( adjusted_allowed_size - cont_marker_allowance ) &&
+                selected_response_included ) {
+                if( space_required > best_fit_length ) {
+                    returnVal.start = start_index;
+                    returnVal.length = num_fitting;
+                    best_fit_length = space_required;
+                }
+            }
+        }
+        //If a fitting option has been found, don't move to fewer entries in the list
+        if( best_fit_length > 0 ) {
+            break;
+            //If not everything fits, need at least one continuation indicator
+        } else if( num_fitting == static_cast<int>( size_of_items_to_fit.size() ) ) {
+            adjusted_allowed_size -= spacer_size + continuation_marker_size;
+        }
+    }
+    return returnVal;
+}
+
 std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
         const std::string &current_tab,
         const std::map<std::string, std::string> &tab_names,
@@ -1430,7 +1477,7 @@ std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_
     const int tab_step = 3; // Step between tabs, two for tab border
     size_t available_width = max_width - 1;
     std::pair<std::vector<std::string>, size_t> tab_list_and_index;
-    std::vector<size_t> tab_width;
+    std::vector<int> tab_width;
     tab_width.resize( original_tab_list.size() );
 
     for( size_t i = 0; i < original_tab_list.size(); ++i ) {
@@ -1442,53 +1489,17 @@ std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_
         }
     }
 
-    //Start by assuming the entire collection will fit, then work your way down until it does
-    size_t best_fit = 0;
-    size_t best_fit_start = 0;
-    size_t best_fit_width = 1;
-    for( size_t num_fitting = original_tab_list.size(); num_fitting > 0; --num_fitting ) {
-        //Iterate through all possible places the list can start
-        for( size_t start_index = 0; start_index <= ( original_tab_list.size() - num_fitting );
-             ++start_index ) {
-            size_t width_required = 0;
-            size_t dummy_tab_allowance = 0;
-            bool current_tab_included = false;
-            for( size_t i = start_index; i < ( num_fitting + start_index ); ++i ) {
-                width_required += tab_width[i] + tab_step;
-                if( i == tab_list_and_index.second ) {
-                    current_tab_included = true;
-                }
-            }
-            //Check if this selection fits, accounting for an indicator that the list continues at the front if necessary
-            if( start_index != 0 && start_index + num_fitting != original_tab_list.size() ) {
-                dummy_tab_allowance = tab_step + 1;
-            }
-            if( ( width_required < ( available_width - dummy_tab_allowance ) ) && current_tab_included ) {
-                if( width_required > best_fit ) {
-                    best_fit_start = start_index;
-                    best_fit_width = num_fitting;
-                    best_fit = width_required;
-                }
-            }
-        }
-        //If a fitting option has been found, don't move to fewer entries in the list
-        if( best_fit > 0 ) {
-            break;
-        }
-        //If not everything fits, need at least one continuation indicator
-        else if( num_fitting == original_tab_list.size() ) {
-            available_width -= 2 + tab_step;
-        }
-    }
+    best_fit tabs_to_print = find_best_fit_in_size( tab_width, tab_list_and_index.second,
+                             available_width, tab_step, 1 );
 
     //Assemble list to return
-    if( best_fit_start != 0 ) { //Signify that the list continues left
+    if( tabs_to_print.start != 0 ) { //Signify that the list continues left
         tab_list_and_index.first.emplace_back( "<" );
     }
-    for( size_t i = best_fit_start; i < original_tab_list.size(); ++i ) {
-        if( i < best_fit_start + best_fit_width ) {
+    for( int i = tabs_to_print.start; i < static_cast<int>( original_tab_list.size() ); ++i ) {
+        if( i < tabs_to_print.start + tabs_to_print.length ) {
             //Update tab_list_and_index to suit new list:
-            if( i == tab_list_and_index.second ) {
+            if( i == static_cast<int>( tab_list_and_index.second ) ) {
                 tab_list_and_index.second = tab_list_and_index.first.size();
             }
             //Assemble the string vector
@@ -1501,8 +1512,8 @@ std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_
             }
         }
     }
-    if( best_fit_start + best_fit_width !=
-        original_tab_list.size() ) { //Signify that the list continues right
+    if( tabs_to_print.start + tabs_to_print.length != static_cast<int>( original_tab_list.size() ) ) {
+        //Signify that the list continues right
         tab_list_and_index.first.emplace_back( ">" );
     }
 
@@ -2000,14 +2011,16 @@ void replace_keybind_tag( std::string &input )
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all )
 {
-    if( all ) {
-        while( input.find( substring ) != std::string::npos ) {
-            replace_substring( input, substring, replacement, false );
+    std::size_t find_after = 0;
+    std::size_t pos = 0;
+    const std::size_t pattern_length = substring.length();
+    const std::size_t replacement_length = replacement.length();
+    while( ( pos = input.find( substring, find_after ) ) != std::string::npos ) {
+        input.replace( pos, pattern_length, replacement );
+        find_after = pos + replacement_length;
+        if( !all ) {
+            break;
         }
-    } else {
-        size_t len = substring.length();
-        size_t offset = input.find( substring );
-        input.replace( offset, len, replacement );
     }
 }
 

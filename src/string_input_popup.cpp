@@ -93,6 +93,24 @@ void string_input_popup::create_context()
 {
     ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT", keyboard_mode::keychar );
     ctxt = ctxt_ptr.get();
+    ctxt->register_action( "TEXT.QUIT" );
+    ctxt->register_action( "TEXT.CONFIRM" );
+    if( !_identifier.empty() ) {
+        ctxt->register_action( "HISTORY_UP" );
+        ctxt->register_action( "HISTORY_DOWN" );
+    }
+    ctxt->register_action( "TEXT.LEFT" );
+    ctxt->register_action( "TEXT.RIGHT" );
+    ctxt->register_action( "TEXT.CLEAR" );
+    ctxt->register_action( "TEXT.BACKSPACE" );
+    ctxt->register_action( "TEXT.HOME" );
+    ctxt->register_action( "TEXT.END" );
+    ctxt->register_action( "TEXT.DELETE" );
+#if defined(TILES)
+    ctxt->register_action( "TEXT.PASTE" );
+#endif
+    ctxt->register_action( "TEXT.INPUT_FROM_FILE" );
+    ctxt->register_action( "HELP_KEYBINDINGS" );
     ctxt->register_action( "ANY_INPUT" );
 }
 
@@ -362,7 +380,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
         // starts scrolling when the cursor is this far from the start or end
         const size_t scroll_width = std::min( 10, scrmax / 5 );
-        if( width_to_cursor_start < static_cast<size_t>( shift ) + scroll_width ) {
+        if( ret.display_width() < static_cast<size_t>( scrmax ) ) {
+            shift = 0;
+        } else if( width_to_cursor_start < static_cast<size_t>( shift ) + scroll_width ) {
             shift = std::max( width_to_cursor_start, scroll_width ) - scroll_width;
         } else if( width_to_cursor_end > static_cast<size_t>( shift + scrmax ) - scroll_width ) {
             shift = std::min( width_to_cursor_end + scroll_width, ret.display_width() ) - scrmax;
@@ -397,12 +417,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
         }
 
-        if( _ignore_custom_actions && action != "ANY_INPUT" ) {
-            _handled = false;
-            continue;
-        }
-
-        if( ch == KEY_ESCAPE ) {
+        if( action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 StopTextInput();
@@ -412,7 +427,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             _position = -1;
             _canceled = true;
             return _text;
-        } else if( ch == '\n' ) {
+        } else if( action == "TEXT.CONFIRM" ) {
             add_to_history( ret.str() );
             _confirmed = true;
             _text = ret.str();
@@ -421,7 +436,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 _session_str_entered.erase( 0 );
             }
             return _text;
-        } else if( ch == KEY_UP ) {
+        } else if( action == "HISTORY_UP" ) {
             if( !_identifier.empty() ) {
                 if( _hist_use_uilist ) {
                     show_history( ret );
@@ -431,7 +446,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             } else {
                 _handled = false;
             }
-        } else if( ch == KEY_DOWN ) {
+        } else if( action == "HISTORY_DOWN" ) {
             if( !_identifier.empty() ) {
                 if( !_hist_use_uilist ) {
                     update_input_history( ret, false );
@@ -439,39 +454,37 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             } else {
                 _handled = false;
             }
-            // NOLINTNEXTLINE(bugprone-branch-clone)
-        } else if( ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == '\t' ) {
-            _handled = false;
-        } else if( ch == KEY_RIGHT ) {
+        } else if( action == "TEXT.RIGHT" ) {
             if( _position + 1 <= static_cast<int>( ret.size() ) ) {
                 _position++;
             }
-        } else if( ch == KEY_LEFT ) {
+        } else if( action == "TEXT.LEFT" ) {
             if( _position > 0 ) {
                 _position--;
             }
-        } else if( ch == 0x15 ) {                      // ctrl-u: delete all the things
+        } else if( action == "TEXT.CLEAR" ) {
             _position = 0;
             ret.erase( 0 );
-        } else if( ch == KEY_BACKSPACE ) {
+        } else if( action == "TEXT.BACKSPACE" ) {
             if( _position > 0 && _position <= static_cast<int>( ret.size() ) ) {
                 _position--;
                 ret.erase( _position, 1 );
             }
-        } else if( ch == KEY_HOME ) {
+        } else if( action == "TEXT.HOME" ) {
             _position = 0;
-        } else if( ch == KEY_END ) {
+        } else if( action == "TEXT.END" ) {
             _position = ret.size();
-        } else if( ch == KEY_DC ) {
+        } else if( action == "TEXT.DELETE" ) {
             if( _position < static_cast<int>( ret.size() ) ) {
                 ret.erase( _position, 1 );
             }
-        } else if( ch == 0x16 || ch == KEY_F( 2 ) || !ev.text.empty() ) {
-            // ctrl-v, f2, or text input
+        } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE"
+                   || ( action == "ANY_INPUT" && !ev.text.empty() ) ) {
+            // paste, input from file, or text input
             // bail out early if already at length limit
             if( _max_length <= 0 || ret.display_width() < static_cast<size_t>( _max_length ) ) {
                 std::string entered;
-                if( ch == 0x16 ) {
+                if( action == "TEXT.PASTE" ) {
 #if defined(TILES)
                     if( edit.empty() ) {
                         char *const clip = SDL_GetClipboardText();
@@ -481,7 +494,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                         }
                     }
 #endif
-                } else if( ch == KEY_F( 2 ) ) {
+                } else if( action == "TEXT.INPUT_FROM_FILE" ) {
                     if( edit.empty() ) {
                         entered = get_input_string_from_file();
                     }
@@ -495,7 +508,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                     int width = ret.display_width();
                     while( len > 0 ) {
                         const uint32_t ch = UTF8_getch( &str, &len );
-                        if( _only_digits ? ch == '-' || isdigit( ch ) : ch != '\n' && ch != '\r' ) {
+                        // Use mk_wcwidth to filter out control characters
+                        if( _only_digits ? ch == '-' || isdigit( ch ) : mk_wcwidth( ch ) >= 0 ) {
                             const int newwidth = mk_wcwidth( ch );
                             if( _max_length <= 0 || width + newwidth <= _max_length ) {
                                 insertion.append( utf8_wrapper( utf32_to_utf8( ch ) ) );
