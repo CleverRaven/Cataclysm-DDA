@@ -189,7 +189,6 @@
       "|": { "chunks": [ [ "dks_shelter_graffiti", 5 ], [ "dks_general_graffiti", 20 ], [ "null", 75 ] ] },
       "-": { "chunks": [ [ "dks_shelter_graffiti", 5 ], [ "dks_general_graffiti", 20 ], [ "null", 75 ] ] },
       ";": { "chunks": [ [ "dks_shelter_graffiti", 5 ], [ "dks_general_graffiti", 20 ], [ "null", 75 ] ] },
-      "/": { "chunks": [ [ "dks_shelter_graffiti", 5 ], [ "dks_general_graffiti", 20 ], [ "null", 75 ] ] },
       "6": { "chunks": [ [ "dks_shelter_computer", 50 ], [ "shelter_computer_broken", 50 ] ] },
       "x": { "chunks": [ [ "dks_shelter_computer", 20 ], [ "shelter_computer_broken", 80 ] ] }
     }
