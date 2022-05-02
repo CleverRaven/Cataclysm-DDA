@@ -19,7 +19,7 @@
       "type": "dialogue",
       "context": "first_meeting",
       "value": "yes",
-      "yes": "Hello there.  Nice to see you <name_g>.",
+      "yes": "Hello there.  Nice to see you, <name_g>.",
       "no": "Who are you?  Would you like to buy anything?"
     },
     "speaker_effect": { "effect": { "npc_add_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
@@ -30,14 +30,14 @@
         "condition": { "not": { "npc_has_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
       {
-        "text": "Hands up <name_b>!",
+        "text": "Hands up, <name_b>!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }, 
         "condition": { "not": { "npc_has_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
       { 
-        "text": "Pleasure to see you again <name_g>.", 
+        "text": "Pleasure to see you again, <name_g>.", 
         "topic": "TALK_NPC_SCRAP_TRADER_INTRO", 
         "condition": { "npc_has_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       },
@@ -78,7 +78,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_FORT",
-    "dynamic_line": "Like I said, I was already here when the dead got pissed of.  On another note, this place had some barbed wire and plenty of stuff to make weapons out of.  The walls are my own doing.",
+    "dynamic_line": "Like I said, I was already here when the dead got pissed off.  On another note, this place had some barbed wire and plenty of stuff to make weapons out of.  The walls are my own making.",
     "responses": [
       { "text": "Interesting.", "topic": "TALK_NONE" },
       { "text": "Think I could stay here?", "topic": "TALK_NPC_SCRAP_TRADER_HOME_STAY" }
@@ -87,7 +87,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_HOME_STAY",
-    "dynamic_line": "Sure, I'm fine with it.  There's a spare bed over there for anyone.  Just don't hog it, someone else might come along.",
+    "dynamic_line": "Sure, I'm fine with it.  There's a spare bed over there for anyone.  Just don't hog it.  Someone else might come along.",
     "responses": [
       { "text": "Thanks, <name_g>.", "topic": "TALK_NPC_SCRAP_TRADER_INTRO" }
     ]
@@ -197,7 +197,7 @@
     "id": "TALK_SCRAP_TRADER_BULK_SELL_SPECIALTY",
     "type": "talk_topic",
     "dynamic_line": [
-      "I have some in the back, in batches of ten a-piece.  What do you want?"
+      "I have some in the back, in batches of ten apiece.  What do you want?"
     ],
     "//": "This is meant to be more costly due to the difficulty in obtaining them.",
     "responses": [
