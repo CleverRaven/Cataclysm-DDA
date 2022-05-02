@@ -109,7 +109,7 @@
     "id": "generic_wood",
     "symbol": "/",
     "color": "brown",
-    "name": { "str": "wooden hardware" },
+    "name": { "str_sp": "wooden hardware" },
     "description": "Some kind of wooden tool or appliance. Whatever it is, you can break it into splinters.",
     "material": [ "wood" ],
     "flags": [ "TRADER_AVOID", "FIREWOOD" ],
