@@ -116,7 +116,7 @@
     "id": "damaged_exo_psu_vcc",
     "type": "ARMOR",
     "copy-from": "exo_psu_vcc",
-    "name": { "str": "carbide PSU plate (exosuit)", "str_pl": "carbide PSU plates (exosuit)" },
+    "name": { "str": "damaged carbide PSU plate (exosuit)", "str_pl": "damaged carbide PSU plates (exosuit)" },
     "description": "The remains of a carbide PSU plate after taking a strong impact.  Can be repaired in the field.",
     "non_functional": "destroyed_exo_psu_vcc",
     "armor": [

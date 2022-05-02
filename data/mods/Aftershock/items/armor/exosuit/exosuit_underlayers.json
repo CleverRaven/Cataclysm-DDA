@@ -50,7 +50,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
   },
   {
     "id": "afs_exo_combat_undersuit",
@@ -103,7 +103,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
   },
   {
     "id": "afs_exo_eva_undersuit",
@@ -147,7 +147,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
   },
   {
     "id": "afs_exo_utility_undersuit",
@@ -191,6 +191,6 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
   }
 ]
