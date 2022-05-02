@@ -240,7 +240,6 @@
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_cotton", 15 ], [ "fastener_small", 1 ] ],
     "byproducts": [ [ "scrap_cotton", 5 ], [ "cotton_patchwork", 4 ] ]
-    "using": [ [ "tailoring_cotton", 3 ], [ "fastener_small", 1 ] ]
   },
   {
     "result": "skirt",

@@ -273,7 +273,7 @@
     "//": "each of these equals 12 inches of thread for use when sewing items requiring advanced thread.",
     "components": [ [ [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ] ]
   },
-	{
+  {
     "id": "filament_durable",
     "type": "requirement",
     "//": "Materials for use when sewing high end items, restricted to only the aramid threads. This was added in the middle of the tailoring overhaul and is actually half of the thread needed for the new calculations, so i'll be migrating to advanced_filament",
