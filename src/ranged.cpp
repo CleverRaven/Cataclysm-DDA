@@ -90,7 +90,7 @@ static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
 static const ammotype ammo_metal_rail( "metal_rail" );
-static const ammotype ammo_RPG7( "RPG-7" );
+static const ammotype ammo_RPG_7( "RPG-7" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
 
@@ -889,7 +889,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             } else if( at.count( ammo_66mm ) || at.count( ammo_120mm ) || at.count( ammo_84x246mm ) ||
-                       at.count( ammo_m235 ) || at.count( ammo_atgm ) || at.count( ammo_RPG7 ) ||
+                       at.count( ammo_m235 ) || at.count( ammo_atgm ) || at.count( ammo_RPG_7 ) ||
                        at.count( ammo_homebrew_rocket ) ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames burst out!" ) );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
@@ -1917,7 +1917,7 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     } else if( at.count( ammo_flammable ) || at.count( ammo_66mm ) || at.count( ammo_120mm ) ||
                at.count( ammo_84x246mm ) || at.count( ammo_m235 ) || at.count( ammo_atgm ) ||
-               at.count( ammo_RPG7 ) || at.count( ammo_homebrew_rocket ) ) {
+               at.count( ammo_RPG_7 ) || at.count( ammo_homebrew_rocket ) ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
     } else if( at.count( ammo_arrow ) ) {
