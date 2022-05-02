@@ -3743,7 +3743,7 @@ void npc::heal_self()
         return;
     }
 
-    add_msg_if_player_sees( *this, _( "%s starts applying a %s." ), disp_name(), used.tname() );
+    add_msg_if_player_sees( *this, _( "%1$s starts applying a %2$s." ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
     int charges_used = used.type->invoke( *this, used, pos(), "heal" ).value_or( 0 );
