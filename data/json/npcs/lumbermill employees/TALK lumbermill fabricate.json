@@ -4,7 +4,7 @@
     "//": "this is all the dialogue related to buying bulk wood.",
     "type": "talk_topic",
     "dynamic_line": [
-      "Sure, we offer various specialty cuts direct to our customers, in batches of 10.  What would you like?"
+      "Sure, we offer various specialty cuts direct to our customers in batches of 10.  What would you like?"
     ],
     "responses": [
       { "text": "Nevermind.", "topic": "TALK_NONE" },
