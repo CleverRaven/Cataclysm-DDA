@@ -245,8 +245,8 @@
         { "finish_mission": "MISSION_BEGGAR_2_PERMISSION", "success": true },
         { "npc_first_topic": "TALK_DINODAVE_1" },
         { "mapgen_update": "cardboard_castle_1_main", "om_terrain": "evac_center_13_z1" },
-        { "npc_teleport": { "npc_val": "dave_castle" } },
-        { "mapgen_update": "cardboard_castle_1_roof", "om_terrain": "evac_center_13_z2" }
+        { "mapgen_update": "cardboard_castle_1_roof", "om_terrain": "evac_center_13_z2" },
+        { "npc_teleport": { "global_val": "dave_castle" } }
       ]
     },
     "responses": [ { "text": "I'll see you on the rooftop.  Good luck, Dave.", "topic": "TALK_DONE" } ]
