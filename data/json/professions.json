@@ -1495,24 +1495,15 @@
     "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [
-          "pants_army",
-          "socks",
-          "badge_deputy",
-          "sheriffshirt",
-          "police_belt",
-          "boots",
-          "dog_whistle",
-          "wristwatch",
-          "dogfood_dry"
-        ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "dog_whistle", "wristwatch", "dogfood_dry" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
-          { "item": "kevlar_harness", "container-item": "runner_bag" }
+          { "item": "kevlar_harness", "container-item": "runner_bag" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1563,13 +1554,14 @@
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1731,7 +1723,6 @@
           "socks",
           "pants_army",
           "police_belt",
-          "sheriffshirt",
           "sweatshirt",
           "sneakers",
           "gloves_tactical",
@@ -1747,7 +1738,8 @@
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "762_51", "charges": 20 },
-          { "item": "M24", "ammo-item": "762_51", "charges": 5, "contents-item": "shoulder_strap" }
+          { "item": "M24", "ammo-item": "762_51", "charges": 5, "contents-item": "shoulder_strap" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1811,7 +1803,6 @@
           "socks",
           "police_breeches",
           "badge_deputy",
-          "sheriffshirt",
           "undershirt",
           "police_belt",
           "motor_police_boots",
@@ -1825,7 +1816,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2150,13 +2142,14 @@
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2237,7 +2230,6 @@
           "pants_army",
           "police_belt",
           "rollmat",
-          "sheriffshirt",
           "socks",
           "travelpack",
           "vest",
@@ -2260,7 +2252,8 @@
           { "item": "permanent_marker", "charges": 500 },
           { "item": "roadmap" },
           { "item": "sm_extinguisher", "charges": 10 },
-          { "item": "trailmap" }
+          { "item": "trailmap" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2413,7 +2406,11 @@
           "wristwatch",
           "multitool"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "sheath", "contents-item": "knife_trench" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "sheath", "contents-item": "knife_trench" },
+          { "item": "leg_bag", "variant": "black_leg_bag" }
+        ]
       },
       "male": [ "boxer_shorts", "tank_top" ],
       "female": [ "bra", "boy_shorts" ]
@@ -4023,7 +4020,6 @@
           "boots_western",
           "duster",
           "badge_deputy",
-          "sheriffshirt",
           "novel_western"
         ],
         "entries": [
@@ -4035,7 +4031,8 @@
             "charges": 6,
             "container-item": "western_holster",
             "contents-group": "bandolier_ww_gunslinger"
-          }
+          },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       }
     }
