@@ -1208,6 +1208,7 @@ bool avatar::cant_see( const tripoint &p )
                                local_last_target.x - posx() );
     float current_angle = atan2f( p.y - posy(), p.x - posx() );
 
+    // move from -pi to pi, to 0 to 2pi for angles
     if( base_angle < 0 ) {
         base_angle = base_angle + 2 * pi;
     }
@@ -1216,7 +1217,7 @@ bool avatar::cant_see( const tripoint &p )
         current_angle = current_angle + 2 * pi;
     }
 
-
+    // calc steadiness with player recoil (like they are taking a regular shot not careful etc.
     float range = 3.0f - 3.0f * calc_steadiness( *this, &get_wielded_item(),
                   last_target_pos.value(), recoil );
 
@@ -1224,10 +1225,7 @@ bool avatar::cant_see( const tripoint &p )
     float upper_bound = base_angle + range;
     float lower_bound = base_angle - range;
 
-    add_msg_if_player( string_format( "upper: %f lower: %f current: %f", upper_bound, lower_bound,
-                                      current_angle ) );
-
-
+    // cap each within 0 - 2pi
     if( upper_bound > 2 * pi ) {
         upper_bound = upper_bound - 2 * pi;
     }
@@ -1236,12 +1234,12 @@ bool avatar::cant_see( const tripoint &p )
         lower_bound = lower_bound + 2 * pi;
     }
 
+    // some basic angle inclusion math, but also everything with 15 is still seen
     if( rl_dist( p, pos() ) < 15 ) {
         return false;
     } else if( lower_bound > upper_bound ) {
         return !( current_angle >= lower_bound ||
                   current_angle <= upper_bound );
-
     } else {
         return !( current_angle >= lower_bound &&
                   current_angle <= upper_bound );

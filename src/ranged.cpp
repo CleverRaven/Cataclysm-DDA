@@ -971,7 +971,7 @@ int throw_cost( const Character &c, const item &to_throw )
 }
 
 // Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
-static double calculate_aim_cap( const Character &you, const tripoint &target )
+double calculate_aim_cap( const Character &you, const tripoint &target )
 {
     double min_recoil = 0.0;
     const Creature *victim = get_creature_tracker().creature_at( target, true );
