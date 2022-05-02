@@ -263,7 +263,7 @@
   "description": "Liquid ammonia, held under high pressure.",
   "weight": "136 g",
   "volume": "200 ml",
-  "count" 10,
+  "count": 10,
   "stack_size": 10,
   "category": "chems",
   "phase": "liquid",
