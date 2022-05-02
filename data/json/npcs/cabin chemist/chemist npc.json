@@ -193,7 +193,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_STORY",
-    "dynamic_line": "I used to be a chemist.  Well, I am a chemist, but before I got evacuated I worked out in a factory actually synthesizing chemicals.  I've been out here for a little while now and I even brought some of my equipment.  I found a couple things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
+    "dynamic_line": "I used to be a chemist.  Well, I am a chemist.  I've been living out here in the wilderness for a little while now since <the_cataclysm>.  Even brought some of my equipment.  I found a couple useful things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
     "responses": [
       {
         "text": "Hmm.",
@@ -204,7 +204,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_HOME",
-    "dynamic_line": "It looks like some old shack, or someplace someone like me once lived in.  I found it out here while I was trying to escape all the <zombies> in the city, and I decided to stay.",
+    "dynamic_line": "It's some old shack, maybe a hunting cabin or maybe something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
     "responses": [
       {
         "text": "Hmm.",
@@ -214,7 +214,7 @@
   },
   {
     "id": "TALK_CABIN_CHEMIST_BULK_SELL",
-    "//": "this is all the dialogue related to buying bulk chemicals.",
+    "//": "This is all the dialogue related to buying bulk chemicals.",
     "type": "talk_topic",
     "dynamic_line": [
       "I'll see what I've got around here for you.  What do you want?"
