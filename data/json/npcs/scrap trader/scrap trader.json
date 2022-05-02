@@ -20,7 +20,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "Hello there.  Nice to see you, <name_g>.",
-      "no": "Haven't seen another face in quite a while.  Not a living one, at least.  State your business.  You got any use for some of this scrap metal?"
+      "no": "Haven't seen another face in quite a while.  Not a living one, at least.  State your business.  Maybe you got some use for some of this scrap metal?"
     },
     "speaker_effect": { "effect": { "npc_add_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
@@ -87,7 +87,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_HOME_STAY",
-    "dynamic_line": "Sure, I'm fine with it.  There's a spare bed over there for anyone.  Just don't hog it.  Someone else might come along.",
+    "dynamic_line": "Sure, I'm fine with it.  There's a spare bed over there for anyone who needs it.  Just don't hog it.  Someone else might come along.",
     "responses": [
       { "text": "Thanks, <name_g>.", "topic": "TALK_NPC_SCRAP_TRADER_INTRO" }
     ]
@@ -211,7 +211,7 @@
     ],
     "//": "This is meant to be more costly due to the difficulty in obtaining them.",
     "responses": [
-      { "text": "Nevermind.", "topic": "TALK_NONE" },      
+      { "text": "Nevermind the specialty stuff.", "topic": "TALK_NONE" },      
       {
         "text": "I'll buy some bismuth.  [10$]",
         "effect": [ { "u_buy_item": "bismuth", "cost": 1000, "count": 10 } ],
