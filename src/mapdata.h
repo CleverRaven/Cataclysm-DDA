@@ -332,6 +332,7 @@ enum ter_connects : int {
     TERCONN_MULCHFLOOR,
     TERCONN_METALFLOOR,
     TERCONN_WOODFLOOR,
+    TERCONN_TABLE,
 };
 
 struct activity_byproduct {

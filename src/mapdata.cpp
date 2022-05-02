@@ -283,6 +283,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
         { "METALFLOOR",               TERCONN_METALFLOOR },
         { "WOODFLOOR",               TERCONN_WOODFLOOR },
+        { "TABLE",                    TERCONN_TABLE },
     }
 };
 
