@@ -179,6 +179,21 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "acetic_anhydride",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 8,
+    "time": "2 h",
+    "batch_time_factors": [ 80, 2 ],
+    "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 6 ], [ "recipe_labchem", 5 ], [ "atomic_survival", 5 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "FINE_DISTILL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "ketene_lamp", 50 ] ] ],
+    "components": [ [ [ "chem_acetic_acid", 1 ] ], [ [ "chem_acetone", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "chem_mercury_fulminate",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
