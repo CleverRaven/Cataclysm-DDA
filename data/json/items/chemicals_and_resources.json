@@ -1726,7 +1726,7 @@
     "category": "chems",
     "name": { "str_sp": "acetic anhydride" },
     "description": "A colorless liquid that smells strongly of vinegar.  If you have enough chemical knowledge, you could use it to easily convert morphine into heroin.",
-    "material": [ "hydrocarbons" ],
+    "material": [ "oil" ],
     "container": "bottle_glass",
     "weight": "54100 mg",
     "use_action": [ "POISON", "BLECH" ],
