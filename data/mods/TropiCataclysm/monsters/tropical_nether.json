@@ -194,7 +194,7 @@
   {
     "id": "mon_jellyfish_box",
     "type": "MONSTER",
-    "name": { "str": "sea papalotl" },
+    "name": { "str": "sea papalotl", "str_pl": "sea papalomeh" },
     "description": "An alien creature brought by the portal storms.  It vaguely resembles a floating box jellyfish with a translucent body.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -390,7 +390,7 @@
   {
     "id": "mon_fish_flying_tiny",
     "type": "MONSTER",
-    "name": { "str": "tiny flying fish", "str_pl": "tiny flying fishes" },
+    "name": { "str_sp": "tiny flying fish" },
     "//": "a default fish type - does not appear in-game",
     "description": "A tiny flying fish.",
     "default_faction": "nether",
@@ -420,7 +420,7 @@
   {
     "id": "mon_fish_flying_small",
     "type": "MONSTER",
-    "name": { "str": "small flying fish", "str_pl": "small flying fishes" },
+    "name": { "str_sp": "small flying fish" },
     "//": "a default fish type - does not appear in-game",
     "description": "A small flying fish",
     "default_faction": "nether",
@@ -451,7 +451,7 @@
   {
     "id": "mon_fish_flying_medium",
     "type": "MONSTER",
-    "name": { "str": "medium flying fish", "str_pl": "medium flying fishes" },
+    "name": { "str_sp": "medium flying fish" },
     "//": "a default fish type - does not appear in-game",
     "description": "A medium flying fish",
     "default_faction": "nether",
@@ -482,7 +482,7 @@
   {
     "id": "mon_fish_flying_large",
     "type": "MONSTER",
-    "name": { "str": "large flying fish", "str_pl": "large flying fishes" },
+    "name": { "str_sp": "large flying fish" },
     "//": "a default fish type - does not appear in-game",
     "description": "A large flying fish",
     "default_faction": "nether",
@@ -513,7 +513,7 @@
   {
     "id": "mon_fish_flying_huge",
     "type": "MONSTER",
-    "name": { "str": "huge flying fish", "str_pl": "huge flying fishes" },
+    "name": { "str_sp": "huge flying fish" },
     "//": "a default fish type - does not appear in-game",
     "description": "A huge flying fish",
     "default_faction": "nether",
