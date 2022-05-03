@@ -88,12 +88,12 @@
       { "text": "Nevermind.", "topic": "TALK_NONE" },
       {
         "text": "I'll buy some bandages.  [10$]",
-        "effect": [ { "u_buy_item": "bandages", "cost": 1000, "count": 20 } ],
+        "effect": [ { "u_buy_item": "bandages", "cost": 1000, "container" : "bag_plastic", "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "I'll buy some aspirin.  [40$]",
-        "effect": [ { "u_buy_item": "aspirin", "cost": 4000, "count": 20 } ],
+        "effect": [ { "u_buy_item": "aspirin", "container" : "bottle_plastic_pill_prescription", "cost": 4000, "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
@@ -122,7 +122,7 @@
         "effect": [
           {
             "u_buy_item": "fungicide",
-            "container": "jug_plastic",
+            "container": "bottle_twoliter",
             "cost": 5000,
             "count": 1500
           },
@@ -143,9 +143,9 @@
         "effect": [
           {
             "u_buy_item": "disinfectant",
-            "container": "bottle_twoliter",
+            "container": "bottle_plastic",
             "cost": 5000,
-            "count": 40
+            "count": 20
           },
           {
             "u_add_effect": "chemist_waiting_for_disinfectant",
@@ -164,6 +164,7 @@
         "effect": [
           {
             "u_buy_item": "antibiotics",
+            "container" : "bottle_plastic_pill_prescription",
             "cost": 12000,
             "count": 20
           },
@@ -184,6 +185,7 @@
         "effect": [
           {
             "u_buy_item": "antifungal",
+            "container" : "bottle_plastic_pill_prescription",
             "cost": 14000,
             "count": 20
           },
@@ -204,7 +206,7 @@
         "effect": [
           {
             "u_buy_item": "chem_black_powder",
-            "container": "bottle_glass",
+            "container" : "jar_3l_glass_sealed",
             "cost": 20000,
             "count": 10000
           },
@@ -251,12 +253,12 @@
       { "text": "No, that's all.", "topic": "TALK_DONE" },
       {
         "text": "I'll buy some bandages.  [10$]",
-        "effect": [ { "u_buy_item": "bandages", "cost": 1000, "count": 20 } ],
+        "effect": [ { "u_buy_item": "bandages", "cost": 1000, "container" : "bag_plastic", "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "I'll buy some aspirin.  [40$]",
-        "effect": [ { "u_buy_item": "aspirin", "cost": 4000, "count": 20 } ],
+        "effect": [ { "u_buy_item": "aspirin", "container" : "bottle_plastic_pill_prescription", "cost": 4000, "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
@@ -285,7 +287,7 @@
         "effect": [
           {
             "u_buy_item": "fungicide",
-            "container": "jug_plastic",
+            "container": "bottle_twoliter",
             "cost": 5000,
             "count": 1500
           },
@@ -306,9 +308,9 @@
         "effect": [
           {
             "u_buy_item": "disinfectant",
-            "container": "bottle_twoliter",
+            "container": "bottle_plastic",
             "cost": 5000,
-            "count": 40
+            "count": 20
           },
           {
             "u_add_effect": "chemist_waiting_for_disinfectant",
@@ -327,6 +329,7 @@
         "effect": [
           {
             "u_buy_item": "antibiotics",
+            "container" : "bottle_plastic_pill_prescription",
             "cost": 12000,
             "count": 20
           },
@@ -347,6 +350,7 @@
         "effect": [
           {
             "u_buy_item": "antifungal",
+            "container" : "bottle_plastic_pill_prescription",
             "cost": 14000,
             "count": 20
           },
@@ -367,7 +371,7 @@
         "effect": [
           {
             "u_buy_item": "chem_black_powder",
-            "container": "bottle_glass",
+            "container" : "jar_3l_glass_sealed",
             "cost": 20000,
             "count": 10000
           },

@@ -2,36 +2,36 @@
   {
     "type": "effect_type",
     "id": "chemist_waiting_for_gas_fungicidal",
-    "//": "Waiting period for sprayable fungicide from the chemist. If you're seeing this, it's a bug."
+    "//": "Applied as a timer while waiting for sprayable fungicide to refresh from the chemist's shop. If you're seeing this, it's a bug."
   },
   {
     "type": "effect_type",
     "id": "chemist_waiting_for_fungicide",
-    "//": "Waiting period for powder fungicide from the chemist. If you're seeing this, it's a bug."
+    "//": "Applied as a timer while waiting for powder fungicide to refresh from the chemist's shop. If you're seeing this, it's a bug."
   },
   {
     "type": "effect_type",
     "id": "chemist_waiting_for_disinfectant",
-    "//": "Waiting period for disinfectant from the chemist. If you're seeing this, it's a bug."
+    "//": "Applied as a timer while waiting for disinfectant to refresh from the chemist's shop. If you're seeing this, it's a bug."
   },
   {
     "type": "effect_type",
     "id": "chemist_waiting_for_antibiotics",
-    "//": "Waiting period for antibiotics from the chemist. If you're seeing this, it's a bug."
+    "//": "Applied as a timer while waiting for antibiotics to refresh from the chemist's shop. If you're seeing this, it's a bug."
   },
   {
     "type": "effect_type",
     "id": "chemist_waiting_for_antifungal",
-    "//": "Waiting period for antifungal drugs from the chemist. If you're seeing this, it's a bug."
+    "//": "Applied as a timer while waiting for antifungal drugs to refresh from the chemist's shop. If you're seeing this, it's a bug."
   },
   {
     "type": "effect_type",
     "id": "chemist_waiting_for_chem_black_powder",
-    "//": "Waiting period for black gunpowder from the chemist. If you're seeing this, it's a bug."
+    "//": "Applied as a timer while waiting for black gunpowder to refresh from the chemist's shop. If you're seeing this, it's a bug."
   },
   {
     "type": "effect_type",
     "id": "chemist_waiting_for_napalm",
-    "//": "Waiting period for napalm from the chemist. If you're seeing this, it's a bug."
+    "//": "Applied as a timer while waiting for napalm to refresh from the chemist's shop. If you're seeing this, it's a bug."
   }
 ]
