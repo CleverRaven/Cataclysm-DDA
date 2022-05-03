@@ -177,8 +177,7 @@
       }
     ],
     "techniques": [ "mma_tec_hylian_spin", "mma_tec_hylian_wide" ],
-    "weapons": [ "cudgel", "ladle", "sickle", "stick", "torch", "torch_lit" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS", "HYLIAN_IMPROV_WEAPONS", "HYLIAN_MASTER_SWORD" ]
   },
   {
     "type": "martial_art",
