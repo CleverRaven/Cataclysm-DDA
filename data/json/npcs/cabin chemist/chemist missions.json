@@ -40,7 +40,7 @@
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "I need 25 liters of hydrochloric acid.",
-      "offer": "The last thing I really need to get going is hydrochloric acid.  It's one of those chemicals that's just perfect for so many things.  An acidifying reagent, and one of the best.  With a large supply of hydrochloric acid, you and I are only a few steps removed from a stable source of antiseptic, fungicide, and even explosives!  As the only apparent health authority left, I do have to warn you not to get it on your skin, though.  Find this for me and I'll sell you whatever I can make.",
+      "offer": "The last thing I really need to get going is hydrochloric acid.  It's one of those chemicals that's just perfect for so many things.  An acidifying reagent, and one of the best.  With a large supply of hydrochloric acid, you and I are only a few steps removed from a stable source of antiseptic, fungicide, and even some light explosives!  As the only apparent health authority left, I do have to warn you not to get it on your skin, though.  Find this for me and I'll sell you whatever I can make.",
       "advice": "You might find large quantities in a warehouse somewhere, but it often got sold as a household cleaner, did you know that?",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Well, someone's got to do it.",

@@ -5,7 +5,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "npc_has_effect" : "currently_busy",
-      "yes" : "We've still got a few things available, but that last order is gonna take a while to restock.  Come back in a little while if you're looking for the big stuff.  Just a few hours, I promise.",
+      "yes" : "We've still got a few things available, but that last order is gonna take us a while to restock.  Come back in a little while if you're looking for the big stuff.  The crew is fast, so it won't be long.  A few hours at most, I promise.",
       "no" : "Sure, we offer various specialty cuts direct to our customers in batches of 10.  Anything larger than these planks is gonna take us a while to refresh, though.  Logs are pretty fast, but the rest will be a couple hours, maybe longer if we have to source more wood.  So, what would you like?"
     },
     "responses": [
