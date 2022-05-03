@@ -1,0 +1,71 @@
+[
+  {
+    "id": "EOC_Nunez_Travel",
+    "type": "effect_on_condition",
+    "recurrence": 1000
+    "condition": 
+      { "compare_int": [ { "global_val": "var", "var_name": "nunez_travel", "type": "timer" }, "<", { "time_since_cataclysm": "days" } ],
+    "deactivate_condition": 
+      { "compare_int": [ { "global_val": "var", "var_name": "nunez_arrived", "type": "switch" }, "=", { "const": "1" } ] },
+    "effect": [
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
+        { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_nunez_trailer_arrive",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "nunez_trailer" ], "x": 0, "y": 17 } ],
+      "set": [ { "point": "variable", "id": "Pablo_relax", "x": 4, "y": 19 },
+               { "point": "variable", "id": "Dana_baking", "x": 4, "y": 19 }
+             ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cardboard_castle_1_main",
+    "//": "First iteration of Dino Dave's cardboard castle - main floor.",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "       ",
+        "       ",
+        "1232456",
+        "7...:89",
+        "0a_bcde",
+        "fghijkl",
+        "       "
+      ],
+      "terrain": {
+        "1": "t_bullettrailer_nwall_westcorner",
+        "2": "t_bullettrailer_nwall_cabinet",
+        "3": "t_bullettrailer_nwall_cabinet_sink",
+        "4": "t_bullettrailer_nwall_desk",
+        "5": "t_bullettrailer_nwall_door",
+        "6": "t_bullettrailer_nwall_eastcorner",
+        "7": "t_bullettrailer_wwall",
+        "8": "t_bullettrailer_inner1_door",
+        "9": "t_bullettrailer_ewall",
+        "0": "t_bullettrailer_inner2_westcorner",
+        "a": "t_bullettrailer_inner2_entry",
+        "b": "t_bullettrailer_inner2_bedhead",
+        "c": "t_bullettrailer_inner2_bed",
+        "d": "t_bullettrailer_inner2_bedfoot",
+        "e": "t_bullettrailer_inner2_shower",
+        "f": "t_bullettrailer_swall_westcorner",
+        "g": "t_bullettrailer_swall_windows",
+        "h": "t_bullettrailer_swall_door",
+        "i": "t_bullettrailer_swall_plain",
+        "j": "t_bullettrailer_swall_wheels",
+        "k": "t_bullettrailer_swall_plain_vents",
+        "l": "t_bullettrailer_swall_eastcorner",
+        ".": "t_bullettrailer_brownfloor_cabinets",
+        ":": "t_bullettrailer_brownfloor_bookshelf",
+        "_": "t_bullettrailer_brownfloor",
+      }
+    }
+  },
+]
