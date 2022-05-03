@@ -81,7 +81,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "npc_has_effect": "currently_busy",
-      "yes": "We're out of some things, <name_g>.  It takes a while to source the good stuff - days usually - but I'm working hard to replace it.  What can I get you in the meantime?",
+      "yes": "I'm out of some things, <name_g>.  It takes a while to source the good stuff - days usually - but I'm working hard to replace it.  What can I get you in the meantime?",
       "no": "I'll see what I've got around here for you.  I've gotta warn you: it's gonna be expensive.  Hard to stay supplied in the apocalypse, you know.  What do you need?"
     },
     "responses": [
