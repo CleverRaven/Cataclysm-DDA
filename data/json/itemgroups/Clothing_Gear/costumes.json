@@ -306,6 +306,7 @@
       { "item": "flag_jumpsuit", "prob": 25 },
       { "item": "jumpsuit_skeleton", "prob": 25 },
       { "item": "mummy_jumpsuit", "prob": 25 },
+      { "item": "bodysuit_lycra", "prob": 25 },
       { "item": "suit", "prob": 10 },
       { "item": "tux", "prob": 10 },
       { "item": "wolfsuit", "prob": 10 },
@@ -361,6 +362,7 @@
     "entries": [
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 40 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 40 },
+      { "item": "bodysuit_lycra", "variant": "flag_suit", "prob": 10 },
       { "item": "flag_swimsuit", "prob": 10 }
     ]
   },

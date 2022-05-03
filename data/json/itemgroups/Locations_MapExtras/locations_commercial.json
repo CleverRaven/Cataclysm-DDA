@@ -1606,6 +1606,7 @@
       [ "felinesuit", 15 ],
       [ "dragonsuit", 15 ],
       [ "bondage_suit", 10 ],
+      [ "bodysuit_lycra", 5 ],
       [ "leotard", 5 ],
       [ "unitard", 5 ],
       [ "zentai", 3 ],
