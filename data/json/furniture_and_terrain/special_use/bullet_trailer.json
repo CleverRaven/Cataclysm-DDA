@@ -189,8 +189,8 @@
   {
     "type": "furniture",
     "id": "f_bullettrailer_toilet",
-    "name": "trailer toilet",
-    "description": "A tiny plastic toilet for use in a travel trailer.",
+    "name": "travel toilet",
+    "description": "A tiny plastic toilet for use in a travel trailer.  Unlike a normal toilet, it doesn't store water locally for you to siphon out.",
     "copy-from": "f_toilet"
   },
   {
