@@ -180,6 +180,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "acetic_anhydride",
+    "charges": 2,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",

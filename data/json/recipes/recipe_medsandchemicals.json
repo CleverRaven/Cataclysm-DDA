@@ -376,7 +376,7 @@
     "book_learn": [ [ "textbook_chemistry", 7 ], [ "adv_chemistry", 7 ], [ "atomic_survival", 6 ], [ "recipe_labchem", 6 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "acetic_anhydride", 1 ] ], [ [ "morphine", 3 ] ] ]
+    "components": [ [ [ "acetic_anhydride", 2 ] ], [ [ "morphine", 3 ] ] ]
   },
   {
     "type": "recipe",
