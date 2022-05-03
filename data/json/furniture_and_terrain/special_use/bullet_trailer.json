@@ -1,0 +1,189 @@
+[
+  {
+    "//": "These terrains are for generating a bullet trailer.  While they can be remixed in some ways, in general they will only fit with each other and will only produce a trailer in an east-west orientation with a south-facing door.  Furniture has to be made non-blocking and placed in the central path to work correctly.",
+    "type": "terrain",
+    "id": "t_bullettrailer_brownfloor",
+    "name": "brown laminate floor",
+    "roof": "t_flat_roof",
+    "description": "A section of flooring made out of a tough, smooth material, colored in an atrocious mottled brown.",
+    "symbol": ".",
+    "color": "brown",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_linoleum_gray"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_nwall_westcorner",
+    "name": "bullet trailer exterior wall",
+    "copy-from": "t_scrap_wall",
+    "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
+	  "delete":  { "flags": [ "NOITEM" ] },
+    "color": "light_gray"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_nwall",
+    "copy-from": "t_bullettrailer_nwall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_nwall_eastcorner",
+    "copy-from": "t_bullettrailer_nwall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_wwall",
+    "copy-from": "t_bullettrailer_nwall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_ewall",
+    "copy-from": "t_bullettrailer_nwall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_inner_westcorner",
+    "copy-from": "t_bullettrailer_nwall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_inner_T",
+    "copy-from": "t_bullettrailer_nwall_westcorner",
+    "name": "bullet trailer interior wall",
+    "description": "A simple wall panelled in a coarsely textured grey laminate of some sort.",
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_swall_westcorner",
+    "name": "bullet trailer exterior wall",
+    "copy-from": "t_scrap_wall",
+    "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
+    "color": "light_gray"
+    "copy-from": "t_bullettrailer_nwall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_swall_windows",
+    "copy-from": "t_bullettrailer_swall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_swall_door",
+    "copy-from": "t_bullettrailer_swall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_swall_wheels",
+    "copy-from": "t_bullettrailer_swall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_swall",
+    "copy-from": "t_bullettrailer_swall_westcorner"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bullettrailer_swall_eastcorner",
+    "copy-from": "t_bullettrailer_swall_westcorner"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_table_top",
+    "move_cost_mod": -1,
+    "description": "A small trailer table, designed to convert into a bed when not in use.",
+    "copy-from": "f_table"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_table_middle",
+    "copy-from": "f_bullettrailer_table_top"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_table_bottom",
+    "copy-from": "f_bullettrailer_table_top"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_cabinet",
+    "move_cost_mod": 0,
+    "description": "Cramped trailer cabinets, with some inbuilt appliances taking up even more of the limited space.",
+    "copy-from": "f_cabinet"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_sink",
+    "move_cost_mod": 0,
+    "description": "A tiny metal sink and connected cabinet.",
+    "copy-from": "f_sink"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_desk",
+    "move_cost_mod": 0,
+    "description": "A small wooden desk with a little attached bookshelf.",
+    "copy-from": "f_desk"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_inner_door",
+    "name": "trailer bathroom door",
+    "move_cost_mod": -1,
+    "symbol": "+",
+    "color": "light_gray",
+    "coverage": 100,
+    "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "REDUCE_SCENT", "DOOR" ],
+    "open": "f_bullettrailer_inner_door_o",
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 0, 5 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_inner_door_o",
+    "name": "trailer bathroom door",
+    "move_cost_mod": 0,
+    "symbol": "-",
+    "color": "light_gray",
+    "coverage": 30,
+    "looks_like": "t_bulletrailer_brownfloor",
+    "description": "A gray textured door, rimmed in chrome, like a very tacky version of a ship's hatch.",
+    "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "DOOR", "MOUNTABLE" ],
+    "close": "f_bullettrailer_inner_door",
+    "copy-from": "f_bullettrailer_inner_door",
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 0, 5 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  },
+        "9": "f_bullettrailer_toilet",
+        "a": "f_bullettrailer_minisofa",
+        "b": "f_bullettrailer_bed_foot",
+        "c": "f_bullettrailer_bed_head",
+        "d": "f_bullettrailer_shower",
+        "i": "f_bullettrailer_sign_danabakery"
+  
+  
+  
+  
+]
