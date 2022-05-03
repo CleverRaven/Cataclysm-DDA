@@ -1132,7 +1132,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
-    int qual = tool->get_quality( qual_SAW_M );
+    const int qual = tool->get_quality( qual_SAW_M );
     if( qual < 2 ) {
         if( !testing ) {
             debugmsg( "Item %s with 'HACKSAW' use action requires SAW_M quality of at least 2.",
