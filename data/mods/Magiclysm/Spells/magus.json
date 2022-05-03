@@ -330,7 +330,7 @@
     "name": "Ogre's Strength",
     "description": "You gain the strength of an ogre.",
     "valid_targets": [ "self" ],
-    "min_duration": 6000,
+    "min_duration": 12000,
     "max_duration": 360000,
     "duration_increment": 12000,
     "max_level": 30,
