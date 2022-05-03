@@ -61,7 +61,7 @@
   {
     "id": "TALK_RANCH_SCAVENGER_ANESTHETIC_FOR_DOCTOR",
     "type": "talk_topic",
-    "dynamic_line": "We don't have any of the parts needed right now, but we could send out a scavenging party to a lab if you have anyone willing to go.",
+    "dynamic_line": "We don't have any of the parts needed right now, but we could send out a scavenging party to a hospital if you have anyone willing to go.",
     "responses": [
       {
         "text": "Tell me more about the scavenging runs.",

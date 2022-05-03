@@ -19,7 +19,7 @@
       "context": "tacoma_ranch",
       "value": "yes",
       "yes": "How can I help you today?",
-      "no": "I'm sorry, I don't have time to see you at the moment."
+      "no": "I'm sorry, I don't have time to help you at the moment."
     },
     "responses": [
       {
@@ -53,7 +53,26 @@
             { "u_has_mission": "MISSION_RANCH_DOCTOR_SUPPLIES" }
           ]
         },
-        "effect": [ "mission_success", "clear_mission" ]
+        "effect": [
+          { "u_message": "Thanks!  This should help keep things organized for a while.", "type": "good", "popup": true },
+          "mission_success", "clear_mission"
+        ]
+      },
+      {
+        "text": "I couldn't find any crutches, but I made these.  Will they work?",
+        "topic": "TALK_RANCH_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "makeshift_crutches", "count": 1 } },
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_CRUTCHES" }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "makeshift_crutches", "count": 1 },
+          { "u_message": "These will have to do…", "type": "good", "popup": true },
+          "mission_success",
+          "clear_mission"
+        ]
       },
       {
         "text": "I have the anesthetic you asked for.",
@@ -167,7 +186,7 @@
   {
     "id": "TALK_RANCH_DOCTOR_SUPPLIES",
     "type": "talk_topic",
-    "dynamic_line": "There's too much to keep track of right now and nobody has any kind of office supplies around here.  I need to be able to keep track of medical records and keep them organized so that I can focus on helping people.  Ten binders and a ream of paper should get us started.",
+    "dynamic_line": "I'm running out of office supplies.  I know… of all the things to need at a time like this!  I just need to be able to keep track of and organize medical records so that I can focus on helping people.  Ten binders and a ream of paper should tide me over until some shipments come in.",
     "responses": [
       {
         "text": "I'll see what I can find.",
@@ -194,7 +213,7 @@
     "difficulty": 1,
     "value": 50000,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_DOCTOR_MEDICAL_GLOVES",
+    "followup": "MISSION_RANCH_DOCTOR_CRUTCHES",
     "dialogue": {
       "describe": "-",
       "offer": "-",
@@ -221,29 +240,51 @@
         }
       ],
       "effect": [
-        { "u_sell_item": "book_binder", "count": 10 },
-        { "npc_consume_item": "book_binder", "count": 10 },
-        { "u_sell_item": "paper", "count": 500 },
-        { "npc_consume_item": "paper", "count": 500 },
+        { "u_consume_item": "paper", "count": 500 },
+        { "u_consume_item": "book_binder", "count": 10 },
         { "u_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
       ]
     }
   },
   {
+    "id": "MISSION_RANCH_DOCTOR_CRUTCHES",
+    "type": "mission_definition",
+    "name": { "str": "A Crutch to Lean on" },
+    "description": "Bring the doctor some crutches.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "crutches",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_DOCTOR_MEDICAL_GLOVES",
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "One of the laborers injured their foot pretty badly and I don't want them walking on it for a few days at least.  Do you think you could find a pair of crutches?",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "You might be able to find some in hospitals, but some makeshift crutches would be better than nothing.",
+      "inquire": "Do you have the crutches?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
     "id": "MISSION_RANCH_DOCTOR_MEDICAL_GLOVES",
     "type": "mission_definition",
-    "name": { "str": "Find 10 Pairs of Medical Gloves" },
-    "description": "Bring the doctor 10 pairs of medical gloves.",
+    "name": { "str": "Find 5 Pairs of Medical Gloves" },
+    "description": "Bring the doctor 5 pairs of medical gloves.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
     "item": "gloves_medical",
-    "count": 10,
+    "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "If we need to perform any serious surgery, I'm going to need some more medical gloves to help prevent infections.  Can you bring me 10 pairs?",
+      "offer": "We're getting a lot of scrapes and bruises coming in right now, but it's only a matter of time before we see a serious injury.  I'm not prepared for when that happens and I'm hoping you can help.  To start off, I'm going to need some more medical gloves to help prevent infections.  Can you bring me 5 pairs?",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Hospitals or clinics might have a few sitting around.",
@@ -279,17 +320,15 @@
     },
     "difficulty": 5,
     "value": 50000,
-    "item": "anesthetic",
-    "count": 3000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "We only have basic painkillers right now.  For longer surgeries, we're going to need some anesthetic to prevent pain.  Can you bring me 3000 units to start?  We're also going to need an anesthetic machine to deliver it.  Maybe some people around the commune can help with that?",
+      "offer": "I want to make sure we are setup to handle any major surgeries that come our way, but pain management is going to be an issue.  For longer surgeries, we're going to need some anesthetic.  Can you bring me 3000 units to start?  We're also going to need an anesthetic machine to deliver it.  Maybe some people around the commune can help with that?",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Hospitals or clinics might have some.  Labs could have some as well.",
-      "inquire": "Any progress on getting some anesthetic or parts?  Make sure to take the anesthetic out of a kit first as well.",
+      "inquire": "Any progress on getting some anesthetic or parts?",
       "success": "The scavengers found more medical equipment than I expected and with the help from the scrappers, I've been able to get most of it up and running.  I should be able to perform more operations now and could even help with some bionics if you have any.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
