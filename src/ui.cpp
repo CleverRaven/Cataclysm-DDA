@@ -282,7 +282,7 @@ void uilist::init()
     callback = nullptr;         // * uilist_callback
     filter.clear();          // filter string. If "", show everything
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
-    fselected = 0;           // fentries[selected]
+    fselected = 0;           // selected = fentries[fselected]
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;
@@ -735,6 +735,10 @@ void uilist::show()
     const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
     const std::string padspaces = std::string( pad_size, ' ' );
 
+    for( uilist_entry &entry : entries ) {
+        entry.drawn_rect = cata::nullopt;
+    }
+
     for( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
         if( fei < static_cast<int>( fentries.size() ) ) {
             int ei = fentries [ fei ];
@@ -759,8 +763,7 @@ void uilist::show()
                 const utf8_wrapper entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                            entries[ ei ].txt );
                 point p( pad_left + 4, estart + si );
-                entries[ei].drawn_rect.p_min = p;
-                entries[ei].drawn_rect.p_max = p + point( -1 + max_entry_len, 0 );
+                entries[ei].drawn_rect = inclusive_rectangle<point>( p, p + point( -1 + max_entry_len, 0 ) );
                 trim_and_print( window, p, max_entry_len,
                                 co, _color_error, "%s", entry.str() );
 
@@ -806,10 +809,12 @@ void uilist::show()
         }
     }
 
+    cata::optional<point> cursor_pos;
     if( filter_popup ) {
         mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
         mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
         filter_popup->query( /*loop=*/false, /*draw_only=*/true );
+        cursor_pos = point( getcurx( window ), getcury( window ) );
     } else {
         if( !filter.empty() ) {
             mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
@@ -821,6 +826,11 @@ void uilist::show()
     wnoutrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
+    }
+
+    if( cursor_pos ) {
+        wmove( window, cursor_pos.value() );
+        wnoutrefresh( window );
     }
 }
 
@@ -836,7 +846,7 @@ int uilist::scroll_amount_from_action( const std::string &action )
     } else if( action == "HOME" ) {
         return -fselected;
     } else if( action == "END" ) {
-        return entries.size() - fselected - 1;
+        return fentries.size() - fselected - 1;
     } else if( action == "DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
@@ -1031,21 +1041,38 @@ void uilist::query( bool loop, int timeout )
             // only handle "ANY_INPUT" since "HELP_KEYBINDINGS" is already
             // handled by the input context and the caller might want to handle
             // its custom actions
-            selected = iter->second;
-            if( entries[ selected ].enabled || allow_disabled ) {
-                ret = entries[selected].retval;
-            }
-            if( callback != nullptr ) {
-                callback->select( this );
+            const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
+            if( it != fentries.end() ) {
+                const bool enabled = entries[*it].enabled;
+                if( enabled || allow_disabled || hilight_disabled ) {
+                    // Change the selection to display correctly when this function
+                    // is called again.
+                    fselected = std::distance( fentries.begin(), it );
+                    selected = *it;
+                    if( enabled || allow_disabled ) {
+                        ret = entries[selected].retval;
+                    }
+                    if( callback != nullptr ) {
+                        callback->select( this );
+                    }
+                }
             }
         } else if( !fentries.empty() && ret_act == "SELECT" ) {
             cata::optional<point> p = ctxt.get_coordinates_text( window );
-            if( p ) {
-                if( window_contains_point_relative( window, p.value() ) ) {
-                    uilist_entry *entry = find_entry_by_coordinate( p.value() );
-                    if( entry != nullptr ) {
-                        if( entry->enabled ) {
-                            ret = entry->retval;
+            if( p && window_contains_point_relative( window, p.value() ) ) {
+                const int new_fselected = find_entry_by_coordinate( p.value() );
+                if( new_fselected >= 0 && static_cast<size_t>( new_fselected ) < fentries.size() ) {
+                    const bool enabled = entries[fentries[new_fselected]].enabled;
+                    if( enabled || allow_disabled || hilight_disabled ) {
+                        // Change the selection to display correctly after this
+                        // function is called again.
+                        fselected = new_fselected;
+                        selected = fentries[fselected];
+                        if( enabled || allow_disabled ) {
+                            ret = entries[selected].retval;
+                        }
+                        if( callback != nullptr ) {
+                            callback->select( this );
                         }
                     }
                 }
@@ -1077,15 +1104,15 @@ void uilist::query( bool loop, int timeout )
     } while( loop && ret == UILIST_WAIT_INPUT );
 }
 
-uilist_entry *uilist::find_entry_by_coordinate( const point &p )
+int uilist::find_entry_by_coordinate( const point &p ) const
 {
-    for( int i : fentries ) {
-        uilist_entry &entry = entries[i];
-        if( entry.drawn_rect.contains( p ) ) {
-            return &entry;
+    for( auto it = fentries.begin(); it != fentries.end(); ++it ) {
+        const uilist_entry &entry = entries[*it];
+        if( entry.drawn_rect && entry.drawn_rect.value().contains( p ) ) {
+            return std::distance( fentries.begin(), it );
         }
     }
-    return nullptr;
+    return -1;
 }
 
 ///@}

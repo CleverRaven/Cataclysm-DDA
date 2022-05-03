@@ -1386,7 +1386,8 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                        _( "________NO NAME ENTERED!________" ) );
             wnoutrefresh( w_confirmation );
         } else {
-            // spopup.query_string() will call wnoutrefresh( w_confirmation )
+            // spopup.query_string() will call wnoutrefresh( w_confirmation ), and should
+            // be called last to position the cursor at the correct place in the curses build.
             spopup.text( worldname );
             spopup.query_string( false, true );
         }
