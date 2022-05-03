@@ -22,11 +22,11 @@
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
             {
-              "not": { "u_has_var": "doctor_anesthetic_sickly_laborer_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
             }
           ]
         },
-        "effect": [ { "u_add_var": "doctor_anesthetic_nurse_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_ILL_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_ILL_1_HIRE" },
