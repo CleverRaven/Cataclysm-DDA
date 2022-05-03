@@ -726,7 +726,7 @@
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "takedown recurve bow" },
-    "description": "A modern fiberglass bow that can be taken down for storage.  For use by those of somewhat above-average strength.  Use it to disassemble it for storage.",
+    "description": "A modern fiberglass bow that can be taken down for storage.  For use by those of somewhat above-average strength.  Use it to disassemble it for storage but don't forget to remove any attached mods.",
     "price": 38000,
     "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
     "material": [ "steel", "plastic" ],
@@ -781,7 +781,7 @@
       "menu_text": "Disassemble it",
       "target": "takedown_recurbow_folded",
       "msg": "You disassemble your bow.",
-      "need_charges": 0,
+      "ammo_scale": 0,
       "moves": 1500
     }
   },
