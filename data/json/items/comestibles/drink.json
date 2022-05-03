@@ -247,7 +247,7 @@
     "material": [ "milk", "water" ],
     "spoils_in": "14 hours",
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "description": "Imitation coffee brewed from Kentucky coffeetree, this drink has no caffeine, no sweetener, and is still unplesantly bitter even with the added milk.",
+    "description": "Imitation coffee brewed from Kentucky coffeetree, this drink has no caffeine, no sweetener, and is still unpleasantly bitter even with the added milk.",
     "fun": 1
   },
   {
