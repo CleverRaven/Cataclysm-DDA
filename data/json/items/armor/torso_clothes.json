@@ -223,7 +223,7 @@
         "moves": 100
       }
     ],
-    "warmth": 20,
+    "warmth": 25,
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "FANCY", "OUTER" ]
