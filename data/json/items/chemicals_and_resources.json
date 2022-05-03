@@ -1725,9 +1725,10 @@
     "type": "COMESTIBLE",
     "category": "chems",
     "name": { "str_sp": "acetic anhydride" },
-    "description": "This is a bottle of acetic anhydride, if you have enough chemical knowledge, you could use it to easily convert morphine into heroin.",
+    "description": "A colorless liquid that smells strongly of acetic acid.  If you have enough chemical knowledge, you could use it to easily convert morphine into heroin.",
+    "material": [ "hydrocarbons" ],
     "container": "bottle_glass",
-    "weight": "107 g",
+    "weight": "108200 mg",
     "use_action": [ "POISON", "BLECH" ],
     "fatigue_mod": -20,
     "volume": "100 ml",
@@ -1740,8 +1741,8 @@
     "symbol": "~",
     "color": "dark_gray",
     "looks_like": "chem_saltpetre",
-    "//": "1.07 g/cm3",
-    "freezing_point": -99.4
+    "//": "1.082 g/cm3",
+    "freezing_point": -73
   },
   {
     "id": "iodine_crystal",
