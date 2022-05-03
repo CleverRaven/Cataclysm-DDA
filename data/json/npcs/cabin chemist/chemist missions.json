@@ -1,24 +1,22 @@
 [
-{
+  {
     "id": "MISSION_CABIN_CHEMIST_GET_analytical_set_basic",
     "type": "mission_definition",
     "name": "Find A Basic Analysis Kit",
     "description": "Obtain a basic laboratory analysis kit for the chemist.",
     "goal": "MGOAL_FIND_ITEM",
-	"item": "analytical_set_basic",
-	"count": 1,
+    "item": "analytical_set_basic",
+    "count": 1,
     "difficulty": 2,
     "value": 3000,
-	"origins": [ "ORIGIN_OPENER_NPC" ],       
-        "end": {
-           "effect": [ { "npc_add_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ]
-               },    
-    "followup": "MISSION_CABIN_CHEMIST_GET_100_chem_muriatic_acid",   
-	"has_generic_rewards": true,
-	"dialogue": {
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "end": { "effect": [ { "npc_add_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ] },
+    "followup": "MISSION_CABIN_CHEMIST_GET_100_chem_muriatic_acid",
+    "has_generic_rewards": true,
+    "dialogue": {
       "describe": "I need a basic laboratory analysis kit.",
-	  "offer": "I've checked the stock here at this house, and it turns out there's a few pieces of equipment I need.  If you could get me a basic laboratory analysis kit just to get started, I'd be grateful.  Heck, I might even take some specialty orders for you.",
-	  "advice": "One of those old labs might have one.",
+      "offer": "I've checked the stock here at this house, and it turns out there's a few pieces of equipment I need.  If you could get me a basic laboratory analysis kit just to get started, I'd be grateful.  Heck, I might even take some specialty orders for you.",
+      "advice": "One of those old labs might have one.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Well, someone's got to do it.",
       "inquire": "Do you have it?",
@@ -27,23 +25,23 @@
       "failure": "That's unfortunate.  I guess I'll have to find it myself."
     }
   },
-{
+  {
     "id": "MISSION_CABIN_CHEMIST_GET_100_chem_muriatic_acid",
     "type": "mission_definition",
     "name": "Find Some Hydrochloric Acid",
     "description": "Obtain 25 liters of hydrochloric acid for the chemist.",
     "goal": "MGOAL_FIND_ITEM",
-	"item": "chem_muriatic_acid",
-	"count": 100,
+    "item": "chem_muriatic_acid",
+    "count": 100,
     "difficulty": 7,
     "value": 10000,
-	"origins": [ "ORIGIN_OPENER_NPC" ],          
-    "followup": "MISSION_CABIN_CHEMIST_GET_1000_GAS",   
-	"has_generic_rewards": true,
-	"dialogue": {
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "followup": "MISSION_CABIN_CHEMIST_GET_1000_GAS",
+    "has_generic_rewards": true,
+    "dialogue": {
       "describe": "I need 25 liters of hydrochloric acid.",
-	  "offer": "My stock of chemicals is getting a bit low at the moment.  Could you get me 25 liters of hydrochloric acid?  I use it in a lot of things, and I'd be willing to pay you however I can.",
-	  "advice": "You might find large quantities in a warehouse somewhere, but it often got sold as a household cleaner, did you know that?",
+      "offer": "My stock of chemicals is getting a bit low at the moment.  Could you get me 25 liters of hydrochloric acid?  I use it in a lot of things, and I'd be willing to pay you however I can.",
+      "advice": "You might find large quantities in a warehouse somewhere, but it often got sold as a household cleaner, did you know that?",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Well, someone's got to do it.",
       "inquire": "Do you have the hydrochloric acid?",
@@ -52,24 +50,24 @@
       "failure": "That's unfortunate.  I guess I'll have to find it myself."
     }
   },
-{
+  {
     "id": "MISSION_CABIN_CHEMIST_GET_1000_GAS",
     "type": "mission_definition",
     "name": "Find Some Gasoline",
     "description": "Obtain 200 liters of gasoline for the chemist.",
     "goal": "MGOAL_FIND_ITEM",
-	"item": "gasoline",
-	"count": 1000,
+    "item": "gasoline",
+    "count": 1000,
     "difficulty": 10,
     "//": "Gasoline is absurdly valuable post-apocalypse and they're asking for a lot of gasoline.",
     "value": 1600000,
-	"origins": [ "ORIGIN_OPENER_NPC" ],          
-    "followup": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE",   
-	"has_generic_rewards": true,
-	"dialogue": {
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "followup": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE",
+    "has_generic_rewards": true,
+    "dialogue": {
       "describe": "I need 200 liters of gas.",
-	  "offer": "I'm in a bit of a spot.  I keep a generator around here to power all my scientific equipment.  It has a bit of gas in it, but I've burned through that and I can't use most of my tools without power.  This may seem like a lot, but if you could get me 200 liters of gas, I'll pay you back any way I can.",
-	  "advice": "I bet the best place to find that much gas is still a gas station.  Bringing it all here is another problem.  You might want one of those big steel drums we used to use to haul off hazardous waste before <the_cataclysm>.",
+      "offer": "I'm in a bit of a spot.  I keep a generator around here to power all my scientific equipment.  It has a bit of gas in it, but I've burned through that and I can't use most of my tools without power.  This may seem like a lot, but if you could get me 200 liters of gas, I'll pay you back any way I can.",
+      "advice": "I bet the best place to find that much gas is still a gas station.  Bringing it all here is another problem.  You might want one of those big steel drums we used to use to haul off hazardous waste before <the_cataclysm>.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Well, someone's got to do it.",
       "inquire": "Do you have it?",
@@ -78,25 +76,23 @@
       "failure": "That's unfortunate.  I guess I'll have to find it myself."
     }
   },
-{
+  {
     "id": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE",
     "type": "mission_definition",
     "name": "Establish A Trade Route",
     "description": "Establish trade relations between the chemist and a refugee center, and bring back a writ of the agreement.",
     "goal": "MGOAL_FIND_ITEM",
-	"item": "trade_writ",
-	"count": 1,
+    "item": "trade_writ",
+    "count": 1,
     "difficulty": 30,
     "value": 20000,
-	"origins": [ "ORIGIN_OPENER_NPC" ],    
-        "start": {
-                  "assign_mission_target": { "om_terrain": "evac_center_18", "reveal_radius": 0 }
-                 },
-	"has_generic_rewards": true,
-	"dialogue": {
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "reveal_radius": 0 } },
+    "has_generic_rewards": true,
+    "dialogue": {
       "describe": "Go negotiate a trade agreement.",
-	  "offer": "I was out scavenging recently, and I found one of those old evac shelters.  Turns out the computer was still on and it had an address for a refugee center.  I think my skills might be useful to them, for helping maintain medical supplies and whatnot, so I want you to head over there and see if they're interested.  I'd do it myself, but I need to look after this place.",
-	  "advice": "It should be pretty simple making the deal, but I'd recommend taking a car over there myself.",
+      "offer": "I was out scavenging recently, and I found one of those old evac shelters.  Turns out the computer was still on and it had an address for a refugee center.  I think my skills might be useful to them, for helping maintain medical supplies and whatnot, so I want you to head over there and see if they're interested.  I'd do it myself, but I need to look after this place.",
+      "advice": "It should be pretty simple making the deal, but I'd recommend taking a car over there myself.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Please?  This is really important to me.",
       "inquire": "What did they say about it?",
