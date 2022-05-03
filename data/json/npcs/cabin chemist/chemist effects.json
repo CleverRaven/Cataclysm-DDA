@@ -1,0 +1,37 @@
+[
+  {
+    "type": "effect_type",
+    "id": "chemist_waiting_for_gas_fungicidal",
+    "//": "Waiting period for sprayable fungicide from the chemist. If you're seeing this, it's a bug."
+  },
+  {
+    "type": "effect_type",
+    "id": "chemist_waiting_for_fungicide",
+    "//": "Waiting period for powder fungicide from the chemist. If you're seeing this, it's a bug."
+  },
+  {
+    "type": "effect_type",
+    "id": "chemist_waiting_for_disinfectant",
+    "//": "Waiting period for disinfectant from the chemist. If you're seeing this, it's a bug."
+  },
+  {
+    "type": "effect_type",
+    "id": "chemist_waiting_for_antibiotics",
+    "//": "Waiting period for antibiotics from the chemist. If you're seeing this, it's a bug."
+  },
+  {
+    "type": "effect_type",
+    "id": "chemist_waiting_for_antifungal",
+    "//": "Waiting period for antifungal drugs from the chemist. If you're seeing this, it's a bug."
+  },
+  {
+    "type": "effect_type",
+    "id": "chemist_waiting_for_chem_black_powder",
+    "//": "Waiting period for black gunpowder from the chemist. If you're seeing this, it's a bug."
+  },
+  {
+    "type": "effect_type",
+    "id": "chemist_waiting_for_napalm",
+    "//": "Waiting period for napalm from the chemist. If you're seeing this, it's a bug."
+  }
+]
