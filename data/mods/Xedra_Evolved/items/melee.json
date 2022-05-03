@@ -11,7 +11,7 @@
     "price": 10000,
     "price_postapoc": 1250,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.80 },
+    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.8 },
     "material": [ "moon_tears", "leather" ],
     "symbol": ";",
     "color": "light_gray",
@@ -49,7 +49,7 @@
     "copy-from": "mace",
     "description": "A giant bloodstained club, barely human wieldable with two hands.  You see whenever it connects with an enemy shadowy tendrils of blood stick to whatever it hits and burn like acid.",
     "flags": [ "ALWAYS_TWOHAND" ],
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "blood_tendrils" } ]
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "blood_tendrils" } ] } ] }
   },
   {
     "id": "blood_tendrils",
