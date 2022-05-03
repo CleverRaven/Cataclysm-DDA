@@ -1424,7 +1424,7 @@
     "name": { "str_sp": "skeletal dryptosaurus" },
     "copy-from": "mon_sallosaurus",
     "looks_like": "mon_zyrannosaurus",
-    "description": "Monstrous columns of dense bone lifting large jarws full of sharp, pointed teeth dripping with black goo.",
+    "description": "Monstrous columns of dense bone lifting large jaws full of sharp, pointed teeth dripping with black goo.",
     "hp": 80,
     "melee_dice": 4,
     "melee_dice_sides": 7,
