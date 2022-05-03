@@ -29,7 +29,7 @@
     "repairs_like": "zentai",
     "type": "ARMOR",
     "name": { "str": "lycra bodysuit" },
-    "description": "A tight fitting bodysuit made of lycra.  Covers the whole body from the toes to the neck.",
+    "description": "A tight fitting bodysuit made of lycra.  Covers the whole body from neck to toe.",
     "weight": "408 g",
     "volume": "2 L",
     "price": "45 USD",
