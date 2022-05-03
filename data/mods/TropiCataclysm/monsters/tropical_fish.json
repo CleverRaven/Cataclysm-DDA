@@ -158,7 +158,7 @@
     "id": "mon_fish_piraiba",
     "type": "MONSTER",
     "copy-from": "mon_fish_huge",
-    "name": { "str": "piraiba" },
+    "name": { "str": "piraíba" },
     "description": "A huge species of south american catfish native to the Amazon and Orinoco rivers, they can reach almost 3 meters in length."
   },
   {
@@ -189,7 +189,7 @@
     "id": "mon_fish_tucunare",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
-    "name": { "str": "tucunare" },
+    "name": { "str": "tucunaré", "str_pl": "tucunarés" },
     "description": "A vicious predatory cichlid found along the northern tributaries of South America from Panama to the Amazon.  Very sought among sport fishing enthusiasts."
   },
   {
