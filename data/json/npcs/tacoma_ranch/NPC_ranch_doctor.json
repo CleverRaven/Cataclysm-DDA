@@ -55,7 +55,8 @@
         },
         "effect": [
           { "u_message": "Thanks!  This should help keep things organized for a while.", "type": "good", "popup": true },
-          "mission_success", "clear_mission"
+          "mission_success",
+          "clear_mission"
         ]
       },
       {
@@ -87,8 +88,7 @@
           ]
         },
         "effect": [
-          { "u_sell_item": "anesthetic", "count": 3000 },
-          { "npc_consume_item": "anesthetic", "count": 3000 },
+          { "u_consume_item": "anesthetic", "count": 3000 },
           { "u_add_var": "doctor_anesthetic_delivered", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
         ]
       },

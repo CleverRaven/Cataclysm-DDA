@@ -103,20 +103,40 @@
       {
         "text": "An angle grinder and a hacksaw?  I'll see what I can do.",
         "topic": "TALK_RANCH_SCAVENGER_1",
-        "effect": { "npc_add_var": "doctor_anesthetic_scrapper_needs_tools", "type": "mission", "context": "tacoma_ranch", "value": "yes" },
+        "effect": {
+          "npc_add_var": "doctor_anesthetic_scrapper_needs_tools",
+          "type": "mission",
+          "context": "tacoma_ranch",
+          "value": "yes"
+        },
         "condition": {
-          "not": { "npc_has_var": "doctor_anesthetic_scrapper_needs_tools", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+          "not": {
+            "npc_has_var": "doctor_anesthetic_scrapper_needs_tools",
+            "type": "mission",
+            "context": "tacoma_ranch",
+            "value": "yes"
+          }
         }
       },
       {
         "text": "Not yet…",
         "topic": "TALK_RANCH_SCAVENGER_1",
-        "condition": { "npc_has_var": "doctor_anesthetic_scrapper_needs_tools", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+        "condition": {
+          "npc_has_var": "doctor_anesthetic_scrapper_needs_tools",
+          "type": "mission",
+          "context": "tacoma_ranch",
+          "value": "yes"
+        }
       },
       {
         "text": "I've got to go…",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "doctor_anesthetic_scrapper_needs_tools", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+        "condition": {
+          "npc_has_var": "doctor_anesthetic_scrapper_needs_tools",
+          "type": "mission",
+          "context": "tacoma_ranch",
+          "value": "yes"
+        }
       }
     ]
   }
