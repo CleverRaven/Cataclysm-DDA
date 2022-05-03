@@ -560,5 +560,44 @@
       { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 10 ] },
       { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 30 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_swimmer_death_drops_kickboard",
+    "entries": [
+      { "item": "swimming_kickboard", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "mon_zombie_swimmer_death_drops", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_diver_death_drops_knife",
+    "entries": [ { "item": "diveknife", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_diver_clothing_drops", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_diver_clothing_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "shark_suit", "damage": [ 1, 4 ], "prob": 5 },
+          {
+            "collection": [
+              { "group": "diving_suits", "damage": [ 1, 4 ], "prob": 95 },
+              { "group": "diving_head", "damage": [ 1, 4 ], "prob": 40 },
+              { "group": "diving_gloves", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "diving_shoes", "damage": [ 1, 4 ], "prob": 50 }
+            ],
+            "prob": 95
+          }
+        ]
+      },
+      { "group": "diving_masks", "damage": [ 1, 4 ], "prob": 100 },
+      { "group": "diving_glasses", "damage": [ 0, 4 ], "prob": 65 },
+      { "group": "diving_accessories", "damage": [ 1, 4 ], "prob": 40 }
+    ]
   }
 ]
