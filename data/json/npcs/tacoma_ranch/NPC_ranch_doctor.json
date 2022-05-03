@@ -14,7 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_DOCTOR",
     "dynamic_line": {
-      "u_has_var": "doctor_provides_aid",
+      "npc_has_var": "provides_aid",
       "type": "dialogue",
       "context": "tacoma_ranch",
       "value": "yes",
@@ -101,7 +101,7 @@
     "id": "TALK_RANCH_DOCTOR_AID",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "doctor_provides_aid",
+      "npc_has_var": "provides_aid",
       "type": "dialogue",
       "context": "tacoma_ranch",
       "value": "yes",
@@ -120,7 +120,7 @@
         "condition": {
           "and": [
             { "npc_service": true },
-            { "u_has_var": "doctor_provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+            { "npc_has_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
       },
@@ -131,7 +131,7 @@
         "condition": {
           "and": [
             { "npc_service": true },
-            { "u_has_var": "doctor_provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+            { "npc_has_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
       },
@@ -149,7 +149,7 @@
     "id": "TALK_RANCH_DOCTOR_BIONICS",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "doctor_provides_bionics",
+      "npc_has_var": "provides_bionics",
       "type": "dialogue",
       "context": "tacoma_ranch",
       "value": "yes",
@@ -164,7 +164,7 @@
         "condition": {
           "and": [
             { "npc_service": true },
-            { "u_has_var": "doctor_provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+            { "npc_has_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
       },
@@ -175,7 +175,7 @@
         "condition": {
           "and": [
             { "npc_service": true },
-            { "u_has_var": "doctor_provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+            { "npc_has_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
       },
@@ -293,7 +293,7 @@
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     },
-    "end": { "effect": [ { "u_add_var": "doctor_provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" } ] }
+    "end": { "effect": [ { "npc_add_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" } ] }
   },
   {
     "id": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC",
@@ -335,7 +335,7 @@
     },
     "end": {
       "update_mapgen": [ { "om_terrain": "ranch_camp_50", "set": [ { "point": "furniture", "id": "f_anesthetic", "x": 19, "y": 19 } ] } ],
-      "effect": { "u_add_var": "doctor_provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+      "effect": { "npc_add_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
     }
   }
 ]
