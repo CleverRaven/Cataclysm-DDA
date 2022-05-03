@@ -1626,19 +1626,34 @@ bool vehicle::is_open( int part_index ) const
 bool vehicle::can_close( int part_index, Character &who )
 {
     creature_tracker &creatures = get_creature_tracker();
-    for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
-        for( auto const &partID : vec ) {
-            const Creature *const mon = creatures.creature_at( global_part_pos3( parts[partID] ) );
-            if( mon ) {
-                if( mon->is_avatar() ) {
-                    who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
-                } else if( mon->is_monster() ) {
-                    // TODO: Houseflies, mosquitoes, etc shouldn't count
-                    who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
-                } else {
-                    who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
+    part_index = get_non_fake_part( part_index );
+    std::vector<std::vector<int>> openable_parts = find_lines_of_parts( part_index, "OPENABLE" );
+    if( openable_parts.empty() ) {
+        std::vector<int> base_element;
+        base_element.push_back( part_index );
+        openable_parts.emplace_back( base_element );
+    }
+    for( const std::vector<int> &vec : openable_parts ) {
+        for( int partID : vec ) {
+            // Check the part for collisions, then if there's a fake part present check that too.
+            while( partID >= 0 ) {
+                const Creature *const mon = creatures.creature_at( global_part_pos3( parts[partID] ) );
+                if( mon ) {
+                    if( mon->is_avatar() ) {
+                        who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
+                    } else if( mon->is_monster() ) {
+                        // TODO: Houseflies, mosquitoes, etc shouldn't count
+                        who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
+                    } else {
+                        who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
+                    }
+                    return false;
                 }
-                return false;
+                if( parts[partID].has_fake ) {
+                    partID = parts[partID].fake_part_at;
+                } else {
+                    partID = -1;
+                }
             }
         }
     }
@@ -1647,7 +1662,7 @@ bool vehicle::can_close( int part_index, Character &who )
 
 void vehicle::open_all_at( int p )
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true );
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
     for( auto &elem : parts_here ) {
         if( part_flag( elem, VPFLAG_OPENABLE ) ) {
             // Note that this will open multi-square and non-multipart parts in the tile. This

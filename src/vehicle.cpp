@@ -2704,7 +2704,7 @@ void vpart_position::set_label( const std::string &text ) const
 
 int vehicle::next_part_to_close( int p, bool outside ) const
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true );
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
 
     // We want reverse, since we close the outermost thing first (curtains), and then the innermost thing (door)
     for( std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
@@ -2723,7 +2723,7 @@ int vehicle::next_part_to_close( int p, bool outside ) const
 
 int vehicle::next_part_to_open( int p, bool outside ) const
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true );
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
 
     // We want forwards, since we open the innermost thing first (curtains), and then the innermost thing (door)
     for( const int &elem : parts_here ) {
