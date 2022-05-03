@@ -2493,7 +2493,10 @@
       { "point": [ 1, 0, 0 ], "overmap": "football_field_a2_north" },
       { "point": [ 2, 0, 0 ], "overmap": "football_field_a3_north" },
       { "point": [ 3, 0, 0 ], "overmap": "football_field_a4_north" },
-      { "point": [ 4, 0, 0 ], "overmap": "football_field_a5_north" }
+      { "point": [ 4, 0, 0 ], "overmap": "football_field_a5_north" },
+      { "point": [ 4, 2, 1 ], "overmap": "football_field_C5_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "football_field_B1_north" },
+      { "point": [ 4, 1, 1 ], "overmap": "football_field_B5_north" }
     ]
   },
   {
