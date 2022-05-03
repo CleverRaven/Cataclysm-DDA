@@ -776,11 +776,13 @@
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
     "use_action": {
+      "need_wielding": true,
       "type": "transform",
       "menu_text": "Disassemble it",
       "target": "takedown_recurbow_folded",
       "msg": "You disassemble your bow.",
-      "moves": 500
+      "need_charges": 0,
+      "moves": 1500
     }
   },
   {
@@ -790,7 +792,7 @@
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "takedown recurve bow (folded)", "str_pl": "takedown recurve bows (folded)" },
-    "description": "A modern fiberglass bow that can be taken down for storage.  For use by those of somewhat above-average strength.  Use it to assemble it into shape.",
+    "description": "A modern fiberglass bow that has been taken down for storage.  For use by those of somewhat above-average strength.  Use it to assemble it into shape.",
     "price": 38000,
     "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
     "material": [ "steel", "plastic" ],
@@ -801,11 +803,12 @@
     "price_postapoc": 2200,
     "bashing": 12,
     "use_action": {
+      "need_wielding": true,
       "type": "transform",
       "menu_text": "Assemble it",
       "target": "takedown_recurbow",
       "msg": "You assemble your bow.",
-      "moves": 500
+      "moves": 1500
     }
   },
   {

@@ -459,8 +459,8 @@
         "max_contains_volume": "4 L",
         "max_contains_weight": "5 kg",
         "max_item_length": "75 cm",
-        "moves": 100,
-        "flag_restriction": [ "SHEATH_BOW" ]
+        "moves": 80,
+        "item_restriction": [ "takedown_recurbow_folded" ]
       },
       {
         "pocket_type": "CONTAINER",
