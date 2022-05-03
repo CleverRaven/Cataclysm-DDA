@@ -279,7 +279,7 @@
     "price_postapoc": 50,
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 1,
+    "charges": 2,
     "category": "chems",
     "freezing_point": -78
   },
