@@ -77,6 +77,22 @@
 #include "vpart_position.h"
 #include "weakpoint.h"
 
+static const ammotype ammo_120mm( "120mm" );
+static const ammotype ammo_12mm( "12mm" );
+static const ammotype ammo_40x46mm( "40x46mm" );
+static const ammotype ammo_40x53mm( "40x53mm" );
+static const ammotype ammo_66mm( "66mm" );
+static const ammotype ammo_84x246mm( "84x246mm" );
+static const ammotype ammo_RPG_7( "RPG-7" );
+static const ammotype ammo_arrow( "arrow" );
+static const ammotype ammo_atgm( "atgm" );
+static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_flammable( "flammable" );
+static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
+static const ammotype ammo_m235( "m235" );
+static const ammotype ammo_metal_rail( "metal_rail" );
+
+
 static const bionic_id bio_railgun( "bio_railgun" );
 
 static const character_modifier_id
@@ -94,17 +110,6 @@ static const efftype_id effect_on_roof( "on_roof" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
-
-static const itype_id itype_12mm( "12mm" );
-static const itype_id itype_40x46mm( "40x46mm" );
-static const itype_id itype_40x53mm( "40x53mm" );
-static const itype_id itype_66mm( "66mm" );
-static const itype_id itype_84x246mm( "84x246mm" );
-static const itype_id itype_arrow( "arrow" );
-static const itype_id itype_bolt( "bolt" );
-static const itype_id itype_flammable( "flammable" );
-static const itype_id itype_m235( "m235" );
-static const itype_id itype_metal_rail( "metal_rail" );
 
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_case_hardened_steel( "case_hardened_steel" );
@@ -878,10 +883,16 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         const itype_id current_ammo = gun.ammo_current();
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
-            if( current_ammo == itype_flammable || current_ammo == itype_66mm ||
-                current_ammo == itype_84x246mm || current_ammo == itype_m235 ) {
+            const std::set<ammotype> &at = gun.ammo_types();
+            if( at.count( ammo_flammable ) ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+            } else if( at.count( ammo_66mm ) || at.count( ammo_120mm ) || at.count( ammo_84x246mm ) ||
+                       at.count( ammo_m235 ) || at.count( ammo_atgm ) || at.count( ammo_RPG_7 ) ||
+                       at.count( ammo_homebrew_rocket ) ) {
+                add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames burst out!" ) );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
@@ -1896,21 +1907,23 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_current() == itype_40x46mm || ammo_current() == itype_40x53mm ) {
+    const std::set<ammotype> &at = ammo_types();
+    if( at.count( ammo_40x46mm ) || at.count( ammo_40x53mm ) ) {
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    } else if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
+    } else if( at.count( ammo_12mm ) || at.count( ammo_metal_rail ) ) {
         // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
-               ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
+    } else if( at.count( ammo_flammable ) || at.count( ammo_66mm ) || at.count( ammo_120mm ) ||
+               at.count( ammo_84x246mm ) || at.count( ammo_m235 ) || at.count( ammo_atgm ) ||
+               at.count( ammo_RPG_7 ) || at.count( ammo_homebrew_rocket ) ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_current() == itype_arrow ) {
+    } else if( at.count( ammo_arrow ) ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_current() == itype_bolt ) {
+    } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
     }
 
