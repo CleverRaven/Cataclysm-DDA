@@ -8,7 +8,7 @@
       "type": "dialogue",
       "context": "first_meeting",
       "value": "yes",
-      "yes": "Hello there.  Nice to see you <name_g>.",
+      "yes": "Hello there.  Nice to see you, <name_g>.",
       "no": "Who are you?"
     },
     "speaker_effect": { "effect": { "npc_add_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
@@ -19,7 +19,7 @@
         "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
       {
-        "text": "Hands up <name_b>!",
+        "text": "Hands up, <name_b>!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }, 
