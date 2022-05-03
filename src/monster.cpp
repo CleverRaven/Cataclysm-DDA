@@ -28,6 +28,7 @@
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
@@ -2567,6 +2568,7 @@ void monster::die( Creature *nkiller )
 
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse );
+        spawn_cbms_on_death( corpse );
     }
     if( death_drops && !is_hallucination() ) {
         for( const auto &it : inv ) {
@@ -2692,6 +2694,29 @@ void monster::drop_items_on_death( item *corpse )
             corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
         } else {
             get_map().add_item_or_charges( pos(), it );
+        }
+    }
+}
+
+void monster::spawn_cbms_on_death( item *corpse )
+{
+    if( is_hallucination() ) {
+        return;
+    }
+    if( type->dissect.is_empty() ) {
+        return;
+    }
+
+    std::vector<item> new_cbms;
+    for( const auto entry : *type->dissect ) {
+        std::vector<item> cbms = item_group::items_from( item_group_id( entry.drop ), calendar::turn,
+                                 spawn_flags::use_spawn_rate );
+        for( item &cbm : cbms ) {
+            if( corpse ) {
+                corpse->put_in( cbm, item_pocket::pocket_type::CORPSE );
+            } else {
+                get_map().add_item_or_charges( pos(), cbm );
+            }
         }
     }
 }

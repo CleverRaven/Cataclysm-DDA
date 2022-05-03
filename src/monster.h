@@ -435,6 +435,7 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
+        void spawn_cbms_on_death( item *corpse ); //spawn dissectable CBMs into CORPSE pocket
 
         // Other
         /**
