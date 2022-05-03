@@ -27,6 +27,12 @@
   },
   {
     "type": "terrain",
+    "id": "t_bullettrailer_nwall_window",
+	  "extend":  { "flags": [ "TRANSPARENT" ] }, 
+    "copy-from": "t_bullettrailer_nwall_westcorner"
+  },
+  {
+    "type": "terrain",
     "id": "t_bullettrailer_nwall_eastcorner",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
@@ -64,6 +70,7 @@
   {
     "type": "terrain",
     "id": "t_bullettrailer_swall_windows",
+	  "extend":  { "flags": [ "TRANSPARENT" ] }, 
     "copy-from": "t_bullettrailer_swall_westcorner"
   },
   {
@@ -74,6 +81,7 @@
   {
     "type": "terrain",
     "id": "t_bullettrailer_swall_wheels",
+	  "extend":  { "flags": [ "TRANSPARENT" ] }, 
     "copy-from": "t_bullettrailer_swall_westcorner"
   },
   {
@@ -106,6 +114,7 @@
   {
     "type": "furniture",
     "id": "f_bullettrailer_cabinet",
+    "name": "trailer cabinets",
     "move_cost_mod": 0,
     "description": "Cramped trailer cabinets, with some inbuilt appliances taking up even more of the limited space.",
     "copy-from": "f_cabinet"
@@ -113,6 +122,7 @@
   {
     "type": "furniture",
     "id": "f_bullettrailer_sink",
+    "name": "trailer sink",
     "move_cost_mod": 0,
     "description": "A tiny metal sink and connected cabinet.",
     "copy-from": "f_sink"
@@ -120,6 +130,7 @@
   {
     "type": "furniture",
     "id": "f_bullettrailer_desk",
+    "name": "mini desk",
     "move_cost_mod": 0,
     "description": "A small wooden desk with a little attached bookshelf.",
     "copy-from": "f_desk"
@@ -158,7 +169,7 @@
     "coverage": 30,
     "looks_like": "t_bulletrailer_brownfloor",
     "description": "A gray textured door, rimmed in chrome, like a very tacky version of a ship's hatch.",
-    "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "DOOR", "MOUNTABLE" ],
+    "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "DOOR", "MOUNTABLE", "TRANSPARENT" ],
     "close": "f_bullettrailer_inner_door",
     "copy-from": "f_bullettrailer_inner_door",
     "bash": {
@@ -175,15 +186,39 @@
       ]
     }
   },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_toilet",
+    "name": "trailer toilet",
+    "description": "A tiny plastic toilet for use in a travel trailer.",
+    "copy-from": "f_toilet"
   },
-        "9": "f_bullettrailer_toilet",
-        "a": "f_bullettrailer_minisofa",
-        "b": "f_bullettrailer_bed_foot",
-        "c": "f_bullettrailer_bed_head",
-        "d": "f_bullettrailer_shower",
-        "i": "f_bullettrailer_sign_danabakery"
-  
-  
-  
-  
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_minisofa",
+    "name": "trailer sofa",
+    "description": "A folding trailer sofa with a durable, somewhat comfortable weave of coarse red fabric.",
+    "copy-from": "f_sofa"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_bed_foot",
+    "name": "trailer bed",
+    "description": "A small but comfy-looking double bed.",
+    "copy-from": "f_bed"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_bed_head",
+    "name": "trailer bed",
+    "description": "A small but comfy-looking double bed.",
+    "copy-from": "f_bed"
+  },
+  {
+    "type": "furniture",
+    "id": "f_bullettrailer_sign_danabakery",
+    "name": "plywood sign for 'Dana's Bakery'",
+    "description": "A spraypainted plywood sign reads 'Dana's Bakery' in red letters.",
+    "copy-from": "f_sign"
+  }
 ]
