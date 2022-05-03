@@ -1,12 +1,12 @@
 [
-{
+  {
     "id": "TALK_LUMBERMILL_FABRICATE",
     "//": "this is all the dialogue related to buying bulk wood.",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_effect" : "currently_busy",
-      "yes" : "We've still got a few things available, but that last order is gonna take us a while to restock.  Come back in a little while if you're looking for the big stuff.  The crew is fast, so it won't be long.  A few hours at most, I promise.",
-      "no" : "Sure, we offer various specialty cuts direct to our customers in batches of 10.  Anything larger than these planks is gonna take us a while to refresh, though.  Logs are pretty fast, but the rest will be a couple hours, maybe longer if we have to source more wood.  So, what would you like?"
+      "npc_has_effect": "currently_busy",
+      "yes": "We've still got a few things available, but that last order is gonna take us a while to restock.  Come back in a little while if you're looking for the big stuff.  The crew is fast, so it won't be long.  A few hours at most, I promise.",
+      "no": "Sure, we offer various specialty cuts direct to our customers in batches of 10.  Anything larger than these planks is gonna take us a while to refresh, though.  Logs are pretty fast, but the rest will be a couple hours, maybe longer if we have to source more wood.  So, what would you like?"
     },
     "responses": [
       { "text": "Nevermind.", "topic": "TALK_NONE" },
@@ -27,37 +27,45 @@
       },
       {
         "text": "I'll buy some logs.  [100$]",
-        "effect": [ { "u_buy_item": "log", "cost": 10000, "count": 10 }, { "npc_add_effect": "currently_busy", "duration": "1 h" } ],
+        "effect": [ { "u_buy_item": "log", "cost": 10000, "count": 10 },
+          { "u_add_effect": "lumbermill_waiting_for_log", "duration": "1 h" }, { "npc_add_effect": "currently_busy", "duration": "1 h" } ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition" : "npc_available"
+        "condition": { "not": { "u_has_effect": "lumbermill_waiting_for_log" } }
       },
       {
         "text": "I'll buy some wooden panels.  [120$]",
-        "effect": [ { "u_buy_item": "wood_panel", "cost": 12000, "count": 10 }, { "npc_add_effect": "currently_busy", "duration": "2 h" } ],
+        "effect": [
+          { "u_buy_item": "wood_panel", "cost": 12000, "count": 10 },
+          { "u_add_effect": "lumbermill_waiting_for_wood_panel", "duration": "2 h" },
+          { "npc_add_effect": "currently_busy", "duration": "2 h" }
+        ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition" : "npc_available"
+        "condition": { "not": { "u_has_effect": "lumbermill_waiting_for_wood_panel" } }
       },
       {
         "text": "I'll buy some large wooden sheets.  [240$]",
-        "effect": [ { "u_buy_item": "wood_sheet", "cost": 24000, "count": 10 }, { "npc_add_effect": "currently_busy", "duration": "2 h" } ],
+        "effect": [
+          { "u_buy_item": "wood_sheet", "cost": 24000, "count": 10 },
+          { "u_add_effect": "lumbermill_waiting_for_wood_sheet", "duration": "2 h" },
+          { "npc_add_effect": "currently_busy", "duration": "2 h" }
+        ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition" : "npc_available"
-      },      
+        "condition": { "not": { "u_has_effect": "lumbermill_waiting_for_wood_sheet" } }
+      },
       {
         "text": "I'll buy some wooden beams.  [350$]",
-        "effect": [ { "u_buy_item": "wood_beam", "cost": 35000, "count": 10 }, { "npc_add_effect": "currently_busy", "duration": "4 h" } ],
+        "effect": [ { "u_buy_item": "wood_beam", "cost": 35000, "count": 10 },
+          { "u_add_effect": "lumbermill_waiting_for_wood_beam", "duration": "4 h" }, { "npc_add_effect": "currently_busy", "duration": "4 h" } ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition" : "npc_available"
+        "condition": { "not": { "u_has_effect": "lumbermill_waiting_for_wood_beam" } }
       }
     ]
   },
-{
+  {
     "id": "TALK_LUMBERMILL_FABRICATE_END",
     "//": "this is all the dialogue related to buying bulk wood.",
     "type": "talk_topic",
-    "dynamic_line": [
-      "Is there anything else you want?"
-    ],
+    "dynamic_line": [ "Is there anything else you want?" ],
     "responses": [
       { "text": "No, that's all.", "topic": "TALK_DONE" },
       {
@@ -77,27 +85,37 @@
       },
       {
         "text": "I'll buy some logs.  [100$]",
-        "effect": [ { "u_buy_item": "log", "cost": 10000, "count": 10 }, { "npc_add_effect": "currently_busy", "duration": "1 h" } ],
+        "effect": [ { "u_buy_item": "log", "cost": 10000, "count": 10 },
+          { "u_add_effect": "lumbermill_waiting_for_log", "duration": "1 h" }, { "npc_add_effect": "currently_busy", "duration": "1 h" } ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition" : "npc_available"
+        "condition": { "not": { "u_has_effect": "lumbermill_waiting_for_log" } }
       },
       {
         "text": "I'll buy some wooden panels.  [120$]",
-        "effect": [ { "u_buy_item": "wood_panel", "cost": 12000, "count": 10 }, { "npc_add_effect": "currently_busy", "duration": "2 h" } ],
+        "effect": [
+          { "u_buy_item": "wood_panel", "cost": 12000, "count": 10 },
+          { "u_add_effect": "lumbermill_waiting_for_wood_panel", "duration": "2 h" },
+          { "npc_add_effect": "currently_busy", "duration": "2 h" }
+        ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition" : "npc_available"
+        "condition": { "not": { "u_has_effect": "lumbermill_waiting_for_wood_panel" } }
       },
       {
         "text": "I'll buy some large wooden sheets.  [240$]",
-        "effect": [ { "u_buy_item": "wood_sheet", "cost": 24000, "count": 10 }, { "npc_add_effect": "currently_busy", "duration": "2 h" } ],
+        "effect": [
+          { "u_buy_item": "wood_sheet", "cost": 24000, "count": 10 },
+          { "u_add_effect": "lumbermill_waiting_for_wood_sheet", "duration": "2 h" },
+          { "npc_add_effect": "currently_busy", "duration": "2 h" }
+        ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition" : "npc_available"
-      },      
+        "condition": { "not": { "u_has_effect": "lumbermill_waiting_for_wood_sheet" } }
+      },
       {
         "text": "I'll buy some wooden beams.  [350$]",
-        "effect": [ { "u_buy_item": "wood_beam", "cost": 35000, "count": 10 }, { "npc_add_effect": "currently_busy", "duration": "4 h" } ],
+        "effect": [ { "u_buy_item": "wood_beam", "cost": 35000, "count": 10 },
+          { "u_add_effect": "lumbermill_waiting_for_wood_beam", "duration": "4 h" }, { "npc_add_effect": "currently_busy", "duration": "4 h" } ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition" : "npc_available"
+        "condition": { "not": { "u_has_effect": "lumbermill_waiting_for_wood_beam" } }
       }
     ]
   }
