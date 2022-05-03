@@ -103,7 +103,8 @@
       [ "knife_meat_cleaver", 10 ],
       [ "knife_vegetable_cleaver", 10 ],
       [ "cutting_board", 20 ],
-      [ "bottle_opener", 15 ]
+      [ "bottle_opener", 15 ],
+      [ "mortar_pestle", 10 ]
     ]
   },
   {
