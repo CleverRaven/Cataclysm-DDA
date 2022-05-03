@@ -360,6 +360,9 @@ class target_ui
         // Aim for 10 turns. Returns 'false' if ran out of moves
         bool action_aim();
 
+        // drop aim so you can look around
+        bool action_drop_aim();
+
         // Aim and shoot. Returns 'false' if ran out of moves
         bool action_aim_and_shoot( const std::string &action );
 
@@ -950,6 +953,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
+    if( is_avatar() ) {
+        as_avatar()->aim_cache_dirty = true;
+    }
+
     return curshot;
 }
 
@@ -979,6 +986,37 @@ int throw_cost( const Character &c, const item &to_throw )
     move_cost *= c.mutation_value( "attackcost_modifier" );
 
     return std::max( 25, move_cost );
+}
+
+// Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
+double calculate_aim_cap( const Character &you, const tripoint &target )
+{
+    double min_recoil = 0.0;
+    const Creature *victim = get_creature_tracker().creature_at( target, true );
+    // No p.sees_with_specials() here because special senses are not precise enough
+    // to give creature's exact size & position, only which tile it occupies
+    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
+        const int range = rl_dist( you.pos(), target );
+        // Get angle of triangle that spans the target square.
+        const double angle = 2 * atan2( 0.5, range );
+        // Convert from radians to arcmin.
+        min_recoil = 60 * 180 * angle / M_PI;
+    }
+    return min_recoil;
+}
+
+double calc_steadiness( const Character &you, item *weapon, const tripoint &pos,
+                        double predicted_recoil )
+{
+    const double min_recoil = calculate_aim_cap( you, pos );
+    const double effective_recoil = you.most_accurate_aiming_method_limit( *weapon );
+    const double min_dispersion = std::max( min_recoil, effective_recoil );
+    const double steadiness_range = MAX_RECOIL - min_dispersion;
+    // This is a relative measure of how steady the player's aim is,
+    // 0 is the best the player can do.
+    const double steady_score = std::max( 0.0, predicted_recoil - min_dispersion );
+    // Fairly arbitrary cap on steadiness...
+    return 1.0 - ( steady_score / steadiness_range );
 }
 
 int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
@@ -1632,24 +1670,7 @@ static bool pl_sees( const Creature &cr )
     return u.sees( cr ) || u.sees_with_infrared( cr ) || u.sees_with_specials( cr );
 }
 
-// Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
-static double calculate_aim_cap( const Character &you, const tripoint &target )
-{
-    double min_recoil = 0.0;
-    const Creature *victim = get_creature_tracker().creature_at( target, true );
-    // No p.sees_with_specials() here because special senses are not precise enough
-    // to give creature's exact size & position, only which tile it occupies
-    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
-        const int range = rl_dist( you.pos(), target );
-        // Get angle of triangle that spans the target square.
-        const double angle = 2 * atan2( 0.5, range );
-        // Convert from radians to arcmin.
-        min_recoil = 60 * 180 * angle / M_PI;
-    }
-    return min_recoil;
-}
-
-static int print_aim( const Character &you, const catacurses::window &w, int line_number,
+static int print_aim( Character &you, const catacurses::window &w, int line_number,
                       input_context &ctxt, item *weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
 {
@@ -1661,15 +1682,12 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
     dispersion_sources dispersion = you.get_weapon_dispersion( *weapon );
     dispersion.add_range( you.recoil_vehicle() );
 
-    const double min_recoil = calculate_aim_cap( you, pos );
-    const double effective_recoil = you.most_accurate_aiming_method_limit( *weapon );
-    const double min_dispersion = std::max( min_recoil, effective_recoil );
-    const double steadiness_range = MAX_RECOIL - min_dispersion;
-    // This is a relative measure of how steady the player's aim is,
-    // 0 is the best the player can do.
-    const double steady_score = std::max( 0.0, predicted_recoil - min_dispersion );
-    // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - ( steady_score / steadiness_range );
+    double steadiness = calc_steadiness( you, weapon, pos, predicted_recoil );
+
+    // if we are still aiming at the same spot update for the characters view
+    if( you.last_target_pos && get_map().getlocal( you.last_target_pos.value() ) == pos ) {
+        you.steadiness = steadiness;
+    }
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
@@ -2351,6 +2369,12 @@ target_handler::trajectory target_ui::run()
                 loop_exit_code = ExitCode::Timeout;
                 break;
             }
+        } else if( action == "STOPAIM" ) {
+            if( status != Status::Good ) {
+                continue;
+            }
+
+            action_drop_aim();
         } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
             if( status != Status::Good ) {
                 continue;
@@ -2468,6 +2492,7 @@ void target_ui::init_window_and_input()
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
+        ctxt.register_action( "STOPAIM" );
 
         aim_types = you->get_aim_types( *relevant );
         for( aim_type &type : aim_types ) {
@@ -2793,6 +2818,9 @@ int target_ui::dist_fn( const tripoint &p )
 
 void target_ui::set_last_target()
 {
+    if( !you->last_target_pos.has_value() || you->last_target_pos.value() != get_map().getabs( dst ) ) {
+        you->aim_cache_dirty = true;
+    }
     you->last_target_pos = get_map().getabs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
@@ -2937,6 +2965,9 @@ void target_ui::update_turrets_in_range()
 
 void target_ui::recalc_aim_turning_penalty()
 {
+    // since we are recalcing recoil dirty the aimm cache
+    you->aim_cache_dirty = true;
+
     if( status != Status::Good ) {
         // We don't care about invalid situations
         predicted_recoil = MAX_RECOIL;
@@ -3108,6 +3139,17 @@ bool target_ui::action_aim()
     recalc_aim_turning_penalty();
 
     return you->moves > 0;
+}
+
+bool target_ui::action_drop_aim()
+{
+    you->recoil = MAX_RECOIL;
+    you->steadiness = 0.0f;
+
+    // We've changed pc.recoil, update penalty
+    recalc_aim_turning_penalty();
+
+    return true;
 }
 
 bool target_ui::action_aim_and_shoot( const std::string &action )
@@ -3380,7 +3422,11 @@ void target_ui::draw_controls_list( int text_y )
         std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
                                          bound_key( "AIM" ).short_description() );
 
+        std::string dropaim = string_format( _( "[%s] to stop aiming." ),
+                                             bound_key( "STOPAIM" ).short_description() );
+
         lines.push_back( {2, colored( col_fire, aim )} );
+        lines.push_back( { 2, colored( col_fire, dropaim ) } );
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
