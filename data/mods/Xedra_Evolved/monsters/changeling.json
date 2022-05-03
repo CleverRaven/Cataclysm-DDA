@@ -59,7 +59,7 @@
     "id": "mon_changeling_bannerman",
     "type": "MONSTER",
     "name": { "str": "changeling bannerman", "str_pl": "changeling bannermen" },
-    "description": { "A tall lithe humanoid of indeterminate gender, in silvery scale mail, with archaic weapons.  Their sea-green eyes promise violence."},
+    "description": { "A tall lithe humanoid of indeterminate gender, in silvery scale mail, with archaic weapons.  Their sea-green eyes promise violence." },
     "copy-from": "mon_changeling",
     "symbol": "%",
     "hp": 80,
