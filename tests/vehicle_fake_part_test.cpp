@@ -1,6 +1,7 @@
 #include <memory>
 #include <vector>
 
+#include "action.h"
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "damage.h"
@@ -335,4 +336,85 @@ TEST_CASE( "fake_parts_are_opaque", "[vehicle],[vehicle_fake]" )
     here.set_seen_cache_dirty( 0 );
     here.build_map_cache( 0 );
     CHECK( !you.sees( you.pos() + point( 10, 10 ) ) );
+}
+
+TEST_CASE( "open_and_close_fake_doors", "[vehicle],[vehicle_fake]" )
+{
+    really_clear_map();
+    Character &you = get_player_character();
+    clear_avatar();
+    const tripoint test_origin = you.pos() + point( 3, 0 );
+    map &here = get_map();
+
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 315_degrees, 100, 0 );
+    REQUIRE( veh != nullptr );
+
+    // First get the doors to a known good state.
+    for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
+        REQUIRE( !vp.part().is_fake );
+        veh->close( vp.part_index() );
+    }
+
+    // Then scan through all the openables including fakes and assert that we can open them.
+    int fakes_tested = 0;
+    for( const vpart_reference vp : veh->get_all_parts_with_fakes() ) {
+        if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
+            fakes_tested++;
+            REQUIRE( !veh->is_open( vp.part_index() ) );
+            CHECK( can_interact_at( ACTION_OPEN, vp.pos() ) );
+            int part_to_open = veh->next_part_to_open( vp.part_index() );
+            // This should be the same part for this use case since there are no curtains etc.
+            REQUIRE( part_to_open == static_cast<int>( vp.part_index() ) );
+            // Using open_all_at because it will usually be from outside the vehicle.
+            veh->open_all_at( part_to_open );
+            CHECK( veh->is_open( vp.part_index() ) );
+            CHECK( veh->is_open( vp.part().fake_part_to ) );
+        }
+    }
+    REQUIRE( fakes_tested == 4 );
+
+    tripoint prev_player_pos = you.pos();
+    // Then open them all back up.
+    for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
+        REQUIRE( !vp.part().is_fake );
+        veh->open( vp.part_index() );
+        REQUIRE( veh->is_open( vp.part_index() ) );
+        if( !vp.part().has_fake ) {
+            continue;
+        }
+        vpart_reference fake_door( *veh, vp.part().fake_part_at );
+        if( !fake_door.part().is_active_fake ) {
+            continue;
+        }
+        CAPTURE( prev_player_pos );
+        CAPTURE( you.pos() );
+        REQUIRE( veh->can_close( vp.part_index(), you ) );
+        REQUIRE( veh->can_close( fake_door.part_index(), you ) );
+        you.setpos( vp.pos() );
+        CHECK( !veh->can_close( vp.part_index(), you ) );
+        CHECK( !veh->can_close( fake_door.part_index(), you ) );
+        // Move to the location of the fake part and repeat the assetion
+        you.setpos( fake_door.pos() );
+        CHECK( !veh->can_close( vp.part_index(), you ) );
+        CHECK( !veh->can_close( fake_door.part_index(), you ) );
+        you.setpos( prev_player_pos );
+    }
+
+    // Then scan through all the openables including fakes and assert that we can close them.
+    fakes_tested = 0;
+    for( const vpart_reference vp : veh->get_all_parts_with_fakes() ) {
+        if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
+            fakes_tested++;
+            CHECK( veh->is_open( vp.part_index() ) );
+            CHECK( can_interact_at( ACTION_CLOSE, vp.pos() ) );
+            int part_to_close = veh->next_part_to_close( vp.part_index() );
+            // This should be the same part for this use case since there are no curtains etc.
+            REQUIRE( part_to_close == static_cast<int>( vp.part_index() ) );
+            // Using open_all_at because it will usually be from outside the vehicle.
+            veh->close( part_to_close );
+            CHECK( !veh->is_open( vp.part_index() ) );
+            CHECK( !veh->is_open( vp.part().fake_part_to ) );
+        }
+    }
+    REQUIRE( fakes_tested == 4 );
 }
