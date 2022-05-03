@@ -4,7 +4,7 @@
 #include <vector>
 
 // https://en.wikipedia.org/wiki/Unicode_block
-static std::vector<std::pair<uint32_t, uint32_t>> cjk_or_emoji_ranges = {
+static const std::vector<std::pair<uint32_t, uint32_t>> cjk_or_emoji_ranges = {
     { 0x1100, 0x11FF }, // Hangul Jamo
     { 0x2600, 0x26FF }, // Miscellaneous Symbols
     { 0x2700, 0x27BF }, // Dingbats
