@@ -1443,6 +1443,7 @@
       [ "wizard_cane", 1 ],
       [ "scythe_fake", 2 ],
       [ "scythe_toy", 2 ],
+      [ "bodysuit_lycra", 5 ],
       { "group": "independence_all_clothing", "prob": 100, "event": "independence_day" },
       { "group": "christmas_all_clothing", "prob": 100, "event": "christmas" },
       { "group": "costume_all_clothing", "prob": 100, "event": "halloween" }
@@ -2100,6 +2101,7 @@
       { "item": "flag_jumpsuit", "prob": 2 },
       { "item": "jumpsuit_skeleton", "prob": 1 },
       { "item": "mummy_jumpsuit", "prob": 1 },
+      { "item": "bodysuit_lycra", "prob": 5 },
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 2 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 2 },
       { "item": "flag_swimsuit", "prob": 2 }
@@ -2213,7 +2215,8 @@
       [ "wetsuit", 85 ],
       [ "wetsuit_spring", 10 ],
       [ "flag_swimsuit", 5 ],
-      { "item": "flag_swimsuit", "prob": 60, "event": "independence_day" }
+      { "item": "flag_swimsuit", "prob": 60, "event": "independence_day" },
+      { "item": "bodysuit_lycra", "variant": "flag_suit", "prob": 10, "event": "independence_day" }
     ]
   },
   {
@@ -3180,6 +3183,7 @@
       [ "flag_jumpsuit", 2 ],
       [ "jumpsuit_skeleton", 1 ],
       [ "mummy_jumpsuit", 1 ],
+      [ "bodysuit_lycra", 3 ],
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 2 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 2 },
       [ "flag_swimsuit", 2 ]
@@ -3640,6 +3644,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "bondage_suit", "prob": 10 },
+      { "item": "bodysuit_lycra", "prob": 10 },
       { "item": "dinosuit", "prob": 5 },
       { "item": "yukata", "prob": 20 },
       { "item": "leotard", "prob": 40 },
@@ -3655,7 +3660,8 @@
       { "item": "wetsuit", "prob": 2 },
       { "item": "union_suit", "prob": 40 },
       { "item": "wetsuit_spring", "prob": 2 },
-      { "item": "flag_jumpsuit", "prob": 70, "event": "independence_day" },
+      { "item": "flag_jumpsuit", "prob": 50, "event": "independence_day" },
+      { "item": "bodysuit_lycra", "variant": "flag_suit", "prob": 50, "event": "independence_day" },
       { "group": "costume_suits", "prob": 70, "event": "halloween" }
     ]
   },
