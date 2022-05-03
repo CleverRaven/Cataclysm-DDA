@@ -505,6 +505,7 @@
       [ "witch_dress_short", 1 ],
       [ "maid_dress_short", 5 ],
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 5 },
+      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 5 },
       [ "apron_leather", 5 ]
     ]
   },
