@@ -4,7 +4,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "glasknife", "str_pl": "glasknives" },
-    "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
+    "description": "This is a knife that appears to be made of glass, it's much more durable than glass appearing to be some sort of crystal with the strength of metal.",
     "weight": "558 g",
     "volume": "500 ml",
     "longest_side": "30 cm",

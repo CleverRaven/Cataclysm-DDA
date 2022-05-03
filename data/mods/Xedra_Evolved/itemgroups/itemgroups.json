@@ -128,5 +128,41 @@
       { "group": "writing_utensils", "prob": 20 },
       { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "fae_furs",
+    "items": [
+      [ "hat_fur", 300 ],
+      [ "hat_faux_fur", 300 ],
+      [ "sleeveless_trenchcoat_fur", 10 ],
+      [ "sleeveless_duster_fur", 10 ],
+      [ "sleeveless_trenchcoat_faux_fur", 10 ],
+      [ "coat_fur_sf", 100 ],
+      [ "coat_faux_fur", 300 ],
+      [ "coat_fur", 300 ],
+      [ "gloves_fur", 300 ],
+      [ "boots_fur", 200 ],
+      [ "trenchcoat_faux_fur", 50 ],
+      [ "duster_faux_fur", 50 ],
+      [ "pants_faux_fur", 50 ],
+      [ "boots_glimmer_fur", 5 ],
+      [ "cloak_glimmer_fur", 5 ],
+      [ "coat_glimmer_fur", 1 ],
+      [ "duster_glimmer_fur", 1 ]
+    ]
+  },
+  {
+    "id": "bannerman_armor",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mt_chainmail_arms", "prob": 20 },
+      { "item": "mt_chainmail_feet", "prob": 20 },
+      { "item": "mt_chainmail_hood", "prob": 20 },
+      { "item": "mt_chainmail_hands", "prob": 20 },
+      { "item": "mt_chainmail_legs", "prob": 20 },
+      { "item": "mt_chainmail_hauberk", "prob": 20 },
+      { "item": "mt_chainmail_suit", "prob": 5 }
+    ]
   }
 ]
