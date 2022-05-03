@@ -5566,7 +5566,8 @@ static void smoker_activate( Character &you, const tripoint &examp )
     if( you.has_trait( trait_PYROMANIA ) ) {
         you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
         you.rem_morale( MORALE_PYROMANIA_NOFIRE );
-        you.add_msg_if_player( m_good, _( "You happily light a small fire under the rack and it starts to smoke." ) );
+        you.add_msg_if_player( m_good,
+                               _( "You happily light a small fire under the rack and it starts to smoke." ) );
     } else {
         add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );
     }
