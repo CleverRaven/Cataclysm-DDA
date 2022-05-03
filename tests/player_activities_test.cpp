@@ -831,7 +831,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
         dummy.wield( it_hacksaw );
         REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw );
-        REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
+        REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
         return item_location{dummy, &dummy.get_wielded_item()};
     };
@@ -958,7 +958,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
             dummy.wield( it_hacksaw_elec );
             REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw_elec );
-            REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
+            REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
             item_location hacksaw_elec{ dummy, &dummy.get_wielded_item() };
 
