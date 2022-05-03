@@ -804,17 +804,17 @@ bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
 }
 
 const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
-        const zone_type_id &type ) const
+        const zone_type_id &type, const faction_id &fac ) const
 {
     for( const zone_data &zone : zones ) {
-        if( zone.has_inside( where ) && zone.get_type() == type ) {
+        if( zone.has_inside( where ) && zone.get_type() == type && zone.get_faction() == fac ) {
             return &zone;
         }
     }
     map &here = get_map();
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( const zone_data *zone : vzones ) {
-        if( zone->has_inside( where ) && zone->get_type() == type ) {
+        if( zone->has_inside( where ) && zone->get_type() == type && zone->get_faction() == fac ) {
             return zone;
         }
     }
@@ -822,9 +822,9 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
 }
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                                    const zone_type_id &ztype ) const
+                                    const zone_type_id &ztype, const faction_id &fac ) const
 {
-    const zone_data *zone = get_zone_at( where, ztype );
+    const zone_data *zone = get_zone_at( where, ztype, fac );
     if( !zone || !it ) {
         return false;
     }
