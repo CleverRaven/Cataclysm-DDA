@@ -109,9 +109,6 @@ static const efftype_id effect_worked_on( "worked_on" );
 static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
 static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 
-static const harvest_drop_type_id harvest_drop_bionic( "bionic" );
-static const harvest_drop_type_id harvest_drop_bionic_group( "bionic_group" );
-
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
@@ -2711,16 +2708,14 @@ void monster::spawn_cbms_on_death( item *corpse )
     }
 
     std::vector<item> new_cbms;
-    for( const harvest_entry entry : *type->dissect ) {
-        if( entry.type == harvest_drop_bionic || entry.type == harvest_drop_bionic_group ) {
-            std::vector<item> cbms = item_group::items_from( item_group_id( entry.drop ), calendar::turn,
-                                     spawn_flags::use_spawn_rate );
-            for( item &cbm : cbms ) {
-                if( corpse ) {
-                    corpse->put_in( cbm, item_pocket::pocket_type::CORPSE );
-                } else {
-                    get_map().add_item_or_charges( pos(), cbm );
-                }
+    for( const auto entry : *type->dissect ) {
+        std::vector<item> cbms = item_group::items_from( item_group_id( entry.drop ), calendar::turn,
+                                 spawn_flags::use_spawn_rate );
+        for( item &cbm : cbms ) {
+            if( corpse ) {
+                corpse->put_in( cbm, item_pocket::pocket_type::CORPSE );
+            } else {
+                get_map().add_item_or_charges( pos(), cbm );
             }
         }
     }
