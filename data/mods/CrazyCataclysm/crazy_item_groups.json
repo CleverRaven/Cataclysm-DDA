@@ -38,6 +38,16 @@
     "type": "item_group",
     "id": "book_survival",
     "copy-from": "book_survival",
-    "extend": { "items": [ [ "vormithrax_anthology", 20 ] ] }
+    "extend": { "items": [ [ "vormithrax_anthology", 50 ] ] }
+  },
+  {
+    "id": "thrift_books",
+    "type": "item_group",    
+    "extend": { "items": [ [ "vormithrax_anthology", 2 ] ] }
+  },
+  {
+    "id": "textbooks_school",
+    "type": "item_group",    
+    "extend": { "items": [ [ "vormithrax_anthology", 2 ] ] }
   }
 ]
