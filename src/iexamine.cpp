@@ -69,6 +69,7 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -242,6 +243,7 @@ static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -2795,7 +2797,14 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     item result( "unfinished_charcoal", calendar::turn );
     result.charges = char_charges;
     here.add_item( examp, result );
-    add_msg( _( "You fire the charcoal kiln." ) );
+
+    if( you.has_trait( trait_PYROMANIA ) ) {
+        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_msg_if_player( m_good, _( "You happily light a fire in the charcoal kiln." ) );
+    } else {
+        add_msg( _( "You fire the charcoal kiln." ) );
+    }
 }
 
 void iexamine::kiln_full( Character &, const tripoint &examp )
@@ -5553,7 +5562,15 @@ static void smoker_activate( Character &you, const tripoint &examp )
     result.item_counter = to_turns<int>( 6_hours );
     result.activate();
     here.add_item( examp, result );
-    add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );
+
+    if( you.has_trait( trait_PYROMANIA ) ) {
+        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_msg_if_player( m_good,
+                               _( "You happily light a small fire under the rack and it starts to smoke." ) );
+    } else {
+        add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );
+    }
 }
 
 void iexamine::mill_finalize( Character &, const tripoint &examp, const time_point &start_time )
