@@ -335,6 +335,13 @@
       ],
       "palettes": [ "aircraft_carrier_palette" ],
       "gaspumps": {  },
+      "place_loot": [
+        { "item": "television", "chance": 100, "x": 48, "y": 14 },
+        { "item": "television", "chance": 100, "x": 18, "y": 133 },
+        { "item": "television", "chance": 100, "x": 4, "y": 142 },
+        { "item": "television", "chance": 100, "x": 18, "y": 243 },
+        { "item": "television", "chance": 100, "x": 27, "y": 299 }
+      ],
       "liquids": { "O": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "#": { "liquid": "jp8", "amount": [ 0, 100 ] } },
       "signs": {  }
     }
