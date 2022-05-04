@@ -839,6 +839,9 @@ void Item_factory::finalize_post( itype &obj )
         }
 
         // calculate encumbrance data per limb if done by description
+        if( obj.id == itype_id( "helmet_larmor" ) ) {
+            debugmsg( "leather helmet coming up" );
+        }
         for( armor_portion_data &data : obj.armor->data ) {
             if( !data.encumber_modifiers.empty() ) {
                 // we know that the data entry covers a single bp
@@ -846,7 +849,7 @@ void Item_factory::finalize_post( itype &obj )
 
                 // need to account for varsize stuff here and double encumbrance if so
                 if( obj.has_flag( flag_VARSIZE ) ) {
-                    data.encumber *= 2;
+                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );;
                 }
 
                 // Recalc max encumber as well
