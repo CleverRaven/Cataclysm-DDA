@@ -5688,9 +5688,53 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
-    "time": "30 s",
-    "components": [ [ [ "string_6", 6 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_6", 6 ] ] ]
+  },
+  {
+    "result": "rope_6",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_36", 6 ] ] ]
+  },
+  {
+    "result": "rope_30",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rope_6", 5 ] ] ]
+  },
+  {
+    "result": "cordage_36",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "components": [ [ [ "cordage_6", 6 ] ] ]
+  },
+  {
+    "result": "rope_makeshift_6",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cordage_36", 6 ] ] ]
+  },
+  {
+    "result": "rope_makeshift_30",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rope_makeshift_6", 5 ] ] ]
   },
   {
     "result": "plunger_toilet",
