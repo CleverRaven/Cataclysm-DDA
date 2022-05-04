@@ -46,6 +46,7 @@
   },
   {
     "id": "redcap_club",
+    "type": "GENERIC",
     "copy-from": "mace",
     "description": "A giant bloodstained club, barely human wieldable with two hands.  You see whenever it connects with an enemy shadowy tendrils of blood stick to whatever it hits and burn like acid.",
     "flags": [ "ALWAYS_TWOHAND" ],
@@ -66,6 +67,7 @@
   },
   {
     "id": "pooka_gladius",
+    "type": "GENERIC",
     "copy-from": "wakizashi",
     "description": "A gladius covered in the whorls of Celtic knots.  Sparks seems to pop off the edge of the blade.",
     "flags": [ "SHEATH_SWORD" ],
