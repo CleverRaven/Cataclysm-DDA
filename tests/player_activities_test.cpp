@@ -1757,11 +1757,9 @@ static void update_cache( map &m )
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
-    m.build_lightmap( 0, get_avatar().pos() );
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
-    m.build_lightmap( 0, get_avatar().pos() );
 }
 
 TEST_CASE( "activity interruption by distractions", "[activity][interruption]" )
@@ -1871,7 +1869,6 @@ TEST_CASE( "activity interruption by distractions", "[activity][interruption]" )
 
             spawn_test_monster( mon_zombie.str(), zombie_pos_near );
             m.add_field( dummy.pos(), field_fd_smoke );
-            update_cache( m );
             std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
 
             CHECK( dists.size() == 2 );
