@@ -243,13 +243,6 @@ void Character::update_body( const time_point &from, const time_point &to )
         enforce_minimum_healing();
     }
 
-    const int thirty_mins = ticks_between( from, to, 30_minutes );
-    if( thirty_mins > 0 ) {
-        // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
-        get_sick();
-    }
-
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
 
@@ -271,6 +264,21 @@ void Character::update_body( const time_point &from, const time_point &to )
                 vitamin_mod( v.first, qty );
             }
         }
+        if( calendar::once_every( 1_days ) && v.first->type() == vitamin_type::VITAMIN ) {
+            const double multiplier = rate / 1_days;
+            const int max_value = v.second.max();
+            const int max_rda = std::lround( max_value * multiplier );
+            if( vitamin_get( v.first ) >= 0.95 * max_rda ) {
+                mod_healthy_mod( 1, 200 );
+            }
+        }
+    }
+
+    const int thirty_mins = ticks_between( from, to, 30_minutes );
+    if( thirty_mins > 0 ) {
+        // Radiation kills health even at low doses
+        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
+        get_sick();
     }
 
     if( calendar::once_every( 10_minutes ) ) {
