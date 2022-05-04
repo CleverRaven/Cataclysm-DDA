@@ -51,7 +51,7 @@
     "variants": [
       {
         "id": "pamd71z",
-        "name": { "str": "PA md. 71z" },
+        "name": { "str": "PS md. 71z" },
         "description": "This extremely popular Romanian assault rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii to serve as a sniper weapon.  It is well suited to precision shots against high-priority targets.  In a pinch this modified design can fire an extremely rapid 2-shot burst, with the goal of shredding the target and preventing revivification.",
         "weight": 1
       }
