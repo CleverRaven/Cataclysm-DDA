@@ -1,0 +1,50 @@
+[
+  {
+    "type": "item_group",
+    "id": "mre_accessory_pack",
+    "container-item": "bag_plastic",
+    "subtype": "collection",
+    "entries": [
+      { "item": "gummy_vitamins", "charges": 1 },
+      { "item": "matches", "charges": 20 },
+      { "item": "gum", "charges": 2 },
+      { "item": "pur_tablets", "charges": 6, "container-item": "beverage_bag" },
+      { "item": "sugar", "charges": 2, "container-item": "beverage_bag" },
+      {
+        "distribution": [
+          { "item": "instant_coffee", "count": 2, "container-item": "beverage_bag" },
+          { "item": "herbal_tea_bag", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_bag", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_bag_chamomile", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_bag_dandelion", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_fruit_bag", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_green_bag", "count": 2, "container-item": "beverage_bag" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_used_accessory_pack",
+    "container-item": "bag_plastic",
+    "subtype": "collection",
+    "entries": [
+      { "item": "gummy_vitamins", "charges": 1 },
+      { "item": "matches", "charges": [ 0, 20 ] },
+      { "item": "gum", "charges": [ 0, 2 ] },
+      { "item": "pur_tablets", "charges": [ 0, 6 ], "container-item": "beverage_bag" },
+      { "item": "sugar", "charges": [ 0, 2 ], "container-item": "beverage_bag" },
+      {
+        "distribution": [
+          { "item": "instant_coffee", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "herbal_tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_bag_chamomile", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_bag_dandelion", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_fruit_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_green_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" }
+        ]
+      }
+    ]
+  }
+]
