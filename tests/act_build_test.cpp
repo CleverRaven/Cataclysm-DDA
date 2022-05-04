@@ -10,6 +10,7 @@
 #include "game.h"
 #include "map_helpers.h"
 #include "options_helpers.h"
+#include "pathfinding.h"
 #include "player_helpers.h"
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
@@ -193,6 +194,23 @@ void run_test_case( Character &u )
         here.partial_con_set( tri_window, pc );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_window ) == ter_pre );
+    }
+
+    SECTION( "visible but unreachable construction" ) {
+        u.setpos( tripoint_zero );
+        u.path_settings->bash_strength = 0;
+        here.build_map_cache( u.pos().z );
+        tripoint const tri_window = { 0, 5, 0 };
+        for( tripoint const &it : here.points_in_radius( tri_window, 1 ) ) {
+            here.ter_set( it, ter_id( "t_metal_grate_window" ) );
+        }
+        construction const build =
+            setup_testcase( u, "constr_door", tri_window, tripoint_zero );
+        here.ter_set( tri_window, ter_id( build.pre_terrain ) );
+        REQUIRE( u.sees( tri_window ) );
+        REQUIRE( route_adjacent( u, tri_window ).empty() );
+        run_activities( u, build.time * 10 );
+        REQUIRE( here.ter( tri_window ) == ter_id( build.pre_terrain ) );
     }
 
     SECTION( "multiple-step construction activity with fetch required" ) {
