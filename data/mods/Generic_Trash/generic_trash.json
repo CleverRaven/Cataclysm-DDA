@@ -134,5 +134,30 @@
     "volume": "6 ml",
     "longest_side": "10 mm",
     "ammo_type": "paper"
+  },
+  {
+    "id": "generic_glass",
+    "name": { "str": "glass dish", "str_pl": "glass dishes" },
+    "description": "Glass cups, plates and bowls.  Whatever it is, you can brake it into sharp shards.",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "cyan",
+    "price": 1400,
+    "price_postapoc": 0,
+    "material": [ "glass" ],
+    "weight": "322 g",
+    "volume": "620 ml",
+    "bashing": 3,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   }
 ]

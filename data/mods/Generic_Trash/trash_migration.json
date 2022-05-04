@@ -125,5 +125,10 @@
     "id": [ "file", "character_sheet", "flyer", "napkin", "toilet_paper", "scorecard" ],
     "type": "MIGRATION",
     "replace": "generic_paper"
+  },
+  {
+    "id": [ "glass", "glass_bowl", "glass_plate", "shot_glass", "wine_glass" ],
+    "type": "MIGRATION",
+    "replace": "generic_glass"
   }
 ]
