@@ -789,10 +789,6 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
                            0 - corpse_item->damage_level() );
             bool dissect_success = butcher_dissect_item( *item, you.pos(), calendar::turn, roll );
-            //const translation msg = entry.type->dissect_msg(dissect_success);
-            //if (!msg.empty()) {
-            //    add_msg(m_bad, msg.translated());
-            //}
         }
         if( dissectable_num > 0 ) {
             practice += dissectable_practice / dissectable_num;
