@@ -2568,7 +2568,7 @@ void monster::die( Creature *nkiller )
 
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse );
-        spawn_cbms_on_death( corpse );
+        spawn_dissectables_on_death( corpse );
     }
     if( death_drops && !is_hallucination() ) {
         for( const auto &it : inv ) {
@@ -2578,11 +2578,11 @@ void monster::die( Creature *nkiller )
                 get_map().add_item_or_charges( pos(), it );
             }
         }
-        for( const auto &bionic : bionic_inv ) {
+        for( const auto &it : dissectable_inv ) {
             if( corpse ) {
-                corpse->put_in( bionic, item_pocket::pocket_type::CORPSE );
+                corpse->put_in( it, item_pocket::pocket_type::CORPSE );
             } else {
-                get_map().add_item( pos(), bionic );
+                get_map().add_item( pos(), it );
             }
         }
         if( corpse ) {
@@ -2698,7 +2698,7 @@ void monster::drop_items_on_death( item *corpse )
     }
 }
 
-void monster::spawn_cbms_on_death( item *corpse )
+void monster::spawn_dissectables_on_death( item *corpse )
 {
     if( is_hallucination() ) {
         return;
@@ -2707,15 +2707,22 @@ void monster::spawn_cbms_on_death( item *corpse )
         return;
     }
 
-    std::vector<item> new_cbms;
+    std::vector<item> new_dissectables;
     for( const auto entry : *type->dissect ) {
-        std::vector<item> cbms = item_group::items_from( item_group_id( entry.drop ), calendar::turn,
-                                 spawn_flags::use_spawn_rate );
-        for( item &cbm : cbms ) {
+        std::vector<item> dissectables = item_group::items_from( item_group_id( entry.drop ),
+                                         calendar::turn,
+                                         spawn_flags::use_spawn_rate );
+        for( item &dissectable : dissectables ) {
+            for( const flag_id &flg : entry.flags ) {
+                dissectable.set_flag( flg );
+            }
+            for( const fault_id &flt : entry.faults ) {
+                dissectable.faults.emplace( flt );
+            }
             if( corpse ) {
-                corpse->put_in( cbm, item_pocket::pocket_type::CORPSE );
+                corpse->put_in( dissectable, item_pocket::pocket_type::CORPSE );
             } else {
-                get_map().add_item_or_charges( pos(), cbm );
+                get_map().add_item_or_charges( pos(), dissectable );
             }
         }
     }
@@ -3061,10 +3068,10 @@ void monster::init_from_item( item &itm )
             inv.push_back( *it );
             itm.remove_item( *it );
         }
-        //Move installed bionics
-        for( item *bionic : itm.all_items_top( item_pocket::pocket_type::CORPSE ) ) {
-            bionic_inv.push_back( *bionic );
-            itm.remove_item( *bionic );
+        //Move dissectables (installed bionics, etc)
+        for( item *dissectable : itm.all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+            dissectable_inv.push_back( *dissectable );
+            itm.remove_item( *dissectable );
         }
     } else {
         // must be a robot
