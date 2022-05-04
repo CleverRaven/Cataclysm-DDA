@@ -1898,11 +1898,12 @@ class vehicle
         // Cached points occupied by the vehicle
         mutable std::set<tripoint> occupied_points; // NOLINT(cata-serialize)
 
-        std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+        // Master list of parts installed in the vehicle.
+        std::vector<vehicle_part> parts; // NOLINT(cata-serialize)
         // Used in savegame.cpp to only save real parts to json
         std::vector<vehicle_part> real_parts() const;
         // Map of edge parts and their adjacency information
-        std::map<point, vpart_edge_info> edges;
+        std::map<point, vpart_edge_info> edges; // NOLINT(cata-serialize)
         // For a given mount point, returns it's adjacency info
         vpart_edge_info get_edge_info( const point &mount ) const;
 
@@ -1953,35 +1954,33 @@ class vehicle
         // make sure the vehicle is supported across z-levels or on the same z-level
         bool level_vehicle();
 
-
-        std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
-
-        std::vector<int> alternators;      // List of alternator indices NOLINT(cata-serialize)
-        std::vector<int> engines;          // List of engine indices NOLINT(cata-serialize)
-        std::vector<int> reactors;         // List of reactor indices NOLINT(cata-serialize)
-        std::vector<int> solar_panels;     // List of solar panel indices NOLINT(cata-serialize)
-        std::vector<int> wind_turbines;     // List of wind turbine indices NOLINT(cata-serialize)
-        std::vector<int> water_wheels;     // List of water wheel indices NOLINT(cata-serialize)
-        std::vector<int> sails;            // List of sail indices NOLINT(cata-serialize)
-        std::vector<int> funnels;          // List of funnel indices NOLINT(cata-serialize)
-        std::vector<int> emitters;         // List of emitter parts NOLINT(cata-serialize)
-        std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts NOLINT(cata-serialize)
-        std::vector<int> wheelcache;       // List of wheels NOLINT(cata-serialize)
-        std::vector<int> rotors;           // List of rotors NOLINT(cata-serialize)
-        std::vector<int> rail_wheelcache;  // List of rail wheels NOLINT(cata-serialize)
-        std::vector<int> steering;         // List of STEERABLE parts NOLINT(cata-serialize)
-        // List of parts that will not be on a vehicle very often, or which only one will be present
-        std::vector<int> speciality;       // NOLINT(cata-serialize)
-        std::vector<int>
-        floating;         // List of parts that provide buoyancy to boats NOLINT(cata-serialize)
-        std::vector<int> batteries;        // List of batteries NOLINT(cata-serialize)
-        std::vector<int> fuel_containers;  // List parts with non-null ammo_type NOLINT(cata-serialize)
-        std::vector<int> turret_locations; // List of turret parts NOLINT(cata-serialize)
-        std::vector<int> mufflers; // List of muffler parts NOLINT(cata-serialize)
-        std::vector<int> planters; // List of planter parts NOLINT(cata-serialize)
-        std::vector<int> accessories; // List of accessory (power consuming) parts NOLINT(cata-serialize)
-        std::vector<int>
-        fake_parts;       // List of parts that are fakes to fill gaps NOLINT(cata-serialize)
+        // These are lists of part numbers used for quick lookup of various kinds of vehicle parts.
+        // They are rebuilt in vehicle::refresh()
+        std::vector<int> alternators; // NOLINT(cata-serialize)
+        std::vector<int> engines; // NOLINT(cata-serialize)
+        std::vector<int> reactors; // NOLINT(cata-serialize)
+        std::vector<int> solar_panels; // NOLINT(cata-serialize)
+        std::vector<int> wind_turbines; // NOLINT(cata-serialize)
+        std::vector<int> water_wheels; // NOLINT(cata-serialize)
+        std::vector<int> sails; // NOLINT(cata-serialize)
+        std::vector<int> funnels; // NOLINT(cata-serialize)
+        std::vector<int> emitters; // NOLINT(cata-serialize)
+        // Parts that will fall off the next time the vehicle moves.
+        std::vector<int> loose_parts; // NOLINT(cata-serialize)
+        std::vector<int> wheelcache; // NOLINT(cata-serialize)
+        std::vector<int> rotors; // NOLINT(cata-serialize)
+        std::vector<int> rail_wheelcache; // NOLINT(cata-serialize)
+        std::vector<int> steering; // NOLINT(cata-serialize)
+        // Intended to be a misc list, but currently only security systems.
+        std::vector<int> speciality; // NOLINT(cata-serialize)
+        std::vector<int> floating; // NOLINT(cata-serialize)
+        std::vector<int> batteries; // NOLINT(cata-serialize)
+        std::vector<int> fuel_containers; // NOLINT(cata-serialize)
+        std::vector<int> turret_locations; // NOLINT(cata-serialize)
+        std::vector<int> mufflers; // NOLINT(cata-serialize)
+        std::vector<int> planters; // NOLINT(cata-serialize)
+        std::vector<int> accessories; // NOLINT(cata-serialize)
+        std::vector<int> fake_parts; // NOLINT(cata-serialize)
 
         // config values
         std::string name;   // vehicle name
