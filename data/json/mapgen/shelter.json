@@ -154,8 +154,8 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "TO-DO - FIX BASEMENT NESTING AND PALETTE AND EVERYTHING FROM RECENT MERGE"
-    "om_terrain": [ "shelter_1" ],
+    "//" : "TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME",
+    "om_terrain": [ "shelter_1", "shelter_1b" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -170,22 +170,21 @@
         "       |........|       ",
         "    |-:|......@.|       ",
         "    |...........|:-|    ",
-        "    |.............6|    ",
-        "    |..............|    ",
-        "    :..............:    ",
-        "    |..............|    ",
-        "    |..............|    ",
-        "    |........|||...|    ",
-        "    |.-----..|*=...|    ",
-        "    :........|||...:    ",
-        "    |..........|-+-|    ",
-        "    |..........|...|    ",
-        "    |..........|>..|    ",
-        "    |..........|>..|4   ",
+        "    |.bbbbb.....c.6|    ",
+        "    |...........c..|    ",
+        "    :.bbbbb.....c..:    ",
+        "    |...........cc.|    ",
+        "    |.bbbbb........|    ",
+        "    |.......l|||...|    ",
+        "    |.-----.l|*=...|    ",
+        "    :.......l|||...:    ",
+        "    |.b.b.b...c|-+-|    ",
+        "    |.b.b.b...c|..l|    ",
+        "    |.b.b.b...c|>.l|    ",
+        "    |..........|>.l|4   ",
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_1_nest_base", 100 ] ], "x": 0, "y": 0 } ],
       "npcs": {
 		"@": { "class": "NPC_evac_shelter_survivor" }
 		}
@@ -278,7 +277,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "TO-DO - FIX BASEMENT NESTING AND PALETTE AND EVERYTHING FROM RECENT MERGE",
+    "//" : "I THINK THIS IS MERGED. STAIRS BUT NO BASEMENT, THOUGH? IS IT BECAUSE ONLY THIS TOP TILE IS CHANGED? TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME",
     "om_terrain": [ "shelter_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -290,36 +289,28 @@
         "    `!!!!`!!!!`!!!!`    ",
         "    &&&&&&&&&&&&&&&&    ",
         "           |-:-++-:-|   ",
-        "   ||------|........|   ",
-        "   |*|..............|   ",
-        "   |.=..............|   ",
+        "   ||------|%......l|   ",
+        "   |*|cccc6........l|   ",
+        "   |.=.............l|   ",
         "  |--|.............--|  ",
-        "  |..................|  ",
-        "  :..................:  ",
-        "  |..................|  ",
-        "  |.......|--|.......|  ",
-        "  |........>>.@......|  ",
-        "  |........>>........|  ",
-        "  :.......|--|.......:  ",
-        "  |..................|  ",
-        "  |..................|  ",
-        "  |--..............--|  ",
-        "   |................|4  ",
-        "   |--------|.......|   ",
+        "  |b.....bbbbb...b..b|  ",
+        "  :b..b..........b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b...|--|...b..b|  ",
+        "  |b..b....>>.@..b..b|  ",
+        "  |b..b....>>....b..b|  ",
+        "  :b..b...|--|...b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  |--.....bbbb.....--|  ",
+        "   |l..............6|4  ",
+        "   |--------|......c|   ",
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_2_nest_base", 100 ] ], "x": 0, "y": 0 } ],
       "npcs": {
 		"@": { "class": "NPC_evac_shelter_survivor" }
-		},
-      "computers": {
-        "6": {
-          "name": "Evac shelter computer",
-          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
-          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
-        }
-      }
+		}      
     }
   },
   {
@@ -445,7 +436,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 70,
-    "//" : "TO-DO - FIX BASEMENT NESTING AND PALETTE AND EVERYTHING FROM RECENT MERGE",
+    "//" : "I THINK THIS IS GOOD? NO BASEMENT BUT NO STAIRS; INTENTIONAL I THINK. TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME",
     "om_terrain": [ "shelter_1_vandal" ],
     "object": {
       "fill_ter": "t_floor",
@@ -470,9 +461,9 @@
         "    |.-----..|*....     ",
         "    :........|||...     ",
         "    |..........|...     ",
-        "    |..........|...     ",
-        "    |..........|...     ",
-        "    |..........|...     ",
+        "    |bbb.......|...     ",
+        "    |bbb.......|...     ",
+        "    |bbb.......|...     ",
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
@@ -520,7 +511,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 70,
-    "//" : "TO-DO - FIX BASEMENT NESTING AND PALETTE AND EVERYTHING FROM RECENT MERGE",
+    "//" : "TO-DO - FIX BASEMENT NESTING FROM RECENT MERGE. TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME",
     "om_terrain": [ "shelter_2_vandal" ],
     "object": {
       "fill_ter": "t_floor",
@@ -546,11 +537,11 @@
         "  |..................|  ",
         "  |..................|  ",
         "  |--..............--|  ",
-        "   |................|4  ",
-        "   |--------|.......|   ",
+        "   |...............c|4  ",
+        "   |--------|......c|   ",
         "            |-:-+-:-|   "
       ],
-      "palettes": [ "shelter" ],
+      "palettes": [ "shelter_vandal" ],
       "terrain": { "~": "t_dirt" },
       "items": { "~": { "item": "lumberyard", "chance": 90, "repeat": [ 3, 5 ] } }
     }
@@ -559,8 +550,8 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "TO-DO - FIX BASEMENT NESTING AND PALETTE AND EVERYTHING FROM RECENT MERGE",
-    "om_terrain": [ "shelter_3" ],
+    "//" : "INFESTED SPAWN - COPY OF shelter_1 - TO-DO - ADD PROPERLY NAMED ROOF IN overmap_terrain_military.json",
+    "om_terrain": [ "shelter_3", "shelter_under_3_infested" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -575,30 +566,30 @@
         "       |........|       ",
         "    |-:|........|       ",
         "    |...........|:-|    ",
-        "    |.............6|    ",
-        "    |..............|    ",
-        "    :..............:    ",
-        "    |..............|    ",
-        "    |..............|    ",
-        "    |........|||...|    ",
-        "    |.-----..|*=...|    ",
-        "    :........|||...:    ",
-        "    |..........|-+-|    ",
-        "    |..........|...|    ",
-        "    |..........|>..|    ",
-        "    |..........|>..|4   ",
+        "    |.bbbbb.....c.6|    ",
+        "    |...........c..|    ",
+        "    :.bbbbb.....c..:    ",
+        "    |...........cc.|    ",
+        "    |.bbbbb........|    ",
+        "    |.......l|||...|    ",
+        "    |.-----.l|*=...|    ",
+        "    :.......l|||...:    ",
+        "    |.b.b.b...c|-+-|    ",
+        "    |.b.b.b...c|..l|    ",
+        "    |.b.b.b...c|>.l|    ",
+        "    |..........|>.l|4   ",
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_1_nest_base", 100 ] ], "x": 0, "y": 0 }, { "chunks": [ [ "infested_shelter_spawn", 100 ] ], "x": 12, "y": 12 } ]
+      "place_nested": [ { "chunks": [ [ "infested_shelter_spawn", 100 ] ], "x": 12, "y": 12 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "TO-DO - FIX BASEMENT NESTING AND PALETTE AND EVERYTHING FROM RECENT MERGE",
-    "om_terrain": [ "shelter_3_2" ],
+    "//" : "INFESTED SPAWN - COPY OF shelter_2 - TO-DO - ADD PROPERLY NAMED ROOF IN overmap_terrain_military.json",
+    "om_terrain": [ "shelter_3_2", "shelter_under_3_2_infested"  ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -609,26 +600,26 @@
         "    `!!!!`!!!!`!!!!`    ",
         "    &&&&&&&&&&&&&&&&    ",
         "           |-:-++-:-|   ",
-        "   ||------|........|   ",
-        "   |*|..............|   ",
-        "   |.=..............|   ",
+        "   ||------|%......l|   ",
+        "   |*|cccc6........l|   ",
+        "   |.=.............l|   ",
         "  |--|.............--|  ",
-        "  |..................|  ",
-        "  :..................:  ",
-        "  |..................|  ",
-        "  |.......|--|.......|  ",
-        "  |........>>........|  ",
-        "  |........>>........|  ",
-        "  :.......|--|.......:  ",
-        "  |..................|  ",
-        "  |..................|  ",
-        "  |--..............--|  ",
-        "   |................|4  ",
-        "   |--------|.......|   ",
+        "  |b.....bbbbb...b..b|  ",
+        "  :b..b..........b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b...|--|...b..b|  ",
+        "  |b..b....>>....b..b|  ",
+        "  |b..b....>>....b..b|  ",
+        "  :b..b...|--|...b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  |--.....bbbb.....--|  ",
+        "   |l..............6|4  ",
+        "   |--------|......c|   ",
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_2_nest_base", 100 ] ], "x": 0, "y": 0 }, { "chunks": [ [ "infested_shelter_spawn", 100 ] ], "x": 12, "y": 12 } ],
+      "place_nested": [ { "chunks": [ [ "infested_shelter_spawn", 100 ] ], "x": 12, "y": 12 } ],
       "computers": {
         "6": {
           "name": "Evac shelter computer",
@@ -928,6 +919,79 @@
       ],
       "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ],
       "place_nested": [ { "chunks": [ [ "null", 90 ], [ "shelter_under_1_nest_zombies", 10 ] ], "x": 0, "y": 0 } ]
+    }    
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": "shelter_under_3_infested",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "#######;;;;;;;;;;#######",
+        "#######;|bbbbbbb;#######",
+        "####;;;;|b_____b;#######",
+        "####;T|T|b_____b;;;;####",
+        "####;_|_|b_____bbbb;####",
+        "####;___|b________b;####",
+        "####;S__|b________b;####",
+        "####;S_%|b________b;####",
+        "####;|+||b________b;####",
+        "####;B____________b;####",
+        "####;|+||b________b;####",
+        "####;S_%|b________b;####",
+        "####;S__|b________b;####",
+        "####;___|b____b||+|;####",
+        "####;_|_|b____b|<__;####",
+        "####;T|T|bbbbbb|<__;####",
+        "####;;;;;;;;;;;;;;;;####"
+      ],
+      "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ]
+    }
+    
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": "shelter_under_3_2_infested",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "###########/;;;;;;;;;###",
+        "###;;;;;;;;;|T|T|T|T;###",
+        "###;bbbbb|UU|_______;###",
+        "###;_____||+|BCSCS_%;###",
+        "##;;_bb_____||||||+|;;##",
+        "##;b_bb______________;##",
+        "##;b_bb_bb________bbb;##",
+        "##;b_bb_b||||||___ttt;##",
+        "##;b_bb_b|____|___bbb;##",
+        "##;b_bb__+_<<_+___bbb;##",
+        "##;b_bb__+_<<_+___ttt;##",
+        "##;b_bb_b|____|___bbb;##",
+        "##;b_bb_b||||||______;##",
+        "##;b_bb_bb|l||||||+||;##",
+        "##;;______+l|BCSCS_%|/##",
+        "###;bbbbbb|l|_______;/##",
+        "###;;;;;;;;;;T|T|T|T;###",
+        "############;;;;;;;;;###"
+      ],
+      "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ]
     }
   }
 ]

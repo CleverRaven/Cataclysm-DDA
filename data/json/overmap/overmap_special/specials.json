@@ -1471,7 +1471,7 @@
     "id": "Evac Shelter Infested",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_3_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_3_infested_north" },
       { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
@@ -1486,7 +1486,7 @@
     "id": "Evac Shelter Infested 2",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_3_2_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_3_2_infested_north" },
       { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_2_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],

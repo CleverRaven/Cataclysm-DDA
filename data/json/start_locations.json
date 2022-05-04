@@ -74,13 +74,13 @@
     "type": "start_location",
     "id": "sloc_shelter_infest_a",
     "name": "Infested Shelter - Open Floorplan",
-    "terrain": [ "shelter_3" ]
+    "terrain": [ "shelter_under_3_infested" ]
   },
   {
     "type": "start_location",
     "id": "sloc_shelter_infest_b",
     "name": "Infested Shelter - Compartmentalized",
-    "terrain": [ "shelter_3_2" ]
+    "terrain": [ "shelter_under_3_2_infested" ]
   },    
   {
     "type": "start_location",
