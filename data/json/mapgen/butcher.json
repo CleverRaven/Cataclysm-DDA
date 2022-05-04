@@ -358,11 +358,10 @@
             [ "roof_4x4_party", 15 ],
             [ "roof_4x4_holdout", 5 ],
             [ "roof_4x4_utility", 40 ],
-            [ "roof_4x4_utility_1", 30 ],
-            [ "roof_6x6_utility", 20 ]
+            [ "roof_4x4_utility_1", 30 ]
           ],
           "x": [ 4, 15 ],
-          "y": [ 8, 12 ]
+          "y": [ 8, 11 ]
         }
       ]
     }
@@ -543,8 +542,8 @@
         },
         {
           "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
-          "x": [ 4, 15 ],
-          "y": [ 8, 12 ]
+          "x": [ 4, 14 ],
+          "y": [ 8, 11 ]
         }
       ]
     }

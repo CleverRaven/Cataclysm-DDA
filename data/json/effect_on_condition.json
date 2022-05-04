@@ -323,7 +323,7 @@
     "id": "EOC_DEATH_SWITCH",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "u_query": "You have died. Continue as one of your followers?", "default": false },
+    "condition": { "and": [ { "npc_allies": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ] },
     "effect": [ "take_control_menu" ]
   },
   {

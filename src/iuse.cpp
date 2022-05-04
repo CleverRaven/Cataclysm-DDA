@@ -377,6 +377,7 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -3970,6 +3971,11 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
             here.add_field( dest, fd_incendiary, 3 );
         }
 
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+        }
     }
     return 0;
 }
@@ -3983,6 +3989,11 @@ cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tri
         for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
             here.add_field( pt, fd_fire, intensity );
+        }
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
         return 1;
     } else if( it->charges > 0 ) {

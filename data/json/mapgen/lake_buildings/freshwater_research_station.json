@@ -40,6 +40,7 @@
         { "item": "rope_30", "x": 14, "y": [ 13, 15 ], "chance": 70 }
       ],
       "items": { "#": { "item": "fishing_items", "chance": 10 } },
+      "place_monsters": [ { "monster": "GROUP_DIVING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 } ],
       "place_vehicles": [
         { "vehicle": "boat_motor_single", "x": 11, "y": 9, "rotation": 270, "chance": 70 },
         { "vehicle": "lake", "x": 20, "y": 1, "rotation": 0, "chance": 30 },
@@ -228,7 +229,8 @@
           { "item": "SUS_knife_drawer", "chance": 30 }
         ],
         "l": [ { "item": "SUS_dresser_mens", "chance": 30 }, { "item": "SUS_dresser_womens", "chance": 30 } ]
-      }
+      },
+      "place_monsters": [ { "monster": "GROUP_DIVING", "x": [ 9, 15 ], "y": [ 7, 18 ], "density": 0.1 } ]
     }
   },
   {
@@ -282,7 +284,8 @@
         "H": { "item": "fishing_items", "chance": 50 },
         "C": { "item": "tools_science", "chance": 70 },
         "U": { "item": "shower", "chance": 10, "repeat": [ 1, 2 ] }
-      }
+      },
+      "place_monsters": [ { "monster": "GROUP_DIVING", "x": [ 8, 18 ], "y": [ 12, 18 ], "density": 0.1 } ]
     }
   },
   {

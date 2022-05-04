@@ -381,7 +381,7 @@ static void check_fist_weapons( const std::function<Approx( const std::string & 
 static void check_axes( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
     SECTION( "axes" ) { // expected value around 27 but no dedicated weapons
-        CHECK( calc_expected_dps( "hatchet" ) == 24.0 );
+        CHECK( calc_expected_dps( "hatchet" ) == 18.0 );
         CHECK( calc_expected_dps( "crash_axe" ) == 24.0 );
         CHECK( calc_expected_dps( "iceaxe" ) == 19.0 );
         CHECK( calc_expected_dps( "throwing_axe" ) == 14.0 );
@@ -445,16 +445,16 @@ static void check_two_handed_swords( const std::function<Approx( const std::stri
         CHECK( calc_expected_dps( "nodachi" ) == 26.5 );
         CHECK( calc_expected_dps( "zweihander" ) == 27.0 );
         CHECK( calc_expected_dps( "estoc" ) == 27.0 );
-        CHECK( calc_expected_dps( "longsword" ) == 24.25 );
+        CHECK( calc_expected_dps( "longsword" ) == 25 );
         CHECK( calc_expected_dps( "katana" ) == 25.0 );
-        CHECK( calc_expected_dps( "longsword_inferior" ) == 18.5 );
+        CHECK( calc_expected_dps( "longsword_inferior" ) == 15.5 );
         CHECK( calc_expected_dps( "zweihander_inferior" ) == 15.5 );
         CHECK( calc_expected_dps( "katana_inferior" ) == 13.5 );
         CHECK( calc_expected_dps( "nodachi_inferior" ) == 16.25 );
         CHECK( calc_expected_dps( "estoc_inferior" ) == 15.5 );
         CHECK( calc_expected_dps( "estoc_fake" ) == 10.0 );
         CHECK( calc_expected_dps( "zweihander_fake" ) == 9.5 );
-        CHECK( calc_expected_dps( "longsword_fake" ) == 9.0 );
+        CHECK( calc_expected_dps( "longsword_fake" ) == 6.25 );
         CHECK( calc_expected_dps( "nodachi_fake" ) == 8.5 );
         CHECK( calc_expected_dps( "katana_fake" ) == 7.0 );
     }

@@ -1744,16 +1744,21 @@ std::string item::get_owner_name() const
     return g->faction_manager_ptr->get( get_owner() )->name;
 }
 
+void item::set_owner( const faction_id &new_owner )
+{
+    owner = new_owner;
+    for( item *e : contents.all_items_top() ) {
+        e->set_owner( new_owner );
+    }
+}
+
 void item::set_owner( const Character &c )
 {
     if( !c.get_faction() ) {
         debugmsg( "item::set_owner() Character %s has no valid faction", c.disp_name() );
         return;
     }
-    owner = c.get_faction()->id;
-    for( item *e : contents.all_items_top() ) {
-        e->set_owner( c );
-    }
+    set_owner( c.get_faction()->id );
 }
 
 faction_id item::get_owner() const
@@ -6813,6 +6818,18 @@ bool item::has_flag( const flag_id &f ) const
             // gunmods fired separately do not contribute to base gun flags
             if( !e->is_gun() && e->has_flag( f ) ) {
                 return true;
+            }
+        }
+    }
+
+    // check flags from items in inherit pockets
+    for( const item_pocket *pocket : contents.get_all_contained_pockets() ) {
+        // if the pocket inherits flags
+        if( pocket->inherits_flags() ) {
+            for( const item *e : pocket->all_items_top() ) {
+                if( e->has_flag( f ) ) {
+                    return true;
+                }
             }
         }
     }
@@ -12771,7 +12788,8 @@ bool item::is_rigid() const
 bool item::is_comfortable() const
 {
     // overrides for the item overall
-    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
+    // NO_WEAR_EFFECT is there for jewelry and the like which is too small to be considered
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) || has_flag( flag_NO_WEAR_EFFECT ) ) {
         return true;
     } else if( has_flag( flag_HARD ) ) {
         return false;
@@ -12849,7 +12867,8 @@ template <typename T>
 bool item::is_bp_comfortable( const T &bp ) const
 {
     // overrides for the item overall
-    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
+    // NO_WEAR_EFFECT is there for jewelry and the like which is too small to be considered
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) || has_flag( flag_NO_WEAR_EFFECT ) ) {
         return true;
     } else if( has_flag( flag_HARD ) ) {
         return false;

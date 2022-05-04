@@ -696,7 +696,52 @@
   },
   {
     "type": "recipe",
+    "result": "thread_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_6_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_36_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_makeshift_6_spinwheel_dissasemble",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "string_6_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "string_36_spinwheel_dissasemble",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_6_spinwheel_dissasemble",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "dragonskin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sourdough_young",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sourdough_split",
     "obsolete": true
   }
 ]

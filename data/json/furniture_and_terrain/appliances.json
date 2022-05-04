@@ -528,7 +528,8 @@
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A solar panel mounted on a frame and ready to power other appliances.",
-    "copy-from": "solar_panel"
+    "copy-from": "solar_panel",
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -539,7 +540,8 @@
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A reinforced solar panel mounted on a frame and ready to power other appliances.",
-    "copy-from": "reinforced_solar_panel"
+    "copy-from": "reinforced_solar_panel",
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -550,7 +552,8 @@
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "An upgraded solar panel mounted on a frame and ready to power other appliances.",
-    "copy-from": "solar_panel_v2"
+    "copy-from": "solar_panel_v2",
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -561,7 +564,8 @@
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "An upgraded reinforced solar panel mounted on a frame and ready to power other appliances.",
-    "copy-from": "reinforced_solar_panel_v2"
+    "copy-from": "reinforced_solar_panel_v2",
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -588,23 +592,23 @@
   {
     "type": "vehicle_part",
     "id": "ap_battery",
-    "name": { "str": "grid battery" },
+    "name": { "str": "large grid battery" },
     "symbol": "B",
     "location": "structure",
     "color": "light_red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "description": "A battery to store electrical power in a static power grid.",
+    "description": "A large battery to store electrical power in a static power grid.",
     "copy-from": "storage_battery"
   },
   {
     "type": "vehicle_part",
     "id": "ap_battery_large",
-    "name": { "str": "large grid battery" },
+    "name": { "str": "very large grid battery" },
     "symbol": "B",
     "location": "structure",
     "color": "red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "description": "A large battery to store electrical power in a static power grid.",
+    "description": "A very large battery to store electrical power in a static power grid.",
     "copy-from": "large_storage_battery"
   },
   {
@@ -673,6 +677,7 @@
     "id": "ap_foot_locker_recharge_station",
     "name": { "str": "foot locker recharging station" },
     "symbol": "o",
+    "location": "structure",
     "categories": [ "cargo" ],
     "color": "light_green",
     "broken_symbol": "#",

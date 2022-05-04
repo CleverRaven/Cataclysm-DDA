@@ -86,6 +86,7 @@
       "furniture": { "0": "f_water_mill", "♦": "f_kiln_empty", "♣": "f_clay_kiln", "]": "f_rack_wood" },
       "sealed_item": { "=": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_loot": [ { "item": "stereo", "x": 22, "y": 44, "chance": 15 }, { "item": "television", "x": 22, "y": 43, "chance": 75 } ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_nested": [ { "chunks": [ [ "firepit_5x5_2", 100 ] ], "x": 7, "y": 5 } ],
       "items": {
         "]": [

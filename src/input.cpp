@@ -887,11 +887,13 @@ bool input_context::action_uses_input( const std::string &action_id,
     return std::find( events.begin(), events.end(), event ) != events.end();
 }
 
-std::string input_context::get_conflicts( const input_event &event ) const
+std::string input_context::get_conflicts(
+    const input_event &event, const std::string &ignore_action ) const
 {
     return enumerate_as_string( registered_actions.begin(), registered_actions.end(),
-    [ this, &event ]( const std::string & action ) {
-        return action_uses_input( action, event ) ? get_action_name( action ) : std::string();
+    [ this, &event, &ignore_action ]( const std::string & action ) {
+        return action != ignore_action && action_uses_input( action, event )
+               ? get_action_name( action ) : std::string();
     } );
 }
 
@@ -979,7 +981,10 @@ void input_context::register_action( const std::string &action_descriptor,
         handling_coordinate_input = true;
     }
 
-    registered_actions.push_back( action_descriptor );
+    if( std::find( registered_actions.begin(), registered_actions.end(),
+                   action_descriptor ) == registered_actions.end() ) {
+        registered_actions.push_back( action_descriptor );
+    }
     if( !name.empty() ) {
         action_name_overrides[action_descriptor] = name;
     }
@@ -1305,12 +1310,28 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
 static const std::string display_help_hotkeys =
     "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",/<>?!@#$%^&*()_[]\\{}|`~";
 
+namespace
+{
+enum class fallback_action {
+    add_local,
+    add_global,
+    remove,
+    execute,
+};
+} // namespace
+static const std::map<fallback_action, int> fallback_keys = {
+    { fallback_action::add_local, '+' },
+    { fallback_action::add_global, '=' },
+    { fallback_action::remove, '-' },
+    { fallback_action::execute, '.' },
+};
+
 action_id input_context::display_menu( const bool permit_execute_action )
 {
     action_id action_to_execute = ACTION_NULL;
 
-    // Shamelessly stolen from help.cpp
     input_context ctxt( "HELP_KEYBINDINGS", keyboard_mode::keychar );
+    // Keybinding menu actions
     ctxt.register_action( "UP", to_translation( "Scroll up" ) );
     ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
     ctxt.register_action( "PAGE_DOWN" );
@@ -1318,8 +1339,22 @@ action_id input_context::display_menu( const bool permit_execute_action )
     ctxt.register_action( "REMOVE" );
     ctxt.register_action( "ADD_LOCAL" );
     ctxt.register_action( "ADD_GLOBAL" );
-    ctxt.register_action( "EXECUTE" );
+    if( permit_execute_action ) {
+        ctxt.register_action( "EXECUTE" );
+    }
     ctxt.register_action( "QUIT" );
+    // String input actions
+    ctxt.register_action( "TEXT.LEFT" );
+    ctxt.register_action( "TEXT.RIGHT" );
+    ctxt.register_action( "TEXT.CLEAR" );
+    ctxt.register_action( "TEXT.BACKSPACE" );
+    ctxt.register_action( "TEXT.HOME" );
+    ctxt.register_action( "TEXT.END" );
+    ctxt.register_action( "TEXT.DELETE" );
+#if defined( TILES )
+    ctxt.register_action( "TEXT.PASTE" );
+#endif
+    ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
     ctxt.register_action( "ANY_INPUT" );
 
     if( category != "HELP_KEYBINDINGS" ) {
@@ -1336,6 +1371,12 @@ action_id input_context::display_menu( const bool permit_execute_action )
     size_t display_height = 0;
     size_t legwidth = 0;
     string_input_popup spopup;
+    // ignore hardcoded keys in string input popup
+    for( const std::pair<const fallback_action, int> &v : fallback_keys ) {
+        spopup.callbacks[v.second] = []() {
+            return true;
+        };
+    }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
         int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
         width = min( 80, maxwidth );
@@ -1346,9 +1387,11 @@ action_id input_context::display_menu( const bool permit_execute_action )
                                      point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
         // height of the area usable for display of keybindings, excludes headers & borders
         display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
+        const point filter_pos( 4, 8 );
         // width of the legend
-        legwidth = width - 4 - BORDER_SPACE;
-        spopup.window( w_help, point( 4, 8 ), legwidth )
+        legwidth = width - filter_pos.x * 2 - BORDER_SPACE;
+        // +1 for end-of-text cursor
+        spopup.window( w_help, filter_pos, filter_pos.x + legwidth + 1 )
         .max_length( legwidth )
         .context( ctxt );
         ui.position_from_window( w_help );
@@ -1381,9 +1424,15 @@ action_id input_context::display_menu( const bool permit_execute_action )
     legend += colorize( _( "Unbound keys" ), unbound_key ) + "\n";
     legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
     legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
-    legend += _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
+    legend += string_format(
+                  _( "Press %c to remove keybinding\nPress %c to add local keybinding\nPress %c to add global keybinding\n" ),
+                  fallback_keys.at( fallback_action::remove ),
+                  fallback_keys.at( fallback_action::add_local ),
+                  fallback_keys.at( fallback_action::add_global ) );
     if( permit_execute_action ) {
-        legend += _( "Press . to execute action\n" );
+        legend += string_format(
+                      _( "Press %c to execute action\n" ),
+                      fallback_keys.at( fallback_action::execute ) );
     }
 
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
@@ -1436,7 +1485,8 @@ action_id input_context::display_menu( const bool permit_execute_action )
             mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
-        // spopup.query_string() will call wnoutrefresh( w_help )
+        // spopup.query_string() will call wnoutrefresh( w_help ), and should
+        // be called last to position the cursor at the correct place in the curses build.
         spopup.text( filter_phrase );
         spopup.query_string( false, true );
     };
@@ -1452,28 +1502,81 @@ action_id input_context::display_menu( const bool permit_execute_action )
             action = ctxt.handle_input();
         }
         raw_input_char = ctxt.get_raw_input().get_first_input();
+        for( const std::pair<const fallback_action, int> &v : fallback_keys ) {
+            if( v.second == raw_input_char ) {
+                action.clear();
+            }
+        }
 
         filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
         if( scroll_offset > filtered_registered_actions.size() ) {
             scroll_offset = 0;
         }
 
-        if( filtered_registered_actions.empty() && action != "QUIT" ) {
-            continue;
-        }
-
         // In addition to the modifiable hotkeys, we also check for hardcoded
         // keys, e.g. '+', '-', '=', '.' in order to prevent the user from
         // entering an unrecoverable state.
-        if( action == "ADD_LOCAL" || raw_input_char == '+' ) {
-            status = s_add;
-        } else if( action == "ADD_GLOBAL" || raw_input_char == '=' ) {
-            status = s_add_global;
-        } else if( action == "REMOVE" || raw_input_char == '-' ) {
-            status = s_remove;
-        } else if( ( action == "EXECUTE" || raw_input_char == '.' ) && permit_execute_action ) {
-            status = s_execute;
-        } else if( action == "ANY_INPUT" ) {
+        if( action == "ADD_LOCAL"
+            || raw_input_char == fallback_keys.at( fallback_action::add_local ) ) {
+            if( !filtered_registered_actions.empty() ) {
+                status = s_add;
+            }
+        } else if( action == "ADD_GLOBAL"
+                   || raw_input_char == fallback_keys.at( fallback_action::add_global ) ) {
+            if( !filtered_registered_actions.empty() ) {
+                status = s_add_global;
+            }
+        } else if( action == "REMOVE"
+                   || raw_input_char == fallback_keys.at( fallback_action::remove ) ) {
+            if( !filtered_registered_actions.empty() ) {
+                status = s_remove;
+            }
+        } else if( ( action == "EXECUTE"
+                     || raw_input_char == fallback_keys.at( fallback_action::execute ) )
+                   && permit_execute_action ) {
+            if( !filtered_registered_actions.empty() ) {
+                status = s_execute;
+            }
+        } else if( action == "DOWN" ) {
+            if( !filtered_registered_actions.empty()
+                && filtered_registered_actions.size() > display_height
+                && scroll_offset < filtered_registered_actions.size() - display_height ) {
+                scroll_offset++;
+            }
+        } else if( action == "UP" ) {
+            if( !filtered_registered_actions.empty()
+                && scroll_offset > 0 ) {
+                scroll_offset--;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( filtered_registered_actions.empty() ) {
+                // do nothing
+            } else if( scroll_offset + display_height < filtered_registered_actions.size() ) {
+                scroll_offset += std::min( display_height, filtered_registered_actions.size() -
+                                           display_height - scroll_offset );
+            } else if( filtered_registered_actions.size() > display_height ) {
+                scroll_offset = 0;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( filtered_registered_actions.empty() ) {
+                // do nothing
+            } if( scroll_offset >= display_height ) {
+                scroll_offset -= display_height;
+            } else if( scroll_offset > 0 ) {
+                scroll_offset = 0;
+            } else if( filtered_registered_actions.size() > display_height ) {
+                scroll_offset = filtered_registered_actions.size() - display_height;
+            }
+        } else if( action == "QUIT" ) {
+            if( status != s_show ) {
+                status = s_show;
+            } else {
+                break;
+            }
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            // update available hotkeys in case they've changed
+            hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
+        } else if( !filtered_registered_actions.empty() && status != s_show ) {
             const size_t hotkey_index = hotkeys.find_first_of( raw_input_char );
             if( hotkey_index == std::string::npos ) {
                 continue;
@@ -1517,13 +1620,15 @@ action_id input_context::display_menu( const bool permit_execute_action )
                                               .query()
                                               .evt;
 
-                if( action_uses_input( action_id, new_event ) ) {
+                if( action_uses_input( action_id, new_event )
+                    // Allow adding keys already used globally to local bindings
+                    && ( status == s_add_global || is_local ) ) {
                     popup_getkey( _( "This key is already used for %s." ), name );
                     status = s_show;
                     continue;
                 }
 
-                const std::string conflicts = get_conflicts( new_event );
+                const std::string conflicts = get_conflicts( new_event, action_id );
                 const bool has_conflicts = !conflicts.empty();
                 bool resolve_conflicts = false;
 
@@ -1552,39 +1657,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 break;
             }
             status = s_show;
-        } else if( action == "DOWN" ) {
-            if( filtered_registered_actions.size() > display_height &&
-                scroll_offset < filtered_registered_actions.size() - display_height ) {
-                scroll_offset++;
-            }
-        } else if( action == "UP" ) {
-            if( scroll_offset > 0 ) {
-                scroll_offset--;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( scroll_offset + display_height < filtered_registered_actions.size() ) {
-                scroll_offset += std::min( display_height, filtered_registered_actions.size() -
-                                           display_height - scroll_offset );
-            } else if( filtered_registered_actions.size() > display_height ) {
-                scroll_offset = 0;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( scroll_offset >= display_height ) {
-                scroll_offset -= display_height;
-            } else if( scroll_offset > 0 ) {
-                scroll_offset = 0;
-            } else if( filtered_registered_actions.size() > display_height ) {
-                scroll_offset = filtered_registered_actions.size() - display_height;
-            }
-        } else if( action == "QUIT" ) {
-            if( status != s_show ) {
-                status = s_show;
-            } else {
-                break;
-            }
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            // update available hotkeys in case they've changed
-            hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
         }
     }
 

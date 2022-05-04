@@ -21,6 +21,7 @@
 #include "crafting.h"
 #include "cursesdef.h"
 #include "display.h"
+#include "flag.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -504,14 +505,7 @@ void recipe_result_info_cache::get_item_details( item &dummy_item,
     std::vector<iteminfo> temp_info;
     int total_quantity = quantity_per_batch * cached_batch_size;
     get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges );
-    if( uses_charges ) {
-        dummy_item.charges *= total_quantity;
-        dummy_item.info( true, temp_info, 1 );
-        //Reset charges so that multiple calls to this function don't produce unexpected results
-        dummy_item.charges /= total_quantity;
-    } else {
-        dummy_item.info( true, temp_info, total_quantity );
-    }
+    dummy_item.info( true, temp_info, total_quantity );
     details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
 }
 
@@ -531,6 +525,30 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
         info.emplace_back( "DESCRIPTION",
                            "<bold>" + classification + ": </bold>" + dummy_item.display_name( total_quantity ) +
                            ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) );
+    }
+    if( dummy_item.has_flag( flag_VARSIZE ) &&
+        dummy_item.has_flag( flag_FIT ) ) {
+        /* Resulting item can be (poor fit).  Check if it can actually be crafted as poor fit
+         * Currently, that means: can it have poorly-fitted components?*/
+        std::vector<std::vector<item_comp> > item_component_reqs =
+            last_recipe->simple_requirements().get_components();
+        bool has_varsize_components = false;
+        for( const std::vector<item_comp> &component_options : item_component_reqs ) {
+            for( const item_comp &component : component_options ) {
+                const itype *type = item::find_type( component.type );
+                if( type->has_flag( flag_VARSIZE ) ) {
+                    has_varsize_components = true;
+                    break;
+                }
+            }
+            if( has_varsize_components ) {
+                break;
+            }
+        }
+        if( has_varsize_components ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "<bold>Note:</bold> if crafted from poorly-fitting components, the resulting item may also be poorly-fitted." ) );
+        }
     }
 }
 
@@ -560,7 +578,22 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
 
     //Make a temporary item for the result.  NOTE: If the result would normally be in a container, this is not.
     item dummy_result = item( rec->result(), calendar::turn, item::default_charges_tag{} );
+    //Check if recipe result is a clothing item that can be properly fitted
+    if( dummy_result.has_flag( flag_VARSIZE ) && !dummy_result.has_flag( flag_FIT ) ) {
+        //Check if it can actually fit.  If so, list the fitted info
+        item::sizing general_fit = dummy_result.get_sizing( get_player_character() );
+        if( general_fit == item::sizing::small_sized_small_char ||
+            general_fit == item::sizing::human_sized_human_char ||
+            general_fit == item::sizing::big_sized_big_char ||
+            general_fit == item::sizing::ignore ) {
+            dummy_result.set_flag( flag_FIT );
+        }
+    }
     bool result_uses_charges = dummy_result.count_by_charges();
+    int const makes_amount = rec->makes_amount();
+    if( result_uses_charges ) {
+        dummy_result.charges = 1;
+    }
     item dummy_container;
 
     //Several terms are used repeatedly in headers/descriptions, list them here for a single entry/translation point
@@ -576,35 +609,34 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     if( rec->container_id() == itype_id::NULL_ID() && !rec->has_byproducts() ) {
         //We don't need a summary for a single item, just give us the details
         insert_iteminfo_block_separator( details_info, recipe_result_string );
-        get_item_details( dummy_result, 1, details_info, result_string, result_uses_charges );
+        get_item_details( dummy_result, makes_amount, details_info, result_string, result_uses_charges );
 
     } else { //We do need a summary
         //Top of the header
         insert_iteminfo_block_separator( info, recipe_output_string );
         //If the primary result uses charges and is in a container, need to calculate number of charges
-        if( result_uses_charges ) {
-            dummy_result.charges *= rec->makes_amount();
-        }
         //If it's in a container, focus on the contents
         if( rec->container_id() != itype_id::NULL_ID() ) {
             dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
             //Put together the summary in info:
-            get_item_header( dummy_result, 1, info, recipe_result_string, result_uses_charges );
-            get_item_header( dummy_container, 1, info, in_container_string,
+            get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
+            get_item_header( dummy_container, makes_amount, info, in_container_string,
                              false ); //Seems reasonable to assume a container won't use charges
             //Put together the details in details_info:
             insert_iteminfo_block_separator( details_info, recipe_result_string );
-            get_item_details( dummy_result, 1, details_info, recipe_result_string, result_uses_charges );
+            get_item_details( dummy_result, makes_amount, details_info, recipe_result_string,
+                              result_uses_charges );
 
             insert_iteminfo_block_separator( details_info, container_info_string );
-            get_item_details( dummy_container, 1, details_info, container_string, false );
+            get_item_details( dummy_container, makes_amount, details_info, container_string, false );
         } else { //If it's not in a container, just tell us about the item
             //Add a line to the summary:
-            get_item_header( dummy_result, 1, info, recipe_result_string, result_uses_charges );
+            get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
             //Add the details 'header'
             insert_iteminfo_block_separator( details_info, recipe_result_string );
             //Get the item details:
-            get_item_details( dummy_result, 1, details_info, recipe_result_string, result_uses_charges );
+            get_item_details( dummy_result, makes_amount, details_info, recipe_result_string,
+                              result_uses_charges );
         }
         if( rec->has_byproducts() ) {
             get_byproducts_data( rec, info, details_info );
@@ -1790,7 +1822,7 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
                 if( unread[cat] ) {
                     auto it = flagged_names.find( cat );
                     cata_assert( it != flagged_names.end() );
-                    ( *it ).second += "<color_green>*</color>";
+                    ( *it ).second += "<color_light_green>⁺</color>";
                 }
             }
             std::pair<std::vector<std::string>, size_t> fitted_cat_list;

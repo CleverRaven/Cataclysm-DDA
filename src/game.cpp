@@ -831,7 +831,6 @@ bool game::start_game()
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
-    m.build_lightmap( level, u.pos() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( u.global_omt_location().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
@@ -1349,50 +1348,20 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
     if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
-    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
-                            : input_context::allow_all_keys;
 
-    const int color_num = rng( 0, 6 );
-    std::string color;
-    switch( color_num ) {
-        case 0:
-            color = "light_red";
-            break;
-        case 1:
-            color = "red";
-            break;
-        case 2:
-            color = "green";
-            break;
-        case 3:
-            color = "light_green";
-            break;
-        case 4:
-            color = "blue";
-            break;
-        case 5:
-            color = "light_blue";
-            break;
-        case 6:
-            color = "yellow";
-            break;
-    }
-
-    std::string color_string = force_uc && !is_keycode_mode_supported()
-                               ? "<color_" + color + "> %s</color> (Case Sensitive)"
-                               : "<color_" + color + "> %s</color>";
+    static const std::vector<nc_color> color_list = {
+        c_light_red, c_red, c_green, c_light_green,
+        c_blue, c_light_blue, c_yellow
+    };
+    const nc_color color = random_entry( color_list );
 
     query_popup()
-    .preferred_keyboard_mode( keyboard_mode::keycode )
     .context( "YES_QUERY" )
-    .message(
-        pgettext( "yes_query",
-                  color_string.c_str() ),
-        text )
-    .option( "YES0", allow_key )
-    .option( "YES1", allow_key )
-    .option( "YES2", allow_key )
+    .message( "%s", text )
+    .option( "YES0" )
+    .option( "YES1" )
+    .option( "YES2" )
+    .default_color( color )
     .query();
 
     // ensure it never happens again during this activity - shouldn't be an issue anyway
@@ -2757,7 +2726,6 @@ bool game::load( const save_t &name )
     effect_on_conditions::load_existing_character( u );
     // recalculate light level for correctly resuming crafting and disassembly
     m.build_map_cache( m.get_abs_sub().z() );
-    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     return true;
 }
@@ -3355,7 +3323,6 @@ void game::draw()
     //temporary fix for updating visibility for minimap
     ter_view_p.z = ( u.pos() + u.view_offset ).z;
     m.build_map_cache( ter_view_p.z );
-    m.build_lightmap( ter_view_p.z, u.pos() );
     m.update_visibility_cache( ter_view_p.z );
 
     werase( w_terrain );
@@ -11448,7 +11415,6 @@ point game::update_map( int &x, int &y, bool z_level_changed )
         m.invalidate_map_cache( zlev );
     }
     m.build_map_cache( m.get_abs_sub().z() );
-    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     // Spawn monsters if appropriate
     // This call will generate new monsters in addition to loading, so it's placed after NPC loading

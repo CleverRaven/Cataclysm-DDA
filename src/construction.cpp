@@ -207,15 +207,24 @@ void standardize_construction_times( const int time )
     }
 }
 
-static std::vector<construction *> constructions_by_group( const construction_group_str_id &group )
+std::vector<construction *> constructions_by_group( const construction_group_str_id &group )
+{
+    return constructions_by_filter(
+    [&group]( construction const & it ) {
+        return it.group == group;
+    } );
+}
+
+std::vector<construction *>
+constructions_by_filter( std::function<bool( construction const & )> const &filter )
 {
     if( !finalized ) {
-        debugmsg( "constructions_by_group called before finalization" );
+        debugmsg( "constructions_by_filter called before finalization" );
         return {};
     }
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
-        if( constructions_a.group == group ) {
+        if( filter( constructions_a ) ) {
             result.push_back( &constructions_a );
         }
     }

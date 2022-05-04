@@ -65,7 +65,8 @@
       { "item": "bottle_opener", "prob": 95 },
       { "item": "pizza_cutter", "prob": 30 },
       { "item": "icecream_scoop", "prob": 25 },
-      { "item": "cheese_grater", "prob": 40 }
+      { "item": "cheese_grater", "prob": 40 },
+      { "item": "mortar_pestle", "prob": 50 }
     ]
   },
   {

@@ -529,6 +529,9 @@
       [ "bscabbard", 4 ],
       [ "sheath", 6 ],
       [ "bootsheath", 6 ],
+      [ "leg_sheath6", 1 ],
+      [ "gartersheath1", 5 ],
+      [ "gartersheath2", 2 ],
       [ "cestus", 1 ],
       [ "battleaxe", 1 ],
       [ "warhammer", 1 ],
@@ -665,6 +668,8 @@
       [ "inflatable_boat", 40 ],
       [ "hand_pump", 40 ],
       [ "throwing_knife", 14 ],
+      [ "leg_sheath6", 10 ],
+      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 5 },
       [ "throwing_axe", 4 ],
       [ "duffelbag", 25 ],
       [ "backpack_tactical_large", 10 ],
@@ -1042,7 +1047,8 @@
       { "item": "heroin", "prob": 5, "charges": [ 1, 4 ] },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
-      { "item": "purse", "prob": 15 }
+      { "item": "purse", "prob": 15 },
+      { "item": "armrig", "prob": 1 }
     ]
   },
   {
@@ -1553,6 +1559,8 @@
       [ "apron_leather", 10 ],
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 20 },
       { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
+      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 20 },
+      { "item": "waist_apron_short", "variant": "gothic_apron", "prob": 15 },
       [ "skirt_leather", 15 ],
       [ "nanoskirt", 15 ],
       [ "skirt", 10 ],
@@ -1598,6 +1606,7 @@
       [ "felinesuit", 15 ],
       [ "dragonsuit", 15 ],
       [ "bondage_suit", 10 ],
+      [ "bodysuit_lycra", 5 ],
       [ "leotard", 5 ],
       [ "unitard", 5 ],
       [ "zentai", 3 ],

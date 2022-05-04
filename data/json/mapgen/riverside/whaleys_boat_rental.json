@@ -39,7 +39,10 @@
     },
     "item": {
       "r": { "item": "flotation_vest", "chance": 75, "repeat": [ 1, 5 ] },
-      "X": { "item": "flotation_vest", "chance": 75, "repeat": [ 1, 5 ] }
+      "X": [
+        { "item": "flotation_vest", "chance": 75, "repeat": [ 1, 5 ] },
+        { "item": "swimming_kickboard", "chance": 25, "repeat": [ 1, 3 ] }
+      ]
     },
     "items": {
       "&": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
@@ -100,6 +103,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "boat_rental_palette" ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_vehicles": [
         { "chance": 66, "rotation": 90, "vehicle": "canoe", "x": 2, "y": [ 13, 14 ] },
         { "chance": 66, "rotation": 90, "vehicle": "canoe", "x": 4, "y": [ 13, 14 ] },
@@ -146,6 +150,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "boat_rental_palette" ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_vehicles": [
         { "chance": 66, "rotation": 90, "vehicle": "raft", "x": 10, "y": [ 11, 13 ] },
         { "chance": 66, "rotation": 90, "vehicle": "raft", "x": 12, "y": [ 11, 13 ] },
@@ -192,6 +197,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "boat_rental_palette" ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_vehicles": [
         { "chance": 66, "rotation": 270, "vehicle": "raft", "x": 5, "y": [ 9, 14 ] },
         { "chance": 66, "rotation": 270, "vehicle": "raft", "x": 8, "y": [ 9, 14 ] },
