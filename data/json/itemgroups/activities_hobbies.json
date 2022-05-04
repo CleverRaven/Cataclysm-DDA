@@ -74,6 +74,7 @@
       [ "manual_melee", 10 ],
       [ "foot_crank", 10 ],
       [ "flotation_vest", 10 ],
+      [ "swimming_kickboard", 5 ],
       [ "wetsuit", 10 ],
       [ "wetsuit_spring", 10 ],
       [ "wetsuit_gloves", 20 ],
@@ -297,6 +298,7 @@
       [ "cloak", 5 ],
       [ "sleeping_bag", 10 ],
       [ "flotation_vest", 7 ],
+      [ "swimming_kickboard", 2 ],
       [ "wetsuit", 10 ],
       [ "wetsuit_spring", 10 ],
       [ "wetsuit_gloves", 20 ],
@@ -504,6 +506,19 @@
       [ "scorecard", 10 ],
       [ "dnd_handbook", 5 ],
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "//": "Simpler games that would be found in communal areas, such as evac shelters.",
+    "id": "games_basic",
+    "items": [
+      { "item": "deck_of_cards", "prob": 100, "count": [ 1, 4 ] },
+      [ "chess", 50 ],
+      [ "checkers", 50 ],
+      [ "battleship", 30 ],
+      [ "monopoly", 10 ],
+      [ "clue", 10 ]
     ]
   }
 ]

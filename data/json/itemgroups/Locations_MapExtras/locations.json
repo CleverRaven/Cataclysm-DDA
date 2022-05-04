@@ -490,6 +490,7 @@
       [ "novel_erotic", 10 ],
       [ "bondage_suit", 1 ],
       [ "bondage_mask", 1 ],
+      [ "bodysuit_lycra", 1 ],
       [ "leather_cat_ears", 5 ],
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
@@ -507,6 +508,7 @@
       [ "witch_dress_short", 1 ],
       [ "maid_dress_short", 5 ],
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 5 },
+      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 5 },
       [ "apron_leather", 5 ]
     ]
   },
@@ -587,6 +589,7 @@
     "//": "For fishing themed locations",
     "items": [
       [ "flotation_vest", 50 ],
+      [ "swimming_kickboard", 5 ],
       [ "plastic_sheet", 10 ],
       [ "fishing_waders", 5 ],
       [ "wetsuit", 10 ],
@@ -1926,6 +1929,7 @@
       [ "clownshoes", 1 ],
       [ "bondage_suit", 5 ],
       [ "bondage_mask", 5 ],
+      [ "bodysuit_lycra", 5 ],
       [ "flask_hip", 5 ],
       [ "corset", 15 ],
       [ "corset_waist", 15 ],

@@ -56,9 +56,14 @@
       { "item": "santa_belt", "prob": 30 },
       { "item": "apron_leather", "prob": 25 },
       { "item": "apron_cotton", "prob": 5 },
+      { "item": "waist_apron_long", "prob": 5 },
+      { "item": "waist_apron_short", "prob": 5 },
       { "item": "apron_cotton", "variant": "camo_apron_cotton", "prob": 10 },
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 20 },
       { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
+      { "item": "waist_apron_short", "variant": "camo_apron_cotton", "prob": 5 },
+      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 10 },
+      { "item": "waist_apron_short", "variant": "gothic_apron", "prob": 7 },
       { "item": "leg_bag", "prob": 10 },
       { "item": "leg_bag", "variant": "steampunk_leg_bag", "prob": 15 },
       { "item": "leg_bag", "variant": "skull_leg_bag", "prob": 15 },
@@ -301,6 +306,7 @@
       { "item": "flag_jumpsuit", "prob": 25 },
       { "item": "jumpsuit_skeleton", "prob": 25 },
       { "item": "mummy_jumpsuit", "prob": 25 },
+      { "item": "bodysuit_lycra", "prob": 25 },
       { "item": "suit", "prob": 10 },
       { "item": "tux", "prob": 10 },
       { "item": "wolfsuit", "prob": 10 },
@@ -356,6 +362,7 @@
     "entries": [
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 40 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 40 },
+      { "item": "bodysuit_lycra", "variant": "flag_suit", "prob": 10 },
       { "item": "flag_swimsuit", "prob": 10 }
     ]
   },

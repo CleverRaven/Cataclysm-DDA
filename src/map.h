@@ -1838,6 +1838,7 @@ class map
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
 
+
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
@@ -2095,6 +2096,7 @@ class map
             const tripoint &from, const tripoint &to ) const;
         tripoint_range<tripoint> points_in_radius(
             const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+
         /**
          * Yields a range of all points that are contained in the map and have the z-level of
          * this map (@ref abs_sub).

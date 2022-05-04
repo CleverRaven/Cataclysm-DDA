@@ -1443,6 +1443,7 @@
       [ "wizard_cane", 1 ],
       [ "scythe_fake", 2 ],
       [ "scythe_toy", 2 ],
+      [ "bodysuit_lycra", 5 ],
       { "group": "independence_all_clothing", "prob": 100, "event": "independence_day" },
       { "group": "christmas_all_clothing", "prob": 100, "event": "christmas" },
       { "group": "costume_all_clothing", "prob": 100, "event": "halloween" }
@@ -1983,6 +1984,8 @@
       { "item": "dive_bag", "prob": 5 },
       { "item": "jedi_cloak", "prob": 1 },
       { "item": "apron_cotton", "prob": 30 },
+      { "item": "waist_apron_long", "prob": 10 },
+      { "item": "waist_apron_short", "prob": 5 },
       { "item": "apron_leather", "prob": 5 },
       { "item": "apron_plastic", "prob": 5 },
       { "item": "clown_suit", "prob": 1 },
@@ -2098,6 +2101,7 @@
       { "item": "flag_jumpsuit", "prob": 2 },
       { "item": "jumpsuit_skeleton", "prob": 1 },
       { "item": "mummy_jumpsuit", "prob": 1 },
+      { "item": "bodysuit_lycra", "prob": 5 },
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 2 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 2 },
       { "item": "flag_swimsuit", "prob": 2 }
@@ -2132,6 +2136,7 @@
       [ "dive_bag", 35 ],
       [ "wicker_backpack", 10 ],
       [ "flotation_vest", 30 ],
+      [ "swimming_kickboard", 5 ],
       [ "diving_watch", 5 ],
       [ "wristwatch", 5 ],
       [ "small_scuba_tank", 5 ],
@@ -2210,7 +2215,8 @@
       [ "wetsuit", 85 ],
       [ "wetsuit_spring", 10 ],
       [ "flag_swimsuit", 5 ],
-      { "item": "flag_swimsuit", "prob": 60, "event": "independence_day" }
+      { "item": "flag_swimsuit", "prob": 60, "event": "independence_day" },
+      { "item": "bodysuit_lycra", "variant": "flag_suit", "prob": 10, "event": "independence_day" }
     ]
   },
   {
@@ -2233,6 +2239,63 @@
       [ "fish_sandwich", 2 ],
       [ "mango", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_head",
+    "//": "Only diving appropriate headgear, not including masks or glasses.",
+    "items": [ [ "wetsuit_hood", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_masks",
+    "//": "Only diving appropriate masks, it needs to let the user breath underwater.",
+    "items": [ { "item": "rebreather", "prob": 100, "charges": [ 0, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_glasses",
+    "//": "Only diving appropriate glasses, it needs to let the user see underwater.",
+    "items": [ [ "goggles_swim", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_suits",
+    "//": "Only diving appropriate (even if not optimal) suits of torso + pants.",
+    "items": [
+      { "group": "swimmer_wetsuit", "prob": 95 },
+      { "distribution": [ { "group": "diving_torso" }, { "group": "diving_pants" } ], "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_torso",
+    "//": "Only diving appropriate torso clothing.  To be expanded later with rash guards.",
+    "items": [ [ "bikini_top", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_pants",
+    "//": "Only diving appropriate legs clothing.  To be expanded later with rash guards.",
+    "items": [ [ "bikini_bottom", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_gloves",
+    "//": "Only diving appropriate gloves.",
+    "items": [ [ "wetsuit_gloves", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_shoes",
+    "//": "Only diving appropriate footgear.",
+    "items": [ [ "swim_fins", 50 ], [ "wetsuit_booties", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_accessories",
+    "//": "Only diving appropriate accesories.",
+    "items": [ [ "dive_bag", 25 ], [ "diving_watch", 25 ], [ "small_scuba_tank", 25 ], [ "scuba_tank", 25 ] ]
   },
   {
     "type": "item_group",
@@ -3120,6 +3183,7 @@
       [ "flag_jumpsuit", 2 ],
       [ "jumpsuit_skeleton", 1 ],
       [ "mummy_jumpsuit", 1 ],
+      [ "bodysuit_lycra", 3 ],
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 2 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 2 },
       [ "flag_swimsuit", 2 ]
@@ -3580,6 +3644,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "bondage_suit", "prob": 10 },
+      { "item": "bodysuit_lycra", "prob": 10 },
       { "item": "dinosuit", "prob": 5 },
       { "item": "yukata", "prob": 20 },
       { "item": "leotard", "prob": 40 },
@@ -3595,7 +3660,8 @@
       { "item": "wetsuit", "prob": 2 },
       { "item": "union_suit", "prob": 40 },
       { "item": "wetsuit_spring", "prob": 2 },
-      { "item": "flag_jumpsuit", "prob": 70, "event": "independence_day" },
+      { "item": "flag_jumpsuit", "prob": 50, "event": "independence_day" },
+      { "item": "bodysuit_lycra", "variant": "flag_suit", "prob": 50, "event": "independence_day" },
       { "group": "costume_suits", "prob": 70, "event": "halloween" }
     ]
   },
