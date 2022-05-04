@@ -3,7 +3,7 @@ if (NOT $ENV{DevEnvDir})
 endif()
 set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe CACHE PATH "")
 set(CMAKE_CXX_FLAGS_INIT "\
-/MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy \
+/MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
 /wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
 /TP /Zc:forScope /Zc:inline /Zc:wchar_t"
 )
@@ -16,6 +16,7 @@ set(CMAKE_CXX_FLAGS_INIT "\
 # /Gd     # __cdecl
 # /GS-    # disable buffer security checks
 # /Gy     # Enable Function-Level Linking
+# /GF     # Eliminate Duplicate Strings
 # /wd4068 # unknown pragma
 # /wd4146 # negate unsigned
 # /wd4819 # codepage?
