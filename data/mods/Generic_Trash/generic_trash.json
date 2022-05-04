@@ -64,10 +64,10 @@
     "description": "Ceramic cups, plates and bowls.  Whatever it is, you can brake it into a sharp shard.",
     "material": [ "ceramic" ],
     "weight": "375 g",
-    "volume": "375 ml",
+    "volume": "625 ml",
     "pocket_data": [
       {
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "500  ml",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
