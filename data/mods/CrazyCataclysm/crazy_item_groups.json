@@ -42,12 +42,12 @@
   },
   {
     "id": "thrift_books",
-    "type": "item_group",    
+    "type": "item_group",
     "extend": { "items": [ [ "vormithrax_anthology", 2 ] ] }
   },
   {
     "id": "textbooks_school",
-    "type": "item_group",    
+    "type": "item_group",
     "extend": { "items": [ [ "vormithrax_anthology", 2 ] ] }
   }
 ]
