@@ -3,16 +3,43 @@
     "id": "generic_plastic",
     "name": { "str_sp": "plastic trash" },
     "type": "GENERIC",
-    "description": "Plastic straws, plates, toys, etc.  Whatever it is, you can smelt it into plastic chunks",
+    "description": "Plastic straws, plates, toys, etc.  Whatever it is, you can smelt it into plastic chunks.",
     "symbol": "+",
     "color": "blue",
     "price": 50,
     "price_postapoc": 0,
-    "weight": "20 g",
-    "volume": "10 ml",
+    "weight": "10 g",
+    "volume": "50 ml",
     "material": [ "plastic" ],
     "bashing": 1,
     "to_hit": -1
+  },
+  {
+    "id": "generic_plastic_dish",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic dish", "str_pl": "plastic dishes" },
+    "description": "Plastic plates, cups and bowls.  Holds 250 ml of liquid.  You can smelt it into plastic chunks.",
+    "weight": "25 g",
+    "volume": "262 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "sealed_data": { "spoil_multiplier": 0 },
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "generic_steel",

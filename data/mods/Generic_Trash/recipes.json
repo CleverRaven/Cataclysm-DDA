@@ -19,7 +19,8 @@
         [ "bag_zipper", 25 ],
         [ "bag_plastic", 10 ],
         [ "gasket_plastic", 1 ],
-        [ "generic_plastic", 5 ]
+        [ "generic_plastic", 5 ],
+        [ "generic_plastic_dish", 2 ]
       ]
     ]
   },

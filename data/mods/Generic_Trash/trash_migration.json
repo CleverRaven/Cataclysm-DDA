@@ -6,13 +6,7 @@
       "plastic_spoon_kids",
       "plastic_knife",
       "plastic_straw",
-      "bowl_plastic",
-      "plastic_plate",
-      "plastic_bowl_kids",
       "plastic_six_dice",
-      "cup_plastic",
-      "tumbler_plastic",
-      "sippy_cup",
       "soap_holder",
       "toothbrush_plain",
       "toothbrush_dirty",
@@ -33,6 +27,18 @@
     ],
     "type": "MIGRATION",
     "replace": "generic_plastic"
+  },
+  {
+    "id": [
+      "bowl_plastic",
+      "plastic_plate",
+      "plastic_bowl_kids",
+      "cup_plastic",
+      "sippy_cup",
+      "tumbler_plastic"
+    ],
+    "type": "MIGRATION",
+    "replace": "generic_plastic_dish"
   },
   {
     "id": [
