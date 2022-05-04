@@ -690,7 +690,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 11 ], [ "fabric_standard_nostretch", 13 ], [ "fastener_small", 1 ] ]
+    "using": [ [ "sewing_standard", 9 ], [ "fabric_standard_nostretch", 7 ], [ "fastener_small", 1 ] ]
   },
   {
     "result": "k_gambeson_sleeve",
