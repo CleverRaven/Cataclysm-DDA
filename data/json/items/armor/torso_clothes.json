@@ -1614,6 +1614,18 @@
         "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
         "description": "A hooded child stands behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semi circle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
         "weight": 1
+      },
+      {
+        "id": "baseball_fan_tshirt",
+        "name": { "str": "baseball t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a local baseball team printed on its front and back.",
+        "weight": 1
+      },
+      {
+        "id": "football_fan_tshirt",
+        "name": { "str": "football t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a local football team printed on its front and back.",
+        "weight": 1
       }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
