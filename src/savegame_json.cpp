@@ -2682,6 +2682,7 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "comps_used", comps_used );
     jsout.member( "next_failure_point", next_failure_point );
     jsout.member( "tools_to_continue", tools_to_continue );
+    jsout.member( "batch_size", batch_size );
     jsout.member( "cached_tool_selections", cached_tool_selections );
     jsout.end_object();
 }
@@ -2699,6 +2700,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
     obj.read( "comps_used", comps_used );
     next_failure_point = obj.get_int( "next_failure_point", -1 );
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
+    batch_size = obj.get_int( "batch_size", -1 );
     obj.read( "cached_tool_selections", cached_tool_selections );
 }
 
@@ -3009,6 +3011,12 @@ void item::deserialize( const JsonObject &data )
                 contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
             }
         }
+    }
+
+    // FIXME: batch_size migration from charges - remove after 0.G
+    if( is_craft() and craft_data_->batch_size == -1 ) {
+        craft_data_->batch_size = clamp( charges, 1, charges );
+        charges = 0;
     }
 
     if( !has_itype_variant( false ) && can_have_itype_variant() ) {
