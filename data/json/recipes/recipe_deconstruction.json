@@ -5129,7 +5129,7 @@
     "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 1 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 13 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 7 ] ], [ [ "cable", 4 ] ] ]
+    "components": [ [ [ "small_storage_battery", 9 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 7 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "result": "storage_battery",
@@ -5140,7 +5140,7 @@
     "time": "1 h 30 m",
     "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 79 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
+    "components": [ [ [ "small_storage_battery", 49 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
   },
   {
     "result": "electric_blanket",
