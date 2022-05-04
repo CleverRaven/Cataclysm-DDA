@@ -1023,7 +1023,7 @@
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS", "CONSTRUCTED_SWORDS" ]
   },
   {
     "type": "martial_art",

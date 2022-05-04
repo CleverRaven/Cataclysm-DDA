@@ -350,11 +350,15 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_breacher",
       "remington_870_express",
       "streetsweeper"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"
+  },
+  {
+    "id": [ "remington_870_breacher" ],
+    "type": "MIGRATION",
+    "replace": "shot_short_pump"
   }
 ]

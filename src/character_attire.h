@@ -3,6 +3,7 @@
 #define CATA_SRC_CHARACTER_ATTIRE_H
 
 #include "advanced_inv_listitem.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "color.h"
 #include "item.h"
@@ -159,6 +160,8 @@ class outfit
                           item::cover_type cover_type = item::cover_type::COVER_DEFAULT ) const;
         void bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
                                 const std::vector<bodypart_id> &all_body_parts ) const;
+        void prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
+                                   const std::set<sub_bodypart_id> &sub_parts, const Character &person ) const;
         // concatenates to @overlay_ids
         void get_overlay_ids( std::vector<std::pair<std::string, std::string>> &overlay_ids ) const;
         body_part_set exclusive_flag_coverage( body_part_set bps, const flag_id &flag ) const;

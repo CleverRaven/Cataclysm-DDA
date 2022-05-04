@@ -310,11 +310,7 @@ class hacksaw_activity_actor : public activity_actor
         item_location tool;
 
         bool can_resume_with_internal( const activity_actor &other,
-                                       const Character &/*who*/ ) const override {
-            const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
-                                                  ( other );
-            return actor.target == target;
-        }
+                                       const Character &/*who*/ ) const override;
 };
 
 class hacking_activity_actor : public activity_actor

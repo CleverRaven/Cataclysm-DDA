@@ -831,7 +831,6 @@ bool game::start_game()
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
-    m.build_lightmap( level, u.pos() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( u.global_omt_location().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
@@ -1276,8 +1275,8 @@ static bool cancel_auto_move( Character &you, const std::string &text )
         return false;
     }
     g->invalidate_main_ui_adaptor();
-    if( query_yn( _( "%s Cancel auto-move?" ), text ) )  {
-        add_msg( m_warning, _( "%s Auto-move canceled." ), text );
+    if( query_yn( _( "%s Cancel auto move?" ), text ) )  {
+        add_msg( m_warning, _( "%s Auto move canceled." ), text );
         if( !you.omt_path.empty() ) {
             you.omt_path.clear();
         }
@@ -1349,50 +1348,20 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
     if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
-    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
-                            : input_context::allow_all_keys;
 
-    const int color_num = rng( 0, 6 );
-    std::string color;
-    switch( color_num ) {
-        case 0:
-            color = "light_red";
-            break;
-        case 1:
-            color = "red";
-            break;
-        case 2:
-            color = "green";
-            break;
-        case 3:
-            color = "light_green";
-            break;
-        case 4:
-            color = "blue";
-            break;
-        case 5:
-            color = "light_blue";
-            break;
-        case 6:
-            color = "yellow";
-            break;
-    }
-
-    std::string color_string = force_uc && !is_keycode_mode_supported()
-                               ? "<color_" + color + "> %s</color> (Case Sensitive)"
-                               : "<color_" + color + "> %s</color>";
+    static const std::vector<nc_color> color_list = {
+        c_light_red, c_red, c_green, c_light_green,
+        c_blue, c_light_blue, c_yellow
+    };
+    const nc_color color = random_entry( color_list );
 
     query_popup()
-    .preferred_keyboard_mode( keyboard_mode::keycode )
     .context( "YES_QUERY" )
-    .message(
-        pgettext( "yes_query",
-                  color_string.c_str() ),
-        text )
-    .option( "YES0", allow_key )
-    .option( "YES1", allow_key )
-    .option( "YES2", allow_key )
+    .message( "%s", text )
+    .option( "YES0" )
+    .option( "YES1" )
+    .option( "YES2" )
+    .default_color( color )
     .query();
 
     // ensure it never happens again during this activity - shouldn't be an issue anyway
@@ -1898,7 +1867,7 @@ int game::inventory_item_menu( item_location locThisItem,
             if( oThisItem.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
-            addentry( 'v', pgettext( "action", "pocket autopickup settings" ), hint_rating::good );
+            addentry( 'v', pgettext( "action", "pocket auto pickup settings" ), hint_rating::good );
         }
 
         if( oThisItem.is_favorite ) {
@@ -1913,9 +1882,9 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
 
         if( bHPR ) {
-            addentry( '-', _( "Autopickup" ), hint_rating::iffy );
+            addentry( '-', _( "Auto pickup" ), hint_rating::iffy );
         } else {
-            addentry( '+', _( "Autopickup" ), hint_rating::good );
+            addentry( '+', _( "Auto pickup" ), hint_rating::good );
         }
 
         int iScrollPos = 0;
@@ -2254,17 +2223,17 @@ input_context get_default_mode_input_context()
     input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     // Because those keys move the character, they don't pan, as their original name says
     ctxt.set_iso( true );
-    ctxt.register_action( "UP", to_translation( "Move North" ) );
-    ctxt.register_action( "RIGHTUP", to_translation( "Move Northeast" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Move East" ) );
-    ctxt.register_action( "RIGHTDOWN", to_translation( "Move Southeast" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move South" ) );
-    ctxt.register_action( "LEFTDOWN", to_translation( "Move Southwest" ) );
-    ctxt.register_action( "LEFT", to_translation( "Move West" ) );
-    ctxt.register_action( "LEFTUP", to_translation( "Move Northwest" ) );
+    ctxt.register_action( "UP", to_translation( "Move north" ) );
+    ctxt.register_action( "RIGHTUP", to_translation( "Move northeast" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Move east" ) );
+    ctxt.register_action( "RIGHTDOWN", to_translation( "Move southeast" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move south" ) );
+    ctxt.register_action( "LEFTDOWN", to_translation( "Move southwest" ) );
+    ctxt.register_action( "LEFT", to_translation( "Move west" ) );
+    ctxt.register_action( "LEFTUP", to_translation( "Move northwest" ) );
     ctxt.register_action( "pause" );
-    ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend Stairs" ) );
-    ctxt.register_action( "LEVEL_UP", to_translation( "Ascend Stairs" ) );
+    ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend stairs" ) );
+    ctxt.register_action( "LEVEL_UP", to_translation( "Ascend stairs" ) );
     ctxt.register_action( "toggle_map_memory" );
     ctxt.register_action( "center" );
     ctxt.register_action( "shift_n" );
@@ -2476,9 +2445,9 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
     destination_preview.clear();
 
     if( cleared_destination ) {
-        // Produce no-op if auto-move had just been cleared on this action
+        // Produce no-op if auto move had just been cleared on this action
         // e.g. from a previous single left mouse click. This has the effect
-        // of right-click canceling an auto-move before it is initiated.
+        // of right-click canceling an auto move before it is initiated.
         return false;
     }
 
@@ -2757,7 +2726,6 @@ bool game::load( const save_t &name )
     effect_on_conditions::load_existing_character( u );
     // recalculate light level for correctly resuming crafting and disassembly
     m.build_map_cache( m.get_abs_sub().z() );
-    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     return true;
 }
@@ -3355,7 +3323,6 @@ void game::draw()
     //temporary fix for updating visibility for minimap
     ter_view_p.z = ( u.pos() + u.view_offset ).z;
     m.build_map_cache( ter_view_p.z );
-    m.build_lightmap( ter_view_p.z, u.pos() );
     m.update_visibility_cache( ter_view_p.z );
 
     werase( w_terrain );
@@ -3524,7 +3491,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     }
 
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
-        // Draw auto-move preview trail
+        // Draw auto move preview trail
         const tripoint &final_destination = destination_preview.back();
         tripoint line_center = u.pos() + u.view_offset;
         draw_line( final_destination, line_center, destination_preview, true );
@@ -4163,7 +4130,7 @@ void game::mon_info_update( )
             set_safe_mode( SAFE_MODE_STOP );
         }
     } else if( calendar::turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
-               newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
+               newseen == 0 ) { // Auto safe mode, but only if it's a new turn
         turnssincelastmon += calendar::turn - previous_turn;
         time_duration auto_safe_mode =
             time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
@@ -6881,7 +6848,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             werase( w_info );
             draw_border( w_info );
 
-            center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look Around</color> >" ) ) );
+            center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look around</color> >" ) ) );
 
 
             creature_tracker &creatures = get_creature_tracker();
@@ -8164,9 +8131,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
                         std::string sSafemode;
                         if( get_safemode().has_rule( monName, Creature::Attitude::ANY ) ) {
-                            sSafemode = _( "<R>emove from safemode Blacklist" );
+                            sSafemode = _( "<R>emove from safe mode blacklist" );
                         } else {
-                            sSafemode = _( "<A>dd to safemode Blacklist" );
+                            sSafemode = _( "<A>dd to safe mode blacklist" );
                         }
 
                         shortcut_print( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ),
@@ -10039,7 +10006,7 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
 
-    //Autopickup
+    // Auto pickup
     if( !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
@@ -11448,7 +11415,6 @@ point game::update_map( int &x, int &y, bool z_level_changed )
         m.invalidate_map_cache( zlev );
     }
     m.build_map_cache( m.get_abs_sub().z() );
-    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     // Spawn monsters if appropriate
     // This call will generate new monsters in addition to loading, so it's placed after NPC loading

@@ -74,6 +74,7 @@
       [ "manual_melee", 10 ],
       [ "foot_crank", 10 ],
       [ "flotation_vest", 10 ],
+      [ "swimming_kickboard", 5 ],
       [ "wetsuit", 10 ],
       [ "wetsuit_spring", 10 ],
       [ "wetsuit_gloves", 20 ],
@@ -148,8 +149,11 @@
       { "item": "can_sealer", "prob": 5 },
       { "item": "multitool", "prob": 12 },
       { "item": "throwing_knife", "prob": 7 },
+      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 3 },
       { "item": "slingpack", "prob": 18 },
       { "item": "armrig", "prob": 3 },
+      { "item": "leg_small_bag", "prob": 3 },
+      { "item": "leg_bag", "prob": 3 },
       { "item": "manual_cutting", "prob": 12 },
       { "item": "manual_launcher", "prob": 1 },
       { "item": "recipe_bullets", "prob": 8 },
@@ -218,6 +222,8 @@
       [ "bigback", 3 ],
       [ "travelpack", 6 ],
       [ "armrig", 3 ],
+      [ "leg_small_bag", 3 ],
+      [ "leg_bag", 3 ],
       [ "cowboy_hat", 4 ],
       [ "10gal_hat", 4 ],
       { "item": "bb", "prob": 8, "charges": [ 1, 500 ] },
@@ -292,6 +298,7 @@
       [ "cloak", 5 ],
       [ "sleeping_bag", 10 ],
       [ "flotation_vest", 7 ],
+      [ "swimming_kickboard", 2 ],
       [ "wetsuit", 10 ],
       [ "wetsuit_spring", 10 ],
       [ "wetsuit_gloves", 20 ],
@@ -332,6 +339,7 @@
       [ "razor_blade", 9 ],
       [ "sheath", 5 ],
       [ "bootsheath", 3 ],
+      [ "leg_sheath6", 1 ],
       [ "survnote", 1 ],
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
@@ -387,6 +395,8 @@
       [ "machete", 5 ],
       [ "machete_gimmick", 5 ],
       [ "armrig", 3 ],
+      [ "leg_small_bag", 3 ],
+      [ "leg_bag", 3 ],
       [ "cowboy_hat", 4 ],
       [ "10gal_hat", 4 ],
       [ "mag_survival", 40 ],
@@ -496,6 +506,19 @@
       [ "scorecard", 10 ],
       [ "dnd_handbook", 5 ],
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "//": "Simpler games that would be found in communal areas, such as evac shelters.",
+    "id": "games_basic",
+    "items": [
+      { "item": "deck_of_cards", "prob": 100, "count": [ 1, 4 ] },
+      [ "chess", 50 ],
+      [ "checkers", 50 ],
+      [ "battleship", 30 ],
+      [ "monopoly", 10 ],
+      [ "clue", 10 ]
     ]
   }
 ]

@@ -554,7 +554,7 @@
     "id": "xs_gambeson_sleeve",
     "type": "ARMOR",
     "name": { "str": "pair of XS gambeson sleeves", "str_pl": "pairs of XS gambeson sleeves" },
-    "description": "A pair of extra large sleeves made from heavy quilted fabric.",
+    "description": "A pair of extra small sleeves made from heavy quilted fabric.",
     "copy-from": "gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

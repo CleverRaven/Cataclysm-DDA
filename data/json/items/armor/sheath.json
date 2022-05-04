@@ -58,6 +58,174 @@
     "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
+    "id": "leg_sheath6",
+    "type": "ARMOR",
+    "name": { "str": "throwing knives leg sheath" },
+    "description": "A nylon strap knife sheath worn on the thigh, made to hold 6 very small knives at hand.  Commonly used to store throwing knives.  Activate to sheathe/draw a weapon.",
+    "weight": "250 g",
+    "volume": "1000 ml",
+    "price": 5200,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "dark_gray",
+    "sided": true,
+    "material_thickness": 0.3,
+    "pocket_data": [
+      {
+        "magazine_well": "50 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "10 cm"
+      },
+      {
+        "magazine_well": "50 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "10 cm"
+      },
+      {
+        "magazine_well": "50 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "10 cm"
+      },
+      {
+        "magazine_well": "50 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "10 cm"
+      },
+      {
+        "magazine_well": "50 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "10 cm"
+      },
+      {
+        "magazine_well": "50 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "10 cm"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY", "NONCONDUCTIVE" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 50,
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "gartersheath1",
+    "type": "ARMOR",
+    "name": { "str": "garter sheath" },
+    "description": "A small concealed garter knife sheath worn on the thigh.  Commonly used by assassins under a skirt or dress.  Activate to sheathe/draw a weapon.",
+    "weight": "160 g",
+    "volume": "500 ml",
+    "price": 5200,
+    "price_postapoc": 250,
+    "material": [ "nylon", "plastic" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "dark_gray",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "magazine_well": "200 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY", "NONCONDUCTIVE" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 5,
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.3,
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "gartersheath2",
+    "type": "ARMOR",
+    "name": { "str": "garter double sheath" },
+    "description": "A small concealed garter double knife sheath worn on the thigh.  Commonly used by overly cautious assassins under a skirt or dress.  Activate to sheathe/draw a weapon.",
+    "weight": "320 g",
+    "volume": "1000 ml",
+    "price": 5200,
+    "price_postapoc": 250,
+    "material": [ "nylon", "plastic" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "dark_gray",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "magazine_well": "200 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "30 cm"
+      },
+      {
+        "magazine_well": "200 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY", "NONCONDUCTIVE" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 10,
+        "encumbrance": 6,
+        "volume_encumber_modifier": 0.3,
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
     "id": "bootsheath",
     "type": "ARMOR",
     "name": { "str": "ankle sheath" },

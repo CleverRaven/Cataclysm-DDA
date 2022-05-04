@@ -60,11 +60,7 @@ enum class butcher_type : int {
 enum class do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
-    CAN_DO_PREREQ,          // for constructions - can't build the main construction, but can build the pre-req
-    CAN_DO_PREREQ_2,        // Can do the second pre-req deep below the desired one.
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
-    NO_COMPONENTS_PREREQ,   // need components to build the pre-requisite for the actual desired construction
-    NO_COMPONENTS_PREREQ_2, // need components to the second pre-req deep.
     DONT_HAVE_SKILL,        // don't have the required skill
     NO_ZONE,                // There is no required zone anymore
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
@@ -220,7 +216,6 @@ void gunmod_add_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void jackhammer_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
-void mind_splicer_finish( player_activity *act, Character *you );
 void operation_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void plant_seed_finish( player_activity *act, Character *you );
