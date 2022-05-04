@@ -264,11 +264,9 @@ void Character::update_body( const time_point &from, const time_point &to )
                 vitamin_mod( v.first, qty );
             }
         }
-        if( calendar::once_every( 1_days ) && v.first->type() == vitamin_type::VITAMIN ) {
-            const double multiplier = rate / 1_days;
-            const int max_value = v.second.max();
-            const int max_rda = std::lround( max_value * multiplier );
-            if( vitamin_get( v.first ) >= 0.95 * max_rda ) {
+        if( calendar::once_every( 12_hours ) && v.first->type() == vitamin_type::VITAMIN ) {
+            const double rda = 1_days / rate;
+            if( vitamin_get( v.first ) > 0.90 * rda && vitamin_get( v.first ) < 1.50 * rda ) {
                 mod_healthy_mod( 1, 200 );
             }
         }
