@@ -124,6 +124,6 @@
   {
     "id": [ "file", "character_sheet", "flyer", "napkin", "toilet_paper", "scorecard" ],
     "type": "MIGRATION",
-    "replace": "paper"
+    "replace": "generic_paper"
   }
 ]
