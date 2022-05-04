@@ -8,7 +8,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "yellow",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_nest_acrocanthosaurus",
