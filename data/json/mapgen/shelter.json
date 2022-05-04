@@ -580,10 +580,12 @@
         "    |..........|>.l|4   ",
         "    |----:--+-:----|    "
       ],
-      "palettes": [ "shelter" ],
+      "palettes": [ "shelter" ],      
+      "place_monster": [
+        { "monster": "mon_feral_human_axe", "x": 10, "y": 7 }
+      ],
       "place_monsters": [ 
-        { "monster": "GROUP_INFESTED_SPAWN", "x": [6 , 18], "y": [8, 16], "density": 0.8 },
-        { "monster": "GROUP_VANILLA", "x": [4 , 20], "y": [4, 20], "density": 0.2 }
+        { "monster": "GROUP_VANILLA", "x": [4 , 20], "y": [4, 20], "density": 0.8 }
       ]
     }
   },
@@ -671,8 +673,10 @@
       ],
       "palettes": [ "shelter" ],
       "place_monsters": [ 
-        { "monster": "GROUP_INFESTED_SPAWN", "x": [6 , 18], "y": [8, 16], "density": 0.8 },
-        { "monster": "GROUP_VANILLA", "x": [4 , 20], "y": [4, 20], "density": 0.2 }
+        { "monster": "GROUP_VANILLA", "x": [4 , 20], "y": [4, 20], "density": 0.8 }
+      ],
+      "place_monster": [
+        { "monster": "mon_feral_human_axe", "x": 7, "y": 8 }
       ],
       "computers": {
         "6": {
