@@ -2757,6 +2757,7 @@
     "description": "You were given a target, a mission, but killing your mark seems to have become much more difficult now.  Your employer cut contact with you and now you have to make do with what you have.",
     "points": 2,
     "skills": [ { "level": 3, "name": "melee" }, { "level": 2, "name": "stabbing" } ],
+    "traits": [ "PROF_ASSASSIN_CONVICT" ],
     "items": {
       "both": {
         "items": [ "striped_shirt", "striped_pants", "sneakers", "socks" ],
@@ -2767,7 +2768,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
