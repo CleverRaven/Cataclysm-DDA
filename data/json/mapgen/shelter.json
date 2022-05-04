@@ -550,7 +550,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "Infested spawn for Compromized Shelter scenario - copy of shelter_1. Windows on right wall near basement door removed for scenario balance, sorry.",
+    "//" : "Infested spawn for Compromized Shelter scenario - copy of shelter_1. Window on right wall near basement door removed for scenario balance, sorry.",
     "om_terrain": [ "shelter_3" ],
     "object": {
       "fill_ter": "t_floor",
@@ -568,7 +568,7 @@
         "    |...........|:-|    ",
         "    |.bbbbb.....c.6|    ",
         "    |...........c..|    ",
-        "    :.bbbbb.....c..|    ",
+        "    :.bbbbb.....c..:    ",
         "    |...........cc.|    ",
         "    |.bbbbb........|    ",
         "    |.......l|||...|    ",
@@ -581,7 +581,10 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 1 } ]
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [6 , 18], "y": [6, 18], "density": 1 } ],
+      "place_monster": [
+        { "monster": [ "mon_feral_human_axe" ], "x": 10, "y": 10, "chance": 100 }
+      ]
     }
   },
   {
@@ -667,7 +670,10 @@
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter" ],
-      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 1 } ],
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [6 , 18], "y": [6, 18], "density": 1 } ],
+      "place_monster": [
+        { "monster": [ "mon_feral_human_axe" ], "x": 10, "y": 10, "chance": 100 }
+      ],
       "computers": {
         "6": {
           "name": "Evac shelter computer",
