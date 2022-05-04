@@ -581,7 +581,7 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 0.5 } ]
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 1 } ]
     }
   },
   {
@@ -667,7 +667,7 @@
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter" ],
-      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 0.5 } ],
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 1 } ],
       "computers": {
         "6": {
           "name": "Evac shelter computer",
