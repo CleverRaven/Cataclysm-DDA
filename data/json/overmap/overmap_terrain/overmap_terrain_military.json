@@ -68,13 +68,32 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "shelter_1c_vandal" ],
+    "name": "evac shelter C-29",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "shelter_2", "shelter_2_vandal" ],
     "name": "evac shelter C-41",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
     "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },{
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_2b_vandal", "shelter_under_2b_vandal" ],
+    "name": "evac shelter A-34",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": ["shelter_3", "shelter_under_3_infested"],
     "name": "evac shelter B-11",
@@ -120,6 +139,22 @@
     "type": "overmap_terrain",
     "id": [ "shelter_roof_2" ],
     "name": "evac shelter roof C-41",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_roof_3" ],
+    "name": "evac shelter roof B-11",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_roof_3_2" ],
+    "name": "evac shelter roof A-46",
     "sym": "+",
     "color": "white",
     "see_cost": 2

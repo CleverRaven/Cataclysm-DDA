@@ -1450,6 +1450,33 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN" ]
+  },  
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Vandalized 1c",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_1c_vandal_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Vandalized 2b",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_2b_vandal_north" },
+        { "point": [ 0, 0, -1 ], "overmap": "shelter_under_2b_vandal_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "type": "overmap_special",
@@ -1472,7 +1499,7 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_3_north" },
       { "point": [ 0, 0, -1 ], "overmap": "shelter_under_3_infested_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_3_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "wilderness" ],
@@ -1487,7 +1514,7 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_3_2_north" },
       { "point": [ 0, 0, -1 ], "overmap": "shelter_under_3_2_infested_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_2_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_3_2_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "wilderness" ],
