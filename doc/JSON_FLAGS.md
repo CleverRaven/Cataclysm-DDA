@@ -1213,7 +1213,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
 - ```UNCRAFT_BY_QUANTITY``` Suppresses the per-charge handling of uncraft recipes.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
-- ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 

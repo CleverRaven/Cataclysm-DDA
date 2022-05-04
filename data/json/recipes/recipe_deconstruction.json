@@ -2148,8 +2148,7 @@
     "//": "This may need to be modified, a plastic sheath would give plastic chunks, but there already is a plastic sheathed cable",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "copper", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "copper", 1 ] ] ]
   },
   {
     "result": "camera",

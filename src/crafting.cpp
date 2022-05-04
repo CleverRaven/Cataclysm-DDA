@@ -111,7 +111,6 @@ static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 static const std::string flag_UNCRAFT_BY_QUANTITY( "UNCRAFT_BY_QUANTITY" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
-static const std::string flag_UNCRAFT_SINGLE_CHARGE( "UNCRAFT_SINGLE_CHARGE" );
 
 class basecamp;
 
@@ -2236,7 +2235,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
     }
 
     if( !obj.is_ammo() ) { //we get ammo quantity to disassemble later on
-        if( obj.count_by_charges() && !r.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
+        if( obj.count_by_charges() ) {
             // Create a new item to get the default charges
             int qty = r.create_result().charges;
             if( obj.charges < qty ) {
@@ -2585,13 +2584,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             int compcount = comp.count;
             item newit( comp.type, calendar::turn );
             if( dis_item.count_by_charges() ) {
-                if( dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
-                    // Counted-by-charge items that can be disassembled individually
-                    // have their component count multiplied by the number of charges.
-                    compcount *= std::min( dis_item.charges, dis.create_result().charges );
-                } else {
-                    compcount *= activity.position;
-                }
+                compcount *= activity.position;
             }
             const bool is_liquid = newit.made_of( phase_id::LIQUID );
             if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
