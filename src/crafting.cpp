@@ -109,7 +109,6 @@ static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
-static const std::string flag_UNCRAFT_BY_QUANTITY( "UNCRAFT_BY_QUANTITY" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 
 class basecamp;
@@ -2298,15 +2297,10 @@ item_location Character::create_in_progress_disassembly( item_location target )
             orig_item.spill_contents( pos() );
         }
         if( orig_item.count_by_charges() ) {
-            // remove the charges that one would get from crafting it
-            if( !r.has_flag( flag_UNCRAFT_BY_QUANTITY ) ) {
-                //subtract selected number of rounds to disassemble
-                orig_item.charges -= activity.position;
-                new_disassembly.charges = activity.position;
-            } else {
-                orig_item.charges -= r.create_result().charges;
-                new_disassembly.charges = r.create_result().charges;
-            }
+            //subtract selected number of rounds to disassemble
+            orig_item.charges -= activity.position;
+            new_disassembly.charges = activity.position;
+
         }
     }
     // remove the item, except when it's counted by charges and still has some
@@ -2399,7 +2393,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
         player_activity new_act;
         // When disassembling items with charges, prompt the player to specify amount
         int num_dis = 0;
-        if( obj.count_by_charges() && !r.has_flag( flag_UNCRAFT_BY_QUANTITY ) ) {
+        if( obj.count_by_charges() ) {
             if( !disassemble_all && obj.charges > 1 ) {
                 string_input_popup popup_input;
                 const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
@@ -2519,7 +2513,7 @@ void Character::complete_disassemble( item_location target )
     }
     int num_dis = 1;
     const item &obj = *activity.targets.back().get_item();
-    if( obj.count_by_charges() && !next_recipe.has_flag( flag_UNCRAFT_BY_QUANTITY ) ) {
+    if( obj.count_by_charges() ) {
         // get_value( 0 ) is true if the player wants to disassemble all charges
         if( !activity.get_value( 0 ) && obj.charges > 1 ) {
             string_input_popup popup_input;
