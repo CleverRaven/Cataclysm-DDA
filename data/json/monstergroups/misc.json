@@ -389,11 +389,11 @@
     "name": "GROUP_INFESTED_SPAWN",
     "//": "For Compromized Shelter scenario.",
     "monsters": [     
-      { "monster": "mon_null", "weight": 150 },  
-      { "monster": "mon_zombie", "weight": 175, "pack_size": [ 1, 3 ], "cost_multiplier": 2 },
+      { "monster": "mon_null", "weight": 100 },  
+      { "monster": "mon_zombie", "weight": 175, "pack_size": [ 2, 3 ], "cost_multiplier": 2 },
       { "monster": "mon_zombie_runner", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_crawler", "weight": 75, "pack_size": [ 1, 2 ], "cost_multiplier": 2 },
-      { "monster": "mon_feral_human_pipe", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_crawler", "weight": 100, "pack_size": [ 1, 2 ], "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_pipe", "weight": 175, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_crowbar", "weight": 150, "cost_multiplier": 2 }
     ]
   }
