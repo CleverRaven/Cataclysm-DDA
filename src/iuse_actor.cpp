@@ -3352,8 +3352,6 @@ void heal_actor::load( const JsonObject &obj )
     bite = obj.get_float( "bite", 0.0f );
     infect = obj.get_float( "infect", 0.0f );
 
-    long_action = obj.get_bool( "long_action", false );
-
     if( obj.has_array( "effects" ) ) {
         for( const JsonObject e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
@@ -3413,19 +3411,12 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
-    // NPCs can use first aid now, but they can't perform long actions
-    if( long_action && &patient == &p && !p.is_npc() ) {
-        // Assign first aid long action.
-        p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname() ) ) );
-        p.activity.targets.emplace_back( p, &it );
-        p.activity.str_values.emplace_back( hpp.c_str() );
-        p.moves = 0;
-        return 0;
-    }
-
-    p.moves -= cost;
-    p.add_msg_if_player( m_good, _( "You use your %s." ), it.tname() );
-    return it.type->charges_to_use();
+    p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname(),
+                                        patient.getID() ) ) );
+    p.activity.targets.emplace_back( p, &it );
+    p.activity.str_values.emplace_back( hpp.c_str() );
+    p.moves = 0;
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> heal_actor::clone() const
@@ -3580,8 +3571,11 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         practice_amount += infect * 10.0f;
     }
 
-    if( long_action ) {
-        healer.add_msg_if_player( _( "You finish using the %s." ), it.tname() );
+    healer.add_msg_if_player( _( "You finish using the %s." ), it.tname() );
+
+    if( u_see && !healer.is_avatar() ) {
+        //~ Healing complete message. %1$s is healer name, %2$s is item name.
+        add_msg( _( "%1$s finishes using the %2$s." ), healer.disp_name(), it.tname() );
     }
 
     for( const auto &eff : effects ) {
@@ -3732,12 +3726,8 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
                 add_msg( m_info, _( "Never mind." ) );
                 return bodypart_id( "bp_null" ); // canceled
             }
-        }
-        // Brick healing if using a first aid kit for the first time.
-        if( long_action && healer.activity.id() != ACT_FIRSTAID ) {
-            // Cancel and wait for activity completion.
             return healed;
-        } else if( healer.activity.id() == ACT_FIRSTAID ) {
+        } else {
             // Completed activity, extract body part from it.
             healed =  bodypart_id( healer.activity.str_values[0] );
         }
@@ -3751,10 +3741,6 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
         healed = pick_part_to_heal( healer, patient, menu_header, limb_power, head_bonus, torso_bonus,
                                     get_stopbleed_level( healer ), bite, infect, force, get_bandaged_level( healer ),
                                     get_disinfected_level( healer ) );
-    }
-
-    if( healed != bodypart_id( "bp_null" ) ) {
-        finish_using( healer, patient, it,  healed );
     }
 
     return healed;
