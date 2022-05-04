@@ -908,7 +908,7 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": { "om_terrain": "prison_1_3", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 23, "target": true } ]
       }
@@ -935,7 +935,14 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": { "om_terrain": "prison_alcatraz_9", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "assign_mission_target": {
+        "om_terrain": "prison_alcatraz_9",
+        "om_special": "Alcatraz Prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 15, "target": true } ]
       }
@@ -962,7 +969,14 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": { "om_terrain": "prison_island_1_8", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "assign_mission_target": {
+        "om_terrain": "prison_island_1_8",
+        "om_special": "Island prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 10, "target": true } ]
       }
