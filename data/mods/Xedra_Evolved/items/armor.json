@@ -237,7 +237,7 @@
     "copy-from": "mt_chainmail_feet",
     "name": { "str": "pair of XL moon tears chainmail chausses", "str_pl": "pairs of XL moon tears chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-      "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where redcap aspirants are numerous",
+    "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where redcap aspirants are numerous",
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -246,7 +246,7 @@
     "copy-from": "mt_chainmail_feet",
     "name": { "str": "pair of XS moon tears chainmail chausses", "str_pl": "pairs of XS moon tears chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-      "description": "Moon tear chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous",
+    "description": "Moon tear chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous",
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {

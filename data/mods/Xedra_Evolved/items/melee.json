@@ -55,7 +55,7 @@
     "id": "blood_tendrils",
     "type": "SPELL",
     "name": "Blood Tendrils",
-    "description": "Brownish reddish tednrils connect from the club to you.",
+    "description": "Brownish reddish tendrils connect from the club to you.",
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "damage_type": "biological",
