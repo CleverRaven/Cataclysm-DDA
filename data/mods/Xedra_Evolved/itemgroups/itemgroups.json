@@ -1,6 +1,7 @@
 [
   {
     "id": "xed_cubical_office",
+    "type": "item_group",
     "subtype": "distribution",
     "entries": [
       { "group": "softdrinks_canned", "prob": 560 },
@@ -153,6 +154,7 @@
     ]
   },
   {
+    "type": "item_group",
     "id": "bannerman_armor",
     "subtype": "distribution",
     "entries": [
@@ -165,6 +167,7 @@
     ]
   },
   {
+    "type": "item_group",
     "id": "redcap_armor",
     "subtype": "distribution",
     "entries": [
@@ -177,6 +180,7 @@
     ]
   },
   {
+    "type": "item_group",
     "id": "pooka_armor",
     "subtype": "distribution",
     "entries": [
