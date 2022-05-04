@@ -61,10 +61,10 @@
   {
     "type": "furniture",
     "id": "f_triple_bunkbed",
-    "name": "triple bunk bed",
+    "name": "triple berth",
     "symbol": "#",
+    "description": "This bunk bed can hold 3 person at once - perfect solution for places with lack of free space.",
     "looks_like": "f_bed",
-    "description": ".",
     "color": "magenta",
     "move_cost_mod": 8,
     "coverage": 40,
