@@ -102,7 +102,9 @@
     "vision_day": 50,
     "vision_night": 50,
     "harvest": "exempt",
-    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "death_drops": "mon_dragon_dummy_drops",
     "flags": [ "SEES" ]
   },
@@ -241,7 +243,9 @@
     "luminance": 16,
     "dodge": 6,
     "harvest": "exempt",
-    "death_function": { "message": "The %s deflates.", "corpse_type": "NO_CORPSE" },
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
   },
   {
