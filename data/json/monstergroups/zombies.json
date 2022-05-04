@@ -434,6 +434,7 @@
     "monsters": [
       { "monster": "mon_zombie_resort_dancer", "weight": 650, "cost_multiplier": 0 },
       { "monster": "mon_zombie_swimmer_base", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_feral_maid_candlestick", "weight": 50 },
       { "monster": "mon_feral_maid_broom", "weight": 50 },
       { "monster": "mon_feral_fancy_rapier", "weight": 100, "cost_multiplier": 2 },
@@ -447,6 +448,7 @@
     "monsters": [
       { "monster": "mon_zombie_swimmer_base", "weight": 850 },
       { "monster": "mon_zombie_swimmer_base", "weight": 250, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 10 },
       { "monster": "mon_zombie_child", "weight": 250 },
       { "monster": "mon_zombie", "weight": 100 },
       { "monster": "mon_zombie_tough", "weight": 100 },
@@ -542,6 +544,7 @@
       { "monster": "mon_zombie_medical", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_zombie", "weight": 325 },
       { "monster": "mon_zombie_swimmer_base", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_zombie_resort_dancer", "weight": 150, "cost_multiplier": 0 }
     ]
   },
@@ -606,6 +609,7 @@
       { "monster": "mon_zombie_swimmer", "weight": 100, "cost_multiplier": 2, "starts": "5 days" },
       { "monster": "mon_zombie_swimmer_base", "weight": 815 },
       { "monster": "mon_zombie_swimmer_base", "weight": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 10 },
       { "monster": "mon_zombie_child", "weight": 35 }
     ]
   },
@@ -623,7 +627,38 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_swimmer_base", "weight": 950, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_swimmer_base", "weight": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] }
+      { "monster": "mon_zombie_swimmer_base", "weight": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 5, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "name": "GROUP_DIVING",
+    "type": "monstergroup",
+    "//": "Zombies/ferals that could be found on a diving related place.",
+    "monsters": [
+      { "monster": "mon_feral_diver_knife", "weight": 450, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_swimmer_base", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer_base", "weight": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
+      { "monster": "mon_zombie", "weight": 50, "cost_multiplier": 3 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 10, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "name": "GROUP_BEACH",
+    "type": "monstergroup",
+    "//": "Zombies/ferals that could be found on the beach/riverside.",
+    "monsters": [
+      { "monster": "mon_zombie_swimmer_base", "weight": 500, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer_base", "weight": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 15, "cost_multiplier": 2 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 10, "cost_multiplier": 4, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_feral_diver_knife", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_zombie", "weight": 5, "cost_multiplier": 3 },
+      { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 10, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_zombie_child", "weight": 15 },
+      { "monster": "mon_zombie_tough", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_runner", "weight": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_dog", "weight": 2, "cost_multiplier": 3 }
     ]
   },
   {

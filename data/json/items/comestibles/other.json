@@ -1032,5 +1032,39 @@
     "description": "Blodplättar is not your average pancake.  It does not taste of blood at all and it tastes like a crispier black pudding.  Made with wheat-free flour.",
     "material": [ "veggy", "blood" ],
     "primary_material": "veggy"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "snail_garden",
+    "category": "other",
+    "name": { "str": "snail" },
+    "weight": "15 g",
+    "color": "brown",
+    "use_action": [ "POISON" ],
+    "comestible_type": "FOOD",
+    "symbol": "@",
+    "calories": 15,
+    "description": "A small gastropod harvested from the bushes.  Dangerous to consume raw but can be prepared if you get enough of them.",
+    "price": 0,
+    "price_postapoc": 0,
+    "volume": "15 ml",
+    "fun": -20
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "slug_garden",
+    "category": "other",
+    "name": { "str": "snail" },
+    "weight": "15 g",
+    "color": "brown",
+    "use_action": [ "POISON" ],
+    "comestible_type": "FOOD",
+    "symbol": "~",
+    "calories": 15,
+    "description": "A small gastropod harvested from the bushes.  Dangerous to consume raw but can be prepared if you get enough of them.",
+    "price": 0,
+    "price_postapoc": 0,
+    "volume": "15 ml",
+    "fun": -20
   }
 ]

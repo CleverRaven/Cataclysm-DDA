@@ -1,0 +1,267 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_dining_center_migo_resin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_dining_east_migo_resin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_dining_west_migo_resin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_pantry_migo_resin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_room2_center_migo_resin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_room_center_migo_resin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_smoking_area_migo_resin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_brewery0_migo_resin_southwest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_migo_resin_center",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_migo_resin_south",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_ne_migo_resin_center",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_nw_migo_resin_center",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_se_migo_resin_south",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_shack_ne_migo_resin_center",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_shack_nw_migo_resin_center",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_shack_se_migo_resin_south",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_shack_sw_migo_resin_south",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_core_sw_migo_resin_south",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_room0_migo_resin_northeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_room1_migo_resin_northeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_room2_migo_resin_northeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_room4_migo_resin_east",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_room4_migo_resin_northwest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_room4_migo_resin_southeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_room4_migo_resin_southwest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_room4_migo_resin_west",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_shack4_migo_resin_east",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_shack4_migo_resin_southeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_shack4_migo_resin_southwest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_hub_shack4_migo_resin_west",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_coop_migo_resin_northeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_shack_migo_resin_southeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable0_migo_resin_southwest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable1_migo_resin_west",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable2_migo_resin_northwest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_saltpan_migo_resin_northeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shack_migo_resin_southeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_center",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_east",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_north",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_northeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_northwest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_south",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_southeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_southwest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_west",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room0_migo_resin_northeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room11to12_migo_resin_southeast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room3_migo_resin_north",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room4_migo_resin_east",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room5_migo_resin_center",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room6_migo_resin_north",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room7to9_migo_resin_northwest",
+    "obsolete": true
+  }
+]

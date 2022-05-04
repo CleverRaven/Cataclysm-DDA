@@ -100,6 +100,7 @@ parsers = {
     "behavior": dummy_parser,
     "bionic": parse_bionic,
     "bionic_item": parse_generic,
+    "body_graph": dummy_parser,
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,

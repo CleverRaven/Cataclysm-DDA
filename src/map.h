@@ -1837,6 +1837,10 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
+        // Generate the cache of where the player can see based on aiming
+        // single cache doesn't care about z level
+        void build_aim_cache();
+
 
     protected:
         void generate_lightmap( int zlev );
@@ -2095,6 +2099,11 @@ class map
             const tripoint &from, const tripoint &to ) const;
         tripoint_range<tripoint> points_in_radius(
             const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+
+        // returns all the tripoints that lie on a circle
+        std::vector<tripoint> points_on_circle( const tripoint &center, size_t radius,
+                                                size_t radiusz = 0 ) const;
+
         /**
          * Yields a range of all points that are contained in the map and have the z-level of
          * this map (@ref abs_sub).

@@ -90,6 +90,11 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup"
       },
       {
+        "text": "Can I talk to you about that fellow over there in the dinosaur suit?",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission"
+      },
+      {
         "text": "'Sorry, we're full'?  Do you greet everyone like that?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting",
         "condition": { "u_has_effect": "u_Gavin_onetime_greeting" },

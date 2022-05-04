@@ -883,6 +883,7 @@ class Character : public Creature, public visitable
         int dodges_left;
 
         double recoil = MAX_RECOIL;
+        double steadiness = 1.0;
 
         std::string custom_profession;
 
@@ -1723,7 +1724,7 @@ class Character : public Creature, public visitable
         // returns a list of all item_location the character has, including items contained in other items.
         // only for CONTAINER pocket type; does not look for magazines
         std::vector<item_location> all_items_loc();
-        // Returns list of all the top level item_lodation the character has. Includes worn items but excludes items held on hand.
+        // Returns list of all the top level item_location the character has. Includes worn items but excludes items held on hand.
         std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
@@ -2385,6 +2386,7 @@ class Character : public Creature, public visitable
         int cash = 0;
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
+        bool just_changed_target = true;
         // Save favorite ammo location
         item_location ammo_location;
         std::set<tripoint_abs_omt> camps;

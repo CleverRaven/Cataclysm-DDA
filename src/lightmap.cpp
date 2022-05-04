@@ -659,6 +659,13 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
                map_cache.vision_transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
+    // possibly reduce view if aiming (also blocks light)
+    if( get_avatar().steadiness > 0.0 ) {
+        if( get_avatar().cant_see( p ) ) {
+            return { true, 0.0 };
+        }
+    }
+
     const bool p_opaque = is_opaque( p.xy() );
     float apparent_light;
 
@@ -1029,6 +1036,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         if( origin.z == target_z ) {
             get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
+
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, avatar_sight_offset, 1.0,
             directions_to_cast );
@@ -1111,6 +1119,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             camera_cache, transparency_cache, mirror_pos.xy(), offsetDistance );
     }
+
+
 }
 
 //Schraudolph's algorithm with John's constants

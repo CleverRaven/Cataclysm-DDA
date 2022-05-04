@@ -100,6 +100,13 @@ void move_if( std::vector<inventory_entry> &src, std::vector<inventory_entry> &d
     }
 }
 
+bool always_yes( const inventory_entry & )
+{
+    return true;
+}
+
+} // namespace
+
 bool is_worn_ablative( item_location const &container, item_location const &child )
 {
     // if the item is in an ablative pocket then put it with the item it is in
@@ -107,13 +114,6 @@ bool is_worn_ablative( item_location const &container, item_location const &chil
     return container->is_ablative() && container->is_worn_by_player() &&
            container->contained_where( *child )->get_pocket_data()->ablative;
 }
-
-bool always_yes( const inventory_entry & )
-{
-    return true;
-}
-
-} // namespace
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
@@ -962,8 +962,9 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
         if( entry_with_loc != entries.end() ) {
             std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
-            inventory_entry nentry( locations, entry.get_category_ptr(), true, 0, entry.generation,
-                                    entry.topmost_parent, entry.chevron );
+            inventory_entry nentry( locations, entry.get_category_ptr(), true, 0,
+                                    entry_with_loc->generation, entry_with_loc->topmost_parent,
+                                    entry_with_loc->chevron );
             nentry.collapsed = entry_with_loc->collapsed;
             entries.erase( entry_with_loc );
             return add_entry( nentry );
