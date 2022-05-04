@@ -265,7 +265,9 @@
     "luminance": 16,
     "dodge": 6,
     "harvest": "exempt",
-    "death_function": { "message": "The %s deflates.", "corpse_type": "NO_CORPSE" },
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
   },
   {
