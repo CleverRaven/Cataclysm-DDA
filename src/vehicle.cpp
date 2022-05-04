@@ -1900,8 +1900,10 @@ bool vehicle::__part_removal_actual()
                     items.erase( items.begin() );
                 }
             }
-            const tripoint pt = global_part_pos3( *it );
-            here.clear_vehicle_point_from_cache( this, pt );
+            if( !it->is_fake || it->is_active_fake ) {
+                const tripoint pt = global_part_pos3( *it );
+                here.clear_vehicle_point_from_cache( this, pt );
+            }
             it = parts.erase( it );
             changed = true;
         }
@@ -7498,7 +7500,9 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
     int index = -1;
     for( vehicle_part &prt : parts ) {
         index += 1;
-        here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
+        if( !prt.is_fake || prt.is_active_fake ) {
+            here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
+        }
         // no parts means this is a normal horizontal or vertical move
         if( parts_to_move.empty() ) {
             prt.precalc[0] = prt.precalc[1];
