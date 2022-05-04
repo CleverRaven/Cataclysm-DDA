@@ -3,7 +3,6 @@
 #define CATA_SRC_CHARACTER_ATTIRE_H
 
 #include "advanced_inv_listitem.h"
-#include "bodygraph.h"
 #include "bodypart.h"
 #include "color.h"
 #include "item.h"
@@ -14,6 +13,7 @@ class advanced_inv_area;
 class avatar;
 class npc;
 class player_morale;
+struct bodygraph_info;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
