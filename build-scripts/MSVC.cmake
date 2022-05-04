@@ -44,9 +44,14 @@ add_compile_definitions(
     USE_VCPKG
 )
 add_link_options(
+    /OPT:REF
+    /OPT:ICF
     /LTCG:OFF
     /MANIFEST:NO
 )
+# TODO use those two in debug builds only
+# /OPT:REF  # remove unreferenced COMDATs
+# /OPT:ICF  # folds identical COMDATs
 
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
