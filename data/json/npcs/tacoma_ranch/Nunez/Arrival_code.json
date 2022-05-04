@@ -56,7 +56,7 @@
         "_": "t_bullettrailer_brownfloor",
         "b": "t_bullettrailer_brownfloor",
         "c": "t_bullettrailer_inner_T",
-        "d": "t_bullettrailer_ewall",
+        "d": "t_bullettrailer_inner_eastcorner",
         "e": "t_bullettrailer_swall_westcorner",
         "f": "t_bullettrailer_swall_windows",
         "g": "t_bullettrailer_swall_door",
