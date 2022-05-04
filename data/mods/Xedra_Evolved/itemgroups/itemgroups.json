@@ -157,12 +157,35 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mt_chainmail_arms", "prob": 20 },
-      { "item": "mt_chainmail_feet", "prob": 20 },
       { "item": "mt_chainmail_hood", "prob": 20 },
       { "item": "mt_chainmail_hands", "prob": 20 },
       { "item": "mt_chainmail_legs", "prob": 20 },
-      { "item": "mt_chainmail_hauberk", "prob": 20 },
-      { "item": "mt_chainmail_suit", "prob": 5 }
+      { "item": "mt_chainmail_vest", "prob": 20 },
+      { "item": "mt_chainmail_feet", "prob": 20 }
+    ]
+  },
+  {
+    "id": "redcap_armor",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "xl_mt_chainmail_arms", "prob": 20 },
+      { "item": "xl_mt_chainmail_hood", "prob": 20 },
+      { "item": "xl_mt_chainmail_hands", "prob": 20 },
+      { "item": "xl_mt_chainmail_legs", "prob": 20 },
+      { "item": "xl_mt_chainmail_vest", "prob": 20 },
+      { "item": "xl_mt_chainmail_feet", "prob": 20 }
+    ]
+  },
+  {
+    "id": "pooka_armor",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "xs_mt_chainmail_arms", "prob": 20 },
+      { "item": "xs_mt_chainmail_feet", "prob": 20 },
+      { "item": "xs_mt_chainmail_hood", "prob": 20 },
+      { "item": "xs_mt_chainmail_hands", "prob": 20 },
+      { "item": "xs_mt_chainmail_legs", "prob": 20 },
+      { "item": "xs_mt_chainmail_vest", "prob": 20 }
     ]
   }
 ]
