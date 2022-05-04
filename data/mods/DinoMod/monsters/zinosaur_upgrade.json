@@ -1607,7 +1607,6 @@
     "name": { "str_sp": "skeletal utahraptor" },
     "copy-from": "mon_seinonychus",
     "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.  There is a long tail and long, sharp, scythe-shaped claws",
-    "proportional": { "hp": 0.4, "speed": 0.875 },
     "volume": "500 L",
     "weight": "500 kg",
     "hp": 50,
