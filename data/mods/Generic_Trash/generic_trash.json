@@ -122,7 +122,7 @@
   {
     "type": "AMMO",
     "id": "generic_paper",
-    "name": { "str": "paper trash" },
+    "name": { "str_sp": "paper trash" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
