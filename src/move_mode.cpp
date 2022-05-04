@@ -39,7 +39,8 @@ static const std::unordered_map<std::string, move_mode_type> move_types {
     { "prone",     move_mode_type::PRONE },
     { "crouching", move_mode_type::CROUCHING },
     { "walking",   move_mode_type::WALKING },
-    { "running",   move_mode_type::RUNNING }
+    { "running",   move_mode_type::RUNNING },
+    { "sprinting",   move_mode_type::SPRINTING }
 };
 
 void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
