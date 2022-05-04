@@ -142,17 +142,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "infested_shelter_spawn",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "place_monsters": [
-        { "monster": "GROUP_INFESTED_SPAWN", "x": [ 0, 8 ], "y": [ 0, 8 ], "density": 1, "repeat": 4 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shelter_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "shelter_graffiti_snippets" } ] }
   },

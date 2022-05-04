@@ -154,7 +154,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME",
+    "//" : "TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME TO BE SEPARATE SHELTER",
     "om_terrain": [ "shelter_1", "shelter_1b" ],
     "object": {
       "fill_ter": "t_floor",
@@ -277,7 +277,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "I THINK THIS IS MERGED. STAIRS BUT NO BASEMENT, THOUGH? IS IT BECAUSE ONLY THIS TOP TILE IS CHANGED? TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME",
+    "//" : "I THINK THIS IS MERGED. STAIRS BUT NO BASEMENT, THOUGH? IS IT BECAUSE ONLY THIS TOP TILE IS CHANGED?",
     "om_terrain": [ "shelter_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -436,7 +436,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 70,
-    "//" : "I THINK THIS IS GOOD? NO BASEMENT BUT NO STAIRS; INTENTIONAL I THINK. TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME",
+    "//" : "I THINK THIS IS GOOD? NO BASEMENT BUT NO STAIRS; INTENTIONAL I THINK. TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME TO BE SEPARATE SHELTER",
     "om_terrain": [ "shelter_1_vandal" ],
     "object": {
       "fill_ter": "t_floor",
@@ -511,7 +511,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 70,
-    "//" : "TO-DO - FIX BASEMENT NESTING FROM RECENT MERGE. TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME",
+    "//" : "TO-DO - FIX BASEMENT NESTING FROM RECENT MERGE. TO-DO - NEEDS UNIQUE OVERMAP ID AND EVAC SHELTER NAME TO BE SEPARATE SHELTER",
     "om_terrain": [ "shelter_2_vandal" ],
     "object": {
       "fill_ter": "t_floor",
@@ -551,7 +551,7 @@
     "method": "json",
     "weight": 50,
     "//" : "INFESTED SPAWN - COPY OF shelter_1 - TO-DO - ADD PROPERLY NAMED ROOF IN overmap_terrain_military.json",
-    "om_terrain": [ "shelter_3", "shelter_under_3_infested" ],
+    "om_terrain": [ "shelter_3" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -581,7 +581,7 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "infested_shelter_spawn", 100 ] ], "x": 12, "y": 12 } ]
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 0.5 } ]
     }
   },
   {
@@ -589,7 +589,7 @@
     "method": "json",
     "weight": 50,
     "//" : "INFESTED SPAWN - COPY OF shelter_2 - TO-DO - ADD PROPERLY NAMED ROOF IN overmap_terrain_military.json",
-    "om_terrain": [ "shelter_3_2", "shelter_under_3_2_infested"  ],
+    "om_terrain": [ "shelter_3_2" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -619,7 +619,7 @@
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "infested_shelter_spawn", 100 ] ], "x": 12, "y": 12 } ],
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 1 } ],
       "computers": {
         "6": {
           "name": "Evac shelter computer",
