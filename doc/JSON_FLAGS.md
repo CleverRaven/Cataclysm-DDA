@@ -1150,6 +1150,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
 - ```URBAN```
 - ```WILDERNESS```
+- ```MAN_MADE``` - For location, created by human. For Innawood mod purposes
 
 ### Overmap terrains
 
