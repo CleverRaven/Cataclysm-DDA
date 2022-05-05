@@ -120,7 +120,7 @@ Effect | Description
 
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`u_add_morale`<br />`npc_add_morale` | `morale_string` | `bonus`, `max_bonus`: `int` or `variable_object`<br />`duration`,`decay_start`: `time` or `variable_object`<br />`capped`: `bool` | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (default false).| `"u_add_morale": "petted_dog", "bonus": 20, "max_bonus": 50, "duration": "5 min", "decay_start": "1 min", "capped": true`
+`u_add_morale`<br />`npc_add_morale` | `morale_string` | `bonus`, `max_bonus`: `int` or `variable_object`<br /><br />`duration`,`decay_start`: `time` or `variable_object`<br /><br />`capped`: `bool` | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (default false).| `"u_add_morale": "petted_dog", "bonus": 20, "max_bonus": 50, "duration": "5 min", "decay_start": "1 min", "capped": true`
 `u_lose_morale`, `npc_lose_morale` | `morale_string` | none |Target will lose any morale of type `morale_string`.| `"u_lose_morale": "petted_dog"`
 
 #### Wounds and Healing
