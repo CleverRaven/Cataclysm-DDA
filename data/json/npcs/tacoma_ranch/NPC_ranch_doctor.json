@@ -26,7 +26,7 @@
         "text": "Is there anything else I can help with?",
         "topic": "TALK_MISSION_LIST",
         "condition": {
-          "and": [ { "u_has_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+          "and": [ { "npc_has_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
         }
       },
       {
@@ -34,29 +34,13 @@
         "topic": "TALK_RANCH_DOCTOR_SUPPLIES",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" } },
+            { "not": { "npc_has_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" } },
             { "not": { "u_has_mission": "MISSION_RANCH_DOCTOR_SUPPLIES" } }
           ]
         },
         "effect": [
           { "add_mission": "MISSION_RANCH_DOCTOR_SUPPLIES" },
-          { "u_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "no" }
-        ]
-      },
-      {
-        "text": "I have the supplies you asked for.",
-        "topic": "TALK_RANCH_DOCTOR",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "book_binder", "count": 10 } },
-            { "u_has_items": { "item": "paper", "count": 500 } },
-            { "u_has_mission": "MISSION_RANCH_DOCTOR_SUPPLIES" }
-          ]
-        },
-        "effect": [
-          { "u_message": "Thanks!  This should help keep things organized for a while.", "type": "good", "popup": true },
-          "mission_success",
-          "clear_mission"
+          { "npc_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "no" }
         ]
       },
       {
@@ -73,23 +57,6 @@
           { "u_message": "These will have to do…", "type": "good", "popup": true },
           "mission_success",
           "clear_mission"
-        ]
-      },
-      {
-        "text": "I have the anesthetic you asked for.",
-        "topic": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC_DELIVERED",
-        "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
-            {
-              "not": { "u_has_var": "doctor_anesthetic_delivered", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            },
-            { "u_has_items": { "item": "anesthetic", "count": 3000 } }
-          ]
-        },
-        "effect": [
-          { "u_consume_item": "anesthetic", "count": 3000 },
-          { "u_add_var": "doctor_anesthetic_delivered", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
         ]
       },
       { "text": "Could you help me with some bionics?", "topic": "TALK_RANCH_DOCTOR_BIONICS" },
@@ -190,8 +157,8 @@
     "responses": [
       {
         "text": "I'll see what I can find.",
-        "topic": "TALK_RANCH_DOCTOR",
-        "effect": [ { "u_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "no" } ]
+        "topic": "TALK_DONE",
+        "effect": [ { "npc_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "no" } ]
       },
       { "text": "Never mind.", "topic": "TALK_NONE" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
@@ -209,21 +176,24 @@
     "name": { "str": "Collect Office Supplies" },
     "description": "The doctor needs office supplies to keep track of medical records.  Bring them 10 Book binders and 500 paper",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
+    "goal_condition": {
+      "and": [ { "u_has_items": { "item": "book_binder", "count": 10 } }, { "u_has_items": { "item": "paper", "count": 500 } } ]
+    },
     "difficulty": 1,
-    "value": 50000,
+    "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_DOCTOR_CRUTCHES",
+    "has_generic_rewards": false,
     "dialogue": {
-      "describe": "-",
-      "offer": "-",
-      "accepted": "-",
-      "rejected": "-",
-      "advice": "-",
-      "inquire": "-",
-      "success": "-",
-      "success_lie": "-",
-      "failure": "-"
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Have you found the supplies yet?",
+      "success": "Thanks!  This should help keep things organized for a while.",
+      "success_lie": "…",
+      "failure": "…"
     },
     "end": {
       "update_mapgen": [
@@ -234,15 +204,29 @@
             { "square": "furniture", "id": "f_filing_cabinet", "x": 5, "y": 2, "x2": 8, "y2": 2 }
           ],
           "place_items": [
-            { "item": "ranch_doctor_filing_cabinets", "x": [ 5, 8 ], "chance": 100, "y": 0, "repeat": 5 },
-            { "item": "ranch_doctor_filing_cabinets", "x": [ 5, 8 ], "chance": 100, "y": 2, "repeat": 5 }
+            {
+              "item": "ranch_doctor_filing_cabinets",
+              "x": [ 5, 8 ],
+              "chance": 100,
+              "y": 0,
+              "repeat": 5,
+              "faction": "tacoma_commune"
+            },
+            {
+              "item": "ranch_doctor_filing_cabinets",
+              "x": [ 5, 8 ],
+              "chance": 100,
+              "y": 2,
+              "repeat": 5,
+              "faction": "tacoma_commune"
+            }
           ]
         }
       ],
       "effect": [
         { "u_consume_item": "paper", "count": 500 },
         { "u_consume_item": "book_binder", "count": 10 },
-        { "u_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+        { "npc_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
       ]
     }
   },
@@ -253,7 +237,7 @@
     "description": "Bring the doctor some crutches.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
-    "value": 50000,
+    "value": 2500,
     "item": "crutches",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -277,7 +261,7 @@
     "description": "Bring the doctor 5 pairs of medical gloves.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
-    "value": 50000,
+    "value": 3500,
     "item": "gloves_medical",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -303,7 +287,7 @@
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "and": [
-        { "u_has_var": "doctor_anesthetic_delivered", "type": "mission", "context": "tacoma_ranch", "value": "yes" },
+        { "u_has_items": { "item": "anesthetic", "count": 3000 } },
         {
           "u_has_var": "doctor_anesthetic_scavengers_helped",
           "type": "mission",
@@ -319,9 +303,10 @@
       ]
     },
     "difficulty": 5,
-    "value": 50000,
+    "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_NULL",
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "We need help…",
       "offer": "I want to make sure we are setup to handle any major surgeries that come our way, but pain management is going to be an issue.  For longer surgeries, we're going to need some anesthetic.  Can you bring me 3000 units to start?  We're also going to need an anesthetic machine to deliver it.  Maybe some people around the commune can help with that?",
@@ -335,7 +320,10 @@
     },
     "end": {
       "update_mapgen": [ { "om_terrain": "ranch_camp_50", "set": [ { "point": "furniture", "id": "f_anesthetic", "x": 19, "y": 19 } ] } ],
-      "effect": { "npc_add_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+      "effect": [
+        { "u_consume_item": "anesthetic", "count": 3000 },
+        { "npc_add_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+      ]
     }
   }
 ]
