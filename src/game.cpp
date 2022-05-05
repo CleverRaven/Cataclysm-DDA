@@ -6083,7 +6083,7 @@ bool game::is_zones_manager_open() const
     return zones_manager_open;
 }
 
-static void zones_manager_shortcuts( const catacurses::window &w_info )
+static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction )
 {
     werase( w_info );
 
@@ -6109,6 +6109,11 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
     tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
     shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
+
+    if( debug_mode ) {
+        shortcut_print( w_info, point( 1, 5 ), c_light_red, c_light_green,
+                        string_format( _( "Shown <F>action: %s" ), faction.str() ) );
+    }
 
     wnoutrefresh( w_info );
 }
@@ -6162,7 +6167,7 @@ void game::zones_manager()
     u.view_offset = tripoint_zero;
 
     const int zone_ui_height = 13;
-    const int zone_options_height = 7;
+    const int zone_options_height = debug_mode ? 6 : 7;
 
     const int width = 45;
 
@@ -6221,6 +6226,9 @@ void game::zones_manager()
     ctxt.register_action( "DISABLE_PERSONAL_ZONES" );
     ctxt.register_action( "SHOW_ALL_ZONES" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    if( debug_mode ) {
+        ctxt.register_action( "CHANGE_FACTION" );
+    }
 
     auto &mgr = zone_manager::get_manager();
     int start_index = 0;
@@ -6229,6 +6237,7 @@ void game::zones_manager()
     bool stuff_changed = false;
     bool show_all_zones = false;
     int zone_cnt = 0;
+    faction_id zones_faction( your_fac );
 
     // reset any zones that were temporarily disabled for an activity
     mgr.reset_disabled();
@@ -6243,10 +6252,10 @@ void game::zones_manager()
     auto get_zones = [&]() {
         std::vector<zone_manager::ref_zone_data> zones;
         if( show_all_zones ) {
-            zones = mgr.get_zones();
+            zones = mgr.get_zones( zones_faction );
         } else {
             const tripoint_abs_ms u_abs_pos = u.get_location();
-            for( zone_manager::ref_zone_data &ref : mgr.get_zones() ) {
+            for( zone_manager::ref_zone_data &ref : mgr.get_zones( zones_faction ) ) {
                 const tripoint_abs_ms &zone_abs_pos = ref.get().get_center_point();
                 if( u_abs_pos.z() == zone_abs_pos.z() &&
                     rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
@@ -6361,7 +6370,7 @@ void game::zones_manager()
             return;
         }
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-        zones_manager_shortcuts( w_zones_info );
+        zones_manager_shortcuts( w_zones_info, zones_faction );
 
         if( zone_cnt == 0 ) {
             werase( w_zones );
@@ -6510,6 +6519,16 @@ void game::zones_manager()
             show_all_zones = !show_all_zones;
             zones = get_zones();
             active_index = 0;
+        } else if( action == "CHANGE_FACTION" ) {
+            ui.invalidate_ui();
+            std::string facname = zones_faction.str();
+            string_input_popup()
+            .description( _( "Show zones for faction:" ) )
+            .width( 55 )
+            .max_length( 256 )
+            .edit( facname );
+            zones_faction = faction_id( facname );
+            zones = get_zones();
         } else if( zone_cnt > 0 ) {
             if( action == "UP" ) {
                 active_index--;
