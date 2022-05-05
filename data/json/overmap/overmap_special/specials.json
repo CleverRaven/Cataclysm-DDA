@@ -1359,7 +1359,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1374,7 +1374,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1389,7 +1389,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1404,7 +1404,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1419,7 +1419,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1434,7 +1434,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1449,7 +1449,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },  
   {
     "type": "overmap_special",
@@ -1462,7 +1462,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1476,7 +1476,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1491,7 +1491,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1505,8 +1505,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },  
   {
     "type": "overmap_special",
@@ -1520,8 +1520,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
