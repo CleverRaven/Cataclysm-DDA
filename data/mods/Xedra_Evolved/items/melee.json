@@ -83,7 +83,7 @@
     "description": "Sparks zap at your opponent.",
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
-    "damage_type": "electrical",
+    "damage_type": "electric",
     "min_damage": 8,
     "min_range": 1,
     "shape": "blast",
