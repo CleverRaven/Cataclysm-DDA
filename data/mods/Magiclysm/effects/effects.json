@@ -11,6 +11,56 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_black_dragon",
+    "name": [ "Black Dragon Mutation", "Black Dragon Transformation", "Black Dragon Metamorphosis" ],
+    "desc": [
+      "You consumed black dragon mutagen.",
+      "You consumed a large amount of black dragon mutagen.",
+      "You consumed a life-changing amount of black dragon mutagen."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Black Dragon Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_manatouched",
+    "name": [ "Mana Mutation", "Mana Transformation", "Mana Metamorphosis" ],
+    "desc": [
+      "You consumed concentrated mana.",
+      "You consumed a large amount of concentrated mana.",
+      "You consumed a life-changing amount of concentrated mana."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Concentrated Mana Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "enchant_windrun",
     "name": [ "Windrunning" ],
     "desc": [ "You are bolstered and pushed along by the power of the wind." ],
@@ -146,6 +196,7 @@
     "apply_message": "You feel very seen!",
     "remove_message": "You no longer feel like somebody's watching you.",
     "rating": "good",
+    "max_duration": "60 m",
     "removes_effects": [ "invisibility" ]
   },
   {
@@ -204,7 +255,7 @@
     "type": "effect_type",
     "id": "debug_feather_fall",
     "name": [ "Debug Feather Fall" ],
-    "desc": [ "You  are light as a feather and fall like one." ],
+    "desc": [ "You are light as a feather and fall like one." ],
     "apply_message": "Your body feels light as a feather.",
     "remove_message": "The earth pulls you down hard.",
     "rating": "good",
@@ -313,6 +364,17 @@
   },
   {
     "type": "effect_type",
+    "id": "mind_reading",
+    "//": "slowdown for shaman attunement",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 1,
+    "int_add_val": 1,
+    "max_duration": "6 s",
+    "base_mods": { "speed_mod": [ -25 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "natures_commune",
     "name": [ "Nature's Commune" ],
     "desc": [ "You can feel Mother Nature welcoming you, revitalizing your body and calming the natural fauna around you." ],
@@ -373,5 +435,14 @@
     "int_add_val": 1,
     "base_mods": { "per_mod": [ 1 ], "dex_mod": [ 1 ], "str_mod": [ 1 ], "int_mod": [ 1 ], "stamina_min": [ 5 ] },
     "scaling_mods": { "per_mod": [ 0.4 ], "dex_mod": [ 0.4 ], "str_mod": [ 0.4 ], "int_mod": [ 0.4 ], "stamina_min": [ 5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "ice_energy",
+    "name": [ "Ice erosion" ],
+    "desc": [ "Ice crystals erode your body from all directions." ],
+    "base_mods": { "speed_mod": [ -10 ], "hurt_amount": [ 1 ] },
+    "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 4 ] },
+    "max_intensity": 3
   }
 ]

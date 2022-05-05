@@ -18,6 +18,8 @@
 #include "test_statistics.h"
 #include "type_id.h"
 
+static const efftype_id effect_grabbed( "grabbed" );
+
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 
@@ -27,11 +29,14 @@ static const trait_id trait_SUNBURN( "SUNBURN" );
 // - Character::suffer_from_sunburn
 
 // Make character suffer for a while
-static void test_suffer( Character &dummy, const time_duration &dur )
+static void test_suffer( Character &dummy, const time_duration &dur, bool update_body = false )
 {
     const int num_turns = to_turns<int>( dur );
     for( int turn = 0; turn < num_turns; ++turn ) {
         dummy.suffer();
+        if( update_body ) {
+            dummy.update_body( calendar::turn, calendar::turn + 1_turns );
+        }
     }
 }
 
@@ -348,3 +353,138 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
     }
 }
 
+TEST_CASE( "suffering from asphyxiation", "[char][suffer][oxygen]" )
+{
+    clear_map();
+    clear_avatar();
+    Character &dummy = get_player_character();
+    dummy.set_underwater( false );
+    dummy.oxygen = dummy.get_oxygen_max();
+    REQUIRE( dummy.oxygen == 46 );
+
+    GIVEN( "character is not grabbed or underwater" ) {
+        REQUIRE( !dummy.is_underwater() );
+        REQUIRE( !dummy.has_effect( effect_grabbed, body_part_torso ) );
+        dummy.oxygen = 0;
+
+        WHEN( "at full stamina" ) {
+            REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() );
+
+            THEN( "recover 5 stamina per turn" ) {
+                test_suffer( dummy, 3_turns, true );
+                CHECK( dummy.oxygen == 15 );
+            }
+        }
+
+        WHEN( "at 3/4 stamina" ) {
+            dummy.set_stamina( ( dummy.get_stamina_max() * 3 ) / 4 );
+            REQUIRE( dummy.get_stamina() == ( dummy.get_stamina_max() * 3 ) / 4 );
+
+            THEN( "recover 3 stamina per turn" ) {
+                test_suffer( dummy, 3_turns, true );
+                CHECK( dummy.oxygen == 9 );
+            }
+        }
+
+        WHEN( "at 1/2 stamina" ) {
+            dummy.set_stamina( dummy.get_stamina_max() / 2 );
+            REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() / 2 );
+
+            THEN( "recover 2 stamina per turn" ) {
+                test_suffer( dummy, 3_turns, true );
+                CHECK( dummy.oxygen == 6 );
+            }
+        }
+
+        WHEN( "at 1/4 stamina" ) {
+            dummy.set_stamina( dummy.get_stamina_max() / 4 );
+            REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() / 4 );
+
+            THEN( "recover 1 stamina per turn" ) {
+                test_suffer( dummy, 3_turns, true );
+                CHECK( dummy.oxygen == 3 );
+            }
+        }
+
+        WHEN( "at 1/10 stamina" ) {
+            dummy.set_stamina( dummy.get_stamina_max() / 10 );
+            REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() / 10 );
+
+            THEN( "recover 1 stamina per turn" ) {
+                test_suffer( dummy, 3_turns, true );
+                CHECK( dummy.oxygen == 3 );
+            }
+        }
+
+        WHEN( "at 0 stamina" ) {
+            dummy.set_stamina( 0 );
+            REQUIRE( dummy.get_stamina() == 0 );
+
+            THEN( "recover 1 stamina per turn" ) {
+                test_suffer( dummy, 3_turns, true );
+                CHECK( dummy.oxygen == 3 );
+            }
+        }
+    }
+
+    GIVEN( "character is underwater" ) {
+        dummy.set_underwater( true );
+        REQUIRE( dummy.is_underwater() );
+        REQUIRE( dummy.oxygen == 46 );
+        REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() );
+
+        THEN( "they lose 1 oxygen per turn" ) {
+            test_suffer( dummy, 10_turns, true );
+            CHECK( dummy.oxygen == 36 );
+        }
+    }
+
+    GIVEN( "character is grabbed" ) {
+        REQUIRE( dummy.oxygen == 46 );
+        REQUIRE( !dummy.is_underwater() );
+        REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() );
+        WHEN( "grabbed intensity = 2" ) {
+            dummy.add_effect( effect_grabbed, 20_turns, body_part_torso, false, 2, true );
+            REQUIRE( dummy.has_effect( effect_grabbed, body_part_torso ) );
+            REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 2 );
+
+            THEN( "they lose 0 or 1 oxygen per turn" ) {
+                test_suffer( dummy, 10_turns, true );
+                CHECK( dummy.oxygen == Approx( 41 ).margin( 5 ) );
+            }
+        }
+
+        WHEN( "grabbed intensity = 4" ) {
+            dummy.add_effect( effect_grabbed, 20_turns, body_part_torso, false, 4, true );
+            REQUIRE( dummy.has_effect( effect_grabbed, body_part_torso ) );
+            REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 4 );
+
+            THEN( "they lose 1 oxygen per turn" ) {
+                test_suffer( dummy, 10_turns, true );
+                CHECK( dummy.oxygen == 36 );
+            }
+        }
+
+        WHEN( "grabbed intensity = 6" ) {
+            dummy.add_effect( effect_grabbed, 20_turns, body_part_torso, false, 6, true );
+            REQUIRE( dummy.has_effect( effect_grabbed, body_part_torso ) );
+            REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 6 );
+
+            THEN( "they lose 1 or 2 oxygen per turn" ) {
+                test_suffer( dummy, 10_turns, true );
+                CHECK( dummy.oxygen == Approx( 31 ).margin( 5 ) );
+            }
+        }
+
+        WHEN( "grabbed intensity = 8" ) {
+            dummy.add_effect( effect_grabbed, 20_turns, body_part_torso, false, 8, true );
+            REQUIRE( dummy.has_effect( effect_grabbed, body_part_torso ) );
+            REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 8 );
+
+            THEN( "they lose 2 oxygen per turn" ) {
+                test_suffer( dummy, 10_turns, true );
+                CHECK( dummy.oxygen == 26 );
+            }
+        }
+    }
+}

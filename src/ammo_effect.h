@@ -13,6 +13,8 @@
 
 class JsonObject;
 
+generic_factory<ammo_effect> &get_all_ammo_effects();
+
 struct ammo_effect {
     public:
         void load( const JsonObject &jo, const std::string &src );

@@ -44,7 +44,7 @@ static constexpr int KEY_HOME       =
     0x106;    /* home key */
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
-static constexpr int KEY_DC         = 0x151;    /* Delete Character */
+static constexpr int KEY_DC         = 0x14A;    /* Delete Character */
 static constexpr int KEY_F0         = 0x108;
 inline constexpr int KEY_F( const int n )
 {
@@ -817,11 +817,6 @@ class input_context
         void set_timeout( int val );
         void reset_timeout();
 
-
-        void set_category( std::string c ) {
-            category = c;
-        }
-
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
@@ -859,7 +854,7 @@ class input_context
          * Return a user presentable list of actions that conflict with the
          * proposed keybinding. Returns an empty string if nothing conflicts.
          */
-        std::string get_conflicts( const input_event &event ) const;
+        std::string get_conflicts( const input_event &event, const std::string &ignore_action ) const;
         /**
          * Clear an input_event from all conflicting keybindings that are
          * registered by this input_context.
@@ -906,7 +901,13 @@ class hotkey_queue
          */
         static const hotkey_queue &alphabets();
 
-        static const hotkey_queue &create_from_available_hotkeys( input_context &ctxt );
+        /**
+         * In keychar mode:
+         *   1-0, a-z, A-Z
+         * In keycode mode:
+         *   1-0, a-z, shift 1-0, shift a-z
+         */
+        static const hotkey_queue &alpha_digits();
 
     private:
         std::vector<int> codes_keychar;

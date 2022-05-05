@@ -513,6 +513,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "pistol_stock",
+    "id_suffix": "with_plastic_molding",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -603,7 +604,11 @@
     "time": "6 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "duct_tape", 75 ] ], [ [ "bottle_twoliter", 1 ] ], [ [ "bottle_plastic", 4 ], [ "bottle_plastic_small", 4 ] ] ]
+    "components": [
+      [ [ "duct_tape", 75 ] ],
+      [ [ "bottle_twoliter", 1 ] ],
+      [ [ "bottle_plastic", 4 ], [ "bottle_bathroom", 4 ], [ "bottle_plastic_small", 4 ] ]
+    ]
   },
   {
     "type": "recipe",

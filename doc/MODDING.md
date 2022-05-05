@@ -41,7 +41,7 @@ The `category` attribute denotes where the mod will appear in the mod selection 
  - `rebalance` - A mod designed to rebalance the game in some way (eg: Safe autodocs).
  - `magical` - A mod that adds something magic-related to the game (eg: Necromancy)
  - `item_exclude` - A mod that stops items from spawning in the world (eg: No survivor armor, No drugs)
- - `monster_exclude` - A mod that stops certain monster varieties from spawning in the world (eg: No fungal monsters, No ants)
+ - `monster_exclude` - A mod that stops certain monster varieties from spawning in the world (eg: No fungal monsters, No monsters)
  - `graphical` - A mod that adjusts game graphics in some way (eg: Graphical overmap)
 
 The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
@@ -120,7 +120,7 @@ Professions are what the game calls the character classes you can choose from wh
 ````
 
 ### Adding an item
-Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different. 
+Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different.
 <!--I chose this one because it's about as basic an item as I could find. Everything else does something.-->
 ````json
 [
@@ -142,47 +142,91 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
 ````
 
 ### Preventing monsters from spawning
-This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, blacklist monsters by their specified species, or you can blacklist individual monsters. In order to do any of those things, you need that monster's ID or SPECIES data. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
-The example below is from the `No Ants` mod, and will stop any kind of ant from spawning in-game.
+This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. You can create blacklists and whitelists to define the allowed monsters individually, by species, or by category. In order to create these you'll need the relevant identifiers; look for a monster's `id`, `species`, and any `categories` in its JSON definition, which can be found in `data/json/monsters/` for the core game.
+
+Below is an excerpt from the `Mythos` mod that shows how to blacklist monsters individually and by species. This will prevent all zombies, cyborgs, and robots from spawning in-game, with fungal zombies specified by `id`.
 ````json
 [
   {
     "type": "MONSTER_BLACKLIST",
-    "categories": [ "GROUP_ANT", "GROUP_ANT_ACID" ]
+    "monsters": [
+      "mon_zombie_fungus",
+      "mon_boomer_fungus",
+      "mon_zombie_child_fungus",
+      "mon_zombie_gasbag_fungus",
+      "mon_zombie_smoker_fungus",
+      "mon_skeleton_fungus",
+      "mon_skeleton_brute_fungus",
+      "mon_skeleton_hulk_fungus",
+      "mon_chud"
+    ]
   },
   {
     "type": "MONSTER_BLACKLIST",
+    "species": [ "ZOMBIE", "ROBOT", "CYBORG" ]
+  }
+]
+````
+The following is an example of how to blacklist monsters by category. In this case, it will remove all classic zombie types from the game.
+````json
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "categories": [ "CLASSIC" ]
+  }
+]
+````
+You can also define exclusions to a blacklist by combining it with a whitelist. Expanding on the previous example, this will remove all classic zombie types except zombie horses.
+````json
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "categories": [ "CLASSIC" ]
+  },
+  {
+    "type": "MONSTER_WHITELIST",
     "monsters": [
-      "mon_ant_acid_larva",
-      "mon_ant_acid_soldier",
-      "mon_ant_acid_queen",
-      "mon_ant_larva",
-      "mon_ant_soldier",
-      "mon_ant_queen",
-      "mon_ant_acid",
-      "mon_ant"
+      "mon_zombie_horse"
     ]
   }
 ]
 ````
-The following is an example of how to blacklist monsters by species. In this case, it would remove all fungaloids from the game.
+Alternatively, if you only want specific monsters or species to appear, you can define an exclusive whitelist. Note that this will override any defined blacklists. The example below is from the `No Monsters` mod, which prevents all monsters except wildlife from spawning.
 ````json
 [
   {
-    "type": "MONSTER_BLACKLIST",
-    "species": [ "FUNGUS" ]
+    "type": "MONSTER_WHITELIST",
+    "mode": "EXCLUSIVE",
+    "categories": [ "WILDLIFE" ]
   }
 ]
 ````
+You can define a non-exclusive whitelist by itself, but they have no notable effect unless they're combined with blacklists or exclusive whitelists as shown above. This can still be useful because these lists are combined across all active mods, so you might include one to ensure certain monster types are present for your mod. For example, `Crazy Cataclysm` uses the list below to enable some monsters that the core game blacklists by default, allowing them to spawn regardless of any other mods that might try to disable them.
+````json
+[
+  {
+    "type": "MONSTER_WHITELIST",
+    "monsters": [
+      "mon_zombie_dancer",
+      "mon_zombie_jackson",
+      "mon_shia",
+      "mon_bear_smoky",
+      "mon_zombie_skeltal",
+      "mon_zombie_skeltal_minion"
+    ]
+  }
+]
+````
+
 ### Preventing locations from spawning
 <!--I'm not especially happy with this section. Blacklisting things on the map works differently depending on what you're blacklisting. Overmap specials are different from overmap extras, city buildings, and building groups.-->
-Preventing certain types of locations from spawning in-game is a little trickier depending on the type of thing you want to target. An overmap building can either be a standard building, or an overmap special. If you want to block things with a specific flag from spawning, you can blacklist those in a very similar manner to monsters. The example below is also from the `No Ants` mod, and stops all anthills from spawning.
+Preventing certain types of locations from spawning in-game is a little trickier depending on the type of thing you want to target. An overmap building can either be a standard building, or an overmap special. If you want to block things with a specific flag from spawning, you can blacklist those in a very similar manner to monsters. The example below is also from the `No Fungal Monsters` mod, and stops all fungal regions from spawning.
 ````json
 [
   {
     "type": "region_overlay",
     "regions": [ "all" ],
-    "overmap_feature_flag_settings": { "blacklist": [ "ANT" ] }
+    "overmap_feature_flag_settings": { "blacklist": [ "FUNGAL" ] }
   }
 ]
 ````

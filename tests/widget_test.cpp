@@ -20,6 +20,7 @@
 namespace cata_curses_test
 {
 #define NCURSES_NOMACROS
+#define NCURSES_WIDECHAR 1
 #if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
@@ -755,8 +756,8 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 0" );
         CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 0" );
         ava.drench( 100, { body_part_head, body_part_torso }, false );
-        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
-        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
+        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 200" );
+        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 200" );
     }
 }
 
@@ -1194,17 +1195,17 @@ TEST_CASE( "outer armor widget", "[widget][armor]" )
     CHECK( torso_armor_w.layout( ava ) == "Torso Armor: -" );
 
     // Wearing something covering torso
-    ava.worn.emplace_back( "test_zentai" );
+    ava.worn.wear_item( ava, item( "test_zentai" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
 
     // Wearing socks doesn't affect the torso
-    ava.worn.emplace_back( "test_socks" );
+    ava.worn.wear_item( ava, item( "test_socks" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
 
     // Wearing something else on the torso
-    ava.worn.emplace_back( "test_hazmat_suit" );
+    ava.worn.wear_item( ava, item( "test_hazmat_suit" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_light_green>||</color>\u00A0TEST hazmat suit (poor fit)" );
 }
@@ -1221,7 +1222,7 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 
     // Acquire and wear a radiation badge
     item &rad_badge = ava.i_add( item( itype_rad_badge ) );
-    ava.worn.emplace_back( rad_badge );
+    ava.worn.wear_item( ava, rad_badge, false, false );
 
     // Color indicator is shown when character has radiation badge
     ava.set_rad( 0 );
@@ -1402,11 +1403,11 @@ TEST_CASE( "compass widget", "[widget][compass]" )
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>                 " );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
     }
 }
@@ -1759,7 +1760,7 @@ TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  2 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
         CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 2 );
     }
@@ -1779,7 +1780,7 @@ TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
                  3 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 3 );
     }

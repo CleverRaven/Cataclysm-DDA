@@ -1,7 +1,7 @@
 # Translating Cataclysm: DDA
 
 * [Translators](#translators)
-  * [Getting Started](#getting-Started)
+  * [Getting Started](#getting-started)
   * [Glossary](#glossary)
   * [Grammatical gender](#grammatical-gender)
   * [Tips](#tips)
@@ -145,12 +145,13 @@ General notes for all translators are in `README_all_translators.txt`,
 and notes specific to a language may be stored as `<lang_id>.txt`,
 for example `de.txt` for German.
 
-Cataclysm: DDA has more than 14000 translatable strings, but don't be discouraged.
-The more translators there are, the easier it becomes 😄.
+Cataclysm: DDA has more than 50000 translatable strings, including all mods shipped
+with the game but don't be discouraged. The more translators there are, the easier it
+becomes 😄.
 
 ## Developers
 
-Cataclysm: DDA uses [GNU gettext][5] to display translated texts.
+Cataclysm: DDA uses a modified version of [GNU gettext][5] to display translated texts.
 
 Using `gettext` requires two actions:
 
@@ -310,6 +311,23 @@ you also need to update `extract_json_strings.py` and run `lang/update_pot.sh`
 to ensure that the strings are correctly extracted for translation, and run the
 unit test to fix text styling issues reported by the `translation` class.
 
+### Static string variables
+
+Translation functions should not be called when initializing a static variable.
+For global static variables, calling these functions does nothing because the
+translation system is not yet initialized. For local static variables, the
+translation will only happen once and switching language in-game will not work
+properly. Consider using translation objects (`to_translation()` or `pl_translation()`)
+to mark the string for extraction and call `translation::translated()` on the
+fly to ensure the string is properly translated each time.
+
+Note if a string becomes translated in-game after you add a translation function
+call to the initialization of a global static variable, it usually means a
+translation call is already made when the string is used, and your newly added
+translation call happens to mark the string for extraction. In this case, using
+a translation object is also recommended to avoid calling the translation
+function twice.
+
 ### Recommendations
 
 In Cataclysm: DDA, some classes, like `itype` and `mtype`, provide a wrapper
@@ -347,12 +365,13 @@ To compile the .po files into `.mo` files for use, run `lang/compile_mo.sh`. It 
 
 Also note that both `lang/merge_po.sh` and `lang/compile_mo.sh` accept arguments specifying which languages to merge or compile. So to compile only the translation for, say, Traditional Chinese (zh_TW), one would run `lang/compile_mo.sh zh_TW`.
 
-After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run cataclysm.
+After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run Cataclysm.
 
 If your system locale is different from the one you want to test, the easiest way to do so is to find out your locale identifier, compile the translation you want to test, then rename the directory in `lang/mo/` to your locale identifier.
 
 So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
 
+You can also change the language in game options if both are installed.
 
 [1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion

@@ -18,6 +18,7 @@
     "chip_resist": 6,
     "wind_resist": 70,
     "repaired_with": "rag",
+    "breathability": "AVERAGE",
     "salvaged_into": "cotton_patchwork",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",

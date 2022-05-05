@@ -14,19 +14,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "seed_watermelon",
-    "copy-from": "seed",
-    "name": { "str_sp": "watermelon seeds" },
-    "weight": "2 g",
-    "color": "black",
-    "use_action": [ "SEED" ],
-    "description": "Some raw watermelon seeds.",
-    "price": 100,
-    "charges": 2,
-    "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" }
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "seed_banana",
     "copy-from": "seed",
     "name": { "str_sp": "banana seeds" },

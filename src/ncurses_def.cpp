@@ -9,6 +9,9 @@
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
+#if !defined(__APPLE__)
+#define NCURSES_WIDECHAR 1
+#endif
 #if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
@@ -23,9 +26,11 @@
 #include <stdexcept>
 
 #include "cached_options.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -245,7 +250,7 @@ void catacurses::init_interface()
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
-    // behave exactly like the wrapper, therefor:
+    // behave exactly like the wrapper, therefore:
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
@@ -428,8 +433,8 @@ void check_encoding(); // NOLINT(cata-static-declarations)
 void ensure_term_size()
 {
     // do not use ui_adaptor here to avoid re-entry
-    const int minHeight = FULL_SCREEN_HEIGHT;
-    const int minWidth = FULL_SCREEN_WIDTH;
+    const int minHeight = EVEN_MINIMUM_TERM_HEIGHT;
+    const int minWidth = EVEN_MINIMUM_TERM_WIDTH;
     int maxy = getmaxy( catacurses::stdscr );
     int maxx = getmaxx( catacurses::stdscr );
 
@@ -481,6 +486,11 @@ void check_encoding()
             key = getch();
         } while( key == KEY_RESIZE || key == KEY_MOUSE );
     }
+}
+
+void set_title( const std::string & )
+{
+    // curses does not seem to have a portable way of setting the window title.
 }
 
 #endif

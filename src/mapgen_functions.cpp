@@ -1473,7 +1473,7 @@ void mapgen_highway( mapgendata &dat )
 }
 
 // mapgen_railroad
-// TODO: Refactor and combine with other similiar functions (e.g. road).
+// TODO: Refactor and combine with other similar functions (e.g. road).
 void mapgen_railroad( mapgendata &dat )
 {
     map *const m = &dat.m;
@@ -2155,7 +2155,7 @@ void mapgen_forest( mapgendata &dat )
     * biome to forests so that forests don't fade out as they transition to roads).
     *
     * @param ot The type of terrain to determine the sparseness of.
-    * @return A discrete scale of the density of natural features occuring in \p ot.
+    * @return A discrete scale of the density of natural features occurring in \p ot.
     */
     const auto get_sparseness_adjacency_factor = [&dat]( const oter_id & ot ) {
         const auto biome = dat.region.forest_composition.biomes.find( ot );
@@ -2416,7 +2416,7 @@ void mapgen_forest( mapgendata &dat )
     * Determines the groundcover that should be placed at a furniture-less point in a forest.
     *
     * Similar to the get_feathered_feature lambda with a different weighting algorithm,
-    * which favors the biome of this terrain over that of ajacent ones by fixed margin.
+    * which favors the biome of this terrain over that of adjacent ones by fixed margin.
     * Only selects groundcover, rather than biome-appropriate furniture.
     *
     * @return The groundcover to be placed at the specified point in the forest.
@@ -2816,7 +2816,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // I'm pretty unhappy with this block of if statements that follows, but got frustrated/sidetracked
     // in finding a more elegant solution. This is functional, but improvements that maintain the result
-    // are welcome. The basic jist is as follows:
+    // are welcome. The basic gist is as follows:
     //
     // Given our current location and the 8 adjacent locations, we classify them all as lake, lake shore,
     // river bank, or something else that we don't care about. We then create a polygon with four points,
@@ -3133,7 +3133,7 @@ void mapgen_lake_shore( mapgendata &dat )
 void mapgen_ravine_edge( mapgendata &dat )
 {
     map *const m = &dat.m;
-    // A solid chunk of z layer appropiate wall or floor is first generated to carve the cliffside off from
+    // A solid chunk of z layer appropriate wall or floor is first generated to carve the cliffside off from
     if( dat.zlevel() == 0 ) {
         dat.fill_groundcover();
     } else {
@@ -3148,7 +3148,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     const auto is_ravine_edge = [&]( const oter_id & id ) {
         return id.obj().is_ravine_edge();
     };
-    // Since this terrain is directionless, we look at its inmediate neighbors to determine whether a straight
+    // Since this terrain is directionless, we look at its immediate neighbors to determine whether a straight
     // or curved ravine edge should be generated. And to then apply the correct rotation.
     const bool n_ravine  = is_ravine( dat.north() );
     const bool e_ravine  = is_ravine( dat.east() );
@@ -3244,6 +3244,12 @@ void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
     tripoint actual_location( p, m->get_abs_sub().z() );
     m->add_field( actual_location, type, intensity, 0_turns );
+}
+
+void mremove_fields( map *m, const point &p )
+{
+    tripoint actual_location( p, m->get_abs_sub().z() );
+    m->clear_fields( actual_location );
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )

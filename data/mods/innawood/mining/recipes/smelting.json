@@ -30,7 +30,8 @@
     "batch_time_factors": [ 90, 4 ],
     "autolearn": true,
     "//": "Yield is just over 98% by weight, each output of copper is 400 weight.  Volume of output is massively oversize however.",
-    "result_mult": 22,
+    "result_mult": 21,
+    "byproducts": [ [ "platinum_small" ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
     "components": [ [ [ "chunk_copper", 1 ] ] ]
   },
@@ -117,7 +118,7 @@
     "batch_time_factors": [ 90, 4 ],
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "textbook_fabrication", 2 ], [ "welding_book", 2 ] ],
-    "//": "Galena has around 86% yield of lead, yield here is just over 82%, due to one output weighing 300 grams.  Silver output is around double the expected 2% yield due to minumum of 300 grams.  Output volume is still oversize.",
+    "//": "Galena has around 86% yield of lead, yield here is just over 82%, due to one output weighing 300 grams.  Silver output is around double the expected 2% yield due to minimum of 300 grams.  Output volume is still oversize.",
     "result_mult": 21,
     "byproducts": [ [ "silver_small" ] ],
     "using": [ [ "forging_standard", 3 ] ],

@@ -429,16 +429,34 @@ template<class T>
 void conditional_t<T>::set_has_items( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     JsonObject has_items = jo.get_object( member );
-    if( !has_items.has_string( "item" ) || !has_items.has_int( "count" ) ) {
+    if( !has_items.has_string( "item" ) || ( !has_items.has_int( "count" ) &&
+            !has_items.has_int( "charges" ) ) ) {
         condition = []( const T & ) {
             return false;
         };
     } else {
         const itype_id item_id( has_items.get_string( "item" ) );
-        int count = has_items.get_int( "count" );
-        condition = [item_id, count, is_npc]( const T & d ) {
+        int count = 0;
+        if( has_items.has_int( "count" ) ) {
+            count = has_items.get_int( "count" );
+        }
+        int charges = 0;
+        if( has_items.has_int( "charges" ) ) {
+            charges = has_items.get_int( "charges" );
+        }
+        condition = [item_id, count, charges, is_npc]( const T & d ) {
             const talker *actor = d.actor( is_npc );
-            return actor->has_charges( item_id, count ) || actor->has_amount( item_id, count );
+            if( charges == 0 && item::count_by_charges( item_id ) ) {
+                return actor->has_charges( item_id, count, true );
+            }
+            if( charges > 0 && count == 0 ) {
+                return actor->has_charges( item_id, charges, true );
+            }
+            bool has_enough_charges = true;
+            if( charges > 0 ) {
+                has_enough_charges = actor->has_charges( item_id, charges, true );
+            }
+            return has_enough_charges && actor->has_amount( item_id, count );
         };
     }
 }
@@ -1307,6 +1325,22 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_per_max();
             };
+        } else if( checked_value == "strength_bonus" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_str_bonus();
+            };
+        } else if( checked_value == "dexterity_bonus" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_dex_bonus();
+            };
+        } else if( checked_value == "intelligence_bonus" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_int_bonus();
+            };
+        } else if( checked_value == "perception_bonus" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_per_bonus();
+            };
         } else if( checked_value == "hp" ) {
             cata::optional<bodypart_id> bp;
             optional( jo, false, "bodypart", bp );
@@ -1470,6 +1504,28 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_kill_xp();
             };
+        } else if( checked_value == "addiction_intensity" ) {
+            const addiction_id add_id( jo.get_string( "addiction" ) );
+            if( jo.has_object( "mod" ) ) {
+                // final_value = (val / (val - step * intensity)) - 1
+                JsonObject jobj = jo.get_object( "mod" );
+                const int val = jobj.get_int( "val", 0 );
+                const int step = jobj.get_int( "step", 0 );
+                return [is_npc, add_id, val, step]( const T & d ) {
+                    int intens = d.actor( is_npc )->get_addiction_intensity( add_id );
+                    int denom = val - step * intens;
+                    return denom == 0 ? 0 : ( val / std::max( 1, denom ) - 1 );
+                };
+            }
+            const int mod = jo.get_int( "mod", 1 );
+            return [is_npc, add_id, mod]( const T & d ) {
+                return d.actor( is_npc )->get_addiction_intensity( add_id ) * mod;
+            };
+        } else if( checked_value == "addiction_turns" ) {
+            const addiction_id add_id( jo.get_string( "addiction" ) );
+            return [is_npc, add_id]( const T & d ) {
+                return d.actor( is_npc )->get_addiction_turns( add_id );
+            };
         } else if( checked_value == "stim" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_stim();
@@ -1547,6 +1603,22 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "body_temp_delta" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_body_temp_delta();
+            };
+        } else if( checked_value == "npc_trust" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_npc_trust();
+            };
+        } else if( checked_value == "npc_fear" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_npc_fear();
+            };
+        } else if( checked_value == "npc_value" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_npc_value();
+            };
+        } else if( checked_value == "npc_anger" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_npc_anger();
             };
         }
     } else if( jo.has_member( "moon" ) ) {

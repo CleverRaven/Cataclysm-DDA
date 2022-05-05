@@ -65,7 +65,8 @@
       { "item": "bottle_opener", "prob": 95 },
       { "item": "pizza_cutter", "prob": 30 },
       { "item": "icecream_scoop", "prob": 25 },
-      { "item": "cheese_grater", "prob": 40 }
+      { "item": "cheese_grater", "prob": 40 },
+      { "item": "mortar_pestle", "prob": 50 }
     ]
   },
   {
@@ -101,6 +102,7 @@
     "entries": [
       { "item": "xacto", "prob": 80 },
       { "item": "scissors", "prob": 80 },
+      { "item": "bag_garbage", "prob": 95, "count": [ 1, 25 ] },
       { "item": "screwdriver", "prob": 70 },
       { "item": "hammer", "prob": 60 },
       { "item": "pliers", "prob": 60 },
@@ -120,10 +122,16 @@
       { "item": "corkscrew", "prob": 60 },
       { "item": "bottle_opener", "prob": 75 },
       { "item": "candle", "prob": 75, "charges-min": 10 },
+      { "item": "extension_cable", "prob": 45 },
+      { "item": "long_extension_cable", "prob": 20 },
       { "item": "RPG_die", "prob": 10 },
       { "item": "metal_RPG_die", "prob": 1 },
       {
-        "distribution": [ { "item": "matches", "charges-min": 1 }, { "item": "lighter", "charges-min": 1 } ],
+        "distribution": [
+          { "item": "matches", "charges-min": 1 },
+          { "item": "lighter", "charges-min": 1 },
+          { "item": "ref_matches", "charges-min": 1 }
+        ],
         "prob": 90
       }
     ]
@@ -138,11 +146,13 @@
       { "item": "cash_card", "count": [ 1, 3 ], "charges-min": 1, "charges-max": 1150 },
       { "item": "cash_card", "count": [ 1, 4 ], "charges": 0 },
       { "item": "lighter", "prob": 90, "charges-min": 0, "charges-max": 2 },
+      { "item": "bag_garbage", "prob": 95, "count": [ 1, 25 ] },
       { "item": "bottle_opener", "prob": 90 },
       { "item": "pen", "prob": 90, "charges-min": 1, "charges-max": 25 },
       { "item": "coin_quarter", "prob": 90 },
       { "item": "toothbrush_dirty", "prob": 80 },
       { "item": "matches", "prob": 80, "count": [ 1, 5 ], "charges-min": 0, "charges-max": 2 },
+      { "item": "ref_matches", "prob": 80, "count": [ 1, 5 ], "charges-min": 0, "charges-max": 2 },
       { "item": "coin_nickel", "prob": 70 },
       { "item": "coin_quarter", "prob": 70 },
       { "item": "old_key", "prob": 70, "count": [ 1, 7 ] },
@@ -350,6 +360,7 @@
       { "item": "aspirin", "prob": 50 },
       { "item": "fancy_sunglasses", "prob": 50 },
       { "item": "matches", "prob": 50, "charges": 20 },
+      { "item": "ref_matches", "prob": 50, "charges": 32 },
       { "item": "dog_whistle", "prob": 40 },
       { "item": "gum", "prob": 40 },
       { "item": "multitool", "prob": 40 },
@@ -786,7 +797,11 @@
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
       { "item": "chem_hydrogen_peroxide", "prob": 40, "charges-min": 1 },
       {
-        "collection": [ { "item": "candle", "count": [ 1, 2 ], "charges-min": 10 }, { "item": "matches", "charges-min": 1 } ],
+        "collection": [
+          { "item": "candle", "count": [ 1, 2 ], "charges-min": 10 },
+          { "item": "matches", "charges-min": 1 },
+          { "item": "ref_matches", "charges-min": 1 }
+        ],
         "prob": 20
       },
       { "item": "toilet_paper", "prob": 80 },
@@ -841,6 +856,11 @@
       { "group": "shoes_womens", "prob": 60 },
       { "item": "fishing_waders", "prob": 1 },
       { "item": "football_armor", "prob": 1 },
+      { "item": "pom_poms", "prob": 1 },
+      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "cheerleader_top_short", "prob": 1 },
+      { "item": "cheerleader_skirt", "prob": 1 },
+      { "item": "cheerleader_skirt_short", "prob": 1 },
       { "group": "pants_womens", "prob": 10 },
       { "item": "bscabbard", "prob": 1 },
       { "item": "sleeping_bag_roll", "prob": 5 },

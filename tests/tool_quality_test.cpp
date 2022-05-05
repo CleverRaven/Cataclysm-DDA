@@ -160,7 +160,7 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
         // Need avatar as "carrier" for the UPS
         Character &they = get_player_character();
         clear_character( they );
-        they.worn.emplace_back( "debug_backpack" );
+        they.worn.wear_item( they, item( "debug_backpack" ), false, false );
 
         // Use i_add to place everything in the avatar's inventory (backpack)
         // so the UPS power will be available to the cordless drill after modding

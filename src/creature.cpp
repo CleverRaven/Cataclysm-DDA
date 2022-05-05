@@ -535,7 +535,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 } while( continueFlag );
 
                 tripoint oldPos = pos();
-                setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary postion
+                setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary position
                 bool seesFromVehBound = sees( *m ); // And look from there
                 setpos( oldPos );
                 if( !seesFromVehBound ) {
@@ -668,14 +668,9 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
     float crit_mod = 1.f;
     const Character *c = as_character();
     if( c != nullptr ) {
-        int total_v_cover = 0;
-        for( const item &it : c->worn ) {
-            if( it.covers( bp ) ) {
-                total_v_cover += it.get_coverage( bp, item::cover_type::COVER_VITALS );
-            }
-        }
-        total_v_cover = clamp<int>( total_v_cover, 0, 100 );
-        crit_mod = 1.f - total_v_cover / 100.f;
+        const int total_cover = clamp<int>( c->worn.get_coverage( bp, item::cover_type::COVER_VITALS ), 0,
+                                            100 );
+        crit_mod = 1.f - total_cover / 100.f;
     }
     // TODO: as_monster()
     return crit_mod;
@@ -918,22 +913,13 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     projectile_attack_results ret( proj );
     const bool magic = proj.proj_effects.count( "magic" ) > 0;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
-    // Headshots considered elsewhere
-    if( hit_value <= 0.4 || magic ) {
-        ret.bp_hit = bodypart_id( "torso" );
-    } else if( one_in( 4 ) ) {
-        if( one_in( 2 ) ) {
-            ret.bp_hit = bodypart_id( "leg_l" );
-        } else {
-            ret.bp_hit = bodypart_id( "leg_r" );
-        }
-    } else {
-        if( one_in( 2 ) ) {
-            ret.bp_hit = bodypart_id( "arm_l" );
-        } else {
-            ret.bp_hit = bodypart_id( "arm_r" );
-        }
+    if( magic ) {
+        // Best possible hit
+        hit_value = -0.5;
     }
+    // Range is -0.5 to 1.5 -> missed_by will be [1, 0], so the rng addition to it
+    // will push it to at most 1.5 and at least -0.5
+    ret.bp_hit = get_anatomy()->select_body_part_projectile_attack( -0.5, 1.5, hit_value );
     float crit_mod = get_crit_factor( ret.bp_hit );
 
     const float crit_multiplier = proj.critical_multiplier;
@@ -941,16 +927,14 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     if( magic ) {
         // do nothing special, no damage mults, nothing
     } else if( goodhit < accuracy_headshot &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
-        ret.message = _( "Headshot!" );
-        ret.bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
-        crit_mod = get_crit_factor( ret.bp_hit );
+               ret.max_damage * crit_multiplier > get_hp_max( ret.bp_hit ) ) {
+        ret.message = _( "Critical!!" );
         ret.gmtSCTcolor = m_headshot;
         ret.damage_mult *= rng_float( 0.5 + 0.45 * crit_mod, 0.75 + 0.3 * crit_mod ); // ( 0.95, 1.05 )
         ret.damage_mult *= std_hit_mult + ( crit_multiplier - std_hit_mult ) * crit_mod;
         ret.is_crit = true;
     } else if( goodhit < accuracy_critical &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
+               ret.max_damage * crit_multiplier > get_hp_max( ret.bp_hit ) ) {
         ret.message = _( "Critical!" );
         ret.gmtSCTcolor = m_critical;
         ret.damage_mult *= rng_float( 0.5 + 0.25 * crit_mod, 0.75 + 0.25 * crit_mod ); // ( 0.75, 1.0 )
@@ -1181,7 +1165,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     apply_damage( source, bp, total_damage );
 
     if( wp != nullptr ) {
-        wp->apply_effects( *this, total_damage, attack );
+        wp->apply_effects( *this, total_damage, attack_copy );
     }
 
     return dealt_dams;
@@ -1677,7 +1661,7 @@ void Creature::process_effects()
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
             // Run decay effects, marking effects for removal as necessary.
-            e.decay( rem_ids, rem_bps, calendar::turn, is_avatar() );
+            e.decay( rem_ids, rem_bps, calendar::turn, is_avatar(), *effects );
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
                 on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
@@ -2386,13 +2370,18 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     body_part_type::type part_type, get_body_part_flags flags ) const
 {
     const bool only_main( flags & get_body_part_flags::only_main );
+    const bool primary( flags & get_body_part_flags::primary_type );
 
     std::vector<bodypart_id> bodyparts;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
-        if( elem.first->has_type( part_type ) ) {
+        if( primary ) {
+            if( elem.first->primary_limb_type() == part_type ) {
+                bodyparts.emplace_back( elem.first );
+            }
+        } else if( elem.first->has_type( part_type ) ) {
             bodyparts.emplace_back( elem.first );
         }
     }

@@ -231,6 +231,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_door_grass_curtain",
+    "name": "Build Door Curtain from Grass"
+  },
+  {
+    "type": "construction_group",
     "id": "build_double_glazed_glass_window",
     "name": "Build Double Glazed Glass Window"
   },
@@ -453,6 +458,16 @@
     "type": "construction_group",
     "id": "build_pile_of_leaves",
     "name": "Build Pile of Leaves"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_hammock",
+    "name": "Place Hammock"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_net_hammock",
+    "name": "Place Net Hammock"
   },
   {
     "type": "construction_group",
@@ -728,6 +743,11 @@
     "type": "construction_group",
     "id": "build_spinwheel",
     "name": "Build Spinwheel"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_stationary_scutcher",
+    "name": "Build Stationary Scutcher"
   },
   {
     "type": "construction_group",
@@ -1106,6 +1126,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_freezer",
+    "name": "Place Freezer"
+  },
+  {
+    "type": "construction_group",
     "id": "place_minifreezer",
     "name": "Place Minifreezer"
   },
@@ -1116,6 +1141,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_water_purifier",
+    "name": "Place Stationary Water Purifier"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_arcade_machine",
+    "name": "Place Arcade Machine"
+  },
+  {
+    "type": "construction_group",
     "id": "place_electric_forge",
     "name": "Place Electric Forge"
   },
@@ -1123,6 +1158,51 @@
     "type": "construction_group",
     "id": "place_kiln",
     "name": "Place Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_drill_press",
+    "name": "Place Drill Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_tablesaw",
+    "name": "Place Table Saw"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_mitresaw",
+    "name": "Place Mitre Saw"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_bandsaw",
+    "name": "Place Band Saw"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_router",
+    "name": "Place Router"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_planer",
+    "name": "Place Planer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_jointer",
+    "name": "Place Jointer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_hydraulic_press",
+    "name": "Place Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_air_compressor",
+    "name": "Place Air Compressor"
   },
   {
     "type": "construction_group",
@@ -1146,6 +1226,21 @@
   },
   {
     "type": "construction_group",
+    "id": "place_reinforced_solar_panel",
+    "name": "Place Reinforced Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_solar_panel_v2",
+    "name": "Place Upgraded Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_reinforced_solar_panel_v2",
+    "name": "Place Upgraded Reinforced Solar Panel"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_battery",
     "name": "Place Small Battery"
   },
@@ -1157,17 +1252,47 @@
   {
     "type": "construction_group",
     "id": "place_battery",
-    "name": "Place Battery"
+    "name": "Place Large Battery"
   },
   {
     "type": "construction_group",
     "id": "place_large_battery",
-    "name": "Place Large Battery"
+    "name": "Place Very Large Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_car_battery",
+    "name": "Place Car Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_washing_machine",
+    "name": "Place Washing Machine"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_dishwasher",
+    "name": "Place Dishwasher"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_autoclave",
+    "name": "Place Autoclave"
   },
   {
     "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ap_foot_locker_recharge_station",
+    "name": "Place Recharging Station"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ap_box_battery_charger",
+    "name": "Place Battery Charger"
   },
   {
     "type": "construction_group",
@@ -1423,5 +1548,10 @@
     "type": "construction_group",
     "id": "build_training_dummy_heavy",
     "name": "Install Armored Training Dummy"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_clay_oven",
+    "name": "Build Clay Oven"
   }
 ]

@@ -674,6 +674,7 @@
   {
     "id": "rune_biomancer_weapon",
     "type": "GENERIC",
+    "copy-from": "spear_knife",
     "name": { "str": "Biomancer spear" },
     "//": "Effectively a durable knife spear +1 with IMPALE tech.  based off Wicked Bonespear.  Lorewise, it would make sense for novice Biomancers to be developing their skills in spears so they can adequately use the Bonespear once they're proficient enough to summon one.  Should be weaker than other school weapons DPSwise due to reach.",
     "description": "A grotesque bone spearhead on a stout wooden pole.  There is a Biomancer rune embedded at the base of the head.",
@@ -694,8 +695,9 @@
   {
     "id": "rune_biomancer_weapon_adept",
     "type": "GENERIC",
+    "copy-from": "spear_knife",
     "name": { "str": "Biomancer shifting spear" },
-    "//": "Effectively a durable knife spear +2 and a barb laucher that shoots sharpened bone, will have less dps because it has reach and is capable of morphing into a gun",
+    "//": "Effectively a durable knife spear +2 and a barb launcher that shoots sharpened bone, will have less dps because it has reach and is capable of morphing into a gun",
     "description": "A grotesque bone spearhead on a hardened flesh pole.  There is a Biomancer rune embedded in the middle.  You feel this spear squirming in your hand as if alive.",
     "weight": "1422 g",
     "volume": "1350 ml",
@@ -725,7 +727,7 @@
     "type": "GENERIC",
     "name": { "str": "Technomancer toolbar" },
     "//": "Combat stats based off crowbar +1, techniques off Halligan bar(closest non-magical substitute), weight based on 75% of hammer & wrench(since their handles aren't included) + 100% crowbar with benefit from +1 enchantment",
-    "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convenient package.  There is a Technomancer rune embedded in the hammerhead.",
+    "description": "This staff incorporates a sturdy crescent wrench on top of a prybar and a hammer on the other in a convenient package.  There is a Technomancer rune embedded in the hammerhead.",
     "weight": "995 g",
     "volume": "1750 ml",
     "longest_side": "65 cm",
@@ -737,6 +739,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ], [ "PRYING_NAIL", 1 ] ],
+    "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
@@ -746,7 +749,7 @@
     "type": "TOOL",
     "name": { "str": "Technomancer mana-toolbar" },
     "//": "Pretty much the same as the other, but now with a cool touchscreen that casts mirror image and does some minor things",
-    "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convenient package.  There are eletronic components in the staff connected to a touchscreen embedded in the staff, you only had time to cram one spell in the prototype software.  There is a Technomancer rune embedded in the hammerhead.",
+    "description": "This staff incorporates a sturdy crescent wrench on top of a prybar and a hammer on the other in a convenient package.  There are electronic components in the staff connected to a touchscreen embedded in the staff, you only had time to cram one spell in the prototype software.  There is a Technomancer rune embedded in the hammerhead.",
     "weight": "1000 g",
     "volume": "1750 ml",
     "longest_side": "65 cm",
@@ -763,11 +766,15 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "charges_per_use": 1,
-    "use_action": [ { "type": "cast_spell", "spell_id": "mirror_image", "no_fail": true, "level": 10, "need_wielding": true } ]
+    "use_action": [
+      [ "CROWBAR", 0 ],
+      { "type": "cast_spell", "spell_id": "mirror_image", "no_fail": true, "level": 10, "need_wielding": true }
+    ]
   },
   {
     "id": "rune_magus_weapon",
     "type": "GENERIC",
+    "copy-from": "q_staff",
     "name": { "str": "Magus staff", "str_pl": "Magus staves" },
     "//": "The classical vision of the wizard gets a classic weapon.  DPS Stats are between the regular and ironshod versions.  Stats are slightly worse than the QS+1 due to the glass weight slowing attack speed.",
     "description": "A quarterstaff with runes carved into it and two glass jars, heat-tempered and infused with mana for durability, to act as mana receptacles.  There are two Magi runes embedded at the tips.",
@@ -786,8 +793,9 @@
   {
     "id": "rune_magus_weapon_adept",
     "type": "GENERIC",
+    "copy-from": "q_staff",
     "name": { "str": "Magus battle staff", "str_pl": "Magus battle staves" },
-    "//": "It will be based on the Q +2 weapon but sightly worse, sightly better than the magus staff, but its greatest strength will be its regen mana capabilities, better than magi staff minor but worse than the lesser one.",
+    "//": "It will be based on the Q +2 weapon but slightly worse, slightly better than the magus staff, but its greatest strength will be its regen mana capabilities, better than magi staff minor but worse than the lesser one.",
     "description": "A quarterstaff with runes carved into it and two mana pearls at the tip, enchanted with mana for durability.  It fills you with an invigorating sensation.  There are two Magi runes carved into the wood.",
     "weight": "1600 g",
     "volume": "3500 ml",
@@ -808,6 +816,7 @@
     "id": "rune_kelvinist_weapon",
     "looks_like": "longsword",
     "type": "GENERIC",
+    "copy-from": "longsword",
     "name": { "str": "Kelvinist flamberge" },
     "//": "Flame-bladed sword covers half of Kelvinist's heat-cold theme.  Combat stats equivalent to cutlass +1 with BRUTAL technique.",
     "description": "A sword with an undulating blade, reminiscent of a flame.  There is a Kelvinist rune embedded in the pommel.",
@@ -830,6 +839,7 @@
     "id": "rune_kelvinist_ice_adept_weapon",
     "looks_like": "scimitar",
     "type": "TOOL",
+    "copy-from": "scimitar",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "Kelvinist Frostbind" },
@@ -862,8 +872,9 @@
   {
     "id": "rune_stormshaper_weapon",
     "type": "GENERIC",
+    "copy-from": "copper_ax",
     "name": { "str": "Stormshaper axe" },
-    "//": "Equivalent to copper ax +1.  Metals chosen for being two most conductive metals + balancing reasons",
+    "//": "Equivalent to copper axe +1.  Metals chosen for being two most conductive metals + balancing reasons",
     "description": "A forged copper axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye.",
     "weight": "3330 g",
     "volume": "3500 ml",
@@ -898,6 +909,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ], [ "HAMMER", 1 ] ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 7, "need_wielding": true },
@@ -925,6 +937,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
+    "weapon_category": [ "KNIVES" ],
     "flags": [ "STAB", "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ]
   },
   {
@@ -943,6 +956,7 @@
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
+    "weapon_category": [ "KNIVES" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
@@ -1000,5 +1014,43 @@
     "longest_side": "150 cm",
     "bashing": 29,
     "price": 34000
+  },
+  {
+    "id": "grim_reaper_scythe",
+    "looks_like": "scythe_war",
+    "repairs_like": "rune_animist_weapon_adept",
+    "type": "TOOL",
+    "name": { "str": "grim reaper's scythe" },
+    "//": "Pretty similar to the war scythe, but with less weight, more cutting damage and a capable of casting a strong offensive spell.",
+    "description": "This is a long and crooked tool used to reap souls, with a skull engraved in its blade.  Magically treated to reduce weight and enhance sharpness, this enchanted weapon is even capable of delivering a strong rupture attack.  Let the harvest begin.",
+    "weight": "2750 g",
+    "volume": "3550 ml",
+    "longest_side": "150 cm",
+    "price": 10000,
+    "bashing": 17,
+    "cutting": 45,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "material": [ "steel", "wood" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 3 ], [ "GRASS_CUT", 2 ] ],
+    "flags": [
+      "NONCONDUCTIVE",
+      "DURABLE_MELEE",
+      "TRADER_AVOID",
+      "MAGIC_FOCUS",
+      "POLEARM",
+      "SHEATH_SPEAR",
+      "REACH_ATTACK",
+      "ALWAYS_TWOHAND",
+      "NO_RELOAD",
+      "NO_UNLOAD"
+    ],
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
+    "charges_per_use": 1,
+    "use_action": [ { "type": "cast_spell", "spell_id": "rupture", "no_fail": true, "level": 10, "need_wielding": true } ]
   }
 ]

@@ -51,13 +51,13 @@
     "id": "cordage",
     "type": "requirement",
     "//": "Materials used for tying items, primitive bowstrings, and other uses involving string or makeshift cordage, 36 g/90 cm of cordage per unit.",
-    "components": [ [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_short", 6, "LIST" ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_36_leather", 1 ], [ "cordage_short", 6, "LIST" ] ] ]
   },
   {
     "id": "cordage_short",
     "type": "requirement",
     "//": "Materials used for tying smaller items requiring less string, 6 g/15 cm of cordage per unit.",
-    "components": [ [ [ "string_6", 1 ], [ "cordage_6", 1 ], [ "filament", 50, "LIST" ] ] ]
+    "components": [ [ [ "string_6", 1 ], [ "cordage_6", 1 ], [ "cordage_6_leather", 1 ], [ "filament", 50, "LIST" ] ] ]
   },
   {
     "id": "cordage_superior",
@@ -225,6 +225,12 @@
     ]
   },
   {
+    "id": "filament_durable",
+    "type": "requirement",
+    "//": "Materials for use when sewing high end items, restricted to only the aramid threads.",
+    "components": [ [ [ "thread_kevlar", 1 ], [ "thread_nomex", 1 ] ] ]
+  },
+  {
     "id": "glazing",
     "type": "requirement",
     "//": "Materials for glazing pottery",
@@ -263,26 +269,50 @@
   {
     "id": "rope_superior",
     "type": "requirement",
-    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 1080 g/9 m of rope.",
+    "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 1080 g/9 m of rope.",
     "components": [ [ [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_superior_short", 5, "LIST" ] ] ]
   },
   {
     "id": "rope_superior_short",
     "type": "requirement",
-    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 216 g/180 cm of rope.",
+    "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 216 g/180 cm of rope.",
     "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
   },
   {
     "id": "steel_standard",
     "type": "requirement",
     "//": "Materials for use when forging items from steel",
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ] ] ]
+  },
+  {
+    "id": "mixed_steel",
+    "type": "requirement",
+    "//": "Materials for use in scrap armor",
+    "components": [
+      [
+        [ "scrap", 50 ],
+        [ "budget_steel_chunk", 4 ],
+        [ "budget_steel_lump", 1 ],
+        [ "lc_steel_chunk", 4 ],
+        [ "lc_steel_lump", 1 ],
+        [ "mc_steel_chunk", 4 ],
+        [ "mc_steel_lump", 1 ],
+        [ "hc_steel_chunk", 4 ],
+        [ "hc_steel_lump", 1 ]
+      ]
+    ]
   },
   {
     "id": "steel_tiny",
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from steel",
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "id": "rock_flaking_any",
+    "type": "requirement",
+    "//": "Rocks that can be used for knapping.",
+    "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ], [ "flint", 1 ] ] ]
   },
   {
     "id": "waterproofing",

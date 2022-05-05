@@ -1,12 +1,23 @@
 [
   {
+    "id": "mx_mass_grave_dino",
+    "type": "map_extra",
+    "name": { "str": "Mass Grave" },
+    "description": "A mass grave.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_mass_grave_dino" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "X",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
     "id": "mx_nest_acrocanthosaurus",
     "type": "map_extra",
     "name": { "str": "acrocanthosaurus nest" },
     "description": "An acrocanthosaurus nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_acrocanthosaurus" },
     "sym": "D",
-    "color": "brown",
+    "color": "yellow",
     "autonote": true
   },
   {
@@ -16,7 +27,7 @@
     "description": "An albertosaurus nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_albertosaurus" },
     "sym": "D",
-    "color": "brown",
+    "color": "yellow",
     "autonote": true
   },
   {
@@ -26,7 +37,37 @@
     "description": "An allosaurus nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_allosaurus" },
     "sym": "D",
-    "color": "brown",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_ankylosaurus",
+    "type": "map_extra",
+    "name": { "str": "ankylosaurus nest" },
+    "description": "An ankylosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_ankylosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_appalachiosaurus",
+    "type": "map_extra",
+    "name": { "str": "appalachiosaurus nest" },
+    "description": "An appalachiosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_appalachiosaurus" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_camptosaurus",
+    "type": "map_extra",
+    "name": { "str": "camptosaurus nest" },
+    "description": "A camptosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_camptosaurus" },
+    "sym": "D",
+    "color": "light_green",
     "autonote": true
   },
   {
@@ -36,7 +77,7 @@
     "description": "A ceratosaurus nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_ceratosaurus" },
     "sym": "D",
-    "color": "brown",
+    "color": "yellow",
     "autonote": true
   },
   {
@@ -46,7 +87,27 @@
     "description": "A coelophysis nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_coelophysis" },
     "sym": "D",
-    "color": "brown",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_corythosaurus",
+    "type": "map_extra",
+    "name": { "str": "corythosaurus nest" },
+    "description": "A corythosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_corythosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_daspletosaurus",
+    "type": "map_extra",
+    "name": { "str": "daspletosaurus nest" },
+    "description": "A daspletosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_daspletosaurus" },
+    "sym": "D",
+    "color": "yellow",
     "autonote": true
   },
   {
@@ -56,7 +117,7 @@
     "description": "A deinonychus nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_deinonychus" },
     "sym": "D",
-    "color": "brown",
+    "color": "yellow",
     "autonote": true
   },
   {
@@ -66,7 +127,67 @@
     "description": "A dilophosaurus nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dilophosaurus" },
     "sym": "D",
-    "color": "brown",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_dromaeosaurus",
+    "type": "map_extra",
+    "name": { "str": "dromaeosaurus nest" },
+    "description": "A dromaeosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dromaeosaurus" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_dryptosaurus",
+    "type": "map_extra",
+    "name": { "str": "dryptosaurus nest" },
+    "description": "A dryptosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dryptosaurus" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_dyoplosaurus",
+    "type": "map_extra",
+    "name": { "str": "dyoplosaurus nest" },
+    "description": "A dyoplosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dyoplosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_edmontonia",
+    "type": "map_extra",
+    "name": { "str": "edmontonia nest" },
+    "description": "An edmontonia nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_edmontonia" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_edmontosaurus",
+    "type": "map_extra",
+    "name": { "str": "edmontosaurus nest" },
+    "description": "An edmontosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_edmontosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_gallimimus",
+    "type": "map_extra",
+    "name": { "str": "gallimimus nest" },
+    "description": "A gallimimus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_gallimimus" },
+    "sym": "D",
+    "color": "light_green",
     "autonote": true
   },
   {
@@ -76,47 +197,27 @@
     "description": "A gorgosaurus nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_gorgosaurus" },
     "sym": "D",
-    "color": "brown",
+    "color": "yellow",
     "autonote": true
   },
   {
-    "id": "mx_nest_tyrannosaurus",
+    "id": "mx_nest_hadrosaurus",
     "type": "map_extra",
-    "name": { "str": "tyrannosaurus nest" },
-    "description": "A tyrannosaurus nest.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_tyrannosaurus" },
+    "name": { "str": "hadrosaurus nest" },
+    "description": "A hadrosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_hadrosaurus" },
     "sym": "D",
-    "color": "brown",
+    "color": "light_green",
     "autonote": true
   },
   {
-    "id": "mx_nest_utahraptor",
+    "id": "mx_nest_kosmoceratops",
     "type": "map_extra",
-    "name": { "str": "utahraptor nest" },
-    "description": "A utahraptor nest.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_utahraptor" },
+    "name": { "str": "kosmoceratops nest" },
+    "description": "A kosmoceratops nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_kosmoceratops" },
     "sym": "D",
-    "color": "brown",
-    "autonote": true
-  },
-  {
-    "id": "mx_nest_velociraptor",
-    "type": "map_extra",
-    "name": { "str": "velociraptor nest" },
-    "description": "A velociraptor nest.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_velociraptor" },
-    "sym": "D",
-    "color": "brown",
-    "autonote": true
-  },
-  {
-    "id": "mx_nest_siats",
-    "type": "map_extra",
-    "name": { "str": "siats nest" },
-    "description": "A siats nest.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_siats" },
-    "sym": "D",
-    "color": "brown",
+    "color": "light_green",
     "autonote": true
   },
   {
@@ -127,6 +228,176 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_maiasaura" },
     "sym": "D",
     "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_nodosaurus",
+    "type": "map_extra",
+    "name": { "str": "nodosaurus nest" },
+    "description": "A nodosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nodosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_ornithomimus",
+    "type": "map_extra",
+    "name": { "str": "ornithomimus nest" },
+    "description": "An ornithomimus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_ornithomimus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_pachycephalosaurus",
+    "type": "map_extra",
+    "name": { "str": "pachycephalosaurus nest" },
+    "description": "A pachycephalosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_pachycephalosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_pachyrhinosaurus",
+    "type": "map_extra",
+    "name": { "str": "pachyrhinosaurus nest" },
+    "description": "A pachyrhinosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_pachyrhinosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_parasaurolophus",
+    "type": "map_extra",
+    "name": { "str": "parasaurolophus nest" },
+    "description": "A parasaurolophus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_parasaurolophus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_pentaceratops",
+    "type": "map_extra",
+    "name": { "str": "pentaceratops nest" },
+    "description": "A pentaceratops nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_pentaceratops" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_scutellosaurus",
+    "type": "map_extra",
+    "name": { "str": "scutellosaurus nest" },
+    "description": "A scutellosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_scutellosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_siats",
+    "type": "map_extra",
+    "name": { "str": "siats nest" },
+    "description": "A siats nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_siats" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_stegosaurus",
+    "type": "map_extra",
+    "name": { "str": "stegosaurus nest" },
+    "description": "A stegosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stegosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_stenonychosaurus",
+    "type": "map_extra",
+    "name": { "str": "stenonychosaurus nest" },
+    "description": "A stenonychosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stenonychosaurus" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_struthiomimus",
+    "type": "map_extra",
+    "name": { "str": "struthiomimus nest" },
+    "description": "A struthiomimus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_struthiomimus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_torosaurus",
+    "type": "map_extra",
+    "name": { "str": "torosaurus nest" },
+    "description": "A torosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_torosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_torvosaurus",
+    "type": "map_extra",
+    "name": { "str": "torvosaurus nest" },
+    "description": "A torvosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_torvosaurus" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_triceratops",
+    "type": "map_extra",
+    "name": { "str": "triceratops nest" },
+    "description": "A triceratops nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_triceratops" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_tyrannosaurus",
+    "type": "map_extra",
+    "name": { "str": "tyrannosaurus nest" },
+    "description": "A tyrannosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_tyrannosaurus" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_utahraptor",
+    "type": "map_extra",
+    "name": { "str": "utahraptor nest" },
+    "description": "A utahraptor nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_utahraptor" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_velociraptor",
+    "type": "map_extra",
+    "name": { "str": "velociraptor nest" },
+    "description": "A velociraptor nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_velociraptor" },
+    "sym": "D",
+    "color": "yellow",
     "autonote": true
   }
 ]

@@ -98,5 +98,36 @@
     "phase": "liquid",
     "display_field": true,
     "looks_like": "fd_sludge"
+  },
+  {
+    "id": "fd_cold_energy",
+    "type": "field_type",
+    "display_field": true,
+    "phase": "gas",
+    "intensity_levels": [
+      {
+        "name": "Ice haze",
+        "sym": "S",
+        "color": "blue",
+        "dangerous": false,
+        "effects": [ { "effect_id": "ice_energy", "intensity": 1, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "Ice mist",
+        "sym": "S",
+        "color": "blue",
+        "dangerous": false,
+        "effects": [ { "effect_id": "ice_energy", "intensity": 2, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "Ice fog",
+        "sym": "S",
+        "color": "blue",
+        "dangerous": false,
+        "effects": [ { "effect_id": "ice_energy", "intensity": 3, "immune_in_vehicle": true, "is_environmental": false } ]
+      }
+    ],
+    "immunity_data": { "traits": [ "PERMAFROST_MAGE" ] },
+    "half_life": "3 seconds"
   }
 ]

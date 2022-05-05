@@ -95,7 +95,7 @@
         "topic": "TALK_WARRENER_ISHERWOOD_MISSION_ACCEPTED",
         "effect": { "add_mission": "MISSION_Warrener_ISHERWOOD" }
       },
-      { "text": "That seems rather dangerous, I think I'll pass.", "topic": "TALK_EVAC_MERCHANT" }
+      { "text": "That seems rather dangerous, I think I'll pass.", "topic": "TALK_WARRENER" }
     ]
   },
   {

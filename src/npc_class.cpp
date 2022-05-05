@@ -234,6 +234,7 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     mandatory( jo, false, "group", id );
     optional( jo, false, "trust", trust, 0 );
     optional( jo, false, "strict", strict, false );
+    optional( jo, false, "rigid", rigid, false );
 }
 
 void npc_class::load( const JsonObject &jo, const std::string & )
@@ -275,6 +276,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
+    optional( jo, was_loaded, "sells_belongings", sells_belongings );
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },

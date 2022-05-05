@@ -362,21 +362,6 @@
     }
   },
   {
-    "id": "bot_eyebot_heater",
-    "type": "TOOL",
-    "copy-from": "bot_eyebot_base",
-    "name": "inactive floating heater",
-    "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
-    "color": "pink",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_eyebot_heater",
-      "difficulty": 1,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
-  },
-  {
     "abstract": "bot_defbot_base",
     "type": "TOOL",
     "name": "inactive defense robot",

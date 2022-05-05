@@ -255,8 +255,8 @@ TEST_CASE( "cardio is affected by certain traits", "[cardio][traits]" )
     SECTION( "Traits with ONLY metabolism_modifier" ) {
         check_trait_cardio_stamina_run( they, "COLDBLOOD", 1449, 7847, 78 ); //63
         check_trait_cardio_stamina_run( they, "COLDBLOOD2", 1304, 7412, 77 ); //62
-        check_trait_cardio_stamina_run( they, "COLDBLOOD3", 1304, 7412, 77 ); //62
-        check_trait_cardio_stamina_run( they, "COLDBLOOD4", 1304, 7412, 77 ); //62
+        check_trait_cardio_stamina_run( they, "COLDBLOOD3", 1304, 7412, 81 ); //62
+        check_trait_cardio_stamina_run( they, "COLDBLOOD4", 1304, 7412, 81 ); //62
         check_trait_cardio_stamina_run( they, "LIGHTEATER", 1449, 7847, 78 ); //63
         check_trait_cardio_stamina_run( they, "MET_RAT", 2028, 9584, 90 ); //72
     }

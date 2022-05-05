@@ -1,49 +1,41 @@
 [
   {
-    "type": "item_group",
-    "id": "oa_pap_chess_pieces",
-    "items": [ [ "rock", 60 ] ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cs_public_art_piece" ],
     "weight": 1000,
     "object": {
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
-        "........,.....,...,.....",
-        "....,...,.,.....,...,...",
-        "....,........,..........",
-        "........,.......,...,...",
-        "...,,........,.....,,...",
-        ".........cbbbbc.........",
-        "....,..........,,......,",
-        ".......++++++++++...,...",
-        ".,.....+OXOXOXOX+.,.....",
-        ".....c.+XOXOXOXO+.c.....",
-        "...,.b.+OXOXOXOX+.b..,..",
-        ".....b,+XOXOXOXO+.b,....",
-        "..,..b.+OXOXOXOX+.b.....",
-        ".....b,+XOXOXOXO+.b...,.",
-        "...,.c.+OXOXOXOX+.c.....",
-        ".......+XOXOXOXO+...,,..",
-        "....,..++++++++++.......",
-        ".,.....,...,.,......,...",
-        "...,,..,.cbbbbc..,......",
-        "...........,.......,....",
-        ".......,...,....,.......",
-        "...,................,...",
-        "......,,.....,..,.......",
-        "....,,....,..........,.."
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "       ssssssssss       ",
+        "       sOXOXOXOXs       ",
+        "     c sXOXOXOXOs c     ",
+        "     b sOXOXOXOXs b     ",
+        "     b sXOXOXOXOs b     ",
+        "     b sOXOXOXOXs b     ",
+        "     b sXOXOXOXOs b     ",
+        "     c sOXOXOXOXs c     ",
+        "       sXOXOXOXOs       ",
+        "       ssssssssss       ",
+        "                        ",
+        "         cbbbbc         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
       ],
-      "terrain": { ".": "t_grass", ",": "t_dirt", "+": "t_floor", "X": "t_pavement", "O": "t_sidewalk", "b": "t_dirt", "c": "t_dirt" },
+      "terrain": { " ": "t_region_groundcover_urban", "s": "t_sidewalk", "X": "t_pavement", "O": "t_concrete" },
       "furniture": { "b": "f_bench", "c": "f_trashcan" },
-      "items": {
-        "c": { "item": "oa_custom_trash", "chance": 30 },
-        "b": { "item": "oa_discarded_news", "chance": 5 },
-        "X": { "item": "oa_pap_chess_pieces", "chance": 20 },
-        "O": { "item": "oa_pap_chess_pieces", "chance": 20 }
-      }
+      "items": { "c": { "item": "oa_custom_trash", "chance": 30 }, "b": { "item": "oa_discarded_news", "chance": 5 } },
+      "item": { "X": { "item": "rock", "chance": 20 }, "O": { "item": "rock", "chance": 20 } }
     }
   }
 ]

@@ -32,6 +32,13 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
+    "id": "deck_of_cards_makeshift",
+    "type": "GENERIC",
+    "copy-from": "deck_of_cards",
+    "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
+    "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple design drawn on them."
+  },
+  {
     "id": "family_photo",
     "type": "GENERIC",
     "//": "Unique mission item for the CITY_COP.",
@@ -45,6 +52,34 @@
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "pom_poms",
+    "name": { "str": "pair of pom poms", "str_pl": "pairs of pom poms" },
+    "category": "other",
+    "weight": "150 g",
+    "color": "red",
+    "//": "The pom poms could make use of their own type of use_action.",
+    "use_action": {
+      "type": "musical_instrument",
+      "speed_penalty": 10,
+      "volume": 10,
+      "fun": -5,
+      "fun_bonus": 2,
+      "description_frequency": 20,
+      "player_descriptions": [ "You make a skillful routine with the pom poms.", "You move with refinement while using the pom poms." ],
+      "npc_descriptions": [ "makes a skillful routine with the pom poms.", "moves with refinement while using the pom poms." ]
+    },
+    "symbol": "O",
+    "description": "A pair of red and silver pom poms with plastic handles.  Using them will make you start a cheerleading routine.",
+    "price": 600,
+    "price_postapoc": 20,
+    "material": [ "plastic" ],
+    "volume": "250 ml",
+    "longest_side": "10 cm",
+    "flags": [ "SLEEP_IGNORE" ],
+    "material_thickness": 0.1
   },
   {
     "id": "polaroid_photo",

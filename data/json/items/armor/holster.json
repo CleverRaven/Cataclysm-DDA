@@ -213,7 +213,7 @@
         "magazine_well": "350 ml",
         "pocket_type": "CONTAINER",
         "holster": true,
-        "min_item_volume": "300 ml",
+        "min_item_volume": "250 ml",
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "30 cm",
@@ -322,6 +322,39 @@
     ]
   },
   {
+    "id": "shoulder_holster",
+    "copy-from": "holster",
+    "type": "ARMOR",
+    "name": { "str": "shoulder holster" },
+    "description": "A comfortable quick draw holster for larger pistols.  One side holsters a gun and the other side holds two magazines.  Activate to holster/draw a gun.",
+    "price_postapoc": 500,
+    "material": [ "leather" ],
+    "pocket_data": [
+      {
+        "magazine_well": "200 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "250 mm",
+        "moves": 30,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
     "id": "bholster",
     "copy-from": "holster",
     "type": "ARMOR",
@@ -395,7 +428,7 @@
     "id": "XL_holster",
     "type": "ARMOR",
     "name": { "str": "XL holster" },
-    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg, Activate to holster/draw a gun.",
+    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg.  Activate to holster/draw a gun.",
     "weight": "320 g",
     "volume": "250 ml",
     "price": 9000,

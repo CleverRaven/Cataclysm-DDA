@@ -42,7 +42,7 @@
     "time": "10 m",
     "autolearn": true,
     "byproducts": [ [ "splinter", 20 ] ],
-    "tools": [ [ [ "fake_planer", 250 ] ] ],
+    "tools": [ [ [ "planer_tool", 250 ] ] ],
     "components": [ [ [ "log", 2 ] ] ]
   },
   {

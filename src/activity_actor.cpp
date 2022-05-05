@@ -97,6 +97,8 @@ static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
 static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
 static const activity_id ACT_HACKING( "ACT_HACKING" );
@@ -190,6 +192,7 @@ static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" )
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
+static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SHEAR( "SHEAR" );
 
 static const skill_id skill_computer( "computer" );
@@ -512,7 +515,7 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 
 void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 {
-    who.add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
+    who.add_msg_if_player( m_info, _( "Auto drive canceled." ) );
     who.omt_path.clear();
     if( player_vehicle ) {
         player_vehicle->stop_autodriving( false );
@@ -600,7 +603,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     }
 
     const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-    who.mod_stored_nutr( 5 - helpersize );
+    who.mod_stored_kcal( 43 - 9 * helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
     if( grave ) {
@@ -671,7 +674,7 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     }
 
     const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-    who.mod_stored_nutr( 5 - helpersize );
+    who.mod_stored_kcal( 43 - 9 * helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
@@ -1099,6 +1102,7 @@ std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonVal
 void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     const map &here = get_map();
+    int moves_before_quality;
 
     if( here.has_furn( target ) ) {
         const furn_id furn_type = here.furn( target );
@@ -1110,7 +1114,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
             return;
         }
 
-        act.moves_total = to_moves<int>( furn_type->hacksaw->duration() );
+        moves_before_quality = to_moves<int>( furn_type->hacksaw->duration() );
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->hacksaw->valid() ) {
@@ -1120,7 +1124,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-        act.moves_total = to_moves<int>( ter_type->hacksaw->duration() );
+        moves_before_quality = to_moves<int>( ter_type->hacksaw->duration() );
     } else {
         if( !testing ) {
             debugmsg( "hacksaw activity called on invalid terrain" );
@@ -1129,6 +1133,20 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
+    const int qual = tool->get_quality( qual_SAW_M );
+    if( qual < 2 ) {
+        if( !testing ) {
+            debugmsg( "Item %s with 'HACKSAW' use action requires SAW_M quality of at least 2.",
+                      tool->typeId().c_str() );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    //Speed of hacksaw action is the SAW_M quality over 2, 2 being the hacksaw level.
+    //3 makes the speed one-and-a-half times, and the total moves 66% of hacksaw. 4 is twice the speed, 50% the moves, etc, 5 is 2.5 times the speed, 40% the original time
+    //done because it's easy to code, and diminising returns on cutting speed make sense as the limiting factor becomes aligning the tool and controlling it instead of the actual cutting
+    act.moves_total = moves_before_quality / ( qual / 2 );
     add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
     act.moves_left = act.moves_total;
 }
@@ -1234,6 +1252,18 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
     }
 
     act.set_to_null();
+}
+
+//TODO: Make hacksawing resumable with different tools with the same SAW_M quality.
+//Potentially make it possible to resume with different SAW_M quality and recalculate time to completion partway through.
+//This is really not a big deal, and will cost a few minutes of in game time and part of a medium battery charge at worst as someone accidentally cancels the activity_actor and has to start again
+//If a few minutes are life and death, sawing metal may not be the wise choice in the first place.
+bool hacksaw_activity_actor::can_resume_with_internal( const activity_actor &other,
+        const Character &/*who*/ ) const
+{
+    const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
+                                          ( other );
+    return actor.target == target && actor.tool.operator == ( tool );
 }
 
 void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
@@ -1999,9 +2029,6 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
         return;
     }
 
-    // Auto_resume implies autopickup.
-    const bool autopickup = who.activity.auto_resume;
-
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup, stash_successful );
 
@@ -2035,13 +2062,14 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "quantities", quantities );
     jsout.member( "starting_pos", starting_pos );
     jsout.member( "stash_successful", stash_successful );
+    jsout.member( "autopickup", autopickup );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &jsin )
 {
-    pickup_activity_actor actor( {}, {}, cata::nullopt );
+    pickup_activity_actor actor( {}, {}, cata::nullopt, false );
 
     JsonObject data = jsin.get_object();
 
@@ -2049,6 +2077,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &j
     data.read( "quantities", actor.quantities );
     data.read( "starting_pos", actor.starting_pos );
     data.read( "stash_successful", actor.stash_successful );
+    data.read( "autopickup", actor.autopickup );
 
     return actor.clone();
 }
@@ -3078,10 +3107,10 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         // Base moves for batch size with no speed modifier or assistants
         // Must ensure >= 1 so we don't divide by 0;
         cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
-                                            rec.batch_time( crafter, craft.charges, 1.0f, 0 ) );
+                                            rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0 ) );
         // Current expected total moves, includes crafting speed modifiers and assistants
         cached_cur_total_moves = std::max( static_cast<int64_t>( 1 ),
-                                           rec.batch_time( crafter, craft.charges, crafting_speed,
+                                           rec.batch_time( crafter, craft.get_making_batch_size(), crafting_speed,
                                                    assistants ) );
     }
     const double base_total_moves = cached_base_total_moves;
@@ -3144,7 +3173,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10'000'000 ) {
-        if( rec.is_practice() && !is_long && craft.charges == 1 ) {
+        if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
             if( query_yn( _( "Keep practicing until proficiency increase?" ) ) ) {
                 is_long = true;
                 *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
@@ -3157,7 +3186,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         crafter.cancel_activity();
         crafter.complete_craft( craft_copy, location );
         if( will_continue ) {
-            if( crafter.making_would_work( crafter.lastrecipe, craft_copy.charges ) ) {
+            if( crafter.making_would_work( crafter.lastrecipe, craft_copy.get_making_batch_size() ) ) {
                 crafter.last_craft->execute( location );
             }
         }
@@ -4912,8 +4941,15 @@ void prying_activity_actor::start( player_activity &act, Character &who )
 
 void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
-    if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+    std::string method = "CROWBAR";
+
+    if( tool->ammo_sufficient( &who, method ) ) {
+        int ammo_consumed = tool->ammo_required();
+        std::map<std::string, float>::const_iterator iter = tool->type->ammo_scale.find( method );
+        if( iter != tool->type->ammo_scale.end() ) {
+            ammo_consumed *= iter->second;
+        }
+        tool->ammo_consume( ammo_consumed, tool.position(), &who );
         if( prying_nails ) {
             sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
         }
@@ -5627,6 +5663,83 @@ std::unique_ptr<activity_actor> chop_tree_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+void churn_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void churn_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    who.add_msg_if_player( _( "You finish churning up the earth here." ) );
+    here.ter_set( here.getlocal( act.placement ), t_dirtmound );
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act.set_to_null();
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void churn_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "tool", tool );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &jsin )
+{
+    churn_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "tool", actor.tool );
+
+    return actor.clone();
+}
+
+void clear_rubble_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void clear_rubble_activity_actor::finish( player_activity &act, Character &who )
+{
+    const tripoint &pos = act.placement;
+    map &here = get_map();
+    who.add_msg_if_player( m_info, _( "You clear up the %s." ), here.furnname( pos ) );
+    here.furn_set( pos, f_null );
+
+    act.set_to_null();
+
+    here.maybe_trigger_trap( pos, who, true );
+}
+
+void clear_rubble_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> clear_rubble_activity_actor::deserialize( JsonValue &jsin )
+{
+    clear_rubble_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
 void firstaid_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -5654,10 +5767,17 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    // TODO: Store the patient somehow, retrieve here
-    Character &patient = who;
+    Character *patient = patientID == get_avatar().getID() ? &get_avatar() :
+                         dynamic_cast<Character *>( g->find_npc( patientID ) );
+    if( !patient ) {
+        debugmsg( "Your patient can no longer be found so you stop using the %s.", name );
+        act.set_to_null();
+        act.values.clear();
+        return;
+    }
     const bodypart_id healed = bodypart_id( act.str_values[0] );
-    const int charges_consumed = actor->finish_using( who, patient, *used_tool, healed );
+    const int charges_consumed = actor->finish_using( who, *patient,
+                                 *used_tool, healed );
     who.consume_charges( it, charges_consumed );
 
     // Erase activity and values.
@@ -5671,18 +5791,20 @@ void firstaid_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves", moves );
     jsout.member( "name", name );
+    jsout.member( "patientID", patientID );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> firstaid_activity_actor::deserialize( JsonValue &jsin )
 {
-    firstaid_activity_actor actor( {} );
+    firstaid_activity_actor actor( {},  {}, {} );
 
     JsonObject data = jsin.get_object();
 
     data.read( "moves", actor.moves );
     data.read( "name", actor.name );
+    data.read( "patientID", actor.patientID );
 
     return actor.clone();
 }
@@ -5798,6 +5920,91 @@ std::unique_ptr<activity_actor> forage_activity_actor::deserialize( JsonValue &j
     JsonObject data = jsin.get_object();
 
     data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
+void gunmod_add_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+    act.name = name;
+}
+
+void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    // first unpack all of our arguments
+    if( act.values.size() != 4 ) {
+        debugmsg( "Insufficient arguments to ACT_GUNMOD_ADD" );
+        return;
+    }
+
+    item &gun = *act.targets.at( 0 );
+    item &mod = *act.targets.at( 1 );
+
+    // chance of success (%)
+    const int roll = act.values[1];
+    // chance of damage (%)
+    const int risk = act.values[2];
+
+    // any tool charges used during installation
+    const itype_id tool( act.name );
+    const int qty = act.values[3];
+
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
+        debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
+        return;
+    }
+
+    if( !tool.is_empty() && qty > 0 ) {
+        who.use_charges( tool, qty );
+    }
+
+    if( rng( 0, 100 ) <= roll ) {
+        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
+                 gun.tname() );
+        gun.put_in( who.i_rem( &mod ), item_pocket::pocket_type::MOD );
+
+    } else if( rng( 0, 100 ) <= risk ) {
+        if( gun.inc_damage() ) {
+            // Remove irremovable mods prior to destroying the gun
+            for( item *mod : gun.gunmods() ) {
+                if( mod->is_irremovable() ) {
+                    who.remove_item( *mod );
+                }
+            }
+            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
+                     gun.tname() );
+            who.i_rem( &gun );
+        } else {
+            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
+                     gun.tname() );
+        }
+
+    } else {
+        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname() );
+    }
+}
+
+void gunmod_add_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "name", name );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> gunmod_add_activity_actor::deserialize( JsonValue &jsin )
+{
+    gunmod_add_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "name", actor.name );
 
     return actor.clone();
 }
@@ -5922,6 +6129,8 @@ deserialize_functions = {
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
+    { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
     { ACT_HACKING, &hacking_activity_actor::deserialize },

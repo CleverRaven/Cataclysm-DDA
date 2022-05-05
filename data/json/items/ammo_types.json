@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "nuts_bolts",
+    "name": "nuts and bolts",
+    "default": "nuts_bolts"
+  },
+  {
+    "type": "ammunition_type",
     "id": "barb",
     "name": "barb",
     "default": "barb_paralysis"
@@ -97,6 +103,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "powder_blank",
+    "name": "powder blank",
+    "default": "22_blank"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9mm",
     "name": "9x19mm",
     "default": "9mm"
@@ -110,7 +122,7 @@
   {
     "type": "ammunition_type",
     "id": "357mag",
-    "name": ".357 magnum",
+    "name": ".357 Magnum",
     "default": "357mag_jhp"
   },
   {

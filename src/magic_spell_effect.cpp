@@ -545,6 +545,9 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         if( sp.damage() > 0 ) {
             for( damage_unit &val : atk.proj.impact.damage_units ) {
+                if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+                    val.amount = cr->get_hp( cr->get_root_body_part() ) * sp.damage() / 100.0;
+                }
                 val.amount *= damage_mitigation_multiplier;
             }
             cr->deal_projectile_attack( &caster, atk, true );

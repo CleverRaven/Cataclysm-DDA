@@ -82,59 +82,6 @@ struct pickup_count {
     int count = 0;
 };
 
-static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>> &here,
-                                     std::vector<pickup_count> &getitem )
-{
-    bool bFoundSomething = false;
-
-    //Loop through Items lowest Volume first
-    bool bPickup = false;
-
-    for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
-        for( size_t i = 0; i < here.size(); i++ ) {
-            bPickup = false;
-            item_stack::iterator begin_iterator = here[i].front();
-            if( begin_iterator->volume() / units::legacy_volume_factor == static_cast<int>( iVol ) ) {
-                iNumChecked++;
-                const std::string sItemName = begin_iterator->tname( 1, false );
-
-                //Check the Pickup Rules
-                if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
-                    bPickup = true;
-                } else if( get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
-                    //No prematched pickup rule found
-                    //check rules in more detail
-                    get_auto_pickup().create_rule( &*begin_iterator );
-
-                    if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
-                        bPickup = true;
-                    }
-                }
-
-                //Auto Pickup all items with Volume <= AUTO_PICKUP_VOL_LIMIT * 50 and Weight <= AUTO_PICKUP_ZERO * 50
-                //items will either be in the autopickup list ("true") or unmatched ("")
-                if( !bPickup ) {
-                    int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
-                    int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
-                    if( weight_limit && volume_limit ) {
-                        if( begin_iterator->volume() <= units::from_milliliter( volume_limit * 50 ) &&
-                            begin_iterator->weight() <= weight_limit * 50_gram &&
-                            get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
-                            bPickup = true;
-                        }
-                    }
-                }
-            }
-
-            if( bPickup ) {
-                getitem[i].pick = true;
-                bFoundSomething = true;
-            }
-        }
-    }
-    return bFoundSomething;
-}
-
 enum pickup_answer : int {
     CANCEL = -1,
     SPILL,
@@ -256,7 +203,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
     } else if( !player_character.can_pickWeight_partial( newit, false ) ||
-               !player_character.can_stash_partial( newit ) ) {
+               !player_character.can_stash_partial( newit, false ) ) {
         option = CANCEL;
         stash_successful = false;
     } else if( newit.is_bucket_nonempty() ) {
@@ -295,26 +242,19 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr,
-                             &it, /*allow_drop=*/false, /*allow_wield=*/false );
+            item &added_it = player_character.i_add( newit, true, nullptr, &it,
+                             /*allow_drop=*/false, /*allow_wield=*/false, false );
             if( added_it.is_null() ) {
                 // failed to add, fill pockets if it's a stack
                 if( newit.count_by_charges() ) {
                     int remaining_charges = newit.charges;
-                    item &weapon = player_character.get_wielded_item();
-                    if( weapon.can_contain_partial( newit ) ) {
-                        int used_charges = weapon.fill_with( newit, remaining_charges );
+                    item &carried_item = player_character.get_wielded_item();
+                    if( !carried_item.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
+                        carried_item.can_contain_partial( newit ) ) {
+                        int used_charges = carried_item.fill_with( newit, remaining_charges, false, false, false );
                         remaining_charges -= used_charges;
                     }
-                    for( item &i : player_character.worn ) {
-                        if( remaining_charges == 0 ) {
-                            break;
-                        }
-                        if( i.can_contain_partial( newit ) ) {
-                            int used_charges = i.fill_with( newit, remaining_charges );
-                            remaining_charges -= used_charges;
-                        }
-                    }
+                    player_character.worn.pickup_stash( newit, remaining_charges, false );
                     newit.charges -= remaining_charges;
                     newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {
@@ -399,7 +339,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     return !problem;
 }
 
-// Pick up items at (pos).
+// Auto pickup items at given location
 void Pickup::autopickup( const tripoint &p )
 {
     map &local = get_map();
@@ -407,19 +347,21 @@ void Pickup::autopickup( const tripoint &p )
     if( local.i_at( p ).empty() && !get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) {
         return;
     }
-
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
-    map_stack mapitems = local.i_at( p );
+    const map_stack mapitems = local.i_at( p );
     for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
         here.push_back( it );
     }
-
-    Character &player_character = get_player_character();
+    Character &player = get_player_character();
     // Recursively pick up adjacent items if that option is on.
-    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player_character.pos() == p ) {
+    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos() == p ) {
         //Autopickup adjacent
-        direction adjacentDir[8] = {direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST};
+        direction adjacentDir[8] = {
+            direction::NORTH, direction::NORTHEAST, direction::EAST,
+            direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST,
+            direction::WEST, direction::NORTHWEST
+        };
         for( auto &elem : adjacentDir ) {
 
             tripoint apos = tripoint( displace_XY( elem ), 0 );
@@ -428,82 +370,28 @@ void Pickup::autopickup( const tripoint &p )
             autopickup( apos );
         }
     }
-
     // Bail out if this square cannot be auto-picked-up
-    if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ) {
+    if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ||
+        local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
         return;
     }
-    if( local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
+    drop_locations selected_items = auto_pickup::select_items( here, p );
+    if( selected_items.empty() ) {
         return;
     }
-
-    std::vector<std::list<item_stack::iterator>> stacked_here;
-    for( const item_stack::iterator &it : here ) {
-        bool found_stack = false;
-        for( std::list<item_stack::iterator> &stack : stacked_here ) {
-            if( stack.front()->display_stacked_with( *it ) ) {
-                stack.push_back( it );
-                found_stack = true;
-                break;
-            }
-        }
-        if( !found_stack ) {
-            stacked_here.emplace_back( std::list<item_stack::iterator>( { it } ) );
-        }
-    }
-
-    // Items are stored unordered in colonies on the map, so sort them for a nice display.
-    std::sort( stacked_here.begin(), stacked_here.end(), []( const auto & lhs, const auto & rhs ) {
-        return *lhs.front() < *rhs.front();
-    } );
-
-    std::vector<pickup_count> getitem( stacked_here.size() );
-
-    if( !select_autopickup_items( stacked_here, getitem ) ) {
-        // If we didn't find anything, bail out now.
-        return;
-    }
-
     // At this point we've selected our items, register an activity to pick them up.
-    std::vector<std::pair<item_stack::iterator, int>> pick_values;
-    for( size_t i = 0; i < stacked_here.size(); i++ ) {
-        const pickup_count &selection = getitem[i];
-        if( !selection.pick ) {
-            continue;
-        }
-
-        const std::list<item_stack::iterator> &stack = stacked_here[i];
-        // Note: items can be both charged and stacked
-        // For robustness, let's assume they can be both in the same stack
-        bool pick_all = selection.count == 0;
-        int count = selection.count;
-        for( const item_stack::iterator &it : stack ) {
-            if( !pick_all && count == 0 ) {
-                break;
-            }
-
-            if( it->count_by_charges() ) {
-                int num_picked = std::min( it->charges, count );
-                pick_values.emplace_back( it, num_picked );
-                count -= num_picked;
-            } else {
-                pick_values.emplace_back( it, 0 );
-                --count;
-            }
-        }
-    }
-
-    std::vector<item_location> target_items;
     std::vector<int> quantities;
-    for( std::pair<item_stack::iterator, int> &iter_qty : pick_values ) {
-        target_items.emplace_back( map_cursor( p ), &*iter_qty.first );
-        quantities.push_back( iter_qty.second );
+    std::vector<item_location> target_items;
+    for( drop_location selected : selected_items ) {
+        item *it = selected.first.get_item();
+        target_items.push_back( selected.first );
+        quantities.push_back( it->count_by_charges() ? it->charges : 0 );
     }
+    pickup_activity_actor actor = pickup_activity_actor( target_items, quantities, player.pos(), true );
+    player.assign_activity( player_activity( actor ) );
 
-    player_character.assign_activity( player_activity( pickup_activity_actor( target_items, quantities,
-                                      player_character.pos() ) ) );
     // Auto pickup will need to auto resume since there can be several of them on the stack.
-    player_character.activity.auto_resume = true;
+    player.activity.auto_resume = true;
 }
 
 int Pickup::cost_to_move_item( const Character &who, const item &it )

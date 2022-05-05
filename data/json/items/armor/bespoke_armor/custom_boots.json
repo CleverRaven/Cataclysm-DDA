@@ -27,7 +27,7 @@
     "name": { "str": "pair of XL light survivor boots", "str_pl": "pairs of XL light survivor boots" },
     "copy-from": "boots_lsurvivor",
     "proportional": { "weight": 1.4, "volume": 1.4 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_lsurvivor",
@@ -36,7 +36,7 @@
     "looks_like": "boots_lsurvivor",
     "name": { "str": "pair of XS light survivor boots", "str_pl": "pairs of XS light survivor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_survivor",
@@ -90,7 +90,7 @@
     "name": { "str": "pair of XS survivor boots", "str_pl": "pairs of XS survivor boots" },
     "description": "A tiny pair of customized leather boots armored with Kevlar.  Balancing comfort and protection, these boots will keep you alive, even when knee-deep in the dead.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_wsurvivor_nofur",
@@ -114,7 +114,7 @@
     "color": "pink",
     "warmth": 50,
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_wsurvivor_nofur",
@@ -124,7 +124,7 @@
     "name": { "str": "pair of XS faux fur winter survivor boots", "str_pl": "pairs of XS faux fur winter survivor boots" },
     "description": "A pair of customized and undersized Kevlar-armored boots.  Warm thanks to a faux-fur lining, these will keep you alive even when knee-deep in the dead.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_wsurvivor",
@@ -154,7 +154,7 @@
     "name": { "str": "pair of XL winter survivor boots", "str_pl": "pairs of XL winter survivor boots" },
     "copy-from": "boots_wsurvivor",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_wsurvivor",
@@ -163,7 +163,7 @@
     "looks_like": "boots_wsurvivor",
     "name": { "str": "pair of XS winter survivor boots", "str_pl": "pairs of XS winter survivor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_h20survivor",

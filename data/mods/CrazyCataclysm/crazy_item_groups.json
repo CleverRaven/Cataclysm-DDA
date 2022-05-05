@@ -2,7 +2,8 @@
   {
     "id": "grenades",
     "type": "item_group",
-    "items": [ [ "granade", 1 ] ]
+    "copy-from": "grenades",
+    "extend": { "items": [ [ "granade", 1 ] ] }
   },
   {
     "id": "skeltal_drops",
@@ -13,12 +14,14 @@
   {
     "type": "item_group",
     "id": "bionics",
-    "items": [ [ "bio_chest_gun", 5 ] ]
+    "copy-from": "bionics",
+    "extend": { "items": [ [ "bio_chest_gun", 5 ] ] }
   },
   {
     "type": "item_group",
     "id": "bionics_mil",
-    "items": [ [ "bio_chest_gun", 1 ] ]
+    "copy-from": "bionics_mil",
+    "extend": { "items": [ [ "bio_chest_gun", 1 ] ] }
   },
   {
     "type": "item_group",
@@ -28,6 +31,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common",
-    "items": [ [ "yeet_cannon", 12 ] ]
+    "copy-from": "guns_pistol_common",
+    "extend": { "items": [ [ "yeet_cannon", 12 ] ] }
   }
 ]

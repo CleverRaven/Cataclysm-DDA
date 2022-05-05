@@ -10,7 +10,7 @@
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ] ]
+    "components": [ [ [ "rock", 1 ], [ "rock_flaking_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -238,7 +238,7 @@
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 3 ], [ "survival", 1 ] ],
+    "skills_required": [ [ "survival", 1 ] ],
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
@@ -254,7 +254,7 @@
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
         [ "nail", 10 ],
-        [ "sharp_rock", 1 ]
+        [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -427,7 +427,7 @@
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
         [ "nail", 10 ],
-        [ "sharp_rock", 1 ]
+        [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -446,7 +446,7 @@
     "book_learn": [ [ "recipe_arrows", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "arrow_field_point_fletched", 5 ] ],
+      [ [ "arrow_field_point_fletched", 1 ] ],
       [ [ "rag", 1, "NO_RECOVER" ] ],
       [
         [ "lamp_oil", 50, "NO_RECOVER" ],

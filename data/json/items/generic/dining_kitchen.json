@@ -550,7 +550,7 @@
     "id": "plastic_straw",
     "name": { "str": "plastic straw" },
     "proportional": { "weight": 0.7, "volume": 0.5 },
-    "description": "A plastic straw, for drinking things and making litter",
+    "description": "A plastic straw, for drinking things and making litter.",
     "copy-from": "base_plastic_silverware"
   },
   {
@@ -1133,5 +1133,54 @@
     "description": "A stainless steel cheese grater with a plastic grip.  It is used to shred cheese.",
     "looks_like": "spoon",
     "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "dutch_oven",
+    "name": { "str": "cast-iron dutch oven" },
+    "description": "A cast-iron dutch oven, suitable for boiling, broiling, roasting, baking, stewing, frying and any other method of cooking.",
+    "copy-from": "base_cookpot",
+    "material": [ "iron" ],
+    "color": "dark_gray",
+    "weight": "6210 g",
+    "volume": "12152 ml",
+    "longest_side": "31 cm",
+    "bashing": 8,
+    "pocket_data": [ { "max_contains_volume": "6300 ml", "max_contains_weight": "6300 g", "watertight": true, "rigid": true } ],
+    "extend": { "qualities": [ [ "OVEN", 2 ] ] }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "improvised_oven",
+    "name": { "str": "improvised oven" },
+    "description": "A large pot converted into an improvised oven suitable for basic baking on a hot surface.",
+    "copy-from": "base_cookpot",
+    "material": [ "steel" ],
+    "color": "light_gray",
+    "weight": "2490 g",
+    "volume": "12800 ml",
+    "longest_side": "25 cm",
+    "bashing": 8,
+    "pocket_data": [ { "max_contains_volume": "12 L", "max_contains_weight": "12 kg", "watertight": true, "rigid": true } ],
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "clay_dutch_oven",
+    "name": { "str": "clay pot oven" },
+    "description": "A makeshift oven made of a big clay pot with a lid, containing firebricks to hold heat and a smaller pot to bake in.",
+    "copy-from": "base_cookpot",
+    "looks_like": "pot_canning_clay",
+    "material": [ "clay" ],
+    "color": "brown",
+    "weight": "11388 g",
+    "volume": "30 L",
+    "longest_side": "35 cm",
+    "bashing": 8,
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
   }
 ]

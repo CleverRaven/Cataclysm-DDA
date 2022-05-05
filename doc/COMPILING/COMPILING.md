@@ -326,7 +326,7 @@ The Gradle project lives in the repository under `android/`. You can build it vi
   * SDL2_mixer (tested with 2.0.2)
   * SDL2_image (tested with 2.0.3)
 
-The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
+The Gradle build process automatically installs dependencies from [deps.zip](/android/app/deps.zip).
 
 ### Setup
 
@@ -352,7 +352,7 @@ Export Android environment variables (you can add these to the end of `~/.bashrc
     export PATH=$PATH:$ANDROID_SDK_ROOT/tools
     export PATH=$PATH:$ANDROID_NDK_ROOT
 
-You can also use these additional variables if you want to use `ccache` to speed up subsequnt builds:
+You can also use these additional variables if you want to use `ccache` to speed up subsequent builds:
 
     export USE_CCACHE=1
     export NDK_CCACHE=/usr/local/bin/ccache
@@ -388,7 +388,7 @@ The app stores data files on the device in `/sdcard/Android/data/com.cleverraven
 
 # Mac OS X
 
-To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
+To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) formula.
 
 ## Simple build using Homebrew
 

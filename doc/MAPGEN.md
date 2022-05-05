@@ -461,8 +461,8 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"variable"`
-| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"radiation"`, `"variable"`
+| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
@@ -482,8 +482,8 @@ Example:
 
 | Field  | Description
 | ---    | ---
-| line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
+| line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
 | amount | Radiation amount. Value from `0-100`.
@@ -506,8 +506,8 @@ Example:
 
 | Field  | Description
 | ---    | ---
-| square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
+| square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
 
@@ -619,7 +619,7 @@ Example:
 | custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
 The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it is placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with a 1 second countdown to have locations explode as the avatar approaches, creating uniquely ruined terrain.
- 
+
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
@@ -808,11 +808,12 @@ Places a gas pump with fuel in it.
 
 ### Place items from an item group with "items"
 
-| Field  | Description
-| ---    | ---
-| item   | (required, string or itemgroup object) the item group to use.
-| chance | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
-| repeat | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
+| Field   | Description
+| ---     | ---
+| item    | (required, string or itemgroup object) the item group to use.
+| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
+| repeat  | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
+| faction | (optional, string) the faction that owns these items.
 
 
 ### Place monsters from a monster group with "monsters"
@@ -835,11 +836,12 @@ The actual monsters are spawned when the map is loaded. Fields:
 | rotation | (optional, integer) the direction the vehicle faces.
 | fuel     | (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
 | status   | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
+| faction  | (optional, string) faction this vehicle belongs to.
 
 Note that vehicles cannot be placed over overmap boundaries. So it needs to be 24 tiles long at most.
 
-```json 
-"place_vehicles": [ 
+```json
+"place_vehicles": [
     { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 }
 ]
 ```
@@ -850,8 +852,8 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 | ---      | ---
 | vehicles  | (optional, string array) types of vehicle to be removed. If left empty all vehicles will be removed.
 
-```json 
-"remove_vehicles": [ 
+```json
+"remove_vehicles": [
     { "vehicles": [ "fire_engine" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
 ]
 ```
@@ -873,18 +875,6 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 },
 "place_item": [
     { "x": 10, "y": 1, "item": "rock" }
-]
-```
-
-### Remove items by type
-
-| Field    | Description
-| ---      | ---
-| items    | (optional, string array) types of items to be removed. If left empty all items will be removed.
-
-```json 
-"remove_items": [ 
-    { "items": [ "rock" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
 ]
 ```
 
@@ -1073,8 +1063,8 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 
 | Field              | Description
 | ---                | ---
-| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.  
-| x and y            | (required, int) the cardinal position in which the chunk will be placed. 
+| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.
+| x and y            | (required, int) the cardinal position in which the chunk will be placed.
 | neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
 
@@ -1221,7 +1211,7 @@ Each entry in the `"parameters"` JSON object defines a parameter.  The key is
 the parameter name.  Each such key should have an associated JSON object.  That
 object must provide its type (which should be a type string as for a
 `cata_variant`) and may optionally provide a default value.  The default value
-should be a [mapgen value](#mapgen-value) as defined above.
+should be a [mapgen value](#mapgen-values) as defined above.
 
 At time of writing, the only way for a parameter to get a value is via the
 `"default"`, so you probably want to always have one.

@@ -24,8 +24,6 @@
     <Keyword>QtVS_v303</Keyword>
     <RootNamespace>ObjectCreator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
-    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnabled>true</VcpkgEnabled>
@@ -33,8 +31,9 @@
     <VcpkgManifestInstall>true</VcpkgManifestInstall>
     <VcpkgUseStatic>true</VcpkgUseStatic>
     <VcpkgAutoLink>true</VcpkgAutoLink>
-    <VcpkgUserTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgUserTriplet>
-    <VcpkgUserTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgUserTriplet>
+    <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
+    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
+    <VcpkgHostTriplet>$(VcpkgTriplet)</VcpkgHostTriplet>
     <VcpkgConfiguration>$(Configuration)</VcpkgConfiguration>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,10 +69,12 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>QT_STATICPLUGIN;QT_NO_KEYWORDS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\tools\format;..\msvc-object_creator\vcpkg_installed\$(VcpkgTriplet)\include\qt5;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\tools\format;vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\include\qt5;vcpkg_installed\$(VcpkgTriplet)\include\qt5;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'">.\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\debug\plugins\platforms;.\vcpkg_installed\$(VcpkgTriplet)\debug\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Release'">.\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\plugins\platforms;.\vcpkg_installed\$(VcpkgTriplet)\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
@@ -84,7 +85,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Netapi32.lib;userenv.lib;Ws2_32.lib;Wtsapi32.lib;Dwmapi.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Netapi32.lib;userenv.lib;Ws2_32.lib;Wtsapi32.lib;Dwmapi.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;qwindowsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -106,27 +107,15 @@
     <ClCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>.\vcpkg_installed\x86-windows-static\debug\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Link>
-      <AdditionalLibraryDirectories>.\vcpkg_installed\x64-windows-static\debug\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>.\vcpkg_installed\x86-windows-static\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Link>
-      <AdditionalLibraryDirectories>.\vcpkg_installed\x64-windows-static\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\messages.h" />

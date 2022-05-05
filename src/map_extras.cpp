@@ -98,7 +98,9 @@ static const itype_id itype_bag_canvas( "bag_canvas" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_chunk_sulfur( "chunk_sulfur" );
 static const itype_id itype_hatchet( "hatchet" );
+static const itype_id itype_jack_small( "jack_small" );
 static const itype_id itype_landmine( "landmine" );
+static const itype_id itype_lug_wrench( "lug_wrench" );
 static const itype_id itype_material_sand( "material_sand" );
 static const itype_id itype_material_soil( "material_soil" );
 static const itype_id itype_rag( "rag" );
@@ -107,7 +109,6 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_stick_long( "stick_long" );
-static const itype_id itype_tire_iron( "tire_iron" );
 static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
@@ -157,8 +158,6 @@ static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
@@ -634,13 +633,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_east = east->get_type_id() == oter_type_road;
 
     const auto spawn_turret = [&]( const point & p ) {
-        if( one_in( 3 ) ) {
-            m.add_spawn( mon_turret_bmg, 1, { p, abs_sub.z } );
-        } else if( one_in( 2 ) ) {
-            m.add_spawn( mon_turret_rifle, 1, { p, abs_sub.z } );
-        } else {
-            m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
-        }
+        m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
     };
 
     if( one_in( 6 ) ) { //Military doesn't joke around with their barricades!
@@ -2463,12 +2456,23 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some unfortunate stopped at the roadside to change tire, but was ambushed and killed
         case 3: {
-            m.add_vehicle( vehicle_prototype_car, point( 18, 12 ), 270_degrees );
+            vehicle *veh = m.add_vehicle( vehicle_prototype_car, point( 18, 12 ), 270_degrees );
+
+            for( const vpart_reference &vp : veh->get_any_parts( "CARGO" ) ) {
+                const size_t p = vp.part_index();
+                for( item &elem : veh->get_items( p ) ) {
+                    if( elem.typeId() == itype_wheel || elem.typeId() == itype_lug_wrench ||
+                        elem.typeId() == itype_jack_small ) {
+                        veh->remove_item( p, &elem );
+                    }
+                }
+            }
 
             m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
             m.spawn_item( { 16, 16, abs_sub.z }, itype_wheel, 1, 0, calendar::start_of_cataclysm, 4 );
-            m.spawn_item( { 16, 16, abs_sub.z }, itype_tire_iron );
+            m.spawn_item( { 16, 16, abs_sub.z }, itype_lug_wrench );
+            m.spawn_item( { 16, 16, abs_sub.z }, itype_jack_small );
 
             if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy
                 m.put_items_from_loc( Item_spawn_data_everyday_corpse, { 16, 15, abs_sub.z } );

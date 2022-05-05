@@ -31,6 +31,13 @@ def parse_monster_concrete(json, origin, name):
                            comment="No ammo sound of special attack of "
                            "monster \"{}\"".format(name))
 
+    if "weakpoints" in json:
+        for weakpoint in json["weakpoints"]:
+            if "name" in weakpoint:
+                write_text(weakpoint["name"], origin,
+                           comment="Sentence fragment describing a "
+                           "weakpoint for monster \"{}\"".format(name))
+
 
 def parse_monster(json, origin):
     name = ""

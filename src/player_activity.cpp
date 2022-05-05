@@ -34,8 +34,10 @@ static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
+static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
@@ -64,6 +66,14 @@ static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
 static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
 static const efftype_id effect_nausea( "nausea" );
+
+static const std::vector<activity_id> consuming {
+    ACT_CONSUME,
+    ACT_EAT_MENU,
+    ACT_CONSUME_FOOD_MENU,
+    ACT_CONSUME_DRINK_MENU,
+    ACT_CONSUME_MEDS_MENU,
+    ACT_CONSUME_FUEL_MENU };
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -337,6 +347,7 @@ void player_activity::do_turn( Character &you )
                 case UILIST_CANCEL:
                 case 2:
                     auto_resume = false;
+                    set_to_null();
                     break;
                 case 3:
                     ignoreQuery = true;
@@ -345,7 +356,9 @@ void player_activity::do_turn( Character &you )
                     break;
             }
         }
-        you.assign_activity( new_act );
+        if( !ignoreQuery && auto_resume ) {
+            you.assign_activity( new_act );
+        }
         return;
     }
     if( *this && type->rooted() ) {
@@ -471,7 +484,8 @@ void player_activity::inherit_distractions( const player_activity &other )
 std::map<distraction_type, std::string> player_activity::get_distractions()
 {
     std::map < distraction_type, std::string > res;
-    if( id() != ACT_AIM && moves_left > 0 ) {
+    activity_id act_id = id();
+    if( act_id != ACT_AIM && moves_left > 0 ) {
         if( !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
             Creature *hostile_critter = g->is_hostile_very_close( true );
             if( hostile_critter != nullptr ) {
@@ -485,6 +499,21 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
             if( field != nullptr ) {
                 res.emplace( distraction_type::dangerous_field, string_format( _( "You stand in %s!" ),
                              g->is_in_dangerous_field()->name() ) );
+            }
+        }
+        // Nested in the !ACT_AIM to avoid nuisance during combat
+        // If this is too bothersome, maybe a list of just ACT_CRAFT, ACT_DIG etc
+        if( std::find( consuming.begin(), consuming.end(), act_id ) == consuming.end() ) {
+            avatar &player_character = get_avatar();
+            if( !is_distraction_ignored( distraction_type::hunger ) ) {
+                if( player_character.get_hunger() >= 300 && player_character.get_starvation() > 2500 ) {
+                    res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
+                }
+            }
+            if( !is_distraction_ignored( distraction_type::thirst ) ) {
+                if( player_character.get_thirst() > 520 ) {
+                    res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
+                }
             }
         }
     }

@@ -6,6 +6,8 @@
 #include <string>
 
 // Fixed window sizes.
+static constexpr int EVEN_MINIMUM_TERM_WIDTH = 80;
+static constexpr int EVEN_MINIMUM_TERM_HEIGHT = 24;
 static constexpr int HP_HEIGHT = 14;
 static constexpr int HP_WIDTH = 7;
 static constexpr int MINIMAP_HEIGHT = 7;

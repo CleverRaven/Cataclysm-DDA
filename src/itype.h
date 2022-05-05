@@ -22,7 +22,6 @@
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "optional.h"
-#include "pldata.h" // add_type
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -140,7 +139,7 @@ struct islot_comestible {
         int addict = 0;
 
         /** effects of addiction */
-        add_type add = add_type::NONE;
+        addiction_id add = addiction_id::NULL_ID();
 
         /** stimulant effect */
         int stim = 0;
@@ -223,6 +222,7 @@ struct part_material {
     material_id id; //material type
     int cover; //portion coverage % of this material
     float thickness; //portion thickness of this material
+    bool ignore_sheet_thickness = false; //if the def should ignore thickness of materials sheets
 
     part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
     part_material( material_id id, int cover, float thickness ) :
@@ -233,10 +233,34 @@ struct part_material {
     void deserialize( const JsonObject &jo );
 };
 
+// values for attributes related to encumbrance
+enum class encumbrance_modifier : int {
+    IMBALANCED = 0,
+    RESTRICTS_NECK,
+    WELL_SUPPORTED,
+    NONE,
+    last
+};
+
+template<>
+struct enum_traits<encumbrance_modifier> {
+    static constexpr encumbrance_modifier last = encumbrance_modifier::last;
+};
+
+// if it is a multiplier or flat modifier
+enum class encumbrance_modifier_type : int {
+    MULT = 0,
+    FLAT,
+    last
+};
+
 struct armor_portion_data {
 
     // The base volume for an item
     const units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
+
+    // descriptors used to infer encumbrance
+    std::vector<encumbrance_modifier> encumber_modifiers;
 
     // How much this piece encumbers the player.
     int encumber = 0;
@@ -286,15 +310,30 @@ struct armor_portion_data {
     // these are pre-calc values to save us time later
 
     // the chance that every material applies to an attack
-    // this is primarily used as a chached value for UI
+    // this is primarily used as a cached value for UI
     int best_protection_chance = 100; // NOLINT(cata-serialize)
 
     // the chance that the smallest number of materials possible applies to an attack
-    // this is primarily used as a chached value for UI
+    // this is primarily used as a cached value for UI
     int worst_protection_chance = 0; // NOLINT(cata-serialize)
 
     // this is to test if the armor has unique layering information
     bool has_unique_layering = false; // NOLINT(cata-serialize)
+
+    // how breathable this part of the armor is
+    // cached from the material data
+    // only tracked for amalgamized body parts entries
+    // if left the default -1 the value will be recalculated,
+    int breathability = -1; // NOLINT(cata-serialize)
+
+    // if this item is rigid, can't be worn with other rigid items
+    bool rigid = false; // NOLINT(cata-serialize)
+
+    // if this item only conflicts with rigid items that share a direct layer with it
+    bool rigid_layer_only = false;
+
+    // if this item is comfortable to wear without other items bellow it
+    bool comfortable = false; // NOLINT(cata-serialize)
 
     /**
      * Returns the amount all sublocations this item covers could possibly
@@ -305,11 +344,22 @@ struct armor_portion_data {
      */
     int max_coverage( bodypart_str_id bp ) const;
 
+    // helper function to return encumbrance value by descriptor and weight
+    int calc_encumbrance( units::mass weight, bodypart_id bp ) const;
+
+    // converts a specific encumbrance modifier to an actual encumbrance value
+    static std::tuple<encumbrance_modifier_type, int> convert_descriptor_to_val(
+        encumbrance_modifier em );
+
     void deserialize( const JsonObject &jo );
 };
 
 struct islot_armor {
     public:
+
+        // thresholds for an item to count as hard / comfortable to wear
+        static const int test_threshold = 40;
+
         /**
         * Whether this item can be worn on either side of the body
         */
@@ -346,6 +396,17 @@ struct islot_armor {
          * Whether this item has pockets that can be ripped off
          */
         bool ripoff_chance = false;
+
+        /**
+         * If the entire item is rigid
+         */
+        bool rigid = false;
+
+        /**
+         * If the entire item is comfortable
+         */
+        bool comfortable = true;
+
         /**
          * Whether this item has pockets that are noisy
          */
@@ -357,7 +418,7 @@ struct islot_armor {
         std::vector<std::string> valid_mods;
 
         /**
-         * If the item in question has any sub coverage when testing for encumberance
+         * If the item in question has any sub coverage when testing for encumbrance
          */
         bool has_sub_coverage = false;
 
@@ -589,6 +650,8 @@ struct itype_variant_data {
     translation alt_description;
     ascii_art_id art;
 
+    bool append = false; // if the description should be appended to the base description.
+
     int weight = 0;
 
     void deserialize( const JsonObject &jo );
@@ -789,7 +852,7 @@ struct islot_gunmod : common_ranged_data {
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
-    /** Not compatable on weapons that have this mod slot */
+    /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_mod;
 
     // minimum recoil to cycle while this is installed
@@ -1003,6 +1066,7 @@ class islot_milling
 
 struct itype {
         friend class Item_factory;
+        friend struct mod_tracker;
 
         using FlagsSetType = std::set<flag_id>;
 

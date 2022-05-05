@@ -137,6 +137,9 @@ struct resistances {
     float get_effective_resist( const damage_unit &du ) const;
 
     resistances &operator+=( const resistances &other );
+    bool operator==( const resistances &other );
+    resistances operator*( float mod ) const;
+    resistances operator/( float mod ) const;
 };
 
 const std::map<std::string, damage_type> &get_dt_map();

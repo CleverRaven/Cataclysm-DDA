@@ -224,6 +224,12 @@
     "entries": [ { "item": "45colt_jhp", "charges": 18 } ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "ninja_grenade_pouch",
+    "entries": [ { "item": "flashbang" }, { "item": "flashbang" }, { "item": "smokebomb" }, { "item": "smokebomb" } ]
+  },
+  {
     "type": "profession_item_substitutions",
     "trait": "WOOLALLERGY",
     "sub": [
@@ -407,7 +413,6 @@
       "both": {
         "items": [
           "jeans",
-          "tshirt",
           "gloves_light",
           "hat_ball",
           "duffelbag",
@@ -417,13 +422,13 @@
           "socks_wool",
           "socks",
           "hoodie",
-          "folding_poncho_on",
+          "folding_poncho",
           "knit_scarf",
           "jug_plastic",
           "can_beans",
           "pockknife"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_matches" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_matches" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
@@ -463,8 +468,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "mbag", "pants", "tshirt", "socks", "sweater", "sneakers", "multitool", "water_clean", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+        "items": [ "mbag", "pants", "socks", "sweater", "sneakers", "multitool", "water_clean", "wristwatch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_matches" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -557,8 +566,14 @@
     "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_baking", "prof_baking_desserts_1", "prof_frying" ],
     "items": {
       "both": {
-        "items": [ "hat_chef", "jacket_chef", "pants_checkered", "socks", "dress_shoes", "apron_leather" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "knife_butcher", "container-item": "sheath" } ]
+        "items": [ "pants_checkered", "socks", "dress_shoes" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "knife_butcher", "container-item": "sheath" },
+          { "item": "hat_chef", "variant": "white_hat_chef" },
+          { "item": "jacket_chef", "variant": "white_jacket_chef" },
+          { "item": "apron_cotton", "variant": "generic_apron_cotton" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -712,8 +727,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "baseball", "tshirt", "jacket_light", "jeans", "socks", "cleats", "helmet_ball", "sports_drink", "gum" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "bat", "custom-flags": [ "auto_wield" ] } ]
+        "items": [ "baseball", "jacket_light", "jeans", "socks", "cleats", "helmet_ball", "sports_drink", "gum" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "bat", "custom-flags": [ "auto_wield" ] },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
@@ -955,7 +974,7 @@
           { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
-          { "item": "tire_iron" },
+          { "item": "lug_wrench" },
           { "item": "hacksaw" },
           { "item": "pliers" },
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
@@ -1016,7 +1035,7 @@
   {
     "type": "profession",
     "id": "nco",
-    "name": "Non Comissioned Officer",
+    "name": "Non Commissioned Officer",
     "description": "You're a veteran of several peacekeeping missions.  You led your squad as a sort of parental figure, and they relied on you to give orders and keep them alive.  You failed them.  And now you're alone.",
     "points": 7,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
@@ -1145,7 +1164,6 @@
           "pants_army",
           "wetsuit_hood",
           "tac_helmet",
-          "glasses_bal",
           "wetsuit_gloves",
           "gloves_tactical",
           "socks",
@@ -1157,6 +1175,7 @@
           { "group": "charged_two_way_radio" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "chestrig", "contents-group": "army_mags_mp5" },
           {
@@ -1236,7 +1255,7 @@
     "description": "Fresh out of med school, you've got little in the way of practical experience and just a handful of first-aid supplies.  You just hope it will be enough if 'physician, heal thyself' turns out to be more literal than you expected.",
     "points": 2,
     "skills": [ { "level": 4, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology" ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -1312,21 +1331,11 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "socks",
-          "boots_combat",
-          "longshirt",
-          "jacket_light",
-          "knife_folding",
-          "hat_ball",
-          "kevlar",
-          "wristwatch",
-          "leather_belt"
-        ],
+        "items": [ "pants", "socks", "boots_combat", "longshirt", "knife_folding", "hat_ball", "wristwatch", "leather_belt" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_flashlight" },
+          { "item": "soft_3a_vest", "variant": "security_armor_vest" },
           { "item": "baton", "custom-flags": [ "auto_wield" ] },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "m9mag", "ammo-item": "9mm", "charges": 15 },
@@ -1363,21 +1372,23 @@
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
     "proficiencies": [ "prof_wound_care" ],
     "items": {
-      "both": [
-        "pants",
-        "dress_shirt",
-        "mask_dust",
-        "gloves_medical",
-        "socks",
-        "dress_shoes",
-        "coat_lab",
-        "water_clean",
-        "bandages",
-        "adhesive_bandages",
-        "aspirin",
-        "stethoscope",
-        "pudding"
-      ],
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "gloves_medical",
+          "socks",
+          "dress_shoes",
+          "coat_lab",
+          "water_clean",
+          "bandages",
+          "adhesive_bandages",
+          "aspirin",
+          "stethoscope",
+          "pudding"
+        ],
+        "entries": [ { "item": "mask_dust", "variant": "white_mask_dust" } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -1417,7 +1428,6 @@
           "pants_cargo",
           "boots",
           "hat_boonie",
-          "tshirt",
           "jacket_light",
           "socks",
           "backpack",
@@ -1430,7 +1440,8 @@
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
-          { "item": "knife_rambo", "container-item": "scabbard" }
+          { "item": "knife_rambo", "container-item": "scabbard" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1486,24 +1497,15 @@
     "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [
-          "pants_army",
-          "socks",
-          "badge_deputy",
-          "sheriffshirt",
-          "police_belt",
-          "boots",
-          "dog_whistle",
-          "wristwatch",
-          "dogfood_dry"
-        ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "dog_whistle", "wristwatch", "dogfood_dry" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
-          { "item": "kevlar_harness", "container-item": "runner_bag" }
+          { "item": "kevlar_harness", "container-item": "runner_bag" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1554,13 +1556,14 @@
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1623,11 +1626,25 @@
     "traits": [ "PROF_SWAT" ],
     "items": {
       "both": {
-        "items": [ "socks", "swat_armor", "police_belt", "tac_helmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch" ],
+        "items": [
+          "socks",
+          "police_belt",
+          "tac_helmet",
+          "boots_combat",
+          "gloves_tactical",
+          "badge_swat",
+          "wristwatch",
+          "pants_cargo",
+          "elbow_pads",
+          "knee_pads"
+        ],
         "entries": [
+          { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
+          { "item": "sheriffshirt", "variant": "swat_shirt" },
+          { "group": "army_mags_mp5" },
+          { "group": "army_mags_usp9" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "tacvest", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           {
@@ -1660,9 +1677,21 @@
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "socks", "swat_armor", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch" ],
+        "items": [
+          "socks",
+          "tac_fullhelmet",
+          "boots_combat",
+          "gloves_tactical",
+          "badge_swat",
+          "wristwatch",
+          "pants_cargo",
+          "elbow_pads",
+          "knee_pads"
+        ],
         "entries": [
+          { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
+          { "item": "sheriffshirt", "variant": "swat_shirt" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
@@ -1696,11 +1725,9 @@
           "socks",
           "pants_army",
           "police_belt",
-          "sheriffshirt",
           "sweatshirt",
           "sneakers",
           "gloves_tactical",
-          "glasses_bal",
           "hat_ball",
           "badge_deputy",
           "wristwatch",
@@ -1708,11 +1735,13 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_powered_earmuffs" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "762_51", "charges": 20 },
-          { "item": "M24", "ammo-item": "762_51", "charges": 5, "contents-item": "shoulder_strap" }
+          { "item": "M24", "ammo-item": "762_51", "charges": 5, "contents-item": "shoulder_strap" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1776,7 +1805,6 @@
           "socks",
           "police_breeches",
           "badge_deputy",
-          "sheriffshirt",
           "undershirt",
           "police_belt",
           "motor_police_boots",
@@ -1790,7 +1818,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2028,7 +2057,7 @@
       { "level": 2, "name": "melee" },
       { "level": 1, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_wound_care" ],
+    "proficiencies": [ "prof_wound_care", "prof_burn_care" ],
     "vehicle": "fire_engine",
     "items": {
       "both": {
@@ -2096,8 +2125,8 @@
     "vehicle": "schoolbus",
     "items": {
       "both": {
-        "items": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "water_clean", "hat_ball" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "sneakers", "socks", "jeans", "wristwatch", "jacket_light", "water_clean", "hat_ball" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
@@ -2115,13 +2144,14 @@
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2202,7 +2232,6 @@
           "pants_army",
           "police_belt",
           "rollmat",
-          "sheriffshirt",
           "socks",
           "travelpack",
           "vest",
@@ -2225,7 +2254,8 @@
           { "item": "permanent_marker", "charges": 500 },
           { "item": "roadmap" },
           { "item": "sm_extinguisher", "charges": 10 },
-          { "item": "trailmap" }
+          { "item": "trailmap" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2258,8 +2288,8 @@
     "proficiencies": [ "prof_frying" ],
     "items": {
       "both": {
-        "items": [ "pants", "sneakers", "tshirt", "socks", "knife_steak" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "pants", "sneakers", "socks", "knife_steak" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2314,7 +2344,7 @@
         ]
       },
       "male": [ "briefs" ],
-      "female": [ "panties" ]
+      "female": [ "sports_bra", "panties" ]
     }
   },
   {
@@ -2326,8 +2356,8 @@
     "skills": [ { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "backpack_hiking", "jeans", "boots_hiking", "tshirt", "knit_scarf", "socks", "wristwatch", "fun_survival" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "backpack_hiking", "jeans", "boots_hiking", "knit_scarf", "socks", "wristwatch", "fun_survival" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -2341,19 +2371,8 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "tshirt",
-          "socks",
-          "sneakers",
-          "ZSG",
-          "backpack",
-          "wristwatch",
-          "textbook_speech",
-          "story_book",
-          "howto_computer"
-        ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "pants", "socks", "sneakers", "ZSG", "backpack", "wristwatch", "textbook_speech", "story_book", "howto_computer" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -2389,7 +2408,11 @@
           "wristwatch",
           "multitool"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "sheath", "contents-item": "knife_trench" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "sheath", "contents-item": "knife_trench" },
+          { "item": "leg_bag", "variant": "black_leg_bag" }
+        ]
       },
       "male": [ "boxer_shorts", "tank_top" ],
       "female": [ "bra", "boy_shorts" ]
@@ -2415,7 +2438,10 @@
     "description": "When the diagnosis came back positive, you made a vow: to fight for your life, and to never give in to despair.  Now is the time to renew that vow.",
     "points": -2,
     "items": {
-      "both": { "items": [ "jeans", "tshirt", "socks", "sneakers", "wristwatch" ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "both": {
+        "items": [ "jeans", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -2499,7 +2525,7 @@
     "proficiencies": [ "prof_metalworking", "prof_blacksmithing" ],
     "items": {
       "both": {
-        "items": [ "jeans", "socks", "boots", "tank_top", "apron_leather", "fire_gauntlets", "wristwatch", "hammer" ],
+        "items": [ "jeans", "socks", "boots", "tank_top", "apron_cut_resistant", "fire_gauntlets", "wristwatch", "hammer" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
@@ -2612,18 +2638,14 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
-          "trenchcoat",
-          "gloves_fingerless",
-          "socks",
-          "boots_combat",
-          "weed",
-          "tobacco",
-          "rolling_paper",
-          "wristwatch",
-          "silver_ear"
-        ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_mp3" }, { "group": "charged_ref_lighter" } ]
+        "items": [ "trenchcoat", "gloves_fingerless", "socks", "boots_combat", "weed", "tobacco", "rolling_paper", "wristwatch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_mp3" },
+          { "group": "charged_ref_lighter" },
+          { "item": "onyx_silver_earring", "variant": "dark_earring" },
+          { "item": "onyx_silver_ring", "variant": "dark_ring" }
+        ]
       },
       "male": [ "pants_cargo", "tank_top", "boxer_shorts" ],
       "female": [ "skirt", "corset", "boxer_shorts", "stockings" ]
@@ -2636,6 +2658,7 @@
     "description": "As a first responder, you were direct witness to the gut-wrenching horrors of the apocalypse.  Separated from most of your equipment and your unit while on call, you were forced to fight your way to safety with little more than your trusty iron and your bunker gear to protect you.",
     "points": 2,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_burn_care" ],
     "items": {
       "both": {
         "items": [
@@ -2726,6 +2749,27 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "convict_assassin",
+    "name": "Undercover Assassin Convict",
+    "description": "You were given a target, a mission, but killing your mark seems to have become much more difficult now.  Your employer cut contact with you and now you have to make do with what you have.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 2, "name": "stabbing" } ],
+    "traits": [ "PROF_ASSASSIN_CONVICT" ],
+    "items": {
+      "both": {
+        "items": [ "striped_shirt", "striped_pants", "sneakers", "socks" ],
+        "entries": [
+          { "item": "knife_combat", "container-item": "gartersheath1" },
+          { "item": "polaroid_photo", "container-item": "ankle_wallet_pouch" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -2905,8 +2949,8 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "pants", "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2937,20 +2981,8 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [
-          "jeans",
-          "tshirt",
-          "socks",
-          "robe",
-          "turban",
-          "waterskin",
-          "pockknife",
-          "mbag",
-          "leathersandals",
-          "holy_symbol",
-          "wristwatch"
-        ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "jeans", "socks", "robe", "turban", "waterskin", "pockknife", "mbag", "leathersandals", "holy_symbol", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -3033,7 +3065,6 @@
       "both": {
         "items": [
           "hat_ball",
-          "tshirt",
           "jeans",
           "jacket_light",
           "socks",
@@ -3044,7 +3075,7 @@
           "wristwatch",
           "mbag"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
@@ -3127,7 +3158,6 @@
       "both": {
         "items": [
           "jeans",
-          "tshirt",
           "backpack",
           "knit_scarf",
           "straw_hat",
@@ -3144,7 +3174,7 @@
           "seed_sugar_beet",
           "seed_tomato"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3156,11 +3186,21 @@
     "name": "National Guard",
     "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the dead.",
     "points": 3,
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "firstaid" } ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "rifle" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "proficiencies": [ "prof_wound_care" ],
     "items": {
       "both": {
-        "items": [ "shorts", "tshirt", "socks", "lowtops", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "personal_gobag", "custom-flags": [ "FIT" ] } ]
+        "items": [ "shorts", "socks", "lowtops", "wristwatch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "personal_gobag", "custom-flags": [ "FIT" ] },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3264,11 +3304,12 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "holster", "pockknife", "wristwatch", "leather_belt" ],
+        "items": [ "pants", "socks", "boots", "longshirt", "holster", "pockknife", "wristwatch", "leather_belt" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_flashlight" },
           { "group": "charged_tazer" },
+          { "item": "stab_vest", "variant": "security_stab_vest" },
           { "item": "baton", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -3473,7 +3514,6 @@
     "items": {
       "both": {
         "items": [
-          "tshirt",
           "hoodie",
           "jeans",
           "socks",
@@ -3485,7 +3525,7 @@
           "wristwatch",
           "sports_drink"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -3501,7 +3541,6 @@
     "items": {
       "both": {
         "items": [
-          "tshirt",
           "hoodie",
           "jeans",
           "socks",
@@ -3516,7 +3555,11 @@
           "marble",
           "slingshot"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_matches" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -3538,7 +3581,6 @@
     "items": {
       "both": {
         "items": [
-          "tshirt",
           "jacket_light",
           "pants_cargo",
           "socks",
@@ -3552,7 +3594,12 @@
           "wristwatch",
           "whistle"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "full_1st_aid" }, { "group": "charged_flashlight" } ]
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "full_1st_aid" },
+          { "group": "charged_flashlight" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -3567,8 +3614,8 @@
     "skills": [ { "level": 1, "name": "dodge" }, { "level": 1, "name": "throw" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "jacket_light", "jeans", "socks_ankle", "lowtops", "slingpack", "juice" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "jacket_light", "jeans", "socks_ankle", "lowtops", "slingpack", "juice" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -3583,8 +3630,8 @@
     "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "jacket_light", "jeans", "socks", "sneakers", "knit_scarf", "backpack", "basic_chemistry", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "jacket_light", "jeans", "socks", "sneakers", "knit_scarf", "backpack", "basic_chemistry", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
@@ -3742,8 +3789,8 @@
     "skills": [ { "level": 4, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "hoodie", "pants_cargo", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "hoodie", "pants_cargo", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
@@ -3760,7 +3807,6 @@
         "items": [
           "hat_ball",
           "knit_scarf",
-          "tshirt",
           "jacket_light",
           "gloves_light",
           "pants",
@@ -3773,7 +3819,8 @@
         ],
         "entries": [
           { "group": "charged_smart_phone" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" }
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3784,7 +3831,7 @@
     "type": "profession",
     "id": "naked",
     "name": "Naked and Afraid",
-    "description": "You were out filming a reality TV show, naked in the woods.  Strangely, the cast and crew all seem to have turned into zombies, which is pretty bad timing for you.  Looks like it's for real this time…",
+    "description": "For some reason you are now completely naked!  Maybe you were robbed, maybe you were in a nudist beach, or maybe you just enjoy the feeling of liberation brought upon the wind touching your skin, whatever it is, you lack clothes in a time when everyone wants a piece of you.",
     "points": -1
   },
   {
@@ -3996,7 +4043,6 @@
           "boots_western",
           "duster",
           "badge_deputy",
-          "sheriffshirt",
           "novel_western"
         ],
         "entries": [
@@ -4008,7 +4054,8 @@
             "charges": 6,
             "container-item": "western_holster",
             "contents-group": "bandolier_ww_gunslinger"
-          }
+          },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       }
     }
@@ -4097,7 +4144,7 @@
       { "level": 1, "name": "electronics" },
       { "level": 3, "name": "firstaid" }
     ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology" ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
@@ -4116,7 +4163,7 @@
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 3, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology" ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -4127,7 +4174,6 @@
           "gloves_medical",
           "wristwatch",
           "boots",
-          "mask_dust",
           "mbag",
           "bandages",
           "stethoscope",
@@ -4135,7 +4181,11 @@
           "syringe",
           "morphine"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "full_1st_aid" },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -4157,7 +4207,14 @@
       { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_MED" ],
-    "proficiencies": [ "prof_spotting", "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology" ],
+    "proficiencies": [
+      "prof_spotting",
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care"
+    ],
     "items": {
       "both": {
         "items": [
@@ -4188,7 +4245,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "mask_dust", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "mask_dust", "variant": "camo_mask_dust", "custom-flags": [ "no_auto_equip" ] },
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
@@ -4311,7 +4368,7 @@
     "description": "You were deployed to autopsy one of the rioters showing feral behavior before being put down.  When they got back up, you knew this was out of your job description.",
     "points": 5,
     "skills": [ { "level": 5, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert" ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -4451,5 +4508,61 @@
       }
     },
     "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "ninja",
+    "name": { "male": "Ninja", "female": "Kunoichi" },
+    "description": "You always dreamed with being a ninja, so you practiced your movements, dressed all in black and carried some common ninja weapons with you.  Now, after much practice, you can finally call yourself a real ninja.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "cutting" },
+      { "level": 3, "name": "dodge" },
+      { "level": 1, "name": "swimming" },
+      { "level": 2, "name": "throw" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "hood_ninja", "jacket_ninja", "trousers_ninja", "tabi_dress", "geta", "gloves_wraps", "bellywrap" ],
+        "entries": [
+          { "item": "katana", "container-item": "scabbard" },
+          { "item": "grenadebandolier", "contents-group": "ninja_grenade_pouch" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "chestwrap", "panties" ]
+    },
+    "traits": [ "LIGHTSTEP" ]
+  },
+  {
+    "type": "profession",
+    "id": "cheerleader",
+    "name": "Cheerleader",
+    "description": "Your last cheerleader routine ended abruptly after your partners started cheering for the unliving team.  Let's hope your quick reflexes and flexibility helps you to find new members for the squad.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "speech" }, { "level": 3, "name": "swimming" } ],
+    "items": {
+      "both": { "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
+      "male": [ "briefs", "shorts", "tank_top" ],
+      "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "patriot",
+    "name": "Patriot",
+    "description": "You are a true American patriot, dressed with star-spangled clothing from head to toes.  The government has fallen, but the nation lives on with its people.",
+    "points": -1,
+    "items": {
+      "both": {
+        "items": [ "american_flag", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "flag_mask_dust" } ]
+      },
+      "male": [ "flag_shirt", "flag_pants", "flag_swimsuit" ],
+      "female": {
+        "items": [ "flag_jumpsuit" ],
+        "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
+      }
+    }
   }
 ]

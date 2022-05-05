@@ -88,7 +88,7 @@
           { "item": "preserved_food", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
   {

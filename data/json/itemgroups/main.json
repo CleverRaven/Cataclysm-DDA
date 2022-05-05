@@ -12,8 +12,6 @@
       { "item": "antifungal", "prob": 10, "charges": [ 1, 10 ] },
       { "item": "antiparasitic", "prob": 20, "charges": [ 1, 10 ] },
       { "item": "armor_chitin", "prob": 10 },
-      { "item": "bio_blade", "prob": 10 },
-      { "item": "bio_speed", "prob": 10 },
       { "item": "bot_c4_hack", "prob": 30 },
       { "item": "c4", "prob": 50 },
       { "item": "canister_goo", "prob": 80 },
@@ -244,6 +242,8 @@
       { "item": "compbow", "prob": 40 },
       { "item": "shortbow", "prob": 20 },
       { "item": "recurbow", "prob": 40 },
+      { "item": "takedown_recurbow", "prob": 2 },
+      { "item": "quiver_takedown_bow", "prob": 1 },
       { "item": "reflexbow", "prob": 20 },
       { "item": "slingshot", "prob": 50 },
       { "item": "wristrocket", "prob": 50 }

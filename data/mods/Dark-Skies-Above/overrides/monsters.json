@@ -30,7 +30,7 @@
   {
     "id": "mon_bear_mutant_3headed",
     "type": "MONSTER",
-    "name": { "str": "Cerbearus", "str_pl": "Cerberuses" },
+    "name": { "str": "Cerbearus", "str_pl": "Cerbearuses" },
     "copy-from": "mon_bear_mutant_3headed",
     "delete": { "categories": [ "WILDLIFE" ] }
   },

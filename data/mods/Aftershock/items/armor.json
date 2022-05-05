@@ -40,7 +40,7 @@
     "id": "afs_holo_cloak_mk2",
     "type": "TOOL_ARMOR",
     "copy-from": "afs_sentinel_cloak",
-    "name": { "str": "hologram cloak mk.2", "str_pl": "hologram cloaks mk.2" },
+    "name": { "str": "hologram cloak Mk. II", "str_pl": "hologram cloaks Mk. II" },
     "description": "When activated, creates a holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by siphoning excess energy from some unknown hyperdimensional space.",
     "charges_per_use": 1,
     "//": "Change charges and charge_regen only",
@@ -201,7 +201,7 @@
     "type": "ARMOR",
     "category": "armor",
     "//": "Based on US Army SPCS",
-    "name": { "str": "empty XL  ballistic vest" },
+    "name": { "str": "empty XL ballistic vest" },
     "description": "Oversized ballistic armor without any armor inserts.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
     "weight": "4 kg",
     "volume": "7 L",
@@ -236,7 +236,7 @@
     "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "pair of XL combat boots" },
+    "name": { "str": "pair of XL combat boots", "str_pl": "pairs of XL combat boots" },
     "description": "Modern oversized reinforced tactical combat boots.  Very durable.",
     "weight": "1460 g",
     "volume": "5 L",
@@ -259,7 +259,7 @@
     "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "pair of XL tactical gloves" },
+    "name": { "str": "pair of XL tactical gloves", "str_pl": "pairs of XL tactical gloves" },
     "description": "A pair of oversized reinforced Kevlar tactical gloves.  Commonly used by police and military units.",
     "weight": "1 kg",
     "volume": "750 ml",
@@ -279,7 +279,7 @@
     "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "pair of Killophant gloves" },
+    "name": { "str": "pair of Killophant gloves", "str_pl": "pairs of Killophant gloves" },
     "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accommodate three-fingered Killophants.  Thinner than regular oversized tactical gloves.",
     "weight": "320 g",
     "volume": "750 ml",
@@ -302,7 +302,7 @@
     "weight": "150 g",
     "volume": "350 ml",
     "copy-from": "leather_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xlpolice_belt",
@@ -312,7 +312,7 @@
     "weight": "450 g",
     "volume": "2500 ml",
     "copy-from": "police_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xltac_fullhelmet",
@@ -357,7 +357,7 @@
     "name": { "str": "communications cap" },
     "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 33, "encumbrance": 0 },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 33, "encumbrance": 0 },
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 }
     ],
     "color": "brown"
@@ -423,7 +423,7 @@
   {
     "id": "wetsuit_cecalia",
     "type": "ARMOR",
-    "name": { "str": "cecalia wetsuit" },
+    "name": { "str": "Cecalia wetsuit" },
     "description": "A wetsuit designed for the Octopus Uplifts known as Cecalia.  This is the explorer suit with no head or tentacle protection.",
     "weight": "1320 g",
     "volume": "4 L",

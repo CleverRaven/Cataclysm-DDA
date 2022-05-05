@@ -101,6 +101,11 @@
     "info": "This item enables you to keep track of calorie intake."
   },
   {
+    "id": "CASELESS_ROUNDS",
+    "type": "json_flag",
+    "info": "Being caseless rounds, these <bad>cannot be disassembled or reloaded</bad>."
+  },
+  {
     "id": "CBM",
     "type": "json_flag",
     "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
@@ -197,6 +202,11 @@
     "id": "CANT_WEAR",
     "type": "json_flag",
     "info": "This armor can't be worn directly."
+  },
+  {
+    "id": "DECAY_EXPOSED_ATMOSPHERE",
+    "type": "json_flag",
+    "info": "If exposed to the atmosphere, it will <bad>start to go bad</bad>."
   },
   {
     "id": "DIRTY",
@@ -584,6 +594,16 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_WEAR_EFFECT",
+    "type": "json_flag",
+    "info": "This item can be worn, but it <neutral>won't provide any effects</neutral>."
+  },
+  {
+    "id": "PADDED",
+    "type": "json_flag",
+    "info": "This item has notable padding and will be comfortable worn without clothing under it."
+  },
+  {
     "id": "PALS_SMALL",
     "type": "json_flag",
     "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small amount of space</good>."
@@ -620,6 +640,16 @@
     "type": "json_flag",
     "info": "This clothing <good>partially protects</good> you from <info>radiation</info>.",
     "conflicts": [ "RAD_PROOF" ]
+  },
+  {
+    "id": "RAD_STERILIZED",
+    "type": "json_flag",
+    "info": "Sterilized using radiation, so it's <good>safe to eat</good>."
+  },
+  {
+    "id": "RAD_STERILIZED_EDIBLE_FOREVER",
+    "type": "json_flag",
+    "info": "Sterilized using radiation, so it's <good>safe to eat</good> and <good>will remain edible nearly forever</good>."
   },
   {
     "id": "REQUIRES_BALANCE",
@@ -859,9 +889,19 @@
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
   },
   {
+    "id": "NANOFAB_REPAIR",
+    "type": "json_flag",
+    "info": "This item has a holographic patch that reflects the light oddly.  It was constructed in a nanofabricator and can be <info>repaired in one</info>."
+  },
+  {
     "id": "NANOFAB_TEMPLATE",
     "type": "json_flag",
     "info": "This item contains a nanofabricator recipe."
+  },
+  {
+    "id": "NANOFAB_TEMPLATE_SINGLE_USE",
+    "type": "json_flag",
+    "info": "This template is copy protected and will be <bad>destroyed</bad> after a single use."
   },
   {
     "id": "BIONIC_FAULTY",
@@ -1121,7 +1161,20 @@
   },
   {
     "id": "COLLAPSIBLE_STOCK",
+    "//": "this is deprecated for the COLLAPSED_STOCK and FOLDED_STOCK, kept around for mod support",
     "type": "json_flag"
+  },
+  {
+    "id": "FOLDED_STOCK",
+    "//": "for weapons that stock folds to one side, no change in volume.",
+    "type": "json_flag",
+    "info": "This items stock is folded it will be hard to shoot with."
+  },
+  {
+    "id": "COLLAPSED_STOCK",
+    "//": "for weapons that stock collapses into the body reducing volume as well.",
+    "type": "json_flag",
+    "info": "This items stock is collapsed it will be hard to shoot with."
   },
   {
     "id": "CONDUCTIVE",
@@ -1280,6 +1333,11 @@
     "type": "json_flag"
   },
   {
+    "id": "INTEGRATED",
+    "type": "json_flag",
+    "info": "This is <info>integrated into the body</info>."
+  },
+  {
     "id": "IR_EFFECT",
     "type": "json_flag"
   },
@@ -1345,6 +1403,21 @@
     "type": "json_flag"
   },
   {
+    "id": "MUTAGEN_SAMPLE",
+    "type": "json_flag",
+    "info": "Used in the <neutral>creation of mutagenic drugs</neutral>."
+  },
+  {
+    "id": "MUTAGEN_CATALYST",
+    "type": "json_flag",
+    "info": "Injecting it will <neutral>jumpstart mutation</neutral>."
+  },
+  {
+    "id": "MUTAGEN_PRIMER",
+    "type": "json_flag",
+    "info": "Injecting it will <neutral>prime your body for mutation</neutral>."
+  },
+  {
     "id": "MYCUS_OK",
     "type": "json_flag"
   },
@@ -1354,6 +1427,7 @@
   },
   {
     "id": "NEEDS_UNFOLD",
+    "//": "should not be used for folding mods, use a transforming mod instead",
     "type": "json_flag"
   },
   {
@@ -1734,6 +1808,10 @@
   },
   {
     "id": "STR_DRAW",
+    "type": "json_flag"
+  },
+  {
+    "id": "UNBREAKABLE",
     "type": "json_flag"
   },
   {

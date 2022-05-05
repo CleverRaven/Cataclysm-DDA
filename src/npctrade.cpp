@@ -17,6 +17,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "npc.h"
+#include "npctrade_utils.h"
 #include "ret_val.h"
 #include "skill.h"
 #include "trade_ui.h"
@@ -148,6 +149,15 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     return std::max( adjust, 1.0 );
 }
 
+int npc_trading::bionic_install_price( Character &installer, Character &patient,
+                                       item_location const &bionic )
+{
+    return bionic->price( true ) * 2 +
+           ( bionic->is_owned_by( patient )
+             ? 0
+             : npc_trading::trading_price( patient, installer, { bionic, 1 } ) );
+}
+
 int npc_trading::adjusted_price( item const *it, int amount, Character const &buyer,
                                  Character const &seller )
 {
@@ -273,8 +283,12 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
                                               true );
         npc_trading::transfer_items( trade_result.items_trader, np, player_character, from_map, false );
         // Now move items from escrow to the npc. Keep the weapon wielded.
-        for( const item &i : escrow ) {
-            np.i_add( i, true, nullptr, nullptr, true, false );
+        if( np.mission == NPC_MISSION_SHOPKEEP ) {
+            distribute_items_to_npc_zones( escrow, np );
+        } else {
+            for( const item &i : escrow ) {
+                np.i_add( i, true, nullptr, nullptr, true, false );
+            }
         }
 
         for( item_location *loc_ptr : from_map ) {
@@ -313,13 +327,8 @@ bool npc_trading::npc_will_accept_trade( npc const &np, int your_balance )
 }
 bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t const &to_trade )
 {
-    std::vector<item> avail_pockets;
+    std::vector<item> avail_pockets = np.worn.available_pockets();
 
-    for( const item &it : np.worn ) {
-        if( it.is_container() || it.is_holster() ) {
-            avail_pockets.push_back( it );
-        }
-    }
     if( avail_pockets.empty() ) {
         return false;
     }
@@ -334,7 +343,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
                 break;
             }
         }
-        if( !item_stored and !np.can_wear( *it.first, false ).value() ) {
+        if( !item_stored && !np.can_wear( *it.first, false ).value() ) {
             return false;
         }
     }

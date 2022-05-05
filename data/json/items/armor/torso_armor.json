@@ -27,7 +27,7 @@
     "name": { "str": "XL bell cuirass", "str_pl": "XL bell cuirasses" },
     "copy-from": "armor_cuirass",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armor_cuirass",
@@ -36,7 +36,45 @@
     "looks_like": "armor_cuirass",
     "name": { "str": "XS bell cuirass", "str_pl": "XS bell cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "cuirass_bronze",
+    "type": "ARMOR",
+    "name": { "str": "bronze cuirass", "str_pl": "bronze cuirasses" },
+    "category": "armor",
+    "description": "A solid, single piece cuirass made from bronze.  It isn't particularly well designed, but it does it's job.",
+    "weight": "4896 g",
+    "volume": "6 L",
+    "price": 40000,
+    "price_postapoc": 2000,
+    "to_hit": -5,
+    "bashing": 6,
+    "material": [ "bronze" ],
+    "symbol": "[",
+    "looks_like": "armor_cuirass",
+    "color": "yellow",
+    "longest_side": "60 cm",
+    "warmth": 15,
+    "material_thickness": 2,
+    "flags": [ "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "xl_cuirass_bronze",
+    "type": "ARMOR",
+    "name": { "str": "XL bronze cuirass", "str_pl": "XL bronze cuirasses" },
+    "copy-from": "cuirass_bronze",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_cuirass_bronze",
+    "type": "ARMOR",
+    "name": { "str": "XS bronze cuirass", "str_pl": "XS bronze cuirasses" },
+    "copy-from": "cuirass_bronze",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_lamellar",
@@ -47,16 +85,40 @@
     "volume": "9250 ml",
     "price": 26000,
     "price_postapoc": 2500,
-    "material": [ "leather", "cotton" ],
+    "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "copy-from": "armor_chitin",
     "color": "brown",
     "longest_side": "60 cm",
     "warmth": 20,
-    "material_thickness": 8,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
+    "material_thickness": 3,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
+        ],
+        "encumbrance": 8,
+        "coverage": 100,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
+        ],
+        "encumbrance": 4,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
+      }
+    ]
   },
   {
     "id": "xl_armor_lamellar",
@@ -64,7 +126,7 @@
     "name": { "str": "XL lamellar cuirass", "str_pl": "XL lamellar cuirasses" },
     "copy-from": "armor_lamellar",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armor_lamellar",
@@ -73,7 +135,7 @@
     "looks_like": "armor_lamellar",
     "name": { "str": "XS lamellar cuirass", "str_pl": "XS lamellar cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_lorica",
@@ -119,7 +181,7 @@
     "looks_like": "armor_lorica",
     "name": { "str_sp": "XS lorica segmentata" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_thessalonian",
@@ -136,6 +198,7 @@
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "armor_lorica",
+    "repairs_like": "armor_cuirass",
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
@@ -204,44 +267,29 @@
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
-    "id": "chainmail_vest",
+    "id": "chainmail_junk_vest",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail vest" },
-    "description": "A customized chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
+    "description": "A customized chainmail vest.  The metal shows signs of rust and corrosion.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "weight": "6953 g",
     "volume": "1 L",
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
+    "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 20
       }
     ]
-  },
-  {
-    "id": "xl_chainmail_vest",
-    "type": "ARMOR",
-    "name": { "str": "XL chainmail vest" },
-    "copy-from": "chainmail_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "xs_chainmail_vest",
-    "type": "ARMOR",
-    "copy-from": "chainmail_vest",
-    "name": { "str": "XS chainmail vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "lc_chainmail_vest",
@@ -254,13 +302,14 @@
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
+    "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 20
@@ -287,11 +336,12 @@
     "id": "mc_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
+    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail vest" },
     "description": "A customized medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
       {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 20
@@ -318,11 +368,12 @@
     "id": "hc_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
+    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail vest" },
     "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 20
@@ -349,11 +400,12 @@
     "id": "ch_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
+    "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail vest" },
     "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
       {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 20
@@ -377,45 +429,15 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "ch_chainmail_vest",
-    "type": "ARMOR",
-    "copy-from": "lc_chainmail_vest",
-    "name": { "str": "hardened steel chainmail vest" },
-    "description": "A customized hardened steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
-        "covers": [ "torso" ],
-        "coverage": 95,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_hc_chainmail_vest",
-    "type": "ARMOR",
-    "name": { "str": "XL hardened steel chainmail vest" },
-    "copy-from": "hc_chainmail_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_hc_chainmail_vest",
-    "type": "ARMOR",
-    "copy-from": "hc_chainmail_vest",
-    "name": { "str": "XS hardened steel chainmail vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
     "id": "qt_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
+    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail vest" },
     "description": "A customized tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 20
@@ -454,7 +476,7 @@
     "symbol": "H",
     "looks_like": "cuirass_lightplate",
     "color": "dark_gray",
-    "warmth": 20,
+    "warmth": 15,
     "longest_side": "20 cm",
     "material_thickness": 4,
     "environmental_protection": 1,
@@ -511,7 +533,7 @@
     "looks_like": "cuirass_lightplate",
     "name": { "str": "XS cuirass", "str_pl": "XS cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "cuirass_scrap",
@@ -526,15 +548,24 @@
     "to_hit": -1,
     "bashing": 2,
     "cutting": 3,
-    "material": [ "steel", "iron" ],
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
     "longest_side": "40 cm",
     "warmth": 10,
-    "material_thickness": 2,
     "flags": [ "OUTER" ],
-    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 18
+      }
+    ]
   },
   {
     "id": "xl_cuirass_scrap",
@@ -542,7 +573,7 @@
     "name": { "str": "XL scrap cuirass", "str_pl": "XL scrap cuirasses" },
     "copy-from": "cuirass_scrap",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OVERSIZE", "OUTER" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_cuirass_scrap",
@@ -551,7 +582,7 @@
     "looks_like": "cuirass_scrap",
     "name": { "str": "XS scrap cuirass", "str_pl": "XS scrap cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "cuirass_tire",
@@ -589,7 +620,7 @@
     "looks_like": "cuirass_tire",
     "name": { "str": "XS tire cuirass", "str_pl": "XS tire cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "fencing_jacket",
@@ -605,7 +636,7 @@
     "symbol": "[",
     "looks_like": "coat_lab",
     "color": "white",
-    "warmth": 25,
+    "warmth": 20,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "STURDY" ],
@@ -729,7 +760,7 @@
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
-    "warmth": 10,
+    "warmth": 5,
     "material_thickness": 6,
     "flags": [ "OUTER" ],
     "armor": [
@@ -934,6 +965,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -961,6 +1003,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -988,6 +1041,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1015,6 +1079,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1042,6 +1117,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1082,6 +1168,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1109,6 +1206,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1136,6 +1244,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1163,6 +1282,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1190,6 +1320,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1230,6 +1371,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 25
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1257,6 +1409,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 25
+      },
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1284,6 +1447,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 25
+      },
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1311,6 +1485,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 25
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
@@ -1338,6 +1523,17 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 25
+      },
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },

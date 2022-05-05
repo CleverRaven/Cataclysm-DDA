@@ -309,6 +309,10 @@ std::string action_ident( action_id act )
             return "factions";
         case ACTION_SCORES:
             return "scores";
+        case ACTION_MEDICAL:
+            return "medical";
+        case ACTION_BODYSTATUS:
+            return "bodystatus";
         case ACTION_MORALE:
             return "morale";
         case ACTION_MESSAGES:
@@ -431,6 +435,8 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
+        case ACTION_MEDICAL:
+        case ACTION_BODYSTATUS:
         case ACTION_MESSAGES:
         case ACTION_HELP:
         case ACTION_MAIN_MENU:
@@ -947,6 +953,8 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
+            REGISTER_ACTION( ACTION_MEDICAL );
+            REGISTER_ACTION( ACTION_BODYSTATUS );
             REGISTER_ACTION( ACTION_MESSAGES );
             REGISTER_ACTION( ACTION_DIARY );
         } else if( category == _( "Misc" ) ) {
@@ -1015,7 +1023,11 @@ action_id handle_main_menu()
     };
 
     REGISTER_ACTION( ACTION_HELP );
-    REGISTER_ACTION( ACTION_KEYBINDINGS );
+
+    // The hotkey is reserved for the uilist keybindings menu
+    entries.emplace_back( ACTION_KEYBINDINGS, true, cata::nullopt,
+                          ctxt.get_action_name( action_ident( ACTION_KEYBINDINGS ) ) );
+
     REGISTER_ACTION( ACTION_OPTIONS );
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_AUTONOTES );

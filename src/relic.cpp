@@ -145,6 +145,11 @@ void relic_procgen_data::enchantment_active::load( const JsonObject &jo )
     optional( jo, was_loaded, "ench_has", ench_has );
 }
 
+void relic_procgen_data::reset()
+{
+    relic_procgen_data_factory.reset();
+}
+
 void relic_procgen_data::enchantment_active::deserialize( const JsonObject &jobj )
 {
     load( jobj );
@@ -363,7 +368,7 @@ void relic::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves", moves );
     // item_name_override is not saved, in case the original json text changes:
-    // in such case names read back from a save wouold no longer be properly translated.
+    // in such case names read back from a save would no longer be properly translated.
 
     if( !passive_effects.empty() ) {
         jsout.member( "passive_effects" );

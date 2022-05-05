@@ -13,8 +13,10 @@
 
 #include "coordinates.h"
 #include "craft_command.h"
+#include "game_inventory.h"
 #include "inventory.h"
 #include "memory_fast.h"
+#include "mission_companion.h"
 #include "optional.h"
 #include "point.h"
 #include "requirements.h"
@@ -35,6 +37,7 @@ class tinymap;
 
 struct expansion_data {
     std::string type;
+    std::vector<itype_id> available_pseudo_items;
     std::map<std::string, int> provides;
     std::map<std::string, int> in_progress;
     tripoint_abs_omt pos;
@@ -164,6 +167,7 @@ class basecamp
 
         std::string board_name() const;
         std::vector<point> directions; // NOLINT(cata-serialize)
+        std::vector<std::vector<ui_mission_id>> hidden_missions;
         std::vector<tripoint_abs_omt> fortifications;
         std::vector<expansion_salt_water_pipe *> salt_water_pipes;
         std::string name;
@@ -173,6 +177,7 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name();
         void abandon_camp();
+        void scan_pseudo_items();
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
         void add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
                             const point &dir );
@@ -212,6 +217,9 @@ class basecamp
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
+        std::string name_display_of( const mission_id miss_id );
+        void handle_hide_mission( const point &dir );
+        void handle_reveal_mission( const point &dir );
         bool has_water();
 
         // recipes, gathering, and craft support functions
@@ -242,7 +250,7 @@ class basecamp
          * @param difficulty a random number from 0 to difficulty is created for each attempt, and
          * if skill is higher, an item or corpse is spawned
          */
-        void hunting_results( int skill, const std::string &task, int attempts, int difficulty );
+        void hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty );
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }
@@ -253,7 +261,7 @@ class basecamp
         void place_results( const item &result );
 
         // mission description functions
-        void add_available_recipes( mission_data &mission_key, const point &dir,
+        void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir,
                                     const std::map<recipe_id, translation> &craft_recipes );
 
         std::string recruit_description( int npc_count );
@@ -273,93 +281,109 @@ class basecamp
         void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
         // available companion list manipulation
         void reset_camp_workers();
-        comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
+        comp_list get_mission_workers( const mission_id &miss_id, bool contains = false );
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id,
-                             const cata::optional<point> &opt_miss_dir );
+        bool handle_mission( const ui_mission_id &miss_id );
 
         // mission start functions
         /// generic mission start function that wraps individual mission
-        npc_ptr start_mission( const std::string &miss_id, time_duration duration,
+        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const skill_id &skill_tested, int skill_level );
-        npc_ptr start_mission( const std::string &miss_id, time_duration duration,
+        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {} );
-        void start_upgrade( const std::string &bldg, const point &dir, const std::string &key );
+        comp_list start_multi_mission( const mission_id &miss_id,
+                                       bool must_feed, const std::string &desc,
+                                       // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
+                                       const skill_id &skill_tested, int skill_level );
+        comp_list start_multi_mission( const mission_id &miss_id,
+                                       bool must_feed, const std::string &desc,
+                                       //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
+                                       const std::map<skill_id, int> &required_skills = {} );
+        void start_upgrade( const mission_id &miss_id );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &cur_id, const point &cur_dir,
-                             const std::string &type, const std::string &miss_id );
+        void start_crafting( const std::string &type, const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
-        void start_cut_logs();
-        void start_clearcut();
-        void start_setup_hide_site();
-        void start_relay_hide_site();
+        void start_cut_logs( const mission_id miss_id );
+        void start_clearcut( const mission_id miss_id );
+        void start_setup_hide_site( const mission_id miss_id );
+        void start_relay_hide_site( const mission_id miss_id );
         /// Called when a companion is sent to start fortifications
-        void start_fortifications( std::string &bldg_exp );
+        void start_fortifications( const mission_id miss_id );
         /// Called when a companion is sent to start digging down salt water pipes
-        bool common_salt_water_pipe_construction( const point &dir, const std::string &bldg_exp,
-                const std::string &key, expansion_salt_water_pipe *pipe,
+        bool common_salt_water_pipe_construction( const mission_id &miss_id,
+                expansion_salt_water_pipe *pipe,
                 int segment_number ); //  Code factored out from the two following operation, not intended to be used elsewhere.
-        void start_salt_water_pipe( const point &dir, const std::string &bldg_exp, const std::string &key );
-        void continue_salt_water_pipe( const point &dir, const std::string &bldg_exp,
-                                       const std::string &key );
-        void start_combat_mission( const std::string &miss );
-        void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
+        void start_salt_water_pipe( const mission_id &miss_id );
+        void continue_salt_water_pipe( const mission_id &miss_id );
+        void start_combat_mission( const mission_id &miss_id );
+        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id miss_id );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
+        drop_locations give_equipment( Character *pc, const inventory_filter_preset preset,
+                                       const std::string &msg, const std::string title, units::volume &total_volume,
+                                       units::mass &total_mass );
+        drop_locations get_equipment( tinymap *target_bay, const tripoint target, Character *pc,
+                                      const inventory_filter_preset preset,
+                                      const std::string &msg, const std::string title, units::volume &total_volume,
+                                      units::mass &total_mass );
 
         // mission return functions
         /// called to select a companion to return to the base
-        npc_ptr companion_choose_return( const std::string &miss_id, time_duration min_duration );
+        npc_ptr companion_choose_return( const mission_id &miss_id, time_duration min_duration );
+        npc_ptr companion_crafting_choose_return( const mission_id &miss_id );
         /// called with a companion @ref comp who is not the camp manager, finishes updating their
         /// skills, consuming food, and returning them to the base.
         void finish_return( npc &comp, bool fixed_time, const std::string &return_msg,
                             const std::string &skill, int difficulty, bool cancel = false );
         /// a wrapper function for @ref companion_choose_return and @ref finish_return
-        npc_ptr mission_return( const std::string &miss_id, time_duration min_duration,
+        npc_ptr mission_return( const mission_id &miss_id, time_duration min_duration,
                                 bool fixed_time, const std::string &return_msg,
                                 const std::string &skill, int difficulty );
+        npc_ptr crafting_mission_return( const mission_id &miss_id, const std::string &return_msg,
+                                         const std::string &skill, int difficulty );
         /// select a companion for any mission to return to base
-        npc_ptr emergency_recall();
+        npc_ptr emergency_recall( const mission_id miss_id );
 
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
-        bool upgrade_return( const point &dir, const std::string &miss );
-        /// As above, but with an explicit blueprint recipe to upgrade
-        bool upgrade_return( const point &dir, const std::string &miss, const std::string &bldg );
+        bool upgrade_return( const mission_id &miss_id );
 
         /// Choose which expansion you should start, called when a survey mission is completed
-        bool survey_return();
-        bool menial_return();
+        bool survey_return( const mission_id miss_id );
+        bool menial_return( const mission_id miss_id );
         /// Called when a companion completes a gathering @ref task mission
-        bool gathering_return( const std::string &task, time_duration min_time );
-        void recruit_return( const std::string &task, int score );
+        bool gathering_return( const mission_id &miss_id, time_duration min_time );
+        void recruit_return( const mission_id &miss_id, int score );
         /**
         * Perform any mix of the three farm tasks.
         * @param task
         * @param omt_tgt the overmap pos3 of the farm_ops
         * @param op whether to plow, plant, or harvest
         */
-        bool farm_return( const std::string &task, const tripoint_abs_omt &omt_tgt, farm_ops op );
-        void fortifications_return();
-        bool salt_water_pipe_swamp_return( const point &dir, const std::string &miss,
-                                           const std::string &bldg, const time_duration work_days );
-        bool salt_water_pipe_return( const point &dir, const std::string &miss, const std::string &bldg,
-                                     const time_duration work_days );
+        bool farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt );
+        void fortifications_return( const mission_id miss_id );
+        bool salt_water_pipe_swamp_return( const mission_id &miss_id,
+                                           const comp_list &npc_list );
+        bool salt_water_pipe_return( const mission_id &miss_id,
+                                     const comp_list &npc_list );
 
-        void combat_mission_return( const std::string &miss );
+        void combat_mission_return( const mission_id &miss_id );
         void validate_assignees();
         void add_assignee( character_id id );
         void remove_assignee( character_id id );
         std::vector<npc_ptr> get_npcs_assigned();
+        void hide_mission( ui_mission_id id );
+        void reveal_mission( ui_mission_id id );
+        bool is_hidden( ui_mission_id id );
         // Save/load
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
@@ -385,6 +409,7 @@ class basecamp
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
         std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
+        std::vector<std::vector<ui_mission_id>> temp_ui_mission_keys;   // NOLINT(cata-serialize)
         inventory _inv; // NOLINT(cata-serialize)
         bool by_radio = false; // NOLINT(cata-serialize)
 };

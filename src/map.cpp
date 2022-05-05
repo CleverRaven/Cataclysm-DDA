@@ -71,6 +71,7 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -748,7 +749,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     // Check whether avatar sees the collision, and log a message if so
     const avatar &you = get_avatar();
     const tripoint part1_pos = veh.global_part_pos3( c.part );
-    const tripoint part2_pos = veh.global_part_pos3( c.target_part );
+    const tripoint part2_pos = veh2.global_part_pos3( c.target_part );
     if( you.sees( part1_pos ) || you.sees( part2_pos ) ) {
         //~ %1$s: first vehicle name (without "the")
         //~ %2$s: first part name
@@ -1436,6 +1437,12 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         result = false;
     }
 
+    if( new_f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
+        if( current_submap->get_ter( l ) == t_dirtmound ) {
+            ter_set( p, t_dirt );
+        }
+    }
+
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( player_character.get_grab_type() == object_type::FURNITURE &&
@@ -1889,7 +1896,11 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
     int movecost = std::max( terrain.movecost + field.total_move_cost(), 0 );
 
     if( furniture.id ) {
-        movecost += std::max( furniture.movecost, 0 );
+        if( furniture.has_flag( "BRIDGE" ) ) {
+            movecost = 2 + std::max( furniture.movecost, 0 );
+        } else {
+            movecost += std::max( furniture.movecost, 0 );
+        }
     }
 
     return movecost;
@@ -2044,7 +2055,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     }
     // Checking for ledge is a workaround for the case when mapgen doesn't
     // actually make a valid ledge drop location with zlevels on, this forces
-    // at least one zlevel drop and if down_ter is impassible it's probably
+    // at least one zlevel drop and if down_ter is impassable it's probably
     // inside a wall, we could workaround that further but it's unnecessary.
     const bool up_is_ledge = tr_at( up_p ) == tr_ledge;
 
@@ -3139,11 +3150,11 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 continue;
             }
             // if a wall collapses, walls without support from below risk collapsing and
-            //propogate the collapse upwards
+            //propagate the collapse upwards
             if( zlevels && wall && p == t && has_flag( ter_furn_flag::TFLAG_WALL, tz ) ) {
                 collapse_at( tz, silent );
             }
-            // floors without support from below risk collapsing into open air and can propogate
+            // floors without support from below risk collapsing into open air and can propagate
             // the collapse horizontally but not vertically
             if( p != t && ( has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, t ) &&
                             has_flag( ter_furn_flag::TFLAG_COLLAPSES, t ) ) ) {
@@ -4374,7 +4385,7 @@ void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id,
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned quantity,
                       const int charges, const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
-                      const std::string &variant )
+                      const std::string &variant, const std::string &faction )
 {
     if( type_id.is_null() ) {
         return;
@@ -4385,12 +4396,13 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     }
     // recurse to spawn (quantity - 1) items
     for( size_t i = 1; i < quantity; i++ ) {
-        spawn_item( p, type_id, 1, charges, birthday, damlevel, flags );
+        spawn_item( p, type_id, 1, charges, birthday, damlevel, flags, variant, faction );
     }
     // migrate and spawn the item
     itype_id mig_type_id = item_controller->migrate_id( type_id );
     item new_item( mig_type_id, birthday );
     new_item.set_itype_variant( variant );
+    new_item.set_owner( faction_id( faction ) );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
         new_item.set_flag( flag_FIT );
     }
@@ -4400,6 +4412,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container();
+    new_item.set_owner( faction_id( faction ) ); // Set faction to the container as well
     if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ||
         has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ) {
         return;
@@ -4746,12 +4759,13 @@ static bool process_map_items( item_stack &items, safe_reference<item> &item_ref
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
 {
-    const bool washmachine_here = cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) &&
-                                  cur_veh.is_part_on( part );
     bool washing_machine_finished = false;
-    const bool dishwasher_here = cur_veh.part_flag( part, VPFLAG_DISHWASHER ) &&
-                                 cur_veh.is_part_on( part );
-    if( washmachine_here || dishwasher_here ) {
+
+    const bool washer_here = cur_veh.is_part_on( part ) &&
+                             ( cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) ||
+                               cur_veh.part_flag( part, VPFLAG_DISHWASHER ) );
+
+    if( washer_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
@@ -4766,12 +4780,12 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 break;
             }
         }
-        if( washing_machine_finished ) {
-            if( washmachine_here ) {
-                add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh.name );
-            } else if( dishwasher_here ) {
-                add_msg( _( "The dishwasher in the %s has finished washing." ), cur_veh.name );
-            }
+        if( washing_machine_finished && !cur_veh.part_flag( part, VPFLAG_APPLIANCE ) ) {
+            //~ %1$s: Cleaner, %2$s: Name of the vehicle
+            add_msg( _( "The %1$s in the %2$s has finished washing." ), cur_veh.part( part ).name( false ),
+                     cur_veh.name );
+        } else if( washing_machine_finished ) {
+            add_msg( _( "The %1$s has finished washing." ), cur_veh.part( part ).name( false ) );
         }
     }
 
@@ -4797,8 +4811,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 break;
             }
         }
-        if( autoclave_finished ) {
+        if( autoclave_finished && !cur_veh.part_flag( part, VPFLAG_APPLIANCE ) ) {
             add_msg( _( "The autoclave in the %s has finished its cycle." ), cur_veh.name );
+        } else if( autoclave_finished ) {
+            add_msg( _( "The autoclave has finished its cycle." ) );
         }
     }
 
@@ -4818,7 +4834,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         const int missing = cur_veh.discharge_battery( 1, false );
                         // Around 85% efficient; a few of the discharges don't actually recharge
                         if( missing == 0 && !one_in( 7 ) ) {
-                            if( n.is_battery() ) {
+                            if( n.is_vehicle_battery() ) {
                                 n.set_energy( 1_kJ );
                             } else {
                                 n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
@@ -5011,6 +5027,9 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
                 it_insulation = 1; // ignore freezer insulation if on
                 flag = temperature_flag::FREEZER;
+            } else if( pt.enabled && pti.has_flag( VPFLAG_HEATED_TANK ) ) {
+                it_insulation = 1; // ignore tank insulation if on
+                flag = temperature_flag::HEATER;
             }
         }
         if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag, 1.0f ) ) {
@@ -5164,7 +5183,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
             //~ Select components from the map to consume. %d = number of components left to consume.
             imenu.title = string_format( _( "Select which component to use (%d left)" ), quantity );
             for( const item_location &loc : locs ) {
-                imenu.addentry( loc->tname() + " (" + loc.describe() + ")" );
+                imenu.addentry( loc->display_name() + " (" + loc.describe() + ")" );
             }
             imenu.query();
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= locs.size() ) {
@@ -5188,7 +5207,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 
 static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &quantity,
                                    map *m, const tripoint &p, std::list<item> &ret,
-                                   const std::function<bool( const item & )> &filter )
+                                   const std::function<bool( const item & )> &filter, bool in_tools )
 {
     if( m->has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
         map_stack item_list = m->i_at( p );
@@ -5232,7 +5251,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             if( !filter( furn_item ) ) {
                 return;
             }
-            if( furn_item.use_charges( type, quantity, ret, p ) ) {
+            if( furn_item.use_charges( type, quantity, ret, p, return_true<item>, nullptr, in_tools ) ) {
                 stack.erase( iter );
             } else {
                 iter->charges = furn_item.ammo_remaining();
@@ -5243,7 +5262,8 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 
 std::list<item> map::use_charges( const tripoint &origin, const int range,
                                   const itype_id &type, int &quantity,
-                                  const std::function<bool( const item & )> &filter, basecamp *bcp )
+                                  const std::function<bool( const item & )> &filter,
+                                  basecamp *bcp, bool in_tools )
 {
     std::list<item> ret;
 
@@ -5272,16 +5292,16 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     }
 
     for( const tripoint &p : reachable_pts ) {
-        if( has_furn( p ) ) {
-            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter );
+        if( accessible_items( p ) ) {
+            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p, filter, in_tools );
+            ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
             }
         }
 
-        if( accessible_items( p ) ) {
-            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p, filter );
-            ret.splice( ret.end(), tmp );
+        if( has_furn( p ) ) {
+            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter, in_tools );
             if( quantity <= 0 ) {
                 return ret;
             }
@@ -5289,7 +5309,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 
         const optional_vpart_position vp = veh_at( p );
         if( vp ) {
-            std::list<item> tmp = vp->vehicle().use_charges( *vp, type, quantity, filter );
+            std::list<item> tmp = vp->vehicle().use_charges( *vp, type, quantity, filter, in_tools );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
@@ -5629,6 +5649,11 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     }
 
     if( !type_id ) {
+        return false;
+    }
+
+    // Don't spawn non-gaseous fields on open air
+    if( has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) && type_id.obj().phase != phase_id::GAS ) {
         return false;
     }
 
@@ -6391,7 +6416,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
         bresenham_slope = 0;
         return false; // Out of range!
     }
-    // Cannonicalize the order of the tripoints so the cache is reflexive.
+    // Canonicalize the order of the tripoints so the cache is reflexive.
     const tripoint &min = F < T ? F : T;
     const tripoint &max = !( F < T ) ? F : T;
     // A little gross, just pack the values into a point.
