@@ -167,7 +167,6 @@ static bool can_construct( const construction &con );
 static bool player_can_build( Character &you, const read_only_visitable &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( Character &you, const construction_group_str_id &group );
-static void place_construction( const construction_group_str_id &group );
 
 // Color standardization for string streams
 static const deferred_color color_title = def_c_light_red; //color for titles

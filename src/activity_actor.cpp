@@ -97,7 +97,6 @@ static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DIG( "ACT_DIG" );
-static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DROP( "ACT_DROP" );
@@ -643,73 +642,6 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonValue &jsin
 {
     dig_activity_actor actor( 0, tripoint_zero,
                               {}, tripoint_zero, 0, {} );
-
-    JsonObject data = jsin.get_object();
-
-    data.read( "moves", actor.moves_total );
-    data.read( "location", actor.location );
-    data.read( "result_terrain", actor.result_terrain );
-    data.read( "byproducts_location", actor.byproducts_location );
-    data.read( "byproducts_count", actor.byproducts_count );
-    data.read( "byproducts_item_group", actor.byproducts_item_group );
-
-    return actor.clone();
-}
-
-void dig_channel_activity_actor::start( player_activity &act, Character & )
-{
-    act.moves_total = moves_total;
-    act.moves_left = moves_total;
-}
-
-void dig_channel_activity_actor::do_turn( player_activity &, Character &who )
-{
-    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a shovel digging a pit at work!
-        sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
-    }
-    get_map().maybe_trigger_trap( location, who, true );
-}
-
-void dig_channel_activity_actor::finish( player_activity &act, Character &who )
-{
-    map &here = get_map();
-    here.ter_set( location, ter_id( result_terrain ) );
-
-    for( int i = 0; i < byproducts_count; i++ ) {
-        here.spawn_items( byproducts_location, item_group::items_from( byproducts_item_group,
-                          calendar::turn ) );
-    }
-
-    const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-    who.mod_stored_kcal( 9 * helpersize - 43 );
-    who.mod_thirst( 5 - helpersize );
-    who.mod_fatigue( 10 - ( helpersize * 2 ) );
-    who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
-                           here.ter( location ).obj().name() );
-
-    act.set_to_null();
-}
-
-void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "moves", moves_total );
-    jsout.member( "location", location );
-    jsout.member( "result_terrain", result_terrain );
-    jsout.member( "byproducts_location", byproducts_location );
-    jsout.member( "byproducts_count", byproducts_count );
-    jsout.member( "byproducts_item_group", byproducts_item_group );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonValue &jsin )
-{
-    dig_channel_activity_actor actor( 0, tripoint_zero,
-                                      {}, tripoint_zero, 0, {} );
 
     JsonObject data = jsin.get_object();
 
@@ -6157,7 +6089,6 @@ deserialize_functions = {
     { ACT_CRACKING, &safecracking_activity_actor::deserialize },
     { ACT_CRAFT, &craft_activity_actor::deserialize },
     { ACT_DIG, &dig_activity_actor::deserialize },
-    { ACT_DIG_CHANNEL, &dig_channel_activity_actor::deserialize },
     { ACT_DISABLE, &disable_activity_actor::deserialize },
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },

@@ -189,66 +189,6 @@ class dig_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
-class dig_channel_activity_actor : public activity_actor
-{
-    private:
-        int moves_total;
-        /** location of the dig **/
-        tripoint location;
-        std::string result_terrain;
-        tripoint byproducts_location;
-        int byproducts_count;
-        item_group_id byproducts_item_group;
-
-        /**
-         * Returns true if @p other and `this` are "equivalent" in the sense that
-         *  `this` can be resumed instead of starting @p other.
-         */
-        bool equivalent_activity( const dig_channel_activity_actor &other ) const {
-            return  location == other.location &&
-                    result_terrain == other.result_terrain &&
-                    byproducts_location == other.byproducts_location &&
-                    byproducts_count == other.byproducts_count &&
-                    byproducts_item_group == other.byproducts_item_group;
-        }
-
-        /**
-         * @pre @p other is a `dig_activity_actor`
-         */
-        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const dig_channel_activity_actor &dc_actor = static_cast<const dig_channel_activity_actor &>
-                    ( other );
-            return equivalent_activity( dc_actor );
-        }
-
-    public:
-        dig_channel_activity_actor(
-            int dig_moves, const tripoint &dig_loc,
-            const std::string &resulting_ter, const tripoint &dump_loc,
-            int dump_spawn_count, const std::string &dump_item_group
-        ):
-            moves_total( dig_moves ), location( dig_loc ),
-            result_terrain( resulting_ter ),
-            byproducts_location( dump_loc ),
-            byproducts_count( dump_spawn_count ),
-            byproducts_item_group( dump_item_group ) {}
-
-        activity_id get_type() const override {
-            return activity_id( "ACT_DIG_CHANNEL" );
-        }
-
-        void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override;
-        void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<dig_channel_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
-};
-
 class gunmod_remove_activity_actor : public activity_actor
 {
     private:

@@ -141,6 +141,8 @@ static const ammotype ammo_battery( "battery" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
 
+static const construction_str_id construction_constr_water_channel( "constr_water_channel" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
@@ -3009,7 +3011,7 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
     return it->type->charges_to_use();
 }
 
-cata::optional<int> iuse::dig_channel( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::dig_channel( Character *p, item */* it */, bool t, const tripoint & )
 {
     if( !p || t ) {
         return cata::nullopt;
@@ -3018,64 +3020,14 @@ cata::optional<int> iuse::dig_channel( Character *p, item *it, bool t, const tri
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const tripoint dig_point = p->pos();
 
-    tripoint north = dig_point + point_north;
-    tripoint south = dig_point + point_south;
-    tripoint west = dig_point + point_west;
-    tripoint east = dig_point + point_east;
+    std::vector<construction> const &cnstr = get_constructions();
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_water_channel;
+    } );
 
-    map &here = get_map();
-    const bool can_dig_here = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dig_point ) &&
-                              !here.has_furn( dig_point ) &&
-                              !here.can_see_trap_at( dig_point, *p ) && here.i_at( dig_point ).empty() &&
-                              !here.veh_at( dig_point ) &&
-                              ( here.has_flag( ter_furn_flag::TFLAG_CURRENT, north ) ||
-                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, south ) ||
-                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, east ) ||
-                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, west ) );
-
-    if( !can_dig_here ) {
-        p->add_msg_if_player(
-            _( "You can't dig a channel in this location.  Ensure it is clear diggable ground with no items or obstacles, adjacent to flowing water." ) );
-        return cata::nullopt;
-    }
-
-    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.passable( pnt );
-    };
-
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Deposit excavated materials where?" ),
-            _( "There is nowhere to deposit the excavated materials." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint deposit_point = *pnt_;
-
-    if( !f( deposit_point ) ) {
-        p->add_msg_if_player(
-            _( "You can't deposit the excavated materials onto an impassable location." ) );
-        return cata::nullopt;
-    }
-
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
-            true );
-
-    p->assign_activity( player_activity( dig_channel_activity_actor(
-            moves_and_byproducts.moves,
-            dig_point,
-            moves_and_byproducts.result_terrain.id().str(),
-            deposit_point,
-            moves_and_byproducts.spawn_count,
-            moves_and_byproducts.byproducts_item_group
-                                         ) ) );
-    return it->type->charges_to_use();
+    place_construction( build->group );
+    return 0;
 }
 
 cata::optional<int> iuse::fill_pit( Character *p, item *it, bool t, const tripoint & )
