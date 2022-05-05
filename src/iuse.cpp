@@ -141,6 +141,8 @@ static const ammotype ammo_battery( "battery" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
 
+static const construction_str_id construction_constr_pit( "constr_pit" );
+static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
 static const construction_str_id construction_constr_water_channel( "constr_water_channel" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
@@ -377,10 +379,8 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -2908,7 +2908,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( Character *p, 
     return { moves, static_cast<int>( volume_m3 / 0.05 ), "digging_soil_loam_50L", result_terrain };
 }
 
-cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const tripoint & )
 {
     if( !p || t ) {
         return cata::nullopt;
@@ -2917,98 +2917,23 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const tripoint dig_point = p->pos();
 
-    map &here = get_map();
-    const bool can_dig_here = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dig_point ) &&
-                              !here.has_furn( dig_point ) &&
-                              !here.can_see_trap_at( dig_point, *p ) &&
-                              ( here.ter( dig_point ) == t_grave_new || here.i_at( dig_point ).empty() ) &&
-                              !here.veh_at( dig_point );
-    const bool here_is_pit = here.ter( dig_point ) == t_pit;
-    if( here_is_pit ) {
-        p->add_msg_if_player(
-            _( "There's already a pit here!" ) );
-        return cata::nullopt;
-    } else if( !can_dig_here ) {
-        p->add_msg_if_player(
-            _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
-        return cata::nullopt;
-    }
-    const bool can_deepen = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE_CAN_DEEPEN, dig_point );
-    const bool grave = here.ter( dig_point ) == t_grave;
-
-    if( !p->crafting_inventory().has_quality( qual_DIG, 2 ) ) {
-        if( can_deepen ) {
-            p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-            return cata::nullopt;
-        } else if( grave ) {
-            p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
-            return cata::nullopt;
-        }
+    std::vector<construction> const &cnstr = get_constructions();
+    auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_pit;
+    } );
+    bool const can_dig_pit = !points_in_radius_where( p->pos(), 1, [&build]( tripoint const & pt ) {
+        return can_construct( *build, pt );
+    } ).empty();
+    if( !can_dig_pit ) {
+        build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+            return it.str_id == construction_constr_pit_shallow;
+        } );
     }
 
-    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.passable( pnt );
-    };
+    place_construction( build->group );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Deposit excavated materials where?" ),
-            _( "There is nowhere to deposit the excavated materials." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint deposit_point = *pnt_;
-
-    if( !f( deposit_point ) ) {
-        p->add_msg_if_player(
-            _( "You can't deposit the excavated materials onto an impassable location." ) );
-        return cata::nullopt;
-    }
-
-    if( grave ) {
-        if( p->has_trait( trait_SPIRITUAL ) && !p->has_trait( trait_PSYCHOPATH ) &&
-            p->query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
-            add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
-            if( one_in( 3 ) ) {
-                p->vomit();
-            }
-        } else if( p->has_trait( trait_PSYCHOPATH ) ) {
-            p->add_msg_if_player( m_good,
-                                  _( "Exhuming a grave is fun now, when there is no one to object." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-        } else if( p->has_trait( trait_NUMB ) ) {
-            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
-        } else if( !p->has_trait( trait_EATDEAD ) &&
-                   !p->has_trait( trait_SAPROVORE ) ) {
-            p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
-            if( one_in( 5 ) ) {
-                p->vomit();
-            }
-        }
-    }
-
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
-            can_deepen, false );
-
-    p->assign_activity( player_activity( dig_activity_actor(
-            moves_and_byproducts.moves,
-            dig_point,
-            moves_and_byproducts.result_terrain.id().str(),
-            deposit_point,
-            moves_and_byproducts.spawn_count,
-            moves_and_byproducts.byproducts_item_group
-                                         ) ) );
-
-    return it->type->charges_to_use();
+    return 0;
 }
 
 cata::optional<int> iuse::dig_channel( Character *p, item */* it */, bool t, const tripoint & )

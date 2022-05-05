@@ -71,15 +71,27 @@ static const construction_category_id  construction_category_APPLIANCE( "APPLIAN
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
+static const flag_id json_flag_FILTHY( "FILTHY" );
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
+static const item_group_id Item_spawn_data_allclothes( "allclothes" );
+static const item_group_id Item_spawn_data_grave( "grave" );
+static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
+
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
+
+static const mtype_id mon_skeleton( "mon_skeleton" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 
 static const quality_id qual_CUT( "CUT" );
 
@@ -87,7 +99,11 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_EATDEAD( "EATDEAD" );
+static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
@@ -141,6 +157,7 @@ void done_appliance( const tripoint &, Character & );
 void done_wiring( const tripoint &, Character & );
 void done_deconstruct( const tripoint &, Character & );
 void done_digormine_stair( const tripoint &, bool, Character & );
+void done_dig_grave( const tripoint &p, Character & );
 void done_dig_stair( const tripoint &, Character & );
 void done_mine_downstair( const tripoint &, Character & );
 void done_mine_upstair( const tripoint &, Character & );
@@ -153,6 +170,7 @@ void done_ramp_low( const tripoint &, Character & );
 void done_ramp_high( const tripoint &, Character & );
 
 void do_turn_shovel( const tripoint &, Character & );
+void do_turn_exhume( const tripoint &, Character & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -1605,6 +1623,35 @@ void construct::done_digormine_stair( const tripoint &p, bool dig, Character &pl
     tmpmap.save();
 }
 
+void construct::done_dig_grave( const tripoint &p, Character &who )
+{
+    map &here = get_map();
+    if( one_in( 10 ) ) {
+        static const std::array<mtype_id, 5> monids = {
+            { mon_zombie, mon_zombie_fat, mon_zombie_rot, mon_skeleton, mon_zombie_crawler }
+        };
+
+        g->place_critter_at( random_entry( monids ), p );
+        here.furn_set( p, f_coffin_o );
+        who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
+    } else {
+        here.spawn_item( p, itype_bone_human, rng( 5, 15 ) );
+        here.furn_set( p, f_coffin_c );
+    }
+    std::vector<item *> dropped =
+        here.place_items( Item_spawn_data_allclothes, 50, p, p, false, calendar::turn );
+    here.place_items( Item_spawn_data_grave, 25, p, p, false, calendar::turn );
+    here.place_items( Item_spawn_data_jewelry_front, 20, p, p, false, calendar::turn );
+    for( item * const &it : dropped ) {
+        if( it->is_armor() ) {
+            it->set_flag( json_flag_FILTHY );
+            it->set_damage( rng( 1, it->max_damage() - 1 ) );
+            it->rand_degradation();
+        }
+    }
+    get_event_bus().send<event_type::exhumes_grave>( who.getID() );
+}
+
 void construct::done_dig_stair( const tripoint &p, Character &who )
 {
     done_digormine_stair( p, true, who );
@@ -1721,6 +1768,38 @@ void construct::do_turn_shovel( const tripoint &p, Character &who )
     }
     if( !who.knows_trap( p ) ) {
         get_map().maybe_trigger_trap( p, who, true );
+    }
+}
+
+void construct::do_turn_exhume( const tripoint &p, Character &who )
+{
+    do_turn_shovel( p, who );
+    if( !who.has_morale( MORALE_GRAVEDIGGER ) ) {
+        if( who.has_trait( trait_SPIRITUAL ) && !who.has_trait( trait_PSYCHOPATH ) )  {
+            if( who.query_yn(
+                    _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+                add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
+                who.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                if( one_in( 3 ) ) {
+                    who.vomit();
+                }
+            } else {
+                who.activity.set_to_null();
+            }
+        } else if( who.has_trait( trait_PSYCHOPATH ) ) {
+            who.add_msg_if_player(
+                m_good, _( "Exhuming a grave is fun now, when there is no one to object." ) );
+            who.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( who.has_trait( trait_NUMB ) ) {
+            who.add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
+            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+        } else if( !who.has_trait( trait_EATDEAD ) && !who.has_trait( trait_SAPROVORE ) ) {
+            who.add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
+            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            if( one_in( 5 ) ) {
+                who.vomit();
+            }
+        }
     }
 }
 
@@ -1867,6 +1946,7 @@ void load_construction( const JsonObject &jo )
             { "done_appliance", construct::done_appliance },
             { "done_wiring", construct::done_wiring },
             { "done_deconstruct", construct::done_deconstruct },
+            { "done_dig_grave", construct::done_dig_grave },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
@@ -1883,6 +1963,7 @@ void load_construction( const JsonObject &jo )
     do_turn_special_map = {{
             { "", construct::done_nothing },
             { "do_turn_shovel", construct::do_turn_shovel },
+            { "do_turn_exhume", construct::do_turn_exhume },
         }
     };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;
