@@ -582,9 +582,9 @@
       ],
       "palettes": [ "shelter" ],
       "place_monsters": [ 
-        { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 0.6 }
+        { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 0.7 }
       ],      
-      "monster": { "7": { "monster": "mon_feral_human_axe" } }
+      "monster": { "7": { "monster": "mon_feral_human_axe", "chance": 100 } }
     }
   },
   {
@@ -671,9 +671,9 @@
       ],
       "palettes": [ "shelter" ],          
       "place_monsters": [ 
-        { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4 , 20], "density": 0.6 }
+        { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4 , 20], "density": 0.7 }
       ],     
-      "monster": { "7": { "monster": "mon_feral_human_axe" } }      
+      "monster": { "7": { "monster": "mon_feral_human_axe", "chance": 100 } }      
     }
   },
   {
