@@ -8146,6 +8146,238 @@ float item::acid_resist( const sub_bodypart_id &bp, bool to_self, int base_env_r
     return resist + mod;
 }
 
+float item::cold_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
+{
+    if( to_self ) {
+        // Currently no items are damaged by cold
+        return std::numeric_limits<float>::max();
+    }
+
+    float resist = 0.0f;
+    if( is_null() ) {
+        return 0.0f;
+    }
+    if( bp != bodypart_id() ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                resist += m->id->cold_resist() * m->cover * 0.01f;
+            }
+            return resist;
+        }
+    }
+
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
+        // but such is the way of the code.
+        for( const auto &m : mats ) {
+            resist += m.first->cold_resist() * m.second;
+        }
+        // Average based portion of materials
+        resist /= total;
+    }
+
+    return resist;
+}
+
+float item::cold_resist( const sub_bodypart_id &bp, bool to_self, int base_env_resist ) const
+{
+    if( to_self ) {
+        // Currently no items are damaged by cold
+        return std::numeric_limits<float>::max();
+    }
+
+    float resist = 0.0f;
+    if( is_null() ) {
+        return 0.0f;
+    }
+    const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+    // If we have armour portion materials for this body part, use that instead
+    if( !armor_mats.empty() ) {
+        for( const part_material *m : armor_mats ) {
+            resist += m->id->cold_resist() * m->cover * 0.01f;
+        }
+    }
+    return resist;
+}
+
+float item::pure_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
+{
+    if( to_self ) {
+        // Currently no items are damaged by pure
+        return std::numeric_limits<float>::max();
+    }
+
+    float resist = 0.0f;
+    if( is_null() ) {
+        return 0.0f;
+    }
+    if( bp != bodypart_id() ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                resist += m->id->pure_resist() * m->cover * 0.01f;
+            }
+            return resist;
+        }
+    }
+
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
+        // but such is the way of the code.
+        for( const auto &m : mats ) {
+            resist += m.first->pure_resist() * m.second;
+        }
+        // Average based portion of materials
+        resist /= total;
+    }
+
+    return resist;
+}
+
+float item::pure_resist( const sub_bodypart_id &bp, bool to_self, int base_env_resist ) const
+{
+    if( to_self ) {
+        // Currently no items are damaged by pure
+        return std::numeric_limits<float>::max();
+    }
+
+    float resist = 0.0f;
+    if( is_null() ) {
+        return 0.0f;
+    }
+    const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+    // If we have armour portion materials for this body part, use that instead
+    if( !armor_mats.empty() ) {
+        for( const part_material *m : armor_mats ) {
+            resist += m->id->pure_resist() * m->cover * 0.01f;
+        }
+    }
+    return resist;
+}
+
+float item::biological_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
+{
+    if( to_self ) {
+        // Currently no items are damaged by biological
+        return std::numeric_limits<float>::max();
+    }
+
+    float resist = 0.0f;
+    if( is_null() ) {
+        return 0.0f;
+    }
+    if( bp != bodypart_id() ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                resist += m->id->biological_resist() * m->cover * 0.01f;
+            }
+            return resist;
+        }
+    }
+
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
+        // but such is the way of the code.
+        for( const auto &m : mats ) {
+            resist += m.first->biological_resist() * m.second;
+        }
+        // Average based portion of materials
+        resist /= total;
+    }
+
+    return resist;
+}
+
+float item::biological_resist( const sub_bodypart_id &bp, bool to_self, int base_env_resist ) const
+{
+    if( to_self ) {
+        // Currently no items are damaged by biological
+        return std::numeric_limits<float>::max();
+    }
+
+    float resist = 0.0f;
+    if( is_null() ) {
+        return 0.0f;
+    }
+    const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+    // If we have armour portion materials for this body part, use that instead
+    if( !armor_mats.empty() ) {
+        for( const part_material *m : armor_mats ) {
+            resist += m->id->biological_resist() * m->cover * 0.01f;
+        }
+    }
+    return resist;
+}
+
+float item::electric_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
+{
+    if( to_self ) {
+        // Currently no items are damaged by electric
+        return std::numeric_limits<float>::max();
+    }
+
+    float resist = 0.0f;
+    if( is_null() ) {
+        return 0.0f;
+    }
+    if( bp != bodypart_id() ) {
+        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+        // If we have armour portion materials for this body part, use that instead
+        if( !armor_mats.empty() ) {
+            for( const part_material *m : armor_mats ) {
+                resist += m->id->elec_resist() * m->cover * 0.01f;
+            }
+            return resist;
+        }
+    }
+
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
+        // but such is the way of the code.
+        for( const auto &m : mats ) {
+            resist += m.first->elec_resist() * m.second;
+        }
+        // Average based portion of materials
+        resist /= total;
+    }
+
+    return resist;
+}
+
+float item::electric_resist( const sub_bodypart_id &bp, bool to_self, int base_env_resist ) const
+{
+    if( to_self ) {
+        // Currently no items are damaged by electric
+        return std::numeric_limits<float>::max();
+    }
+
+    float resist = 0.0f;
+    if( is_null() ) {
+        return 0.0f;
+    }
+    const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
+    // If we have armour portion materials for this body part, use that instead
+    if( !armor_mats.empty() ) {
+        for( const part_material *m : armor_mats ) {
+            resist += m->id->elec_resist() * m->cover * 0.01f;
+        }
+    }
+    return resist;
+}
+
 float item::fire_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
 {
     if( to_self ) {
@@ -8565,14 +8797,15 @@ float item::damage_resist( damage_type dt, bool to_self, const bodypart_id &bp, 
         case damage_type::NONE:
         case damage_type::NUM:
             return 0.0f;
+        // Items can never be damaged by those types
         case damage_type::PURE:
+            return pure_resist( to_self, 0, bp );
         case damage_type::BIOLOGICAL:
+            return biological_resist( to_self, 0, bp );
         case damage_type::ELECTRIC:
+            return electric_resist( to_self, 0, bp );
         case damage_type::COLD:
-            // Currently hardcoded:
-            // Items can never be damaged by those types
-            // But they provide 0 protection from them
-            return to_self ? std::numeric_limits<float>::max() : 0.0f;
+            return cold_resist( to_self, 0, bp );
         case damage_type::BASH:
             return bash_resist( to_self, bp, roll );
         case damage_type::CUT:
@@ -8598,14 +8831,15 @@ float item::damage_resist( damage_type dt, bool to_self, const sub_bodypart_id &
         case damage_type::NONE:
         case damage_type::NUM:
             return 0.0f;
+        // Items can never be damaged by those types
         case damage_type::PURE:
+            return pure_resist( bp, to_self );
         case damage_type::BIOLOGICAL:
+            return biological_resist( bp, to_self );
         case damage_type::ELECTRIC:
+            return electric_resist( bp, to_self );
         case damage_type::COLD:
-            // Currently hardcoded:
-            // Items can never be damaged by those types
-            // But they provide 0 protection from them
-            return to_self ? std::numeric_limits<float>::max() : 0.0f;
+            return cold_resist( bp, to_self );
         case damage_type::BASH:
             return bash_resist( bp, to_self, roll );
         case damage_type::CUT:

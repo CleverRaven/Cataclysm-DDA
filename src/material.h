@@ -85,6 +85,9 @@ class material_type
         float _elec_resist = 0.0f;
         float _fire_resist = 0.0f;
         float _bullet_resist = 0.0f;
+        float _biologic_resist = 0.0f;
+        float _cold_resist = 0.0f;
+        float _pure_resist = 0.0f;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         float _density = 1;                             // relative to "powder", which is 1
         // ability of a fabric to allow moisture vapor to be transmitted through the material
@@ -141,6 +144,9 @@ class material_type
         std::string dmg_adj( int damage ) const;
         float acid_resist() const;
         float elec_resist() const;
+        float biological_resist() const;
+        float cold_resist() const;
+        float pure_resist() const;
         float fire_resist() const;
         int chip_resist() const;
         float specific_heat_liquid() const;
