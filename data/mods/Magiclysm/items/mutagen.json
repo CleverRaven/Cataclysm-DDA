@@ -33,7 +33,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "color": "light_blue",
-    "description": "A mana potion mixed with mutagen. It might help you connect with magic.",
+    "description": "A mana potion mixed with mutagen.  It might help you connect with magic.",
     "name": { "str": "mana mutagen" },
     "vitamins": [ [ "mutagen_manatouched", 175 ], [ "mutagen", 125 ] ]
   },
