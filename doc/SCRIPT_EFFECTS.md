@@ -97,14 +97,14 @@ When editing this document please attempt to list effects alphabetically, but ke
 
 #### Missions
 
-Effect | Argument | Options | Description | Example
+Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`assign_mission` | `mission_type_id string` | none | Assigns a mission to your avatar. | `"assign_mission": "mission_id"`
-`clear_mission` | `mission_type_id string` | none | Clears the mission from the your avatar's assigned missions. | `"clear_mission": "mission_id"`
-`mission_failure` | `mission_type_id string` | none | Resolves the mission as a failure. | `"mission_failure": "mission_id"`
-`mission_reward` | `mission_type_id string` | none | Gives the avatar the mission's reward. | `"mission_reward": "mission_id"`
-`mission_success` | `mission_type_id string` | none | Resolves the current mission successfully. | `"mission_success": "mission_id"`
-`finish_mission` | `mission_type_id string` | `success: bool`<br />`step: int` | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed. | `"finish_mission": "mission_id", "success": true`
+`assign_mission` | `mission_type_id` | none | Assigns a mission to your avatar. | `"assign_mission": "mission_id"`
+`clear_mission` | `mission_type_id` | none | Clears the mission from the your avatar's assigned missions. | `"clear_mission": "mission_id"`
+`mission_failure` | `mission_type_id` | none | Resolves the mission as a failure. | `"mission_failure": "mission_id"`
+`mission_reward` | `mission_type_id` | none | Gives the avatar the mission's reward. | `"mission_reward": "mission_id"`
+`mission_success` | `mission_type_id` | none | Resolves the current mission successfully. | `"mission_success": "mission_id"`
+`finish_mission` | `mission_type_id` | `success: bool`<br />`step: int` | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed. | `"finish_mission": "mission_id", "success": true`
 `offer_mission` | `mission_type_id` string or array | none | Adds mission_type_id(s) to the npc's missions that they offer in their sequential mission list. | `"offer_mission": [ "mission_id1", "mission_id2" ]`
 
 #### Morale and Cosmetic
