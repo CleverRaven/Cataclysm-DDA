@@ -8,7 +8,6 @@
     "copy-from": "knife_combat",
     "volume": "500 ml",
     "longest_side": "30 cm",
-    "price": 100000,
     "price_postapoc": 1250,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "proportional": { "cutting": 1.1, "price": 5, "weight": 0.8 },
