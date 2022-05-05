@@ -908,7 +908,7 @@ bool Character::craft_skill_gain( const item &craft, const int &num_practice_tic
     }
 
     const int skill_cap = making.get_skill_cap();
-    const int batch_size = craft.charges;
+    const int batch_size = craft.get_making_batch_size();
     // NPCs assisting or watching should gain experience...
     for( npc *helper : get_crafting_helpers() ) {
         // If the NPC can understand what you are doing, they gain more exp
@@ -1205,7 +1205,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     }
 
     const recipe &making = craft.get_making();
-    const int batch_size = craft.charges;
+    const int batch_size = craft.get_making_batch_size();
     std::list<item> &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
     const bool should_heat = making.hot_result();
@@ -1485,7 +1485,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
     if( !craft.has_tools_to_continue() ) {
 
         const std::vector<std::vector<tool_comp>> &tool_reqs = rec.simple_requirements().get_tools();
-        const int batch_size = craft.charges;
+        const int batch_size = craft.get_making_batch_size();
 
         std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
@@ -2088,7 +2088,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
         }
 
         // Account for batch size
-        ret *= craft.charges;
+        ret *= craft.get_making_batch_size();
 
         // Only for the next 5% progress
         ret /= 20;
@@ -2098,7 +2098,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
 
         // If just starting consume the remainder as well
         if( start_craft ) {
-            ret += ( charges * craft.charges ) % 20;
+            ret += ( charges * craft.get_making_batch_size() ) % 20;
         }
         return ret;
     };

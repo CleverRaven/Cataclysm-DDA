@@ -390,11 +390,12 @@ static const item *get_most_rotten_component( const item &craft )
 }
 
 item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
-    : item( "craft", calendar::turn, qty )
+    : item( "craft", calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
     craft_data_->disassembly = false;
+    craft_data_->batch_size = qty;
     components = items;
     craft_data_->comps_used = selections;
 
@@ -13187,6 +13188,16 @@ const recipe &item::get_making() const
     }
     cata_assert( craft_data_->making );
     return *craft_data_->making;
+}
+
+int item::get_making_batch_size() const
+{
+    if( !craft_data_ ) {
+        debugmsg( "'%s' is not a craft or has a null recipe", tname() );
+        return 0;
+    }
+    cata_assert( craft_data_->batch_size );
+    return craft_data_->batch_size;
 }
 
 void item::set_tools_to_continue( bool value )
