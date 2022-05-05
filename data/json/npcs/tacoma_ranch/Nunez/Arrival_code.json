@@ -9,7 +9,8 @@
       { "compare_int": [ { "global_val": "var", "var_name": "nunez_arrived", "type": "switch" }, "=", { "const": "1" } ] },
     "effect": [
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
-        { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" }
+        { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" },
+		{ "arithmetic": [ { "global_val": "var", "var_name": "nunez_arrived", "type": "switch" }, "=", { "const": "1" } ] }
     ]
   },
   {

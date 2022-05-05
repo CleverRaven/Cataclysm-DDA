@@ -1,0 +1,101 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_1",
+    "dynamic_line": "*looks up at you from a ledger, takes a moment to place you, then smiles broadly.  \"Great to see you, my friend.  To what do I owe the pleasure?\"",
+    "responses": [
+      { "text": "Hi, Pablo!  How are things going here?", "topic": "TALK_TACOMA_Pablo_2" },
+      { "text": "Hello, Pablo!  What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Hey, Pablo!  Dana said you had some plans to build a bakery?", "topic": "TALK_TACOMA_Pablo_Bakery1", "condition": { "u_has_var": "tacoma_bakery", "context": "knowledge", "value": "knows" } },
+      { "text": "Nice to see you Pablo, I'm just checking in.  I gotta run.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_2",
+    "dynamic_line": "Can't complain,\" he stretches his neck and pops his shoulder.  \"No, really, I can't.  The work is hard, but people here really want to *do* something, not just hide inside and hope someone saves us.  I've been helping doing general labor a bit, but also working out an inventory system for our supplies.  It's already helped us get a few important bits in earlier than we'd have noticed otherwise.  Post-apocalyptic accounting, ha!  Who'd have thought?\"",
+    "responses": [
+      { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Dana said you had some plans to build a bakery?", "topic": "TALK_TACOMA_Pablo_Bakery1", "condition": { "u_has_var": "tacoma_bakery", "context": "knowledge", "value": "knows" } },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Accounting1",
+    "dynamic_line": "If you want the honest truth, only a bit.  It's not much like filing income tax.  Still, I know my way around a spreadsheet and I don't mind staring at numbers all day.  I think people were dubious at first, but now that it's starting to show real value they're coming around.\"",
+    "responses": [
+      { "text": "?", "topic": "TALK_TACOMA_Pablo_Accounting2" },
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Dana said you had some plans to build a bakery?", "topic": "TALK_TACOMA_Pablo_Bakery1", "condition": { "u_has_var": "tacoma_bakery", "context": "knowledge", "value": "knows" } },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Trailer1",
+    "dynamic_line": "Oh, Dana tells that story better than me.  Basically we found it at an old trailer park and she liked the bakery, so we figured out a way to get it back here.  We definitely earned some cred for coming with our own shelter.",
+    "responses": [
+      { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
+      { "text": "?", "topic": "TALK_TACOMA_Pablo_Trailer2" },
+      { "text": "Dana said you had some plans to build a bakery?", "topic": "TALK_TACOMA_Pablo_Bakery1", "condition": { "u_has_var": "tacoma_bakery", "context": "knowledge", "value": "knows" } },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Bakery1",
+    "dynamic_line": "Yeah, she would say that.\"  He makes intense eye contact.  \"Not just a bakery, my friend.  A real, post apocalyptic, honest-to-god culinary experience!  We're planning to grow food and crops here.  Central's plan is to import our crops directly, and pay us for our work.  I don't think they've even thought much about transport, outside just shipping them back home.  If we do local site processing we can prevent storage losses, and make higher value material to sell out!  And Central still benefits from having a dedicated bread basket!",
+    "responses": [
+      { "text": "Do you know anything about building a 'culinary experience'?", "topic": "TALK_TACOMA_Pablo_Bakery2" },
+      { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Bakery2",
+    "dynamic_line": "I'm being a bit tongue-in-cheek there.  Really I want some big wood fired ovens, tools for milling grain, tinning and canning equipment, stuff like that.  We'll make flour, jam, pickles, bread, maybe some sauerkraut and things.  All the old school ways of preserving food, from before fridges were commonplace.",
+    "responses": [
+      { "text": "Okay, but do you know anything about that?", "topic": "TALK_TACOMA_Pablo_Bakery3" },
+      { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Bakery3",
+    "dynamic_line": "Well…\" he tugs jokingly at his collar as though letting off steam.  \"I know a bit.  I used to make pickles and jams as a hobby.  With my mom.  When I was a teenager.  But I know the principles!  And Dana knows more than you'd think about grain and flour because she's a huge nerd for her craft.  We do have some knowledge gaps between design and implementation though.",
+    "responses": [
+      { "text": "What kind of gaps?", "topic": "TALK_TACOMA_Pablo_Bakery4" },
+      { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Bakery4",
+    "dynamic_line": "Not where you might think.\"  He sets aside his ledger and pulls out a page of bullet-point notes written in neat block letters. \"Everyone is on board with the idea and the amount of actual building to get it online is small enough that the carpenters are willing to help out, so I don't need any assistance with design.  For the really short term I basically just need materials.  I've been collecting spare wood, but to get a good wood-fired oven I need to secure a source of firebrick.  In the longer run, Dana knows the principles of milling, but I need a resource book if I want to set up a functioning mill, first a muscle-powered one and then a windmill for long term.  I wish I'd thought of asking Jenny.  She's a mechanical engineer, but she would probably know how to get me started at least.  I'm also still looking into how to make a good vermin-proof cellar.  Longer term, I will need to work my way around our reliance on sugar, salt, and vinegar from before the cataclysm, but our stocks of those will hold out for months while I sort things out.",
+    "responses": [
+      { "text": "What kind of gaps?", "topic": "TALK_TACOMA_Pablo_Bakery4" },
+      { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+
+
+-I don't mind keeping my eye out for some firebricks for you.
+Seriously?  You've already done so much.  I won't say no, though.
+
+-i can pass a note to Jenny if you want.
+I… I honestly don't know why I didn't think of that.  I could even have asked the supply caravans to do it.  If it comes down to it though, I trust you more than them.  Would you mind?
+
+-(survival x)i know how to build a good root cellar.  Here, let me show you.
+Oh… oh, ok!  It's a good thing you showed me this, my basic guesses missed some important points.  Thanks, this will be helpful for a lot more than just the bakery. 
+
+]
