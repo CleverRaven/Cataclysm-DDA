@@ -116,6 +116,8 @@ static bool check_nothing( const tripoint & )
 {
     return true;
 }
+bool check_channel( const tripoint & ); // tile has adjacent flowing water
+bool check_empty_lite( const tripoint & );
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
@@ -149,6 +151,8 @@ void done_mark_firewood( const tripoint &, Character & );
 void done_mark_practice_target( const tripoint &, Character & );
 void done_ramp_low( const tripoint &, Character & );
 void done_ramp_high( const tripoint &, Character & );
+
+void do_turn_shovel( const tripoint &, Character & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -1160,6 +1164,23 @@ void complete_construction( Character *you )
     }
 }
 
+bool construct::check_channel( const tripoint &p )
+{
+
+    map &here = get_map();
+    return check_empty( p ) && ( here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_north ) ||
+                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_south ) ||
+                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_east ) ||
+                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_west ) );
+}
+
+bool construct::check_empty_lite( const tripoint &p )
+{
+    map &here = get_map();
+    return ( !here.has_furn( p ) && g->is_empty( p ) && here.tr_at( p ).is_null() &&
+             here.i_at( p ).empty() && !here.veh_at( p ) );
+}
+
 bool construct::check_empty( const tripoint &p )
 {
     map &here = get_map();
@@ -1692,6 +1713,18 @@ void construct::done_ramp_high( const tripoint &p, Character &/*who*/ )
     get_map().ter_set( top, ter_id( "t_ramp_down_high" ) );
 }
 
+void construct::do_turn_shovel( const tripoint &p, Character &who )
+{
+    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( p ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( p, 10, sounds::sound_t::activity, _( "hsh!" ) );
+    }
+    if( !who.knows_trap( p ) ) {
+        get_map().maybe_trigger_trap( p, who, true );
+    }
+}
+
 void construct::failure_standard( const tripoint & )
 {
     add_msg( m_info, _( "You cannot build there!" ) );
@@ -1809,7 +1842,9 @@ void load_construction( const JsonObject &jo )
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
             { "", construct::check_nothing },
+            { "check_channel", construct::check_channel },
             { "check_empty", construct::check_empty },
+            { "check_empty_lite", construct::check_empty_lite },
             { "check_support", construct::check_support },
             { "check_stable", construct::check_stable },
             { "check_empty_stable", construct::check_empty_stable },
@@ -1848,6 +1883,7 @@ void load_construction( const JsonObject &jo )
     static const std::map<std::string, std::function<void( const tripoint &, Character & )>>
     do_turn_special_map = {{
             { "", construct::done_nothing },
+            { "do_turn_shovel", construct::do_turn_shovel },
         }
     };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;
