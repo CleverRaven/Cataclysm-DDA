@@ -147,13 +147,18 @@ Effect | Required | Optional | Description | Example
 
 #### Variable operations
 
+See **variables** above for details on the types of variables and their general use.  This quick reference is meant to complement that information, not replace it.
+
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`u_add_var`, `npc_add_var` | `var_name`, `value: string` | `type`, `context` | Your character or the NPC will store `value` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  See **variables** above for more details. 
-`u_add_var`, `npc_add_var` | `var_name`, `time: true` | `type`, `context` | Your character or the NPC will store the current turn of the game as an integer.  See **variables** above for more details. 
-`u_add_var`, `npc_add_var` | `var_name`, `possible_values: string_array` | `type`, `context` | Your character or the NPC will store one of the values given at random in the specified `string_array`.  See **variables** above for more details. 
-`u_lose_var`, `npc_lose_var` | `var_name` | `type`, `context` | Your character or the NPC will clear any stored variable that has the same string values for `var_name`, `type`, and `context`.
-`u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: adjustment_num or adjustment_variable_object` | Your character or the NPC will adjust the stored variable by `adjustment_num` (or the value of the variable described by `adjustment_num` see `variable_object` above).
+`u_add_var`, `npc_add_var` | `var_name`, `value: string` | `type`, `context` | Store `value` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  
+`u_add_var`, `npc_add_var` | `var_name`, `time: true` | `type`, `context` | Store the current turn of the game as an integer.
+`u_add_var`, `npc_add_var` | `var_name`, `possible_values: string_array` | `type`, `context` | Store one of the values given at random in the specified `string_array`. 
+`u_lose_var`, `npc_lose_var` | `var_name` | `type`, `context` | Clear any stored variable that has the same string values for `var_name`, `type`, and `context`.
+`u_adjust_var, npc_adjust_var` | `var_name`, `adjustment`: `int` or `variable_object`  | `type`, `context` |  Your character or the NPC will adjust the stored variable by a specified int, or the value in the variable_object.
+
+Effect | Description
+---|---
 `set_string_var`: `type: string or variable object or array of either`, `target_var: variable_object`| Store string (or the variable described) from `set_string_var` in the variable object `target_var`. If an array is provided a random element will be used.
 `u_location_variable, npc_location_variable`: `target_var`,*optional* `min_radius: min_radius_int or min_radius_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`, *optional* `outdoor_only: outdoor_only_bool`, *optional* `target_params: assign_mission_target` parameters, *optional* `z_adjust: int or variable_object`, *optional* `z_override: bool` | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise.
 
