@@ -673,14 +673,7 @@
       "place_monsters": [ 
         { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4 , 20], "density": 0.6 }
       ],     
-      "monster": { "7": { "monster": "mon_feral_human_axe" } }, 
-      "computers": {
-        "6": {
-          "name": "Evac shelter computer",
-          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
-          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
-        }
-      }
+      "monster": { "7": { "monster": "mon_feral_human_axe" } }      
     }
   },
   {
