@@ -280,6 +280,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
     }
 
     if( picked_up ) {
+        contents_change_handler handler;
+        handler.unseal_pocket_containing( loc );
         item &orig_it = *loc.get_item();
         // Subtract moved charges instead of assigning leftover charges,
         // since the total charges of the original item may have changed
