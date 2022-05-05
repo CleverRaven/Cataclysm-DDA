@@ -20,7 +20,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "30 m",
-    "reversible": false,
     "autolearn": true,
     "qualities": [ { "id": "CUTTING", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ] ] ]
