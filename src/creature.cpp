@@ -1221,7 +1221,7 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
                 if( player_character.has_trait( trait_PYROMANIA ) &&
                     !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) && player_character.sees( *this ) ) {
                     player_character.add_msg_if_player( m_good,
-                                                        _( "You feel a surge of euphoria as flames engulfs %s!" ), this->disp_name() );
+                                                        _( "You feel a surge of euphoria as flames engulfs %s!" ), this->get_name() );
                     player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
                     player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
                 }
