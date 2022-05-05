@@ -947,7 +947,6 @@
     "type": "mapgen",
     "method": "json",
     "weight": 100,
-    "//": "REMOVE FURNITURE AND FIXTURES",
     "om_terrain": "shelter_under_2b_vandal",
     "object": {
       "fill_ter": "t_linoleum_white",
