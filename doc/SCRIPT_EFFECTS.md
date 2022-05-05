@@ -1,7 +1,7 @@
 # Script Effects
 
 ## Introduction and confusing terminology
-Called "effects" wherever they are used in JSON, these are termed "script effects" in documentation to distinguish them from [effects](./EFFECTS_JSON.md).  Designers take heed, at some point we should make it possible to call effects inside of scripts, and script effects in attacks, so that these become the same thing.  Previously, script effects were called "dialogue effects" because they could only be called from within NPC dialogue, but over time this system has expanded to include the [Effect on Conditional](./EFFECT_ON_CONDITION.md) scripting language, hence the expanding confusion.
+Called "effects" wherever they are used in JSON, these are termed "script effects" in documentation to distinguish them from [effects](./EFFECTS_JSON.md).  Designers take heed, at some point we should make it possible to call effects inside of scripts, and script effects in attacks, so that these become the same thing.  Previously, script effects were called "dialogue effects" because they could only be called from within NPC dialogue, but over time this system has expanded to include the [Effect on Condition](./EFFECT_ON_CONDITION.md) scripting language, hence the expanding confusion.
 
 Script Effects are a very powerful way to alter the game state dynamically. They are, as the name implies, an internal CDDA scripting language in JSON that lets us write events and occurences within game in a parseable data-driven format.  In other words, this is how content writers can have the game change and respond to what's going on.
 
@@ -93,40 +93,60 @@ TK: Format and how to place them.
 
 TK: This section could use a table of contents.
 
+When editing this document please attempt to list effects alphabetically, but keep similar effects together even if it violates this. For example, `u_add_bionic` and `u_lose_bionic` should be together.
+
 #### Missions
 
+Effect | Description | Example
+---|---|---
+`assign_mission` | Assigns a previously selected mission to your character. | `"assign_mission": "mission_id"`
+`clear_mission` | Clears the mission from the your character's assigned missions. | `"clear_mission": "mission_id"`
+`mission_failure` | Resolves the current mission as a failure. | `"mission_failure": "mission_id"`
+`mission_reward` | Gives the player the mission's reward. | `"mission_reward": "mission_id"`
+`mission_success` | Resolves the current mission successfully. | `"mission_success": "mission_id"`
+
+#### Morale and Cosmetic
+
 Effect | Description
 ---|---
-`assign_mission` | Assigns a previously selected mission to your character.
-`mission_success` | Resolves the current mission successfully.
-`mission_failure` | Resolves the current mission as a failure.
-`clear_mission` | Clears the mission from the your character's assigned missions.
-`mission_reward` | Gives the player the mission's reward.
-
-#### Stats / Morale
-
-Effect | Description
----|---
-`lesser_give_aid` | Removes bleeding from your character's body and heals 5-15 HP of injury on each of your character's body parts.
-`lesser_give_aid_all` | Performs `lesser_give_aid` on each of your character's NPC allies in range.
-`give_aid` | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
-`give_aid_all` | Performs `give_aid` on each of your character's NPC allies in range.
 `buy_haircut` | Gives your character a haircut morale boost for 12 hours.
 `buy_shave` | Gives your character a shave morale boost for 6 hours.
 `morale_chat` | Gives your character a pleasant conversation morale boost for 6 hours.
+
+#### Wounds and Healing
+
+
+Effect | Description
+---|---
+`give_aid` | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
+`give_aid_all` | Performs `give_aid` on each of your character's NPC allies in range.
+`lesser_give_aid` | Removes bleeding from your character's body and heals 5-15 HP of injury on each of your character's body parts.
+`lesser_give_aid_all` | Performs `lesser_give_aid` on each of your character's NPC allies in range.
+
+#### Wielding/Wearing
+
+Effect | Description
+---|---
 `player_weapon_away` | Makes your character put away (unwield) their weapon.
 `player_weapon_drop` | Makes your character drop their weapon.
+
+#### Mutations/Traits/Bionics
+
+Note: Mutations are traits. The difference between "adding a trait" and "mutating" is that mutation takes time and is accompanied by special messages, while a trait should be added instantly without announcement.
+
+Effect | Argument | Additional | Description | Example
+---|---|---|---|---
+`u_add_bionic`, `npc_add_bionic` | `bionic_string` | none | Your character or the NPC will gain the bionic.| `"u_add_bionic": "cbm1"`
+`u_lose_bionic`, `npc_lose_bionic` | `bionic_string` | none | Your character or the NPC will lose the bionic.| `"u_lose_bionic": "cbm1"`
+`u_add_trait`, `npc_add_trait` | `trait_string` | none | Your character or the NPC will gain the trait.| `"u_add_trait": "egtrait"`
+`u_mutate`, `npc_mutate: | `chance_int` | *optional* `use_vitamins: vitamin_bool` (default true) | Your avatar or the NPC will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated.| `"u_mutate": "egtrait", "use_vitamins": false`
+`u_mutate_category`, `npc_mutate_category` | `category_str` | *optional* `use_vitamins: vitamin_bool` (default true)| Your avatar or the NPC will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated.| `"u_mutate_category": "example_traits", "use_vitamins": false`
 
 #### Character effects / Mutations
 
 Effect | Description
 ---|---
-`u_mutate`, `npc_mutate`: `chance_int`, *optional* `use_vitamins: vitamin_bool` | Your character or the NPC will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, requiring vitamins if `vitamin_bool` is true(defaults true)
-`u_mutate_category`, `npc_mutate_category`: `category_str`, *optional* `use_vitamins: vitamin_bool` | Your character or the NPC will attempt to mutate in the category `category_str`, requiring vitamins if `vitamin_bool` is true(defaults true)
 `u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`),(*optional* `target_part: target_part_string`, `intensity: intensity_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`), (*optional* `target_part: target_part_string`, `force: force_bool`, `intensity: intensity_int or intensity_variable_object`) | Your character or the NPC will gain the effect for `duration_string` or the value of the variable described by `duration_object` see `variable_object` above, turns at intensity `intensity_int` (or the value of the variable described by `intensity_variable_object` see `variable_object` above) or 0 if it was not supplied. If `force_bool` is true(defaults false) immunity will be ignored. If `target_part` is supplied that part will get the effect otherwise its a whole body effect. If `target_part` is `RANDOM` a random body part will be used. If `duration_string` is `"PERMANENT"`, the effect will be added permanently.
-`u_add_bionic: bionic_string`<br/>`npc_add_bionic: bionic_string` | Your character or the NPC will gain the bionic.
-`u_lose_bionic: bionic_string`<br/>`npc_lose_bionic: bionic_string` | Your character or the NPC will lose the bionic.
-`u_add_trait: trait_string`<br/>`npc_add_trait: trait_string` | Your character or the NPC will gain the trait.
 `u_lose_effect: effect_string`<br/>`npc_lose_effect: effect_string` | Your character or the NPC will lose the effect if they have it.
 `u_lose_trait: trait_string`<br/>`npc_lose_trait: trait_string` | Your character or the NPC will lose the trait.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true` or `possible_values: string_array` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored. If `possible_values` is used one of the values given at random will be used.
