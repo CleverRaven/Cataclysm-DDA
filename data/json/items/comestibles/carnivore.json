@@ -1660,8 +1660,7 @@
     "qualities": [ [ "BUTCHER", -42 ] ],
     "longest_side": "40 cm",
     "price_postapoc": 8,
-    "milling": { "into": "meal_bone", "conversion_rate": 3 },
-    "vitamins": [ [ "calcium", 36 ] ]
+    "milling": { "into": "meal_bone", "conversion_rate": 3 }
   },
   {
     "id": "meat_fried",
