@@ -1842,6 +1842,11 @@ void load_construction( const JsonObject &jo )
             { "done_ramp_high", construct::done_ramp_high }
         }
     };
+    static const std::map<std::string, std::function<void( const tripoint &, Character & )>>
+    do_turn_special_map = {{
+            { "", construct::done_nothing },
+        }
+    };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;
     if( jo.has_string( "pre_special" ) &&
         jo.get_string( "pre_special" )  == std::string( "check_deconstruct" ) ) {
@@ -1852,6 +1857,8 @@ void load_construction( const JsonObject &jo )
 
     assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
     assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
+    assign_or_debugmsg( con.do_turn_special, jo.get_string( "do_turn_special", "" ),
+                        do_turn_special_map );
     assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", "" ), explain_fail_map );
     con.vehicle_start = jo.get_bool( "vehicle_start", false );
 

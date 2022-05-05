@@ -3109,6 +3109,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
 
     you->set_moves( 0 );
 
+    pc->id->do_turn_special( here.getlocal( act->placement ), *you );
     pc->counter = std::min( pc->counter, 10000000 );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
