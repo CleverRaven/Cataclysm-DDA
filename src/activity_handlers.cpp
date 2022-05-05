@@ -3079,6 +3079,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
                  you->disp_name() );
         return;
     }
+    you->set_activity_level( pc->id->activity_level );
     // if you ( or NPC ) are finishing someone else's started construction...
     const construction &built = pc->id.obj();
     if( !you->has_trait( trait_DEBUG_HS ) && !you->meets_skill_requirements( built ) ) {

@@ -1778,6 +1778,9 @@ void load_construction( const JsonObject &jo )
         con.post_is_furniture = true;
     }
 
+    con.activity_level =
+        activity_levels_map.find( jo.get_string( "activity_level", "NO_EXERCISE" ) )->second;
+
     if( jo.has_member( "pre_flags" ) ) {
         con.pre_flags.clear();
         if( jo.has_string( "pre_flags" ) ) {

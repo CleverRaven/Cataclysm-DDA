@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "game_constants.h"
 #include "item.h"
 #include "optional.h"
 #include "translations.h"
@@ -103,6 +104,8 @@ struct construction {
 
         //can be build in the dark
         bool dark_craftable = false;
+
+        float activity_level = NO_EXERCISE;
     private:
         std::string get_time_string() const;
 };
