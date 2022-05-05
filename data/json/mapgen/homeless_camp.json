@@ -115,7 +115,7 @@
   {
     "om_terrain": "homelesscamp",
     "type": "mapgen",
-    "weight": 40
+    "weight": 40,
     "method": "json",
     "object": {
       "furniture": {
@@ -208,7 +208,7 @@
 {
     "om_terrain": "homelesscamp",
     "type": "mapgen",
-    "weight": 20
+    "weight": 20,
     "method": "json",
     "object": {
       "furniture": {
@@ -310,7 +310,7 @@
     },
     "om_terrain": "homelesscamp",
     "type": "mapgen",
-    "weight": 20
+    "weight": 20,
       "palettes": [ "homelesscamp_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_vehicles": [
