@@ -2483,7 +2483,9 @@ at level `2` to the item.
       "sound_variant": "bear_trap",
       "remove_trap": true,
       "spawn_items": [ "beartrap" ]
-    }
+    },
+    "trigger_message_u": "A bear trap closes on your foot!",  // This message will be printed when player steps on a trap
+    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!"  // This message will be printed when NPC or monster step on a trap
 ```
 
 ### Vehicle Groups
