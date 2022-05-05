@@ -231,6 +231,14 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
     }
+    for( const auto &q : obj.charged_qualities ) {
+        for( const auto &u : q.first.obj().usages ) {
+            if( q.second >= u.first ) {
+                emplace_usage( obj.use_methods, u.second );
+                // I do not know how to get the ammo scale, so hopefully it naturally comes with the item's scale?
+            }
+        }
+    }
 
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
@@ -846,7 +854,7 @@ void Item_factory::finalize_post( itype &obj )
 
                 // need to account for varsize stuff here and double encumbrance if so
                 if( obj.has_flag( flag_VARSIZE ) ) {
-                    data.encumber *= 2;
+                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );;
                 }
 
                 // Recalc max encumber as well

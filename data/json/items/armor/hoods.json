@@ -15,7 +15,7 @@
     "color": "white",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
+      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5, "breathability": "GOOD" }
     ],
     "warmth": 10,
     "material_thickness": 1,

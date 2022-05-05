@@ -434,7 +434,7 @@
         "moves": 100
       }
     ],
-    "warmth": 20,
+    "warmth": 25,
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "FANCY", "OUTER" ]
@@ -558,7 +558,7 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "pink",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY" ],
     "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
@@ -609,10 +609,13 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "white",
-    "warmth": 30,
+    "warmth": 16,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
-    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ], "encumbrance": 12 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 }
+    ]
   },
   {
     "id": "flag_shirt",
@@ -657,7 +660,7 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "yellow",
-    "warmth": 5,
+    "warmth": 3,
     "material_thickness": 4,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
     "armor": [ { "encumbrance": 40, "coverage": 40, "covers": [ "torso" ] } ]
@@ -696,7 +699,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "dark_gray",
-    "warmth": 5,
+    "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
     "armor": [ { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
@@ -747,7 +750,7 @@
         "moves": 80
       }
     ],
-    "warmth": 30,
+    "warmth": 20,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
@@ -767,7 +770,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "yellow",
-    "warmth": 25,
+    "warmth": 12,
     "material_thickness": 0.3,
     "snippet_category": [
       { "id": "decatur", "text": "A pro thunderball jersey made of cotton, imprinted with the logo of the Decatur Fist." },
@@ -933,7 +936,7 @@
         "moves": 80
       }
     ],
-    "warmth": 5,
+    "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
   },
@@ -1074,7 +1077,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "light_red",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
     "armor": [
@@ -1154,7 +1157,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "red",
-    "warmth": 25,
+    "warmth": 20,
     "material_thickness": 0.4,
     "flags": [ "VARSIZE" ],
     "armor": [
@@ -1184,7 +1187,7 @@
     "symbol": "[",
     "looks_like": "santa_dress",
     "color": "red",
-    "warmth": 30,
+    "warmth": 25,
     "material_thickness": 0.8,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
     "armor": [
@@ -1266,7 +1269,7 @@
         "moves": 80
       }
     ],
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
@@ -1310,7 +1313,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "dark_gray",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY", "COLLAR" ],
     "armor": [
@@ -1332,7 +1335,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "red",
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY" ],
     "armor": [
@@ -1366,7 +1369,7 @@
     "symbol": "[",
     "looks_like": "gown",
     "color": "light_red",
-    "warmth": 20,
+    "warmth": 12,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
     "armor": [
@@ -1432,7 +1435,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "blue",
-    "warmth": 40,
+    "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ],
@@ -1611,6 +1614,18 @@
         "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
         "description": "A hooded child stands behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semi circle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
         "weight": 1
+      },
+      {
+        "id": "baseball_fan_tshirt",
+        "name": { "str": "baseball t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a local baseball team printed on its front and back.",
+        "weight": 1
+      },
+      {
+        "id": "football_fan_tshirt",
+        "name": { "str": "football t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a local football team printed on its front and back.",
+        "weight": 1
       }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -1786,7 +1801,7 @@
         "moves": 120
       }
     ],
-    "warmth": 20,
+    "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
@@ -1915,7 +1930,7 @@
         "moves": 80
       }
     ],
-    "warmth": 45,
+    "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]

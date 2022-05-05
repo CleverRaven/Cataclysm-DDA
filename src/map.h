@@ -1618,8 +1618,7 @@ class map
         void add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
-        void build_map_cache( int zlev );
-        void build_lightmap( const int zlev, const tripoint p );
+        void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
                                    fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
@@ -1837,9 +1836,6 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
-        // Generate the cache of where the player can see based on aiming
-        // single cache doesn't care about z level
-        void build_aim_cache();
 
 
     protected:
@@ -2099,10 +2095,6 @@ class map
             const tripoint &from, const tripoint &to ) const;
         tripoint_range<tripoint> points_in_radius(
             const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
-
-        // returns all the tripoints that lie on a circle
-        std::vector<tripoint> points_on_circle( const tripoint &center, size_t radius,
-                                                size_t radiusz = 0 ) const;
 
         /**
          * Yields a range of all points that are contained in the map and have the z-level of

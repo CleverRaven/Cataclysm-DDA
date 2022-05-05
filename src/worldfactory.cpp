@@ -1529,11 +1529,14 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
         // just check the raw bytes because unicode characters are always acceptable
         bool allowed = true;
         for( const char ch : name ) {
-            if( !is_char_allowed( ch ) ) {
-                if( std::isprint( ch ) ) {
-                    msg = string_format( _( "World name contains invalid character: '%c'" ), ch );
+            // Convert to unsigned char because `std::isprint` is undefined for
+            // values unrepresentable by unsigned char which is not EOF.
+            const unsigned char uc = static_cast<unsigned char>( ch );
+            if( !is_char_allowed( uc ) ) {
+                if( std::isprint( uc ) ) {
+                    msg = string_format( _( "World name contains invalid character: '%c'" ), uc );
                 } else {
-                    msg = string_format( _( "World name contains invalid character: 0x%x" ), ch );
+                    msg = string_format( _( "World name contains invalid character: 0x%x" ), uc );
                 }
                 allowed = false;
                 break;

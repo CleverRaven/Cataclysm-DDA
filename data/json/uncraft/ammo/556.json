@@ -13,8 +13,7 @@
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 17 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "556_incendiary",
@@ -31,7 +30,6 @@
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 17 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

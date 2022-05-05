@@ -64,7 +64,7 @@
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "head_forehead", "head_crown", "head_nape", "head_throat", "head_ear_r", "head_ear_l" ],
     "encumbrance_per_weight": [
-      { "weight": "1 g", "encumbrance": 1 },
+      { "weight": "1 mg", "encumbrance": 1 },
       { "weight": "300 g", "encumbrance": 4 },
       { "weight": "800 g", "encumbrance": 8 },
       { "weight": "1300 g", "encumbrance": 20 },
