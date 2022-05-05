@@ -8351,31 +8351,44 @@ void map::do_vehicle_caching( int z )
     }
 }
 
-void map::build_map_cache( const int zlev )
+void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    bool seen_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
+        // trigger FOV recalculation only when there is a change on the player's level or if fov_3d is enabled
+        const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
+        seen_cache_dirty |= ( floor_cache_was_dirty && affects_seen_cache );
         if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
             get_cache( z - 1 ).r_up_cache->invalidate();
         }
+        seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
     // otherwise such changes might be overwritten by main cache-building logic
     for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
-}
 
-void map::build_lightmap( const int zlev, const tripoint p )
-{
-    build_vision_transparency_cache( zlev );
-    skew_vision_cache.clear();
-    build_seen_cache( p, zlev );
-    generate_lightmap( zlev );
+    seen_cache_dirty |= build_vision_transparency_cache( zlev );
+
+    if( seen_cache_dirty ) {
+        skew_vision_cache.clear();
+    }
+    // Initial value is illegal player position.
+    const tripoint p = get_player_character().pos();
+    static tripoint player_prev_pos;
+    if( seen_cache_dirty || player_prev_pos != p ) {
+        build_seen_cache( p, zlev );
+        player_prev_pos = p;
+    }
+    if( !skip_lightmap ) {
+        generate_lightmap( zlev );
+    }
 }
 
 //////////

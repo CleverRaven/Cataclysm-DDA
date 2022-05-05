@@ -4,11 +4,21 @@
     "id": "EXODII_basic_trade",
     "subtype": "collection",
     "entries": [
-      { "group": "EXODII_Shop_Tier0", "count": 1, "prob": 100 },
+      { "group": "EXODII_Shop_Tier0", "count": [ 1, 2 ], "prob": 100 },
       { "group": "EXODII_Shop_NomadGear_Tier0", "count": [ 1, 2 ], "prob": 100 },
-      { "group": "EXODII_Shop_Guns_Tier0", "count": 1, "prob": 100 },
-      { "group": "EXODII_Shop_OldArmour", "count": 1, "prob": 100 },
-      { "group": "EXODII_CBM_Store_Tier1", "count": 1, "prob": 100 }
+      { "group": "EXODII_Shop_Guns_Tier0", "count": 2, "prob": 100 },
+      { "group": "EXODII_Shop_OldArmour", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "EXODII_CBM_Store_Tier1", "count": [ 4, 6 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "//": "Spawn extra tier 1 CBMs and a bonus tier 2 if the Exodii don't dislike you.",
+    "id": "EXODII_CBM_Store_tier1_extra",
+    "subtype": "collection",
+    "entries": [
+      { "group": "EXODII_CBM_Store_Tier1", "count": [ 2, 4 ], "prob": 100 },
+      { "group": "EXODII_CBM_Store_Tier2", "count": 1, "prob": 25 }
     ]
   },
   {

@@ -1252,12 +1252,12 @@
   {
     "type": "construction_group",
     "id": "place_battery",
-    "name": "Place Battery"
+    "name": "Place Large Battery"
   },
   {
     "type": "construction_group",
     "id": "place_large_battery",
-    "name": "Place Large Battery"
+    "name": "Place Very Large Battery"
   },
   {
     "type": "construction_group",

@@ -592,23 +592,23 @@
   {
     "type": "vehicle_part",
     "id": "ap_battery",
-    "name": { "str": "grid battery" },
+    "name": { "str": "large grid battery" },
     "symbol": "B",
     "location": "structure",
     "color": "light_red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "description": "A battery to store electrical power in a static power grid.",
+    "description": "A large battery to store electrical power in a static power grid.",
     "copy-from": "storage_battery"
   },
   {
     "type": "vehicle_part",
     "id": "ap_battery_large",
-    "name": { "str": "large grid battery" },
+    "name": { "str": "very large grid battery" },
     "symbol": "B",
     "location": "structure",
     "color": "red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "description": "A large battery to store electrical power in a static power grid.",
+    "description": "A very large battery to store electrical power in a static power grid.",
     "copy-from": "large_storage_battery"
   },
   {
