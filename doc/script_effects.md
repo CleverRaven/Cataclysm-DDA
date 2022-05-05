@@ -5,33 +5,41 @@ Called "effects" wherever they are used in JSON, these are termed "script effect
 
 Script Effects are a very powerful way to alter the game state dynamically. They are, as the name implies, an internal CDDA scripting language in JSON that lets us write events and occurences within game in a parseable data-driven format.  In other words, this is how content writers can have the game change and respond to what's going on.
 
-## How to use Script Effects
+### How to use Script Effects
+Regardless of how you activate a script effect, multiple effects should be arranged in a list and are processed in the order listed, not simultaneously.
 
-Regardless of how you activate a script effect, mMultiple effects should be arranged in a list and are processed in the order listed, not simultaneously.
+#### Conditional statements
+Most of the time if you are going to use script effects for all but a simple interaction, they will be coupled with [conditional statements](./CONDITIONALS.md).  For this reason the syntax of the two is quite similar, and learning one will often require learning the other.
 
-### Effect on Condition
+#### Effect on Condition
 [Effect on Condition](./EFFECT_ON_CONDITION.md) is essentially a scripting event language in CDDA, which uses [conditional statements](./conditionals.md) to specify script effects to run.  
 
-### Dialogue Effects
+#### Dialogue Effects
 The `effect` field of `speaker_effect` or a `response` can be any of the available effects.  Note that the game is paused during dialogue, so while instantaneous effects (such as changing a variable) will apply immediately, any effect that processes at the end of the turn will not be applied until the dialogue closes.
 
-## Parts of a Script Effect
+### Parts of a Script Effect
 
-### Variables
-These are specified with the `u_add_var` or `npc_add_var` effect for string variables, or the `u_adjust_var` or `npc_adjust_var` for numeric variables.
 
-#### String Variables
+#### Variables: General information
+When storing a simple variable, think carefully on if it should be stored on the player avatar (`u_add_var`) or the active NPC (`npc_add_var`).  Variables stored on the NPC are local only, but will persist if the player avatar changes: if you store the record of an NPC mission being completed as an NPC var, then it cannot be easily referenced in a conversation with a different NPC, or in an EoC disconnected from that NPC.  Variables stored on the player avatar can be interacted with from outside a specific NPC conversation, but will not persist after that.  True global variables must currently be handled as a `variable_object`.  Often it may be appropriate to use multiples of these: if you finish a mission for a random NPC, we may wish to use `npc_add_var` so that this specific NPC remembers that you did this mission for them, `u_add_var` so that your avatar knows they did it themselves, and add a `global_var` so that we can track in general that this mission *has been done by someone* even if the player avatar changes. Then, for example, an EoC can run based on the success of that mission, but if you switch to a different character your avatar will not respond as though they had done the mission themselves.
+
+#### Simple Variables
+These are specified with the `u_add_var` or `npc_add_var` effect for string variables, or the `u_adjust_var` or `npc_adjust_var` for numeric variables.  This format of variable was the original way to store NPC variables, and is widely used.  It is distinct from a `variable_object`, which is a newer way of storing number variables that can be modified with math and used in place of integers in other effects.  In general, if you want a number value, it may be worth it to look into using a `variable_object` for that.
+
+
+
+##### String Variables
 TK
 
-#### Numeric Variables
+##### Numeric Variables
 This format of variable should be slowly deprecated in favour of arithmetic variable objects.
 TK: Explain why and show examples.
 
-#### Timer Variables
+##### Timer Variables
 This format of variable should be slowly deprecated in favour of arithmetic variable objects.
 TK: Explain why and show examples.
 
-### Arithmetic Variable Objects
+#### Arithmetic Variable Objects
 A `variable_object` is either an object or array describing a variable name.  As a standard JSON object it will look something like this: `{ "u_val":"test", "default": 1 }`
 - It can either describe an int or a time duration. 
 - If it is an array (eg. `[5, 10]`) it must have 2 values the first of which will be a **minimum** and the second will be a **maximum**, and the actual value will be a random number between the two. 
