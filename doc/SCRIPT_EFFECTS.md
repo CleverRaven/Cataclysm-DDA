@@ -122,7 +122,7 @@ Effect | Description
 
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`u_add_morale`, `npc_add_morale | `morale_string` | `bonus: bonus_int`, `max_bonus: int` or `variable_object`, `duration`: time` or `variable_object`, `decay_start`: `time` or `variable_object`, `capped`: `bool` | Your character or the NPC will gain a morale bonus of type `morale_string`. Morale is changed by `bonus_int`( or the value of the variable described by `bonus_variable_object` see `variable_object` above) (default 1), with a maximum of up to `max_bonus_int`(or `max_bonus_variable_object`)  (default 1). It will last for `duration: duration_string` time (default 1 hour) or `duration_variable_object`. It will begin to decay after `decay_string` time (default 30 minutes) or `decay_variable_object`. `capped_bool` Whether this morale is capped or not, defaults to false.
+`u_add_morale`, `npc_add_morale` | `morale_string` | `bonus`: `int` or `variable_object`, `max_bonus`: `int` or `variable_object`, `duration`: `time` or `variable_object`, `decay_start`: `time` or `variable_object`, `capped`: `bool` | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (defaults false).
 
 #### Wounds and Healing
 
