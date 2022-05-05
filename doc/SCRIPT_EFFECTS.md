@@ -98,7 +98,7 @@ When editing this document please attempt to list effects alphabetically, but ke
 #### Missions
 
 Effect | Argument | Options | Description | Example
----|---|---
+---|---|---|---|---
 `assign_mission` | `mission_type_id string` | none | Assigns a mission to your avatar. | `"assign_mission": "mission_id"`
 `clear_mission` | `mission_type_id string` | none | Clears the mission from the your avatar's assigned missions. | `"clear_mission": "mission_id"`
 `mission_failure` | `mission_type_id string` | none | Resolves the mission as a failure. | `"mission_failure": "mission_id"`
