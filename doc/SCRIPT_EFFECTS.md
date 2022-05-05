@@ -134,26 +134,31 @@ Effect | Description
 
 Note: Mutations are traits. The difference between "adding a trait" and "mutating" is that mutation takes time and is accompanied by special messages, while a trait should be added instantly without announcement.
 
-Effect | Argument | Additional | Description | Example
+Effect | Argument | Options | Description | Example
 ---|---|---|---|---
 `u_add_bionic`, `npc_add_bionic` | `bionic_string` | none | Your character or the NPC will gain the bionic.| `"u_add_bionic": "cbm1"`
 `u_lose_bionic`, `npc_lose_bionic` | `bionic_string` | none | Your character or the NPC will lose the bionic.| `"u_lose_bionic": "cbm1"`
 `u_add_trait`, `npc_add_trait` | `trait_string` | none | Your character or the NPC will gain the trait.| `"u_add_trait": "egtrait"`
-`u_mutate`, `npc_mutate: | `chance_int` | *optional* `use_vitamins: vitamin_bool` (default true) | Your avatar or the NPC will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated.| `"u_mutate": "egtrait", "use_vitamins": false`
-`u_mutate_category`, `npc_mutate_category` | `category_str` | *optional* `use_vitamins: vitamin_bool` (default true)| Your avatar or the NPC will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated.| `"u_mutate_category": "example_traits", "use_vitamins": false`
+`u_lose_trait`, `npc_lose_trait | `trait_string` | none | Your character or the NPC will lose the trait.| `"u_lose_trait": "egtrait"`
+`u_mutate`, `npc_mutate: | `chance_int` | `use_vitamins: vitamin_bool` (default true) | Your avatar or the NPC will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated.| `"u_mutate": "egtrait", "use_vitamins": false`
+`u_mutate_category`, `npc_mutate_category` | `category_str` | `use_vitamins: vitamin_bool` (default true)| Your avatar or the NPC will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated.| `"u_mutate_category": "example_traits", "use_vitamins": false`
 
-#### Character effects / Mutations
+#### Variable operations
 
 Effect | Description
 ---|---
-`u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`),(*optional* `target_part: target_part_string`, `intensity: intensity_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`), (*optional* `target_part: target_part_string`, `force: force_bool`, `intensity: intensity_int or intensity_variable_object`) | Your character or the NPC will gain the effect for `duration_string` or the value of the variable described by `duration_object` see `variable_object` above, turns at intensity `intensity_int` (or the value of the variable described by `intensity_variable_object` see `variable_object` above) or 0 if it was not supplied. If `force_bool` is true(defaults false) immunity will be ignored. If `target_part` is supplied that part will get the effect otherwise its a whole body effect. If `target_part` is `RANDOM` a random body part will be used. If `duration_string` is `"PERMANENT"`, the effect will be added permanently.
-`u_lose_effect: effect_string`<br/>`npc_lose_effect: effect_string` | Your character or the NPC will lose the effect if they have it.
-`u_lose_trait: trait_string`<br/>`npc_lose_trait: trait_string` | Your character or the NPC will lose the trait.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true` or `possible_values: string_array` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored. If `possible_values` is used one of the values given at random will be used.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: adjustment_num or adjustment_variable_object` | Your character or the NPC will adjust the stored variable by `adjustment_num` (or the value of the variable described by `adjustment_num` see `variable_object` above).
 `set_string_var`: `type: string or variable object or array of either`, `target_var: variable_object`| Store string (or the variable described) from `set_string_var` in the variable object `target_var`. If an array is provided a random element will be used.
 `u_location_variable, npc_location_variable`: `target_var`,*optional* `min_radius: min_radius_int or min_radius_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`, *optional* `outdoor_only: outdoor_only_bool`, *optional* `target_params: assign_mission_target` parameters, *optional* `z_adjust: int or variable_object`, *optional* `z_override: bool` | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise.
+
+#### Character effects
+
+Effect | Description
+---|---
+`u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`),(*optional* `target_part: target_part_string`, `intensity: intensity_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`), (*optional* `target_part: target_part_string`, `force: force_bool`, `intensity: intensity_int or intensity_variable_object`) | Your character or the NPC will gain the effect for `duration_string` or the value of the variable described by `duration_object` see `variable_object` above, turns at intensity `intensity_int` (or the value of the variable described by `intensity_variable_object` see `variable_object` above) or 0 if it was not supplied. If `force_bool` is true(defaults false) immunity will be ignored. If `target_part` is supplied that part will get the effect otherwise its a whole body effect. If `target_part` is `RANDOM` a random body part will be used. If `duration_string` is `"PERMANENT"`, the effect will be added permanently.
+`u_lose_effect: effect_string`<br/>`npc_lose_effect: effect_string` | Your character or the NPC will lose the effect if they have it.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
