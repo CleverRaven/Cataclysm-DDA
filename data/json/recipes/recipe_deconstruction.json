@@ -6100,5 +6100,12 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
     "components": [ [ [ "plastic_sheet", 1 ] ] ]
+  },
+  {
+    "result": "bone",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "12 s",
+    "components": [ [ [ "spike_bone", 2 ] ] ]
   }
 ]
