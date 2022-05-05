@@ -29,14 +29,7 @@
     "replace": "generic_plastic"
   },
   {
-    "id": [
-      "bowl_plastic",
-      "plastic_plate",
-      "plastic_bowl_kids",
-      "cup_plastic",
-      "sippy_cup",
-      "tumbler_plastic"
-    ],
+    "id": [ "bowl_plastic", "plastic_plate", "plastic_bowl_kids", "cup_plastic", "sippy_cup", "tumbler_plastic" ],
     "type": "MIGRATION",
     "replace": "generic_plastic_dish"
   },
