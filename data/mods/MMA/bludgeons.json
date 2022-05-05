@@ -24,7 +24,7 @@
     "id": "torch",
     "copy-from": "torch",
     "type": "TOOL",
-    "name": { "str": "torch" },
+    "name": { "str": "torch", "str_pl": "torches" },
     "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] }
   },
   {
