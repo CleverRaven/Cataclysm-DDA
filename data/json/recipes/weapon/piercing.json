@@ -411,7 +411,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "blade", 1 ] ], [ [ "spike", 1 ] ], [ [ "pipe", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [ [ [ "blade", 1 ] ], [ [ "spike", 1 ], [ "spike_bone", 1 ] ], [ [ "pipe", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -445,7 +445,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "rag", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
-      [ [ "spike", 1 ] ]
+      [ [ "spike", 1 ], [ "spike_bone", 1 ] ]
     ]
   },
   {
@@ -627,7 +627,7 @@
     "autolearn": true,
     "//": "Extra duct tape/string needed to attach the spikes; rag/leather for grip.",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "duct_tape", 75 ] ], [ [ "spike", 3 ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "duct_tape", 75 ] ], [ [ "spike", 3 ], [ "spike_bone", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -695,6 +695,7 @@
       [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ] ],
       [
         [ "spike", 1 ],
+        [ "spike_bone", 1 ],
         [ "knife_steak", 1 ],
         [ "knife_paring", 1 ],
         [ "knife_folding", 1 ],
@@ -792,7 +793,7 @@
     "time": "3 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "bowling_pin", 1 ] ], [ [ "spike", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [ [ [ "bowling_pin", 1 ] ], [ [ "spike", 2 ], [ "spike_bone", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
     "type": "recipe",
