@@ -1,7 +1,7 @@
 [
   {
     "id": "TALK_LUMBERMILL_FABRICATE",
-    "//": "this is all the dialogue related to buying bulk wood.",
+    "//": "this is all the dialogue related to buying bulk wood. ONURA46 [delete this] - THIS COULD BE DONE BETTTER WITH VARIABLES, I THINK. SEE SCRIPT_EFFECTS.md",
     "type": "talk_topic",
     "dynamic_line": {
       "npc_has_effect": "currently_busy",

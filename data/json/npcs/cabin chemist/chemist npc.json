@@ -77,7 +77,7 @@
   },
   {
     "id": "TALK_CABIN_CHEMIST_BULK_SELL",
-    "//": "This is all the dialogue related to buying bulk chemicals.  It should remain somewhat prohibitively expensive and time-consuming so the chemist doesn't become a one-stop shop for survival needs.",
+    "//": "This is all the dialogue related to buying bulk chemicals.  It should remain somewhat prohibitively expensive and time-consuming so the chemist doesn't become a one-stop shop for survival needs. ONURA46 [delete this] - THIS COULD BE DONE BETTTER WITH VARIABLES, I THINK. SEE SCRIPT_EFFECTS.md",
     "type": "talk_topic",
     "dynamic_line": {
       "npc_has_effect": "currently_busy",
