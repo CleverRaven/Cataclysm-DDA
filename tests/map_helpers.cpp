@@ -26,8 +26,6 @@
 #include "submap.h"
 #include "type_id.h"
 
-static const faction_id faction_your_followers( "your_followers" );
-
 // Remove all vehicles from the map
 void clear_vehicles()
 {
@@ -59,12 +57,13 @@ void wipe_map_terrain()
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
                 here.set( { x, y, z}, terrain, f_null );
+                here.partial_con_remove( { x, y, z } );
             }
         }
     }
     clear_vehicles();
     here.invalidate_map_cache( 0 );
-    here.build_map_cache( 0 );
+    here.build_map_cache( 0, true );
 }
 
 void clear_creatures()
@@ -115,14 +114,7 @@ void clear_items( const int zlevel )
 void clear_zones()
 {
     zone_manager &zm = zone_manager::get_manager();
-    for( auto zone_ref : zm.get_zones( faction_your_followers ) ) {
-        if( !zone_ref.get().get_is_vehicle() ) {
-            // Trying to delete vehicle zones fails with a message that the zone isn't loaded.
-            // Don't need it right now and the errors spam up the test output, so skip.
-            continue;
-        }
-        zm.remove( zone_ref.get() );
-    }
+    zm.clear();
 }
 
 void clear_map()
@@ -170,7 +162,7 @@ void build_test_map( const ter_id &terrain )
     }
 
     here.invalidate_map_cache( 0 );
-    here.build_map_cache( 0 );
+    here.build_map_cache( 0, true );
 }
 
 void player_add_headlamp()
@@ -193,5 +185,4 @@ void set_time( const time_point &time )
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
     here.build_map_cache( z );
-    here.build_lightmap( z, get_player_character().pos() );
 }

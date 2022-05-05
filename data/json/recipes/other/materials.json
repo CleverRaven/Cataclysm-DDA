@@ -472,7 +472,7 @@
     "time": "2 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 15 ] ],
+    "using": [ [ "sewing_kevlar", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
     "components": [ [ [ "sheet_kevlar", 16 ] ] ]
   },

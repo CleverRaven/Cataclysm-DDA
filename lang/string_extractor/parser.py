@@ -1,9 +1,11 @@
 from .parsers.achievement import parse_achievement
 from .parsers.activity_type import parse_activity_type
+from .parsers.addiction_type import parse_addiction_type
 from .parsers.ammunition_type import parse_ammunition_type
 from .parsers.bionic import parse_bionic
 from .parsers.body_part import parse_body_part
 from .parsers.character_mod import parse_character_mod
+from .parsers.city import parse_city
 from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
@@ -87,6 +89,7 @@ def dummy_parser(json, origin):
 parsers = {
     "achievement": parse_achievement,
     "activity_type": parse_activity_type,
+    "addiction_type": parse_addiction_type,
     "ammo": parse_generic,
     "ammo_effect": dummy_parser,
     "ammunition_type": parse_ammunition_type,
@@ -97,12 +100,14 @@ parsers = {
     "behavior": dummy_parser,
     "bionic": parse_bionic,
     "bionic_item": parse_generic,
+    "body_graph": dummy_parser,
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
     "character_mod": parse_character_mod,
     "charge_migration_blacklist": dummy_parser,
     "charge_removal_blacklist": dummy_parser,
+    "city": parse_city,
     "city_building": dummy_parser,
     "clothing_mod": parse_clothing_mod,
     "comestible": parse_generic,

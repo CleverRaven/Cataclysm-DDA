@@ -65,7 +65,8 @@
       { "item": "bottle_opener", "prob": 95 },
       { "item": "pizza_cutter", "prob": 30 },
       { "item": "icecream_scoop", "prob": 25 },
-      { "item": "cheese_grater", "prob": 40 }
+      { "item": "cheese_grater", "prob": 40 },
+      { "item": "mortar_pestle", "prob": 50 }
     ]
   },
   {
@@ -855,6 +856,11 @@
       { "group": "shoes_womens", "prob": 60 },
       { "item": "fishing_waders", "prob": 1 },
       { "item": "football_armor", "prob": 1 },
+      { "item": "pom_poms", "prob": 1 },
+      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "cheerleader_top_short", "prob": 1 },
+      { "item": "cheerleader_skirt", "prob": 1 },
+      { "item": "cheerleader_skirt_short", "prob": 1 },
       { "group": "pants_womens", "prob": 10 },
       { "item": "bscabbard", "prob": 1 },
       { "item": "sleeping_bag_roll", "prob": 5 },

@@ -1803,22 +1803,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine",
-    "copy-from": "mine",
-    "name": "mine",
-    "sym": "m",
-    "color": "i_black"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_down",
-    "copy-from": "mine_down",
-    "name": "mine",
-    "sym": "M",
-    "color": "i_black"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "mine_finale",
     "copy-from": "mine_finale",
     "name": "mine",

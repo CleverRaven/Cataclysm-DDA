@@ -746,6 +746,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_stationary_scutcher",
+    "name": "Build Stationary Scutcher"
+  },
+  {
+    "type": "construction_group",
     "id": "build_split_rail_fence",
     "name": "Build Split Rail Fence"
   },
@@ -1136,6 +1141,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_water_purifier",
+    "name": "Place Stationary Water Purifier"
+  },
+  {
+    "type": "construction_group",
     "id": "place_arcade_machine",
     "name": "Place Arcade Machine"
   },
@@ -1186,6 +1196,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_hydraulic_press",
+    "name": "Place Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_air_compressor",
+    "name": "Place Air Compressor"
+  },
+  {
+    "type": "construction_group",
     "id": "place_heater_large",
     "name": "Place Large Heater"
   },
@@ -1232,17 +1252,47 @@
   {
     "type": "construction_group",
     "id": "place_battery",
-    "name": "Place Battery"
+    "name": "Place Large Battery"
   },
   {
     "type": "construction_group",
     "id": "place_large_battery",
-    "name": "Place Large Battery"
+    "name": "Place Very Large Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_car_battery",
+    "name": "Place Car Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_washing_machine",
+    "name": "Place Washing Machine"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_dishwasher",
+    "name": "Place Dishwasher"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_autoclave",
+    "name": "Place Autoclave"
   },
   {
     "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ap_foot_locker_recharge_station",
+    "name": "Place Recharging Station"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ap_box_battery_charger",
+    "name": "Place Battery Charger"
   },
   {
     "type": "construction_group",
@@ -1498,5 +1548,10 @@
     "type": "construction_group",
     "id": "build_training_dummy_heavy",
     "name": "Install Armored Training Dummy"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_clay_oven",
+    "name": "Build Clay Oven"
   }
 ]

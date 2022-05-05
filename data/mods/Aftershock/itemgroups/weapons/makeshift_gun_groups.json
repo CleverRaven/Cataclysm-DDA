@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "afs_any_makeshift_gun",
     "subtype": "distribution",
-    "//": "Self made 'guns' for the post-discontinuity scavenger.  These vary quite a lot between them and ammo might be rare, so we spawn them together with some.",
+    "//": "Self made 'guns' for the post-Discontinuity scavenger.  These vary quite a lot between them and ammo might be rare, so we spawn them together with some.",
     "entries": [
       { "group": "afs_scrapbow_s", "prob": 5 },
       { "group": "afs_scrapcrossbow_s", "prob": 5 },

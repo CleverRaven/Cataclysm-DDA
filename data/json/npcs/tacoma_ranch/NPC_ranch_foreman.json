@@ -816,6 +816,10 @@
     "end": {
       "update_mapgen": [
         { "om_terrain": "ranch_camp_49", "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_13" ], "x": 0, "y": 9 } ] },
+        {
+          "om_terrain": "ranch_camp_51",
+          "place_nested": [ { "chunks": [ "tacoma_commune_bar_13" ], "x": 0, "y": 0 } ]
+        },
         { "om_terrain": "ranch_camp_66", "place_npcs": [ { "class": "ranch_barber", "x": 5, "y": 3 } ] },
         {
           "om_terrain": "ranch_camp_70",
@@ -888,7 +892,13 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
-      "update_mapgen": { "om_terrain": "ranch_camp_51", "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ] }
+      "update_mapgen": [
+        { "om_terrain": "ranch_camp_51", "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ] },
+        {
+          "om_terrain": "ranch_camp_52",
+          "set": [ { "square": "terrain", "id": "t_dirt", "x": 2, "y": 10, "x2": 12, "y2": 22 } ]
+        }
+      ]
     }
   },
   {

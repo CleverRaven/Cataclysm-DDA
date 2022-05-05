@@ -173,6 +173,14 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
         no_translation( "" )
     },
     {
+        "Hide_Mission",
+        no_translation( "" )
+    },
+    {
+        "Reveal_Mission",
+        no_translation( "" )
+    },
+    {
         "Camp_Assign_Jobs",
         no_translation( "" )
     },
@@ -1028,7 +1036,7 @@ bool talk_function::display_and_choose_opts(
                     reset_cur_key_list();
                 } else {
                     tab_mode = static_cast<base_camps::tab_mode>( tab_mode + 1 );
-                    cur_key_list = mission_key.entries[tab_mode + 1];
+                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == role_id_faction_camp ) {
@@ -1045,7 +1053,7 @@ bool talk_function::display_and_choose_opts(
                 if( tab_mode == base_camps::TAB_MAIN ) {
                     reset_cur_key_list();
                 } else {
-                    cur_key_list = mission_key.entries[tab_mode + 1];
+                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "QUIT" ) {
@@ -1135,6 +1143,8 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
             return false;
 
         case Camp_Distribute_Food:
+        case Camp_Hide_Mission:
+        case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
         case Camp_Assign_Workers:
         case Camp_Abandon:
@@ -1195,15 +1205,14 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
     if( comp->has_effect( effect_riding ) ) {
         comp->npc_dismount();
     }
-    Character &player_character = get_player_character();
+
     //Ensure we have someone to give equipment to before we lose it
     for( item *i : equipment ) {
         comp->companion_mission_inv.add_item( *i );
-        //comp->i_add(*i);
         if( item::count_by_charges( i->typeId() ) ) {
-            player_character.use_charges( i->typeId(), i->charges );
+            comp->as_character()->use_charges( i->typeId(), i->charges );
         } else {
-            player_character.use_amount( i->typeId(), 1 );
+            comp->as_character()->use_amount( i->typeId(), 1 );
         }
     }
     if( comp->in_vehicle ) {
@@ -1290,7 +1299,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
     int experience = rng( 10, time / 300 );
 
     const int rand_bandit_size = rng( 1, 3 );
-    bandit_party.reserve( rand_bandit_size * 2 );
+    bandit_party.reserve( size_t( rand_bandit_size * 2 ) );
     for( int i = 0; i < rand_bandit_size * 2; i++ ) {
         bandit_party.push_back( temp_npc( npc_template_bandit ) );
         bandit_party.push_back( temp_npc( npc_template_thug ) );
@@ -2758,6 +2767,13 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
                         const std::string &text,
                         bool priority, bool possible )
 {
+    Character &player_character = get_player_character();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp(
+                                         player_character.global_omt_location().xy() );
+    if( bcp.has_value() && bcp.value()->is_hidden( id ) ) {
+        return;
+    }
+
     mission_entry miss;
     miss.id = id;
     if( name_display.empty() ) {  //  Poorly designed if this is the case. Do it properly...
@@ -2777,5 +2793,5 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
     }
     const point direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
     const int tab_order = base_camps::all_directions.at( direction ).tab_order;
-    entries[tab_order + 1].emplace_back( miss );
+    entries[size_t( tab_order + 1 )].emplace_back( miss );
 }

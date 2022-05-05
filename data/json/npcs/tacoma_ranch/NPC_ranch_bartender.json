@@ -158,16 +158,33 @@
   {
     "id": "TALK_RANCH_BARKEEP_TAP",
     "type": "talk_topic",
-    "dynamic_line": "Our selection is a bit limited at the moment.",
+    "dynamic_line": {
+      "npc_has_trait": "NPC_WHISKEY",
+      "yes": [
+        "Take a look at our selection and let me know what you're interested in.",
+        "We have a decent variety of drinks.  What interests you?",
+        "What are you in the mood for?"
+      ],
+      "no": "Our selection is a bit limited at the moment.  If you're willing to help out, I can get some more variety in here."
+    },
     "responses": [
       {
-        "text": "[$8] I'll take a beer",
+        "text": "Just a glass of water, please.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "mapgen_update": "tacoma_commune_glass_water", "om_terrain": "ranch_camp_51" },
+          { "u_message": "<npc_name> sets a glass of water on the counter.", "type": "good", "popup": true }
+        ]
+      },
+      {
+        "text": "[$8] I'll take a beer.",
         "topic": "TALK_DONE",
         "effect": { "u_buy_item": "beer", "container": "bottle_glass", "count": 2, "cost": 800 }
       },
       {
-        "text": "[$12] I'll take a shot of brandy",
+        "text": "[$12] I'll take a shot of brandy.",
         "topic": "TALK_DONE",
+        "condition": { "npc_has_trait": "NPC_BRANDY" },
         "effect": [
           { "u_spend_cash": 1200 },
           { "mapgen_update": "tacoma_commune_shot_brandy", "om_terrain": "ranch_camp_51" },
@@ -175,8 +192,9 @@
         ]
       },
       {
-        "text": "[$12] I'll take a shot of rum",
+        "text": "[$12] I'll take a shot of rum.",
         "topic": "TALK_DONE",
+        "condition": { "npc_has_trait": "NPC_RUM" },
         "effect": [
           { "u_spend_cash": 1200 },
           { "mapgen_update": "tacoma_commune_shot_rum", "om_terrain": "ranch_camp_51" },
@@ -184,8 +202,9 @@
         ]
       },
       {
-        "text": "[$15] I'll take a shot of whiskey",
+        "text": "[$15] I'll take a shot of whiskey.",
         "topic": "TALK_DONE",
+        "condition": { "npc_has_trait": "NPC_WHISKEY" },
         "effect": [
           { "u_spend_cash": 1500 },
           { "mapgen_update": "tacoma_commune_shot_whiskey", "om_terrain": "ranch_camp_51" },
@@ -230,7 +249,12 @@
     "end": {
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_1" ], "x": 0, "y": 0 } ]
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_1" ], "x": 0, "y": 0 } ],
+        "place_items": [
+          { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 1, 2 ], "faction": "tacoma_commune" },
+          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -260,7 +284,12 @@
       "effect": { "npc_add_trait": "NPC_BRANDY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_2" ], "x": 0, "y": 0 } ]
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_2" ], "x": 0, "y": 0 } ],
+        "place_items": [
+          { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 1, 2 ], "faction": "tacoma_commune" },
+          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -288,10 +317,20 @@
     },
     "end": {
       "effect": { "npc_add_trait": "NPC_RUM" },
-      "update_mapgen": {
-        "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3" ], "x": 0, "y": 0 } ]
-      }
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_51",
+          "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3" ], "x": 0, "y": 0 } ],
+          "place_items": [
+            { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+            { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_52",
+          "place_nested": [ { "chunks": [ "tacoma_commune_greenhouse_bartender_beets" ], "x": 2, "y": 10 } ]
+        }
+      ]
     }
   },
   {
@@ -320,7 +359,11 @@
       "effect": { "npc_add_trait": "NPC_WHISKEY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 3, "y": 1 } ]
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 3, "y": 1 } ],
+        "place_items": [
+          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -345,6 +388,16 @@
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": {
+        "om_terrain": "ranch_camp_51",
+        "place_item": [ { "item": "55gal_drum", "x": 18, "y": 3, "repeat": 2, "faction": "tacoma_commune" } ],
+        "place_items": [
+          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+        ]
+      }
     }
   }
 ]

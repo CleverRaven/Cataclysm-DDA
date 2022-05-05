@@ -3239,8 +3239,8 @@ void veh_interact::complete_vehicle( Character &you )
 
     point d( you.activity.values[4], you.activity.values[5] );
     int vehicle_part = you.activity.values[6];
+    cata_assert( !you.activity.str_values.empty() );
     const vpart_id part_id( you.activity.str_values[0] );
-    const std::string &variant_id =  you.activity.str_values[1];
 
     const vpart_info &vpinfo = part_id.obj();
 
@@ -3282,7 +3282,8 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             you.invalidate_crafting_inventory();
-
+            cata_assert( you.activity.str_values.size() >= 2 );
+            const std::string &variant_id =  you.activity.str_values[1];
             int partnum = !base.is_null() ? veh->install_part( d, part_id,
                           std::move( base ), variant_id ) : -1;
             if( partnum < 0 ) {
@@ -3343,6 +3344,8 @@ void veh_interact::complete_vehicle( Character &you )
         }
 
         case 'r': {
+            cata_assert( you.activity.str_values.size() >= 2 );
+            const std::string &variant_id =  you.activity.str_values[1];
             veh_utils::repair_part( *veh, veh->part( vehicle_part ), you, variant_id );
             break;
         }
@@ -3500,6 +3503,8 @@ void veh_interact::complete_vehicle( Character &you )
                     }
                 }
                 veh->part_removal_cleanup();
+                //always stop after removing an appliance
+                you.activity.set_to_null();
             }
 
             if( veh->part_count() < 2 ) {

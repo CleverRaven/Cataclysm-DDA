@@ -346,6 +346,12 @@ struct mtype {
         ::weakpoints weakpoints;
         weakpoint_families families;
 
+    private:
+        std::vector<weakpoints_id> weakpoints_deferred;
+        ::weakpoints weakpoints_deferred_inline;
+
+    public:
+
         // Pet food category this monster is in
         pet_food_data petfood;
 
@@ -379,6 +385,7 @@ struct mtype {
 
         damage_instance melee_damage; // Basic melee attack damage
         harvest_id harvest;
+        harvest_id dissect;
         shearing_data shearing;
         speed_description_id speed_desc;
 

@@ -122,7 +122,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_ExodizeDialect",
     "type": "talk_topic",
-    "dynamic_line": "*This'n's* accent?  Ye've never egged y'r own yark, an' that's a fine fiddle.  Great Grey has a bit o' work on it, kennit?  This'n has to keep usselves useful, an' keep Great Grey doin' what it's tassed.  Asides, yarkin' to the local brights keeps us young an' shines our chrome, an I'm ken.",
+    "dynamic_line": "THIS'n's accent?  Ye've never egged y'r own yark, an' that's a fine fiddle.  Great Grey has a bit o' work on it, kennit?  This'n has to keep usselves useful, an' keep Great Grey doin' what it's tassed.  Asides, yarkin' to the local brights keeps us young an' shines our chrome, an I'm ken.",
     "//~": "English: MY accent?  You've obviously never had to listen to yourself talk.  Great Grey has more important work to do, get it?  I have to keep myself useful and keep Gret Grey doing what it's supposed to.  Besides, talking to the locals keeps me young and shines my chrome, as I see it.",
     "responses": [
       {
@@ -218,6 +218,7 @@
     "id": "TALK_EXODII_MERCHANT_ExodizeMe2",
     "type": "talk_topic",
     "dynamic_line": "Fine an' fine, an' fine an' fine!  Ha!  Now as us've got the good tea, us'll rubber up the ol' gristle mill.  You jus' set along with ol' Rubik.",
+    "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  You just come along with old Rubik.",
     "responses": [
       {
         "text": "All right.  Let's do this.",
@@ -236,6 +237,7 @@
     "id": "TALK_EXODII_MERCHANT_ExodizeNope",
     "type": "talk_topic",
     "dynamic_line": "An' that's a fine choice, I'd razz.  If'n ye change mind, ol' Rubik's here for the long an' short.  You get to know us'n better, us'n get to know you better, an' that's a good tassin'.",
+    "//~": "That's a fine choice, I understand.  If you change your mind, old Rubik's going to be here for a while.  You'll get to know us better, we'll get to know you better, and that's going to be good all around.",
     "speaker_effect": [
       {
         "condition": { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
@@ -265,6 +267,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodized2",
     "type": "talk_topic",
     "dynamic_line": "This're what ye'd razz a 'starter package', an I'm ken.  Tassed to get ye started, but for the real lemony tarts you'd be wantin' what this'n's got for sale.  As us'n can come to see you clairly-like, this'n can be tassed to offer more an' more.",
+    "//~": "This is what you'd call a 'starter package', if I understand it.  Suitable to get you s tarted, but for the really sweet parts you're going to want what I'm selling.  As we get to know each other better, I'll be able to get access to even more stuff.",
     "responses": [
       {
         "text": "So you can sell me more bionics, and as I get to know you better you'll have more?  Mind showing me what you've got right now?",

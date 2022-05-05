@@ -298,7 +298,7 @@
     "armor": [
       {
         "encumbrance": 0,
-        "coverage": 0,
+        "coverage": 20,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
       }
@@ -537,6 +537,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str_sp": "onyx and gold cufflinks" },
+    "description": "A pair of cufflinks with inset onyxes.",
+    "color": "dark_gray"
+  },
+  {
     "id": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "garnet and silver cufflinks" },
@@ -597,7 +605,22 @@
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "ruby and silver cufflinks" },
-    "description": "A pair of cufflinks with inset rubies."
+    "description": "A pair of cufflinks with inset rubies.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_cufflinks",
+        "name": { "str_sp": "ruby and silver cufflinks" },
+        "description": "A pair of cufflinks with inset rubies.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_cufflinks",
+        "name": { "str_sp": "vampire cufflinks" },
+        "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_cufflinks",
@@ -654,6 +677,29 @@
     "name": { "str_sp": "pearl and silver cufflinks" },
     "description": "A pair of cufflinks with inset pearls.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str_sp": "onyx and silver cufflinks" },
+    "description": "A pair of cufflinks with inset onyxes.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_cufflinks",
+        "name": { "str_sp": "onyx and silver cufflinks" },
+        "description": "A pair of cufflinks with inset onyxes.",
+        "weight": 99
+      },
+      {
+        "id": "dark_cufflinks",
+        "name": { "str_sp": "dark cufflinks" },
+        "description": "A pair of cufflinks with inset onyxes and a couple of dark silver cat decorations.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   },
   {
     "id": "garnet_platinum_cufflinks",
@@ -775,6 +821,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str_sp": "onyx and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset onyxes.",
+    "color": "dark_gray"
+  },
+  {
     "id": "ear_spool",
     "type": "ARMOR",
     "name": { "str": "plug" },
@@ -804,7 +858,7 @@
     "sided": true,
     "armor": [
       {
-        "encumbrance": 0,
+        "encumbrance": 20,
         "coverage": 0,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
@@ -930,7 +984,7 @@
     "color": "yellow",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "tieclip",
@@ -1139,7 +1193,7 @@
     "material": [ "platinum", "silver" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "SKINTIGHT" ],
+    "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
     "armor": [ { "covers": [ "mouth" ] } ]
   },
   {
@@ -1694,6 +1748,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of onyx and gold earrings", "str_pl": "pairs of onyx and gold earrings" },
+    "description": "A pair of shiny onyx and gold earrings.",
+    "color": "dark_gray"
+  },
+  {
     "id": "diamond_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
@@ -1756,7 +1818,22 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
-    "description": "A pair of shiny ruby and silver earrings."
+    "description": "A pair of shiny ruby and silver earrings.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_earring",
+        "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
+        "description": "A pair of shiny ruby and silver earrings.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_earring",
+        "name": { "str": "pair of vampire earrings", "str_pl": "pairs of vampire earrings" },
+        "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_earring",
@@ -1813,6 +1890,29 @@
     "name": { "str": "pair of pearl and silver earrings", "str_pl": "pairs of pearl and silver earrings" },
     "description": "A pair of shiny pearl and silver earrings.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
+    "description": "A pair of shiny onyx and silver earrings.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_earring",
+        "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
+        "description": "A pair of shiny onyx and silver earrings.",
+        "weight": 99
+      },
+      {
+        "id": "dark_earring",
+        "name": { "str": "pair of dark earrings", "str_pl": "pairs of dark earrings" },
+        "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   },
   {
     "id": "diamond_platinum_earring",
@@ -1936,6 +2036,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of onyx and platinum earrings", "str_pl": "pairs of onyx and platinum earrings" },
+    "description": "A pair of shiny onyx and platinum earrings.",
+    "color": "dark_gray"
+  },
+  {
     "id": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "garnet and gold ring" },
@@ -2048,6 +2156,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "onyx and gold ring" },
+    "description": "A gold ring with an onyx mounted on top of it.",
+    "color": "dark_gray"
+  },
+  {
     "id": "diamond_silver_ring",
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
@@ -2112,7 +2228,22 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "ruby and silver ring" },
-    "description": "A silver ring with a ruby mounted on top of it."
+    "description": "A silver ring with a ruby mounted on top of it.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_ring",
+        "name": { "str": "ruby and silver ring" },
+        "description": "A silver ring with a ruby mounted on top of it.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_ring",
+        "name": { "str": "vampire ring" },
+        "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_ring",
@@ -2169,6 +2300,29 @@
     "name": { "str": "pearl and silver ring" },
     "description": "A silver ring with a pearl mounted on top of it.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "onyx and silver ring" },
+    "description": "A silver ring with an onyx mounted on top of it.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_ring",
+        "name": { "str": "onyx and silver ring" },
+        "description": "A silver ring with an onyx mounted on top of it.",
+        "weight": 99
+      },
+      {
+        "id": "dark_ring",
+        "name": { "str": "dark ring" },
+        "description": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   },
   {
     "id": "diamond_platinum_ring",
@@ -2294,6 +2448,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "onyx and platinum ring" },
+    "description": "A platinum ring with an onyx mounted on top of it.",
+    "color": "dark_gray"
+  },
+  {
     "id": "diamond_gold_bracelet",
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
@@ -2320,7 +2482,7 @@
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "amethyst_gold_bracelet",
@@ -2418,6 +2580,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "onyx and gold bracelet" },
+    "description": "A gold bracelet with onyxes.",
+    "color": "dark_gray"
+  },
+  {
     "id": "diamond_silver_bracelet",
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
@@ -2444,7 +2614,7 @@
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "amethyst_silver_bracelet",
@@ -2483,7 +2653,22 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "ruby and silver bracelet" },
-    "description": "A silver bracelet with sparkling rubies."
+    "description": "A silver bracelet with sparkling rubies.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_bracelet",
+        "name": { "str": "ruby and silver bracelet" },
+        "description": "A silver bracelet with sparkling rubies.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_bracelet",
+        "name": { "str": "vampire bracelet" },
+        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister looking hearts.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_bracelet",
@@ -2542,6 +2727,29 @@
     "color": "white"
   },
   {
+    "id": "onyx_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "onyx and silver bracelet" },
+    "description": "A silver bracelet with onyxes.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_bracelet",
+        "name": { "str": "onyx and silver bracelet" },
+        "description": "A silver bracelet with onyxes.",
+        "weight": 99
+      },
+      {
+        "id": "dark_bracelet",
+        "name": { "str": "dark bracelet" },
+        "description": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
+  },
+  {
     "id": "diamond_platinum_bracelet",
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
@@ -2568,7 +2776,7 @@
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "amethyst_platinum_bracelet",
@@ -2664,6 +2872,14 @@
     "name": { "str": "pearl and platinum bracelet" },
     "description": "A platinum bracelet with pearls.",
     "color": "white"
+  },
+  {
+    "id": "onyx_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "onyx and platinum bracelet" },
+    "description": "A platinum bracelet with onyxes.",
+    "color": "dark_gray"
   },
   {
     "id": "garnet_gold_pendant_necklace",
@@ -2785,6 +3001,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "onyx and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with an onyx pendant.",
+    "color": "dark_gray"
+  },
+  {
     "id": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "garnet and silver pendant necklace" },
@@ -2845,7 +3069,22 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "ruby and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a ruby pendant."
+    "description": "A shiny, silver necklace adorned with a ruby pendant.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_pendant_necklace",
+        "name": { "str": "ruby and silver pendant necklace" },
+        "description": "A shiny, silver necklace adorned with a ruby pendant.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_necklace",
+        "name": { "str": "vampire necklace" },
+        "description": "A sinister silver necklace adorned with a blood-red ruby pendant.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_pendant_necklace",
@@ -2902,6 +3141,29 @@
     "name": { "str": "pearl and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a pearl pendant.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "onyx and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with an onyx pendant.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_pendant_necklace",
+        "name": { "str": "onyx and silver pendant necklace" },
+        "description": "A shiny, silver necklace adorned with an onyx pendant.",
+        "weight": 99
+      },
+      {
+        "id": "dark_necklace",
+        "name": { "str": "dark necklace" },
+        "description": "A dark silver necklace with an onyx pendant in the shape of a dark heart.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   },
   {
     "id": "garnet_platinum_pendant_necklace",
@@ -3021,6 +3283,14 @@
     "name": { "str": "pearl and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a pearl pendant.",
     "color": "white"
+  },
+  {
+    "id": "onyx_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "onyx and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with an onyx pendant.",
+    "color": "dark_gray"
   },
   {
     "id": "garnet_platinum_tiara",
@@ -3144,6 +3414,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "onyx and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with onyxes.",
+    "color": "dark_gray"
+  },
+  {
     "id": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "garnet and gold tiara" },
@@ -3265,6 +3543,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "onyx and gold tiara" },
+    "description": "A shiny, gold tiara adorned with onyxes.",
+    "color": "dark_gray"
+  },
+  {
     "id": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "garnet and silver tiara" },
@@ -3327,7 +3613,22 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "ruby and silver tiara" },
-    "description": "A shiny, silver tiara adorned with rubies."
+    "description": "A shiny, silver tiara adorned with rubies.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_tiara",
+        "name": { "str": "ruby and silver tiara" },
+        "description": "A shiny, silver tiara adorned with rubies.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_tiara",
+        "name": { "str": "vampire tiara" },
+        "description": "A sinister dark silver tiara adorned with blood-red rubies.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_tiara",
@@ -3384,5 +3685,28 @@
     "name": { "str": "pearl and silver tiara" },
     "description": "A shiny, silver tiara adorned with pearls.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "onyx and silver tiara" },
+    "description": "A shiny, silver tiara adorned with onyxes.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_tiara",
+        "name": { "str": "onyx and silver tiara" },
+        "description": "A shiny, silver tiara adorned with onyxes.",
+        "weight": 99
+      },
+      {
+        "id": "dark_tiara",
+        "name": { "str": "dark tiara" },
+        "description": "A dark silver tiara adorned with onyxes.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   }
 ]

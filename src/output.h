@@ -147,8 +147,10 @@ extern int TERRAIN_WINDOW_WIDTH; // width of terrain window
 extern int TERRAIN_WINDOW_HEIGHT; // height of terrain window
 extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal characters
 extern int TERRAIN_WINDOW_TERM_HEIGHT; // same for height
-extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
-extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
+// Width of "full screen" popups. `FULL_SCREEN` is a misnomer from legacy code.
+extern int FULL_SCREEN_WIDTH;
+// Height of "full screen" popups. `FULL_SCREEN` is a misnomer from legacy code.
+extern int FULL_SCREEN_HEIGHT;
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
 extern int OVERMAP_WINDOW_TERM_WIDTH; // width of the overmap window in terminal characters
@@ -482,7 +484,8 @@ std::vector<std::string> get_hotkeys( const std::string &s );
  * - PF_ON_TOP makes the window appear on the top of the screen (at the upper most row). Without
  *   this flag, the popup is centered on the screen.
  *   The flag is passed by @ref popup_top.
- * - PF_FULLSCREEN makes the popup window as big as the whole screen.
+ * - PF_FULLSCREEN makes the window have a size of `FULL_SCREEN_WIDTH` and `FULL_SCREEN_HEIGHT`.
+ *   The `FULL_SCREEN` part is a misnomer from legacy code as the popup is not actually full-screen.
  *   This flag is passed by @ref full_screen_popup.
  * - PF_NONE is a placeholder for none of the above flags.
  *
@@ -847,6 +850,53 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabK
     }
     draw_tabs( w, ordered_tab_list, current_tab );
 }
+
+/**
+ * Produces the largest subset of a list of tabs (for draw_tabs or draw_subtab) that can be displayed within max_width
+ *
+ * Set up for display of crafting recipe categories and subcategories.  Provided with
+ * a list of tabs and the translated names, checks to see if they fit within max_width.
+ * If they don't, finds the largest sequential collection of tabs that fit within
+ * max_width and contain current_tab.  Since the function is already handling translated
+ * tab names, the translated strings can be returned instead of the generic identifiers.
+ * @param max_width The maximum width available for display of the tabs.  Currently assumes
+ * that this value includes a border.
+ * @param current_tab The generic identifier for the currently selected tab
+ * @param tab_names A map of translated tab names (generic identifier, translated name)
+ * @param original_tab_list a list of the generic identifiers of all tabs that we want
+ * to display
+ * @param translate Whether or not translated strings should be returned by the function.
+ * False by default.
+ * @return Return 1: A vector of tab identifiers or names that will fit within max_width and contain
+ * current_tab.
+ * @return Return 2 (optional): The index of the currently selected tab within return 1
+ */
+std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list, bool translate = false );
+std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab,
+        const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list, bool translate = false );
+
+struct best_fit {
+    int start;
+    int length;
+};
+/**
+ * Algorith for finding the largest subset of varied-length items that fit in allowed_size
+ *
+ * @param size_of_items_to_fit: how much space the entries take up.  In a vertical list, height.  In a horizontal list, width.
+ * @param selected: the index of the currently selected item.  This index will be included in the 'best-fitting' subset
+ * @param allowed_size: the total height/width in which the entries need to fit
+ * @param spacer_size: the size, if any, of the spacers between entries.  In a tabbed list, tab_step or equivalent.
+ * @param continuation_marker_size: If a continuation marker will be added to the beginning or end
+ * (e.g. "<" or ">" in a horizontal list, the length of that marker.
+ * @return best_fit.start: start index in size_of_items_to_fit for the 'best-fitting' subset
+ * @return best_fit.length: number of entries in size_of_items_to_fit in the 'best-fitting' subset
+ */
+best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, const int &selected,
+                                const int &allowed_size, const int &spacer_size = 0, const int &continuation_marker_size = 0 );
 
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, int iCurrentLine,

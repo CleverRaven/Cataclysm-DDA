@@ -22,7 +22,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "30 kg",
-        "description": "compartment for a UPS",
+        "description": "Compartment for an UPS.",
         "moves": 200
       },
       {
@@ -33,7 +33,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -44,7 +44,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -55,7 +55,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -66,7 +66,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -74,7 +74,7 @@
         "rigid": true,
         "max_contains_volume": "1100 ml",
         "max_contains_weight": "2 kg",
-        "description": "compartment for grenades",
+        "description": "Compartment for grenades.",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -84,7 +84,7 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "16500 g",
         "max_item_length": "154 cm",
-        "description": "integrated rifle case",
+        "description": "Integrated rifle case.",
         "moves": 100
       }
     ],
@@ -145,7 +145,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "30 kg",
-        "description": "compartment for a UPS",
+        "description": "Compartment for an UPS.",
         "moves": 200
       },
       {
@@ -156,7 +156,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -167,7 +167,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -178,7 +178,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -189,7 +189,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -197,7 +197,7 @@
         "rigid": true,
         "max_contains_volume": "1100 ml",
         "max_contains_weight": "2 kg",
-        "description": "compartment for grenades",
+        "description": "Compartment for grenades.",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -207,7 +207,7 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "16500 g",
         "max_item_length": "154 cm",
-        "description": "integrated rifle case",
+        "description": "Integrated rifle case.",
         "moves": 100
       }
     ],
@@ -309,7 +309,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "30 kg",
-        "description": "compartment for a UPS",
+        "description": "Compartment for an UPS.",
         "moves": 200
       },
       {
@@ -320,7 +320,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -331,7 +331,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -342,7 +342,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -353,7 +353,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -361,7 +361,7 @@
         "rigid": true,
         "max_contains_volume": "1100 ml",
         "max_contains_weight": "2 kg",
-        "description": "compartment for grenades",
+        "description": "Compartment for grenades.",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -371,7 +371,7 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "16500 g",
         "max_item_length": "154 cm",
-        "description": "integrated rifle case",
+        "description": "Integrated rifle case.",
         "moves": 100
       }
     ],
@@ -569,7 +569,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "30 kg",
-        "description": "compartment for a UPS",
+        "description": "Compartment for an UPS.",
         "moves": 200
       },
       {
@@ -580,7 +580,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -591,7 +591,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -602,7 +602,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -613,7 +613,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "description": "spring-loaded clamp",
+        "description": "Spring-loaded clamp.",
         "moves": 60
       },
       {
@@ -621,7 +621,7 @@
         "rigid": true,
         "max_contains_volume": "1100 ml",
         "max_contains_weight": "2 kg",
-        "description": "compartment for grenades",
+        "description": "Compartment for grenades.",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -631,7 +631,7 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "16500 g",
         "max_item_length": "154 cm",
-        "description": "integrated rifle case",
+        "description": "Integrated rifle case.",
         "moves": 100
       }
     ],

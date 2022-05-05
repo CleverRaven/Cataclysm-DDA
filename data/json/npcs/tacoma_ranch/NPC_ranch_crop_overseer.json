@@ -179,7 +179,7 @@
         "condition": { "not": { "u_has_items": { "item": "FMCNote", "count": 350 } } }
       },
       {
-        "text": "Maybe Later.",
+        "text": "Maybe later.",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 350 } }
       },

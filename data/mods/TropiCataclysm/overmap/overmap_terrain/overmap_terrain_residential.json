@@ -8,5 +8,15 @@
     "color": "i_green",
     "spawns": { "group": "GROUP_TRIFFID_URBAN", "population": [ 8, 12 ], "chance": 100 },
     "extend": { "flags": [ "GENERIC_LOOT" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "overtakenlot",
+    "copy-from": "generic_city_building",
+    "name": "overtaken lot",
+    "sym": "O",
+    "color": "i_green",
+    "spawns": { "group": "GROUP_FUNGI_URBAN", "population": [ 8, 12 ], "chance": 100 },
+    "extend": { "flags": [ "GENERIC_LOOT" ] }
   }
 ]

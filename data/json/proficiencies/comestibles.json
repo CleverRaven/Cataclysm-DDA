@@ -74,7 +74,7 @@
     "id": "prof_frying",
     "category": "prof_food",
     "name": { "str": "Principles of Frying" },
-    "description": "Anyone can toss stuff into deep frier oil.  You know more about selecting oil, keeping the food from burning, and the like.",
+    "description": "Anyone can toss stuff into deep fryer oil.  You know more about selecting oil, keeping the food from burning, and the like.",
     "can_learn": true,
     "default_time_multiplier": 1.1,
     "default_fail_multiplier": 1.1,

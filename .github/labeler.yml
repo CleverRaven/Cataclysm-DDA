@@ -5,6 +5,16 @@
 "[JSON]":
   - "**/*.json"
 
+"[Markdown]":
+  - "**/*.md"
+
+"Game: Achievements / Conducts / Scores":
+  - "**/scores**"
+  - "**/statistics**"
+  - "**/achievements**"
+  - "**/conducts**"
+  - "**/event_statistics.*"
+
 "[Python]":
   - "**/*.py"
 
@@ -21,6 +31,10 @@
 "Code: Tests":
   - tests/**/*
 
+"Character / World Generation":
+  - src/newcharacter.cpp
+  - "**/worldfactory.*"
+
 "Code: Build":
   - build-data/**/*
   - build-scripts/**/*
@@ -35,20 +49,66 @@
   - data/json/construction_group.json
   - data/json/deconstruction.json
 
+
+"EOC: Effects On Condition":
+  - "**/**effect_on_condition**"
+  - "**/**eocs**"
+
+"Fields / Furniture / Terrain / Traps":
+  - "**/furniture**"
+
+"Items: Food / Vitamins":
+  - "**/food**"
+  - "**/comestibles**"
+
 "NPC / Factions":
-  - "**/npcs/**/*"
+  - "**/npc**"
+
+"Melee":
+  - "**/melee**"
+  - "**/**techniques**"
+
+"Missions":
+  - "**/**mission**"
 
 "Info / User Interface":
   - "**/ui/**/*"
+  - "src/**ui**"
   - "**/widget/**/*"
   - "src/list_view.*"
   - "src/surroundings_menu.*"
+
+"Items: Archery":
+  - "**/**archery**"
+  - "**/**crossbows**"
+
+"Items: Armor / Clothing":
+  - "**/armor/**/*"
+
+"Items: Battery / UPS":
+  - "**/battery**"
+
+"Items: Containers":
+  - "**/**containers**"
+  - "**/**storage**"
+  - "**/**sheath**"
+  - "**/**holster**"
+  - "**/**ammo_pouch**"
+  - "**/**bandolier**"
+
+"Items: Magazines":
+  - "**/magazine/**/*"
 
 "Appliance/Power Grid":
   - "**/appliance**"
 
 "Monsters":
   - "**/monsters/**/*"
+
+"Mutations / Traits / Professions/ Hobbies":
+  - "**/professions.json"
+  - "**mutations**"
+  - "**hobbies**"
 
 "Lore":
   - data/json/npcs/BG_trait_groups.json
@@ -72,6 +132,10 @@
   - "**/mapgen/**/*"
   - "**/mapgen_palettes/**/*"
   - "**/overmap/**/*"
+  - "**/overmap**"
+
+"Martial Arts":
+  - "**/martialarts**"
 
 "Player Faction Base / Camp":
   - "src/basecamp.*"
@@ -82,9 +146,17 @@
   - "**/gun/**/*"
   - "**/ammo/**/*"
 
+"Items: Gunmod / Toolmod":
+  - "**/gunmod**"
+  - "**/toolmod**"
+
 "SDL: Tiles / Sound":
   - gfx/**/*
   - sound/**/*
+
+"Scenarios":
+  - "**/scenario**"
+  - "**/**start_location**"
 
 "Translation":
   - lang/**/*
@@ -106,6 +178,9 @@
 "Mods: Generic Guns":
   - data/mods/Generic_Guns/**/*
 
+"Mods: MA":
+  - data/mods/MA/**/*
+
 "Mods: MMA":
   - data/mods/MMA/**/*
 
@@ -118,5 +193,21 @@
 "Mods: No Hope":
   - data/mods/No_Hope/**/*
 
+"Mods: TropiCataclysm 🌴":
+  - data/mods/TropiCataclysm/**/*
+  
+"Mods: Tamable Wildlife":
+  - data/mods/Tamable_Wildlife/**/*
+
 "Mods":
   - data/mods/**/*
+
+"Mechanics: Enchantments / Spells":
+  - "**/enchantments**"
+  - "**/spells**"
+
+"Mechanics: Weather":
+  - "**/weather**"
+
+"Vehicles":
+  - "**/vehicle**"

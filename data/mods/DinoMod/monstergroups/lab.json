@@ -92,6 +92,7 @@
         "starts": "90 days",
         "pack_size": [ 2, 3 ]
       },
+      { "monster": "mon_dromaeosaurus_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       {
         "monster": "mon_stenonychosaurus_bio_op",
         "weight": 100,

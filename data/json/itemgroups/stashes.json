@@ -75,21 +75,34 @@
     "subtype": "distribution",
     "//": "randomized assortment of possible bugout bags people would have as the apocalypse ramped up",
     "entries": [
-      { "group": "small_bugout_bag", "prob": 50 },
+      {
+        "distribution": [ { "group": "small_bugout_bag_1" }, { "group": "small_bugout_bag_2" }, { "group": "small_bugout_bag_3" } ],
+        "prob": 50
+      },
       { "group": "medium_bugout", "prob": 40 },
       { "group": "heavy_bugout", "prob": 10 }
     ]
   },
   {
-    "id": "small_bugout_bag",
+    "id": "small_bugout_bag_1",
     "type": "item_group",
-    "//": "select a bag for a light bugout",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "backpack", "contents-group": "small_bugout", "prob": 100 },
-      { "item": "daypack", "contents-group": "small_bugout", "prob": 100 },
-      { "item": "backpack_leather", "contents-group": "small_bugout", "prob": 100 }
-    ]
+    "container-item": "backpack",
+    "on_overflow": "spill",
+    "items": [ { "group": "small_bugout" } ]
+  },
+  {
+    "id": "small_bugout_bag_2",
+    "type": "item_group",
+    "container-item": "daypack",
+    "on_overflow": "spill",
+    "items": [ { "group": "small_bugout" } ]
+  },
+  {
+    "id": "small_bugout_bag_3",
+    "type": "item_group",
+    "container-item": "backpack_leather",
+    "on_overflow": "spill",
+    "items": [ { "group": "small_bugout" } ]
   },
   {
     "id": "small_bugout",
@@ -273,6 +286,7 @@
       [ "hat_ball", 50 ],
       [ "football", 50 ],
       [ "baseball", 50 ],
+      [ "shuttlecock", 5 ],
       [ "jersey", 50 ],
       [ "helmet_football", 50 ],
       [ "mask_hockey", 50 ],
