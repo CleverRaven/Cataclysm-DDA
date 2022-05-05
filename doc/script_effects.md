@@ -39,17 +39,32 @@ TK: Explain why and show examples.
 This format of variable should be slowly deprecated in favour of arithmetic variable objects.
 TK: Explain why and show examples.
 
-#### Arithmetic Variable Objects
-A `variable_object` is either an object or array describing a variable name.  As a standard JSON object it will look something like this: `{ "u_val":"test", "default": 1 }`
-- It can either describe an int or a time duration. 
+#### Variable Objects
+A `variable_object` is either an object or array describing a variable name.  As a standard JSON object it will look something like this: 
+  `{ "u_val":"test", "default": 1 }`
+- It can either describe an int (or a time duration. 
 - If it is an array (eg. `[5, 10]`) it must have 2 values the first of which will be a **minimum** and the second will be a **maximum**, and the actual value will be a random number between the two. 
 - If it is an int, `default` is a required additional field specifying an int which will be the value returned if the variable is not defined. 
 - If is it a duration then `default` can be either an int or a string describing a time span. 
 
 `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
 
+A `varialbe_object` can be defined independent of another effect using the `arithmetic` effect, eg;
+`{ "arithmetic": [ { "global_val": "var", "var_name": "example" }, "=", { "const": 15 } ] },` - this sets the global_val "example" to be equal to 15.
 
-example json:
+##### Example 1
+```
+"queue_eocs": "EOC_Do_a_thing_eventually",
+"time_in_future": [
+  { "global_val": "min_wait", "default": "2 hours" },
+  { "global_val": "max_wait", "default": "4 hours" }
+]
+```
+Here we have an effect that will call an EoC at some random time in the future.
+This effect uses an array in `variable_object` and each of the array entries is a separate `variable_object` specifying a time unit. If neither min_ nor max_wait is specified, this will choose a random time between 2 and 4 hours. If either of those durations have been set as a different time, it will use those variable durations instead.
+
+##### Example 2
+
 ```json
 "effect": [
   { "u_mod_focus": { "u_val":"test", "default": 1 } },
@@ -61,7 +76,13 @@ example json:
 ]
 
 ```
-TK: Add more examples.
+In this example, we do two changes to the avatar's focus. 
+
+- First, we adjust it by whatever is stored in the `u_val` variable with `var_name` "test". If "test" is not defined, we mod it by 1.
+- Second, we mod focus again, by a random number from 0 to either the `test` variable or, again, the default 1.
+
+Then, we have a more complex effect that, for duration, uses a global time variable `test2`. This variable has multiple optional name fields (`type` and `context`) which exist to help prevent a common test variable name from getting reused. In this case rather than an int, we use a standardized time unit.
+
 
 #### Location Variables
 These are a subtype of `variable_object` that specifies an x,y,z coordinate on the map.  They can be used for all kinds of things.
