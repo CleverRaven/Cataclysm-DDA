@@ -22,7 +22,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ] ] ]
+    "components": [ [ [ "bone", 1 ] ] ]
   },
   {
     "type": "recipe",
