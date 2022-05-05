@@ -43,10 +43,13 @@ A `variable_object` is either an object or array describing a variable name.  As
 
 example json:
 ```json
-"effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
+"effect": [
+  { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
-  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" } ]
+  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" } 
+]
+
 ```
 TK: Add more examples.
 
