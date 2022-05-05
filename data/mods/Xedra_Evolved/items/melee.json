@@ -1,14 +1,14 @@
 [
   {
     "id": "glass_knife",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "glasknife", "str_pl": "glasknives" },
     "description": "This is a knife that appears to be made of glass, it's much more durable than glass appearing to be some sort of crystal with the strength of metal.",
     "copy-from": "knife_combat",
     "volume": "500 ml",
     "longest_side": "30 cm",
-    "price": 10000,
+    "price": 100000,
     "price_postapoc": 1250,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "proportional": { "cutting": 1.1, "price": 5, "weight": 0.8 },
