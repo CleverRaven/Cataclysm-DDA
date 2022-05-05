@@ -40,8 +40,9 @@ This format of variable should be slowly deprecated in favour of arithmetic vari
 TK: Explain why and show examples.
 
 #### Variable Objects
-A `variable_object` is either an object or array describing a variable name.  As a standard JSON object it will look something like this: 
+A `variable_object` is either an object or array describing a variable name.  As a standard JSON object it will look something like this:<br />
   `{ "u_val":"test", "default": 1 }`
+  
 - It can either describe an int (or a time duration. 
 - If it is an array (eg. `[5, 10]`) it must have 2 values the first of which will be a **minimum** and the second will be a **maximum**, and the actual value will be a random number between the two. 
 - If it is an int, `default` is a required additional field specifying an int which will be the value returned if the variable is not defined. 
@@ -49,7 +50,7 @@ A `variable_object` is either an object or array describing a variable name.  As
 
 `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
 
-A `varialbe_object` can be defined independent of another effect using the `arithmetic` effect, eg;
+A `variable_object` can be defined independent of another effect using the `arithmetic` effect, eg;
 `{ "arithmetic": [ { "global_val": "var", "var_name": "example" }, "=", { "const": 15 } ] },` - this sets the global_val "example" to be equal to 15.
 
 ##### Example 1
