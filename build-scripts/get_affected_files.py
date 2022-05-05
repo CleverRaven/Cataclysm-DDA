@@ -37,6 +37,12 @@ class IncludesParser:
                 set(),
             ).add(source_file_path)
 
+        # A source file also 'includes' itself
+        self.includes_to_sources.setdefault(
+            source_file_path,
+            set(),
+        ).add(source_file_path)
+
     # Parses includes files from a given folder
     # Maps include file path to a source file path by converting
     # folder_path/*.inc -> file_path_prefix/*.cpp
