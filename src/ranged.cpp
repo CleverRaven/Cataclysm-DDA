@@ -92,7 +92,6 @@ static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
 static const ammotype ammo_metal_rail( "metal_rail" );
 
-
 static const bionic_id bio_railgun( "bio_railgun" );
 
 static const character_modifier_id

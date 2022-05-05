@@ -2275,6 +2275,13 @@
   },
   {
     "type": "keybinding",
+    "name": "View body status",
+    "category": "DEFAULTMODE",
+    "id": "bodystatus",
+    "bindings": [ { "input_method": "keyboard_char", "key": "{" }, { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Sort armor",
     "category": "DEFAULTMODE",
     "id": "sort_armor",

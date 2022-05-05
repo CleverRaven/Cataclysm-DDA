@@ -10,6 +10,7 @@
 #include "options.h"
 #endif
 
+#include "unicode.h"
 #include "wcwidth.h"
 
 static bool is_linebreak( const uint32_t uc )
@@ -19,12 +20,12 @@ static bool is_linebreak( const uint32_t uc )
 
 static bool break_before( const uint32_t uc )
 {
-    return uc >= 0x2E80;
+    return is_cjk_or_emoji( uc );
 }
 
 static bool break_after( const uint32_t uc )
 {
-    return uc == ' ' || uc >= 0x2E80;
+    return uc == ' ' || is_cjk_or_emoji( uc );
 }
 
 static bool is_word( const uint32_t uc )

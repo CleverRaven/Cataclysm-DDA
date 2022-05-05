@@ -452,12 +452,13 @@
     "id": "prisonbreak",
     "name": "Prison",
     "points": -4,
-    "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight… you might need to expedite your escape plans.",
+    "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the police officers joined hands with them… you might need to expedite your escape plans.",
     "allowed_locs": [ "sloc_prison" ],
     "start_name": "Prison",
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_assassin",
       "convict_embezzler",
       "convict_drugs",
       "convict_political",
@@ -478,6 +479,7 @@
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_assassin",
       "convict_embezzler",
       "convict_drugs",
       "convict_political",
