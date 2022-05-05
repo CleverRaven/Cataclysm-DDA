@@ -1643,6 +1643,27 @@
     "material": [ "bone" ]
   },
   {
+    "type": "GENERIC",
+    "id": "spike_bone",
+    "name": { "str": "bone spike" },
+    "description": "A slightly misshapen bone spike, could be useful in crafting.",
+    "category": "spare_parts",
+    "weight": "112 g",
+    "to_hit": -2,
+    "color": "white",
+    "symbol": ";",
+    "material": [ "bone" ],
+    "volume": "125 ml",
+    "bashing": 1,
+    "cutting": 3,
+    "flags": [ "STAB" ],
+    "qualities": [ [ "BUTCHER", -42 ] ],
+    "longest_side": "20 cm",
+    "price_postapoc": 5,
+    "milling": { "into": "meal_bone", "conversion_rate": 2 },
+    "vitamins": [ [ "calcium", 48 ] ]
+  },
+  {
     "id": "meat_fried",
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",
