@@ -97,21 +97,28 @@ When editing this document please attempt to list effects alphabetically, but ke
 
 #### Missions
 
-Effect | Description | Example
+Effect | Argument | Options | Description | Example
 ---|---|---
-`assign_mission` | Assigns a previously selected mission to your character. | `"assign_mission": "mission_id"`
-`clear_mission` | Clears the mission from the your character's assigned missions. | `"clear_mission": "mission_id"`
-`mission_failure` | Resolves the current mission as a failure. | `"mission_failure": "mission_id"`
-`mission_reward` | Gives the player the mission's reward. | `"mission_reward": "mission_id"`
-`mission_success` | Resolves the current mission successfully. | `"mission_success": "mission_id"`
+`assign_mission` | `mission_type_id string` | none | Assigns a mission to your avatar. | `"assign_mission": "mission_id"`
+`clear_mission` | `mission_type_id string` | none | Clears the mission from the your avatar's assigned missions. | `"clear_mission": "mission_id"`
+`mission_failure` | `mission_type_id string` | none | Resolves the mission as a failure. | `"mission_failure": "mission_id"`
+`mission_reward` | `mission_type_id string` | none | Gives the avatar the mission's reward. | `"mission_reward": "mission_id"`
+`mission_success` | `mission_type_id string` | none | Resolves the current mission successfully. | `"mission_success": "mission_id"`
+`finish_mission` | `mission_type_id string` | `success: success_bool`<br />`step: step_int` | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed. | `"finish_mission": "mission_id", "success": true`
+`offer_mission` | `mission_type_id` string or array | none | Adds mission_type_id(s) to the npc's missions that they offer in their sequential mission list. | `"offer_mission": [ "mission_id1", "mission_id2" ]`
 
 #### Morale and Cosmetic
 
 Effect | Description
 ---|---
+`barber_hair` | Opens a menu allowing the player to choose a new hair style.
+`barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `buy_haircut` | Gives your character a haircut morale boost for 12 hours.
 `buy_shave` | Gives your character a shave morale boost for 6 hours.
 `morale_chat` | Gives your character a pleasant conversation morale boost for 6 hours.
+`u_add_morale: morale_string`, (*optional* `bonus: bonus_int` ), (*optional* `max_bonus: max_bonus_int or max_bonus_variable_object` ), (*optional* `duration: duration_string or duration_variable_object`), (*optional* `decay_start` : `decay_string or decay_variable_object`), (*optional* `capped`: `capped_bool`)<br/> `npc_add_morale: morale_string`, (*optional* `bonus: bonus_int or bonus_variable_object` ), (*optional* `max_bonus: max_bonus_int` ), (*optional* `duration: duration_int`), (*optional*`decay_start` : `decay_int`), (*optional* `capped`: `capped_bool`)| Your character or the NPC will gain a morale bonus of type `morale_string`. Morale is changed by `bonus_int`( or the value of the variable described by `bonus_variable_object` see `variable_object` above) (default 1), with a maximum of up to `max_bonus_int`(or `max_bonus_variable_object`)  (default 1). It will last for `duration: duration_string` time (default 1 hour) or `duration_variable_object`. It will begin to decay after `decay_string` time (default 30 minutes) or `decay_variable_object`. `capped_bool` Whether this morale is capped or not, defaults to false.
+`u_lose_morale: morale_string`<br/>`npc_lose_morale: morale_string` | Your character or the NPC will lose any morale of type `morale_string`.
+`u_add_faction_trust: amount_int`<br/>`u_lose_faction_trust: amount_int` | Your character gains or loses trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
 
 #### Wounds and Healing
 
@@ -123,23 +130,18 @@ Effect | Description
 `lesser_give_aid` | Removes bleeding from your character's body and heals 5-15 HP of injury on each of your character's body parts.
 `lesser_give_aid_all` | Performs `lesser_give_aid` on each of your character's NPC allies in range.
 
-#### Wielding/Wearing
-
-Effect | Description
----|---
-`player_weapon_away` | Makes your character put away (unwield) their weapon.
-`player_weapon_drop` | Makes your character drop their weapon.
-
 #### Mutations/Traits/Bionics
 
 Note: Mutations are traits. The difference between "adding a trait" and "mutating" is that mutation takes time and is accompanied by special messages, while a trait should be added instantly without announcement.
 
 Effect | Argument | Options | Description | Example
 ---|---|---|---|---
-`u_add_bionic`, `npc_add_bionic` | `bionic_string` | none | Your character or the NPC will gain the bionic.| `"u_add_bionic": "cbm1"`
-`u_lose_bionic`, `npc_lose_bionic` | `bionic_string` | none | Your character or the NPC will lose the bionic.| `"u_lose_bionic": "cbm1"`
-`u_add_trait`, `npc_add_trait` | `trait_string` | none | Your character or the NPC will gain the trait.| `"u_add_trait": "egtrait"`
-`u_lose_trait`, `npc_lose_trait | `trait_string` | none | Your character or the NPC will lose the trait.| `"u_lose_trait": "egtrait"`
+`bionic_install` | none | none | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
+`bionic_remove` | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
+`u_add_bionic`, `npc_add_bionic` | `bionic_string` | none | Your avatar or the NPC will gain the bionic.| `"u_add_bionic": "cbm1"`
+`u_lose_bionic`, `npc_lose_bionic` | `bionic_string` | none | Your avatar or the NPC will lose the bionic.| `"u_lose_bionic": "cbm1"`
+`u_add_trait`, `npc_add_trait` | `trait_string` | none | Your avatar or the NPC will gain the trait.| `"u_add_trait": "egtrait"`
+`u_lose_trait`, `npc_lose_trait | `trait_string` | none | Your avatar or the NPC will lose the trait.| `"u_lose_trait": "egtrait"`
 `u_mutate`, `npc_mutate: | `chance_int` | `use_vitamins: vitamin_bool` (default true) | Your avatar or the NPC will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated.| `"u_mutate": "egtrait", "use_vitamins": false`
 `u_mutate_category`, `npc_mutate_category` | `category_str` | `use_vitamins: vitamin_bool` (default true)| Your avatar or the NPC will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated.| `"u_mutate_category": "example_traits", "use_vitamins": false`
 
@@ -159,16 +161,11 @@ Effect | Description
 ---|---
 `u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`),(*optional* `target_part: target_part_string`, `intensity: intensity_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`), (*optional* `target_part: target_part_string`, `force: force_bool`, `intensity: intensity_int or intensity_variable_object`) | Your character or the NPC will gain the effect for `duration_string` or the value of the variable described by `duration_object` see `variable_object` above, turns at intensity `intensity_int` (or the value of the variable described by `intensity_variable_object` see `variable_object` above) or 0 if it was not supplied. If `force_bool` is true(defaults false) immunity will be ignored. If `target_part` is supplied that part will get the effect otherwise its a whole body effect. If `target_part` is `RANDOM` a random body part will be used. If `duration_string` is `"PERMANENT"`, the effect will be added permanently.
 `u_lose_effect: effect_string`<br/>`npc_lose_effect: effect_string` | Your character or the NPC will lose the effect if they have it.
-`barber_hair` | Opens a menu allowing the player to choose a new hair style.
-`barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
 `npc_first_topic: talk_topic_string` | Changes the initial talk_topic of the NPC in all future dialogues.
 `u_add_wet: wet_int`<br/>`npc_add_wet: wet_int or wet_variable_object` | Your character or the NPC will be wet `wet_int` (or the value of the variable described by `wet_variable_object` see `variable_object` above) as if they were in the rain.
 `u_make_sound, npc_make_sound: message_string`, `volume: volume_int`, `type: type_string`,*optional* `target_var: target_var_object`, *optional* `snippet: snippet_bool`, *optional* `same_snippet: same_snippet_bool`  | A sound of description `message_string` will be made at your character or the NPC's location of volume `volume_int` and type `type_string`. Possible types are: background, weather, music, movement, speech, electronic_speech, activity, destructive_activity, alarm, combat, alert, or order. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set)
 `u_mod_healthy, npc_mod_healthy : amount_int or amount_variable_object, cap: cap_int or cap_variable_object` | Your character or the NPC will have `amount_int` ( or the value of the variable described by `amount_variable_object` see `variable_object` above) added or subtracted from its health value, but not beyond `cap_int` or `cap_variable_object`.
-`u_add_morale: morale_string`, (*optional* `bonus: bonus_int` ), (*optional* `max_bonus: max_bonus_int or max_bonus_variable_object` ), (*optional* `duration: duration_string or duration_variable_object`), (*optional* `decay_start` : `decay_string or decay_variable_object`), (*optional* `capped`: `capped_bool`)<br/> `npc_add_morale: morale_string`, (*optional* `bonus: bonus_int or bonus_variable_object` ), (*optional* `max_bonus: max_bonus_int` ), (*optional* `duration: duration_int`), (*optional*`decay_start` : `decay_int`), (*optional* `capped`: `capped_bool`)| Your character or the NPC will gain a morale bonus of type `morale_string`. Morale is changed by `bonus_int`( or the value of the variable described by `bonus_variable_object` see `variable_object` above) (default 1), with a maximum of up to `max_bonus_int`(or `max_bonus_variable_object`)  (default 1). It will last for `duration: duration_string` time (default 1 hour) or `duration_variable_object`. It will begin to decay after `decay_string` time (default 30 minutes) or `decay_variable_object`. `capped_bool` Whether this morale is capped or not, defaults to false.
-`u_lose_morale: morale_string`<br/>`npc_lose_morale: morale_string` | Your character or the NPC will lose any morale of type `morale_string`.
-`u_add_faction_trust: amount_int`<br/>`u_lose_faction_trust: amount_int` | Your character gains or loses trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
 `u_message, npc_message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`),(*optional* `same_snippet: snippet_bool`,(*optional* `type: type_string`),(*optional* `popup: popup_bool`) | Displays a message to either the player or the npc of `message_string`.  Will not display unless the player or npc is the actual player.  If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set).  If `sound` is true (defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground. Message will display as type of `type_string`. Type affects the color of message and can be any of the following values: good, neutral, bad, mixed, warning, info, debug, headshot, critical, grazing.  enums.h has more info on each types use. If `popup_bool` is true the message will be in a modal popup the user has to dismiss to continue.  You can use any of the  Special Custom Entries(defined above).
 `u_cast_spell, npc_cast_spell : fake_spell_data`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | The spell described by fake_spell_data will be cast with u or the npc as the caster and u or the npc's location as the target.  Fake spell data can have the following attributes: `id:string`: the id of the spell to cast, (*optional* `hit_self`: bool ( defaults to false ) if true can hit the caster, `trigger_message`: string to display on trigger, `npc_message`: string for message if npc uses, `max_level` int max level of the spell, `min_level` int min level of the spell ).  If the spell is cast, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_assign_activity, npc_assign_activity: activity_id_string`, `duration: duration_string or duration_variable_object`) | Your character or the NPC will start activity `activity_id_string`. It will last for `duration: duration_string` time or `duration_variable_object`.
@@ -181,7 +178,6 @@ Effect | Description
 `start_trade` | Opens the trade screen and allows trading with the NPC.
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
-`npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `u_spawn_item: item_string`, (*optional* `count: count_num`, *optional* `container: container_string`) | Your character gains the item or `count_num` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.
 `u_buy_item: item_string`, (`cost: cost_num`, *optional* `count: count_num`, *optional* `container: container_string`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`) | The NPC will sell your character the item or `count_num` copies of the item, contained in `container`, and will subtract `cost_num` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost_num`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost_num` is satisfied.
 `u_sell_item: item_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to the NPC's `op_of_u.owed` if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with.  If the item is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
@@ -193,7 +189,16 @@ Effect | Description
 `u_remove_item_with`, `npc_remove_item_with: item_string` | You or the NPC will delete any instances of item in inventory.<br/>This is an unconditional remove and will not fail if you or the NPC does not have the item.
 `u_buy_monster: monster_type_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`, *optional* `name: name_string`, *optional* `pacified: pacified_bool`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`) | The NPC will give your character `count_num` (default 1) instances of the monster as pets and will subtract `cost_num` from `op_of_u.owed` if specified.  If the `op_o_u.owed` is less than `cost_num`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost_num` is satisfied.<br/>If cost isn't present, the NPC gives your character the item at no charge.<br/>If `name_string` is specified the monster(s) will have the specified name. If `pacified_bool` is set to true, the monster will have the pacified effect applied.  If the monster is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 
-#### Behavior / AI
+#### Wielding/Wearing
+
+Effect | Description
+---|---
+`drop_weapon` | Makes the NPC drop their weapon.
+`npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
+`player_weapon_away` | Makes your character put away (unwield) their weapon.
+`player_weapon_drop` | Makes your character drop their weapon.
+
+#### Behavior / AI Commands
 
 Effect | Description
 ---|---
@@ -213,7 +218,6 @@ Effect | Description
 `follow_only` | Makes the NPC follow your character without changing factions.
 `stop_following` | Makes the NPC stop following your character without changing factions.
 `npc_thankful` | Makes the NPC positively inclined toward your character.
-`drop_weapon` | Makes the NPC drop their weapon.
 `stranger_neutral` | Changes the NPC's attitude to neutral.
 `start_mugging` | The NPC will approach your character and steal from your character, attacking if your character resists.
 `lead_to_safety` | The NPC will gain the LEAD attitude and give your character the mission of reaching safety.
@@ -222,8 +226,6 @@ Effect | Description
 `start_training_seminar` | Opens a dialog to select which characters will participate in the training seminar hosted by this NPC.
 `companion_mission: role_string` | The NPC will offer you a list of missions for your allied NPCs, depending on the NPC's role.
 `basecamp_mission` | The NPC will offer you a list of missions for your allied NPCs, depending on the local basecamp.
-`bionic_install` | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
-`bionic_remove` | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
 `npc_class_change: class_string` | Change the NPC's faction to `class_string`.
 `npc_faction_change: faction_string` | Change the NPC's faction membership to `faction_string`.
 `u_faction_rep: rep_num` | Increases your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
@@ -254,9 +256,6 @@ Effect | Description
 `open_dialogue`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`. Opens up a dialog between the participants. This should only be used in effect_on_conditions.  If the dialog is opened, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `take_control`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`. If the npc is a character then take control of them and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `take_control_menu`. Opens up a menu to choose a follower to take control of.
-`assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
-`finish_mission: mission_type_id string`,(*optional* `success: success_bool` ), (*optional `step: step_int`)  | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
-`offer_mission" mission_type_id string or array`. Adds mission_type_id(s) to the npc's missions that they offer.
 `run_eocs : effect_on_condition_array or single effect_condition_object` | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: time_in_future_int or string or variable_object` | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` seconds or if it is a string the future values of them or if they are variable objects the variable they name.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `npcs_to_affect: npcs_to_affect_string_array`, (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: npc_range_int`) | Will run all members of the `effect_on_condition_array` on nearby npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If any names are listed in `npcs_to_affect` then only they will be affected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
