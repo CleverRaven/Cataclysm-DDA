@@ -116,13 +116,12 @@ Effect | Description
 `buy_haircut` | Gives your character a haircut morale boost for 12 hours.
 `buy_shave` | Gives your character a shave morale boost for 6 hours.
 `morale_chat` | Gives your character a pleasant conversation morale boost for 6 hours.
-`u_lose_morale: morale_string`<br/>`npc_lose_morale: morale_string` | Your character or the NPC will lose any morale of type `morale_string`.
-`u_add_faction_trust: amount_int`<br/>`u_lose_faction_trust: amount_int` | Your character gains or loses trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
 
 
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`u_add_morale`<br />`npc_add_morale` | `morale_string` | `bonus`, `max_bonus`: `int` or `variable_object`<br />`duration`,`decay_start`: `time` or `variable_object`<br />`capped`: `bool` | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (default false).
+`u_add_morale`<br />`npc_add_morale` | `morale_string` | `bonus`, `max_bonus`: `int` or `variable_object`<br />`duration`,`decay_start`: `time` or `variable_object`<br />`capped`: `bool` | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (default false).| `"u_add_morale": "petted_dog", "bonus": 20, "max_bonus": 50, "duration": "5 min", "decay_start": "1 min", "capped": true`
+`u_lose_morale`, `npc_lose_morale` | `morale_string` | none |Target will lose any morale of type `morale_string`.| `"u_lose_morale": "petted_dog"`
 
 #### Wounds and Healing
 
@@ -181,6 +180,7 @@ Effect | Description
 `u_cast_spell, npc_cast_spell : fake_spell_data`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | The spell described by fake_spell_data will be cast with u or the npc as the caster and u or the npc's location as the target.  Fake spell data can have the following attributes: `id:string`: the id of the spell to cast, (*optional* `hit_self`: bool ( defaults to false ) if true can hit the caster, `trigger_message`: string to display on trigger, `npc_message`: string for message if npc uses, `max_level` int max level of the spell, `min_level` int min level of the spell ).  If the spell is cast, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_assign_activity, npc_assign_activity: activity_id_string`, `duration: duration_string or duration_variable_object`) | Your character or the NPC will start activity `activity_id_string`. It will last for `duration: duration_string` time or `duration_variable_object`.
 `u_teleport, npc_teleport: target_var_object`, (*optional* `success_message: success_message_string`), (*optional* `fail_message: fail_message_string`) | u or npc are teleported to the destination stored in the variable named by `target_var`.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If the teleport succeeds and `success_message` is defined it will be displayed, if it fails and `fail_message` is defined it will be displayed.
+`u_add_faction_trust: amount_int`<br/>`u_lose_faction_trust: amount_int` | Your character gains or loses trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
 
 #### Trade / Items
 
