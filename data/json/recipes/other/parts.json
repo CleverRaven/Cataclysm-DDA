@@ -15,6 +15,19 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "spike_bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "30 m",
+    "reversible": false,
+    "autolearn": true,
+    "qualities": [ { "id": "CUTTING", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "blade",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
