@@ -45,6 +45,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npctrade_utils.h"
 #include "optional.h"
 #include "output.h"
 #include "overmap.h"
@@ -1755,15 +1756,17 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
 
+    std::list<item> to_distribute;
     for( item i : all_returned_items ) {
         // Scavengers get most items and put them up for sale, player gets the scraps
         if( one_in( 8 ) ) {
             player_character.i_drop_at( i );
         } else {
             i.set_owner( p );
-            p.i_add_or_drop( i );
+            to_distribute.push_back( i );
         }
     }
+    distribute_items_to_npc_zones( to_distribute, p );
 
     item merch = item( itype_FMCNote );
     player_character.i_add_or_drop( merch, merch_amount );
