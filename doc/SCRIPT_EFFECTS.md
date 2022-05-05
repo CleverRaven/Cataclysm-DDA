@@ -134,10 +134,10 @@ Effect | Description
 
 Note: Mutations are traits. The difference between "adding a trait" and "mutating" is that mutation takes time and is accompanied by special messages, while a trait should be added instantly without announcement.
 
-Effect | Argument | Options | Description | Example
+Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`bionic_install` | none | none | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
-`bionic_remove` | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
+`bionic_install` | none | none | Open trade dialogue; NPC installs a bionic from avatar's inventory onto avatar, using very high skill, and charging according to difficulty.
+`bionic_remove` | none | none | Open trade dialogue; NPC removes a bionic from avatar, using very high skill, and charging according to difficulty.
 `u_add_bionic`, `npc_add_bionic` | `bionic_string` | none | Your avatar or the NPC will gain the bionic.| `"u_add_bionic": "cbm1"`
 `u_lose_bionic`, `npc_lose_bionic` | `bionic_string` | none | Your avatar or the NPC will lose the bionic.| `"u_lose_bionic": "cbm1"`
 `u_add_trait`, `npc_add_trait` | `trait_string` | none | Your avatar or the NPC will gain the trait.| `"u_add_trait": "egtrait"`
