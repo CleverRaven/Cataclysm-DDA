@@ -944,7 +944,7 @@ $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
-	make -C tests includes
+	+make -C tests includes
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
