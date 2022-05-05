@@ -82,7 +82,7 @@ struct construction {
         // Custom constructibility check
         std::function<bool( const tripoint & )> pre_special;
         // Custom after-effects
-        std::function<void( const tripoint & )> post_special;
+        std::function<void( const tripoint &, Character & )> post_special;
         // Custom error message display
         std::function<void( const tripoint & )> explain_failure;
         // Whether it's furniture or terrain

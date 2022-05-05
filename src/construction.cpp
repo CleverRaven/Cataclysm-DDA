@@ -131,24 +131,24 @@ bool check_ramp_high( const tripoint & );
 bool check_no_wiring( const tripoint & );
 
 // Special actions to be run post-terrain-mod
-static void done_nothing( const tripoint & ) {}
-void done_trunk_plank( const tripoint & );
-void done_grave( const tripoint & );
-void done_vehicle( const tripoint & );
-void done_appliance( const tripoint & );
-void done_wiring( const tripoint & );
-void done_deconstruct( const tripoint & );
-void done_digormine_stair( const tripoint &, bool );
-void done_dig_stair( const tripoint & );
-void done_mine_downstair( const tripoint & );
-void done_mine_upstair( const tripoint & );
-void done_wood_stairs( const tripoint & );
-void done_window_curtains( const tripoint & );
-void done_extract_maybe_revert_to_dirt( const tripoint & );
-void done_mark_firewood( const tripoint & );
-void done_mark_practice_target( const tripoint & );
-void done_ramp_low( const tripoint & );
-void done_ramp_high( const tripoint & );
+static void done_nothing( const tripoint &, Character & ) {}
+void done_trunk_plank( const tripoint &, Character & );
+void done_grave( const tripoint &, Character & );
+void done_vehicle( const tripoint &, Character & );
+void done_appliance( const tripoint &, Character & );
+void done_wiring( const tripoint &, Character & );
+void done_deconstruct( const tripoint &, Character & );
+void done_digormine_stair( const tripoint &, bool, Character & );
+void done_dig_stair( const tripoint &, Character & );
+void done_mine_downstair( const tripoint &, Character & );
+void done_mine_upstair( const tripoint &, Character & );
+void done_wood_stairs( const tripoint &, Character & );
+void done_window_curtains( const tripoint &, Character & );
+void done_extract_maybe_revert_to_dirt( const tripoint &, Character & );
+void done_mark_firewood( const tripoint &, Character & );
+void done_mark_practice_target( const tripoint &, Character & );
+void done_ramp_low( const tripoint &, Character & );
+void done_ramp_high( const tripoint &, Character & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -1151,7 +1151,7 @@ void complete_construction( Character *you )
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built.post_special( terp );
+    built.post_special( terp, *you );
     // npcs will automatically resume backlog, players wont.
     if( you->is_avatar() && !you->backlog.empty() &&
         you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -1272,7 +1272,7 @@ bool construct::check_no_wiring( const tripoint &p )
     return !veh_target.has_tag( flag_WIRING );
 }
 
-void construct::done_trunk_plank( const tripoint &/*p*/ )
+void construct::done_trunk_plank( const tripoint &/*p*/, Character &/*who*/ )
 {
     int num_logs = rng( 2, 3 );
     Character &player_character = get_player_character();
@@ -1281,9 +1281,8 @@ void construct::done_trunk_plank( const tripoint &/*p*/ )
     }
 }
 
-void construct::done_grave( const tripoint &p )
+void construct::done_grave( const tripoint &p, Character &player_character )
 {
-    Character &player_character = get_player_character();
     map &here = get_map();
     map_stack its = here.i_at( p );
     for( const item &it : its ) {
@@ -1346,7 +1345,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     return vpart_frame_vertical_2;
 }
 
-void construct::done_vehicle( const tripoint &p )
+void construct::done_vehicle( const tripoint &p, Character &who )
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
@@ -1364,15 +1363,15 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( get_avatar().has_trait( trait_DEBUG_HS ) ?
-                       STATIC( itype_id( "frame" ) ) : get_avatar().lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( who.has_trait( trait_DEBUG_HS ) ?
+                       STATIC( itype_id( "frame" ) ) : who.lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
 }
 
-void construct::done_wiring( const tripoint &p )
+void construct::done_wiring( const tripoint &p, Character &/*who*/ )
 {
     map &here = get_map();
 
@@ -1440,12 +1439,12 @@ void construct::done_wiring( const tripoint &p )
     }
 }
 
-void construct::done_appliance( const tripoint &p )
+void construct::done_appliance( const tripoint &p, Character &who )
 {
     map &here = get_map();
     partial_con *pc = here.partial_con_at( p );
     cata::optional<item> base = cata::nullopt;
-    const vpart_id &vpart = vpart_appliance_from_item( get_avatar().lastconsumed );
+    const vpart_id &vpart = vpart_appliance_from_item( who.lastconsumed );
     if( pc ) {
         for( item &obj : pc->components ) {
             if( obj.typeId() == vpart->base_item ) {
@@ -1459,7 +1458,7 @@ void construct::done_appliance( const tripoint &p )
     place_appliance( p, vpart, base );
 }
 
-void construct::done_deconstruct( const tripoint &p )
+void construct::done_deconstruct( const tripoint &p, Character &player_character )
 {
     map &here = get_map();
     // TODO: Make this the argument
@@ -1469,7 +1468,6 @@ void construct::done_deconstruct( const tripoint &p )
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
-        Character &player_character = get_player_character();
         if( f.id.id() == furn_f_console_broken )  {
             if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
                 player_character.practice( skill_electronics, 20, 4 );
@@ -1510,7 +1508,7 @@ void construct::done_deconstruct( const tripoint &p )
                 add_msg( _( "That %s can not be disassembled, since there is furniture above it." ), t.name() );
                 return;
             }
-            done_deconstruct( top );
+            done_deconstruct( top, player_character );
         }
         avatar &player_character = get_avatar();
         if( t.id.id() == t_console_broken )  {
@@ -1540,7 +1538,7 @@ static void unroll_digging( const int numer_of_2x4s )
     here.spawn_item( avatar_pos, itype_2x4, numer_of_2x4s );
 }
 
-void construct::done_digormine_stair( const tripoint &p, bool dig )
+void construct::done_digormine_stair( const tripoint &p, bool dig, Character &player_character )
 {
     map &here = get_map();
     // TODO: fix point types
@@ -1550,7 +1548,6 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.load( pos_sm + tripoint_below, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
-    Character &player_character = get_player_character();
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
                     player_character.has_trait( trait_STOCKY_TROGLO );
 
@@ -1588,17 +1585,17 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.save();
 }
 
-void construct::done_dig_stair( const tripoint &p )
+void construct::done_dig_stair( const tripoint &p, Character &who )
 {
-    done_digormine_stair( p, true );
+    done_digormine_stair( p, true, who );
 }
 
-void construct::done_mine_downstair( const tripoint &p )
+void construct::done_mine_downstair( const tripoint &p, Character &who )
 {
-    done_digormine_stair( p, false );
+    done_digormine_stair( p, false, who );
 }
 
-void construct::done_mine_upstair( const tripoint &p )
+void construct::done_mine_upstair( const tripoint &p, Character &player_character )
 {
     map &here = get_map();
     // TODO: fix point types
@@ -1623,7 +1620,6 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    Character &player_character = get_player_character();
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
                     player_character.has_trait( trait_STOCKY_TROGLO );
 
@@ -1639,16 +1635,16 @@ void construct::done_mine_upstair( const tripoint &p )
     tmpmap.save();
 }
 
-void construct::done_wood_stairs( const tripoint &p )
+void construct::done_wood_stairs( const tripoint &p, Character &/*who*/ )
 {
     const tripoint top = p + tripoint_above;
     get_map().ter_set( top, ter_id( "t_wood_stairs_down" ) );
 }
 
-void construct::done_window_curtains( const tripoint & )
+void construct::done_window_curtains( const tripoint &, Character &who )
 {
     map &here = get_map();
-    tripoint avatar_pos = get_player_character().pos();
+    tripoint avatar_pos = who.pos();
     // copied from iexamine::curtains
     here.spawn_item( avatar_pos, itype_nail, 1, 4 );
     here.spawn_item( avatar_pos, itype_sheet, 2 );
@@ -1657,7 +1653,7 @@ void construct::done_window_curtains( const tripoint & )
     add_msg( _( "After boarding up the window the curtains and curtain rod are left." ) );
 }
 
-void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
+void construct::done_extract_maybe_revert_to_dirt( const tripoint &p, Character &/*who*/ )
 {
     map &here = get_map();
     if( one_in( 10 ) ) {
@@ -1674,23 +1670,23 @@ void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
     }
 }
 
-void construct::done_mark_firewood( const tripoint &p )
+void construct::done_mark_firewood( const tripoint &p, Character &/*who*/ )
 {
     get_map().trap_set( p, tr_firewood_source );
 }
 
-void construct::done_mark_practice_target( const tripoint &p )
+void construct::done_mark_practice_target( const tripoint &p, Character &/*who*/ )
 {
     get_map().trap_set( p, tr_practice_target );
 }
 
-void construct::done_ramp_low( const tripoint &p )
+void construct::done_ramp_low( const tripoint &p, Character &/*who*/ )
 {
     const tripoint top = p + tripoint_above;
     get_map().ter_set( top, ter_id( "t_ramp_down_low" ) );
 }
 
-void construct::done_ramp_high( const tripoint &p )
+void construct::done_ramp_high( const tripoint &p, Character &/*who*/ )
 {
     const tripoint top = p + tripoint_above;
     get_map().ter_set( top, ter_id( "t_ramp_down_high" ) );
@@ -1825,7 +1821,8 @@ void load_construction( const JsonObject &jo )
             { "check_no_wiring", construct::check_no_wiring }
         }
     };
-    static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
+    static const std::map<std::string, std::function<void( const tripoint &, Character & )>>
+    post_special_map = {{
             { "", construct::done_nothing },
             { "done_trunk_plank", construct::done_trunk_plank },
             { "done_grave", construct::done_grave },
