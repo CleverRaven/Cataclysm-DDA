@@ -510,8 +510,22 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( get_res_str( damage_type::ACID ) );
     info_txt.emplace_back( string_format( "  %s:", _( "Fire" ) ) );
     info_txt.emplace_back( get_res_str( damage_type::HEAT ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Electrical" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::ELECTRIC ) );
+    if( info.best_case.type_resist( damage_type::COLD ) > 1 ) {
+        info_txt.emplace_back( string_format( "  %s:", _( "Endothermic" ) ) );
+        info_txt.emplace_back( get_res_str( damage_type::COLD ) );
+    }
+    if( info.best_case.type_resist( damage_type::ELECTRIC ) > 1 ) {
+        info_txt.emplace_back( string_format( "  %s:", _( "Electrical" ) ) );
+        info_txt.emplace_back( get_res_str( damage_type::ELECTRIC ) );
+    }
+    if( info.best_case.type_resist( damage_type::BIOLOGICAL ) > 1 ) {
+        info_txt.emplace_back( string_format( "  %s:", _( "Biological" ) ) );
+        info_txt.emplace_back( get_res_str( damage_type::BIOLOGICAL ) );
+    }
+    if( info.best_case.type_resist( damage_type::PURE ) > 1 ) {
+        info_txt.emplace_back( string_format( "  %s:", _( "Pure" ) ) );
+        info_txt.emplace_back( get_res_str( damage_type::PURE ) );
+    }
 }
 
 shared_ptr_fast<ui_adaptor> bodygraph_display::create_or_get_ui_adaptor()

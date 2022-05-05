@@ -1193,14 +1193,6 @@ class item : public visitable
         /*@{*/
         float acid_resist( bool to_self = false, int base_env_resist = 0,
                            const bodypart_id &bp = bodypart_id() ) const;
-        float pure_resist( bool to_self = false, int base_env_resist = 0,
-                           const bodypart_id &bp = bodypart_id() ) const;
-        float biological_resist( bool to_self = false, int base_env_resist = 0,
-                                 const bodypart_id &bp = bodypart_id() ) const;
-        float electric_resist( bool to_self = false, int base_env_resist = 0,
-                               const bodypart_id &bp = bodypart_id() ) const;
-        float cold_resist( bool to_self = false, int base_env_resist = 0,
-                           const bodypart_id &bp = bodypart_id() ) const;
         float fire_resist( bool to_self = false, int base_env_resist = 0,
                            const bodypart_id &bp = bodypart_id() ) const;
         // for incoming direct attacks roll is the actual roll for that attack
@@ -1215,16 +1207,18 @@ class item : public visitable
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
                              int roll = 0 ) const;
+        float pure_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                           int roll = 0 ) const;
+        float biological_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                                 int roll = 0 ) const;
+        float electric_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                               int roll = 0 ) const;
+        float cold_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                           int roll = 0 ) const;
         /*@}*/
 
         // same as above but specific to the sublocation
         float acid_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
-        float pure_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
-        float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
-                                 int base_env_resist = 0 ) const;
-        float electric_resist( const sub_bodypart_id &bp, bool to_self = false,
-                               int base_env_resist = 0 ) const;
-        float cold_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
         float fire_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
         // for incoming direct attacks roll is the actual roll for that attack
         float bash_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
@@ -1234,6 +1228,12 @@ class item : public visitable
         float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+        float pure_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+        float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
+                                 int roll = 0 ) const;
+        float electric_resist( const sub_bodypart_id &bp, bool to_self = false,
+                               int roll = 0 ) const;
+        float cold_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
 
         /**
          * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
