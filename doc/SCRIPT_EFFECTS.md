@@ -120,7 +120,7 @@ Effect | Description
 
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`u_add_morale`<br />`npc_add_morale` | `morale_string` | `bonus`, `max_bonus`: `int` or `variable_object`<br /><br />`duration`,`decay_start`: `time` or `variable_object`<br /><br />`capped`: `bool` | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (default false).| `"u_add_morale": "petted_dog", "bonus": 20, "max_bonus": 50, "duration": "5 min", "decay_start": "1 min", "capped": true`
+`u_add_morale`<br />`npc_add_morale` | `morale_string` | <span style="color: #880000">bonus, max_bonus: int or variable_object</span><br />`duration`,`decay_start`: `time` or `variable_object`<br /><br />`capped`: `bool` | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (default false).| `"u_add_morale": "petted_dog", "bonus": 20, "max_bonus": 50, "duration": "5 min", "decay_start": "1 min", "capped": true`
 `u_lose_morale`, `npc_lose_morale` | `morale_string` | none |Target will lose any morale of type `morale_string`.| `"u_lose_morale": "petted_dog"`
 
 #### Wounds and Healing
@@ -141,12 +141,12 @@ Effect | Required | Optional | Description | Example
 ---|---|---|---|---
 `bionic_install` | none | none | Open trade dialogue; NPC installs a bionic from avatar's inventory onto avatar, using very high skill, and charging according to difficulty.
 `bionic_remove` | none | none | Open trade dialogue; NPC removes a bionic from avatar, using very high skill, and charging according to difficulty.
-`u_add_bionic`, `npc_add_bionic` | `bionic_string` | none | Your avatar or the NPC will gain the bionic.| `"u_add_bionic": "cbm1"`
-`u_lose_bionic`, `npc_lose_bionic` | `bionic_string` | none | Your avatar or the NPC will lose the bionic.| `"u_lose_bionic": "cbm1"`
-`u_add_trait`, `npc_add_trait` | `trait_string` | none | Your avatar or the NPC will gain the trait.| `"u_add_trait": "egtrait"`
-`u_lose_trait`, `npc_lose_trait | `trait_string` | none | Your avatar or the NPC will lose the trait.| `"u_lose_trait": "egtrait"`
-`u_mutate`, `npc_mutate: | `chance_int` | `use_vitamins: vitamin_bool` (default true) | Your avatar or the NPC will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated.| `"u_mutate": "egtrait", "use_vitamins": false`
-`u_mutate_category`, `npc_mutate_category` | `category_str` | `use_vitamins: vitamin_bool` (default true)| Your avatar or the NPC will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated.| `"u_mutate_category": "example_traits", "use_vitamins": false`
+`u_add_bionic`, `npc_add_bionic` | `bionic_string` | none |Target will gain the bionic.| `"u_add_bionic": "cbm1"`
+`u_lose_bionic`, `npc_lose_bionic` | `bionic_string` | none | Target will lose the bionic.| `"u_lose_bionic": "cbm1"`
+`u_add_trait`, `npc_add_trait` | `trait_string` | none | Target will gain the trait.| `"u_add_trait": "egtrait"`
+`u_lose_trait`, `npc_lose_trait | `trait_string` | none | Targetwill lose the trait.| `"u_lose_trait": "egtrait"`
+`u_mutate`, `npc_mutate: | `chance_int` | `use_vitamins: vitamin_bool` (default true) | Target will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated.| `"u_mutate": "egtrait", "use_vitamins": false`
+`u_mutate_category`, `npc_mutate_category` | `category_str` | `use_vitamins: vitamin_bool` (default true)| Target will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated.| `"u_mutate_category": "example_traits", "use_vitamins": false`
 
 #### Variable operations
 
