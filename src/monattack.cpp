@@ -2778,10 +2778,16 @@ bool mattack::ranged_pull( monster *z )
         const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
         if( vp_seatbelt ) {
             z->moves -= 200;
-            game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
-            target->add_msg_player_or_npc( msg_type, _( "%1s tries to drag you, but is stopped by your %2s!" ),
+            const cata::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
+            target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
                                            _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
-                                           z->disp_name( false, true ), vp_seatbelt->part().name() );
+                                           z->disp_name( false, true ), vp_seatbelt->part().name( false ) );
+            target->add_msg_player_or_npc( m_bad, _( "You're crushed against the %s!" ),
+                                           _( "<npcname> is crushed against the %s!" ),
+                                           vp_seat->part().name( false ) );
+            target->apply_damage( z, bodypart_id( "torso" ), rng( 1, 2 ) );
+            // Damage the thing dragging us as well, since their arms are being strained to pull us
+            z->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
             return true;
 
         }
@@ -2989,9 +2995,15 @@ bool mattack::grab_drag( monster *z )
     if( foe->in_vehicle && veh_part ) {
         const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
         if( vp_seatbelt ) {
-            target->add_msg_player_or_npc( m_good, _( "%1s tries to drag you, but is stopped by your %2s!" ),
+            const cata::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
+            target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
                                            _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
-                                           z->disp_name( false, true ), vp_seatbelt->part().name() );
+                                           z->disp_name( false, true ), vp_seatbelt->part().name( false ) );
+            target->add_msg_player_or_npc( m_bad, _( "You're crushed against the %s!" ),
+                                           _( "<npcname> is crushed against the %s!" ),
+                                           vp_seat->part().name( false ) );
+            target->apply_damage( z, bodypart_id( "torso" ), rng( 1, 2 ) );
+            z->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
             return false;
         }
     }
