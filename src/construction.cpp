@@ -938,6 +938,15 @@ bool can_construct( const construction_group_str_id &group )
     return false;
 }
 
+bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id const &t )
+{
+    return std::all_of( con.pre_flags.begin(), con.pre_flags.end(), [&f, &t]( auto const & flag ) {
+        const bool use_ter = flag.second || f == f_null;
+        return ( use_ter || f->has_flag( flag.first ) ) &&
+               ( !use_ter || t->has_flag( flag.first ) );
+    } );
+}
+
 bool can_construct( const construction &con, const tripoint &p )
 {
     // see if the special pre-function checks out
@@ -945,15 +954,9 @@ bool can_construct( const construction &con, const tripoint &p )
     // see if the terrain type checks out
     place_okay &= has_pre_terrain( con, p );
     // see if the flags check out
-    for( const auto &flag : con.pre_flags ) {
-        furn_id f = get_map().furn( p );
-        ter_id t = get_map().ter( p );
-        const bool use_ter = flag.second || f == f_null;
-        if( ( !use_ter && !f->has_flag( flag.first ) ) ||
-            ( use_ter && !t->has_flag( flag.first ) ) ) {
-            place_okay = false;
-        }
-    }
+    furn_id f = get_map().furn( p );
+    ter_id t = get_map().ter( p );
+    place_okay &= can_construct_furn_ter( con, f, t );
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
         map &here = get_map();
