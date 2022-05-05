@@ -163,8 +163,8 @@
       { "point": [ 2, 6, 3 ], "overmap": "aircraft_carrier_2a_3_north" }
     ],
     "city_distance": [ -1, 1000 ],
-    "locations": [ "water", "lake_surface" ],
+    "locations": [ "lake_surface" ],
     "occurrences": [ 100, 100 ],
-    "flags": [ "CLASSIC", "LAKE" ]
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "UNIQUE" ]
   }
 ]
