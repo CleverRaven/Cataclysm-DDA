@@ -1,8 +1,8 @@
 [
-{
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "occupied_lum_wall_0_0", 
+    "nested_mapgen_id": "occupied_lum_wall_0_0",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -33,11 +33,11 @@
       ],
       "terrain": { "v": "t_wall_wood", "!": "t_rdoor_c" }
     }
-    }, 
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "occupied_lum_wall_0_1", 
+    "nested_mapgen_id": "occupied_lum_wall_0_1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -68,11 +68,11 @@
       ],
       "terrain": { "v": "t_wall_wood", "!": "t_rdoor_c" }
     }
-    }, 
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "occupied_lum_wall_1_0", 
+    "nested_mapgen_id": "occupied_lum_wall_1_0",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -103,11 +103,11 @@
       ],
       "terrain": { "v": "t_wall_wood", "!": "t_rdoor_c" }
     }
-    }, 
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "occupied_lum_wall_1_1", 
+    "nested_mapgen_id": "occupied_lum_wall_1_1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -138,11 +138,11 @@
       ],
       "terrain": { "v": "t_wall_wood", "!": "t_rdoor_c" }
     }
-    },
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "occupied_lum_hotel_1_1", 
+    "nested_mapgen_id": "occupied_lum_hotel_1_1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -174,5 +174,5 @@
       "terrain": { "v": "t_wall_wood", "!": "t_door_c", ".": "t_floor", "b": "t_floor", "0": "t_window" },
       "furniture": { "b": "f_makeshift_bed" }
     }
-    }  
+  }
 ]
