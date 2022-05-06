@@ -6260,6 +6260,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "looted_hospital",
+    "copy-from": "looted_hospital",
+    "name": "looted hospital",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "looted_hospital_roof",
+    "copy-from": "looted_hospital_roof",
+    "name": "looted hospital roof",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "football_field_a1",
     "copy-from": "football_field_a1",
     "name": "football field",

@@ -6,6 +6,11 @@
   },
   {
     "type": "item_group",
+    "id": "ranch_doctor_filing_cabinets",
+    "items": [ { "item": "book_binder", "prob": 1, "charges": [ 25, 50 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "ranch_bartender_shot_brandy",
     "items": [ { "item": "brandy", "prob": 1, "container-item": "shot_glass" } ]
   },

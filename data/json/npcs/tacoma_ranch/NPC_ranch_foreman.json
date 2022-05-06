@@ -25,6 +25,11 @@
         "topic": "TALK_RANCH_FOREMAN_PROSPECTUS",
         "condition": { "and": [ { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }, { "not": { "u_has_effect": "has_prospectus" } } ] }
       },
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_FOREMAN_ANESTHETIC_FOR_DOCTOR",
+        "condition": { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" }
+      },
       { "text": "I heard you were setting up an outpost out here.", "topic": "TALK_RANCH_FOREMAN_OUTPOST" },
       { "text": "What's your job here?", "topic": "TALK_RANCH_FOREMAN_JOB" },
       { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
@@ -51,6 +56,64 @@
         "topic": "TALK_RANCH_FOREMAN",
         "effect": [ { "u_spawn_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
       }
+    ]
+  },
+  {
+    "id": "TALK_RANCH_FOREMAN_ANESTHETIC_FOR_DOCTOR",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "doctor_anesthetic_scavengers_helped",
+      "type": "mission",
+      "context": "tacoma_ranch",
+      "value": "yes",
+      "no": {
+        "u_has_var": "doctor_anesthetic_scrappers_helped",
+        "type": "mission",
+        "context": "tacoma_ranch",
+        "value": "yes",
+        "no": "I don't have anything to offer, but you could talk to the scavenger boss and the scrappers; They might be able to help.",
+        "yes": "I don't have anything to offer, but maybe the scavenger boss could help find some materials."
+      },
+      "yes": {
+        "u_has_var": "doctor_anesthetic_scrappers_helped",
+        "type": "mission",
+        "context": "tacoma_ranch",
+        "value": "yes",
+        "no": "I don't have anything to offer, but maybe the scrappers could help find some materials.",
+        "yes": "I'm afraid I don't have anything to offer."
+      }
+    },
+    "responses": [
+      {
+        "text": "Thanks.",
+        "topic": "TALK_RANCH_FOREMAN",
+        "condition": {
+          "or": [
+            {
+              "not": { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "doctor_anesthetic_scrappers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Thanks anyway.",
+        "topic": "TALK_RANCH_FOREMAN",
+        "condition": {
+          "and": [
+            { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" },
+            {
+              "u_has_var": "doctor_anesthetic_scrappers_helped",
+              "type": "mission",
+              "context": "tacoma_ranch",
+              "value": "yes"
+            }
+          ]
+        }
+      },
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {
