@@ -105,17 +105,5 @@
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -10 } ] } ]
     },
     "use_action": { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 15, "need_worn": true }
-  },
-  {
-    "copy-from": "mbracer_steel_single",
-    "id": "missile_volley_bracer",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "bracer of magic missiles" },
-    "description": "A bracer, completely covered with a large amount of runes from both sides. Wizards love to name it \"ultima ratio\".",
-    "price_postapoc": "3400 USD",
-    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "7 d", "regenerate_ammo": true } },
-    "use_action": { "type": "cast_spell", "spell_id": "missile_volley", "no_fail": true, "level": 10, "need_worn": true }
   }
 ]

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "missile_volley_bracelet_lesser",
+    "type": "ARMOR",
+    "name": { "str": "missile_volley_bracelet_lesser" },
+    "description": "A flawless platinum bracelet.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "50 g",
+    "volume": "25 ml",
+    "price": 38000,
+    "price_postapoc": 100,
+    "material": [ "platinum", "crystallized_mana" ],
+    "symbol": "[",
+    "color": "white",
+    "flags": [
+      "BELTED",
+      "STURDY",
+      "BLOCK_WHILE_WORN",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "FANCY",
+      "ONE_PER_LAYER",
+      "WATER_FRIENDLY",
+      "ALLOWS_NATURAL_ATTACKS",
+      "SKINTIGHT"
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "7 d", "regenerate_ammo": true } },
+    "use_action": { "type": "cast_spell", "spell_id": "missile_volley", "no_fail": true, "level": 20, "need_worn": true }
+  },
+]
