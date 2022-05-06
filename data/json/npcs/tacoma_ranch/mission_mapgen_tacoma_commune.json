@@ -618,7 +618,8 @@
       "terrain": { "+": "t_door_c", ".": "t_floor", "c": "t_floor", "t": "t_floor", "s": "t_floor" },
       "furniture": { "c": "f_cupboard", "t": "f_table", "s": "f_stool" },
       "place_signs": [ { "signage": "Clinic", "x": 1, "y": 10 } ],
-      "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ]
+      "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ],
+      "place_item": [ { "item": "hoe", "x": 14, "y": 18, "faction": "tacoma_commune" } ]
     }
   },
   {
