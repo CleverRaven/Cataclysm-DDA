@@ -1005,13 +1005,13 @@
       "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor", "m": "t_dirtfloor", "M": "t_dirtfloor", "c": "t_conveyor" },
       "furniture": { "m": "f_machinery_old", "M": "f_machinery_heavy", "r": "f_rack" },
       "place_item": [
-        { "item": "log", "x": 3, "y": 0, "faction": "tacoma_commune" },
-        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
-        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
-        { "item": "log", "x": 0, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
-        { "item": "log", "x": 1, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
-        { "item": "2x4", "x": 3, "y": 9, "faction": "tacoma_commune", "amount": [ 1, 10 ] },
-        { "item": "log", "x": 3, "y": 2, "faction": "tacoma_commune" }
+        { "item": "log", "x": 3, "y": 0 },
+        { "item": "log", "x": 3, "y": 1 },
+        { "item": "log", "x": 3, "y": 1 },
+        { "item": "log", "x": 0, "y": 1, "amount": [ 1, 5 ] },
+        { "item": "log", "x": 1, "y": 1, "amount": [ 1, 5 ] },
+        { "item": "2x4", "x": 3, "y": 9, "amount": [ 1, 10 ] },
+        { "item": "log", "x": 3, "y": 2 }
       ],
       "place_npcs": [ { "class": "ranch_woodcutter_2", "x": 4, "y": 7 } ]
     }

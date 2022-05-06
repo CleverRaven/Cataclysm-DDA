@@ -466,12 +466,12 @@
             { "point": "furniture", "id": "f_fireplace", "x": 8, "y": 12 }
           ],
           "place_item": [
-            { "item": "log", "x": 3, "y": 11, "faction": "tacoma_commune" },
-            { "item": "log", "x": 3, "y": 12, "faction": "tacoma_commune" },
-            { "item": "log", "x": 3, "y": 13, "faction": "tacoma_commune" },
-            { "item": "log", "x": 11, "y": 11, "faction": "tacoma_commune" },
-            { "item": "log", "x": 11, "y": 12, "faction": "tacoma_commune" },
-            { "item": "log", "x": 11, "y": 13, "faction": "tacoma_commune" }
+            { "item": "log", "x": 3, "y": 11 },
+            { "item": "log", "x": 3, "y": 12 },
+            { "item": "log", "x": 3, "y": 13 },
+            { "item": "log", "x": 11, "y": 11 },
+            { "item": "log", "x": 11, "y": 12 },
+            { "item": "log", "x": 11, "y": 13 }
           ]
         }
       ]
