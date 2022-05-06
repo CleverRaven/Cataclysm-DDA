@@ -91,9 +91,9 @@
         "B#",
         "  "
       ],
-      "terrain": { "#": "t_dirt" },
       "furniture": { "#": "f_makeshift_bed", "B": "f_makeshift_bed" },
-      "item": { "B": { "item": "blanket", "faction": "tacoma_commune" } }
+      "item": { "B": { "item": "blanket", "faction": "tacoma_commune" } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
