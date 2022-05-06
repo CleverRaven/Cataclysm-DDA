@@ -341,7 +341,7 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "Excalibread" },
-    "description": "A french baguette, sharpened into a blade and toasted for durability.  Truly, the best weapon to smite the gluten-intolerant.",
+    "description": "A French baguette, sharpened into a blade and toasted for durability.  Truly, the best weapon to smite the gluten-intolerant.",
     "material": [ "wheat" ],
     "volume": "2450 ml",
     "weight": "250 g",
