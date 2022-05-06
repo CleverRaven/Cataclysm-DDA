@@ -550,7 +550,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "Infested spawn for Compromized Shelter scenario - copy of shelter_1. Window on right wall near basement door removed for scenario balance, sorry. ONURA46 [delete this] - SPAWNS SHOULD MAYBE BE NESTED? NEED A WAY TO PLACE MONSTERS ONE Z-LEVEL DIRECTLY ABOVE A PLAYER.",
+    "//" : "Infested spawn for Compromized Shelter scenario - copy of shelter_1. Window on right wall near basement door removed for scenario balance, sorry. Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
     "om_terrain": [ "shelter_3" ],
     "object": {
       "fill_ter": "t_floor",
@@ -639,7 +639,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "Infested spawn for Compromized Shelter scenario - copy of shelter_2. ONURA46 [delete this] - SPAWNS SHOULD MAYBE BE NESTED? NEED A WAY TO PLACE MONSTERS ONE Z-LEVEL DIRECTLY ABOVE A PLAYER.",
+    "//" : "Infested spawn for Compromized Shelter scenario - copy of shelter_2.  Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
     "om_terrain": [ "shelter_3_2" ],
     "object": {
       "fill_ter": "t_floor",
