@@ -10,42 +10,48 @@
     "id": "armor_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "link_sheet", 1 ] ], [ [ "chain_link", 25 ] ] ]
   },
   {
     "id": "armor_lc_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "lc_link_sheet", 1 ] ], [ [ "lc_chain_link", 25 ] ] ]
   },
   {
     "id": "armor_mc_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "mc_link_sheet", 1 ] ], [ [ "mc_chain_link", 25 ] ] ]
   },
   {
     "id": "armor_hc_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "hc_link_sheet", 1 ] ], [ [ "hc_chain_link", 25 ] ] ]
   },
   {
     "id": "armor_ch_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "ch_link_sheet", 1 ] ], [ [ "ch_chain_link", 25 ] ] ]
   },
   {
     "id": "armor_qt_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "qt_link_sheet", 1 ] ], [ [ "qt_chain_link", 25 ] ] ]
   },
   {
@@ -190,7 +196,8 @@
         [ "button", 9, "LIST" ],
         [ "touch_fastener", 6 ],
         [ "snapfastener_steel", 9 ],
-        [ "string_6", 6 ]
+        [ "string_6", 6 ],
+        [ "cordage_6_leather", 6 ]
       ]
     ]
   },
@@ -204,7 +211,8 @@
         [ "zipper_short_plastic", 1 ],
         [ "snapfastener_steel", 3 ],
         [ "touch_fastener", 2 ],
-        [ "string_6", 2 ]
+        [ "string_6", 2 ],
+        [ "cordage_6_leather", 2 ]
       ]
     ]
   },
@@ -215,6 +223,7 @@
     "components": [
       [
         [ "string_6", 2 ],
+        [ "cordage_6_leather", 2 ],
         [ "zipper_short_plastic", 1 ],
         [ "snapfastener_steel", 3 ],
         [ "touch_fastener", 2 ],
@@ -232,7 +241,8 @@
         [ "snapfastener_steel", 2 ],
         [ "buckle_steel", 1 ],
         [ "touch_fastener", 2 ],
-        [ "string_6", 2 ]
+        [ "string_6", 2 ],
+        [ "cordage_6_leather", 2 ]
       ]
     ]
   },
@@ -425,6 +435,6 @@
     "id": "tanning_agent",
     "type": "requirement",
     "//": "Enough to make one tanned hide/pelt",
-    "components": [ [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "brain", 3 ] ] ]
+    "components": [ [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "meat_brain", 3, "LIST" ] ] ]
   }
 ]

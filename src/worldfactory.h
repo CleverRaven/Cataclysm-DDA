@@ -105,7 +105,7 @@ class worldfactory
 
         void init();
 
-        WORLDPTR pick_world( bool show_prompt = true );
+        WORLDPTR pick_world( bool show_prompt = true, bool empty_only = false );
 
         WORLDPTR active_world;
 

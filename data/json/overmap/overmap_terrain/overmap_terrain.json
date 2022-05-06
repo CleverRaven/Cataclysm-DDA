@@ -288,8 +288,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lodge_ground_glooscap1", "lodge_ground_glooscap2" ],
+    "name": "hunting lodge",
+    "sym": "L",
+    "copy-from": "generic_forest",
+    "color": "light_green",
+    "see_cost": 4,
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "lodge_2ndfloor1", "lodge_2ndfloor2" ],
     "name": "second floor hunting lodge",
+    "copy-from": "generic_forest",
+    "sym": "L",
+    "see_cost": 4,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_roof1", "lodge_roof2" ],
+    "name": "hunting lodge roof",
     "copy-from": "generic_forest",
     "sym": "L",
     "see_cost": 4,
@@ -437,6 +456,51 @@
     "type": "overmap_terrain",
     "id": "debug_ramps",
     "name": "ramp testing area",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_house",
+    "name": "looted house",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_house_roof",
+    "name": "looted house roof",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_house_basement",
+    "name": "looted house basement",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital",
+    "name": "looted hospital",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital_roof",
+    "name": "looted hospital roof",
     "sym": "%",
     "color": "white",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]

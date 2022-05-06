@@ -29,7 +29,7 @@ static void test_encumbrance_on(
         tweak_player( p );
     }
     for( const item &i : clothing ) {
-        p.worn.push_back( i );
+        p.worn.wear_item( p, i, false, false, false );
     }
     p.calc_encumbrance();
     encumbrance_data enc = p.get_part_encumbrance_data( bodypart_id( body_part ) );
@@ -84,17 +84,42 @@ struct add_trait {
 static constexpr int postman_shirt_e = 0;
 static constexpr int longshirt_e = 3;
 static constexpr int jacket_jean_e = 9;
+static constexpr int ballistic = 6;
+static constexpr int load_bearing = 2;
+static constexpr int plate = 2;
 
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {
     test_encumbrance( { "test_postman_shirt" }, "torso", postman_shirt_e );
     test_encumbrance( { "test_longshirt" }, "torso", longshirt_e );
     test_encumbrance( { "test_jacket_jean" }, "torso", jacket_jean_e );
+    test_encumbrance( { "test_ballistic_vest" }, "torso", ballistic );
+    test_encumbrance( { "test_load_bearing_vest" }, "torso", load_bearing );
+}
+
+TEST_CASE( "plate_encumbrance", "[encumbrance]" )
+{
+    item with_plates( "test_ballistic_vest" );
+    with_plates.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
+    test_encumbrance_items( { with_plates }, "torso", ballistic + plate );
 }
 
 TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
 {
     test_encumbrance( { "test_longshirt", "test_jacket_jean" }, "torso", longshirt_e + jacket_jean_e );
+    test_encumbrance( { "test_longshirt", "test_ballistic_vest" }, "torso", longshirt_e + ballistic );
+    test_encumbrance( { "test_longshirt", "test_load_bearing_vest" }, "torso",
+                      longshirt_e + load_bearing );
+}
+
+// make sure ordering still works with pockets
+TEST_CASE( "additional_pockets_encumbrance", "[encumbrance]" )
+{
+    item addition_vest( "test_load_bearing_vest" );
+    item undershirt( "test_longshirt" );
+    addition_vest.get_contents().add_pocket( item( "holster" ) );
+
+    test_encumbrance_items( { undershirt, addition_vest }, "torso", longshirt_e + load_bearing );
 }
 
 TEST_CASE( "out_of_order_encumbrance", "[encumbrance]" )

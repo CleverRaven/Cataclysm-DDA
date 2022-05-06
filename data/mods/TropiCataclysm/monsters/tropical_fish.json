@@ -1,9 +1,45 @@
 [
   {
+    "id": "mon_fish_crab",
+    "type": "MONSTER",
+    "name": { "str": "crab" },
+    "description": "A crustacean belonging to either Trichodactylidae or Pseudothelphusidae.  Freshwater crabs are widely spread around Central and South America, some even found in mountain streams.",
+    "default_faction": "fish",
+    "bodytype": "crab",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "FISH" ],
+    "volume": "300 ml",
+    "weight": "100 g",
+    "hp": 3,
+    "speed": 150,
+    "material": [ "flesh" ],
+    "symbol": "f",
+    "color": "red",
+    "aggression": -50,
+    "morale": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_cut": 1,
+    "luminance": 0,
+    "harvest": "shellfish",
+    "dissect": "dissect_gastropod_sample_single",
+    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 21 },
+    "baby_flags": [ "AUTUMN" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
+  },
+  {
+    "id": "mon_fish_pancora",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_crab",
+    "name": { "str": "pancora crab" },
+    "description": "A crustacean belonging to the Aeglidae family.  They are among the only living freshwater anomurans, being restricted solely to South America."
+  },
+  {
     "id": "mon_shark",
     "type": "MONSTER",
     "name": { "str": "bull shark" },
-    "description": "The bull shark is one of the few known species of shark capable of living in both fresh and salty waters.  With the advent of the cataclysm many of them have migrated up river to exploit the new food sources in the waters.",
+    "description": "The bull shark is one of the few known species of shark capable of living in both fresh and salty waters.  With the advent of the Cataclysm many of them have migrated up river to exploit the new food sources in the waters.",
     "default_faction": "fish",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
@@ -43,5 +79,180 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND", "HURT" ],
     "upgrades": { "age_grow": 365, "into": "mon_shark" },
     "flags": [ "FISHABLE", "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_fish_lungfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str_sp": "lungfish" },
+    "description": "A lungfish.  This strange fish has relatives in both Africa and Australia, all of them can breathe air and some consider them living fossils."
+  },
+  {
+    "id": "mon_fish_eel_electric",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "electric eel" },
+    "description": "An electric eel.  A strange elongated fish known for its hability to use electricity to hunt prey, despite their name they are not actually eels.",
+    "special_when_hit": [ "ZAPBACK", 100 ],
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ELECTRIC" ]
+  },
+  {
+    "id": "mon_fish_pacu",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "pacu" },
+    "description": "A pacu.  There are several species of these piranha relatives in the rivers of South America, they are usually small to medium size."
+  },
+  {
+    "id": "mon_fish_pacu_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "tambaqui" },
+    "description": "Also known as black or giant pacu.  This is the largest member of the family and the most known worldwide."
+  },
+  {
+    "id": "mon_fish_piranha",
+    "type": "MONSTER",
+    "name": { "str": "piranha" },
+    "description": "A small to medium fish with a wide diet.  Contrary to popular belief these fish are not vicious predators and instead react to the availability of food in their environment.",
+    "default_faction": "fish",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "3200 ml",
+    "weight": "3200 g",
+    "hp": 15,
+    "speed": 180,
+    "material": [ "flesh" ],
+    "symbol": "t",
+    "color": "light_green",
+    "aggression": 15,
+    "morale": 60,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_cut": 4,
+    "dodge": 6,
+    "vision_day": 1,
+    "vision_night": 30,
+    "harvest": "fish_small",
+    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 19 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
+    "path_settings": { "max_dist": 5 },
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_fish_arowana",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "arowana" },
+    "description": "A member of the Osteoglossidade family.  These fishes can be found on South America, Asia and Australia."
+  },
+  {
+    "id": "mon_fish_arapaima",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_huge",
+    "name": { "str": "arapaima" },
+    "description": "A member of the Arapaimidae family.  These fishes can be found on South America and Africa, some species can grow to truly huge sizes."
+  },
+  {
+    "id": "mon_fish_piraiba",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_huge",
+    "name": { "str": "piraiba" },
+    "description": "A huge species of South American catfish native to the Amazon and Orinoco rivers, they can reach almost 3 meters in length."
+  },
+  {
+    "id": "mon_fish_pleco",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "pleco" },
+    "description": "A catfish species native to South America, Panama and even Costa Rica.  They are distinguished by their bony spines and suction adapted mouths."
+  },
+  {
+    "id": "mon_fish_stingray",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "river stingray" },
+    "description": "A fish of the Potamotrygonidae family.  These freshwater stingrays are found mostly in South America with a few bred in other parts of the world.",
+    "aggression": -50,
+    "morale": 60,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_cut": 4,
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "BADVENOM" ]
+  },
+  {
+    "id": "mon_fish_tucunare",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "tucunaré", "str_pl": "tucunarés" },
+    "description": "A vicious predatory cichlid found along the northern tributaries of South America from Panama to the Amazon.  Very sought among sport fishing enthusiasts."
+  },
+  {
+    "id": "mon_fish_discus",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str": "discus", "str_pl": "discuses" },
+    "description": "A round and colorful genus of fish native to the Amazon river basin.  Very popular in aquariums but expensive to mantain in captivity."
+  },
+  {
+    "id": "mon_fish_angelfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "angelfish" },
+    "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semi-aggressive in captivity."
+  },
+  {
+    "id": "mon_fish_goldfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "goldfish" },
+    "description": "A tiny domestic fish related to the carp.  This one must be part of a feral population but still keeps the golden hue of its domestic counterpart."
+  },
+  {
+    "id": "mon_fish_koi",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "koi" },
+    "description": "A domestic variant of the Amur carp originally bred in Japan for its color variations.  These fishes are known to devolve quickly to feral status if left to escape."
+  },
+  {
+    "id": "mon_fish_tilapia",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "tilapia" },
+    "description": "A genus of cichlids native to Africa but bred worldwide for food.  They are adaptable herbivorous fishes that can survive well even in salt water."
+  },
+  {
+    "id": "mon_fish_sabalo",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "sabalo" },
+    "description": "A fish belonging to the Prochilodontidae family.  They are native to South America and most species can be found feeding on detritus."
+  },
+  {
+    "id": "mon_fish_oscar",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "oscar" },
+    "description": "A species of omnivorous cichlid native to South America.  Quite popular in aquariums with several different colored breeds."
+  },
+  {
+    "id": "mon_fish_guapote",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "guapote" },
+    "description": "A genus of cichlids found in Central America.  All of the species are predatory with different coloration and sizes."
+  },
+  {
+    "id": "mon_fish_mayaheros",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "mayaheros", "str_pl": "mayaheri" },
+    "description": "A genus of adaptable cichlids native to Central America.  They can survive in marine environments with some populations even reaching Florida."
   }
 ]

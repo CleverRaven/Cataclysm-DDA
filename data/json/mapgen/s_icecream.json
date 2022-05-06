@@ -83,7 +83,7 @@
         "o": "f_oven",
         "t": "f_table",
         "v": "f_vending_c",
-        "{": "f_fridge"
+        "{": "f_freezer"
       },
       "toilets": { "T": {  } },
       "place_items": [

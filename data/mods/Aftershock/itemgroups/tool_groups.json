@@ -58,7 +58,8 @@
           }
         ],
         "prob": 80
-      }
+      },
+      { "item": "afs_imager", "prob": 10 }
     ]
   },
   {
@@ -106,6 +107,25 @@
       { "item": "electrohack", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "control_laptop", "prob": 2, "charges": [ 0, 500 ] },
       { "item": "afs_wrist_computer", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_scavenging",
+    "//": "lightweight tools used for finding and getting into places where you dont belong.",
+    "items": [
+      { "item": "electrohack", "prob": 10 },
+      {
+        "collection": [
+          { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
+          { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
+        ],
+        "prob": 2
+      },
+      { "item": "afs_imager", "prob": 10 },
+      { "item": "UPS_off", "prob": 2 },
+      { "item": "emf_detector", "prob": 5 },
+      { "group": "tools_lighting_industrial", "prob": 10 }
     ]
   }
 ]

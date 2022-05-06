@@ -1167,19 +1167,26 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_PICKUP_ADJACENT" ).setPrerequisite( "AUTO_PICKUP" );
 
+    add( "AUTO_PICKUP_OWNED", "general", to_translation( "Auto pickup owned items" ),
+         to_translation( "If false, items that belong to your faction will be excluded from auto pickup." ),
+         false
+       );
+
+    get_option( "AUTO_PICKUP_OWNED" ).setPrerequisite( "AUTO_PICKUP" );
+
     add( "AUTO_PICKUP_WEIGHT_LIMIT", "general", to_translation( "Auto pickup weight limit" ),
          to_translation( "Auto pickup items with weight less than or equal to [option] * 50 grams.  You must also set the small items option.  '0' disables this option" ),
-         0, 20, 0
+         0, 100, 0
        );
 
     get_option( "AUTO_PICKUP_WEIGHT_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
 
-    add( "AUTO_PICKUP_VOL_LIMIT", "general", to_translation( "Auto pickup volume limit" ),
+    add( "AUTO_PICKUP_VOLUME_LIMIT", "general", to_translation( "Auto pickup volume limit" ),
          to_translation( "Auto pickup items with volume less than or equal to [option] * 50 milliliters.  You must also set the light items option.  '0' disables this option" ),
-         0, 20, 0
+         0, 100, 0
        );
 
-    get_option( "AUTO_PICKUP_VOL_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
+    get_option( "AUTO_PICKUP_VOLUME_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
 
     add( "AUTO_PICKUP_SAFEMODE", "general", to_translation( "Auto pickup safe mode" ),
          to_translation( "Auto pickup is disabled as long as you can see monsters nearby.  This is affected by 'Safe Mode proximity distance'." ),
@@ -1354,7 +1361,7 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add( "SOUND_ENABLED", "general", to_translation( "Sound Enabled" ),
+    add( "SOUND_ENABLED", "general", to_translation( "Sound enabled" ),
          to_translation( "If true, music and sound are enabled." ),
          true, COPT_NO_SOUND_HIDE
        );
@@ -1446,7 +1453,7 @@ void options_manager::add_options_interface()
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
-    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed Containers" ),
+    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed containers" ),
          to_translation( "All: every container has detailed remaining volume info - Worn: only worn containers have detailed remaining volume info - None: no additional info is provided" ),
     {
         { "ALL", to_translation( "All" ) },
@@ -1498,7 +1505,7 @@ void options_manager::add_options_interface()
          false
        );
 
-    add( "INV_USE_ACTION_NAMES", "interface", to_translation( "Display actions in Use Item menu" ),
+    add( "INV_USE_ACTION_NAMES", "interface", to_translation( "Display actions in \"Use item\" menu" ),
          to_translation(
              R"(If true, actions ( like "Read", "Smoke", "Wrap tighter" ) will be displayed next to the corresponding items.)" ),
          true
@@ -1637,7 +1644,7 @@ void options_manager::add_options_interface()
        );
 
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",
-         to_translation( "Suppress \"unknown command\" messages" ),
+         to_translation( "Suppress \"Unknown command\" messages" ),
          to_translation( "If true, pressing a key with no set function will not display a notice in the chat log." ),
          false
        );
@@ -1801,14 +1808,24 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
+    add( "ENABLE_ASCII_TITLE", "graphics",
+         to_translation( "Enable ASCII art on the title screen" ),
+         to_translation( "If true, shows an ASCII graphic on the title screen.  If false, shows a text-only title screen." ),
+         true
+       );
+
     add( "SEASONAL_TITLE", "graphics", to_translation( "Use seasonal title screen" ),
          to_translation( "If true, the title screen will use the art appropriate for the season." ),
          true
        );
 
+    get_option( "SEASONAL_TITLE" ).setPrerequisite( "ENABLE_ASCII_TITLE" );
+
     add( "ALT_TITLE", "graphics", to_translation( "Alternative title screen frequency" ),
          to_translation( "Set the probability of the alternate title screen appearing." ), 0, 100, 10
        );
+
+    get_option( "ALT_TITLE" ).setPrerequisite( "ENABLE_ASCII_TITLE" );
 
     add_empty_line();
 
@@ -1917,7 +1934,7 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night Vision color overlay" ),
+    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night vision color overlay" ),
          to_translation( "Toggle the color overlay from night vision goggles and other similar tools." ),
          true, COPT_CURSES_HIDE
        );
@@ -2234,7 +2251,7 @@ void options_manager::add_options_world_default()
          false
        );
 
-    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day / night cycle" ),
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day/night cycle" ),
     to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
         { "normal", to_translation( "Normal" ) },
         { "day", to_translation( "Eternal Day" ) },
@@ -2650,7 +2667,7 @@ static void draw_borders_external(
     const bool world_options_only )
 {
     if( !world_options_only ) {
-        draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
+        draw_border( w, BORDER_COLOR, _( "Options" ) );
     }
     // intersections
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
@@ -3133,8 +3150,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
         TERM.x -= TERM.x % scaling_factor;
         TERM.y -= TERM.y % scaling_factor;
-        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERM.x ) );
-        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERM.y ) );
+        const point set_term( std::max( EVEN_MINIMUM_TERM_WIDTH * scaling_factor, TERM.x ),
+                              std::max( EVEN_MINIMUM_TERM_HEIGHT * scaling_factor, TERM.y ) );
+        get_option( "TERMINAL_X" ).setValue( set_term.x );
+        get_option( "TERMINAL_Y" ).setValue( set_term.y );
         save();
 
         resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );

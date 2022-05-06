@@ -101,7 +101,7 @@
   {
     "type": "furniture",
     "id": "f_autodoc_cheap",
-    "name": "salvaged autodoc",
+    "name": "salvaged Autodoc",
     "symbol": "&",
     "color": "light_red",
     "copy-from": "f_autodoc",

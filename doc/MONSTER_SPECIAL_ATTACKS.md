@@ -97,7 +97,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```FUNGUS_BIG_BLOSSOM``` Spreads fire suppressing fungal haze.
 - ```FUNGUS_BRISTLE``` Perform barbed tendril attack that can cause fungal infections.
 - ```FUNGUS_CORPORATE``` Used solely by Crazy Cataclysm. This will cause runtime errors if used without, and spawns SpOreos on top of the creature.
-- ```FUNGUS_FORTIFY``` Grows fungal hedgerows, and advances player on the mycus threshold path.
+- ```FUNGUS_FORTIFY``` Grows fungal hedgerows, and advances player on the Mycus threshold path.
 - ```FUNGUS_GROWTH``` Grows a young fungaloid into an adult.
 - ```FUNGUS_HAZE``` Spawns fungal fields.
 - ```FUNGUS_INJECT``` Perform needle attack that can cause fungal infections.
@@ -183,8 +183,8 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | `throw_strength`		| Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
 | `miss_msg_u`			| String, message for missed attack against the player.
 | `miss_msg_npc`		| String, message for missed attack against an NPC.
-| `hit_dmg_u`			| String, message for succesful attack against the player.
-| `hit_dmg_npc`			| String, message for succesful attack against an NPC.
+| `hit_dmg_u`			| String, message for successful attack against the player.
+| `hit_dmg_npc`			| String, message for successful attack against an NPC.
 | `no_dmg_msg_u`		| String, message for a 0-damage attack against the player.
 | `no_dmg_msg_npc`		| String, message for a 0-damage attack against an NPC.
 | `throw_msg_u`		    | String, message for a flinging attack against the player.

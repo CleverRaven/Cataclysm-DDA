@@ -17,7 +17,7 @@ static const flag_id json_flag_RELOAD_ONE( "RELOAD_ONE" );
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item &gun = dummy.i_add( item( "sw_619", calendar::turn_zero, 0 ) );
     const ammotype &gun_ammo_type = item::find_type( gun.ammo_default() )->ammo->type;
@@ -48,7 +48,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item &magazine = dummy.i_add( item( "glockmag", calendar::turn_zero, 0 ) );
     const ammotype &mag_ammo_type = item::find_type( magazine.ammo_default() )->ammo->type;
@@ -71,7 +71,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item &belt = dummy.i_add( item( "belt308", calendar::turn_zero, 0 ) );
     const ammotype &belt_ammo_type = item::find_type( belt.ammo_default() )->ammo->type;
@@ -98,7 +98,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
 {
     avatar dummy;
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item &bottle = dummy.i_add( item( "bottle_plastic" ) );
     item water( "water_clean", calendar::turn_zero, 2 );

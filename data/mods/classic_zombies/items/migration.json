@@ -1,0 +1,17 @@
+[
+  {
+    "id": [ "m17", "m18" ],
+    "type": "MIGRATION",
+    "replace": "hi_power_9mm"
+  },
+  {
+    "id": [ "p320mag_10rd_9x19mm", "p320mag_17rd_9x19mm" ],
+    "type": "MIGRATION",
+    "replace": "bhp9mag_13rd"
+  },
+  {
+    "id": "p320mag_21rd_9x19mm",
+    "type": "MIGRATION",
+    "replace": "bhp9mag_15rd"
+  }
+]

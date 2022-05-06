@@ -80,6 +80,7 @@ class ter_furn_transform
         void transform( const tripoint &location, bool shifted = false ) const;
         void transform( map &m, const tripoint &location, bool shifted = false ) const;
 
+        static void reset();
         static void load_transform( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
 

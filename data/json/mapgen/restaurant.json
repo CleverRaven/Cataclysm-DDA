@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -95,6 +94,7 @@
         { "item": "trash", "x": [ 0, 17 ], "y": [ 22, 23 ], "chance": 20, "repeat": [ 1, 2 ] }
       ],
       "place_nested": [ { "chunks": [ [ "chef_s_restaurant", 5 ], [ "null", 95 ] ], "x": 7, "y": 18 } ],
+      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 7, 19 ], "y": [ 18, 20 ] } ],
       "place_monsters": [
         { "monster": "GROUP_GROCERY", "x": [ 7, 19 ], "y": 19, "chance": 5 },
         { "monster": "GROUP_PLAGUE_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 },
@@ -106,7 +106,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_roof" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -114,7 +113,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "|......................3",
+        "|22222222222222222222223",
         "|......................3",
         "|......................3",
         "|......................3",
@@ -138,6 +137,7 @@
       "terrain": {
         ".": "t_flat_roof",
         " ": "t_open_air",
+        "2": "t_gutter_north",
         "|": "t_gutter_west",
         "-": "t_gutter_south",
         "3": "t_gutter_east",
@@ -167,7 +167,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_1" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_carpet_green",
       "rows": [
@@ -271,14 +270,14 @@
         { "monster": "GROUP_PLAGUE_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 },
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
       ],
-      "place_nested": [ { "chunks": [ [ "NPC_pizzaiolo_spawn", 5 ], [ "null", 50 ] ], "x": 7, "y": 5 } ]
+      "place_nested": [ { "chunks": [ [ "NPC_pizzaiolo_spawn", 5 ], [ "null", 50 ] ], "x": 7, "y": 5 } ],
+      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 5, 9 ], "y": [ 3, 14 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_roof_1" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -339,7 +338,6 @@
     "method": "json",
     "om_terrain": [ "s_restaurant_2" ],
     "//": "Buffet or family-style restaurant with a soup and salad bar.",
-    "weight": 550,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -439,7 +437,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_roof_2" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -507,7 +504,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_foodplace" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -601,6 +597,7 @@
         { "item": "trash", "x": [ 0, 17 ], "y": [ 22, 23 ], "chance": 20, "repeat": [ 1, 2 ] }
       ],
       "place_nested": [ { "chunks": [ [ "chef_s_restaurant", 5 ], [ "null", 95 ] ], "x": 7, "y": 18 } ],
+      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 7, 19 ], "y": [ 18, 20 ] } ],
       "place_monsters": [
         { "monster": "GROUP_GROCERY", "x": [ 7, 19 ], "y": 19, "chance": 5 },
         { "monster": "GROUP_PLAGUE_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 },
@@ -612,7 +609,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_foodplace_roof" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -620,7 +616,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "|......................3",
+        "|22222222222222222222223",
         "|......................3",
         "|......................3",
         "|......................3",
@@ -650,6 +646,7 @@
         "w": "t_window_domestic",
         "|": "t_gutter_west",
         ",": "t_floor",
+        "2": "t_gutter_north",
         "-": "t_gutter_south",
         "3": "t_gutter_east",
         ">": "t_stairs_down",
@@ -722,7 +719,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_foodplace_upper_roof" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

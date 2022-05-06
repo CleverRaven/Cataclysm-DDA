@@ -34,5 +34,5 @@ jobs:
           delete-branch: true
           base: master
           title: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
-          body: "#### Summary\nNone"
+          body: "#### Summary\nNone\n\n#### Additional context\n`Translation file changes are intended`"
           labels: Translation

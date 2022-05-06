@@ -4,9 +4,9 @@
     "id": "TYRANT",
     "name": "Tyrant",
     "threshold_mut": "THRESH_TYRANT",
-    "mutagen_message": "The gnashing of teeth and rending of flesh calls to you.",
-    "iv_message": "You feel additional teeth working their way into your mouth.",
-    "memorial_message": "Struck by a rogue asteroid."
+    "mutagen_message": "You feel additional teeth working their way into your mouth.",
+    "memorial_message": "Struck by a rogue asteroid.",
+    "vitamin": "mutagen_tyrant"
   },
   {
     "type": "mutation",
@@ -24,9 +24,9 @@
     "id": "STEGO",
     "name": "Stego",
     "threshold_mut": "THRESH_STEGO",
-    "mutagen_message": "You are the armor.",
-    "iv_message": "Who needs platemail.",
-    "memorial_message": "The end of an era."
+    "mutagen_message": "You feel your skin toughen.  You are the armor.",
+    "memorial_message": "The end of an era.",
+    "vitamin": "mutagen_stego"
   },
   {
     "type": "mutation",
@@ -38,6 +38,12 @@
     "profession": true,
     "purifiable": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "HERBIVORE",
+    "copy-from": "HERBIVORE",
+    "extend": { "category": [ "STEGO" ] }
   },
   {
     "type": "mutation",
@@ -114,7 +120,7 @@
     "id": "THICKSKIN3",
     "name": { "str": "Diamond-Skinned" },
     "points": 4,
-    "description": "Your skin is developing kevlar-like qualities.  Makes you slower though.",
+    "description": "Your skin is developing Kevlar-like qualities.  Makes you slower though.",
     "prereqs": "THICKSKIN2",
     "cancels": "THINSKIN",
     "threshreq": "THRESH_STEGO",
@@ -232,6 +238,12 @@
   },
   {
     "type": "mutation",
+    "id": "NAILS",
+    "copy-from": "NAILS",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
     "id": "CLAWS",
     "copy-from": "CLAWS",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
@@ -250,7 +262,7 @@
     "visibility": 10,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your mouth has reshaped to accomodate many serrated teeth.  They make it impossible to wear mouthgear and difficult to eat… but tear giant wounds in your prey.",
+    "description": "Your mouth has reshaped to accommodate many serrated teeth.  They make it impossible to wear mouthgear and difficult to eat… but tear giant wounds in your prey.",
     "types": [ "TEETH" ],
     "prereqs": [ "FANGS" ],
     "threshreq": [ "THRESH_TYRANT" ],
@@ -269,9 +281,21 @@
   },
   {
     "type": "mutation",
+    "id": "HEADBUMPS",
+    "copy-from": "HEADBUMPS",
+    "extend": { "category": [ "STEGO" ] }
+  },
+  {
+    "type": "mutation",
     "id": "HORNS",
     "copy-from": "HORNS",
     "extend": { "category": [ "STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_STUB",
+    "copy-from": "TAIL_STUB",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {
     "type": "mutation",
@@ -388,8 +412,32 @@
   },
   {
     "type": "mutation",
+    "id": "UGLY",
+    "copy-from": "UGLY",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFORMED",
+    "copy-from": "DEFORMED",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
     "id": "DEFORMED2",
     "copy-from": "DEFORMED2",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THIRST",
+    "copy-from": "THIRST",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THIRST2",
+    "copy-from": "THIRST2",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {
@@ -400,14 +448,32 @@
   },
   {
     "type": "mutation",
+    "id": "PONDEROUS1",
+    "copy-from": "PONDEROUS1",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
     "id": "PONDEROUS2",
     "copy-from": "PONDEROUS2",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {
     "type": "mutation",
+    "id": "COLDBLOOD",
+    "copy-from": "COLDBLOOD",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
     "id": "COLDBLOOD2",
     "copy-from": "COLDBLOOD2",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "COLDBLOOD3",
+    "copy-from": "COLDBLOOD3",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {

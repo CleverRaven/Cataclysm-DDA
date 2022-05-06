@@ -17,7 +17,7 @@
       },
       {
         "id": "LESSON_LOOK",
-        "text": "You can also use the mouse to see things around you.  The <color_light_cyan>Mouse View</color> window will appear on the sidebar, and you'll be able to get information on the terrain, monsters, and items in the world around you.  Alternatively, you can press <keybind:look> to open the <color_light_cyan>Look Around</color> window."
+        "text": "You can also use the mouse to see things around you.  The <color_light_cyan>Mouse view</color> window will appear on the sidebar, and you'll be able to get information on the terrain, monsters, and items in the world around you.  Alternatively, you can press <keybind:look> to open the <color_light_cyan>Look Around</color> window."
       },
       {
         "id": "LESSON_OPEN",
@@ -81,7 +81,7 @@
       },
       {
         "id": "LESSON_WORE_MASK",
-        "text": "You just put on an article of clothing that protects against the environment.  The most common and important are respiratory devices, which will protect you against smoke, air-born toxins or organisms, and other common hazards.  However, they also make it a little harder to breath when running, so you'll move more slowly.  To check your encumbrance, press <keybind:player_data>."
+        "text": "You just put on an article of clothing that protects against the environment.  The most common and important are respiratory devices, which will protect you against smoke, airborne toxins or organisms, and other common hazards.  However, they also make it a little harder to breath when running, so you'll move more slowly.  To check your encumbrance, press <keybind:player_data>."
       },
       {
         "id": "LESSON_WEAPON_INFO",
@@ -117,7 +117,7 @@
       },
       {
         "id": "LESSON_ACT_BUBBLEWRAP",
-        "text": "This thing here on the floor is a <color_light_cyan>trap</color>.  Traps are permanent until set off, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on the bubblewrap.  Don't worry, it's harmless, but it will make some noise.  There are other types of traps that will cause varying amounts of damage or even teleport you, so watch your step carefully."
+        "text": "This thing here on the floor is a <color_light_cyan>trap</color>.  Traps are permanent until set off, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on the bubble wrap.  Don't worry, it's harmless, but it will make some noise.  There are other types of traps that will cause varying amounts of damage or even teleport you, so watch your step carefully."
       },
       {
         "id": "LESSON_GUN_LOAD",

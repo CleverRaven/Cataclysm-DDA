@@ -69,7 +69,7 @@
     "id": "needle_bone",
     "type": "TOOL",
     "name": { "str": "bone needle" },
-    "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
+    "description": "This is a sharp needle made from a bone.  It would be useful for making rough clothing and items.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "weight": "15 g",
     "volume": "10 ml",
     "price": 0,

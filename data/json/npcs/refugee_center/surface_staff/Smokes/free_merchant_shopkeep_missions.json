@@ -41,7 +41,12 @@
     "difficulty": 2,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
+      "assign_mission_target": {
+        "//": "om_special does nothing because we are at the evac_center. I added this to make the linter happy.",
+        "om_special": "evac_center",
+        "om_terrain": "evac_center_9",
+        "reveal_radius": 1
+      },
       "update_mapgen": {
         "om_terrain": "evac_center_9",
         "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
@@ -324,30 +329,30 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup",
-    "dynamic_line": "Hmm.\"  Smokes looks thoughtful, rubbing his chin.  \"Well, most of the people downstairs aren't willing to come up for things like that, and a lot of folks that are up here have a lot of bad memories from that.  You could try asking around some of the people we have upstairs, but it'll be tough.  If you have some Merch you could spare, though, I could get some people off guard duty and into your little crew for some hazard pay.  You might also have luck asking the Old Guard rep in the southwest bay, near the library - I hear they've got some volunteers lately.",
+    "dynamic_line": "Hmm.\"  Smokes looks thoughtful, rubbing his chin.  \"Well, most of the people downstairs aren't willing to come up for things like that, and a lot of folks that are up here have a lot of bad memories from that.  You could try asking around some of the people we have upstairs, but it'll be tough.  If you have some merch you could spare, though, I could get some people off guard duty and into your little crew for some hazard pay.  You might also have luck asking the Old Guard rep in the southwest bay, near the library - I hear they've got some volunteers lately.",
     "responses": [
       {
-        "text": "Five Merch for someone sounds fair to me.",
+        "text": "[5 merch] Five merch for someone sounds fair to me.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
         "effect": [
           { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
           { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-          { "u_consume_item": "FMCNote", "count": 5 }
+          { "u_consume_item": "FMCNote", "count": 5, "popup": true }
         ],
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup1"
       },
       {
-        "text": "How about ten Merch to do it?",
+        "text": "[10 merch] How about ten merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
         "effect": [
           { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
           { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-          { "u_consume_item": "FMCNote", "count": 10 }
+          { "u_consume_item": "FMCNote", "count": 10, "popup": true }
         ],
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup2"
       },
       {
-        "text": "Thanks for the advice.  Maybe I'll come back with some more Merch.",
+        "text": "Thanks for the advice.  Maybe I'll come back with some more merch.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk"
       }
     ]
@@ -363,5 +368,36 @@
     "type": "talk_topic",
     "dynamic_line": "Woah, you're really intent, hey?  That's a lot for most people here.\"  The money exchanges hands.  \"That's enough to get two people off guard duty for an afternoon, even with all the ugliness back there.  And you know what?  I'll help out, too, so make that three.  I can appreciate someone who's willing to put their money where their mouth is.",
     "responses": [ { "text": "Thank you very much!", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission",
+    "dynamic_line": "*looks at you cautiously.  \"He hasn't been bothering you, has he?  Dave's usually pretty harmless.\"",
+    "responses": [
+      {
+        "text": "He wants permission to build himself a little shelter outside of your lobby, somewhere out of the way.  He'd need access to your washrooms and things, but you could clear him out of this space.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission2"
+      },
+      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission2",
+    "dynamic_line": "Sure, sounds great on paper, but *where*?  We aren't swimming in real estate here, the place is seriously overcrowded.  And I won't have him living out of a soggy cardboard box on the doorstep, it's an even worse look than the lobby.",
+    "responses": [
+      {
+        "text": "What about the rooftop?  There's a stair access there, I can see it from outside, and he'd probably be able to do a bit of a lookout job.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission3"
+      },
+      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission3",
+    "dynamic_line": "*rubs his chin.  \"It's probably technically a fire hazard, but there's not much to light up there besides what Dave brings.  And a few of the guards are pretty attached to him, so we could maybe send folks up to keep an eye on him and make sure he's doing okay.  That wouldn't interfere with comings and goings, either.\"  He pauses a moment, looking at his ledger as if it contains answers.  \"You know what?  Sure.  If Dave is okay with it, I can talk the others into letting him have rooftop access to build himself a little shelter, as long as he continues to keep it clean up there like he has in here.\"",
+    "speaker_effect": { "effect": { "u_add_var": "Dave_Permission", "type": "mission", "value": "yes" } },
+    "responses": [ { "text": "Thanks.  I'll go let him know.", "topic": "TALK_DONE" } ]
   }
 ]

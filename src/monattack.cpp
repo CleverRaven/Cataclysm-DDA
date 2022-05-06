@@ -165,11 +165,15 @@ static const limb_score_id limb_score_reaction( "reaction" );
 static const matec_id tec_none( "tec_none" );
 
 static const material_id material_budget_steel( "budget_steel" );
+static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_flesh( "flesh" );
-static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_hc_steel( "hc_steel" );
 static const material_id material_hflesh( "hflesh" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_iron( "iron" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 
@@ -829,9 +833,20 @@ bool mattack::shockstorm( monster *z )
     Character &player_character = get_player_character();
     bool seen = player_character.sees( *z );
     map &here = get_map();
+
+    bool can_attack = z->sees( *target ) && rl_dist( z->pos(), target->pos() ) <= 12;
+    std::vector<tripoint> path = here.find_clear_path( z->pos(), target->pos() );
+    for( const tripoint &point : path ) {
+        if( here.impassable( point ) &&
+            !( here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, point ) ||
+               here.has_flag( ter_furn_flag::TFLAG_PERMEABLE, point ) ) ) {
+            can_attack = false;
+            break;
+        }
+    }
+
     // Can't see/reach target, no attack
-    if( !z->sees( *target ) ||
-        !here.clear_path( z->pos(), target->pos(), 12, 1, 100 ) ) {
+    if( !can_attack ) {
         return false;
     }
 
@@ -905,10 +920,15 @@ bool mattack::pull_metal_weapon( monster *z )
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
         const item &weapon = foe->get_wielded_item();
-        const int metal_portion = weapon.made_of( material_iron ) +
-                                  weapon.made_of( material_hardsteel ) +
-                                  weapon.made_of( material_steel ) +
-                                  weapon.made_of( material_budget_steel );
+        const int metal_portion = weapon.made_of( material_budget_steel ) +
+                                  weapon.made_of( material_ch_steel ) +
+                                  weapon.made_of( material_hc_steel ) +
+                                  weapon.made_of( material_iron ) +
+                                  weapon.made_of( material_lc_steel ) +
+                                  weapon.made_of( material_mc_steel ) +
+                                  weapon.made_of( material_qt_steel ) +
+                                  weapon.made_of( material_steel );
+
         // Take the total portion of metal in the item into account
         const float metal_fraction = metal_portion / static_cast<float>( weapon.type->mat_portion_total );
         if( !weapon.has_flag( flag_NO_UNWIELD ) && metal_portion ) {
@@ -1831,7 +1851,7 @@ bool mattack::fungus( monster *z )
 bool mattack::fungus_corporate( monster *z )
 {
     if( x_in_y( 1, 20 ) ) {
-        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos(tm) now!\"" ) );
+        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos™ now!\"" ) );
         if( get_player_view().sees( *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
             get_map().add_item( z->pos(), item( "sporeos" ) );
@@ -2091,7 +2111,7 @@ bool mattack::fungus_fortify( monster *z )
                     pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
                     pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
                 add_msg( m_good,
-                         _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
+                         _( "You wake up in a Marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
                 add_msg( m_good,
                          //~ Beginning to hear the Mycus while conscious: this is it speaking
                          _( "assistance, on an arduous quest.  unity.  together we have reached the door.  now to pass through…" ) );
@@ -2914,11 +2934,6 @@ bool mattack::grab( monster *z )
         }
         return true;
     }
-    // if too many entities grab a player they can suffocate
-    // if this is the first monster to grab you set the players oxygen levels
-    if( target->is_npc() || target->is_avatar() ) {
-        target->as_character()->set_oxygen();
-    }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
@@ -2942,8 +2957,8 @@ bool mattack::grab_drag( monster *z )
 
     if( target->has_effect( effect_under_operation ) ) {
         target->add_msg_player_or_npc( m_good,
-                                       _( "The %s tries to drag you, but you're securely fastened in the autodoc." ),
-                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the autodoc." ), z->name() );
+                                       _( "The %s tries to drag you, but you're securely fastened in the Autodoc." ),
+                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the Autodoc." ), z->name() );
         return false;
     }
 
@@ -2983,11 +2998,6 @@ bool mattack::grab_drag( monster *z )
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
 
-    // if too many entities grab a player they can suffocate
-    // if this is the first monster to grab you set the players oxygen levels
-    if( target->is_npc() || target->is_avatar() ) {
-        target->as_character()->set_oxygen();
-    }
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
@@ -4775,7 +4785,7 @@ bool mattack::darkman( monster *z )
         shadow->make_ally( *z );
         add_msg_if_player_sees( *z, m_warning, _( "A shadow splits from the %s!" ), z->name() );
     }
-    // Wont do the combat stuff unless it can see you
+    // Won't do the combat stuff unless it can see you
     if( !z->sees( player_character ) ) {
         return true;
     }
@@ -4825,7 +4835,7 @@ bool mattack::slimespring( monster *z )
             player_character.has_effect( effect_bite ) ) {
             //~ Lowercase is intended: they're small voices.
             add_msg( _( "\"let me help!\"" ) );
-            // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
+            // Yes, your slime microbian(s) handle/don't all Bad Damage at the same time.
             for( const bodypart_id &bp_healed :
                  player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 if( player_character.has_effect( effect_bite, bp_healed.id() ) ) {
@@ -6125,12 +6135,7 @@ bool mattack::dsa_drone_scan( monster *z )
                 weapons_count += 1;
             }
         } else {
-            for( const item &worn_item : target->worn ) {
-                if( worn_item.is_gun() ) {
-                    weapons_count += 1;
-                    break;
-                }
-            }
+            weapons_count += target->worn.worn_guns();
         }
         summon_reinforcements = weapons_count >= 3;
     }

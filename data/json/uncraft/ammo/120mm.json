@@ -13,7 +13,6 @@
       [ [ "gunpowder_artillery", 80000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 25 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

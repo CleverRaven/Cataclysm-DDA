@@ -112,14 +112,14 @@
     "followup": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "dialogue": {
       "describe": "We've got the flag, now we need to locate US forces.",
-      "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figure'n one of those choppers that were fly'n round during th' outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open'er at.",
-      "accepted": "Fuck ya, America!",
+      "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figurin' one of those choppers that were flyin' round during th' outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open 'er at.",
+      "accepted": "Fuck yeah, America!",
       "rejected": "Do you have any better ideas?",
       "advice": "Survivors were talking about them crashing but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.",
       "inquire": "How 'bout that black box?",
-      "success": "America, fuck ya!",
-      "success_lie": "What?!  I out'ta whip you're ass.",
-      "failure": "Damn, I'll have to find'er myself."
+      "success": "America, fuck yeah!",
+      "success_lie": "What?!  I oughta whip your ass.",
+      "failure": "Damn, I'll have to find 'er myself."
     }
   },
   {
@@ -138,13 +138,13 @@
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
       "describe": "With the black box in hand, we need to find a lab.",
-      "offer": "Thanks to your searching we've got the black box but now we need to have a look'n-side her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
-      "accepted": "Fuck ya, America!",
+      "offer": "Thanks to your searching we've got the black box but now we need to have a look inside her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside 'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
+      "accepted": "Fuck yeah, America!",
       "rejected": "Do you have any better ideas?",
-      "advice": "When I was play'n with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
+      "advice": "When I was playin' with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
       "inquire": "How 'bout that black box?",
-      "success": "America, fuck ya!  I was in the guard a few years back so I'm confident I can make heads-or-tails of these transmissions.",
-      "success_lie": "What?!  I out'ta whip you're ass.",
+      "success": "America, fuck yeah!  I was in the guard a few years back so I'm confident I can make heads-or-tails of these transmissions.",
+      "success_lie": "What?!  I oughta whip your ass.",
       "failure": "Damn, I maybe we can find an egg-head to crack the terminal."
     }
   },
@@ -824,7 +824,7 @@
       "accepted": "Great!  This bag should be big enough to hold all of the stalks we'll need.  Don't forget to bring it back.",
       "rejected": "Your loss.",
       "advice": "The cattails grow in the fresh water in swamps.  You can't miss them.",
-      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and improve your survival skill to at least 1 as well.",
+      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and to work on improving your survival skill as well.",
       "success": "Great!  Hand them over and I'll show you how this works.",
       "success_lie": "OK, then hand them over.",
       "failure": "Well, that's a shame."
@@ -899,5 +899,100 @@
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 23, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_alcatraz_9",
+        "om_special": "Alcatraz Prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 15, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 30,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_island_1_8",
+        "om_special": "Island prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 10, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 40,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
   }
 ]

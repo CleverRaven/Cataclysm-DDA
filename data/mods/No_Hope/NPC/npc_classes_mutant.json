@@ -343,8 +343,8 @@
   {
     "type": "npc_class",
     "id": "NC_NPC_MUTANT_ELFA",
-    "name": "Elfa Mutant",
-    "job_description": "I'm looking for elfa mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "name": "Elf-A Mutant",
+    "job_description": "I'm looking for Elf-A mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
     "skills": [
       { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } },
       { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },

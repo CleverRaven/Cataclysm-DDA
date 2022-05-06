@@ -7,12 +7,12 @@
   {
     "type": "item_action",
     "id": "repair_metal",
-    "name": { "str": "Repair metal/plastic/kevlar" }
+    "name": { "str": "Repair metal/plastic/Kevlar" }
   },
   {
     "type": "item_action",
     "id": "sew_advanced",
-    "name": { "str": "Modify Clothing" }
+    "name": { "str": "Modify clothing" }
   },
   {
     "type": "item_action",
@@ -108,11 +108,6 @@
     "type": "item_action",
     "id": "DIRECTIONAL_HOLOGRAM",
     "name": { "str": "Create a moving hologram" }
-  },
-  {
-    "type": "item_action",
-    "id": "MIND_SPLICER",
-    "name": { "str": "Extract data from memory banks" }
   },
   {
     "type": "item_action",
@@ -291,16 +286,6 @@
   },
   {
     "type": "item_action",
-    "id": "ARROW_FLAMABLE",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
-    "id": "AUTOCLAVE",
-    "name": { "str": "Sterilize" }
-  },
-  {
-    "type": "item_action",
     "id": "BELL",
     "name": { "str": "Ring" }
   },
@@ -322,6 +307,11 @@
   {
     "type": "item_action",
     "id": "CABLE_ATTACH",
+    "name": { "str": "Attach" }
+  },
+  {
+    "type": "item_action",
+    "id": "CORD_ATTACH",
     "name": { "str": "Attach" }
   },
   {
@@ -522,7 +512,7 @@
   {
     "type": "item_action",
     "id": "FISH_ROD",
-    "name": { "str": "Fish" }
+    "name": { "ctxt": "FISH_ROD", "str": "Fish" }
   },
   {
     "type": "item_action",
@@ -573,6 +563,11 @@
     "type": "item_action",
     "id": "detach_gunmods",
     "name": { "str": "Detach gunmods" }
+  },
+  {
+    "type": "item_action",
+    "id": "modify_gunmods",
+    "name": { "str": "Modify attached equipment" }
   },
   {
     "type": "item_action",
@@ -706,16 +701,6 @@
   },
   {
     "type": "item_action",
-    "id": "mutagen",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "mutagen_iv",
-    "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
     "id": "MYCUS",
     "name": { "str": "Consume" }
   },
@@ -788,16 +773,6 @@
     "type": "item_action",
     "id": "ELECTRICSTORAGE",
     "name": { "str": "Manage external storage" }
-  },
-  {
-    "type": "item_action",
-    "id": "PURIFIER",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "PURIFY_IV",
-    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",

@@ -183,6 +183,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::BENCHMARK: return "BENCHMARK";
         case debug_menu::debug_menu_index::OM_TELEPORT: return "OM_TELEPORT";
         case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
+        case debug_menu::debug_menu_index::OM_TELEPORT_CITY: return "OM_TELEPORT_CITY";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
@@ -271,7 +272,7 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
         { uilist_entry( debug_menu_index::DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
         { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
-        { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
+        { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set auto move route" ) ) },
         { uilist_entry( debug_menu_index::CONTROL_NPC, true, 'x', _( "Control NPC follower" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
@@ -345,7 +346,7 @@ static int game_uilist()
 static int vehicle_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
-        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change battery charge" ) ) },
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -353,12 +354,16 @@ static int vehicle_uilist()
 
 static int teleport_uilist()
 {
-    const std::vector<uilist_entry> uilist_initializer = {
+    std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
         { uilist_entry( debug_menu_index::LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT_COORDINATES, true, 'p', _( "Teleport - specific overmap coordinates" ) ) },
     };
+
+    const bool teleport_city_enabled = get_option<bool>( "SELECT_STARTING_CITY" );
+    uilist_initializer.emplace_back( uilist_entry( debug_menu_index::OM_TELEPORT_CITY,
+                                     teleport_city_enabled, 'c', _( "Teleport - specific city" ) ) );
 
     return uilist( _( "Teleport…" ), uilist_initializer );
 }
@@ -1159,6 +1164,23 @@ static void teleport_overmap( bool specific_coordinates = false )
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
+static void teleport_city()
+{
+    std::vector<city> cities( city::get_all() );
+    const auto cities_cmp_population = []( const city & a, const city & b ) {
+        return std::tie( a.population, a.name ) > std::tie( b.population, b.name );
+    };
+    std::sort( cities.begin(), cities.end(), cities_cmp_population );
+    uilist cities_menu;
+    ui::omap::setup_cities_menu( cities_menu, cities );
+    cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+    if( c.has_value() ) {
+        const tripoint_abs_omt where = tripoint_abs_omt(
+                                           project_to<coords::omt>( c->pos_om ) + c->pos.raw(), 0 );
+        g->place_player_overmap( where );
+    }
+}
+
 static void spawn_nested_mapgen()
 {
     uilist nest_menu;
@@ -1636,47 +1658,46 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_EDIT_VARS
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
-                    _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
-    nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
-    nmenu.addentry( D_THEORY, true, 'T', "%s", _( "Edit [T]heoretical skill knowledge" ) );
-    nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
-    nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
-    nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spe[l]ls" ) );
-    nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
-    nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "[d]elete (all) items" ) );
-    nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
-                    _( "[w]ear/[w]ield an item from player's inventory" ) );
-    nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
-    nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set [S]tamina" ) );
-    nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set m[o]rale" ) );
-    nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
-    nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
-    nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
+                    _( "Edit description - name, age, height or blood type" ) );
+    nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit skills" ) );
+    nmenu.addentry( D_THEORY, true, 'T', "%s", _( "Edit theoretical skill knowledge" ) );
+    nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit proficiencies" ) );
+    nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit stats" ) );
+    nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spells" ) );
+    nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant items" ) );
+    nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "Delete (all) items" ) );
+    nmenu.addentry( D_ITEM_WORN, true, 'w', "%s", _( "Wear/wield an item from player's inventory" ) );
+    nmenu.addentry( D_HP, true, 'h', "%s", _( "Set hit points" ) );
+    nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set stamina" ) );
+    nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set morale" ) );
+    nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause pain" ) );
+    nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set health" ) );
+    nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set needs" ) );
     if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-        nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill [X]P" ) );
+        nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP" ) );
     }
-    nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
+    nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "Mutate" ) );
     nmenu.addentry( D_STATUS, true,
                     hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
-                    "%s", _( "Status Window [@]" ) );
-    nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-    nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
-    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
-    nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
-    nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
-    nmenu.addentry( D_WRITE_EOCS, true, 'w', "%s",
-                    _( "[w]rite effect_on_condition(s) to eocs.output." ) );
-    nmenu.addentry( D_EDIT_VARS, true, 'v', "%s",
-                    _( "Edit [v]ars" ) );
+                    "%s", _( "Status window" ) );
+    nmenu.addentry( D_TELE, true, 'e', "%s", _( "Teleport" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an effect" ) );
+    nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temperature" ) );
+    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attack" ) );
+    nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
+    nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
+    nmenu.addentry( D_WRITE_EOCS, true, 'W', "%s",
+                    _( "Write effect_on_condition(s) to eocs.output" ) );
+    nmenu.addentry( D_EDIT_VARS, true, 'v', "%s", _( "Edit vars" ) );
 
     if( you.is_npc() ) {
-        nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
-        nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
-        nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set [A]ttitude" ) );
-        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set [O]pinion" ) );
+        nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add mission" ) );
+        nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with class" ) );
+        nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
+        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinion" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -1702,9 +1723,7 @@ static void character_edit_menu()
             if( !query_yn( _( "Delete all items from the target?" ) ) ) {
                 break;
             }
-            for( auto &it : you.worn ) {
-                it.on_takeoff( you );
-            }
+            you.worn.on_takeoff( you );
             you.worn.clear();
             you.inv->clear();
             you.remove_weapon();
@@ -1717,7 +1736,7 @@ static void character_edit_menu()
             item &to_wear = *loc;
             if( to_wear.is_armor() ) {
                 you.on_item_wear( to_wear );
-                you.worn.push_back( to_wear );
+                you.worn.wear_item( you, to_wear, false, false );
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
                 get_event_bus().send<event_type::character_wields_item>( you.getID(),
@@ -1772,9 +1791,47 @@ static void character_edit_menu()
         case D_NEEDS:
             character_edit_needs_menu( you );
             break;
-        case D_MUTATE:
-            wishmutate( &you );
+        case D_MUTATE: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'm', _( "Mutate" ) );
+            smenu.addentry( 1, true, 'c', _( "Mutate category" ) );
+            smenu.addentry( 2, true, 'r', _( "Reset mutations" ) );
+            smenu.query();
+            switch( smenu.ret ) {
+                case 0:
+                    wishmutate( &you );
+                    break;
+                case 1: {
+                    uilist ssmenu;
+                    std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
+                    mutation_categories_list.reserve( mutations_category.size() );
+                    for( const std::pair<mutation_category_id, std::vector<trait_id> > mut_cat : mutations_category ) {
+                        mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
+                    }
+                    ssmenu.text = _( "Choose mutation category:" );
+                    std::sort( mutation_categories_list.begin(), mutation_categories_list.end(), localized_compare );
+                    int menu_ind = 0;
+                    for( const std::pair<std::string, mutation_category_id> &mut_cat : mutation_categories_list ) {
+                        ssmenu.addentry( menu_ind, true, MENU_AUTOASSIGN, mut_cat.first );
+                        ++menu_ind;
+                    }
+                    ssmenu.query();
+                    if( ssmenu.ret >= 0 && ssmenu.ret < static_cast<int>( mutation_categories_list.size() ) ) {
+                        you.give_all_mutations( mutation_category_trait::get_category(
+                                                    mutation_categories_list[ssmenu.ret].second ), query_yn( _( "Include post-threshold traits?" ) ) );
+                    }
+                    break;
+                }
+                case 2:
+                    if( query_yn( _( "Remove all mutations?" ) ) ) {
+                        you.unset_all_mutations();
+                    }
+                    break;
+                default:
+                    break;
+            }
             break;
+        }
         case D_HEALTHY: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_healthy() );
@@ -1877,6 +1934,13 @@ static void character_edit_menu()
         break;
         case D_ADD_EFFECT: {
             wisheffect( you );
+            break;
+        }
+        case D_CHECK_TEMP: {
+            for( const bodypart_id &bp : you.get_all_body_parts() ) {
+                add_msg( string_format( "%s: temperature: %d, temperature conv: %d, wetness: %d", bp->name,
+                                        you.get_part_temp_cur( bp ), you.get_part_temp_conv( bp ), you.get_part_wetness( bp ) ) );
+            }
             break;
         }
         case D_ASTHMA: {
@@ -2810,6 +2874,9 @@ void debug()
             break;
         case debug_menu_index::OM_TELEPORT_COORDINATES:
             debug_menu::teleport_overmap( true );
+            break;
+        case debug_menu_index::OM_TELEPORT_CITY:
+            debug_menu::teleport_city();
             break;
         case debug_menu_index::TRAIT_GROUP:
             trait_group::debug_spawn();

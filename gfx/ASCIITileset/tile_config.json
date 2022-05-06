@@ -91,7 +91,8 @@
         { "id": "t_grass_tall", "bg": 2403 },
         { "id": "t_grass_long", "bg": 2418 },
         { "id": "weather_rain_drop", "bg": 3191 },
-        { "id": [ "npc_female", "npc_male" ], "fg": 3728 }
+        { "id": [ "npc_female", "npc_male" ], "fg": 3728 },
+        { "id": "unknown_map_extra", "fg": 0 }
       ]
     },
     {

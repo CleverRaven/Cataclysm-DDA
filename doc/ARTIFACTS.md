@@ -72,7 +72,7 @@ The various ways this artifact can charge and use charges.
 
 ### passive_add_procgen_values and passive_mult_procgen_values
 
-As the names suggest, these are *passive* benefits/penalties to having the artifact (ie. always present without activating the artifact's abilities).  **Add** values add or subtract from existing scores, and **mult** values multiply them.  These are entered as a list of possible 'abilities' the artifact could get. It does not by default get all these abilities, rather when it spawns it selects from the list provided.
+As the names suggest, these are *passive* benefits/penalties to having the artifact (i.e. always present without activating the artifact's abilities).  **Add** values add or subtract from existing scores, and **mult** values multiply them.  A multiply value of -1 is -100% and a multiply of 2.5 is +250%. These are entered as a list of possible 'abilities' the artifact could get. It does not by default get all these abilities, rather when it spawns it selects from the list provided.
 
 - **weight:** the weight of this value in the list, to be chosen randomly
 - **min_value:** the minimum possible value for this value type. for add must be an integer, for mult it can be a float

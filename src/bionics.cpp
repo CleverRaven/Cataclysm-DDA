@@ -170,8 +170,12 @@ static const material_id fuel_type_muscle( "muscle" );
 static const material_id fuel_type_sun_light( "sunlight" );
 static const material_id fuel_type_wind( "wind" );
 static const material_id material_budget_steel( "budget_steel" );
-static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_ch_steel( "ch_steel" );
+static const material_id material_hc_steel( "hc_steel" );
 static const material_id material_iron( "iron" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
@@ -189,6 +193,7 @@ static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 struct Character::auto_toggle_bionic_result {
@@ -336,6 +341,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
+    assign( jsobj, "power_trickle", power_trickle, false, 0_kJ );
 
     optional( jsobj, was_loaded, "time", charge_time, 0 );
 
@@ -921,6 +927,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
+            if( has_trait( trait_PYROMANIA ) ) {
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            }
             mod_moves( -100 );
         } else {
             refund_power();
@@ -995,7 +1006,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_magnet ) {
         add_msg_activate();
         static const std::set<material_id> affected_materials =
-        { material_iron, material_steel, material_hardsteel, material_budget_steel };
+        { material_iron, material_steel, material_lc_steel, material_mc_steel, material_hc_steel, material_ch_steel, material_qt_steel, material_budget_steel };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
@@ -1543,6 +1554,8 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
 
 void Character::passive_power_gen( const bionic &bio )
 {
+    mod_power_level( bio.info().power_trickle );
+
     const float passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
     if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( fuel_type_muscle ) ||
         passive_fuel_efficiency == 0.0 ) {
@@ -1701,13 +1714,8 @@ float Character::get_effective_efficiency( const bionic &bio, float fuel_efficie
         int coverage = 0;
         const std::map< bodypart_str_id, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
         for( const std::pair< const bodypart_str_id, size_t > &elem : occupied_bodyparts ) {
-            for( const item &i : worn ) {
-                if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-                    !i.has_flag( flag_SEMITANGIBLE ) &&
-                    !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                    coverage += i.get_coverage( elem.first.id() );
-                }
-            }
+            coverage += worn.coverage_with_flags_exclude( elem.first.id(),
+            { flag_ALLOWS_NATURAL_ATTACKS, flag_SEMITANGIBLE, flag_PERSONAL, flag_AURA } );
         }
         effective_efficiency = fuel_efficiency * ( 1.0 - ( coverage / ( 100.0 *
                                occupied_bodyparts.size() ) )
@@ -1731,11 +1739,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
     if( power_cost > 0_kJ ) {
         if( info.has_flag( STATIC( json_character_flag( "BIONIC_ARMOR_INTERFACE" ) ) ) ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
-            bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(),
-            []( const item & w ) {
-                return w.active && w.is_power_armor();
-            } );
-            if( !powered_armor ) {
+            if( !p.worn.is_wearing_active_power_armor() ) {
                 const units::energy armor_power_cost = 1_kJ;
                 power_cost -= armor_power_cost;
             }
@@ -2181,7 +2185,8 @@ float Character::bionics_adjusted_skill( bool autodoc, int skill_level ) const
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                            static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
-    adjusted_skill *= env_surgery_bonus( 1 ) + get_effect_int( effect_assisted );
+    adjusted_skill += get_effect_int( effect_assisted );
+    adjusted_skill *= env_surgery_bonus( 1 );
     return adjusted_skill;
 }
 

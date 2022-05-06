@@ -70,6 +70,11 @@ static void load_transform_results( const JsonObject &jsi, const std::string &js
     load_weighted_list( jsi.get_member( json_key ), list, 1 );
 }
 
+void ter_furn_transform::reset()
+{
+    ter_furn_transform_factory.reset();
+}
+
 template<class T>
 void ter_furn_data<T>::load( const JsonObject &jo )
 {

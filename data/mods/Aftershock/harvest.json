@@ -8,6 +8,7 @@
     "id": "cyborg_harvest",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "afs_neural_io_5", "prob": 40 } ]
+    "copy-from": "cyborg_harvest",
+    "extend": { "entries": [ { "item": "afs_neural_io_5", "prob": 40 } ] }
   }
 ]

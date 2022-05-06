@@ -111,11 +111,37 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
+    "use_action": {
+      "type": "transform",
+      "msg": "You fold in the bayonet.  It can no longer be used.",
+      "menu_text": "Fold",
+      "target": "inter_bayonet_folded",
+      "moves": 120
+    },
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle" ],
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
-    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
+    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "inter_bayonet_folded",
+    "type": "GUNMOD",
+    "name": { "str": "integrated bayonet (folded)", "str_pl": "integrated bayonets (folded)" },
+    "copy-from": "inter_bayonet",
+    "description": "This bayonet has been folded for storage.",
+    "longest_side": "22 cm",
+    "cutting": 0,
+    "integral_longest_side": "0 cm",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Unfold",
+      "msg": "You fold out the bayonet.  It can be used.",
+      "target": "inter_bayonet",
+      "moves": 120
+    },
+    "mode_modifier": [  ],
+    "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "ksg_aux_shotgun",
@@ -255,7 +281,7 @@
     "id": "lemat_revolver_shotgun",
     "type": "GUNMOD",
     "name": { "str": "LeMat revolver shotgun" },
-    "description": "The Lemat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
+    "description": "The LeMat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
     "volume": "250 ml",
     "integral_volume": "0 ml",
     "install_time": "0 s",
@@ -387,7 +413,7 @@
     "id": "masterkey",
     "type": "GUNMOD",
     "name": { "str": "masterkey shotgun" },
-    "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
+    "description": "A minimalist pump-action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
     "weight": "2600 g",
     "volume": "1068 ml",
     "price": 95000,
@@ -408,7 +434,7 @@
     "copy-from": "masterkey",
     "type": "GUNMOD",
     "name": { "str": "modified masterkey shotgun" },
-    "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
+    "description": "A minimalist pump-action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
@@ -458,6 +484,7 @@
     "mod_targets": [ "pistol" ],
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
+    "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
     "flags": [ "STAB" ]
   },
   {

@@ -158,7 +158,7 @@
       "next_weather",
       { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "2 minutes", "20 minutes" ] },
       {
-        "u_message": "Reality is beginning to break.  It is subtle but something deep inside you feels the wrongness.",
+        "u_message": "You suddenly register a buzzing in your senses.  It's getting louder, and your head starts to throb.  Something is coming.",
         "type": "bad",
         "popup": true
       }
@@ -194,7 +194,7 @@
         "queue_eocs": "EOC_CANCEL_PORTAL_STORM",
         "time_in_future": [ { "global_val": "ps_min_length", "default": "2 hours" }, { "global_val": "ps_max_length", "default": "4 hours" } ]
       },
-      { "u_message": "Reality is breaking.", "type": "bad" }
+      { "u_message": "Reality is breaking!", "type": "bad" }
     ]
   },
   {
@@ -214,14 +214,18 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 0 } ] },
       "next_weather",
-      { "u_message": "The damage to reality fades.  Hopefully the scarring is minimal.", "type": "good" },
+      {
+        "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
+        "type": "good"
+      },
+      { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
       { "run_eocs": "EOC_WORSEN_PORTAL_STORM" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WORSEN_PORTAL_STORM",
-    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", 1 ], [ "EOC_PORTAL_LENGTHEN", 1 ] ] }
+    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", { "const": 1 } ], [ "EOC_PORTAL_LENGTHEN", { "const": 1 } ] ] }
   },
   {
     "type": "effect_on_condition",
@@ -257,15 +261,14 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_SHIFTING_MASS", 5 ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
-        [ "EOC_PORTAL_ABSENCE", 1 ],
-        [ "EOC_PORTAL_PAIN", 1 ],
-        [ "EOC_PORTAL_LIGHT", 2 ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", 3 ],
-        [ "EOC_PORTAL_GRASS_CHANGE", 5 ],
-        [ "EOC_PORTAL_MESSAGE", 5 ],
-        [ "EOC_PORTAL_DOOR_OPEN", 1 ]
+        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 5 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 1 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 1 } ],
+        [ "EOC_PORTAL_PAIN", { "const": 1 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
+        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 3 } ],
+        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 5 } ],
+        [ "EOC_PORTAL_MESSAGE", { "const": 5 } ]
       ]
     }
   },
@@ -285,18 +288,17 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 3 ],
-        [ "EOC_PORTAL_ABSENCE", 1 ],
-        [ "EOC_PORTAL_MEMORIES", 1 ],
-        [ "EOC_PORTAL_NETHER_SPAWN", 3 ],
-        [ "EOC_PORTAL_PAIN", 3 ],
-        [ "EOC_PORTAL_LIGHT", 2 ],
-        [ "EOC_PORTAL_GRASS_CHANGE", 1 ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ],
-        [ "EOC_PORTAL_SMOKE", 2 ],
-        [ "EOC_PORTAL_MESSAGE", 7 ],
-        [ "EOC_PORTAL_DOOR_OPEN", 1 ]
+        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 3 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 1 } ],
+        [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
+        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
+        [ "EOC_PORTAL_PAIN", { "const": 3 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
+        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 1 } ],
+        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
+        [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
+        [ "EOC_PORTAL_MESSAGE", { "const": 7 } ]
       ]
     }
   },
@@ -315,17 +317,15 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_GIANT_APPENDAGE", 3 ],
-        [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
-        [ "EOC_PORTAL_ABSENCE", 2 ],
-        [ "EOC_PORTAL_MEMORIES", 2 ],
-        [ "EOC_PORTAL_NETHER_SPAWN", 3 ],
-        [ "EOC_PORTAL_LIGHT", 2 ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", 1 ],
-        [ "EOC_PORTAL_MESSAGE", 5 ],
-        [ "EOC_PORTAL_STORM_POPUP", 1 ],
-        [ "EOC_PORTAL_DOOR_OPEN", 1 ]
+        [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 3 } ],
+        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 1 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
+        [ "EOC_PORTAL_MEMORIES", { "const": 2 } ],
+        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
+        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 1 } ],
+        [ "EOC_PORTAL_MESSAGE", { "const": 5 } ]
       ]
     }
   },
@@ -344,7 +344,9 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_1",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true },
-              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", 1 ], [ "EOC_PORTAL_STORM_VOICES_1", 1 ] ] }
+              "false_effect": {
+                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_1", { "const": 1 } ] ]
+              }
             }
           }
         },
@@ -361,7 +363,9 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_2",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_2", "snippet": true },
-              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", 1 ], [ "EOC_PORTAL_STORM_VOICES_2", 1 ] ] }
+              "false_effect": {
+                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_2", { "const": 1 } ] ]
+              }
             }
           }
         },
@@ -373,27 +377,13 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_3",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true },
-              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ], [ "EOC_PORTAL_STORM_VOICES_3", 1 ] ] }
+              "false_effect": {
+                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_3", { "const": 1 } ] ]
+              }
             }
           }
         }
       ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_NETHER_SPAWN",
-    "effect": {
-      "u_spawn_monster": "GROUP_NETHER_PORTAL",
-      "group": true,
-      "real_count": 1,
-      "hallucination_count": [ 1, 2 ],
-      "outdoor_only": true,
-      "min_radius": 3,
-      "max_radius": 20,
-      "lifespan": [ "10 seconds", "1 minutes" ],
-      "spawn_message": "Several large portals open and before they close a monster leaves.",
-      "spawn_message_plural": "Several large portals open and before they close monsters pour through."
     }
   },
   {
@@ -418,8 +408,8 @@
         "min_radius": 3,
         "max_radius": 20,
         "lifespan": [ "5 seconds", "2 minutes" ],
-        "spawn_message": "Small gashes in reality open nearby. On the other side you see an endless dark ocean. An alien beings spills out before the portals close.",
-        "spawn_message_plural": "Small gashes in reality open nearby. On the other side you see an endless dark ocean. Some alien beings spill out before the portals close."
+        "spawn_message": "Small gashes in reality open nearby, revealing an endless expanse of black water.  An alien being spills through before the portals close.",
+        "spawn_message_plural": "Small gashes in reality open nearby, revealing an endless expanse of black water.  Several alien beings spill out before the portals close."
       }
     ]
   },
@@ -434,8 +424,8 @@
       "min_radius": 3,
       "max_radius": 20,
       "lifespan": [ "1 minutes", "3 minutes" ],
-      "spawn_message": "You cannot remember how the impossible shape came to be here. The pain in your head suggests that is a good thing.",
-      "spawn_message_plural": "You cannot remember how the impossible shapes came to be here. The pain in your head suggests that is a good thing."
+      "spawn_message": "You cannot remember how the impossible shape came to be here.  The pain in your head suggests that that's a good thing.",
+      "spawn_message_plural": "You cannot remember how the impossible shapes came to be here.  The pain in your head suggests that that's a good thing."
     }
   },
   {
@@ -449,8 +439,8 @@
       "min_radius": 3,
       "max_radius": 20,
       "lifespan": [ "5 seconds", "45 seconds" ],
-      "spawn_message": "A bizarre limb seemingly tears its way into reality from elsewhere.",
-      "spawn_message_plural": "Bizarre limbs seemingly tear their way into reality from elsewhere."
+      "spawn_message": "A gigantic limb tears its way into reality.",
+      "spawn_message_plural": "Gigantic limbs tear their way into reality around you."
     }
   },
   {
@@ -462,8 +452,8 @@
       "hallucination_count": 10,
       "outdoor_only": true,
       "lifespan": [ "5 seconds", "2 minutes" ],
-      "spawn_message": "A Ghost of the dead appears near you.",
-      "spawn_message_plural": "Ghosts of the dead surround you."
+      "spawn_message": "A flickering silhouette appears nearby.",
+      "spawn_message_plural": "Human silhouettes appear and surround you."
     }
   },
   {
@@ -476,7 +466,20 @@
       "min_radius": 3,
       "max_radius": 20,
       "lifespan": [ "45 seconds", "5 minutes" ],
-      "spawn_message": "The very notion of empty space is made a cruel joke. Nearby nothing becomes even less."
+      "spawn_message": "The very notion of empty space is made a cruel joke.  Nearby nothing becomes even less."
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_SWARM_STRUCTURE",
+    "effect": {
+      "u_spawn_monster": "mon_swarm_structure",
+      "real_count": 1,
+      "outdoor_only": true,
+      "min_radius": 3,
+      "max_radius": 20,
+      "lifespan": [ "10 minutes", "30 minutes" ],
+      "spawn_message": "The swarm structure was always here, right?"
     }
   },
   {
@@ -485,7 +488,7 @@
     "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
     "effect": [
       {
-        "u_message": "You awake with a start from what must have been a violent and horrifying daydream. Your body aches as if the wounds were real.",
+        "u_message": "You awake with a start from what must have been a violent and horrifying daydream.  Your body aches as if the wounds were real.",
         "type": "bad"
       },
       { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 30 } ] },
@@ -496,19 +499,18 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_SMOKE",
     "effect": [
-      { "u_message": "A million tiny pinpricks in space open for an instant and smoke pours everywhere.", "type": "bad" },
+      { "u_message": "A million tiny pinpricks in space open for an instant, and smoke fills the air.", "type": "bad" },
       { "u_set_field": "fd_smoke", "outdoor_only": true }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
-    "global": true,
     "condition": { "not": "u_driving" },
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "run_eocs": "EOC_PORTAL_TELEPORT_STUCK" },
-      { "u_message": "This moment feels thick as if its not quite over.", "type": "bad" }
+      { "u_message": "The moment feels thick, as if it's not quite over.", "type": "bad" }
     ]
   },
   {
@@ -523,7 +525,7 @@
     "id": "EOC_PORTAL_TELEPORT_STUCK",
     "condition": { "not": "u_driving" },
     "effect": [
-      { "u_teleport": { "u_val": "stuck_teleport" }, "success_message": "You feel as if you just rewound a few seconds." },
+      { "u_teleport": { "u_val": "stuck_teleport" }, "success_message": "You feel an intense sense of deja vu." },
       { "queue_eocs": "EOC_PORTAL_TELEPORT_STUCK_LOOP", "time_in_future": [ "3 seconds", "5 seconds" ] }
     ]
   },
@@ -557,7 +559,7 @@
                 "id": "portal_storm_dark_light_message",
                 "condition": "is_day",
                 "effect": { "u_message": "The sun is snuffed out like a candle.", "type": "bad" },
-                "false_effect": { "u_message": "Some of the stars grow so bright they hurt to look at.", "type": "bad" }
+                "false_effect": { "u_message": "Some of the stars grow so bright that they hurt to look at.", "type": "bad" }
               }
             }
           }
@@ -580,7 +582,7 @@
         ]
       },
       {
-        "u_message": "You feel stretched, as if part of you was elsewhere.  You are not solid enough to affect matter and your equipment falls through you.",
+        "u_message": "You feel stretched, as if part of you was elsewhere.  You are not solid enough to affect matter, and your equipment falls through you.",
         "type": "bad",
         "popup": true
       },
@@ -608,7 +610,7 @@
         "outdoor_only": true
       },
       {
-        "u_make_sound": "a high pitched squeal.",
+        "u_make_sound": "a high-pitched squeal.",
         "target_var": { "global_val": "grass_transform" },
         "volume": 60,
         "type": "alert"
@@ -659,155 +661,161 @@
     "type": "ter_furn_transform",
     "id": "portal_door_transform",
     "terrain": [
-      { "result": [ "t_door_o" ], "valid_terrain": [ "t_door_c" ], "message": " A door flies open!", "message_good": false },
+      { "result": [ "t_door_o" ], "valid_terrain": [ "t_door_c" ], "message": "A door flies open!", "message_good": false },
       {
         "result": [ "f_beaded_door_o" ],
         "valid_terrain": [ "f_beaded_door" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "f_canvas_door_o" ],
         "valid_terrain": [ "f_canvas_door" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "f_large_canvas_door_o" ],
         "valid_terrain": [ "f_large_canvas_door" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_laminated_door_glass_o" ],
         "valid_terrain": [ "t_laminated_door_glass_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_lab_o" ],
         "valid_terrain": [ "t_door_lab_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_white_o" ],
         "valid_terrain": [ "t_door_white_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_gray_o" ],
         "valid_terrain": [ "t_door_gray_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_red_o" ],
         "valid_terrain": [ "t_door_red_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_green_o" ],
         "valid_terrain": [ "t_door_green_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_red_o" ],
         "valid_terrain": [ "t_door_glass_red_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_green_o" ],
         "valid_terrain": [ "t_door_glass_green_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_white_o" ],
         "valid_terrain": [ "t_door_glass_white_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_gray_o" ],
         "valid_terrain": [ "t_door_glass_gray_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_o_peep" ],
         "valid_terrain": [ "t_door_c_peep" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_curtain_o" ],
         "valid_terrain": [ "t_door_curtain_c" ],
-        "message": " A door flies open!",
+        "message": "A curtain flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_grass_curtain_o" ],
+        "valid_terrain": [ "t_door_grass_curtain_c" ],
+        "message": "A curtain flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_makeshift_o" ],
         "valid_terrain": [ "t_door_makeshift_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_o" ],
         "valid_terrain": [ "t_door_glass_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_lab_o" ],
         "valid_terrain": [ "t_door_glass_lab_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_frosted_o" ],
         "valid_terrain": [ "t_door_glass_frosted_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_frosted_lab_o" ],
         "valid_terrain": [ "t_door_glass_frosted_lab_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_chaingate_o" ],
         "valid_terrain": [ "t_chaingate_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_fencegate_o" ],
         "valid_terrain": [ "t_fencegate_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_screen_door_o" ],
         "valid_terrain": [ "t_screen_door_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_chickenwire_gate_o" ],
         "valid_terrain": [ "t_chickenwire_gate_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       },
       {
         "result": [ "t_gate_metal_o" ],
         "valid_terrain": [ "t_gate_metal_c" ],
-        "message": " A door flies open!",
+        "message": "A door flies open!",
         "message_good": false
       }
     ]
@@ -816,155 +824,161 @@
     "type": "ter_furn_transform",
     "id": "portal_door_close_transform",
     "terrain": [
-      { "result": [ "t_door_c" ], "valid_terrain": [ "t_door_o" ], "message": " A door slams shut!", "message_good": false },
+      { "result": [ "t_door_c" ], "valid_terrain": [ "t_door_o" ], "message": "A door slams shut!", "message_good": false },
       {
         "result": [ "f_beaded_door" ],
         "valid_terrain": [ "f_beaded_door_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "f_canvas_door" ],
         "valid_terrain": [ "f_canvas_door_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "f_large_canvas_door" ],
         "valid_terrain": [ "f_large_canvas_door_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_laminated_door_glass_c" ],
         "valid_terrain": [ "t_laminated_door_glass_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_lab_c" ],
         "valid_terrain": [ "t_door_lab_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_white_c" ],
         "valid_terrain": [ "t_door_white_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_gray_c" ],
         "valid_terrain": [ "t_door_gray_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_red_c" ],
         "valid_terrain": [ "t_door_red_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_green_c" ],
         "valid_terrain": [ "t_door_green_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_red_c" ],
         "valid_terrain": [ "t_door_glass_red_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_green_o" ],
         "valid_terrain": [ "t_door_glass_green_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_white_c" ],
         "valid_terrain": [ "t_door_glass_white_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_gray_c" ],
         "valid_terrain": [ "t_door_glass_gray_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_c_peep" ],
         "valid_terrain": [ "t_door_o_peep" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_curtain_c" ],
         "valid_terrain": [ "t_door_curtain_o" ],
-        "message": " A door slams shut!",
+        "message": "A curtain suddenly shuts!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_grass_curtain_c" ],
+        "valid_terrain": [ "t_door_grass_curtain_o" ],
+        "message": "A curtain suddenly shuts!",
         "message_good": false
       },
       {
         "result": [ "t_door_makeshift_c" ],
         "valid_terrain": [ "t_door_makeshift_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_c" ],
         "valid_terrain": [ "t_door_glass_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_lab_c" ],
         "valid_terrain": [ "t_door_glass_lab_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_frosted_c" ],
         "valid_terrain": [ "t_door_glass_frosted_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_door_glass_frosted_lab_c" ],
         "valid_terrain": [ "t_door_glass_frosted_lab_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_chaingate_c" ],
         "valid_terrain": [ "t_chaingate_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_fencegate_c" ],
         "valid_terrain": [ "t_fencegate_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_screen_door_c" ],
         "valid_terrain": [ "t_screen_door_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_chickenwire_gate_c" ],
         "valid_terrain": [ "t_chickenwire_gate_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       },
       {
         "result": [ "t_gate_metal_c" ],
         "valid_terrain": [ "t_gate_metal_o" ],
-        "message": " A door slams shut!",
+        "message": "A door slams shut!",
         "message_good": false
       }
     ]
@@ -972,50 +986,20 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_1",
-    "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
-    "effect": [
-      { "u_location_variable": { "global_val": "indoor_voices" }, "min_radius": 3, "max_radius": 10 },
-      {
-        "u_make_sound": "PORTAL_STORM_VOICES_1",
-        "target_var": { "global_val": "indoor_voices" },
-        "volume": 40,
-        "type": "speech",
-        "snippet": true
-      }
-    ]
+    "effect": { "u_message": "PORTAL_STORM_VOICES_1", "snippet": true }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_2",
-    "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
-    "effect": [
-      { "u_location_variable": { "global_val": "indoor_voices" }, "min_radius": 3, "max_radius": 10 },
-      {
-        "u_make_sound": "PORTAL_STORM_VOICES_2",
-        "target_var": { "global_val": "indoor_voices" },
-        "volume": 60,
-        "type": "speech",
-        "snippet": true
-      }
-    ]
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } } ] },
+    "effect": { "u_message": "PORTAL_STORM_VOICES_2", "snippet": true }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_3",
-    "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
-    "effect": [
-      { "u_location_variable": { "global_val": "indoor_voices" }, "min_radius": 3, "max_radius": 10 },
-      {
-        "u_make_sound": "PORTAL_STORM_VOICES_3",
-        "target_var": { "global_val": "indoor_voices" },
-        "volume": 80,
-        "type": "speech",
-        "snippet": true
-      }
-    ]
+    "effect": { "u_message": "PORTAL_STORM_VOICES_3", "snippet": true }
   },
   {
     "type": "effect_on_condition",
@@ -1055,22 +1039,33 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_CELL",
+    "condition": { "not": "u_driving" },
     "effect": [
-      { "u_location_variable": { "global_val": "cell_loc" } },
-      { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_offset": 1 },
+      { "u_location_variable": { "global_val": "original_loc" } },
+      { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
+      { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
       {
         "arithmetic": [ { "u_val": "var", "var_name": "cell_time" }, "=", { "time": "30 seconds" }, "+", { "rand": 30 } ]
       },
       {
-        "mapgen_update": "portal_cell",
-        "target_var": { "global_val": "cell_loc" },
-        "revert": true,
+        "revert_location": { "global_val": "cell_loc" },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
       {
-        "mapgen_update": "portal_cell_roof",
-        "target_var": { "global_val": "cell_roof_loc" },
-        "revert": true,
+        "mapgen_update": "portal_cell_cleanup",
+        "target_var": { "global_val": "cell_loc" },
+        "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
+      },
+      {
+        "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
+        "target_var": { "global_val": "place_name" }
+      },
+      {
+        "place_override": { "global_val": "place_name", "default": "1 minutes" },
+        "length": { "u_val": "cell_time", "default": "1 minutes" }
+      },
+      {
+        "revert_location": { "global_val": "cell_roof_loc" },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
       { "mapgen_update": "portal_cell_roof", "target_var": { "global_val": "cell_roof_loc" } },
@@ -1079,11 +1074,11 @@
       {
         "queue_eocs": {
           "id": "EOC_PORTAL_STORM_CELL_TELEPORT",
-          "effect": [ { "u_teleport": { "global_val": "cell_loc" } }, { "u_message": "You came back, this time at least." } ]
+          "effect": [ { "u_teleport": { "global_val": "original_loc" } }, { "u_message": "You came back.  This time." } ]
         },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
-      { "u_message": "You are trapped in a warped area." }
+      { "u_message": "You are trapped in <global_val:place_name>!" }
     ]
   },
   {
@@ -1091,12 +1086,7 @@
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
       { "u_location_variable": { "global_val": "portal_dungeon" } },
-      {
-        "mapgen_update": "portal_dungeon",
-        "target_var": { "global_val": "portal_dungeon" },
-        "revert": true,
-        "time_in_future": [ "5 minutes", "5 minutes" ]
-      },
+      { "revert_location": { "global_val": "portal_dungeon" }, "time_in_future": [ "5 minutes", "5 minutes" ] },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
     ]
   },

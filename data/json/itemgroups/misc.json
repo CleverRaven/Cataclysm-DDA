@@ -22,7 +22,11 @@
         ]
       },
       {
-        "distribution": [ { "item": "lighter", "charges": [ 0, 100 ] }, { "item": "matches", "charges": [ 1, 20 ] } ]
+        "distribution": [
+          { "item": "lighter", "charges": [ 0, 100 ] },
+          { "item": "matches", "charges": [ 1, 20 ] },
+          { "item": "ref_matches", "charges": [ 1, 32 ] }
+        ]
       }
     ]
   },
@@ -35,7 +39,7 @@
   {
     "id": "silverware",
     "type": "item_group",
-    "//": "Forks, spoons, knives, ect.",
+    "//": "Forks, spoons, knives, etc.",
     "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
   },
   {
@@ -76,6 +80,7 @@
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
       { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
       { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
+      { "item": "flint", "prob": 1 },
       { "item": "rock_large", "prob": 10 },
       { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
     ]

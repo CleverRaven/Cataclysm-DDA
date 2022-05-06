@@ -26,20 +26,20 @@
     "id": "xl_helmet_nomad",
     "type": "ARMOR",
     "copy-from": "helmet_nomad",
-    "name": { "str": "nomad cowl XL" },
+    "name": { "str": "XL nomad cowl" },
     "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.  You have customized the recipe to fit unusual and enormous anatomy.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_helmet_nomad",
     "type": "ARMOR",
     "copy-from": "helmet_nomad",
     "looks_like": "helmet_nomad",
-    "name": { "str": "nomad cowl XS" },
+    "name": { "str": "XS nomad cowl" },
     "description": "A cowl with protection for the eyes from rain and sun, designed for long travels.  You have customized the recipe to fit unusually small anatomy.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hood_survivor",
@@ -93,7 +93,7 @@
     "name": { "str": "XL winter survivor hood" },
     "description": "A customized and oversized armored Kevlar hood.  Warm thanks to the real fur lining.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_hood_wsurvivor",
@@ -103,7 +103,7 @@
     "name": { "str": "XS winter survivor hood" },
     "description": "A customized and undersized armored Kevlar hood.  Warm thanks to the real fur lining.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hood_xlsurvivor",
@@ -113,7 +113,7 @@
     "name": { "str": "XL survivor hood" },
     "description": "A massive customized armored leather and Kevlar hood, designed to balance comfort and protection.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "hood_xssurvivor",
@@ -123,7 +123,7 @@
     "name": { "str": "XS survivor hood" },
     "description": "A tiny customized armored leather and Kevlar hood, designed to balance comfort and protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hood_lsurvivor",
@@ -154,7 +154,7 @@
     "name": { "str": "XL light survivor hood" },
     "description": "A customized and oversized armored cloth and Kevlar hood, light yet durable.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_hood_lsurvivor",
@@ -164,7 +164,7 @@
     "name": { "str": "XS light survivor hood" },
     "description": "A customized and undersized armored cloth and Kevlar hood, light yet durable.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hood_wsurvivor_nofur",
@@ -188,7 +188,7 @@
     "name": { "str": "XL faux fur winter survivor hood" },
     "description": "A customized and oversized armored Kevlar hood.  Warm thanks to the faux-fur lining.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_hood_wsurvivor_nofur",
@@ -219,7 +219,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT", "SOFT" ],
     "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
@@ -262,6 +262,6 @@
     "name": { "str": "XS scavenger cowl" },
     "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]

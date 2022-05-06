@@ -68,6 +68,13 @@
     "components": [ [ [ "filament", 1, "LIST" ] ] ]
   },
   {
+    "id": "sewing_kevlar",
+    "type": "requirement",
+    "//": "Crafting or repair of kevlar/aramid items",
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "filament_durable", 1, "LIST" ] ] ]
+  },
+  {
     "id": "welding_standard",
     "type": "requirement",
     "//": "Crafting of steel/iron items or installation of vehicle parts",
@@ -109,12 +116,8 @@
     "id": "chainmail_standard",
     "type": "requirement",
     "//": "Construction of chainmail items",
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [
-      [ [ "pliers", -1 ], [ "multitool", -1 ] ],
-      [ [ "boltcutters", -1 ] ],
-      [ [ "cordless_drill", 10 ], [ "fake_drill_press", 5 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ] ], [ [ "cordless_drill", 10 ], [ "drill_press_tool", 5 ] ] ]
   },
   {
     "id": "soldering_standard",
@@ -127,7 +130,7 @@
     "id": "drilling_standard",
     "type": "requirement",
     "//": "Drilling holes in various materials, including metal",
-    "tools": [ [ [ "cordless_drill", 2 ], [ "fake_drill_press", 1 ] ] ]
+    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ] ] ]
   },
   {
     "id": "anesthetic",
@@ -163,16 +166,22 @@
     "tools": [ [ [ "pen", 1 ], [ "black_pen", 1 ], [ "blue_pen", 1 ], [ "green_pen", 1 ], [ "red_pen", 1 ] ] ]
   },
   {
+    "id": "drawing_tool",
+    "type": "requirement",
+    "//": "Things suitable for drawing or writing something on paper, cardboard, cloth or similar materials.",
+    "tools": [ [ [ "ink_standard", 1, "LIST" ], [ "pencil", 1 ], [ "permanent_marker", 1 ], [ "survival_marker", 1 ] ] ]
+  },
+  {
     "id": "power_saw_long",
     "type": "requirement",
-    "//": "Power tools able to make long, straigth cuts",
-    "tools": [ [ [ "fake_tablesaw", 50 ], [ "circsaw_off", 100 ], [ "fake_bandsaw", 50 ] ] ]
+    "//": "Power tools able to make long, straight cuts",
+    "tools": [ [ [ "tablesaw_tool", 50 ], [ "circsaw_off", 100 ], [ "bandsaw_tool", 50 ] ] ]
   },
   {
     "id": "power_saw_short",
     "type": "requirement",
     "//": "Power tools able to make short, precise cuts",
-    "tools": [ [ [ "fake_mitresaw", 10 ], [ "circsaw_off", 20 ], [ "fake_bandsaw", 10 ] ] ]
+    "tools": [ [ [ "mitresaw_tool", 10 ], [ "circsaw_off", 20 ], [ "bandsaw_tool", 10 ] ] ]
   },
   {
     "id": "concrete_removal_standard",

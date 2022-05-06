@@ -96,6 +96,8 @@ static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 
+static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
+
 static inline std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
@@ -1112,7 +1114,7 @@ void veh_interact::do_install()
                         selected_shape = smenu.ret;
                     }
                     if( selected_shape >= 0 && ( num_shapes_total == 0 ||
-                                                 static_cast<size_t>( selected_shape ) < num_shapes_total ) ) {
+                                                 static_cast<size_t>( selected_shape ) <= num_shapes_total ) ) {
                         int offset = selected_shape - 1;
                         if( offset >= 0 ) {
                             int j = 0;
@@ -3237,8 +3239,8 @@ void veh_interact::complete_vehicle( Character &you )
 
     point d( you.activity.values[4], you.activity.values[5] );
     int vehicle_part = you.activity.values[6];
+    cata_assert( !you.activity.str_values.empty() );
     const vpart_id part_id( you.activity.str_values[0] );
-    const std::string &variant_id =  you.activity.str_values[1];
 
     const vpart_info &vpinfo = part_id.obj();
 
@@ -3280,7 +3282,8 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             you.invalidate_crafting_inventory();
-
+            cata_assert( you.activity.str_values.size() >= 2 );
+            const std::string &variant_id =  you.activity.str_values[1];
             int partnum = !base.is_null() ? veh->install_part( d, part_id,
                           std::move( base ), variant_id ) : -1;
             if( partnum < 0 ) {
@@ -3341,6 +3344,8 @@ void veh_interact::complete_vehicle( Character &you )
         }
 
         case 'r': {
+            cata_assert( you.activity.str_values.size() >= 2 );
+            const std::string &variant_id =  you.activity.str_values[1];
             veh_utils::repair_part( *veh, veh->part( vehicle_part ), you, variant_id );
             break;
         }
@@ -3401,7 +3406,11 @@ void veh_interact::complete_vehicle( Character &you )
             break;
         }
 
+        case 'O': // 'O' = remove appliance
         case 'o': {
+            const bool appliance_removal = static_cast<char>( you.activity.index ) == 'O';
+            const bool wall_wire_removal = appliance_removal &&
+                                           veh->part( vehicle_part ).id == vpart_ap_wall_wiring;
             const inventory &inv = you.crafting_inventory();
             if( vehicle_part >= veh->part_count() ) {
                 vehicle_part = veh->get_next_shifted_index( vehicle_part, you );
@@ -3467,7 +3476,9 @@ void veh_interact::complete_vehicle( Character &you )
                                        veh->part( vehicle_part ).name(), veh->name );
             }
 
-            if( broken ) {
+            if( wall_wire_removal ) {
+                veh->part( vehicle_part ).properties_to_item();
+            } else if( broken ) {
                 item_group::ItemList pieces = veh->part( vehicle_part ).pieces_for_broken_part();
                 resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
             } else {
@@ -3481,6 +3492,19 @@ void veh_interact::complete_vehicle( Character &you )
                     // removal is half as educational as installation
                     you.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, you ) / 2 );
                 }
+            }
+
+            // Remove any leftover power cords from the appliance
+            if( appliance_removal && veh->part_count() >= 2 ) {
+                for( const vpart_reference &vpr : veh->get_all_parts() ) {
+                    if( vpr.part().info().has_flag( "POWER_TRANSFER" ) ) {
+                        veh->remove_remote_part( vpr.part_index() );
+                        veh->remove_part( vpr.part_index() );
+                    }
+                }
+                veh->part_removal_cleanup();
+                //always stop after removing an appliance
+                you.activity.set_to_null();
             }
 
             if( veh->part_count() < 2 ) {

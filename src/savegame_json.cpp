@@ -4,7 +4,6 @@
 
 #include "enums.h" // IWYU pragma: associated
 #include "npc_favor.h" // IWYU pragma: associated
-#include "pldata.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -35,6 +34,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
+#include "addiction.h"
 #include "assign.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -82,6 +82,7 @@
 #include "lru_cache.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_memory.h"
 #include "mapdata.h"
@@ -590,7 +591,7 @@ void activity_tracker::deserialize( const JsonObject &jo )
 }
 
 // migration handling of items that used to have charges instead of real items.
-// remove this migration funciton after 0.F
+// remove this migration function after 0.F
 static void migrate_item_charges( item &it )
 {
     if( it.charges != 0 && it.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
@@ -733,6 +734,8 @@ void Character::load( const JsonObject &data )
         }
     }
 
+    data.read( "moncams", moncams );
+
     data.read( "magic", magic );
 
     data.read( "underwater", underwater );
@@ -773,17 +776,22 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
 
+    data.read( "known_monsters", known_monsters );
+
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
-    for( auto &w : worn ) {
-        w.on_takeoff( *this );
-    }
+    worn.on_takeoff( *this );
     worn.clear();
-    data.read( "worn", worn );
-    for( auto &w : worn ) {
-        on_item_wear( w );
+    // deprecate after 0.G
+    if( data.has_array( "worn" ) ) {
+        std::list<item> items;
+        data.read( "worn", items );
+        worn = outfit( items );
+    } else {
+        data.read( "worn", worn );
     }
+    worn.on_item_wear( *this );
 
     // TEMPORARY until 0.F
     if( data.has_array( "hp_cur" ) ) {
@@ -1014,7 +1022,6 @@ void Character::load( const JsonObject &data )
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
-    data.read( "is_dead", is_dead );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );
@@ -1238,12 +1245,16 @@ void Character::store( JsonOut &json ) const
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
+    json.member( "moncams", moncams );
     json.member( "magic", magic );
     json.member( "martial_arts_data", martial_arts_data );
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
 
     json.member_as_string( "move_mode",  move_mode );
+
+    // monsters recorded by the character
+    json.member( "known_monsters", known_monsters );
 
     // storing the mount
     if( is_mounted() ) {
@@ -1305,7 +1316,6 @@ void Character::store( JsonOut &json ) const
 
     // gender
     json.member( "male", male );
-    json.member( "is_dead", is_dead );
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
@@ -1525,7 +1535,7 @@ void avatar::load( const JsonObject &data )
 
     data.read( "magic", magic );
 
-    set_highest_cat_level();
+    calc_mutation_levels();
     drench_mut_calc();
     std::string scen_ident = "(null)";
     if( data.read( "scenario", scen_ident ) && string_id<scenario>( scen_ident ).is_valid() ) {
@@ -2164,7 +2174,7 @@ void npc::load( const JsonObject &data )
     }
 
     if( data.read( "comp_mission_id", comp_miss_id ) ) {
-        comp_mission.mission_id = comp_miss_id;
+        comp_mission.miss_id = mission_id_of( comp_miss_id );
     }
 
     if( data.read( "comp_mission_pt", comp_miss_pt ) ) {
@@ -2280,7 +2290,7 @@ void npc::store( JsonOut &json ) const
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
 
-    json.member( "comp_mission_id", comp_mission.mission_id );
+    json.member( "comp_mission_id", string_of( comp_mission.miss_id ) );
     json.member( "comp_mission_pt", comp_mission.position );
     json.member( "comp_mission_role", comp_mission.role_id );
     json.member( "companion_mission_role_id", companion_mission_role_id );
@@ -2672,6 +2682,7 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "comps_used", comps_used );
     jsout.member( "next_failure_point", next_failure_point );
     jsout.member( "tools_to_continue", tools_to_continue );
+    jsout.member( "batch_size", batch_size );
     jsout.member( "cached_tool_selections", cached_tool_selections );
     jsout.end_object();
 }
@@ -2689,6 +2700,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
     obj.read( "comps_used", comps_used );
     next_failure_point = obj.get_int( "next_failure_point", -1 );
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
+    batch_size = obj.get_int( "batch_size", -1 );
     obj.read( "cached_tool_selections", cached_tool_selections );
 }
 
@@ -2999,6 +3011,12 @@ void item::deserialize( const JsonObject &data )
                 contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
             }
         }
+    }
+
+    // FIXME: batch_size migration from charges - remove after 0.G
+    if( is_craft() and craft_data_->batch_size == -1 ) {
+        craft_data_->batch_size = clamp( charges, 1, charges );
+        charges = 0;
     }
 
     if( !has_itype_variant( false ) && can_have_itype_variant() ) {
@@ -4043,7 +4061,7 @@ void tripoint::serialize( JsonOut &jsout ) const
 void addiction::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "type_enum", type );
+    json.member( "type", type );
     json.member( "intensity", intensity );
     json.member( "sated", sated );
     json.end_object();
@@ -4052,7 +4070,74 @@ void addiction::serialize( JsonOut &json ) const
 void addiction::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
-    type = static_cast<add_type>( jo.get_int( "type_enum" ) );
+    // legacy
+    if( jo.has_int( "type_enum" ) ) {
+        enum class add_type_legacy : int {
+            NONE,
+            CAFFEINE,
+            ALCOHOL,
+            SLEEP,
+            PKILLER,
+            SPEED,
+            CIG,
+            COKE,
+            CRACK,
+            MUTAGEN,
+            DIAZEPAM,
+            MARLOSS_R,
+            MARLOSS_B,
+            MARLOSS_Y,
+            NUM_ADD_TYPES
+        };
+        switch( static_cast<add_type_legacy>( jo.get_int( "type_enum" ) ) ) {
+            case add_type_legacy::CAFFEINE:
+                type = STATIC( addiction_id( "caffeine" ) );
+                break;
+            case add_type_legacy::ALCOHOL:
+                type = STATIC( addiction_id( "alcohol" ) );
+                break;
+            case add_type_legacy::SLEEP:
+                type = STATIC( addiction_id( "sleeping pill" ) );
+                break;
+            case add_type_legacy::PKILLER:
+                type = STATIC( addiction_id( "opiate" ) );
+                break;
+            case add_type_legacy::SPEED:
+                type = STATIC( addiction_id( "amphetamine" ) );
+                break;
+            case add_type_legacy::CIG:
+                type = STATIC( addiction_id( "nicotine" ) );
+                break;
+            case add_type_legacy::COKE:
+                type = STATIC( addiction_id( "cocaine" ) );
+                break;
+            case add_type_legacy::CRACK:
+                type = STATIC( addiction_id( "crack" ) );
+                break;
+            case add_type_legacy::MUTAGEN:
+                type = STATIC( addiction_id( "mutagen" ) );
+                break;
+            case add_type_legacy::DIAZEPAM:
+                type = STATIC( addiction_id( "diazepam" ) );
+                break;
+            case add_type_legacy::MARLOSS_R:
+                type = STATIC( addiction_id( "marloss_r" ) );
+                break;
+            case add_type_legacy::MARLOSS_B:
+                type = STATIC( addiction_id( "marloss_b" ) );
+                break;
+            case add_type_legacy::MARLOSS_Y:
+                type = STATIC( addiction_id( "marloss_y" ) );
+                break;
+            case add_type_legacy::NONE:
+            case add_type_legacy::NUM_ADD_TYPES:
+            default:
+                type = addiction_id::NULL_ID();
+                break;
+        }
+    } else {
+        jo.read( "type", type );
+    }
     intensity = jo.get_int( "intensity" );
     jo.read( "sated", sated );
 }
@@ -4144,6 +4229,21 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "dumping_spot", dumping_spot );
+        json.member( "hidden_missions" );
+        json.start_array();
+        for( const auto &list : hidden_missions ) {
+            json.start_object();
+            json.member( "dir" );
+            json.start_array();
+            for( const auto &miss_id : list ) {
+                json.start_object();
+                json.member( "mission_id", string_of( miss_id.id ) );
+                json.end_object();
+            }
+            json.end_array();
+            json.end_object();
+        }
+        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {
@@ -4213,6 +4313,25 @@ void basecamp::deserialize( const JsonObject &data )
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     data.read( "dumping_spot", dumping_spot );
+    for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
+        std::vector<ui_mission_id> temp;
+        hidden_missions.push_back( temp );
+    }
+    int tab_num = base_camps::TAB_MAIN;
+    for( JsonObject list : data.get_array( "hidden_missions" ) ) {
+        list.allow_omitted_members();
+        for( JsonObject miss_id_json : list.get_array( "dir" ) ) {
+            miss_id_json.allow_omitted_members();
+            std::string miss_id_string;
+            miss_id_json.read( "mission_id", miss_id_string );
+            ui_mission_id miss_id;
+            miss_id.id = mission_id_of( miss_id_string );
+            miss_id.ret = false;
+            hidden_missions[tab_num].push_back( miss_id );
+        }
+        tab_num++;
+    }
+
     for( JsonObject edata : data.get_array( "expansions" ) ) {
         edata.allow_omitted_members();
         expansion_data e;
@@ -4237,7 +4356,7 @@ void basecamp::deserialize( const JsonObject &data )
                 e.provides[ id ] = amount;
             }
         }
-        // incase of save corruption, sanity check provides from expansions
+        // in case of save corruption, sanity check provides from expansions
         const std::string &initial_provide = base_camps::faction_encode_abs( e, 0 );
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;
@@ -4325,8 +4444,16 @@ void cata_variant::deserialize( JsonIn &jsin )
         *this = cata_variant::make<cata_variant_type::bool_>( jsin.get_bool() );
     } else {
         jsin.start_array();
-        if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
-            jsin.error( "Failed to read cata_variant" );
+        int const rewind = jsin.tell();
+        // FIXME: add_type migration - remove after 0.G
+        if( jsin.get_string() == "add_type" ) {
+            type_ = cata_variant_type::addiction_id;
+            value_ = add_type_legacy_conv( jsin.get_string() );
+        } else {
+            jsin.seek( rewind );
+            if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
+                jsin.error( "Failed to read cata_variant" );
+            }
         }
         jsin.end_array();
     }

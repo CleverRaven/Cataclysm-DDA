@@ -1,7 +1,7 @@
 [
   {
     "method": "json",
-    "om_terrain": "zoo_0_0",
+    "om_terrain": "dinozoo_0_0",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -31,6 +31,7 @@
         "___d7d__________d4d___ss",
         "____d____________d____ss"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         ".": "t_pavement",
         "4": "t_tree_pine",
@@ -44,7 +45,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_0_1",
+    "om_terrain": "dinozoo_0_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -75,6 +76,7 @@
         "-__|..|0..r..#|...#|__ss",
         "-__|..|i..r..#|....|__ss"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "+": "t_reinforced_door_glass_c",
         "-": "t_brick_wall",
@@ -129,8 +131,8 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_0_1",
-    "//": "variant of zoo_0_1 with broken open bear cage",
+    "om_terrain": "dinozoo_0_1",
+    "//": "variant of dinozoo_0_1 with broken open bear cage",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -161,6 +163,7 @@
         "-__|..|0.....#|...#|__ss",
         "-__|..|i..w..#|....|__ss"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "+": "t_reinforced_door_glass_c",
         "-": "t_brick_wall",
@@ -216,7 +219,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_0_2",
+    "om_terrain": "dinozoo_0_2",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -247,6 +250,7 @@
         "-_#____#____#_____7|____",
         "------------------------"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "#": "t_underbrush",
         "&": "t_grass",
@@ -302,7 +306,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_0",
+    "om_terrain": "dinozoo_1_0",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -332,6 +336,7 @@
         "ss_d7d__________d4d_____",
         "ss__d____________d______"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         ".": "t_pavement",
         "4": "t_tree_pine",
@@ -345,7 +350,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_1",
+    "om_terrain": "dinozoo_1_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -376,6 +381,7 @@
         "..__eDBDh___..______DB__",
         "..__________..__________"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "#": "t_sidewalk",
         "&": "t_floor",
@@ -448,8 +454,8 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_1",
-    "//": "variant of zoo_1_1 with broken open moose cage",
+    "om_terrain": "dinozoo_1_1",
+    "//": "variant of dinozoo_1_1 with broken open moose cage",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -480,6 +486,7 @@
         "..__eDBDh___..______DB__",
         "..__________..__________"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "#": "t_sidewalk",
         "+": "t_chaingate_c",
@@ -556,7 +563,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_2",
+    "om_terrain": "dinozoo_1_2",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -587,6 +594,7 @@
         "gU||||||||||||||||||||||",
         "bbbbbbbbbbbbbbbbbbbbbbbb"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "+": "t_reinforced_door_glass_c",
         "-": "t_reinforced_glass",
@@ -639,7 +647,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_2_0",
+    "om_terrain": "dinozoo_2_0",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -670,6 +678,7 @@
         "...d....................",
         "........................"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_grass", "7": "t_tree_hickory", "T": "t_tree", "_": "t_sand", "d": "t_dirt" },
       "furniture": { "#": "f_bench", "&": "f_trashcan", "t": "f_table" },
       "place_items": [
@@ -682,7 +691,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_2_1",
+    "om_terrain": "dinozoo_2_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -713,6 +722,7 @@
         "________d_________d____-",
         "_______________________-"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "#": "t_sidewalk",
         "+": "t_reinforced_door_glass_c",
@@ -779,7 +789,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_2_2",
+    "om_terrain": "dinozoo_2_2",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -810,6 +820,7 @@
         "&__&|||||||||||||||||||-",
         "------------------------"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "&": "t_sidewalk",
         "+": "t_chaingate_c",

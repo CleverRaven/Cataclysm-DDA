@@ -329,7 +329,7 @@ struct trap {
         static void reset();
         /**
          * Stores the actual @ref loadid of the loaded traps in the global tr_* variables.
-         * It also sets the trap ids of the terrain types that have build-in traps.
+         * It also sets the trap ids of the terrain types that have built-in traps.
          * Must be called after all traps have been loaded.
          */
         static void finalize();

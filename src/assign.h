@@ -579,8 +579,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
     return true;
 }
 
-inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
-                    const bool strict = false )
+inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val )
 {
     if( !jo.has_member( name ) ) {
         return false;
@@ -588,10 +587,6 @@ inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val
     const nc_color out = color_from_string( jo.get_string( name ) );
     if( out == c_unset ) {
         jo.throw_error( "invalid color name", name );
-    }
-    if( strict && out == val ) {
-        report_strict_violation( jo, "cannot assign explicit value the same as default or inherited value",
-                                 name );
     }
     val = out;
     return true;

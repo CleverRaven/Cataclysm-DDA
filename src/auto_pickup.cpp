@@ -6,16 +6,20 @@
 #include <memory>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
+#include "game.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_stack.h"
 #include "itype.h"
+#include "map.h"
 #include "json.h"
 #include "material.h"
 #include "options.h"
@@ -30,6 +34,8 @@
 
 using namespace auto_pickup;
 
+static const ammotype ammo_battery( "battery" );
+
 static bool check_special_rule( const std::map<material_id, int> &materials,
                                 const std::string &rule );
 
@@ -37,6 +43,235 @@ auto_pickup::player_settings &get_auto_pickup()
 {
     static auto_pickup::player_settings single_instance;
     return single_instance;
+}
+
+/**
+ * The function will return `true` if the user has set all limits to a value of 0.
+ * @param pickup_item item to check.
+ * @return `true` if given item's weight and volume is within auto pickup user configured limits.
+ */
+static bool within_autopickup_limits( const item *pickup_item )
+{
+    int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
+    int volume_limit = get_option<int>( "AUTO_PICKUP_VOLUME_LIMIT" );
+
+    bool valid_volume = pickup_item->volume() <= volume_limit * 50_ml;
+    bool valid_weight = pickup_item->weight() <= weight_limit * 50_gram;
+
+    return ( volume_limit <= 0 || valid_volume ) && ( weight_limit <= 0 || valid_weight );
+}
+
+/**
+ * @param pickup_item item to get the auto pickup rule for.
+ * @return `rule_state` associated with the given item.
+ */
+static rule_state get_autopickup_rule( const item *pickup_item )
+{
+    std::string item_name = pickup_item->tname( 1, false );
+    rule_state pickup_state = get_auto_pickup().check_item( item_name );
+
+    if( pickup_state == rule_state::WHITELISTED ) {
+        return rule_state::WHITELISTED;
+    } else if( pickup_state != rule_state::BLACKLISTED ) {
+        //No prematched pickup rule found, check rules in more detail
+        get_auto_pickup().create_rule( pickup_item );
+
+        if( get_auto_pickup().check_item( item_name ) == rule_state::WHITELISTED ) {
+            return rule_state::WHITELISTED;
+        }
+    } else {
+        return rule_state::BLACKLISTED;
+    }
+    return rule_state::NONE;
+}
+
+/**
+ * Drop all items from the given container that match special auto pickup rules.
+ * The items will be removed from the container and dropped in the designated location.
+ *
+ * @param from container to drop items from.
+ * @param where location on the map to drop items to.
+ */
+static void empty_autopickup_target( item *what, tripoint where )
+{
+    bool is_rigid = what->all_pockets_rigid();
+    for( item *entry : what->all_items_top() ) {
+        const rule_state ap_rule = get_autopickup_rule( entry );
+        // rigid containers want to keep as much items as possible so drop only blacklisted items
+        // non-rigid containers want to drop as much items as possible so keep only whitelisted items
+        if( is_rigid ? ap_rule == rule_state::BLACKLISTED : ap_rule != rule_state::WHITELISTED ) {
+            // drop the items on the same tile the container is on
+            get_map().add_item( where, what->remove_item( *entry ) );
+        }
+    }
+}
+
+/**
+ * Iterate through every item inside the container to find items that match auto pickup rules.
+ * In most cases whitelisted items will be included and blacklisted one will be excluded however
+ * there are special cases. Below is an overview of selection rules for container auto pickup.
+ *
+ * Containers and items will **never** be picked up when:
+ *
+ * - they are owned by player and `AUTO_PICKUP_OWNED` game option is disabled.
+ * - they exceed volume or weight user auto pickup limitations.
+ * - they are blacklisted in auto pickup rules.
+ *
+ * Containers will **always** be picked up when:
+ *
+ * - the container is sealed.
+ * - there is any liquids stored in container pockets.
+ * - all items inside the container are marked for pickup.
+ *
+ * Containers will **never** be picked up when:
+ *
+ * - only batteries were selected and the container is battery powered.
+ * - the container is a non-whitelisted corpse.
+ *
+ * Items will **NOT** be picked up when:
+ *
+ * - the parent container is non-rigid and the item is not whitelisted.
+ *
+ * @param from item to search for items to auto pickup from.
+ * @return sequence of items to auto pickup from given container.
+ */
+static std::vector<item_location> get_autopickup_items( item_location &from )
+{
+    item *container_item = from.get_item();
+    // items sealed in containers should never be unsealed by auto pickup
+    bool force_pick_container = container_item->any_pockets_sealed();
+    bool pick_all_items = true;
+
+    std::vector<item_location> result;
+    // do not auto pickup owned containers or items
+    if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
+        container_item->is_owned_by( get_player_character() ) ) {
+        return result;
+    }
+    std::list<item *> contents = container_item->all_items_top();
+    result.reserve( contents.size() );
+
+    bool any_whitelisted = false;
+    std::list<item *>::iterator it;
+    for( it = contents.begin(); it != contents.end(); ++it ) {
+        item *item_entry = *it;
+        if( !within_autopickup_limits( item_entry ) ) {
+            pick_all_items = false;
+            continue;
+        }
+        const rule_state pickup_state = get_autopickup_rule( item_entry );
+        if( pickup_state == rule_state::WHITELISTED ) {
+            any_whitelisted = true;
+            if( !force_pick_container ) {
+                if( item_entry->is_container() ) {
+                    // whitelisted containers should exclude contained blacklisted items
+                    empty_autopickup_target( item_entry, from.position() );
+                } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
+                    // liquid items should never be picked up without container
+                    force_pick_container = true;
+                    break;
+                }
+                // pick up the whitelisted item
+                result.emplace_back( from, item_entry );
+            }
+        } else if( !force_pick_container && item_entry->is_container() &&
+                   !item_entry->is_container_empty() ) {
+            // get pickup list from nested item container
+            item_location location = item_location( from, item_entry );
+            std::vector<item_location> result_nested = get_autopickup_items( location );
+
+            // container with content was NOT marked for pickup
+            if( result_nested.size() != 1 || result_nested[0] != location ) {
+                pick_all_items = false;
+            }
+            result.reserve( result_nested.size() + result.size() );
+            result.insert( result.end(), result_nested.begin(), result_nested.end() );
+        } else {
+            // skip not whitelisted items that are not containers with items
+            pick_all_items = false;
+        }
+    }
+    // all items in container were approved for pickup
+    if( !contents.empty() && ( pick_all_items || force_pick_container ) ) {
+        // only auto pickup corpses if they are whitelisted
+        // blacklisted containers should still have their contents picked up but themselves should be excluded.
+        // If all items inside blacklisted container match then just pickup the items without the container
+        rule_state pickup_state = get_autopickup_rule( container_item );
+        if( pickup_state == rule_state::BLACKLISTED || !any_whitelisted ||
+            ( container_item->is_corpse() && pickup_state != rule_state::WHITELISTED ) ) {
+            return result;
+        }
+        bool all_batteries = true;
+        bool powered_container = container_item->ammo_capacity( ammo_battery );
+        if( powered_container ) {
+            // when dealing with battery powered tools there should only be one pocket
+            // and one battery inside but this could change in future so account for that here
+            all_batteries = std::all_of( result.begin(), result.end(),
+            []( const item_location & il ) {
+                return il.get_item()->is_battery();
+            } );
+        }
+        bool batteries_from_tool = powered_container && all_batteries;
+        // make sure container is allowed to be picked up
+        // when picking up batteries from powered containers don't pick container
+        if( within_autopickup_limits( container_item ) && !batteries_from_tool ) {
+            result.clear();
+            result.push_back( from );
+        } else if( force_pick_container ) {
+            // when force picking never pick individual items
+            result.clear();
+        }
+    }
+    return result;
+}
+
+/**
+ * Select which items on the map tile should be auto-picked up.
+ * The return value represents locations of the selected items on the map.
+ *
+ * @param from stack of item entries on a map tile.
+ * @param location where the stack of items is located on the map.
+ * @return sequence of selected items on the map.
+ */
+drop_locations auto_pickup::select_items(
+    const std::vector<item_stack::iterator> &from, const tripoint &location )
+{
+    drop_locations result;
+    const map_cursor map_location = map_cursor( location );
+
+    // iterate over all item stacks found in location
+    for( const item_stack::iterator &stack : from ) {
+        item *item_entry = &*stack;
+        // do not auto pickup owned containers or items
+        if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
+            item_entry->is_owned_by( get_player_character() ) ) {
+            continue;
+        }
+        std::string sItemName = item_entry->tname( 1, false );
+        rule_state pickup_state = get_autopickup_rule( item_entry );
+        bool is_container = item_entry->is_container() && !item_entry->empty_container();
+
+        // before checking contents check if item is on pickup list
+        if( pickup_state == rule_state::WHITELISTED ) {
+            if( item_entry->is_container() ) {
+                empty_autopickup_target( item_entry, location );
+            }
+            // skip if the container is still above the limit after emptying it
+            if( !within_autopickup_limits( item_entry ) ) {
+                continue;
+            }
+            int it_count = 0; // TODO: factor in auto pickup max_quantity here
+            item_location it_location = item_location( map_location, item_entry );
+            result.emplace_back( std::make_pair( it_location, it_count ) );
+        } else if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
+            item_location container_location = item_location( map_location, item_entry );
+            for( const item_location &add_item : get_autopickup_items( container_location ) ) {
+                int it_count = 0; // TODO: factor in auto pickup max_quantity here
+                result.emplace_back( std::make_pair( add_item, it_count ) );
+            }
+        }
+    }
+    return result;
 }
 
 void user_interface::show()
@@ -412,7 +647,7 @@ void player_settings::show()
     user_interface ui;
 
     Character &player_character = get_player_character();
-    ui.title = _( " AUTO PICKUP MANAGER " );
+    ui.title = _( "Auto pickup manager" );
     ui.tabs.emplace_back( _( "[<Global>]" ), global_rules );
     if( !player_character.name.empty() ) {
         ui.tabs.emplace_back( _( "[<Character>]" ), character_rules );
@@ -579,13 +814,13 @@ bool player_settings::has_rule( const item *it )
     return false;
 }
 
-void player_settings::add_rule( const item *it )
+void player_settings::add_rule( const item *it, bool include )
 {
-    character_rules.push_back( rule( it->tname( 1, false ), true, false ) );
+    character_rules.push_back( rule( it->tname( 1, false ), true, !include ) );
     create_rule( it );
 
     if( !get_option<bool>( "AUTO_PICKUP" ) &&
-        query_yn( _( "Autopickup is not enabled in the options.  Enable it now?" ) ) ) {
+        query_yn( _( "Auto pickup is not enabled in the options.  Enable it now?" ) ) ) {
         get_options().get_option( "AUTO_PICKUP" ).setNext();
         get_options().save();
     }
@@ -643,7 +878,7 @@ bool check_special_rule( const std::map<material_id, int> &materials, const std:
     return false;
 }
 
-//Special case. Required for NPC harvest autopickup. Ignores material rules.
+//Special case. Required for NPC harvest auto pickup. Ignores material rules.
 void npc_settings::create_rule( const std::string &to_match )
 {
     rules.create_rule( map_items, to_match );
@@ -774,7 +1009,7 @@ bool player_settings::save( const bool bCharacter )
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
         ( bCharacter ? character_rules : global_rules ).serialize( jout );
-    }, _( "autopickup configuration" ) );
+    }, _( "auto pickup configuration" ) );
 }
 
 void player_settings::load_character()

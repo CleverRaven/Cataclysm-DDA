@@ -27,5 +27,12 @@
       { "item": "cash_card", "prob": 10, "charges": [ 0, 50000 ] },
       { "group": "misc_smoking", "prob": 30 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "feral_scientists_death_drops_scalpel",
+    "copy-from": "feral_scientists_death_drops_scalpel",
+    "subtype": "collection",
+    "extend": { "entries": [ { "group": "bionics", "prob": 10 } ] }
   }
 ]

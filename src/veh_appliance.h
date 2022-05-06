@@ -9,6 +9,10 @@ class vehicle;
 class ui_adaptor;
 struct point;
 
+vpart_id vpart_appliance_from_item( const itype_id &item_id );
+void place_appliance( const tripoint &p, const vpart_id &vpart,
+                      const cata::optional<item> &base = cata::nullopt );
+
 /**
  * Appliance interaction UI. Works similarly to veh_interact, but has
  * a much simpler design. The intended usage is:
@@ -114,6 +118,11 @@ class veh_app_interact
          * reflected in the UI's title.
         */
         void rename();
+        /**
+         * Function associated with the "REMOVE" action.
+         * Turns the installed appliance into its base item.
+        */
+        void remove();
         /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned

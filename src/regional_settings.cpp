@@ -1026,6 +1026,10 @@ map_extras map_extras::filtered_by( const mapgendata &dat ) const
             result.values.add( extra_id, obj.weight );
         }
     }
+    if( !values.empty() && result.values.empty() ) {
+        // OMT is too tall / too deep for all map extras. Skip map extra generation.
+        result.chance = 0;
+    }
     return result;
 }
 

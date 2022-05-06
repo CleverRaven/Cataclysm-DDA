@@ -474,8 +474,8 @@
   {
     "id": "40mm_emp",
     "type": "AMMO",
-    "name": { "str": "40mm EMP grenade" },
-    "description": "A 40mm grenade with an EMP charge.  It will release an electromagnetic pulse capable of damaging robots and some equipment.",
+    "name": { "str": "40x46mm EMP grenade" },
+    "description": "A 40x46mm grenade with an EMP charge.  It will release an electromagnetic pulse capable of damaging robots and some equipment.",
     "weight": "230 g",
     "volume": "250 ml",
     "price": 40000,

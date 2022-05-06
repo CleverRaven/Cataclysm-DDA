@@ -31,7 +31,9 @@
       { "monster": "mon_zombie_swat", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fireman", "weight": 10, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_swimmer", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 5 },
+      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
@@ -208,6 +210,7 @@
       { "monster": "mon_pig", "weight": 10, "cost_multiplier": 25, "ends": "28 days", "pack_size": [ 1, 6 ] },
       { "monster": "mon_pig", "weight": 10, "cost_multiplier": 25, "ends": "90 days", "pack_size": [ 1, 6 ] },
       { "monster": "mon_sheep", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
+      { "monster": "mon_goat", "weight": 25, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "3 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "7 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "28 days", "pack_size": [ 1, 5 ] },
@@ -277,6 +280,7 @@
       { "monster": "mon_horse", "weight": 10 },
       { "monster": "mon_pig", "weight": 10 },
       { "monster": "mon_sheep", "weight": 10 },
+      { "monster": "mon_goat", "weight": 10 },
       { "monster": "mon_lemming", "weight": 10 }
     ]
   },

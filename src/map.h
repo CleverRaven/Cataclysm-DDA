@@ -1215,13 +1215,15 @@ class map
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "" );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
+                         const std::string &faction = "" );
         void spawn_item( const point &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
+                         const std::string &faction = "" ) {
             spawn_item( tripoint( p, abs_sub.z() ), type_id, quantity, charges, birthday, damlevel, flags,
-                        variant );
+                        variant, faction );
         }
 
         // FIXME: remove these overloads and require spawn_item to take an
@@ -1229,15 +1231,18 @@ class map
         void spawn_item( const tripoint &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
-            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags, variant );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
+                         const std::string &faction = "" ) {
+            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags, variant,
+                        faction );
         }
         void spawn_item( const point &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
+                         const std::string &faction = "" ) {
             spawn_item( tripoint( p, abs_sub.z() ), type_id, quantity, charges, birthday, damlevel, flags,
-                        variant );
+                        variant, faction );
         }
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
@@ -1298,7 +1303,7 @@ class map
                                     const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
-                                     basecamp *bcp = nullptr );
+                                     basecamp *bcp = nullptr, bool in_tools = false );
 
         /** Find items located at point p (on map or in vehicles) that pass the filter */
         std::list<item_location> items_with( const tripoint &p,
@@ -1334,12 +1339,14 @@ class map
         */
         std::vector<item *> place_items(
             const item_group_id &group_id, int chance, const tripoint &p1, const tripoint &p2,
-            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 );
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0,
+            const std::string &faction = "" );
         std::vector<item *> place_items(
             const item_group_id &group_id, int chance, const point &p1, const point &p2,
-            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 ) {
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0,
+            const std::string &faction = "" ) {
             return place_items( group_id, chance, tripoint( p1, abs_sub.z() ),
-                                tripoint( p2, abs_sub.z() ), ongrass, turn, magazine, ammo );
+                                tripoint( p2, abs_sub.z() ), ongrass, turn, magazine, ammo, faction );
         }
         /**
         * Place items from an item group at p. Places as much items as the item group says.
@@ -1618,16 +1625,16 @@ class map
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true );
+                              bool merge_wrecks = true, const std::string &faction = "" );
         vehicle *add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true );
+                              bool merge_wrecks = true, const std::string &faction = "" );
         vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true );
+                              bool merge_wrecks = true, const std::string &faction = "" );
         vehicle *add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true );
+                              bool merge_wrecks = true, const std::string &faction = "" );
         // Light/transparency
         float light_transparency( const tripoint &p ) const;
         // Assumes 0,0 is light map center
@@ -1810,7 +1817,6 @@ class map
 
         void draw_lab( mapgendata &dat );
         void draw_temple( const mapgendata &dat );
-        void draw_mine( mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
@@ -1830,6 +1836,7 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
+
 
     protected:
         void generate_lightmap( int zlev );
@@ -2088,6 +2095,7 @@ class map
             const tripoint &from, const tripoint &to ) const;
         tripoint_range<tripoint> points_in_radius(
             const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+
         /**
          * Yields a range of all points that are contained in the map and have the z-level of
          * this map (@ref abs_sub).

@@ -188,6 +188,8 @@
       "urban_1_6",
       "urban_2_1",
       "urban_2_2",
+      "urban_dd_1",
+      "urban_dd_2",
       "urban_3_1",
       "urban_3_2",
       "urban_4_3",
@@ -256,6 +258,10 @@
       "urban_2_4",
       "urban_2_5",
       "urban_2_6",
+      "urban_dd_3",
+      "urban_dd_4",
+      "urban_dd_5",
+      "urban_dd_6",
       "urban_3_3",
       "urban_3_4",
       "urban_3_5",
@@ -500,6 +506,8 @@
     "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
+    "extras": "build",
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 10 ], "chance": 80 },
     "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
@@ -552,7 +560,6 @@
       "s_apt_2_roof",
       "s_apt_upper_roof"
     ],
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 10 ], "chance": 80 },
     "copy-from": "apartments_tower_any"
   },
   {
