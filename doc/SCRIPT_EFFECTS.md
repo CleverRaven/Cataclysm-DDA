@@ -101,6 +101,7 @@ When editing this document please attempt to list effects alphabetically, but ke
 [^time]: This attribute will accept a time value (either an `int` or, more commonly, a string value with a time unit in seconds, minutes, hours, or days, such as "3 hours").
 
 [^array]: This attribute will accept an array of options in list format, enclosed in square brackets. Eg: `[ "item_1", "item_2" ]`
+[^assign_mission_target]: This attribute accepts a set of standard parameters related to the `Assign Mission Target` function. See [./MISSIONS_JSON.md](Missions documentation) for details.
 [^var]: This attribute will accept a `variable_object` that returns one of the other accepted values of the attribute.
 
 #### Missions
@@ -166,14 +167,14 @@ Effect | Required | Optional | Description | Example
 ---|---|---|---|---
 `set_string_var` | `string`[^string][^array][^var], `target_var`[^var]| None | Store string (or the variable object) from `set_string_var` in the variable object `target_var`. If an array is provided a random element from that array will be used. Note that unlike using `u_add_var` and `possible_values`, this stores the string globally, not on `u` or `npc`. | `"set_string_var": [ "Camp Randomname", "Camp Erk Rules" ], "target_var": "random_camp_name"`
 `u_add_var`, `npc_add_var` | `var_name`[^string], `value`[^string] | `type`[^string], `context`[^string] | Store `value` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`. | `"u_add_var": "good_day", "type": "happiness_marker", "context": "mission", "value": "day_is_good"`
-`u_add_var`, `npc_add_var` | `var_name`[^string], `time`[^bool] | `type`[^string], `context`[^string] | Store the current turn of the game as an integer.| `"u_add_var": "time_since_good_day", "time": true`
+`u_add_var`, `npc_add_var` | `var_name`[^string], `time`[^bool] | `type`[^string], `context`[^string] | Store the current turn of the game as an integer. Note that this can be processed and correctly understood by any function that expects a "time" value. | `"u_add_var": "time_since_good_day", "time": true`
 `u_add_var`, `npc_add_var` | `var_name`[^string], `possible_values`[^string][^array] | `type`[^string], `context`[^string] | Store one of the values given at random from the array specified in `possible_values`. | `"u_add_var": "random_string", "type": "randomizer", "possible_values": [ "yes", "bingo", "pablum", "trollface", "narf" ]`
 `u_lose_var`, `npc_lose_var` | `var_name`[^string] | `type`[^string], `context`[^string] | Clear any stored variable that has the same string values for `var_name`, `type`, and `context`.| `"u_lose_var": "random_string"`
 `u_adjust_var, npc_adjust_var` | `var_name`, `adjustment`[^int][^var]  | `type`[^string], `context`[^string] |  Adjust the stored variable by the amount in `adjustment`.| `"u_adjust_var": "count_var", "context": "debug", "adjustment": 5`
+`u_location_variable, npc_location_variable` | `target_var`[^var] | `min_radius`[^int][^var]<br />`max_radius`[^int][^var]<br />`outdoor_only`[^bool]<br />`target_params`[^assign_mission_target]<br />`z_adjust`[^int][^var]<br /> `z_override`[^bool] | Targets a point to be saved to `target_var`.<br /><br />If `min_radius` and `max_radius` (both default 0) are specified, chooses a random point within that distance of the target.<br /><br />If `outdoor_only_bool` is true (default false) will only choose outdoor spaces.<br /><br />`z_adjust` will be added to the current z-value by default, if `z_override` is set to true it replaces the z-value instead.<br /><br />If `target_params` is defined it will be used to find a tile using [`assign_mission_target` parameters](MISSIONS_JSON.md) and may override above settings. 
 
 Effect | Description
 ---|---
-`u_location_variable, npc_location_variable`: `target_var`,*optional* `min_radius: min_radius_int or min_radius_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`, *optional* `outdoor_only: outdoor_only_bool`, *optional* `target_params: assign_mission_target` parameters, *optional* `z_adjust: int or variable_object`, *optional* `z_override: bool` | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise.
 
 #### Character effects
 
