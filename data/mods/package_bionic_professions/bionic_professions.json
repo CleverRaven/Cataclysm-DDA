@@ -282,7 +282,6 @@
         "items": [
           "gloves_medical",
           "socks",
-          "mask_dust",
           "dress_shirt",
           "pants",
           "dress_shoes",
@@ -294,7 +293,12 @@
           "oxycodone",
           "wristwatch"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "full_1st_aid" }, { "item": "medium_battery_cell", "charges": 500 } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "full_1st_aid" },
+          { "item": "medium_battery_cell", "charges": 500 },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]

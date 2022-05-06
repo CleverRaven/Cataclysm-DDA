@@ -441,6 +441,19 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "side", part_side );
 
     optional( jo, was_loaded, "sub_parts", sub_parts );
+
+    if( jo.has_array( "encumbrance_per_weight" ) ) {
+        const JsonArray &jarr = jo.get_array( "encumbrance_per_weight" );
+        for( const JsonObject jval : jarr ) {
+            units::mass weight = 0_gram;
+            int encumbrance = 0;
+
+            assign( jval, "weight", weight, true );
+            mandatory( jval, was_loaded, "encumbrance", encumbrance );
+
+            encumbrance_per_weight.insert( std::pair<units::mass, int>( weight, encumbrance ) );
+        }
+    }
 }
 
 void body_part_type::reset()

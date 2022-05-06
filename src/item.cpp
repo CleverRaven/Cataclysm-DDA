@@ -390,11 +390,12 @@ static const item *get_most_rotten_component( const item &craft )
 }
 
 item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
-    : item( "craft", calendar::turn, qty )
+    : item( "craft", calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
     craft_data_->disassembly = false;
+    craft_data_->batch_size = qty;
     components = items;
     craft_data_->comps_used = selections;
 
@@ -6822,6 +6823,18 @@ bool item::has_flag( const flag_id &f ) const
         }
     }
 
+    // check flags from items in inherit pockets
+    for( const item_pocket *pocket : contents.get_all_contained_pockets() ) {
+        // if the pocket inherits flags
+        if( pocket->inherits_flags() ) {
+            for( const item *e : pocket->all_items_top() ) {
+                if( e->has_flag( f ) ) {
+                    return true;
+                }
+            }
+        }
+    }
+
     // other item type flags
     ret = type->has_flag( f );
     if( ret ) {
@@ -12776,7 +12789,8 @@ bool item::is_rigid() const
 bool item::is_comfortable() const
 {
     // overrides for the item overall
-    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
+    // NO_WEAR_EFFECT is there for jewelry and the like which is too small to be considered
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) || has_flag( flag_NO_WEAR_EFFECT ) ) {
         return true;
     } else if( has_flag( flag_HARD ) ) {
         return false;
@@ -12854,7 +12868,8 @@ template <typename T>
 bool item::is_bp_comfortable( const T &bp ) const
 {
     // overrides for the item overall
-    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
+    // NO_WEAR_EFFECT is there for jewelry and the like which is too small to be considered
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) || has_flag( flag_NO_WEAR_EFFECT ) ) {
         return true;
     } else if( has_flag( flag_HARD ) ) {
         return false;
@@ -13173,6 +13188,16 @@ const recipe &item::get_making() const
     }
     cata_assert( craft_data_->making );
     return *craft_data_->making;
+}
+
+int item::get_making_batch_size() const
+{
+    if( !craft_data_ ) {
+        debugmsg( "'%s' is not a craft or has a null recipe", tname() );
+        return 0;
+    }
+    cata_assert( craft_data_->batch_size );
+    return craft_data_->batch_size;
 }
 
 void item::set_tools_to_continue( bool value )

@@ -43,6 +43,7 @@ alkahest
 alkalis
 alkyl
 alleghaniensis
+allosaurusid
 allucination
 altamente
 alternators
@@ -486,6 +487,7 @@ dragonscale
 drawknife
 driers
 drivetrain
+dromaeosaurid
 dromaeosaurus
 dropoff
 droppers
@@ -1139,6 +1141,7 @@ needin
 needlelike
 neodays
 neotenic
+neotheropod
 netkit
 nettik
 neurodegeneration
@@ -1200,6 +1203,7 @@ opengl
 openingly
 opy
 orichalcum
+ornithomimid
 ornithomimus
 orrery
 otes
@@ -1750,6 +1754,8 @@ toolmod
 toolset
 toolshelf
 topazes
+toque
+toques
 toroids
 torosaurus
 torvosaurus
@@ -1774,6 +1780,7 @@ trifacets
 trilaser
 tripcore
 troglobite
+troodon
 troublin
 tryphillum
 tshirt
@@ -1786,6 +1793,7 @@ turreted
 twere
 txt
 typologies
+tyrannosauroid
 tz
 uality
 uan

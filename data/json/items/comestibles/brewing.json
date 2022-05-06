@@ -333,8 +333,8 @@
     "type": "COMESTIBLE",
     "id": "brew_mead",
     "looks_like": "mead",
-    "name": { "str": "spiced mead must" },
-    "description": "Unfermented spiced mead.  Diluted honey and yeast.",
+    "name": { "str": "plain mead must" },
+    "description": "Unfermented plain mead.  Diluted honey and yeast.",
     "weight": "37 g",
     "color": "yellow",
     "container": "bottle_glass",
@@ -351,7 +351,23 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "14 days", "results": [ "mead", "yeast" ] }
+    "brewable": { "time": "14 days", "results": [ "plain_mead", "yeast" ] }
+  },
+  {
+    "id": "brew_hopped_mead",
+    "copy-from": "brew_mead",
+    "name": { "str": "hopped mead must" },
+    "description": "Unfermented hopped mead.  Diluted honey cooked with hops for a bitter note, then cooled down and infused with yeast.",
+    "type": "COMESTIBLE",
+    "brewable": { "time": "14 days", "results": [ "hopped_mead", "yeast" ] }
+  },
+  {
+    "id": "brew_spiced_mead",
+    "copy-from": "brew_mead",
+    "name": { "str": "spiced mead must" },
+    "description": "Unfermented spiced mead.  Diluted honey infused with spices and yeast.",
+    "type": "COMESTIBLE",
+    "brewable": { "time": "14 days", "results": [ "spiced_mead", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",

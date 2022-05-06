@@ -215,7 +215,8 @@
       { "item": "chem_hydrogen_peroxide", "prob": 5, "charges-min": 1 },
       [ "strong_antibiotic", 1 ],
       [ "antibiotics", 5 ],
-      [ "weak_antibiotic", 15 ]
+      [ "weak_antibiotic", 15 ],
+      [ "crutches", 5 ]
     ]
   },
   {
@@ -263,7 +264,8 @@
       [ "survnote", 1 ],
       [ "badge_doctor", 1 ],
       [ "tourist_table", 1 ],
-      [ "thermos", 10 ]
+      [ "thermos", 10 ],
+      [ "crutches", 5 ]
     ]
   },
   {
@@ -488,6 +490,7 @@
       [ "novel_erotic", 10 ],
       [ "bondage_suit", 1 ],
       [ "bondage_mask", 1 ],
+      [ "bodysuit_lycra", 1 ],
       [ "leather_cat_ears", 5 ],
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
@@ -505,6 +508,7 @@
       [ "witch_dress_short", 1 ],
       [ "maid_dress_short", 5 ],
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 5 },
+      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 5 },
       [ "apron_leather", 5 ]
     ]
   },
@@ -585,6 +589,7 @@
     "//": "For fishing themed locations",
     "items": [
       [ "flotation_vest", 50 ],
+      [ "swimming_kickboard", 5 ],
       [ "plastic_sheet", 10 ],
       [ "fishing_waders", 5 ],
       [ "wetsuit", 10 ],
@@ -1676,6 +1681,11 @@
       { "item": "knuckle_steel_forged", "prob": 3 },
       { "item": "switchblade", "prob": 4 },
       { "item": "throwing_knife", "prob": 5 },
+      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 1 },
+      { "item": "leg_sheath6", "prob": 2 },
+      { "item": "knife_combat", "container-item": "gartersheath1", "prob": 1 },
+      { "item": "gartersheath1", "prob": 10 },
+      { "item": "gartersheath2", "prob": 5 },
       { "item": "tazer", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "cig", "prob": 30, "charges": [ 0, 10 ] },
       { "item": "rope_6", "prob": 5 },
@@ -1692,7 +1702,8 @@
       { "item": "soap", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "detergent", "prob": 5, "charges": [ 1, 20 ] },
       { "item": "knitting_needles", "prob": 1 },
-      { "item": "survnote", "prob": 2 }
+      { "item": "survnote", "prob": 2 },
+      { "item": "ankle_wallet_pouch", "prob": 5 }
     ]
   },
   {
@@ -1918,6 +1929,7 @@
       [ "clownshoes", 1 ],
       [ "bondage_suit", 5 ],
       [ "bondage_mask", 5 ],
+      [ "bodysuit_lycra", 5 ],
       [ "flask_hip", 5 ],
       [ "corset", 15 ],
       [ "corset_waist", 15 ],
@@ -2485,6 +2497,9 @@
       [ "razor_blade", 5 ],
       [ "sheath", 5 ],
       [ "bootsheath", 5 ],
+      [ "leg_sheath6", 1 ],
+      [ "gartersheath1", 3 ],
+      [ "gartersheath2", 2 ],
       [ "holster", 4 ],
       [ "bandolier_shotgun", 3 ],
       [ "torso_bandolier_grenade", 1 ],

@@ -490,6 +490,22 @@
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
+    "result": "gartersheath1",
+    "type": "uncraft",
+    "time": "20 s",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "gartersheath2",
+    "type": "uncraft",
+    "time": "30 s",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
     "result": "leather_belt",
     "type": "uncraft",
     "time": "1 m",
@@ -2132,8 +2148,7 @@
     "//": "This may need to be modified, a plastic sheath would give plastic chunks, but there already is a plastic sheathed cable",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "copper", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "copper", 1 ] ] ]
   },
   {
     "result": "camera",
@@ -5113,7 +5128,7 @@
     "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 1 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 13 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 7 ] ], [ [ "cable", 4 ] ] ]
+    "components": [ [ [ "small_storage_battery", 9 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 7 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "result": "storage_battery",
@@ -5124,7 +5139,7 @@
     "time": "1 h 30 m",
     "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 79 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
+    "components": [ [ [ "small_storage_battery", 49 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
   },
   {
     "result": "electric_blanket",
@@ -5672,9 +5687,53 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
-    "time": "30 s",
-    "components": [ [ [ "string_6", 6 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_6", 6 ] ] ]
+  },
+  {
+    "result": "rope_6",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_36", 6 ] ] ]
+  },
+  {
+    "result": "rope_30",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rope_6", 5 ] ] ]
+  },
+  {
+    "result": "cordage_36",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "components": [ [ [ "cordage_6", 6 ] ] ]
+  },
+  {
+    "result": "rope_makeshift_6",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cordage_36", 6 ] ] ]
+  },
+  {
+    "result": "rope_makeshift_30",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rope_makeshift_6", 5 ] ] ]
   },
   {
     "result": "plunger_toilet",
