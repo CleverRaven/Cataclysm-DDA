@@ -1,9 +1,8 @@
 [
-{
+  {
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_SURVIVOR",
-    "dynamic_line":
-    {
+    "dynamic_line": {
       "u_has_var": "talked_to_homeless",
       "type": "dialogue",
       "context": "first_meeting",
@@ -13,20 +12,20 @@
     },
     "speaker_effect": { "effect": { "npc_add_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
-      { 
-        "text": "Nice to meet you.", 
-        "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO", 
+      {
+        "text": "Nice to meet you.",
+        "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
         "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
-      { 
-        "text": "Pleasure to see you again.", 
-        "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO", 
+      {
+        "text": "Pleasure to see you again.",
+        "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
         "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
   },
-{
+  {
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
     "dynamic_line": "So, what's up?",
@@ -47,7 +46,7 @@
       { "text": "I gotta go.", "topic": "TALK_DONE" }
     ]
   },
-{
+  {
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_SURVIVOR_STORY",
     "dynamic_line": [
@@ -57,8 +56,6 @@
       "Surviving, as I always have.  Is that what you mean?",
       "It's hard to say exactly what I'm doing out here, but I guess one thing just leads to another and… well, you're just being nice when you ask, aren't you?  It doesn't matter now anyway.  I'm here and I'm still alive."
     ],
-    "responses": [
-      { "text": "Hm.", "topic": "TALK_NONE" }
-    ]
+    "responses": [ { "text": "Hm.", "topic": "TALK_NONE" } ]
   }
 ]
