@@ -282,5 +282,31 @@
     "min_range": 2,
     "shape": "blast",
     "effect": "attack"
+  },
+  {
+    "id": "missile_volley",
+    "type": "SPELL",
+    "name": "Missile volley",
+    "description": "Fire a blast of sunlight in a wide beam, blinding everything in its path and leaving it bright enough for you to see for a few seconds.",
+    "valid_targets": [ "self" ],
+    "flags": [ "WONDER" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 25,
+    "max_damage": 25,
+    "min_range": 0,
+    "max_range": 0,
+    "max_level": 20,
+    "extra_effects": [ { "id": "mana_bolt_random" } ],
+    "energy_source": "MANA"
+  },
+  {
+    "id": "mana_bolt_random",
+    "type": "SPELL",
+    "copy-from": "magus_mana_bolt",
+    "min_range": 7,
+    "max_range": 7,
+    "message": "",
+    "extend": { "flags": [ "RANDOM_TARGET" ] }
   }
 ]
