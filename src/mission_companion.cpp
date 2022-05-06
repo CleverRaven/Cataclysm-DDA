@@ -1919,15 +1919,17 @@ bool talk_function::hospital_raid_return( npc &p )
         }
     }
 
+    std::list<item> to_distribute;
     for( item i : all_returned_items ) {
         // One time mission, so the loot gets split evenly
         if( one_in( 2 ) ) {
             player_character.i_drop_at( i );
         } else {
             i.set_owner( p );
-            p.i_add_or_drop( i );
+            to_distribute.push_back( i );
         }
     }
+    distribute_items_to_npc_zones( to_distribute, p );
 
     player_character.set_value( var_DOCTOR_ANESTHETIC_SCAVENGERS_HELPED, "yes" );
     player_character.set_value( var_SCAVENGER_HOSPITAL_RAID, "no" );
