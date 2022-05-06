@@ -29,7 +29,7 @@ These are specified with the `u_add_var` or `npc_add_var` effect for string vari
 
 
 ##### String Variables
-TK
+String values can be stored using `u_add_var` or `npc_add_var` and specifying a `value`, eg `"u_add_var": "what_is_in_pocketses", "value": "the precious"`. This stores a string locally to either the avatar (`u`) or the active NPC (`npc`), the latter generally being the NPC hosting the dialogue from which the effect is called. To store a string variable globally, use `set_string_var`. (In the future we should standardize to `set_string_var` for all these functions, but that will mean a lot of code churn).
 
 ##### Numeric Variables
 This format of variable should be slowly deprecated in favour of arithmetic variable objects.
@@ -109,10 +109,10 @@ Effect | Required | Optional | Description | Example
 ---|---|---|---|---
 `assign_mission` | `mission_id`[^string] | none | Assigns a mission to your avatar. | `"assign_mission": "mission_id"`
 `clear_mission` | `mission_id`[^string] | none | Clears the mission from the your avatar's assigned missions. | `"clear_mission": "mission_id"`
+`finish_mission` | `mission_id`[^string] | `success`[^bool]<br />`step`[^int] | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed. | `"finish_mission": "mission_id", "success": true`
 `mission_failure` | `mission_id`[^string] | none | Resolves the mission as a failure. | `"mission_failure": "mission_id"`
 `mission_reward` | `mission_id`[^string] | none | Gives the avatar the mission's reward. | `"mission_reward": "mission_id"`
 `mission_success` | `mission_id`[^string] | none | Resolves the current mission successfully. | `"mission_success": "mission_id"`
-`finish_mission` | `mission_id`[^string] | `success`[^bool]<br />`step`[^int] | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed. | `"finish_mission": "mission_id", "success": true`
 `offer_mission` | `mission_id`[^string][^array] | none | Adds mission_type_id(s) to the npc's missions that they offer in their sequential mission list. | `"offer_mission": [ "mission_id1", "mission_id2" ]`
 
 #### Morale and Cosmetic
@@ -160,17 +160,19 @@ Effect | Required | Optional | Description | Example
 
 See **variables** above for details on the types of variables and their general use.  This quick reference is meant to complement that information, not replace it.
 
+Note that there are thre entries for `u_add_var`/`npc_add_var`.  These represent three different accepted syntaxes for this effect, each of which has a different function and does not accept the same kind of data. For example, if you specify `"time": true`, then you cannot also specify `value` or `possible_values`.
+
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
+`set_string_var` | `string`[^string][^array][^var], `target_var`[^var]| None | Store string (or the variable object) from `set_string_var` in the variable object `target_var`. If an array is provided a random element from that array will be used. Note that unlike using `u_add_var` and `possible_values`, this stores the string globally, not on `u` or `npc`. | `"set_string_var": [ "Camp Randomname", "Camp Erk Rules" ], "target_var": "random_camp_name"`
 `u_add_var`, `npc_add_var` | `var_name`[^string], `value`[^string] | `type`[^string], `context`[^string] | Store `value` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`. | `"u_add_var": "good_day", "type": "happiness_marker", "context": "mission", "value": "day_is_good"`
 `u_add_var`, `npc_add_var` | `var_name`[^string], `time`[^bool] | `type`[^string], `context`[^string] | Store the current turn of the game as an integer.| `"u_add_var": "time_since_good_day", "time": true`
-`u_add_var`, `npc_add_var` | `var_name`[^string], `possible_values: string_array`[^string][^array] | `type`[^string], `context`[^string] | Store one of the values given at random in the specified `string_array`. | `"u_add_var": "random_string", "type": "randomizer", "possible_values": [ "yes", "bingo", "pablum", "trollface", "narf" ]`
+`u_add_var`, `npc_add_var` | `var_name`[^string], `possible_values`[^string][^array] | `type`[^string], `context`[^string] | Store one of the values given at random from the array specified in `possible_values`. | `"u_add_var": "random_string", "type": "randomizer", "possible_values": [ "yes", "bingo", "pablum", "trollface", "narf" ]`
 `u_lose_var`, `npc_lose_var` | `var_name`[^string] | `type`[^string], `context`[^string] | Clear any stored variable that has the same string values for `var_name`, `type`, and `context`.| `"u_lose_var": "random_string"`
 `u_adjust_var, npc_adjust_var` | `var_name`, `adjustment`[^int][^var]  | `type`[^string], `context`[^string] |  Adjust the stored variable by the amount in `adjustment`.| `"u_adjust_var": "count_var", "context": "debug", "adjustment": 5`
 
 Effect | Description
 ---|---
-`set_string_var`: `type: string or variable object or array of either`, `target_var: variable_object`| Store string (or the variable described) from `set_string_var` in the variable object `target_var`. If an array is provided a random element will be used.
 `u_location_variable, npc_location_variable`: `target_var`,*optional* `min_radius: min_radius_int or min_radius_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`, *optional* `outdoor_only: outdoor_only_bool`, *optional* `target_params: assign_mission_target` parameters, *optional* `z_adjust: int or variable_object`, *optional* `z_override: bool` | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise.
 
 #### Character effects
