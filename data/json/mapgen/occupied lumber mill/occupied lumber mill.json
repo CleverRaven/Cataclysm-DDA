@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
@@ -111,9 +111,9 @@
       ],
       "palettes": [ "lumberyard" ],
       "faction_owner": [
-		{ "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 1, 23 ] },
-		{ "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 24, 47 ] },
-		{ "id": "wasteland_scavengers", "x": [ 48, 71 ], "y": [ 48, 71 ] }				
+        { "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 1, 23 ] },
+        { "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "wasteland_scavengers", "x": [ 48, 71 ], "y": [ 48, 71 ] }
       ],
       "terrain": { "o": "t_concrete" },
       "gaspumps": { "G": { "fuel": "gasoline", "amount": [ 50000, 268750 ] } },
@@ -130,10 +130,7 @@
         },
         { "vehicle": "car", "x": [ 29, 31 ], "y": [ 27, 30 ], "chance": 30, "fuel": 15, "status": 0, "rotation": 90 }
       ],
-     "npcs": {
-		"0": { "class": "NPC_lumbermill_logger" },
-                "8": { "class": "NPC_lumbermill_merchant" }
-		}
+      "npcs": { "0": { "class": "NPC_lumbermill_logger" }, "8": { "class": "NPC_lumbermill_merchant" } }
     }
   }
 ]
