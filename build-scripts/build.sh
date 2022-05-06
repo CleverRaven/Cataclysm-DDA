@@ -158,12 +158,13 @@ then
             tidyable_cpp_files=$all_cpp_files
         else
             make \
+                -j $num_jobs \
                 ${COMPILER:+COMPILER=$COMPILER} \
                 TILES=${TILES:-0} \
                 SOUND=${SOUND:-0} \
                 includes
 
-            ./files_changed < ./build-scripts/files_changed
+            ./build-scripts/files_changed > ./files_changed
             tidyable_cpp_files="$( \
                 ( build-scripts/get_affected_files.py ./files_changed ) || \
                 echo unknown )"
