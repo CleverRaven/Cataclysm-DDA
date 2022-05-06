@@ -462,7 +462,7 @@
     "id": "remington_870_express",
     "copy-from": "remington_870",
     "type": "GUN",
-    "name": { "str": "pump-action défense shotgun" },
+    "name": { "str": "pump-action defense shotgun" },
     "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or law-enforcement purposes.  featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it’s a very versatile and reliable weapon.",
     "variant_type": "gun",
     "variants": [
