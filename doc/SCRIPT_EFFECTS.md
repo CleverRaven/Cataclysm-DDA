@@ -95,19 +95,23 @@ TK: This section could use a table of contents.
 
 When editing this document please attempt to list effects alphabetically, but keep similar effects together even if it violates this. For example, `u_add_bionic` and `u_lose_bionic` should be together.
 
-[^int_or_var]: This value will accept an `int` value or a `variable_object` that returns an int.
+[^string]: This attribute will accept a `string` input.
+[^array]: This attribute will accept an array of options in list format, enclosed in square brackets. Eg: `[ "item_1", "item_2" ]`
+[^int_or_var]: This attribute will accept an `int` value or a `variable_object` that returns an int.
+[^time_or_var]: This attribute will accept a time value (either an `int` or, more commonly, a string value with a time unit in seconds, minutes, hours, or days, such as "3 hours") or a `variable_object` that returns an int or time.
+[^bool]: This attribute will accept a Boolean value, `true` or `false`.
 
 #### Missions
 
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`assign_mission` | `mission_type_id` | none | Assigns a mission to your avatar. | `"assign_mission": "mission_id"`
-`clear_mission` | `mission_type_id` | none | Clears the mission from the your avatar's assigned missions. | `"clear_mission": "mission_id"`
-`mission_failure` | `mission_type_id` | none | Resolves the mission as a failure. | `"mission_failure": "mission_id"`
-`mission_reward` | `mission_type_id` | none | Gives the avatar the mission's reward. | `"mission_reward": "mission_id"`
-`mission_success` | `mission_type_id` | none | Resolves the current mission successfully. | `"mission_success": "mission_id"`
-`finish_mission` | `mission_type_id` | `success: bool`<br />`step: int` | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed. | `"finish_mission": "mission_id", "success": true`
-`offer_mission` | `mission_type_id` string or array | none | Adds mission_type_id(s) to the npc's missions that they offer in their sequential mission list. | `"offer_mission": [ "mission_id1", "mission_id2" ]`
+`assign_mission` | `mission_id`[^string] | none | Assigns a mission to your avatar. | `"assign_mission": "mission_id"`
+`clear_mission` | `mission_id`[^string] | none | Clears the mission from the your avatar's assigned missions. | `"clear_mission": "mission_id"`
+`mission_failure` | `mission_id`[^string] | none | Resolves the mission as a failure. | `"mission_failure": "mission_id"`
+`mission_reward` | `mission_id`[^string] | none | Gives the avatar the mission's reward. | `"mission_reward": "mission_id"`
+`mission_success` | `mission_id`[^string] | none | Resolves the current mission successfully. | `"mission_success": "mission_id"`
+`finish_mission` | `mission_id`[^string] | `success`[^bool]<br />`step`[^int] | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed. | `"finish_mission": "mission_id", "success": true`
+`offer_mission` | `mission_id`[^string][^array] | none | Adds mission_type_id(s) to the npc's missions that they offer in their sequential mission list. | `"offer_mission": [ "mission_id1", "mission_id2" ]`
 
 #### Morale and Cosmetic
 
@@ -122,7 +126,7 @@ Effect | Description
 
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`u_add_morale`<br />`npc_add_morale` | `morale_string` | `bonus`[^int_or_var], `max_bonus`[^int_or_var]<br /><br />`duration, decay_start: time or variable_object`<br /><br />`capped: bool` | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (default false).| `"u_add_morale": "petted_dog", "bonus": 20, "max_bonus": 50, "duration": "5 min", "decay_start": "1 min", "capped": true`
+`u_add_morale`<br />`npc_add_morale` | `morale_string` | `bonus`[^int_or_var]<br />`max_bonus`[^int_or_var]<br />`duration`[^time_or_var]<br />`decay_start`[^time_or_var]<br />`capped`[^bool] | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (default false).| `"u_add_morale": "petted_dog", "bonus": 20, "max_bonus": 50, "duration": "5 min", "decay_start": "1 min", "capped": true`
 `u_lose_morale`, `npc_lose_morale` | `morale_string` | none |Target will lose any morale of type `morale_string`.| `"u_lose_morale": "petted_dog"`
 
 #### Wounds and Healing
@@ -147,8 +151,8 @@ Effect | Required | Optional | Description | Example
 `u_lose_bionic`, `npc_lose_bionic` | `bionic_string` | none | Target will lose the bionic.| `"u_lose_bionic": "cbm1"`
 `u_add_trait`, `npc_add_trait` | `trait_string` | none | Target will gain the trait.| `"u_add_trait": "egtrait"`
 `u_lose_trait`, `npc_lose_trait | `trait_string` | none | Targetwill lose the trait.| `"u_lose_trait": "egtrait"`
-`u_mutate`, `npc_mutate: | `chance_int` | `use_vitamins: vitamin_bool` (default true) | Target will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated.| `"u_mutate": "egtrait", "use_vitamins": false`
-`u_mutate_category`, `npc_mutate_category` | `category_str` | `use_vitamins: vitamin_bool` (default true)| Target will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated.| `"u_mutate_category": "example_traits", "use_vitamins": false`
+`u_mutate`, `npc_mutate: | `chance_int` | `use_vitamins`[^bool] | Target will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated (default true).| `"u_mutate": "egtrait", "use_vitamins": false`
+`u_mutate_category`, `npc_mutate_category` | `category_str` | `use_vitamins`[^bool]| Target will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated (default true).| `"u_mutate_category": "example_traits", "use_vitamins": false`
 
 #### Variable operations
 
