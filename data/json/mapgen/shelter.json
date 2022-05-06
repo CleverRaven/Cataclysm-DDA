@@ -185,9 +185,7 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "npcs": {
-		"@": { "class": "NPC_evac_shelter_survivor" }
-		}
+      "npcs": { "@": { "class": "NPC_evac_shelter_survivor" } }
     }
   },
   {
@@ -308,9 +306,7 @@
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter" ],
-      "npcs": {
-		"@": { "class": "NPC_evac_shelter_survivor" }
-		}      
+      "npcs": { "@": { "class": "NPC_evac_shelter_survivor" } }
     }
   },
   {
@@ -436,7 +432,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 70,
-    "//" : "Copy of shelter_1_vandal, unfinished before the cataclysm; no roof, no basement.",
+    "//": "Copy of shelter_1_vandal, unfinished before the cataclysm; no roof, no basement.",
     "om_terrain": [ "shelter_1c_vandal" ],
     "object": {
       "fill_ter": "t_floor",
@@ -511,7 +507,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 70,
-    "//" : "Copy of shelter_2_vandal, unfinished before the cataclysm. No roof.",
+    "//": "Copy of shelter_2_vandal, unfinished before the cataclysm. No roof.",
     "om_terrain": [ "shelter_2b_vandal" ],
     "object": {
       "fill_ter": "t_floor",
@@ -550,7 +546,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "Infested spawn for Compromized Shelter scenario - copy of shelter_1. Window on right wall near basement door removed for scenario balance, sorry. Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
+    "//": "Infested spawn for Compromized Shelter scenario - copy of shelter_1. Window on right wall near basement door removed for scenario balance, sorry. Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
     "om_terrain": [ "shelter_3" ],
     "object": {
       "fill_ter": "t_floor",
@@ -581,10 +577,8 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_monsters": [ 
-        { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4, 20], "density": 0.6 }
-      ], 
-      "monster": { "7": { "monster": "mon_feral_human_axe", "chance": 100 }, "8": { "monster": "mon_zombie_runner", "chance": 100} }
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "density": 0.6 } ],
+      "monster": { "7": { "monster": "mon_feral_human_axe", "chance": 100 }, "8": { "monster": "mon_zombie_runner", "chance": 100 } }
     }
   },
   {
@@ -639,7 +633,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 50,
-    "//" : "Infested spawn for Compromized Shelter scenario - copy of shelter_2.  Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
+    "//": "Infested spawn for Compromized Shelter scenario - copy of shelter_2.  Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
     "om_terrain": [ "shelter_3_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -669,16 +663,14 @@
         "   |--------|......c|   ",
         "            |-:-+-:-|   "
       ],
-      "palettes": [ "shelter" ],          
-      "place_monsters": [ 
-        { "monster": "GROUP_INFESTED_SPAWN", "x": [4 , 20], "y": [4 , 20], "density": 0.6 }
-      ],     
-      "monster": { "7": { "monster": "mon_feral_human_axe", "chance": 100 }, "8": { "monster": "mon_zombie_runner", "chance": 100} }      
+      "palettes": [ "shelter" ],
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "density": 0.6 } ],
+      "monster": { "7": { "monster": "mon_feral_human_axe", "chance": 100 }, "8": { "monster": "mon_zombie_runner", "chance": 100 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",    
+    "method": "json",
     "//": "Copy of shelter_roof_2 for infested spawn",
     "om_terrain": "shelter_roof_3_2",
     "weight": 100,
@@ -1051,7 +1043,7 @@
       ],
       "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ],
       "place_nested": [ { "chunks": [ [ "null", 90 ], [ "shelter_under_1_nest_zombies", 10 ] ], "x": 0, "y": 0 } ]
-    }    
+    }
   },
   {
     "type": "mapgen",
@@ -1088,7 +1080,6 @@
       ],
       "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ]
     }
-    
   },
   {
     "type": "mapgen",
