@@ -9,7 +9,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "Hello there.  Nice to see you again.",
-      "no": "Who might you be?"
+      "no": "A new face at the mill?  Who might you be?"
     },
     "speaker_effect": { "effect": { "npc_add_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
