@@ -15,7 +15,7 @@
       "'": "t_strconc_floor",
       "+": "t_door_c",
       "!": "t_door_metal_locked",
-      ".": [ [ "t_region_groundcover_urban", 25 ], [ "t_region_shrub", 1 ] ],
+      ".": "t_region_groundcover_urban",
       "w": "t_window",
       "W": "t_reinforced_glass",
       "_": "t_pavement",
@@ -116,8 +116,8 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         "|||||||||       |====|====|====|====|       |ww|",
-        "|EEEEEEE!       '''''''''''''''''''''       dxc|",
-        "WEEEEEEE!       '''''''''''''''''''''       dhcw",
+        "|EEEEEEE!       '''''''''''''''''''''       cxd|",
+        "WEEEEEEE!       '''''''''''''''''''''       chdw",
         "WEEEEEEE!       -    -    -    -    -       |:Fw",
         "WEEEEEEE!       -    -    -    -    -       +:F|",
         "WEEEEEEE!       -    -    -    -    -       |ww|",
@@ -150,7 +150,8 @@
         { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "rotation": 90 }
-      ]
+      ],
+      "place_loot": [ { "group": "cash_register_random", "x": 44, "y": [ 1, 2 ] } ]
     }
   },
   {
