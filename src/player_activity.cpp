@@ -40,7 +40,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -199,7 +198,6 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == ACT_JACKHAMMER ||
             type == ACT_PICKAXE ||
             type == ACT_VEHICLE ||
-            type == ACT_FILL_PIT ||
             type == ACT_CHOP_TREE ||
             type == ACT_CHOP_LOGS ||
             type == ACT_CHOP_PLANKS ||
