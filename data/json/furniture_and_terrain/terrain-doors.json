@@ -2470,6 +2470,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_door_metal_interior_locked",
+    "copy-from": "t_door_metal_locked",
+    "looks_like": "t_door_metal_pickable",
+    "//": "Same as t_door_metal_pickable, but without OPENCLOSE_INSIDE. Due the inheritance issues cannot copy from the t_door_metal_pickable, delete doesn't work with flags",
+    "lockpick_result": "t_door_metal_c",
+    "symbol": "+",
+    "color": "cyan",
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_door_metal_pickable",
     "name": "closed metal door",
     "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  This one has an extra keyhole, so it's likely locked.  You could probably pick the lock.",
