@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "npc",
     "id": "NPC_evac_shelter_survivor",
     "class": "NC_SCAVENGER",
@@ -10,7 +10,7 @@
     "faction": "no_faction",
     "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
   },
-{
+  {
     "type": "npc",
     "id": "NPC_homeless_survivor",
     "class": "NC_SCAVENGER",
@@ -21,7 +21,7 @@
     "faction": "no_faction",
     "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
   },
-{
+  {
     "type": "npc",
     "id": "NPC_homeless_broker",
     "class": "NC_HOMELESS_BROKER",
@@ -32,7 +32,7 @@
     "faction": "wasteland_scavengers",
     "mission_offered": "MISSION_KILL_SLIMES"
   },
-{
+  {
     "type": "npc",
     "id": "NPC_homeless_group_survivor",
     "class": "NC_SCAVENGER",
@@ -42,7 +42,7 @@
     "chat": "TALK_NPC_HOMELESS_GROUP_SURVIVOR",
     "faction": "wasteland_scavengers"
   },
-{
+  {
     "type": "npc_class",
     "id": "NC_HOMELESS_BROKER",
     "name": { "str": "Scavenger" },
