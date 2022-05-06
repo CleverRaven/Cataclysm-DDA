@@ -334,5 +334,25 @@
     "material": [ "monolith" ],
     "symbol": "p",
     "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "bread_sword",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "Excalibread" },
+    "description": "A french baguette, sharpened into a blade and toasted for durability.  Truly, the best weapon to smite the gluten-intolerant.",
+    "material": [ "wheat" ],
+    "volume": "2450 ml",
+    "weight": "1044 g",
+    "longest_side": "100 cm",
+    "bashing": 6,
+    "cutting": 18,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "price_postapoc": 250,
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
+    "qualities": [ [ "BUTCHER", -50 ] ],
+    "techniques": [ "WBLOCK_1" ]
   }
 ]
