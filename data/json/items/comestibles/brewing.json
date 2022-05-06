@@ -527,7 +527,8 @@
     "charges": 7,
     "phase": "liquid",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "comestible_type": "DRINK"
+    "comestible_type": "DRINK",
+    "freezing_point": -15
   },
   {
     "type": "COMESTIBLE",
