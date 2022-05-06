@@ -1204,6 +1204,11 @@
     "id": "place_air_compressor",
     "name": "Place Air Compressor"
   },
+{
+    "type": "construction_group",
+    "id": "place_air_conditioner",
+    "name": "Place Air Conditioner"
+  },
   {
     "type": "construction_group",
     "id": "place_heater_large",

@@ -3368,6 +3368,17 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
+{
+    "type": "construction",
+    "id": "app_air_conditioner",
+    "group": "place_air_conditioner",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "components": [ [ [ "portable_air_conditioner", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
   {
     "type": "construction",
     "id": "app_heater_large",
