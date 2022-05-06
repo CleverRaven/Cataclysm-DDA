@@ -5,7 +5,7 @@
     "om_terrain": [ "s_sports" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ".`''''`''''`''''`''''`..",
         ".`''''`''''`''''`''''`..",
@@ -24,7 +24,7 @@
         ".|        }}}}        |.",
         ".|######  }}}}  |/|/|/|.",
         ".|   h #        | | | |.",
-        ".|        ttteee|^|^|^|.",
+        ".|     C  ttteee|^|^|^|.",
         ".|----+---------------|.",
         ".|& |   }}}}}}}}} OOOO|.",
         ".|  +                O|.",
@@ -33,8 +33,8 @@
         "........4..............."
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        " ": "t_floor",
+        ".": "t_region_groundcover_urban",
+        " ": "t_thconc_floor",
         "'": "t_pavement",
         "`": "t_pavement_y",
         "+": "t_door_c",
@@ -47,6 +47,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "C": "f_counter_gate_c",
         "h": "f_stool",
         "t": [ "f_treadmill", "f_treadmill_mechanical" ],
         "e": [ "f_ergometer", "f_ergometer_mechanical" ],
@@ -57,7 +58,7 @@
         "^": [ "f_bigmirror", "f_bigmirror", "f_bigmirror", "f_bigmirror_b" ],
         "{": "f_rack",
         "}": "f_rack",
-        "O": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ]
+        "O": [ "f_crate_c", "f_cardboard_box", "f_crate_o" ]
       },
       "toilets": { "&": {  } },
       "items": { "O": { "item": "allsporting", "chance": 50 } },
@@ -73,7 +74,8 @@
         { "group": "allsporting", "x": [ 10, 13 ], "y": 14, "chance": 90, "repeat": [ 1, 8 ] },
         { "group": "allsporting", "x": [ 10, 13 ], "y": 15, "chance": 90, "repeat": [ 1, 8 ] },
         { "group": "allsporting", "x": [ 8, 16 ], "y": 19, "chance": 80, "repeat": [ 1, 8 ] },
-        { "group": "allsporting", "x": [ 8, 16 ], "y": 21, "chance": 80, "repeat": [ 1, 8 ] }
+        { "group": "allsporting", "x": [ 8, 16 ], "y": 21, "chance": 80, "repeat": [ 1, 8 ] },
+        { "group": "cash_register_random", "x": [ 2, 7 ], "y": 15 }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": 7, "chance": 2 } ]
     }
