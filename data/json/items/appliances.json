@@ -195,6 +195,21 @@
     "weight": "80 kg"
   },
   {
+    "type": "GENERIC",
+    "id": "portable_air_conditioner",
+    "name": { "str": "portable air conditioner" },
+    "description": "A modified vehicle-mounted area cooler.  A custom made casing with a hose attached which allows the exhaust heat to be directed out of the room.",
+    "looks_like": "f_air_conditioner",
+    "longest_side": "750 mm",
+    "weight": "30 kg",
+    "to_hit": -6,
+    "color": "light_cyan",
+    "symbol": "C",
+    "material": [ "steel" ],
+    "volume": "150 l",
+    "bashing": 12,
+  },
+  {
     "id": "autoclave",
     "type": "TOOL",
     "name": { "str": "autoclave" },
