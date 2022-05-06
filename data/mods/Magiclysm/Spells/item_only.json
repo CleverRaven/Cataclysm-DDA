@@ -308,5 +308,53 @@
     "max_range": 7,
     "message": "",
     "extend": { "flags": [ "RANDOM_TARGET" ] }
+  },
+  {
+    "id": "gorgon_spell",
+    "type": "SPELL",
+    "name": "Petrification",
+    "description": "Freeze!.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "effect": "mod_moves",
+    "shape": "cone",
+    "min_damage": -1200,
+    "max_damage": -1200,
+    "min_range": 8,
+    "max_range": 8,
+    "min_aoe": 120,
+    "max_aoe": 120
+  },
+  {
+    "id": "disorient_spell",
+    "type": "SPELL",
+    "name": "Disorientation",
+    "description": "Mental sledgehammer strike.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "effect": "attack",
+    "shape": "cone",
+    "effect_str": "stunned",
+    "damage_type": "pure",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 8,
+    "max_range": 8,
+    "min_aoe": 120,
+    "max_aoe": 120,
+    "min_duration": 1500,
+    "max_duration": 1500
+  },
+  {
+    "id": "super_hot_spell",
+    "type": "SPELL",
+    "name": "Propulsion",
+    "description": "Yep, you are fast",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_LEGS", "LOUD", "SOMATIC" ],
+    "effect": "mod_moves",
+    "shape": "blast",
+    "min_damage": 1400,
+    "max_damage": 1400
   }
 ]
