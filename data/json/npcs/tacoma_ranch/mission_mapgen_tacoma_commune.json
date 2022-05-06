@@ -281,8 +281,7 @@
         "               ",
         "               "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirt", "q": "t_wall_half" },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
+      "terrain": { "w": "t_wall", ".": "t_dirt", "q": "t_wall_half" }
     }
   },
   {
