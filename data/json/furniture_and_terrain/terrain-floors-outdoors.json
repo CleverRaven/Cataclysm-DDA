@@ -480,7 +480,6 @@
     "id": "t_deck_coating_no_roof",
     "name": "deck coating",
     "description": "Thick metal coating of a hull, covered with a military grade epoxy mix.  Used for runways, and can't be melted by jet engine nozzles.",
-    "//": "god thats ugly, need to rewrite it",
     "symbol": ".",
     "looks_like": "t_pavement",
     "color": "dark_gray",
