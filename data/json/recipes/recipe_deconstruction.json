@@ -2707,7 +2707,7 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 182 ] ] ]
+    "components": [ [ [ "glass_shard", 88 ] ] ]
   },
   {
     "result": "game_watch",
