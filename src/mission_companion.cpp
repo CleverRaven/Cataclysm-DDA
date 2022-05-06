@@ -1877,17 +1877,26 @@ bool talk_function::hospital_raid_return( npc &p )
         if( site == overmap::invalid_tripoint ) {
             debugmsg( "No hospitals found." );
         } else {
-            // Check the ground level
-            site.z() = 0;
-            overmap_buffer.reveal( site, 2 );
-            std::set<item> returned_items = loot_building( site, oter_looted_hospital );
-            all_returned_items.insert( returned_items.begin(), returned_items.end() );
+            // Search the entire height of the hospital, including the roof
+            for( int z = 0; z <= OVERMAP_HEIGHT; z++ ) {
+                site.z() = z;
 
-            // Check the roof
-            site.z() = 1;
-            overmap_buffer.reveal( site, 2 );
-            std::set<item> returned_items_roof = loot_building( site, oter_looted_hospital_roof );
-            all_returned_items.insert( returned_items_roof.begin(), returned_items_roof.end() );
+                const oter_id &omt_ref = overmap_buffer.ter( site );
+                // We're past the roof, so we can stop
+                if( omt_ref == oter_open_air ) {
+                    break;
+                }
+                const std::string om_cur = omt_ref.id().c_str();
+
+                oter_str_id looted_replacement = oter_looted_hospital;
+                if( om_cur.find( "_roof" ) != std::string::npos ) {
+                    looted_replacement = oter_looted_hospital_roof;
+                }
+
+                overmap_buffer.reveal( site, 2 );
+                std::set<item> returned_items = loot_building( site, looted_replacement );
+                all_returned_items.insert( returned_items.begin(), returned_items.end() );
+            }
         }
     }
 

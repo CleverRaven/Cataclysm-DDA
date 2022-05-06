@@ -215,7 +215,8 @@
       { "item": "chem_hydrogen_peroxide", "prob": 5, "charges-min": 1 },
       [ "strong_antibiotic", 1 ],
       [ "antibiotics", 5 ],
-      [ "weak_antibiotic", 15 ]
+      [ "weak_antibiotic", 15 ],
+      [ "crutches", 5 ]
     ]
   },
   {
@@ -263,7 +264,8 @@
       [ "survnote", 1 ],
       [ "badge_doctor", 1 ],
       [ "tourist_table", 1 ],
-      [ "thermos", 10 ]
+      [ "thermos", 10 ],
+      [ "crutches", 5 ]
     ]
   },
   {

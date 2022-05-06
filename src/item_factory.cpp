@@ -854,7 +854,7 @@ void Item_factory::finalize_post( itype &obj )
 
                 // need to account for varsize stuff here and double encumbrance if so
                 if( obj.has_flag( flag_VARSIZE ) ) {
-                    data.encumber *= 2;
+                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );;
                 }
 
                 // Recalc max encumber as well

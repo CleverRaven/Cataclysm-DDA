@@ -1233,7 +1233,7 @@ void avatar::rebuild_aim_cache()
     }
 
     // calc steadiness with player recoil (like they are taking a regular shot not careful etc.
-    float range = 3.0f - 3.0f * calc_steadiness( *this, &get_wielded_item(),
+    float range = 3.0f - 2.8f * calc_steadiness( *this, &get_wielded_item(),
                   last_target_pos.value(), recoil );
 
     // pin between pi and negative pi
