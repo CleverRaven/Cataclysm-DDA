@@ -2774,7 +2774,7 @@ bool mattack::ranged_pull( monster *z )
     z->moves -= 150;
 
     const optional_vpart_position veh_part = here.veh_at( target->pos() );
-    if( foe->in_vehicle && veh_part ) {
+    if( foe && foe->in_vehicle && veh_part ) {
         const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
         if( vp_seatbelt ) {
             z->moves -= 200;
@@ -2992,7 +2992,7 @@ bool mattack::grab_drag( monster *z )
     }
 
     const optional_vpart_position veh_part = get_map().veh_at( target->pos() );
-    if( foe->in_vehicle && veh_part ) {
+    if( foe && foe->in_vehicle && veh_part ) {
         const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
         if( vp_seatbelt ) {
             const cata::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
