@@ -498,10 +498,10 @@ class zone_manager
 
         bool has_personal_zones() const;
 
-        bool save_zones();
-        bool save_world_zones();
-        void load_zones();
-        void load_world_zones();
+        bool save_zones( std::string const &suffix = {} );
+        bool save_world_zones( std::string const &suffix = {} );
+        void load_zones( std::string const &suffix = {} );
+        void load_world_zones( std::string const &suffix = {} );
         void zone_edited( zone_data &zone );
         void revert_vzones();
         void serialize( JsonOut &json ) const;

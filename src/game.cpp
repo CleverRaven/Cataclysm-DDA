@@ -2925,6 +2925,7 @@ bool game::save()
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save( true ) ||
             !get_safemode().save_character() ||
+            !zone_manager::get_manager().save_zones() ||
         !write_to_file( PATH_INFO::world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
             uistate.serialize( jsout );
@@ -6434,6 +6435,7 @@ void game::zones_manager()
 
     const int scroll_rate = zone_cnt > 20 ? 10 : 3;
     zones_manager_open = true;
+    zone_manager::get_manager().save_zones( "zmgr-temp" );
     do {
         if( action == "ADD_ZONE" ) {
             do { // not a loop, just for quick bailing out if canceled
@@ -6755,10 +6757,8 @@ void game::zones_manager()
 
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
-        if( query_yn( _( "Save changes?" ) ) ) {
-            zones.save_zones();
-        } else {
-            zones.load_zones();
+        if( !query_yn( _( "Save changes?" ) ) ) {
+            zones.load_zones( "zmgr-temp" );
         }
 
         zones.cache_data();
