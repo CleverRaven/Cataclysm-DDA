@@ -214,9 +214,9 @@
         "topic": "TALK_BLACKSMITH_SERVICES",
         "effect": "start_trade"
       },
-      { 
-        "text": "I heard you might want some metal…", 
-        "topic": "TALK_BLACKSMITH_DEAL_NEGOTIATE",  
+      {
+        "text": "I heard you might want some metal…",
+        "topic": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
         "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH" }
       },
       { "text": "I have to go.", "topic": "TALK_DONE" }
@@ -416,11 +416,12 @@
     "id": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
     "type": "talk_topic",
     "dynamic_line": [ "Sure, honey!  I'm always in need of more material!  What's the price, though?" ],
-    "responses": [ 
-                  { "text": "Well, how about 100 merch for every 70 pounds of metal…", 
-                    "effect": { "u_spawn_item": "trade_writ" }, 
-                    "topic": "TALK_DONE" 
-                  } 
-                 ]
-  } 
+    "responses": [
+      {
+        "text": "Well, how about 100 merch for every 70 pounds of metal…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
 ]
