@@ -95,11 +95,13 @@ TK: This section could use a table of contents.
 
 When editing this document please attempt to list effects alphabetically, but keep similar effects together even if it violates this. For example, `u_add_bionic` and `u_lose_bionic` should be together.
 
-[^string]: This attribute will accept a `string` input.
-[^array]: This attribute will accept an array of options in list format, enclosed in square brackets. Eg: `[ "item_1", "item_2" ]`
-[^int_or_var]: This attribute will accept an `int` value or a `variable_object` that returns an int.
-[^time_or_var]: This attribute will accept a time value (either an `int` or, more commonly, a string value with a time unit in seconds, minutes, hours, or days, such as "3 hours") or a `variable_object` that returns an int or time.
 [^bool]: This attribute will accept a Boolean value, `true` or `false`.
+[^int]: This attribute will accept an `int` value, ie. a non-decimal number, not enclosed in quotes.
+[^string]: This attribute will accept a `string` input.
+[^time]: This attribute will accept a time value (either an `int` or, more commonly, a string value with a time unit in seconds, minutes, hours, or days, such as "3 hours").
+
+[^array]: This attribute will accept an array of options in list format, enclosed in square brackets. Eg: `[ "item_1", "item_2" ]`
+[^var]: This attribute will accept a `variable_object` that returns one of the other accepted values of the attribute.
 
 #### Missions
 
@@ -126,8 +128,8 @@ Effect | Description
 
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`u_add_morale`<br />`npc_add_morale` | `morale_string` | `bonus`[^int_or_var]<br />`max_bonus`[^int_or_var]<br />`duration`[^time_or_var]<br />`decay_start`[^time_or_var]<br />`capped`[^bool] | Target gains a morale bonus of type `morale_string`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 minutes). `capped` states whether this morale is capped or not, (default false).| `"u_add_morale": "petted_dog", "bonus": 20, "max_bonus": 50, "duration": "5 min", "decay_start": "1 min", "capped": true`
-`u_lose_morale`, `npc_lose_morale` | `morale_string` | none |Target will lose any morale of type `morale_string`.| `"u_lose_morale": "petted_dog"`
+`u_add_morale`<br />`npc_add_morale` | `morale_id`[^string] | `bonus`[^int][^var]<br />`max_bonus`[^int][^var]<br />`duration`[^time][^var]<br />`decay_start`[^time][^var]<br />`capped`[^bool] | Target gains a morale bonus of type `morale_id`. Morale is changed by the amount in `bonus` (default 1), with a maximum of up to `max_bonus` (default 1). It will last for `duration` (default 1 hour). It will begin to `decay` after specified time (default 30 mins). `capped` states whether this morale is capped or not (default false).| `"u_add_morale": "petted_dog", "bonus": 20, "max_bonus": 50, "duration": "5 min", "decay_start": "1 min", "capped": true`
+`u_lose_morale`, `npc_lose_morale` | `morale_id`[^string] | none |Target will lose any morale of type `morale_id`.| `"u_lose_morale": "petted_dog"`
 
 #### Wounds and Healing
 
@@ -147,12 +149,12 @@ Effect | Required | Optional | Description | Example
 ---|---|---|---|---
 `bionic_install` | none | none | Open trade dialogue; NPC installs a bionic from avatar's inventory onto avatar, using very high skill, and charging according to difficulty.
 `bionic_remove` | none | none | Open trade dialogue; NPC removes a bionic from avatar, using very high skill, and charging according to difficulty.
-`u_add_bionic`, `npc_add_bionic` | `bionic_string` | none |Target will gain the bionic.| `"u_add_bionic": "cbm1"`
-`u_lose_bionic`, `npc_lose_bionic` | `bionic_string` | none | Target will lose the bionic.| `"u_lose_bionic": "cbm1"`
-`u_add_trait`, `npc_add_trait` | `trait_string` | none | Target will gain the trait.| `"u_add_trait": "egtrait"`
-`u_lose_trait`, `npc_lose_trait | `trait_string` | none | Targetwill lose the trait.| `"u_lose_trait": "egtrait"`
-`u_mutate`, `npc_mutate: | `chance_int` | `use_vitamins`[^bool] | Target will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated (default true).| `"u_mutate": "egtrait", "use_vitamins": false`
-`u_mutate_category`, `npc_mutate_category` | `category_str` | `use_vitamins`[^bool]| Target will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated (default true).| `"u_mutate_category": "example_traits", "use_vitamins": false`
+`u_add_bionic`, `npc_add_bionic` | `bionic_id`[^string] | none |Target will gain the bionic.| `"u_add_bionic": "cbm1"`
+`u_lose_bionic`, `npc_lose_bionic` | `bionic_id`[^string] | none | Target will lose the bionic.| `"u_lose_bionic": "cbm1"`
+`u_add_trait`, `npc_add_trait` | `trait_id`[^string] | none | Target will gain the trait.| `"u_add_trait": "egtrait"`
+`u_lose_trait`, `npc_lose_trait` | `trait_id`[^string] | none | Targetwill lose the trait.| `"u_lose_trait": "egtrait"`
+`u_mutate`, `npc_mutate` | `chance`[^int] | `use_vitamins`[^bool] | Target will attempt to mutate, with a one in `chance` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated (default true).| `"u_mutate": "egtrait", "use_vitamins": false`
+`u_mutate_category`, `npc_mutate_category` | `category`[^string] | `use_vitamins`[^bool]| Target will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated (default true).| `"u_mutate_category": "example_traits", "use_vitamins": false`
 
 #### Variable operations
 
@@ -160,11 +162,11 @@ See **variables** above for details on the types of variables and their general 
 
 Effect | Required | Optional | Description | Example
 ---|---|---|---|---
-`u_add_var`, `npc_add_var` | `var_name`, `value: string` | `type`, `context` | Store `value` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  
-`u_add_var`, `npc_add_var` | `var_name`, `time: true` | `type`, `context` | Store the current turn of the game as an integer.
-`u_add_var`, `npc_add_var` | `var_name`, `possible_values: string_array` | `type`, `context` | Store one of the values given at random in the specified `string_array`. 
-`u_lose_var`, `npc_lose_var` | `var_name` | `type`, `context` | Clear any stored variable that has the same string values for `var_name`, `type`, and `context`.
-`u_adjust_var, npc_adjust_var` | `var_name`, `adjustment`: `int` or `variable_object`  | `type`, `context` |  Your character or the NPC will adjust the stored variable by a specified int, or the value in the variable_object.
+`u_add_var`, `npc_add_var` | `var_name`[^string], `value`[^string] | `type`[^string], `context`[^string] | Store `value` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`. | `"u_add_var": "good_day", "type": "happiness_marker", "context": "mission", "value": "day_is_good"`
+`u_add_var`, `npc_add_var` | `var_name`[^string], `time`[^bool] | `type`[^string], `context`[^string] | Store the current turn of the game as an integer.| `"u_add_var": "time_since_good_day", "time": true`
+`u_add_var`, `npc_add_var` | `var_name`[^string], `possible_values: string_array`[^string][^array] | `type`[^string], `context`[^string] | Store one of the values given at random in the specified `string_array`. | `"u_add_var": "random_string", "type": "randomizer", "possible_values": [ "yes", "bingo", "pablum", "trollface", "narf" ]`
+`u_lose_var`, `npc_lose_var` | `var_name`[^string] | `type`[^string], `context`[^string] | Clear any stored variable that has the same string values for `var_name`, `type`, and `context`.| `"u_lose_var": "random_string"`
+`u_adjust_var, npc_adjust_var` | `var_name`, `adjustment`[^int][^var]  | `type`[^string], `context`[^string] |  Adjust the stored variable by the amount in `adjustment`.| `"u_adjust_var": "count_var", "context": "debug", "adjustment": 5`
 
 Effect | Description
 ---|---
