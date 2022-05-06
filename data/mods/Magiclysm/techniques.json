@@ -7,7 +7,7 @@
     "melee_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 2 } ],
     "crit_tec": true,
-    "weighting": 2,
+    "weighting": 0,
     "messages": [
       "Snicker-snack!  You slice through %s like hot knife slices through butter.",
       "Snicker-snack!  <npcname> slices through %s like hot knife slices through butter."
