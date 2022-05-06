@@ -1,9 +1,8 @@
 [
-{
+  {
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_LOGGER",
-    "dynamic_line":
-    {
+    "dynamic_line": {
       "npc_has_var": "talked_to_logger",
       "type": "dialogue",
       "context": "first_meeting",
@@ -13,33 +12,33 @@
     },
     "speaker_effect": { "effect": { "npc_add_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
-      { 
-        "text": "Nice to meet you.", 
-        "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO", 
+      {
+        "text": "Nice to meet you.",
+        "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
         "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
       {
         "text": "Hands up, <name_b>!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
-        "failure": { "topic": "TALK_DONE", "effect": "hostile" }, 
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
         "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
-      { 
-        "text": "Pleasure to see you again.", 
-        "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO", 
+      {
+        "text": "Pleasure to see you again.",
+        "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
         "condition": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
   },
-{
+  {
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
     "dynamic_line": "Do you need something?",
     "responses": [
       { "text": "What's your story?", "topic": "TALK_NPC_LUMBERMILL_LOGGER_STORY" },
-      { "text": "How do things work around here now?", "topic": "TALK_NPC_LUMBERMILL_LOGGER_TALK_TO_MANAGER"},
+      { "text": "How do things work around here now?", "topic": "TALK_NPC_LUMBERMILL_LOGGER_TALK_TO_MANAGER" },
       {
         "text": "Any jobs you need done?",
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
@@ -55,11 +54,9 @@
       "You mean you're still looking for wood?  Crazy… but we had a suspicion folks might show up in an emergency.  Talk to the manager if you want to make an order.",
       "Well, the machinery works just fine.  We were always self-sufficient and <the_cataclysm> only really made that more apparent.  So if you want to place an order and help keep the operation running, talk to the manager.  We'll trade you for our wood."
     ],
-    "responses": [
-      { "text": "Sounds good, thanks.", "topic": "TALK_NONE" }
-    ]
+    "responses": [ { "text": "Sounds good, thanks.", "topic": "TALK_NONE" } ]
   },
-{
+  {
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_LOGGER_STORY",
     "dynamic_line": [
@@ -70,8 +67,6 @@
       "Well, I work here.  Welcome to the mill.  Used to be trucks in and out of here all the time but you're the first face we've seen in a while.",
       "New to the job… or, well, whatever's happening now.  I still cut trees and run logs through the saw from time to time, so I guess you'd call me a logger.  Things have only gotten weirder after those fucking <zombies> nearly killed us.  I'm not sure how much longer we'll last…"
     ],
-    "responses": [
-      { "text": "Hope it goes well.", "topic": "TALK_NONE" }
-    ]
+    "responses": [ { "text": "Hope it goes well.", "topic": "TALK_NONE" } ]
   }
 ]
