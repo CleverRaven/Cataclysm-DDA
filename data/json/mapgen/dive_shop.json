@@ -25,7 +25,7 @@
     "om_terrain": [ "s_dive_shop" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "____,____,____,____,____",
         "____,____,____,____,____",
@@ -38,7 +38,7 @@
         "|^                    |.",
         "|] R R R   ^RRR  RRR^ |.",
         "|] R R R              |.",
-        "|] R R R  #cDDDD#####$|.",
+        "|] R R R  ##DDDD#####$|.",
         "|] R R R  #L     L    |.",
         "|         |-----------|.",
         "|  hhhhh  |*********|S|.",
@@ -49,17 +49,18 @@
         "|B      C |*~~~~~~~*|*|.",
         "|3      C |*********|t|.",
         "|--------M-----M------|.",
-        ".4......____________<...",
+        ".4......ssssssssssss<...",
         "........................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_thconc_floor",
         ")": "t_door_glass_c",
         "+": "t_door_c",
         ",": "t_pavement_y",
         "-": "t_wall_w",
-        ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 10 ] ],
+        ".": "t_region_groundcover_urban",
         "F": "t_sidewalk",
+        "s": "t_concrete",
         "O": "t_window",
         "_": "t_pavement",
         "M": "t_door_metal_pickable",
@@ -94,7 +95,8 @@
       },
       "place_items": [
         { "item": "dive_shop_tanks", "x": [ 3, 6 ], "y": [ 19, 20 ], "chance": 90, "repeat": [ 2, 8 ] },
-        { "item": "dive_shop_books", "x": [ 3, 7 ], "y": 15, "chance": 80, "repeat": [ 1, 5 ] }
+        { "item": "dive_shop_books", "x": [ 3, 7 ], "y": 15, "chance": 80, "repeat": [ 1, 5 ] },
+        { "item": "cash_register_random", "x": 10, "y": [ 11, 12 ], "chance": 100 }
       ],
       "place_monsters": [ { "monster": "GROUP_DIVING", "x": [ 12, 19 ], "y": [ 15, 19 ], "density": 0.1 } ]
     }
@@ -105,7 +107,7 @@
     "om_terrain": [ "s_dive_shop" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_linoleum_white",
       "rows": [
         "____,____,____,____,____",
         "____,____,____,____,____",
@@ -119,7 +121,7 @@
         "|] R R R R   ^RRR RRR^|.",
         "|] R R R R            |.",
         "|] R R R R           ^|.",
-        "|] R R R R   #c#DDDD$#|.",
+        "|] R R R R   ###DDDD$#|.",
         "|V           #L      ^|.",
         "|W           -========|.",
         "|V           :        |.",
@@ -129,16 +131,17 @@
         "|---         :  hhhhh |.",
         "|t +  ]^]^   :        |.",
         "|--------------M-OOO--|.",
-        ".4............._____<...",
+        ".4.............sssss<...",
         "........................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_linoleum_white",
         ")": "t_door_glass_c",
         "+": "t_door_c",
         ",": "t_pavement_y",
+        "s": "t_concrete",
         "-": "t_wall_w",
-        ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 10 ] ],
+        ".": "t_region_groundcover_urban",
         "F": "t_sidewalk",
         "O": "t_window",
         "_": "t_pavement",
@@ -152,7 +155,6 @@
       "furniture": {
         "#": "f_counter",
         "$": "f_counter_gate_c",
-        "c": "f_console_broken",
         "D": "f_displaycase",
         "R": "f_rack",
         "]": "f_glass_cabinet",
@@ -168,7 +170,10 @@
         "D": { "item": "SUS_scuba_gear", "chance": 40 },
         "]": { "item": "swimmer_wetsuit", "chance": 80, "repeat": [ 0, 3 ] }
       },
-      "place_items": [ { "item": "dive_shop_books", "x": [ 16, 20 ], "y": [ 17, 18 ], "chance": 80, "repeat": [ 2, 7 ] } ],
+      "place_items": [
+        { "item": "dive_shop_books", "x": [ 16, 20 ], "y": [ 17, 18 ], "chance": 80, "repeat": [ 2, 7 ] },
+        { "item": "cash_register_random", "x": 13, "y": [ 12, 13 ], "chance": 100 }
+      ],
       "place_monsters": [ { "monster": "GROUP_DIVING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
