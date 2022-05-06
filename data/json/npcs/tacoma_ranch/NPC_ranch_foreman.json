@@ -224,14 +224,14 @@
           "om_terrain": "ranch_camp_65",
           "//": "Beds in the barn",
           "place_nested": [
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 1 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 5 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 7 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 11 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 13 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 17 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 19 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 23 }
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 1 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 5 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 7 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 11 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 13 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 17 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 19 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 23 }
           ]
         },
         {
