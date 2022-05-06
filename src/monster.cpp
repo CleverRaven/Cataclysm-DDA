@@ -65,7 +65,7 @@
 #include "viewer.h"
 #include "weakpoint.h"
 #include "weather.h"
-#include <harvest.h>
+#include "harvest.h"
 
 static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
 
