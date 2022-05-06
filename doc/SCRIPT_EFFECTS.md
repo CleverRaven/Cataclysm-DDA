@@ -153,8 +153,8 @@ Effect | Required | Optional | Description | Example
 `u_add_bionic`, `npc_add_bionic` | `bionic_id`[^string] | none |Target will gain the bionic.| `"u_add_bionic": "cbm1"`
 `u_lose_bionic`, `npc_lose_bionic` | `bionic_id`[^string] | none | Target will lose the bionic.| `"u_lose_bionic": "cbm1"`
 `u_add_trait`, `npc_add_trait` | `trait_id`[^string] | none | Target will gain the trait.| `"u_add_trait": "egtrait"`
-`u_lose_trait`, `npc_lose_trait` | `trait_id`[^string] | none | Targetwill lose the trait.| `"u_lose_trait": "egtrait"`
-`u_mutate`, `npc_mutate` | `chance`[^int] | `use_vitamins`[^bool] | Target will attempt to mutate, with a one in `chance` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated (default true).| `"u_mutate": "egtrait", "use_vitamins": false`
+`u_lose_trait`, `npc_lose_trait` | `trait_id`[^string] | none | Target will lose the trait.| `"u_lose_trait": "egtrait"`
+`u_mutate`, `npc_mutate` | `chance`[^int] | `use_vitamins`[^bool] | Target will attempt to mutate, with a one-in-`chance` chance of using the highest category, with 0 never using the highest category, using vitamins if indicated (default true). **NOTE**: Higher `chance` values will *decrease* the chance of using the highest category mutations.  The mutation will definitely happen regardless of `chance`. | `"u_mutate": "egtrait", "chance": 2, "use_vitamins": false`
 `u_mutate_category`, `npc_mutate_category` | `category`[^string] | `use_vitamins`[^bool]| Target will attempt to mutate in the category `category_str`, selecting a random mutation from the category, using vitamins if indicated (default true).| `"u_mutate_category": "example_traits", "use_vitamins": false`
 
 #### Variable operations
@@ -171,10 +171,11 @@ Effect | Required | Optional | Description | Example
 `u_add_var`, `npc_add_var` | `var_name`[^string], `possible_values`[^string][^array] | `type`[^string], `context`[^string] | Store one of the values given at random from the array specified in `possible_values`. | `"u_add_var": "random_string", "type": "randomizer", "possible_values": [ "yes", "bingo", "pablum", "trollface", "narf" ]`
 `u_lose_var`, `npc_lose_var` | `var_name`[^string] | `type`[^string], `context`[^string] | Clear any stored variable that has the same string values for `var_name`, `type`, and `context`.| `"u_lose_var": "random_string"`
 `u_adjust_var, npc_adjust_var` | `var_name`, `adjustment`[^int][^var]  | `type`[^string], `context`[^string] |  Adjust the stored variable by the amount in `adjustment`.| `"u_adjust_var": "count_var", "context": "debug", "adjustment": 5`
+
+Effect | Required | Optional | Description 
+---|---|---|---
 `u_location_variable, npc_location_variable` | `target_var`[^var] | `min_radius`[^int][^var]<br />`max_radius`[^int][^var]<br />`outdoor_only`[^bool]<br />`target_params`[^assign_mission_target]<br />`z_adjust`[^int][^var]<br /> `z_override`[^bool] | Targets a point to be saved to `target_var`.<br /><br />If `min_radius` and `max_radius` (both default 0) are specified, chooses a random point within that distance of the target.<br /><br />If `outdoor_only_bool` is true (default false) will only choose outdoor spaces.<br /><br />`z_adjust` will be added to the current z-value by default, if `z_override` is set to true it replaces the z-value instead.<br /><br />If `target_params` is defined it will be used to find a tile using [`assign_mission_target` parameters](MISSIONS_JSON.md) and may override above settings. 
 
-Effect | Description
----|---
 
 #### Character effects
 
