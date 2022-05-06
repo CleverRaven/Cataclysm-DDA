@@ -527,7 +527,8 @@
         "                   ",
         "                   "
       ],
-      "terrain": { "w": "t_wall_half" }
+      "terrain": { "w": "t_wall_half" },
+      "place_item": [ { "item": "hammer_sledge", "x": 12, "y": 18, "faction": "tacoma_commune" } ]
     }
   },
   {
