@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "npc",
     "id": "NPC_lumbermill_logger",
     "class": "NC_LUMBERJACK",
@@ -9,7 +9,7 @@
     "chat": "TALK_NPC_LUMBERMILL_LOGGER",
     "faction": "wasteland_scavengers"
   },
-{
+  {
     "type": "npc",
     "id": "NPC_lumbermill_merchant",
     "class": "NC_LUMBERJACK",
@@ -20,7 +20,7 @@
     "faction": "wasteland_scavengers",
     "mission_offered": "MISSION_GET_DRIVEBELTS"
   },
-{
+  {
     "type": "npc",
     "id": "NPC_lumbermill_broker",
     "class": "NC_LUMBERJACK",
@@ -30,12 +30,12 @@
     "chat": "TALK_NPC_LUMBERMILL_LOGGER",
     "faction": "wasteland_scavengers"
   },
-{
+  {
     "type": "npc_class",
     "id": "NC_LUMBERJACK",
     "name": { "str": "Lumberjack" },
     "job_description": "I felled trees before the apocalypse.  Zombies shouldn't be as tough.",
-    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],    
+    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "weapon_override": "NC_LUMBERJACK_tools",
     "bonus_str": { "rng": [ 1, 2 ] },
     "skills": [
@@ -46,7 +46,7 @@
       { "skill": "dodge", "bonus": { "rng": [ 1, 2 ] } }
     ]
   },
-{
+  {
     "type": "item_group",
     "id": "NC_LUMBERJACK_tools",
     "subtype": "distribution",
