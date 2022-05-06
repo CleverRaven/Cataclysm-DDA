@@ -64,7 +64,7 @@ if (TILES)
     target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
     if(NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
-	    target_precompile_headers(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+        target_precompile_headers(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
     endif ()
     if (LOCALIZE)
         target_include_directories(cataclysm-tiles-common PUBLIC
