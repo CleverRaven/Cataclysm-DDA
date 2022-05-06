@@ -38,13 +38,13 @@
         "c": "t_wall_glass",
         ".": "t_region_groundcover_urban",
         "`": "t_sidewalk",
-        "_": "t_pavement",
+        "_": "t_concrete",
         "g": "t_chainfence_v",
         "h": "t_chaingate_c",
-        "i": "t_pavement",
-        "j": "t_pavement",
-        "l": "t_pavement",
-        "m": "t_pavement",
+        "i": "t_concrete",
+        "j": "t_concrete",
+        "l": "t_concrete",
+        "m": "t_concrete",
         "=": "t_thconc_floor",
         "o": "t_thconc_floor",
         "p": "t_thconc_floor",
@@ -53,11 +53,11 @@
         "k": "t_thconc_floor",
         "s": "t_linoleum_gray",
         "t": "t_linoleum_gray",
-        "v": "t_pavement",
-        "w": "t_pavement",
-        "x": "t_pavement",
-        "K": "t_pavement",
-        "G": "t_pavement",
+        "v": "t_concrete",
+        "w": "t_concrete",
+        "x": "t_concrete",
+        "K": "t_concrete",
+        "G": "t_concrete",
         ";": "t_gutter_downspout"
       },
       "furniture": {
@@ -75,7 +75,7 @@
         "s": "f_rack",
         "ƃ": "f_counter_gate_c",
         "t": "f_counter",
-        "u": "f_console_broken",
+        "u": "f_counter",
         "v": "f_groundsheet",
         "w": "f_canvas_wall",
         "x": "f_canvas_door",
@@ -106,7 +106,8 @@
         { "group": "camping", "chance": 60, "repeat": 4, "x": [ 5, 6 ], "y": 17 },
         { "group": "hand_tools", "chance": 50, "repeat": 3, "x": 7, "y": 17 },
         { "group": "cannedfood", "chance": 60, "repeat": 6, "x": [ 5, 6 ], "y": 18 }
-      ]
+      ],
+      "items": { "u": { "item": "cash_register_random", "chance": 100 } }
     }
   },
   {
