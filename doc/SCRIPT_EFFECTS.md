@@ -103,6 +103,7 @@ When editing this document please attempt to list effects alphabetically, but ke
 [^array]: This attribute will accept an array of options in list format, enclosed in square brackets. Eg: `[ "item_1", "item_2" ]`
 [^assign_mission_target]: This attribute accepts a set of standard parameters related to the `Assign Mission Target` function. See [Missions documentation](./MISSIONS_JSON.md) for details.
 [^sound_type]: Specifies the type of sound for AI interactions and player alerts. Accepts limited string input from: `"background"`, `"weather"`, `"music"`, `"movement"`, `"speech"`, `"electronic_speech"`, `"activity"`, `"destructive_activity"`, `"alarm"`, `"combat"`, `"alert"`, or `"order"`
+[^true-false_eocs]: This attribute accepts an array of strings corresponding to effect_on_condition IDs for `true_eocs` and `false_eocs`. This can be used to trigger particular specific changes depending on the outcome of the parent effect. See [EoC documentation](./EFFECT_ON_CONDITION.md) for specific use cases.
 [^var]: This attribute will accept a `variable_object` that returns one of the other accepted values of the attribute.
 
 #### Missions
@@ -189,16 +190,21 @@ Special arguments: `target_part` accepts `RANDOM`; `duration` accepts `"PERMANEN
 
 Effect | Description
 ---|---
-
 `u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
 `npc_first_topic: talk_topic_string` | Changes the initial talk_topic of the NPC in all future dialogues.
-
 `u_mod_healthy, npc_mod_healthy : amount_int or amount_variable_object, cap: cap_int or cap_variable_object` | Your character or the NPC will have `amount_int` ( or the value of the variable described by `amount_variable_object` see `variable_object` above) added or subtracted from its health value, but not beyond `cap_int` or `cap_variable_object`.
 `u_message, npc_message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`),(*optional* `same_snippet: snippet_bool`,(*optional* `type: type_string`),(*optional* `popup: popup_bool`) | Displays a message to either the player or the npc of `message_string`.  Will not display unless the player or npc is the actual player.  If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set).  If `sound` is true (defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground. Message will display as type of `type_string`. Type affects the color of message and can be any of the following values: good, neutral, bad, mixed, warning, info, debug, headshot, critical, grazing.  enums.h has more info on each types use. If `popup_bool` is true the message will be in a modal popup the user has to dismiss to continue.  You can use any of the  Special Custom Entries(defined above).
 `u_cast_spell, npc_cast_spell : fake_spell_data`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | The spell described by fake_spell_data will be cast with u or the npc as the caster and u or the npc's location as the target.  Fake spell data can have the following attributes: `id:string`: the id of the spell to cast, (*optional* `hit_self`: bool ( defaults to false ) if true can hit the caster, `trigger_message`: string to display on trigger, `npc_message`: string for message if npc uses, `max_level` int max level of the spell, `min_level` int min level of the spell ).  If the spell is cast, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_assign_activity, npc_assign_activity: activity_id_string`, `duration: duration_string or duration_variable_object`) | Your character or the NPC will start activity `activity_id_string`. It will last for `duration: duration_string` time or `duration_variable_object`.
-`u_teleport, npc_teleport: target_var_object`, (*optional* `success_message: success_message_string`), (*optional* `fail_message: fail_message_string`) | u or npc are teleported to the destination stored in the variable named by `target_var`.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If the teleport succeeds and `success_message` is defined it will be displayed, if it fails and `fail_message` is defined it will be displayed.
 `u_add_faction_trust: amount_int`<br/>`u_lose_faction_trust: amount_int` | Your character gains or loses trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
+
+#### Movement
+
+Effect | Required | Optional | Description 
+---|---|---|---
+`u_teleport, npc_teleport` | `location`[^var] | `success_message`[^string]<br />`fail_message`[^string] | Target is teleported to the destination stored in the variable object `location`. If defined, `success_message` will display on success, and/or `fail_message` on failure.
+`npc_set_goal` | `mission_target`[^assign_mission_target] | `true_eocs`/`false_eocs`[^true-false_eocs] | The NPC will walk to `mission target`, which uses `assign_mission_target` parameters.  `true_eocs` and `false_eocs` trigger depending on if the goal could be assigned or not: see footnote for more information.
+
 
 #### Trade / Items
 
@@ -264,7 +270,6 @@ Effect | Description
 `set_npc_engagement_rule: rule_string` | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
 `set_npc_aim_rule: rule_string` | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
 `npc_die` | The NPC will die at the end of the conversation.
-`npc_set_goal:assign_mission_target_object`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | The NPC will walk to `assign_mission_target_object`. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters.  If the goal is assigned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 
 #### Map Updates
 Effect | Description
