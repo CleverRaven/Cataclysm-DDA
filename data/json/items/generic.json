@@ -3922,5 +3922,47 @@
     "volume": "80 L",
     "bashing": 14,
     "to_hit": -2
+  },
+  {
+    "id": "cash_register",
+    "type": "GENERIC",
+    "category": "container",
+    "symbol": "$",
+    "color": "dark_gray",
+    "name": { "str": "cash register" },
+    "description": "An electronic device for registering and calculating sales transactions.  It doesn't seem to be working.",
+    "price": 23600,
+    "price_postapoc": 200,
+    "material": [ "plastic", "steel" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "5 kg",
+    "volume": "22 L",
+    "longest_side": "360 cm",
+    "bashing": 12,
+    "to_hit": -2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_weight": "2 kg",
+        "max_contains_volume": "1 L",
+        "moves": 100,
+        "item_restriction": [
+          "money_one",
+          "money_two",
+          "money_five",
+          "money_ten",
+          "money_twenty",
+          "money_fifty",
+          "coin_penny",
+          "coin_nickel",
+          "coin_dime",
+          "coin_quarter",
+          "coin_half_dollar",
+          "coin_dollar",
+          "survnote"
+        ]
+      }
+    ]
   }
 ]
