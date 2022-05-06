@@ -59,8 +59,7 @@
     "skill_used": "fabrication",
     "time": "30 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 38 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "steel_chunk", 38 ] ] ]
   },
   {
     "result": "mattress",
@@ -96,8 +95,7 @@
     "skill_used": "tailor",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "thread", 1 ] ] ]
   },
   {
     "result": "spatula",

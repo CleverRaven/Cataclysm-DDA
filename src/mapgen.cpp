@@ -4489,6 +4489,9 @@ static bool apply_mapgen_in_phases(
     // phases, and apply each type restricted to each phase.
     auto setmap_point = setmap_points.begin();
     for( mapgen_phase phase : all_enum_values<mapgen_phase>() ) {
+        if( std::find( md.skip.begin(), md.skip.end(), phase ) != md.skip.end() ) {
+            continue;
+        }
         for( ; setmap_point != setmap_points.end(); ++setmap_point ) {
             const jmapgen_setmap &elem = *setmap_point;
             if( elem.phase() != phase ) {
@@ -7540,6 +7543,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     fake_map tmp_map( t_dirt );
 
     mapgendata fake_md( tmp_map, mapgendata::dummy_settings );
+    fake_md.skip = { mapgen_phase::zones };
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {

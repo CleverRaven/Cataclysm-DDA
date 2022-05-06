@@ -102,6 +102,7 @@ then
     tidyable_cpp_files=$all_cpp_files
 else
     make \
+        -j $num_jobs \
         ${COMPILER:+COMPILER=$COMPILER} \
         TILES=${TILES:-0} \
         SOUND=${SOUND:-0} \
