@@ -512,7 +512,7 @@
           "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_7" ], "x": 0, "y": 2 } ],
           "//": "finish the well",
           "set": [
-            { "square": "terrain", "id": "t_sidewalk", "x": 5, "y": 17, "x2": 7, "y2": 19 },
+            { "square": "terrain", "id": "t_concrete", "x": 5, "y": 17, "x2": 7, "y2": 19 },
             { "point": "terrain", "id": "t_water_pump", "x": 6, "y": 18 }
           ]
         },
