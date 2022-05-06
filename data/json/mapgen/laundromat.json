@@ -7,14 +7,14 @@
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
-        "s______________________s",
-        "s______________________s",
-        "s______________________s",
-        "s______________________s",
-        "s|===========-[[-===|sss",
+        "ss_____-_____sssssssssss",
+        "ss_____-_____sssssssssss",
+        "ss_____-_____sssssssssss",
+        "ss_____-_____sssssssssss",
+        "s|===========|[[|===|sss",
         "s|^..........^..^...|sss",
         "s|t..#.............&|sss",
-        "s|C.Bt.............D|sss",
+        "s|C.B#.............D|sss",
         "s|ttt#....rrrr.....D|sss",
         "s|WWWWWWWWWWWt.....D|%ss",
         "s|.................D|%ss",
@@ -23,24 +23,24 @@
         "s|WWWWWWWWWWWt.....D|ass",
         "s|t................D|oss",
         "s|c...DDD####t.....D|4ss",
-        "s|c...-------......|--|s",
+        "s|c...|||||||......||||s",
         "s|c...WWWWWWWt.....|lS|s",
         "s|6................+lT|s",
-        "s|6...rrrrrrrr.....|--|s",
+        "s|6...rrrrrrrr.....||||s",
         "s|V...rrrrrrrr.....|lS|s",
         "s|V................+lT|s",
-        "s|------------++------|s",
+        "s|||||||||||||++|||||||s",
         "ssssssssssssssssssssssss"
       ],
       "terrain": {
         "%": "t_sidewalk",
         "+": "t_door_c",
-        "-": "t_wall_w",
         ".": "t_linoleum_white",
         "=": "t_wall_glass",
         "A": "t_atm",
         "[": "t_door_glass_c",
         "_": "t_pavement",
+        "-": "t_pavement_y",
         "l": "t_linoleum_gray",
         "s": "t_sidewalk",
         "L": "t_sidewalk",
@@ -83,7 +83,8 @@
         { "item": "laundromat_containers", "x": [ 9, 12 ], "y": 15, "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "laundromat_bleach", "x": [ 6, 12 ], "y": [ 19, 20 ], "chance": 30, "repeat": [ 4, 8 ] },
         { "item": "vending_drink", "x": 2, "y": 20, "chance": 75 },
-        { "item": "vending_food", "x": 2, "y": 21, "chance": 75 }
+        { "item": "vending_food", "x": 2, "y": 21, "chance": 75 },
+        { "item": "cash_register_random", "x": 5, "y": [ 6, 8 ], "chance": 100 }
       ],
       "place_vehicles": [
         { "vehicle": "shopping_cart", "x": 14, "y": 9, "chance": 10 },
@@ -140,14 +141,14 @@
       "fill_ter": "t_linoleum_white",
       "rows": [
         "________________ssssssss",
-        "________________sssddsss",
-        "________________ss    ss",
-        "________________sd H  ds",
-        "-----______-----sd    ds",
-        "________________ss    ss",
-        "________________sssddsss",
-        "________________ssssssss",
-        "________________s|=[[=|s",
+        "-____-____-____-sssddsss",
+        "-____-____-____-ss    ss",
+        "-____-____-____-sd H  ds",
+        "-____-____-____-sd    ds",
+        "-____-____-____-ss    ss",
+        "-____-____-____-sssddsss",
+        "ssssssssssssssssssssssss",
+        "sssssssssssssssss|=[[=|s",
         "s||===========||||....|s",
         "s|W.^^.WW.^^.Wr.r|....|s",
         "s|W.bb.WW.bb.Wr.r|...6|s",
@@ -155,8 +156,8 @@
         "s|W.bb.WW.bb.Wr.r|...6|s",
         "s|W.bb.WW.bb.W........|s",
         "s|W.^^.WW.^^.W......B.|s",
-        "s|..............#####C|s",
-        "s|..............#..B..|s",
+        "s|..............######|s",
+        "s|.................B..|s",
         "s|D.D||+|||+||........|s",
         "s|D.D|S..|..S|.||||||||s",
         "s|D.D|+|+|+|+|.|,,,,,}|s",
@@ -165,7 +166,7 @@
         "sss4sssssssssss||||||||s"
       ],
       "terrain": {
-        " ": [ [ "t_region_groundcover_urban", 5 ], "t_region_shrub" ],
+        " ": "t_region_shrub_decorative",
         "P": "t_floor",
         "p": "t_floor",
         ",": "t_floor",
@@ -225,7 +226,8 @@
         { "vehicle": "shopping_cart", "x": 17, "y": 18, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 17, "y": 21, "chance": 10 },
         { "vehicle": "car", "x": [ 3, 10 ], "y": [ 2, 3 ], "chance": 20 }
-      ]
+      ],
+      "place_loot": [ { "group": "cash_register_random", "x": [ 16, 21 ], "y": 16 } ]
     }
   },
   {
