@@ -55,7 +55,7 @@
     "id": "MISSION_CABIN_CHEMIST_GET_500_GAS",
     "type": "mission_definition",
     "name": "Find Some Gasoline",
-    "description": "Obtain 100 liters of gasoline for the chemist.",    
+    "description": "Obtain 100 liters of gasoline for the chemist.",
     "//": "Gasoline is absurdly valuable post-apocalypse and they're asking for a lot of gasoline.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "gasoline",
