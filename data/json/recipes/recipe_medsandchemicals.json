@@ -453,7 +453,7 @@
       [ [ "chem_muriatic_acid", 1 ] ],
       [ [ "scrap", 6 ] ],
       [ [ "chem_hydrogen_peroxide", 10 ] ],
-      [ [ "edible_blood", 2, "LIST" ], [ "blood_tainted", 2 ], [ "scrap_leather", 500 ], [ "leather", 5 ] ],
+      [ [ "any_blood", 2, "LIST" ], [ "scrap_leather", 500 ], [ "leather", 5 ] ],
       [ [ "paper", 5 ] ]
     ]
   },
