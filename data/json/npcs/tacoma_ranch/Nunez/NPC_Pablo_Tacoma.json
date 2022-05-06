@@ -81,21 +81,49 @@
     "id": "TALK_TACOMA_Pablo_Bakery4",
     "dynamic_line": "Not where you might think.\"  He sets aside his ledger and pulls out a page of bullet-point notes written in neat block letters. \"Everyone is on board with the idea and the amount of actual building to get it online is small enough that the carpenters are willing to help out, so I don't need any assistance with design.  For the really short term I basically just need materials.  I've been collecting spare wood, but to get a good wood-fired oven I need to secure a source of firebrick.  In the longer run, Dana knows the principles of milling, but I need a resource book if I want to set up a functioning mill, first a muscle-powered one and then a windmill for long term.  I wish I'd thought of asking Jenny.  She's a mechanical engineer, but she would probably know how to get me started at least.  I'm also still looking into how to make a good vermin-proof cellar.  Longer term, I will need to work my way around our reliance on sugar, salt, and vinegar from before the cataclysm, but our stocks of those will hold out for months while I sort things out.",
     "responses": [
-      { "text": "What kind of gaps?", "topic": "TALK_TACOMA_Pablo_Bakery4" },
+      { "text": "I don't mind keeping my eye out for some firebricks for you.", "topic": "TALK_TACOMA_Pablo_Bakery-Firebricks1" },
+      { "text": "I can pass a note to Jenny if you want.", "topic": "TALK_TACOMA_Pablo_Bakery-Engineer1" },
+      { "text": "[Survival 4, Fabrication 4] I know how to build a good root cellar.  Here, let me show you.", "topic": "TALK_TACOMA_Pablo_Bakery-RootCellar1", "condition": { "and": [ [ "u_has_skill": { "survival": 4 }, "u_has_skill": { "fabrication": 4 } ] } },
       { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
       { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
       { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
     ]
   },
-
-
--I don't mind keeping my eye out for some firebricks for you.
-Seriously?  You've already done so much.  I won't say no, though.
-
--i can pass a note to Jenny if you want.
-I… I honestly don't know why I didn't think of that.  I could even have asked the supply caravans to do it.  If it comes down to it though, I trust you more than them.  Would you mind?
-
--(survival x)i know how to build a good root cellar.  Here, let me show you.
-Oh… oh, ok!  It's a good thing you showed me this, my basic guesses missed some important points.  Thanks, this will be helpful for a lot more than just the bakery. 
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Bakery-Firebricks1",
+    "dynamic_line": "Seriously?  You've already done so much.  I won't say no, though.",
+    "responses": [
+      { "text": "I can pass a note to Jenny if you want.", "topic": "TALK_TACOMA_Pablo_Bakery-Engineer1" },
+      { "text": "[Survival 4, Fabrication 4] I know how to build a good root cellar.  Here, let me show you.", "topic": "TALK_TACOMA_Pablo_Bakery-RootCellar1", "condition": { "and": [ [ "u_has_skill": { "survival": 4 }, "u_has_skill": { "fabrication": 4 } ] } },
+      { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Bakery-Engineer1",
+    "dynamic_line": "I… I honestly don't know why I didn't think of that.  I could even have asked the supply caravans to do it.  If it comes down to it though, I trust you more than them.  Would you mind?",
+    "responses": [
+      { "text": "I don't mind keeping my eye out for some firebricks for you.", "topic": "TALK_TACOMA_Pablo_Bakery-Firebricks1" },
+      { "text": "[Survival 4, Fabrication 4] I know how to build a good root cellar.  Here, let me show you.", "topic": "TALK_TACOMA_Pablo_Bakery-RootCellar1", "condition": { "and": [ [ "u_has_skill": { "survival": 4 }, "u_has_skill": { "fabrication": 4 } ] } },
+      { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Bakery-RootCellar1",
+    "dynamic_line": "Oh… oh, ok!  It's a good thing you showed me this, my basic guesses missed some important points.  Thanks, this will be helpful for a lot more than just the bakery.",
+    "responses": [
+      { "text": "I don't mind keeping my eye out for some firebricks for you.", "topic": "TALK_TACOMA_Pablo_Bakery-Firebricks1" },
+      { "text": "I can pass a note to Jenny if you want.", "topic": "TALK_TACOMA_Pablo_Bakery-Engineer1" },
+      { "text": "Is it really helpful, being an accountant for this?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Pablo_Trailer1" },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
 
 ]
