@@ -206,10 +206,8 @@
         "w": "t_water_sh",
         "!": "t_trunk",
         "@": "t_dirt"
-      },      
-      "npcs": {
-        "@": { "class": "NPC_homeless_survivor" }
-      }
+      },
+      "npcs": { "@": { "class": "NPC_homeless_survivor" } }
     }
   },
   {
@@ -301,19 +299,10 @@
         "@": "t_dirtfloor",
         "`": "t_dirtfloor",
         "~": "t_dirtfloor"
-      },      
-      "npcs": {
-		"@": { "class": "NPC_homeless_broker" },
-                "`": { "class": "NPC_homeless_group_survivor" }
-		},
-      "faction_owner": [
-		{ "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] }				
-      ],
-    "items": {
-              "~": [
-                    { "item": "homeless_broker_sell", "chance": 100, "repeat": [ 30, 45 ] }
-	           ]
-             } 
+      },
+      "npcs": { "@": { "class": "NPC_homeless_broker" }, "`": { "class": "NPC_homeless_group_survivor" } },
+      "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "items": { "~": [ { "item": "homeless_broker_sell", "chance": 100, "repeat": [ 30, 45 ] } ] }
     }
   }
 ]
