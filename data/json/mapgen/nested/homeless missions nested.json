@@ -1,8 +1,8 @@
 [
-{
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "homeless_camp_blank_temp", 
+    "nested_mapgen_id": "homeless_camp_blank_temp",
     "//": "Just showcases the position of stuff. Not to be used.",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -32,14 +32,24 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "!": "t_grass", "`": "t_grass", "d": "t_grass", "~": "t_grass", "c": "t_grass",  "b": "t_grass", "m": "t_grass", "+": "t_grass", "@": "t_grass" },
+      "terrain": {
+        "!": "t_grass",
+        "`": "t_grass",
+        "d": "t_grass",
+        "~": "t_grass",
+        "c": "t_grass",
+        "b": "t_grass",
+        "m": "t_grass",
+        "+": "t_grass",
+        "@": "t_grass"
+      },
       "furniture": { "m": "f_straw_bed" }
     }
-    },
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "homeless_camp_refurb_1", 
+    "nested_mapgen_id": "homeless_camp_refurb_1",
     "//": "Phase 1 of homeless refurbirations.",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -71,11 +81,11 @@
       ],
       "terrain": { "!": "t_wall_wood" }
     }
-    },
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "homeless_camp_refurb_2", 
+    "nested_mapgen_id": "homeless_camp_refurb_2",
     "//": "Phase 2 of homeless refurbirations.",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -107,11 +117,11 @@
       ],
       "terrain": { "c": "t_wall_wood" }
     }
-    },
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "homeless_camp_refurb_3", 
+    "nested_mapgen_id": "homeless_camp_refurb_3",
     "//": "Phase 3 of homeless refurbirations.",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -143,12 +153,11 @@
       ],
       "terrain": { "!": "t_palisade_gate", "~": "t_palisade_pulley", "1": "t_palisade" }
     }
-    },
-
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "homeless_camp_refurb_4", 
+    "nested_mapgen_id": "homeless_camp_refurb_4",
     "//": "Phase 4 of homeless refurbirations.",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -180,11 +189,11 @@
       ],
       "terrain": { "0": "t_pit_shallow", "!": "t_wall_wood", "1": "t_door_c" }
     }
-    },
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "homeless_camp_refurb_5", 
+    "nested_mapgen_id": "homeless_camp_refurb_5",
     "//": "Phase 5 of homeless refurbirations.",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -217,11 +226,11 @@
       "terrain": { "!": "t_dirt", "@": "t_dirt" },
       "furniture": { "!": "f_smoking_rack", "@": "f_kiln_empty" }
     }
-    },
-{
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "homeless_camp_expand_1", 
+    "nested_mapgen_id": "homeless_camp_expand_1",
     "//": "Phase 1 of homeless expansions.",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -251,8 +260,8 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_dirtmound", "q": "t_grass", "/": "t_splitrail_fence", "+": "t_splitrail_fencegate_c" },      
+      "terrain": { ".": "t_dirtmound", "q": "t_grass", "/": "t_splitrail_fence", "+": "t_splitrail_fencegate_c" },
       "sealed_item": { ".": { "item": { "item": "seed_zucchini" }, "furniture": "f_plant_seedling", "chance": 100 } }
     }
-    }
+  }
 ]
