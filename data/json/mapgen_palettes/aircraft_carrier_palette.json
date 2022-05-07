@@ -235,6 +235,7 @@
         { "item": "supplies_electronics", "chance": 55, "repeat": [ 0, 2 ] }
       ],
       "B": [
+        { "item": "bed", "chance": 50 },
         { "item": "magazines", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "literature", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "novels", "chance": 5, "repeat": [ 0, 1 ] },
