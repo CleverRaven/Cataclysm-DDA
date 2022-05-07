@@ -39,9 +39,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": false,
-    "book_learn": [
-      [ "exodii_wiring_kit_reference", 4 ]
-    ],
+    "book_learn": [ [ "exodii_wiring_kit_reference", 4 ] ],
     "using": [ [ "soldering_standard", 24 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [

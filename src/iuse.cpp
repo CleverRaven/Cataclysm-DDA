@@ -5869,7 +5869,8 @@ cata::optional<int> iuse::toolmod_attach( Character *p, item *it, bool, const tr
     auto filter = [&it]( const item & e ) {
         // don't allow ups or bionic battery mods on a UPS or UPS-powered/bionic-powered tools
         if( ( it->has_flag( flag_USE_UPS ) || it->has_flag( flag_USES_BIONIC_POWER ) ) &&
-            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) || e.has_flag( flag_USES_BIONIC_POWER ) ) ) {
+            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) ||
+              e.has_flag( flag_USES_BIONIC_POWER ) ) ) {
             return false;
         }
 
