@@ -1,7 +1,7 @@
 [
   {
     "abstract": "platinum_bracelet_magic",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "platinum bracelet" },
     "description": "A bracelet, completely covered with a large amount of runes from both sides.",
     "weight": "50 g",
@@ -16,14 +16,13 @@
   {
     "copy-from": "platinum_bracelet_magic",
     "id": "missile_volley_bracelet",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "missile volley bracelet" },
     "description": "A bracelet, completely covered with a large amount of runes from both sides.  Wizards love to name it \"ultima ratio\", describing his colossal might.  Require almost a whole week to restore his charge.",
     "price_postapoc": "6900 USD",
     "flags": [
       "BELTED",
       "STURDY",
-      "BLOCK_WHILE_WORN",
       "NO_UNLOAD",
       "NO_RELOAD",
       "FANCY",
@@ -32,6 +31,7 @@
       "ALLOWS_NATURAL_ATTACKS",
       "SKINTIGHT"
     ],
+    "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "7 d", "regenerate_ammo": true } },
     "use_action": { "type": "cast_spell", "spell_id": "missile_volley", "no_fail": true, "level": 20, "need_worn": true }
@@ -39,14 +39,13 @@
   {
     "copy-from": "platinum_bracelet_magic",
     "id": "gorgon_bracelet",
-    "type": "ARMOR",
-    "name": { "str": "Petrification bracelet" },
+    "type": "TOOL_ARMOR",
+    "name": { "str": "petrification bracelet" },
     "description": "A bracelet, completely covered with a large amount of runes from both sides.  You don't really know how it works, but after using enemies literally freeze in the middle of their movement. Require almost 7 days to restore his charge.",
     "price_postapoc": "6500 USD",
     "flags": [
       "BELTED",
       "STURDY",
-      "BLOCK_WHILE_WORN",
       "NO_UNLOAD",
       "NO_RELOAD",
       "FANCY",
@@ -55,6 +54,7 @@
       "ALLOWS_NATURAL_ATTACKS",
       "SKINTIGHT"
     ],
+    "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "7 d", "regenerate_ammo": true } },
     "use_action": { "type": "cast_spell", "spell_id": "gorgon_spell", "no_fail": true, "level": 0, "need_worn": true }
@@ -62,14 +62,13 @@
   {
     "copy-from": "platinum_bracelet_magic",
     "id": "disorientation_bracelet",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "disorientation bracelet" },
     "description": "Known as a \"worse version of petrification bracelet\", this tool cast a spell, that temporary break the whole movement system of creature, disabling his movement for a short time. Require almost 5 days to restore his charge.",
     "price_postapoc": "5600 USD",
     "flags": [
       "BELTED",
       "STURDY",
-      "BLOCK_WHILE_WORN",
       "NO_UNLOAD",
       "NO_RELOAD",
       "FANCY",
@@ -78,21 +77,21 @@
       "ALLOWS_NATURAL_ATTACKS",
       "SKINTIGHT"
     ],
+    "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 2 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "7 d", "regenerate_ammo": true } },
-    "use_action": { "type": "cast_spell", "spell_id": "disorient_spell", "no_fail": true, "level": 0, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "disorient_spell", "no_fail": true, "level": 0, "need_worn": true }
   },
   {
     "copy-from": "platinum_bracelet_magic",
     "id": "super_hot_bracelet",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "propulsion bracelet" },
     "description": "It feels like the world aroud you just stop.  Thats not true, thats just a combination of really fast speed and some mana tricks you can't understand. Require 7 days to restore his charge.",
     "price_postapoc": "8500 USD",
     "flags": [
       "BELTED",
       "STURDY",
-      "BLOCK_WHILE_WORN",
       "NO_UNLOAD",
       "NO_RELOAD",
       "FANCY",
@@ -101,8 +100,9 @@
       "ALLOWS_NATURAL_ATTACKS",
       "SKINTIGHT"
     ],
+    "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "7 d", "regenerate_ammo": true } },
-    "use_action": { "type": "cast_spell", "spell_id": "super_hot_spell", "no_fail": true, "level": 0, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "super_hot_spell", "no_fail": true, "level": 0, "need_worn": true }
   }
 ]

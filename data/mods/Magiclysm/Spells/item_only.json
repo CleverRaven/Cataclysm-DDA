@@ -284,10 +284,25 @@
     "effect": "attack"
   },
   {
+    "id": "mana_bolt_random",
+    "type": "SPELL",
+    "name": "Mana Bolt",
+    "description": "Semi controlled mana rocket.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_TARGET", "RANDOM_DAMAGE", "SILENT" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 60,
+    "max_damage": 90,
+    "damage_type": "pure",
+    "min_range": 7,
+    "max_range": 7
+  },
+  {
     "id": "missile_volley",
     "type": "SPELL",
     "name": "Missile volley",
-    "description": "Fire a blast of sunlight in a wide beam, blinding everything in its path and leaving it bright enough for you to see for a few seconds.",
+    "description": "Cast a swar, of mana bolts in random directions.",
     "valid_targets": [ "self" ],
     "flags": [ "WONDER" ],
     "effect": "attack",
@@ -301,15 +316,6 @@
     "energy_source": "MANA"
   },
   {
-    "id": "mana_bolt_random",
-    "type": "SPELL",
-    "copy-from": "magus_mana_bolt",
-    "min_range": 7,
-    "max_range": 7,
-    "message": "",
-    "extend": { "flags": [ "RANDOM_TARGET" ] }
-  },
-  {
     "id": "gorgon_spell",
     "type": "SPELL",
     "name": "Petrification",
@@ -318,10 +324,10 @@
     "flags": [ "NO_PROJECTILE", "IGNORE_WALLS" ],
     "effect": "mod_moves",
     "shape": "cone",
-    "min_damage": -1200,
-    "max_damage": -1200,
-    "min_range": 8,
-    "max_range": 8,
+    "min_damage": -2200,
+    "max_damage": -2200,
+    "min_range": 9,
+    "max_range": 9,
     "min_aoe": 120,
     "max_aoe": 120
   },
@@ -336,10 +342,8 @@
     "shape": "cone",
     "effect_str": "stunned",
     "damage_type": "pure",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_range": 8,
-    "max_range": 8,
+    "min_range": 6,
+    "max_range": 6,
     "min_aoe": 120,
     "max_aoe": 120,
     "min_duration": 1500,
@@ -354,7 +358,7 @@
     "flags": [ "NO_LEGS", "LOUD", "SOMATIC" ],
     "effect": "mod_moves",
     "shape": "blast",
-    "min_damage": 1400,
-    "max_damage": 1400
+    "min_damage": 2400,
+    "max_damage": 2400
   }
 ]
