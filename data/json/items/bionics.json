@@ -1184,7 +1184,7 @@
   },
   {
     "id": "bio_thumbs",
-    "copy-from": "bionic_general_faulty CBM",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": { "str": "Self-Locking Thumbs CBM" },
     "description": "A pair of faulty, self-locking thumb bionics.",
