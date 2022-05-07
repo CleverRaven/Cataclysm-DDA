@@ -87,7 +87,7 @@
     "value": 10000,
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "followup": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH",
-    "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "reveal_radius": 0 } },
+    "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 0 } },
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "Go negotiate a trade agreement.",
@@ -112,7 +112,7 @@
     "difficulty": 35,
     "value": 10000,
     "origins": [ "ORIGIN_OPENER_NPC" ],
-    "start": { "assign_mission_target": { "om_terrain": "isolated_house_farm_blacksmith", "reveal_radius": 0 } },
+    "start": { "assign_mission_target": { "om_terrain": "isolated_house_farm_blacksmith", "om_special": "isolated_road", "reveal_radius": 0 } },
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "Go negotiate a trade agreement.",
