@@ -23,7 +23,8 @@ enum aim_location : char {
     AIM_NORTHEAST,
     AIM_DRAGGED,
     AIM_ALL,
-    AIM_CONTAINER,
+    AIM_CONTAINER_L,
+    AIM_CONTAINER_R,
     AIM_WORN,
     NUM_AIM_LOCATIONS,
     // only useful for AIM_ALL

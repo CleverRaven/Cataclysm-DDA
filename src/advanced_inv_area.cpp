@@ -108,7 +108,8 @@ void advanced_inv_area::init()
                 desc[0] = _( "No dragged vehicle!" );
             }
             break;
-        case AIM_CONTAINER:
+        case AIM_CONTAINER_L:
+        case AIM_CONTAINER_R:
             // set container position based on location
             set_container_position();
             // location always valid, actual check is done in canputitems()
@@ -206,7 +207,8 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     // e.g. dragged vehicle (to the south) and AIM_SOUTH are the same.
     if( id != AIM_INVENTORY && other.id != AIM_INVENTORY &&
         id != AIM_WORN && other.id != AIM_WORN &&
-        id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
+        id != AIM_CONTAINER_L && other.id != AIM_CONTAINER_L &&
+        id != AIM_CONTAINER_R && other.id != AIM_CONTAINER_R ) {
         //     have a vehicle?...     ...do the cargo index and pos match?...    ...at least pos?
         return veh == other.veh ? pos == other.pos && vstor == other.vstor : pos == other.pos;
     }
@@ -219,7 +221,8 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
     bool canputitems = false;
     bool from_vehicle = false;
     switch( id ) {
-        case AIM_CONTAINER: {
+        case AIM_CONTAINER_L:
+        case AIM_CONTAINER_R: {
             item_location it;
             if( advitem != nullptr ) {
                 it = advitem->items.front();

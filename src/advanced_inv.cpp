@@ -130,7 +130,8 @@ advanced_inventory::advanced_inventory()
         { AIM_NORTHEAST, point( 36, 1 ), tripoint_north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE",        AIM_EAST},
         { AIM_DRAGGED,   point( 25, 1 ), tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
         { AIM_ALL,       point( 22, 3 ), tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
-        { AIM_CONTAINER, point( 22, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
+        { AIM_CONTAINER_L, point( 22, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER_L},
+        { AIM_CONTAINER_R, point( 22, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER_R},
         { AIM_WORN,      point( 25, 3 ), tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
     }
 } )
@@ -208,7 +209,14 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
 bool advanced_inventory::get_square( const std::string &action, aim_location &ret )
 {
     for( advanced_inv_area &s : squares ) {
-        if( s.actionname == action ) {
+        if( "ITEMS_CONTAINER" == action) {
+            if( src == left && s.id == AIM_CONTAINER_L || 
+                src == right && s.id == AIM_CONTAINER_R ) {
+                ret = screen_relative_location(s.id);
+                return true;
+            }
+        }
+        else if( s.actionname == action ) {
             ret = screen_relative_location( s.id );
             return true;
         }
@@ -295,8 +303,9 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         } else {
             units::volume maxvolume = 0_ml;
             advanced_inv_area &s = squares[pane.get_area()];
-            if( pane.get_area() == AIM_CONTAINER && s.get_container( pane.in_vehicle() ) ) {
-                maxvolume = s.get_container( pane.in_vehicle() )->get_total_capacity();
+            if( ( pane.get_area() == AIM_CONTAINER_L || pane.get_area() == AIM_CONTAINER_R ) && 
+                s.get_container( pane.in_vehicle() ) ) {
+                maxvolume = s.get_container( pane.in_vehicle() )->get_total_capacity(); // TODO: Max volume changes for other container when opening container
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
             } else {
@@ -670,7 +679,7 @@ void advanced_inventory::recalc_pane( side p )
     }
 
     // Prevent same container item appearing in this pane when other pane is the container view.
-    if( there.get_area() == AIM_CONTAINER ) {
+    if( there.get_area() == AIM_CONTAINER_L || there.get_area() == AIM_CONTAINER_R ) { // TODO: shorten the check left and right area?
         item_location loc = other.get_container();
         std::vector<advanced_inv_listitem>::iterator outer_iter = pane.items.begin();
         while( outer_iter != pane.items.end() ) {
@@ -958,7 +967,7 @@ bool advanced_inventory::move_all_items()
             // TODO: implement this
             popup( _( "Putting on everything from your inventory would be tricky." ) );
             return false;
-        } else if( dpane.get_area() == AIM_CONTAINER ) {
+        } else if( dpane.get_area() == AIM_CONTAINER_L || dpane.get_area() == AIM_CONTAINER_L ) {
             // TODO: implement this
             popup( _( "Putting everything into the container would be tricky." ) );
             return false;
@@ -1251,7 +1260,8 @@ void advanced_inventory::redraw_sidebar()
 void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    if( changeSquare != AIM_CONTAINER && ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) ) {
+    if( panes[left].get_area() == changeSquare && changeSquare != AIM_CONTAINER_L || 
+        changeSquare != AIM_CONTAINER_R && panes[right].get_area() == changeSquare ) {
         if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
             spane.get_area() != changeSquare ) {
             // only deal with spane, as you can't _directly_ change dpane
@@ -1270,9 +1280,10 @@ void advanced_inventory::change_square( const aim_location changeSquare,
         // we need to check the original area if we can place items in vehicle storage
     } else if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
         bool in_vehicle_cargo = false;
-        if( changeSquare == AIM_CONTAINER ) {
+        if( changeSquare == AIM_CONTAINER_L || changeSquare == AIM_CONTAINER_R ) {
             squares[changeSquare].set_container( spane.get_cur_item_ptr() );
-        } else if( spane.get_area() == AIM_CONTAINER ) {
+        } else if( ( spane.get_area() == AIM_CONTAINER_L || spane.get_area() == AIM_CONTAINER_R ) &&
+                   ( squares[changeSquare].get_container() == squares[spane.get_area()].get_container() ) ) {
             squares[changeSquare].set_container( nullptr );
             // auto select vehicle if items exist at said square, or both are empty
         } else if( squares[changeSquare].can_store_in_vehicle() && spane.get_area() != changeSquare ) {
@@ -1390,7 +1401,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // but are potentially at a different place).
     recalc = true;
     cata_assert( amount_to_move > 0 );
-    if( destarea == AIM_CONTAINER ) {
+    if( destarea == AIM_CONTAINER_L || destarea == AIM_CONTAINER_R) {
         if( !move_content( *sitem->items.front(),
                            *squares[destarea].get_container( to_vehicle ) ) ) {
             return false;
@@ -1929,7 +1940,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Map and vehicles have a maximal item count, check that. Inventory does not have this.
     if( destarea != AIM_INVENTORY &&
         destarea != AIM_WORN &&
-        destarea != AIM_CONTAINER ) {
+        destarea != AIM_CONTAINER_L &&
+        destarea != AIM_CONTAINER_R ) {
         const int cntmax = p.max_size - p.get_item_count();
         // For items counted by charges, adding it adds 0 items if something there stacks with it.
         const bool adds0 = by_charges && std::any_of( panes[dest].items.begin(), panes[dest].items.end(),
