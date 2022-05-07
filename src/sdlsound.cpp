@@ -112,13 +112,32 @@ bool init_sound()
     int audio_rate = 44100;
     Uint16 audio_format = AUDIO_S16;
     int audio_channels = 2;
-    int audio_buffers = 2048;
+    int chunksize = 2048;
+    // Autodetect device
+    const char *audio_device = nullptr;
+    // We only care about sample format and number of channels.
+    // SDL will be allowed to choose a different frequency if it needs to.
+    int flags = SDL_AUDIO_ALLOW_FREQUENCY_CHANGE;
 
     // We should only need to init once
     if( !sound_init_success ) {
-        // Mix_OpenAudio returns non-zero if something went wrong trying to open the device
-        if( !Mix_OpenAudioDevice( audio_rate, audio_format, audio_channels, audio_buffers, nullptr,
-                                  SDL_AUDIO_ALLOW_FREQUENCY_CHANGE ) ) {
+        const char *driver = SDL_GetCurrentAudioDriver();
+        DebugLog( D_INFO, D_MAIN ) << "Active audio driver: " << driver;
+
+        int open_code = Mix_OpenAudioDevice( audio_rate, audio_format, audio_channels,
+                                             chunksize, audio_device, flags );
+        if( open_code == 0 ) {
+            int dev_rate = 0;
+            Uint16 dev_format = 0;
+            int dev_channels = 0;
+            if( Mix_QuerySpec( &dev_rate, &dev_format, &dev_channels ) ) {
+                DebugLog( D_INFO, D_MAIN )
+                        << string_format( "Opened mixer with specs: %d Hz, %d channel(s), format %#x",
+                                          dev_rate, dev_channels, dev_format );
+            } else {
+                DebugLog( D_WARNING, D_SDL ) << "Mix_QuerySpec failed: " << Mix_GetError();
+            }
+
             Mix_AllocateChannels( 128 );
             Mix_ReserveChannels( static_cast<int>( sfx::channel::MAX_CHANNEL ) );
 
