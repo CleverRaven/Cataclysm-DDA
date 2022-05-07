@@ -115,7 +115,7 @@
     "reversible": true,
     "skill_used": "electronics",
     "difficulty": 4,
-    "skills_required": [ "fabrication", 4 ], 
+    "skills_required": [ "fabrication", 4 ],
     "time": "8 h",
     "autolearn": [ [ "electronics", 4 ] ],
     "category": "CC_APPLIANCE",
@@ -127,7 +127,8 @@
       { "id": "SAW_M", "level": 1 },
       { "id": "DRILL", "level": 1 },
       { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 } ],
+      { "id": "WRENCH", "level": 1 }
+    ],
     "components": [
       [ [ "sheet_metal", 5 ] ],
       [ [ "mountable_cooler", 2 ] ],
@@ -136,6 +137,7 @@
       [ [ "hose", 2 ], [ "hose_garden", 1 ] ],
       [ [ "pipe_fittings", 2 ] ],
       [ [ "thermostat", 1 ] ],
-      [ [ "plastic_chunk", 16 ] ] ]
+      [ [ "plastic_chunk", 16 ] ]
+    ]
   }
 ]
