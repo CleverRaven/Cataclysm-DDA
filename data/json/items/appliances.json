@@ -206,7 +206,7 @@
     "color": "light_cyan",
     "symbol": "C",
     "material": [ "steel" ],
-    "volume": "150 l",
+    "volume": "150 L",
     "bashing": 12
   },
   {
