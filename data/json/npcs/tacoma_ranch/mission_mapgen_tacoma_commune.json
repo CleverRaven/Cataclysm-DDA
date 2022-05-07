@@ -209,7 +209,7 @@
         " ............& .... ",
         " CC..CtC...c..+.... ",
         "]tt........c.r vvkk ",
-        "]tt........c.r      ",
+        "]tt.2....2.c.r      ",
         " CC..CtC...c.u      ",
         " ............s      ",
         "    &.C..C..        ",
@@ -229,7 +229,8 @@
         "u": "t_floor",
         "s": "t_floor",
         "&": "t_floor",
-        "+": "t_door_c"
+        "+": "t_door_c",
+        "2": "t_floor_olight"
       },
       "furniture": {
         "c": "f_counter",
@@ -326,7 +327,7 @@
         "    ]]   ]]         ",
         "+.............      ",
         "+............. wwwww",
-        " ............. ....w",
+        " ...2.....2... ....w",
         "]............. ....]",
         " ............. ....w",
         "               ....w",
@@ -344,7 +345,7 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c" }
+      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c", "2": "t_floor_olight" }
     }
   },
   {
@@ -603,7 +604,7 @@
         "                 ",
         "......     .cccc.",
         "......  +  ..s...",
-        "...... ... ......",
+        "..2... ... ...2..",
         "............tt...",
         "...... ... ......",
         "......     ......",
@@ -615,7 +616,7 @@
         "                 ",
         "                 "
       ],
-      "terrain": { "+": "t_door_c", ".": "t_floor", "c": "t_floor", "t": "t_floor", "s": "t_floor" },
+      "terrain": { "+": "t_door_c", ".": "t_floor", "c": "t_floor", "t": "t_floor", "s": "t_floor", "2": "t_floor_olight" },
       "furniture": { "c": "f_cupboard", "t": "f_table", "s": "f_stool" },
       "place_signs": [ { "signage": "Clinic", "x": 1, "y": 10 } ],
       "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ],
