@@ -1251,7 +1251,7 @@ void advanced_inventory::redraw_sidebar()
 void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
+    if( changeSquare != AIM_CONTAINER && ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) ) {
         if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
             spane.get_area() != changeSquare ) {
             // only deal with spane, as you can't _directly_ change dpane
