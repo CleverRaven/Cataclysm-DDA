@@ -81,7 +81,7 @@
     "id": "sloc_shelter_infest_b",
     "name": "Infested Shelter - Compartmentalized",
     "terrain": [ "shelter_under_3_2_infested" ]
-  },    
+  },
   {
     "type": "start_location",
     "id": "sloc_refugee_center",

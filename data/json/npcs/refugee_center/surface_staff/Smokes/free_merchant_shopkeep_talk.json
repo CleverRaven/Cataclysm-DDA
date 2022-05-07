@@ -134,19 +134,19 @@
       },
       { "text": "I'm looking for work.  Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
-      { 
-        "text": "Are you interested in buying any processed lumber?", 
-        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",          
+      {
+        "text": "Are you interested in buying any processed lumber?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
         "condition": { "u_has_mission": "MISSION_LUMBERMILL_SET_TRADE_ROUTE" }
       },
-      { 
-        "text": "Does this center need any metal?", 
-        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",  
+      {
+        "text": "Does this center need any metal?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
         "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE" }
       },
-      { 
-        "text": "Are you interested in any chemical supplies?", 
-        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",  
+      {
+        "text": "Are you interested in any chemical supplies?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
         "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
       },
       { "text": "Actually, I need to head out.", "topic": "TALK_DONE" }
@@ -295,22 +295,24 @@
     "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
     "type": "talk_topic",
     "dynamic_line": [ "Sure, we could use some around here for repairs and whatnot. What are the terms?" ],
-    "responses": [ 
-                  { "text": "Well, how about 250 merch for 100 pounds of…", 
-                    "effect": { "u_spawn_item": "trade_writ" }, 
-                    "topic": "TALK_DONE" 
-                  }
-                 ]
-},
-{
+    "responses": [
+      {
+        "text": "Well, how about 250 merch for 100 pounds of…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
     "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
     "type": "talk_topic",
     "dynamic_line": [ "Chemicals? I'm sure we could find some use for them, and we are in need of medical supplies. What's the offer?" ],
-    "responses": [ 
-                  { "text": "Well, how about 300 merch for 10 liters of…", 
-                    "effect": { "u_spawn_item": "trade_writ" }, 
-                    "topic": "TALK_DONE" 
-                  }  
-                 ]
-}
+    "responses": [
+      {
+        "text": "Well, how about 300 merch for 10 liters of…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
 ]

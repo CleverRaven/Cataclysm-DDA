@@ -95,16 +95,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": ["shelter_3", "shelter_under_3_infested"],
+    "id": [ "shelter_3", "shelter_under_3_infested" ],
     "name": "evac shelter B-11",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
     "flags": [ "RISK_HIGH" ]
-  },    
+  },
   {
     "type": "overmap_terrain",
-    "id": ["shelter_3_2", "shelter_under_3_2_infested"],
+    "id": [ "shelter_3_2", "shelter_under_3_2_infested" ],
     "name": "evac shelter A-46",
     "sym": "+",
     "color": "white",
