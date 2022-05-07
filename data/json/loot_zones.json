@@ -130,7 +130,7 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Bionics",
     "can_be_personal": true,
-    "description": "Destination for Compact Bionics Modules, a.k.a. CBMS."
+    "description": "Destination for Compact Bionics Modules, a.k.a. CBMs."
   },
   {
     "id": "LOOT_VEHICLE_PARTS",
