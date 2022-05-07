@@ -1,5 +1,5 @@
-if (NOT $ENV{DevEnvDir})
- set(ENV{DevEnvDir} "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE")
+if (NOT "$ENV{DevEnvDir}")
+    set(ENV{DevEnvDir} "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE")
 endif()
 set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe CACHE PATH "")
 set(CMAKE_CXX_FLAGS_INIT "\
