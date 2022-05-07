@@ -6100,5 +6100,26 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
     "components": [ [ [ "plastic_sheet", 1 ] ] ]
+  },
+  {
+    "result": "cash_register",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "cable", 6 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "solder_wire", 12 ] ],
+      [ [ "scrap", 4 ] ]
+    ]
   }
 ]
