@@ -1,8 +1,8 @@
 [
   {
-    "id": "mon_black_rat2",
+    "id": "mon_black_ratkin",
     "type": "MONSTER",
-    "//": "Duplicate rats created to prevent all rats from evolving into mutant rats, any monster ending in rat2 should only appear in places where mutant rats can evolve.",
+    "//": "Duplicate rats created to prevent all rats from evolving into mutant rats, any monster ending in ratkin should only appear in places where mutant rats can evolve.",
     "copy-from": "mon_black_rat",
     "name": { "str": "black rat" },
     "description": "The black rat, an omnivorous rodent with sheer black fur and a long, rough tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm over the dead or dying.",
@@ -10,10 +10,10 @@
     "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" }
   },
   {
-    "id": "mon_lab_rat2",
+    "id": "mon_lab_ratkin",
     "type": "MONSTER",
     "name": { "str": "lab rat" },
-    "//": "Duplicate rats created to prevent all rats from evolving into mutant rats, any monster ending in rat2 should only appear in places where mutant rats can evolve.",
+    "//": "Duplicate rats created to prevent all rats from evolving into mutant rats, any monster ending in ratkin should only appear in places where mutant rats can evolve.",
     "description": "The albino Norway rat, an omnivorous rodent with sleek white fur and a long, rough tail.  While its ancestors were harbingers of plague, these clever animals are omnipresent in modern biomedical research.",
     "default_faction": "ratkin",
     "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
