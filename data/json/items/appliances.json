@@ -207,7 +207,7 @@
     "symbol": "C",
     "material": [ "steel" ],
     "volume": "150 l",
-    "bashing": 12,
+    "bashing": 12
   },
   {
     "id": "autoclave",
