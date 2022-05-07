@@ -311,7 +311,6 @@
     "max_damage": 25,
     "min_range": 0,
     "max_range": 0,
-    "max_level": 20,
     "extra_effects": [ { "id": "mana_bolt_random" } ],
     "energy_source": "MANA"
   },
