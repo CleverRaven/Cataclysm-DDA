@@ -302,7 +302,7 @@
     "id": "missile_volley",
     "type": "SPELL",
     "name": "Missile volley",
-    "description": "Cast a swar, of mana bolts in random directions.",
+    "description": "Cast a swarm of mana bolts in random directions.",
     "valid_targets": [ "self" ],
     "flags": [ "WONDER" ],
     "effect": "attack",
