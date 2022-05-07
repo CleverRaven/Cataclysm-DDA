@@ -219,7 +219,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     }
     std::vector<std::function<void()>> actions;
     if( player_character.can_consume_as_is( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
-        if( ctxt.keys_bound_to( "CONSUME" ).size() > 0 ) {
+        if( !ctxt.keys_bound_to( "CONSUME" ).empty() ) {
             menu.addentry( -1, true, ctxt.keys_bound_to( "CONSUME" ).front(),
                            ctxt.get_action_name( "CONSUME" ) );
             actions.emplace_back( [&]() {
@@ -228,7 +228,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         }
     }
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.
-    if( ctxt.keys_bound_to( "CONTAINER_POUR" ).size() > 0 ) {
+    if( !ctxt.keys_bound_to( "CONTAINER_POUR" ).empty() ) {
         menu.addentry( -1, true, ctxt.keys_bound_to( "CONTAINER_POUR" ).front(),
                        ctxt.get_action_name( "CONTAINER_POUR" ) );
         actions.emplace_back( [&]() {
@@ -299,7 +299,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         } );
     }
 
-    if( ctxt.keys_bound_to( "GROUND_POUR" ).size() > 0 ) {
+    if( !ctxt.keys_bound_to( "GROUND_POUR" ).empty() ) {
         menu.addentry( -1, true, ctxt.keys_bound_to( "GROUND_POUR" ).front(),
                        ctxt.get_action_name( "GROUND_POUR" ) );
         actions.emplace_back( [&]() {
