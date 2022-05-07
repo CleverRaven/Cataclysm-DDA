@@ -4,9 +4,13 @@ on:
   push:
     branches:
     - master
-  pull_request:
+  pull_request_target:
     branches:
     - master
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.pull_request.number }}
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 # Allow running master builds to complete to help with ccache refreshes.
@@ -289,23 +293,11 @@ jobs:
       if: ${{ env.SKIP == 'false' && env.SKIP_TESTS == 'false' }}
       run: bash ./build-scripts/gha_test_only.sh
     - run: |
-        echo ${{ github.event.number }} > pull_request_id
-        echo "true" > ${{ env.ARCHIVE_SUCCESS }}
+        gh pr edit "$PR_NUMBER" --add-label "BasicBuildPassed"
       if: ${{ env.ARCHIVE_SUCCESS && success() }}
     - run: |
-        echo ${{ github.event.number }} > pull_request_id
-        echo "false" > ${{ env.ARCHIVE_SUCCESS }}
+        gh pr edit "$PR_NUMBER" --remove-label "BasicBuildPassed"
       if: ${{ env.ARCHIVE_SUCCESS && failure() }}
-    - uses: actions/upload-artifact@v2
-      if: ${{ always() && env.ARCHIVE_SUCCESS }}
-      with:
-        name: pull_request_id
-        path: pull_request_id
-    - uses: actions/upload-artifact@v2
-      if: ${{ always() && env.ARCHIVE_SUCCESS }}
-      with:
-        name: ${{ env.ARCHIVE_SUCCESS }}
-        path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v2
       if: failure()

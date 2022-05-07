@@ -1,6 +1,10 @@
 name: astyle
 
-on: pull_request
+on: pull_request_target
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   skip-duplicates:
@@ -15,11 +19,7 @@ jobs:
       with:
         cancel_others: 'true'
         paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
-    - run: echo ${{ github.event.number }} > pull_request_id
-    - uses: actions/upload-artifact@v2
-      with:
-        name: pull_request_id
-        path: pull_request_id
+
   astyle-code:
     name: astyle check
     needs: skip-duplicates
@@ -28,18 +28,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
-
+    - uses: actions/checkout@v3
     - name: install dependencies
       run: sudo apt-get install astyle
 
     - name: astyle check
       run: make astyle-check
+    - run: |
+        gh pr edit "$PR_NUMBER" --add-label "astyled"
 
     - name: Display Corrections
       if: failure()
       run: |
         make astyle-fast
         git diff
+        gh pr edit "$PR_NUMBER" --remove-label "astyled"
