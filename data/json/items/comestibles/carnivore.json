@@ -911,7 +911,6 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": -3,
-    "cooks_like": "meat_cooked",
     "vitamins": [ [ "iron", 17 ] ],
     "flags": [ "RAW", "PREDATOR_FUN" ]
   },
