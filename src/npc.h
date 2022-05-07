@@ -1405,7 +1405,8 @@ class npc : public Character
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
-
+        void set_unique_id( std::string id );
+        std::string get_unique_id();
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -1425,6 +1426,8 @@ class npc : public Character
         std::vector<sphere> find_dangerous_explosives() const;
 
         npc_companion_mission comp_mission;
+
+        std::string unique_id;
 };
 
 /** An NPC with standard stats */

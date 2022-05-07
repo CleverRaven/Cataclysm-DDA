@@ -1018,7 +1018,10 @@ class game
         memorial_logger &memorial();
 
         global_variables global_variables_instance;
+        std::map<std::string,bool> unique_npcs;
     public:
+        void add_unique_npc(std::string id);
+        bool unique_npc_exists(std::string id);
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
         queued_global_effect_on_conditions;

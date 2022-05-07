@@ -734,6 +734,7 @@ void game::setup()
     remoteveh_cache = nullptr;
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
+    unique_npcs.clear();
     get_weather().weather_override = WEATHER_NULL;
     // back to menu for save loading, new game etc
 }
@@ -2904,6 +2905,16 @@ achievements_tracker &game::achievements()
 memorial_logger &game::memorial()
 {
     return *memorial_logger_ptr;
+}
+
+void game::add_unique_npc(std::string id)
+{
+    unique_npcs.emplace(id, true);
+}
+
+bool game::unique_npc_exists(std::string id)
+{
+    return unique_npcs.count(id) > 0;
 }
 
 spell_events &game::spell_events_subscriber()

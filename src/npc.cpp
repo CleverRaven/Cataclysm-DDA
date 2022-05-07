@@ -3539,6 +3539,22 @@ attitude_group npc::get_attitude_group( npc_attitude att ) const
     return attitude_group::neutral;
 }
 
+void npc::set_unique_id(std::string id)
+{
+    if (!unique_id.empty()) {
+        debugmsg("Tried to set unique_id of npc with one already of value: ", unique_id);
+    }
+    else {
+        unique_id = id;
+        g->add_unique_npc(id);
+    }
+}
+
+std::string npc::get_unique_id()
+{
+    return unique_id;
+}
+
 void npc::set_mission( npc_mission new_mission )
 {
     if( new_mission != mission ) {
