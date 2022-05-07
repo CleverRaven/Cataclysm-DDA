@@ -1450,13 +1450,11 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN" ]
-  },  
+  },
   {
     "type": "overmap_special",
     "id": "Evac Shelter Vandalized 1c",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "shelter_1c_vandal_north" }
-    ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "shelter_1c_vandal_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, 10 ],
@@ -1469,7 +1467,7 @@
     "id": "Evac Shelter Vandalized 2b",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_2b_vandal_north" },
-        { "point": [ 0, 0, -1 ], "overmap": "shelter_under_2b_vandal_north" }
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_2b_vandal_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "wilderness" ],
@@ -1507,7 +1505,7 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN" ]
-  },  
+  },
   {
     "type": "overmap_special",
     "id": "Evac Shelter Infested 2",
@@ -7682,13 +7680,11 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
-},
+  },
   {
     "type": "overmap_special",
     "id": "Occupied Scrap Yard",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "smallscrapyard_ocu_north" }
-    ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "smallscrapyard_ocu_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "field" ],
     "city_distance": [ 5, 40 ],
