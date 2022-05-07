@@ -25,6 +25,11 @@
     "entries": [ { "drop": "salsify_raw" } ]
   },
   {
+    "id": "m_stellatum_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "m_stellatum_berries", "base_num": [ 1, 3 ] } ]
+  },
+  {
     "id": "wild_carrot_harv",
     "type": "harvest",
     "entries": [ { "drop": "carrot_wild" } ]

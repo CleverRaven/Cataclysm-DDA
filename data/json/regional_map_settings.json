@@ -183,6 +183,7 @@
           "f_flower_tulip": 4,
           "f_black_eyed_susan": 3,
           "f_bluebell": 2,
+          "f_maianthemum_stellatum": 2,
           "f_flower_spurge": 1,
           "f_dahlia": 1,
           "f_salsify": 1,
@@ -211,6 +212,7 @@
           "f_datura": 3,
           "f_japanese_knotweed": 2,
           "f_dahlia": 2,
+          "f_maianthemum_stellatum": 2,
           "f_mutpoppy": 2,
           "f_black_eyed_susan": 1,
           "f_flower_tulip": 1,
@@ -231,6 +233,7 @@
           "f_salsify": 3,
           "f_dahlia": 2,
           "f_mutpoppy": 1,
+          "f_maianthemum_stellatum": 1,
           "f_wintergreen": 1
         },
         "f_region_forest_dense": { "f_burdock": 20, "f_bluebell": 8, "f_lily": 5, "f_wild_sarsaparilla": 4, "f_salsify": 3, "f_wintergreen": 2 },

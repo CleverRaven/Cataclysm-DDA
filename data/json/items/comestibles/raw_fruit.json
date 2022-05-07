@@ -190,6 +190,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "//": "abbreviated latin name because the id would get too long otherwise",
+    "id": "m_stellatum_berries",
+    "name": { "str_sp": "starry false solomon's seal berries" },
+    "weight": "9 g",
+    "color": "red",
+    "spoils_in": "3 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 20,
+    "description": "Deep red berries which have a pleasant bitter-sweet flavor.  Can have a laxative effect if eaten in large quantities.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "fruit" ],
+    "volume": "20 ml",
+    "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
+    "smoking_result": "dry_fruit",
+    "vitamins": [ [ "vitC", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "mayapple",
     "name": { "str": "mayapple" },
     "weight": "15 g",
@@ -206,7 +226,8 @@
     "volume": "20 ml",
     "flags": [ "SMOKABLE", "FORAGE_POISON" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 1 ], [ "mutant_toxin", 15 ] ]
+    "//": "entire plant contains poison interacting with the central nervous system, but the fruit is edible in small quantities. the effect of the poison is very similar to our mutant_toxin excess, a dedicated toxin just for this would be a waste of time and resources.",
+    "vitamins": [ [ "vitC", 3 ], [ "mutant_toxin", 15 ] ]
   },
   {
     "type": "COMESTIBLE",

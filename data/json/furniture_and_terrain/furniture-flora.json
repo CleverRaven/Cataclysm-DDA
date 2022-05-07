@@ -59,6 +59,21 @@
   },
   {
     "type": "furniture",
+    "id": "f_maianthemum_stellatum",
+    "name": "starry false solomon's seal",
+    "description": "The blossoms of this flower look like stars in the night sky.  Its crimson berries are edible.",
+    "symbol": "f",
+    "color": "white",
+    "looks_like": "f_lily",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "m_stellatum_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
     "id": "f_salsify",
     "name": "salsify",
     "description": "Tragopogon porrifolius, a ragged-looking purple flower with a nutritious root.",

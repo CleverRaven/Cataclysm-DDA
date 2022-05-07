@@ -3026,6 +3026,7 @@
         [ "irradiated_raspberries", 1 ],
         [ "raspberries", 1 ],
         [ "wintergreen_berry", 4 ],
+        [ "m_stellatum_berries", 4 ],
         [ "irradiated_blackberries", 1 ],
         [ "blackberries", 1 ]
       ]
@@ -3992,6 +3993,7 @@
         [ "cranberries", 1 ],
         [ "irradiated_raspberries", 1 ],
         [ "wintergreen_berry", 4 ],
+        [ "m_stellatum_berries", 4 ],
         [ "raspberries", 1 ],
         [ "irradiated_blackberries", 1 ],
         [ "blackberries", 1 ],
