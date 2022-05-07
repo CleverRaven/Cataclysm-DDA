@@ -41,7 +41,7 @@
     "id": "gorgon_bracelet",
     "type": "TOOL_ARMOR",
     "name": { "str": "petrification bracelet" },
-    "description": "A bracelet, completely covered with a large amount of runes from both sides.  You don't really know how it works, but after using enemies literally freeze in the middle of their movement. Require almost 7 days to restore his charge.",
+    "description": "A bracelet, completely covered with a large amount of runes from both sides.  You don't really know how it works, but after using enemies literally freeze in the middle of their movement.  Require almost 7 days to restore his charge.",
     "price_postapoc": "6500 USD",
     "flags": [
       "BELTED",
@@ -64,7 +64,7 @@
     "id": "disorientation_bracelet",
     "type": "TOOL_ARMOR",
     "name": { "str": "disorientation bracelet" },
-    "description": "Known as a \"worse version of petrification bracelet\", this tool cast a spell, that temporary break the whole movement system of creature, disabling his movement for a short time. Require almost week to restore his charge.",
+    "description": "Known as a \"worse version of petrification bracelet\", this tool cast a spell, that temporary break the whole movement system of creature, disabling his movement for a short time.  Require almost week to restore his charge.",
     "price_postapoc": "5600 USD",
     "flags": [
       "BELTED",
@@ -87,7 +87,7 @@
     "id": "super_hot_bracelet",
     "type": "TOOL_ARMOR",
     "name": { "str": "propulsion bracelet" },
-    "description": "It feels like the world aroud you just stop.  Thats not true, thats just a combination of really fast speed and some mana tricks you can't understand. Require a whole week to restore his charge.",
+    "description": "It feels like the world aroud you just stop.  Thats not true, thats just a combination of really fast speed and some mana tricks you can't understand.  Require a whole week to restore his charge.",
     "price_postapoc": "8500 USD",
     "flags": [
       "BELTED",
