@@ -328,7 +328,7 @@
     "id": "robot_disabler_explosion",
     "type": "SPELL",
     "name": "Surge",
-    "description": "Send a vawe of high-frequency alternating pulse.  It can't hurt really much, but it works great against circuits, shutting them down for a small time.  Probably it will work against drones or robots.  No, its not EMP",
+    "description": "Send a wave of high-frequency alternating pulse.  It can't hurt really much, but it works great against circuits, shutting them down for a small time.  Probably it will work against drones or robots.  No, its not EMP",
     "flags": [ "NO_LEGS", "LOUD", "SOMATIC" ],
     "valid_targets": [ "hostile", "ground" ],
     "spell_class": "MAGNETISM_MAGE",
