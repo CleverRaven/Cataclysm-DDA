@@ -346,20 +346,20 @@
     "weight": "745 g"
   },
   {
-    "id": "trade_writ",
-    "type": "BOOK",
-    "name": { "str": "writ of trade", "str_pl": "writs of trade" },
-    "description": "A short writ featuring the signed agreement of establishing a trade route.",
-    "weight": "1 g",
-    "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 50,
-    "bashing": 1,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "looks_like": "mag_glam",
-    "color": "light_cyan",
-    "intelligence": 5,
-    "time": "10 m"
-  }
+        "id": "trade_writ",
+        "type": "BOOK",
+        "name": { "str": "writ of trade", "str_pl": "writs of trade" },
+        "description": "A short writ featuring the signed agreement of establishing a trade route.",
+        "weight": "1 g",
+        "volume": "250 ml",
+        "price": 3000,
+        "price_postapoc": 50,
+        "bashing": 1,
+        "material": [ "paper" ],
+        "symbol": "?",
+        "looks_like": "mag_glam",
+        "color": "light_cyan",
+        "intelligence": 5,
+        "time": "10 m"
+      }
 ]
