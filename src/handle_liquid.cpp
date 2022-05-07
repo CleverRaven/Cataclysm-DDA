@@ -190,6 +190,14 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     }
 
     uilist menu;
+    menu.input_category = "LIQUID_TARGET";
+    input_context ctxt( "LIQUID_TARGET" );
+    menu.additional_actions = {
+        { "CONSUME", translation() },
+        { "CONTAINER_POUR", translation() },
+        { "GROUND_POUR", translation() }
+    };
+    menu.allow_additional = true;
 
     map &here = get_map();
     const std::string liquid_name = liquid.display_name( liquid.charges );
@@ -211,30 +219,36 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     }
     std::vector<std::function<void()>> actions;
     if( player_character.can_consume_as_is( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
-        menu.addentry( -1, true, 'e', _( "Consume it" ) );
-        actions.emplace_back( [&]() {
-            target.dest_opt = LD_CONSUME;
-        } );
+        if( ctxt.keys_bound_to( "CONSUME" ).size() > 0 ) {
+            menu.addentry( -1, true, ctxt.keys_bound_to( "CONSUME" ).front(),
+                           ctxt.get_action_name( "CONSUME" ) );
+            actions.emplace_back( [&]() {
+                target.dest_opt = LD_CONSUME;
+            } );
+        }
     }
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.
-    menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
-    actions.emplace_back( [&]() {
-        target.item_loc = game_menus::inv::container_for( player_character, liquid,
-                          radius, /*avoid=*/source );
-        item *const cont = target.item_loc.get_item();
+    if( ctxt.keys_bound_to( "CONTAINER_POUR" ).size() > 0 ) {
+        menu.addentry( -1, true, ctxt.keys_bound_to( "CONTAINER_POUR" ).front(),
+                       ctxt.get_action_name( "CONTAINER_POUR" ) );
+        actions.emplace_back( [&]() {
+            target.item_loc = game_menus::inv::container_for( player_character, liquid,
+                              radius, /*avoid=*/source );
+            item *const cont = target.item_loc.get_item();
 
-        if( cont == nullptr || cont->is_null() ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-        // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
-        // as valid target for the liquid. So check for that.
-        if( cont == source || ( !cont->empty() && cont->has_item( liquid ) ) ) {
-            add_msg( m_info, _( "That's the same container!" ) );
-            return; // The user has intended to do something, but mistyped.
-        }
-        target.dest_opt = LD_ITEM;
-    } );
+            if( cont == nullptr || cont->is_null() ) {
+                add_msg( _( "Never mind." ) );
+                return;
+            }
+            // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
+            // as valid target for the liquid. So check for that.
+            if( cont == source || ( !cont->empty() && cont->has_item( liquid ) ) ) {
+                add_msg( m_info, _( "That's the same container!" ) );
+                return; // The user has intended to do something, but mistyped.
+            }
+            target.dest_opt = LD_ITEM;
+        } );
+    }
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
     for( const tripoint &e : here.points_in_radius( player_character.pos(), 1 ) ) {
@@ -285,33 +299,36 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         } );
     }
 
-    menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
-    actions.emplace_back( [&]() {
-        // From infinite source to the ground somewhere else. The target has
-        // infinite space and the liquid can not be used from there anyway.
-        if( liquid.has_infinite_charges() && source_pos != nullptr ) {
-            add_msg( m_info, _( "Clearing out the %s would take forever." ), here.name( *source_pos ) );
-            return;
-        }
+    if( ctxt.keys_bound_to( "GROUND_POUR" ).size() > 0 ) {
+        menu.addentry( -1, true, ctxt.keys_bound_to( "GROUND_POUR" ).front(),
+                       ctxt.get_action_name( "GROUND_POUR" ) );
+        actions.emplace_back( [&]() {
+            // From infinite source to the ground somewhere else. The target has
+            // infinite space and the liquid can not be used from there anyway.
+            if( liquid.has_infinite_charges() && source_pos != nullptr ) {
+                add_msg( m_info, _( "Clearing out the %s would take forever." ), here.name( *source_pos ) );
+                return;
+            }
 
-        const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name );
+            const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name );
 
-        const cata::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
-        if( !target_pos_ ) {
-            return;
-        }
-        target.pos = *target_pos_;
+            const cata::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
+            if( !target_pos_ ) {
+                return;
+            }
+            target.pos = *target_pos_;
 
-        if( source_pos != nullptr && *source_pos == target.pos ) {
-            add_msg( m_info, _( "That's where you took it from!" ) );
-            return;
-        }
-        if( !here.can_put_items_ter_furn( target.pos ) ) {
-            add_msg( m_info, _( "You can't pour there!" ) );
-            return;
-        }
-        target.dest_opt = LD_GROUND;
-    } );
+            if( source_pos != nullptr && *source_pos == target.pos ) {
+                add_msg( m_info, _( "That's where you took it from!" ) );
+                return;
+            }
+            if( !here.can_put_items_ter_furn( target.pos ) ) {
+                add_msg( m_info, _( "You can't pour there!" ) );
+                return;
+            }
+            target.dest_opt = LD_GROUND;
+        } );
+    }
 
     if( liquid.rotten() ) {
         // Pre-select this one as it is the most likely one for rotten liquids

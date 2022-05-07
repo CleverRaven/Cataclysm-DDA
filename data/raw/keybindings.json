@@ -3915,6 +3915,27 @@
   },
   {
     "type": "keybinding",
+    "name": "Consume it",
+    "category": "LIQUID_TARGET",
+    "id": "CONSUME",
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Pour into a container",
+    "category": "LIQUID_TARGET",
+    "id": "CONTAINER_POUR",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Pour on the ground",
+    "category": "LIQUID_TARGET",
+    "id": "GROUND_POUR",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
     "category": "FACTION_MANAGER",
     "id": "INSPECT_NPC",
     "name": "Inspect NPC",
