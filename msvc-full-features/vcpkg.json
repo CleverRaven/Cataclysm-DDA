@@ -3,11 +3,19 @@
     "version-string": "0.F",
     "dependencies": [
         "sdl2",
-        "sdl2-image",
+        {
+          "name": "sdl2-image",
+          "features": [ "libjpeg-turbo" ]
+        },
         {
           "name": "sdl2-mixer",
           "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
         },
-        "sdl2-ttf"
+        "sdl2-ttf",
+        {
+          "features": [ "tools" ],
+          "name": "gettext",
+          "platform": "windows"
+        }
     ]
 }
