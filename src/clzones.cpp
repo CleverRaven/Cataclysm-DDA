@@ -105,7 +105,7 @@ zone_manager::zone_manager()
                    zone_type( to_translation( "Mine Terrain" ),
                               to_translation( "Designate an area to mine." ) ) );
     types.emplace( zone_type_MOPPING,
-                   zone_type( to_translation( "Mop tile" ),
+                   zone_type( to_translation( "Mop Tile" ),
                               to_translation( "Designate an area to mop clean." ) ) );
     types.emplace( zone_type_VEHICLE_DECONSTRUCT,
                    zone_type( to_translation( "Vehicle Deconstruct Zone" ),
@@ -118,7 +118,7 @@ zone_manager::zone_manager()
                               to_translation( "Vehicles with an autopilot will patrol in this zone." ) ) );
     types.emplace( zone_type_CAMP_STORAGE,
                    zone_type( to_translation( "Basecamp: Storage" ),
-                              to_translation( "Items in this zone will be added to a basecamp's inventory for use by it's workers." ) ) );
+                              to_translation( "Items in this zone will be added to a basecamp's inventory for use by its workers." ) ) );
     types.emplace( zone_type_CAMP_FOOD,
                    zone_type( to_translation( "Basecamp: Food" ),
                               to_translation( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
