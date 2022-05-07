@@ -57,4 +57,5 @@ add_link_options(
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
 set(VCPKG_MANIFEST_DIR ${CMAKE_SOURCE_DIR}/msvc-full-features)
+set(VCPKG_OVERLAY_TRIPLETS ${CMAKE_SOURCE_DIR}/.github/vcpkg_triplets)
 include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
