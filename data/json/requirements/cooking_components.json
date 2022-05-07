@@ -379,6 +379,20 @@
     ]
   },
   {
+    "id": "edible_bonemarrow",
+    "type": "requirement",
+    "//": "Any type of edible bone marrow.",
+    "components": [
+      [
+        [ "bone_marrow", 1 ],
+        [ "human_marrow", 1 ],
+        [ "demihuman_marrow", 1 ],
+        [ "mutant_marrow", 1 ],
+        [ "mutant_human_marrow", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "meat_nofish",
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
