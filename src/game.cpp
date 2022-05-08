@@ -1534,6 +1534,11 @@ npc *game::find_npc( character_id id )
     return overmap_buffer.find_npc( id ).get();
 }
 
+npc *game::find_npc_by_unique_id( std::string unique_id )
+{
+    return overmap_buffer.find_npc_by_unique_id( unique_id ).get();
+}
+
 void game::add_npc_follower( const character_id &id )
 {
     follower_ids.insert( id );
@@ -2907,14 +2912,24 @@ memorial_logger &game::memorial()
     return *memorial_logger_ptr;
 }
 
-void game::add_unique_npc(std::string id)
+void game::update_unique_npc_location( std::string id, point_abs_om loc )
 {
-    unique_npcs.emplace(id, true);
+    unique_npcs[id] = loc;
 }
 
-bool game::unique_npc_exists(std::string id)
+point_abs_om game::get_unique_npc_location( std::string id )
 {
-    return unique_npcs.count(id) > 0;
+    if( unique_npc_exists( id ) ) {
+        return unique_npcs[id];
+    } else {
+        debugmsg( "Tried to find npc %s which doesn't exist.", id );
+        return point_abs_om();
+    }
+}
+
+bool game::unique_npc_exists( std::string id )
+{
+    return unique_npcs.count( id ) > 0;
 }
 
 spell_events &game::spell_events_subscriber()

@@ -1758,11 +1758,12 @@ class jmapgen_npc : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             string_id<npc_template> chosen_id = npc_class.get( dat );
-            if( chosen_id.is_null()) {
+            if( chosen_id.is_null() ) {
                 return;
             }
-            if( !unique_id.empty() && g->unique_npc_exists(unique_id)) {
-                get_avatar().add_msg_debug_if_player(debugmode::DF_NPC, "NPC with unique id %s already exists.", unique_id);
+            if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
+                get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
+                                                      unique_id );
                 return;
             }
             character_id npc_id = dat.m.place_npc( point( x.get(), y.get() ), chosen_id );
@@ -1775,7 +1776,7 @@ class jmapgen_npc : public jmapgen_piece
                     p->set_mutation( new_trait );
                 }
                 if( !unique_id.empty() ) {
-                    p->set_unique_id(unique_id);
+                    p->set_unique_id( unique_id );
                 }
             }
         }

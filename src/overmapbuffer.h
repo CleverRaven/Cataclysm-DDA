@@ -283,6 +283,7 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        shared_ptr_fast<npc> find_npc_by_unique_id( std::string unique_id );
         /**
          * Get all NPCs active on the overmap
          */
