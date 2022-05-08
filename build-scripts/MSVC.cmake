@@ -1,6 +1,8 @@
 if (NOT "$ENV{DevEnvDir}")
+    # Use Community Edition when not specified
     set(ENV{DevEnvDir} "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE")
 endif()
+# Ninja is provided by Microsoft but not in the Path
 set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe CACHE PATH "")
 set(CMAKE_CXX_FLAGS_INIT "\
 /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
@@ -49,7 +51,6 @@ add_link_options(
     /LTCG:OFF
     /MANIFEST:NO
 )
-# TODO use those two in debug builds only
 # /OPT:REF  # remove unreferenced COMDATs
 # /OPT:ICF  # folds identical COMDATs
 
