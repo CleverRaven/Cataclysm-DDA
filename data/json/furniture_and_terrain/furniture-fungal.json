@@ -66,7 +66,7 @@
     "type": "terrain",
     "id": "t_fungus_colony",
     "name": "mushroom colony",
-    "description": "A large pile of organic matter which has molded over with fungus. The caps of many mushrooms spring from the top, all of which are fortunatley terrestrial. You could snip some of the mushrooms from it.",
+    "description": "A large pile of organic matter which has molded over with fungus. The caps of many mushrooms spring from the top, all of which are fortunately terrestrial. You could snip some of the mushrooms from it.",
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 30,
