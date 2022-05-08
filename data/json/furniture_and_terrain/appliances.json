@@ -437,6 +437,8 @@
     "type": "vehicle_part",
     "id": "ap_portable_ac",
     "name": { "str": "portable air conditioner" },
+    "categories": [ "utility" ],
+    "description": "A modified vehicle-mounted area cooler.  A custom made casing with a hose attached which allows the exhaust heat to be directed out of the room.",
     "location": "structure",
     "item": "portable_air_conditioner",
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER", "APPLIANCE" ],
