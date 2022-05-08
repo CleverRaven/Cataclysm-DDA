@@ -191,7 +191,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "shelter_roof_1", "shelter_roof_1b", "shelter_roof_3" ],
+    "om_terrain": [ "shelter_roof_1", "shelter_roof_1b", "shelter_roof_infested" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -312,7 +312,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "shelter_roof_2", "shelter_roof_3_2" ],
+    "om_terrain": [ "shelter_roof_2", "shelter_roof_infested_2" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
