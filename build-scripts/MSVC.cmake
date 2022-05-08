@@ -65,6 +65,8 @@ string(REGEX MATCH ^[^=]+    _key   "${_env}")
         endif()
     endforeach()
 endforeach()
+configure_file(build-scripts/CMakeUserPresets.json.in ${CMAKE_SOURCE_DIR}/CMakeUserPresets.json @ONLY)
+
 set(CMAKE_CXX_FLAGS_INIT "\
 /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
 /wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
