@@ -53,6 +53,118 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
+    "result": "exodii_ingot_tin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "block_tin", 100 ] ] ]
+  },
+  {
+    "result": "block_tin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "scrap_tin", 150 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_lead",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "block_lead", 100 ] ] ]
+  },
+  {
+    "result": "block_lead",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "lead", 30000 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_zinc",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "block_zinc", 100 ] ] ]
+  },
+  {
+    "result": "block_zinc",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "zinc_metal", 8114 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "block_steel", 100 ] ] ]
+  },
+  {
+    "result": "block_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "steel_lump", 64 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_copper",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "block_copper", 100 ] ] ]
+  },
+  {
+    "result": "block_copper",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "scrap_copper", 165 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "block_aluminum", 100 ] ] ]
+  },
+  {
+    "result": "block_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "material_aluminium_ingot", 32 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_plastic",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "reciprocating_saw", 500 ], [ "circsaw_off", 500 ] ] ],
+    "components": [ [ [ "block_plastic", 100 ] ] ]
+  },
+  {
+    "result": "block_plastic",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "reciprocating_saw", 50 ], [ "circsaw_off", 50 ] ] ],
+    "components": [ [ [ "plastic_chunk", 160 ] ] ]
+  }
+  {
     "result": "atgm_spent",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
