@@ -42,6 +42,8 @@
         "_": "t_pavement",
         "-": "t_pavement_y",
         "l": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
+        "T": "t_linoleum_gray",
         "s": "t_sidewalk",
         "L": "t_sidewalk",
         "a": "t_sidewalk",
