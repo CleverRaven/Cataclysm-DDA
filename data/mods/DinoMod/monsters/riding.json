@@ -1,46 +1,46 @@
 [
   {
-    "type": "monster",
+    "type": "MONSTER",
     "id": "rid_mon_gallimimus",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
-    "type": "monster",
+    "type": "MONSTER",
     "id": "rid_mon_struthiomimus",
     "copy-from": "rid_mon_pachycephalosaurus"
   },
   {
-    "type": "monster",
+    "type": "MONSTER",
     "id": "rid_mon_ornithomimus",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
-    "type": "monster",
+    "type": "MONSTER",
     "id": "rid_mon_dyoplosaurus",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
-    "type": "monster",
+    "type": "MONSTER",
     "id": "rid_mon_ankylosaurus",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
-    "type": "monster",
+    "type": "MONSTER",
     "id": "rid_mon_nodosaurus",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
-    "type": "monster",
+    "type": "MONSTER",
     "id": "rid_mon_edmontonia",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
-    "type": "monster",
+    "type": "MONSTER",
     "id": "rid_mon_pentaceratops",
     "looks_like": "rid_mon_triceratops"
   },
   {
-    "type": "monster",
+    "type": "MONSTER",
     "id": "rid_mon_torosaurus",
     "looks_like": "rid_mon_triceratops"
   }
