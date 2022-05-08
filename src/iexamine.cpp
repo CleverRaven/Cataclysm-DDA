@@ -2193,9 +2193,9 @@ static bool query_pick( Character &who, const tripoint &target )
 
     std::string query_string;
     if( here.has_furn( target ) ) {
-        query_string = string_format( _( "Pick %1$s" ), here.furnname( target ) );
+        query_string = string_format( _( "Pick %1$s?" ), here.furnname( target ) );
     } else {
-        query_string = string_format( _( "Pick %1$s" ), here.tername( target ) );
+        query_string = string_format( _( "Pick %1$s?" ), here.tername( target ) );
     }
 
     if( who.is_avatar() && !query_yn( query_string ) ) {
