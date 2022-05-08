@@ -19,7 +19,8 @@
     "monsters": [
       { "monster": "mon_changeling_bannerman", "weight": 100, "cost_multiplier": 1 },
       { "monster": "mon_fetch_daffodil_warrior", "weight": 400, "cost_multiplier": 0 },
-      { "monster": "mon_changeling_aspirant", "weight": 0, "cost_multiplier": 4 }
+      { "monster": "mon_pooka_aspirant", "weight": 10, "cost_multiplier": 4 },
+      { "monster": "mon_redcap_aspirant", "weight": 10, "cost_multiplier": 4 }
     ]
   },
   {

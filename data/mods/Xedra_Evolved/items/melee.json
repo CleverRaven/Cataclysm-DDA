@@ -68,7 +68,7 @@
   {
     "id": "pooka_gladius",
     "type": "GENERIC",
-    "name": { "str": "pooka gladius" },
+    "name": { "str": "pooka gladius", "str_pl": "pooka gladii" },
     "copy-from": "wakizashi",
     "description": "A gladius covered in the whorls of Celtic knots.  Sparks seems to pop off the edge of the blade.",
     "flags": [ "SHEATH_SWORD" ],

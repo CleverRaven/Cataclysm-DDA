@@ -218,7 +218,7 @@
   {
     "id": "mt_chainmail_feet",
     "type": "ARMOR",
-    "copy-from": "mt_chainmail_feet",
+    "copy-from": "hc_chainmail_feet",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
     "description": "Moon tear chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where changeling bannermen are numerous",
@@ -252,7 +252,7 @@
   {
     "id": "mt_chainmail_hands",
     "type": "ARMOR",
-    "copy-from": "mt_chainmail_hands",
+    "copy-from": "hc_chainmail_hands",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
     "description": "Moon tear chainmail gloves that fully enclose the hand.",
@@ -418,7 +418,7 @@
   {
     "id": "mt_chainmail_vest",
     "type": "ARMOR",
-    "copy-from": "mt_chainmail_vest",
+    "copy-from": "hc_chainmail_vest",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "high steel chainmail vest" },
     "description": "A customized moon tears chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
