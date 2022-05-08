@@ -12,6 +12,45 @@ execute_process(COMMAND cmd /c ${VSDEVCMD_BAT} -no_logo -arch=amd64 && set
     OUTPUT_VARIABLE _ENV)
 string(REGEX REPLACE ";" "\\\\;" _ENV "${_ENV}")
 string(REGEX MATCHALL "[^\n]+\n" _ENV "${_ENV}")
+foreach(_env IN LISTS _ENV)
+	# This list is essentially a revised result of :comm -1 -3 <(sort before.txt) <(sort after.txt) |egrep -o '^[^=]+='"
+	foreach(_replace 
+		ExtensionSdkDir=
+		Framework40Version=
+		FrameworkDIR64=
+		FrameworkDir=
+		FrameworkVersion64=
+		FrameworkVersion=
+		INCLUDE=
+		LIB=
+		LIBPATH=
+		NETFXSDKDir=
+		Path=
+		UCRTVersion=
+		UniversalCRTSdkDir=
+		VCIDEInstallDir=
+		VCINSTALLDIR=
+		VCToolsInstallDir=
+		VCToolsRedistDir=
+		VCToolsVersion=
+		VS170COMNTOOLS=
+		VSCMD_ARG_HOST_ARCH=
+		VSCMD_ARG_TGT_ARCH=
+		VSCMD_ARG_app_plat=
+		VSCMD_VER=
+		VSINSTALLDIR=
+		VisualStudioVersion=
+		WindowsLibPath=
+		WindowsSDKLibVersion=
+		WindowsSDKVersion=
+		WindowsSDK_ExecutablePath_x64=
+		WindowsSDK_ExecutablePath_x86=
+		WindowsSdkBinPath=
+		WindowsSdkDir=
+		WindowsSdkVerBinPath=
+	)
+    endforeach()
+endforeach()
 set(CMAKE_CXX_FLAGS_INIT "\
 /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
 /wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
