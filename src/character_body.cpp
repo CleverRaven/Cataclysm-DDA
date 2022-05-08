@@ -266,7 +266,11 @@ void Character::update_body( const time_point &from, const time_point &to )
         }
         if( calendar::once_every( 12_hours ) && v.first->type() == vitamin_type::VITAMIN ) {
             const double rda = 1_days / rate;
-            if( vitamin_get( v.first ) > 0.90 * rda && vitamin_get( v.first ) < 3.0 * rda ) {
+            const int &vit_quantity = vitamin_get( v.first );
+            if( vit_quantity > 0.5 * rda ) {
+                mod_healthy_mod( 1, 200 );
+            }
+            if( vit_quantity > 0.90 * rda ) {
                 mod_healthy_mod( 1, 200 );
             }
         }
