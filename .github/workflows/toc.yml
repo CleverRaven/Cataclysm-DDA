@@ -16,13 +16,13 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: Update the table of contents
+          commit-message: Update the table of contents [skip ci]
           branch: update-toc
           token: ${{ secrets.TX_PR_CREATOR }}
           title: Update the table of contents in doc/JSON_INFO.md
           body: |
-            ```sh
             #### Summary
             None
+            ```sh
             npx doctoc doc/JSON_INFO.md --github
             ```
