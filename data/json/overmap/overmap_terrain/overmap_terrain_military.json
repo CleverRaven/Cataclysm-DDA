@@ -68,7 +68,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_1c_vandal" ],
+    "id": [ "shelter_unfinished" ],
     "name": "evac shelter C-29",
     "sym": "+",
     "color": "white",
@@ -86,7 +86,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_2b_vandal", "shelter_under_2b_vandal" ],
+    "id": [ "shelter_unfinished_2", "shelter_under_2b_vandal" ],
     "name": "evac shelter A-34",
     "sym": "+",
     "color": "white",
