@@ -759,7 +759,7 @@ Example:
 | class     | (required, string) the npc class id, see `data/json/npcs/npc.json` or define your own npc class.
 | target    | (optional, bool) this NPC is a mission target.  Only valid for `update_mapgen`.
 | add_trait | (optional, string or string array) this NPC gets these traits, in addition to any from the class definition.
-| unique_id | (optional, string) This is a unique id to descibe the npc, if this is in use the npc will silently fail to spawn.
+| unique_id | (optional, string) This is a unique id to descibe the npc, if an npc with this id already exists the command will silently fail.
 
 
 ### Place signs with "signs"
