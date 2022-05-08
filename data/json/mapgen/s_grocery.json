@@ -203,6 +203,7 @@
           { "liquid": "purple_drink", "amount": [ 2, 4 ], "chance": 40 },
           { "liquid": "mayonnaise", "amount": [ 2, 4 ], "chance": 40 },
           { "liquid": "ketchup", "amount": [ 2, 4 ], "chance": 40 },
+          { "liquid": "barbecue_sauce", "amount": [ 2, 4 ], "chance": 40 },
           { "liquid": "vinegar", "amount": [ 2, 4 ], "chance": 40 },
           { "liquid": "cooking_oil", "amount": [ 2, 4 ], "chance": 40 }
         ]
