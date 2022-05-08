@@ -145,7 +145,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof_3" ],
+    "id": [ "shelter_roof_infested" ],
     "name": "evac shelter roof B-11",
     "sym": "+",
     "color": "white",
@@ -153,7 +153,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof_3_2" ],
+    "id": [ "shelter_roof_infested_2" ],
     "name": "evac shelter roof A-46",
     "sym": "+",
     "color": "white",
