@@ -13,6 +13,10 @@ execute_process(COMMAND cmd /c ${VSDEVCMD_BAT} -no_logo -arch=amd64 && set
 string(REGEX REPLACE ";" "\\\\;" _ENV "${_ENV}")
 string(REGEX MATCHALL "[^\n]+\n" _ENV "${_ENV}")
 foreach(_env IN LISTS _ENV)
+string(REGEX MATCH ^[^=]+    _key   "${_env}")
+    string(REGEX MATCH =[^\n]+\n _value "${_env}")
+    string(SUBSTRING "${_value}" 1 -1 _value) # Remove = at begin
+    string(STRIP "${_value}" _value) # Remove \r
 	# This list is essentially a revised result of :comm -1 -3 <(sort before.txt) <(sort after.txt) |egrep -o '^[^=]+='"
 	foreach(_replace 
 		ExtensionSdkDir=
