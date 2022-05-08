@@ -1402,9 +1402,25 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     recalc = true;
     cata_assert( amount_to_move > 0 );
     if( destarea == AIM_CONTAINER_L || destarea == AIM_CONTAINER_R) {
-        if( !move_content( *sitem->items.front(),
-                           *squares[destarea].get_container( to_vehicle ) ) ) {
-            return false;
+        drop_location thing;
+        thing.first = sitem->items.front();
+        thing.second = amount_to_move;
+        if ( thing.first.get_item()->made_of(phase_id::LIQUID)) {
+            if( !move_content( *sitem->items.front(),
+                               *squares[destarea].get_container( to_vehicle ) ) ) {
+                return false;
+            }
+        }
+        else {
+            Character& player_character = get_player_character();
+            drop_locations things;
+            things.push_back( thing );
+            insert_item_activity_actor insert = insert_item_activity_actor( squares[destarea].get_container(), things );
+            player_activity activity = player_activity( insert );
+            player_character.assign_activity(activity);
+
+            insert.start( activity, player_character );
+            insert.finish(activity, player_character);
         }
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
@@ -1880,7 +1896,6 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     item &src_contents = src_container.legacy_front();
 
     if( !src_contents.made_of( phase_id::LIQUID ) ) {
-        popup( _( "You can unload only liquids into target container." ) );
         return false;
     }
 

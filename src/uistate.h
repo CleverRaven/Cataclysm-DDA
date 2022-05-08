@@ -113,6 +113,11 @@ class uistatedata
         itype_id adv_inv_container_type = itype_id::NULL_ID();
         itype_id adv_inv_container_content_type = itype_id::NULL_ID();
         bool adv_inv_container_in_vehicle = false;
+        int adv_inv_rcontainer_location = -1;
+        int adv_inv_rcontainer_index = 0;
+        itype_id adv_inv_rcontainer_type = itype_id::NULL_ID();
+        itype_id adv_inv_rcontainer_content_type = itype_id::NULL_ID();
+        bool adv_inv_rcontainer_in_vehicle = false;
 
         advanced_inv_save_state transfer_save;
 
