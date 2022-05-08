@@ -276,6 +276,11 @@
     ]
   },
   {
+    "id": "mushroom_colony_harvest",
+    "type": "harvest",
+    "entries": [ { "drop": "mushroom", "base_num": [ 3, 9 ] }, { "drop": "mushroom_morel", "base_num": [ 2, 5 ] } ]
+  },
+  {
     "id": "fish_small",
     "type": "harvest",
     "entries": [
