@@ -1007,7 +1007,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
                 size_t roll = rng( 0, upgrades.size() + 4 );
                 if( roll < upgrades.size() ) {
                     // We got a valid upgrade index, so use it and return.
-                    mutate_towards( upgrades[roll], mut_vit );
+                    mutate_towards( upgrades[roll], cat );
                     return;
                 }
             }
@@ -1047,7 +1047,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             if( mut_vit != vitamin_id::NULL_ID() and vitamin_get( mut_vit ) >= 2200 ) {
                 test_crossing_threshold( cat );
             }
-            if( mutate_towards( valid, mut_vit, 2 ) ) {
+            if( mutate_towards( valid, cat, 2 ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
             }
             return;
@@ -1090,7 +1090,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         }
     }
 
-    mutate_towards( valid, mut_vit, 2 );
+    mutate_towards( valid, cat, 2 );
 }
 
 void Character::mutate_category( const mutation_category_id &cat )
@@ -1114,13 +1114,13 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool Character::mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit,
+bool Character::mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
                                 int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
 
-        if( mutate_towards( muts[i], mut_vit ) ) {
+        if( mutate_towards( muts[i], mut_cat ) ) {
             return true;
         }
 
@@ -1131,7 +1131,7 @@ bool Character::mutate_towards( std::vector<trait_id> muts, const vitamin_id &mu
     return false;
 }
 
-bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
+bool Character::mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat )
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
@@ -1211,9 +1211,9 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
 
     if( !has_prereqs && ( !prereq.empty() || !prereqs2.empty() ) ) {
         if( !prereq1 && !prereq.empty() ) {
-            return mutate_towards( prereq, mut_vit );
+            return mutate_towards( prereq, mut_cat );
         } else if( !prereq2 && !prereqs2.empty() ) {
-            return mutate_towards( prereqs2, mut_vit );
+            return mutate_towards( prereqs2, mut_cat );
         }
     }
 
@@ -1253,6 +1253,9 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
         add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
+
+    const vitamin_id mut_vit = mut_cat == mutation_category_ANY ? vitamin_id::NULL_ID() :
+                               mutation_category_trait::get_category( mut_cat ).vitamin;
 
     if( mut_vit != vitamin_id::NULL_ID() ) {
         if( vitamin_get( mut_vit ) >= mdata.vitamin_cost ) {
@@ -1422,7 +1425,7 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
 
 bool Character::mutate_towards( const trait_id &mut )
 {
-    return mutate_towards( mut, vitamin_id::NULL_ID() );
+    return mutate_towards( mut, mutation_category_ANY );
 }
 
 bool Character::has_conflicting_trait( const trait_id &flag ) const
