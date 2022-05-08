@@ -547,7 +547,7 @@
     "method": "json",
     "weight": 50,
     "//": "Infested spawn for Compromized Shelter scenario - copy of shelter_1. Window on right wall near basement door removed for scenario balance, sorry. Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
-    "om_terrain": [ "shelter_3" ],
+    "om_terrain": [ "shelter_infested" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -587,7 +587,7 @@
     "method": "json",
     "weight": 50,
     "//": "Infested spawn for Compromized Shelter scenario - copy of shelter_2.  Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
-    "om_terrain": [ "shelter_3_2" ],
+    "om_terrain": [ "shelter_infested_2" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
