@@ -53,6 +53,9 @@ string(REGEX MATCH ^[^=]+    _key   "${_env}")
 		WindowsSdkDir=
 		WindowsSdkVerBinPath=
 	)
+        if("${_key}=" STREQUAL "${_replace}")
+            set(ENV{${_key}} "${_value}")
+        endif()
     endforeach()
 endforeach()
 set(CMAKE_CXX_FLAGS_INIT "\
