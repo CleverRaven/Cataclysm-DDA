@@ -87,7 +87,7 @@
     "responses": [
       { "text": "Nevermind.", "topic": "TALK_NONE" },
       {
-        "text": "I'll buy some bandages.  [10$]",
+        "text": "[$10] I'll buy some bandages.",
         "effect": [ { "u_buy_item": "bandages", "cost": 1000, "container": "bag_plastic", "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
