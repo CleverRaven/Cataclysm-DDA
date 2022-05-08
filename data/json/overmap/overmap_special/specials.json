@@ -3624,7 +3624,6 @@
     "connections": [ { "point": [ 4, 9, 0 ] } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],
-    "rotate": false,
     "occurrences": [ 30, 100 ],
     "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
