@@ -61,5 +61,33 @@
     "required_str": -1,
     "flags": [ "FLAMMABLE_ASH", "FUNGUS" ],
     "bash": { "str_min": 26, "str_max": 50, "sound": "poof.", "sound_fail": "squelch." }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fungus_colony",
+    "name": "mushroom colony",
+    "description": "A large pile of organic matter which has molded over with fungus. The caps of many mushrooms spring from the top, all of which are fortunatley terrestrial. You could snip some of the mushrooms from it.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 30,
+    "coverage": 80,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "transforms_into": "t_fungus_colony_harvested",
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "mushroom_colony_harvest" } ],
+    "bash": { "str_min": 2, "str_max": 6, "ter_set": "t_dirt", "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fungus_colony_harvested",
+    "name": "mushroom colony",
+    "description": "A large pile of organic matter which has molded over with fungus. The caps of many mushrooms spring from the top, all of which are fortunately terrestrial. Some leftover stumps remain where mushrooms were picked, while others are regrowing.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 30,
+    "coverage": 80,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "transforms_into": "t_fungus_colony",
+    "bash": { "str_min": 2, "str_max": 6, "ter_set": "t_dirt", "sound": "crunch.", "sound_fail": "whish." }
   }
 ]
