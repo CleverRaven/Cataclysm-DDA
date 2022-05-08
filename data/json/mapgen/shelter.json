@@ -435,7 +435,7 @@
     "method": "json",
     "weight": 70,
     "//": "Copy of shelter_1_vandal, unfinished before the cataclysm; no roof, no basement.",
-    "om_terrain": [ "shelter_1c_vandal" ],
+    "om_terrain": [ "shelter_unfinished" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -510,7 +510,7 @@
     "method": "json",
     "weight": 70,
     "//": "Copy of shelter_2_vandal, unfinished before the cataclysm. No roof.",
-    "om_terrain": [ "shelter_2b_vandal" ],
+    "om_terrain": [ "shelter_unfinished_2" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
