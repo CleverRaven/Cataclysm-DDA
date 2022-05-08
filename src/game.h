@@ -1020,7 +1020,7 @@ class game
         memorial_logger &memorial();
 
         global_variables global_variables_instance;
-        std::map<std::string, point_abs_om> unique_npcs;
+        std::unordered_map<std::string, point_abs_om> unique_npcs;
     public:
         void update_unique_npc_location( std::string id, point_abs_om loc );
         point_abs_om get_unique_npc_location( std::string id );

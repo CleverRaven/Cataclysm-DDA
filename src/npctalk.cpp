@@ -3761,7 +3761,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
             }
         };
     } else {
-        function = [eocs, unique_ids, is_npc]( const dialogue & d ) {
+        function = [eocs, unique_ids]( const dialogue & d ) {
             for( const std::string &target : unique_ids ) {
                 if( g->unique_npc_exists( target ) ) {
                     for( const effect_on_condition_id &eoc : eocs ) {
