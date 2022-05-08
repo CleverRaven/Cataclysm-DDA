@@ -273,7 +273,7 @@ void uilist::init()
     disabled_color = c_dark_gray; // disabled menu entry
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys
-    allow_cancel = true;     // allow canceling with "QUIT" action
+    allow_cancel = true;     // allow canceling with "UILIST.QUIT" action
     allow_additional = false; // do not return on unhandled additional actions
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
@@ -295,7 +295,8 @@ void uilist::init()
 input_context uilist::create_main_input_context() const
 {
     input_context ctxt( input_category, keyboard_mode::keycode );
-    ctxt.register_updown();
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
@@ -303,11 +304,11 @@ input_context uilist::create_main_input_context() const
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     if( allow_cancel ) {
-        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "UILIST.QUIT" );
     }
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "UILIST.FILTER" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     for( const auto &additional_action : additional_actions ) {
@@ -336,7 +337,8 @@ input_context uilist::create_filter_input_context() const
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
     // uilist actions
-    ctxt.register_updown();
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
@@ -837,7 +839,7 @@ void uilist::show()
 int uilist::scroll_amount_from_action( const std::string &action )
 {
     const int scroll_rate = vmax > 20 ? 10 : 3;
-    if( action == "UP" ) {
+    if( action == "UILIST.UP" ) {
         return -1;
     } else if( action == "PAGE_UP" ) {
         return -scroll_rate;
@@ -847,7 +849,7 @@ int uilist::scroll_amount_from_action( const std::string &action )
         return -fselected;
     } else if( action == "END" ) {
         return fentries.size() - fselected - 1;
-    } else if( action == "DOWN" ) {
+    } else if( action == "UILIST.DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
         return scroll_rate;
@@ -1035,7 +1037,7 @@ void uilist::query( bool loop, int timeout )
 
         if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
             /* nothing */
-        } else if( filtering && ret_act == "FILTER" ) {
+        } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
         } else if( ret_act == "ANY_INPUT" && iter != keymap.end() ) {
             // only handle "ANY_INPUT" since "HELP_KEYBINDINGS" is already
@@ -1081,7 +1083,7 @@ void uilist::query( bool loop, int timeout )
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }
-        } else if( allow_cancel && ret_act == "QUIT" ) {
+        } else if( allow_cancel && ret_act == "UILIST.QUIT" ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_TIMEOUT;
