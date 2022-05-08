@@ -42,7 +42,7 @@
       "displayName": "x64 Release",
       "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
       "cacheVariables": {
-        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/FindVCPKG.cmake",
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/x64-release.cmake",
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "CURSES": "False",
         "LOCALIZE": "False",
