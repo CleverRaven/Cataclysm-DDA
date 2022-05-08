@@ -2,36 +2,43 @@
   {
     "type": "GENERIC",
     "id": "corpse_mon_amargasaurus",
+    "name": { "str": "amargasaurus corpse" },
     "copy-from": "corpse_mon_diplodocus"
   },
   {
     "type": "GENERIC",
     "id": "corpse_mon_apatosaurus",
+    "name": { "str": "apatosaurus corpse" },
     "description": "The mangled corpse of a once mighty sauropod"
   },
   {
     "type": "GENERIC",
     "id": "corpse_mon_brontosaurus",
+    "name": { "str": "brontosaurus corpse" },
     "copy-from": "corpse_mon_apatosaurus"
   },
   {
     "type": "GENERIC",
     "id": "corpse_mon_diplodocus",
+    "name": { "str": "diplodocus corpse" },
     "description": "The mangled corpse of a once mighty sauropod"
   },
   {
     "type": "GENERIC",
     "id": "corpse_mon_camarasaurus",
+    "name": { "str": "camarasaurus corpse" },
     "copy-from": "corpse_mon_diplodocus"
   },
   {
     "type": "GENERIC",
     "id": "corpse_mon_brachiosaurus",
+    "name": { "str": "brachiosaurus corpse" },
     "copy-from": "corpse_mon_apatosaurus"
   },
   {
     "type": "GENERIC",
     "id": "corpse_mon_alamosaurus",
+    "name": { "str": "alamosaurus corpse" },
     "copy-from": "corpse_mon_apatosaurus"
   }
 ]
