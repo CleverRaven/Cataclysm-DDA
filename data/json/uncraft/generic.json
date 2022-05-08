@@ -163,7 +163,7 @@
     "time": "1 h",
     "tools": [ [ [ "reciprocating_saw", 50 ], [ "circsaw_off", 50 ] ] ],
     "components": [ [ [ "plastic_chunk", 160 ] ] ]
-  }
+  },
   {
     "result": "atgm_spent",
     "type": "uncraft",
