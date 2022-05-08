@@ -1591,7 +1591,7 @@
     "name": "Confirm and quit",
     "bindings": [
       { "input_method": "keyboard_any", "key": "e" },
-      { "input_method": "keyboard_any", "key": "u" },
+      { "input_method": "keyboard_any", "key": "r" },
       { "input_method": "keyboard_any", "key": "t" }
     ]
   },
