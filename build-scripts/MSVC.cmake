@@ -10,6 +10,8 @@ cmake_path(NATIVE_PATH VSDEVCMD_BAT VSDEVCMD_BAT)
 execute_process(COMMAND cmd /c ${VSDEVCMD_BAT} -no_logo -arch=amd64 && set
     OUTPUT_STRIP_TRAILING_WHITESPACE
     OUTPUT_VARIABLE _ENV)
+string(REGEX REPLACE ";" "\\\\;" _ENV "${_ENV}")
+string(REGEX MATCHALL "[^\n]+\n" _ENV "${_ENV}")
 set(CMAKE_CXX_FLAGS_INIT "\
 /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
 /wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
