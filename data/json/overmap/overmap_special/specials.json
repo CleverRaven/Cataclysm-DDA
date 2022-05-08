@@ -1453,8 +1453,8 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter Vandalized 1c",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "shelter_1c_vandal_north" } ],
+    "id": "Evac Shelter Unfinished",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "shelter_unfinished_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, 10 ],
@@ -1464,10 +1464,9 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter Vandalized 2b",
+    "id": "Evac Shelter Unfinished 2",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "shelter_2b_vandal_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_2b_vandal_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_unfinished_2_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "wilderness" ],
