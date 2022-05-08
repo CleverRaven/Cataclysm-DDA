@@ -435,6 +435,29 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_portable_ac",
+    "name": { "str": "portable air conditioner" },
+    "location": "structure",
+    "item": "portable_air_conditioner",
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER", "APPLIANCE" ],
+    "looks_like": "f_air_conditioner",
+    "symbol": "C",
+    "broken_symbol": ":",
+    "color": "light_cyan",
+    "durability": 600,
+    "epower": -240,
+    "emissions": [ "emit_cold_air2_stream" ],
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "e_scrap", "count": [ 3, 5 ] },
+      { "item": "thermostat", "count": [ 0, 1 ] },
+      { "item": "plastic_chunk", "count": [ 4, 10 ] },
+      { "item": "sheet_metal", "count": [ 1, 4 ] },
+      { "item": "hose", "count": [ 0, 1 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_heater_large",
     "name": { "str": "large heater" },
     "location": "structure",
