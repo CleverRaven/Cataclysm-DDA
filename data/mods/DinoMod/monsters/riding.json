@@ -3,54 +3,63 @@
     "type": "MONSTER",
     "id": "rid_mon_gallimimus",
     "name": { "str_sp": "gallimimus" },
+    "default_faction": "herbivore",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
     "type": "MONSTER",
     "id": "rid_mon_struthiomimus",
     "name": { "str_sp": "struthiomimus" },
+    "default_faction": "herbivore",
     "copy-from": "rid_mon_pachycephalosaurus"
   },
   {
     "type": "MONSTER",
     "id": "rid_mon_ornithomimus",
     "name": { "str_sp": "ornithomimus" },
+    "default_faction": "herbivore",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
     "type": "MONSTER",
     "id": "rid_mon_dyoplosaurus",
     "name": { "str_sp": "dyoplosaurus" },
+    "default_faction": "herbivore",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
     "type": "MONSTER",
     "id": "rid_mon_ankylosaurus",
     "name": { "str_sp": "ankylosaurus" },
+    "default_faction": "herbivore",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
     "type": "MONSTER",
     "id": "rid_mon_nodosaurus",
     "name": { "str_sp": "nodosaurus" },
+    "default_faction": "herbivore",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
     "type": "MONSTER",
     "id": "rid_mon_edmontonia",
     "name": { "str_sp": "edmontonia" },
+    "default_faction": "herbivore",
     "looks_like": "rid_mon_pachycephalosaurus"
   },
   {
     "type": "MONSTER",
     "id": "rid_mon_pentaceratops",
     "name": { "str_sp": "pentaceratops" },
+    "default_faction": "herbivore",
     "looks_like": "rid_mon_triceratops"
   },
   {
     "type": "MONSTER",
     "id": "rid_mon_torosaurus",
     "name": { "str_sp": "torosaurus" },
+    "default_faction": "herbivore",
     "looks_like": "rid_mon_triceratops"
   }
 ]
