@@ -1839,17 +1839,23 @@ void Character::give_all_mutations( const mutation_category_trait &category,
         set_mutation( category.threshold_mut );
     }
 
+    // Store current vitamin level, we fake it high to make sure we have enough, restore later
+    int v_store = vitamin_get( category.vitamin );
+
     for( const trait_id &mut : category_mutations ) {
         const mutation_branch &mut_data = *mut;
         if( !mut_data.threshold ) {
+            vitamin_set( category.vitamin, INT_MAX );
+
             // Try up to 10 times to mutate towards this trait
             int mutation_attempts = 10;
             while( mutation_attempts > 0 && mutation_ok( mut, false, false ) ) {
-                mutate_towards( mut );
+                mutate_towards( mut, category.id );
                 --mutation_attempts;
             }
         }
     }
+    vitamin_set( category.vitamin, v_store );
 }
 
 void Character::unset_all_mutations()
