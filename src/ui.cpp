@@ -1039,10 +1039,7 @@ void uilist::query( bool loop, int timeout )
             /* nothing */
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
-        } else if( ret_act == "ANY_INPUT" && iter != keymap.end() ) {
-            // only handle "ANY_INPUT" since "HELP_KEYBINDINGS" is already
-            // handled by the input context and the caller might want to handle
-            // its custom actions
+        } else if( iter != keymap.end() ) {
             const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
             if( it != fentries.end() ) {
                 const bool enabled = entries[*it].enabled;
