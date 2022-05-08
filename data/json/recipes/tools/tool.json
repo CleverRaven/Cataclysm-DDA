@@ -1319,5 +1319,18 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "components": [ [ [ "pot_canning_clay", 1 ] ], [ [ "clay_pot", 1 ] ], [ [ "fire_brick", 2 ] ], [ [ "clay_lump", 3 ] ] ]
+  },
+  {
+    "result": "bathroom_scale",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 10 ] ], [ [ "spring", 2 ] ] ]
   }
 ]
