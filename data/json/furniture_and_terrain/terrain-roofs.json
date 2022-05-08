@@ -304,7 +304,7 @@
     "looks_like": "t_linoleum_white",
     "color": "cyan",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR" ],
     "bash": {
       "str_min": 3,
       "str_max": 6,
