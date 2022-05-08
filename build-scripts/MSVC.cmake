@@ -4,6 +4,12 @@ if (NOT "$ENV{DevEnvDir}")
 endif()
 # Ninja is provided by Microsoft but not in the Path
 set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe CACHE PATH "")
+# Run VsDevCmd.bat and set all environment variables it changes
+set(VSDEVCMD_BAT "$ENV{DevEnvDir}\\..\\Tools\\VsDevCmd.bat")
+cmake_path(NATIVE_PATH VSDEVCMD_BAT VSDEVCMD_BAT)
+execute_process(COMMAND cmd /c ${VSDEVCMD_BAT} -no_logo -arch=amd64 && set
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE _ENV)
 set(CMAKE_CXX_FLAGS_INIT "\
 /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
 /wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
