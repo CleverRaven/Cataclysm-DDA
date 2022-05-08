@@ -67,6 +67,9 @@ string(REGEX MATCH ^[^=]+    _key   "${_env}")
 endforeach()
 configure_file(build-scripts/CMakeUserPresets.json.in ${CMAKE_SOURCE_DIR}/CMakeUserPresets.json @ONLY)
 
+# Path has changed, so this configure run will find cl.exe
+set(CMAKE_C_COMPILER   cl.exe)
+set(CMAKE_CXX_COMPILER ${CMAKE_C_COMPILER})
 set(CMAKE_CXX_FLAGS_INIT "\
 /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
 /wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
