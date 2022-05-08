@@ -54,13 +54,17 @@ add_link_options(
     /OPT:ICF
     /LTCG:OFF
     /MANIFEST:NO
+    /INCREMENTAL:NO
+    /DYNAMICBASE
+    /NXCOMPAT
 )
 # /OPT:REF  # remove unreferenced COMDATs
 # /OPT:ICF  # folds identical COMDATs
-
+# /DYNAMICBASE  # does this app really need ASLR ?
+# /NXCOMPAT     # same as above
+# No need to force /TLBID:1 because is default
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
-
 set(VCPKG_MANIFEST_DIR ${CMAKE_SOURCE_DIR}/msvc-full-features)
 set(VCPKG_OVERLAY_TRIPLETS ${CMAKE_SOURCE_DIR}/.github/vcpkg_triplets)
 include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
