@@ -38,6 +38,41 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "scenario_assassin_convict",
+    "//": "Determines which prison the assassin is in currently to correctly place the target.",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "PROF_ASSASSIN_CONVICT" },
+    "deactivate_condition": { "not": { "u_has_trait": "PROF_ASSASSIN_CONVICT" } },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_ASSASSIN_CONVICT_PRISON",
+          "condition": { "u_near_om_location": "prison_1_5" },
+          "effect": [
+            { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON" },
+            { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+          ],
+          "false_effect": {
+            "run_eocs": {
+              "id": "EOC_ASSASSIN_CONVICT_PRISON_ISLAND",
+              "condition": { "u_near_om_location": "prison_alcatraz_3" },
+              "effect": [
+                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1" },
+                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+              ],
+              "false_effect": [
+                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2" },
+                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+              ]
+            }
+          }
+        }
+      },
+      { "u_lose_trait": "PROF_ASSASSIN_CONVICT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence": 1,
     "global": true,
@@ -323,7 +358,7 @@
     "id": "EOC_DEATH_SWITCH",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "u_query": "You have died. Continue as one of your followers?", "default": false },
+    "condition": { "and": [ { "npc_allies": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ] },
     "effect": [ "take_control_menu" ]
   },
   {

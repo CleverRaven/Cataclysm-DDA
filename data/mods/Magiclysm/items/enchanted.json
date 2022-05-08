@@ -81,6 +81,19 @@
     "to_hit": 3
   },
   {
+    "id": "bleed_staff_minor",
+    "type": "TOOL",
+    "copy-from": "magi_staff_minor",
+    "symbol": "/",
+    "color": "red",
+    "name": { "str": "sinister minor staff of bleeding", "str_pl": "sinister minor staves of bleeding" },
+    "description": "A sinister looking staff, made of wood and with a red orb of crystallized mana at the handle.  The orb and its rune faintly glow with magic when you cast spells.  Wielding it slightly increases your mana regeneration and allows you to cast the bleed spell.",
+    "price": 15000,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 5 } } ],
+    "charges_per_use": 1,
+    "use_action": [ { "type": "cast_spell", "spell_id": "bleed", "no_fail": true, "level": 5, "need_wielding": true } ]
+  },
+  {
     "id": "wizard_hat",
     "type": "ARMOR",
     "name": "wizard hat",

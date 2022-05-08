@@ -824,7 +824,7 @@
       "accepted": "Great!  This bag should be big enough to hold all of the stalks we'll need.  Don't forget to bring it back.",
       "rejected": "Your loss.",
       "advice": "The cattails grow in the fresh water in swamps.  You can't miss them.",
-      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and improve your survival skill to at least 1 as well.",
+      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and to work on improving your survival skill as well.",
       "success": "Great!  Hand them over and I'll show you how this works.",
       "success_lie": "OK, then hand them over.",
       "failure": "Well, that's a shame."
@@ -899,5 +899,100 @@
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 23, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_alcatraz_9",
+        "om_special": "Alcatraz Prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 15, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 30,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_island_1_8",
+        "om_special": "Island prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 10, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 40,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
   }
 ]

@@ -1,0 +1,8 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "exo_connector",
+    "name": "exosuit interface fitting",
+    "default": "exo_connector"
+  }
+]

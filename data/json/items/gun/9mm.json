@@ -359,14 +359,14 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "MP18 submachine gun" },
-    "description": "An early German Submachinegun introduced near the end of the First World War, the MP18 chambers 9x19mm cartridges and makes use of Luger magazines.  Sporting a fixed wooden stock, the weapon more than likely entered the US as a personal holdover from the Great War.",
+    "name": { "str": "MP 18 submachine gun" },
+    "description": "An early German Submachinegun introduced near the end of the First World War, the MP 18 chambers 9x19mm cartridges and makes use of Luger magazines.  Sporting a fixed wooden stock, the weapon more than likely entered the US as a personal holdover from the Great War.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mp18",
         "name": { "str": "Bergmann MP 18" },
-        "description": "An incredibly rare German automatic firearm developed by Hugo Schmeisser whilst working under Bergmann Waffenfabrik during 1918; the MP18 holds the reputation of being the world’s first proper and practical submachine gun.  Chambered for 9x19mm and being designed for use in close quarters trench based combat by assault troops, a role in which it excelled, the weapon was outlawed from military use by the Versailles treaty and was relegated to police and counterinsurgency use in the interwar period.  More than likely entering the US as a personal holdover from the Great War, this century old grandfather to most classic SMGs just might be better off coming out of retirement now that the world’s entered the true greatest war.",
+        "description": "An incredibly rare German automatic firearm developed by Hugo Schmeisser whilst working under Bergmann Waffenfabrik during 1918; the MP 18 holds the reputation of being the world’s first proper and practical submachine gun.  Chambered for 9x19mm and being designed for use in close quarters trench based combat by assault troops, a role in which it excelled, the weapon was outlawed from military use by the Versailles treaty and was relegated to police and counterinsurgency use in the interwar period.  More than likely entering the US as a personal holdover from the Great War, this century old grandfather to most classic SMGs just might be better off coming out of retirement now that the world’s entered the true greatest war.",
         "weight": 1
       }
     ],
@@ -460,7 +460,7 @@
     "id": "mauser_m714",
     "copy-from": "mauser_c96",
     "type": "GUN",
-    "name": { "str": "Reproduction Broomhandle pistol" },
+    "name": { "str": "reproduction Broomhandle pistol" },
     "description": " A modern take on the original Mauser design, this variant is chambered for 9x19mm cartridges and, unlike its elder brother, the pre-1900 Mauser Broomhandle, this firearm feeds from detachable box magazines.  Whilst it features surplus Mauser parts in its construction, the frame of the pistol is of relatively modern manufacture.",
     "variant_type": "gun",
     "variants": [
@@ -484,7 +484,7 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "MP40 submachine gun" },
+    "name": { "str": "MP 40 submachine gun" },
     "description": "An antique German issued submachine gun from the Second World War, likely having entered the United States as a personal holdover by a veteran.  Chambered in 9x19mm and utilising proprietary box magazines, the firearm has an integrated under folding wire stock.",
     "variant_type": "gun",
     "variants": [

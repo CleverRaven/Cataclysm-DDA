@@ -1437,7 +1437,7 @@ void Character::mount_creature( monster &z )
     if( z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( !z.type->mech_weapon.is_empty() ) {
             item mechwep = item( z.type->mech_weapon );
-            wield( mechwep );
+            set_wielded_item( mechwep );
         }
         add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
     }
@@ -4606,7 +4606,7 @@ needs_rates Character::calc_needs_rates() const
     if( has_activity( ACT_TREE_COMMUNION ) ) {
         // Much of the body's needs are taken care of by the trees.
         // Hair Roots don't provide any bodily needs.
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
             rates.hunger *= 0.5f;
             rates.thirst *= 0.5f;
             rates.fatigue *= 0.5f;
@@ -4803,7 +4803,7 @@ void Character::check_needs_extremes()
                 mod_fatigue( 5 );
 
                 if( one_in( 10 ) ) {
-                    mod_healthy_mod( -1, 0 );
+                    mod_healthy_mod( -1, -10 );
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
                 add_msg_if_player( m_bad,
@@ -4811,14 +4811,14 @@ void Character::check_needs_extremes()
                 mod_fatigue( 10 );
 
                 if( one_in( 5 ) ) {
-                    mod_healthy_mod( -2, 0 );
+                    mod_healthy_mod( -2, -10 );
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
                 add_msg_if_player( m_bad,
                                    _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it feels more like a curse now." ) );
                 mod_fatigue( 40 );
 
-                mod_healthy_mod( -5, 0 );
+                mod_healthy_mod( -5, -10 );
             }
             // else you pass out for 20 hours, guaranteed
 
@@ -7641,7 +7641,7 @@ void Character::update_vitamins( const vitamin_id &vit )
 void Character::rooted_message() const
 {
     bool wearing_shoes = footwear_factor() == 1.0;
-    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
         get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) &&
         !wearing_shoes ) {
         add_msg( m_info, _( "You sink your roots into the soil." ) );
@@ -7655,10 +7655,10 @@ void Character::rooted()
 // TODO: The rates for iron, calcium, and thirst should probably be pulled from the nutritional data rather than being hardcoded here, so that future balance changes don't break this.
 {
     double shoe_factor = footwear_factor();
-    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
         get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
         int time_to_full = 43200; // 12 hours
-        if( has_trait( trait_ROOTS3 ) ) {
+        if( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
             time_to_full += -14400;    // -4 hours
         }
         if( x_in_y( 96, time_to_full ) ) {
@@ -7712,7 +7712,7 @@ units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.get_total_capacity();
-    for( const item_pocket *pocket : weapon.get_all_contained_pockets().value() ) {
+    for( const item_pocket *pocket : weapon.get_all_contained_pockets() ) {
         if( pocket->contains_phase( phase_id::SOLID ) ) {
             for( const item *it : pocket->all_items_top() ) {
                 volume_capacity -= it->volume();
@@ -8915,7 +8915,8 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 8;
         }
 
-        if( has_trait( trait_ROOTS3 ) && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) ) {
+        if( ( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
+            here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) ) {
             movecost += 10 * footwear_factor();
         }
 
@@ -11035,7 +11036,7 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
     if( check_best_pkt && pk_type == item_pocket::pocket_type::CONTAINER &&
-        container.get_all_contained_pockets().value().size() > 1 ) {
+        container.get_all_contained_pockets().size() > 1 ) {
         container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1 );
     } else {
         container.put_in( i_rem( &put ), pk_type );

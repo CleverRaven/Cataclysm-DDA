@@ -1214,6 +1214,7 @@
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
+      { "proficiency": "prof_furriery" },
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_plasticworking" },
@@ -1308,6 +1309,19 @@
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
     "components": [ [ [ "sheet", 1 ] ] ]
+  },
+  {
+    "result": "grass_keffiyeh",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "grass_sheet", 1 ] ] ]
   },
   {
     "result": "knit_scarf",

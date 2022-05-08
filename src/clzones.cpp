@@ -684,10 +684,10 @@ void zone_manager::cache_avatar_location()
     }
 }
 
-void zone_manager::cache_vzones()
+void zone_manager::cache_vzones( map *pmap )
 {
     vzone_cache.clear();
-    map &here = get_map();
+    map &here = pmap == nullptr ? get_map() : *pmap;
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( zone_data *elem : vzones ) {
         if( !elem->get_enabled() ) {
@@ -804,17 +804,17 @@ bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
 }
 
 const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
-        const zone_type_id &type ) const
+        const zone_type_id &type, const faction_id &fac ) const
 {
     for( const zone_data &zone : zones ) {
-        if( zone.has_inside( where ) && zone.get_type() == type ) {
+        if( zone.has_inside( where ) && zone.get_type() == type && zone.get_faction() == fac ) {
             return &zone;
         }
     }
     map &here = get_map();
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( const zone_data *zone : vzones ) {
-        if( zone->has_inside( where ) && zone->get_type() == type ) {
+        if( zone->has_inside( where ) && zone->get_type() == type && zone->get_faction() == fac ) {
             return zone;
         }
     }
@@ -822,9 +822,9 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
 }
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                                    const zone_type_id &ztype ) const
+                                    const zone_type_id &ztype, const faction_id &fac ) const
 {
-    const zone_data *zone = get_zone_at( where, ztype );
+    const zone_data *zone = get_zone_at( where, ztype, fac );
     if( !zone || !it ) {
         return false;
     }
@@ -1076,38 +1076,40 @@ const zone_data *zone_manager::get_bottom_zone(
 // If you are passing new_zone from a non-const iterator, be prepared for a move! This
 // may break some iterators like map iterators if you are less specific!
 void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &mount_point,
-        zone_data &new_zone )
+        zone_data &new_zone, map *pmap )
 {
     //create a vehicle loot zone
     new_zone.set_is_vehicle( true );
     auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
-    map &here = get_map();
+    map &here = pmap == nullptr ? get_map() : *pmap;
     here.register_vehicle_zone( &vehicle, here.get_abs_sub().z() );
     vehicle.zones_dirty = false;
     added_vzones.push_back( &nz->second );
-    cache_vzones();
+    cache_vzones( pmap );
 }
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
                         const bool invert, const bool enabled, const tripoint &start,
-                        const tripoint &end, const shared_ptr_fast<zone_options> &options, const bool personal )
+                        const tripoint &end, const shared_ptr_fast<zone_options> &options, const bool personal,
+                        bool silent, map *pmap )
 {
-    map &here = get_map();
+    map &here = pmap == nullptr ? get_map() : *pmap;
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options, personal );
     // only non personal zones can be vehicle zones
     if( !personal ) {
-        //the start is a vehicle tile with cargo space
-        if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
-                    start ) ).part_with_feature( "CARGO", false ) ) {
+        optional_vpart_position const vp = here.veh_at( here.getlocal( start ) );
+        if( vp and vp->vehicle().get_owner() == fac and vp.part_with_feature( "CARGO", false ) ) {
             // TODO:Allow for loot zones on vehicles to be larger than 1x1
-            if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
+            if( start == end &&
+                ( silent || query_yn( _( "Bind this zone to the cargo part here?" ) ) ) ) {
                 // TODO: refactor zone options for proper validation code
-                if( type == zone_type_FARM_PLOT || type == zone_type_CONSTRUCTION_BLUEPRINT ) {
+                if( !silent &&
+                    ( type == zone_type_FARM_PLOT || type == zone_type_CONSTRUCTION_BLUEPRINT ) ) {
                     popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
                     return;
                 }
 
-                create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone );
+                create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone, pmap );
                 return;
             }
         }
@@ -1182,36 +1184,50 @@ void zone_manager::swap( zone_data &a, zone_data &b )
     std::swap( a, b );
 }
 
+namespace
+{
+void _rotate_zone( map &target_map, zone_data &zone, int turns )
+{
+    const point dim( SEEX * 2, SEEY * 2 );
+    const tripoint a_start( 0, 0, target_map.get_abs_sub().z() );
+    const tripoint a_end( SEEX * 2 - 1, SEEY * 2 - 1, a_start.z );
+    const tripoint z_start = target_map.getlocal( zone.get_start_point() );
+    const tripoint z_end = target_map.getlocal( zone.get_end_point() );
+    const inclusive_cuboid<tripoint> boundary( a_start, a_end );
+    if( boundary.contains( z_start ) and boundary.contains( z_end ) ) {
+        // don't rotate centered squares
+        if( z_start.x == z_start.y && z_end.x == z_end.y &&
+            z_start.x + z_end.x == a_end.x ) {
+            return;
+        }
+        point z_l_start = z_start.xy().rotate( turns, dim );
+        point z_l_end = z_end.xy().rotate( turns, dim );
+        tripoint_abs_ms first =
+            target_map.getglobal( tripoint( std::min( z_l_start.x, z_l_end.x ),
+                                            std::min( z_l_start.y, z_l_end.y ),
+                                            z_start.z ) );
+        tripoint_abs_ms second =
+            target_map.getglobal( tripoint( std::max( z_l_start.x, z_l_end.x ),
+                                            std::max( z_l_start.y, z_l_end.y ),
+                                            z_end.z ) );
+        zone.set_position( std::make_pair( first.raw(), second.raw() ), false );
+    }
+}
+
+} // namespace
+
 void zone_manager::rotate_zones( map &target_map, const int turns )
 {
     if( turns == 0 ) {
         return;
     }
-    const point dim( SEEX * 2, SEEY * 2 );
+
     for( zone_data &zone : zones ) {
-        const tripoint a_start( 0, 0, target_map.get_abs_sub().z() );
-        const tripoint a_end( SEEX * 2 - 1, SEEY * 2 - 1, a_start.z );
-        const tripoint z_start = target_map.getlocal( zone.get_start_point() );
-        const tripoint z_end = target_map.getlocal( zone.get_end_point() );
-        const inclusive_cuboid<tripoint> boundary( a_start, a_end );
-        if( boundary.contains( z_start ) and boundary.contains( z_end ) ) {
-            // don't rotate centered squares
-            if( z_start.x == z_start.y && z_end.x == z_end.y &&
-                z_start.x + z_end.x == a_end.x ) {
-                continue;
-            }
-            point z_l_start = z_start.xy().rotate( turns, dim );
-            point z_l_end = z_end.xy().rotate( turns, dim );
-            tripoint_abs_ms first =
-                target_map.getglobal( tripoint( std::min( z_l_start.x, z_l_end.x ),
-                                                std::min( z_l_start.y, z_l_end.y ),
-                                                z_start.z ) );
-            tripoint_abs_ms second =
-                target_map.getglobal( tripoint( std::max( z_l_start.x, z_l_end.x ),
-                                                std::max( z_l_start.y, z_l_end.y ),
-                                                z_end.z ) );
-            zone.set_position( std::make_pair( first.raw(), second.raw() ), false );
-        }
+        _rotate_zone( target_map, zone, turns );
+    }
+
+    for( zone_data *zone : target_map.get_vehicle_zones( target_map.get_abs_sub().z() ) ) {
+        _rotate_zone( target_map, *zone, turns );
     }
 }
 
@@ -1458,4 +1474,16 @@ void zone_manager::revert_vzones()
     for( zone_data *zone : added_vzones ) {
         remove( *zone );
     }
+}
+
+void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id const &type,
+                        faction_id const &fac, std::string const &name, std::string const &filter,
+                        map *pmap )
+{
+    zone_manager &mgr = zone_manager::get_manager();
+    auto options = zone_options::create( type );
+    if( type == zone_type_LOOT_CUSTOM or type == zone_type_LOOT_ITEM_GROUP ) {
+        dynamic_cast<loot_options *>( &*options )->set_mark( filter );
+    }
+    mgr.add( name, type, fac, false, true, start, end, options, false, true, pmap );
 }

@@ -764,6 +764,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "radiocontrol",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_lab_elec", 5 ], [ "textbook_robots", 5 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 5 ] ], [ [ "amplifier", 1 ] ], [ [ "antenna", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "radio_car",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",

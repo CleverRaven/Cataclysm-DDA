@@ -333,7 +333,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) ) {
             if( you.is_auto_moving() ) {
-                add_msg( m_warning, _( "Monster in the way.  Auto-move canceled." ) );
+                add_msg( m_warning, _( "Monster in the way.  Auto move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
                 you.clear_destination();
                 return false;
@@ -364,7 +364,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( npc *const np_ = creatures.creature_at<npc>( dest_loc ) ) {
         npc &np = *np_;
         if( you.is_auto_moving() ) {
-            add_msg( _( "NPC in the way, Auto-move canceled." ) );
+            add_msg( _( "NPC in the way, Auto move canceled." ) );
             add_msg( m_info, _( "Move into the NPC to interact or attack." ) );
             you.clear_destination();
             return false;
@@ -459,7 +459,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         you.add_msg_if_player( _( "You open the %s." ), door_name );
-        // if auto-move is on, continue moving next turn
+        // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
@@ -485,7 +485,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
         }
         you.moves -= 100;
-        // if auto-move is on, continue moving next turn
+        // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
@@ -500,7 +500,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         } else {
             you.add_msg_if_player( _( "You open the %s." ), door_name );
         }
-        // if auto-move is on, continue moving next turn
+        // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }

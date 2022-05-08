@@ -280,6 +280,25 @@
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER", "SOFT" ]
   },
   {
+    "id": "folding_poncho",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "yellow",
+    "name": { "str": "rain poncho" },
+    "description": "A lightweight plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "280 g",
+    "volume": "250 ml",
+    "flags": [ "WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER", "SOFT" ],
+    "environmental_protection": 1,
+    "material_thickness": 0.1,
+    "armor": [ { "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+  },
+  {
     "id": "coat_straw",
     "type": "ARMOR",
     "name": { "str": "straw cape" },
@@ -963,7 +982,66 @@
     ],
     "warmth": 25,
     "material_thickness": 0.4,
-    "flags": [ "OUTER", "VARSIZE" ]
+    "flags": [ "OUTER", "VARSIZE" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white_jacket_chef",
+        "name": { "str": "white chef's jacket" },
+        "description": "It's colored white, the most common color for chef's jackets.",
+        "weight": 60,
+        "append": true
+      },
+      {
+        "id": "black_jacket_chef",
+        "name": { "str": "black chef's jacket" },
+        "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_jacket_chef",
+        "name": { "str": "blue chef's jacket" },
+        "description": "It's a royal blue color.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_jacket_chef",
+        "name": { "str": "red chef's jacket" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_jacket_chef",
+        "name": { "str": "pink chef's jacket" },
+        "description": "It's colored pink, commonly used by women chefs or men who do not fear weird looks.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "yellow_jacket_chef",
+        "name": { "str": "yellow chef's jacket" },
+        "description": "It's colored yellow.",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "camo_jacket_chef",
+        "name": { "str": "camo chef's jacket" },
+        "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_jacket_chef",
+        "name": { "str": "skull chef's jacket" },
+        "description": "It's colored white with a giant skull in between crossed kitchen knives painted at the front and back.  Perfect for the apocalyptic chef.",
+        "weight": 1,
+        "append": true
+      }
+    ]
   },
   {
     "id": "jacket_evac",
@@ -2065,7 +2143,7 @@
       }
     ],
     "warmth": 50,
-    "material_thickness": 0.5,
+    "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]

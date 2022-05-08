@@ -15,7 +15,7 @@
     "color": "brown",
     "warmth": 8,
     "material_thickness": 0.3,
-    "environmental_protection": 2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "armor": [ { "encumbrance": 20, "coverage": 50, "covers": [ "head" ] } ]
   },
@@ -41,6 +41,7 @@
     "color": "blue",
     "warmth": 5,
     "material_thickness": 0.1,
+    "environmental_protection": 1,
     "armor": [ { "coverage": 80, "covers": [ "head" ] } ]
   },
   {
@@ -57,7 +58,7 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "dark_gray",
-    "warmth": 10,
+    "warmth": 3,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
@@ -75,7 +76,7 @@
     "symbol": "[",
     "looks_like": "beret",
     "color": "dark_gray",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
     "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
@@ -114,7 +115,7 @@
     "looks_like": "hat_cotton",
     "color": "dark_gray",
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
     "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
   },
   {
@@ -132,7 +133,7 @@
     "color": "brown",
     "warmth": 7,
     "material_thickness": 0.3,
-    "environmental_protection": 2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
   },
@@ -170,6 +171,7 @@
     "color": "dark_gray",
     "warmth": 4,
     "material_thickness": 0.2,
+    "environmental_protection": 1,
     "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
   },
   {
@@ -185,9 +187,9 @@
     "symbol": "[",
     "looks_like": "cowboy_hat",
     "color": "dark_gray",
-    "warmth": 10,
+    "warmth": 5,
     "material_thickness": 0.3,
-    "environmental_protection": 2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "armor": [ { "encumbrance": 10, "coverage": 65, "covers": [ "head" ] } ]
   },
@@ -197,7 +199,7 @@
     "type": "ARMOR",
     "name": { "str": "baseball cap" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A Red Sox cap.  It provides a little bit of warmth.",
+    "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth.  Traditionally worn by baseball players.",
     "weight": "88 g",
     "volume": "500 ml",
     "price": 2500,
@@ -208,9 +210,30 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 0.1,
-    "environmental_protection": 2,
+    "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_hatball",
+        "name": { "str": "baseball cap" },
+        "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth.  Traditionally worn by baseball players.",
+        "weight": 40
+      },
+      {
+        "id": "baseball_fan_hatball",
+        "name": { "str": "baseball fan cap" },
+        "description": "A snapback baseball cap displaying the logo of a local baseball team.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 5
+      },
+      {
+        "id": "football_fan_hatball",
+        "name": { "str": "football fan cap" },
+        "description": "A snapback baseball cap displaying the logo of a local football team.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "hat_chef",
@@ -229,7 +252,59 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white_hat_chef",
+        "name": { "str": "toque" },
+        "description": "It's colored white.",
+        "weight": 60,
+        "append": true
+      },
+      {
+        "id": "black_hat_chef",
+        "name": { "str": "black toque" },
+        "description": "It's colored black.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_hat_chef",
+        "name": { "str": "blue toque" },
+        "description": "It's a royal blue color.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_hat_chef",
+        "name": { "str": "red toque" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_hat_chef",
+        "name": { "str": "pink toque" },
+        "description": "It's colored pink.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "yellow_hat_chef",
+        "name": { "str": "yellow toque" },
+        "description": "It's colored yellow.",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "camo_hat_chef",
+        "name": { "str": "camo chef's jacket" },
+        "description": "It has camouflage dye.",
+        "weight": 2,
+        "append": true
+      }
+    ]
   },
   {
     "id": "hat_cotton",
@@ -244,8 +319,9 @@
     "symbol": "[",
     "looks_like": "hat_ball",
     "color": "dark_gray",
-    "warmth": 20,
+    "warmth": 15,
     "material_thickness": 0.1,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "HELMET_COMPAT" ],
     "armor": [ { "coverage": 65, "covers": [ "head" ] } ]
   },
@@ -262,8 +338,9 @@
     "symbol": "[",
     "looks_like": "hat_knit",
     "color": "brown",
-    "warmth": 70,
+    "warmth": 60,
     "material_thickness": 0.3,
+    "environmental_protection": 2,
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
   },
   {
@@ -274,7 +351,7 @@
     "name": { "str": "faux fur hat" },
     "description": "A stylish hat made of faux fur.  Like real fur, but without the suffering, if the tag is to be believed.  Very warm.",
     "material": [ "faux_fur", "cotton" ],
-    "warmth": 60
+    "warmth": 50
   },
   {
     "id": "hat_hard",
@@ -292,6 +369,7 @@
     "color": "yellow",
     "warmth": 5,
     "material_thickness": 4,
+    "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "PADDED" ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "head" ] } ]
@@ -314,6 +392,7 @@
     "warmth": 6,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
+    "environmental_protection": 2,
     "flags": [ "WATERPROOF", "PADDED" ],
     "armor": [ { "encumbrance": 13, "coverage": 80, "covers": [ "head" ] } ]
   },
@@ -330,7 +409,7 @@
     "symbol": "[",
     "looks_like": "hat_ball",
     "color": "light_red",
-    "warmth": 50,
+    "warmth": 45,
     "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE" ],
@@ -349,10 +428,11 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "dark_gray",
-    "warmth": 40,
+    "warmth": 45,
     "material_thickness": 0.5,
+    "environmental_protection": 2,
     "flags": [ "VARSIZE", "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [ { "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_newsboy",
@@ -370,8 +450,9 @@
     "color": "dark_gray",
     "warmth": 30,
     "material_thickness": 0.2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "coverage": 70, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_noise_cancelling",
@@ -397,6 +478,7 @@
     "type": "ARMOR",
     "name": { "str": "sombrero" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a sombrero, sorry.  But brimmed gear gets the anti-glare flag!",
+    "//2": "Not a real sombrero, but a felt imitation.",
     "description": "A felt orange sombrero with traditional white and yellow hand stitching.  The wide brim keeps the sun out of your eyes, and a thin strap hooks around your chin.",
     "weight": "140 g",
     "volume": "3500 ml",
@@ -406,11 +488,11 @@
     "symbol": "[",
     "looks_like": "cowboy_hat",
     "color": "light_red",
-    "warmth": 2,
+    "warmth": 15,
     "material_thickness": 0.2,
-    "environmental_protection": 4,
+    "environmental_protection": 1,
     "flags": [ "OUTER", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 20, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "kippah",
@@ -426,10 +508,10 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "blue",
-    "warmth": 3,
+    "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "id": "kufi",
@@ -448,7 +530,7 @@
     "warmth": 6,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "maid_hat",
@@ -503,9 +585,9 @@
     "symbol": "[",
     "looks_like": "hat_ball",
     "color": "blue",
-    "warmth": 10,
+    "warmth": 6,
     "material_thickness": 0.1,
-    "environmental_protection": 2,
+    "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
     "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
   },
@@ -522,8 +604,9 @@
     "symbol": "[",
     "looks_like": "hat_knit",
     "color": "red",
-    "warmth": 25,
+    "warmth": 20,
     "material_thickness": 0.3,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "head" ] } ]
   },
@@ -542,7 +625,7 @@
     "color": "dark_gray",
     "warmth": 2,
     "material_thickness": 0.2,
-    "environmental_protection": 2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
   },
@@ -559,8 +642,9 @@
     "material": [ "aluminum" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
+    "warmth": 5,
     "color": "yellow",
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID" ],
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "SOFT" ],
     "armor": [ { "coverage": 90, "covers": [ "head" ] } ]
   },
   {
@@ -578,7 +662,7 @@
     "symbol": "[",
     "looks_like": "porkpie",
     "color": "dark_gray",
-    "warmth": 5,
+    "warmth": 8,
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
@@ -618,10 +702,11 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "white",
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.3,
+    "environmental_protection": 1,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_golf",
@@ -656,8 +741,9 @@
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "light_blue",
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
   },
@@ -673,8 +759,9 @@
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "dark_gray",
-    "warmth": 10,
+    "warmth": 5,
     "material_thickness": 0.2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ] } ]
   }

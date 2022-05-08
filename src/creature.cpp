@@ -43,6 +43,7 @@
 #include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -103,6 +104,7 @@ static const material_id material_wool( "wool" );
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
@@ -817,6 +819,8 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             target.add_effect( effect_source( source ), effect_stunned, rng( 3_turns, 8_turns ) );
         }
     }
+
+    Character &player_character = get_player_character();
     if( proj_effects.count( "INCENDIARY" ) ) {
         if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ),
@@ -825,11 +829,27 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 4_turns ),
                                dealt_dam.bp_hit );
         }
+        if( player_character.has_trait( trait_PYROMANIA ) &&
+            !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
+            player_character.sees( target ) ) {
+            player_character.add_msg_if_player( m_good,
+                                                _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
+            player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        }
     } else if( proj_effects.count( "IGNITE" ) ) {
         if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 10_turns, dealt_dam.bp_hit );
+        }
+        if( player_character.has_trait( trait_PYROMANIA ) &&
+            !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
+            player_character.sees( target ) ) {
+            player_character.add_msg_if_player( m_good,
+                                                _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
+            player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
         }
     }
 
@@ -1165,7 +1185,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     apply_damage( source, bp, total_damage );
 
     if( wp != nullptr ) {
-        wp->apply_effects( *this, total_damage, attack );
+        wp->apply_effects( *this, total_damage, attack_copy );
     }
 
     return dealt_dams;
@@ -1196,6 +1216,15 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
                 add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
+
+                Character &player_character = get_player_character();
+                if( player_character.has_trait( trait_PYROMANIA ) &&
+                    !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) && player_character.sees( *this ) ) {
+                    player_character.add_msg_if_player( m_good,
+                                                        _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
+                    player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                    player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                }
             }
             break;
 

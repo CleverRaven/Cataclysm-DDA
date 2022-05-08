@@ -12,7 +12,21 @@
   {
     "type": "SCENARIO_BLACKLIST",
     "subtype": "blacklist",
-    "scenarios": [ "migo_prisoner" ]
+    "scenarios": [
+      "fungal_start",
+      "hunted_start",
+      "lab_cargo_staff_1",
+      "lab_chal",
+      "lab_staff",
+      "medieval",
+      "migo_prisoner",
+      "Mine_bottom",
+      "mutant",
+      "portal_dependent",
+      "quick_portal_storm_base",
+      "strong_portal_storm_base",
+      "strong_portal_storm"
+    ]
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -33,5 +47,12 @@
       "marloss": { "chance": 0, "extras": { "mx_marloss_pilgrimage": 0 } },
       "subway": { "extras": { "mx_portal": 0, "mx_portal_in": 0 } }
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
+    "recurrence": [ "10 days", "11 days" ],
+    "global": true,
+    "effect": [  ]
   }
 ]

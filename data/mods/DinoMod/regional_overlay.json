@@ -7,6 +7,7 @@
       "forest_water": {
         "chance": 20,
         "extras": {
+          "mx_mass_grave_dino": 60,
           "mx_nest_acrocanthosaurus": 30,
           "mx_nest_albertosaurus": 30,
           "mx_nest_allosaurus": 30,

@@ -1,5 +1,16 @@
 [
   {
+    "id": "mx_mass_grave_dino",
+    "type": "map_extra",
+    "name": { "str": "Mass Grave" },
+    "description": "A mass grave.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_mass_grave_dino" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "X",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
     "id": "mx_nest_acrocanthosaurus",
     "type": "map_extra",
     "name": { "str": "acrocanthosaurus nest" },

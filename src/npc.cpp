@@ -2142,65 +2142,49 @@ int npc::value( const item &it, int market_price ) const
         // NPCs won't be interested in buying active explosives
         return -1000;
     }
-
-    // faction currency trades at market price
-    if( my_fac && my_fac->currency == it.typeId() ) {
+    if( mission == NPC_MISSION_SHOPKEEP ||
+        // faction currency trades at market price
+        ( my_fac != nullptr && my_fac->currency == it.typeId() ) ) {
         return market_price;
     }
+
     const item weapon = get_wielded_item();
-    int ret = 0;
-    // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
-    double weapon_val = weapon_value( it ) - weapon_value( weapon );
-    if( weapon_val > 0 ) {
-        ret += weapon_val;
-    }
+    float ret = 1;
+    if( it.is_maybe_melee_weapon() || it.is_gun() ) {
+        double weapon_val = weapon_value( it ) - weapon_value( weapon );
 
-    if( it.is_food() ) {
-        int comestval = 0;
-        if( nutrition_for( it ) > 0 || it.get_comestible()->quench > 0 ) {
-            comestval++;
-        }
-        if( get_hunger() > 40 ) {
-            comestval += ( nutrition_for( it ) + get_hunger() - 40 ) / 6;
-        }
-        if( get_thirst() > 40 ) {
-            comestval += ( it.get_comestible()->quench + get_thirst() - 40 ) / 4;
-        }
-        if( comestval > 0 && will_eat( it ).success() ) {
-            ret += comestval;
+        if( weapon_val > 0 ) {
+            ret += weapon_val * 0.0002;
         }
     }
 
-    if( it.is_ammo() ) {
-        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
-            // TODO: magazines - don't count ammo as usable if the weapon isn't.
-            ret += 14;
+    if( it.is_food() && will_eat( it ).success() ) {
+        int const kcal_need = get_healthy_kcal() - get_stored_kcal() + stomach.get_calories();
+        int const quench_need = get_thirst();
+        if( kcal_need > compute_effective_nutrients( it ).kcal() * 2 ) {
+            ret += std::min( 3.0, 0.00005 * kcal_need );
         }
-
-        if( has_gun_for_ammo( it.ammo_type() ) ) {
-            // TODO: consider making this cumulative (once was)
-            ret += 14;
+        if( quench_need > it.get_comestible()->quench * 2 ) {
+            ret += std::min( 3.0, 0.0055 * quench_need );
         }
-    }
-
-    if( it.is_book() ) {
+    } else if( it.is_ammo() ) {
+        // TODO: magazines - don't count ammo as usable if the weapon isn't.
+        if( ( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) ||
+            has_gun_for_ammo( it.ammo_type() ) ) {
+            ret += 0.2;
+        }
+    } else if( it.is_book() ) {
         auto &book = *it.type->book;
-        ret += book.fun;
-        if( book.skill && get_knowledge_level( book.skill ) < book.level &&
-            get_knowledge_level( book.skill ) >= book.req ) {
-            ret += book.level * 3;
+        ret += book.fun * 0.01;
+        int const skill = get_knowledge_level( book.skill );
+        if( book.skill && skill < book.level && skill >= book.req ) {
+            ret += ( book.level - skill ) * 0.1;
         }
+    } else if( it.is_tool() && !has_amount( it.typeId(), 1 ) ) {
+        // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
+        ret += 0.1;
     }
-
-    // Practical item value is more important than price
-    ret *= 50;
-
-    // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
-    if( it.is_tool() && !has_amount( it.typeId(), 1 ) ) {
-        ret += market_price * 0.2; // 20% premium for fresh tools
-    }
-    ret += market_price;
-    return ret;
+    return std::round( ret * market_price );
 }
 
 void healing_options::clear_all()
@@ -3207,6 +3191,7 @@ void npc::on_load()
         hallucination = true;
     }
     effect_on_conditions::load_existing_character( *this );
+    shop_restock();
 }
 
 constexpr tripoint_abs_omt npc::no_goal_point;

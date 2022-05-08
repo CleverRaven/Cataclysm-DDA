@@ -69,6 +69,7 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -242,6 +243,7 @@ static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -276,7 +278,7 @@ bool iexamine::always_true( const tripoint &/*examp*/ )
 
 bool iexamine::harvestable_now( const tripoint &examp )
 {
-    const auto hid = get_map().get_harvest( examp );
+    const harvest_id hid = get_map().get_harvest( examp );
     return !hid->is_null() && !hid->empty();
 }
 
@@ -1805,6 +1807,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
         temp_camp->validate_bb_pos( here.getabs( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
+        temp_camp->scan_pseudo_items();
 
         const std::string title = "Base Missions";
         mission_data mission_key;
@@ -2794,7 +2797,14 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     item result( "unfinished_charcoal", calendar::turn );
     result.charges = char_charges;
     here.add_item( examp, result );
-    add_msg( _( "You fire the charcoal kiln." ) );
+
+    if( you.has_trait( trait_PYROMANIA ) ) {
+        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_msg_if_player( m_good, _( "You happily light a fire in the charcoal kiln." ) );
+    } else {
+        add_msg( _( "You fire the charcoal kiln." ) );
+    }
 }
 
 void iexamine::kiln_full( Character &, const tripoint &examp )
@@ -4072,6 +4082,14 @@ const itype *furn_t::crafting_ammo_item_type() const
     return nullptr;
 }
 
+/**
+* Finds the number of charges of the first item that matches type.
+*
+* @param type       Search target.
+* @param items      Stack of items. Search stops at first match.
+*
+* @return           Number of charges.
+* */
 static int count_charges_in_list( const itype *type, const map_stack &items )
 {
     for( const auto &candidate : items ) {
@@ -4082,25 +4100,48 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
+/**
+* Finds the number of charges of the first item that matches ammotype.
+*
+* @param ammotype   Search target.
+* @param items      Stack of items. Search stops at first match.
+* @param [out] item_type Matching type.
+*
+* @return           Number of charges.
+* */
+static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
+                                  itype_id &item_type )
+{
+    for( const auto &candidate : items ) {
+        if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
+            item_type = candidate.typeId();
+            return candidate.charges;
+        }
+    }
+    return 0;
+}
+
 static void reload_furniture( Character &you, const tripoint &examp, bool allow_unload )
 {
     map &here = get_map();
     const furn_t &f = here.furn( examp ).obj();
-    const itype *type = f.crafting_pseudo_item_type();
+    const itype *pseudo_type = f.crafting_pseudo_item_type();
     const itype *ammo = f.crafting_ammo_item_type();
-    if( type == nullptr || ammo == nullptr || !ammo->ammo ) {
+    bool use_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
+    if( pseudo_type == nullptr || ammo == nullptr || !ammo->ammo ) {
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name() );
         return;
     }
-    map_stack items_here = here.i_at( examp );
-    const int amount_in_furn = count_charges_in_list( ammo, items_here );
-    const int amount_in_inv = you.crafting_inventory().charges_of( ammo->get_id() );
+    itype_id ammo_itypeID( ammo->get_id() );
+    int amount_in_furn = use_ammotype ?
+                         count_charges_in_list( &ammo->ammo->type, here.i_at( examp ), ammo_itypeID ) :
+                         count_charges_in_list( ammo, here.i_at( examp ) );
     if( allow_unload && amount_in_furn > 0 ) {
         if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
-                          ammo->nname( amount_in_furn ) ) ) {
+                          ammo_itypeID->nname( amount_in_furn ) ) ) {
             map_stack items = here.i_at( examp );
             for( auto &itm : items ) {
-                if( itm.type == ammo ) {
+                if( itm.typeId() == ammo_itypeID ) {
                     you.assign_activity( player_activity( pickup_activity_actor(
                     { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos(), false ) ) );
                     return;
@@ -4109,21 +4150,38 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         }
     }
 
-    const int max_amount_in_furn = item( type ).ammo_capacity( ammo->ammo->type );
+    const int max_amount_in_furn = item( pseudo_type ).ammo_capacity( ammo->ammo->type );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
     }
-    if( amount_in_inv == 0 ) {
+    item pseudo( f.crafting_pseudo_item_type() );
+    std::vector<item::reload_option> ammo_list;
+    for( item_location &ammo : you.find_ammo( pseudo, false, PICKUP_RANGE ) ) {
+        // Only allow the same type to reload if partially loaded.
+        if( ( amount_in_furn > 0 || !use_ammotype ) && ammo_itypeID != ammo.get_item()->typeId() ) {
+            continue;
+        }
+        if( pseudo.can_reload_with( *ammo, true ) ) {
+            ammo_list.emplace_back( &you, &pseudo, &pseudo, std::move( ammo ) );
+        }
+    }
+
+    if( ammo_list.empty() ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg( m_info, _( "You need some %1$s to reload this %2$s." ), ammo->nname( 2 ),
                  f.name() );
         return;
     }
-    const int max_amount = std::min( amount_in_inv, max_reload_amount );
-    //~ Loading fuel or other items into a piece of furniture.
+
+    item::reload_option opt = you.select_ammo( pseudo, std::move( ammo_list ), f.name() );
+    if( !opt ) {
+        return;
+    }
+    const itype *opt_type = opt.ammo->type;
+    const int max_amount = std::min( opt.qty(), max_reload_amount );
     const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
-                                 ammo->nname( max_amount ), f.name() );
+                                 opt_type->nname( max_amount ), f.name() );
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
@@ -4134,8 +4192,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         return;
     }
 
-    std::list<item> moved = you.consume_items( { { ammo->get_id(), amount } } );
-    auto place_item = [&]( const item & it ) {
+    auto place_item = [&here, &examp]( const item & it ) {
         for( item &e : here.i_at( examp ) ) {
             if( e.merge_charges( it ) ) {
                 return;
@@ -4145,16 +4202,20 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         here.add_item( examp, it );
     };
 
-    for( const item &m : moved ) {
-        // We can't use map::add_item_or_charges here since the furniture has NO_ITEM
-        place_item( m );
-        you.mod_moves( -you.item_handling_cost( m ) );
+    item moved( opt_type, opt.ammo.get_item()->birthday(), amount );
+    place_item( moved );
+    you.mod_moves( -you.item_handling_cost( moved ) );
+    std::list<item>used;
+    if( opt.ammo.get_item()->use_charges( opt_type->get_id(), amount, used,
+                                          opt.ammo.position() ) ) {
+        opt.ammo.remove_item();
     }
 
-    const int amount_in_furn_after_placing = count_charges_in_list( ammo, here.i_at( examp ) );
+    const int amount_in_furn_after_placing = count_charges_in_list( opt_type,
+            here.i_at( examp ) );
     //~ %1$s - furniture, %2$d - number, %3$s items.
     add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn_after_placing,
-             ammo->nname( amount_in_furn_after_placing ) );
+             opt_type->nname( amount_in_furn_after_placing ) );
 
     add_msg( _( "You reload the %s." ), here.furnname( examp ) );
 
@@ -4698,6 +4759,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
         case 1: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+
             tripoint dest( you.posx() + 2 * sgn( examp.x - you.posx() ),
                            you.posy() + 2 * sgn( examp.y - you.posy() ),
                            you.posz() );
@@ -4720,6 +4787,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case 2: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+
             if( !here.valid_move( you.pos(), examp, false, true ) ) {
                 // Covered with something
                 return;
@@ -4827,6 +4900,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case 3: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+
             if( !here.valid_move( you.pos(), examp, false, true ) ) {
                 // Covered with something
                 return;
@@ -5534,7 +5613,15 @@ static void smoker_activate( Character &you, const tripoint &examp )
     result.item_counter = to_turns<int>( 6_hours );
     result.activate();
     here.add_item( examp, result );
-    add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );
+
+    if( you.has_trait( trait_PYROMANIA ) ) {
+        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_msg_if_player( m_good,
+                               _( "You happily light a small fire under the rack and it starts to smoke." ) );
+    } else {
+        add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );
+    }
 }
 
 void iexamine::mill_finalize( Character &, const tripoint &examp, const time_point &start_time )

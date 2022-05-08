@@ -88,7 +88,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 3 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 20 ] ] ]
   },
   {
     "type": "recipe",

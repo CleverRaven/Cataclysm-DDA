@@ -140,6 +140,9 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "memorial_male", memorial_male );
     optional( jo, was_loaded, "memorial_female", memorial_female );
 
+    optional( jo, was_loaded, "trigger_message_u", trigger_message_u );
+    optional( jo, was_loaded, "trigger_message_npc", trigger_message_npc );
+
     // Require either none, or both
     if( !!memorial_male != !!memorial_female ) {
         jo.throw_error( "Only one gender of memorial message specified for trap %s, but none or both required.",

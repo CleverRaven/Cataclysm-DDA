@@ -126,7 +126,6 @@ static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
@@ -253,7 +252,6 @@ static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
-static const itype_id itype_data_card( "data_card" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
@@ -290,7 +288,6 @@ static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
-static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
@@ -380,6 +377,7 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -2001,10 +1999,10 @@ class exosuit_interact
             ctxt.register_action( "CONFIRM" );
             ctxt.register_action( "QUIT" );
             ctxt.register_action( "ANY_INPUT" );
-            pocket_count = it->get_all_contained_pockets().value().size();
+            pocket_count = it->get_all_contained_pockets().size();
             height = std::max( pocket_count, height_default ) + 2;
             width_menu = 30;
-            for( const item_pocket *pkt : it->get_all_contained_pockets().value() ) {
+            for( const item_pocket *pkt : it->get_all_contained_pockets() ) {
                 int tmp = utf8_width( get_pocket_name( pkt ) );
                 if( tmp > width_menu ) {
                     width_menu = tmp;
@@ -2055,7 +2053,7 @@ class exosuit_interact
         void draw_menu() {
             werase( w_menu );
             int row = 0;
-            for( const item_pocket *pkt : suit->get_contents().get_all_contained_pockets().value() ) {
+            for( const item_pocket *pkt : suit->get_all_contained_pockets() ) {
                 nc_color colr = row == cur_pocket ? h_white : c_white;
                 mvwprintz( w_menu, point( 0, row ), colr, get_pocket_name( pkt ) );
                 row++;
@@ -2066,7 +2064,7 @@ class exosuit_interact
         void draw_iteminfo() {
             std::vector<iteminfo> dummy;
             std::vector<iteminfo> suitinfo;
-            item_pocket *pkt = suit->get_contents().get_all_contained_pockets().value()[cur_pocket];
+            item_pocket *pkt = suit->get_all_contained_pockets()[cur_pocket];
             pkt->general_info( suitinfo, cur_pocket, true );
             pkt->contents_info( suitinfo, cur_pocket, true );
             item_info_data data( suit->tname(), suit->type_name(), suitinfo, dummy, scroll_pos );
@@ -2113,7 +2111,7 @@ class exosuit_interact
                 } else if( action == "CONFIRM" ) {
                     scroll_pos = 0;
                     int nmoves = insert_replace_mod(
-                                     suit->get_contents().get_all_contained_pockets().value()[cur_pocket], suit );
+                                     suit->get_all_contained_pockets()[cur_pocket], suit );
                     moves = moves > nmoves ? moves : nmoves;
                 } else if( action == "UP" ) {
                     cur_pocket--;
@@ -2230,7 +2228,7 @@ cata::optional<int> iuse::manage_exosuit( Character *p, item *it, bool, const tr
     if( !p->is_avatar() ) {
         return cata::nullopt;
     }
-    if( !it->get_contents().get_all_contained_pockets().success() ) {
+    if( it->get_all_contained_pockets().empty() ) {
         add_msg( m_warning, _( "Your %s does not have any pockets to contain modules." ), it->tname() );
         return cata::nullopt;
     }
@@ -3973,6 +3971,11 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
             here.add_field( dest, fd_incendiary, 3 );
         }
 
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+        }
     }
     return 0;
 }
@@ -3986,6 +3989,11 @@ cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tri
         for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
             here.add_field( pt, fd_fire, intensity );
+        }
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
         return 1;
     } else if( it->charges > 0 ) {
@@ -4972,46 +4980,6 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     it->put_in( blood, item_pocket::pocket_type::CONTAINER );
     p->mod_moves( -to_moves<int>( 5_seconds ) );
     return it->type->charges_to_use();
-}
-
-//This is just used for robofac_intercom_mission_2
-cata::optional<int> iuse::mind_splicer( Character *p, item *it, bool, const tripoint & )
-{
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
-        if( map_it.typeId() == itype_rmi2_corpse &&
-            query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
-                      map_it.color_in_inventory() ) ) ) {
-
-            auto filter = []( const item & it ) {
-                return it.typeId() == itype_data_card;
-            };
-            avatar *you = p->as_avatar();
-            item_location loc;
-            if( you != nullptr ) {
-                loc = game_menus::inv::titled_filter_menu( filter, *you, _( "Select storage media" ) );
-            }
-            if( !loc ) {
-                add_msg( m_info, _( "Nevermind." ) );
-                return cata::nullopt;
-            }
-            item &data_card = *loc;
-            ///\EFFECT_DEX makes using the mind splicer faster
-            ///\EFFECT_FIRSTAID makes using the mind splicer faster
-            const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
-                    skill_firstaid ) - 1 ) - 10_minutes * ( p->get_dex() - 8 ), 30_minutes );
-
-            player_activity act( ACT_MIND_SPLICER, to_moves<int>( time ) );
-            act.targets.emplace_back( *p, &data_card );
-            p->assign_activity( act );
-            return it->type->charges_to_use();
-        }
-    }
-    add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );
-    return cata::nullopt;
 }
 
 void iuse::cut_log_into_planks( Character &p )

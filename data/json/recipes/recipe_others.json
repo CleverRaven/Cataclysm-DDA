@@ -76,7 +76,7 @@
     "time": "20 m",
     "difficulty": 2,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 12 ], [ "ink_standard", 20 ] ],
+    "using": [ [ "sewing_standard", 12 ], [ "drawing_tool", 20 ] ],
     "components": [ [ [ "sheet", 1 ] ], [ [ "cotton_ball", 20 ] ] ]
   },
   {
@@ -1706,6 +1706,38 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "extension_cable",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "soldering_standard", 50 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cable", 300 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "long_extension_cable",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "soldering_standard", 90 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cable", 900 ] ], [ [ "scrap", 2 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "metal_funnel",
     "category": "CC_OTHER",
@@ -2085,21 +2117,8 @@
     "difficulty": 2,
     "time": "5 m",
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ [ [ "wire", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "chain_link",
-    "id_suffix": "fabrication",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "5 m",
-    "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
     "components": [ [ [ "wire", 1 ] ] ]
   },
   {
@@ -2113,7 +2132,8 @@
     "difficulty": 2,
     "time": "5 m",
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
     "components": [ [ [ "lc_wire", 1 ] ] ]
   },
   {
@@ -2127,7 +2147,8 @@
     "difficulty": 2,
     "time": "5 m",
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
     "components": [ [ [ "mc_wire", 1 ] ] ]
   },
   {
@@ -2141,7 +2162,8 @@
     "difficulty": 2,
     "time": "5 m",
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
     "components": [ [ [ "hc_wire", 1 ] ] ]
   },
   {
@@ -2155,7 +2177,8 @@
     "difficulty": 2,
     "time": "5 m",
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
     "components": [ [ [ "ch_wire", 1 ] ] ]
   },
   {
@@ -2169,7 +2192,8 @@
     "difficulty": 2,
     "time": "5 m",
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
     "components": [ [ [ "qt_wire", 1 ] ] ]
   },
   {

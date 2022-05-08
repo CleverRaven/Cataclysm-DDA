@@ -1141,6 +1141,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_water_purifier",
+    "name": "Place Stationary Water Purifier"
+  },
+  {
+    "type": "construction_group",
     "id": "place_arcade_machine",
     "name": "Place Arcade Machine"
   },
@@ -1191,6 +1196,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_hydraulic_press",
+    "name": "Place Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_air_compressor",
+    "name": "Place Air Compressor"
+  },
+  {
+    "type": "construction_group",
     "id": "place_heater_large",
     "name": "Place Large Heater"
   },
@@ -1237,12 +1252,12 @@
   {
     "type": "construction_group",
     "id": "place_battery",
-    "name": "Place Battery"
+    "name": "Place Large Battery"
   },
   {
     "type": "construction_group",
     "id": "place_large_battery",
-    "name": "Place Large Battery"
+    "name": "Place Very Large Battery"
   },
   {
     "type": "construction_group",
@@ -1533,5 +1548,10 @@
     "type": "construction_group",
     "id": "build_training_dummy_heavy",
     "name": "Install Armored Training Dummy"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_clay_oven",
+    "name": "Build Clay Oven"
   }
 ]

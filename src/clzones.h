@@ -172,6 +172,12 @@ class blueprint_options : public zone_options, public mark_option
         query_con_result query_con();
 
     public:
+        blueprint_options() = default;
+        blueprint_options( std::string mark, construction_group_str_id const &group,
+                           construction_id const &index )
+            : mark( std::move( mark ) ), group( group ), index( index ) {
+        }
+
         std::string get_mark() const override {
             return mark;
         }
@@ -432,10 +438,12 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false );
-        const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type ) const;
+                  const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false,
+                  bool silent = false, map *pmap = nullptr );
+        const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
+                                      const faction_id &fac = your_fac ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
-                                       zone_data &new_zone );
+                                       zone_data &new_zone, map *pmap = nullptr );
 
         bool remove( zone_data &zone );
 
@@ -451,14 +459,14 @@ class zone_manager
         void cache_data( bool update_avatar = true );
         void reset_disabled();
         void cache_avatar_location();
-        void cache_vzones();
+        void cache_vzones( map *pmap = nullptr );
         bool has( const zone_type_id &type, const tripoint_abs_ms &where,
                   const faction_id &fac = your_fac ) const;
         bool has_near( const zone_type_id &type, const tripoint_abs_ms &where,
                        int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                              const zone_type_id &ztype ) const;
+                              const zone_type_id &ztype, const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint_abs_ms> get_near(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const item *it = nullptr, const faction_id &fac = your_fac ) const;
@@ -499,5 +507,9 @@ class zone_manager
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonValue &jv );
 };
+
+void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id const &type,
+                        faction_id const &fac = your_fac, std::string const &name = {},
+                        std::string const &filter = {}, map *pmap = nullptr );
 
 #endif // CATA_SRC_CLZONES_H

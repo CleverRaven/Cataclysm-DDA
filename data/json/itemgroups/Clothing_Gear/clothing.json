@@ -105,7 +105,11 @@
       { "item": "boots_hiking", "prob": 50 },
       { "item": "boots_steel", "prob": 25 },
       { "item": "sneakers_steel", "prob": 18 },
-      { "item": "fishing_waders", "prob": 25 }
+      { "item": "fishing_waders", "prob": 25 },
+      { "item": "leg_bag", "prob": 15 },
+      { "item": "leg_small_bag", "prob": 10 },
+      { "item": "armrig", "prob": 10 },
+      { "item": "ankle_wallet_pouch", "prob": 5 }
     ]
   },
   {
@@ -594,7 +598,8 @@
       [ "sneakers_steel", 28 ],
       [ "fishing_waders", 20 ],
       [ "jumpsuit", 20 ],
-      [ "apron_leather", 20 ],
+      [ "apron_plastic", 30 ],
+      [ "apron_leather", 10 ],
       { "item": "mask_filter", "prob": 20, "charges": [ 0, 100 ] },
       [ "hat_hard", 50 ],
       { "item": "wearable_light", "prob": 100, "charges": [ 0, 100 ] }
@@ -1336,6 +1341,10 @@
       [ "flask_hip", 2 ],
       [ "bholster", 5 ],
       [ "bbholster", 4 ],
+      [ "leg_bag", 8 ],
+      [ "leg_small_bag", 4 ],
+      [ "armrig", 8 ],
+      [ "ankle_wallet_pouch", 2 ],
       [ "tux", 1 ],
       [ "dress_wedding", 1 ],
       [ "kasaya", 1 ],
@@ -1364,6 +1373,9 @@
       [ "headscarf", 5 ],
       { "item": "kirpan", "container-item": "sheath", "prob": 1 },
       { "item": "kirpan_cheap", "container-item": "sheath", "prob": 3 },
+      [ "leg_sheath6", 1 ],
+      [ "gartersheath1", 5 ],
+      [ "gartersheath2", 1 ],
       [ "robe", 10 ],
       [ "eboshi", 1 ],
       [ "kariginu", 1 ],
@@ -1375,6 +1387,7 @@
       [ "eclipse_glasses", 1 ],
       [ "thermos", 20 ],
       [ "camera_bag", 5 ],
+      [ "quiver_takedown_bow", 1 ],
       [ "santa_jacket", 1 ],
       [ "santa_jacket_short", 1 ],
       [ "santa_shorts", 1 ],
@@ -1431,6 +1444,7 @@
       [ "wizard_cane", 1 ],
       [ "scythe_fake", 2 ],
       [ "scythe_toy", 2 ],
+      [ "bodysuit_lycra", 5 ],
       { "group": "independence_all_clothing", "prob": 100, "event": "independence_day" },
       { "group": "christmas_all_clothing", "prob": 100, "event": "christmas" },
       { "group": "costume_all_clothing", "prob": 100, "event": "halloween" }
@@ -1445,6 +1459,7 @@
       [ "thigh_high_boots", 20 ],
       [ "boots", 70 ],
       [ "flip_flops", 35 ],
+      [ "flip_flops_exp", 5 ],
       [ "lowtops", 45 ],
       [ "dress_shoes", 50 ],
       [ "dance_shoes", 5 ],
@@ -1538,7 +1553,9 @@
       { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
+      [ "apron_cotton", 5 ],
       [ "apron_leather", 1 ],
+      [ "apron_plastic", 1 ],
       { "group": "costume_jackets", "prob": 1 },
       { "group": "costume_jackets", "prob": 50, "event": "halloween" },
       { "group": "christmas_jackets", "prob": 50, "event": "christmas" }
@@ -1733,6 +1750,7 @@
       [ "thigh_high_boots", 40 ],
       [ "boots", 100 ],
       [ "flip_flops", 50 ],
+      [ "flip_flops_exp", 5 ],
       [ "lowtops", 100 ],
       [ "dress_shoes", 50 ],
       [ "dance_shoes", 20 ],
@@ -1771,7 +1789,9 @@
       { "item": "slingpack", "prob": 8 },
       { "item": "rucksack", "prob": 20 },
       { "item": "backpack_leather", "prob": 8 },
-      { "item": "briefcase", "prob": 10 }
+      { "item": "briefcase", "prob": 10 },
+      { "item": "leg_bag", "prob": 1 },
+      { "item": "quiver_takedown_bow", "prob": 1 }
     ]
   },
   {
@@ -1965,7 +1985,11 @@
       { "item": "wetsuit_hood", "prob": 5 },
       { "item": "dive_bag", "prob": 5 },
       { "item": "jedi_cloak", "prob": 1 },
-      { "item": "apron_leather", "prob": 1 },
+      { "item": "apron_cotton", "prob": 30 },
+      { "item": "waist_apron_long", "prob": 10 },
+      { "item": "waist_apron_short", "prob": 5 },
+      { "item": "apron_leather", "prob": 5 },
+      { "item": "apron_plastic", "prob": 5 },
       { "item": "clown_suit", "prob": 1 },
       { "item": "clownshoes", "prob": 1 },
       { "item": "clown_wig", "prob": 1 },
@@ -2079,6 +2103,7 @@
       { "item": "flag_jumpsuit", "prob": 2 },
       { "item": "jumpsuit_skeleton", "prob": 1 },
       { "item": "mummy_jumpsuit", "prob": 1 },
+      { "item": "bodysuit_lycra", "prob": 5 },
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 2 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 2 },
       { "item": "flag_swimsuit", "prob": 2 }
@@ -2096,34 +2121,59 @@
     "//": "clothing sets for swimming",
     "subtype": "distribution",
     "entries": [
+      { "group": "swimmer_accessories", "prob": 20 },
+      { "group": "swimmer_glasses", "prob": 15 },
       { "group": "swimmer_head", "prob": 25 },
       { "group": "swimmer_torso", "prob": 50 },
-      { "group": "swimmer_pants", "prob": 50 },
+      { "group": "swimmer_pants", "prob": 75 },
+      { "group": "swimmer_gloves", "prob": 5 },
       { "group": "swimmer_shoes", "prob": 25 },
       { "group": "swimmer_wetsuit", "prob": 50 }
     ]
   },
   {
     "type": "item_group",
-    "id": "swimmer_head",
+    "id": "swimmer_accessories",
     "items": [
-      [ "goggles_swim", 90 ],
-      [ "wetsuit_hood", 30 ],
-      [ "fancy_sunglasses", 1 ],
-      [ "rebreather", 1 ],
-      [ "fitover_sunglasses", 5 ],
-      [ "sunglasses", 10 ]
+      [ "dive_bag", 35 ],
+      [ "wicker_backpack", 10 ],
+      [ "flotation_vest", 30 ],
+      [ "swimming_kickboard", 5 ],
+      [ "diving_watch", 5 ],
+      [ "wristwatch", 5 ],
+      [ "small_scuba_tank", 5 ],
+      [ "scuba_tank", 5 ],
+      [ "whistle", 3 ],
+      { "item": "camera", "container-item": "camera_bag", "prob": 2, "charges": [ 0, 150 ] },
+      [ "camera_bag", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "swimmer_glasses",
+    "items": [ [ "goggles_swim", 80 ], [ "fancy_sunglasses", 5 ], [ "fitover_sunglasses", 5 ], [ "sunglasses", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "swimmer_head",
+    "items": [ [ "wetsuit_hood", 40 ], [ "rebreather", 5 ], [ "straw_hat", 45 ], [ "hat_sombrero", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "swimmer_torso",
     "items": [
-      [ "bikini_top", 50 ],
+      [ "bikini_top", 75 ],
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 10 },
-      [ "dive_bag", 5 ],
-      [ "flotation_vest", 10 ],
-      [ "scuba_tank", 2 ],
+      [ "sports_bra", 10 ],
+      [ "thermal_shirt", 20 ],
+      [ "under_armor", 15 ],
+      [ "army_top", 6 ],
+      [ "tank_top", 6 ],
+      [ "halter_top", 6 ],
+      [ "tshirt", 6 ],
+      [ "tshirt_text", 6 ],
+      [ "flag_shirt", 5 ],
+      { "item": "flag_shirt", "prob": 40, "event": "independence_day" },
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 50, "event": "independence_day" }
     ]
   },
@@ -2132,16 +2182,33 @@
     "id": "swimmer_pants",
     "items": [
       [ "trunks", 80 ],
-      [ "bikini_bottom", 35 ],
+      [ "bikini_bottom", 65 ],
       [ "hot_pants", 30 ],
+      [ "under_armor_shorts", 15 ],
+      [ "skirt", 10 ],
+      [ "skirt_grass", 15 ],
+      [ "nanoskirt", 5 ],
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 10 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 50, "event": "independence_day" }
     ]
   },
   {
     "type": "item_group",
+    "id": "swimmer_gloves",
+    "items": [ [ "wetsuit_gloves", 95 ], [ "gloves_fingerless", 3 ], [ "gloves_light", 2 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "swimmer_shoes",
-    "items": [ [ "flip_flops", 80 ], [ "swim_fins", 20 ] ]
+    "items": [
+      [ "flip_flops", 50 ],
+      [ "flip_flops_exp", 5 ],
+      [ "swim_fins", 15 ],
+      [ "wetsuit_booties", 15 ],
+      [ "bastsandals", 5 ],
+      [ "straw_sandals", 5 ],
+      [ "leathersandals", 5 ]
+    ]
   },
   {
     "type": "item_group",
@@ -2150,8 +2217,87 @@
       [ "wetsuit", 85 ],
       [ "wetsuit_spring", 10 ],
       [ "flag_swimsuit", 5 ],
-      { "item": "flag_swimsuit", "prob": 60, "event": "independence_day" }
+      { "item": "flag_swimsuit", "prob": 60, "event": "independence_day" },
+      { "item": "bodysuit_lycra", "variant": "flag_suit", "prob": 10, "event": "independence_day" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "swimmer_items",
+    "//": "Not really clothing, but connected to the swimmer sets of clothing.",
+    "items": [
+      [ "towel", 60 ],
+      [ "beach_volleyball", 40 ],
+      [ "mag_swimming", 30 ],
+      [ "manual_swimming", 10 ],
+      [ "mag_porn", 5 ],
+      [ "mag_tv", 5 ],
+      [ "mag_glam", 5 ],
+      [ "mag_dude", 5 ],
+      { "group": "SUS_book_nonf_soft_sports", "prob": 5 },
+      [ "diveknife", 5 ],
+      [ "sports_drink", 5 ],
+      [ "water_clean", 5 ],
+      [ "fish_sandwich", 2 ],
+      [ "mango", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_head",
+    "//": "Only diving appropriate headgear, not including masks or glasses.",
+    "items": [ [ "wetsuit_hood", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_masks",
+    "//": "Only diving appropriate masks, it needs to let the user breath underwater.",
+    "items": [ { "item": "rebreather", "prob": 100, "charges": [ 0, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_glasses",
+    "//": "Only diving appropriate glasses, it needs to let the user see underwater.",
+    "items": [ [ "goggles_swim", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_suits",
+    "//": "Only diving appropriate (even if not optimal) suits of torso + pants.",
+    "items": [
+      { "group": "swimmer_wetsuit", "prob": 95 },
+      { "distribution": [ { "group": "diving_torso" }, { "group": "diving_pants" } ], "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_torso",
+    "//": "Only diving appropriate torso clothing.  To be expanded later with rash guards.",
+    "items": [ [ "bikini_top", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_pants",
+    "//": "Only diving appropriate legs clothing.  To be expanded later with rash guards.",
+    "items": [ [ "bikini_bottom", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_gloves",
+    "//": "Only diving appropriate gloves.",
+    "items": [ [ "wetsuit_gloves", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_shoes",
+    "//": "Only diving appropriate footgear.",
+    "items": [ [ "swim_fins", 50 ], [ "wetsuit_booties", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "diving_accessories",
+    "//": "Only diving appropriate accesories.",
+    "items": [ [ "dive_bag", 25 ], [ "diving_watch", 25 ], [ "small_scuba_tank", 25 ], [ "scuba_tank", 25 ] ]
   },
   {
     "type": "item_group",
@@ -2358,6 +2504,9 @@
       [ "boots_combat", 50 ],
       [ "boots_hiking", 50 ],
       [ "bootsheath", 8 ],
+      [ "leg_sheath6", 3 ],
+      [ "gartersheath1", 1 ],
+      [ "gartersheath2", 1 ],
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "pants_army", 30 ],
@@ -2423,6 +2572,8 @@
       [ "tac_helmet", 5 ],
       [ "tac_fullhelmet", 2 ],
       [ "apron_leather", 2 ],
+      [ "apron_cut_resistant", 2 ],
+      [ "apron_plastic", 1 ],
       [ "tool_belt", 5 ],
       [ "bootsheath", 8 ],
       [ "sheath", 5 ]
@@ -2451,7 +2602,8 @@
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "boots_rubber", "prob": 20 },
       { "group": "tools_toolbox", "prob": 1 },
-      { "item": "apron_leather", "prob": 10 }
+      { "item": "apron_leather", "prob": 10 },
+      { "item": "apron_cut_resistant", "prob": 10 }
     ]
   },
   {
@@ -2731,6 +2883,7 @@
       [ "slingpack", 12 ],
       [ "rucksack", 12 ],
       [ "duffelbag", 8 ],
+      [ "quiver_takedown_bow", 1 ],
       [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
       [ "mask_hockey", 26 ],
@@ -2969,6 +3122,7 @@
       [ "leg_warmers", 20 ],
       [ "corset", 10 ],
       [ "corset_waist", 10 ],
+      [ "leg_bag", 8 ],
       [ "pants_army", 10 ],
       [ "army_top", 20 ],
       [ "tux", 1 ],
@@ -3032,6 +3186,7 @@
       [ "flag_jumpsuit", 2 ],
       [ "jumpsuit_skeleton", 1 ],
       [ "mummy_jumpsuit", 1 ],
+      [ "bodysuit_lycra", 3 ],
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 2 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 2 },
       [ "flag_swimsuit", 2 ]
@@ -3078,7 +3233,8 @@
       [ "santa_beard", 5 ],
       [ "santa_hat", 4 ],
       [ "vampire_fangs", 5 ],
-      [ "mask_skull", 4 ]
+      [ "mask_skull", 4 ],
+      [ "ankle_wallet_pouch", 5 ]
     ]
   },
   {
@@ -3168,7 +3324,8 @@
       { "item": "mouthpiece", "prob": 5 },
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
       { "group": "costume_masks", "prob": 5 },
-      { "group": "costume_masks", "prob": 25, "event": "halloween" }
+      { "group": "costume_masks", "prob": 25, "event": "halloween" },
+      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 20, "event": "independence_day" }
     ]
   },
   {
@@ -3411,7 +3568,10 @@
           { "item": "slingpack", "prob": 65 },
           { "item": "purse", "prob": 70 },
           { "item": "briefcase", "prob": 40 },
-          { "item": "hk_briefcase", "prob": 1 }
+          { "item": "hk_briefcase", "prob": 1 },
+          { "item": "leg_bag", "prob": 1 },
+          { "item": "leg_small_bag", "prob": 1 },
+          { "item": "armrig", "prob": 1 }
         ],
         "prob": 60
       },
@@ -3419,6 +3579,8 @@
         "distribution": [
           { "item": "case_violin", "prob": 5 },
           { "item": "bookstrap", "prob": 5 },
+          { "item": "camera_bag", "prob": 20 },
+          { "item": "quiver_takedown_bow", "prob": 2 },
           { "item": "quiver", "prob": 20 },
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },
@@ -3486,6 +3648,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "bondage_suit", "prob": 10 },
+      { "item": "bodysuit_lycra", "prob": 10 },
       { "item": "dinosuit", "prob": 5 },
       { "item": "yukata", "prob": 20 },
       { "item": "leotard", "prob": 40 },
@@ -3501,7 +3664,8 @@
       { "item": "wetsuit", "prob": 2 },
       { "item": "union_suit", "prob": 40 },
       { "item": "wetsuit_spring", "prob": 2 },
-      { "item": "flag_jumpsuit", "prob": 70, "event": "independence_day" },
+      { "item": "flag_jumpsuit", "prob": 50, "event": "independence_day" },
+      { "item": "bodysuit_lycra", "variant": "flag_suit", "prob": 50, "event": "independence_day" },
       { "group": "costume_suits", "prob": 70, "event": "halloween" }
     ]
   },
@@ -3650,6 +3814,7 @@
           { "item": "bastsandals", "prob": 20 },
           { "item": "straw_sandals", "prob": 20 },
           { "item": "flip_flops", "prob": 40 },
+          { "item": "flip_flops_exp", "prob": 5 },
           { "item": "leathersandals", "prob": 35 }
         ],
         "prob": 60
@@ -3791,6 +3956,9 @@
     "items": [
       { "item": "bootstrap", "prob": 20 },
       { "item": "bootsheath", "prob": 50 },
+      { "item": "leg_sheath6", "prob": 1 },
+      { "item": "gartersheath1", "prob": 40 },
+      { "item": "gartersheath2", "prob": 10 },
       { "item": "sheath", "prob": 80 },
       { "item": "back_holster", "prob": 10 },
       { "item": "holster", "prob": 30 },

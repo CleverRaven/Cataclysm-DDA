@@ -490,6 +490,22 @@
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
+    "result": "gartersheath1",
+    "type": "uncraft",
+    "time": "20 s",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "gartersheath2",
+    "type": "uncraft",
+    "time": "30 s",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
     "result": "leather_belt",
     "type": "uncraft",
     "time": "1 m",
@@ -2132,8 +2148,7 @@
     "//": "This may need to be modified, a plastic sheath would give plastic chunks, but there already is a plastic sheathed cable",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "copper", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "copper", 1 ] ] ]
   },
   {
     "result": "camera",
@@ -2692,7 +2707,7 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 182 ] ] ]
+    "components": [ [ [ "glass_shard", 88 ] ] ]
   },
   {
     "result": "game_watch",
@@ -3056,7 +3071,7 @@
     "result": "knife_butcher",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "blade", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+    "components": [ [ [ "spike", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3064,7 +3079,7 @@
     "result": "knife_carving",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "blade", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "spike", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3072,7 +3087,7 @@
     "result": "knife_chef",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "blade", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "spike", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
@@ -4692,6 +4707,25 @@
     ]
   },
   {
+    "result": "stationary_water_purifier",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "60 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "hose", 4 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "pipe_fittings", 2 ] ],
+      [ [ "solder_wire", 10 ] ],
+      [ [ "cu_pipe", 4 ] ]
+    ]
+  },
+  {
     "result": "drill_press",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4807,6 +4841,42 @@
       [ [ "steel_plate", 3 ] ],
       [ [ "blade", 2 ] ],
       [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "air_compressor",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "120 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "cable", 8 ] ],
+      [ [ "hose", 4 ] ],
+      [ [ "motor", 1 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "pipe_fittings", 4 ] ],
+      [ [ "solder_wire", 8 ] ]
+    ]
+  },
+  {
+    "result": "hydraulic_press",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "120 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "steel_lump", 4 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 2 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "chain", 1 ] ],
       [ [ "motor_small", 1 ] ]
     ]
   },
@@ -5058,7 +5128,7 @@
     "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 1 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 13 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 7 ] ], [ [ "cable", 4 ] ] ]
+    "components": [ [ [ "small_storage_battery", 9 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 7 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "result": "storage_battery",
@@ -5069,7 +5139,7 @@
     "time": "1 h 30 m",
     "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 79 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
+    "components": [ [ [ "small_storage_battery", 49 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
   },
   {
     "result": "electric_blanket",
@@ -5617,9 +5687,53 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
-    "time": "30 s",
-    "components": [ [ [ "string_6", 6 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_6", 6 ] ] ]
+  },
+  {
+    "result": "rope_6",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_36", 6 ] ] ]
+  },
+  {
+    "result": "rope_30",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rope_6", 5 ] ] ]
+  },
+  {
+    "result": "cordage_36",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "components": [ [ [ "cordage_6", 6 ] ] ]
+  },
+  {
+    "result": "rope_makeshift_6",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cordage_36", 6 ] ] ]
+  },
+  {
+    "result": "rope_makeshift_30",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rope_makeshift_6", 5 ] ] ]
   },
   {
     "result": "plunger_toilet",
