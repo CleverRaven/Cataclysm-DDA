@@ -270,7 +270,7 @@
     "symbol": "*",
     "color": "green",
     "name": { "str": "fertilizer" },
-    "description": "A token, representing fertilization of a plant.",
+    "description": "A token representing fertilization of a plant.",
     "material": [ "veggy" ],
     "flags": [ "ZERO_WEIGHT" ]
   },
