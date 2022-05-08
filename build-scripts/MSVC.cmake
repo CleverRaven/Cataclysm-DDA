@@ -1,9 +1,9 @@
 if (NOT "$ENV{DevEnvDir}")
     # Use Community Edition when not specified
-    set(ENV{DevEnvDir} "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE")
+    set(ENV{DevEnvDir} "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\")
 endif()
 # Ninja is provided by Microsoft but not in the Path
-set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe CACHE PATH "")
+set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe CACHE PATH "")
 set(CMAKE_CXX_FLAGS_INIT "\
 /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
 /wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
