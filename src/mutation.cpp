@@ -1210,7 +1210,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     }
 
 
-    // Only mutate in-category prerequisites 
+    // Only mutate in-category prerequisites
     const std::vector<trait_id> &muts_in_cat = mutations_category[mut_cat];
     auto is_not_in_category = [&muts_in_cat]( const trait_id & p ) {
         return std::find( muts_in_cat.begin(), muts_in_cat.end(), p ) == muts_in_cat.end();
