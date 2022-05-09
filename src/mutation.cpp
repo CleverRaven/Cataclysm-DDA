@@ -1138,15 +1138,20 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         return true;
     }
     const mutation_branch &mdata = mut.obj();
-    bool has_prereqs = false;
-    bool prereq1 = false;
-    bool prereq2 = false;
+    // character has...
+    bool c_has_both_prereqs = false;
+    bool c_has_prereq1 = false;
+    bool c_has_prereq2 = false;
     std::vector<trait_id> canceltrait;
-    std::vector<trait_id> prereq = mdata.prereqs;
+    std::vector<trait_id> prereqs1 = mdata.prereqs;
     std::vector<trait_id> prereqs2 = mdata.prereqs2;
     std::vector<trait_id> cancel = mdata.cancels;
     std::vector<trait_id> same_type = get_mutations_in_types( mdata.types );
     std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
+    // mutation has...
+    bool mut_has_prereq1 = !mdata.prereqs.empty();
+    bool mut_has_prereq2 = !mdata.prereqs2.empty();
+
 
     // Check mutations of the same type - except for the ones we might need for pre-reqs
     for( const auto &consider : same_type ) {
@@ -1193,20 +1198,20 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         }
     }
 
-    for( size_t i = 0; ( !prereq1 ) && i < prereq.size(); i++ ) {
-        if( has_trait( prereq[i] ) ) {
-            prereq1 = true;
+    for( size_t i = 0; ( !c_has_prereq1 ) && i < prereqs1.size(); i++ ) {
+        if( has_trait( prereqs1[i] ) ) {
+            c_has_prereq1 = true;
         }
     }
 
-    for( size_t i = 0; ( !prereq2 ) && i < prereqs2.size(); i++ ) {
+    for( size_t i = 0; ( !c_has_prereq2 ) && i < prereqs2.size(); i++ ) {
         if( has_trait( prereqs2[i] ) ) {
-            prereq2 = true;
+            c_has_prereq2 = true;
         }
     }
 
-    if( prereq1 && prereq2 ) {
-        has_prereqs = true;
+    if( c_has_prereq1 && c_has_prereq2 ) {
+        c_has_both_prereqs = true;
     }
 
     // Only mutate in-category prerequisites
@@ -1215,32 +1220,32 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         auto is_not_in_category = [&muts_in_cat]( const trait_id & p ) {
             return std::find( muts_in_cat.begin(), muts_in_cat.end(), p ) == muts_in_cat.end();
         };
-        prereq.erase( std::remove_if( prereq.begin(), prereq.end(), is_not_in_category ), prereq.end() );
+        prereqs1.erase( std::remove_if( prereqs1.begin(), prereqs1.end(), is_not_in_category ), prereqs1.end() );
         prereqs2.erase( std::remove_if( prereqs2.begin(), prereqs2.end(), is_not_in_category ),
                         prereqs2.end() );
     }
 
-    if( !has_prereqs && ( !prereq.empty() || !prereqs2.empty() ) ) {
-        if( !prereq1 && !prereq.empty() ) {
-            return mutate_towards( prereq, mut_cat );
-        } else if( !prereq2 && !prereqs2.empty() ) {
+    if( !c_has_both_prereqs && ( !prereqs1.empty() || !prereqs2.empty() ) ) {
+        if( !c_has_prereq1 && !prereqs1.empty() ) {
+            return mutate_towards( prereqs1, mut_cat );
+        } else if( !c_has_prereq2 && !prereqs2.empty() ) {
             return mutate_towards( prereqs2, mut_cat );
         }
     }
 
     // Check for threshold mutation, if needed
-    bool threshold = mdata.threshold;
-    bool profession = mdata.profession;
-    bool has_threshreq = false;
+    bool mut_is_threshold = mdata.threshold;
+    bool mut_is_profession = mdata.profession;
+    bool c_has_threshreq = false;
     std::vector<trait_id> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
-    if( threshold ) {
+    if( mut_is_threshold ) {
         add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
-    if( profession ) {
+    if( mut_is_profession ) {
         // Profession picks fail silently
         return false;
     }
@@ -1253,14 +1258,14 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         }
     }
 
-    for( size_t i = 0; !has_threshreq && i < threshreq.size(); i++ ) {
+    for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
         if( has_trait( threshreq[i] ) ) {
-            has_threshreq = true;
+            c_has_threshreq = true;
         }
     }
 
     // No crossing The Threshold by simply not having it
-    if( !has_threshreq && !threshreq.empty() ) {
+    if( !c_has_threshreq && !threshreq.empty() ) {
         add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
@@ -1279,8 +1284,8 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
 
     // Check if one of the prerequisites that we have TURNS INTO this one
     trait_id replacing = trait_id::NULL_ID();
-    prereq = mdata.prereqs; // Reset it
-    for( auto &elem : prereq ) {
+    prereqs1 = mdata.prereqs; // Reset it
+    for( auto &elem : prereqs1 ) {
         if( has_trait( elem ) ) {
             const trait_id &pre = elem;
             const auto &p = pre.obj();
@@ -1294,8 +1299,8 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
 
     // Loop through again for prereqs2
     trait_id replacing2 = trait_id::NULL_ID();
-    prereq = mdata.prereqs2; // Reset it
-    for( auto &elem : prereq ) {
+    prereqs1 = mdata.prereqs2; // Reset it
+    for( auto &elem : prereqs1 ) {
         if( has_trait( elem ) ) {
             const trait_id &pre2 = elem;
             const auto &p = pre2.obj();
