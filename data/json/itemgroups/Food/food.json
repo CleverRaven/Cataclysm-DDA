@@ -80,6 +80,15 @@
   },
   {
     "type": "item_group",
+    "id": "barbecue_sauce_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "barbecue_sauce", "prob": 6, "charges-min": 1 },
+      { "item": "barbecue_sauce", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mustard_sealed_rng",
     "subtype": "distribution",
     "entries": [
@@ -111,6 +120,7 @@
       { "item": "brewing_cookbook", "prob": 4 },
       { "group": "ketchup_sealed_rng", "prob": 35 },
       { "group": "mustard_sealed_rng", "prob": 35 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 25 },
       { "item": "soysauce", "prob": 25 },
       { "item": "hot_sauce", "prob": 25 },
       { "item": "horseradish", "prob": 15 },
@@ -752,8 +762,9 @@
       { "item": "potato_baked", "prob": 15 },
       { "item": "bread", "prob": 40 },
       { "item": "bread_wheat_free", "prob": 40 },
-      { "group": "ketchup_sealed_rng", "prob": 80 },
+      { "group": "ketchup_sealed_rng", "prob": 70 },
       { "group": "mustard_sealed_rng", "prob": 75 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 80 },
       { "item": "pickle", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 20 },
       { "item": "cheeseburger", "prob": 20 },
@@ -829,6 +840,7 @@
       { "item": "foon", "prob": 10 },
       { "group": "ketchup_sealed_rng", "prob": 60 },
       { "group": "mustard_sealed_rng", "prob": 60 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 10 },
       { "item": "soysauce", "prob": 45 },
       { "item": "hot_sauce", "prob": 45 },
       { "item": "horseradish", "prob": 30 },

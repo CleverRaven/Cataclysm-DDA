@@ -242,6 +242,18 @@
         "s": "f_sink",
         "&": "f_trashcan"
       },
+      "place_zones": [
+        { "type": "LOOT_DRINK", "faction": "tacoma_commune", "x": 13, "y": [ 12, 13 ] },
+        {
+          "type": "LOOT_CUSTOM",
+          "faction": "tacoma_commune",
+          "x": 13,
+          "y": 14,
+          "filter": "shot glass,drinking glass"
+        },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": 13, "y": [ 7, 8 ] },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": 12, "y": 7 }
+      ],
       "place_npcs": [ { "class": "ranch_bartender", "x": 12, "y": 12 }, { "class": "scavenger_merc", "x": 5, "y": 11 } ],
       "place_items": [
         { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 2, 3 ], "faction": "tacoma_commune" },
@@ -831,7 +843,7 @@
         "                ",
         "         [[[    ",
         "[             r ",
-        "[             r ",
+        "[    =        r ",
         "        cc cc r[",
         "        cclcc r[",
         "        cc cc r ",
@@ -840,13 +852,26 @@
         "                ",
         "          l     ",
         "          c     ",
-        "       [  c  +  ",
-        "          c     ",
+        "       [C c  +  ",
+        "        Csc r   ",
         "                ",
         "                "
       ],
-      "terrain": { "[": "t_window_boarded_noglass", "+": "t_door_c", "l": "t_dirtfloor_olight" },
-      "furniture": { "c": "f_counter", "r": "f_rack" },
+      "terrain": { "[": "t_window_boarded_noglass", "+": "t_door_c", "l": "t_dirtfloor_olight", "=": "t_door_curtain_c" },
+      "furniture": { "c": "f_counter", "r": "f_rack", "s": "f_safe_o", "C": "f_clothing_rail" },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": [ 1, 4 ], "y": 1 },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": [ 1, 4 ], "y": 4 },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": 10, "y": [ 11, 13 ] },
+        { "type": "LOOT_MANUALS", "faction": "tacoma_commune", "x": 12, "y": 13 },
+        { "type": "LOOT_CURRENCY", "faction": "tacoma_commune", "x": 9, "y": 13 },
+        { "type": "LOOT_ARMOR", "faction": "tacoma_commune", "x": 8, "y": 12 },
+        { "type": "LOOT_CLOTHING", "faction": "tacoma_commune", "x": 8, "y": 13 }
+      ],
+      "place_signs": [
+        { "signage": "Extra Supplies.  Take what you need.", "x": 11, "y": 8 },
+        { "signage": "Scavenger Storage.  Stay out!", "x": 5, "y": 4 }
+      ],
       "place_npcs": [ { "class": "ranch_scavenger_1", "x": 9, "y": 12 } ]
     }
   },

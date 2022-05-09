@@ -462,7 +462,7 @@
     "id": "remington_870_express",
     "copy-from": "remington_870",
     "type": "GUN",
-    "name": { "str": "pump-action défense shotgun" },
+    "name": { "str": "pump-action defense shotgun" },
     "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or law-enforcement purposes.  featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it’s a very versatile and reliable weapon.",
     "variant_type": "gun",
     "variants": [
@@ -768,7 +768,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "pump-action trench shotgun" },
-    "description": "Whether or not you ever wondered what would happen if one was to attach a shotgun atop a sword, the result of such an enquiry stands now before you in all its glory.  Coming outfitted with a large 17 inch sword bayonet, and a wooden heat-shealed to protect the user’s hands from the barrel when it heats up during firing, this pump-action shotgun practically drips menace and looks like it’s coming straight out of the trenches of World War 1.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
+    "description": "Whether or not you ever wondered what would happen if one was to attach a shotgun atop a sword, the result of such an enquiry stands now before you in all its glory.  Coming outfitted with a large 17 inch sword bayonet, and a wooden heat shield to protect the user’s hands from the barrel when it heats up during firing, this pump-action shotgun practically drips menace and looks like it’s coming straight out of the trenches of World War 1.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
     "variant_type": "gun",
     "variants": [
       {
