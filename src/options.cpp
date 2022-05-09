@@ -2994,9 +2994,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 iCurrentLine = recmax - 1;
             } else {
                 iCurrentLine += +scroll_rate;
-                do {
+                while( iCurrentLine < recmax && !page_items[iCurrentLine] ) {
                     iCurrentLine++;
-                } while( !page_items[iCurrentLine] );
+                }
             }
         } else if( action == "PAGE_UP" ) {
             if( iCurrentLine == 0 ) {
@@ -3005,9 +3005,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 iCurrentLine = 0;
             } else {
                 iCurrentLine += -scroll_rate;
-                do {
+                while( iCurrentLine > 0 && !page_items[iCurrentLine] ) {
                     iCurrentLine--;
-                } while( !page_items[iCurrentLine] );
+                }
             }
         } else if( action == "RIGHT" ) {
             current_opt.setNext();
