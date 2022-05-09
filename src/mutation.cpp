@@ -1225,6 +1225,38 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                         prereqs2.end() );
     }
 
+    // Check for threshold mutation, if needed
+    bool mut_is_threshold = mdata.threshold;
+    bool c_has_threshreq = false;
+    std::vector<trait_id> threshreq = mdata.threshreq;
+
+    for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
+        if( has_trait( threshreq[i] ) ) {
+            c_has_threshreq = true;
+        }
+    }
+
+    // If the mutation has prerequisites, but none are in this category, AND it doesn't have this
+    // category's threshold as requirement, it's unreachable by mutating within this category, despite
+    // being in it. That is an error, so raise a warning.
+
+    // mutation has this category's threshold as requirement
+    bool m_has_this_c_threshreq = std::find( threshreq.begin(), threshreq.end(),
+                                  mutation_category_trait::get_category( mut_cat ).threshold_mut ) != threshreq.end();
+
+    if( ( mut_has_prereq1 && prereqs1.empty() && !m_has_this_c_threshreq ) ||
+        ( mut_has_prereq2 && prereqs2.empty() && !m_has_this_c_threshreq ) ) {
+        debugmsg( "Mutation %s is unreachable within category %s (has prerequistes not satisfiable without going outside this category)",
+                  mdata.id.c_str(), mut_cat.c_str() );
+    }
+
+    // However, this character might still be able to mutate this due to having prereqs obtained
+    // through other means, so make sure that is not the case before aborting.
+    if( ( mut_has_prereq1 && !c_has_prereq1 && prereqs1.empty() && !c_has_threshreq ) ||
+        ( mut_has_prereq2 && !c_has_prereq2 && prereqs2.empty() && !c_has_threshreq )) {
+        return false;
+    }
+
     if( !c_has_both_prereqs && ( !prereqs1.empty() || !prereqs2.empty() ) ) {
         if( !c_has_prereq1 && !prereqs1.empty() ) {
             return mutate_towards( prereqs1, mut_cat );
@@ -1233,11 +1265,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         }
     }
 
-    // Check for threshold mutation, if needed
-    bool mut_is_threshold = mdata.threshold;
     bool mut_is_profession = mdata.profession;
-    bool c_has_threshreq = false;
-    std::vector<trait_id> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
@@ -1255,12 +1283,6 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     for( const bionic_id &bid : get_bionics() ) {
         if( bid->mutation_conflicts.count( mut ) != 0 ) {
             return false;
-        }
-    }
-
-    for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
-        if( has_trait( threshreq[i] ) ) {
-            c_has_threshreq = true;
         }
     }
 
