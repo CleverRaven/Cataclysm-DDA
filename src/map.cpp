@@ -5243,7 +5243,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
         map_stack stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
         [ammo, using_ammotype]( const item & i ) {
-            if( using_ammotype ) {
+            if( using_ammotype && i.type->ammo && ammo->ammo ) {
                 return i.type->ammo->type == ammo->ammo->type;
             } else {
                 return i.typeId() == ammo;
