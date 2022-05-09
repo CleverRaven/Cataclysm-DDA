@@ -96,6 +96,7 @@ static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -5783,6 +5784,17 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     // Erase activity and values.
     act.set_to_null();
     act.values.clear();
+
+    // Return to eat menu activity if it is in the activity backlog.
+    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
+        if( iter->id() == ACT_CONSUME ) {
+            iter = who.backlog.erase( iter );
+        }
+        if( iter->id() == ACT_EAT_MENU ) {
+            iter->auto_resume = true;
+            break;
+        }
+    }
 }
 
 void firstaid_activity_actor::serialize( JsonOut &jsout ) const
