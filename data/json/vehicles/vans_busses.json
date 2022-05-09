@@ -2357,7 +2357,7 @@
 {
     "id": "truck_XEDRA",
     "type": "vehicle",
-    "name": "Unmarked Armored Truck",
+    "name": "Trans-Coast Logistics Truck",
     "blueprint": [
       [ "     o " ],
       [ "O----+-O" ],
