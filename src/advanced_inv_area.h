@@ -102,6 +102,7 @@ class advanced_inv_area
         // if you want vehicle cargo, specify so via `in_vehicle'
         item_location get_container( bool in_vehicle = false );
         void set_container( const advanced_inv_listitem *advitem );
+        void reset_container_type( const item_location& it );
         bool is_container_valid( const item *it ) const;
         void set_container_position();
         aim_location offset_to_location() const;

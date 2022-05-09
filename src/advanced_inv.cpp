@@ -1415,12 +1415,27 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             Character& player_character = get_player_character();
             drop_locations things;
             things.push_back( thing );
-            insert_item_activity_actor insert = insert_item_activity_actor( squares[destarea].get_container(), things );
+
+            item_location destcontainer = squares[destarea].get_container();
+
+            bool srccon = srcarea == AIM_CONTAINER_L || srcarea == AIM_CONTAINER_R;
+            item_location srccontainer;
+            if (srccon) {
+                item_location srccontainer = squares[srcarea].get_container();
+            }
+
+            insert_item_activity_actor insert = insert_item_activity_actor( destcontainer, things );
             player_activity activity = player_activity( insert );
+
             player_character.assign_activity(activity);
 
             insert.start( activity, player_character );
             insert.finish(activity, player_character);
+
+            squares[destarea].reset_container_type(destcontainer);
+            if (srccon && srccontainer) {
+                squares[srcarea].reset_container_type(srccontainer);
+            }
         }
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
