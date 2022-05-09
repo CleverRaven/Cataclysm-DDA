@@ -231,6 +231,14 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
     }
+    for( const auto &q : obj.charged_qualities ) {
+        for( const auto &u : q.first.obj().usages ) {
+            if( q.second >= u.first ) {
+                emplace_usage( obj.use_methods, u.second );
+                // I do not know how to get the ammo scale, so hopefully it naturally comes with the item's scale?
+            }
+        }
+    }
 
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
@@ -723,6 +731,10 @@ void Item_factory::finalize_post( itype &obj )
                             it.encumber += sub_armor.encumber;
                             it.max_encumber += sub_armor.max_encumber;
 
+                            for( const encumbrance_modifier &en : sub_armor.encumber_modifiers ) {
+                                it.encumber_modifiers.push_back( en );
+                            }
+
                             // get the amount of the limb that is covered with sublocations
                             // for overall coverage we need to scale coverage by that
                             float scale = sub_armor.max_coverage( bp ) / 100.0;
@@ -832,6 +844,30 @@ void Item_factory::finalize_post( itype &obj )
                 }
             }
 
+        }
+
+        // calculate encumbrance data per limb if done by description
+        for( armor_portion_data &data : obj.armor->data ) {
+            if( !data.encumber_modifiers.empty() ) {
+                // we know that the data entry covers a single bp
+                data.encumber = data.calc_encumbrance( obj.weight, *data.covers.value().begin() );
+
+                // need to account for varsize stuff here and double encumbrance if so
+                if( obj.has_flag( flag_VARSIZE ) ) {
+                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );;
+                }
+
+                // Recalc max encumber as well
+                units::volume total_nonrigid_volume = 0_ml;
+                for( const pocket_data &pocket : obj.pockets ) {
+                    if( !pocket.rigid ) {
+                        // include the modifier for each individual pocket
+                        total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
+                    }
+                }
+                data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
+                                    data.volume_per_encumbrance;
+            }
         }
 
         // need to scale amalgamized portion data based on total coverage.
@@ -1645,7 +1681,6 @@ void Item_factory::init()
     add_iuse( "VACCINE", &iuse::vaccine );
     add_iuse( "CALL_OF_TINDALOS", &iuse::call_of_tindalos );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
-    add_iuse( "MIND_SPLICER", &iuse::mind_splicer );
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
@@ -2658,7 +2693,10 @@ void armor_portion_data::deserialize( const JsonObject &jo )
 
     optional( jo, false, "rigid_layer_only", rigid_layer_only, false );
 
-    if( jo.has_array( "encumbrance" ) ) {
+    if( jo.has_array( "encumbrance_modifiers" ) ) {
+        // instead of reading encumbrance calculate it by weight
+        optional( jo, false, "encumbrance_modifiers", encumber_modifiers );
+    } else if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );
         max_encumber = jo.get_array( "encumbrance" ).get_int( 1 );
     } else {
@@ -3533,6 +3571,27 @@ template<>
 struct enum_traits<balance_val> {
     static constexpr balance_val last = balance_val::LAST;
 };
+
+namespace io
+{
+template<>
+std::string enum_to_string<encumbrance_modifier>( encumbrance_modifier data )
+{
+    switch( data ) {
+        case encumbrance_modifier::IMBALANCED:
+            return "IMBALANCED";
+        case encumbrance_modifier::RESTRICTS_NECK:
+            return "RESTRICTS_NECK";
+        case encumbrance_modifier::WELL_SUPPORTED:
+            return "WELL_SUPPORTED";
+        case encumbrance_modifier::NONE:
+            return "NONE";
+        case encumbrance_modifier::last:
+            break;
+    }
+    cata_fatal( "Invalid encumbrance descriptor" );
+}
+} // namespace io
 
 namespace io
 {

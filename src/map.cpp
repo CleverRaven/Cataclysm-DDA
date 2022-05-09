@@ -749,7 +749,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     // Check whether avatar sees the collision, and log a message if so
     const avatar &you = get_avatar();
     const tripoint part1_pos = veh.global_part_pos3( c.part );
-    const tripoint part2_pos = veh.global_part_pos3( c.target_part );
+    const tripoint part2_pos = veh2.global_part_pos3( c.target_part );
     if( you.sees( part1_pos ) || you.sees( part2_pos ) ) {
         //~ %1$s: first vehicle name (without "the")
         //~ %2$s: first part name
@@ -5239,10 +5239,15 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
+        const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
         map_stack stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
-        [ammo]( const item & i ) {
-            return i.typeId() == ammo;
+        [ammo, using_ammotype]( const item & i ) {
+            if( using_ammotype ) {
+                return i.type->ammo->type == ammo->ammo->type;
+            } else {
+                return i.typeId() == ammo;
+            }
         } );
         if( iter != stack.end() ) {
             item furn_item( itt, calendar::turn_zero );
@@ -5649,6 +5654,11 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     }
 
     if( !type_id ) {
+        return false;
+    }
+
+    // Don't spawn non-gaseous fields on open air
+    if( has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) && type_id.obj().phase != phase_id::GAS ) {
         return false;
     }
 
@@ -7575,13 +7585,6 @@ void map::actualize( const tripoint &grid )
         }
     }
 
-    tripoint_abs_sm const sm = abs_sub + grid;
-    for( auto const &guy : overmap_buffer.get_npcs_near( sm, 0 ) ) {
-        if( guy->get_location().z() == sm.z() ) {
-            guy->shop_restock();
-        }
-    }
-
     // the last time we touched the submap, is right now.
     tmpsub->last_touched = calendar::turn;
 }
@@ -8353,31 +8356,44 @@ void map::do_vehicle_caching( int z )
     }
 }
 
-void map::build_map_cache( const int zlev )
+void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    bool seen_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
+        // trigger FOV recalculation only when there is a change on the player's level or if fov_3d is enabled
+        const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
+        seen_cache_dirty |= ( floor_cache_was_dirty && affects_seen_cache );
         if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
             get_cache( z - 1 ).r_up_cache->invalidate();
         }
+        seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
     // otherwise such changes might be overwritten by main cache-building logic
     for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
-}
 
-void map::build_lightmap( const int zlev, const tripoint p )
-{
-    build_vision_transparency_cache( zlev );
-    skew_vision_cache.clear();
-    build_seen_cache( p, zlev );
-    generate_lightmap( zlev );
+    seen_cache_dirty |= build_vision_transparency_cache( zlev );
+
+    if( seen_cache_dirty ) {
+        skew_vision_cache.clear();
+    }
+    // Initial value is illegal player position.
+    const tripoint p = get_player_character().pos();
+    static tripoint player_prev_pos;
+    if( seen_cache_dirty || player_prev_pos != p ) {
+        build_seen_cache( p, zlev );
+        player_prev_pos = p;
+    }
+    if( !skip_lightmap ) {
+        generate_lightmap( zlev );
+    }
 }
 
 //////////
@@ -8638,8 +8654,8 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
         return;
     }
 
-    if( !tr.is_always_invisible() ) {
-        c.add_msg_player_or_npc( m_bad, _( "You trigger a %s!" ), _( "<npcname> triggers a %s!" ),
+    if( !tr.is_always_invisible() && tr.has_trigger_msg() ) {
+        c.add_msg_player_or_npc( m_bad, tr.get_trigger_message_u(), tr.get_trigger_message_npc(),
                                  tr.name() );
     }
     tr.trigger( c.pos(), c );

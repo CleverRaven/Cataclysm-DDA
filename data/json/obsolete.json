@@ -579,7 +579,7 @@
   {
     "id": "adv_UPS_off",
     "type": "TOOL",
-    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
+    "name": { "str": "advanced UPS", "str_pl": "advanced UPSes" },
     "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel batteries rather than regular batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "weight": "453 g",
     "volume": "2 L",

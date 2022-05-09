@@ -301,11 +301,31 @@ resistances &resistances::operator+=( const resistances &other )
     return *this;
 }
 
+bool resistances::operator==( const resistances &other )
+{
+    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
+        if( resist_vals[i] != other.resist_vals[i] ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 resistances resistances::operator*( float mod ) const
 {
     resistances ret;
     for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
         ret.resist_vals[ i ] = this->resist_vals[ i ] * mod;
+    }
+    return ret;
+}
+
+resistances resistances::operator/( float mod ) const
+{
+    resistances ret;
+    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
+        ret.resist_vals[i] = this->resist_vals[i] / mod;
     }
     return ret;
 }

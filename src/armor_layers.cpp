@@ -917,12 +917,13 @@ void outfit::sort_armor( Character &guy )
                 }
             }
         } else if( action == "TOGGLE_CLOTH" ) {
-            if( !tmp_worn[leftListIndex]->has_flag( json_flag_HIDDEN ) ) {
-                tmp_worn[leftListIndex]->set_flag( json_flag_HIDDEN );
-            } else {
-                tmp_worn[leftListIndex]->unset_flag( json_flag_HIDDEN );
+            if( leftListIndex < leftListSize ) {
+                if( !tmp_worn[leftListIndex]->has_flag( json_flag_HIDDEN ) ) {
+                    tmp_worn[leftListIndex]->set_flag( json_flag_HIDDEN );
+                } else {
+                    tmp_worn[leftListIndex]->unset_flag( json_flag_HIDDEN );
+                }
             }
-
         } else if( action == "SORT_ARMOR" ) {
             // Copy to a vector because stable_sort requires random-access
             // iterators
@@ -1026,7 +1027,7 @@ void outfit::sort_armor( Character &guy )
             }
         } else if( action == "ASSIGN_INVLETS" ) {
             // prompt first before doing this (yes, yes, more popups...)
-            if( query_yn( _( "Reassign invlets for armor?" ) ) ) {
+            if( query_yn( _( "Reassign inventory letters for armor?" ) ) ) {
                 // Start with last armor (the most unimportant one?)
                 auto iiter = inv_chars.rbegin();
                 auto witer = worn.rbegin();

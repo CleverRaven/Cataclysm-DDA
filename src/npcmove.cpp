@@ -79,6 +79,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -3656,6 +3657,11 @@ void npc::activate_item( item &it )
 
 void npc::heal_player( Character &patient )
 {
+    // Avoid more than one first aid activity at a time.
+    if( Character::has_activity( ACT_FIRSTAID ) ) {
+        return;
+    }
+
     int dist = rl_dist( pos(), patient.pos() );
 
     if( dist > 1 ) {
@@ -3669,7 +3675,7 @@ void npc::heal_player( Character &patient )
     // Close enough to heal!
     bool u_see = player_view.sees( *this ) || player_view.sees( patient );
     if( u_see ) {
-        add_msg( _( "%1$s heals %2$s." ), disp_name(), patient.disp_name() );
+        add_msg( _( "%1$s starts healing %2$s." ), disp_name(), patient.disp_name() );
     }
 
     item &used = get_healing_item( ai_cache.can_heal );
@@ -3726,17 +3732,22 @@ void npc::heal_self()
         }
     }
 
+    // Avoid more than one first aid activity at a time.
+    if( Character::has_activity( ACT_FIRSTAID ) ) {
+        return;
+    }
+
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name() );
         return;
     }
 
-    add_msg_if_player_sees( *this, _( "%s applies a %s" ), disp_name(), used.tname() );
+    add_msg_if_player_sees( *this, _( "%1$s starts applying a %2$s." ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
     int charges_used = used.type->invoke( *this, used, pos(), "heal" ).value_or( 0 );
-    if( used.is_medication() ) {
+    if( used.is_medication() && charges_used > 0 ) {
         consume_charges( used, charges_used );
     }
 }

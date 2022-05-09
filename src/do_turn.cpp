@@ -37,6 +37,7 @@
 #include "worldfactory.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const bionic_id bio_alarm( "bio_alarm" );
@@ -776,7 +777,7 @@ bool do_turn()
     const int levz = m.get_abs_sub().z();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.build_map_cache( levz );
+    m.build_map_cache( levz, true );
     monmove();
     if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
@@ -822,6 +823,8 @@ bool do_turn()
         }
         if( u.activity.id() == ACT_AUTODRIVE ) {
             wait_refresh_rate = 1_turns;
+        } else if( u.activity.id() == ACT_FIRSTAID ) {
+            wait_refresh_rate = 5_turns;
         } else {
             wait_refresh_rate = 5_minutes;
         }
@@ -830,7 +833,6 @@ bool do_turn()
         if( g->first_redraw_since_waiting_started ||
             calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( g->first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
-                m.build_lightmap( levz, u.pos() );
                 ui_manager::redraw();
             }
 
@@ -843,7 +845,6 @@ bool do_turn()
             g->first_redraw_since_waiting_started = false;
         }
     } else {
-        m.build_lightmap( levz, u.pos() );
         // Nothing to wait for now
         g->wait_popup.reset();
         g->first_redraw_since_waiting_started = true;

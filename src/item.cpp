@@ -390,11 +390,12 @@ static const item *get_most_rotten_component( const item &craft )
 }
 
 item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
-    : item( "craft", calendar::turn, qty )
+    : item( "craft", calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
     craft_data_->disassembly = false;
+    craft_data_->batch_size = qty;
     components = items;
     craft_data_->comps_used = selections;
 
@@ -1173,6 +1174,9 @@ bool item::combine( const item &rhs )
 
     }
     charges += rhs.charges;
+    if( !rhs.has_flag( flag_NO_PARASITES ) ) {
+        unset_flag( flag_NO_PARASITES );
+    }
     return true;
 }
 
@@ -1236,9 +1240,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     }
     if( combine_liquid && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
 
-        //we can combine liquids of same type and different temperatures
+        // we can combine liquids of same type and different temperatures
         if( !equal_ignoring_elements( rhs.get_flags(), get_flags(),
-        { flag_COLD, flag_FROZEN, flag_HOT } ) ) {
+        { flag_COLD, flag_FROZEN, flag_HOT, flag_NO_PARASITES } ) ) {
             return false;
         }
     } else if( item_tags != rhs.item_tags ) {
@@ -1741,16 +1745,21 @@ std::string item::get_owner_name() const
     return g->faction_manager_ptr->get( get_owner() )->name;
 }
 
+void item::set_owner( const faction_id &new_owner )
+{
+    owner = new_owner;
+    for( item *e : contents.all_items_top() ) {
+        e->set_owner( new_owner );
+    }
+}
+
 void item::set_owner( const Character &c )
 {
     if( !c.get_faction() ) {
         debugmsg( "item::set_owner() Character %s has no valid faction", c.disp_name() );
         return;
     }
-    owner = c.get_faction()->id;
-    for( item *e : contents.all_items_top() ) {
-        e->set_owner( c );
-    }
+    set_owner( c.get_faction()->id );
 }
 
 faction_id item::get_owner() const
@@ -5688,8 +5697,9 @@ void item::on_wield( Character &you )
         you.martial_arts_data->martialart_use_message( you );
     }
 
-    // Update encumbrance in case we were wearing it
+    // Update encumbrance and discomfort in case we were wearing it
     you.flag_encumbrance();
+    you.calc_discomfort();
     you.on_item_acquire( *this );
 }
 
@@ -6809,6 +6819,18 @@ bool item::has_flag( const flag_id &f ) const
             // gunmods fired separately do not contribute to base gun flags
             if( !e->is_gun() && e->has_flag( f ) ) {
                 return true;
+            }
+        }
+    }
+
+    // check flags from items in inherit pockets
+    for( const item_pocket *pocket : contents.get_all_contained_pockets() ) {
+        // if the pocket inherits flags
+        if( pocket->inherits_flags() ) {
+            for( const item *e : pocket->all_items_top() ) {
+                if( e->has_flag( f ) ) {
+                    return true;
+                }
             }
         }
     }
@@ -10319,8 +10341,8 @@ bool item::uses_magazine() const
 itype_id item::magazine_default( bool conversion ) const
 {
     // consider modded ammo types
-    if( conversion && !ammo_types().empty() ) {
-        const itype_id ammo = ammo_default();
+    itype_id ammo;
+    if( conversion && ( ammo = ammo_default(), !ammo.is_null() ) ) {
         for( const itype_id &mag : contents.magazine_compatible() ) {
             auto mag_types = mag->magazine->type;
             if( mag_types.find( ammo->ammo->type ) != mag_types.end() ) {
@@ -12767,7 +12789,8 @@ bool item::is_rigid() const
 bool item::is_comfortable() const
 {
     // overrides for the item overall
-    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
+    // NO_WEAR_EFFECT is there for jewelry and the like which is too small to be considered
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) || has_flag( flag_NO_WEAR_EFFECT ) ) {
         return true;
     } else if( has_flag( flag_HARD ) ) {
         return false;
@@ -12845,7 +12868,8 @@ template <typename T>
 bool item::is_bp_comfortable( const T &bp ) const
 {
     // overrides for the item overall
-    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
+    // NO_WEAR_EFFECT is there for jewelry and the like which is too small to be considered
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) || has_flag( flag_NO_WEAR_EFFECT ) ) {
         return true;
     } else if( has_flag( flag_HARD ) ) {
         return false;
@@ -13164,6 +13188,16 @@ const recipe &item::get_making() const
     }
     cata_assert( craft_data_->making );
     return *craft_data_->making;
+}
+
+int item::get_making_batch_size() const
+{
+    if( !craft_data_ ) {
+        debugmsg( "'%s' is not a craft or has a null recipe", tname() );
+        return 0;
+    }
+    cata_assert( craft_data_->batch_size );
+    return craft_data_->batch_size;
 }
 
 void item::set_tools_to_continue( bool value )

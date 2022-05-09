@@ -134,12 +134,26 @@
         "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
+    "onattack_buffs": [
+      {
+        "id": "mma_buff_hylian_spin",
+        "name": "Spinning",
+        "description": "You keep on spinning!  You can still move while spinning but it slows you down quite a bit.\n\n+25% move cost.\nEnables \"Spin Attack\" technique.\nLasts 5 turns after your last spin",
+        "required_buffs_any": [ "mma_buff_hylian_onpause_2", "mma_buff_hylian_spin" ],
+        "weapon_categories_allowed": [ "HYLIAN_MASTER_SWORD" ],
+        "max_stacks": 1,
+        "melee_allowed": true,
+        "buff_duration": 5,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 1.25 } ]
+      }
+    ],
     "ondodge_buffs": [
       {
         "id": "mma_buff_hylian_ondodge",
         "name": "Flurry Rush",
         "description": "When you perfectly dodge an attack, you can attack rapidly for a short time.\n\n-25% move cost.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "forbidden_buffs_all": [ "mma_buff_hylian_spin", "mma_buff_hylian_onpause_2" ],
         "melee_allowed": true,
         "buff_duration": 1,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
@@ -151,6 +165,7 @@
         "name": "Dash Attack",
         "description": "Taking advantage of momentum, you rush towards foes to deliver a powerful strike.\n\n+10% damage.\nLasts 1 turn.  Stacks 3 times.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "forbidden_buffs_all": [ "mma_buff_hylian_spin" ],
         "melee_allowed": true,
         "buff_duration": 1,
         "max_stacks": 3,
@@ -167,6 +182,7 @@
         "name": "Charge Up",
         "description": "By taking a moment to prepare, you can unleash a strong, spinning slash!\n\n+20% damage.\nEnables \"Spin Attack\" technique.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "forbidden_buffs_all": [ "mma_buff_hylian_spin" ],
         "melee_allowed": true,
         "buff_duration": 1,
         "mult_bonuses": [
@@ -174,11 +190,20 @@
           { "stat": "damage", "type": "cut", "scale": 1.2 },
           { "stat": "damage", "type": "stab", "scale": 1.2 }
         ]
+      },
+      {
+        "id": "mma_buff_hylian_onpause_2",
+        "name": "Greater Charge Up",
+        "description": "By charging a second time, you are able to keep on spinning with slightly less destructive force after the first spin.\n\n\n\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "required_buffs_all": [ "mma_buff_hylian_onpause" ],
+        "weapon_categories_allowed": [ "HYLIAN_MASTER_SWORD" ],
+        "melee_allowed": true,
+        "buff_duration": 1
       }
     ],
     "techniques": [ "mma_tec_hylian_spin", "mma_tec_hylian_wide" ],
-    "weapons": [ "cudgel", "ladle", "sickle", "stick", "torch", "torch_lit" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS", "HYLIAN_IMPROV_WEAPONS", "HYLIAN_MASTER_SWORD" ]
   },
   {
     "type": "martial_art",
@@ -591,17 +616,6 @@
       }
     ],
     "techniques": [ "mma_tec_tiger_claw_break" ],
-    "weapons": [
-      "bagh_nakha",
-      "battleaxe",
-      "battleaxe_inferior",
-      "battleaxe_fake",
-      "bio_claws_weapon",
-      "hand_axe",
-      "hatchet",
-      "kukri",
-      "makeshift_axe"
-    ],
-    "weapon_category": [ "GREAT_AXES" ]
+    "weapon_category": [ "CLAWS", "HAND_AXES", "GREAT_AXES", "EXEMPLAR_WEAPON_TIGER_CLAW" ]
   }
 ]

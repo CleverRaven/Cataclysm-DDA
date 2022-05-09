@@ -15,7 +15,7 @@
     "color": "white",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
+      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5, "breathability": "GOOD" }
     ],
     "warmth": 10,
     "material_thickness": 1,
@@ -38,6 +38,8 @@
     "looks_like": "balclava",
     "color": "light_red",
     "material_thickness": 4,
+    "warmth": 5,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
@@ -63,6 +65,8 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
+    "warmth": 5,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
@@ -247,7 +251,7 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
-    "warmth": 30,
+    "warmth": 25,
     "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] } ]
@@ -285,7 +289,7 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
-    "warmth": 30,
+    "warmth": 25,
     "material_thickness": 3.2,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] } ]
@@ -321,9 +325,9 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.3,
-    "environmental_protection": 1,
+    "environmental_protection": 2,
     "flags": [ "WATERPROOF", "OUTER", "SOFT" ],
     "armor": [ { "coverage": 100, "covers": [ "head" ] } ]
   },
@@ -384,8 +388,9 @@
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 4 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 5 }
     ],
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE" ]
   }
 ]

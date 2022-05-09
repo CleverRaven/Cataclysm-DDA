@@ -571,7 +571,7 @@
         { "chance": 10, "item": "stoner", "x": 20, "y": 9 },
         { "chance": 25, "item": "softdrugs", "x": 8, "y": 12 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 14, "y": 11 } ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": 14, "y": 11 } ],
       "place_toilets": [ { "x": 10, "y": 13 } ],
       "place_vehicles": [ { "chance": 35, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "raft", "x": 2, "y": 18 } ],
       "rows": [
@@ -954,7 +954,7 @@
         { "chance": 45, "item": "magazines", "x": 14, "y": 11 },
         { "chance": 55, "item": "cannedfood", "x": [ 13, 14 ], "y": 8 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 14, "y": 10 } ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": 14, "y": 10 } ],
       "place_toilets": [ { "x": 20, "y": 9 } ],
       "place_vehicles": [ { "chance": 35, "fuel": 0, "rotation": 90, "status": -1, "vehicle": "canoe", "x": 1, "y": 21 } ],
       "rows": [
@@ -1069,7 +1069,7 @@
         { "chance": 45, "item": "clutter_yard", "x": 7, "y": 13 },
         { "chance": 45, "item": "tools_earthworking", "x": 8, "y": 16 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 14, "y": 8 } ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": 14, "y": 8 } ],
       "place_toilets": [ { "x": 17, "y": 12 } ],
       "place_vehicles": [ { "chance": 25, "fuel": 0, "rotation": 270, "status": 0, "vehicle": "canoe", "x": 2, "y": 19 } ],
       "rows": [
@@ -1178,7 +1178,7 @@
         { "chance": 55, "item": "fridge", "x": 17, "y": 9 },
         { "chance": 35, "item": "cannedfood", "x": 17, "y": [ 6, 7 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 17, "y": 19 }, { "monster": "GROUP_ZOMBIE", "x": 4, "y": 17 } ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": 17, "y": 19 }, { "monster": "GROUP_BEACH", "x": 4, "y": 17 } ],
       "place_toilets": [ { "x": 17, "y": 11 } ],
       "rows": [
         ".._............_...._...",
@@ -1276,7 +1276,7 @@
         { "chance": 45, "item": "kitchen", "x": 13, "y": 9 },
         { "chance": 45, "item": "alcohol", "x": 13, "y": 8 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 10, "y": 15 } ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": 10, "y": 15 } ],
       "rows": [
         ".._......_....._...._...",
         "......._....._..._......",
@@ -1384,7 +1384,7 @@
         { "chance": 75, "item": "butcher_tools", "x": 19, "y": 9 },
         { "chance": 75, "item": "butcher_tools", "x": 14, "y": 8 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 8, "y": 10 } ],
+      "place_monsters": [ { "monster": "GROUP_BEACH", "x": 8, "y": 10 } ],
       "place_vehicles": [ { "chance": 15, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "canoe", "x": 13, "y": 19 } ],
       "rows": [
         "......._......_._._.....",

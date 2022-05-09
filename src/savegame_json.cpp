@@ -2682,6 +2682,7 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "comps_used", comps_used );
     jsout.member( "next_failure_point", next_failure_point );
     jsout.member( "tools_to_continue", tools_to_continue );
+    jsout.member( "batch_size", batch_size );
     jsout.member( "cached_tool_selections", cached_tool_selections );
     jsout.end_object();
 }
@@ -2699,6 +2700,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
     obj.read( "comps_used", comps_used );
     next_failure_point = obj.get_int( "next_failure_point", -1 );
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
+    batch_size = obj.get_int( "batch_size", -1 );
     obj.read( "cached_tool_selections", cached_tool_selections );
 }
 
@@ -3009,6 +3011,12 @@ void item::deserialize( const JsonObject &data )
                 contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
             }
         }
+    }
+
+    // FIXME: batch_size migration from charges - remove after 0.G
+    if( is_craft() and craft_data_->batch_size == -1 ) {
+        craft_data_->batch_size = clamp( charges, 1, charges );
+        charges = 0;
     }
 
     if( !has_itype_variant( false ) && can_have_itype_variant() ) {
@@ -4221,6 +4229,21 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "dumping_spot", dumping_spot );
+        json.member( "hidden_missions" );
+        json.start_array();
+        for( const auto &list : hidden_missions ) {
+            json.start_object();
+            json.member( "dir" );
+            json.start_array();
+            for( const auto &miss_id : list ) {
+                json.start_object();
+                json.member( "mission_id", string_of( miss_id.id ) );
+                json.end_object();
+            }
+            json.end_array();
+            json.end_object();
+        }
+        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {
@@ -4290,6 +4313,25 @@ void basecamp::deserialize( const JsonObject &data )
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     data.read( "dumping_spot", dumping_spot );
+    for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
+        std::vector<ui_mission_id> temp;
+        hidden_missions.push_back( temp );
+    }
+    int tab_num = base_camps::TAB_MAIN;
+    for( JsonObject list : data.get_array( "hidden_missions" ) ) {
+        list.allow_omitted_members();
+        for( JsonObject miss_id_json : list.get_array( "dir" ) ) {
+            miss_id_json.allow_omitted_members();
+            std::string miss_id_string;
+            miss_id_json.read( "mission_id", miss_id_string );
+            ui_mission_id miss_id;
+            miss_id.id = mission_id_of( miss_id_string );
+            miss_id.ret = false;
+            hidden_missions[tab_num].push_back( miss_id );
+        }
+        tab_num++;
+    }
+
     for( JsonObject edata : data.get_array( "expansions" ) ) {
         edata.allow_omitted_members();
         expansion_data e;

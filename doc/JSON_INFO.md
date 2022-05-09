@@ -26,6 +26,8 @@ Use the `Home` key to return to the top.
   - [`data/json/` JSONs](#datajson-jsons)
     - [Ascii_arts](#ascii_arts)
     - [Addiction types](#addiction-types)
+    - [Body Graphs](#body-graphs)
+      - [Graph Parts](#graph-parts)
     - [Body_parts](#body_parts)
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
@@ -51,6 +53,7 @@ Use the `Home` key to return to the top.
       - [`points`](#points)
       - [`addictions`](#addictions)
       - [`skills`](#skills)
+      - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
       - [`items`](#items)
       - [`pets`](#pets)
@@ -74,6 +77,7 @@ Use the `Home` key to return to the top.
     - [Skills](#skills)
     - [Speed Description](#speed-description)
     - [Mood Face](#mood-face)
+    - [Tool Qualities](#tool-qualities)
     - [Traits/Mutations](#traitsmutations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
@@ -99,6 +103,7 @@ Use the `Home` key to return to the top.
     - [Armor](#armor)
       - [Armor Portion Data](#armor-portion-data)
         - [Encumbrance](#encumbrance)
+        - [Encumbrance_modifiers](#encumbrance_modifiers)
         - [Coverage](#coverage)
         - [Covers](#covers)
         - [Specifically Covers](#specifically-covers)
@@ -215,7 +220,7 @@ Use the `Home` key to return to the top.
   - [`professions`](#professions)
   - [`map_special`](#map_special)
   - [`eocs`](#eocs)
-  - [`missions`](#missions)
+  - [`missions`](#missions-1)
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
@@ -674,6 +679,83 @@ Current hardcoded builtins:
 - `amphetamine_effect`
 - `cocaine_effect`
 - `crack_effect`
+
+
+### Body Graphs
+
+Body graphs are displayed in the body status menu, accessible by pressing `s` on the player's @-screen.
+These are interactive graphs that highlight different body parts or sub body parts.
+
+```JSON
+{
+  "type": "body_graph",
+  "id": "head",
+  "parent_bodypart": "head",
+  "fill_sym": "#",
+  "fill_color": "white",
+  "rows": [
+    "             7777777777777              ",
+    "          7777777777777777777           ",
+    "         777777777777777777777          ",
+    "        ######66666666666######         ",
+    "        ####666666666666666####         ",
+    "        ####666666666666666####         ",
+    "      9 #####6666666666666##### 0       ",
+    "      99#####111###4###222#####00       ",
+    "      99####11111#444#22222####00       ",
+    "      99##5555555544455555555##00       ",
+    "       9##5555555544455555555##0        ",
+    "        ##5555555444445555555##         ",
+    "         ###555533333335555###          ",
+    "          #####333333333#####           ",
+    "           #######333#######            ",
+    "            ###############             ",
+    "            8 ########### 8             ",
+    "         8888888 ##### 8888888          ",
+    "       88888888888   88888888888        ",
+    "           88888888888888888            "
+  ],
+  "parts": {
+    "1": { "sub_body_parts": [ "eyes_left" ], "select_color": "red", "nested_graph": "eyes" },
+    "2": { "sub_body_parts": [ "eyes_right" ], "select_color": "red", "nested_graph": "eyes" },
+    "3": { "sub_body_parts": [ "mouth_lips" ], "select_color": "red", "nested_graph": "mouth" },
+    "4": { "sub_body_parts": [ "mouth_nose" ], "select_color": "red", "nested_graph": "mouth" },
+    "5": { "sub_body_parts": [ "mouth_cheeks" ], "select_color": "red", "nested_graph": "mouth" },
+    "6": { "sub_body_parts": [ "head_forehead" ], "select_color": "red" },
+    "7": { "sub_body_parts": [ "head_crown" ], "select_color": "red" },
+    "8": { "sub_body_parts": [ "head_throat", "head_nape" ], "select_color": "red" },
+    "9": { "sub_body_parts": [ "head_ear_r" ], "select_color": "red" },
+    "0": { "sub_body_parts": [ "head_ear_l" ], "select_color": "red" }
+  }
+}
+```
+
+| Field | description
+|--- |---
+| `type` | Always `body_graph`.
+| `id` | String uniquely identifying this graph.
+| `parent_bodypart` | (_optional_) ID of the parent body part of this graph, if any. Only used to display the current body part as the window's subtitle.
+| `fill_sym` | (_optional_) Specifies a character to fill all sections of the graph when viewing in-game.
+| `fill_color` | (_optional_) Specifies a color to use for unselected sections of the graph when viewing in-game.
+| `rows` | Array of strings that form the graph. The symbols used for each fragment may correspond to an entry in `parts`, which form the sections of the graph. Empty spaces (` `) are ignored for the purposes of filling.
+| `mirror` | (_optional_) Can be specified instead of `rows`. This takes a string ID refering to a different body_graph, which will be flipped horizontally and used as the rows in this graph (ex: `hand_l` mirrors `hand_r`).
+| `parts` | A list of symbols present in the graph that correspond to specific body parts or sub body parts.
+
+The resolution limit for the `rows` field is 40x20, in order to maintain compatibility with 80x24 terminals.
+
+#### Graph Parts
+
+The `parts` field can be used to define the interaction with different sections of the graph. Each part should
+reference at least one body part or sub body part.
+
+| Field | description
+|--- |---
+| `body_parts` | An array of `body_part` IDs that are represented by this graph section.
+| `sub_body_parts` | An array of `sub_body_part` IDs that are represented by this graph section.
+| `sym` | (_optional_) A symbol to override fragments belonging to this section.
+| `select_color` | (_optional_) Color to use when selecting this section.
+| `nested_graph` | (_optional_) ID of another body_graph. When the player selects and confirms this section, the UI switches to the given nested graph.
+
 
 ### Body_parts
 
@@ -1375,6 +1457,17 @@ Example:
 "skills": [
     { "name": "archery", "level": 2 }
 ]
+```
+
+#### `missions`
+
+(optional, array of mission ids)
+
+List of starting missions for this profession/hobby.
+
+Example:
+```JSON
+"missions": [ "MISSION_LAST_DELIVERY" ]
 ```
 
 #### `proficiencies`
@@ -2174,6 +2267,52 @@ The `id` must be exact as it is hardcoded to look for that.
 
 `HORIZONTAL` means 3 characters width.
 
+### Tool Qualities
+
+Defined in tool_qualities.json.
+
+Format and syntax:
+```C++
+{
+  "type": "tool_quality",
+  "id": "SAW_W",                      // Unique ID
+  "name": { "str": "wood sawing" },   // Description used in tabs in-game when looking at entries with the id
+  "usages": [ [ 2, [ "LUMBER" ] ] ]   // Not mandatory.  The special actions that may be performed with the item.
+},
+```
+
+Examples of various usages syntax:
+```C++
+"usages": [ [ 1, [ "PICK_LOCK" ] ] ]
+"usages": [ [ 2, [ "LUMBER" ] ] ]
+"usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+"usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ]
+"usages": [ [ 1, [ "CHOP_TREE", "CHOP_LOGS" ] ], [ 2, [ "LUMBER" ] ] ]
+```
+
+The usages line is only required for items that have qualities that allow 
+special actions on activation. See [Use Actions](#use-actions) for specific
+actions and documentation.
+
+IDs of actions and the plaintext action description for the player are defined
+in item_actions.json.
+
+Each usage must be defined first by the minimum level of the tool quality that
+is required for that action to be possible, then the ID of the action or array
+of actions that is possible with that tool quality level or greater.
+
+As shown in the examples, one or more actions for multiple tool levels may be
+defined and if multiple levels are defined, those must be defined in a
+higher order array.
+
+Comment lines using the normal `"//"` (or `"//1"`, or higher numbers) format are
+allowed (see [Comments](#comments)).
+
+Qualities are (non-exclusively) associated with items in the various item
+definitions in the json files by adding a `"qualities":` line.
+For example: `"qualities": [ [ "ANVIL", 2 ] ],` associates the `ANVIL` quality
+at level `2` to the item.
+
 ### Traits/Mutations
 
 ```C++
@@ -2344,7 +2483,9 @@ The `id` must be exact as it is hardcoded to look for that.
       "sound_variant": "bear_trap",
       "remove_trap": true,
       "spawn_items": [ "beartrap" ]
-    }
+    },
+    "trigger_message_u": "A bear trap closes on your foot!",  // This message will be printed when player steps on a trap
+    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!"  // This message will be printed when NPC or monster step on a trap
 ```
 
 ### Vehicle Groups
@@ -2856,6 +2997,9 @@ Encumbrance and coverage can be defined on a piece of armor as such:
 (integer, or array of 2 integers)
 The value of this field (or, if it is an array, the first value in the array) is the base encumbrance (unfitted) of this item.
 When specified as an array, the second value is the max encumbrance - when the pockets of this armor are completely full of items, the encumbrance of a non-rigid item will be set to this. Otherwise it'll be between the first value and the second value following this the equation: first value + (second value - first value) * non-rigid volume / non-rigid capacity.  By default, the max encumbrance is the encumbrance + (non-rigid volume / 250ml).
+
+##### Encumbrance_modifiers
+Experimental feature for having an items encumbrance be generated by weight instead of a fixed number. Takes an array of "DESCRIPTORS" described in the code. If you don't need any descriptors put "NONE". This overrides encumbrance putting it as well will make it be ignored. Currently only works for head armor.
 
 ##### Coverage
 (integer)
@@ -3496,6 +3640,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type": "transform",  // The type of method, in this case one that transforms the item.
     "target": "gasoline_lantern_on", // The item to transform to.
     "active": true,       // Whether the item is active once transformed.
+    "ammo_scale": 0,    // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo.
     "msg": "You turn the lamp on.", // Message to display when activated.
     "need_fire": 1,                 // Whether fire is needed to activate.
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
@@ -3699,7 +3844,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.
-    "long_action" : true,   // Is using this item a long action. Setting this to true will divide move cost by (first aid skill + 1).
     "limb_scaling" : 1.2,   // How much extra limb hp should be healed per first aid level. Defaults to 0.25 * limb_power.
     "head_scaling" : 1.0,   // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * head_power.
     "torso_scaling" : 2.0,  // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * torso_power.

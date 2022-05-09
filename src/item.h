@@ -2534,9 +2534,7 @@ class item : public visitable
         inline void remove_old_owner() const {
             old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( const faction_id &new_owner ) {
-            owner = new_owner;
-        }
+        void set_owner( const faction_id &new_owner );
         void set_owner( const Character &c );
         inline void remove_owner() const {
             owner = faction_id::NULL_ID();
@@ -2557,6 +2555,7 @@ class item : public visitable
          * @return the recipe in progress
          */
         const recipe &get_making() const;
+        int get_making_batch_size() const;
 
         /**
          * Get the failure point stored in this item.
@@ -2799,6 +2798,7 @@ class item : public visitable
                 std::vector<item_comp> comps_used;
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
+                int batch_size = -1;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
                 cata::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
                 cata::optional<units::volume> cached_volume; // NOLINT(cata-serialize)

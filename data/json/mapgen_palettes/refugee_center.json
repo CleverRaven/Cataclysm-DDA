@@ -17,6 +17,7 @@
       "!": "t_fence_barbed",
       "=": "t_door_metal_locked",
       ">": "t_stairs_down",
+      "<": "t_stairs_up",
       "E": "t_elevator",
       "U": "t_sidewalk",
       "V": "t_reinforced_glass",
@@ -53,6 +54,7 @@
       "t": "f_toilet",
       "u": "f_utility_shelf",
       "v": "f_utility_shelf",
+      "w": "f_utility_shelf",
       "z": "f_crate_c",
       "}": "f_rubble",
       "~": "f_shower"

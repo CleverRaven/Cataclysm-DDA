@@ -468,7 +468,7 @@
       {
         "id": "m16a3",
         "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
       },
       {
         "id": "scar_l",
@@ -1254,5 +1254,43 @@
     "volume": "250 ml",
     "bashing": 1,
     "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "data_card",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "data card" },
+    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.  Didn't someone want this?",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "18 g",
+    "volume": "1 ml",
+    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
+    "to_hit": -3
+  },
+  {
+    "id": "mind_scan_robofac",
+    "type": "GENERIC",
+    "name": { "str_sp": "neural data" },
+    "symbol": "#",
+    "container": "data_card",
+    "description": "Data stolen from a dead scientist memory banks.  Is the owner of these thoughts still hidden here, amidst the unreadable data; or are these just a collection of the precious moments of someone's life?\n\nWhatever the case, the idea of perpetually keeping a part of you within a metallic pill makes you feel uncomfortable.",
+    "flags": [ "NO_DROP" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "mind_splicer",
+    "symbol": "o",
+    "color": "white",
+    "name": { "str": "mind splicer kit" },
+    "description": "Surgical forceps, cables and a modified smartphone inside a small plastic pouch.  Assembled to steal the mind of some poor man, these are tools of the creepy high-tech sandman.",
+    "material": [ "plastic" ],
+    "price": 12500,
+    "price_postapoc": 500,
+    "volume": "1 L",
+    "weight": "600 g",
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

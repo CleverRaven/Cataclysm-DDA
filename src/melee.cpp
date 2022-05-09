@@ -503,8 +503,9 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
         if( mod_type == enchant_vals::mod::NUM_MOD ) {
             return val;
         } else {
-            return enchantment_cache->modify_value( dt_to_ench_dt( dt ), val );
+            val = enchantment_cache->modify_value( dt_to_ench_dt( dt ), val );
         }
+        return enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE, val );
     };
 
     for( damage_unit du : dam ) {
@@ -519,6 +520,8 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
             continue;
         }
         modified.add_damage( converted, modify_damage_type( converted, 0.0f ) );
+        modified.add_damage( converted, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
+                             0.0f ) );
     }
 
     return modified;
@@ -536,6 +539,11 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     if( !is_adjacent( &t, fov_3d ) ) {
         return false;
     }
+
+    // Max out recoil & reset aim point
+    recoil = MAX_RECOIL;
+    last_target_pos = cata::nullopt;
+
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
 }
 

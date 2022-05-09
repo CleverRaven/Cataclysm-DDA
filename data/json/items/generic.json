@@ -270,7 +270,7 @@
     "symbol": "*",
     "color": "green",
     "name": { "str": "fertilizer" },
-    "description": "A token, representing fertilization of a plant.",
+    "description": "A token representing fertilization of a plant.",
     "material": [ "veggy" ],
     "flags": [ "ZERO_WEIGHT" ]
   },
@@ -603,19 +603,21 @@
     "to_hit": -3
   },
   {
+    "id": "robofac_hardcase",
     "type": "GENERIC",
-    "id": "data_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "data card" },
-    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.",
-    "price": 10000,
-    "price_postapoc": 50,
-    "material": [ "plastic" ],
-    "weight": "18 g",
-    "volume": "1 ml",
-    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
-    "to_hit": -3
+    "name": { "str": "DARPA hard case" },
+    "description": "A heavy and very durable protective case made of steel and thick plastic, locked with a six dials.  A sticker with the logo of DARPA is attached to the front, but looking at the surface, you can see that another marking - formerly stenciled into the material - was recently and hastily destroyed.",
+    "weight": "1202 g",
+    "volume": "7958 ml",
+    "longest_side": "30 cm",
+    "price": 0,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "bashing": 4,
+    "material": [ "steel", "thermo_resin" ],
+    "symbol": "?",
+    "looks_like": "briefcase",
+    "color": "light_gray",
+    "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
@@ -3920,5 +3922,47 @@
     "volume": "80 L",
     "bashing": 14,
     "to_hit": -2
+  },
+  {
+    "id": "cash_register",
+    "type": "GENERIC",
+    "category": "container",
+    "symbol": "$",
+    "color": "dark_gray",
+    "name": { "str": "cash register" },
+    "description": "An electronic device for registering and calculating sales transactions.  It doesn't seem to be working.",
+    "price": 23600,
+    "price_postapoc": 200,
+    "material": [ "plastic", "steel" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "5 kg",
+    "volume": "22 L",
+    "longest_side": "36 cm",
+    "bashing": 12,
+    "to_hit": -2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_weight": "2 kg",
+        "max_contains_volume": "1 L",
+        "moves": 100,
+        "item_restriction": [
+          "money_one",
+          "money_two",
+          "money_five",
+          "money_ten",
+          "money_twenty",
+          "money_fifty",
+          "coin_penny",
+          "coin_nickel",
+          "coin_dime",
+          "coin_quarter",
+          "coin_half_dollar",
+          "coin_dollar",
+          "survnote"
+        ]
+      }
+    ]
   }
 ]

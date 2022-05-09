@@ -412,7 +412,7 @@
       "WITHER_MAGE"
     ],
     "flags": [ "ATTUNEMENT" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.2 } ] } ]
+    "enchantments": [ "FORCE_MAGE" ]
   },
   {
     "id": "GAIAS_CHOSEN",
