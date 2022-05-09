@@ -1702,7 +1702,7 @@ static std::vector<player_activity> get_test_activities( avatar &dummy, map &m )
         //player_activity( disassemble_activity_actor( 1 ) ),
         player_activity( drop_activity_actor() ),
         //player_activity( ebooksave_activity_actor( loc, loc ) ),
-        player_activity( firstaid_activity_actor( 1, std::string() ) ),
+        player_activity( firstaid_activity_actor( 1, std::string(), dummy.getID() ) ),
         player_activity( forage_activity_actor( 1 ) ),
         player_activity( gunmod_remove_activity_actor( 1, loc, 0 ) ),
         player_activity( hacking_activity_actor() ),

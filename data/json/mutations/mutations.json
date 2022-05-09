@@ -1284,6 +1284,15 @@
   },
   {
     "type": "mutation",
+    "id": "PROF_ASSASSIN_CONVICT",
+    "name": { "str": "Assassin Convict" },
+    "points": 0,
+    "description": "You have a target to kill.  Search it, find it, and eliminate whatever it is now.",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "ASTHMA",
     "name": { "str": "Asthmatic" },
     "points": -4,

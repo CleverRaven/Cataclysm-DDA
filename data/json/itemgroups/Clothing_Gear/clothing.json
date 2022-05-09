@@ -1431,6 +1431,7 @@
       [ "eclipse_glasses", 1 ],
       [ "thermos", 20 ],
       [ "camera_bag", 5 ],
+      [ "quiver_takedown_bow", 1 ],
       [ "santa_jacket", 1 ],
       [ "santa_jacket_short", 1 ],
       [ "santa_shorts", 1 ],
@@ -1833,7 +1834,8 @@
       { "item": "rucksack", "prob": 20 },
       { "item": "backpack_leather", "prob": 8 },
       { "item": "briefcase", "prob": 10 },
-      { "item": "leg_bag", "prob": 1 }
+      { "item": "leg_bag", "prob": 1 },
+      { "item": "quiver_takedown_bow", "prob": 1 }
     ]
   },
   {
@@ -2925,6 +2927,7 @@
       [ "slingpack", 12 ],
       [ "rucksack", 12 ],
       [ "duffelbag", 8 ],
+      [ "quiver_takedown_bow", 1 ],
       [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
       [ "mask_hockey", 26 ],
@@ -3621,6 +3624,7 @@
           { "item": "case_violin", "prob": 5 },
           { "item": "bookstrap", "prob": 5 },
           { "item": "camera_bag", "prob": 20 },
+          { "item": "quiver_takedown_bow", "prob": 2 },
           { "item": "quiver", "prob": 20 },
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },

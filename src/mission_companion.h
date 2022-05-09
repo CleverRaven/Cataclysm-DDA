@@ -39,6 +39,7 @@ enum mission_kind : int {
     //  Jobs assigned to companions for external parties
     Scavenging_Patrol_Job,
     Scavenging_Raid_Job,
+    Hospital_Raid_Job,
     Menial_Job,
     Carpentry_Job,
     Forage_Job,
@@ -182,6 +183,7 @@ void field_plant( npc &p, const std::string &place );
 void field_harvest( npc &p, const std::string &place );
 bool scavenging_patrol_return( npc &p );
 bool scavenging_raid_return( npc &p );
+bool hospital_raid_return( npc &p );
 bool labor_return( npc &p );
 bool carpenter_return( npc &p );
 bool forage_return( npc &p );

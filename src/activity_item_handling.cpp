@@ -1255,9 +1255,16 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             part_con_idx = part_con->id;
         }
 
-        tripoint const nearest_src_loc = square_dist( you.pos(), src_loc ) == 1
-                                         ? you.pos()
-                                         : route_adjacent( you, src_loc ).back();
+        tripoint nearest_src_loc;
+        if( square_dist( you.pos(), src_loc ) == 1 ) {
+            nearest_src_loc = you.pos();
+        } else {
+            std::vector<tripoint> const route = route_adjacent( you, src_loc );
+            if( route.empty() ) {
+                return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
+            }
+            nearest_src_loc = route.back();
+        }
         const inventory pre_inv = you.crafting_inventory( nearest_src_loc, PICKUP_RANGE );
         if( !zones.empty() ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>

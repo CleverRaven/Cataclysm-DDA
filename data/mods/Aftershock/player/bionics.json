@@ -77,7 +77,7 @@
   {
     "id": "bio_forcefield_bash_cut_weak",
     "type": "bionic",
-    "name": { "str": "Weak Gravity Manipulation Field" },
+    "name": { "str": "HawkingCorps GravyField Mark I" },
     "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of gravity fields and how it causes this to happen are trade secrets.  -From the owners manual of HawkingCorps GravyField Mark I.  Activating the field will reduce incoming bashing and cut damage by 5 points.",
     "occupied_bodyparts": [ [ "torso", 8 ] ],
     "available_upgrades": [ "bio_forcefield_bash_cut_medium", "bio_forcefield_bash_cut_heavy" ],
@@ -90,8 +90,8 @@
   {
     "id": "bio_forcefield_bash_cut_medium",
     "type": "bionic",
-    "name": { "str": "Combat Rated Gravity Manipulation Field" },
-    "description": "The HawkingCorps GravyField Mark 2 was designed for police actions during food riots and other civilian uprisings.  It has proven capable of protecting against most improvised weapons.  Activating the field will reduce incoming bashing and cut damage by 15 points.",
+    "name": { "str": "HawkingCorps GravyField Mark II" },
+    "description": "The HawkingCorps GravyField Mark II was designed for police actions during food riots and other civilian uprisings.  It has proven capable of protecting against most improvised weapons.  Activating the field will reduce incoming bashing and cut damage by 15 points.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "upgraded_bionic": "bio_forcefield_bash_cut_weak",
     "available_upgrades": [ "bio_forcefield_bash_cut_heavy" ],
@@ -104,7 +104,7 @@
   {
     "id": "bio_forcefield_bash_cut_heavy",
     "type": "bionic",
-    "name": { "str": "Debt Collection Agent Personal GravyField" },
+    "name": { "str": "Debt Collection Agent GravyField" },
     "description": "This class of personal gravity manipulator often sees action on both sides of the vicious ship-to-ship boarding fights that are common with both repossession and piracy.  It remains practically impenetrable to melee weapons that lack sharp piercing points.  Activating the field will reduce incoming bashing and cut damage by 25 points.",
     "occupied_bodyparts": [ [ "torso", 14 ] ],
     "upgraded_bionic": "bio_forcefield_bash_cut_medium",
@@ -144,7 +144,7 @@
   {
     "id": "bio_forcefield_ballistic_heavy",
     "type": "bionic",
-    "name": { "str": "Kinetic annulment system CBM" },
+    "name": { "str": "Kinetic Annulment System" },
     "description": "A kinetic attenuation system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  Activating the field will reduce incoming ballistic and piercing damage by 40 points.",
     "occupied_bodyparts": [ [ "torso", 14 ] ],
     "upgraded_bionic": "bio_forcefield_ballistic_medium",
@@ -165,7 +165,7 @@
   {
     "id": "afs_bio_translocator",
     "type": "bionic",
-    "name": { "str": "Implanted translocator CBM" },
+    "name": { "str": "Implanted Translocator" },
     "description": "An experimental teleportation system carefully weaved into bone marrow and alongside your skeletal system.  Allows you to safely and readily teleport toward previously activated telepads.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "act_cost": "12 kJ",
@@ -195,7 +195,7 @@
   {
     "type": "bionic",
     "id": "afs_bio_skullgun",
-    "name": { "str": "Skullgun CBM" },
+    "name": { "str": "Skullgun" },
     "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
     "occupied_bodyparts": [ [ "head", 5 ] ],
     "encumbrance": [ [ "head", 5 ] ],
@@ -209,7 +209,7 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - Arms" },
+    "name": { "str": "Arms Intradermal Alloy" },
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
@@ -305,7 +305,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - Head" },
+    "name": { "str": "Head Intradermal Alloy" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "bash_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
@@ -415,7 +415,7 @@
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - Torso" },
+    "name": { "str": "Torso Intradermal Alloy" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "bash_protec": [ [ "torso", 3 ] ],
@@ -496,7 +496,7 @@
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - Legs" },
+    "name": { "str": "Legs Intradermal Alloy" },
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],

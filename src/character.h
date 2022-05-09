@@ -883,7 +883,6 @@ class Character : public Creature, public visitable
         int dodges_left;
 
         double recoil = MAX_RECOIL;
-        double steadiness = 1.0;
 
         std::string custom_profession;
 
@@ -1572,7 +1571,8 @@ class Character : public Creature, public visitable
                                          bool empty = true ) const;
 
         /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts,
+                                         const std::string name_override = std::string() ) const;
 
         void process_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
