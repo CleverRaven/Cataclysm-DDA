@@ -687,5 +687,16 @@
     "description": "A violent escape.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_van" },
     "min_max_zlevel": [ 0, 0 ]
+  },
+  {
+    "id": "mx_XEDRA_truck",
+    "type": "map_extra",
+    "name": { "str": "Unmarked Armored Truck" },
+    "description": "An umarked armored truck.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_XEDRA_truck" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "X",
+    "color": "red",
+    "autonote": true
   }
 ]
