@@ -2610,14 +2610,20 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
 
 void talk_effect_fun_t::set_remove_npc( const JsonObject &jo, const std::string &member )
 {
-    std::string npc_id;
-    mandatory( jo, false, member, npc_id );
-    function = [npc_id]( const dialogue & ) {
-        std::vector<npc *> npc_list = g->get_npcs_if( [npc_id]( const npc & npc ) -> bool {
-            return npc.idz == npc_id;
-        } );
-        for( npc *npc : npc_list ) {
-            overmap_buffer.remove_npc( npc->getID() );
+    std::string nclass;
+    std::string chatbin;
+    std::string unique_id;
+    JsonObject const jot = jo.get_object( member );
+    optional( jot, false, "class", nclass );
+    optional( jot, false, "chat", chatbin );
+    optional( jot, false, "unique_id", unique_id );
+    function = [nclass, chatbin, unique_id]( const dialogue & ) {
+        for( auto const &npc : overmap_buffer.get_overmap_npcs() ) {
+            if( ( nclass.empty() or npc->myclass == npc_class_id( nclass ) ) and
+                ( chatbin.empty() or npc->chatbin.first_topic == chatbin ) and
+                ( unique_id.empty() or unique_id == npc->get_unique_id() ) ) {
+                overmap_buffer.remove_npc( npc->getID() );
+            }
         }
     };
 }
@@ -4345,7 +4351,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else if( jo.has_member( "remove_npc" ) ) {
-        subeffect_fun.set_mapgen_update( jo, "remove_npc" );
+        subeffect_fun.set_remove_npc( jo, "remove_npc" );
     } else if( jo.has_member( "revert_location" ) ) {
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {
