@@ -368,6 +368,13 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
     }
 }
 
+void advanced_inv_area::reset_container_type( const item_location& it )
+{
+    (id == AIM_CONTAINER_L ? uistate.adv_inv_container_content_type : uistate.adv_inv_rcontainer_content_type) = !it->is_container_empty() ? it->legacy_front().typeId() :
+        itype_id::NULL_ID();
+    set_container_position();
+}
+
 bool advanced_inv_area::is_container_valid( const item *it ) const
 {
     if( it != nullptr ) {
