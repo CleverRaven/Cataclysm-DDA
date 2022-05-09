@@ -1177,7 +1177,7 @@
         }
       },
       "place_monster": [
-        { "monster": [ [ "mon_march_lord" ] ], "x": 2, "y": 7 }
+        { "monster": [ "mon_march_lord" ], "x": 2, "y": 7 }
       ]
     }
   },
@@ -1211,7 +1211,7 @@
         }
       },
       "place_monster": [
-        { "monster": [ [ "mon_march_lord" ] ], "x": 2, "y": 7 }
+        { "monster": [ "mon_march_lord" ], "x": 2, "y": 7 }
       ]
     }
   },
