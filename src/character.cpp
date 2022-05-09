@@ -532,6 +532,8 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    daily_sleep = 0_turns;
+    continuous_sleep = 0_turns;
     set_rad( 0 );
     slow_rad = 0;
     set_stim( 0 );
@@ -4145,6 +4147,36 @@ void Character::set_sleep_deprivation( int nsleep_deprivation )
 {
     sleep_deprivation = std::min( static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ), std::max( 0,
                                   nsleep_deprivation ) );
+}
+
+time_duration Character::get_daily_sleep() const
+{
+    return daily_sleep;
+}
+
+void Character::mod_daily_sleep( time_duration mod )
+{
+    daily_sleep += mod;
+}
+
+void Character::reset_daily_sleep()
+{
+    daily_sleep = 0_turns;
+}
+
+time_duration Character::get_continuous_sleep() const
+{
+    return continuous_sleep;
+}
+
+void Character::mod_continuous_sleep( time_duration mod )
+{
+    continuous_sleep += mod;
+}
+
+void Character::reset_continuous_sleep()
+{
+    continuous_sleep = 0_turns;
 }
 
 int Character::get_fatigue() const

@@ -236,6 +236,27 @@ void Character::update_body( const time_point &from, const time_point &to )
         mend( five_mins * to_turns<int>( 5_minutes ) );
         activity_history.reset_activity_level();
     }
+    bool was_sleeping = get_value( "was_sleeping" ) == "true";
+    if( in_sleep_state() && was_sleeping ) {
+        mod_daily_sleep( to - from );
+        mod_continuous_sleep( to - from );
+    }
+    if( was_sleeping && !in_sleep_state() ) {
+        if( get_continuous_sleep() >= 6_hours ) {
+            set_value( "sleep_health_mult", "2" );
+        }
+        reset_continuous_sleep();
+    }
+    if( calendar::once_every( 12_hours ) ) {
+        const int sleep_health_mult = get_value( "sleep_health_mult" ) == "2" ? 2 : 1;
+        mod_healthy_mod( sleep_health_mult * to_hours<int>( get_daily_sleep() ), 10 );
+        set_value( "sleep_health_mult", "1" );
+    }
+    if( calendar::once_every( 1_days ) ) {
+        reset_daily_sleep();
+    }
+    set_value( "was_sleeping", in_sleep_state() ? "true" : "false" );
+
 
     activity_history.new_turn( in_sleep_state() );
     if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {

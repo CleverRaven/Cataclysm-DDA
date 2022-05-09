@@ -650,6 +650,10 @@ void Character::load( const JsonObject &data )
 
     data.read( "custom_profession", custom_profession );
 
+    // sleep
+    data.read( "daily_sleep", daily_sleep );
+    data.read( "continuous_sleep", continuous_sleep );
+
     // needs
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
@@ -1245,6 +1249,10 @@ void Character::store( JsonOut &json ) const
     json.member( "healthy", lifestyle );
     json.member( "healthy_mod", daily_health );
     json.member( "health_tally", health_tally );
+
+    //sleep
+    json.member( "daily_sleep", daily_sleep );
+    json.member( "continuous_sleep", continuous_sleep );
 
     // needs
     json.member( "thirst", thirst );

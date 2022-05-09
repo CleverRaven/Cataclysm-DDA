@@ -517,6 +517,13 @@ class Character : public Creature, public visitable
         virtual int get_thirst() const;
         virtual int get_instant_thirst() const;
 
+        time_duration get_daily_sleep() const;
+        void mod_daily_sleep( time_duration mod );
+        void reset_daily_sleep();
+        time_duration get_continuous_sleep() const;
+        void mod_continuous_sleep( time_duration mod );
+        void reset_continuous_sleep();
+
         int get_fatigue() const;
         int get_sleep_deprivation() const;
 
@@ -3495,6 +3502,9 @@ class Character : public Creature, public visitable
         float circulation;
         // Should remain fixed at 1.0 for now.
         float circulation_resistance = 1.0f;
+
+        time_duration daily_sleep = 0_turns;
+        time_duration continuous_sleep = 0_turns;
 
         int fatigue;
         int sleep_deprivation;
