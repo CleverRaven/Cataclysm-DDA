@@ -654,7 +654,7 @@
     "autolearn": true,
     "time": "10 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "tin_scrap", 1 ] ] ]
+    "components": [ [ [ "scrap_tin", 1 ] ] ]
   },
   {
     "result": "tin",
