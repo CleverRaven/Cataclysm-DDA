@@ -1209,15 +1209,16 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         has_prereqs = true;
     }
 
-
     // Only mutate in-category prerequisites
-    const std::vector<trait_id> &muts_in_cat = mutations_category[mut_cat];
-    auto is_not_in_category = [&muts_in_cat]( const trait_id & p ) {
-        return std::find( muts_in_cat.begin(), muts_in_cat.end(), p ) == muts_in_cat.end();
-    };
-    prereq.erase( std::remove_if( prereq.begin(), prereq.end(), is_not_in_category ), prereq.end() );
-    prereqs2.erase( std::remove_if( prereqs2.begin(), prereqs2.end(), is_not_in_category ),
-                    prereqs2.end() );
+    if( mut_cat != mutation_category_ANY ) {
+        const std::vector<trait_id> &muts_in_cat = mutations_category[mut_cat];
+        auto is_not_in_category = [&muts_in_cat]( const trait_id & p ) {
+            return std::find( muts_in_cat.begin(), muts_in_cat.end(), p ) == muts_in_cat.end();
+        };
+        prereq.erase( std::remove_if( prereq.begin(), prereq.end(), is_not_in_category ), prereq.end() );
+        prereqs2.erase( std::remove_if( prereqs2.begin(), prereqs2.end(), is_not_in_category ),
+                        prereqs2.end() );
+    }
 
     if( !has_prereqs && ( !prereq.empty() || !prereqs2.empty() ) ) {
         if( !prereq1 && !prereq.empty() ) {
