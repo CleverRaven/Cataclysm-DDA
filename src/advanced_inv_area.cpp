@@ -380,9 +380,6 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
                 if( it->legacy_front().typeId() == (id == AIM_CONTAINER_L ? uistate.adv_inv_container_content_type : uistate.adv_inv_rcontainer_content_type) ) {
                     return true;
                 }
-                else {
-                    int r = 0;
-                }
             }
         }
     }
