@@ -1411,8 +1411,10 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                                *container ) ) {
                 return false;
             }
-        }
-        else {
+        } else if ( srcarea == AIM_CONTAINER_L ||
+                    srcarea == AIM_CONTAINER_R ||
+                    srcarea == AIM_INVENTORY ||
+                    srcarea == AIM_WORN) {
             if ( srcarea == AIM_CONTAINER_L || srcarea == AIM_CONTAINER_R ) {
                 item_location src = squares[srcarea].get_container();
                 move_cont_item(thing, container);
@@ -1421,6 +1423,10 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 move_cont_item(thing, container);
             }
             squares[destarea].reset_container_type(container);
+        } else {
+            // TODO: make it so you take take off the ground
+            popup("Can't put items from the ground in your container.");
+            return false;
         }
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
