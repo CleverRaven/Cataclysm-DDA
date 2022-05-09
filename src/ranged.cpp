@@ -1683,11 +1683,6 @@ static int print_aim( Character &you, const catacurses::window &w, int line_numb
 
     double steadiness = calc_steadiness( you, weapon, pos, predicted_recoil );
 
-    // if we are still aiming at the same spot update for the characters view
-    if( you.last_target_pos && get_map().getlocal( you.last_target_pos.value() ) == pos ) {
-        you.steadiness = steadiness;
-    }
-
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
             { accuracy_critical, '*', "green", translate_marker_context( "aim_confidence", "Great" ) },
@@ -3143,7 +3138,6 @@ bool target_ui::action_aim()
 bool target_ui::action_drop_aim()
 {
     you->recoil = MAX_RECOIL;
-    you->steadiness = 0.0f;
 
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
