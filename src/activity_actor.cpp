@@ -2686,6 +2686,11 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         act.set_to_null();
     }
 
+    if( act.id() == ACT_FIRSTAID && consume_loc ) {
+        act.targets.clear();
+        act.targets.push_back( consume_loc );
+    }
+
     if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
             player_character.assign_activity( new_act );
@@ -5752,8 +5757,8 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
 {
     static const std::string iuse_name_string( "heal" );
 
-    item &it = *act.targets.front();
-    item *used_tool = it.get_usable_item( iuse_name_string );
+    item_location it = act.targets.front();
+    item *used_tool = it->get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for healing" );
         act.set_to_null();
@@ -5777,9 +5782,12 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     const bodypart_id healed = bodypart_id( act.str_values[0] );
-    const int charges_consumed = actor->finish_using( who, *patient,
-                                 *used_tool, healed );
-    who.consume_charges( it, charges_consumed );
+    int charges_consumed = actor->finish_using( who, *patient,
+                           *used_tool, healed );
+    std::list<item>used;
+    if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+        it.remove_item();
+    }
 
     // Erase activity and values.
     act.set_to_null();
