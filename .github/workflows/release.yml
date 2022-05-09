@@ -212,7 +212,9 @@ jobs:
       - name: Get tilesets
         if: matrix.tiles == 1
         run: |
-          python3 ${{ github.workspace }}/tools/tileset_update.py --output_folder ${{ github.workspace }}/gfx
+          curl -s https://api.github.com/repos/I-am-Erk/CDDA-Tilesets/releases/latest | grep "browser_download_url.*zip" | cut -d : -f 2,3 | tr -d \" | wget -P gfx -i -
+          find gfx/ -name "*.zip" | xargs -I{} unzip -o {} -d gfx/
+          rm -fr gfx/*.zip
       - name: Install dependencies (windows msvc) (1/3)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1.0.2
