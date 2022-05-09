@@ -418,7 +418,7 @@
           "y": [ 14, 14 ]
         },
         {
-          "chunks": [ [ "xed_8x8_boss_al", 20 ], [ "xed_8x8_meeting_al", 20 ], [ "xed_8x8_office_al", 20 ], [ "xed_8x8_eating_al", 20 ] ],
+          "chunks": [ [ "xed_8x8_containment", 20 ], [ "xed_8x8_containment_broken", 20 ] ],
           "x": [ 16, 16 ],
           "y": [ 4, 4 ]
         },
