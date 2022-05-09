@@ -1414,10 +1414,14 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                                *container ) ) {
                 return false;
             }
-        } else if ( srcarea == AIM_CONTAINER_L ||
-                    srcarea == AIM_CONTAINER_R ||
-                    srcarea == AIM_INVENTORY ||
-                    srcarea == AIM_WORN) {
+        } else {
+            if ( srcarea > AIM_INVENTORY &&
+                 srcarea < AIM_CONTAINER_L &&
+                 srcarea != AIM_DRAGGED ) {
+                start_activity(destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle);
+                do_return_entry();
+                exit = true;
+            }
             if ( srcarea == AIM_CONTAINER_L || srcarea == AIM_CONTAINER_R ) {
                 item_location src = squares[srcarea].get_container();
                 move_cont_item(thing, container);
@@ -1426,10 +1430,6 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 move_cont_item(thing, container);
             }
             squares[destarea].reset_container_type(container);
-        } else {
-            // TODO: make it so you take take off the ground
-            popup("Can't put items from the ground in your container.");
-            return false;
         }
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
@@ -1494,7 +1494,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
         // Make sure advanced inventory is reopened after activity completion.
         do_return_entry();
-        start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
+        // TODO: make it so if the source is a container, it's valid after. or rewrite how containers work in AIM
+        start_activity(destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle);
 
         // exit so that the activity can be carried out
         exit = true;
