@@ -448,7 +448,7 @@
         ",,W.................W,,,",
         ",,W...T....T....T...W,,,",
         ",,WxxxxxxxxxxxxxxxxxW,,,",
-        ",,WWWWWWWWWWWWWWWWWWW,,."
+        ",,WWWWWWWWWWWWWWWWWWW,,,"
       ],
       "palettes": [ "gun_store_palette" ],
       "terrain": { ";": "t_region_groundcover_urban" },
