@@ -87,7 +87,6 @@ class material_type
         float _bullet_resist = 0.0f;
         float _biologic_resist = 0.0f;
         float _cold_resist = 0.0f;
-        float _pure_resist = 0.0f;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         float _density = 1;                             // relative to "powder", which is 1
         // ability of a fabric to allow moisture vapor to be transmitted through the material
@@ -102,6 +101,7 @@ class material_type
         bool _rotting = false;
         bool _soft = false;
         bool _reinforces = false;
+        bool _conductive = false; // If this material conducts electricity
 
         // the thickness that sheets of this material come in, anything that uses it should be a multiple of this
         float _sheet_thickness = 0.0f;
@@ -146,7 +146,6 @@ class material_type
         float elec_resist() const;
         float biological_resist() const;
         float cold_resist() const;
-        float pure_resist() const;
         float fire_resist() const;
         int chip_resist() const;
         float specific_heat_liquid() const;
@@ -154,6 +153,8 @@ class material_type
         float latent_heat() const;
         float freeze_point() const;
         float density() const;
+
+        bool is_conductive() const;
 
         bool is_valid_thickness( float thickness ) const;
         float thickness_multiple() const;

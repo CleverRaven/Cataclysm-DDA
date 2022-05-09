@@ -1207,8 +1207,6 @@ class item : public visitable
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
                              int roll = 0 ) const;
-        float pure_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
         float biological_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
                                  int roll = 0 ) const;
         float electric_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
@@ -1228,7 +1226,6 @@ class item : public visitable
         float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        float pure_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
         float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
                                  int roll = 0 ) const;
         float electric_resist( const sub_bodypart_id &bp, bool to_self = false,

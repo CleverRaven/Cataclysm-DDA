@@ -3395,25 +3395,6 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             }
             printed_any = true;
         }
-        if( best_res.type_resist( damage_type::PURE ) >= 1 ) {
-            if( display_median ) {
-                info.emplace_back( bp_cat,
-                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
-                                                  _( "Pure: " ), worst_res.type_resist( damage_type::PURE ),
-                                                  median_res.type_resist( damage_type::PURE ), best_res.type_resist( damage_type::PURE ) ),
-                                   "",
-                                   iteminfo::no_flags );
-            } else if( percent_worst > 0 ) {
-                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                   _( "Pure: " ), worst_res.type_resist( damage_type::PURE ),
-                                   best_res.type_resist( damage_type::PURE ) ), "",
-                                   iteminfo::no_flags );
-            } else {
-                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Pure: " ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( damage_type::PURE ) );
-            }
-            printed_any = true;
-        }
         if( best_res.type_resist( damage_type::ACID ) >= 1 ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
                                iteminfo::is_decimal, best_res.type_resist( damage_type::ACID ) );
@@ -8147,107 +8128,6 @@ float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) c
     return ( resist * eff_thickness ) + mod;
 }
 
-float item::pure_resist( bool to_self, const bodypart_id &bp, int roll ) const
-{
-    if( to_self ) {
-        // Currently no items are damaged by acid
-        return std::numeric_limits<float>::max();
-    }
-
-    if( is_null() ) {
-        return 0.0f;
-    }
-    const bool bp_null = bp == bodypart_id();
-
-    float resist = 0.0f;
-    const int dmg = damage_level();
-    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-
-    if( !bp_null ) {
-        const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
-        // If we have armour portion materials for this body part, use that instead
-        if( !armor_mats.empty() ) {
-            for( const part_material *m : armor_mats ) {
-                const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
-                // only count the material if it's hit
-
-                // if roll is -1 each material is rolled at this point individually
-                int internal_roll;
-                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
-                if( internal_roll < m->cover ) {
-                    resist += m->id->pure_resist() * eff_thic;
-                }
-            }
-            return resist;
-        }
-    }
-
-    // base resistance
-    // Don't give reinforced items +armor, just more resistance to ripping
-    const float avg_thickness = bp_null ? get_thickness() : get_thickness( bp );
-    const float eff_thickness = std::max( 0.1f, avg_thickness - eff_damage );
-    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
-    const std::map<material_id, int> mats = made_of();
-    if( !mats.empty() ) {
-        for( const auto &m : mats ) {
-            resist += m.first->pure_resist() * m.second;
-        }
-        // Average based portion of materials
-        resist /= total;
-    }
-
-    return resist * eff_thickness;
-}
-
-float item::pure_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
-{
-    if( to_self ) {
-        // Currently no items are damaged by acid
-        return std::numeric_limits<float>::max();
-    }
-
-    if( is_null() ) {
-        return 0.0f;
-    }
-
-    float resist = 0.0f;
-    const int dmg = damage_level();
-    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-
-    const std::vector<const part_material *> &armor_mats = armor_made_of( bp );
-    // If we have armour portion materials for this body part, use that instead
-    if( !armor_mats.empty() ) {
-        for( const part_material *m : armor_mats ) {
-            const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
-            // only count the material if it's hit
-
-            // if roll is -1 each material is rolled at this point individually
-            int internal_roll;
-            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
-            if( internal_roll < m->cover ) {
-                resist += m->id->pure_resist() * eff_thic;
-            }
-        }
-        return resist;
-    }
-
-    // base resistance this chunk is needed for items defined the old materials way
-    // Don't give reinforced items +armor, just more resistance to ripping
-    const float avg_thickness = get_thickness( bp->parent );
-    const float eff_thickness = std::max( 0.1f, avg_thickness - eff_damage );
-    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
-    const std::map<material_id, int> mats = made_of();
-    if( !mats.empty() ) {
-        for( const auto &m : mats ) {
-            resist += m.first->pure_resist() * m.second;
-        }
-        // Average based portion of materials
-        resist /= total;
-    }
-
-    return resist * eff_thickness;
-}
-
 float item::biological_resist( bool to_self, const bodypart_id &bp, int roll ) const
 {
     if( to_self ) {
@@ -9044,9 +8924,9 @@ float item::damage_resist( damage_type dt, bool to_self, const bodypart_id &bp, 
         case damage_type::NONE:
         case damage_type::NUM:
             return 0.0f;
-        // Items can never be damaged by those types
         case damage_type::PURE:
-            return pure_resist( to_self, bp, roll );
+            // Items can never be damaged by this type
+            return to_self ? std::numeric_limits<float>::max() : 0.0f;
         case damage_type::BIOLOGICAL:
             return biological_resist( to_self, bp, roll );
         case damage_type::ELECTRIC:
@@ -9078,9 +8958,9 @@ float item::damage_resist( damage_type dt, bool to_self, const sub_bodypart_id &
         case damage_type::NONE:
         case damage_type::NUM:
             return 0.0f;
-        // Items can never be damaged by those types
         case damage_type::PURE:
-            return pure_resist( bp, to_self, roll );
+            // Items can never be damaged by this type
+            return to_self ? std::numeric_limits<float>::max() : 0.0f;
         case damage_type::BIOLOGICAL:
             return biological_resist( bp, to_self, roll );
         case damage_type::ELECTRIC:
@@ -9260,7 +9140,7 @@ bool item::conductive() const
     // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
     const std::vector<const material_type *> &mats = made_of_types();
     return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
-        return mt->elec_resist() <= 1;
+        return mt->is_conductive();
     } );
 }
 
