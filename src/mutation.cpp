@@ -1220,7 +1220,8 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         auto is_not_in_category = [&muts_in_cat]( const trait_id & p ) {
             return std::find( muts_in_cat.begin(), muts_in_cat.end(), p ) == muts_in_cat.end();
         };
-        prereqs1.erase( std::remove_if( prereqs1.begin(), prereqs1.end(), is_not_in_category ), prereqs1.end() );
+        prereqs1.erase( std::remove_if( prereqs1.begin(), prereqs1.end(), is_not_in_category ),
+                        prereqs1.end() );
         prereqs2.erase( std::remove_if( prereqs2.begin(), prereqs2.end(), is_not_in_category ),
                         prereqs2.end() );
     }
@@ -1253,7 +1254,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     // However, this character might still be able to mutate this due to having prereqs obtained
     // through other means, so make sure that is not the case before aborting.
     if( ( mut_has_prereq1 && !c_has_prereq1 && prereqs1.empty() && !c_has_threshreq ) ||
-        ( mut_has_prereq2 && !c_has_prereq2 && prereqs2.empty() && !c_has_threshreq )) {
+        ( mut_has_prereq2 && !c_has_prereq2 && prereqs2.empty() && !c_has_threshreq ) ) {
         return false;
     }
 
