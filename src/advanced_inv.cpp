@@ -609,6 +609,9 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
+        if (i == AIM_CONTAINER_R && area == AIM_CONTAINER_L) {
+            continue;
+        }
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
         const char *bracket = squares[data_location].can_store_in_vehicle() ? "<>" : "[]";
         bool in_vehicle = pane.in_vehicle() && squares[data_location].id == area && sel == area &&
