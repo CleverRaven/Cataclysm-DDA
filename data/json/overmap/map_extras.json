@@ -696,7 +696,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_XEDRA_truck" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
-    "color": "red",
+    "color": "light_red",
     "autonote": true
   }
 ]
