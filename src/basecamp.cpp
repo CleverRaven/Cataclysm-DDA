@@ -704,12 +704,14 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
 
     //  We're potentially adding the same item multiple times if present in multiple expansions,
-    //  but we're already that with the resources above. The resources are stored in expansions
+    //  but we're already doing that with the resources above. The resources are stored in expansions
     //  rather than in a common pool to allow them to apply only to their respective expansion
     //  in the future.
     for( auto &expansion : expansions ) {
         for( itype_id &it : expansion.second.available_pseudo_items ) {
-            _inv.add_item( item( it ) );
+            item camp_item( it, calendar::turn_zero );
+            camp_item.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+            _inv.add_item( camp_item );
         }
     }
 }
