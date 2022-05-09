@@ -1403,39 +1403,24 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     cata_assert( amount_to_move > 0 );
     if( destarea == AIM_CONTAINER_L || destarea == AIM_CONTAINER_R) {
         drop_location thing;
+        item_location container = squares[destarea].get_container( to_vehicle );
         thing.first = sitem->items.front();
         thing.second = amount_to_move;
         if ( thing.first.get_item()->made_of(phase_id::LIQUID)) {
             if( !move_content( *sitem->items.front(),
-                               *squares[destarea].get_container( to_vehicle ) ) ) {
+                               *container ) ) {
                 return false;
             }
         }
         else {
-            Character& player_character = get_player_character();
-            drop_locations things;
-            things.push_back( thing );
-
-            item_location destcontainer = squares[destarea].get_container();
-
-            bool srccon = srcarea == AIM_CONTAINER_L || srcarea == AIM_CONTAINER_R;
-            item_location srccontainer;
-            if (srccon) {
-                item_location srccontainer = squares[srcarea].get_container();
+            if ( srcarea == AIM_CONTAINER_L || srcarea == AIM_CONTAINER_R ) {
+                item_location src = squares[srcarea].get_container();
+                move_cont_item(thing, container);
+                squares[srcarea].reset_container_type(src);
+            } else {
+                move_cont_item(thing, container);
             }
-
-            insert_item_activity_actor insert = insert_item_activity_actor( destcontainer, things );
-            player_activity activity = player_activity( insert );
-
-            player_character.assign_activity(activity);
-
-            insert.start( activity, player_character );
-            insert.finish(activity, player_character);
-
-            squares[destarea].reset_container_type(destcontainer);
-            if (srccon && srccontainer) {
-                squares[srcarea].reset_container_type(srccontainer);
-            }
+            squares[destarea].reset_container_type(container);
         }
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
@@ -1933,6 +1918,20 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     }
 
     return true;
+}
+
+void advanced_inventory::move_cont_item( drop_location thing, item_location dest_container ) {
+    Character& player_character = get_player_character();
+    drop_locations things;
+    things.push_back(thing);
+
+    insert_item_activity_actor insert = insert_item_activity_actor(dest_container, things);
+    player_activity activity = player_activity(insert);
+
+    player_character.assign_activity(activity);
+
+    insert.start(activity, player_character);
+    insert.finish(activity, player_character);
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
