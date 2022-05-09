@@ -492,5 +492,32 @@
       [ "beaker", 10 ],
       [ "test_tube", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mutagen_ransacked",
+    "subtype": "collection",
+    "items": [
+      { "item": "mutagen", "count": [0,2] },
+      { "item": "mutagen_plant", "prob": 10 },
+      { "item": "mutagen_insect", "prob": 10 },
+      { "item": "mutagen_spider", "prob": 10 },
+      { "item": "mutagen_snail", "prob": 10 },
+      { "item": "mutagen_batrachian", "prob": 10 },
+      { "item": "mutagen_fish", "prob": 10 },
+      { "item": "mutagen_slime", "prob": 10 },
+      { "item": "mutagen_rat", "prob": 10 },
+      { "item": "mutagen_beast", "prob": 10 },
+      { "item": "mutagen_cattle", "prob": 10 },
+      { "item": "mutagen_cephalopod", "prob": 10 },
+      { "item": "mutagen_bird", "prob": 10 },
+      { "item": "mutagen_lizard", "prob": 10 },
+      { "item": "mutagen_troglobite", "prob": 10 },
+      { "item": "mutagen_ursine", "prob": 10 },
+      { "item": "mutagen_feline", "prob": 10 },
+      { "item": "mutagen_lupine", "prob": 10 },
+      { "item": "mutagen_rabbit", "prob": 10 },
+      { "item": "glass_shard", "count": [10,100] }
+    ]
   }
 ]
