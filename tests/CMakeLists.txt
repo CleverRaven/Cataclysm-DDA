@@ -12,6 +12,7 @@ if (BUILD_TESTING)
     # build dir
     set(TEST_LANG ${CMAKE_SOURCE_DIR}/data/mods/TEST_DATA/lang)
     set(TEST_MO ${TEST_LANG}/mo/ru/LC_MESSAGES/TEST_DATA.mo)
+    set(GETTEXT_MSGFMT_EXECUTABLE msgfmt)
     if(MSVC)
         find_program(GETTEXT_MSGFMT_EXECUTABLE
             msgfmt.exe
