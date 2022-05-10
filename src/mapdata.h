@@ -297,6 +297,7 @@ enum class ter_furn_flag : int {
     TFLAG_BURROWABLE,
     TFLAG_MURKY,
     TFLAG_AMMOTYPE_RELOAD,
+    TFLAG_TRANSPARENT_FLOOR,
 
     NUM_TFLAG_FLAGS
 };
