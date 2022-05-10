@@ -95,6 +95,28 @@
     "phase": "liquid"
   },
   {
+    "id": "barbecue_sauce",
+    "type": "COMESTIBLE",
+    "looks_like": "molasses",
+    "symbol": "~",
+    "color": "brown",
+    "name": { "str": "barbecue sauce" },
+    "description": "Invented in the American south, barbecue sauce is sweet, dark, and full of spices like garlic, pepper, and cayenne.  It's often used in meat dishes as a marinade or condiment.",
+    "price": 1875,
+    "price_postapoc": 100,
+    "material": [ "veggy", "junk" ],
+    "weight": "17 g",
+    "volume": "250 ml",
+    "comestible_type": "DRINK",
+    "container": "condiment_bottle_sealed",
+    "sealed": false,
+    "calories": 40,
+    "spoils_in": 1200,
+    "charges": 16,
+    "fun": -1,
+    "phase": "liquid"
+  },
+  {
     "id": "mustard",
     "type": "COMESTIBLE",
     "looks_like": "mayonnaise",

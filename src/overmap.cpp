@@ -6432,6 +6432,16 @@ shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
     return nullptr;
 }
 
+shared_ptr_fast<npc> overmap::find_npc_by_unique_id( const std::string &id ) const
+{
+    for( const auto &guy : npcs ) {
+        if( guy->get_unique_id() == id ) {
+            return guy;
+        }
+    }
+    return nullptr;
+}
+
 cata::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
 {
     for( auto &v : camps ) {

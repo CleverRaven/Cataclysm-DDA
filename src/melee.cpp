@@ -539,6 +539,11 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     if( !is_adjacent( &t, fov_3d ) ) {
         return false;
     }
+
+    // Max out recoil & reset aim point
+    recoil = MAX_RECOIL;
+    last_target_pos = cata::nullopt;
+
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
 }
 

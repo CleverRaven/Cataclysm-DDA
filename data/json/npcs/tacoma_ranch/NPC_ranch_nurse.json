@@ -386,7 +386,9 @@
           "set": [
             { "square": "terrain", "id": "t_floor", "x": 3, "y": 17, "x2": 8, "y2": 22 },
             { "square": "terrain", "id": "t_floor", "x": 14, "y": 17, "x2": 19, "y2": 22 },
-            { "square": "terrain", "id": "t_floor", "x": 10, "y": 18, "x2": 12, "y2": 23 }
+            { "square": "terrain", "id": "t_floor", "x": 10, "y": 18, "x2": 12, "y2": 23 },
+            { "point": "terrain", "id": "t_floor_olight", "x": 6, "y": 20 },
+            { "point": "terrain", "id": "t_floor_olight", "x": 16, "y": 20 }
           ]
         },
         {
@@ -395,6 +397,7 @@
             { "square": "terrain", "id": "t_floor", "x": 5, "y": 0, "x2": 8, "y2": 2 },
             { "square": "terrain", "id": "t_floor", "x": 10, "y": 0, "x2": 12, "y2": 4 },
             { "square": "terrain", "id": "t_floor", "x": 14, "y": 0, "x2": 17, "y2": 2 },
+            { "point": "terrain", "id": "t_floor_olight", "x": 11, "y": 0 },
             { "square": "furniture", "id": "f_rack", "x": 17, "y": 0, "x2": 17, "y2": 2 }
           ],
           "place_items": [ { "chance": 100, "item": "cleaning", "x": 17, "y": [ 0, 2 ], "repeat": [ 1, 3 ], "faction": "tacoma_commune" } ],

@@ -660,7 +660,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     };
 
     // possibly reduce view if aiming (also blocks light)
-    if( get_avatar().steadiness > 0.0 ) {
+    if( get_avatar().recoil < MAX_RECOIL ) {
         if( get_avatar().cant_see( p ) ) {
             return { true, 0.0 };
         }
