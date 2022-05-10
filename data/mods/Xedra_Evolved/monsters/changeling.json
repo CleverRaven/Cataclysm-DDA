@@ -142,6 +142,7 @@
     "armor_fire": 90,
     "armor_elec": 2,
     "armor_cold": 90,
+    "armor_pure": 160,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
     "harvest": "demihuman",

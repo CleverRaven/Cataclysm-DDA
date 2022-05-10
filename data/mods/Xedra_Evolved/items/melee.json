@@ -44,6 +44,16 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
+    "id": "winter_lord_estoc",
+    "type": "GENERIC",
+    "name": { "str": "frostrimed estoc" },
+    "copy-from": "mirror_march_estoc",
+    "description": "A giant bloodstained club, barely human wieldable with two hands.  You see whenever it connects with an enemy shadowy tendrils of blood stick to whatever it hits and burn like acid.",
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 9 }, { "value": "ATTACK_SPEED", "add": -20 }, ] } ]
+    }
+  },
+  {
     "id": "redcap_club",
     "type": "GENERIC",
     "name": { "str": "redcap club" },

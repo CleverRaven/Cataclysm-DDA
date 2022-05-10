@@ -30,6 +30,6 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 10, -1 ],
-    "occurrences": [ 0, 1 ]
+    "occurrences": [ 0, 2 ]
   }
 ]
