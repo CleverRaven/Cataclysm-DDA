@@ -498,7 +498,7 @@
     "id": "mutagen_ransacked",
     "subtype": "collection",
     "items": [
-      { "item": "mutagen", "count": [0,2] },
+      { "item": "mutagen", "count": [ 0, 2 ] },
       { "item": "mutagen_plant", "prob": 10 },
       { "item": "mutagen_insect", "prob": 10 },
       { "item": "mutagen_spider", "prob": 10 },
@@ -517,7 +517,7 @@
       { "item": "mutagen_feline", "prob": 10 },
       { "item": "mutagen_lupine", "prob": 10 },
       { "item": "mutagen_rabbit", "prob": 10 },
-      { "item": "glass_shard", "count": [10,100] }
+      { "item": "glass_shard", "count": [ 10, 100 ] }
     ]
   }
 ]
