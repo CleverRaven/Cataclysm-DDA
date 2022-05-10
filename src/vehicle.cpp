@@ -370,42 +370,40 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
     //  0 = undamaged
-    //  1 = disabled, destroyed tires OR engine
+    //  1 = disabled: destroyed seats, controls, tanks, tires, OR engine
     int veh_status = -1;
     if( init_veh_status == 0 ) {
         veh_status = 0;
     }
     if( init_veh_status == 1 ) {
-        int rand = rng( 1, 100 );
         veh_status = 1;
 
-        if( rand <= 5 ) {          //  seats are destroyed 5%
+        const int rand = rng( 1, 5 );
+        switch( rand ) {
+        case 1:
             destroySeats = true;
-        } else if( rand <= 15 ) {  // controls are destroyed 10%
+            break;
+        case 2:
             destroyControls = true;
-            veh_fuel_mult += rng( 0, 7 );   // add 0-7% more fuel if controls are destroyed
-        } else if( rand <= 23 ) {  // battery, minireactor or gasoline tank are destroyed 8%
+            break;
+        case 3:
             destroyTank = true;
-        } else if( rand <= 29 ) {  // engine is destroyed 6%
+            break;
+        case 4:
             destroyEngine = true;
-            veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
-        } else if( rand <= 66 ) {  // tires are destroyed 37%
+            break;
+        case 5:
             destroyTires = true;
-            veh_fuel_mult += rng( 0, 18 );  // add 0-18% more fuel if tires are destroyed
-        } else {                   // vehicle locked 34%
-            has_no_key = true;
+            break;
         }
     }
-    // if locked, 16% chance something damaged
-    if( one_in( 6 ) && has_no_key ) {
-        if( one_in( 3 ) ) {
-            destroyTank = true;
-        } else if( one_in( 2 ) ) {
-            destroyEngine = true;
-        } else {
-            destroyTires = true;
-        }
-    } else if( !one_in( 3 ) ) {
+
+    if( one_in( 3 ) ) {
+        //33% chance for a locked vehicle
+        has_no_key = true;
+    }
+
+    if( !one_in( 3 ) ) {
         //most cars should have a destroyed alarm
         destroyAlarm = true;
     }
@@ -626,6 +624,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             set_hp( parts[random_entry( wheelcache )], 0, false );
             tries++;
         }
+    }
+
+    // Additional 50% chance for heavy damage to disabled vehicles
+    if( veh_status == 1 && one_in( 2 ) ) {
+        smash( get_map(), 0.5 );
     }
 
     for( size_t i = 0; i < engines.size(); i++ ) {
