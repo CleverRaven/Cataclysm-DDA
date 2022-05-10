@@ -1231,7 +1231,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     if( ( mut_has_prereq1 && !c_has_prereq1 && prereqs1.empty() ) ||
         ( mut_has_prereq2 && !c_has_prereq2 && prereqs2.empty() ) ) {
         debugmsg( "Failed to mutate towards %s because a prerequisite is needed but none are available in category %s",
-                  mdata.name().c_str(), mut_cat.c_str() );
+                  mdata.id.c_str(), mut_cat.c_str() );
         return false;
     }
 
