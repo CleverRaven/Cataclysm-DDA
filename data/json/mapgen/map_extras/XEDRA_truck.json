@@ -15,7 +15,7 @@
 		   { "monster": "mon_zombie_labsecurity", "x": [ 10, 15 ], "y": [ 3, 13 ] } ],
       "place_loot": [
         { "item": "9mm_casing", "x": [ 6, 8 ], "y": [ 12, 13 ], "repeat": [ 4, 9 ], "chance": 100 },
-        { "item": "9mm_casing", "x": [10, 13], "y": [3,13], "repeat": [ 8, 22 ], "chance": 100 }  ],
+        { "item": "9mm_casing", "x": [ 10, 13 ], "y": [ 3, 13 ], "repeat": [ 8, 22 ], "chance": 100 } ],
       "place_fields": [ { "field": "fd_blood", "x": [ 6, 8 ], "y": [ 12, 13 ], "repeat": [ 3, 6 ] }, 
 	                { "field": "fd_blood", "x": [ 12, 15 ], "y": [ 2, 4 ], "repeat": [ 5, 10 ] } ]
     }
