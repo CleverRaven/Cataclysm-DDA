@@ -87,17 +87,17 @@
     "responses": [
       { "text": "Nevermind.", "topic": "TALK_NONE" },
       {
-        "text": "I'll buy some bandages.  [10$]",
+        "text": "[10$]  I'll buy some bandages.",
         "effect": [ { "u_buy_item": "bandages", "cost": 1000, "container": "bag_plastic", "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some aspirin.  [40$]",
+        "text": "[40$]  I'll buy some aspirin.",
         "effect": [ { "u_buy_item": "aspirin", "container": "bottle_plastic_pill_prescription", "cost": 4000, "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some sprayable fungicide.  [50$]",
+        "text": "[50$]  I'll buy some sprayable fungicide.",
         "effect": [
           { "u_buy_item": "gas_fungicidal", "container": "jug_plastic", "cost": 5000, "count": 1500 },
           { "u_add_effect": "chemist_waiting_for_gas_fungicidal", "duration": "8 h" },
@@ -107,7 +107,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some powder fungicide.  [50$]",
+        "text": "[50$]  I'll buy some powder fungicide.",
         "effect": [
           { "u_buy_item": "fungicide", "container": "bottle_twoliter", "cost": 5000, "count": 1500 },
           { "u_add_effect": "chemist_waiting_for_fungicide", "duration": "8 h" },
@@ -117,7 +117,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some disinfectant.  [50$]",
+        "text": "[50$]  I'll buy some disinfectant.",
         "effect": [
           { "u_buy_item": "disinfectant", "container": "bottle_plastic", "cost": 5000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_disinfectant", "duration": "12 h" },
@@ -127,7 +127,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antibiotics.  [120$]",
+        "text": "[120$]  I'll buy some antibiotics.",
         "effect": [
           { "u_buy_item": "antibiotics", "container": "bottle_plastic_pill_prescription", "cost": 12000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_antibiotics", "duration": "96 h" },
@@ -137,7 +137,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antifungal drugs.  [140$]",
+        "text": "[140$]  I'll buy some antifungal drugs.",
         "effect": [
           { "u_buy_item": "antifungal", "container": "bottle_plastic_pill_prescription", "cost": 14000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_antifungal", "duration": "96 h" },
@@ -147,7 +147,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some black gunpowder.  [200$]",
+        "text": "[200$]  I'll buy some black gunpowder.",
         "effect": [
           { "u_buy_item": "chem_black_powder", "container": "jar_3l_glass_sealed", "cost": 20000, "count": 10000 },
           { "u_add_effect": "chemist_waiting_for_chem_black_powder", "duration": "72 h" },
@@ -157,7 +157,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some napalm.  [300$]",
+        "text": "[300$]  I'll buy some napalm.",
         "effect": [
           { "u_buy_item": "napalm", "container": "jerrycan", "cost": 30000, "count": 10000 },
           { "u_add_effect": "chemist_waiting_for_napalm", "duration": "72 h" },
@@ -175,17 +175,17 @@
     "responses": [
       { "text": "No, that's all.", "topic": "TALK_DONE" },
       {
-        "text": "I'll buy some bandages.  [10$]",
+        "text": "[10$]  I'll buy some bandages.",
         "effect": [ { "u_buy_item": "bandages", "cost": 1000, "container": "bag_plastic", "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some aspirin.  [40$]",
+        "text": "[40$]  I'll buy some aspirin.",
         "effect": [ { "u_buy_item": "aspirin", "container": "bottle_plastic_pill_prescription", "cost": 4000, "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some sprayable fungicide.  [50$]",
+        "text": "[50$]  I'll buy some sprayable fungicide.",
         "effect": [
           { "u_buy_item": "gas_fungicidal", "container": "jug_plastic", "cost": 5000, "count": 1500 },
           { "u_add_effect": "chemist_waiting_for_gas_fungicidal", "duration": "8 h" },
@@ -195,7 +195,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some powder fungicide.  [50$]",
+        "text": "[50$]  I'll buy some powder fungicide.",
         "effect": [
           { "u_buy_item": "fungicide", "container": "bottle_twoliter", "cost": 5000, "count": 1500 },
           { "u_add_effect": "chemist_waiting_for_fungicide", "duration": "8 h" },
@@ -205,7 +205,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some disinfectant.  [50$]",
+        "text": "[50$]  I'll buy some disinfectant.",
         "effect": [
           { "u_buy_item": "disinfectant", "container": "bottle_plastic", "cost": 5000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_disinfectant", "duration": "12 h" },
@@ -215,7 +215,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antibiotics.  [120$]",
+        "text": "[120$]  I'll buy some antibiotics.",
         "effect": [
           { "u_buy_item": "antibiotics", "container": "bottle_plastic_pill_prescription", "cost": 12000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_antibiotics", "duration": "96 h" },
@@ -225,7 +225,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some antifungal drugs.  [140$]",
+        "text": "[140$]  I'll buy some antifungal drugs.",
         "effect": [
           { "u_buy_item": "antifungal", "container": "bottle_plastic_pill_prescription", "cost": 14000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_antifungal", "duration": "96 h" },
@@ -235,7 +235,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some black gunpowder.  [200$]",
+        "text": "[200$]  I'll buy some black gunpowder.",
         "effect": [
           { "u_buy_item": "chem_black_powder", "container": "jar_3l_glass_sealed", "cost": 20000, "count": 10000 },
           { "u_add_effect": "chemist_waiting_for_chem_black_powder", "duration": "72 h" },
@@ -245,7 +245,7 @@
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
-        "text": "I'll buy some napalm.  [300$]",
+        "text": "[300$]  I'll buy some napalm.",
         "effect": [
           { "u_buy_item": "napalm", "container": "jerrycan", "cost": 30000, "count": 10000 },
           { "u_add_effect": "chemist_waiting_for_napalm", "duration": "72 h" },
