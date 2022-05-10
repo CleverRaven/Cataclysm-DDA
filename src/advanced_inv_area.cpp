@@ -274,9 +274,9 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
     item_location container;
 
     Character &player_character = get_player_character();
-    if( (id == AIM_CONTAINER_L ? uistate.adv_inv_container_location : uistate.adv_inv_rcontainer_location) != -1 ) {
+    if( uistate.get_adv_inv_container_location( id ) != -1 ) {
         // try to find valid container in the area
-        if( (id == AIM_CONTAINER_L ? uistate.adv_inv_container_location : uistate.adv_inv_rcontainer_location) == AIM_INVENTORY ) {
+        if( uistate.get_adv_inv_container_location( id ) == AIM_INVENTORY ) {
             const invslice &stacks = player_character.inv->slice();
 
             // check index first
@@ -298,7 +298,7 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
                     }
                 }
             }
-        } else if( (id == AIM_CONTAINER_L ? uistate.adv_inv_container_location : uistate.adv_inv_rcontainer_location) == AIM_WORN ) {
+        } else if( uistate.get_adv_inv_container_location( id ) == AIM_WORN ) {
             container = player_character.worn.adv_inv_get_container( container, *this, player_character );
         } else {
             map &here = get_map();
@@ -352,42 +352,24 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
 {
     if( advitem != nullptr ) {
         const item_location &it = advitem->items.front();
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_location : uistate.adv_inv_rcontainer_location) = advitem->area;
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_in_vehicle : uistate.adv_inv_rcontainer_in_vehicle) = advitem->from_vehicle;
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index) = advitem->idx;
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_type : uistate.adv_inv_rcontainer_type) = it->typeId();
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_content_type : uistate.adv_inv_rcontainer_content_type) = !it->is_container_empty() ? it->legacy_front().typeId() :
-                itype_id::NULL_ID();
+        uistate.set_adv_inv_container_location( id, advitem->area );
+        uistate.set_adv_inv_container_in_vehicle( id, advitem->from_vehicle );
+        uistate.set_adv_inv_container_index( id, advitem->idx );
+        uistate.set_adv_inv_container_type( id, it->typeId() );
         set_container_position();
     } else {
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_location : uistate.adv_inv_rcontainer_location) = -1;
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index) = 0;
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_in_vehicle : uistate.adv_inv_rcontainer_in_vehicle) = false;
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_type : uistate.adv_inv_rcontainer_type) = itype_id::NULL_ID();
-        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_content_type : uistate.adv_inv_rcontainer_content_type) = itype_id::NULL_ID();
+        uistate.set_adv_inv_container_location( id, -1 );
+        uistate.set_adv_inv_container_index( id, 0 );
+        uistate.set_adv_inv_container_in_vehicle( id, false );
+        uistate.set_adv_inv_container_type( id, itype_id::NULL_ID() );
     }
-}
-
-void advanced_inv_area::reset_container_type( const item_location& it )
-{
-    (id == AIM_CONTAINER_L ? uistate.adv_inv_container_content_type : uistate.adv_inv_rcontainer_content_type) = !it->is_container_empty() ? it->legacy_front().typeId() :
-        itype_id::NULL_ID();
-    set_container_position();
 }
 
 bool advanced_inv_area::is_container_valid( const item *it ) const
 {
     if( it != nullptr ) {
-        if( it->typeId() == (id == AIM_CONTAINER_L ? uistate.adv_inv_container_type : uistate.adv_inv_rcontainer_type) ) {
-            if( it->is_container_empty() ) {
-                if( (id == AIM_CONTAINER_L ? uistate.adv_inv_container_content_type : uistate.adv_inv_rcontainer_content_type).is_null() ) {
-                    return true;
-                }
-            } else {
-                if( it->legacy_front().typeId() == (id == AIM_CONTAINER_L ? uistate.adv_inv_container_content_type : uistate.adv_inv_rcontainer_content_type) ) {
-                    return true;
-                }
-            }
+        if( it->typeId() == uistate.get_adv_inv_container_type( id ) ) {
+            return true;
         }
     }
 
@@ -421,10 +403,10 @@ void advanced_inv_area::set_container_position()
 {
     avatar &player_character = get_avatar();
     // update the offset of the container based on location
-    if( (id == AIM_CONTAINER_L ? uistate.adv_inv_container_location : uistate.adv_inv_rcontainer_location) == AIM_DRAGGED ) {
+    if( uistate.get_adv_inv_container_location( id ) == AIM_DRAGGED ) {
         off = player_character.grab_point;
     } else {
-        off = aim_vector( static_cast<aim_location>( (id == AIM_CONTAINER_L ? uistate.adv_inv_container_location : uistate.adv_inv_rcontainer_location) ) );
+        off = aim_vector( static_cast<aim_location>( uistate.get_adv_inv_container_location( id ) ) );
     }
     // update the absolute position
     pos = player_character.pos() + off;

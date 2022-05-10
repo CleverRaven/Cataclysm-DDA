@@ -1422,14 +1422,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 do_return_entry();
                 exit = true;
             }
-            if ( srcarea == AIM_CONTAINER_L || srcarea == AIM_CONTAINER_R ) {
-                item_location src = squares[srcarea].get_container();
-                move_cont_item(thing, container);
-                squares[srcarea].reset_container_type(src);
-            } else {
-                move_cont_item(thing, container);
-            }
-            squares[destarea].reset_container_type(container);
+            move_cont_item(thing, container);
         }
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
@@ -1922,7 +1915,6 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     src_container.on_contents_changed();
     get_avatar().flag_encumbrance();
 
-    uistate.adv_inv_container_content_type = dest_container.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {
         src_container.clear_items();
     }

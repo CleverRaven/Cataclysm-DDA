@@ -13,6 +13,7 @@
 #include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
+#include "advanced_inv_area.h"
 
 class item;
 
@@ -111,13 +112,38 @@ class uistatedata
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
         itype_id adv_inv_container_type = itype_id::NULL_ID();
-        itype_id adv_inv_container_content_type = itype_id::NULL_ID();
         bool adv_inv_container_in_vehicle = false;
         int adv_inv_rcontainer_location = -1;
         int adv_inv_rcontainer_index = 0;
         itype_id adv_inv_rcontainer_type = itype_id::NULL_ID();
-        itype_id adv_inv_rcontainer_content_type = itype_id::NULL_ID();
         bool adv_inv_rcontainer_in_vehicle = false;
+
+        int get_adv_inv_container_location( const aim_location id) {
+            return id == AIM_CONTAINER_L ? adv_inv_container_location : adv_inv_rcontainer_location;
+        }
+        int get_adv_inv_container_index(const aim_location id) {
+            return id == AIM_CONTAINER_L ? adv_inv_container_index : adv_inv_rcontainer_index;
+        }
+        itype_id get_adv_inv_container_type(const aim_location id) {
+            return id == AIM_CONTAINER_L ? adv_inv_container_type : adv_inv_rcontainer_type;
+        }
+        bool get_adv_inv_container_in_vehicle(const aim_location id) {
+            return id == AIM_CONTAINER_L ? adv_inv_container_in_vehicle : adv_inv_rcontainer_in_vehicle;
+        }
+
+        void set_adv_inv_container_location( const aim_location id, int value ) {
+            id == AIM_CONTAINER_L ? adv_inv_container_location : adv_inv_rcontainer_location = value;
+        }
+        void set_adv_inv_container_index( const aim_location id, int value) {
+            id == AIM_CONTAINER_L ? adv_inv_container_index : adv_inv_rcontainer_index = value;
+        }
+        void set_adv_inv_container_type(const aim_location id, itype_id value ) {
+            id == AIM_CONTAINER_L ? adv_inv_container_type : adv_inv_rcontainer_type = value;
+        }
+        void set_adv_inv_container_in_vehicle(const aim_location id, bool value ) {
+            id == 12 ? adv_inv_container_in_vehicle : adv_inv_rcontainer_in_vehicle = value;
+        }
+
 
         advanced_inv_save_state transfer_save;
 
@@ -210,7 +236,6 @@ class uistatedata
             json.member( "adv_inv_container_index", adv_inv_container_index );
             json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             json.member( "adv_inv_container_type", adv_inv_container_type );
-            json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
             json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
@@ -269,7 +294,6 @@ class uistatedata
             jo.read( "adv_inv_container_index", adv_inv_container_index );
             jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             jo.read( "adv_inv_container_type", adv_inv_container_type );
-            jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
             jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
