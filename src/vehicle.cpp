@@ -380,21 +380,21 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
         const int rand = rng( 1, 5 );
         switch( rand ) {
-        case 1:
-            destroySeats = true;
-            break;
-        case 2:
-            destroyControls = true;
-            break;
-        case 3:
-            destroyTank = true;
-            break;
-        case 4:
-            destroyEngine = true;
-            break;
-        case 5:
-            destroyTires = true;
-            break;
+            case 1:
+                destroySeats = true;
+                break;
+            case 2:
+                destroyControls = true;
+                break;
+            case 3:
+                destroyTank = true;
+                break;
+            case 4:
+                destroyEngine = true;
+                break;
+            case 5:
+                destroyTires = true;
+                break;
         }
     }
 
