@@ -4,20 +4,23 @@
     "method": "json",
     "update_mapgen_id": "mx_XEDRA_truck",
     "object": {
-      "place_vehicles": [
-        { "vehicle": "truck_XEDRA", "x": 7, "y": 15, "chance": 100, "status": 1, "rotation": 0 }
+      "place_vehicles": [ { "vehicle": "truck_XEDRA", "x": 7, "y": 15, "chance": 100, "status": 1, "rotation": 0 } ],
+      "place_monster": [
+        { "monster": "mon_zombie_scientist", "x": 5, "y": 17 },
+        { "monster": "mon_mutant_experimental", "x": [ 0, 18 ], "y": [ 0, 13 ] },
+        { "monster": "mon_zombie_labsecurity", "x": 3, "y": 15 },
+        { "monster": "mon_zombie_labsecurity", "x": 4, "y": 15 },
+        { "monster": "mon_zombie_labsecurity", "x": 7, "y": 13 },
+        { "monster": "mon_zombie_labsecurity", "x": [ 10, 15 ], "y": [ 3, 13 ] }
       ],
-      "place_monster": [ { "monster": "mon_zombie_scientist", "x": 5, "y": 17 },
- 		   { "monster": "mon_mutant_experimental", "x": [ 0, 18 ], "y": [ 0, 13 ] },
-		   { "monster": "mon_zombie_labsecurity", "x": 3, "y": 15 }, 
-		   { "monster": "mon_zombie_labsecurity", "x": 4, "y": 15 }, 
-		   { "monster": "mon_zombie_labsecurity", "x": 7, "y": 13 }, 
-		   { "monster": "mon_zombie_labsecurity", "x": [ 10, 15 ], "y": [ 3, 13 ] } ],
       "place_loot": [
         { "item": "9mm_casing", "x": [ 6, 8 ], "y": [ 12, 13 ], "repeat": [ 4, 9 ], "chance": 100 },
-        { "item": "9mm_casing", "x": [ 10, 13 ], "y": [ 3, 13 ], "repeat": [ 8, 22 ], "chance": 100 } ],
-      "place_fields": [ { "field": "fd_blood", "x": [ 6, 8 ], "y": [ 12, 13 ], "repeat": [ 3, 6 ] }, 
-	                { "field": "fd_blood", "x": [ 12, 15 ], "y": [ 2, 4 ], "repeat": [ 5, 10 ] } ]
+        { "item": "9mm_casing", "x": [ 10, 13 ], "y": [ 3, 13 ], "repeat": [ 8, 22 ], "chance": 100 }
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 6, 8 ], "y": [ 12, 13 ], "repeat": [ 3, 6 ] },
+        { "field": "fd_blood", "x": [ 12, 15 ], "y": [ 2, 4 ], "repeat": [ 5, 10 ] }
+      ]
     }
   }
 ]
