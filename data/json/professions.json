@@ -2445,7 +2445,8 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_PATIENT" ]
   },
   {
     "type": "profession",
@@ -2545,7 +2546,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_CLOWN" ]
   },
   {
     "type": "profession",
@@ -2558,7 +2560,8 @@
     "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
     "items": {
       "both": { "items": [ "bondage_suit", "bondage_mask", "boots", "leather_belt" ], "entries": [ { "group": "charged_matches" } ] }
-    }
+    },
+    "missions": [ "MISSION_LOST_SUB" ]
   },
   {
     "type": "profession",
@@ -3014,7 +3017,8 @@
       "both": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   },
   {
     "type": "profession",
@@ -3033,7 +3037,8 @@
       "both": [ "karate_gi", "judo_belt_orange", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   },
   {
     "type": "profession",
@@ -3874,7 +3879,8 @@
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
-    }
+    },
+    "missions": [ "MISSION_URBAN_SAMURAI" ]
   },
   {
     "type": "profession",
@@ -4432,7 +4438,8 @@
       "male": [ "boxer_shorts", "diamond_gold_cufflinks" ],
       "female": [ "bra", "panties", "diamond_gold_earring" ]
     },
-    "traits": [ "LIAR" ]
+    "traits": [ "LIAR" ],
+    "missions": [ "MISSION_MAFIA_BOSS" ]
   },
   {
     "type": "profession",
@@ -4507,7 +4514,8 @@
         ]
       }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_PORTAL_TRAVELER" ]
   },
   {
     "type": "profession",
@@ -4532,7 +4540,8 @@
       "male": [ "boxer_shorts" ],
       "female": [ "chestwrap", "panties" ]
     },
-    "traits": [ "LIGHTSTEP" ]
+    "traits": [ "LIGHTSTEP" ],
+    "missions": [ "MISSION_NINJA" ]
   },
   {
     "type": "profession",

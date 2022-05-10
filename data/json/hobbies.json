@@ -84,7 +84,8 @@
     "description": "You liked to make your own costumes and wear them to various conventions.  Now that everyone is dead or dying, maybe this will be useful for something else.",
     "points": 1,
     "skills": [ { "level": 1, "name": "tailor" } ],
-    "proficiencies": [ "prof_closures", "prof_leatherworking_basic" ]
+    "proficiencies": [ "prof_closures", "prof_leatherworking_basic" ],
+    "missions": [ "MISSION_COSPLAY" ]
   },
   {
     "type": "profession",
@@ -437,7 +438,8 @@
     "description": "You are skilled in maneuvering on skates.  You suffer lower penalties to dodging and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
     "points": 2,
     "skills": [ { "level": 2, "name": "dodge" } ],
-    "traits": [ "PROF_SKATER" ]
+    "traits": [ "PROF_SKATER" ],
+    "missions": [ "MISSION_SKATES" ]
   },
   {
     "type": "profession",
@@ -475,7 +477,8 @@
     "description": "You were deep into the fashion scene, keeping up on the latest trends and even modelling clothes yourself.  Having style and good looks is just as, if not more, important to you than practicality.",
     "points": 2,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "tailor" } ],
-    "traits": [ "STYLISH" ]
+    "traits": [ "STYLISH" ],
+    "missions": [ "MISSION_STYLISH" ]
   },
   {
     "type": "profession",
@@ -505,7 +508,8 @@
     "description": "As the Game Master, you've guided players' journeys through dungeons and fortresses.  Now, you're the last member of your party.",
     "points": 2,
     "traits": [ "PROF_DICEMASTER" ],
-    "skills": [ { "level": 2, "name": "speech" } ]
+    "skills": [ { "level": 2, "name": "speech" } ],
+    "missions": [ "MISSION_GAME_MASTER" ]
   },
   {
     "type": "profession",
@@ -625,7 +629,8 @@
       { "level": 1, "name": "swimming" },
       { "level": 1, "name": "dodge" }
     ],
-    "traits": [ "PROF_SKATER" ]
+    "traits": [ "PROF_SKATER" ],
+    "missions": [ "MISSION_SKATES" ]
   },
   {
     "type": "profession",
@@ -635,7 +640,8 @@
     "description": "Your time in the rink has taught you that sometimes the best way forward is straight through whoever's trying to block you.",
     "points": 3,
     "skills": [ { "level": 2, "name": "bashing" }, { "level": 2, "name": "swimming" }, { "level": 1, "name": "melee" } ],
-    "traits": [ "PROF_SKATER" ]
+    "traits": [ "PROF_SKATER" ],
+    "missions": [ "MISSION_SKATES" ]
   },
   {
     "type": "profession",
