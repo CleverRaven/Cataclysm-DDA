@@ -184,7 +184,20 @@
     "cancels": [ "BAD_MANA_MULT1", "BAD_MANA_MULT2", "BAD_MANA_MULT3" ],
     "changes_to": [ "MANA_MULT2" ],
     "types": [ "MANA_MULT" ],
-    "category": [ "BIRD", "LIZARD", "SLIME", "FELINE", "CATTLE", "URSINE", "PLANT", "CEPHALOPOD", "ALPHA", "ELFA", "MANATOUCHED", "DRAGON_BLACK" ],
+    "category": [
+      "BIRD",
+      "LIZARD",
+      "SLIME",
+      "FELINE",
+      "CATTLE",
+      "URSINE",
+      "PLANT",
+      "CEPHALOPOD",
+      "ALPHA",
+      "ELFA",
+      "MANATOUCHED",
+      "DRAGON_BLACK"
+    ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
     "mana_multiplier": 1.25

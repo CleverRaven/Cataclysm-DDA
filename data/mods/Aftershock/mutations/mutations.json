@@ -713,7 +713,7 @@
     "copy-from": "HORNS",
     "extend": { "category": [ "MASTODON" ] }
   },
-  {  
+  {
     "type": "mutation",
     "id": "HEADBUMPS",
     "copy-from": "HEADBUMPS",
