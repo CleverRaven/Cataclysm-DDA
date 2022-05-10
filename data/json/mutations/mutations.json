@@ -7985,5 +7985,31 @@
     "category": [ "URSINE" ],
     "threshreq": [ "THRESH_URSINE" ],
     "player_display": false
+  },
+  {
+    "//": "Like Resilient, but Medical-flavored, and doesn't need huge/strong",
+    "type": "mutation",
+    "id": "TOUGH_MEDICAL",
+    "name": { "str": "Resilient Physiology" },
+    "points": 2,
+    "description": "Your body is well-adapted to resist trauma.  20% bonus to all hit points.  Stacks with Tough, etc.",
+    "types": [ "DURABILITY" ],
+    "changes_to": [ "TOUGH2_MEDICAL" ],
+    "category": [ "MEDICAL" ],
+    "threshreq": [ "THRESH_MEDICAL" ],
+    "hp_modifier_secondary": 0.2
+  },
+  {
+    "//": "Like Solidly Built, but Medical-flavored, and doesn't need huge/strong",
+    "type": "mutation",
+    "id": "TOUGH2_MEDICAL",
+    "name": { "str": "Solid Physiology" },
+    "points": 3,
+    "description": "Your body is extremely well-adapted to resist trauma.  30% bonus to all hit points.  Stacks with Tough, etc.",
+    "types": [ "DURABILITY" ],
+    "prereqs": [ "TOUGH_MEDICAL" ],
+    "category": [ "MEDICAL" ],
+    "threshreq": [ "THRESH_MEDICAL" ],
+    "hp_modifier_secondary": 0.3
   }
 ]
