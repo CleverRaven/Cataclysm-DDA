@@ -1331,6 +1331,6 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 10 ] ], [ [ "spring", 2 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 10 ] ], [ [ "clockworks", 2 ] ] ]
   }
 ]
