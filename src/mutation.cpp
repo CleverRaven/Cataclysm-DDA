@@ -1249,12 +1249,6 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     bool mut_is_profession = mdata.profession;
     std::vector<trait_id> threshreq = mdata.threshreq;
 
-    for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
-        if( has_trait( threshreq[i] ) ) {
-            c_has_threshreq = true;
-        }
-    }
-
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if( mut_is_threshold ) {
@@ -1271,6 +1265,12 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     for( const bionic_id &bid : get_bionics() ) {
         if( bid->mutation_conflicts.count( mut ) != 0 ) {
             return false;
+        }
+    }
+
+    for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
+        if( has_trait( threshreq[i] ) ) {
+            c_has_threshreq = true;
         }
     }
 
