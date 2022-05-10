@@ -682,7 +682,7 @@ void advanced_inventory::recalc_pane( side p )
     }
 
     // Prevent same container item appearing in this pane when other pane is the container view.
-    if( there.get_area() == AIM_CONTAINER_L || there.get_area() == AIM_CONTAINER_R ) { // TODO: shorten the check left and right area?
+    if( there.get_area() == AIM_CONTAINER_L || there.get_area() == AIM_CONTAINER_R ) {
         item_location loc = other.get_container();
         std::vector<advanced_inv_listitem>::iterator outer_iter = pane.items.begin();
         while( outer_iter != pane.items.end() ) {

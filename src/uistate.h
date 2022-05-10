@@ -7,13 +7,13 @@
 #include <string>
 #include <vector>
 
+#include "advanced_inv_area.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "json.h"
 #include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
-#include "advanced_inv_area.h"
 
 class item;
 
@@ -118,30 +118,30 @@ class uistatedata
         itype_id adv_inv_rcontainer_type = itype_id::NULL_ID();
         bool adv_inv_rcontainer_in_vehicle = false;
 
-        int get_adv_inv_container_location( const aim_location id) {
+        int get_adv_inv_container_location( const aim_location id ) {
             return id == AIM_CONTAINER_L ? adv_inv_container_location : adv_inv_rcontainer_location;
         }
-        int get_adv_inv_container_index(const aim_location id) {
+        int get_adv_inv_container_index( const aim_location id ) {
             return id == AIM_CONTAINER_L ? adv_inv_container_index : adv_inv_rcontainer_index;
         }
-        itype_id get_adv_inv_container_type(const aim_location id) {
+        itype_id get_adv_inv_container_type( const aim_location id ) {
             return id == AIM_CONTAINER_L ? adv_inv_container_type : adv_inv_rcontainer_type;
         }
-        bool get_adv_inv_container_in_vehicle(const aim_location id) {
+        bool get_adv_inv_container_in_vehicle( const aim_location id ) {
             return id == AIM_CONTAINER_L ? adv_inv_container_in_vehicle : adv_inv_rcontainer_in_vehicle;
         }
 
         void set_adv_inv_container_location( const aim_location id, int value ) {
-            id == AIM_CONTAINER_L ? adv_inv_container_location : adv_inv_rcontainer_location = value;
+            ( id == AIM_CONTAINER_L ? adv_inv_container_location : adv_inv_rcontainer_location ) = value;
         }
-        void set_adv_inv_container_index( const aim_location id, int value) {
-            id == AIM_CONTAINER_L ? adv_inv_container_index : adv_inv_rcontainer_index = value;
+        void set_adv_inv_container_index( const aim_location id, int value ) {
+            ( id == AIM_CONTAINER_L ? adv_inv_container_index : adv_inv_rcontainer_index ) = value;
         }
-        void set_adv_inv_container_type(const aim_location id, itype_id value ) {
-            id == AIM_CONTAINER_L ? adv_inv_container_type : adv_inv_rcontainer_type = value;
+        void set_adv_inv_container_type( const aim_location id, itype_id value ) {
+            ( id == AIM_CONTAINER_L ? adv_inv_container_type : adv_inv_rcontainer_type ) = value;
         }
-        void set_adv_inv_container_in_vehicle(const aim_location id, bool value ) {
-            id == 12 ? adv_inv_container_in_vehicle : adv_inv_rcontainer_in_vehicle = value;
+        void set_adv_inv_container_in_vehicle( const aim_location id, bool value ) {
+            ( id == AIM_CONTAINER_L ? adv_inv_container_in_vehicle : adv_inv_rcontainer_in_vehicle ) = value;
         }
 
 

@@ -246,7 +246,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
 item_location outfit::adv_inv_get_container( item_location container, const advanced_inv_area &area,
         Character &guy )
 {
-    size_t idx = static_cast<size_t>( ( area.id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index) );
+    size_t idx = static_cast<size_t>( uistate.get_adv_inv_container_index( area.id ) );
     if( worn.size() > idx ) {
         auto iter = worn.begin();
         std::advance( iter, idx );
@@ -261,7 +261,7 @@ item_location outfit::adv_inv_get_container( item_location container, const adva
         for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
             if( area.is_container_valid( &*iter ) ) {
                 container = item_location( guy, &*iter );
-                (area.id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index) = i;
+                uistate.set_adv_inv_container_index( area.id, i );
                 break;
             }
         }
@@ -280,8 +280,8 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
             const invslice &stacks = player_character.inv->slice();
 
             // check index first
-            if( stacks.size() > static_cast<size_t>( (id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index) ) ) {
-                auto &it = stacks[(id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index)]->front();
+            if( stacks.size() > static_cast<size_t>( uistate.get_adv_inv_container_index( id ) ) ) {
+                auto &it = stacks[uistate.get_adv_inv_container_index( id )]->front();
                 if( is_container_valid( &it ) ) {
                     container = item_location( player_character, &it );
                 }
@@ -293,7 +293,7 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
                     item &it = stacks[x]->front();
                     if( is_container_valid( &it ) ) {
                         container = item_location( player_character, &it );
-                        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index) = x;
+                        uistate.set_adv_inv_container_index( id, x );
                         break;
                     }
                 }
@@ -303,15 +303,15 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
         } else {
             map &here = get_map();
             bool is_in_vehicle = veh &&
-                                 ( (id == AIM_CONTAINER_L ? uistate.adv_inv_container_in_vehicle : uistate.adv_inv_rcontainer_in_vehicle) || ( can_store_in_vehicle() && in_vehicle ) );
+                                 ( uistate.get_adv_inv_container_in_vehicle( id ) || ( can_store_in_vehicle() && in_vehicle ) );
 
             const itemstack &stacks = is_in_vehicle ?
                                       i_stacked( veh->get_items( vstor ) ) :
                                       i_stacked( here.i_at( pos ) );
 
             // check index first
-            if( stacks.size() > static_cast<size_t>( (id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index) ) ) {
-                item *it = stacks[(id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index)].front();
+            if( stacks.size() > static_cast<size_t>( uistate.get_adv_inv_container_index( id ) ) ) {
+                item *it = stacks[uistate.get_adv_inv_container_index( id )].front();
                 if( is_container_valid( it ) ) {
                     if( is_in_vehicle ) {
                         container = item_location( vehicle_cursor( *veh, vstor ), it );
@@ -331,7 +331,7 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
                         } else {
                             container = item_location( map_cursor( pos ), it );
                         }
-                        (id == AIM_CONTAINER_L ? uistate.adv_inv_container_index : uistate.adv_inv_rcontainer_index) = x;
+                        uistate.set_adv_inv_container_index( id, x );
                         break;
                     }
                 }
