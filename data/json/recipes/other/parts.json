@@ -703,6 +703,7 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "2 h",
+    "autolearn": true,
     "book_learn": [ [ "carpentry_book", 5 ], [ "101_carpentry", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "proficiencies": [
