@@ -749,6 +749,11 @@ void mission::set_target_npc_id( const character_id &npc_id )
     target_npc_id = npc_id;
 }
 
+void mission::set_assigned_player_id( const character_id &char_id )
+{
+    player_id = char_id;
+}
+
 bool mission::is_assigned() const
 {
     return player_id.is_valid();
