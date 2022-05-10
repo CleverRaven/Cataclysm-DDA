@@ -2354,7 +2354,7 @@
       { "x": 0, "y": 1, "chance": 10, "items": [ "id_science_transport_1" ] }
     ]
   },
-{
+  {
     "id": "truck_XEDRA",
     "type": "vehicle",
     "name": "Trans-Coast Logistics Truck",
@@ -2442,13 +2442,13 @@
       { "x": -5, "y": 3, "parts": [ "wheel_mount_medium", "wheel_wide" ] }
     ],
     "items": [
-       { "x": -2, "y": 0, "chance": 100, "item_groups": [ "mutagen_ransacked" ] },
-       { "x": -2, "y": 2, "chance": 10, "items": [ "id_science" ] },
-       { "x": -3, "y": 0, "chance": 50, "item_groups": [ "swat_gear" ] },
-       { "x": -3, "y": 0, "chance": 50, "item_groups": [ "ammo_swat" ] },
-       { "x": -4, "y": 0, "chance": 50, "item_groups": [ "swat_gear" ] },
-       { "x": -4, "y": 0, "chance": 50, "item_groups": [ "ammo_swat" ] },
-       { "x": -3, "y": 2, "chance": 50, "items": [ "syringe" ] }
+      { "x": -2, "y": 0, "chance": 100, "item_groups": [ "mutagen_ransacked" ] },
+      { "x": -2, "y": 2, "chance": 10, "items": [ "id_science" ] },
+      { "x": -3, "y": 0, "chance": 50, "item_groups": [ "swat_gear" ] },
+      { "x": -3, "y": 0, "chance": 50, "item_groups": [ "ammo_swat" ] },
+      { "x": -4, "y": 0, "chance": 50, "item_groups": [ "swat_gear" ] },
+      { "x": -4, "y": 0, "chance": 50, "item_groups": [ "ammo_swat" ] },
+      { "x": -3, "y": 2, "chance": 50, "items": [ "syringe" ] }
     ]
   }
 ]
