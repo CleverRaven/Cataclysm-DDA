@@ -1895,12 +1895,14 @@ void basecamp::abandon_camp()
 
 void basecamp::scan_pseudo_items()
 {
+    tinymap expansion_map;
+
     for( auto &expansion : expansions ) {
         expansion.second.available_pseudo_items.clear();
         tripoint_abs_omt tile = tripoint_abs_omt( omt_pos.x() + expansion.first.x,
                                 omt_pos.y() + expansion.first.y, omt_pos.z() );
-        tinymap expansion_map;
-        expansion_map.load( project_to<coords::sm>( tile ), false );
+//        expansion_map.load( project_to<coords::sm>( tile ), false );
+        expansion_map.peek_load(project_to<coords::sm>(tile));
 
         tripoint mapmin = tripoint( 0, 0, omt_pos.z() );
         tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() );
