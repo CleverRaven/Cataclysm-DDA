@@ -3415,7 +3415,7 @@ void item::armor_attribute_info( std::vector<iteminfo> &info, const iteminfo_que
 
         if( const armor_portion_data *portion_data = portion_for_bodypart( sbp ) ) {
             if( portion_data->rigid_layer_only ) {
-                info.emplace_back( bp_cat, _( "<info>Rigidity only conflicts on shared layers</info>" ),
+                info.emplace_back( bp_cat, _( "<info>Rigid items only conflict on shared layers</info>" ),
                                    "", iteminfo::no_flags );
             }
         }
