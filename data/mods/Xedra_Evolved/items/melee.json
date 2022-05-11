@@ -50,7 +50,13 @@
     "copy-from": "mirror_march_estoc",
     "description": "This sword is covered in shifting frost and seems to move of it's own volition in your hands.",
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 9 }, { "value": "ATTACK_SPEED", "add": -20 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 9 }, { "value": "ATTACK_SPEED", "add": -20 } ]
+        }
+      ]
     }
   },
   {
