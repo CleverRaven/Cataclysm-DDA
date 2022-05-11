@@ -3228,14 +3228,14 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 
 void craft_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
 {
-    item &craft = *craft_item.get_item();
+    item *craft = craft_item.get_item();
     // item_location::get_item() will return nullptr if the item is lost
-    if( !( &craft ) ) {
+    if( !craft ) {
         return;
     }
-    const recipe item_recipe = craft.get_making();
+    const recipe item_recipe = craft->get_making();
     // practice recipe items with no components can be safely removed
-    if( item_recipe.category == "CC_PRACTICE" && craft.components.empty() ) {
+    if( item_recipe.category == "CC_PRACTICE" && craft->components.empty() ) {
         craft_item.remove_item();
     }
 }
