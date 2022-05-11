@@ -7,6 +7,7 @@
 #include <set>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
@@ -277,27 +278,17 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
     if( uistate.get_adv_inv_container_location( id ) != -1 ) {
         // try to find valid container in the area
         if( uistate.get_adv_inv_container_location( id ) == AIM_INVENTORY ) {
-            const invslice &stacks = player_character.inv->slice();
+            const std::vector<advanced_inv_listitem> &inv_stacks = get_avatar().get_AIM_inventory();
 
             // check index first
-            if( stacks.size() > static_cast<size_t>( uistate.get_adv_inv_container_index( id ) ) ) {
-                auto &it = stacks[uistate.get_adv_inv_container_index( id )]->front();
-                if( is_container_valid( &it ) ) {
-                    container = item_location( player_character, &it );
+            if( inv_stacks.size() > static_cast<size_t>( uistate.get_adv_inv_container_index( id ) ) ) {
+                item_location i_location = inv_stacks[ uistate.get_adv_inv_container_index( id ) ].items.front();
+                item *it = i_location.get_item();
+                if( is_container_valid( it ) && inv_stacks[ uistate.get_adv_inv_container_index( id ) ].idx ) {
+                    container = item_location( player_character, it );
                 }
             }
 
-            // try entire area
-            if( !container ) {
-                for( size_t x = 0; x < stacks.size(); ++x ) {
-                    item &it = stacks[x]->front();
-                    if( is_container_valid( &it ) ) {
-                        container = item_location( player_character, &it );
-                        uistate.set_adv_inv_container_index( id, x );
-                        break;
-                    }
-                }
-            }
         } else if( uistate.get_adv_inv_container_location( id ) == AIM_WORN ) {
             container = player_character.worn.adv_inv_get_container( container, *this, player_character );
         } else {
