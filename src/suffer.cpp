@@ -244,7 +244,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.deactivate_mutation( mut_id );
             } else {
                 // does not directly modify hunger, but burns kcal
-                you.mod_stored_kcal( mut_id->cost );
+                you.mod_stored_kcal( -mut_id->cost );
             }
         }
         if( mut_id->thirst ) {
