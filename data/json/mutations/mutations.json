@@ -4298,7 +4298,7 @@
     "purifiable": false,
     "types": [ "PREDATION" ],
     "changes_to": [ "PRED2" ],
-    "prereqs": [ "CARNIVORE", "CARNIVORE_FAKE", "THRESH_URSINE" ],
+    "prereqs": [ "CARNIVORE", "CARNIVORE_FAKE" ],
     "threshreq": [
       "THRESH_BEAST",
       "THRESH_RAPTOR",
