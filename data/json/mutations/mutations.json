@@ -7635,7 +7635,7 @@
     "name": { "str": "Debug Cardio" },
     "points": 99,
     "valid": false,
-    "cardio_multiplier": 900000,
+    "cardio_multiplier": 500000,
     "description": "You can run, but you'll never run out of breath.",
     "debug": true
   },
