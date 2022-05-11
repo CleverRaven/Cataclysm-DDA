@@ -854,8 +854,8 @@
     "description": "Modular Accessory Shotgun System, an underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of his problems.  This one was configured for a standalone usage.",
     "variant_type": "gun",
     "weight": "2260 g",
-    "volume": "1790 ml",
-    "longest_side": "673 mm",
+    "volume": "2390 ml",
+    "longest_side": "610 mm",
     "price": 189000,
     "price_postapoc": 4500,
     "to_hit": -2,
@@ -864,7 +864,7 @@
     "dispersion": 395,
     "durability": 7,
     "min_cycle_recoil": 1250,
-    "barrel_volume": "81 ml",
+    "barrel_volume": "252 ml",
     "valid_mod_locations": [ [ "sights mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ]
   }
