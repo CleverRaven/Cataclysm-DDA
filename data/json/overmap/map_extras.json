@@ -357,6 +357,13 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_blackberry_patch" }
   },
   {
+    "id": "mx_knotweed_patch",
+    "type": "map_extra",
+    "name": { "str": "Japanese knotweed patch" },
+    "description": "Japanese knotweed shrubs have spread here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_knotweed_patch" }
+  },
+  {
     "id": "mx_grass",
     "type": "map_extra",
     "name": { "str": "Tall grass" },

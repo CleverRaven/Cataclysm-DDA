@@ -112,6 +112,45 @@
   {
     "type": "mapgen",
     "method": "json",
+    "update_mapgen_id": "mx_knotweed_patch",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ;;;|;;;;        ",
+        "       ;;;;|||;;        ",
+        "      ;;||;||;;;;       ",
+        "     ;;;;;||;||;;       ",
+        "      ;|||||;|;;;       ",
+        "       ;;;;|;||;        ",
+        "       ;;|||||;;        ",
+        "      ;;|;||;||;;       ",
+        "        ;;||;;;;        ",
+        "        ;;;;|;;         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ";": [ "t_region_groundcover", [ "t_grass_long", 2 ] ],
+        "|": [ "t_region_groundcover", [ "t_grass_tall", 3 ] ]
+      },
+      "furniture": { "|": [ [ "f_japanese_knotweed", 10 ], "f_null" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "update_mapgen_id": "mx_blackberry_patch",
     "object": {
       "rows": [
