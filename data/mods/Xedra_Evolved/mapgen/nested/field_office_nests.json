@@ -1021,7 +1021,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1038,7 +1039,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1055,7 +1057,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1072,7 +1075,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1089,7 +1093,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1106,7 +1111,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1123,7 +1129,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1144,7 +1151,8 @@
         "**|----|"
       ],
       "palettes": [ "field_office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1176,7 +1184,8 @@
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
-      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 2, "y": 7 } ]
+      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 2, "y": 7 } ],
+      "flags": "ERASE_ALL_BEFORE_PLACING_TERRAIN"
     }
   },
   {
@@ -1208,7 +1217,8 @@
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
-      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 2, "y": 7 } ]
+      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 2, "y": 7 } ],
+      "flags": "ERASE_ALL_BEFORE_PLACING_TERRAIN"
     }
   },
   {
@@ -1228,7 +1238,8 @@
         "**VMM89|",
         "**|----|"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1248,7 +1259,8 @@
         "**Vxccd|",
         "**|----|"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1268,7 +1280,8 @@
         "**V....|",
         "**|----|"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1288,7 +1301,8 @@
         "FxccdV**",
         "-----|**"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1308,7 +1322,8 @@
         "^FFF^V**",
         "-----|**"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1328,7 +1343,8 @@
         "^???.V**",
         "-----|**"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1348,7 +1364,8 @@
         "FFFF^|**",
         "-----|**"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1364,7 +1381,8 @@
         "xd..",
         "...."
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1380,7 +1398,8 @@
         "ddd.",
         "...."
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1396,7 +1415,8 @@
         "ddd.",
         "...."
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1412,7 +1432,8 @@
         ".xcc",
         "...."
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1428,7 +1449,8 @@
         ".dcc",
         "...."
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1444,7 +1466,8 @@
         ".acc",
         "...."
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1464,7 +1487,8 @@
         "**H.....",
         "**|^...."
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1484,7 +1508,8 @@
         "**|.....",
         "**|....."
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1504,7 +1529,8 @@
         "**H^....",
         "**|....."
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1524,7 +1550,8 @@
         ".....H**",
         "...FF|**"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1544,7 +1571,8 @@
         ".....|**",
         ".Y..a|**"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1564,7 +1592,8 @@
         "nn...H**",
         "....Y|**"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   },
   {
@@ -1584,7 +1613,8 @@
         ".....H**",
         "FFF.Y|**"
       ],
-      "palettes": [ "field_office_palette" ]
+      "palettes": [ "field_office_palette" ],
+      "flags": "ALLOW_TERRAIN_UNDER_OTHER_DATA"
     }
   }
 ]
