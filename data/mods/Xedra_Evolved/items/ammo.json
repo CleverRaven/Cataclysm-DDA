@@ -19,5 +19,37 @@
     "loudness": 0,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "CUT", 1 ] ]
+  },
+  {
+    "type": "AMMO",
+    "id": "moon_tear_chain_link",
+    "category": "spare_parts",
+    "price": 150,
+    "price_postapoc": 50,
+    "name": { "str": "moon tear chain links" },
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "Small metal rings, suitable for constructing chainmail, made from moon tears.",
+    "material": [ "moon_tears" ],
+    "volume": "250 ml",
+    "weight": "1 g",
+    "ammo_type": "components",
+    "count": 150
+  },
+  {
+    "id": "moon_tear_ingot",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "moon tears ingot",
+    "description": "An ingot of moon tears.  About 3 cm by 7 cm by 12 cm in size, ready to be used for various blacksmithing tasks.",
+    "//": "not really sure how to convert density to weight in our system look at it later.",
+    "weight": "683 g",
+    "volume": "253 ml",
+    "price": 6399,
+    "bashing": 6,
+    "to_hit": -3,
+    "material": [ "moon_tears" ],
+    "symbol": "=",
+    "color": "light_blue"
   }
 ]
