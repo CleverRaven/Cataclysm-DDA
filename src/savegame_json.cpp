@@ -702,6 +702,7 @@ void Character::load( const JsonObject &data )
     // health
     data.read( "healthy", lifestyle );
     data.read( "healthy_mod", daily_health );
+    data.read( "health_tally", health_tally );
 
     // Remove check after 0.F
     if( savegame_loading_version >= 30 ) {
@@ -1198,6 +1199,7 @@ void Character::store( JsonOut &json ) const
     // health
     json.member( "healthy", lifestyle );
     json.member( "healthy_mod", daily_health );
+    json.member( "health_tally", health_tally );
 
     // needs
     json.member( "thirst", thirst );
