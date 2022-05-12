@@ -70,7 +70,6 @@
   },
   {
     "result": "5ltin",
-    "components": [ [ [ "block_tin", 100 ] ] ]
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -95,7 +94,6 @@
   },
   {
     "result": "5llead",
-    "components": [ [ [ "block_lead", 100 ] ] ]
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -120,7 +118,6 @@
   },
   {
     "result": "5lzinc",
-    "components": [ [ [ "block_zinc", 100 ] ] ]
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -145,7 +142,6 @@
   },
   {
     "result": "5lsteel",
-    "components": [ [ [ "block_steel", 100 ] ] ]
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
