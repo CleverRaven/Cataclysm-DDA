@@ -229,7 +229,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
                 it = advitem->items.front();
                 from_vehicle = advitem->from_vehicle;
                 if( it.get_item()->get_all_contained_pockets().empty() ) {
-                    it = get_container(from_vehicle);
+                    break;
                 }
             } else if( get_container( from_vehicle ) ) {
                 it = get_container( from_vehicle );
