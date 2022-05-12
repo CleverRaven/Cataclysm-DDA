@@ -910,7 +910,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "motel_twd_second_floor" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -940,6 +939,7 @@
         "                        "
       ],
       "terrain": {
+        " ": "t_open_air",
         ".": "t_floor",
         "<": "t_stairs_down",
         "-": "t_wall",
