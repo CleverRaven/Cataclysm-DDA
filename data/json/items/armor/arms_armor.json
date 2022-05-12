@@ -166,7 +166,7 @@
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
-{
+  {
     "id": "armguard_larmor",
     "type": "ARMOR",
     "category": "armor",
