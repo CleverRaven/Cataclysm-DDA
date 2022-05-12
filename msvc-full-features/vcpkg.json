@@ -11,11 +11,6 @@
           "name": "sdl2-mixer",
           "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
         },
-        "sdl2-ttf",
-        {
-          "features": [ "tools" ],
-          "name": "gettext",
-          "platform": "windows"
-        }
+        "sdl2-ttf"
     ]
 }
