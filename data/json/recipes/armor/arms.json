@@ -1,20 +1,5 @@
 [
   {
-    "result": "2byarm_guard",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "45 m",
-    "autolearn": true,
-    "reversible": true,
-    "using": [ [ "cordage_short", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "rag", 2 ] ] ]
-  },
-  {
     "result": "arm_warmers",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -418,7 +403,7 @@
     "components": [ [ [ "stockings", 4 ] ] ]
   },
   {
-    "result": "2byvambrace",
+    "result": "2byarm_guard",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -565,6 +550,73 @@
     "time": "405 m",
     "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 24 ] ],
     "using": [ [ "tailoring_leather", 2 ] ]
+  },
+  {
+    "result": "vambrace_hard",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "tailor", 2 ] ],
+    "time": "200 m",
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
+    "byproducts": [ [ "scrap_neoprene", 32 ] ],
+    "using": [ [ "plastic_molding", 1 ], [ "tailoring_neoprene_patchwork", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_plasticworking" } ]
+  },
+  {
+    "result": "xs_vambrace_hard",
+    "type": "recipe",
+    "copy-from": "vambrace_hard",
+    "time": "200 m",
+    "byproducts": [ [ "scrap_neoprene", 16 ] ],
+    "using": [ [ "plastic_molding", 1 ], [ "tailoring_neoprene_patchwork", 1 ] ]
+  },
+  {
+    "result": "xl_vambrace_hard",
+    "type": "recipe",
+    "copy-from": "vambrace_hard",
+    "time": "220 m",
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
+    "byproducts": [ [ "scrap_neoprene", 43 ] ],
+    "using": [ [ "plastic_molding", 2 ], [ "tailoring_neoprene_patchwork", 2 ] ]
+  },
+  {
+    "result": "vambrace_metal",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "tailor", 3 ],
+    "time": "15 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_melee", 3 ] ],
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 } ]
+  },
+  {
+    "result": "xs_vambrace_metal",
+    "type": "recipe",
+    "copy-from": "vambrace_metal",
+    "time": "15 m",
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "xl_vambrace_metal",
+    "type": "recipe",
+    "copy-from": "vambrace_metal",
+    "time": "20 m",
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
   },
   {
     "result": "lc_chainmail_arms",
