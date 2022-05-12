@@ -628,7 +628,15 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
     // Additional 50% chance for heavy damage to disabled vehicles
     if( veh_status == 1 && one_in( 2 ) ) {
-        smash( get_map(), 0.5 );
+        if( get_map().inbounds( global_square_location() ) ) {
+            // Currently in map bounds - use current map
+            smash( get_map(), 0.5 );
+        } else {
+            // Out of bounds - load separate map
+            tinymap tm;
+            tm.load( project_to<coords::sm>( global_square_location() ), false );
+            smash( tm, 0.5 );
+        }
     }
 
     for( size_t i = 0; i < engines.size(); i++ ) {
