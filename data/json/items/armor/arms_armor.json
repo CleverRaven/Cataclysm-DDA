@@ -5,10 +5,10 @@
     "category": "armor",
     "name": { "str": "pair of 2-by-arm guards", "str_pl": "pairs of 2-by-arm guards" },
     "description": "A pair of improvised arm guards made from broken pieces of a plank that are tied to your arms with rags and string.  They offer good protection, but are really uncomfortable to wear.",
-    "weight": "300 g",
-    "volume": "1500 ml",
-    "price": 500,
-    "price_postapoc": 250,
+    "weight": "600 g",
+    "volume": "3000 ml",
+    "price": 750,
+    "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "wood" ],
@@ -22,12 +22,12 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 9,
+        "encumbrance": 14,
         "coverage": 80,
         "cover_melee": 80,
         "cover_ranged": 80,
         "cover_vitals": 0,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
       }
     ]
   },
@@ -37,10 +37,10 @@
     "category": "armor",
     "name": { "str": "pair of chitin arm guards", "str_pl": "pairs of chitin arm guards" },
     "description": "A pair of arm guards made from the exoskeletons of insects.  Light and durable.",
-    "weight": "392 g",
-    "volume": "2500 ml",
-    "price": 20000,
-    "price_postapoc": 750,
+    "weight": "600 g",
+    "volume": "4500 ml",
+    "price": 40000,
+    "price_postapoc": 1500,
     "to_hit": 1,
     "material": [ "chitin" ],
     "symbol": "[",
@@ -53,12 +53,12 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 4,
+        "encumbrance": 6,
         "coverage": 90,
         "cover_melee": 90,
         "cover_ranged": 90,
         "cover_vitals": 50,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l" ]
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ]
       }
     ]
   },
@@ -166,16 +166,16 @@
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
-  {
+{
     "id": "armguard_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of leather arm guards", "str_pl": "pairs of leather arm guards" },
     "description": "A pair of tough leather arm guards.  Light and comfortable.",
-    "weight": "430 g",
-    "volume": "2 L",
-    "price": 4000,
-    "price_postapoc": 1000,
+    "weight": "850 g",
+    "volume": "3500 ml",
+    "price": 8000,
+    "price_postapoc": 2000,
     "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
@@ -188,12 +188,12 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 4,
+        "encumbrance": 6,
         "coverage": 95,
         "cover_melee": 95,
         "cover_ranged": 95,
         "cover_vitals": 90,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l" ]
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l"  ]
       }
     ]
   },
@@ -202,8 +202,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL leather arm guards", "str_pl": "pairs of XL leather arm guards" },
     "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
-    "weight": "730 g",
-    "volume": "3 L",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
     "copy-from": "armguard_larmor",
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -855,6 +854,38 @@
     ]
   },
   {
+    "id": "2byvambrace",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of 2-by-vambraces", "str_pl": "pairs of 2-by-vambraces" },
+    "description": "A pair of improvised vambraces made from broken pieces of a plank that are tied to your arms with rags and string.  They offer good protection, but are really uncomfortable to wear.",
+    "weight": "300 g",
+    "volume": "1500 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "wood" ],
+    "symbol": "[",
+    "looks_like": "arm_splint",
+    "color": "brown",
+    "warmth": 5,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 9,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
+        "cover_vitals": 0,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
+  },
+  {
     "id": "armguard_bronze",
     "type": "ARMOR",
     "category": "armor",
@@ -903,11 +934,147 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "vambrace_chitin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chitin vambraces", "str_pl": "pairs of chitin vambraces" },
+    "description": "A pair of vambraces made from the exoskeletons of insects.  Light and durable.",
+    "weight": "392 g",
+    "volume": "2500 ml",
+    "price": 20000,
+    "price_postapoc": 750,
+    "to_hit": 1,
+    "material": [ "chitin" ],
+    "symbol": "[",
+    "looks_like": "armguard_chitin",
+    "color": "green",
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 90,
+        "cover_vitals": 50,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_vambrace_chitin",
+    "copy-from": "vambrace_chitin",
+    "looks_like": "vambrace_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL vambraces", "str_pl": "pairs of XL vambraces" },
+    "description": "A pair of vambraces made from the exoskeletons of insects.  Light and durable.  Larger than average.",
+    "proportional": { "weight": 1.25, "volume": 1.23 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_vambrace_chitin",
+    "type": "ARMOR",
+    "copy-from": "vambrace_chitin",
+    "looks_like": "vambrace_chitin",
+    "name": { "str": "pair of XS chitin vambraces", "str_pl": "pairs of XS chitin vambraces" },
+    "description": "A pair of vambraces made from the exoskeletons of insects.  Light and durable.  Smaller than average.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "vambrace_acidchitin",
+    "copy-from": "vambrace_chitin",
+    "looks_like": "vambrace_chitin",
+    "type": "ARMOR",
+    "price_postapoc": 1250,
+    "name": { "str": "pair of biosilicified chitin vambraces", "str_pl": "pairs of biosilicified chitin vambraces" },
+    "description": "A pair of vambraces crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "material_thickness": 4,
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "xl_vambrace_acidchitin",
+    "copy-from": "vambrace_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL biosilicified chitin vambraces", "str_pl": "pairs of XL biosilicified chitin vambraces" },
+    "description": "A pair of vambraces crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the largest of survivors.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "material_thickness": 5,
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_vambrace_acidchitin",
+    "type": "ARMOR",
+    "copy-from": "vambrace_acidchitin",
+    "looks_like": "vambrace_acidchitin",
+    "name": { "str": "pair of XS biosilicified chitin vambraces", "str_pl": "pairs of XS biosilicified chitin vambraces" },
+    "description": "A pair of vambraces crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the smallest of survivors.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "vambrace_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of leather vambraces", "str_pl": "pairs of leather vambraces" },
-    "description": "A pair of light leather arm guards, made for archery.",
+    "description": "A pair of tough leather vambraces.  Light and comfortable.",
+    "weight": "430 g",
+    "volume": "2 L",
+    "price": 4000,
+    "price_postapoc": 1000,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "armguard_larmor",
+    "color": "brown",
+    "warmth": 25,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 95,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_vambrace_larmor",
+    "type": "ARMOR",
+    "copy-from": "vambrace_larmor",
+    "looks_like": "vambrace_larmor",
+    "name": { "str": "pair of XL leather vambraces", "str_pl": "pairs of XL leather vambraces" },
+    "description": "A pair of gigantic leather vambraces.  Heavy but comfortable.",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_vambrace_larmor",
+    "type": "ARMOR",
+    "copy-from": "vambrace_larmor",
+    "looks_like": "vambrace_larmor",
+    "name": { "str": "pair of XS leather vambraces", "str_pl": "pairs of XS leather vambraces" },
+    "description": "A pair of tiny, tough leather vambraces.  Light and comfortable.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "bracer_larmor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of leather bracers", "str_pl": "pairs of leather bracers" },
+    "description": "A pair of light leather bracers, made to protect the forearm from bowstring injuries, not combat.",
     "weight": "362 g",
     "volume": "1 L",
     "price": 2000,
@@ -924,7 +1091,7 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 5,
+        "encumbrance": 3,
         "coverage": 95,
         "cover_melee": 95,
         "cover_ranged": 90,
@@ -934,22 +1101,21 @@
     ]
   },
   {
-    "id": "xl_vambrace_larmor",
+    "id": "xl_bracer_larmor",
+    "copy-from": "bracer_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leather vambraces", "str_pl": "pairs of XL leather vambraces" },
-    "description": "Customized oversized leather vambraces, made for archery.",
-    "weight": "531 g",
-    "volume": "1250 ml",
-    "copy-from": "vambrace_larmor",
+    "name": { "str": "pair of XL leather bracers", "str_pl": "pairs of XL leather bracers" },
+    "description": "Customized oversized leather bracers, made to protect the forearm from bowstring injuries, not combat.",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_vambrace_larmor",
+    "id": "xs_bracer_larmor",
     "type": "ARMOR",
-    "copy-from": "vambrace_larmor",
-    "looks_like": "vambrace_larmor",
-    "name": { "str": "pair of XS leather vambraces", "str_pl": "pairs of XS leather vambraces" },
-    "description": "A pair of light leather arm guards, made for archery.",
+    "copy-from": "bracer_larmor",
+    "looks_like": "bracer_larmor",
+    "name": { "str": "pair of XS leather bracers", "str_pl": "pairs of XS leather bracers" },
+    "description": "A pair of light leather bracers, made to protect the forearm from bowstring injuries, not combat.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

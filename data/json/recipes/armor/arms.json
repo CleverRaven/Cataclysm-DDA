@@ -6,13 +6,13 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "15 m",
+    "difficulty": 2,
+    "time": "45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "cordage_short", 2 ] ],
+    "using": [ [ "cordage_short", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "rag", 2 ] ] ]
   },
   {
     "result": "arm_warmers",
@@ -52,33 +52,33 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "390 m",
+    "time": "450 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 4 ] ],
-    "byproducts": [ [ "scrap_leather", 80 ] ],
+    "byproducts": [ [ "scrap_leather", 160 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_articulation" }
     ],
-    "using": [ [ "armor_chitin", 3 ], [ "tailoring_leather_small", 2 ] ]
+    "using": [ [ "armor_chitin", 6 ], [ "tailoring_leather_small", 4 ] ]
   },
   {
     "result": "xs_armguard_chitin",
     "type": "recipe",
     "copy-from": "armguard_chitin",
-    "time": "390 m",
-    "byproducts": [ [ "scrap_leather", 60 ] ],
-    "using": [ [ "armor_chitin", 2 ], [ "tailoring_leather_small", 1 ] ]
+    "time": "450 m",
+    "byproducts": [ [ "scrap_leather", 120 ] ],
+    "using": [ [ "armor_chitin", 4 ], [ "tailoring_leather_small", 2 ] ]
   },
   {
     "result": "xl_armguard_chitin",
     "type": "recipe",
     "copy-from": "armguard_chitin",
-    "time": "440 m",
-    "byproducts": [ [ "scrap_leather", 100 ] ],
-    "using": [ [ "armor_chitin", 4 ], [ "tailoring_leather_small", 3 ] ]
+    "time": "510 m",
+    "byproducts": [ [ "scrap_leather", 200 ] ],
+    "using": [ [ "armor_chitin", 8 ], [ "tailoring_leather_small", 6 ] ]
   },
   {
     "result": "armguard_acidchitin",
@@ -89,11 +89,11 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ [ "fabrication", 3 ], [ "chemistry", 2 ] ],
-    "time": "390 m",
+    "time": "450 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 5 ] ],
-    "byproducts": [ [ "scrap_leather", 80 ] ],
-    "using": [ [ "armor_acidchitin", 3 ], [ "tailoring_leather_small", 2 ] ],
+    "byproducts": [ [ "scrap_leather", 160 ] ],
+    "using": [ [ "armor_acidchitin", 6 ], [ "tailoring_leather_small", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
@@ -105,17 +105,17 @@
     "result": "xs_armguard_acidchitin",
     "type": "recipe",
     "copy-from": "armguard_acidchitin",
-    "time": "390 m",
-    "byproducts": [ [ "scrap_leather", 60 ] ],
-    "using": [ [ "armor_acidchitin", 2 ], [ "tailoring_leather_small", 1 ] ]
+    "time": "450 m",
+    "byproducts": [ [ "scrap_leather", 120 ] ],
+    "using": [ [ "armor_acidchitin", 4 ], [ "tailoring_leather_small", 2 ] ]
   },
   {
     "result": "xl_armguard_acidchitin",
     "type": "recipe",
     "copy-from": "armguard_acidchitin",
-    "time": "440 m",
-    "byproducts": [ [ "scrap_leather", 100 ] ],
-    "using": [ [ "armor_acidchitin", 4 ], [ "tailoring_leather_small", 3 ] ]
+    "time": "510 m",
+    "byproducts": [ [ "scrap_leather", 200 ] ],
+    "using": [ [ "armor_acidchitin", 8 ], [ "tailoring_leather_small", 6 ] ]
   },
   {
     "result": "armguard_hard",
@@ -157,27 +157,27 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "720 m",
+    "time": "840 m",
     "autolearn": true,
-    "byproducts": [ [ "leather", 9 ], [ "scrap_leather", 29 ] ],
-    "using": [ [ "tailoring_leather", 2 ] ],
+    "byproducts": [ [ "leather", 12 ], [ "scrap_leather", 36 ] ],
+    "using": [ [ "tailoring_leather", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
     "result": "xs_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
-    "time": "720 m",
-    "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 21 ] ],
-    "using": [ [ "tailoring_leather", 1 ] ]
+    "time": "945 m",
+    "byproducts": [ [ "leather", 8 ], [ "scrap_leather", 25 ] ],
+    "using": [ [ "tailoring_leather", 2 ] ]
   },
   {
     "result": "xl_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
     "time": "810 m",
-    "byproducts": [ [ "leather", 12 ], [ "scrap_leather", 36 ] ],
-    "using": [ [ "tailoring_leather", 4 ] ]
+    "byproducts": [ [ "leather", 18 ], [ "scrap_leather", 60 ] ],
+    "using": [ [ "tailoring_leather", 8 ] ]
   },
   {
     "result": "armguard_lightplate",
@@ -418,7 +418,126 @@
     "components": [ [ [ "stockings", 4 ] ] ]
   },
   {
+    "result": "2byvambrace",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "cordage_short", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 1 ] ] ]
+  },
+  {
+    "result": "vambrace_chitin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "390 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 4 ] ],
+    "byproducts": [ [ "scrap_leather", 80 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "using": [ [ "armor_chitin", 3 ], [ "tailoring_leather_small", 2 ] ]
+  },
+  {
+    "result": "xs_vambrace_chitin",
+    "type": "recipe",
+    "copy-from": "vambrace_chitin",
+    "time": "390 m",
+    "byproducts": [ [ "scrap_leather", 60 ] ],
+    "using": [ [ "armor_chitin", 2 ], [ "tailoring_leather_small", 1 ] ]
+  },
+  {
+    "result": "xl_vambrace_chitin",
+    "type": "recipe",
+    "copy-from": "vambrace_chitin",
+    "time": "440 m",
+    "byproducts": [ [ "scrap_leather", 100 ] ],
+    "using": [ [ "armor_chitin", 4 ], [ "tailoring_leather_small", 3 ] ]
+  },
+  {
+    "result": "vambrace_acidchitin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ [ "fabrication", 3 ], [ "chemistry", 2 ] ],
+    "time": "390 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 5 ] ],
+    "byproducts": [ [ "scrap_leather", 80 ] ],
+    "using": [ [ "armor_acidchitin", 3 ], [ "tailoring_leather_small", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_articulation" }
+    ]
+  },
+  {
+    "result": "xs_vambrace_acidchitin",
+    "type": "recipe",
+    "copy-from": "vambrace_acidchitin",
+    "time": "390 m",
+    "byproducts": [ [ "scrap_leather", 60 ] ],
+    "using": [ [ "armor_acidchitin", 2 ], [ "tailoring_leather_small", 1 ] ]
+  },
+  {
+    "result": "xl_vambrace_acidchitin",
+    "type": "recipe",
+    "copy-from": "vambrace_acidchitin",
+    "time": "440 m",
+    "byproducts": [ [ "scrap_leather", 100 ] ],
+    "using": [ [ "armor_acidchitin", 4 ], [ "tailoring_leather_small", 3 ] ]
+  },
+  {
     "result": "vambrace_larmor",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "720 m",
+    "autolearn": true,
+    "byproducts": [ [ "leather", 9 ], [ "scrap_leather", 29 ] ],
+    "using": [ [ "tailoring_leather", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
+  },
+  {
+    "result": "xs_vambrace_larmor",
+    "type": "recipe",
+    "copy-from": "vambrace_larmor",
+    "time": "720 m",
+    "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 21 ] ],
+    "using": [ [ "tailoring_leather", 1 ] ]
+  },
+  {
+    "result": "xl_vambrace_larmor",
+    "type": "recipe",
+    "copy-from": "vambrace_larmor",
+    "time": "810 m",
+    "byproducts": [ [ "leather", 12 ], [ "scrap_leather", 36 ] ],
+    "using": [ [ "tailoring_leather", 4 ] ]
+  },
+  {
+    "result": "bracer_larmor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -432,17 +551,17 @@
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
-    "result": "xs_vambrace_larmor",
+    "result": "xs_bracer_larmor",
     "type": "recipe",
-    "copy-from": "vambrace_larmor",
+    "copy-from": "bracer_larmor",
     "time": "360 m",
     "byproducts": [ [ "leather", 1 ], [ "scrap_leather", 31 ] ],
     "using": [ [ "tailoring_leather", 1 ] ]
   },
   {
-    "result": "xl_vambrace_larmor",
+    "result": "xl_bracer_larmor",
     "type": "recipe",
-    "copy-from": "vambrace_larmor",
+    "copy-from": "bracer_larmor",
     "time": "405 m",
     "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 24 ] ],
     "using": [ [ "tailoring_leather", 2 ] ]
