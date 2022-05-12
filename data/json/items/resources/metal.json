@@ -415,6 +415,23 @@
     "to_hit": -2
   },
   {
+    "type": "GENERIC",
+    "id": "scrap_tin",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str_sp": "scrap tin" },
+    "category": "spare_parts",
+    "description": "A small chunk of tin, usable for crafting or repairs.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "tin" ],
+    "//": "Density of 7.265g/cm³ = 363.25g/50ml ~ 363g",
+    "volume": "50 ml",
+    "weight": "363 g",
+    "bashing": 1,
+    "to_hit": -2
+  },
+  {
     "type": "AMMO",
     "id": "tin",
     "category": "spare_parts",
@@ -743,7 +760,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10zinc",
+    "id": "10lzinc",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L zinc ingot" },
