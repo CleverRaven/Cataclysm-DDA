@@ -504,7 +504,7 @@
     "//": "Unfinished before the cataclysm.",
     "om_terrain": "shelter_unfinished",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_noroof",
       "rows": [
         "                        ",
         "                        ",
@@ -541,7 +541,7 @@
     "//": "Unfinished before the cataclysm.",
     "om_terrain": [ "shelter_1_unfinished", "shelter_1b_unfinished" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_noroof",
       "rows": [
         "                        ",
         "                        ",
@@ -578,7 +578,7 @@
     "//": "Unfinished before the cataclysm.",
     "om_terrain": [ "shelter_2_unfinished" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_noroof",
       "rows": [
         "                        ",
         "                        ",
