@@ -41,7 +41,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter", "shelter_vandal" ],
+    "id": [ "shelter", "shelter_vandal", "shelter_unfinished", "shelter_survivor" ],
     "name": "evac shelter A-23",
     "sym": "+",
     "color": "white",
@@ -50,7 +50,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_1", "shelter_1_vandal" ],
+    "id": [ "shelter_infested" ],
+    "name": "evac shelter A-23",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_1", "shelter_1_vandal", "shelter_1_unfinished", "shelter_1_survivor" ],
     "name": "evac shelter B-05",
     "sym": "+",
     "color": "white",
@@ -59,7 +68,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_1b", "shelter_1b_vandal" ],
+    "id": [ "shelter_1_infested" ],
+    "name": "evac shelter B-05",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_1b", "shelter_1b_vandal", "shelter_1b_unfinished", "shelter_1b_survivor" ],
     "name": "evac shelter B-19",
     "sym": "+",
     "color": "white",
@@ -68,16 +86,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_unfinished" ],
-    "name": "evac shelter C-29",
+    "id": [ "shelter_1b_infested" ],
+    "name": "evac shelter B-19",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_2", "shelter_2_vandal" ],
+    "id": [ "shelter_2", "shelter_2_vandal", "shelter_2_unfinished", "shelter_2_survivor" ],
     "name": "evac shelter C-41",
     "sym": "+",
     "color": "white",
@@ -86,30 +104,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_unfinished_2", "shelter_under_2b_vandal" ],
-    "name": "evac shelter A-34",
+    "id": [ "shelter_2_infested" ],
+    "name": "evac shelter C-41",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_infested", "shelter_under_3_infested" ],
-    "name": "evac shelter B-11",
-    "sym": "+",
-    "color": "white",
-    "see_cost": 2,
-    "flags": [ "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_infested_2", "shelter_under_3_2_infested" ],
-    "name": "evac shelter A-46",
-    "sym": "+",
-    "color": "white",
-    "see_cost": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -145,23 +145,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof_infested" ],
-    "name": "evac shelter roof B-11",
-    "sym": "+",
-    "color": "white",
-    "see_cost": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof_infested_2" ],
-    "name": "evac shelter roof A-46",
-    "sym": "+",
-    "color": "white",
-    "see_cost": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under", "shelter_under_vandal" ],
+    "id": [ "shelter_under", "shelter_under_vandal", "shelter_under_unfinished", "shelter_under_infested" ],
     "name": "evac shelter basement A-23",
     "sym": "+",
     "color": "white",
@@ -170,7 +154,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_under_1b", "shelter_under_1b_vandal" ],
+    "id": [ "shelter_under_1b", "shelter_under_1b_vandal", "shelter_under_1b_unfinished", "shelter_under_1b_infested" ],
     "name": "evac shelter basement B-19",
     "sym": "+",
     "color": "white",
@@ -179,7 +163,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_under_2", "shelter_under_2_vandal" ],
+    "id": [ "shelter_under_2", "shelter_under_2_vandal", "shelter_under_2_unfinished", "shelter_under_2_infested" ],
     "name": "evac shelter basement C-41",
     "sym": "+",
     "color": "white",
@@ -188,7 +172,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_under_1", "shelter_under_1_vandal" ],
+    "id": [ "shelter_under_1", "shelter_under_1_vandal", "shelter_under_1_unfinished", "shelter_under_1_infested"],
     "name": "evac shelter basement B-05",
     "sym": "+",
     "color": "white",
