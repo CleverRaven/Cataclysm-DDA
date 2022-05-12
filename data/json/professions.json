@@ -2093,6 +2093,7 @@
     "description": "Employed by a large company, you performed installation and troubleshooting services at the homes of ungrateful luddites.  Driving back from your last call, you were suddenly swarmed by what you believed to be angry rioters.  You veered off onto an old, neglected side road to escape, only to find yourself lost and low on gas.",
     "points": 4,
     "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_appliance_repair" ],
     "vehicle": "cube_van_cheap",
     "items": {
       "both": {
@@ -2303,6 +2304,7 @@
     "points": 1,
     "proficiencies": [ "prof_elec_soldering" ],
     "skills": [ { "level": 3, "name": "electronics" } ],
+    "proficiencies": [ "prof_appliance_repair" ],
     "items": {
       "both": {
         "items": [ "jumpsuit", "socks", "boots", "tool_belt", "wristwatch", "mbag", "solder_wire" ],
@@ -3961,6 +3963,7 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "mechanics" }
     ],
+    "proficiencies": [ "prof_appliance_repair" ],
     "items": {
       "both": {
         "items": [ "jacket_jean", "tshirt_tour", "jeans", "socks", "boots_steel", "multitool", "wristwatch", "gloves_work", "mbag" ],
