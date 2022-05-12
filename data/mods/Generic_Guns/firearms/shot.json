@@ -76,5 +76,13 @@
     "name": { "str": "double slam-fire pipe shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
     "ammo": [ "ammo_shot" ]
+  },
+  {
+    "id": "m26_mass_standalone",
+    "copy-from": "m26_mass_standalone",
+    "type": "GUN",
+    "name": { "str": "compact shotgun" },
+    "description": "Small shotgun, maded from underbarrel shotgun modification and a pistol grip.  Not the best weapon, but has a really small size and weight.",
+    "ammo": [ "ammo_shot" ]
   }
 ]
