@@ -91,9 +91,9 @@
         "B#",
         "  "
       ],
-      "terrain": { "#": "t_dirt" },
       "furniture": { "#": "f_makeshift_bed", "B": "f_makeshift_bed" },
-      "item": { "B": { "item": "blanket", "faction": "tacoma_commune" } }
+      "item": { "B": { "item": "blanket", "faction": "tacoma_commune" } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -209,7 +209,7 @@
         " ............& .... ",
         " CC..CtC...c..+.... ",
         "]tt........c.r vvkk ",
-        "]tt........c.r      ",
+        "]tt.2....2.c.r      ",
         " CC..CtC...c.u      ",
         " ............s      ",
         "    &.C..C..        ",
@@ -229,7 +229,8 @@
         "u": "t_floor",
         "s": "t_floor",
         "&": "t_floor",
-        "+": "t_door_c"
+        "+": "t_door_c",
+        "2": "t_floor_olight"
       },
       "furniture": {
         "c": "f_counter",
@@ -293,8 +294,7 @@
         "               ",
         "               "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirt", "q": "t_wall_half" },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
+      "terrain": { "w": "t_wall", ".": "t_dirt", "q": "t_wall_half" }
     }
   },
   {
@@ -339,7 +339,7 @@
         "    ]]   ]]         ",
         "+.............      ",
         "+............. wwwww",
-        " ............. ....w",
+        " ...2.....2... ....w",
         "]............. ....]",
         " ............. ....w",
         "               ....w",
@@ -357,7 +357,7 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c" }
+      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c", "2": "t_floor_olight" }
     }
   },
   {
@@ -540,7 +540,8 @@
         "                   ",
         "                   "
       ],
-      "terrain": { "w": "t_wall_half" }
+      "terrain": { "w": "t_wall_half" },
+      "place_item": [ { "item": "hammer_sledge", "x": 12, "y": 18, "faction": "tacoma_commune" } ]
     }
   },
   {
@@ -615,7 +616,7 @@
         "                 ",
         "......     .cccc.",
         "......  +  ..s...",
-        "...... ... ......",
+        "..2... ... ...2..",
         "............tt...",
         "...... ... ......",
         "......     ......",
@@ -627,10 +628,11 @@
         "                 ",
         "                 "
       ],
-      "terrain": { "+": "t_door_c", ".": "t_floor", "c": "t_floor", "t": "t_floor", "s": "t_floor" },
+      "terrain": { "+": "t_door_c", ".": "t_floor", "c": "t_floor", "t": "t_floor", "s": "t_floor", "2": "t_floor_olight" },
       "furniture": { "c": "f_cupboard", "t": "f_table", "s": "f_stool" },
       "place_signs": [ { "signage": "Clinic", "x": 1, "y": 10 } ],
-      "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ]
+      "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ],
+      "place_item": [ { "item": "hoe", "x": 14, "y": 18, "faction": "tacoma_commune" } ]
     }
   },
   {
@@ -1029,13 +1031,13 @@
       "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor", "m": "t_dirtfloor", "M": "t_dirtfloor", "c": "t_conveyor" },
       "furniture": { "m": "f_machinery_old", "M": "f_machinery_heavy", "r": "f_rack" },
       "place_item": [
-        { "item": "log", "x": 3, "y": 0, "faction": "tacoma_commune" },
-        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
-        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
-        { "item": "log", "x": 0, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
-        { "item": "log", "x": 1, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
-        { "item": "2x4", "x": 3, "y": 9, "faction": "tacoma_commune", "amount": [ 1, 10 ] },
-        { "item": "log", "x": 3, "y": 2, "faction": "tacoma_commune" }
+        { "item": "log", "x": 3, "y": 0 },
+        { "item": "log", "x": 3, "y": 1 },
+        { "item": "log", "x": 3, "y": 1 },
+        { "item": "log", "x": 0, "y": 1, "amount": [ 1, 5 ] },
+        { "item": "log", "x": 1, "y": 1, "amount": [ 1, 5 ] },
+        { "item": "2x4", "x": 3, "y": 9, "amount": [ 1, 10 ] },
+        { "item": "log", "x": 3, "y": 2 }
       ],
       "place_npcs": [ { "class": "ranch_woodcutter_2", "x": 4, "y": 7 } ]
     }

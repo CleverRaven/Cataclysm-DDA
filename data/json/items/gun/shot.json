@@ -263,7 +263,7 @@
     "id": "mossberg_930",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "gas operated semi-automatic shotgun" },
+    "name": { "str": "gas-operated semi-automatic shotgun" },
     "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 8 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat rolls, this firearm is faster to shoot than a traditional pump-action model, with the caveat that its harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user’s own physical input.",
     "variant_type": "gun",
     "variants": [

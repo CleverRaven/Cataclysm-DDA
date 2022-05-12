@@ -6,7 +6,7 @@
     "//": "Intact variant",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "...........~~...........",
         "...........~~...........",
@@ -33,7 +33,9 @@
         "..|&  |4YYYUUYUU<|LL|@|.",
         "..|----YYYYYYYYYY-----|."
       ],
-      "palettes": [ "mil_surplus" ]
+      "palettes": [ "mil_surplus" ],
+      "terrain": { " ": "t_thconc_floor" },
+      "place_loot": [ { "group": "cash_register_random", "x": 4, "y": [ 4, 7 ] } ]
     }
   },
   {
@@ -43,7 +45,7 @@
     "//": "Looted variant",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "...........~~...........",
         "...........~~...........",
@@ -73,7 +75,8 @@
       "palettes": [ "mil_surplus" ],
       "terrain": {
         "'": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
-        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ]
+        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        " ": "t_thconc_floor"
       },
       "furniture": {
         "А": "f_rack",
@@ -177,7 +180,8 @@
         "T": { "chunks": [ [ "deployed_small_tent", 20 ], [ "destroyed_small_tent", 20 ], [ "null", 60 ] ] },
         "S": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
         "1": { "chunks": [ [ "corpse_blood_casings_3x3", 50 ], [ "null", 50 ] ] }
-      }
+      },
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 4, 7 ] } ]
     }
   },
   {
@@ -187,7 +191,7 @@
     "//": "Boarded up variant",
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "...........~~...........",
         "...........~~...........",
@@ -215,7 +219,7 @@
         "..|----YYYYYYYYYY-----|."
       ],
       "palettes": [ "mil_surplus" ],
-      "terrain": { "'": "t_window_boarded", "+": "t_door_boarded" },
+      "terrain": { "'": "t_window_boarded", "+": "t_door_boarded", " ": "t_thconc_floor" },
       "furniture": {
         "А": "f_rack",
         "Б": "f_rack",
@@ -303,7 +307,8 @@
         },
         "L": { "item": "SUS_janitors_closet", "chance": 50 }
       },
-      "nested": { "T": { "chunks": [ [ "deployed_small_tent", 15 ], [ "null", 85 ] ] } }
+      "nested": { "T": { "chunks": [ [ "deployed_small_tent", 15 ], [ "null", 85 ] ] } },
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 4, 7 ] } ]
     }
   },
   {
@@ -384,9 +389,9 @@
         ".|  #          A BB C |.",
         ".|L                   |.",
         ".|---   A  A  A    ---|.",
-        ".|& |   A  A  A    / ^|.",
-        ".|  +   A  A  A    ---|.",
-        ".|  |   A  A  A    / ^|.",
+        ".|&_|   A  A  A    / ^|.",
+        ".|__+   A  A  A    ---|.",
+        ".|__|   A  A  A    / ^|.",
         ".|---   A  A  A    ---|.",
         ".|                    |.",
         ".| DDDBBBB    C C F F |.",
@@ -401,7 +406,9 @@
         ".----------------------.",
         "........................"
       ],
-      "palettes": [ "mil_surplus" ]
+      "palettes": [ "mil_surplus" ],
+      "terrain": { "_": "t_linoleum_white", "&": "t_linoleum_white" },
+      "place_loot": [ { "group": "cash_register_random", "x": 4, "y": [ 3, 5 ] } ]
     }
   },
   {
@@ -421,9 +428,9 @@
         ".| 1#          А ББ В |.",
         ".|L       1           |.",
         ".|---   А  А  А    ---|.",
-        ".|& |   А  А  А    / ^|.",
-        ".|  +   А  А  А    ---|.",
-        ".|  |   А  А  А    / ^|.",
+        ".|&_|   А  А  А    / ^|.",
+        ".|__+   А  А  А    ---|.",
+        ".|__|   А  А  А    / ^|.",
         ".|---   А  А  А    ---|.",
         ".|                    |.",
         ".| ГГГББББ    В В Е Е |.",
@@ -441,7 +448,9 @@
       "palettes": [ "mil_surplus" ],
       "terrain": {
         "`": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
-        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ]
+        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "_": "t_linoleum_white",
+        "&": "t_linoleum_white"
       },
       "furniture": { "А": "f_rack", "Б": "f_rack", "В": "f_rack", "Г": "f_rack", "Д": "f_rack", "Е": "f_rack", "!": "f_mannequin" },
       "items": {
@@ -532,7 +541,8 @@
         "!": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
         "S": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
         "1": { "chunks": [ [ "corpse_blood_casings_3x3", 50 ], [ "null", 50 ] ] }
-      }
+      },
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 3, 5 ] } ]
     }
   },
   {
@@ -552,9 +562,9 @@
         ".|  #          А ББ В |.",
         ".|L                   |.",
         ".|---   А  А  А    ---|.",
-        ".|& |   А  А  А    / ^|.",
-        ".|  +   А  А  А    ---|.",
-        ".|  |   А  А  А    / ^|.",
+        ".|&_|   А  А  А    / ^|.",
+        ".|__+   А  А  А    ---|.",
+        ".|__|   А  А  А    / ^|.",
         ".|---   А  А  А    ---|.",
         ".|                    |.",
         ".| ГГГББББ    В В Е Е |.",
@@ -570,7 +580,7 @@
         "........................"
       ],
       "palettes": [ "mil_surplus" ],
-      "terrain": { "`": "t_window_boarded", "+": "t_door_boarded" },
+      "terrain": { "`": "t_window_boarded", "+": "t_door_boarded", "_": "t_linoleum_white", "&": "t_linoleum_white" },
       "furniture": { "А": "f_rack", "Б": "f_rack", "В": "f_rack", "Г": "f_rack", "Д": "f_rack", "Е": "f_rack", "!": "f_mannequin" },
       "items": {
         "!": {
@@ -646,7 +656,8 @@
           "chance": 2
         },
         "L": { "item": "SUS_janitors_closet", "chance": 50 }
-      }
+      },
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 3, 5 ] } ]
     }
   },
   {
@@ -716,42 +727,42 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "___d___ud___________ss__",
-        "__||||||||||||------ssr_",
-        "_u|####.....Dsssssssssr_",
-        "_S|.........Dsssssssssr_",
-        "_u|.{{{.....|||||||||||_",
-        "d_|........^|....{{{{{|_",
-        "__|####.....+..c.....{|_",
-        "__|||||.....||######|||d",
-        "__|###................|_",
-        "__|{.....tt...........|_",
-        "_S|{.....tt...........|u",
-        "_u|###........{{.{{..{|u",
-        "_d|||||.......{{.{{..{|_",
-        "__|###...tt...{{.{{..{|_",
-        "__|#.....tt...{{.{{..{|_",
-        "__|#..........{{.{{..{|_",
-        "__|#..........{{.{{..{|d",
-        "_u|b...||||||.{{.{{..{|u",
-        "__|b...|llll|.{{.{{..{|_",
-        "__||||.|....|........{|_",
-        "__|&.+.+....|||||||||||4",
-        "d_|%.|y|tc..+ss____duS__",
-        "__|||||||||||ss_________",
-        "____u_u_______________d_"
+        "                    ss  ",
+        "  ||||||||||||------ssr ",
+        "  |####.....Dsssssssssr ",
+        "  |.........Dsssssssssr ",
+        "  |.{{{.....||||||||||| ",
+        "  |........^|....{{{{{| ",
+        "  |####.....+..c.....{| ",
+        "  |||||.....||######||| ",
+        "  |###................| ",
+        "  |{.....tt...........| ",
+        "  |{.....tt...........| ",
+        "  |###........{{.{{..{| ",
+        "  |||||.......{{.{{..{| ",
+        "  |###...tt...{{.{{..{| ",
+        "  |#.....tt...{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |b...||||||.{{.{{..{| ",
+        "  |b...|llll|.{{.{{..{| ",
+        "  ||||.|....|........{| ",
+        "  |&,+.+....|||||||||||4",
+        "  |%,|y|tc..+ss         ",
+        "  |||||||||||ss         ",
+        "                        "
       ],
       "terrain": {
         "+": "t_door_c",
         "-": "t_railing_h",
         ".": "t_floor",
+        "&": "t_linoleum_white",
+        "%": "t_linoleum_white",
+        ",": "t_linoleum_white",
         "D": "t_door_glass_c",
-        "S": "t_shrub",
-        "_": "t_grass",
-        "d": "t_dirt",
+        " ": "t_region_groundcover_urban",
         "r": "t_railing_v",
         "s": "t_sidewalk",
-        "u": "t_underbrush",
         "|": "t_wall_g",
         "4": "t_gutter_downspout"
       },
@@ -783,7 +794,8 @@
         { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": 21, "y": [ 11, 19 ] },
         { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 17, 18 ], "y": [ 11, 18 ] },
         { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 14, 15 ], "y": [ 11, 18 ] },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] }
+        { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] },
+        { "item": "cash_register_random", "x": [ 14, 19 ], "y": 7, "chance": 100 }
       ]
     }
   },
@@ -796,42 +808,42 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "___d___ud___________ss__",
-        "__||||||||||||------ssr_",
-        "_u|####.....Dsssssssssr_",
-        "_S|......1..Dsssssssssr_",
-        "_u|.{{{.....|||||||||||_",
-        "d_|........^|..1.{{{{{|_",
-        "__|####.....+..c.....{|_",
-        "__|||||.....||######|||d",
-        "__|###................|_",
-        "__|{.....tt.......1...|_",
-        "_S|{.....tt...........|u",
-        "_u|###........{{.{{..{|u",
-        "_d|||||.....1.{{.{{..{|_",
-        "__|###...tt...{{.{{..{|_",
-        "__|#.....tt...{{.{{..{|_",
-        "__|#..........{{.{{..{|_",
-        "__|#.1........{{.{{..{|d",
-        "_u|b...||||||.{{.{{..{|u",
-        "__|b...|llll|.{{.{{..{|_",
-        "__||||.|....|........{|_",
-        "__|&.+.+....|||||||||||4",
-        "d_|%.|y|tc..+ss____duS__",
-        "__|||||||||||ss_________",
-        "____u_u_______________d_"
+        "                    ss  ",
+        "  ||||||||||||------ssr ",
+        "  |####.....Dsssssssssr ",
+        "  |......1..Dsssssssssr ",
+        "  |.{{{.....||||||||||| ",
+        "  |........^|..1.{{{{{| ",
+        "  |####.....+..c.....{| ",
+        "  |||||.....||######||| ",
+        "  |###................| ",
+        "  |{.....tt.......1...| ",
+        "  |{.....tt...........| ",
+        "  |###........{{.{{..{| ",
+        "  |||||.....1.{{.{{..{| ",
+        "  |###...tt...{{.{{..{| ",
+        "  |#.....tt...{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |#.1........{{.{{..{| ",
+        "  |b...||||||.{{.{{..{| ",
+        "  |b...|llll|.{{.{{..{| ",
+        "  ||||.|....|........{| ",
+        "  |&,+.+....|||||||||||4",
+        "  |%,|y|tc..+ss         ",
+        "  |||||||||||ss         ",
+        "                        "
       ],
       "terrain": {
         "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
         "-": "t_railing_h",
         ".": "t_floor",
+        "&": "t_linoleum_white",
+        "%": "t_linoleum_white",
+        ",": "t_linoleum_white",
         "D": "t_door_glass_c",
-        "S": "t_shrub",
-        "_": "t_grass",
-        "d": "t_dirt",
+        " ": "t_region_groundcover_urban",
         "r": "t_railing_v",
         "s": "t_sidewalk",
-        "u": "t_underbrush",
         "|": "t_wall_g",
         "4": "t_gutter_downspout"
       },
@@ -842,7 +854,7 @@
         "c": "f_chair",
         "l": "f_locker",
         "t": "f_table",
-        "{": "f_rack",
+        "{": "f_rack_wood",
         "%": "f_sink",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
       },
@@ -863,7 +875,8 @@
         { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": 21, "y": [ 11, 19 ] },
         { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 17, 18 ], "y": [ 11, 18 ] },
         { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 14, 15 ], "y": [ 11, 18 ] },
-        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] }
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] },
+        { "item": "cash_register_random_ransacked", "x": [ 14, 19 ], "y": 7, "chance": 100 }
       ],
       "items": { ".": { "item": "trash_cart", "chance": 5 } },
       "nested": {
@@ -883,42 +896,42 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "___d___ud___________ss__",
-        "__||||||||||||------ssr_",
-        "_u|####.....DЮssssssssr_",
-        "_S|.........DЮssssssssr_",
-        "_u|.{{{.....|||||||||||_",
-        "d_|........^|....{{{{{|_",
-        "__|####.....+..c.....{|_",
-        "__|||||.....||######|||d",
-        "__|###................|_",
-        "__|{.....tt...........|_",
-        "_S|{.....tt...........|u",
-        "_u|###........{{.{{..{|u",
-        "_d|||||.......{{.{{..{|_",
-        "__|###...tt...{{.{{..{|_",
-        "__|#.....tt...{{.{{..{|_",
-        "__|#..........{{.{{..{|_",
-        "__|#..........{{.{{..{|d",
-        "_u|b...||||||.{{.{{..{|u",
-        "__|b...|llll|.{{.{{..{|_",
-        "__||||.|....|........{|_",
-        "__|&.+.+....|||||||||||4",
-        "d_|%.|y|tc..+ss____duS__",
-        "__|||||||||||ss_________",
-        "____u_u_______________d_"
+        "                    ss  ",
+        "  ||||||||||||------ssr ",
+        "  |####.....DЮssssssssr ",
+        "  |.........DЮssssssssr ",
+        "  |.{{{.....||||||||||| ",
+        "  |........^|....{{{{{| ",
+        "  |####.....+..c.....{| ",
+        "  |||||.....||######||| ",
+        "  |###................| ",
+        "  |{.....tt...........| ",
+        "  |{.....tt...........| ",
+        "  |###........{{.{{..{| ",
+        "  |||||.......{{.{{..{| ",
+        "  |###...tt...{{.{{..{| ",
+        "  |#.....tt...{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |b...||||||.{{.{{..{| ",
+        "  |b...|llll|.{{.{{..{| ",
+        "  ||||.|....|........{| ",
+        "  |&,+.+....|||||||||||4",
+        "  |%,|y|tc..+ss         ",
+        "  |||||||||||ss         ",
+        "                        "
       ],
       "terrain": {
         "+": "t_door_boarded",
         "-": "t_railing_h",
         ".": "t_floor",
+        "&": "t_linoleum_white",
+        "%": "t_linoleum_white",
+        ",": "t_linoleum_white",
         "D": "t_door_glass_c",
-        "S": "t_shrub",
-        "_": "t_grass",
-        "d": "t_dirt",
+        " ": "t_region_groundcover_urban",
         "r": "t_railing_v",
         "s": "t_sidewalk",
-        "u": "t_underbrush",
         "|": "t_wall_g",
         "4": "t_gutter_downspout",
         "Ю": "t_sidewalk"
@@ -930,7 +943,7 @@
         "c": "f_chair",
         "l": "f_locker",
         "t": "f_table",
-        "{": "f_rack",
+        "{": "f_rack_wood",
         "%": "f_sink",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "Ю": "f_sandbag_half"
@@ -952,7 +965,8 @@
         { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": 21, "y": [ 11, 19 ] },
         { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 17, 18 ], "y": [ 11, 18 ] },
         { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 14, 15 ], "y": [ 11, 18 ] },
-        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] }
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] },
+        { "item": "cash_register_random_ransacked", "x": [ 14, 19 ], "y": 7, "chance": 100 }
       ]
     }
   },

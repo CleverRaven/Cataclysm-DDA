@@ -5243,7 +5243,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
         map_stack stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
         [ammo, using_ammotype]( const item & i ) {
-            if( using_ammotype ) {
+            if( using_ammotype && i.type->ammo && ammo->ammo ) {
                 return i.type->ammo->type == ammo->ammo->type;
             } else {
                 return i.typeId() == ammo;
@@ -8271,7 +8271,8 @@ bool map::build_floor_cache( const int zlev )
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                     if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
+                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
+                        terrain.has_flag( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR ) ) {
                         if( below_submap &&
                             below_submap->get_furn( sp ).obj().has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) ) {
                             continue;
