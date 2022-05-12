@@ -178,11 +178,9 @@
         "+": "t_door_c",
         ".": "t_linoleum_white",
         "=": "t_wall_glass",
-        "A": "t_atm",
         "[": "t_door_glass_c",
         "_": "t_pavement",
         "-": "t_pavement_y",
-        "l": "t_linoleum_gray",
         "d": "t_sidewalk",
         "s": "t_sidewalk",
         "|": "t_wall_w",
@@ -190,11 +188,10 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
-        "C": "f_console_broken",
         "#": "f_counter",
         "}": "f_bookcase",
         "P": "f_desk",
-        "p": "f_armchair",
+        "p": "f_chair",
         "%": "f_trashcan",
         "6": "f_arcade_machine",
         "d": "f_bench",
@@ -202,7 +199,6 @@
         "B": "f_stool",
         "D": "f_dryer",
         "S": "f_sink",
-        "T": "f_toilet",
         "V": "f_vending_c",
         "W": "f_washer",
         "^": "f_indoor_plant",
@@ -223,12 +219,9 @@
         "#": { "item": "behindcounter", "chance": 20 }
       },
       "place_vehicles": [
-        { "vehicle": "shopping_cart", "x": 14, "y": 9, "chance": 10 },
-        { "vehicle": "shopping_cart", "x": 14, "y": 13, "chance": 10 },
-        { "vehicle": "shopping_cart", "x": 15, "y": 12, "chance": 10 },
-        { "vehicle": "shopping_cart", "x": 17, "y": 18, "chance": 10 },
-        { "vehicle": "shopping_cart", "x": 17, "y": 21, "chance": 10 },
-        { "vehicle": "car", "x": [ 3, 10 ], "y": [ 2, 3 ], "chance": 20 }
+        { "vehicle": "shopping_cart", "x": 14, "y": 9, "chance": 13 },
+        { "vehicle": "shopping_cart", "x": 14, "y": 13, "chance": 13 },
+        { "vehicle": "shopping_cart", "x": 15, "y": 12, "chance": 13 }
       ],
       "place_loot": [ { "group": "cash_register_random", "x": [ 16, 21 ], "y": 16 } ],
       "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 20, "rotation": 90 } }
