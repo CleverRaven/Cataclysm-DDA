@@ -15,6 +15,7 @@ class item;
 struct advanced_inv_save_state;
 
 using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
 
 void create_advanced_inv();
 
@@ -178,6 +179,7 @@ class advanced_inventory
          */
         bool move_content( item &src_container, item &dest_container );
         void move_cont_item( drop_location thing, item_location dest_container );
+        void move_cont_item( drop_locations things, item_location dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.

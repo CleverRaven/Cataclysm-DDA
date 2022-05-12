@@ -236,6 +236,10 @@ class uistatedata
             json.member( "adv_inv_container_index", adv_inv_container_index );
             json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             json.member( "adv_inv_container_type", adv_inv_container_type );
+            json.member( "adv_inv_rcontainer_location", adv_inv_rcontainer_location );
+            json.member( "adv_inv_rcontainer_index", adv_inv_rcontainer_index );
+            json.member( "adv_inv_rcontainer_in_vehicle", adv_inv_rcontainer_in_vehicle );
+            json.member( "adv_inv_rcontainer_type", adv_inv_rcontainer_type );
             json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
@@ -294,6 +298,10 @@ class uistatedata
             jo.read( "adv_inv_container_index", adv_inv_container_index );
             jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             jo.read( "adv_inv_container_type", adv_inv_container_type );
+            jo.read( "adv_inv_rcontainer_location", adv_inv_rcontainer_location );
+            jo.read( "adv_inv_rcontainer_index", adv_inv_rcontainer_index );
+            jo.read( "adv_inv_rcontainer_in_vehicle", adv_inv_rcontainer_in_vehicle );
+            jo.read( "adv_inv_rcontainer_type", adv_inv_rcontainer_type );
             jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );

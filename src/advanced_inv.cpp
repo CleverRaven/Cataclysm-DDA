@@ -209,10 +209,10 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
 bool advanced_inventory::get_square( const std::string &action, aim_location &ret )
 {
     for( advanced_inv_area &s : squares ) {
-        if( "ITEMS_CONTAINER" == action) {
-            if( src == left && s.id == AIM_CONTAINER_L || 
-                src == right && s.id == AIM_CONTAINER_R ) {
-                ret = screen_relative_location(s.id);
+        if( "ITEMS_CONTAINER" == action ) {
+            if( ( src == left && s.id == AIM_CONTAINER_L ) || 
+                ( src == right && s.id == AIM_CONTAINER_R ) ) {
+                ret = screen_relative_location( s.id );
                 return true;
             }
         }
@@ -609,7 +609,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
-        if (i == AIM_CONTAINER_R && area == AIM_CONTAINER_L) {
+        if ( i == AIM_CONTAINER_R && area == AIM_CONTAINER_L ) {
             continue;
         }
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
@@ -970,10 +970,51 @@ bool advanced_inventory::move_all_items()
             // TODO: implement this
             popup( _( "Putting on everything from your inventory would be tricky." ) );
             return false;
-        } else if( dpane.get_area() == AIM_CONTAINER_L || dpane.get_area() == AIM_CONTAINER_L ) {
-            // TODO: implement this
-            popup( _( "Putting everything into the container would be tricky." ) );
-            return false;
+        } else if ( dpane.get_area() == AIM_CONTAINER_L || dpane.get_area() == AIM_CONTAINER_R ) {
+            const units::volume& src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
+            if ( !is_processing() && src_volume > darea.free_volume( dpane.in_vehicle() ) &&
+                !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
+                return false;
+            }
+
+            drop_locations dropped;
+            drop_locations dropped_favorite;
+
+            if( spane.get_area() == AIM_INVENTORY ) {
+                std::vector<advanced_inv_listitem> items = get_avatar().get_AIM_inventory( spane, sarea );
+                for( advanced_inv_listitem item : items ) {
+                    drop_location thing = drop_location( item.items.front(), 1 );
+                    if( item.items.front() != darea.get_container() ) {
+                        if( item.items.front()->is_favorite ) {
+                            dropped_favorite.push_back( thing );
+                        } else {
+                            dropped.push_back( thing );
+                        }
+                    }
+                }
+            } else if( spane.get_area() == AIM_WORN ) {
+                for( item_location item : player_character.worn.all_items_loc( player_character ) ) {
+                    drop_location clothing = drop_location( item, 1 );
+                    if ( item.get_item()->is_worn_by_player() && item != darea.get_container() ) {
+                        if( item.get_item()->is_favorite ) {
+                            dropped_favorite.push_back( clothing );
+                        } else {
+                            dropped.push_back( clothing );
+                        }
+                    }
+                }
+            }
+
+            if ( dropped.empty() ) {
+                if ( !query_yn( _( "Really move all your favorite items?" ) ) ) {
+                    return false;
+                }
+                dropped = dropped_favorite;
+            }
+
+            do_return_entry();
+            move_cont_item( dropped, darea.get_container() );
+            return true;
         }
 
         // Check first if the destination area still have enough room for moving all.
@@ -1263,8 +1304,8 @@ void advanced_inventory::redraw_sidebar()
 void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    if( panes[left].get_area() == changeSquare && changeSquare != AIM_CONTAINER_L || 
-        changeSquare != AIM_CONTAINER_R && panes[right].get_area() == changeSquare ) {
+    if( ( panes[left].get_area() == changeSquare && changeSquare != AIM_CONTAINER_L ) || 
+        ( panes[right].get_area() == changeSquare && changeSquare != AIM_CONTAINER_R ) ) {
         if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
             spane.get_area() != changeSquare ) {
             // only deal with spane, as you can't _directly_ change dpane
@@ -1404,12 +1445,12 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // but are potentially at a different place).
     recalc = true;
     cata_assert( amount_to_move > 0 );
-    if( destarea == AIM_CONTAINER_L || destarea == AIM_CONTAINER_R) {
+    if( destarea == AIM_CONTAINER_L || destarea == AIM_CONTAINER_R ) {
         drop_location thing;
         item_location container = squares[destarea].get_container( to_vehicle );
         thing.first = sitem->items.front();
         thing.second = amount_to_move;
-        if ( thing.first.get_item()->made_of(phase_id::LIQUID)) {
+        if ( thing.first.get_item()->made_of( phase_id::LIQUID ) ) {
             if( !move_content( *sitem->items.front(),
                                *container ) ) {
                 return false;
@@ -1418,11 +1459,11 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             if ( srcarea > AIM_INVENTORY &&
                  srcarea < AIM_CONTAINER_L &&
                  srcarea != AIM_DRAGGED ) {
-                start_activity(destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle);
+                start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
                 do_return_entry();
                 exit = true;
             }
-            move_cont_item(thing, container);
+            move_cont_item( thing, container );
         }
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
@@ -1487,8 +1528,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
         // Make sure advanced inventory is reopened after activity completion.
         do_return_entry();
-        // TODO: make it so if the source is a container, it's valid after. or rewrite how containers work in AIM
-        start_activity(destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle);
+        start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
 
         // exit so that the activity can be carried out
         exit = true;
@@ -1923,17 +1963,22 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 }
 
 void advanced_inventory::move_cont_item( drop_location thing, item_location dest_container ) {
-    Character& player_character = get_player_character();
     drop_locations things;
-    things.push_back(thing);
+    things.push_back( thing );
 
-    insert_item_activity_actor insert = insert_item_activity_actor(dest_container, things);
-    player_activity activity = player_activity(insert);
+    move_cont_item( things, dest_container );
+}
 
-    player_character.assign_activity(activity);
+void advanced_inventory::move_cont_item( drop_locations things, item_location dest_container ) {
+    Character& player_character = get_player_character();
 
-    insert.start(activity, player_character);
-    insert.finish(activity, player_character);
+    insert_item_activity_actor insert = insert_item_activity_actor( dest_container, things );
+    player_activity activity = player_activity( insert );
+
+    player_character.assign_activity( activity );
+
+    insert.start( activity, player_character );
+    insert.finish( activity, player_character );
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
