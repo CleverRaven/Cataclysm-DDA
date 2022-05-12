@@ -361,7 +361,7 @@
     "type": "MIGRATION",
     "replace": "shot_short_pump"
   },
-    {
+  {
     "id": [ "m26_mass_standalone" ],
     "type": "MIGRATION",
     "replace": "m26_mass_standalone"
