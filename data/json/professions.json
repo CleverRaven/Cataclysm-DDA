@@ -4603,8 +4603,8 @@
           "tele_sight_pistol"
         ],
         "entries": [
-          { "item": "glock_29", "ammo-item": "10mm_fmj", "container-item": "bbholster", "charges": 15 },
-          { "item": "glock_20mag", "ammo-item": "10mm_fmj", "charges": 15 }
+          { "item": "glock_29", "ammo-item": "10mm_fmj", "charges": 15 },
+          { "item": "glock_20mag", "ammo-item": "10mm_fmj", "charges": 15, "container-item": "bbholster" }
         ]
       },
       "male": [
