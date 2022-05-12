@@ -109,6 +109,7 @@ class autodrive_activity_actor : public activity_actor
 {
     private:
         vehicle *player_vehicle = nullptr;
+        int cruise_spd_TPS = 1;
 
     public:
         autodrive_activity_actor() = default;

@@ -28,6 +28,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
+#include "options.h"
 #include "point.h"
 #include "tileray.h"
 #include "translations.h"
@@ -138,7 +139,7 @@ static constexpr int TURNING_INCREMENT = 15;
 static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
 static constexpr int MIN_SPEED_TPS = 1;
-static constexpr int MAX_SPEED_TPS = 3;
+static constexpr int MAX_SPEED_TPS = 12;
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
 /**
@@ -325,7 +326,10 @@ enum class collision_check_result : int {
 class vehicle::autodrive_controller
 {
     public:
-        explicit autodrive_controller( const vehicle &driven_veh, const Character &driver );
+        const int cruise_spd_TPS;
+
+        explicit autodrive_controller( const vehicle &driven_veh, const Character &driver,
+                                       const int cruise_spd_TPS );
         const Character &get_driver() {
             return driver;
         }
@@ -810,7 +814,7 @@ void vehicle::autodrive_controller::precompute_data()
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
         data.air_ok = driven_veh.is_flyable();
-        data.max_speed_tps = std::min( MAX_SPEED_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
+        data.max_speed_tps = std::min( cruise_spd_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {
             data.acceleration[speed_tps] = driven_veh.acceleration( true, speed_tps * VMIPH_PER_TPS );
@@ -1007,7 +1011,8 @@ cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::comp
 }
 
 vehicle::autodrive_controller::autodrive_controller( const vehicle &driven_veh,
-        const Character &driver ) : driven_veh( driven_veh ), driver( driver )
+        const Character &driver, const int cruise_spd_TPS ) : driven_veh( driven_veh ), driver( driver ),
+    cruise_spd_TPS( cruise_spd_TPS )
 {
     data.clear();
 }
@@ -1036,6 +1041,7 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
     for( const point &p : data.profile( to_orientation( face_dir.dir() ) ).collision_points ) {
         if( driver.sees( veh_pos + forward_offset + p ) ) {
             blind = false;
+            break;
         }
     }
     if( blind ) {
@@ -1101,8 +1107,8 @@ cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step
         data.path.clear();
     }
     if( data.path.empty() ) {
-        // if we're just starting out or we've gone off-course use the lowest speed
-        if( had_cached_path || driven_veh.velocity == 0 ) {
+        // if we're just starting out use the lowest speed
+        if( driven_veh.velocity == 0 ) {
             data.max_speed_tps = MIN_SPEED_TPS;
         }
         auto new_path = compute_path( data.max_speed_tps );
@@ -1203,7 +1209,36 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
     return ret;
 }
 
-autodrive_result vehicle::do_autodrive( Character &driver )
+int vehicle::query_autodrive_spd()
+{
+    int slow = std::min( MAX_SPEED_TPS * .4, .4 * safe_velocity() / VMIPH_PER_TPS );
+    int normal = std::min( MAX_SPEED_TPS * .67, .67 * safe_velocity() / VMIPH_PER_TPS );
+    int fast = std::min( MAX_SPEED_TPS, safe_velocity() / VMIPH_PER_TPS );
+    const std::string units = get_option<std::string>( "USE_METRIC_SPEEDS" );
+    uilist menu;
+    menu.settext( _( "Choose maximum cruise speed:" ) );
+    menu.addentry( string_format( "%1$d %2$s", static_cast<int>( convert_velocity( slow * VMIPH_PER_TPS,
+                                  VU_VEHICLE ) ), units ) );
+    menu.addentry( string_format( "%1$d %2$s",
+                                  static_cast<int>( convert_velocity( normal * VMIPH_PER_TPS,
+                                          VU_VEHICLE ) ), units ) );
+    menu.addentry( string_format( "%1$d %2$s", static_cast<int>( convert_velocity( fast * VMIPH_PER_TPS,
+                                  VU_VEHICLE ) ), units ) );
+    menu.addentry( _( "Cancel" ) );
+    menu.query();
+    switch( menu.ret ) {
+        case 0:
+            return slow;
+        case 1:
+            return normal;
+        case 2:
+            return fast;
+        default:
+            return -1;
+    }
+}
+
+autodrive_result vehicle::do_autodrive( Character &driver, int cruise_spd_TPS )
 {
     if( !is_autodriving ) {
         return autodrive_result::abort;
@@ -1224,7 +1259,8 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         return autodrive_result::finished;
     }
     if( !active_autodrive_controller ) {
-        active_autodrive_controller = std::make_shared<autodrive_controller>( *this, driver );
+        active_autodrive_controller = std::make_shared<autodrive_controller>( *this, driver,
+                                      cruise_spd_TPS );
     }
     if( &active_autodrive_controller->get_driver() != &driver ) {
         debugmsg( "Driver changed while auto-driving" );

@@ -888,7 +888,9 @@ class vehicle
             return autodrive_local_target;
         }
         // Drive automatically towards some destination for one turn.
-        autodrive_result do_autodrive( Character &driver );
+        autodrive_result do_autodrive( Character &driver, const int cruise_spd_TPS );
+        // Query player for desired maximum autodrive speed.
+        int query_autodrive_spd();
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
         /**

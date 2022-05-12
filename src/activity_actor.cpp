@@ -491,6 +491,11 @@ void autodrive_activity_actor::start( player_activity &, Character &who )
 
     player_vehicle = &vp->vehicle();
     player_vehicle->is_autodriving = true;
+    cruise_spd_TPS = player_vehicle->query_autodrive_spd();
+    if( cruise_spd_TPS <= 0 ) {
+        who.cancel_activity();
+        return;
+    }
 }
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
@@ -501,7 +506,7 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
             // (but the vehicle will continue moving)
             return;
         }
-        switch( player_vehicle->do_autodrive( who ) ) {
+        switch( player_vehicle->do_autodrive( who, cruise_spd_TPS ) ) {
             case autodrive_result::ok:
                 if( who.moves > 0 ) {
                     // if do_autodrive() didn't eat up all our moves, end the turn

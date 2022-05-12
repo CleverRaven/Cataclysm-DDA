@@ -82,6 +82,7 @@
 class character_id;
 
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
@@ -1834,24 +1835,24 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             } else {
                 player_character.omt_path.swap( path );
             }
-            if( same_path_selected && !player_character.omt_path.empty() ) {
+            if( !driving && same_path_selected && !player_character.omt_path.empty() ) {
                 std::string confirm_msg;
-                if( !driving && player_character.weight_carried() > player_character.weight_capacity() ) {
+                if( player_character.weight_carried() > player_character.weight_capacity() ) {
                     confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
-                } else if( !driving && player_character.in_vehicle ) {
+                } else if( player_character.in_vehicle ) {
                     confirm_msg = _( "You are in a vehicle but not driving.  Are you sure you want to walk?" );
-                } else if( driving ) {
-                    confirm_msg = _( "Drive to this point?" );
                 } else {
                     confirm_msg = _( "Travel to this point?" );
                 }
                 if( query_yn( confirm_msg ) ) {
-                    if( driving ) {
-                        player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
-                    } else {
-                        player_character.reset_move_mode();
-                        player_character.assign_activity( ACT_TRAVELLING );
-                    }
+                    player_character.reset_move_mode();
+                    player_character.assign_activity( ACT_TRAVELLING );
+                    action = "QUIT";
+                }
+            } else if( driving && same_path_selected && !player_character.omt_path.empty() ) {
+                player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
+                if( player_character.has_activity( ACT_AUTODRIVE ) ) {
+                    // Autodrive confirmed by the player.
                     action = "QUIT";
                 }
             }
