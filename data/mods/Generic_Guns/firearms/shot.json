@@ -82,7 +82,7 @@
     "copy-from": "m26_mass_standalone",
     "type": "GUN",
     "name": { "str": "compact shotgun" },
-    "description": "Small shotgun, maded from underbarrel shotgun modification and a pistol grip.  Not the best weapon, but has a really small size and weight.",
+    "description": "Small shotgun, assembled from underbarrel shotgun modification and a pistol grip.  Not the best weapon, but has a really small size and weight.",
     "ammo": [ "ammo_shot" ]
   }
 ]
