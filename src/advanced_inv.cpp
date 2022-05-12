@@ -624,6 +624,8 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
             bcolor = in_vehicle ? c_light_blue :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
             kcolor = area == data_location ? c_white : sel == data_location ? c_light_gray : c_dark_gray;
+        } else if( area == data_location ) {
+            bcolor = c_light_gray;
         }
 
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
