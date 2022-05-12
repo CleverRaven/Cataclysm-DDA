@@ -78,7 +78,7 @@
     "ammo": [ "ammo_shot" ]
   },
   {
-    "id": "m26_mass_standalone",
+    "id": "small_shotgun",
     "copy-from": "m26_mass_standalone",
     "type": "GUN",
     "name": { "str": "compact shotgun" },

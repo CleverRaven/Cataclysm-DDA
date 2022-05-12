@@ -364,6 +364,6 @@
   {
     "id": [ "m26_mass_standalone" ],
     "type": "MIGRATION",
-    "replace": "m26_mass_standalone"
+    "replace": "small_shotgun"
   }
 ]
