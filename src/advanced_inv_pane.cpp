@@ -226,13 +226,13 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 item_location container = square.get_container( in_vehicle() );
                 std::list<item*> contained = container->all_items_top();
                 for( item* object : contained ) {
-                    advanced_inv_listitem ait( item_location( u, object ), 0, 1, square.id, in_vehicle() );
+                    advanced_inv_listitem ait( item_location( container, object ), 0, 1, square.id, in_vehicle() );
                     square.volume += ait.volume;
                     square.weight += ait.weight;
                     items.push_back( ait );
                 }
-
-            }            square.desc[0] = cont->tname( 1, false );
+            }
+            square.desc[0] = cont->tname( 1, false );
         }
     } else {
         bool is_in_vehicle = square.can_store_in_vehicle() && ( in_vehicle() || vehicle_override );

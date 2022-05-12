@@ -970,10 +970,51 @@ bool advanced_inventory::move_all_items()
             // TODO: implement this
             popup( _( "Putting on everything from your inventory would be tricky." ) );
             return false;
-        } else if( dpane.get_area() == AIM_CONTAINER_L || dpane.get_area() == AIM_CONTAINER_L ) {
-            // TODO: implement this
-            popup( _( "Putting everything into the container would be tricky." ) );
-            return false;
+        } else if ( dpane.get_area() == AIM_CONTAINER_L || dpane.get_area() == AIM_CONTAINER_R ) {
+            const units::volume& src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
+            if ( !is_processing() && src_volume > darea.free_volume( dpane.in_vehicle() ) &&
+                !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
+                return false;
+            }
+
+            drop_locations dropped;
+            drop_locations dropped_favorite;
+
+            if( spane.get_area() == AIM_INVENTORY ) {
+                std::vector<advanced_inv_listitem> items = get_avatar().get_AIM_inventory( spane, sarea );
+                for( advanced_inv_listitem item : items ) {
+                    drop_location thing = drop_location( item.items.front(), 1 );
+                    if( item.items.front() != darea.get_container() ) {
+                        if( item.items.front()->is_favorite ) {
+                            dropped_favorite.push_back( thing );
+                        } else {
+                            dropped.push_back( thing );
+                        }
+                    }
+                }
+            } else if( spane.get_area() == AIM_WORN ) {
+                for( item_location item : player_character.worn.all_items_loc( player_character ) ) {
+                    drop_location clothing = drop_location( item, 1 );
+                    if ( item.get_item()->is_worn_by_player() && item != darea.get_container() ) {
+                        if( item.get_item()->is_favorite ) {
+                            dropped_favorite.push_back( clothing );
+                        } else {
+                            dropped.push_back( clothing );
+                        }
+                    }
+                }
+            }
+
+            if ( dropped.empty() ) {
+                if ( !query_yn( _( "Really move all your favorite items?" ) ) ) {
+                    return false;
+                }
+                dropped = dropped_favorite;
+            }
+
+            do_return_entry();
+            move_cont_item( dropped, darea.get_container() );
+            return true;
         }
 
         // Check first if the destination area still have enough room for moving all.
@@ -1409,7 +1450,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         item_location container = squares[destarea].get_container( to_vehicle );
         thing.first = sitem->items.front();
         thing.second = amount_to_move;
-        if ( thing.first.get_item()->made_of(phase_id::LIQUID ) ) {
+        if ( thing.first.get_item()->made_of( phase_id::LIQUID ) ) {
             if( !move_content( *sitem->items.front(),
                                *container ) ) {
                 return false;
@@ -1922,9 +1963,14 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 }
 
 void advanced_inventory::move_cont_item( drop_location thing, item_location dest_container ) {
-    Character& player_character = get_player_character();
     drop_locations things;
     things.push_back( thing );
+
+    move_cont_item( things, dest_container );
+}
+
+void advanced_inventory::move_cont_item( drop_locations things, item_location dest_container ) {
+    Character& player_character = get_player_character();
 
     insert_item_activity_actor insert = insert_item_activity_actor( dest_container, things );
     player_activity activity = player_activity( insert );

@@ -227,8 +227,10 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
             if( advitem != nullptr ) {
                 it = advitem->items.front();
                 from_vehicle = advitem->from_vehicle;
-            }
-            if( get_container( from_vehicle ) ) {
+                if( it.get_item()->get_all_contained_pockets().empty() ) {
+                    it = get_container(from_vehicle);
+                }
+            } else if( get_container( from_vehicle ) ) {
                 it = get_container( from_vehicle );
             }
             if( it ) {
