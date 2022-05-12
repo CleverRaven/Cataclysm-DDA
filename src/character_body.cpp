@@ -238,8 +238,10 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     bool was_sleeping = get_value( "was_sleeping" ) == "true";
     if( in_sleep_state() && was_sleeping ) {
-        mod_daily_sleep( to - from );
-        mod_continuous_sleep( to - from );
+        const int fatigue_regen_rate = calc_sleep_recovery_rate().recovery;
+        const time_duration effective_time_slept = ( to - from ) * fatigue_regen_rate;
+        mod_daily_sleep( effective_time_slept );
+        mod_continuous_sleep( effective_time_slept );
     }
     if( was_sleeping && !in_sleep_state() ) {
         if( get_continuous_sleep() >= 6_hours ) {

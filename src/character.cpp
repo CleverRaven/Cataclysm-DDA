@@ -4646,25 +4646,7 @@ needs_rates Character::calc_needs_rates() const
     rates.fatigue *= 1.0f + mutation_value( fatigue_modifier );
 
     if( asleep ) {
-        static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
-        rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
-        if( !is_hibernating() ) {
-            // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
-            rates.hunger *= 0.5f;
-            rates.thirst *= 0.5f;
-            const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
-            // Accelerated recovery capped to 2x over 2 hours
-            // After 16 hours of activity, equal to 7.25 hours of rest
-            const int accelerated_recovery_chance = 24 - intense + 1;
-            const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
-            rates.recovery += accelerated_recovery_rate;
-        } else {
-            // Hunger and thirst advance *much* more slowly whilst we hibernate.
-            rates.hunger *= ( 2.0f / 7.0f );
-            rates.thirst *= ( 2.0f / 7.0f );
-        }
-        rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
-
+        rates = calc_sleep_recovery_rate();
     } else {
         rates.recovery = 0;
     }
@@ -4693,6 +4675,31 @@ needs_rates Character::calc_needs_rates() const
     rates.fatigue = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE, rates.fatigue );
     rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
 
+    return rates;
+}
+
+needs_rates Character::calc_sleep_recovery_rate() const
+{
+    const effect &sleep = get_effect( effect_sleep );
+    needs_rates rates;
+    static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
+    rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
+    if( !is_hibernating() ) {
+        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+        rates.hunger *= 0.5f;
+        rates.thirst *= 0.5f;
+        const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
+        // Accelerated recovery capped to 2x over 2 hours
+        // After 16 hours of activity, equal to 7.25 hours of rest
+        const int accelerated_recovery_chance = 24 - intense + 1;
+        const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
+        rates.recovery += accelerated_recovery_rate;
+    } else {
+        // Hunger and thirst advance *much* more slowly whilst we hibernate.
+        rates.hunger *= ( 2.0f / 7.0f );
+        rates.thirst *= ( 2.0f / 7.0f );
+    }
+    rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
     return rates;
 }
 
