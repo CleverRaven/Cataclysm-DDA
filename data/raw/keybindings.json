@@ -1773,17 +1773,10 @@
   },
   {
     "type": "keybinding",
-    "id": "HIDE_CONTENTS",
+    "id": "SHOW_HIDE_CONTENTS",
     "category": "INVENTORY",
-    "name": "Hide contents",
+    "name": "Show/hide contents",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "SHOW_CONTENTS",
-    "category": "INVENTORY",
-    "name": "Show contents",
-    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
