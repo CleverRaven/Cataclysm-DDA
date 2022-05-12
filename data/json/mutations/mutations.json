@@ -4937,7 +4937,6 @@
     "changes_to": [ "DEX_UP_2", "DEX_ALPHA" ],
     "category": [
       "INSECT",
-      "SLIME",
       "ALPHA",
       "LIZARD",
       "SPIDER",
@@ -5535,6 +5534,7 @@
     "description": "Your visage is disgusting and liable to induce vomiting.  People will not want to interact with you unless they have a very good reason to.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "DEFORMED2" ],
+    "threshreq": [ "THRESH_SLIME", "THRESH_RAT", "THRESH_CHIMERA" ],
     "category": [ "SLIME", "RAT", "CHIMERA" ]
   },
   {
