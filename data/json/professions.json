@@ -1994,8 +1994,15 @@
     "id": "construction_worker",
     "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did plenty of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help rebuild?",
-    "points": 1,
-    "proficiencies": [ "prof_plumbing", "prof_elec_soldering", "prof_metalworking", "prof_lockpicking", "prof_carpentry_basic" ],
+    "points": 2,
+    "proficiencies": [
+      "prof_plumbing",
+      "prof_elec_soldering",
+      "prof_metalworking",
+      "prof_lockpicking",
+      "prof_carpentry_basic",
+      "prof_appliance_repair"
+    ],
     "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "traps" } ],
     "items": {
       "both": {
