@@ -526,7 +526,12 @@ class map
          */
         void load( const tripoint_abs_sm &w, bool update_vehicles,
                    bool pump_events = false );
-        void peek_load(const tripoint_abs_sm& w);
+        /**
+        * Loads submaps without touching any caches. It's intended to be used to view
+        * static map information in locations that overlap the primary map without
+        * scrambling the caches used by the primary map (as 'load' does).
+        */
+        void peek_load( const tripoint_abs_sm &w );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current

@@ -6846,10 +6846,10 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     }
 }
 
-void map::peek_load(const tripoint_abs_sm& w)
+void map::peek_load( const tripoint_abs_sm &w )
 {
-    map& main_map = get_map();
-    set_abs_sub(w);
+    map &main_map = get_map();
+    set_abs_sub( w );
 }
 
 void map::shift_traps( const tripoint &shift )
