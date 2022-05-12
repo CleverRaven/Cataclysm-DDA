@@ -3390,10 +3390,11 @@ void item::armor_material_info( std::vector<iteminfo> &info, const iteminfo_quer
         // NOLINTNEXTLINE(cata-translate-string-literal)
         std::string bp_cat = string_format( "ARMOR" );
         std::string materials_list;
-
+        std::string units_info = pgettext( "length unit: milimeter", "mm" );
         for( const part_material *mat : armor_made_of( sbp ) ) {
-            materials_list.append( string_format( "  %s %.2fmm (%d%%).", mat->id->name(), mat->thickness,
-                                                  mat->cover ) );
+
+            materials_list.append( string_format( "  %s %.2f%s (%d%%).", mat->id->name(), mat->thickness,
+                                                  units_info, mat->cover ) );
         }
 
         info.emplace_back( bp_cat, string_format( "%s%s", _( "<bold>Materials</bold>:" ),
