@@ -441,7 +441,7 @@
     "id": "m26_mass",
     "type": "GUNMOD",
     "name": { "str": "M26-MASS shotgun" },
-    "description": "Modular Accessory Shotgun System, an underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of his problems.  It can be mounted under the barrel of different rifles, or used as standalone weapon by attachment to a pistol grip or collapsible buttstock module.  Uses 3 or 5 shell magazines",
+    "description": "Modular Accessory Shotgun System, an underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  It can be mounted under the barrel of different rifles, or used as standalone weapon by attachment to a pistol grip or collapsible buttstock module.  It feeds from three or five shot detachable magazines.",
     "weight": "2360 g",
     "volume": "1068 ml",
     "price": 95000,
@@ -461,7 +461,7 @@
     "copy-from": "m26_mass",
     "type": "GUNMOD",
     "name": { "str": "M26-MASS" },
-    "description": "An underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of his problems.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns.",
+    "description": "An underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
