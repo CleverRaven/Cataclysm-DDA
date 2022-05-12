@@ -172,7 +172,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_under_1", "shelter_under_1_vandal", "shelter_under_1_unfinished", "shelter_under_1_infested"],
+    "id": [ "shelter_under_1", "shelter_under_1_vandal", "shelter_under_1_unfinished", "shelter_under_1_infested" ],
     "name": "evac shelter basement B-05",
     "sym": "+",
     "color": "white",

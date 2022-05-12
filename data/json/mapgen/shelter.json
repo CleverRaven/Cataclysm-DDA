@@ -388,7 +388,6 @@
       "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ]
     }
   },
-
   {
     "type": "mapgen",
     "method": "json",
@@ -643,9 +642,7 @@
         "    |----:--+-:----|4   "
       ],
       "palettes": [ "shelter_infested" ],
-      "place_monsters": [
-        { "monster": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "density": 0.6 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "density": 0.6 } ]
     }
   },
   {
@@ -683,9 +680,7 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter_infested" ],
-      "place_monsters": [
-        { "monster": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "density": 0.6 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "density": 0.6 } ]
     }
   },
   {

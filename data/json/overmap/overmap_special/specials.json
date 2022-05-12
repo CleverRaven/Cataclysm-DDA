@@ -1406,7 +1406,6 @@
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN" ]
   },
-
   {
     "type": "overmap_special",
     "id": "Evac Shelter Survivor",
