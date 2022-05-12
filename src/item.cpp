@@ -6359,8 +6359,8 @@ int item::price( bool practical ) const
 
         int child = units::to_cent( practical ? e->type->price_post : e->type->price );
         if( e->damage() > 0 ) {
-            // maximal damage level is 4, maximal reduction is 40% of the value.
-            child -= child * static_cast<double>( e->damage_level() ) / 10;
+            // maximal damage level is 4, maximal reduction is 80% of the value.
+            child -= child * static_cast<double>( e->damage_level() ) / 5;
         }
 
         if( e->count_by_charges() || e->made_of( phase_id::LIQUID ) ) {
@@ -6390,8 +6390,8 @@ int item::price_no_contents( bool practical ) const
     }
     int price = units::to_cent( practical ? type->price_post : type->price );
     if( damage() > 0 ) {
-        // maximal damage level is 4, maximal reduction is 40% of the value.
-        price -= price * static_cast< double >( damage_level() ) / 10;
+        // maximal damage level is 4, maximal reduction is 80% of the value.
+        price -= price * static_cast< double >( damage_level() ) / 5;
     }
 
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
