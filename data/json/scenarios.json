@@ -762,10 +762,10 @@
   {
     "type": "scenario",
     "id": "infested_shelter_start",
-    "name": "Compromized Shelter",
+    "name": "Compromised Shelter",
     "points": -1,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  However, the people you came with started to turn and now they're out for your flesh!  You've holed up in the basement for now, but sooner or later you have to make for the door… and fast!",
-    "allowed_locs": [ "sloc_shelter_infest_a", "sloc_shelter_infest_b" ],
+    "allowed_locs": [ "sloc_shelter_infest_a", "sloc_shelter_infest_b", "sloc_shelter_infest_c" ],
     "start_name": "In an Infested Shelter",
     "flags": [ "LONE_START" ]
   }

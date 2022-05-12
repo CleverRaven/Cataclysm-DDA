@@ -1408,6 +1408,66 @@
   },
   {
     "type": "overmap_special",
+    "id": "Evac Shelter Survivor",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_survivor_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Survivor 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_1_survivor_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Survivor 1b",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_1b_survivor_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_1b_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1b_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Survivor 2",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_2_survivor_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_2_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Evac Shelter Vandalized",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_vandal_north" },
@@ -1453,30 +1513,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter Unfinished",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "shelter_unfinished_north" } ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 3, 10 ],
-    "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Evac Shelter Unfinished 2",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "shelter_unfinished_2_north" }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 3, 10 ],
-    "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "Evac Shelter Vandalized 3",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_2_vandal_north" },
@@ -1492,32 +1528,118 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter Infested",
+    "id": "Evac Shelter Unfinished",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "shelter_infested_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_3_infested_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_infested_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_unfinished_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_unfinished_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Unfinished 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_1_unfinished_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_1_unfinished_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Unfinished 1b",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_1b_unfinished_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_1b_unfinished_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Unfinished 2",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_2_unfinished_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_2_unfinished_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Infested",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_infested_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_infested_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Infested 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_1_infested_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_1_infested_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Infested 1b",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_1b_infested_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_1b_infested_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1b_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "type": "overmap_special",
     "id": "Evac Shelter Infested 2",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "shelter_infested_2_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_3_2_infested_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_infested_2_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_2_infested_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_2_infested_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_2_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "URBAN" ]
   },
   {
