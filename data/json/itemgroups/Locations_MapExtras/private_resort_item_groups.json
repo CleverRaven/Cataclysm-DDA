@@ -7,8 +7,11 @@
       {
         "distribution": [
           { "collection": [ { "item": "bondage_suit" }, { "item": "bondage_mask", "prob": 50 } ], "prob": 10 },
-          { "collection": [ { "item": "bodysuit_lycra", "variant": "bondage_suit", }, { "item": "bondage_mask", "prob": 30 } ], "prob": 10 },
-          { "item": "bodysuit_lycra", "prob": 5 }
+          {
+            "collection": [ { "item": "bodysuit_lycra", "variant": "bondage_suit" }, { "item": "bondage_mask", "prob": 30 } ],
+            "prob": 10
+          },
+          { "item": "bodysuit_lycra", "prob": 5 },
           {
             "collection": [
               { "group": "private_resort_dancer_torso", "prob": 40 },
