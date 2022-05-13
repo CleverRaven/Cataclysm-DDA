@@ -156,7 +156,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_GAME_MASTER" ]
   },
   {
     "type": "profession",
@@ -336,7 +337,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_PATIENT" ]
   },
   {
     "type": "profession",
@@ -696,7 +698,8 @@
       "bio_trickle",
       "bio_trickle"
     ],
-    "items": { "both": [ "subsuit_xl", "footrags", "hat_noise_cancelling" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": { "both": [ "subsuit_xl", "footrags", "hat_noise_cancelling" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",
@@ -725,7 +728,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "camisole", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",
@@ -771,7 +775,8 @@
       ],
       "male": [ "briefs" ],
       "female": [ "panties" ]
-    }
+    },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",
@@ -795,7 +800,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",

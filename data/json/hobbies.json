@@ -287,7 +287,8 @@
     "description": "You are an incredibly social individual, with the projection and vocabulary to make people listen.",
     "points": 1,
     "skills": [ { "level": 3, "name": "speech" } ],
-    "traits": [ "BOOMING_VOICE" ]
+    "traits": [ "BOOMING_VOICE" ],
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",

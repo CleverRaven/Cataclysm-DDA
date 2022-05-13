@@ -883,7 +883,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -1873,7 +1874,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -1911,7 +1913,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -1949,7 +1952,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -1987,7 +1991,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -2469,7 +2474,8 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
   },
   {
     "type": "profession",
@@ -2607,7 +2613,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_OTAKU" ]
   },
   {
     "type": "profession",
@@ -3923,7 +3930,8 @@
       },
       "male": [ "boxer_shorts", "opal_platinum_cufflinks" ],
       "female": [ "bra", "panties", "opal_platinum_earring" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -4439,7 +4447,7 @@
       "female": [ "bra", "panties", "diamond_gold_earring" ]
     },
     "traits": [ "LIAR" ],
-    "missions": [ "MISSION_MAFIA_BOSS" ]
+    "missions": [ "MISSION_MAFIA_BOSS", "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -4554,7 +4562,8 @@
       "both": { "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",

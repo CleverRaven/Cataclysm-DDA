@@ -1112,6 +1112,52 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_HUNTER",
+    "type": "mission_definition",
+    "name": { "str": "Hunt big game" },
+    "description": "The end of the world could have arrived, but you still crave for that one big hunt.  Search and kill a black bear to remember the old days.",
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "monster_type": "mon_bear",
+    "monster_kill_goal": 1,
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 15,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_OTAKU",
+    "type": "mission_definition",
+    "name": { "str": "Become the protagonist" },
+    "description": "The world has become like an anime!  Zombies, mutants, the end of civilization as we know it…  You must become the protagonist if you want to survive, the plot armor will help you.  Go and kill 50 zombies to show your protagonist potential.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 50,
+    "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 30,
+          "max_bonus": 50,
+          "duration": "12 hours",
+          "decay_start": "12 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
     "id": "MISSION_MAFIA_BOSS",
     "type": "mission_definition",
     "name": { "str": "Make the cops pay" },
@@ -1135,6 +1181,28 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_MUTANT_VOLUNTEER",
+    "type": "mission_definition",
+    "name": { "str": "Continue with your evolution" },
+    "description": "Your evolution to a more perfect form was interrupted by the cataclysm.  Restart your transformation process whatever it costs.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_trait": "CHANGING" },
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "24 hours",
+          "decay_start": "24 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
     "id": "MISSION_PORTAL_TRAVELER",
     "type": "mission_definition",
     "name": { "str": "Recover a part of yourself" },
@@ -1151,6 +1219,28 @@
           "max_bonus": 50,
           "duration": "24 hours",
           "decay_start": "24 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_SOCIAL_BUTTERFLY",
+    "type": "mission_definition",
+    "name": { "str": "Social Butterfly" },
+    "description": "You have always had good social abilities.  Go and recruit 2 followers and establish your leadership among them.  Don't forget to order them to build a base of operations for you in the form of a survivor camp.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "and": [ { "u_at_om_location": "FACTION_CAMP_ANY" }, { "npc_allies": 2 } ] },
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
         }
       ]
     },
