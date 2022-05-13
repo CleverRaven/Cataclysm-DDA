@@ -186,9 +186,7 @@
     "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4 }
-        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
         "coverage": 95,
@@ -198,9 +196,7 @@
         "encumbrance": 8
       },
       {
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
         "coverage": 100,
