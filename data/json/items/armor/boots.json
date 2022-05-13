@@ -1166,6 +1166,7 @@
     "id": "wetsuit_booties_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_booties",
+    "repairs_like": "wetsuit_booties",
     "name": { "str": "pair of thick swimming booties", "str_pl": "pairs of thick swimming booties" },
     "description": "A pair of thick neoprene swimming booties, with individual toes.",
     "weight": "160 g",

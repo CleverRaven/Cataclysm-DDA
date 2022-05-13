@@ -241,8 +241,9 @@
   },
   {
     "id": "bikini_top_short",
+    "repairs_like": "bikini_top",
     "type": "ARMOR",
-    "name": { "str": "bikini top" },
+    "name": { "str": "short bikini top" },
     "description": "A very short bikini top.  It doesn't cover much but was in fashion before the world ended.",
     "weight": "15 g",
     "volume": "150 ml",
