@@ -168,7 +168,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Situation",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         {
           "u_compare_var": "refugee_happiness",
           "type": "counter",

@@ -146,7 +146,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_1a",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         "*stares at you for a moment before nodding in recognition.  \"",
         [ "Well, well.  You are back.", "So, you have survived." ],
         "\""
@@ -161,7 +162,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_1b",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         "*nods at you, his eyes lighting up a little as you approach.  \"",
         [ "Well, well.  I'm glad you are back.", "It is good to see you again, my friend.", "Hello, my friend." ],
         "\""
@@ -357,7 +359,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Situation",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers",
         {
           "u_has_var": "Boris_mission_1",

@@ -106,7 +106,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_1a",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         "*smiles at you briefly.  He looks like he hasn't been eating well.  \"",
         [ "Hello again.", "Well, hello.", "Good to see you again." ],
         "\""

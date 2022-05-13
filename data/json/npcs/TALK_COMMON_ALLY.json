@@ -222,7 +222,8 @@
   {
     "id": "TALK_COMBAT_COMMANDS",
     "type": "talk_topic",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         {
           "npc_engagement_rule": "ENGAGE_NONE",
           "no": {
@@ -394,7 +395,8 @@
   {
     "id": "TALK_COMBAT_ENGAGEMENT",
     "type": "talk_topic",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         {
           "npc_engagement_rule": "ENGAGE_NONE",
           "no": {
@@ -472,7 +474,8 @@
   {
     "id": "TALK_CBM_RESERVE_RULES",
     "type": "talk_topic",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         {
           "npc_cbm_reserve_rule": "CBM_RESERVE_ALL",
           "no": {
@@ -530,7 +533,8 @@
   {
     "id": "TALK_CBM_RECHARGE_RULES",
     "type": "talk_topic",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         {
           "npc_cbm_recharge_rule": "CBM_RECHARGE_ALL",
           "no": {
@@ -588,7 +592,8 @@
   {
     "id": "TALK_AIM_RULES",
     "type": "talk_topic",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         {
           "npc_aim_rule": "AIM_WHEN_CONVENIENT",
           "no": {
@@ -662,7 +667,8 @@
   {
     "id": "TALK_MISC_RULES",
     "type": "talk_topic",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         {
           "concatenate": [
             { "npc_override": "allow_pick_up", "yes": "OVERRIDE: " },

@@ -139,7 +139,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_1",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         "*is an uncharacteristically well-groomed young man, his hair trim and slicked back.  In this stark setting, he looks like a cartoon character on a live-action set piece.  \"",
         {
           "u_male": true,
@@ -213,7 +214,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_CalledOut1",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         { "u_male": true, "yes": "Aw man", "no": "Aw come on" },
         ", why you gotta be like that?  I'm just tryin' to get an air of mystery okay?  Nobody wants to be with a slutty guy from Brooklyn, but Alonso the mysterious is another story."
       ]

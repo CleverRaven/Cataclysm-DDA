@@ -155,7 +155,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_1",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         [ "*beams at you as you approach.  \"", "*turns from her conversation with Pablo, and smiles as she sees you.  \"" ],
         [ "Hello, nice to see you again.  What brings you around today?", "It's good to see you're still around." ],
         "\""

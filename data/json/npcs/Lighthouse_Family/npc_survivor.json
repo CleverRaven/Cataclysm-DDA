@@ -19,7 +19,8 @@
     "//": "Could use more variety.",
     "type": "talk_topic",
     "id": "TALK_LIGHTHOUSE_SURVIVOR1",
-    "dynamic_line": { "concatenate": [
+    "dynamic_line": {
+      "concatenate": [
         [
           "During one of my night searches of food and supplies, I noticed a bright glow that came from somewhere far away.  I thought that one of the survivors had lit it to indicate their location.  As you can see, I was right.  I managed to find a boat near the nearest shore, on which I set sail.",
           "I have been sailing on my little boat from coast to coast for a long time.  In truth, the boat was not entirely mine, but it doesn't matter.  That way of life provided me with sufficient safety from the <zombies>, and I managed to get around the sea creatures deftly.  When I saw a distant light, at first, I could not believe my eyes.  Then, I decided to find out what it is."
