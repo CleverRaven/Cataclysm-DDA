@@ -2349,6 +2349,19 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "bundle_pipe",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "pipe", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "bundle_branch",
     "type": "recipe",
     "activity_level": "fake",
