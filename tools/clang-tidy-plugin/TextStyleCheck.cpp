@@ -89,8 +89,9 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
         const SourceLocation &loc = text.getStrTokenLoc( i );
         if( loc.isInvalid() ) {
             return;
-        } else if( StringRef( SrcMgr.getPresumedLoc( SrcMgr.getSpellingLoc(
-                                  loc ) ).getFilename() ).equals( "<scratch space>" ) ) {
+        }
+        if( StringRef( SrcMgr.getPresumedLoc( SrcMgr.getSpellingLoc(
+                loc ) ).getFilename() ).equals( "<scratch space>" ) ) {
             return;
         }
     }
@@ -125,7 +126,7 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
           const StringLiteralIterator & from, const StringLiteralIterator & to,
           const std::string & fix
     ) {
-        auto diags = diag( location( at ), msg );
+        clang::DiagnosticBuilder diags = diag( location( at ), msg );
         if( fixit ) {
             switch( type ) {
                 case text_style_fix::removal: {

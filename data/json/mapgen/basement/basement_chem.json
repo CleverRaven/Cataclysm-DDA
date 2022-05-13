@@ -6,7 +6,7 @@
     "//": "matches house_29",
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_soil",
       "rows": [
         "                        ",
         "                        ",
@@ -46,7 +46,6 @@
         "E": "t_linoleum_gray",
         "i": "t_linoleum_gray",
         "H": "t_linoleum_gray",
-        "4": "t_machinery_old",
         "R": "t_linoleum_gray",
         "?": "t_linoleum_gray",
         "h": "t_linoleum_gray",
@@ -55,6 +54,7 @@
       },
       "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "furniture": {
+        "4": "f_machinery_old",
         "T": "f_workbench",
         "c": "f_counter",
         "h": "f_chair",
@@ -75,7 +75,8 @@
         "X": [
           { "item": "electronics", "chance": 30 },
           { "item": "supplies_electronics", "chance": 30 },
-          { "item": "supplies_reagents_lab", "chance": 10 }
+          { "item": "supplies_reagents_lab", "chance": 10 },
+          { "item": "costume_all", "chance": 5, "repeat": [ 1, 6 ] }
         ],
         "i": [ { "item": "trash", "chance": 60 } ],
         "F": [ { "item": "fridgesnacks", "chance": 60 } ],
@@ -93,7 +94,7 @@
     "//": "matches house_30",
     "weight": 200,
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_soil",
       "rows": [
         "                        ",
         "                        ",
@@ -147,7 +148,7 @@
         "n": "t_linoleum_white",
         "H": "t_linoleum_white",
         "T": "t_linoleum_white",
-        "8": "t_console_broken"
+        "8": "t_linoleum_white"
       },
       "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "furniture": {
@@ -169,7 +170,8 @@
         "f": "f_filing_cabinet",
         "5": "f_server",
         "b": "f_lab_bench",
-        "D": "f_fume_hood"
+        "D": "f_fume_hood",
+        "8": "f_console_broken"
       },
       "items": {
         "U": [

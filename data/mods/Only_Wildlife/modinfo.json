@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Only_Wildlife",
+    "id": "Only_Wildlife",
     "name": "No Monsters",
     "authors": [ "Kodi Arfer" ],
     "description": "Removes all monsters from the game, save for those in the WILDLIFE category.",

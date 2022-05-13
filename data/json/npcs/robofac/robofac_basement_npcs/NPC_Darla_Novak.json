@@ -1,0 +1,82 @@
+[
+  {
+    "type": "npc",
+    "id": "HUB01_DNovak",
+    "name_unique": "Darla Novak",
+    "gender": "female",
+    "name_suffix": "building maintenance",
+    "class": "NC_HUB01_DNovak",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "HUB01_DNovak_Intro",
+    "faction": "robofac"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_HUB01_DNovak",
+    "name": { "str": "Hub 01 HVAC maintenance" },
+    "job_description": "I'm part of Hub 01's maintenance crew.",
+    "common": false,
+    "//": "HVAC maintenance.  Keeps melchior from boiling to death and you from choking on stale bunker air.",
+    "bonus_str": { "rng": [ -1, 2 ] },
+    "bonus_dex": { "rng": [ -1, 2 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ -1, 2 ] },
+    "worn_override": "HUB01_DNovak_worn",
+    "carry_override": "HUB01_DNovak_carried",
+    "weapon_override": "HUB01_DNovak_wield",
+    "traits": [ { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 4, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "HUB01_DNovak_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "robofac_jumpsuit" },
+      { "item": "boots_steel" },
+      { "item": "vest" },
+      { "item": "gloves_work" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "HUB01_DNovak_carried",
+    "subtype": "collection",
+    "entries": [ { "group": "wallet_full" }, { "item": "flashlight" }, { "item": "screwdriver_set" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "HUB01_DNovak_wield"
+  },
+  {
+    "type": "talk_topic",
+    "id": "HUB01_DNovak_Intro",
+    "dynamic_line": {
+      "u_has_trait": "PROF_HUB01_ANCILLIARY",
+      "yes": "Oh, hey.  The rumors were true, there really is someone new around.  Nice to meet you, call me Darla.",
+      "no": "Who the fuck are you?  How did you get down here?  Security!"
+    },
+    "responses": [
+      {
+        "text": "Hold on, hold on.  I'm not here to hurt anyone, and there aren't enough of us left to just start fighting.",
+        "condition": { "not": { "u_has_trait": "PROF_HUB01_ANCILLIARY" } },
+        "topic": "TALK_DONE",
+        "effect": "flee"
+      },
+      {
+        "text": "Nice to meet you too.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "u_met_DNovak", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" }
+      }
+    ]
+  }
+]

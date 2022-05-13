@@ -1,9 +1,10 @@
 #include "color.h"
 
 #include <algorithm> // for std::count
-#include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <map>
+#include <utility>
 #include <vector>
 
 #include "cata_utility.h"
@@ -17,7 +18,6 @@
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 
@@ -26,9 +26,9 @@ void nc_color::serialize( JsonOut &jsout ) const
     jsout.write( attribute_value );
 }
 
-void nc_color::deserialize( JsonIn &jsin )
+void nc_color::deserialize( int value )
 {
-    attribute_value = jsin.get_int();
+    attribute_value = value;
 }
 
 color_manager &get_all_colors()
@@ -37,7 +37,7 @@ color_manager &get_all_colors()
     return single_instance;
 }
 
-std::unordered_map<std::string, note_color> color_by_string_map;
+static std::unordered_map<std::string, note_color> color_by_string_map;
 
 void color_manager::finalize()
 {
@@ -57,15 +57,15 @@ void color_manager::finalize()
 
         if( !entry.name_custom.empty() ) {
             // Not using name_to_color because we want default color of this name
-            const auto id = name_to_id( entry.name_custom );
+            const color_id id = name_to_id( entry.name_custom );
             auto &other = color_array[id];
             entry.custom = other.color;
         }
 
         if( !entry.name_invert_custom.empty() ) {
-            const auto id = name_to_id( entry.name_invert_custom );
+            const color_id id = name_to_id( entry.name_invert_custom );
             auto &other = color_array[id];
-            entry.custom = other.color;
+            entry.invert_custom = other.color;
         }
 
         inverted_map[entry.color] = entry.col_id;
@@ -88,19 +88,23 @@ void color_manager::finalize()
     }
 }
 
-nc_color color_manager::name_to_color( const std::string &name ) const
+nc_color color_manager::name_to_color( const std::string &name,
+                                       const report_color_error color_error ) const
 {
-    const auto id = name_to_id( name );
-    auto &entry = color_array[id];
+    const color_id id = name_to_id( name, color_error );
+    const color_struct &entry = color_array[id];
 
-    return entry.custom > 0 ? entry.custom : entry.color;
+    return entry.custom.to_int() > 0 ? entry.custom : entry.color;
 }
 
-color_id color_manager::name_to_id( const std::string &name ) const
+color_id color_manager::name_to_id( const std::string &name,
+                                    const report_color_error color_error ) const
 {
     auto iter = name_map.find( name );
     if( iter == name_map.end() ) {
-        debugmsg( "couldn't parse color: %s", name );
+        if( color_error == report_color_error::yes ) {
+            debugmsg( "couldn't parse color: %s", name );
+        }
         return def_c_unset;
     }
 
@@ -138,9 +142,9 @@ nc_color color_manager::get( const color_id id ) const
         return nc_color();
     }
 
-    auto &entry = color_array[id];
+    const auto &entry = color_array[id];
 
-    return entry.custom > 0 ? entry.custom : entry.color;
+    return entry.custom.to_int() > 0 ? entry.custom : entry.color;
 }
 
 std::string color_manager::get_name( const nc_color &color ) const
@@ -152,9 +156,9 @@ std::string color_manager::get_name( const nc_color &color ) const
 nc_color color_manager::get_invert( const nc_color &color ) const
 {
     const color_id id = color_to_id( color );
-    auto &entry = color_array[id];
+    const color_struct &entry = color_array[id];
 
-    return entry.invert_custom > 0 ? entry.invert_custom : entry.invert;
+    return entry.invert_custom.to_int() > 0 ? entry.invert_custom : entry.invert;
 }
 
 nc_color color_manager::get_random() const
@@ -183,9 +187,9 @@ nc_color color_manager::highlight_from_names( const std::string &name,
         const std::string &bg_name ) const
 {
     /*
-    //             Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
-    add_hightlight("c_black",     "h_black",     "",                 "c_black_white",    "c_black_green",    "c_black_yellow",   "c_black_magenta",      "c_black_cyan");
-    add_hightlight("c_white",     "h_white",     "c_white_red",      "c_white_white",    "c_white_green",    "c_white_yellow",   "c_white_magenta",      "c_white_cyan");
+    //            Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
+    add_highlight("c_black",     "h_black",     "",                 "c_black_white",    "c_black_green",    "c_black_yellow",   "c_black_magenta",      "c_black_cyan");
+    add_highlight("c_white",     "h_white",     "c_white_red",      "c_white_white",    "c_white_green",    "c_white_yellow",   "c_white_magenta",      "c_white_cyan");
     etc.
     */
 
@@ -475,13 +479,13 @@ void init_colors()
 
     // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
-        {"br", {c_brown, translate_marker( "brown" )}}, {"lg", {c_light_gray, translate_marker( "light gray" )}},
-        {"dg", {c_dark_gray, translate_marker( "dark gray" )}}, {"r", {c_light_red, translate_marker( "light red" )}},
-        {"R", {c_red, translate_marker( "red" )}}, {"g", {c_light_green, translate_marker( "light green" )}},
-        {"G", {c_green, translate_marker( "green" )}}, {"b", {c_light_blue, translate_marker( "light blue" )}},
-        {"B", {c_blue, translate_marker( "blue" )}}, {"W", {c_white, translate_marker( "white" )}},
-        {"C", {c_cyan, translate_marker( "cyan" )}}, {"c", {c_light_cyan, translate_marker( "light cyan" )}},
-        {"P", {c_pink, translate_marker( "pink" )}}, {"m", {c_magenta, translate_marker( "magenta" )}}
+        {"br", {c_brown, to_translation( "brown" )}}, {"lg", {c_light_gray, to_translation( "light gray" )}},
+        {"dg", {c_dark_gray, to_translation( "dark gray" )}}, {"r", {c_light_red, to_translation( "light red" )}},
+        {"R", {c_red, to_translation( "red" )}}, {"g", {c_light_green, to_translation( "light green" )}},
+        {"G", {c_green, to_translation( "green" )}}, {"b", {c_light_blue, to_translation( "light blue" )}},
+        {"B", {c_blue, to_translation( "blue" )}}, {"W", {c_white, to_translation( "white" )}},
+        {"C", {c_cyan, to_translation( "cyan" )}}, {"c", {c_light_cyan, to_translation( "light cyan" )}},
+        {"P", {c_pink, to_translation( "pink" )}}, {"m", {c_magenta, to_translation( "magenta" )}}
     };
 }
 
@@ -544,7 +548,8 @@ nc_color cyan_background( const nc_color &c )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color color_from_string( const std::string &color )
+nc_color color_from_string( const std::string &color,
+                            const report_color_error color_error )
 {
     if( color.empty() ) {
         return c_unset;
@@ -560,13 +565,15 @@ nc_color color_from_string( const std::string &color )
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
             new_color.replace( pos, i.second.length(), i.first );
             pos += i.first.length();
-            debugmsg( "Deprecated foreground color suffix was used: (%s) in (%s).  Please update mod that uses that.",
-                      i.second, color );
+            if( color_error == report_color_error::yes ) {
+                debugmsg( "Deprecated foreground color suffix was used: (%s) in (%s).  Please update mod that uses that.",
+                          i.second, color );
+            }
         }
     }
 
-    const nc_color col = all_colors.name_to_color( new_color );
-    if( col > 0 ) {
+    const nc_color col = all_colors.name_to_color( new_color, color_error );
+    if( col.to_int() > 0 ) {
         return col;
     }
 
@@ -580,11 +587,11 @@ std::string string_from_color( const nc_color &color )
 {
     std::string sColor = all_colors.get_name( color );
 
-    if( sColor != "unset" ) {
+    if( sColor != "c_unset" ) {
         return sColor;
     }
 
-    return "white";
+    return "c_white";
 }
 
 /**
@@ -611,14 +618,15 @@ nc_color bgcolor_from_string( const std::string &color )
     }
 
     const nc_color col = all_colors.name_to_color( new_color );
-    if( col > 0 ) {
+    if( col.to_int() > 0 ) {
         return col;
     }
 
     return i_white;
 }
 
-color_tag_parse_result get_color_from_tag( const std::string &s )
+color_tag_parse_result get_color_from_tag( const std::string &s,
+        const report_color_error color_error )
 {
     if( s.empty() || s[0] != '<' ) {
         return { color_tag_parse_result::non_color_tag, {} };
@@ -634,7 +642,12 @@ color_tag_parse_result get_color_from_tag( const std::string &s )
         return { color_tag_parse_result::non_color_tag, {} };
     }
     std::string color_name = s.substr( 7, tag_close - 7 );
-    return { color_tag_parse_result::open_color_tag, color_from_string( color_name ) };
+    const nc_color color = color_from_string( color_name, color_error );
+    if( color != c_unset ) {
+        return { color_tag_parse_result::open_color_tag, color };
+    } else {
+        return { color_tag_parse_result::non_color_tag, color };
+    }
 }
 
 std::string get_tag_from_color( const nc_color &color )
@@ -673,13 +686,9 @@ nc_color get_note_color( const std::string &note_id )
     return c_yellow;
 }
 
-std::list<std::pair<std::string, std::string>> get_note_color_names()
+const std::unordered_map<std::string, note_color> &get_note_color_names()
 {
-    std::list<std::pair<std::string, std::string>> color_list;
-    for( const auto &color_pair : color_by_string_map ) {
-        color_list.emplace_back( color_pair.first, color_pair.second.name );
-    }
-    return color_list;
+    return color_by_string_map;
 }
 
 void color_manager::clear()
@@ -763,6 +772,8 @@ void color_manager::show_gui()
     bool bStuffChanged = false;
     input_context ctxt( "COLORS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "REMOVE_CUSTOM" );
@@ -776,7 +787,7 @@ void color_manager::show_gui()
     }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
+        draw_border( w_colors_border, BORDER_COLOR, _( "Color manager" ) );
         mvwputch( w_colors_border, point( 0, 3 ), BORDER_COLOR, LINE_XXXO ); // |-
         mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
                   LINE_XOXX ); // -|
@@ -848,18 +859,35 @@ void color_manager::show_gui()
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-
+        const int recmax = iMaxColors;
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "QUIT" ) {
             break;
         } else if( action == "UP" ) {
             iCurrentLine--;
             if( iCurrentLine < 0 ) {
-                iCurrentLine = iMaxColors - 1;
+                iCurrentLine = recmax - 1;
             }
         } else if( action == "DOWN" ) {
             iCurrentLine++;
-            if( iCurrentLine >= static_cast<int>( iMaxColors ) ) {
+            if( iCurrentLine >= recmax ) {
                 iCurrentLine = 0;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( iCurrentLine == recmax - 1 ) {
+                iCurrentLine = 0;
+            } else if( iCurrentLine + scroll_rate >= recmax ) {
+                iCurrentLine = recmax - 1;
+            } else {
+                iCurrentLine += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iCurrentLine == 0 ) {
+                iCurrentLine = recmax - 1;
+            } else if( iCurrentLine <= scroll_rate ) {
+                iCurrentLine = 0;
+            } else {
+                iCurrentLine += -scroll_rate;
             }
         } else if( action == "LEFT" ) {
             iCurrentCol--;
@@ -1024,7 +1052,7 @@ void color_manager::load_custom( const std::string &sPath )
 void color_manager::serialize( JsonOut &json ) const
 {
     json.start_array();
-    for( auto &entry : color_array ) {
+    for( const color_struct &entry : color_array ) {
         if( !entry.name_custom.empty() || !entry.name_invert_custom.empty() ) {
             json.start_object();
 

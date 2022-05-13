@@ -1,0 +1,18 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "afs_optics_3",
+    "copy-from": "afs_scrap_3",
+    "name": { "str_sp": "laser optics" },
+    "description": "Lenses, mirrors, emitters and other optical elements that once belonged to a weapon, industrial cutter or laser research setup.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_optics_4",
+    "copy-from": "afs_scrap_4",
+    "name": { "str": "metamaterial lens", "str_pl": "metamaterial lenses" },
+    "description": "A diminute sphere of crystal and metal, magnetically affixed to the centroid of its containing chamber.",
+    "looks_like": "scrap"
+  }
+]

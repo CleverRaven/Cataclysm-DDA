@@ -1,7 +1,8 @@
 # Translating Cataclysm: DDA
 
 * [Translators](#translators)
-  * [Getting Started](#getting-Started)
+  * [Getting Started](#getting-started)
+  * [Glossary](#glossary)
   * [Grammatical gender](#grammatical-gender)
   * [Tips](#tips)
 * [Developers](#developers)
@@ -87,6 +88,22 @@ Click on the "Save" button when you are satisfied with your translation.
 
 See [Transifex's documentation][3] for more information.
 
+### Glossary
+
+This glossary is intended to help explain some CDDA-specific terms and their
+etymology in order to help translations.
+
+* **Exodii**: The Exodii are a bunch of humans from another dimension.  When
+  the Blob invaded their world, they managed to acquire enough technology to
+  open portals of their own, and now they portal to worlds that have been
+  attacked by the Blob and try to rescue survivors.  Exodii is a horrible
+  mangling of "Exodus" - the word literally means leaving or going out and has
+  connotations of forced emigration and refugees.  The Exodii are the people of
+  an Exodus.  While Exodus is a Latin word and "ii" to indicate a plural is a
+  Latin thing, but this isn't actually the [correct Latin
+  plural](https://www.latin-is-simple.com/en/vocabulary/noun/9294/) for this
+  word.
+
 ### Grammatical gender
 
 For NPC dialogue (and potentially other strings) some languages may wish to
@@ -128,12 +145,13 @@ General notes for all translators are in `README_all_translators.txt`,
 and notes specific to a language may be stored as `<lang_id>.txt`,
 for example `de.txt` for German.
 
-Cataclysm: DDA has more than 14000 translatable strings, but don't be discouraged.
-The more translators there are, the easier it becomes 😄.
+Cataclysm: DDA has more than 50000 translatable strings, including all mods shipped
+with the game but don't be discouraged. The more translators there are, the easier it
+becomes 😄.
 
 ## Developers
 
-Cataclysm: DDA uses [GNU gettext][5] to display translated texts.
+Cataclysm: DDA uses a modified version of [GNU gettext][5] to display translated texts.
 
 Using `gettext` requires two actions:
 
@@ -273,7 +291,8 @@ jsobj.read( "name", name );
 ```
 
 If neither "str_pl" nor "str_sp" is specified, the plural form defaults to the
-singular form + "s".
+singular form + "s". However, "str_pl" may still be needed if the unit test cannot
+determine whether the correct plural form can be formed by simply appending "s".
 
 You can also add comments for translators by writing it like below (the order
 of the entries does not matter):
@@ -285,57 +304,29 @@ of the entries does not matter):
 }
 ```
 
-Do note that currently the JSON syntax is only supported for some JSON values,
-which are listed below. If you want other json strings to use this format,
-refer to `translations.h|cpp` and migrate the corresponding code. Afterwards
-you may also want to test `update_pot.sh` to ensure that the strings are
-correctly extracted for translation, and run the unit test to fix text styling
-issues reported by the `translation` class.
+Do note that the JSON syntax is only supported if a JSON value is read using
+`translation`. If you want new json values to use this format, refer to
+`translations.h|cpp` and read the strings with `translation`. Afterwards
+you also need to update `extract_json_strings.py` and run `lang/update_pot.sh`
+to ensure that the strings are correctly extracted for translation, and run the
+unit test to fix text styling issues reported by the `translation` class.
 
-| Supported JSON values
-|---
-| Effect names
-| Item action names
-| Item category names
-| Activity verbs
-| Gate action messages
-| Spell names and descriptions
-| Terrain/furniture descriptions
-| Monster melee attack messages
-| Morale effect descriptions
-| Mutation names/descriptions
-| NPC class names/descriptions
-| Tool quality names
-| Score descriptions
-| Skill names/descriptions
-| Bionic names/descriptions
-| Terrain bash sound descriptions
-| Trap-vehicle collision sound descriptions
-| Vehicle part names/descriptions
-| Skill display type names
-| NPC dialogue u_buy_monster unique names
-| Spell messages and monster spell messages
-| Martial art names and descriptions
-| Mission names and descriptions
-| Fault names and descriptions
-| Plant names in item seed data
-| Transform use action messages and menu text
-| Template NPC names and name suffixes
-| NPC talk response text
-| Relic name overrides
-| Speech text
-| Tutorial messages
-| Vitamin names
-| Recipe blueprint names
-| Recipe group recipe descriptions
-| Item names (plural supported) and descriptions
-| Recipe descriptions
-| Inscribe use action verbs/gerunds
-| Monster names (plural supported) and descriptions
-| Snippets
-| Bodypart names
-| Keybinding action names
-| Field level names
+### Static string variables
+
+Translation functions should not be called when initializing a static variable.
+For global static variables, calling these functions does nothing because the
+translation system is not yet initialized. For local static variables, the
+translation will only happen once and switching language in-game will not work
+properly. Consider using translation objects (`to_translation()` or `pl_translation()`)
+to mark the string for extraction and call `translation::translated()` on the
+fly to ensure the string is properly translated each time.
+
+Note if a string becomes translated in-game after you add a translation function
+call to the initialization of a global static variable, it usually means a
+translation call is already made when the string is used, and your newly added
+translation call happens to mark the string for extraction. In this case, using
+a translation object is also recommended to avoid calling the translation
+function twice.
 
 ### Recommendations
 
@@ -374,12 +365,13 @@ To compile the .po files into `.mo` files for use, run `lang/compile_mo.sh`. It 
 
 Also note that both `lang/merge_po.sh` and `lang/compile_mo.sh` accept arguments specifying which languages to merge or compile. So to compile only the translation for, say, Traditional Chinese (zh_TW), one would run `lang/compile_mo.sh zh_TW`.
 
-After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run cataclysm.
+After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run Cataclysm.
 
 If your system locale is different from the one you want to test, the easiest way to do so is to find out your locale identifier, compile the translation you want to test, then rename the directory in `lang/mo/` to your locale identifier.
 
 So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
 
+You can also change the language in game options if both are installed.
 
 [1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion

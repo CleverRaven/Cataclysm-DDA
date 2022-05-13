@@ -2,6 +2,7 @@
   {
     "result": "pistol_pipe_smg",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
@@ -22,11 +23,13 @@
         [ "pistol_casing", -1 ]
       ]
     ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "pistol_magnum_pipe_levergun",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
@@ -54,10 +57,12 @@
         [ "pistol_magnum_casing", -1 ]
       ]
     ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "black_powder_revolver",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -67,7 +72,8 @@
     "time": "3 h",
     "autolearn": true,
     "book_learn": [ [ "manual_pistol", 6 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "GLARE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_antique" } ],
     "using": [ [ "blacksmithing_standard", 4 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 2 ] ], [ [ "steel_chunk", 2 ] ], [ [ "scrap", 2 ] ], [ [ "sharp_rock", 1 ] ] ]

@@ -10,6 +10,7 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 * NTFS partition with ~15 Gb free space (~10 Gb for Visual Studio, ~1 Gb for vcpkg installation, ~3 Gb for repository and ~1 Gb for build cache);
 * Git for Windows (installer can be downloaded from [Git homepage](https://git-scm.com/));
 * Visual Studio 2019 (or 2015 Visual Studio Update 3 and above);
+  * **Note**: If you are using Visual Studio 2022, you must install the Visual Studio 2019 compilers to work around a vcpkg bug. In the Visual Studio Installer, select the 'Individual components' tab and search for / select the component that looks like 'MSVC v142 - VS 2019 C++ x64/x86 Build Tools'. See https://github.com/microsoft/vcpkg/issues/22287.
 * Latest version of vcpkg (see instructions on [vcpkg homepage](https://github.com/Microsoft/vcpkg)).
 
 **Note:** Windows XP is unsupported!
@@ -18,70 +19,90 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 1. Install `Visual Studio` (installer can be downloaded from [Visual Studio homepage](https://visualstudio.microsoft.com/)).
 
+    - Select the "Desktop development with C++" and "Game development with C++" workloads.
+
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg` using instruction from [vcpkg homepage](https://github.com/Microsoft/vcpkg/blob/master/README.md#quick-start) with following command line:
+3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `bd1ef2df46303989eeb048eb7aa9b816aa46365e` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
+***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
+
+In a `cmd.exe` shell:
 ```cmd
+REM cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
 .\bootstrap-vcpkg.bat -disableMetrics
 .\vcpkg integrate install
 ```
-
-4. Install (or upgrade) neccessary packages with following command line:
-
-#### install 64 bit dependencies:
-
-```cmd
-.\vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
+In a Git Bash shell, the commands are almost the same except the filesystem path separator is `/` instead of `\`.
 ```
-
-
-#### install 32 bit dependencies:
-
-```cmd
-.\vcpkg --triplet x86-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
-```
-
-#### upgrade all dependencies:
-
-```cmd
-.\vcpkg upgrade
+# cd to the appropriate folder first
+git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.bat -disableMetrics
+./vcpkg.exe integrate install
 ```
 
 ## Cloning and compilation:
 
 1. Clone Cataclysm-DDA repository with following command line:
 
-**Note:** This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
+**Note:** This will download the entire CDDA repository; about three gigs of data. If you're just testing you should probably add `--depth=1`.
 
 ```cmd
 git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
 ```
 
-2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`, select configuration (`Release` or `Debug`) and platform (`x64` or `x86`) and build it.
+2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`.
 
-**Note**: This will compile release version with Sound, Tiles and Localization support (language files won't be automatically compiled).
+    - **Note:** If you are using Visual Studio 2022, the first time you open the solution, it will prompt you to "Retarget Projects". Unless you know what you are doing, hit cancel on this dialog.
 
-3. Building Cataclysm with Visual Studio is very simple. Just build it like a normal Visual C++ project. The process may takes a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
+3. Open the `Build > Configuration Manager` menu and adjust `Active solution configuration` and `Active solution platform` to match your intended target.
 
-4. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 2 above.
+    - The `Release` configuration and `x64` platform together make a good default setting. `Debug` is too slow and should be reserved for breakpoint debugging with code stepping.
+    - This will configure Visual Studio to compile the release version, with support for Sound, Tiles, and Localization (note, however, that language files themselves are not automatically compiled; this will be done later).
 
-Even if you do not need languages other than English, you may still want to execute `lang/compile_mo.sh en` or `lang/compile_mo.sh all` to compile the language file for English, in order to work-around a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006) that is causing significant slow-down on Windows targets if a language file is not found.
+4. Start the build process by selecting either `Build > Build Solution` or `Build > Build > 1 Cataclysm-vcpkg-static`. The process may take a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :) The first build of each architecture will also download and install dependencies through vcpkg, which can take an especially long time.
 
-### Debugging
+5. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 2 above.
 
-Ensure that the Cataclysm project (`Cataclysm-vcpkg-static`) is the selected startup project, configure the working directory in the project settings to `$(ProjectDir)..`, and then press the debug button (or use the appropriate shortcut, e.g. F5).
+Even if you do not need languages other than English, you may still want to execute `lang/compile_mo.sh` to compile the language files if you're planning to run the unit tests, since those rely on the language files existing.
 
-If you discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1, that is because of the wrong working directory.
+### Running and debugging Cataclysm
+
+1. Ensure that the Cataclysm project (`Cataclysm-vcpkg-static`) is the selected startup project.
+
+    - By default it should be already. If the project name is **Bold** in the Solution Explorer pane, then it is already set.
+    - Otherwise, right click the project in the Solution Explorer pane, select `Set as Startup Project`.
+
+2. Run or debug Cataclysm
+
+    - To debug with the debugger attached, press the 'Local Windows Debugger' button at the top of the window with a solid green arrow on it, or press F5 which is the default shortcut, or go to the Debug menu and select 'Start Debugging'.
+    - To run without a debugger, press the empty green arrow next to the 'Local Windows Debugger', or the default shortcut ctrl-F5, or go to the Debug menu and select 'Start Without Debugging'.
 
 When debugging, it is not strictly necessary to use a `Debug` build; `Release` builds run significantly faster, can still be run in the debugger, and most of the time will have most of the information you need.
 
 ### Running unit tests
 
-Ensure that the Cataclysm test project (`Cataclysm-test-vcpkg-static`) is the selected startup project, configure the working directory in the project settings to `$(ProjectDir)..`, and then press the debug button (or use the appropriate shortcut, e.g. F5). This will run all of the unit tests. Additional command line arguments may be configured in the project's command line arguments setting, or if you are using a compatible unit test runner (e.g. Resharper) you can run or debug individual tests from the unit test sessions.
+1. Ensure that the Cataclysm test project (`Cataclysm-test-vcpkg-static`) is the selected startup project.
+
+    - This is done the same way as you do it for Cataclysm, except for the test project.
+
+2. Configure any extra command line arguments for the tests.
+
+    - Under `Configuration Properties > Debugging`, change `Command Arguments` to the needed arguments.
+    - `--wait-for-keypress exit` can be helpful by keeping the test window open at the end until you press Enter.
+
+3. Run the tests
+
+    - The same ways you run Cataclysm can be used to run the unit tests, assuming you've set the test project as the startup project.
+
+Additional command line arguments may be configured in the project's command line arguments setting, or if you are using a compatible unit test runner (e.g. Resharper) you can run or debug individual tests from the unit test sessions.
+You can also start the test runner library manually from Windows console. Run it with `--help` for an overview of the arguments.
+
+It is recommended you run the unit tests in a Release configuration. Debug builds of the unit tests generally run intolerably slowly, but can raise signal that Release builds will not catch, like invalid iterators or improper STL usage.
 
 ### Make a distribution
 

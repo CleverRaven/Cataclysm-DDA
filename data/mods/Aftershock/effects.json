@@ -10,7 +10,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 1,
             "min_duration": "5 seconds",
             "max_duration": "10 seconds",
@@ -24,7 +24,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "10 seconds",
             "max_duration": "25 seconds"
@@ -36,7 +36,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "25 seconds"
@@ -50,9 +50,125 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ], "traits": [ "MIGO_BREATHE" ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "traits": [ "MIGO_BREATHE" ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_mastodon",
+    "name": [ "Mastodon Mutation", "Mastodon Transformation", "Mastodon Metamorphosis" ],
+    "desc": [
+      "You consumed mastodon mutagen.",
+      "You consumed a large amount of mastodon mutagen.",
+      "You consumed a life-changing amount of mastodon mutagen."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Mastodon Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_migo",
+    "name": [ "Mi-go Mutation", "Mi-go Transformation", "Mi-go Metamorphosis" ],
+    "desc": [
+      "You consumed mi-go mutagen.",
+      "You consumed a large amount of mi-go mutagen.",
+      "You consumed a life-changing amount of mi-go mutagen."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Mi-go Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "foamcrete_slow",
+    "name": [
+      "Slowed",
+      "Slowed",
+      "Slowed",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Encased in foamcrete"
+    ],
+    "desc": [ "A partial covering of foamcrete is slowing you down." ],
+    "miss_messages": [ [ "You feel stiff.", 3 ] ],
+    "rating": "bad",
+    "max_intensity": 10,
+    "int_add_val": 1,
+    "int_decay_tick": 600,
+    "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -15 ] },
+    "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -15 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_generic_speed_bonus",
+    "name": [ "Movement Optimization (1)", "Movement Optimization (2)", "Movement Optimization (3)", "Movement Optimization (4)" ],
+    "desc": [ "You move with machine-guided precision." ],
+    "rating": "good",
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "int_decay_tick": 500,
+    "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
+    "scaling_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "synth_blood_perf",
+    "name": [ "Synthblood Comedown", "Synthblood" ],
+    "desc": [
+      "As the synthetic blood decays and is purged throughout your bloodstream, you begin to feel minor symptoms of altitude sickness, making you sluggish and short of breath.",
+      "Your breaths instinctively grows more shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
+    ],
+    "rating": "good",
+    "int_dur_factor": "8 h",
+    "max_intensity": 2,
+    "max_duration": "24 h",
+    "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ 15 ], "stamina_min": [ 35 ], "str_mod": [ 1 ], "dex_mod": [ 1 ] },
+    "blood_analysis_description": "Synthetic blood",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_isohypsa_overwatch",
+    "name": [ "Isohypsa Overwatch" ],
+    "//~": "This is just a fragment of machine code, it needs no translation.",
+    "desc": [ "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n" ],
+    "rating": "good",
+    "blocks_effects": [ "sensor_stun", "dazed", "stunned", "blind" ],
+    "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 50 ] },
+    "show_in_info": true
   }
 ]

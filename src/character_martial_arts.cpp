@@ -2,12 +2,12 @@
 
 #include "action.h"
 #include "character.h"
+#include "color.h"
 #include "enums.h"
 #include "json.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "output.h"
-#include "string_id.h"
 #include "translations.h"
 
 static const matype_id style_kicks( "style_kicks" );
@@ -26,9 +26,9 @@ character_martial_arts::character_martial_arts()
     };
 }
 
-bool character_martial_arts::selected_allow_melee() const
+bool character_martial_arts::selected_allow_all_weapons() const
 {
-    return style_selected->allow_melee;
+    return style_selected->allow_all_weapons;
 }
 
 bool character_martial_arts::selected_strictly_melee() const
@@ -44,6 +44,11 @@ bool character_martial_arts::selected_has_weapon( const itype_id &weap ) const
 bool character_martial_arts::selected_force_unarmed() const
 {
     return style_selected->force_unarmed;
+}
+
+bool character_martial_arts::selected_prevent_weapon_blocking() const
+{
+    return style_selected->prevent_weapon_blocking;
 }
 
 bool character_martial_arts::knows_selected_style() const
@@ -126,7 +131,7 @@ std::string character_martial_arts::enumerate_known_styles( const itype_id &weap
 
 std::string character_martial_arts::selected_style_name( const Character &owner ) const
 {
-    if( style_selected->force_unarmed || style_selected->weapon_valid( owner.weapon ) ) {
+    if( style_selected->force_unarmed || style_selected->weapon_valid( owner.get_wielded_item() ) ) {
         return style_selected->name.translated();
     } else if( owner.is_armed() ) {
         return _( "Normal" );
@@ -156,9 +161,8 @@ void character_martial_arts::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void character_martial_arts::deserialize( JsonIn &jsin )
+void character_martial_arts::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.read( "ma_styles", ma_styles );
     data.read( "keep_hands_free", keep_hands_free );
     data.read( "style_selected", style_selected );

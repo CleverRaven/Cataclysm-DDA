@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -14,6 +15,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_fish",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -28,6 +30,65 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_lobster",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "lobster", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_lobster",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "lobster", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_mollusk",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "mollusk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_mollusk",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "mollusk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_beans",
     "charges": 1,
     "category": "CC_FOOD",
@@ -42,6 +103,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_beans",
     "charges": 1,
     "category": "CC_FOOD",
@@ -57,6 +119,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_tofu",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -70,6 +133,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_tofu",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -84,6 +148,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_fruit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -97,6 +162,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_fruit",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -111,6 +177,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -125,6 +192,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_meat",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -140,6 +208,7 @@
   {
     "result": "dry_meat_tainted",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -153,6 +222,7 @@
   {
     "result": "dry_meat_tainted",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",
@@ -166,6 +236,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_mushroom",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -179,6 +250,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_mushroom",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -193,6 +265,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_veggy",
     "charges": 1,
     "category": "CC_FOOD",
@@ -204,11 +277,18 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [
-      [ [ "veggy_any_fresh_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "burdock_cooked", 1 ], [ "wild_herbs", 40 ] ]
+      [
+        [ "veggy_any_fresh_uncooked", 1, "LIST" ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "bamboo_cooked", 1 ],
+        [ "wild_herbs", 40 ]
+      ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_veggy",
     "charges": 1,
     "category": "CC_FOOD",
@@ -221,13 +301,51 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "veggy_any_fresh_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "burdock_cooked", 1 ], [ "wild_herbs", 40 ] ]
+      [
+        [ "veggy_any_fresh_uncooked", 1, "LIST" ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "bamboo_cooked", 1 ],
+        [ "wild_herbs", 40 ]
+      ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_corn",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "corn_kernels", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_corn",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "corn_kernels", 1 ] ] ]
   },
   {
     "result": "dry_veggy_tainted",
     "charges": 1,
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -242,6 +360,7 @@
     "result": "dry_veggy_tainted",
     "charges": 1,
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",
@@ -255,6 +374,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "milk_powder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -269,6 +389,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "milk_powder",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -284,6 +405,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "powder_eggs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -294,10 +416,11 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_insect", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "powder_eggs",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -309,11 +432,12 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_insect", 1, "LIST" ] ] ]
   },
   {
     "result": "protein_powder",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -322,13 +446,14 @@
     "time": "12 m",
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 3 ] ] ]
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 3 ], [ "dry_lobster", 3 ] ] ]
   },
   {
     "result": "protein_powder",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -340,10 +465,11 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 3 ] ] ]
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 3 ], [ "dry_lobster", 3 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_lentils",
     "charges": 1,
     "category": "CC_FOOD",
@@ -358,6 +484,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_lentils",
     "charges": 1,
     "category": "CC_FOOD",
@@ -370,5 +497,19 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "raw_lentils", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "gelatin_powder",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "gelatin_fresh", 1 ] ] ]
   }
 ]

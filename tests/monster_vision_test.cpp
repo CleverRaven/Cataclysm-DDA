@@ -1,8 +1,6 @@
-#include <memory>
-
+#include "cached_options.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "cata_catch.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mapdata.h"
@@ -23,9 +21,8 @@ static const time_point midday = calendar::turn_zero + 12_hours;
 
 TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
 {
-    override_option opt( "ZLEVELS", "true" );
-    override_option opt2( "FOV_3D", "true" );
-    bool old_fov_3d = fov_3d;
+    override_option opt( "FOV_3D", "true" );
+    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
     fov_3d = true;
     calendar::turn = midday;
     clear_map();
@@ -75,5 +72,4 @@ TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
     // One intervening vertical tile and two intervening horizontal tiles.
     CHECK( sky.sees( distant ) );
     CHECK( distant.sees( sky ) );
-    fov_3d = old_fov_3d;
 }

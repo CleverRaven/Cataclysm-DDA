@@ -10,13 +10,14 @@
   {
     "id": "book_martial",
     "type": "item_group",
-    "items": [ [ "manual_crt_enforcement", 5 ] ]
+    "copy-from": "book_martial",
+    "extend": { "items": [ [ "manual_crt_enforcement", 5 ] ] }
   },
   {
     "type": "martial_art",
     "id": "style_crt_enforcement",
     "name": "C.R.I.T Enforcement",
-    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies.  Each attack landed increases your armor by 0.125 and offers other combat bonuses based on stats.",
+    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies.  Each attack landed increases your armor and offers other combat bonuses based on stats.",
     "initiate": [ "You ready yourself to stand your ground.", "%s draws a line in the sand." ],
     "arm_block": 2,
     "leg_block": 5,
@@ -24,7 +25,7 @@
       {
         "id": "crt_enforcement_static",
         "name": "Unyielding Front",
-        "description": "Stand strong in the face of adversity. +1 armor.  STR provides accuracy and minor bash arpen.",
+        "description": "Stand strong in the face of adversity.\n\nAccuracy increased by 40% of Strength, +1 bash, cut, and stab armor.",
         "unarmed_allowed": false,
         "melee_allowed": true,
         "flat_bonuses": [
@@ -39,7 +40,7 @@
       {
         "id": "crt_enforcement_hit_buff",
         "name": "Bulwark",
-        "description": "+0.5 armor and other small bonuses per stack.  Max of 2 stacks",
+        "description": "You stand firmly.\n\n+1 bash damage, +1 bash, cut, and stab armor, bash, cut, and stab armor increased by 10% of Strength.\nLasts 1 turn.  Stacks 2 times.",
         "unarmed_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
@@ -61,6 +62,9 @@
       "knife_crt",
       "crt_nstick",
       "crt_knuckledusters",
+      "crt_hatchet",
+      "crt_hatchet_extended",
+      "crt_etool",
       "baton-extended",
       "cudgel",
       "sword_wood",

@@ -8,8 +8,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "color.h"
-// needed for the workaround for the std::to_string bug in some compilers
-#include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "input.h"
 #include "mission.h"
@@ -43,10 +41,10 @@ void game::list_missions()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w_missions = new_centered_win( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH );
+        w_missions = new_centered_win( TERMY, FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
 
-        // content ranges from y=3 to FULL_SCREEN_HEIGHT - 2
-        entries_per_page = FULL_SCREEN_HEIGHT - 4;
+        // content ranges from y=3 to TERMY - 2
+        entries_per_page = TERMY - 4;
 
         ui.position_from_window( w_missions );
     } );
@@ -61,8 +59,8 @@ void game::list_missions()
         const int bottom_of_page =
             std::min( top_of_page + entries_per_page - 1, static_cast<int>( umissions.size() ) - 1 );
 
-        for( int i = 3; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
-            mvwputch( w_missions, point( 30, i ), BORDER_COLOR, LINE_XOXO );
+        for( int i = 3; i < TERMY - 1; i++ ) {
+            mvwputch( w_missions, point( 40, i ), BORDER_COLOR, LINE_XOXO );
         }
 
         const std::vector<std::pair<tab_mode, std::string>> tabs = {
@@ -72,24 +70,31 @@ void game::list_missions()
         };
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
-
-        mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR,
-                  tab == tab_mode::TAB_COMPLETED ? ' ' : LINE_OXXX ); // ^|^
-        mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        int x1 = 2;
+        int x2 = 2;
+        for( const std::pair<tab_mode, std::string> &t : tabs ) {
+            x2 = x1 + utf8_width( t.second ) + 1;
+            if( t.first == tab ) {
+                break;
+            }
+            x1 = x2 + 2;
+        }
+        mvwputch( w_missions, point( 40, 2 ), BORDER_COLOR, x1 < 40 && 40 < x2 ? ' ' : LINE_OXXX ); // ^|^
+        mvwputch( w_missions, point( 40, TERMY - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
 
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), point( 0, 3 ) );
 
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
-            const auto miss = umissions[i];
+            mission *miss = umissions[i];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             const int y = i - top_of_page + 3;
-            trim_and_print( w_missions, point( 1, y ), 28,
+            trim_and_print( w_missions, point( 1, y ), 38,
                             static_cast<int>( selection ) == i ? hilite( col ) : col,
                             miss->name() );
         }
 
         if( selection < umissions.size() ) {
-            const auto miss = umissions[selection];
+            mission *miss = umissions[selection];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             std::string for_npc;
             if( miss->get_npc_id().is_valid() ) {
@@ -100,8 +105,6 @@ void game::list_missions()
             }
 
             int y = 3;
-            y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
-                                 miss->name() + for_npc );
 
             auto format_tokenized_description = []( const std::string & description,
             const std::vector<std::pair<int, itype_id>> &rewards ) {
@@ -113,15 +116,16 @@ void game::list_missions()
                 }
                 return formatted_description;
             };
-
+            y += fold_and_print( w_missions, point( 41, y ), getmaxx( w_missions ) - 43, col,
+                                 format_tokenized_description( miss->name(), miss->get_likely_rewards() ) + for_npc );
             y++;
             if( !miss->get_description().empty() ) {
-                y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,
+                y += fold_and_print( w_missions, point( 41, y ), getmaxx( w_missions ) - 43, c_white,
                                      format_tokenized_description( miss->get_description(), miss->get_likely_rewards() ) );
             }
             if( miss->has_deadline() ) {
                 const time_point deadline = miss->get_deadline();
-                mvwprintz( w_missions, point( 31, ++y ), c_white, _( "Deadline: %s" ), to_string( deadline ) );
+                mvwprintz( w_missions, point( 41, ++y ), c_white, _( "Deadline: %s" ), to_string( deadline ) );
 
                 if( tab != tab_mode::TAB_COMPLETED ) {
                     // There's no point in displaying this for a completed mission.
@@ -137,14 +141,14 @@ void game::list_missions()
                         remaining_time = to_string_approx( remaining );
                     }
 
-                    mvwprintz( w_missions, point( 31, ++y ), c_white, _( "Time remaining: %s" ), remaining_time );
+                    mvwprintz( w_missions, point( 41, ++y ), c_white, _( "Time remaining: %s" ), remaining_time );
                 }
             }
             if( miss->has_target() ) {
-                const tripoint pos = u.global_omt_location();
+                const tripoint_abs_omt pos = u.global_omt_location();
                 // TODO: target does not contain a z-component, targets are assumed to be on z=0
-                mvwprintz( w_missions, point( 31, ++y ), c_white, _( "Target: (%d, %d)   You: (%d, %d)" ),
-                           miss->get_target().x, miss->get_target().y, pos.x, pos.y );
+                mvwprintz( w_missions, point( 41, ++y ), c_white, _( "Target: %s   You: %s" ),
+                           miss->get_target().to_string(), pos.to_string() );
             }
         } else {
             static const std::map< tab_mode, std::string > nope = {
@@ -152,7 +156,7 @@ void game::list_missions()
                 { tab_mode::TAB_COMPLETED, translate_marker( "You haven't completed any missions!" ) },
                 { tab_mode::TAB_FAILED, translate_marker( "You haven't failed any missions!" ) }
             };
-            mvwprintz( w_missions, point( 31, 4 ), c_light_red, _( nope.at( tab ) ) );
+            mvwprintz( w_missions, point( 41, 4 ), c_light_red, _( nope.at( tab ) ) );
         }
 
         wnoutrefresh( w_missions );

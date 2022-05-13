@@ -2,6 +2,7 @@
   {
     "result": "50_incendiary",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
@@ -11,14 +12,14 @@
       [ [ "incendiary", 20 ] ],
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 30 ] ],
+      [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "50bmg",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
@@ -27,14 +28,14 @@
       [ [ "lead", 12 ] ],
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 30 ] ],
+      [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "50ss",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
@@ -42,10 +43,9 @@
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 30 ] ],
+      [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ],
       [ [ "scrap", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

@@ -2,11 +2,15 @@
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <ctime>
-#include <memory>
+#include <functional>
+#include <iosfwd>
+#include <string>
+#include <type_traits>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_generators.h"
+#include "cata_catch.h"
+#include "coordinates.h"
 #include "line.h"
 #include "point.h"
 #include "rng.h"
@@ -127,9 +131,9 @@ TEST_CASE( "test_normalized_angle", "[line]" )
     CHECK( get_normalized_angle( point_zero, {-10, -10} ) == Approx( 1.0 ) );
 }
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum", "[line]" )
 {
-
     // Test the unit cube, which are the only values this function is valid for.
     REQUIRE( make_xyz_unit( tripoint( -1, -1, 1 ) ) == direction::ABOVENORTHWEST );
     REQUIRE( make_xyz_unit( tripoint_north_west ) == direction::NORTHWEST );
@@ -286,13 +290,16 @@ TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum", "[line]" 
     REQUIRE( make_xyz( tripoint( 60, 30, -1 ) ) == direction::BELOWSOUTHEAST );
 }
 
-TEST_CASE( "direction_from", "[line]" )
+TEST_CASE( "direction_from", "[point][line][coords]" )
 {
     for( int x = -2; x <= 2; ++x ) {
         for( int y = -2; y <= 2; ++y ) {
             for( int z = -2; z <= 2; ++z ) {
                 tripoint p( x, y, z );
+                tripoint_abs_omt c( p );
                 CHECK( direction_from( tripoint_zero, p ) == direction_from( p ) );
+                CHECK( direction_from( tripoint_zero, p ) ==
+                       direction_from( tripoint_abs_omt(), c ) );
                 CHECK( direction_from( p ) == make_xyz( p ) );
             }
         }
@@ -354,9 +361,6 @@ static void line_to_comparison( const int iterations )
 {
     REQUIRE( trig_dist( point_zero, point_zero ) == 0 );
     REQUIRE( trig_dist( point_zero, point_east ) == 1 );
-
-    const int seed = time( nullptr );
-    std::srand( seed );
 
     for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
         const point p1( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
@@ -438,4 +442,22 @@ TEST_CASE( "line_to_regression", "[line]" )
 TEST_CASE( "line_to_performance", "[.]" )
 {
     line_to_comparison( 10000 );
+}
+
+TEST_CASE( "coord_point_line_to_consistency", "[point][coords][line]" )
+{
+    point p0 = GENERATE( take( 5, random_points() ) );
+    point p1 = GENERATE( take( 5, random_points() ) );
+    CAPTURE( p0, p1 );
+    point_abs_ms cp0( p0 );
+    point_abs_ms cp1( p1 );
+
+    std::vector<point> raw_line = line_to( p0, p1 );
+    std::vector<point_abs_ms> coord_line = line_to( cp0, cp1 );
+
+    REQUIRE( raw_line.size() == coord_line.size() );
+    for( size_t i = 0; i < raw_line.size(); ++i ) {
+        CAPTURE( i );
+        CHECK( raw_line[i] == coord_line[i].raw() );
+    }
 }

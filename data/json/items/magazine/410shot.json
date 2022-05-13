@@ -3,7 +3,7 @@
     "id": "saiga410mag_10rd",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "Saiga-410 box magazine" },
+    "name": { "str": "Saiga-410 10-round magazine" },
     "description": "A removable plastic box magazine for the Saiga-410 shotgun.  Holds 10 shells.",
     "weight": "210 g",
     "volume": "500 ml",
@@ -13,15 +13,14 @@
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": [ "410shot" ],
-    "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "410shot": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 10 } } ]
   },
   {
     "id": "saiga410mag_30rd",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "Saiga-410 drum magazine" },
+    "name": { "str": "Saiga-410 30-round drum magazine" },
     "description": "A removable plastic drum magazine for the Saiga-410 shotgun.  Holds 30 shells.",
     "weight": "460 g",
     "volume": "1 L",
@@ -31,9 +30,8 @@
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": [ "410shot" ],
-    "capacity": 30,
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "410shot": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 30 } } ]
   }
 ]

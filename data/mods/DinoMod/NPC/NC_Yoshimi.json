@@ -1,0 +1,244 @@
+[
+  {
+    "type": "npc",
+    "id": "yoshimi",
+    "name_unique": "Yoshimi",
+    "name_suffix": "DinoLab survivor",
+    "class": "dm_dinolab_survivor",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_Yoshimi_1",
+    "faction": "no_faction",
+    "mission_offered": "MISSION_DinoLab_Yos_1"
+  },
+  {
+    "type": "npc_class",
+    "id": "dm_dinolab_survivor",
+    "name": "DinoLab survivor",
+    "job_description": "Need to learn what happened…",
+    "common": false,
+    "worn_override": "lab_torso",
+    "carry_override": "NC_DOCTOR_misc",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      [ "PRETTY", 100 ],
+      [ "ANIMALEMPATH2", 100 ],
+      [ "QUICK", 100 ],
+      [ "LIZ_EYE", 100 ],
+      [ "SCALES", 100 ],
+      [ "NAILS", 100 ],
+      [ "RAP_TALONS", 100 ],
+      [ "THRESH_RAPTOR", 100 ],
+      [ "ARM_FEATHERS", 100 ]
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 4, 8 ] } }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_yoshimi"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Yoshimi_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_yoshimi",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [
+        "How can I help you, survivor?",
+        "Seen any interesting specimens?  I mean dinosaurs.",
+        "I was just imagining you transforming into a tyrannosaurus rex.  Of course that's impossible.  Unless…",
+        "Let's do some science."
+      ],
+      "no": "Please leave me be, I am but a humble muck farmer in this humble muck."
+    },
+    "responses": [
+      {
+        "text": "You are dressed like a scientist.  Are you a scientist?  You look like a dinosaur.  Are you a dinosaur?  Are you a scientist dinosaur?",
+        "effect": { "u_add_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_yoshimi_firstmeet"
+      },
+      {
+        "text": "Die demon mutant!",
+        "effect": [ { "u_add_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" }, "insult_combat" ],
+        "condition": { "not": { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How did you get here?",
+        "condition": { "and": [ { "u_has_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "yes" } ] },
+        "topic": "TALK_yoshimi_ask_past"
+      },
+      {
+        "text": "How are things here?",
+        "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
+        "topic": "TALK_yoshimi_ask_mood"
+      },
+      {
+        "text": "You look like you need help.  Can I do something for you?",
+        "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_firstmeet",
+    "dynamic_line": "You have seen through my ruse.  In retrospect I should have prepared a costume of some kind.  Unimportant!  You haven't attacked me or tried to seduce me so you aren't like the others.  Had any bad headaches recently, strange mood swings, strong urges, desire for human flesh?",
+    "responses": [
+      { "text": "Only the usual.  What are you really?", "topic": "TALK_yoshimi_what" },
+      { "text": "You are aware of the Cataclysm then?", "topic": "TALK_yoshimi_cataclysm" },
+      { "text": "I'd rather not say at this point.", "topic": "TALK_Yoshimi_1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_what",
+    "dynamic_line": "I am a hard working professional in a challenging field adjusting to a recent change in circumstances.  That is all you need to know.",
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_Yoshimi_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_ask_past",
+    "dynamic_line": "My manager Dr. Tingle made some important mistakes and I have had to make some quick decisions I would rather not go into detail on.  In retrospect our faculties may have been influenced by external factors.  Suffice to say Dr. Tingle is no longer with us but died happy.  And I escaped alive.",
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_Yoshimi_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_cataclysm",
+    "dynamic_line": "Look at me.  Yes, I am aware.  The question is what happens next.",
+    "responses": [ { "text": "Yes.  Let's talk about something else.", "topic": "TALK_Yoshimi_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_ask_mood",
+    "dynamic_line": "I just got here, actually; I've recently found it wise to move a lot.  There may be some interesting specimens nearby.  I mean dinosaurs.",
+    "responses": [ { "text": "Interesting.", "topic": "TALK_Yoshimi_1" } ]
+  },
+  {
+    "id": "MISSION_DinoLab_Yos_1",
+    "type": "mission_definition",
+    "name": { "str": "First we need some supplies" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 1000,
+    "item": "chemistry_set",
+    "start": {
+      "assign_mission_target": {
+        "om_special": "4x4_DinoLab_surface",
+        "om_terrain": "microlab_DinoLab_surface",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 200
+      },
+      "update_mapgen": [
+        {
+          "om_terrain": "microlab_DinoLab_surface",
+          "place_item": [ { "item": "chemistry_set", "x": 12, "y": 12 } ],
+          "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 12 } ]
+        }
+      ],
+      "effect": { "u_add_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "in_progress" }
+    },
+    "end": {
+      "effect": [
+        { "u_add_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "yes" },
+        { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_DinoLab_Yos_2",
+    "dialogue": {
+      "describe": "I think I might know where a decent chemistry set is…",
+      "offer": "I need a full chemistry set to do my work properly.  I could use some help.",
+      "accepted": "Fine.  I've marked one I know about on your map but any set will work.",
+      "rejected": "Fine, you'll probably be dead soon anyway.",
+      "advice": "It might be too dangerous now, any working full chemistry set is fine.  There is a good chance something got out.",
+      "inquire": "Do you have the set yet?",
+      "success": "Let's get started.",
+      "success_lie": "Very convincing.  I do need an actual chemistry set to work though.",
+      "failure": "It's fine, I'll make something work."
+    }
+  },
+  {
+    "id": "MISSION_DinoLab_Yos_2",
+    "type": "mission_definition",
+    "name": { "str": "Kiernan consult" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 1000,
+    "item": "kiernans_notes",
+    "start": {
+      "assign_mission_target": {
+        "om_special": "dinosaur exhibit",
+        "om_terrain": "dinoexhibit",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 120
+      },
+      "update_mapgen": [
+        {
+          "om_terrain": "dinoexhibit",
+          "place_item": [ { "item": "kiernans_notes", "x": 20, "y": 19 } ],
+          "place_monster": [ { "monster": "mon_zombie_scientist", "name": "Kiernan", "x": 20, "y": 19 } ]
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "kiernans_notes" },
+        { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_DinoLab_Yos_3",
+    "dialogue": {
+      "describe": "I need some expert advice…",
+      "offer": "I don't have access to my old lab's procedural documents here.  Find Dr. Kiernan and get some notes on the basics.  I can work from there.",
+      "accepted": "Right.  I've marked his last location on your map.",
+      "rejected": "Ugh.",
+      "advice": "Kiernan is probably still at the old field office.  It should be fine as long as the emergency power is still working.  You may have to do some kind of stupid task before Kiernan talks.  Try not to get violent.  If Kiernan is dead try and find some notes or books.",
+      "inquire": "Do you have the information yet?",
+      "success": "Let's get started.  Oh, I'll make you a copy just in case.",
+      "success_lie": "Very convincing.  I do need the information to work though.",
+      "failure": "It's fine, I'll make something work."
+    }
+  },
+  {
+    "id": "MISSION_DinoLab_Yos_3",
+    "type": "mission_definition",
+    "name": { "str": "Nice relaxing break" },
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "difficulty": 2,
+    "value": 1000,
+    "monster_type": "DINOSAUR",
+    "monster_kill_goal": 5,
+    "start": {
+      "assign_mission_target": { "om_terrain": "dinozoo_1_1", "om_terrain_replace": "land", "reveal_radius": 1, "random": true, "search_range": 220 }
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "mutagen_raptor" },
+        { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Time for a nice relaxing trip…",
+      "offer": "We have been working so hard.  We deserve a break.  Here is what I want you to do.  There is a special zoo with very special animals in it. I need you to go there and kill anything dangerous and smash the corpses bloody so they don't rise and try to kill me.  For science.  Then I'm going to go there and study what is there to get ready for the next step.",
+      "accepted": "Clean up if you can, I don't like mess.",
+      "rejected": "Ugh.",
+      "advice": "You're good at this kind of brutality I assume.  Bring a weapon of some kind.  I don't know how dangerous it will be but I would assume the worst.  I always do.",
+      "inquire": "Are you back from your relaxing trip?",
+      "success": "Wonderful.  I trust you weren't hurt by those animals.  I have some spare chemicals you might enjoy.",
+      "success_lie": "Wonderful, now I'm off to inspect your work.",
+      "failure": "It's fine, I'll make something work."
+    }
+  }
+]

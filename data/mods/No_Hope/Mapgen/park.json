@@ -1,0 +1,42 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "park",
+    "//": "Scenic Park",
+    "weight": 50000,
+    "object": {
+      "fill_ter": "t_grass",
+      "rows": [
+        "         ......         ",
+        "  zzzzzzzz....zzzzzzzz  ",
+        " z         ..         z ",
+        " z    ,bTb,.. t **`** z ",
+        " z  t ,bTb,..   *```* z ",
+        " z  & ..........````` z ",
+        " z ,,..,,  ..   *```* z ",
+        " z bb.,,,  ..   **`** z ",
+        " z TT.,,, ....    .   z ",
+        ".z bb.   .ssss.   . t z.",
+        ".. ,,.  .ss~~ss.  .   ..",
+        ".........s~~~~s.........",
+        ".........s~~~~s.........",
+        "..   .  .ss~~ss.  .   ..",
+        ".z   .   .ssss.   .   z.",
+        " z   .    ....    .   z ",
+        " z t . t   ..     . b z ",
+        " z   ..    ..    .. b z ",
+        " z fss............    z ",
+        " z sAs  t  ..         z ",
+        " z fsf     ..   bb  t z ",
+        " z         ..         z ",
+        "  zzzzzzzz....zzzzzzzz  ",
+        "         ......         "
+      ],
+      "palettes": [ "park_scenic_palette" ],
+      "place_item": [ { "item": "char_smoker", "x": 7, "y": 7, "chance": 50 } ],
+      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
+      "vehicles": { ".": { "vehicle": "park_playground_vehicles", "chance": 1 } }
+    }
+  }
+]

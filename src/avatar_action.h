@@ -2,24 +2,30 @@
 #ifndef CATA_SRC_AVATAR_ACTION_H
 #define CATA_SRC_AVATAR_ACTION_H
 
+#include <iosfwd>
+#include <vector>
+
+#include "activity_type.h"
 #include "optional.h"
 #include "point.h"
-#include "units.h"
+#include "units_fwd.h"
 
+class Character;
 class avatar;
 class item;
 class item_location;
 class map;
 class turret_data;
-class aim_activity_actor;
 
 namespace avatar_action
 {
 
 /** Eat food or fuel  'E' (or 'a') */
-void eat( avatar &you );
-void eat( avatar &you, const item_location &loc );
-void eat( avatar &you, const item_location &loc, std::vector<int> consume_menu_selections );
+void eat( avatar &you, const item_location &loc, bool refuel = false );
+void eat( avatar &you, const item_location &loc,
+          const std::vector<int> &consume_menu_selections,
+          const std::vector<item_location> &consume_menu_selected_items,
+          const std::string &consume_menu_filter, activity_id type, bool refuel = false );
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );
@@ -53,7 +59,7 @@ bool can_fire_weapon( avatar &you, const map &m, const item &weapon );
 void fire_wielded_weapon( avatar &you );
 
 /** Stores fake gun specified by the mutation and starts interactive aiming */
-void fire_ranged_mutation( avatar &you, const item &fake_gun );
+void fire_ranged_mutation( Character &you, const item &fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
 void fire_ranged_bionic( avatar &you, const item &fake_gun, const units::energy &cost_per_shot );

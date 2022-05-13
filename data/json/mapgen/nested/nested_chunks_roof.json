@@ -7,11 +7,10 @@
       "mapgensize": [ 4, 4 ],
       "rows": [
         "xxxx",
-        "xct_",
-        "x___",
-        "____"
+        "xct ",
+        "x   ",
+        "    "
       ],
-      "terrain": { "_": "t_flat_roof" },
       "furniture": { "c": "f_camp_chair", "x": "f_sandbag_wall", "t": "f_table" },
       "place_loot": [
         { "group": "roof_trash", "x": [ 0, 3 ], "y": 3, "chance": 30, "repeat": [ 1, 2 ] },
@@ -28,12 +27,11 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rows": [
-        "_ct_",
-        "____",
-        "_b_c",
-        "c___"
+        " ct ",
+        "    ",
+        " b c",
+        "c   "
       ],
-      "terrain": { "_": "t_flat_roof", "c": "t_flat_roof", "b": "t_flat_roof", "t": "t_flat_roof" },
       "furniture": { "c": "f_camp_chair", "b": "f_brazier", "t": "f_table" },
       "place_items": [
         { "item": "roof_trash", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 35, "repeat": [ 1, 2 ] },
@@ -123,13 +121,17 @@
         "xtttx",
         "xxxxx"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "_": "t_floor_primitive", "+": "t_chickenwire_gate_c", "x": "t_chickenwire_fence", "t": "t_dirtfloor" },
       "furniture": { "t": "f_table" },
       "place_loot": [
         { "item": "straw_pile", "x": [ 1, 3 ], "y": 3, "chance": 75, "repeat": [ 1, 3 ] },
         { "item": "straw_pile", "x": 3, "y": [ 1, 3 ], "chance": 75, "repeat": [ 1, 3 ] }
       ],
-      "place_monster": [ { "monster": "mon_chicken", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80, "pack_size": [ 2, 4 ] } ]
+      "place_monster": [
+        { "monster": "mon_pigeon", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 60, "pack_size": [ 2, 4 ] },
+        { "monster": "mon_chicken", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 20, "pack_size": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -145,6 +147,7 @@
         "_xxx",
         "__ox"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "_": "t_concrete", "x": "t_sewage_pipe" },
       "furniture": { "o": "f_water_heater", "a": "f_air_conditioner" },
       "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
@@ -160,10 +163,11 @@
       "rows": [
         "UUUU",
         "UAaU",
-        "c_oU",
+        "c oU",
         "UUUU"
       ],
-      "terrain": { "_": "t_null", "c": "t_chaingate_l", "U": "t_chainfence" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "c": "t_chaingate_l", "U": "t_chainfence" },
       "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" },
       "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
@@ -176,14 +180,15 @@
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "_xxxxx",
-        "_xA__x",
-        "_xx__x",
-        "_____x",
-        "xooa_x",
+        " xxxxx",
+        " xA  x",
+        " xx  x",
+        "     x",
+        "xooa x",
         "xxxxxx"
       ],
-      "terrain": { "_": "t_null", "x": "t_sewage_pipe" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "x": "t_sewage_pipe" },
       "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" },
       "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
@@ -312,7 +317,6 @@
         { "point": "trap", "id": "tr_cot", "x": 5, "y": 5 },
         { "point": "trap", "id": "tr_cot", "x": 3, "y": 5 }
       ],
-      "terrain": { ".": "t_null" },
       "furniture": { "o": "f_camp_chair", "a": "f_brazier", "A": "f_tourist_table" },
       "place_loot": [
         { "group": "cannedfood", "x": [ 2, 3 ], "y": 0, "repeat": [ 2, 3 ] },
@@ -335,14 +339,13 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "%#++#%",
-        "%1__1%",
-        "#1__1#",
-        "#1__1#",
-        "%1__1%",
+        "%1  1%",
+        "#1  1#",
+        "#1  1#",
+        "%1  1%",
         "%#++#%"
       ],
       "terrain": {
-        "_": "t_null",
         "#": "t_reinforced_glass_shutter_open",
         "+": "t_reinforced_door_glass_c",
         "%": "t_reinforced_glass_shutter",
@@ -361,15 +364,13 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "%#++#%",
-        "%1__1%",
-        "#S__b#",
-        "#S__b#",
-        "%1__1%",
+        "%1  1%",
+        "#S  b#",
+        "#S  b#",
+        "%1  1%",
         "%#++#%"
       ],
       "terrain": {
-        "_": "t_null",
-        "p": "t_null",
         "#": "t_reinforced_glass_shutter_open",
         "+": "t_reinforced_door_glass_c",
         "%": "t_reinforced_glass_shutter",
@@ -388,14 +389,13 @@
       "rotation": [ 0, 2 ],
       "rows": [
         "%#++#%",
-        "%1__1%",
-        "#1a_1#",
-        "#1__1#",
-        "%1_a1%",
+        "%1  1%",
+        "#1a 1#",
+        "#1  1#",
+        "%1 a1%",
         "%#++#%"
       ],
       "terrain": {
-        "_": "t_null",
         "#": "t_reinforced_glass_shutter_open",
         "+": "t_reinforced_door_glass_c",
         "%": "t_reinforced_glass_shutter",
@@ -417,14 +417,15 @@
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "______",
-        "______",
-        "b111b_",
-        "b1B1b_",
-        "b111b_",
-        "______"
+        "      ",
+        "      ",
+        "b111b ",
+        "b1B1b ",
+        "b111b ",
+        "      "
       ],
-      "terrain": { "_": "t_null", "B": "t_railroad_rubble" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "B": "t_railroad_rubble" },
       "furniture": { "b": "f_bench", "B": [ "f_birdbath", "f_statue" ] },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_seedling" } }
     }
@@ -444,6 +445,7 @@
         "1_bb_1",
         "1____1"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "B": "t_railroad_rubble" },
       "furniture": { "B": [ "f_birdbath", "f_statue" ], "b": "f_bench" },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_seedling" } }
@@ -458,14 +460,15 @@
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "______",
-        "44433_",
-        "BBBBB_",
-        "22233_",
-        "BBBBB_",
-        "11112_"
+        "      ",
+        "44433 ",
+        "BBBBB ",
+        "22233 ",
+        "BBBBB ",
+        "11112 "
       ],
-      "terrain": { "_": "t_null", "B": "t_railroad_rubble" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "B": "t_railroad_rubble" },
       "sealed_item": {
         "1": { "item": { "item": "seed_chamomile" }, "furniture": "f_planter_harvest" },
         "2": { "item": { "item": "seed_thyme" }, "furniture": "f_planter_harvest" },
@@ -490,6 +493,7 @@
         "b2222b",
         "bb__bb"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "2": "t_sandbox", "G": "t_sandbox" },
       "furniture": { "G": [ "f_boulder_medium", "f_boulder_large" ], "b": "f_bench" }
     }

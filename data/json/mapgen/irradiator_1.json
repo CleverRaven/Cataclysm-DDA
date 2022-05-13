@@ -2,13 +2,12 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY",
-    "default": "mon_zombie_technician",
     "monsters": [
-      { "monster": "mon_zombie_technician", "freq": 200, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_hazmat", "freq": 250, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_electric", "freq": 100, "cost_multiplier": 5 },
-      { "monster": "mon_skitterbot", "freq": 100, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_cop", "freq": 100, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_technician", "weight": 450, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_hazmat", "weight": 250, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_electric", "weight": 100, "cost_multiplier": 5 },
+      { "monster": "mon_skitterbot", "weight": 100, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_cop", "weight": 100, "cost_multiplier": 5 }
     ]
   },
   {
@@ -31,9 +30,9 @@
     "items": [
       { "item": "iodine", "prob": 50 },
       { "item": "prussian_blue", "prob": 75 },
-      { "item": "1st_aid", "prob": 50 },
+      { "group": "full_1st_aid", "prob": 50 },
       { "item": "gloves_medical", "prob": 20 },
-      { "item": "rag_bloody", "prob": 30 },
+      { "item": "rag", "prob": 30, "custom-flags": [ "FILTHY" ] },
       { "group": "drugs_emergency", "prob": 30 },
       { "group": "drugs_heal_simple", "prob": 20 },
       { "group": "drugs_analgesic", "prob": 10 }
@@ -77,7 +76,7 @@
       { "item": "bag_canvas_small", "prob": 50 },
       { "item": "box_small", "prob": 40 },
       { "item": "wrapper", "prob": 60 },
-      { "item": "paper", "prob": 10 },
+      { "item": "paper", "prob": 10, "count": [ 5, 10 ] },
       { "item": "cup_plastic", "prob": 10 },
       { "item": "styrofoam_cup", "prob": 10 }
     ]
@@ -110,7 +109,7 @@
         "'f**|MP PPPPP|----==-------XXXXXXXXNXXXXXXXX-----==-----|PPZPPPZPPP|**f'",
         "'f**|TTTTTTTT| C K     KXXXXXXX!Q!!!!!Q!XXXXXX J        |TTTTTTTTTT|**f'",
         "'f**|--------4 C K   KKKXCCMMCX!!UUUUU!!XMMCCX J    J C 4----------|**f'",
-        "'f**|(       N C K     KXCXXXCX!!UUUUU!!XCXXCX J    J C N         (|**f'",
+        "'f**|        N C K     KXCXXXCX!!UUUUU!!XCXXCX J    J C N          |**f'",
         "'f**| CCCCCCCMCC    C  CC1 XXCCCCCC3CCCCCCX 2     M   CCMCCCCCCCCC |**f'",
         "'f**| C      N C K  CCCC  KXXXX!!UUUUU!!XXX CCCCCCM J C N        C |**f'",
         "'f**| C |----4 C K        KXXXX!!UUUUU!!XXX       M J C 4------| C |**f'",
@@ -122,14 +121,14 @@
         "'f**| C |]  x|x   x|x  ]|  |---N------------|  |.       |c  > >| C |**f'",
         "'f**| C |] hd|dh hd|dh ]|  |##| 4|rG  Gr|B B|  |. htth  |dh >Q>| C |**f'",
         "'f**| C |]  x|x   x|x  ]|  |  |Y----))--|B B|  |. htth  |------| C |**f'",
-        "'f**| C |] hd|dh hd|dh ]|  |F | 4dh   hd|B B|  +       ^|<  + ?| C |**f'",
-        "'f**| C |]  x|x   x|x  ]|  |V |YRRxR4Y6R|-+-|  |  oaao  +   |--| C |**f'",
+        "'f**| C |] hd|dh hd|dh ]|  |F | 4|6h  hd|B B|  +       ^|<  + ?| C |**f'",
+        "'f**| C |]  x|x   x|x  ]|  |V |YRRRR4YRR|-+-|  |  oaao  +   |--| C |**f'",
         "'f**| C |^              +  +  +         +      |  oaao ^|<  + ?| C |**f'",
         "'f**| C |----------------==|---|---++---|----==|---------------| C |**f'",
         "'f**| C |M  KKKKKKKKKKKK   |A AAAAR  RAAAA A|   JJJJJJJJJJJ    | C |**f'",
         "'f**| CCMCC                |A     D  D     A|J              CCCMCC |**f'",
         "'f**|   N C KKKKKKKKKKKK   |A ^oo^R  R^oo^ A|J  JJW MMMMMCCCC  N   |**f'",
-        "'f**| ( 4 C                |-------++-------|J  J W MMMMM      4 ( |**f'",
+        "'f**|   4 C                |-------++-------|J  J W MMMMM      4   |**f'",
         "'f**|   N C KKKKKKKKKKKK   |gggR{{R  R{{Rggg|J  JJW MMMMMCCCC  N   |**f'",
         "'f**| CCMCC                |g%%D%%D  D%%D%%g|J              CCCMCC |**f'",
         "'f**| C |M  KKKKKKKKKKKK   |gggR{{R  R{{Rggg|   WWWWWWWWWWW    N C |**f'",
@@ -160,28 +159,15 @@
         "'f**L_____________________Lss******ss******ssL_____________________L**f'",
         "'f**L____________________Ls##ssss##ss##ssss##sL____________________L**f'",
         "'f**L___________________Lss--w=w---DD---w=w--ssL___________________L**f'",
-        "'fsss__________________Lssswdh  ^hx  xhA  hdwsssL__________________sssf'",
-        "'fs(s__________________Ls(swxh   hd  dh   hxws(sL__________________s(sf'",
-        "'fsss__________________Lsss--w-w---DD---w-w--sssL__________________sssf'",
+        "'f**L__________________Lssswdh  ^hx  xhA  hdwsssL__________________L**f'",
+        "'f**L__________________Lssswxh   hd  dh   hxwsssL__________________L**f'",
+        "'f**L__________________Lsss--w-w---DD---w-w--sssL__________________L**f'",
         "'ffffGGGGGGGGGGGGGGGGGGffffffffffffGGffffffffffffGGGGGGGGGGGGGGGGGGffff'",
         "[[[[L__________________LssssssssssssssssssssssssL__________________L[[[[",
         "[[[[L__________________LssssssssssssssssssssssssL__________________L[[[["
       ],
       "terrain": {
-        "*": [
-          "t_grass",
-          "t_grass",
-          "t_dirt",
-          "t_shrub_rose",
-          "t_shrub_lilac",
-          "t_tree_young",
-          "t_shrub_hydrangea",
-          "t_grass_long",
-          "t_woodchips",
-          "t_moss",
-          "t_grass_long",
-          "t_grass_dead"
-        ],
+        "*": [ [ "t_region_groundcover_forest", 2 ], "t_region_shrub_decorative" ],
         "'": [ "t_fence_barbed" ],
         "X": [ "t_strconc_wall" ],
         "+": [ "t_door_c" ],
@@ -198,34 +184,32 @@
         "f": [ "t_chainfence_h" ],
         "s": [ "t_sidewalk" ],
         "w": [ "t_window" ],
-        "x": [ "t_console_broken" ],
         "|": [ "t_strconc_wall" ],
         "U": [ "t_water_pool" ],
         "R": [ "t_reinforced_glass_shutter_open" ],
         "m": [ "t_oil_circ_brkr_s", "t_station_disc", "t_switchgear_s", "t_potential_trans", "t_current_trans", "t_lgtn_arrest" ],
-        "M": [ "t_machinery_heavy" ],
         "e": [ "t_gates_mech_control" ],
         "#": [ "t_sidewalk" ],
-        "P": [ "t_sewage_pump", "t_sewage_pipe", "t_sewage_pipe", "t_sewage_pipe" ],
+        "P": [ "t_sewage_pump", [ "t_sewage_pipe", 3 ] ],
         "Y": [ "t_door_metal_locked" ],
         "y": [ "t_door_metal_o" ],
         "N": [ "t_door_metal_locked" ],
         "%": [ "t_grate" ],
-        "/": [ "t_plut_generator" ],
         "}": [ "t_ladder_up" ],
         ")": [ "t_reinforced_glass" ],
         "!": [ "t_thconc_floor" ],
-        "0": [ "t_console" ],
         "1": [ "t_floor_red" ],
         "2": [ "t_floor_green" ],
         "3": [ "t_rad_platform" ],
-        "4": [ "t_card_industrial" ],
-        "5": [ "t_console" ],
-        "6": [ "t_console" ],
-        "7": [ "t_console" ]
+        "4": [ "t_card_industrial" ]
       },
       "furniture": {
         "#": [ "f_bench" ],
+        "/": [ "f_compact_ASRG_containment" ],
+        "0": [ "f_console" ],
+        "5": [ "f_console" ],
+        "6": [ "f_console" ],
+        "7": [ "f_console" ],
         "S": [ "f_locker" ],
         "A": [ "f_locker" ],
         "j": [ "f_locker" ],
@@ -236,10 +220,12 @@
         "d": [ "f_desk" ],
         "g": [ "f_shower" ],
         "h": [ "f_chair" ],
+        "M": [ "f_machinery_heavy" ],
         "o": [ "f_sofa" ],
         "r": [ "f_rack" ],
         "t": [ "f_table" ],
         "Q": [ "f_air_filter" ],
+        "x": [ "f_console_broken" ],
         "Z": [ "f_water_purifier" ],
         "B": [ "f_bed", "f_dresser", "f_glass_cabinet" ],
         "<": [ "f_sink" ],
@@ -327,7 +313,7 @@
       ],
       "liquids": { "T": { "liquid": "water_clean", "amount": [ 200, 600 ] } },
       "fields": { "U": { "field": "fd_nuke_gas", "intensity": 3, "age": 990 }, "/": { "field": "fd_shock_vent" } },
-      "monster": { "(": { "monster": "mon_turret_rifle" }, "!": { "monster": "mon_hazmatbot", "chance": 5 } },
+      "monster": { "!": { "monster": "mon_hazmatbot", "chance": 5 } },
       "monsters": {
         "h": { "monster": "GROUP_ZOMBIE", "chance": 50 },
         "o": { "monster": "GROUP_ZOMBIE", "chance": 50 },
@@ -430,11 +416,6 @@
         "     |............................................................3     ",
         "     |............................................................3     ",
         "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
         "     |.................................................RR.........3     ",
         "     |.................................................RR.........3     ",
         "     |............................................................3     ",
@@ -482,16 +463,16 @@
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
+            [ "null", 30 ],
             [ "roof_4x4_survivor", 15 ],
-            [ "roof_16x16_help", 25 ],
             [ "roof_4x4_holdout", 5 ],
             [ "roof_6x6_utility", 45 ],
             [ "roof_5x5_coop", 5 ]
           ],
-          "x": [ 11, 23 ],
-          "y": [ 5, 23 ]
-        }
+          "x": [ 11, 18 ],
+          "y": [ 5, 18 ]
+        },
+        { "chunks": [ [ "null", 75 ], [ "roof_16x16_help", 25 ] ], "x": [ 24, 32 ], "y": [ 5, 8 ] }
       ]
     }
   }

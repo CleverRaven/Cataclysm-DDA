@@ -15,19 +15,44 @@
     "type": "talk_topic",
     "dynamic_line": "Can I interest you in a trim?  It'll cost you 6 merch for a haircut or 3 for a beard trim.  I can do color and styling too.",
     "responses": [
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_GENERIC_ANESTHETIC_FOR_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
+            {
+              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+      },
       { "text": "What is your job here?", "topic": "TALK_RANCH_BARBER_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_BARBER_HIRE" },
       {
-        "text": "[$5] I'll have a shave",
+        "text": "[3 merch] I'll have a shave.",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
-        "effect": [ "buy_shave", { "u_sell_item": "FMCNote", "count": 3 }, "barber_beard" ]
+        "effect": [
+          {
+            "u_sell_item": "FMCNote",
+            "count": 3,
+            "true_eocs": { "id": "eoc_barber_shave", "effect": [ "buy_shave", "barber_beard" ] }
+          }
+        ]
       },
       {
-        "text": "[$10] I'll get a haircut",
+        "text": "[6 merch] I'll get a haircut.",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
-        "effect": [ "buy_haircut", { "u_sell_item": "FMCNote", "count": 6 }, "barber_hair" ]
+        "effect": [
+          {
+            "u_sell_item": "FMCNote",
+            "count": 6,
+            "true_eocs": { "id": "eoc_barber_hair", "effect": [ "buy_haircut", "barber_hair" ] }
+          }
+        ]
       },
       { "text": "Maybe another time…", "topic": "TALK_DONE" }
     ]
@@ -47,7 +72,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_BARBER_CUT",
-    "dynamic_line": "Stand still while I get my clippers...",
+    "dynamic_line": "Stand still while I get my clippers…",
     "responses": [ { "text": "Thanks…", "topic": "TALK_DONE" } ]
   }
 ]

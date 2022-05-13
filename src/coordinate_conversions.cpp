@@ -184,3 +184,13 @@ tripoint omt_to_seg_copy( const tripoint &p )
 {
     return tripoint( divide( p.x, SEG_SIZE ), divide( p.y, SEG_SIZE ), p.z );
 }
+
+point sm_to_mmr_remain( int &x, int &y )
+{
+    return point( divide( x, MM_REG_SIZE, x ), divide( y, MM_REG_SIZE, y ) );
+}
+
+tripoint mmr_to_sm_copy( const tripoint &p )
+{
+    return tripoint( p.x * MM_REG_SIZE, p.y * MM_REG_SIZE, p.z );
+}

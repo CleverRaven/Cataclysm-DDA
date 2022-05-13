@@ -20,13 +20,13 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
       "describe": "With the black box in hand, we need to find a lab.",
-      "offer": "Thanks to your searching we've got the black box but now we need to have a look'n-side her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
-      "accepted": "Fuck ya, America!",
+      "offer": "Thanks to your searching we've got the black box but now we need to have a look inside her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside 'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
+      "accepted": "Fuck yeah, America!",
       "rejected": "Do you have any better ideas?",
-      "advice": "When I was play'n with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
+      "advice": "When I was playin' with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
       "inquire": "How 'bout that black box?",
-      "success": "America, fuck ya!  I was in the guard a few years back so I'm confident I can make heads-or-tails of these transmissions.",
-      "success_lie": "What?!  I out'ta whip you're ass.",
+      "success": "America, fuck yeah!  I was in the guard a few years back so I'm confident I can make heads-or-tails of these transmissions.",
+      "success_lie": "What?!  I oughta whip your ass.",
       "failure": "Damn, I maybe we can find an egg-head to crack the terminal."
     }
   }
@@ -81,6 +81,10 @@ goal string               | Goal conditions
 `MGOAL_KILL_MONSTER_SPEC` | Kill some number of monsters from a specific species
 `MGOAL_CONDITION`         | Satisfy the dynamically created condition and talk to the mission giver
 
+Missions with goals `MGOAL_GO_TO` and `MGOAL_GO_TO_TYPE` behave differently depending on whether the player gets them from an NPC or from another source (e.g. from a starting scenario):
+* When given by an NPC the mission is an escort quest: to complete it the player has to talk to the quest giver while standing at the destination. Note: make sure to set the quest giver to follow the player or the mission will be impossible to complete.
+* Otherwise the mission is simple traversal - to complete it the player only has to reach the destination
+
 ### monster_species
 For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.
 
@@ -92,7 +96,7 @@ For "MGOAL_KILL_MONSTER_SPEC" and "MGOAL_KILL_MONSTER_TYPE", sets the number of 
 the player's current kill count that must be killed to complete the mission.
 
 ### goal_condition
-For "MGOAL_CONDITION", defines the condition that must be satisified for the mission to be considered complete.
+For "MGOAL_CONDITION", defines the condition that must be satisfied for the mission to be considered complete.
 Conditions are explained in more detail in [NPCs.md](./NPCs.md), and are used here in exactly the same way.
 
 ### dialogue
@@ -171,7 +175,7 @@ are applied afterwards. The `om_terrain` is the only required field.
 ```
 
 If the `om_terrain` is part of an overmap special, it's essential to specify the `om_special`
-value as well--otherwise, the game will not know how to spawn the entire special.
+value as well--otherwise, the game will not know how to spawn the entire special. If a multitile `om_special` is used it is important to specify the exact `om_terrain` that you would like the target to appear in.
 
 `om_terrain_match_type` defaults to TYPE if unspecified, and has the following possible values:
 
@@ -196,7 +200,7 @@ overmap special definition, respecting allowed terrains, distance from cities, r
 and so on. Consequently, the more restrictive the rules, the less likely this placement will
 succeed (as it is competing for space with already-spawned specials).
 
-`om_terrain_replace` is only relevent if the `om_terrain` is not part of an overmap special.
+`om_terrain_replace` is only relevant if the `om_terrain` is not part of an overmap special.
 This value is used if the `om_terrain` cannot be found, and will be used as an alternative target
 which will then be replaced with the `om_terrain` value.
 
@@ -252,7 +256,7 @@ Add a new line that defines the NPC's starting mission, eg:
 Any NPC that has missions needs to have a dialogue option that leads to TALK_MISSION_LIST, to get the player
 started on their first mission for the NPC, and either:
 
-* Add one of their talk_topic IDs to the list of generic mission reponse IDs in the first
+* Add one of their talk_topic IDs to the list of generic mission response IDs in the first
 talk_topic of data/json/npcs/TALK_COMMON_MISSION.json, or
 * Have a similar talk_topic with responses that lead to TALK_MISSION_INQUIRE and
 TALK_MISSION_LIST_ASSIGNED.

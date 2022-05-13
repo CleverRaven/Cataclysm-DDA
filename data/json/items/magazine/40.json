@@ -1,27 +1,9 @@
 [
   {
-    "id": "40_speedloader6",
-    "looks_like": "38_speedloader",
-    "type": "MAGAZINE",
-    "name": { "str": ".40 6-round speedloader" },
-    "description": "This speedloader can hold 6 rounds of .40 S&W or 10mm Auto and quickly reload a compatible revolver.",
-    "weight": "92 g",
-    "volume": "250 ml",
-    "price": 1500,
-    "price_postapoc": 100,
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "40", "10mm" ],
-    "capacity": 6,
-    "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 6, "10mm": 6 } } ]
-  },
-  {
     "id": "90two40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "90two .40 S&W magazine" },
+    "name": { "str": "90-two .40 S&W 12-round magazine" },
     "description": "A magazine for the 92 and 96 series of Beretta handguns, this one is for .40 S&W and can hold 12 rounds.",
     "weight": "135 g",
     "volume": "250 ml",
@@ -30,17 +12,16 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "40", "357sig" ],
-    "capacity": 12,
+    "ammo_type": [ "40" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 12, "357sig": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 12 } } ]
   },
   {
     "id": "glock40bigmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 22 extended magazine" },
+    "name": { "str": "Glock .40 S&W/.357 SIG 22-round magazine" },
     "description": "An extended 22-round magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
     "weight": "200 g",
     "volume": "500 ml",
@@ -50,16 +31,15 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40", "357sig" ],
-    "capacity": 22,
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 22, "357sig": 22 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 22, "357sig": 22 } } ]
   },
   {
     "id": "glock40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 22 magazine" },
+    "name": { "str": "Glock .40 S&W/.357 SIG 15-round magazine" },
     "description": "A compact light-weight polymer magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
     "weight": "125 g",
     "volume": "250 ml",
@@ -69,15 +49,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40", "357sig" ],
-    "capacity": 15,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 15, "357sig": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 15, "357sig": 15 } } ]
   },
   {
     "id": "px4_40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Px4 .40 magazine" },
+    "name": { "str": "Px4 .40 S&W 14-round magazine" },
     "description": "A magazine for the Px4 Storm chambered for .40 S&W.  It holds 14 rounds.",
     "weight": "135 g",
     "volume": "250 ml",
@@ -86,17 +65,16 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "40", "357sig" ],
-    "capacity": 14,
+    "ammo_type": [ "40" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 14, "357sig": 14 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 14 } } ]
   },
   {
     "id": "sig40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "SIG Pro .40 magazine" },
+    "name": { "str": "SIG Pro .40 12-round magazine" },
     "description": "A compact and reliable magazine for use with the SIG Pro .40 pistol.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -106,9 +84,8 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40" ],
-    "capacity": 12,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 12 } } ]
   },
   {
     "id": "smg_40_mag",
@@ -124,17 +101,16 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40" ],
-    "capacity": 20,
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 20 } } ]
   },
   {
     "id": "bhp40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Hi-Power .40 S&W magazine" },
-    "description": "A 10 round steel box magazine for the Browning Hi-Power .40 S&W.",
+    "name": { "str": "Hi-Power .40 S&W 10-round magazine" },
+    "description": "A 10-round steel box magazine for the Browning Hi-Power .40 S&W.",
     "weight": "120 g",
     "volume": "185 ml",
     "price": 4000,
@@ -143,16 +119,15 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40" ],
-    "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 10 } } ]
   },
   {
     "id": "ppq40mag_10rd",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "PPQ .40 S&W 10-round magazine" },
-    "description": "A 10 round steel box magazine for the Walther PPQ .40 S&W.",
+    "description": "A 10-round steel box magazine for the Walther PPQ .40 S&W.",
     "weight": "80 g",
     "volume": "200 ml",
     "price": 4000,
@@ -161,16 +136,15 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40" ],
-    "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 10 } } ]
   },
   {
     "id": "ppq40mag_12rd",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "PPQ .40 S&W 12-round magazine" },
-    "description": "A 12 round steel box magazine for the Walther PPQ .40 S&W.",
+    "description": "A 12-round steel box magazine for the Walther PPQ .40 S&W.",
     "weight": "80 g",
     "volume": "200 ml",
     "price": 4400,
@@ -179,16 +153,15 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40" ],
-    "capacity": 12,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 12 } } ]
   },
   {
     "id": "ppq40mag_14rd",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "PPQ .40 S&W 14-round magazine" },
-    "description": "A 14 round steel box magazine for the Walther PPQ .40 S&W.",
+    "description": "A 14-round steel box magazine for the Walther PPQ .40 S&W.",
     "weight": "80 g",
     "volume": "200 ml",
     "price": 4800,
@@ -197,15 +170,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40" ],
-    "capacity": 14,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 14 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 14 } } ]
   },
   {
     "id": "hptjcpmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Model JCP magazine" },
+    "name": { "str": "Model JCP 10-round magazine" },
     "description": "A 10-round steel box magazine for use with the Hi-Point Model JCP.",
     "weight": "110 g",
     "volume": "312 ml",
@@ -215,8 +187,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40" ],
-    "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 10 } } ]
   }
 ]

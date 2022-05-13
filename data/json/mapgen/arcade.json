@@ -2,8 +2,7 @@
   {
     "name": "GROUP_ARCADE",
     "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_child", "freq": 600, "cost_multiplier": 1, "pack_size": [ 2, 5 ] } ]
+    "monsters": [ { "monster": "mon_null", "weight": 400 }, { "monster": "mon_zombie_child", "weight": 600, "pack_size": [ 2, 5 ] } ]
   },
   {
     "type": "mapgen",
@@ -42,7 +41,7 @@
         " ": "t_floor",
         "+": "t_door_c",
         "-": "t_wall_r",
-        ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 10 ] ],
+        ".": "t_region_groundcover_urban",
         "O": "t_window",
         "S": "t_floor",
         "B": "t_floor",
@@ -66,7 +65,8 @@
       "place_items": [
         { "item": "vending_drink", "x": 19, "y": 8, "chance": 75 },
         { "item": "vending_food", "x": 20, "y": 8, "chance": 75 },
-        { "item": "arcade_prizes", "x": 21, "y": [ 14, 18 ], "chance": 95 }
+        { "item": "arcade_prizes", "x": 21, "y": [ 14, 18 ], "chance": 95 },
+        { "item": "cash_register_random", "x": 18, "y": [ 14, 17 ], "chance": 100 }
       ],
       "place_monsters": [ { "monster": "GROUP_ARCADE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ]
     }

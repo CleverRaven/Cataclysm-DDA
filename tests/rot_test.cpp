@@ -1,11 +1,12 @@
-#include <cstdlib>
-#include <memory>
-
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
+#include "enums.h"
 #include "item.h"
 #include "point.h"
+#include "type_id.h"
 #include "weather.h"
+
+static const flag_id json_flag_FROZEN( "FROZEN" );
 
 static void set_map_temperature( int new_temperature )
 {
@@ -13,7 +14,7 @@ static void set_map_temperature( int new_temperature )
     get_weather().clear_temp_cache();
 }
 
-TEST_CASE( "Rate of rotting" )
+TEST_CASE( "Rate of rotting", "[rot]" )
 {
     SECTION( "Passage of time" ) {
         // Item rot is a time duration.
@@ -37,9 +38,9 @@ TEST_CASE( "Rate of rotting" )
 
         set_map_temperature( 65 ); // 18,3 C
 
-        normal_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        sealed_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
+        normal_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        sealed_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        freeze_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
 
         // Item should exist with no rot when it is brand new
         CHECK( normal_item.get_rot() == 0_turns );
@@ -49,9 +50,9 @@ TEST_CASE( "Rate of rotting" )
         INFO( "Initial turn: " << to_turn<int>( calendar::turn ) );
 
         calendar::turn += 20_minutes;
-        normal_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        sealed_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::FREEZER );
+        normal_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        sealed_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        freeze_item.process( nullptr, tripoint_zero, 1, temperature_flag::FREEZER );
 
         // After 20 minutes the normal item should have 20 minutes of rot
         CHECK( to_turns<int>( normal_item.get_rot() )
@@ -62,18 +63,18 @@ TEST_CASE( "Rate of rotting" )
 
         // Move time 110 minutes
         calendar::turn += 110_minutes;
-        sealed_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::FREEZER );
+        sealed_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        freeze_item.process( nullptr, tripoint_zero, 1, temperature_flag::FREEZER );
         // In freezer and in preserving container still should be no rot
         CHECK( sealed_item.get_rot() == 0_turns );
         CHECK( freeze_item.get_rot() == 0_turns );
 
         // The item in freezer should still not be frozen
-        CHECK( !freeze_item.item_tags.count( "FROZEN" ) );
+        CHECK( !freeze_item.has_own_flag( json_flag_FROZEN ) );
     }
 }
 
-TEST_CASE( "Items rot away" )
+TEST_CASE( "Items rot away", "[rot]" )
 {
     SECTION( "Item in reality bubble rots away" ) {
         // Item should rot away when it has 2x of its shelf life in rot.
@@ -85,7 +86,7 @@ TEST_CASE( "Items rot away" )
         item test_item( "meat_cooked" );
 
         // Process item once to set all of its values.
-        test_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::HEATER );
+        test_item.process( nullptr, tripoint_zero, 1, temperature_flag::HEATER );
 
         // Set rot to >2 days and process again. process_temperature_rot should return true.
         calendar::turn += 20_minutes;
@@ -95,4 +96,34 @@ TEST_CASE( "Items rot away" )
                 temperature_flag::HEATER ) );
         INFO( "Rot: " << to_turns<int>( test_item.get_rot() ) );
     }
+}
+
+TEST_CASE( "Hourly rotpoints", "[rot]" )
+{
+    item normal_item( "meat_cooked" );
+
+    // No rot below 32F/0C
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 30 ) == 0 );
+
+    // No rot above 145F/63C
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 150 ) == 0 );
+
+    // Make sure no off by one error at the border
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 145 ) == Approx( 20364.67 ).margin( 0.1 ) );
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 146 ) == 0 );
+
+    // 3200 point/h at 65F/18C
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 ) == Approx( 3600 ).margin( 0.1 ) );
+
+    // Doubles after +16F
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 + 16 ) == Approx( 3600.0 * 2 ).margin( 0.1 ) );
+
+    // Halves after -16F
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 - 16 ) == Approx( 3600.0 / 2 ).margin( 0.1 ) );
+
+    // Test the linear area. Halfway between 32F/9C (0 point/hour) and 38F/3C (1117.672 point/hour)
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 35 ) == Approx( 1117.672 / 2 ).margin( 0.1 ) );
+
+    // Maximum rot at above 105 F
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 107 ) == Approx( 20364.67 ).margin( 0.1 ) );
 }

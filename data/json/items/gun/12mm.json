@@ -7,7 +7,8 @@
     "name": { "str": "H&K G80 railgun" },
     "description": "Developed by Heckler & Koch, this railgun magnetically propels a ferromagnetic projectile using an alternating current.  Powered by UPS.",
     "weight": "3914 g",
-    "volume": "2750 ml",
+    "volume": "4958 ml",
+    "longest_side": "1005 mm",
     "price": 1920000,
     "price_postapoc": 12000,
     "to_hit": -1,
@@ -27,17 +28,10 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "hk_g80mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "hk_g80mag" ] } ]
   }
 ]

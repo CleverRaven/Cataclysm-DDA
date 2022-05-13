@@ -30,6 +30,7 @@
 #include "Utils.h"
 #include "clang/AST/OperationKinds.h"
 #include "clang/Basic/OperatorKinds.h"
+#include "../../src/cata_assert.h"
 
 using namespace clang::ast_matchers;
 
@@ -93,8 +94,9 @@ struct ExpressionComponent {
         coefficient( 1 ),
         isMember( false ),
         isArrowRef( false ),
-        isTripoint( false )
-    {}
+        isTripoint( false ) {
+        complete_init();
+    }
 
     ExpressionComponent( const MatchFinder::MatchResult &Result, const Expr *E,
                          const CXXRecordDecl *MemberOf, bool IsArrowRef ) :
@@ -102,8 +104,15 @@ struct ExpressionComponent {
         coefficient( 1 ),
         isMember( true ),
         isArrowRef( IsArrowRef ),
-        isTripoint( MemberOf->getName() == "tripoint" )
-    {}
+        isTripoint( MemberOf->getName() == "tripoint" ) {
+        complete_init();
+    }
+
+    void complete_init() {
+        if( StringRef( objectRef ).endswith( "->" ) ) {
+            objectRef.erase( objectRef.end() - 2, objectRef.end() );
+        }
+    }
 
     std::string objectRef;
     int coefficient;
@@ -170,7 +179,7 @@ static std::vector<ExpressionComponent> decomposeExpr( const Expr *E, const std:
         };
         return std::any_of( Components.begin(), Components.end(), isMember );
     };
-    assert( E );
+    cata_assert( E );
     switch( E->getStmtClass() ) {
         case Stmt::BinaryOperatorClass: {
             const BinaryOperator *Binary = cast<BinaryOperator>( E );
@@ -264,7 +273,7 @@ static std::vector<ExpressionComponent> decomposeExpr( const Expr *E, const std:
         }
         case Stmt::MaterializeTemporaryExprClass: {
             const MaterializeTemporaryExpr *Temp = cast<MaterializeTemporaryExpr>( E );
-            return decomposeExpr( Temp->GetTemporaryExpr(), Member, Result );
+            return decomposeExpr( Temp->getSubExpr(), Member, Result );
         }
         case Stmt::MemberExprClass: {
             const MemberExpr *MemEx = cast<MemberExpr>( E );
@@ -368,11 +377,11 @@ static void appendCoefficient( std::string &Result, int coefficient )
     }
 }
 
-static std::string writeConstructor( const std::string &TypeName,
+static std::string writeConstructor( const StringRef TypeName,
                                      const std::set<std::string> &Keys,
                                      std::map<std::string, std::string> Args )
 {
-    std::string Result = TypeName + "( ";
+    std::string Result = TypeName.str() + "( ";
     bool AnyLeftovers = false;
     for( const auto &Key : Keys ) {
         std::string &Leftover = Args[Key];
@@ -407,7 +416,7 @@ static void appendComponent( std::string &Result, const ExpressionComponent &Com
             if( Accessor.empty() ) {
                 Prefix = "*";
             } else {
-                assert( Accessor[0] == '.' );
+                cata_assert( Accessor[0] == '.' );
                 Accessor.erase( Accessor.begin() );
                 Accessor = "->" + Accessor;
             }
@@ -541,7 +550,7 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
             const std::string &Key = Position.first;
             bool AtEnd = Position.second == Components.at( Key ).end();
             if( !AtEnd && *Position.second < *CurrentMin ) {
-                assert( false );
+                abort(); // NOLINT(cata-assert)
             } else if( AtEnd || *Position.second > *CurrentMin ) {
                 AllEqual = false;
                 if( Key != "z" ) {
@@ -610,7 +619,7 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
         Keys.insert( Component.first );
     }
 
-    std::string TargetTypeName;
+    StringRef TargetTypeName;
     if( Leftovers["z"].empty() ) {
         TargetTypeName = "point";
         Keys.erase( "z" );

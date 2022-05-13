@@ -17,7 +17,7 @@
   {
     "id": "morale_ate_with_table",
     "type": "morale_type",
-    "text": "Ate with table"
+    "text": "Ate with a table and chair"
   },
   {
     "id": "morale_ate_without_table",
@@ -37,22 +37,22 @@
   {
     "id": "morale_game",
     "type": "morale_type",
-    "text": "Played Game"
+    "text": "Played a game"
   },
   {
     "id": "morale_marloss",
     "type": "morale_type",
-    "text": "Marloss Bliss"
+    "text": "Marloss bliss"
   },
   {
     "id": "morale_mutagen",
     "type": "morale_type",
-    "text": "Mutagenic Anticipation"
+    "text": "Mutagenic anticipation"
   },
   {
     "id": "morale_feeling_good",
     "type": "morale_type",
-    "text": "Good feeling"
+    "text": "Feeling good"
   },
   {
     "id": "morale_support",
@@ -67,52 +67,52 @@
   {
     "id": "morale_craving_nicotine",
     "type": "morale_type",
-    "text": "Nicotine Craving"
+    "text": "Craving nicotine"
   },
   {
     "id": "morale_craving_caffeine",
     "type": "morale_type",
-    "text": "Caffeine Craving"
+    "text": "Craving caffeine"
   },
   {
     "id": "morale_craving_alcohol",
     "type": "morale_type",
-    "text": "Alcohol Craving"
+    "text": "Craving alcohol"
   },
   {
     "id": "morale_craving_opiate",
     "type": "morale_type",
-    "text": "Opiate Craving"
+    "text": "Craving opiates"
   },
   {
     "id": "morale_craving_speed",
     "type": "morale_type",
-    "text": "Speed Craving"
+    "text": "Craving speed"
   },
   {
     "id": "morale_craving_cocaine",
     "type": "morale_type",
-    "text": "Cocaine Craving"
+    "text": "Craving cocaine"
   },
   {
     "id": "morale_craving_crack",
     "type": "morale_type",
-    "text": "Crack Cocaine Craving"
+    "text": "Craving crack cocaine"
   },
   {
     "id": "morale_craving_mutagen",
     "type": "morale_type",
-    "text": "Mutagen Craving"
+    "text": "Craving mutagen"
   },
   {
     "id": "morale_craving_diazepam",
     "type": "morale_type",
-    "text": "Diazepam Craving"
+    "text": "Craving prescription sedatives"
   },
   {
     "id": "morale_craving_marloss",
     "type": "morale_type",
-    "text": "Marloss Craving"
+    "text": "Craving Marloss"
   },
   {
     "id": "morale_food_bad",
@@ -122,52 +122,52 @@
   {
     "id": "morale_cannibal",
     "type": "morale_type",
-    "text": "Ate Human Flesh"
+    "text": "Ate human flesh"
   },
   {
     "id": "morale_demicannibal",
     "type": "morale_type",
-    "text": "Ate Demihuman Flesh"
+    "text": "Ate demihuman flesh"
   },
   {
     "id": "morale_vegetarian",
     "type": "morale_type",
-    "text": "Ate Meat"
+    "text": "Ate vegetables"
   },
   {
     "id": "morale_meatarian",
     "type": "morale_type",
-    "text": "Ate Vegetables"
+    "text": "Ate meat"
   },
   {
     "id": "morale_antifruit",
     "type": "morale_type",
-    "text": "Ate Fruit"
+    "text": "Ate fruit"
   },
   {
     "id": "morale_lactose",
     "type": "morale_type",
-    "text": "Lactose Intolerance"
+    "text": "Lactose intolerance"
   },
   {
     "id": "morale_antijunk",
     "type": "morale_type",
-    "text": "Ate Junk Food"
+    "text": "Ate junk food"
   },
   {
     "id": "morale_antiwheat",
     "type": "morale_type",
-    "text": "Wheat Allergy"
+    "text": "Grain intolerance"
   },
   {
     "id": "morale_sweettooth",
     "type": "morale_type",
-    "text": "Enjoyed sugary food"
+    "text": "Enjoyed something sugary"
   },
   {
     "id": "morale_no_digest",
     "type": "morale_type",
-    "text": "Ate Indigestible Food"
+    "text": "Ate indigestible food"
   },
   {
     "id": "morale_wet",
@@ -177,7 +177,7 @@
   {
     "id": "morale_dried_off",
     "type": "morale_type",
-    "text": "Dried Off"
+    "text": "Dried off"
   },
   {
     "id": "morale_cold",
@@ -192,37 +192,37 @@
   {
     "id": "morale_feeling_bad",
     "type": "morale_type",
-    "text": "Bad Feeling"
+    "text": "Feeling bad"
   },
   {
     "id": "morale_killed_innocent",
     "type": "morale_type",
-    "text": "Killed Innocent"
+    "text": "Killed an innocent person"
   },
   {
     "id": "morale_killed_friend",
     "type": "morale_type",
-    "text": "Killed Friend"
+    "text": "Killed a friend"
   },
   {
     "id": "morale_killed_monster",
     "type": "morale_type",
-    "text": "Guilty about Killing"
+    "text": "Guilty about killing"
   },
   {
     "id": "morale_mutilate_corpse",
     "type": "morale_type",
-    "text": "Guilty about Mutilating Corpse"
+    "text": "Guilty about mutilating a corpse"
   },
   {
     "id": "morale_mutagen_elf",
     "type": "morale_type",
-    "text": "Fey Mutation"
+    "text": "Fey mutation"
   },
   {
     "id": "morale_mutagen_chimera",
     "type": "morale_type",
-    "text": "Chimerical Mutation"
+    "text": "Chimerical mutation"
   },
   {
     "id": "morale_mutagen_mutation",
@@ -232,7 +232,7 @@
   {
     "id": "morale_moodswing",
     "type": "morale_type",
-    "text": "Moodswing"
+    "text": "Mood swing"
   },
   {
     "id": "morale_book",
@@ -247,7 +247,7 @@
   {
     "id": "morale_scream",
     "type": "morale_type",
-    "text": "Heard Disturbing Scream"
+    "text": "Heard a disturbing scream"
   },
   {
     "id": "morale_perm_masochist",
@@ -285,14 +285,19 @@
     "text": "Bad Tempered"
   },
   {
+    "id": "morale_perm_numb",
+    "type": "morale_type",
+    "text": "Numb"
+  },
+  {
     "id": "morale_perm_constrained",
     "type": "morale_type",
-    "text": "Uncomfy Gear"
+    "text": "Uncomfortable gear"
   },
   {
     "id": "morale_perm_nomad",
     "type": "morale_type",
-    "text": "Nomadic Restlessness"
+    "text": "Nomadic restlessness"
   },
   {
     "id": "morale_game_found_kitten",
@@ -302,17 +307,17 @@
   {
     "id": "morale_haircut",
     "type": "morale_type",
-    "text": "Got a Haircut"
+    "text": "Got a haircut"
   },
   {
     "id": "morale_shave",
     "type": "morale_type",
-    "text": "Freshly Shaven"
+    "text": "Freshly shaven"
   },
   {
     "id": "morale_vomited",
     "type": "morale_type",
-    "text": "Barfed"
+    "text": "Threw up"
   },
   {
     "id": "morale_play_with_pet",
@@ -347,12 +352,12 @@
   {
     "id": "morale_perm_filthy",
     "type": "morale_type",
-    "text": "Filthy Gear"
+    "text": "Filthy gear"
   },
   {
     "id": "morale_butcher",
     "type": "morale_type",
-    "text": "Anguished by memories of butchering human corpse"
+    "text": "Anguished by memories of butchering a human corpse"
   },
   {
     "id": "morale_gravedigger",
@@ -382,6 +387,21 @@
   {
     "id": "morale_perm_debug",
     "type": "morale_type",
-    "text": "Debug Morale"
+    "text": "Debug morale"
+  },
+  {
+    "id": "morale_nightmare",
+    "type": "morale_type",
+    "text": "Had a vivid nightmare"
+  },
+  {
+    "id": "morale_migo_bio_tech",
+    "type": "morale_type",
+    "text": "Used mi-go biotech"
+  },
+  {
+    "id": "morale_impossible_shape",
+    "type": "morale_type",
+    "text": "Saw something that hurts to remember"
   }
 ]

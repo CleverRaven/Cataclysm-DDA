@@ -1,0 +1,167 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_coop_metal",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "wwwwwww ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w     w "
+      ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 7 ], "y": [ 0, 7 ] } ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_coop_metal",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_2_coop_metal" ], "x": 13, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_shack_metal",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "wvwww",
+        "w,,,w",
+        "+,,,v",
+        "v,,,w",
+        "wv+ww"
+      ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_shack_metal",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_shack_metal" ], "x": 15, "y": 18 },
+        { "chunks": [ "fbml_2_shack_furniture" ], "x": 16, "y": 19 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_1_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwww,,",
+        "w,, ,,",
+        "w,, ,,",
+        "w,, ,,",
+        "wwwwww",
+        "      "
+      ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_1_metal",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_1_metal" ], "x": 0, "y": 18 }, { "chunks": [ "fbml_2_stall_1" ], "x": 3, "y": 19 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_2_4_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwww,w",
+        "w,, ,,",
+        "w,, ,,",
+        "w,, ,,",
+        "      ",
+        "      "
+      ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_2_metal",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_2_4_metal" ], "x": 0, "y": 14 }, { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 15 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_3_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwww,,",
+        "w,, ,,",
+        "w,, ,,",
+        "w,, ,,",
+        "      ",
+        "      "
+      ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_3_metal",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_3_metal" ], "x": 0, "y": 10 }, { "chunks": [ "fbml_2_stall_3" ], "x": 3, "y": 11 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_4_metal",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_2_4_metal" ], "x": 0, "y": 6 }, { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 7 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_5_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwwwww",
+        "w,, ,,",
+        "w,, ,,",
+        "wwww,,",
+        "w,, ,,",
+        "w,, ,,"
+      ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_5_metal",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_5_metal" ], "x": 0, "y": 0 }, { "chunks": [ "fbml_2_stall_5" ], "x": 3, "y": 1 } ]
+    }
+  }
+]

@@ -1,19 +1,23 @@
 #include "iuse_software_lightson.h"
 
 #include <algorithm>
+#include <functional>
+#include <iosfwd>
+#include <new>
 #include <string>
 #include <vector>
 
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
+#include "point.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "catacharset.h"
-#include "color.h"
-#include "optional.h"
-#include "point.h"
 
 void lightson_game::new_level()
 {
@@ -24,7 +28,7 @@ void lightson_game::new_level()
     const int lvl_width = rng( 4, 6 );
     const int lvl_height = half_perimeter - lvl_width;
     level_size = point( lvl_width, lvl_height );
-    level.resize( lvl_height * lvl_width );
+    level.resize( static_cast<size_t>( lvl_height ) * static_cast<size_t>( lvl_width ) );
 
     const int steps_rng = half_perimeter / 2.0 + rng_float( 0.0, 2.0 );
     generate_change_coords( steps_rng );
@@ -150,9 +154,9 @@ int lightson_game::start_game()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) );
-        shortcuts.push_back( _( "<r>eset" ) );
-        shortcuts.push_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( _( "<spacebar or 5> toggle lights" ) );
+        shortcuts.emplace_back( _( "<r>eset" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {

@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_REGIONAL_SETTINGS_H
 #define CATA_SRC_REGIONAL_SETTINGS_H
 
+#include <iosfwd>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -12,7 +14,6 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "omdata.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "weather_gen.h"
 #include "weighted_list.h"
@@ -124,7 +125,7 @@ struct forest_biome {
     int sparseness_adjacency_factor = 0;
     int item_group_chance = 0;
     int item_spawn_iterations = 0;
-    std::string item_group;
+    item_group_id item_group;
     bool clear_components = false;
     bool clear_groundcover = false;
     bool clear_terrain_furniture = false;
@@ -185,7 +186,7 @@ struct overmap_forest_settings {
 
 struct shore_extendable_overmap_terrain_alias {
     std::string overmap_terrain;
-    ot_match_type match_type;
+    ot_match_type match_type = ot_match_type::exact;
     oter_str_id alias;
 };
 
@@ -201,12 +202,24 @@ struct overmap_lake_settings {
     overmap_lake_settings() = default;
 };
 
+struct overmap_ravine_settings {
+    int num_ravines = 0;
+    int ravine_range = 45;
+    int ravine_width = 1;
+    int ravine_depth = -3;
+
+    void finalize();
+    overmap_ravine_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
-    weighted_int_list<std::string> values;
+    weighted_int_list<map_extra_id> values;
 
     map_extras() : chance( 0 ) {}
-    map_extras( const unsigned int embellished ) : chance( embellished ) {}
+    explicit map_extras( const unsigned int embellished ) : chance( embellished ) {}
+
+    map_extras filtered_by( const mapgendata & ) const;
 };
 
 struct region_terrain_and_furniture_settings {
@@ -227,7 +240,7 @@ struct region_terrain_and_furniture_settings {
  */
 struct regional_settings {
     std::string id;           //
-    oter_str_id default_oter; // 'field'
+    std::array<oter_str_id, OVERMAP_LAYERS> default_oter;
     double river_scale = 1;
     weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
@@ -240,11 +253,12 @@ struct regional_settings {
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
     overmap_lake_settings overmap_lake;
+    overmap_ravine_settings overmap_ravine;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;
 
-    regional_settings() : id( "null" ), default_oter( "field" ) {
+    regional_settings() : id( "null" ) {
         default_groundcover.add( t_null, 0 );
     }
     void finalize();
@@ -255,6 +269,7 @@ using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
 
 void load_region_settings( const JsonObject &jo );
+void check_region_settings();
 void reset_region_settings();
 void load_region_overlay( const JsonObject &jo );
 void apply_region_overlay( const JsonObject &jo, regional_settings &region );

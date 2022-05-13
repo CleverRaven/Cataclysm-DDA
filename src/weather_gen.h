@@ -2,14 +2,15 @@
 #ifndef CATA_SRC_WEATHER_GEN_H
 #define CATA_SRC_WEATHER_GEN_H
 
-#include <string>
+#include <iosfwd>
+#include <map>
+#include <vector>
 
 #include "calendar.h"
+#include "type_id.h"
 
-struct tripoint;
 class JsonObject;
-
-enum weather_type : int;
+struct tripoint;
 
 struct w_point {
     double temperature = 0;
@@ -18,7 +19,7 @@ struct w_point {
     double windpower = 0;
     std::string wind_desc;
     int winddirection = 0;
-    bool acidic = false;
+    season_effective_time time;
 };
 
 class weather_generator
@@ -30,7 +31,6 @@ class weather_generator
         double base_humidity = 0;
         // Average atmospheric pressure
         double base_pressure = 0;
-        double base_acid = 0;
         //Average yearly windspeed
         double base_wind = 0;
         //How much the wind peaks above average
@@ -43,10 +43,10 @@ class weather_generator
         int summer_humidity_manual_mod = 0;
         int autumn_humidity_manual_mod = 0;
         int winter_humidity_manual_mod = 0;
-        //How much the wind folows seasonal variation ( lower means more change )
+        //How much the wind follows seasonal variation ( lower means more change )
         int base_wind_season_variation = 0;
         static int current_winddir;
-
+        std::vector<std::string> weather_types;
         weather_generator();
 
         /**
@@ -55,12 +55,12 @@ class weather_generator
          * relative position (relative to the map you called getabs on).
          */
         w_point get_weather( const tripoint &, const time_point &, unsigned ) const;
-        weather_type get_weather_conditions( const tripoint &, const time_point &, unsigned seed ) const;
-        weather_type get_weather_conditions( const w_point & ) const;
+        weather_type_id get_weather_conditions( const tripoint &, const time_point &, unsigned seed ) const;
+        weather_type_id get_weather_conditions( const w_point & ) const;
         int get_wind_direction( season_type ) const;
         int convert_winddir( int ) const;
         int get_water_temperature() const;
-        void test_weather( unsigned ) const;
+        void test_weather( unsigned seed ) const;
 
         double get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
 

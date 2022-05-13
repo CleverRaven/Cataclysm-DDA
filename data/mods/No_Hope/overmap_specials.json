@@ -1,0 +1,30 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "LMOE Shelter Full",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lmoe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lmoe_under_full_north" }
+    ],
+    "locations": [ "forest_without_trail" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "LMOE Shelter",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lmoe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lmoe_under_empty_north" }
+    ],
+    "locations": [ "forest_without_trail" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+  }
+]

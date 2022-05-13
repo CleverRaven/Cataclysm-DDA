@@ -2,14 +2,11 @@
 #ifndef CATA_SRC_TRANSLATIONS_H
 #define CATA_SRC_TRANSLATIONS_H
 
-#include <map>
-#include <ostream>
-#include <string>
-#include <vector>
-#include <type_traits>
-#include <utility>
+// on some systems <locale> pulls in libintl.h anyway,
+// so preemptively include it before the gettext overrides.
+#include <locale> // IWYU pragma: keep
 
-#include "optional.h"
+#include "translation.h"
 
 #if !defined(translate_marker)
 /**
@@ -30,17 +27,7 @@
 
 #if defined(LOCALIZE)
 
-// MingW flips out if you don't define this before you try to statically link libintl.
-// This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(_MSC_VER)
-#   if !defined(LIBINTL_STATIC)
-#       define LIBINTL_STATIC
-#   endif
-#endif
-
-// IWYU pragma: begin_exports
-#include <libintl.h>
-// IWYU pragma: end_exports
+#include "translation_cache.h"
 
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
@@ -48,249 +35,63 @@
 #  define ATTRIBUTE_FORMAT_ARG(a)
 #endif
 
-const char *_( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
-inline const char *_( const char *msg )
-{
-    return msg[0] == '\0' ? msg : gettext( msg );
-}
-inline std::string _( const std::string &msg )
-{
-    return _( msg.c_str() );
-}
+void select_language();
 
-// ngettext overload taking an unsigned long long so that people don't need
-// to cast at call sites.  This is particularly relevant on 64-bit Windows where
-// size_t is bigger than unsigned long, so MSVC will try to encourage you to
-// add a cast.
-template<typename T, typename = std::enable_if_t<std::is_same<T, unsigned long long>::value>>
-ATTRIBUTE_FORMAT_ARG( 1 )
-inline const char *ngettext( const char *msgid, const char *msgid_plural, T n )
+// For code analysis purposes in our clang-tidy plugin we need to be able to
+// detect when something is the argument to a translation function.  The _
+// macro makes this really tricky, so we add an otherwise unnecessary call to
+// this no-op function just so that there's something to detect.
+template<typename T>
+inline const T &translation_argument_identity( const T &t )
 {
-    // Leaving this long because it matches the underlying API.
-    // NOLINTNEXTLINE(cata-no-long)
-    return ngettext( msgid, msgid_plural, static_cast<unsigned long>( n ) );
+    return t;
 }
 
-const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
+// Note: in case of std::string argument, the result is copied, this is intended (for safety)
+#define _( msg ) \
+    ( ( []( const auto & arg ) { \
+        static auto cache = detail::get_local_translation_cache( arg ); \
+        return cache( arg ); \
+    } )( translation_argument_identity( msg ) ) )
 
-// same as pgettext, but supports plural forms like ngettext
-const char *npgettext( const char *context, const char *msgid, const char *msgid_plural,
-                       unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
+inline const char *n_gettext( const char *msgid, const char *msgid_plural,
+                              std::size_t n ) ATTRIBUTE_FORMAT_ARG( 1 );
+
+inline const char *n_gettext( const char *msgid, const char *msgid_plural,
+                              std::size_t n )
+{
+    return TranslationManager::GetInstance().TranslatePlural( msgid, msgid_plural, n );
+}
+
+inline const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
+
+inline const char *pgettext( const char *context, const char *msgid )
+{
+    return TranslationManager::GetInstance().TranslateWithContext( context, msgid );
+}
+
+inline const char *npgettext( const char *const context, const char *const msgid,
+                              const char *const msgid_plural, const unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
+
+inline const char *npgettext( const char *const context, const char *const msgid,
+                              const char *const msgid_plural, const unsigned long long n )
+{
+    return TranslationManager::GetInstance().TranslatePluralWithContext( context, msgid, msgid_plural,
+            n );
+}
 
 #else // !LOCALIZE
 
-// on some systems <locale> pulls in libintl.h anyway,
-// so preemptively include it before the gettext overrides.
-#include <locale>
-
 #define _(STRING) (STRING)
 
-#define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
+#define n_gettext(STRING1, STRING2, COUNT) ((COUNT) == 1 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
-#define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
+#define npgettext(STRING0, STRING1, STRING2, COUNT) n_gettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
 
-using GenderMap = std::map<std::string, std::vector<std::string>>;
-/**
- * Translation with a gendered context
- *
- * Similar to pgettext, but the context is a collection of genders.
- * @param genders A map where each key is a subject name (a string which should
- * make sense to the translator in the context of the line to be translated)
- * and the corresponding value is a list of potential genders for that subject.
- * The first gender from the list of genders for the current language will be
- * chosen for each subject (or the language default if there are no genders in
- * common).
- */
-std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
+std::string locale_dir();
 
-bool isValidLanguage( const std::string &lang );
-std::string getLangFromLCID( const int &lcid );
-void select_language();
 void set_language();
-
-class JsonIn;
-
-/**
- * Class for storing translation context and raw string for deferred translation
- **/
-class translation
-{
-    public:
-        struct plural_tag {};
-
-        translation();
-        /**
-         * Same as `translation()`, but with plural form enabled.
-         **/
-        translation( plural_tag );
-
-        /**
-         * Store a string, an optional plural form, and an optional context for translation
-         **/
-        static translation to_translation( const std::string &raw );
-        static translation to_translation( const std::string &ctxt, const std::string &raw );
-        static translation pl_translation( const std::string &raw, const std::string &raw_pl );
-        static translation pl_translation( const std::string &ctxt, const std::string &raw,
-                                           const std::string &raw_pl );
-        /**
-         * Store a string that needs no translation.
-         **/
-        static translation no_translation( const std::string &str );
-
-        /**
-         * Can be used to ensure a translation object has plural form enabled
-         * before loading into it from JSON. If plural form has not been enabled
-         * yet, the plural string will be set to the original singular string.
-         * `ngettext` will ignore the new plural string and correctly retrieve
-         * the original translation.
-         *     Note that a `make_singular()` function is not provided due to the
-         * potential loss of information.
-         **/
-        void make_plural();
-
-        /**
-         * Deserialize from json. Json format is:
-         *     "text"
-         * or
-         *     { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
-         * "ctxt" and "str_pl" are optional. "str_pl" is only valid when an object
-         * of this class is constructed with `plural_tag` or `pl_translation()`,
-         * or converted using `make_plural()`.
-         **/
-        void deserialize( JsonIn &jsin );
-
-        /**
-         * Returns raw string if no translation is needed, otherwise returns
-         * the translated string. A number can be used to translate the plural
-         * form if the object has it.
-         **/
-        std::string translated( int num = 1 ) const;
-
-        /**
-         * Methods exposing the underlying raw strings are not implemented, and
-         * probably should not if there's no good reason to do so. Most importantly,
-         * the underlying strings should not be re-saved to JSON: doing so risk
-         * the original string being changed during development and the saved
-         * string will then not be properly translated when loaded back. If you
-         * really want to save a translation, translate it early on, store it using
-         * `no_translation`, and retrieve it using `translated()` when saving.
-         * This ensures consistent behavior before and after saving and loading.
-         **/
-        std::string untranslated() const = delete;
-
-        /**
-         * Whether the underlying string is empty, not matter what the context
-         * is or whether translation is needed.
-         **/
-        bool empty() const;
-
-        /**
-         * Compare translations by their translated strings (singular form).
-         *
-         * Be especially careful when using these to sort translations, as the
-         * translated result will change when switching the language.
-         **/
-        bool translated_lt( const translation &that ) const;
-        bool translated_eq( const translation &that ) const;
-        bool translated_ne( const translation &that ) const;
-
-        /**
-         * Compare translations by their context, raw strings (singular / plural), and no-translation flag
-         */
-        bool operator==( const translation &that ) const;
-        bool operator!=( const translation &that ) const;
-
-        /**
-         * Only used for migrating old snippet hashes into snippet ids.
-         */
-        cata::optional<int> legacy_hash() const;
-    private:
-        translation( const std::string &ctxt, const std::string &raw );
-        translation( const std::string &raw );
-        translation( const std::string &raw, const std::string &raw_pl, plural_tag );
-        translation( const std::string &ctxt, const std::string &raw, const std::string &raw_pl,
-                     plural_tag );
-        struct no_translation_tag {};
-        translation( const std::string &str, no_translation_tag );
-
-        cata::optional<std::string> ctxt;
-        std::string raw;
-        cata::optional<std::string> raw_pl;
-        bool needs_translation = false;
-};
-
-/**
- * Shorthands for translation::to_translation
- **/
-translation to_translation( const std::string &raw );
-translation to_translation( const std::string &ctxt, const std::string &raw );
-/**
- * Shorthands for translation::pl_translation
- **/
-translation pl_translation( const std::string &raw, const std::string &raw_pl );
-translation pl_translation( const std::string &ctxt, const std::string &raw,
-                            const std::string &raw_pl );
-/**
- * Shorthand for translation::no_translation
- **/
-translation no_translation( const std::string &str );
-
-/**
- * Stream output and concatenation of translations. Singular forms are used.
- **/
-std::ostream &operator<<( std::ostream &out, const translation &t );
-std::string operator+( const translation &lhs, const std::string &rhs );
-std::string operator+( const std::string &lhs, const translation &rhs );
-std::string operator+( const translation &lhs, const translation &rhs );
-
-// Localized comparison operator, intended for sorting strings when they should
-// be sorted according to the user's locale.
-//
-// For convenience, it also sorts pairs recursively, because a common
-// requirement is to sort some list of objects by their names, and this can be
-// achieved by sorting a list of pairs where the first element of the pair is
-// the translated name.
-struct localized_comparator {
-    template<typename T, typename U>
-    bool operator()( const std::pair<T, U> &l, const std::pair<T, U> &r ) const {
-        if( ( *this )( l.first, r.first ) ) {
-            return true;
-        }
-        if( ( *this )( r.first, l.first ) ) {
-            return false;
-        }
-        return ( *this )( l.second, r.second );
-    }
-
-    template<typename Head, typename... Tail>
-    bool operator()( const std::tuple<Head, Tail...> &l,
-                     const std::tuple<Head, Tail...> &r ) const {
-        if( ( *this )( std::get<0>( l ), std::get<0>( r ) ) ) {
-            return true;
-        }
-        if( ( *this )( std::get<0>( r ), std::get<0>( l ) ) ) {
-            return false;
-        }
-        constexpr std::make_index_sequence<sizeof...( Tail )> Ints{};
-        return ( *this )( tie_tail( l, Ints ), tie_tail( r, Ints ) );
-    }
-
-    template<typename T>
-    bool operator()( const T &l, const T &r ) const {
-        return l < r;
-    }
-
-    bool operator()( const std::string &, const std::string & ) const;
-    bool operator()( const std::wstring &, const std::wstring & ) const;
-
-    template<typename Head, typename... Tail, size_t... Ints>
-    auto tie_tail( const std::tuple<Head, Tail...> &t, std::index_sequence<Ints...> ) const {
-        return std::tie( std::get < Ints + 1 > ( t )... );
-    }
-};
-
-constexpr localized_comparator localized_compare{};
 
 #endif // CATA_SRC_TRANSLATIONS_H

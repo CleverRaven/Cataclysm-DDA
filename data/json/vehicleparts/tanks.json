@@ -10,6 +10,7 @@
     "durability": 75,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 2000,
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "folded_volume": "2 L",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
@@ -20,7 +21,7 @@
         "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "FLUIDTANK", "FOLDABLE" ],
     "damage_reduction": { "all": 26, "stab": 8 }
@@ -36,6 +37,7 @@
     "durability": 100,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 10000,
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
     "requirements": {
@@ -61,6 +63,7 @@
     "durability": 120,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 20000,
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 2 ] },
@@ -74,7 +77,7 @@
         "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 10 }
@@ -90,6 +93,7 @@
     "durability": 150,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 60000,
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 2 ] },
@@ -103,10 +107,52 @@
         "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
+  },
+  {
+    "id": "fridgetank",
+    "type": "vehicle_part",
+    "name": { "str": "refrigerated tank (60L)" },
+    "item": "fridgetank",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "durability": 150,
+    "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
+    "size": 600500,
+    "categories": [ "cargo" ],
+    "damage_modifier": 80,
+    "epower": -40,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "90 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
+    "damage_reduction": { "all": 28, "stab": 12 }
+  },
+  {
+    "id": "heattank",
+    "type": "vehicle_part",
+    "name": { "str": "heated tank (60L)" },
+    "item": "heattank",
+    "location": "fuel_source",
+    "copy-from": "fridgetank",
+    "description": "A 60L heated tank.  When turned on, it will prevent the contents from freezing.",
+    "epower": -60,
+    "flags": [ "FLUIDTANK", "HEATED_TANK", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "external_tank_small",
@@ -119,11 +165,12 @@
     "durability": 160,
     "description": "A storage space for holding liquids, mounted outside the vehicle's walls and armor.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 100000,
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FLUIDTANK" ],
     "damage_reduction": { "all": 30, "stab": 12 }
@@ -165,6 +212,7 @@
     "item": "wooden_barrel",
     "location": "center",
     "symbol": "O",
+    "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
     "durability": 120,
@@ -191,6 +239,7 @@
     "item": "30gal_drum",
     "location": "fuel_source",
     "symbol": "0",
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "broken_color": "red",
     "durability": 160,
@@ -204,7 +253,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 30, "stab": 12 }
@@ -221,7 +270,7 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 10 ] }
     ],
-    "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE" ],
+    "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE", "AIRCRAFT_REPAIRABLE_NOPROF" ],
     "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
@@ -231,11 +280,12 @@
     "item": "fuel_bunker",
     "location": "fuel_source",
     "symbol": "O",
+    "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
     "looks_like": "tank",
     "durability": 150,
-    "description": "A storage space for holding solid fuels.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.",
+    "description": "A small tank for pressurized gasses.",
     "size": 60000,
     "damage_modifier": 80,
     "breaks_into": [
@@ -246,8 +296,102 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "damage_reduction": { "all": 24, "stab": 18 }
+  },
+  {
+    "id": "small_pressure_tank",
+    "type": "vehicle_part",
+    "name": { "str": "small pressurized tank" },
+    "//": "1 gallon tank.",
+    "item": "small_propane_tank",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "durability": 150,
+    "description": "A tank for pressurized gasses.",
+    "size": 6,
+    "folded_volume": "2 L",
+    "categories": [ "movement" ],
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "90 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "GASTANK" ],
+    "damage_reduction": { "all": 28, "stab": 12 }
+  },
+  {
+    "id": "large_pressure_tank",
+    "type": "vehicle_part",
+    "name": { "str": "large pressurized tank" },
+    "//": "20 gallon tank.",
+    "item": "large_propane_tank",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "durability": 150,
+    "description": "A large tank for pressurized gasses.",
+    "size": 60000,
+    "categories": [ "movement" ],
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "90 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "FLUIDTANK" ],
+    "damage_reduction": { "all": 28, "stab": 12 }
+  },
+  {
+    "id": "xl_pressure_tank",
+    "type": "vehicle_part",
+    "name": { "str": "XL pressurized tank" },
+    "//": "100 gallon ASME tank.",
+    "item": "xl_propane_tank",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "durability": 150,
+    "description": "A large tank for pressurized gasses.",
+    "size": 241000,
+    "categories": [ "movement" ],
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "90 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "GASTANK" ],
+    "damage_reduction": { "all": 28, "stab": 12 }
   }
 ]

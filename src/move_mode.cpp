@@ -1,7 +1,17 @@
 #include "move_mode.h"
-#include "game_constants.h"
 
-std::vector<move_mode_id> move_modes_sorted;
+#include <algorithm>
+#include <cstddef>
+#include <set>
+#include <string>
+
+#include "assign.h"
+#include "debug.h"
+#include "game_constants.h"
+#include "generic_factory.h"
+#include "json.h"
+
+static std::vector<move_mode_id> move_modes_sorted;
 
 const std::vector<move_mode_id> &move_modes_by_speed()
 {
@@ -19,18 +29,17 @@ const move_mode &move_mode_id::obj() const
     return move_mode_factory.obj( *this );
 }
 
-static const std::map<std::string, move_mode_type> move_types {
+template<>
+bool move_mode_id::is_valid() const
+{
+    return move_mode_factory.is_valid( *this );
+}
+
+static const std::unordered_map<std::string, move_mode_type> move_types {
+    { "prone",     move_mode_type::PRONE },
     { "crouching", move_mode_type::CROUCHING },
     { "walking",   move_mode_type::WALKING },
     { "running",   move_mode_type::RUNNING }
-};
-
-static const std::map<std::string, float> activity_levels = {
-    { "NO_EXERCISE",       NO_EXERCISE },
-    { "LIGHT_EXERCISE",    LIGHT_EXERCISE },
-    { "MODERATE_EXERCISE", MODERATE_EXERCISE },
-    { "ACTIVE_EXERCISE",   ACTIVE_EXERCISE },
-    { "EXTRA_EXERCISE",    EXTRA_EXERCISE }
 };
 
 void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
@@ -38,22 +47,20 @@ void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
     move_mode_factory.load( jo, src );
 }
 
-void move_mode::load( const JsonObject &jo, const std::string &src )
+void move_mode::load( const JsonObject &jo, const std::string &/*src*/ )
 {
-    bool strict = src == "dda";
-
     mandatory( jo, was_loaded, "character", _letter, unicode_codepoint_from_symbol_reader );
     mandatory( jo, was_loaded, "name",  _name );
 
     mandatory( jo, was_loaded, "panel_char", _panel_letter, unicode_codepoint_from_symbol_reader );
-    assign( jo, "panel_color", _panel_color, strict );
-    assign( jo, "symbol_color", _symbol_color, strict );
+    assign( jo, "panel_color", _panel_color );
+    assign( jo, "symbol_color", _symbol_color );
 
     std::string exert = jo.get_string( "exertion_level" );
-    if( !activity_levels.count( exert ) ) {
+    if( !activity_levels_map.count( exert ) ) {
         jo.throw_error( "Invalid activity level for move mode %s", id.str() );
     }
-    _exertion_level = activity_levels.at( exert );
+    _exertion_level = activity_levels_map.at( exert );
 
     mandatory( jo, was_loaded, "change_good_none", change_messages_success[steed_type::NONE] );
     mandatory( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );
@@ -117,7 +124,7 @@ std::string move_mode::change_message( bool success, steed_type steed ) const
 {
     if( steed == steed_type::NUM ) {
         debugmsg( "Attempted to switch to bad movement mode!" );
-        //~ This should never occur - this is the message when the character swtiches to
+        //~ This should never occur - this is the message when the character switches to
         //~ an invalid move mode or there's not a message for failing to switch to a move
         //~ mode
         return _( "You feel bugs crawl over your skin." );

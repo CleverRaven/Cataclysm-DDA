@@ -1,0 +1,8 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "Sadie_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "sadie", "x": 0, "y": 0 } ] }
+  }
+]

@@ -1,0 +1,935 @@
+[
+  {
+    "type": "relic_procgen_data",
+    "id": "cult",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 3 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "6 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 150 },
+      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": 50 },
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_CONFUSED", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_VOMIT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_STAMINA_EMPTY", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_RADIATION", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_MAP", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_FUN", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": 150 },
+      { "weight": 100, "spell_id": "AEA_STORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 250 }
+    ],
+    "passive_mult_procgen_values": [
+      { "weight": 100, "min_value": -0.5, "max_value": 1, "type": "METABOLISM", "increment": 0.1, "power_per_increment": -50 },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "THIRST",
+        "increment": 0.1,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "CARRY_WEIGHT",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "MAX_HP",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "REGEN_HP",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "SHOUT_NOISE",
+        "increment": 0.2,
+        "power_per_increment": 100
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_ACID",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BASH",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BIO",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_COLD",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_CUT",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_ELEC",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_HEAT",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_STAB",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BULLET",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 0.5,
+        "type": "ATTACK_SPEED",
+        "increment": 0.1,
+        "power_per_increment": 500
+      }
+    ],
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -3, "max_value": 4, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 20,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 200
+      },
+      {
+        "weight": 50,
+        "min_value": -50,
+        "max_value": 20,
+        "type": "ATTACK_SPEED",
+        "increment": 5,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 50,
+        "min_value": -2500,
+        "max_value": 10000,
+        "type": "MAX_STAMINA",
+        "increment": 250,
+        "power_per_increment": 125
+      },
+      {
+        "weight": 50,
+        "min_value": -20000,
+        "max_value": 20000,
+        "type": "CARRY_WEIGHT",
+        "increment": 1000,
+        "power_per_increment": 250
+      }
+    ],
+    "type_weights": [
+      { "weight": 100, "value": "passive_enchantment_add" },
+      { "weight": 100, "value": "active_enchantment" },
+      { "weight": 20, "value": "passive_enchantment_mult" }
+    ],
+    "items": [
+      { "weight": 100, "item": "art_sphere" },
+      { "weight": 100, "item": "art_rod" },
+      { "weight": 100, "item": "art_teardrop" },
+      { "weight": 100, "item": "art_lamp" },
+      { "weight": 100, "item": "art_snake" },
+      { "weight": 100, "item": "art_disc" },
+      { "weight": 100, "item": "art_beads" },
+      { "weight": 100, "item": "art_napkin" },
+      { "weight": 100, "item": "art_urchin" },
+      { "weight": 100, "item": "art_jelly" },
+      { "weight": 100, "item": "art_spiral" },
+      { "weight": 100, "item": "art_pin" },
+      { "weight": 100, "item": "art_tube" },
+      { "weight": 100, "item": "art_pyramid" },
+      { "weight": 100, "item": "art_crystal" },
+      { "weight": 100, "item": "art_knot" },
+      { "weight": 100, "item": "art_crescent" }
+    ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "netherum_tunnels",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 3 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "6 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 150 },
+      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": 50 },
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_CONFUSED", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_VOMIT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_STAMINA_EMPTY", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_RADIATION", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_MAP", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_FUN", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": 150 },
+      { "weight": 100, "spell_id": "AEA_STORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 250 }
+    ],
+    "passive_mult_procgen_values": [
+      { "weight": 100, "min_value": -0.5, "max_value": 1, "type": "METABOLISM", "increment": 0.1, "power_per_increment": -50 },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "THIRST",
+        "increment": 0.1,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "CARRY_WEIGHT",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "MAX_HP",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "REGEN_HP",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "SHOUT_NOISE",
+        "increment": 0.2,
+        "power_per_increment": 100
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_ACID",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BASH",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BIO",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_COLD",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_CUT",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_ELEC",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_HEAT",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_STAB",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BULLET",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 0.5,
+        "type": "ATTACK_SPEED",
+        "increment": 0.1,
+        "power_per_increment": 500
+      }
+    ],
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -3, "max_value": 4, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 20,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 200
+      },
+      {
+        "weight": 50,
+        "min_value": -50,
+        "max_value": 20,
+        "type": "ATTACK_SPEED",
+        "increment": 5,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 50,
+        "min_value": -2500,
+        "max_value": 10000,
+        "type": "MAX_STAMINA",
+        "increment": 250,
+        "power_per_increment": 125
+      },
+      {
+        "weight": 50,
+        "min_value": -20000,
+        "max_value": 20000,
+        "type": "CARRY_WEIGHT",
+        "increment": 1000,
+        "power_per_increment": 250
+      }
+    ],
+    "type_weights": [
+      { "weight": 100, "value": "passive_enchantment_add" },
+      { "weight": 100, "value": "active_enchantment" },
+      { "weight": 20, "value": "passive_enchantment_mult" }
+    ],
+    "items": [
+      { "weight": 100, "item": "art_sphere" },
+      { "weight": 100, "item": "art_rod" },
+      { "weight": 100, "item": "art_teardrop" },
+      { "weight": 100, "item": "art_lamp" },
+      { "weight": 100, "item": "art_snake" },
+      { "weight": 100, "item": "art_disc" },
+      { "weight": 100, "item": "art_beads" },
+      { "weight": 100, "item": "art_napkin" },
+      { "weight": 100, "item": "art_urchin" },
+      { "weight": 100, "item": "art_jelly" },
+      { "weight": 100, "item": "art_spiral" },
+      { "weight": 100, "item": "art_pin" },
+      { "weight": 100, "item": "art_tube" },
+      { "weight": 100, "item": "art_pyramid" },
+      { "weight": 100, "item": "art_crystal" },
+      { "weight": 100, "item": "art_knot" },
+      { "weight": 100, "item": "art_crescent" }
+    ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "alien_reality",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 3 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "6 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 150 },
+      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": 50 },
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_CONFUSED", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_VOMIT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_STAMINA_EMPTY", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_RADIATION", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_MAP", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_FUN", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": 150 },
+      { "weight": 100, "spell_id": "AEA_STORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 250 }
+    ],
+    "passive_mult_procgen_values": [
+      { "weight": 100, "min_value": -0.5, "max_value": 1, "type": "METABOLISM", "increment": 0.1, "power_per_increment": -50 },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "THIRST",
+        "increment": 0.1,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "CARRY_WEIGHT",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "MAX_HP",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "REGEN_HP",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "SHOUT_NOISE",
+        "increment": 0.2,
+        "power_per_increment": 100
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_ACID",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BASH",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BIO",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_COLD",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_CUT",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_ELEC",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_HEAT",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_STAB",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BULLET",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 0.5,
+        "type": "ATTACK_SPEED",
+        "increment": 0.1,
+        "power_per_increment": 500
+      }
+    ],
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -3, "max_value": 4, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 20,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 200
+      },
+      {
+        "weight": 50,
+        "min_value": -50,
+        "max_value": 20,
+        "type": "ATTACK_SPEED",
+        "increment": 5,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 50,
+        "min_value": -2500,
+        "max_value": 10000,
+        "type": "MAX_STAMINA",
+        "increment": 250,
+        "power_per_increment": 125
+      },
+      {
+        "weight": 50,
+        "min_value": -20000,
+        "max_value": 20000,
+        "type": "CARRY_WEIGHT",
+        "increment": 1000,
+        "power_per_increment": 250
+      }
+    ],
+    "type_weights": [
+      { "weight": 100, "value": "passive_enchantment_add" },
+      { "weight": 100, "value": "active_enchantment" },
+      { "weight": 20, "value": "passive_enchantment_mult" }
+    ],
+    "items": [
+      { "weight": 100, "item": "art_sphere" },
+      { "weight": 100, "item": "art_rod" },
+      { "weight": 100, "item": "art_teardrop" },
+      { "weight": 100, "item": "art_lamp" },
+      { "weight": 100, "item": "art_snake" },
+      { "weight": 100, "item": "art_disc" },
+      { "weight": 100, "item": "art_beads" },
+      { "weight": 100, "item": "art_napkin" },
+      { "weight": 100, "item": "art_urchin" },
+      { "weight": 100, "item": "art_jelly" },
+      { "weight": 100, "item": "art_spiral" },
+      { "weight": 100, "item": "art_pin" },
+      { "weight": 100, "item": "art_tube" },
+      { "weight": 100, "item": "art_pyramid" },
+      { "weight": 100, "item": "art_crystal" },
+      { "weight": 100, "item": "art_knot" },
+      { "weight": 100, "item": "art_crescent" }
+    ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "held_passive_bad",
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      }
+    ],
+    "passive_mult_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": 0.4,
+        "max_value": 1,
+        "type": "THIRST",
+        "increment": 0.1,
+        "power_per_increment": -50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 0.5,
+        "max_value": 1,
+        "type": "HUNGER",
+        "increment": 0.1,
+        "power_per_increment": -100,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.8,
+        "max_value": -0.3,
+        "type": "REGEN_HP",
+        "increment": 0.1,
+        "power_per_increment": 100,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 0.3,
+        "max_value": 0.8,
+        "type": "FATIGUE",
+        "increment": 0.1,
+        "power_per_increment": -100,
+        "ench_has": "HELD"
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_mult" }, { "weight": 50, "value": "passive_enchantment_add" } ],
+    "items": [ { "weight": 100, "item": "monolith_disc" }, { "weight": 100, "item": "monolith_brick" } ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "altered_object",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 5 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 5 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "20 m", "2 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "AO_FRIENDLY_VORTEX", "base_power": 250 },
+      { "weight": 100, "spell_id": "AO_CALL_OF_TINDALOS", "base_power": -500 },
+      { "weight": 100, "spell_id": "AO_FORCE_PULL", "base_power": 250 },
+      { "weight": 100, "spell_id": "AO_TELEPORTITIS", "base_power": -500 },
+      { "weight": 100, "spell_id": "AO_SLOW", "base_power": -150 },
+      { "weight": 100, "spell_id": "AO_TIME_STOP", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AO_DARKNESS_EFFECT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AO_LIFE_DRAIN", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 250 }
+    ],
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -20, "max_value": 20, "type": "SPEED", "increment": 5, "power_per_increment": 200 },
+      {
+        "weight": 50,
+        "min_value": -50,
+        "max_value": 20,
+        "type": "ATTACK_SPEED",
+        "increment": 5,
+        "power_per_increment": 250
+      }
+    ],
+    "type_weights": [ { "weight": 10, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
+    "items": [
+      { "weight": 20, "item": "violin_golden" },
+      { "weight": 100, "item": "altered_phone" },
+      { "weight": 100, "item": "altered_stopwatch" },
+      { "weight": 100, "item": "altered_teapot" },
+      { "weight": 100, "item": "altered_comb" },
+      { "weight": 100, "item": "altered_keyring" },
+      { "weight": 100, "item": "altered_rubicks_cube" }
+    ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "portalmancy",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 1, 1 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 1 ], "power": 25 },
+        "recharge_type": "none"
+      }
+    ],
+    "active_procgen_values": [ { "weight": 100, "spell_id": "AO_CLOSE_TEAR", "base_power": 1000 } ],
+    "type_weights": [ { "weight": 100, "value": "active_enchantment" } ],
+    "items": [ { "weight": 100, "item": "altered_exposed_wiring_prototype" } ]
+  }
+]

@@ -10,6 +10,7 @@
     "coverage": 80,
     "required_str": 5,
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "examine_action": "change_appearance",
     "bash": {
       "str_min": 5,
       "str_max": 16,
@@ -59,6 +60,26 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT" ]
   },
   {
+    "id": "f_cleat",
+    "type": "furniture",
+    "name": "cleat",
+    "description": "A small horn cleat with two “horns” extending parallel to the deck or the axis of the spar, and resembling a small anvil.  They are used to secure mooring lines, ropes, and similar.",
+    "symbol": "B",
+    "color": "light_gray",
+    "looks_like": "f_bitts",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 0,
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "SHORT" ]
+  },
+  {
     "type": "furniture",
     "id": "f_shackle",
     "name": "manacles",
@@ -105,7 +126,8 @@
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 5,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "mannequin", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 40,
@@ -123,13 +145,35 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT", "TRANSPARENT" ],
     "bash": {
       "str_min": 16,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
       "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "rebar", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gazing_ball",
+    "name": "gazing ball",
+    "description": "A mirrored glass globe mounted on a cement pedestal.  It warps your reflection when you look into it",
+    "symbol": "o",
+    "color": "white",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "MINEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 2, 4 ] },
+        { "item": "rebar", "count": [ 0, 1 ] },
+        { "item": "glass_shard", "count": [ 10, 15 ] }
+      ]
     }
   },
   {
@@ -141,9 +185,14 @@
     "color": "white",
     "move_cost_mod": -2,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "BASHABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM" ],
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": [ 2, 6 ] }, { "item": "wire", "count": 10 } ]
+      "items": [
+        { "item": "pipe", "count": 6 },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "pipe_fittings", "count": [ 1, 3 ] },
+        { "item": "wire", "count": 10 }
+      ]
     },
     "bash": {
       "str_min": 6,
@@ -163,23 +212,16 @@
     "color": "light_gray",
     "move_cost_mod": 2,
     "required_str": 1,
-    "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 1, 2 ] },
-        { "item": "amplifier", "count": [ 1, 4 ] },
-        { "item": "light_bulb", "count": [ 1, 4 ] },
-        { "item": "steel_lump", "count": 1 },
-        { "item": "pipe", "count": 1 }
-      ]
-    },
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "standing_lamp" },
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "standing_lamp", "count": 1 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "bonk!",
       "items": [
-        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "glass_shard", "count": [ 0, 8 ] },
@@ -194,9 +236,20 @@
     "description": "A decorative wreath for the winter holidays.",
     "symbol": "o",
     "color": "light_green",
-    "move_cost_mod": -1,
-    "required_str": 10,
-    "flags": [ "PLACE_ITEM" ]
+    "move_cost_mod": 2,
+    "required_str": 5,
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "pine_bough", "count": [ 4, 6 ] },
+        { "item": "nail", "count": [ 5, 14 ] },
+        { "item": "stick", "count": [ 1, 3 ] }
+      ]
+    },
+    "flags": [ "PERMEABLE", "THIN_OBSTACLE", "PLACE_ITEM", "EASY_DECONSTRUCT" ]
   },
   {
     "type": "furniture",

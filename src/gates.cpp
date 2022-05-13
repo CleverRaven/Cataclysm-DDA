@@ -4,34 +4,36 @@
 #include <array>
 #include <memory>
 #include <set>
-#include <string>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "character.h"
 #include "colony.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
+
+static const furn_str_id furn_f_crate_o( "f_crate_o" );
+static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
 // Gates namespace
 
@@ -50,6 +52,7 @@ struct gate_data {
         was_loaded( false ) {}
 
     gate_id id;
+    std::vector<std::pair<gate_id, mod_id>> src;
 
     ter_str_id door;
     ter_str_id floor;
@@ -100,12 +103,11 @@ void gate_data::load( const JsonObject &jo, const std::string & )
 
 void gate_data::check() const
 {
-    static const iexamine_function controls_gate( iexamine_function_from_string( "controls_gate" ) );
     const ter_str_id winch_tid( id.str() );
 
     if( !winch_tid.is_valid() ) {
         debugmsg( "Gates \"%s\" have no terrain of the same name, working as a winch.", id.c_str() );
-    } else if( winch_tid->examine != controls_gate ) {
+    } else if( !winch_tid->has_examine( iexamine::controls_gate ) ) {
         debugmsg( "Terrain \"%s\" can't control gates, but gates \"%s\" depend on it.",
                   winch_tid.c_str(), id.c_str() );
     }
@@ -218,7 +220,7 @@ void gates::open_gate( const tripoint &pos )
         }
     }
 
-    if( g->u.sees( pos ) ) {
+    if( get_player_view().sees( pos ) ) {
         if( open ) {
             add_msg( gate.open_message );
         } else if( close ) {
@@ -231,7 +233,7 @@ void gates::open_gate( const tripoint &pos )
     }
 }
 
-void gates::open_gate( const tripoint &pos, player &p )
+void gates::open_gate( const tripoint &pos, Character &p )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -251,14 +253,14 @@ void gates::open_gate( const tripoint &pos, player &p )
 
 // Doors namespace
 
-void doors::close_door( map &m, Character &who, const tripoint &closep )
+void doors::close_door( map &m, Creature &who, const tripoint &closep )
 {
     bool didit = false;
     const bool inside = !m.is_outside( who.pos() );
 
-    const Creature *const mon = g->critter_at( closep );
+    const Creature *const mon = get_creature_tracker().creature_at( closep );
     if( mon ) {
-        if( mon->is_player() ) {
+        if( mon->is_avatar() ) {
             who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
         } else if( mon->is_monster() ) {
             // TODO: Houseflies, mosquitoes, etc shouldn't count
@@ -270,6 +272,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
     }
 
     if( optional_vpart_position vp = m.veh_at( closep ) ) {
+        // There is a vehicle part here; see if it has anything that can be closed
         vehicle *const veh = &vp->vehicle();
         const int vpart = vp->part_index();
         const int closable = veh->next_part_to_close( vpart,
@@ -277,11 +280,16 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         const int inside_closable = veh->next_part_to_close( vpart );
         const int openable = veh->next_part_to_open( vpart );
         if( closable >= 0 ) {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( !veh->handle_potential_theft( get_avatar() ) ) {
                 return;
             }
-            veh->close( closable );
-            didit = true;
+            Character *ch = who.as_character();
+            if( ch && veh->can_close( closable, *ch ) ) {
+                veh->close( closable );
+                //~ %1$s - vehicle name, %2$s - part name
+                who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name, veh->part( closable ).name() );
+                didit = true;
+            }
         } else if( inside_closable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ),
                                    veh->part( inside_closable ).name() );
@@ -291,7 +299,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         } else {
             who.add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->part( vpart ).name() );
         }
-    } else if( m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
+    } else if( m.furn( closep ) == furn_f_crate_o ) {
         who.add_msg_if_player( m_info, _( "You'll need to construct a seal to close the crate!" ) );
     } else if( !m.close_door( closep, inside, true ) ) {
         if( m.close_door( closep, true, true ) ) {
@@ -304,7 +312,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
     } else {
         map_stack items_in_way = m.i_at( closep );
         // Scoot up to 25 liters of items out of the way
-        if( m.furn( closep ) != furn_str_id( "f_safe_o" ) && !items_in_way.empty() ) {
+        if( m.furn( closep ) != furn_f_safe_o && !items_in_way.empty() ) {
             const units::volume max_nudge = 25_liter;
 
             const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(),
@@ -323,7 +331,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
                                        items_in_way.size() == 1 ? items_in_way.only_item().tname() : _( "stuff" ) );
                 who.mod_moves( -std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 ) );
 
-                if( m.has_flag( "NOITEM", closep ) ) {
+                if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, closep ) ) {
                     // Just plopping items back on their origin square will displace them to adjacent squares
                     // since the door is closed now.
                     for( auto &elem : items_in_way ) {
@@ -333,7 +341,9 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
                 }
             }
         } else {
+            const std::string door_name = m.obstacle_name( closep );
             m.close_door( closep, inside, false );
+            who.add_msg_if_player( _( "You close the %s." ), door_name );
             didit = true;
         }
     }

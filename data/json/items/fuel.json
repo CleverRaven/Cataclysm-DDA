@@ -16,15 +16,11 @@
     "material": [ "alcohol" ],
     "symbol": "~",
     "color": "white",
-    "ammo_type": "conc_alcohol",
-    "fuel": {
-      "energy": 15.6,
-      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
-    }
+    "ammo_type": "conc_alcohol"
   },
   {
-    "id": "denat_alcohol",
-    "name": { "str": "denatured alcohol" },
+    "id": "methed_alcohol",
+    "name": { "str_sp": "methylated spirits" },
     "copy-from": "chem_ethanol",
     "type": "AMMO",
     "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
@@ -32,8 +28,17 @@
     "price_postapoc": 300
   },
   {
+    "id": "denat_alcohol",
+    "name": { "str": "denatured alcohol" },
+    "copy-from": "chem_ethanol",
+    "type": "AMMO",
+    "description": "A high-strength ethanol solution mixed with denatonium benzoate to make it impossibly bitter to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
+    "price": 10,
+    "price_postapoc": 300
+  },
+  {
     "id": "chem_methanol",
-    "name": { "str": "methanol" },
+    "name": { "str_sp": "methanol" },
     "copy-from": "chem_ethanol",
     "type": "AMMO",
     "description": "High purity methanol suitable for use in chemical reactions.  Could be used in alcohol-burning stoves.  Very toxic.",
@@ -46,7 +51,7 @@
     "name": { "str_sp": "diesel" },
     "description": "Petroleum-based fuel made from a byproduct of the gasoline making process.",
     "category": "fuel",
-    "weight": "1 g",
+    "weight": "850 mg",
     "volume": "200ml",
     "price": 50,
     "price_postapoc": 500,
@@ -54,18 +59,13 @@
     "stack_size": 200,
     "phase": "liquid",
     "container": "jerrycan",
-    "material": [ "hydrocarbons" ],
+    "material": [ "diesel" ],
     "symbol": "=",
     "color": "green",
     "ammo_type": "diesel",
-    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 4 },
+    "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 4 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
-    "fuel": {
-      "energy": 35.8,
-      "pump_terrain": "t_diesel_pump",
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
-    }
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
     "id": "jp8",
@@ -73,7 +73,7 @@
     "name": { "str_sp": "JP8 fuel" },
     "description": "A kerosene-based fuel used mainly by US military vehicles as a replacement for diesel and jet fuel, to simplify logistics.",
     "category": "fuel",
-    "weight": "1 g",
+    "weight": "800 mg",
     "volume": "200ml",
     "price": 50,
     "price_postapoc": 1000,
@@ -82,17 +82,13 @@
     "stack_size": 200,
     "phase": "liquid",
     "container": "jerrycan",
-    "material": [ "hydrocarbons" ],
+    "material": [ "jp8" ],
     "symbol": "=",
     "color": "green",
     "ammo_type": "jp8",
-    "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 5 },
+    "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
-    "fuel": {
-      "energy": 34.7,
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
-    }
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
     "id": "avgas",
@@ -109,30 +105,23 @@
     "phase": "liquid",
     "looks_like": "diesel",
     "container": "jerrycan",
-    "material": [ "hydrocarbons" ],
+    "material": [ "avgas" ],
     "symbol": "=",
     "color": "green",
     "ammo_type": "avgas",
-    "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 5 },
+    "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
-    "fuel": {
-      "energy": 45.8,
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
-    }
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
     "id": "biodiesel",
     "name": { "str_sp": "biodiesel" },
     "copy-from": "diesel",
+    "material": [ "biodiesel" ],
     "type": "AMMO",
     "description": "Vegetable oil- or animal fat-based diesel fuel consisting of long-chain alkyl (methyl, ethyl, or propyl) esters.",
     "price": 30,
-    "price_postapoc": 300,
-    "fuel": {
-      "energy": 29.6,
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
-    }
+    "price_postapoc": 300
   },
   {
     "id": "gasoline",
@@ -140,7 +129,7 @@
     "name": { "str_sp": "gasoline" },
     "description": "Gasoline is a highly flammable liquid.  When under pressure, it has the potential for violent explosion.",
     "category": "fuel",
-    "weight": "1 g",
+    "weight": "780 mg",
     "volume": "200ml",
     "price": 40,
     "price_postapoc": 800,
@@ -148,18 +137,13 @@
     "stack_size": 200,
     "phase": "liquid",
     "container": "jerrycan",
-    "material": [ "hydrocarbons" ],
+    "material": [ "gasoline" ],
     "symbol": "=",
     "color": "light_red",
     "ammo_type": "gasoline",
-    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
+    "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
-    "fuel": {
-      "energy": 34.2,
-      "pump_terrain": "t_gas_pump",
-      "explosion_data": { "chance_hot": 2, "chance_cold": 5, "factor": 1, "fiery": true, "size_factor": 0.1 }
-    }
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
     "id": "lamp_oil",
@@ -175,17 +159,13 @@
     "stack_size": 200,
     "phase": "liquid",
     "container": "bottle_plastic",
+    "sealed": false,
     "symbol": "=",
     "color": "yellow",
-    "material": [ "hydrocarbons" ],
+    "material": [ "lamp_oil" ],
     "ammo_type": "lamp_oil",
-    "fuel": {
-      "//": "Roughly equivalent to LPG",
-      "energy": 26,
-      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
-    },
     "range": 6,
-    "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 },
+    "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
   },
   {
@@ -202,17 +182,13 @@
     "stack_size": 200,
     "phase": "liquid",
     "container": "bottle_plastic",
+    "sealed": false,
     "symbol": "=",
     "color": "yellow",
-    "material": [ "hydrocarbons" ],
+    "material": [ "motor_oil" ],
     "ammo_type": "motor_oil",
-    "fuel": {
-      "//": "Roughly equivalent to LPG",
-      "energy": 26,
-      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
-    },
     "range": 6,
-    "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 },
+    "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
   },
   {
@@ -228,12 +204,12 @@
     "count": 250,
     "stack_size": 200,
     "phase": "liquid",
-    "container": "jerrycan",
+    "container": "pressurized_tank",
     "material": [ "hydrocarbons" ],
     "symbol": "=",
     "color": "light_red",
     "ammo_type": "flammable",
-    "damage": { "damage_type": "stab", "amount": 15, "armor_penetration": 30 },
+    "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
     "range": 6,
     "effects": [ "FLAME", "STREAM_BIG", "INCENDIARY", "NEVER_MISFIRES" ]
   },
@@ -246,7 +222,7 @@
     "price": 400,
     "price_postapoc": 500,
     "ammo_type": "flammable",
-    "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 10 },
+    "damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 10 },
     "range": 3
   },
   {
@@ -259,5 +235,25 @@
     "price_postapoc": 500,
     "ammo_type": "flammable",
     "range": 0
+  },
+  {
+    "id": "propane",
+    "type": "AMMO",
+    "name": { "str_sp": "propane" },
+    "description": "Propane gas, useful for everything from torches to barbeque grills to metalworking.",
+    "weight": "3300 mg",
+    "//": "Density of propane gas at 25C is 1.808 kg/m3, liquid propane at 25C is 0.493 g/cm3, propane tanks are pressurized enough to turn it liquid.",
+    "volume": "200ml",
+    "price": 200,
+    "price_postapoc": 500,
+    "count": 30,
+    "stack_size": 30,
+    "category": "chems",
+    "phase": "gas",
+    "container": "small_propane_tank",
+    "material": [ "propane" ],
+    "symbol": "~",
+    "color": "white",
+    "ammo_type": "propane"
   }
 ]

@@ -1,0 +1,602 @@
+[
+  {
+    "id": "alpha_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "alpha_sample" } ]
+  },
+  {
+    "id": "alpha_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "alpha_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "alpha_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "alpha_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "alpha_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "alpha_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "batrachian_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "batrachian_sample" } ]
+  },
+  {
+    "id": "batrachian_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "batrachian_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "batrachian_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "batrachian_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "batrachian_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "batrachian_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "beast_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "beast_sample" } ]
+  },
+  {
+    "id": "beast_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "beast_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "beast_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "beast_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "beast_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "beast_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "bird_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "bird_sample" } ]
+  },
+  {
+    "id": "bird_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "bird_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "bird_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "bird_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "bird_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "bird_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "cattle_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cattle_sample" } ]
+  },
+  {
+    "id": "cattle_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cattle_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "cattle_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cattle_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "cattle_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cattle_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "cephalopod_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cephalopod_sample" } ]
+  },
+  {
+    "id": "cephalopod_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cephalopod_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "cephalopod_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cephalopod_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "cephalopod_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cephalopod_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "chimera_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "chimera_sample" } ]
+  },
+  {
+    "id": "chimera_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "chimera_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "chimera_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "chimera_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "chimera_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "chimera_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "elfa_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "elfa_sample" } ]
+  },
+  {
+    "id": "elfa_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "elfa_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "elfa_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "elfa_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "elfa_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "elfa_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "feline_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "feline_sample" } ]
+  },
+  {
+    "id": "feline_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "feline_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "feline_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "feline_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "feline_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "feline_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "fish_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "fish_sample" } ]
+  },
+  {
+    "id": "fish_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "fish_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "fish_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "fish_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "fish_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "fish_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "gastropod_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "gastropod_sample" } ]
+  },
+  {
+    "id": "gastropod_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "gastropod_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "gastropod_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "gastropod_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "gastropod_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "gastropod_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "human_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "human_sample" } ]
+  },
+  {
+    "id": "human_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "human_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "human_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "human_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "human_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "human_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "insect_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "insect_sample" } ]
+  },
+  {
+    "id": "insect_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "insect_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "insect_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "insect_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "insect_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "insect_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "lizard_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lizard_sample" } ]
+  },
+  {
+    "id": "lizard_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lizard_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "lizard_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lizard_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "lizard_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lizard_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "lupine_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lupine_sample" } ]
+  },
+  {
+    "id": "lupine_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lupine_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "lupine_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lupine_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "lupine_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "lupine_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "medical_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "medical_sample" } ]
+  },
+  {
+    "id": "medical_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "medical_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "medical_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "medical_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "medical_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "medical_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "mouse_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mouse_sample" } ]
+  },
+  {
+    "id": "mouse_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mouse_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "mouse_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mouse_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "mouse_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mouse_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "plant_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "plant_sample" } ]
+  },
+  {
+    "id": "plant_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "plant_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "plant_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "plant_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "plant_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "plant_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "rabbit_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rabbit_sample" } ]
+  },
+  {
+    "id": "rabbit_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rabbit_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "rabbit_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rabbit_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "rabbit_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rabbit_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "raptor_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample" } ]
+  },
+  {
+    "id": "raptor_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "raptor_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "raptor_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "rat_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rat_sample" } ]
+  },
+  {
+    "id": "rat_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rat_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "rat_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rat_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "rat_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "rat_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "slime_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "slime_sample" } ]
+  },
+  {
+    "id": "slime_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "slime_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "slime_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "slime_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "slime_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "slime_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "spider_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "spider_sample" } ]
+  },
+  {
+    "id": "spider_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "spider_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "spider_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "spider_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "spider_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "spider_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "troglobite_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "troglobite_sample" } ]
+  },
+  {
+    "id": "troglobite_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "troglobite_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "troglobite_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "troglobite_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "troglobite_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "troglobite_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "ursine_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "ursine_sample" } ]
+  },
+  {
+    "id": "ursine_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "ursine_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "ursine_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "ursine_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "ursine_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "ursine_sample", "count-min": 10, "count-max": 20 } ]
+  }
+]

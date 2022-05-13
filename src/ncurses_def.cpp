@@ -1,24 +1,36 @@
 #if !(defined(TILES) || defined(_WIN32))
 
-// input.h must be include *before* the ncurses header. The later has some macro
+// input.h must be include *before* the ncurses header. The latter has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
 #include "input.h"
+#include "point.h"
+#include "translations.h"
 
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
+#if !defined(__APPLE__)
+#define NCURSES_WIDECHAR 1
+#endif
 #if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
 #include <curses.h>
 #endif
 
+#include <cstdint>
+#include <cstring>
+#include <iosfwd>
 #include <langinfo.h>
+#include <memory>
 #include <stdexcept>
 
-#include "cursesdef.h"
+#include "cached_options.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cursesdef.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -34,9 +46,9 @@ catacurses::window catacurses::newwin( const int nlines, const int ncols, const 
 {
     // TODO: check for errors
     const auto w = ::newwin( nlines, ncols, begin.y, begin.x );
-    return std::shared_ptr<void>( w, []( void *const w ) {
+    return catacurses::window( std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
-    } );
+    } ) );
 }
 
 void catacurses::wnoutrefresh( const window &win )
@@ -84,14 +96,14 @@ int catacurses::getcury( const window &win )
     return ::getcury( win.get<::WINDOW>() );
 }
 
-void catacurses::wattroff( const window &win, const int attrs )
+void catacurses::wattroff( const window &win, const nc_color attrs )
 {
-    return curses_check_result( ::wattroff( win.get<::WINDOW>(), attrs ), OK, "wattroff" );
+    return curses_check_result( ::wattroff( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattroff" );
 }
 
 void catacurses::wattron( const window &win, const nc_color &attrs )
 {
-    return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs ), OK, "wattron" );
+    return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattron" );
 }
 
 void catacurses::wmove( const window &win, const point &p )
@@ -220,6 +232,7 @@ void catacurses::resizeterm()
     if( ::is_term_resized( new_x, new_y ) ) {
         game_ui::init_ui();
         ui_manager::screen_resized();
+        catacurses::doupdate();
     }
 }
 
@@ -228,7 +241,7 @@ void catacurses::resizeterm()
 void catacurses::init_interface()
 {
     // ::endwin will free the pointer returned by ::initscr
-    stdscr = std::shared_ptr<void>( ::initscr(), []( void *const ) { } );
+    stdscr = window( std::shared_ptr<void>( ::initscr(), []( void *const ) { } ) );
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
@@ -237,7 +250,7 @@ void catacurses::init_interface()
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
-    // behave exactly like the wrapper, therefor:
+    // behave exactly like the wrapper, therefore:
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
@@ -247,8 +260,40 @@ void catacurses::init_interface()
     init_colors();
 }
 
-input_event input_manager::get_input_event()
+void input_manager::pump_events()
 {
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    int key = ERR;
+    bool resize = false;
+    const int prev_timeout = input_timeout;
+    set_timeout( 0 );
+    do {
+        key = getch();
+        if( key == KEY_RESIZE ) {
+            resize = true;
+        }
+    } while( key != ERR );
+    set_timeout( prev_timeout );
+    if( resize ) {
+        catacurses::resizeterm();
+    }
+
+    previously_pressed_key = 0;
+}
+
+// there isn't a portable way to get raw key code on curses,
+// ignoring preferred keyboard mode
+input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
+{
+    if( test_mode ) {
+        // input should be skipped in caller's code
+        throw std::runtime_error( "input_manager::get_input_event called in test mode" );
+    }
+
     int key = ERR;
     input_event rval;
     do {
@@ -304,9 +349,9 @@ input_event input_manager::get_input_event()
         } else {
             if( key == 127 ) { // == Unicode DELETE
                 previously_pressed_key = KEY_BACKSPACE;
-                return input_event( KEY_BACKSPACE, input_event_t::keyboard );
+                return input_event( KEY_BACKSPACE, input_event_t::keyboard_char );
             }
-            rval.type = input_event_t::keyboard;
+            rval.type = input_event_t::keyboard_char;
             rval.text.append( 1, static_cast<char>( key ) );
             // Read the UTF-8 sequence (if any)
             if( key < 127 ) {
@@ -324,7 +369,7 @@ input_event input_manager::get_input_event()
                 // Other control character, etc. - no text at all, return an event
                 // without the text property
                 previously_pressed_key = key;
-                return input_event( key, input_event_t::keyboard );
+                return input_event( key, input_event_t::keyboard_char );
             }
             // Now we have loaded an UTF-8 sequence (possibly several bytes)
             // but we should only return *one* key, so return the code point of it.
@@ -333,7 +378,7 @@ input_event input_manager::get_input_event()
                 // Invalid UTF-8 sequence, this should never happen, what now?
                 // Maybe return any error instead?
                 previously_pressed_key = key;
-                return input_event( key, input_event_t::keyboard );
+                return input_event( key, input_event_t::keyboard_char );
             }
             previously_pressed_key = cp;
             // for compatibility only add the first byte, not the code point
@@ -382,14 +427,14 @@ bool nc_color::is_blink() const
     return attribute_value & A_BLINK;
 }
 
-void ensure_term_size();
-void check_encoding();
+void ensure_term_size(); // NOLINT(cata-static-declarations)
+void check_encoding(); // NOLINT(cata-static-declarations)
 
 void ensure_term_size()
 {
     // do not use ui_adaptor here to avoid re-entry
-    const int minHeight = FULL_SCREEN_HEIGHT;
-    const int minWidth = FULL_SCREEN_WIDTH;
+    const int minHeight = EVEN_MINIMUM_TERM_HEIGHT;
+    const int minWidth = EVEN_MINIMUM_TERM_WIDTH;
     int maxy = getmaxy( catacurses::stdscr );
     int maxx = getmaxx( catacurses::stdscr );
 
@@ -421,6 +466,7 @@ void ensure_term_size()
     }
 }
 
+// NOLINTNEXTLINE(cata-static-declarations)
 void check_encoding()
 {
     // Check whether LC_CTYPE supports the UTF-8 encoding
@@ -440,6 +486,11 @@ void check_encoding()
             key = getch();
         } while( key == KEY_RESIZE || key == KEY_MOUSE );
     }
+}
+
+void set_title( const std::string & )
+{
+    // curses does not seem to have a portable way of setting the window title.
 }
 
 #endif

@@ -34,7 +34,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 2, "410shot": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 2, "410shot": 2 } } ]
   },
   {
     "id": "colt_lightning",
@@ -60,14 +60,14 @@
     "blackpowder_tolerance": 56,
     "reload_noise": "chik chik.",
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 14 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 14 } } ]
   },
   {
     "id": "colt_saa",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "Uberti Cattleman" },
+    "name": { "str": "Uberti Cattleman" },
     "description": "This 7.5\" barreled Uberti Cattleman is a modern reproduction of the legendary Colt Single Action Army, or Colt Peacemaker, one of the first revolvers to use a modern self-contained cartridge.  Made famous by westerns, it is still in demand for Cowboy Action Shooting, reenactors and collectors.  Unlike modern revolvers, the cylinder cannot swing out for loading, and spent brass must be ejected one at a time.",
     "weight": "1048 g",
     "volume": "324 ml",
@@ -81,7 +81,8 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
+    "blackpowder_tolerance": 56,
     "proportional": { "reload": 1.5 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 6 } } ]
   }
 ]

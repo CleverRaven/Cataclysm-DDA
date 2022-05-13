@@ -10,6 +10,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "green",
     "intelligence": 7,
     "time": "18 m",
@@ -29,6 +30,7 @@
     "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "record_patient",
     "color": "light_green",
     "intelligence": 8,
     "time": "30 m",
@@ -46,6 +48,7 @@
     "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "mag_glam",
     "color": "light_cyan",
     "intelligence": 5,
     "time": "10 m"
@@ -61,7 +64,10 @@
     "price_postapoc": 50,
     "material": [ "paper", "plastic" ],
     "symbol": "?",
+    "looks_like": "record_patient",
     "color": "light_green",
+    "skill": "mechanics",
+    "required_level": 1,
     "intelligence": 8,
     "time": "45 m",
     "fun": -2
@@ -77,6 +83,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "light_blue",
     "intelligence": 10,
     "time": "26 m",
@@ -95,6 +102,7 @@
     "bashing": 2,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "green",
     "intelligence": 3,
     "time": "1 m"
@@ -110,6 +118,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "mag_glam",
     "color": "light_cyan",
     "time": "7 m",
     "fun": 2
@@ -125,6 +134,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "mag_glam",
     "color": "pink",
     "intelligence": 7,
     "time": "8 m",
@@ -156,6 +166,7 @@
     "price_postapoc": 250,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "mag_glam",
     "color": "pink",
     "time": "10 m",
     "chapters": 4,
@@ -173,6 +184,7 @@
     "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "pocket_firstaid",
     "color": "light_cyan",
     "intelligence": 2,
     "time": "10 m"
@@ -188,6 +200,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "mag_glam",
     "color": "pink",
     "intelligence": 5,
     "time": "5 m",
@@ -334,6 +347,17 @@
     "fun": 3
   },
   {
+    "id": "book_fict_soft_west_gore",
+    "type": "BOOK",
+    "name": { "str": "Gore Longtitude", "str_pl": "copies of Gore Longitude" },
+    "description": "Award-winning author Cornac McCaffordy weaves a chilling tale of horror and strife, following the compellingly lucrative, seductively dangerous bounty hunting and scalping trade across the western frontier.",
+    "copy-from": "book_fict_soft_tpl",
+    "intelligence": 6,
+    "time": "25 m",
+    "chapters": 24,
+    "fun": 3
+  },
+  {
     "id": "novel_romance",
     "type": "BOOK",
     "name": { "str": "romance novel" },
@@ -343,15 +367,15 @@
   {
     "id": "paperback_romance_circuses",
     "type": "BOOK",
-    "name": "Love and Circuses",
+    "name": { "str": "Love and Circuses", "str_pl": "copies of Love and Circuses" },
     "description": "The passionate saga of two Boston politicians fiercely battling each other for the mayor's office, and for Lydia's hand in marriage.",
     "copy-from": "paperback_romance_spb",
-    "relative": { "chapters": 2, "weight": 111 }
+    "relative": { "chapters": 2, "weight": "111 g" }
   },
   {
     "id": "paperback_romance_cloven",
     "type": "BOOK",
-    "name": "Cloven Kisses",
+    "name": { "str": "Cloven Kisses", "str_pl": "copies of Cloven Kisses" },
     "description": "When the devil falls in love with a warlock, his proposal must be infernally wicked.  Will hooves, horns, and the scent of sulphur condemn love's flames to hellfire?",
     "copy-from": "paperback_romance_lnl",
     "relative": { "chapters": -2 }
@@ -359,7 +383,7 @@
   {
     "id": "paperback_romance_conq",
     "type": "BOOK",
-    "name": "Conquer Me Sweetly",
+    "name": { "str": "Conquer Me Sweetly", "str_pl": "copies of Conquer Me Sweetly" },
     "description": "Sweet Providence Books is delighted to offer you this romantic tale of delicious dalliances and daring delights.",
     "copy-from": "paperback_romance_spb",
     "relative": { "chapters": -1 }
@@ -367,14 +391,14 @@
   {
     "id": "paperback_romance_dd",
     "type": "BOOK",
-    "name": "Dubliner's Debutante",
+    "name": { "str": "Dubliner's Debutante", "str_pl": "copies of Dubliner's Debutante" },
     "description": "His love songs were only for me, but I preferred the banjo over bagpipes.  How could I ever love a kilted yankee of foreign breeding?",
     "copy-from": "paperback_romance_spb"
   },
   {
     "id": "paperback_romance_diodes",
     "type": "BOOK",
-    "name": "Blood Diodes",
+    "name": { "str": "Blood Diodes", "str_pl": "copies of Blood Diodes" },
     "description": "He is an automaton, she is a reformed vampire, can love find a way?  In this edgy romance by acclaimed author Kea Dekker, heartbreak is just the beginning.",
     "copy-from": "paperback_romance_lnl",
     "relative": { "chapters": 1 }
@@ -382,35 +406,35 @@
   {
     "id": "paperback_romance_envyh",
     "type": "BOOK",
-    "name": "Envying Heaven",
+    "name": { "str": "Envying Heaven", "str_pl": "copies of Envying Heaven" },
     "description": "When her fiancee names a star for her Wanda begins to wonder if an astronomer's wife can ever compete with the allure of the cosmos.",
     "copy-from": "paperback_romance_vanilla"
   },
   {
     "id": "paperback_romance_grue",
     "type": "BOOK",
-    "name": "Tall, Dark, and Gruesome",
-    "description": "Fatima's obsession with the dead threatens to consume her when she falls in love with a restless ghost.  In this provocative romp celebrated author Kea Dekker gently lifts the thin veil separating cold bodies from warm. ",
+    "name": { "str": "Tall, Dark, and Gruesome", "str_pl": "copies of Tall, Dark, and Gruesome" },
+    "description": "Fatima's obsession with the dead threatens to consume her when she falls in love with a restless ghost.  In this provocative romp celebrated author Kea Dekker gently lifts the thin veil separating cold bodies from warm.",
     "copy-from": "paperback_romance_lnl"
   },
   {
     "id": "paperback_romance_rider",
     "type": "BOOK",
-    "name": "Along Came a Rider",
+    "name": { "str": "Along Came a Rider", "str_pl": "copies of Along Came a Rider" },
     "description": "When Beth's career as a pro steeplechase jockey threatens to divide her from her lover, Beth has to act fast.  Will she ever find a man that can keep up with her racing heart?",
     "copy-from": "paperback_romance_vanilla"
   },
   {
     "id": "paperback_romance_rogue",
     "type": "BOOK",
-    "name": "Rogue's Virtue",
+    "name": { "str": "Rogue's Virtue", "str_pl": "copies of Rogue's Virtue" },
     "description": "Can Victoria reform the fugitive from justice who wooed her with false pretenses and true passion?",
     "copy-from": "paperback_romance_vanilla"
   },
   {
     "id": "paperback_romance_secret",
     "type": "BOOK",
-    "name": "The Death of My Secret Life",
+    "name": { "str": "The Death of My Secret Life", "str_pl": "copies of The Death of My Secret Life" },
     "description": "Makeda comes out to her family, but she's still got plenty of skeletons in her closet.  Best selling authoress Kea Dekker breaks all the rules in this macabre story of love and lies.",
     "copy-from": "paperback_romance_lnl"
   },
@@ -441,14 +465,14 @@
   {
     "id": "book_fict_soft_satire_hgod",
     "type": "BOOK",
-    "name": "The House of God",
+    "name": { "str": "The House of God", "str_pl": "copies of The House of God" },
     "description": "Set in a lightly disguised Boston hospital of high repute, Samuel Shem’s novel dives deep into the agony of absurdity.",
     "copy-from": "book_fict_soft_satire_tpl"
   },
   {
     "id": "book_fict_soft_satire_catch",
     "type": "BOOK",
-    "name": "Catch-22",
+    "name": { "str": "Catch-22", "str_pl": "copies of Catch-22" },
     "description": "There is a short informational forward in this paperback edition of Catch-22.  Apparently the original title for Joseph Heller’s excruciatingly brilliant war satire was \"Catch-11.\"",
     "weight": "480 g",
     "copy-from": "book_fict_soft_satire_tpl",
@@ -470,14 +494,14 @@
   {
     "id": "book_fict_soft_satire_dust",
     "type": "BOOK",
-    "name": "A Handful of Dust",
+    "name": { "str": "A Handful of Dust", "str_pl": "copies of A Handful of Dust" },
     "description": "Laced with cynicism, Evelyn Waugh's \"A Handful of Dust\" satirizes a stratum of characters who have wealth, but lack any other credentials.",
     "copy-from": "book_fict_soft_satire_tpl"
   },
   {
     "id": "book_fict_soft_satire_cats",
     "type": "BOOK",
-    "name": "Cat’s Cradle",
+    "name": { "str": "Cat’s Cradle", "str_pl": "copies of Cat’s Cradle" },
     "description": "A paperback edition of Kurt Vonnegut's fourth novel, in which the threat of nuclear destruction isn't much of an influence on human nature.",
     "weight": "360 g",
     "time": "1 m",
@@ -538,7 +562,7 @@
     "description": "This lengthy paperback novel describes the ocean exploits of Captain Gosgold.  The British consider him an outlaw, but in America he is a patriot.",
     "copy-from": "book_fict_soft_tpl",
     "time": "12 m",
-    "relative": { "weight": 186, "price": 250, "chapters": 8 }
+    "relative": { "weight": "186 g", "price": 250, "chapters": 8 }
   },
   {
     "id": "book_fict_soft_swash_buccaneer",
@@ -606,7 +630,7 @@
   {
     "id": "book_fict_soft_west_atwixt",
     "type": "BOOK",
-    "name": "Atwixt a Brace of Cacti",
+    "name": { "str": "Atwixt a Brace of Cacti", "str_pl": "copies of Atwixt a Brace of Cacti" },
     "description": "A grizzled clodhopper interviews a mess of rangehands, flummoxing longhorns and tenderfoot alike in a flusteration of jawing.",
     "copy-from": "paperback_western_em",
     "relative": { "price": 400, "intelligence": 4, "fun": 1 }
@@ -614,14 +638,14 @@
   {
     "id": "book_fict_soft_west_bart",
     "type": "BOOK",
-    "name": "Stinky Bart Puts on Starch",
+    "name": { "str": "Stinky Bart Puts on Starch", "str_pl": "copies of Stinky Bart Puts on Starch" },
     "description": "A local bandit, driven by sadistic impulses, begins offering unlicensed dentistry to brave frontiersmen with few options and fewer teeth.",
     "copy-from": "paperback_western_em"
   },
   {
     "id": "book_fict_soft_west_beans",
     "type": "BOOK",
-    "name": "Six Beans in the Wheel",
+    "name": { "str": "Six Beans in the Wheel", "str_pl": "copies of Six Beans in the Wheel" },
     "description": "The safety is off in this gun slinging tale of revenge and redemption by acclaimed author El Amor.",
     "copy-from": "paperback_western_em",
     "relative": { "chapters": -2, "fun": 1 }
@@ -629,14 +653,14 @@
   {
     "id": "book_fict_soft_west_calico",
     "type": "BOOK",
-    "name": "Irons at Calico Queen Annex",
+    "name": { "str": "Irons at Calico Queen Annex", "str_pl": "copies of Irons at Calico Queen Annex" },
     "description": "The establishment of a telegraph line into the recently named town of Calico Queen threatens to bring with it the long arm of the law.  A trio of enterprising gunfighters hatches a plan to keep Calico Queen wild by looting the supply wagons.",
     "copy-from": "paperback_western_em"
   },
   {
     "id": "book_fict_soft_west_riot",
     "type": "BOOK",
-    "name": "Riot on the Range",
+    "name": { "str": "Riot on the Range", "str_pl": "copies of Riot on the Range" },
     "description": "Best selling author El Amor paints a visceral study in red with his latest western saga: Riot on the Range.",
     "copy-from": "paperback_western_em",
     "relative": { "chapters": -1, "fun": 1 }
@@ -644,7 +668,7 @@
   {
     "id": "book_fict_soft_west_vaq",
     "type": "BOOK",
-    "name": "Vaquero Sun",
+    "name": { "str": "Vaquero Sun", "str_pl": "copies of Vaquero Sun" },
     "description": "Western author El Amor relates the story of a dispossessed young man inspired by a heat stroke delusion to pursue justice against an evil land baron.",
     "copy-from": "paperback_western_em",
     "relative": { "chapters": 2, "fun": 1 }
@@ -652,7 +676,7 @@
   {
     "id": "book_fict_soft_west_vride",
     "type": "BOOK",
-    "name": "The Vendetta Riders",
+    "name": { "str": "The Vendetta Riders", "str_pl": "copies of The Vendetta Riders" },
     "description": "A wild young man, fast on the draw, who thinks he has nothing to lose, falls in with a group of gun runners.",
     "copy-from": "paperback_western_em",
     "relative": { "chapters": -1, "fun": -1 }
@@ -669,6 +693,7 @@
     "bashing": 2,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "textbook_firstaid",
     "color": "yellow",
     "intelligence": 4,
     "time": "1 m",
@@ -686,6 +711,7 @@
     "price_postapoc": 50,
     "material": [ "paper", "leather" ],
     "symbol": "?",
+    "looks_like": "record_patient",
     "color": "light_gray",
     "time": "10 m",
     "chapters": 4,
@@ -703,6 +729,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "light_blue",
     "intelligence": 9,
     "time": "18 m",
@@ -720,6 +747,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "light_blue",
     "intelligence": 9,
     "time": "18 m",
@@ -738,6 +766,7 @@
     "bashing": 3,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "pocket_firstaid",
     "color": "light_gray",
     "intelligence": 15,
     "time": "30 m",
@@ -756,6 +785,7 @@
     "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "record_patient",
     "color": "light_green",
     "intelligence": 10,
     "time": "30 m",
@@ -790,6 +820,7 @@
     "bashing": 7,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "record_patient",
     "color": "light_green",
     "intelligence": 4,
     "time": "30 m",
@@ -806,6 +837,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "radio_book",
     "color": "light_blue",
     "intelligence": 7,
     "time": "48 m",
@@ -823,6 +855,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "light_blue",
     "intelligence": 6,
     "time": "18 m",
@@ -841,6 +874,7 @@
     "bashing": 3,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "light_cyan",
     "intelligence": 6,
     "time": "30 m",
@@ -1084,6 +1118,21 @@
     "name": { "str": "Glimpses of Solomon in Yellow", "str_pl": "copies of Solomon in Yellow" },
     "description": "This paperback is titled \"Glimpses of Solomon in Yellow; The Initiation Rites of the Starry Wisdom Covenant, by Dr. Enoch Craven.\"  It describes not just the investiture of new adherents, but the history and beliefs of the Church of Starry Wisdom.  Someone has defaced the sparse citations section by scrawling \"PUPPETS OF ROME!\" over its few pages.  The book does not provide any biography for Dr. Craven, let alone academic credentials.",
     "copy-from": "paperback_occult",
-    "relative": { "weight": 186, "price": 250, "chapters": 10 }
+    "relative": { "weight": "186 g", "price": 250, "chapters": 10 }
+  },
+  {
+    "id": "necronomicon",
+    "type": "BOOK",
+    "name": { "str": "grimoire" },
+    "description": "A hefty book with a thick leather cover and metal clasps.  Both covers are completely empty, though on the first page there is an author's name written in English: \"Abdul Alhazred\"; below it the book title is written in Arabian: \"العزيف\", and below it in Greek: \"Νεκρονομικόν\".  The book looks very old and sinister.",
+    "material": [ "paper", "leather" ],
+    "weight": "1887 g",
+    "volume": "1250 ml",
+    "time": "10 m",
+    "chapters": 24,
+    "price": 4550,
+    "price_postapoc": 50,
+    "symbol": "?",
+    "color": "light_gray"
   }
 ]

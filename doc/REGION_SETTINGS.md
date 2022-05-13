@@ -24,7 +24,7 @@ Note that for the default region, all attributes and sections are required.
 |       Identifier        |                            Description                             |
 | ----------------------- | ------------------------------------------------------------------ |
 | `type`                  | Type identifier. Must be "region_settings".                        |
-| `id`                    | Unique identfier for this region.                                  |
+| `id`                    | Unique identifier for this region.                                  |
 | `default_oter`          | Default overmap terrain for this region.                           |
 | `default_groundcover`   | List of terrain types and weights applied as default ground cover. |
 
@@ -129,7 +129,7 @@ cover the `field` overmap terrain.
 The **overmap_lake_settings** section defines the attributes used in generating lakes on the
 overmap. The actual placement of these features is determined globally across all overmaps so that
 the edges of the features align, and these parameters are mostly about how those global features
-are interpreted. 
+are interpreted.
 
 ### Fields
 
@@ -198,10 +198,10 @@ furniture.
 
 ### General Structure
 
-At the top level, the `forest_mapgen_settings` is a collection of named configurations where each
-entry has the name of the overmap terrain that it applies to, e.g. `forest`, `forest_thick`,
-`forest_water`. It is possible to define settings for overmap terrains that are not rendered by
-the forest mapgen, but will be used when blending forest terrains with other terrain types.
+At the top level, the `forest_mapgen_settings` is a collection of named configurations, e.g.
+`forest`, `forest_thick`, `forest_water`. It is possible to define settings for overmap terrains
+that are not rendered by the forest mapgen, but will be used when blending forest terrains with
+other terrain types.
 
 ```json
 {
@@ -219,7 +219,8 @@ Each terrain then has an independent set of configuration values that control th
 
 |          Identifier           |                                 Description                                  |
 | ----------------------------- | ---------------------------------------------------------------------------- |
-| `sparseness_adjacency_factor` | Value relative to neighbors controls how sparse the overmap terrain will be. |
+| `terrains`                    | The overmap terrain IDs which have this biome.                               |
+| `sparseness_adjacency_factor` | Value relative to neighbors controls how dense the overmap terrain will be.  |
 | `item_group`                  | Item group used to place items randomly within the overmap terrain.          |
 | `item_group_chance`           | % chance, between 1 and 100, that an item will be placed.                    |
 | `item_spawn_iterations`       | Number of times that the item spawning will be called.                       |
@@ -235,6 +236,7 @@ Each terrain then has an independent set of configuration values that control th
 ```json
 {
 	"forest": {
+		"terrains" : [ "forest" ],
 		"sparseness_adjacency_factor": 3,
 		"item_group": "forest",
 		"item_group_chance": 60,
@@ -490,10 +492,10 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
 | `base_humidity`                | Base humidity for the region in relative humidity %                   |
 | `base_pressure`                | Base pressure for the region in millibars.                            |
-| `base_acid`                    | Base acid for the region in ? units. Value >= 1 is considered acidic. |
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
 | `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
+| `weather_types`				 | Ids of the weather types allowed in this region. When choosing weather they will be iterated over in the order they are listed and the last valid entry will be the weather. |
 
 ### Example
 
@@ -503,11 +505,23 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_temperature": 6.5,
 		"base_humidity": 66.0,
 		"base_pressure": 1015.0,
-		"base_acid": 0.0,
 		"base_wind": 5.7,
 		"base_wind_distrib_peaks": 30,
 		"base_wind_season_variation": 64,
-		"base_acid": 0.0
+		"weather_types": [
+			"clear",
+			"sunny",
+			"cloudy",
+			"light_drizzle",
+			"drizzle",
+			"rain",
+			"thunder",
+			"lightning",
+			"flurries",
+			"snowing",
+			"snowstorm"
+      	]
+    	},
 	}
 }
 ```
@@ -550,7 +564,7 @@ those values which should be changed.
 | Identifier |                                         Description                                         |
 | ---------- | ------------------------------------------------------------------------------------------- |
 | `type`     | Type identifier. Must be "region_overlay".                                                  |
-| `id`       | Unique identfier for this region overlay.                                                   |
+| `id`       | Unique identifier for this region overlay.                                                   |
 | `regions`  | A list of regions to which this overlay should be applied. "all" will apply to all regions. |
 
 All additional fields and sections are as defined for a `region_overlay`.

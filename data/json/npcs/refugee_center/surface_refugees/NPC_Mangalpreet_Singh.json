@@ -69,6 +69,18 @@
     "//": "common talk responses",
     "id": [ "TALK_REFUGEE_Mangalpreet_2", "TALK_REFUGEE_Mangalpreet_Background", "TALK_REFUGEE_Mangalpreet_Situation" ],
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
+      },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Mangalpreet_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Mangalpreet_Situation" }
     ]
@@ -76,37 +88,25 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Mangalpreet_Singh",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Hello again.", "Hi there.", "Oh, hello there." ],
-      "no": "Ah!  You are new.  I'm sorry, I'm Mangalpreet."
+    "dynamic_line": "*is a well-kept middle aged woman with dark hair tied back in a long braid.  She looks surprised as you approach.  \"Ah!  You are new.  I'm sorry, I'm Mangalpreet.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Mangalpreet_1a" }
+      ]
     },
     "responses": [
-      {
-        "text": "Nice to meet you, Mangalpreet.",
-        "effect": { "u_add_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Mangalpreet_1_firstmeet"
-      },
-      {
-        "text": "Hi, Mangalpreet.",
-        "topic": "TALK_REFUGEE_Mangalpreet_2",
-        "condition": { "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
-        "text": "Hi Mangalpreet, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "Hi Mangalpreet.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "Nice to meet you, Mangalpreet.", "topic": "TALK_REFUGEE_Mangalpreet_1_firstmeet" },
+      { "text": "Hi Mangalpreet, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mangalpreet_1a",
+    "dynamic_line": { "and": [ "*gives you a solemn nod of recognition.  \"", [ "Hello again.", "Hi there.", "Oh, hello there." ], "\"" ] },
+    "responses": [
+      { "text": "Hi, Mangalpreet.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
+      { "text": "Hi Mangalpreet.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -136,7 +136,28 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_Situation",
-    "dynamic_line": "I have my family.  I have the Guru Granth Sahib.  I have these things, but I do not have peace.  No one here does.  We are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim.",
+    "dynamic_line": {
+      "and": [
+        "I have my family.  I have the Guru Granth Sahib",
+        {
+          "u_compare_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "op": ">=",
+          "value": 7,
+          "yes": ".  For a while, I thought these might not be enough but… I am allowing myself to hope.  Still, w",
+          "no": ".  I have these things, but I do not have peace.  No one here does.  W"
+        },
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": "e have so much work to do to make a home here.",
+          "no": "e are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim."
+        }
+      ]
+    },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

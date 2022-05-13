@@ -1,10 +1,12 @@
+#include <iosfwd>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "creature.h"
 #include "enums.h"
 #include "generic_factory.h"
@@ -13,7 +15,8 @@
 #include "map.h"
 #include "mapdata.h"
 #include "optional.h"
-#include "string_id.h"
+#include "submap.h"
+#include "trap.h"
 #include "type_id.h"
 
 struct tripoint;
@@ -64,14 +67,12 @@ static void load_transform_results( const JsonObject &jsi, const std::string &js
         list.add( T( jsi.get_string( json_key ) ), 1 );
         return;
     }
-    for( const JsonValue entry : jsi.get_array( json_key ) ) {
-        if( entry.test_array() ) {
-            JsonArray inner = entry.get_array();
-            list.add( T( inner.get_string( 0 ) ), inner.get_int( 1 ) );
-        } else {
-            list.add( T( entry.get_string() ), 1 );
-        }
-    }
+    load_weighted_list( jsi.get_member( json_key ), list, 1 );
+}
+
+void ter_furn_transform::reset()
+{
+    ter_furn_transform_factory.reset();
 }
 
 template<class T>
@@ -87,7 +88,6 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
     std::string input;
     mandatory( jo, was_loaded, "id", input );
     id = ter_furn_transform_id( input );
-    optional( jo, was_loaded, "fail_message", fail_message, "" );
 
     if( jo.has_member( "terrain" ) ) {
         for( JsonObject ter_obj : jo.get_array( "terrain" ) ) {
@@ -118,6 +118,32 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
             }
         }
     }
+
+    if( jo.has_member( "field" ) ) {
+        for( JsonObject field_obj : jo.get_array( "field" ) ) {
+            ter_furn_data<field_type_id> cur_results = ter_furn_data<field_type_id>();
+            cur_results.load( field_obj );
+
+            for( const std::string valid_field : field_obj.get_array( "valid_field" ) ) {
+                field_transform.emplace( field_type_id( valid_field ), cur_results );
+            }
+        }
+    }
+
+    if( jo.has_member( "trap" ) ) {
+        for( JsonObject trap_obj : jo.get_array( "trap" ) ) {
+            ter_furn_data<trap_str_id> cur_results = ter_furn_data<trap_str_id>();
+            cur_results.load( trap_obj );
+
+            for( const std::string valid_trap : trap_obj.get_array( "valid_trap" ) ) {
+                trap_transform.emplace( trap_str_id( valid_trap ), cur_results );
+            }
+
+            for( const std::string valid_trap : trap_obj.get_array( "valid_flags" ) ) {
+                trap_flag_transform.emplace( valid_trap, cur_results );
+            }
+        }
+    }
 }
 
 template<class T, class K>
@@ -132,90 +158,93 @@ cata::optional<ter_furn_data<T>> ter_furn_transform::find_transform( const
 }
 
 template<class T, class K>
-cata::optional<T> ter_furn_transform::next( const std::map<K, ter_furn_data<T>> &list,
+cata::optional<std::pair<T, std::pair<std::string, bool>>> ter_furn_transform::next( const
+        std::map<K, ter_furn_data<T>> &list,
         const K &key ) const
 {
     const cata::optional<ter_furn_data<T>> result = find_transform( list, key );
-    if( result ) {
-        return result->pick();
+    if( result.has_value() ) {
+        return std::make_pair( result.value().pick().value(), std::make_pair( result->message,
+                               result->message_good ) );
     }
     return cata::nullopt;
 }
 
-cata::optional<ter_str_id> ter_furn_transform::next_ter( const ter_str_id &ter ) const
+cata::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_ter(
+    const ter_str_id &ter ) const
 {
     return next( ter_transform, ter );
 }
 
-cata::optional<ter_str_id> ter_furn_transform::next_ter( const std::string &flag ) const
+cata::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_ter(
+    const std::string &flag ) const
 {
     return next( ter_flag_transform, flag );
 }
 
-cata::optional<furn_str_id> ter_furn_transform::next_furn( const furn_str_id &furn ) const
+cata::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_furn(
+    const furn_str_id &furn ) const
 {
     return next( furn_transform, furn );
 }
 
-cata::optional<furn_str_id> ter_furn_transform::next_furn( const std::string &flag ) const
+cata::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_furn(
+    const std::string &flag ) const
 {
     return next( furn_flag_transform, flag );
 }
 
-template<class T, class K>
-bool ter_furn_transform::add_message( const std::map<K, ter_furn_data<T>> &list, const K &key,
-                                      const Creature &critter, const tripoint &location ) const
+cata::optional<std::pair<field_type_id, std::pair<std::string, bool>>>
+ter_furn_transform::next_field(
+    const field_type_id &field ) const
 {
-    const cata::optional<ter_furn_data<T>> result = find_transform( list, key );
-    if( result && !result->has_msg() ) {
-        if( critter.sees( location ) ) {
-            result->add_msg( critter );
-        }
-        return true;
-    }
-    return false;
+    return next( field_transform, field );
 }
 
-void ter_furn_transform::add_all_messages( const Creature &critter, const tripoint &location ) const
+cata::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_trap(
+    const trap_str_id &trap ) const
 {
-    add_all_messages( get_map(), critter, location );
+    return next( trap_transform, trap );
 }
 
-void ter_furn_transform::add_all_messages( const map &m, const Creature &critter,
-        const tripoint &location ) const
+cata::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_trap(
+    const std::string &flag ) const
 {
+    return next( trap_flag_transform, flag );
+}
+
+void ter_furn_transform::transform( const tripoint &location, bool shifted ) const
+{
+    transform( get_map(), location, shifted );
+}
+
+void ter_furn_transform::transform( map &m, const tripoint &location, bool shifted ) const
+{
+    avatar &you = get_avatar();
     const ter_id ter_at_loc = m.ter( location );
-    if( !add_message( ter_transform, ter_at_loc->id, critter, location ) ) {
-        for( const std::pair<const std::string, ter_furn_data<ter_str_id>> &data : ter_flag_transform ) {
-            if( data.second.has_msg() && ter_at_loc->has_flag( data.first ) ) {
-                data.second.add_msg( critter );
-                break;
+    cata::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> ter_potential = next_ter(
+                ter_at_loc->id );
+    const furn_id furn_at_loc = m.furn( location );
+    cata::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> furn_potential = next_furn(
+                furn_at_loc->id );
+    const trap_str_id trap_at_loc = m.maptile_at( location ).get_trap().id();
+    cata::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> trap_potential = next_trap(
+                trap_at_loc );
+
+    const field &field_at_loc = m.field_at( location );
+    for( auto &fld : field_at_loc ) {
+        cata::optional<std::pair<field_type_id, std::pair<std::string, bool>>> field_potential = next_field(
+                    fld.first );
+        if( field_potential ) {
+            m.add_field( location, field_potential->first, fld.second.get_field_intensity(),
+                         fld.second.get_field_age(), true );
+            m.remove_field( location, fld.first );
+            if( !shifted && you.sees( location ) ) {
+                you.add_msg_if_player( field_potential->second.first,
+                                       field_potential->second.second ? m_good : m_bad );
             }
         }
     }
-
-    const furn_id furn_at_loc = m.furn( location );
-    if( !add_message( furn_transform, furn_at_loc->id, critter, location ) ) {
-        for( const std::pair<const std::string, ter_furn_data<furn_str_id>> &data : furn_flag_transform ) {
-            if( data.second.has_msg() && furn_at_loc->has_flag( data.first ) ) {
-                data.second.add_msg( critter );
-                break;
-            }
-        }
-    }
-}
-
-void ter_furn_transform::transform( const tripoint &location ) const
-{
-    transform( get_map(), location );
-}
-
-void ter_furn_transform::transform( map &m, const tripoint &location ) const
-{
-    const ter_id ter_at_loc = m.ter( location );
-    cata::optional<ter_str_id> ter_potential = next_ter( ter_at_loc->id );
-    const furn_id furn_at_loc = m.furn( location );
-    cata::optional<furn_str_id> furn_potential = next_furn( furn_at_loc->id );
 
     if( !ter_potential ) {
         for( const std::pair<const std::string, ter_furn_data<ter_str_id>> &flag_result :
@@ -241,11 +270,37 @@ void ter_furn_transform::transform( map &m, const tripoint &location ) const
         }
     }
 
+    if( !trap_potential ) {
+        for( const std::pair<const std::string, ter_furn_data<trap_str_id>> &flag_result :
+             trap_flag_transform ) {
+            if( trap_at_loc->has_flag( flag_id( flag_result.first ) ) ) {
+                trap_potential = next_trap( flag_result.first );
+                if( trap_potential ) {
+                    break;
+                }
+            }
+        }
+    }
+
     if( ter_potential ) {
-        m.ter_set( location, *ter_potential );
+        m.ter_set( location, ter_potential->first );
+        if( !shifted && you.sees( location ) ) {
+            you.add_msg_if_player( ter_potential->second.first, ter_potential->second.second ? m_good : m_bad );
+        }
     }
     if( furn_potential ) {
-        m.furn_set( location, *furn_potential );
+        m.furn_set( location, furn_potential->first );
+        if( !shifted && you.sees( location ) ) {
+            you.add_msg_if_player( furn_potential->second.first,
+                                   furn_potential->second.second ? m_good : m_bad );
+        }
+    }
+    if( trap_potential ) {
+        m.trap_set( location, trap_potential->first );
+        if( !shifted && you.sees( location ) ) {
+            you.add_msg_if_player( trap_potential->second.first,
+                                   trap_potential->second.second ? m_good : m_bad );
+        }
     }
 }
 
@@ -263,10 +318,4 @@ template<class T>
 bool ter_furn_data<T>::has_msg() const
 {
     return !message.empty();
-}
-
-template<class T>
-void ter_furn_data<T>::add_msg( const Creature &critter ) const
-{
-    critter.add_msg_if_player( message_good ? m_good : m_bad, message );
 }

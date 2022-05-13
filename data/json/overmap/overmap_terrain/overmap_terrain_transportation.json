@@ -9,7 +9,7 @@
     "see_cost": 2,
     "extras": "road",
     "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -21,7 +21,7 @@
     "see_cost": 2,
     "extras": "road",
     "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -37,7 +37,7 @@
     "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
-    "flags": [ "LINEAR" ]
+    "flags": [ "LINEAR", "IGNORE_ROTATION_FOR_ADJACENCY" ]
   },
   {
     "type": "overmap_terrain",
@@ -53,24 +53,40 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "4way_road",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "road",
-    "sym": "┼",
-    "color": "light_gray",
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bridge",
+    "abstract": "generic_bridge",
     "copy-from": "generic_transportation",
     "name": "bridge",
     "sym": "│",
     "color": "white",
-    "see_cost": 2,
-    "extras": "bridge",
-    "mapgen": [ { "method": "builtin", "name": "bridge" } ],
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bridge",
+    "copy-from": "generic_bridge",
+    "color": "blue",
     "flags": [ "RIVER" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bridge_road",
+    "copy-from": "generic_bridge",
+    "name": "bridge (overpass)"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bridgehead_ground",
+    "copy-from": "generic_bridge",
+    "name": "bridgehead (ground)",
+    "sym": "v",
+    "extras": "bridgehead_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bridgehead_ramp",
+    "copy-from": "generic_bridge",
+    "name": "bridgehead (ramp)",
+    "sym": "^"
   },
   {
     "type": "overmap_terrain",
@@ -101,14 +117,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dirtroad",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "dirt road",
-    "sym": "#",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "railroad",
     "name": "railroad",
     "color": "light_green",
@@ -118,7 +126,7 @@
     "mapgen_end": [ { "method": "builtin", "name": "railroad_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "railroad_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "railroad_four_way" } ],
-    "flags": [ "LINEAR" ]
+    "flags": [ "LINEAR", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -128,7 +136,7 @@
     "color": "light_cyan",
     "see_cost": 2,
     "mapgen": [ { "method": "builtin", "name": "railroad_bridge" } ],
-    "flags": [ "RIVER" ]
+    "flags": [ "RIVER", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -137,7 +145,8 @@
     "sym": "┼",
     "color": "red",
     "see_cost": 2,
-    "extras": "road"
+    "extras": "road",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "abstract": "generic_railroad_station",
@@ -193,7 +202,6 @@
     "type": "overmap_terrain",
     "id": "forest_trail",
     "name": "forest trail",
-    "sym": "T",
     "color": "green",
     "mapgen_straight": [ { "method": "builtin", "name": "forest_trail_straight" } ],
     "mapgen_curved": [ { "method": "builtin", "name": "forest_trail_curved" } ],
@@ -270,6 +278,22 @@
     "mapgen_end": [ { "method": "builtin", "name": "subway_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
+    "spawns": { "group": "GROUP_SUBWAY", "population": [ 1, 3 ], "chance": 66 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway",
+    "name": "subway",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "extras": "lab_subway",
+    "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
+    "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
+    "mapgen_end": [ { "method": "builtin", "name": "subway_end" } ],
+    "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
+    "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
+    "spawns": { "group": "GROUP_SUBWAY_LAB", "population": [ 1, 4 ], "chance": 25 },
     "flags": [ "LINEAR" ]
   },
   {
@@ -421,8 +445,6 @@
     "id": [
       "parking_garage_down_0",
       "parking_garage_down_1",
-      "parking_garage_0_0",
-      "parking_garage_0_1",
       "parking_garage_1_0",
       "parking_garage_1_1",
       "parking_garage_2_0",
@@ -435,6 +457,21 @@
     "sym": "O",
     "color": "dark_gray",
     "see_cost": 5,
-    "extras": "build"
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "parking_garage_0_0", "parking_garage_0_1" ],
+    "copy-from": "parking_garage_1_0",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_lot",
+    "copy-from": "generic_city_building",
+    "name": "parking lot",
+    "sym": "O",
+    "color": "dark_gray"
   }
 ]

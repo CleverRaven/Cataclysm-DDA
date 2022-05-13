@@ -1,38 +1,23 @@
 #include "magic_enchantment.h"
 
 #include <cstdlib>
-#include <memory>
 #include <set>
+#include <string>
 
+#include "calendar.h"
 #include "character.h"
+#include "condition.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
+#include "item.h"
 #include "json.h"
 #include "map.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 #include "units.h"
-
-template <typename E> struct enum_traits;
-
-template<>
-struct enum_traits<enchantment::has> {
-    static constexpr enchantment::has last = enchantment::has::NUM_HAS;
-};
-
-template<>
-struct enum_traits<enchantment::condition> {
-    static constexpr enchantment::condition last = enchantment::condition::NUM_CONDITION;
-};
-
-template<>
-struct enum_traits<enchant_vals::mod> {
-    static constexpr enchant_vals::mod last = enchant_vals::mod::NUM_MOD;
-};
 
 namespace io
 {
@@ -46,8 +31,7 @@ namespace io
         case enchantment::has::WORN: return "WORN";
         case enchantment::has::NUM_HAS: break;
         }
-        debugmsg( "Invalid enchantment::has" );
-        abort();
+        cata_fatal( "Invalid enchantment::has" );
     }
 
     template<>
@@ -55,12 +39,12 @@ namespace io
     {
         switch ( data ) {
         case enchantment::condition::ALWAYS: return "ALWAYS";
-        case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
-        case enchantment::condition::UNDERWATER: return "UNDERWATER";
+        case enchantment::condition::ACTIVE: return "ACTIVE";
+        case enchantment::condition::INACTIVE: return "INACTIVE";
+        case enchantment::condition::DIALOG_CONDITION: return "DIALOG_CONDITION";
         case enchantment::condition::NUM_CONDITION: break;
         }
-        debugmsg( "Invalid enchantment::condition" );
-        abort();
+        cata_fatal( "Invalid enchantment::condition" );
     }
 
     template<>
@@ -83,22 +67,33 @@ namespace io
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
             case enchant_vals::mod::PAIN: return "PAIN";
             case enchant_vals::mod::BONUS_DAMAGE: return "BONUS_DAMAGE";
+            case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
-            case enchant_vals::mod::SPELL_NOISE: return "SPELL_NOISE";
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE: return "SIGHT_RANGE";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
-            case enchant_vals::mod::CARRY_VOLUME: return "CARRY_VOLUME";
+            case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchant_vals::mod::SLEEPY: return "SLEEPY";
+            case enchant_vals::mod::LUMINATION: return "LUMINATION";
+            case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
+            case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
+            case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
+            case enchant_vals::mod::MAP_MEMORY: return "MAP_MEMORY";
+            case enchant_vals::mod::READING_EXP: return "READING_EXP";
+            case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
+            case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
+            case enchant_vals::mod::RECOIL_MODIFIER: return "RECOIL_MODIFIER";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -108,6 +103,16 @@ namespace io
             case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchant_vals::mod::ARMOR_BULLET: return "ARMOR_BULLET";
+            case enchant_vals::mod::EXTRA_BASH: return "EXTRA_BASH";
+            case enchant_vals::mod::EXTRA_CUT: return "EXTRA_CUT";
+            case enchant_vals::mod::EXTRA_STAB: return "EXTRA_STAB";
+            case enchant_vals::mod::EXTRA_BULLET: return "EXTRA_BULLET";
+            case enchant_vals::mod::EXTRA_HEAT: return "EXTRA_HEAT";
+            case enchant_vals::mod::EXTRA_COLD: return "EXTRA_COLD";
+            case enchant_vals::mod::EXTRA_ELEC: return "EXTRA_ELEC";
+            case enchant_vals::mod::EXTRA_ACID: return "EXTRA_ACID";
+            case enchant_vals::mod::EXTRA_BIO: return "EXTRA_BIO";
+            case enchant_vals::mod::ITEM_DAMAGE_PURE: return "ITEM_DAMAGE_PURE";
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
@@ -135,8 +140,7 @@ namespace io
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::NUM_MOD: break;
         }
-        debugmsg( "Invalid enchant_vals::mod" );
-        abort();
+        cata_fatal( "Invalid enchant_vals::mod" );
     }
     // *INDENT-ON*
 } // namespace io
@@ -163,6 +167,34 @@ void enchantment::load_enchantment( const JsonObject &jo, const std::string &src
     spell_factory.load( jo, src );
 }
 
+void enchantment::reset()
+{
+    spell_factory.reset();
+}
+
+enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const std::string &src,
+        std::string &inline_id )
+{
+    if( jv.test_string() ) {
+        return enchantment_id( jv.get_string() );
+    } else if( jv.test_object() ) {
+        if( inline_id.empty() ) {
+            jv.throw_error( "Inline enchantment cannot be created without an id." );
+        }
+        if( spell_factory.is_valid( enchantment_id( inline_id ) ) ) {
+            jv.throw_error( "Inline enchantment " + inline_id +
+                            " cannot be created as an enchantment already has this id." );
+        }
+
+        enchantment inline_enchant;
+        inline_enchant.load( jv.get_object(), src, inline_id );
+        spell_factory.insert( inline_enchant );
+        return enchantment_id( inline_id );
+    } else {
+        jv.throw_error( "Enchantment needs to be either string or enchantment object." );
+    }
+}
+
 bool enchantment::is_active( const Character &guy, const item &parent ) const
 {
     if( !guy.has_item( parent ) ) {
@@ -180,22 +212,26 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
-    return is_active( guy );
+    return is_active( guy, parent.active );
 }
 
-bool enchantment::is_active( const Character &guy ) const
+bool enchantment::is_active( const Character &guy, const bool active ) const
 {
+    if( active_conditions.second == condition::ACTIVE ) {
+        return active;
+    }
+
+    if( active_conditions.second == condition::INACTIVE ) {
+        return !active;
+    }
 
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }
 
-    if( active_conditions.second == condition::UNDERGROUND ) {
-        return guy.pos().z < 0;
-    }
-
-    if( active_conditions.second == condition::UNDERWATER ) {
-        return get_map().is_divable( guy.pos() );
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
+        dialogue d( get_talker_for( guy ), nullptr );
+        return dialog_condition( d );
     }
     return false;
 }
@@ -210,9 +246,29 @@ void enchantment::add_activation( const time_duration &dur, const fake_spell &fa
     intermittent_activation[dur].emplace_back( fake );
 }
 
-void enchantment::load( const JsonObject &jo, const std::string & )
+void enchantment::bodypart_changes::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "id", id, enchantment_id( "" ) );
+    optional( jo, was_loaded, "gain", gain );
+    optional( jo, was_loaded, "lose", lose );
+}
+
+void enchantment::bodypart_changes::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "gain", gain );
+    jsout.member( "lose", lose );
+    jsout.end_object();
+}
+
+void enchantment::load( const JsonObject &jo, const std::string &,
+                        const cata::optional<std::string> &inline_id )
+{
+    optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
     jo.read( "hit_you_effect", hit_you_effect );
     jo.read( "hit_me_effect", hit_me_effect );
@@ -221,7 +277,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
         for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
-            time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
+            time_duration dur = read_from_json_string<time_duration>( effect_obj.get_member( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
                 for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
@@ -239,12 +295,28 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     }
 
     active_conditions.first = io::string_to_enum<has>( jo.get_string( "has", "HELD" ) );
-    active_conditions.second = io::string_to_enum<condition>( jo.get_string( "condition",
-                               "ALWAYS" ) );
-
+    if( jo.has_string( "condition" ) ) {
+        std::string condit;
+        optional( jo, was_loaded, "condition", condit );
+        cata::optional<enchantment::condition> con = io::string_to_enum_optional<condition>( condit );
+        if( con.has_value() ) {
+            active_conditions.second = con.value();
+        } else {
+            active_conditions.second = condition::DIALOG_CONDITION;
+            read_condition<dialogue>( jo, "condition", dialog_condition, false );
+        }
+    } else if( jo.has_member( "condition" ) ) {
+        active_conditions.second = condition::DIALOG_CONDITION;
+        read_condition<dialogue>( jo, "condition", dialog_condition, false );
+    } else {
+        active_conditions.second = condition::ALWAYS;
+    }
     for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
+
+    optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
+    optional( jo, was_loaded, "mutations", mutations );
 
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
@@ -290,16 +362,32 @@ void enchantment::serialize( JsonOut &jsout ) const
     if( !intermittent_activation.empty() ) {
         jsout.member( "intermittent_activation" );
         jsout.start_object();
+        jsout.member( "effects" );
+        jsout.start_array();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-            jsout.member( "duration", pair.first );
-            jsout.start_array( "effects" );
-            for( const fake_spell &sp : pair.second ) {
-                sp.serialize( jsout );
-            }
-            jsout.end_array();
+            jsout.start_object();
+            jsout.member( "frequency", to_string_writable( pair.first ) );
+            jsout.member( "spell_effects", pair.second );
+            jsout.end_object();
         }
+        jsout.end_array();
         jsout.end_object();
     }
+
+    if( !ench_effects.empty() ) {
+        jsout.member( "ench_effects" );
+        jsout.start_array();
+        for( const std::pair<const efftype_id, int> &eff : ench_effects ) {
+            jsout.start_object();
+            jsout.member( "effect", eff.first );
+            jsout.member( "intensity", eff.second );
+            jsout.end_object();
+        }
+        jsout.end_array();
+    }
+
+    jsout.member( "modified_bodyparts", modified_bodyparts );
+    jsout.member( "mutations", mutations );
 
     jsout.member( "values" );
     jsout.start_array();
@@ -358,12 +446,45 @@ void enchantment::force_add( const enchantment &rhs )
         emitter = rhs.emitter;
     }
 
+    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
+        modified_bodyparts.emplace_back( bp );
+    }
+
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.emplace( branch );
+    }
+
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
          rhs.intermittent_activation ) {
         for( const fake_spell &fake : act_pair.second ) {
             intermittent_activation[act_pair.first].emplace_back( fake );
         }
     }
+}
+
+void enchantment::set_has( enchantment::has value )
+{
+    active_conditions.first = value;
+}
+
+void enchantment::add_value_add( enchant_vals::mod value, int add_value )
+{
+    values_add[value] = add_value;
+}
+
+void enchantment::add_value_mult( enchant_vals::mod value, float mult_value )
+{
+    values_multiply[value] = mult_value;
+}
+
+void enchantment::add_hit_me( const fake_spell &sp )
+{
+    hit_me_effect.push_back( sp );
+}
+
+void enchantment::add_hit_you( const fake_spell &sp )
+{
+    hit_you_effect.push_back( sp );
 }
 
 int enchantment::get_value_add( const enchant_vals::mod value ) const
@@ -384,9 +505,51 @@ double enchantment::get_value_multiply( const enchant_vals::mod value ) const
     return found->second;
 }
 
+double enchantment::modify_value( const enchant_vals::mod mod_val, double value ) const
+{
+    value += get_value_add( mod_val );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::energy enchantment::modify_value( const enchant_vals::mod mod_val,
+        units::energy value ) const
+{
+    value += units::from_millijoule<int>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::mass enchantment::modify_value( const enchant_vals::mod mod_val,
+                                       units::mass value ) const
+{
+    value += units::from_gram<int>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
 int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) const
 {
     return get_value_multiply( value_type ) * base_value;
+}
+
+bool enchantment::modifies_bodyparts() const
+{
+    return !modified_bodyparts.empty();
+}
+
+body_part_set enchantment::modify_bodyparts( const body_part_set &unmodified ) const
+{
+    body_part_set modified( unmodified );
+    for( const enchantment::bodypart_changes &changes : modified_bodyparts ) {
+        if( !changes.gain.is_empty() ) {
+            modified.set( changes.gain );
+        }
+        if( !changes.lose.is_empty() ) {
+            modified.reset( changes.lose );
+        }
+    }
+    return modified;
 }
 
 void enchantment::activate_passive( Character &guy ) const
@@ -403,9 +566,6 @@ void enchantment::activate_passive( Character &guy ) const
     guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
     guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
 
-    guy.mod_speed_bonus( get_value_add( enchant_vals::mod::SPEED ) );
-    guy.mod_speed_bonus( mult_bonus( enchant_vals::mod::SPEED, guy.get_speed_base() ) );
-
     guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
     guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 
@@ -413,7 +573,7 @@ void enchantment::activate_passive( Character &guy ) const
         get_map().emit_field( guy.pos(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
-        guy.add_effect( eff.first, 1_seconds, num_bp, false, eff.second );
+        guy.add_effect( eff.first, 1_seconds, false, eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
          intermittent_activation ) {
@@ -452,7 +612,7 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
-                                      caster.name );
+                                      caster.get_name() );
         sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
     } else  if( target != nullptr ) {
         const Creature &trg_crtr = *target;
@@ -465,8 +625,16 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
-                                      caster.name, trg_crtr.disp_name() );
+                                      caster.get_name(), trg_crtr.disp_name() );
 
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }
+}
+
+bool enchantment::operator==( const enchantment &rhs ) const
+{
+    return this->id == rhs.id &&
+           this->get_mutations() == rhs.get_mutations() &&
+           this->values_multiply == rhs.values_multiply &&
+           this->values_add == rhs.values_add;
 }

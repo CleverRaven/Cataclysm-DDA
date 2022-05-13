@@ -52,7 +52,7 @@ static bool nameExistsInContext( const DeclContext *Context, const std::string &
 {
     for( const Decl *D : Context->decls() ) {
         if( const NamedDecl *ND = dyn_cast<NamedDecl>( D ) ) {
-            if( ND->getName() == Name ) {
+            if( ND->getIdentifier() && ND->getName() == Name ) {
                 return true;
             }
         }
@@ -83,11 +83,6 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
 {
     const VarDecl *XDecl = Result.Nodes.getNodeAs<VarDecl>( "xdecl" );
     if( !XDecl ) {
-        return;
-    }
-
-    // Only one modification per function
-    if( !Check.alteredFunctions.insert( getContainingFunction( Result, XDecl ) ).second ) {
         return;
     }
 
@@ -135,6 +130,20 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
         return;
     }
 
+    // Only one modification per function
+    const FunctionDecl *Func = getContainingFunction( Result, XDecl );
+
+    if( !Func ) {
+        return;
+    }
+
+    auto FuncInsert = Check.alteredFunctions.emplace(
+                          Func, FunctionReplacementData{ XDecl, YDecl, ZDecl, {}, {} } );
+    if( !FuncInsert.second ) {
+        return;
+    }
+    FunctionReplacementData &FuncReplacement = FuncInsert.first->second;
+
     if( ZDecl ) {
         const Stmt *ZGrandparentStmt = GetGrandparent( ZDecl );
 
@@ -144,8 +153,8 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
     }
 
     const Expr *XInit = XDecl->getAnyInitializer();
-    const Expr *YInit = YDecl->getInit();
-    const Expr *ZInit = ZDecl ? ZDecl->getInit() : nullptr;
+    const Expr *YInit = YDecl->getAnyInitializer();
+    const Expr *ZInit = ZDecl ? ZDecl->getAnyInitializer() : nullptr;
 
     if( !XInit || !YInit || ( ZDecl && !ZInit ) ) {
         return;
@@ -213,16 +222,7 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
 
     SourceLocation EndLoc = ZDecl ? ZDecl->getEndLoc() : YDecl->getEndLoc();
     SourceRange RangeToReplace( XDecl->getBeginLoc(), EndLoc );
-    std::string Message = ZDecl ?
-                          "Variables %0, %1, and %2 could be combined into a single 'tripoint' variable." :
-                          "Variables %0 and %1 could be combined into a single 'point' variable.";
-    Check.diag( XDecl->getBeginLoc(), Message )
-            << XDecl << YDecl << ZDecl
-            << FixItHint::CreateReplacement( RangeToReplace, Replacement );
-    Check.diag( YDecl->getLocation(), "%0 variable", DiagnosticIDs::Note ) << YDecl;
-    if( ZDecl ) {
-        Check.diag( ZDecl->getLocation(), "%0 variable", DiagnosticIDs::Note ) << ZDecl;
-    }
+    FuncReplacement.Fixits.push_back( FixItHint::CreateReplacement( RangeToReplace, Replacement ) );
 }
 
 static void CheckDeclRef( CombineLocalsIntoPointCheck &Check,
@@ -234,8 +234,8 @@ static void CheckDeclRef( CombineLocalsIntoPointCheck &Check,
         return;
     }
 
-    auto Replacement = Check.usageReplacements.find( Decl );
-    if( Replacement == Check.usageReplacements.end() ) {
+    auto NewName = Check.usageReplacements.find( Decl );
+    if( NewName == Check.usageReplacements.end() ) {
         return;
     }
 
@@ -243,15 +243,51 @@ static void CheckDeclRef( CombineLocalsIntoPointCheck &Check,
         return;
     }
 
-    Check.diag( DeclRef->getBeginLoc(), "Update %0 to '%1'.", DiagnosticIDs::Note )
-            << Decl << Replacement->second
-            << FixItHint::CreateReplacement( DeclRef->getSourceRange(), Replacement->second );
+    auto Func = Check.alteredFunctions.find( getContainingFunction( Result, Decl ) );
+    if( Func == Check.alteredFunctions.end() ) {
+        Check.diag( DeclRef->getBeginLoc(), "Internal check error finding replacement data for ref",
+                    DiagnosticIDs::Error );
+        return;
+    }
+    FunctionReplacementData &Replacement = Func->second;
+    Replacement.RefReplacements.push_back(
+        DeclRefReplacementData{ DeclRef, Decl, NewName->second } );
+    Replacement.Fixits.push_back(
+        FixItHint::CreateReplacement( DeclRef->getSourceRange(), NewName->second ) );
 }
 
 void CombineLocalsIntoPointCheck::check( const MatchFinder::MatchResult &Result )
 {
     CheckDecl( *this, Result );
     CheckDeclRef( *this, Result );
+}
+
+void CombineLocalsIntoPointCheck::onEndOfTranslationUnit()
+{
+    for( const std::pair<const FunctionDecl *const, FunctionReplacementData> &p :
+         alteredFunctions ) {
+        const FunctionReplacementData &data = p.second;
+        std::string Message = data.ZDecl ?
+                              "Variables %0, %1, and %2 could be combined into a single 'tripoint' variable." :
+                              "Variables %0 and %1 could be combined into a single 'point' variable.";
+        {
+            DiagnosticBuilder Diag = diag( data.XDecl->getBeginLoc(), Message )
+                                     << data.XDecl << data.YDecl << data.ZDecl;
+            for( const FixItHint &FixIt : data.Fixits ) {
+                Diag << FixIt;
+            }
+        }
+        diag( data.YDecl->getLocation(), "%0 variable", DiagnosticIDs::Note ) << data.YDecl;
+        if( data.ZDecl ) {
+            diag( data.ZDecl->getLocation(), "%0 variable", DiagnosticIDs::Note )
+                    << data.ZDecl;
+        }
+        for( const DeclRefReplacementData &RefReplacment : data.RefReplacements ) {
+            diag( RefReplacment.DeclRef->getBeginLoc(), "Update %0 to '%1'.",
+                  DiagnosticIDs::Note )
+                    << RefReplacment.Decl << RefReplacment.NewName;
+        }
+    }
 }
 
 } // namespace cata

@@ -57,8 +57,8 @@
     "price": 1200,
     "price_postapoc": 0,
     "material": [ "ceramic" ],
-    "weight": "322 g",
-    "volume": "250 ml",
+    "weight": "375 g",
+    "volume": "375 ml",
     "bashing": 3,
     "to_hit": -1
   },
@@ -73,7 +73,7 @@
     "price_postapoc": 0,
     "material": [ "glass" ],
     "weight": "322 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "bashing": 3,
     "to_hit": -1
   },
@@ -88,7 +88,7 @@
     "price_postapoc": 0,
     "material": [ "tin" ],
     "weight": "262 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "bashing": 2,
     "to_hit": -1
   },
@@ -103,12 +103,12 @@
     "price_postapoc": 0,
     "material": [ "plastic" ],
     "weight": "130 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "bashing": 1,
     "to_hit": -1
   },
   {
-    "id": "base_cookpot",
+    "abstract": "base_cookpot",
     "name": { "str": "generic cook pot" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -125,6 +125,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "ceramic_plate",
+    "volume": "125 ml",
     "name": { "str": "ceramic plate" },
     "symbol": ",",
     "description": "A ceramic dinner plate, unremarkable in every way.",
@@ -132,13 +133,13 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "ceramic_bowl",
     "name": { "str": "ceramic bowl" },
     "symbol": ")",
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
-    "volume": "500 ml",
+    "volume": "625 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -152,13 +153,12 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "ceramic_cup",
     "name": { "str": "ceramic cup" },
     "symbol": "u",
     "description": "A light ceramic teacup.  Quite classy.",
     "copy-from": "base_ceramic_dish",
-    "proportional": { "weight": 0.6 },
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
@@ -172,13 +172,12 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "ceramic_mug",
     "name": { "str": "coffee mug" },
     "symbol": "u",
     "description": "A ceramic coffee cup with a logo on the side.",
     "copy-from": "base_ceramic_dish",
-    "proportional": { "weight": 0.8 },
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
@@ -211,7 +210,35 @@
         "text": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
       },
       { "id": "mug15", "text": "The side of the mug reads 'I wish this was wine!'" },
-      { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" }
+      { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" },
+      { "id": "mug17", "text": "A white ceramic coffee mug.  It says \"World's Best Dad!\" on the side." },
+      {
+        "id": "mug18",
+        "text": "A white ceramic coffee mug.  It says \"Great Ideas start with Great Coffee.\" on the side."
+      },
+      {
+        "id": "mug19",
+        "text": "A white ceramic coffee mug.  On the side is a glass of wine and a cup of coffee both saying \"She loves me more!\""
+      },
+      {
+        "id": "mug20",
+        "text": "A white ceramic coffee mug.  It says \"This is a designer mug.  It fuels designers.\" on the side."
+      },
+      { "id": "mug21", "text": "A white ceramic coffee mug.  On the side is a winking woman in lingerie." },
+      {
+        "id": "mug22",
+        "text": "A white ceramic coffee mug.  It says \"You're my definition of perfect.  <3\" on the side."
+      },
+      {
+        "id": "mug23",
+        "text": "A white ceramic coffee mug.  It says \"You've been poisoned.\" on the bottom, inside of it."
+      },
+      {
+        "id": "mug24",
+        "text": "A white ceramic coffee mug.  On the side is a dog wearing a hat, sat in a burning room, saying \"This is fine.\""
+      },
+      { "id": "mug25", "text": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it." },
+      { "id": "mug26", "text": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side." }
     ]
   },
   {
@@ -227,7 +254,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "tin_cup",
     "name": { "str": "tin cup" },
     "symbol": "u",
@@ -248,7 +275,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "bowl_pewter",
     "name": { "str": "pewter bowl" },
     "description": "A small pewter serving bowl without a lid.  Holds 250 ml of liquid.",
@@ -278,13 +305,13 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "glass",
     "name": { "str": "drinking glass", "str_pl": "drinking glasses" },
     "symbol": "U",
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
-    "volume": "600 ml",
+    "volume": "620 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -298,8 +325,9 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "wine_glass",
+    "volume": "262 ml",
     "name": { "str": "wine glass", "str_pl": "wine glasses" },
     "proportional": { "weight": 0.5 },
     "symbol": "Y",
@@ -318,13 +346,13 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "glass_bowl",
     "name": { "str": "glass bowl" },
     "symbol": "u",
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
-    "volume": "500 ml",
+    "volume": "620 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -348,7 +376,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "tumbler_plastic",
     "name": { "str": "plastic tumbler" },
     "symbol": "U",
@@ -368,12 +396,12 @@
   {
     "id": "bowl_plastic",
     "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "plastic bowl" },
+    "category": "container",
+    "name": { "str": "plastic tupperware" },
     "symbol": "u",
-    "description": "A plastic bowl with a convenient sealing lid.  Holds 750 ml of liquid.",
+    "description": "A piece of plastic tupperware with a tupperware lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
-    "volume": "750 ml",
+    "volume": "787 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -388,7 +416,7 @@
   {
     "id": "plastic_bowl_kids",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "kiddie bowl" },
     "symbol": "u",
     "proportional": { "weight": 0.6, "volume": 0.5 },
@@ -422,7 +450,7 @@
   {
     "id": "sippy_cup",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "sippy cup" },
     "symbol": "u",
     "proportional": { "weight": 0.4, "volume": 0.5 },
@@ -488,7 +516,6 @@
     "description": "A plastic spoon designed for use by children.",
     "looks_like": "spoon",
     "copy-from": "base_plastic_silverware",
-    "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "kspoon1", "text": "This spoon is striped in bright primary colors." },
       { "id": "kspoon2", "text": "This spoon is styled to look like a bulldozer." },
@@ -523,7 +550,7 @@
     "id": "plastic_straw",
     "name": { "str": "plastic straw" },
     "proportional": { "weight": 0.7, "volume": 0.5 },
-    "description": "A plastic straw, for drinking things and making litter",
+    "description": "A plastic straw, for drinking things and making litter.",
     "copy-from": "base_plastic_silverware"
   },
   {
@@ -605,6 +632,7 @@
     "price_postapoc": 0,
     "weight": "28 g",
     "volume": "15 ml",
+    "longest_side": "23 cm",
     "material": [ "wood" ],
     "bashing": 1,
     "cutting": 1,
@@ -684,6 +712,7 @@
     "name": { "str": "rolling pin" },
     "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as a very effective club.",
     "weight": "725 g",
+    "longest_side": "45 cm",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
@@ -703,7 +732,8 @@
     "material": [ "steel" ],
     "color": "light_gray",
     "weight": "550 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
+    "longest_side": "23 cm",
     "bashing": 6,
     "pocket_data": [
       {
@@ -725,7 +755,8 @@
     "material": [ "iron" ],
     "color": "dark_gray",
     "weight": "3000 g",
-    "volume": "2 L",
+    "volume": "2375 ml",
+    "longest_side": "24 cm",
     "bashing": 10,
     "pocket_data": [
       {
@@ -747,7 +778,8 @@
     "material": [ "copper" ],
     "color": "light_red",
     "weight": "750 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
+    "longest_side": "23 cm",
     "bashing": 6,
     "to_hit": -2,
     "pocket_data": [
@@ -764,13 +796,14 @@
     "type": "GENERIC",
     "category": "tools",
     "id": "casserole",
-    "name": { "str": "casserole" },
+    "name": { "str": "casserole pot" },
     "description": "A ceramic pot made for both cooking and serving, particularly one-pot dinners.",
     "copy-from": "base_cookpot",
     "material": [ "ceramic" ],
     "color": "white",
     "weight": "650 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
+    "longest_side": "23 cm",
     "bashing": 4,
     "pocket_data": [
       {
@@ -793,6 +826,7 @@
     "color": "light_gray",
     "weight": "2490 g",
     "volume": "12800 ml",
+    "longest_side": "25 cm",
     "bashing": 8,
     "pocket_data": [
       {
@@ -811,7 +845,8 @@
     "name": { "str": "canning pot" },
     "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
     "weight": "5625 g",
-    "volume": "25 L",
+    "volume": "26250 ml",
+    "longest_side": "32 cm",
     "price": 20000,
     "to_hit": -2,
     "bashing": 10,
@@ -832,6 +867,34 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "pot_canning_clay",
+    "type": "TOOL",
+    "name": { "str": "clay canning pot" },
+    "looks_like": "pot_canning",
+    "description": "A very large 25 liter earthenware pot, primarily meant for canning food via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
+    "weight": "8440 g",
+    "volume": "30 L",
+    "longest_side": "35 cm",
+    "price": 10000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "clay" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "25 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "type": "GENERIC",
     "category": "tools",
     "id": "pan",
@@ -841,7 +904,8 @@
     "material": [ "iron" ],
     "color": "dark_gray",
     "weight": "2628 g",
-    "volume": "1 L",
+    "volume": "1335 ml",
+    "longest_side": "36 cm",
     "bashing": 12,
     "to_hit": -3,
     "pocket_data": [
@@ -868,6 +932,7 @@
     "looks_like": "pan",
     "weight": "528 g",
     "volume": "1 L",
+    "longest_side": "35 cm",
     "bashing": 8,
     "to_hit": -2,
     "pocket_data": [
@@ -893,7 +958,8 @@
     "color": "light_red",
     "looks_like": "pan",
     "weight": "628 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
+    "longest_side": "35 cm",
     "bashing": 7,
     "to_hit": -2,
     "pocket_data": [
@@ -915,7 +981,8 @@
     "name": { "str": "makeshift pot" },
     "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
     "weight": "6000 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
+    "longest_side": "20 cm",
     "price": 200,
     "price_postapoc": 5,
     "to_hit": 1,
@@ -933,7 +1000,8 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pot_makeshift_copper",
@@ -942,7 +1010,8 @@
     "name": { "str": "makeshift copper pot" },
     "description": "A cooking pot crudely hammered out of copper.  Good enough to cook food and boil water, but not as useful as proper cookware.",
     "weight": "884 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
+    "longest_side": "20 cm",
     "price": 200,
     "price_postapoc": 5,
     "to_hit": 1,
@@ -960,7 +1029,8 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "type": "GENERIC",
@@ -972,7 +1042,7 @@
     "material": [ "steel" ],
     "color": "light_gray",
     "weight": "728 g",
-    "volume": "1500 ml",
+    "volume": "1575 ml",
     "bashing": 5,
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] }
@@ -1033,5 +1103,84 @@
     "bashing": 2,
     "to_hit": -1,
     "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "pizza_cutter",
+    "name": { "str": "pizza cutter" },
+    "description": "A utensil used for cutting pizza.  Practically useless in combat.",
+    "bashing": 1,
+    "cutting": 2,
+    "to_hit": -2,
+    "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "icecream_scoop",
+    "name": { "str": "icecream scoop" },
+    "description": "A utensil used for scooping icecream into bowls.  It has a spring powered lever to assist.",
+    "looks_like": "spoon",
+    "flags": [ "SHEATH_KNIFE" ],
+    "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "cheese_grater",
+    "name": { "str": "cheese grater" },
+    "description": "A stainless steel cheese grater with a plastic grip.  It is used to shred cheese.",
+    "looks_like": "spoon",
+    "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "dutch_oven",
+    "name": { "str": "cast-iron dutch oven" },
+    "description": "A cast-iron dutch oven, suitable for boiling, broiling, roasting, baking, stewing, frying and any other method of cooking.",
+    "copy-from": "base_cookpot",
+    "material": [ "iron" ],
+    "color": "dark_gray",
+    "weight": "6210 g",
+    "volume": "12152 ml",
+    "longest_side": "31 cm",
+    "bashing": 8,
+    "pocket_data": [ { "max_contains_volume": "6300 ml", "max_contains_weight": "6300 g", "watertight": true, "rigid": true } ],
+    "extend": { "qualities": [ [ "OVEN", 2 ] ] }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "improvised_oven",
+    "name": { "str": "improvised oven" },
+    "description": "A large pot converted into an improvised oven suitable for basic baking on a hot surface.",
+    "copy-from": "base_cookpot",
+    "material": [ "steel" ],
+    "color": "light_gray",
+    "weight": "2490 g",
+    "volume": "12800 ml",
+    "longest_side": "25 cm",
+    "bashing": 8,
+    "pocket_data": [ { "max_contains_volume": "12 L", "max_contains_weight": "12 kg", "watertight": true, "rigid": true } ],
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "clay_dutch_oven",
+    "name": { "str": "clay pot oven" },
+    "description": "A makeshift oven made of a big clay pot with a lid, containing firebricks to hold heat and a smaller pot to bake in.",
+    "copy-from": "base_cookpot",
+    "looks_like": "pot_canning_clay",
+    "material": [ "clay" ],
+    "color": "brown",
+    "weight": "11388 g",
+    "volume": "30 L",
+    "longest_side": "35 cm",
+    "bashing": 8,
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
   }
 ]

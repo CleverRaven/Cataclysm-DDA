@@ -1,0 +1,19 @@
+[
+  {
+    "id": "afs_84k_20mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "84k 10mm 20-round magazine" },
+    "description": "A 20-round magazine for use with the Seyfert 84k.",
+    "weight": "70 g",
+    "volume": "103 ml",
+    "longest_side": "114 mm",
+    "price": 2400,
+    "material": [ "plastic", "superalloy" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "afs_10mm" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_10mm": 20 } } ]
+  }
+]

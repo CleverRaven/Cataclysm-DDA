@@ -1,0 +1,40 @@
+[
+  {
+    "id": "emit_vault_atmosphere",
+    "type": "emit",
+    "field": "fd_vault_atmosphere",
+    "intensity": 1,
+    "chance": 30
+  },
+  {
+    "id": "emit_safe_shoppers",
+    "type": "emit",
+    "field": "fd_safe_shoppers",
+    "intensity": 1,
+    "chance": 100
+  },
+  {
+    "id": "emit_everfrost",
+    "type": "emit",
+    "field": "fd_cold_air2",
+    "intensity": 3,
+    "qty": 3,
+    "chance": 100
+  },
+  {
+    "id": "emit_cold_energy_weak",
+    "type": "emit",
+    "field": "fd_cold_energy",
+    "intensity": 1,
+    "qty": 15,
+    "chance": 100
+  },
+  {
+    "id": "emit_cold_energy_strong",
+    "type": "emit",
+    "field": "fd_cold_energy",
+    "intensity": 3,
+    "qty": 300,
+    "chance": 100
+  }
+]

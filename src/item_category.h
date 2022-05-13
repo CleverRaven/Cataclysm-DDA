@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_ITEM_CATEGORY_H
 #define CATA_SRC_ITEM_CATEGORY_H
 
-#include <algorithm>
-#include <string>
+#include <iosfwd>
+#include <new>
 #include <vector>
 
 #include "flat_set.h"
@@ -11,7 +11,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class item;
 
@@ -20,10 +19,10 @@ struct zone_priority_data {
     bool was_loaded = false;
     zone_type_id id;
     bool filthy = false;
-    cata::flat_set<std::string> flags;
+    cata::flat_set<flag_id> flags;
 
-    void deserialize( JsonIn &jsin );
-    void load( JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+    void load( const JsonObject &jo );
 };
 /**
  * Contains metadata for one category of items
@@ -46,6 +45,7 @@ class item_category
     public:
         /** Unique ID of this category, used when loading from JSON. */
         item_category_id id;
+        std::vector<std::pair<item_category_id, mod_id>> src;
 
         item_category() = default;
         /**
@@ -80,6 +80,7 @@ class item_category
 
         static const std::vector<item_category> &get_all();
         static void load_item_cat( const JsonObject &jo, const std::string &src );
+        static void reset();
         void load( const JsonObject &jo, const std::string & );
 };
 

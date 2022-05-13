@@ -5,7 +5,7 @@
     "om_terrain": [ "s_gardening" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ".ppp,____,____,____,.ppp",
         ".p.p,____,____,____,.p.p",
@@ -16,14 +16,14 @@
         "..|  y@@y      y@@y  |..",
         "..|                  |..",
         "..|#$##  ttt ttt ttt |..",
-        "..|r  ?              |..",
+        "..|r  #              |..",
         "..|r A#  ttt ttt ttt O..",
         "..|   #              O..",
         "..|*---|  r rr rr r  O..",
         "..| |& |  r rr rr r  O..",
         "..| |s *  r rr rr r  |..",
         ".U|*---|             |..",
-        ".<| h  +  tttt  yyyyy|..",
+        ".<| h  *  tttt  yyyyy|..",
         ".U|IIIS|        yyyyy|..",
         "..|------O-++-O------|..",
         "..%ZZZZZ........bbbb%4..",
@@ -33,25 +33,24 @@
         "..%%%%%%%%%%%%%%%%%....."
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_thconc_floor",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
         "-": "t_wall_g",
-        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "Z": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "1": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "2": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "3": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "5": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "Q": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "B": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "p": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ] ],
-        "b": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
+        ".": "t_region_groundcover_urban",
+        "Z": "t_region_groundcover_urban",
+        "1": "t_region_groundcover_urban",
+        "2": "t_region_groundcover_urban",
+        "3": "t_region_groundcover_urban",
+        "5": "t_region_groundcover_urban",
+        "Q": "t_region_groundcover_urban",
+        "B": "t_region_groundcover_urban",
+        "p": "t_region_groundcover_urban",
+        "b": "t_region_groundcover_urban",
+        "U": "t_region_groundcover_urban",
         "O": "t_window",
         "_": "t_pavement",
-        "r": "t_floor",
         "|": "t_wall_g",
-        "?": "t_console_broken",
         "^": "t_chaingate_l",
         "%": "t_chainfence",
         "*": [ "t_door_locked", "t_door_c" ],
@@ -75,7 +74,7 @@
         "b": "f_bench",
         "U": [ "f_dumpster", "f_recycle_bin" ],
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "p": "f_region_flower",
         "Z": "f_planter"
       },
       "sealed_item": {
@@ -93,7 +92,8 @@
         "@": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },
         "s": { "item": "softdrugs", "chance": 20 },
         "t": { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] }
-      }
+      },
+      "place_loot": [ { "group": "cash_register_random", "x": 6, "y": [ 9, 11 ] } ]
     }
   },
   {

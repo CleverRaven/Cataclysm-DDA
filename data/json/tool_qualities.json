@@ -7,6 +7,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "GRASS_CUT",
+    "name": { "str": "grass cutting" }
+  },
+  {
+    "type": "tool_quality",
     "id": "CUT_FINE",
     "name": { "str": "fine cutting" },
     "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
@@ -65,6 +70,11 @@
     "type": "tool_quality",
     "id": "HAMMER_FINE",
     "name": { "str": "fine hammering" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "HAMMER_SOFT",
+    "name": { "str": "soft hammering" }
   },
   {
     "type": "tool_quality",
@@ -138,7 +148,7 @@
   {
     "type": "tool_quality",
     "id": "SCREW",
-    "name": "screw driving",
+    "name": { "str": "screw driving" },
     "usages": [ [ 1, [ "REMOVE_ALL_MODS" ] ] ]
   },
   {
@@ -158,8 +168,28 @@
   },
   {
     "type": "tool_quality",
+    "id": "DRILL_ROCK",
+    "name": { "str": "rock drilling" }
+  },
+  {
+    "type": "tool_quality",
     "id": "PRY",
     "name": { "str": "prying" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "PRYING_NAIL",
+    "name": { "str": "nail prying" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "PUNCH",
+    "name": { "str": "punch" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "WRITE",
+    "name": { "str": "pencil" }
   },
   {
     "type": "tool_quality",
@@ -186,6 +216,11 @@
     "type": "tool_quality",
     "id": "CHISEL",
     "name": { "str": "chiseling" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CHISEL_WOOD",
+    "name": { "str": "wood chiseling" }
   },
   {
     "type": "tool_quality",
@@ -250,6 +285,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "FINE_GRIND",
+    "name": { "str": "fine grinding" }
+  },
+  {
+    "type": "tool_quality",
     "id": "REAM",
     "name": { "str": "reaming" }
   },
@@ -271,7 +311,8 @@
   {
     "type": "tool_quality",
     "id": "LOCKPICK",
-    "name": { "str": "lockpicking" }
+    "name": { "str": "lockpicking" },
+    "usages": [ [ 1, [ "PICK_LOCK" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -282,5 +323,44 @@
     "type": "tool_quality",
     "id": "FILTER",
     "name": { "str": "filtration" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SUSPENDING",
+    "//": "Conceptually similar to lifting, except items with suspending do not move.",
+    "name": { "str": "suspending" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "ROPE",
+    "name": { "str": "rope" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SURFACE",
+    "//": "A flat surface, like a table or a mat. 1 would be the size of a cutting board.",
+    "name": { "str": "clean surface" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "WHEEL_FAST",
+    "//": "A tool that is capable of manipulating the lug nuts of a vehicle's wheels or smaller to replace or fasten them.",
+    "name": { "str": "wheel fastening" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "FABRIC_CUT",
+    "//": "A tool that shares a large number of qualities with cutting tools, with the added benefit of being suitable for cutting fabric to patterned shapes for tailoring.",
+    "name": { "str": "fabric cutting" },
+    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "OVEN",
+    "name": { "str": "oven cooking" },
+    "//": "A category for items that allow the even applicaton of heat to a contained object.",
+    "//2": "oven 1 represents makeshift ovens.",
+    "//3": "oven 2 represents purpose built ovens with basic temperature reglation, including dutch ovens and similar.",
+    "//4": "oven 3 represents professional ovens with fine-grained temperature regulation, suitable for the most demanding culinary application."
   }
 ]

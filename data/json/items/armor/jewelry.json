@@ -3,23 +3,32 @@
     "id": "bead_bracelet",
     "type": "ARMOR",
     "name": { "str": "beaded bracelet" },
-    "description": "A simple bracelet of string and wooden beads.  You can wear it if you like, but it won't provide any effects.  Also doubles as a set of prayer beads, if you're so inclined.",
+    "description": "A simple bracelet of string and wooden beads.  Also doubles as a set of prayer beads, if you're so inclined.",
     "looks_like": "copper_bracelet",
     "weight": "12 g",
     "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
-    "flags": [ "FANCY" ],
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown",
-    "use_action": [ "MEDITATE" ]
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "use_action": [ "MEDITATE" ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "bead_ear",
     "type": "ARMOR",
     "name": { "str": "pair of beaded earrings", "str_pl": "pairs of beaded earrings" },
-    "description": "A simple pair of earrings made of string and wooden beads.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A simple pair of earrings made of string and wooden beads.",
     "weight": "7 g",
     "volume": "1 ml",
     "price": 100,
@@ -27,23 +36,24 @@
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "gold_ear",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "bead_necklace",
     "type": "ARMOR",
     "name": { "str": "beaded necklace" },
-    "description": "A simple necklace made of string and wooden beads.  You can wear it if you like, but it won't provide any effects.  Also doubles as a set of prayer beads, if you're so inclined.",
+    "description": "A simple necklace made of string and wooden beads.  Also doubles as a set of prayer beads, if you're so inclined.",
     "looks_like": "silver_necklace",
-    "weight": "15 g",
-    "volume": "10 ml",
+    "weight": "36 g",
+    "volume": "30 ml",
     "price": 100,
     "price_postapoc": 10,
     "material": [ "wood" ],
-    "flags": [ "FANCY" ],
     "symbol": "u",
     "color": "brown",
-    "use_action": [ "MEDITATE" ]
+    "use_action": [ "MEDITATE" ],
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "bracelet_friendship",
@@ -55,10 +65,19 @@
     "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
-    "flags": [ "FANCY" ],
     "material": [ "wood", "plastic" ],
     "symbol": "[",
-    "color": "red"
+    "color": "red",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 30,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "bronze_medal",
@@ -73,7 +92,7 @@
     "symbol": "[",
     "looks_like": "copper_locket",
     "color": "brown",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_dental_grill",
@@ -81,7 +100,7 @@
     "name": { "str": "diamond dental grill" },
     "description": "Fake teeth inlaid with diamonds, worn over the teeth.  Fits horribly, but looks very shiny.  For that high-class gangsta rap look.",
     "weight": "10 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 50000,
     "price_postapoc": 250,
     "bashing": 3,
@@ -90,9 +109,8 @@
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "yellow",
-    "covers": [ "MOUTH" ],
-    "encumbrance": 10,
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
+    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
   },
   {
     "id": "garnet_dental_grill",
@@ -100,7 +118,7 @@
     "name": { "str": "garnet dental grill" },
     "description": "Fake teeth inlaid with garnets, worn over the teeth.  It looks very shiny.",
     "weight": "10 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 30000,
     "price_postapoc": 100,
     "bashing": 3,
@@ -109,9 +127,8 @@
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "red",
-    "covers": [ "MOUTH" ],
-    "encumbrance": 10,
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
+    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
   },
   {
     "id": "amethyst_dental_grill",
@@ -150,7 +167,7 @@
     "type": "ARMOR",
     "name": { "str": "ruby dental grill" },
     "copy-from": "garnet_dental_grill",
-    "description": "Fake teeth inlaid with rubys, worn over the teeth.  It looks very shiny."
+    "description": "Fake teeth inlaid with rubies, worn over the teeth.  It looks very shiny."
   },
   {
     "id": "peridot_dental_grill",
@@ -196,7 +213,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "pink",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "blue_topaz_dental_grill",
@@ -210,16 +227,25 @@
     "id": "diamond_ring",
     "type": "ARMOR",
     "name": { "str": "diamond and gold ring" },
-    "description": "A gold ring with a sparkling diamond mounted on top of it.  Back in the old days this could be worth a fortune.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with a sparkling diamond mounted on top of it.  Back in the old days this could be worth a fortune.",
     "weight": "12 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 190000,
     "price_postapoc": 100,
     "material": [ "gold" ],
     "symbol": "[",
     "looks_like": "ring_engagement",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diving_watch",
@@ -235,16 +261,16 @@
     "symbol": "[",
     "looks_like": "gold_watch",
     "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
-    "coverage": 5,
+    "sided": true,
     "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "collarpin",
     "type": "ARMOR",
     "name": { "str": "collar pin" },
-    "description": "A staple accessory for gentlemen.  Keeps your shirt collar in place and provides a more aesthetically pleasing arc to your necktie.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A staple accessory for gentlemen.  Keeps your shirt collar in place and provides a more aesthetically pleasing arc to your necktie.",
     "weight": "10 g",
     "volume": "2 ml",
     "price": 25000,
@@ -253,13 +279,13 @@
     "symbol": "[",
     "looks_like": "tieclip",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "copper_bracelet",
     "type": "ARMOR",
     "name": { "str": "copper bracelet" },
-    "description": "An old-fashioned, copper bracelet.  You can wear it if you like, but it won't provide any effects.",
+    "description": "An old-fashioned, copper bracelet.",
     "weight": "86 g",
     "volume": "5 ml",
     "price": 2500,
@@ -267,13 +293,23 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "silver_bracelet",
-    "color": "brown"
+    "color": "brown",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "flags": [ "BELTED", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "copper_ear",
     "type": "ARMOR",
     "name": { "str": "pair of copper earrings", "str_pl": "pairs of copper earrings" },
-    "description": "A pair of copper earrings.  It's pretty heavy.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of copper earrings.  They're pretty heavy.",
     "weight": "50 g",
     "volume": "1 ml",
     "price": 2900,
@@ -281,13 +317,14 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "gold_ear",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "copper_hairpin",
     "type": "ARMOR",
     "name": { "str": "copper hairpin" },
-    "description": "A hairpin made from copper.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A hairpin made from copper.",
     "weight": "2 g",
     "volume": "2 ml",
     "price": 500,
@@ -296,14 +333,13 @@
     "symbol": "[",
     "looks_like": "tieclip",
     "color": "brown",
-    "use_action": [ "PICK_LOCK" ],
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "copper_locket",
     "type": "ARMOR",
     "name": { "str": "copper locket" },
-    "description": "A circular, copper locket.  It's been tarnished with use, and has gained some dull green spots.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A circular, copper locket.  It's been tarnished with use, and has gained some dull green spots.",
     "weight": "45 g",
     "volume": "10 ml",
     "price": 1000,
@@ -311,13 +347,14 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "silver_necklace",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "copper_necklace",
     "type": "ARMOR",
     "name": { "str": "copper necklace" },
-    "description": "A simple chain of copper, with a clasp in the middle to create a necklace.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A simple chain of copper, with a clasp in the middle to create a necklace.",
     "weight": "30 g",
     "volume": "10 ml",
     "price": 3000,
@@ -325,13 +362,14 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "silver_necklace",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "copper_ring",
     "type": "ARMOR",
     "name": { "str": "copper ring" },
-    "description": "A plain, copper ring.  Not very shiny, and not very popular.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A plain, copper ring.  Not very shiny, and not very popular.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": 2000,
@@ -339,33 +377,45 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "ring_purity",
-    "color": "brown"
+    "color": "brown",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "cufflinks",
     "type": "ARMOR",
     "name": { "str": "pair of cufflinks", "str_pl": "pairs of cufflinks" },
-    "description": "An unmarked, pair of silver cufflinks.  Cufflinks are used to secure the cuffs of dress shirts - a must-have for men in formal wear.  You can wear it if you like, but it won't provide any effects.",
+    "description": "An unmarked pair of silver cufflinks.  Cufflinks are used to secure the cuffs of dress shirts - a must-have for men in formal wear.",
     "weight": "15 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 3000,
     "price_postapoc": 10,
     "material": [ "silver" ],
     "symbol": "[",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "cufflinks_intricate",
     "type": "ARMOR",
     "name": { "str": "pair of intricate cufflinks", "str_pl": "pairs of intricate cufflinks" },
-    "description": "An expensive pair of silver cufflinks, stylized with detailed overlays of gold gears and fractal patterns.  You can wear it if you like, but it won't provide any effects.",
+    "description": "An expensive pair of silver cufflinks, stylized with detailed overlays of gold gears and fractal patterns.",
     "weight": "21 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 7000,
     "price_postapoc": 50,
     "material": [ "silver", "gold" ],
     "symbol": "[",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "garnet_gold_cufflinks",
@@ -373,14 +423,14 @@
     "name": { "str_sp": "garnet and gold cufflinks" },
     "description": "A pair of cufflinks with inset garnets.",
     "weight": "15 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 3500,
     "price_postapoc": 50,
     "material": [ "gold", "gemstone" ],
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_gold_cufflinks",
@@ -467,7 +517,7 @@
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and gold cufflinks" },
-    "description": "A pair of cufflinks with inset blue topaz.",
+    "description": "A pair of cufflinks with inset blue topazes.",
     "color": "light_blue"
   },
   {
@@ -487,19 +537,27 @@
     "color": "white"
   },
   {
+    "id": "onyx_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str_sp": "onyx and gold cufflinks" },
+    "description": "A pair of cufflinks with inset onyxes.",
+    "color": "dark_gray"
+  },
+  {
     "id": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "garnet and silver cufflinks" },
     "description": "A pair of cufflinks with inset garnets.",
     "weight": "15 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 3500,
     "price_postapoc": 100,
     "material": [ "silver", "gemstone" ],
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_silver_cufflinks",
@@ -547,7 +605,22 @@
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "ruby and silver cufflinks" },
-    "description": "A pair of cufflinks with inset rubies."
+    "description": "A pair of cufflinks with inset rubies.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_cufflinks",
+        "name": { "str_sp": "ruby and silver cufflinks" },
+        "description": "A pair of cufflinks with inset rubies.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_cufflinks",
+        "name": { "str_sp": "vampire cufflinks" },
+        "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_cufflinks",
@@ -586,7 +659,7 @@
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and silver cufflinks" },
-    "description": "A pair of cufflinks with inset blue topaz.",
+    "description": "A pair of cufflinks with inset blue topazes.",
     "color": "light_blue"
   },
   {
@@ -606,19 +679,42 @@
     "color": "white"
   },
   {
+    "id": "onyx_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str_sp": "onyx and silver cufflinks" },
+    "description": "A pair of cufflinks with inset onyxes.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_cufflinks",
+        "name": { "str_sp": "onyx and silver cufflinks" },
+        "description": "A pair of cufflinks with inset onyxes.",
+        "weight": 99
+      },
+      {
+        "id": "dark_cufflinks",
+        "name": { "str_sp": "dark cufflinks" },
+        "description": "A pair of cufflinks with inset onyxes and a couple of dark silver cat decorations.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
+  },
+  {
     "id": "garnet_platinum_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "garnet and platinum cufflinks" },
     "description": "A pair of cufflinks with inset garnets.",
     "weight": "15 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 3500,
     "price_postapoc": 100,
     "material": [ "platinum", "gemstone" ],
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_platinum_cufflinks",
@@ -705,7 +801,7 @@
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and platinum cufflinks" },
-    "description": "A pair of cufflinks with inset blue topaz.",
+    "description": "A pair of cufflinks with inset blue topazes.",
     "color": "light_blue"
   },
   {
@@ -725,10 +821,18 @@
     "color": "white"
   },
   {
+    "id": "onyx_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str_sp": "onyx and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset onyxes.",
+    "color": "dark_gray"
+  },
+  {
     "id": "ear_spool",
     "type": "ARMOR",
     "name": { "str": "plug" },
-    "description": "Those round things people plug into their earlobes as earrings, also called \"ear plug\" or \"ear spool.\"  You can wear it if you like, but it won't provide any effects.",
+    "description": "Those round things people plug into their earlobes as earrings, also called \"ear plug\" or \"ear spool.\"",
     "weight": "10 g",
     "volume": "5 ml",
     "price": 1200,
@@ -736,13 +840,14 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
-    "material_thickness": 1
+    "material_thickness": 1,
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "gold bracelet" },
-    "description": "A fancy golden bracelet.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A fancy golden bracelet.",
     "weight": "40 g",
     "volume": "25 ml",
     "price": 46000,
@@ -750,7 +855,16 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 20,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_dental_grill",
@@ -766,14 +880,14 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "MOUTH" ],
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
+    "armor": [ { "covers": [ "mouth" ] } ]
   },
   {
     "id": "gold_ear",
     "type": "ARMOR",
     "name": { "str": "pair of gold earrings", "str_pl": "pairs of gold earrings" },
-    "description": "A pair of shiny gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny gold earrings.",
     "weight": "10 g",
     "volume": "1 ml",
     "price": 13000,
@@ -781,13 +895,13 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_hairpin",
     "type": "ARMOR",
     "name": { "str": "gold hairpin" },
-    "description": "A gold hairpin, designed by the rich, for the rich.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold hairpin, designed by the rich, for the rich.",
     "weight": "4 g",
     "volume": "10 ml",
     "price": 5000,
@@ -795,15 +909,13 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ],
-    "use_action": [ "PICK_LOCK" ],
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_locket",
     "type": "ARMOR",
     "name": { "str": "gold locket" },
-    "description": "A heart-shaped, gold locket with a frame inside to store photographs or small objects.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A heart-shaped, gold locket with a frame inside to store photographs or small objects.",
     "weight": "50 g",
     "volume": "25 ml",
     "price": 20000,
@@ -811,7 +923,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_medal",
@@ -825,13 +937,13 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_necklace",
     "type": "ARMOR",
     "name": { "str": "gold necklace" },
-    "description": "A shiny, unadorned gold necklace.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, unadorned gold necklace.",
     "weight": "30 g",
     "volume": "50 ml",
     "price": 40000,
@@ -839,20 +951,23 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_ring",
     "type": "ARMOR",
     "name": { "str": "gold ring" },
-    "description": "A flashy gold ring.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A flashy gold ring.",
     "weight": "10 g",
     "volume": "5 ml",
     "price": 30000,
     "price_postapoc": 50,
     "material": [ "gold" ],
     "symbol": "[",
-    "color": "yellow"
+    "color": "yellow",
+    "sided": true,
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_watch",
@@ -867,22 +982,23 @@
     "material": [ "steel", "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "HAND_EITHER" ],
-    "coverage": 5,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "sided": true,
+    "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "tieclip",
     "type": "ARMOR",
     "name": { "str": "tie clip" },
-    "description": "A fancy silver tie clip, a great match for your skinny tie.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A fancy silver tie clip, a great match for your skinny tie.",
     "weight": "12 g",
     "volume": "5 ml",
     "price": 28000,
     "price_postapoc": 10,
     "material": [ "silver" ],
     "symbol": "[",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_watch",
@@ -897,15 +1013,15 @@
     "material": [ "steel", "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
-    "coverage": 10,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "sided": true,
+    "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "silver bracelet" },
-    "description": "A nice silver bracelet.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A nice silver bracelet.",
     "weight": "30 g",
     "volume": "25 ml",
     "price": 25000,
@@ -913,13 +1029,22 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "silver_ear",
     "type": "ARMOR",
     "name": { "str": "pair of silver earrings", "str_pl": "pairs of silver earrings" },
-    "description": "A pair of beautiful silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of beautiful silver earrings.",
     "weight": "9 g",
     "volume": "1 ml",
     "price": 8000,
@@ -927,7 +1052,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "sf_watch",
@@ -943,9 +1068,9 @@
     "material": [ "gold", "silver" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "HAND_EITHER" ],
-    "coverage": 10,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "sided": true,
+    "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "small_relic",
@@ -960,7 +1085,7 @@
     "symbol": "[",
     "color": "white",
     "use_action": [ "MEDITATE" ],
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "holy_symbol",
@@ -975,7 +1100,7 @@
     "symbol": ",",
     "color": "yellow",
     "use_action": [ "MEDITATE" ],
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "holy_symbol_wood",
@@ -989,13 +1114,14 @@
     "material": [ "wood", "cotton" ],
     "symbol": ",",
     "color": "brown",
-    "use_action": [ "MEDITATE" ]
+    "use_action": [ "MEDITATE" ],
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "jade_brooch",
     "type": "ARMOR",
     "name": { "str": "jade brooch", "str_pl": "jade brooches" },
-    "description": "A hand-crafted jade brooch of Oriental origin.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A hand-crafted jade brooch of Oriental origin.",
     "weight": "26 g",
     "volume": "1 ml",
     "price": 90000,
@@ -1003,7 +1129,7 @@
     "material": [ "stone" ],
     "symbol": "[",
     "color": "green",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "pearl_collar",
@@ -1017,7 +1143,7 @@
     "material": [ "stone" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_watch",
@@ -1033,15 +1159,15 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "HAND_EITHER" ],
-    "coverage": 5,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "sided": true,
+    "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "platinum bracelet" },
-    "description": "A flawless platinum bracelet.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A flawless platinum bracelet.",
     "weight": "50 g",
     "volume": "25 ml",
     "price": 38000,
@@ -1049,7 +1175,9 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "platinum_dental_grill",
@@ -1065,14 +1193,14 @@
     "material": [ "platinum", "silver" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "MOUTH" ],
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
+    "armor": [ { "covers": [ "mouth" ] } ]
   },
   {
     "id": "platinum_ear",
     "type": "ARMOR",
     "name": { "str": "pair of platinum earrings", "str_pl": "pairs of platinum earrings" },
-    "description": "A pair of plain platinum earrings - if gold is getting boring, just use another rare metal.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of plain platinum earrings - if gold is getting boring, just use another rare metal.",
     "weight": "15 g",
     "volume": "1 ml",
     "price": 12000,
@@ -1080,13 +1208,13 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_hairpin",
     "type": "ARMOR",
     "name": { "str": "platinum hairpin" },
-    "description": "The ultimate in esoteric, metal hair accessories, this hairpin is made from pure platinum.  You can wear it if you like, but it won't provide any effects.",
+    "description": "The ultimate in esoteric, metal hair accessories, this hairpin is made from pure platinum.",
     "weight": "7 g",
     "volume": "5 ml",
     "price": 3500,
@@ -1094,15 +1222,13 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ],
-    "use_action": [ "PICK_LOCK" ],
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_locket",
     "type": "ARMOR",
     "name": { "str": "platinum locket" },
-    "description": "A small, platinum locket for storing photographs or other small objects.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A small, platinum locket for storing photographs or other small objects.",
     "weight": "65 g",
     "volume": "40 ml",
     "price": 16000,
@@ -1110,13 +1236,13 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_necklace",
     "type": "ARMOR",
     "name": { "str": "platinum necklace" },
-    "description": "A platinum necklace, with a small, empty heart frame hanging from a chain.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum necklace, with a small, empty heart frame hanging from a chain.",
     "weight": "47 g",
     "volume": "50 ml",
     "price": 50000,
@@ -1124,13 +1250,13 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_ring",
     "type": "ARMOR",
     "name": { "str": "platinum ring" },
-    "description": "A platinum ring, engraved with all manner of swirls and spirals.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring, engraved with all manner of swirls and spirals.",
     "weight": "13 g",
     "volume": "5 ml",
     "price": 24000,
@@ -1138,7 +1264,9 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "ring_engagement",
@@ -1152,7 +1280,9 @@
     "material": [ "gold", "diamond" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "ring_purity",
@@ -1166,7 +1296,9 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "ring_signet",
@@ -1180,7 +1312,9 @@
     "material": [ "gold", "silver" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "ring_wedding",
@@ -1194,13 +1328,15 @@
     "material": [ "gold", "diamond" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "SUPER_FANCY" ]
+    "sided": true,
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_necklace",
     "type": "ARMOR",
     "name": { "str": "silver necklace" },
-    "description": "A nice silver necklace.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A nice silver necklace.",
     "weight": "30 g",
     "volume": "25 ml",
     "price": 12000,
@@ -1208,13 +1344,13 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_hairpin",
     "type": "ARMOR",
     "name": { "str": "silver hairpin" },
-    "description": "A shiny, silver hairpin with a tiny bee engraved onto it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver hairpin with a tiny bee engraved onto it.",
     "weight": "3 g",
     "volume": "5 ml",
     "price": 2000,
@@ -1222,15 +1358,13 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ],
-    "use_action": [ "PICK_LOCK" ],
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_locket",
     "type": "ARMOR",
     "name": { "str": "silver locket" },
-    "description": "A small, silver locket with a frame inside to store photographs or small objects.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A small, silver locket with a frame inside to store photographs or small objects.",
     "weight": "30 g",
     "volume": "25 ml",
     "price": 4000,
@@ -1238,7 +1372,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_medal",
@@ -1252,13 +1386,13 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_ring",
     "type": "ARMOR",
     "name": { "str": "silver ring" },
-    "description": "A simple, silver ring.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A simple, silver ring.",
     "weight": "6 g",
     "volume": "5 ml",
     "price": 5000,
@@ -1266,7 +1400,9 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "leather_collar",
@@ -1280,7 +1416,7 @@
     "material": [ "leather" ],
     "symbol": "-",
     "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "wristwatch",
@@ -1293,11 +1429,12 @@
     "price_postapoc": 100,
     "to_hit": -1,
     "material": [ "plastic", "steel" ],
+    "ascii_picture": "wristwatch",
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "HAND_EITHER" ],
-    "coverage": 5,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "sided": true,
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "rad_badge",
@@ -1312,7 +1449,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_blue",
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE", "RAD_DETECT" ]
   },
   {
     "abstract": "badge_abstract",
@@ -1327,7 +1464,6 @@
     "symbol": "[",
     "color": "yellow",
     "//": "should cover TORSO but give no encumbrance penalties",
-    "coverage": 2,
     "material_thickness": 2,
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -1343,7 +1479,8 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "deputy badge" },
-    "description": "A tarnished silver star gives an air of authority to the wearer."
+    "description": "A tarnished silver star gives an air of authority to the wearer.",
+    "ascii_picture": "badge_deputy"
   },
   {
     "id": "badge_detective",
@@ -1402,7 +1539,7 @@
     "material": [ "fur", "plastic" ],
     "symbol": "^",
     "color": "brown",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "faux_fur_cat_ears",
@@ -1426,7 +1563,7 @@
     "material": [ "fur", "plastic" ],
     "symbol": "s",
     "color": "brown",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "faux_fur_cat_tail",
@@ -1449,7 +1586,7 @@
     "material": [ "fur" ],
     "symbol": "-",
     "color": "brown",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "faux_fur_collar",
@@ -1472,7 +1609,7 @@
     "material": [ "leather", "plastic" ],
     "symbol": "^",
     "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "leather_cat_tail",
@@ -1487,14 +1624,14 @@
     "material": [ "leather", "plastic" ],
     "symbol": "s",
     "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of diamond and gold earrings", "str_pl": "pairs of diamond and gold earrings" },
-    "description": "A pair of shiny diamond and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny diamond and gold earrings.",
     "price": 13000,
     "price_postapoc": 50,
     "material": [ "gold", "diamond" ],
@@ -1504,23 +1641,23 @@
     "id": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of garnet and gold earrings", "str_pl": "pairs of garnet and gold earrings" },
-    "description": "A pair of shiny garnet and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny garnet and gold earrings.",
     "weight": "2700 mg",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 25,
     "material": [ "gold", "gemstone" ],
     "looks_like": "gold_ear",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "amethyst_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of amethyst and gold earrings", "str_pl": "pairs of amethyst and gold earrings" },
-    "description": "A pair of shiny amethyst and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny amethyst and gold earrings.",
     "color": "blue"
   },
   {
@@ -1528,7 +1665,7 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of aquamarine and gold earrings", "str_pl": "pairs of aquamarine and gold earrings" },
-    "description": "A pair of shiny aquamarine and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny aquamarine and gold earrings.",
     "color": "light_blue"
   },
   {
@@ -1536,7 +1673,7 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of emerald and gold earrings", "str_pl": "pairs of emerald and gold earrings" },
-    "description": "A pair of shiny emerald and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny emerald and gold earrings.",
     "color": "green"
   },
   {
@@ -1544,7 +1681,7 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of alexandrite and gold earrings", "str_pl": "pairs of alexandrite and gold earrings" },
-    "description": "A pair of shiny alexandrite and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny alexandrite and gold earrings.",
     "color": "green"
   },
   {
@@ -1552,14 +1689,14 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of ruby and gold earrings", "str_pl": "pairs of ruby and gold earrings" },
-    "description": "A pair of shiny ruby and gold earrings.  You can wear it if you like, but it won't provide any effects."
+    "description": "A pair of shiny ruby and gold earrings."
   },
   {
     "id": "peridot_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of peridot and gold earrings", "str_pl": "pairs of peridot and gold earrings" },
-    "description": "A pair of shiny peridot and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny peridot and gold earrings.",
     "color": "light_green"
   },
   {
@@ -1567,7 +1704,7 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of sapphire and gold earrings", "str_pl": "pairs of sapphire and gold earrings" },
-    "description": "A pair of shiny sapphire and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny sapphire and gold earrings.",
     "color": "blue"
   },
   {
@@ -1575,7 +1712,7 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of tourmaline and gold earrings", "str_pl": "pairs of tourmaline and gold earrings" },
-    "description": "A pair of shiny tourmaline and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny tourmaline and gold earrings.",
     "color": "light_red"
   },
   {
@@ -1583,7 +1720,7 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of citrine and gold earrings", "str_pl": "pairs of citrine and gold earrings" },
-    "description": "A pair of shiny citrine and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny citrine and gold earrings.",
     "color": "yellow"
   },
   {
@@ -1591,7 +1728,7 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of blue topaz and gold earrings", "str_pl": "pairs of blue topaz and gold earrings" },
-    "description": "A pair of shiny blue topaz and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny blue topaz and gold earrings.",
     "color": "light_blue"
   },
   {
@@ -1599,7 +1736,7 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of opal and gold earrings", "str_pl": "pairs of opal and gold earrings" },
-    "description": "A pair of shiny opal and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny opal and gold earrings.",
     "color": "white"
   },
   {
@@ -1607,15 +1744,23 @@
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
     "name": { "str": "pair of pearl and gold earrings", "str_pl": "pairs of pearl and gold earrings" },
-    "description": "A pair of shiny pearl and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny pearl and gold earrings.",
     "color": "white"
+  },
+  {
+    "id": "onyx_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of onyx and gold earrings", "str_pl": "pairs of onyx and gold earrings" },
+    "description": "A pair of shiny onyx and gold earrings.",
+    "color": "dark_gray"
   },
   {
     "id": "diamond_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of diamond and silver earrings", "str_pl": "pairs of diamond and silver earrings" },
-    "description": "A pair of shiny diamond and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny diamond and silver earrings.",
     "price": 8000,
     "price_postapoc": 2000,
     "material": [ "silver", "diamond" ],
@@ -1625,23 +1770,23 @@
     "id": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of garnet and silver earrings", "str_pl": "pairs of garnet and silver earrings" },
-    "description": "A pair of shiny garnet and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny garnet and silver earrings.",
     "weight": "2700 mg",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 6000,
     "price_postapoc": 1000,
     "material": [ "silver", "gemstone" ],
     "looks_like": "silver_ear",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "amethyst_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of amethyst and silver earrings", "str_pl": "pairs of amethyst and silver earrings" },
-    "description": "A pair of shiny amethyst and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny amethyst and silver earrings.",
     "color": "blue"
   },
   {
@@ -1649,7 +1794,7 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of aquamarine and silver earrings", "str_pl": "pairs of aquamarine and silver earrings" },
-    "description": "A pair of shiny aquamarine and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny aquamarine and silver earrings.",
     "color": "light_blue"
   },
   {
@@ -1657,7 +1802,7 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of emerald and silver earrings", "str_pl": "pairs of emerald and silver earrings" },
-    "description": "A pair of shiny emerald and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny emerald and silver earrings.",
     "color": "green"
   },
   {
@@ -1665,7 +1810,7 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of alexandrite and silver earrings", "str_pl": "pairs of alexandrite and silver earrings" },
-    "description": "A pair of shiny alexandrite and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny alexandrite and silver earrings.",
     "color": "green"
   },
   {
@@ -1673,14 +1818,29 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
-    "description": "A pair of shiny ruby and silver earrings.  You can wear it if you like, but it won't provide any effects."
+    "description": "A pair of shiny ruby and silver earrings.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_earring",
+        "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
+        "description": "A pair of shiny ruby and silver earrings.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_earring",
+        "name": { "str": "pair of vampire earrings", "str_pl": "pairs of vampire earrings" },
+        "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of peridot and silver earrings", "str_pl": "pairs of peridot and silver earrings" },
-    "description": "A pair of shiny peridot and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny peridot and silver earrings.",
     "color": "light_green"
   },
   {
@@ -1688,7 +1848,7 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of sapphire and silver earrings", "str_pl": "pairs of sapphire and silver earrings" },
-    "description": "A pair of shiny sapphire and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny sapphire and silver earrings.",
     "color": "blue"
   },
   {
@@ -1696,7 +1856,7 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of tourmaline and silver earrings", "str_pl": "pairs of tourmaline and silver earrings" },
-    "description": "A pair of shiny tourmaline and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny tourmaline and silver earrings.",
     "color": "light_red"
   },
   {
@@ -1704,7 +1864,7 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of citrine and silver earrings", "str_pl": "pairs of citrine and silver earrings" },
-    "description": "A pair of shiny citrine and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny citrine and silver earrings.",
     "color": "yellow"
   },
   {
@@ -1712,7 +1872,7 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of blue topaz and silver earrings", "str_pl": "pairs of blue topaz and silver earrings" },
-    "description": "A pair of shiny blue topaz and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny blue topaz and silver earrings.",
     "color": "light_blue"
   },
   {
@@ -1720,7 +1880,7 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of opal and silver earrings", "str_pl": "pairs of opal and silver earrings" },
-    "description": "A pair of shiny opal and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny opal and silver earrings.",
     "color": "white"
   },
   {
@@ -1728,15 +1888,38 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of pearl and silver earrings", "str_pl": "pairs of pearl and silver earrings" },
-    "description": "A pair of shiny pearl and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny pearl and silver earrings.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
+    "description": "A pair of shiny onyx and silver earrings.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_earring",
+        "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
+        "description": "A pair of shiny onyx and silver earrings.",
+        "weight": 99
+      },
+      {
+        "id": "dark_earring",
+        "name": { "str": "pair of dark earrings", "str_pl": "pairs of dark earrings" },
+        "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   },
   {
     "id": "diamond_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of diamond and platinum earrings", "str_pl": "pairs of diamond and platinum earrings" },
-    "description": "A pair of shiny diamond and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny diamond and platinum earrings.",
     "price": 12000,
     "price_postapoc": 25,
     "material": [ "platinum", "diamond" ],
@@ -1746,23 +1929,23 @@
     "id": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of garnet and platinum earrings", "str_pl": "pairs of garnet and platinum earrings" },
-    "description": "A pair of shiny garnet and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny garnet and platinum earrings.",
     "weight": "2700 mg",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 25,
     "material": [ "platinum", "gemstone" ],
     "looks_like": "platinum_ear",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "amethyst_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of amethyst and platinum earrings", "str_pl": "pairs of amethyst and platinum earrings" },
-    "description": "A pair of shiny amethyst and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny amethyst and platinum earrings.",
     "color": "blue"
   },
   {
@@ -1770,7 +1953,7 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of aquamarine and platinum earrings", "str_pl": "pairs of aquamarine and platinum earrings" },
-    "description": "A pair of shiny aquamarine and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny aquamarine and platinum earrings.",
     "color": "light_blue"
   },
   {
@@ -1778,7 +1961,7 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of emerald and platinum earrings", "str_pl": "pairs of emerald and platinum earrings" },
-    "description": "A pair of shiny emerald and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny emerald and platinum earrings.",
     "color": "green"
   },
   {
@@ -1786,7 +1969,7 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of alexandrite and platinum earrings", "str_pl": "pairs of alexandrite and platinum earrings" },
-    "description": "A pair of shiny alexandrite and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny alexandrite and platinum earrings.",
     "color": "green"
   },
   {
@@ -1794,14 +1977,14 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of ruby and platinum earrings", "str_pl": "pairs of ruby and platinum earrings" },
-    "description": "A pair of shiny ruby and platinum earrings.  You can wear it if you like, but it won't provide any effects."
+    "description": "A pair of shiny ruby and platinum earrings."
   },
   {
     "id": "peridot_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of peridot and platinum earrings", "str_pl": "pairs of peridot and platinum earrings" },
-    "description": "A pair of shiny peridot and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny peridot and platinum earrings.",
     "color": "light_green"
   },
   {
@@ -1809,7 +1992,7 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of sapphire and platinum earrings", "str_pl": "pairs of sapphire and platinum earrings" },
-    "description": "A pair of shiny sapphire and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny sapphire and platinum earrings.",
     "color": "blue"
   },
   {
@@ -1817,7 +2000,7 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of tourmaline and platinum earrings", "str_pl": "pairs of tourmaline and platinum earrings" },
-    "description": "A pair of shiny tourmaline and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny tourmaline and platinum earrings.",
     "color": "light_red"
   },
   {
@@ -1825,7 +2008,7 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of citrine and platinum earrings", "str_pl": "pairs of citrine and platinum earrings" },
-    "description": "A pair of shiny citrine and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny citrine and platinum earrings.",
     "color": "yellow"
   },
   {
@@ -1833,7 +2016,7 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of blue topaz and platinum earrings", "str_pl": "pairs of blue topaz and platinum earrings" },
-    "description": "A pair of shiny blue topaz and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny blue topaz and platinum earrings.",
     "color": "light_blue"
   },
   {
@@ -1841,7 +2024,7 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of opal and platinum earrings", "str_pl": "pairs of opal and platinum earrings" },
-    "description": "A pair of shiny opal and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny opal and platinum earrings.",
     "color": "white"
   },
   {
@@ -1849,30 +2032,40 @@
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
     "name": { "str": "pair of pearl and platinum earrings", "str_pl": "pairs of pearl and platinum earrings" },
-    "description": "A pair of shiny pearl and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A pair of shiny pearl and platinum earrings.",
     "color": "white"
+  },
+  {
+    "id": "onyx_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of onyx and platinum earrings", "str_pl": "pairs of onyx and platinum earrings" },
+    "description": "A pair of shiny onyx and platinum earrings.",
+    "color": "dark_gray"
   },
   {
     "id": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "garnet and gold ring" },
-    "description": "A gold ring with a garnet mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with a garnet mounted on top of it.",
     "weight": "2700 mg",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 1800,
     "material": [ "gold", "gemstone" ],
     "looks_like": "gold_ring",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "amethyst_gold_ring",
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "amethyst and gold ring" },
-    "description": "A gold ring with an amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an amethyst mounted on top of it.",
     "color": "blue"
   },
   {
@@ -1880,7 +2073,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "aquamarine and gold ring" },
-    "description": "A gold ring with an aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an aquamarine mounted on top of it.",
     "color": "light_blue"
   },
   {
@@ -1888,7 +2081,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "emerald and gold ring" },
-    "description": "A gold ring with an emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an emerald mounted on top of it.",
     "color": "green"
   },
   {
@@ -1896,7 +2089,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "alexandrite and gold ring" },
-    "description": "A gold ring with an alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an alexandrite mounted on top of it.",
     "color": "green"
   },
   {
@@ -1904,14 +2097,14 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "ruby and gold ring" },
-    "description": "A gold ring with a ruby mounted on top of it.  You can wear it if you like, but it won't provide any effects."
+    "description": "A gold ring with a ruby mounted on top of it."
   },
   {
     "id": "peridot_gold_ring",
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "peridot and gold ring" },
-    "description": "A gold ring with a peridot mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with a peridot mounted on top of it.",
     "color": "light_green"
   },
   {
@@ -1919,7 +2112,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "sapphire and gold ring" },
-    "description": "A gold ring with a sapphire mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with a sapphire mounted on top of it.",
     "color": "blue"
   },
   {
@@ -1927,7 +2120,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "tourmaline and gold ring" },
-    "description": "A gold ring with a tourmaline mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with a tourmaline mounted on top of it.",
     "color": "light_red"
   },
   {
@@ -1935,7 +2128,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "citrine and gold ring" },
-    "description": "A gold ring with a citrine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with a citrine mounted on top of it.",
     "color": "yellow"
   },
   {
@@ -1943,7 +2136,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold ring" },
-    "description": "A gold ring with a blue topaz mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with a blue topaz mounted on top of it.",
     "color": "light_blue"
   },
   {
@@ -1951,7 +2144,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "opal and gold ring" },
-    "description": "A gold ring with an opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an opal mounted on top of it.",
     "color": "white"
   },
   {
@@ -1959,15 +2152,23 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "pearl and gold ring" },
-    "description": "A gold ring with a pearl mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with a pearl mounted on top of it.",
     "color": "white"
+  },
+  {
+    "id": "onyx_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "onyx and gold ring" },
+    "description": "A gold ring with an onyx mounted on top of it.",
+    "color": "dark_gray"
   },
   {
     "id": "diamond_silver_ring",
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "diamond and silver ring" },
-    "description": "A silver ring with a diamond mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with a diamond mounted on top of it.",
     "price": 12000,
     "price_postapoc": 25,
     "material": [ "silver", "diamond" ],
@@ -1977,23 +2178,25 @@
     "id": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "garnet and silver ring" },
-    "description": "A silver ring with a garnet mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with a garnet mounted on top of it.",
     "weight": "2700 mg",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 25,
     "material": [ "silver", "gemstone" ],
     "looks_like": "silver_ring",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
   {
     "id": "amethyst_silver_ring",
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "amethyst and silver ring" },
-    "description": "A silver ring with an amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an amethyst mounted on top of it.",
     "color": "blue"
   },
   {
@@ -2001,7 +2204,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "aquamarine and silver ring" },
-    "description": "A silver ring with an aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an aquamarine mounted on top of it.",
     "color": "light_blue"
   },
   {
@@ -2009,7 +2212,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "emerald and silver ring" },
-    "description": "A silver ring with an emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an emerald mounted on top of it.",
     "color": "green"
   },
   {
@@ -2017,7 +2220,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "alexandrite and silver ring" },
-    "description": "A silver ring with an alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an alexandrite mounted on top of it.",
     "color": "green"
   },
   {
@@ -2025,14 +2228,29 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "ruby and silver ring" },
-    "description": "A silver ring with a ruby mounted on top of it.  You can wear it if you like, but it won't provide any effects."
+    "description": "A silver ring with a ruby mounted on top of it.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_ring",
+        "name": { "str": "ruby and silver ring" },
+        "description": "A silver ring with a ruby mounted on top of it.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_ring",
+        "name": { "str": "vampire ring" },
+        "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_ring",
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "peridot and silver ring" },
-    "description": "A silver ring with a peridot mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with a peridot mounted on top of it.",
     "color": "light_green"
   },
   {
@@ -2040,7 +2258,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "sapphire and silver ring" },
-    "description": "A silver ring with a sapphire mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with a sapphire mounted on top of it.",
     "color": "blue"
   },
   {
@@ -2048,7 +2266,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "tourmaline and silver ring" },
-    "description": "A silver ring with a tourmaline mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with a tourmaline mounted on top of it.",
     "color": "light_red"
   },
   {
@@ -2056,7 +2274,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "citrine and silver ring" },
-    "description": "A silver ring with a citrine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with a citrine mounted on top of it.",
     "color": "yellow"
   },
   {
@@ -2064,7 +2282,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver ring" },
-    "description": "A silver ring with a blue topaz mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with a blue topaz mounted on top of it.",
     "color": "light_blue"
   },
   {
@@ -2072,7 +2290,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "opal and silver ring" },
-    "description": "A silver ring with an opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an opal mounted on top of it.",
     "color": "white"
   },
   {
@@ -2080,15 +2298,38 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "pearl and silver ring" },
-    "description": "A silver ring with a pearl mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with a pearl mounted on top of it.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "onyx and silver ring" },
+    "description": "A silver ring with an onyx mounted on top of it.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_ring",
+        "name": { "str": "onyx and silver ring" },
+        "description": "A silver ring with an onyx mounted on top of it.",
+        "weight": 99
+      },
+      {
+        "id": "dark_ring",
+        "name": { "str": "dark ring" },
+        "description": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   },
   {
     "id": "diamond_platinum_ring",
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "diamond and platinum ring" },
-    "description": "A platinum ring with a diamond mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with a diamond mounted on top of it.",
     "price": 12000,
     "price_postapoc": 50,
     "material": [ "platinum", "diamond" ],
@@ -2098,23 +2339,25 @@
     "id": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "garnet and platinum ring" },
-    "description": "A platinum ring with a garnet mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with a garnet mounted on top of it.",
     "weight": "2700 mg",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 25,
     "material": [ "platinum", "gemstone" ],
     "looks_like": "platinum_ring",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
   {
     "id": "amethyst_platinum_ring",
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "amethyst and platinum ring" },
-    "description": "A platinum ring with an amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an amethyst mounted on top of it.",
     "color": "blue"
   },
   {
@@ -2122,7 +2365,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "aquamarine and platinum ring" },
-    "description": "A platinum ring with an aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an aquamarine mounted on top of it.",
     "color": "light_blue"
   },
   {
@@ -2130,7 +2373,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "emerald and platinum ring" },
-    "description": "A platinum ring with an emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an emerald mounted on top of it.",
     "color": "green"
   },
   {
@@ -2138,7 +2381,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "alexandrite and platinum ring" },
-    "description": "A platinum ring with an alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an alexandrite mounted on top of it.",
     "color": "green"
   },
   {
@@ -2146,14 +2389,14 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "ruby and platinum ring" },
-    "description": "A platinum ring with a ruby mounted on top of it.  You can wear it if you like, but it won't provide any effects."
+    "description": "A platinum ring with a ruby mounted on top of it."
   },
   {
     "id": "peridot_platinum_ring",
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "peridot and platinum ring" },
-    "description": "A platinum ring with a peridot mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with a peridot mounted on top of it.",
     "color": "light_green"
   },
   {
@@ -2161,7 +2404,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "sapphire and platinum ring" },
-    "description": "A platinum ring with a sapphire mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with a sapphire mounted on top of it.",
     "color": "blue"
   },
   {
@@ -2169,7 +2412,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "tourmaline and platinum ring" },
-    "description": "A platinum ring with a tourmaline mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with a tourmaline mounted on top of it.",
     "color": "light_red"
   },
   {
@@ -2177,7 +2420,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "citrine and platinum ring" },
-    "description": "A platinum ring with a citrine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with a citrine mounted on top of it.",
     "color": "yellow"
   },
   {
@@ -2185,7 +2428,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum ring" },
-    "description": "A platinum ring with a blue topaz mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with a blue topaz mounted on top of it.",
     "color": "light_blue"
   },
   {
@@ -2193,7 +2436,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "opal and platinum ring" },
-    "description": "A platinum ring with an opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an opal mounted on top of it.",
     "color": "white"
   },
   {
@@ -2201,15 +2444,23 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "pearl and platinum ring" },
-    "description": "A platinum ring with a pearl mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with a pearl mounted on top of it.",
     "color": "white"
+  },
+  {
+    "id": "onyx_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "onyx and platinum ring" },
+    "description": "A platinum ring with an onyx mounted on top of it.",
+    "color": "dark_gray"
   },
   {
     "id": "diamond_gold_bracelet",
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "diamond and gold bracelet" },
-    "description": "A gold bracelet with sparkling diamonds.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling diamonds.",
     "price": 200000,
     "looks_like": "gold_bracelet",
     "price_postapoc": 25,
@@ -2220,23 +2471,25 @@
     "id": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "garnet and gold bracelet" },
-    "description": "A gold bracelet with sparkling garnets.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling garnets.",
     "weight": "2700 mg",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 15000,
     "price_postapoc": 25,
     "material": [ "gold", "gemstone" ],
     "looks_like": "gold_bracelet",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "amethyst_gold_bracelet",
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "amethyst and gold bracelet" },
-    "description": "A gold bracelet with sparkling amethysts.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling amethysts.",
     "color": "blue"
   },
   {
@@ -2244,7 +2497,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "aquamarine and gold bracelet" },
-    "description": "A gold bracelet with sparkling aquamarines.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling aquamarines.",
     "color": "light_blue"
   },
   {
@@ -2252,7 +2505,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "emerald and gold bracelet" },
-    "description": "A gold bracelet with sparkling emeralds.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling emeralds.",
     "color": "green"
   },
   {
@@ -2260,7 +2513,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "alexandrite and gold bracelet" },
-    "description": "A gold bracelet with sparkling alexandrites.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling alexandrites.",
     "color": "green"
   },
   {
@@ -2268,14 +2521,14 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "ruby and gold bracelet" },
-    "description": "A gold bracelet with sparkling rubies.  You can wear it if you like, but it won't provide any effects."
+    "description": "A gold bracelet with sparkling rubies."
   },
   {
     "id": "peridot_gold_bracelet",
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "peridot and gold bracelet" },
-    "description": "A gold bracelet with sparkling peridots.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling peridots.",
     "color": "light_green"
   },
   {
@@ -2283,7 +2536,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "sapphire and gold bracelet" },
-    "description": "A gold bracelet with sparkling sapphires.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling sapphires.",
     "color": "blue"
   },
   {
@@ -2291,7 +2544,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "tourmaline and gold bracelet" },
-    "description": "A gold bracelet with sparkling tourmalines.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling tourmalines.",
     "color": "light_red"
   },
   {
@@ -2299,7 +2552,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "citrine and gold bracelet" },
-    "description": "A gold bracelet with sparkling citrines.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling citrines.",
     "color": "yellow"
   },
   {
@@ -2307,7 +2560,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold bracelet" },
-    "description": "A gold bracelet with sparkling blue topaz.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with sparkling blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2315,7 +2568,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "opal and gold bracelet" },
-    "description": "A gold bracelet with opals.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with opals.",
     "color": "white"
   },
   {
@@ -2323,15 +2576,23 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "pearl and gold bracelet" },
-    "description": "A gold bracelet with pearls.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold bracelet with pearls.",
     "color": "white"
+  },
+  {
+    "id": "onyx_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "onyx and gold bracelet" },
+    "description": "A gold bracelet with onyxes.",
+    "color": "dark_gray"
   },
   {
     "id": "diamond_silver_bracelet",
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "diamond and silver bracelet" },
-    "description": "A silver bracelet with sparkling diamonds.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling diamonds.",
     "price": 200000,
     "looks_like": "silver_bracelet",
     "price_postapoc": 25,
@@ -2342,23 +2603,25 @@
     "id": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "garnet and silver bracelet" },
-    "description": "A silver bracelet with sparkling garnets.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling garnets.",
     "weight": "2700 mg",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 15000,
     "price_postapoc": 25,
     "material": [ "silver", "gemstone" ],
     "looks_like": "silver_bracelet",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "amethyst_silver_bracelet",
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "amethyst and silver bracelet" },
-    "description": "A silver bracelet with sparkling amethysts.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling amethysts.",
     "color": "blue"
   },
   {
@@ -2366,7 +2629,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "aquamarine and silver bracelet" },
-    "description": "A silver bracelet with sparkling aquamarines.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling aquamarines.",
     "color": "light_blue"
   },
   {
@@ -2374,7 +2637,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "emerald and silver bracelet" },
-    "description": "A silver bracelet with sparkling emeralds.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling emeralds.",
     "color": "green"
   },
   {
@@ -2382,7 +2645,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "alexandrite and silver bracelet" },
-    "description": "A silver bracelet with sparkling alexandrites.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling alexandrites.",
     "color": "green"
   },
   {
@@ -2390,14 +2653,29 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "ruby and silver bracelet" },
-    "description": "A silver bracelet with sparkling rubies.  You can wear it if you like, but it won't provide any effects."
+    "description": "A silver bracelet with sparkling rubies.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_bracelet",
+        "name": { "str": "ruby and silver bracelet" },
+        "description": "A silver bracelet with sparkling rubies.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_bracelet",
+        "name": { "str": "vampire bracelet" },
+        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister looking hearts.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_bracelet",
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "peridot and silver bracelet" },
-    "description": "A silver bracelet with sparkling peridots.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling peridots.",
     "color": "light_green"
   },
   {
@@ -2405,7 +2683,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "sapphire and silver bracelet" },
-    "description": "A silver bracelet with sparkling sapphires.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling sapphires.",
     "color": "blue"
   },
   {
@@ -2413,7 +2691,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "tourmaline and silver bracelet" },
-    "description": "A silver bracelet with sparkling tourmalines.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling tourmalines.",
     "color": "light_red"
   },
   {
@@ -2421,7 +2699,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "citrine and silver bracelet" },
-    "description": "A silver bracelet with sparkling citrines.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling citrines.",
     "color": "yellow"
   },
   {
@@ -2429,7 +2707,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver bracelet" },
-    "description": "A silver bracelet with sparkling blue topaz.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with sparkling blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2437,7 +2715,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "opal and silver bracelet" },
-    "description": "A silver bracelet with opals.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with opals.",
     "color": "white"
   },
   {
@@ -2445,15 +2723,38 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "pearl and silver bracelet" },
-    "description": "A silver bracelet with pearls.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver bracelet with pearls.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "onyx and silver bracelet" },
+    "description": "A silver bracelet with onyxes.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_bracelet",
+        "name": { "str": "onyx and silver bracelet" },
+        "description": "A silver bracelet with onyxes.",
+        "weight": 99
+      },
+      {
+        "id": "dark_bracelet",
+        "name": { "str": "dark bracelet" },
+        "description": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   },
   {
     "id": "diamond_platinum_bracelet",
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "diamond and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling diamonds.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling diamonds.",
     "price": 200000,
     "looks_like": "platinum_bracelet",
     "price_postapoc": 50,
@@ -2464,23 +2765,25 @@
     "id": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "garnet and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling garnets.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling garnets.",
     "weight": "2700 mg",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 15000,
     "price_postapoc": 25,
     "material": [ "platinum", "gemstone" ],
     "looks_like": "platinum_bracelet",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "sided": true,
+    "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT" ],
+    "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "amethyst_platinum_bracelet",
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "amethyst and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling amethysts.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling amethysts.",
     "color": "blue"
   },
   {
@@ -2488,7 +2791,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "aquamarine and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling aquamarines.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling aquamarines.",
     "color": "light_blue"
   },
   {
@@ -2496,7 +2799,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "emerald and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling emeralds.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling emeralds.",
     "color": "green"
   },
   {
@@ -2504,7 +2807,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "alexandrite and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling alexandrites.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling alexandrites.",
     "color": "green"
   },
   {
@@ -2512,14 +2815,14 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "ruby and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling rubies.  You can wear it if you like, but it won't provide any effects."
+    "description": "A platinum bracelet with sparkling rubies."
   },
   {
     "id": "peridot_platinum_bracelet",
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "peridot and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling peridots.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling peridots.",
     "color": "light_green"
   },
   {
@@ -2527,7 +2830,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "sapphire and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling sapphires.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling sapphires.",
     "color": "blue"
   },
   {
@@ -2535,7 +2838,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "tourmaline and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling tourmalines.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling tourmalines.",
     "color": "light_red"
   },
   {
@@ -2543,7 +2846,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "citrine and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling citrines.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling citrines.",
     "color": "yellow"
   },
   {
@@ -2551,7 +2854,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling blue topaz.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with sparkling blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2559,7 +2862,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "opal and platinum bracelet" },
-    "description": "A platinum bracelet with opals.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with opals.",
     "color": "white"
   },
   {
@@ -2567,30 +2870,38 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "pearl and platinum bracelet" },
-    "description": "A platinum bracelet with pearls.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum bracelet with pearls.",
     "color": "white"
+  },
+  {
+    "id": "onyx_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "onyx and platinum bracelet" },
+    "description": "A platinum bracelet with onyxes.",
+    "color": "dark_gray"
   },
   {
     "id": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "garnet and gold necklace" },
-    "description": "A shiny, gold necklace adorned with a garnet pendant.  You can wear it if you like, but it won't provide any effects.",
+    "name": { "str": "garnet and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a garnet pendant.",
     "weight": "70 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 50000,
     "price_postapoc": 25,
     "material": [ "gold", "gemstone" ],
     "looks_like": "gold_necklace",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_gold_pendant_necklace",
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "diamond and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a diamond pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with a diamond pendant.",
     "material": [ "gold", "diamond" ],
     "color": "white"
   },
@@ -2599,7 +2910,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "amethyst and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with an amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an amethyst pendant.",
     "color": "blue"
   },
   {
@@ -2607,7 +2918,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "aquamarine and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with an aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an aquamarine pendant.",
     "color": "light_blue"
   },
   {
@@ -2615,7 +2926,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "emerald and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with an emerald pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an emerald pendant.",
     "color": "green"
   },
   {
@@ -2623,7 +2934,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "alexandrite and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with an alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an alexandrite pendant.",
     "color": "green"
   },
   {
@@ -2631,14 +2942,14 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "ruby and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a ruby pendant.  You can wear it if you like, but it won't provide any effects."
+    "description": "A shiny, gold necklace adorned with a ruby pendant."
   },
   {
     "id": "peridot_gold_pendant_necklace",
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "peridot and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a peridot pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with a peridot pendant.",
     "color": "light_green"
   },
   {
@@ -2646,7 +2957,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "sapphire and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a sapphire pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with a sapphire pendant.",
     "color": "blue"
   },
   {
@@ -2654,7 +2965,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "tourmaline and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a tourmaline pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with a tourmaline pendant.",
     "color": "light_red"
   },
   {
@@ -2662,7 +2973,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "citrine and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a citrine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with a citrine pendant.",
     "color": "yellow"
   },
   {
@@ -2670,7 +2981,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a blue topaz pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with a blue topaz pendant.",
     "color": "light_blue"
   },
   {
@@ -2678,7 +2989,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "opal and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with an opal pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an opal pendant.",
     "color": "white"
   },
   {
@@ -2686,30 +2997,38 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "pearl and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a pearl pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with a pearl pendant.",
     "color": "white"
+  },
+  {
+    "id": "onyx_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "onyx and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with an onyx pendant.",
+    "color": "dark_gray"
   },
   {
     "id": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "garnet and silver necklace" },
-    "description": "A shiny, silver necklace adorned with a garnet pendant.  You can wear it if you like, but it won't provide any effects.",
+    "name": { "str": "garnet and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a garnet pendant.",
     "weight": "70 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 50000,
     "price_postapoc": 25,
     "material": [ "silver", "gemstone" ],
     "looks_like": "silver_necklace",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_silver_pendant_necklace",
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "diamond and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a diamond pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with a diamond pendant.",
     "material": [ "silver", "diamond" ],
     "color": "white"
   },
@@ -2718,7 +3037,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "amethyst and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with an amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an amethyst pendant.",
     "color": "blue"
   },
   {
@@ -2726,7 +3045,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "aquamarine and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with an aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an aquamarine pendant.",
     "color": "light_blue"
   },
   {
@@ -2734,7 +3053,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "emerald and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with an emerald pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an emerald pendant.",
     "color": "green"
   },
   {
@@ -2742,7 +3061,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "alexandrite and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with an alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an alexandrite pendant.",
     "color": "green"
   },
   {
@@ -2750,14 +3069,29 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "ruby and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a ruby pendant.  You can wear it if you like, but it won't provide any effects."
+    "description": "A shiny, silver necklace adorned with a ruby pendant.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_pendant_necklace",
+        "name": { "str": "ruby and silver pendant necklace" },
+        "description": "A shiny, silver necklace adorned with a ruby pendant.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_necklace",
+        "name": { "str": "vampire necklace" },
+        "description": "A sinister silver necklace adorned with a blood-red ruby pendant.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_pendant_necklace",
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "peridot and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a peridot pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with a peridot pendant.",
     "color": "light_green"
   },
   {
@@ -2765,7 +3099,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "sapphire and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a sapphire pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with a sapphire pendant.",
     "color": "blue"
   },
   {
@@ -2773,7 +3107,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "tourmaline and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a tourmaline pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with a tourmaline pendant.",
     "color": "light_red"
   },
   {
@@ -2781,7 +3115,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "citrine and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a citrine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with a citrine pendant.",
     "color": "yellow"
   },
   {
@@ -2789,7 +3123,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a blue topaz pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with a blue topaz pendant.",
     "color": "light_blue"
   },
   {
@@ -2797,7 +3131,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "opal and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with an opal pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an opal pendant.",
     "color": "white"
   },
   {
@@ -2805,30 +3139,53 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "pearl and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a pearl pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with a pearl pendant.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "onyx and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with an onyx pendant.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_pendant_necklace",
+        "name": { "str": "onyx and silver pendant necklace" },
+        "description": "A shiny, silver necklace adorned with an onyx pendant.",
+        "weight": 99
+      },
+      {
+        "id": "dark_necklace",
+        "name": { "str": "dark necklace" },
+        "description": "A dark silver necklace with an onyx pendant in the shape of a dark heart.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   },
   {
     "id": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "garnet and platinum necklace" },
-    "description": "A shiny, platinum necklace adorned with a garnet pendant.  You can wear it if you like, but it won't provide any effects.",
+    "name": { "str": "garnet and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a garnet pendant.",
     "weight": "70 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 50000,
     "price_postapoc": 25,
     "material": [ "platinum", "gemstone" ],
     "looks_like": "platinum_necklace",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_platinum_pendant_necklace",
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "diamond and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a diamond pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with a diamond pendant.",
     "material": [ "platinum", "diamond" ],
     "color": "white"
   },
@@ -2837,7 +3194,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "amethyst and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with an amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an amethyst pendant.",
     "color": "blue"
   },
   {
@@ -2845,7 +3202,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "aquamarine and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with an aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an aquamarine pendant.",
     "color": "light_blue"
   },
   {
@@ -2853,7 +3210,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "emerald and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with an emerald pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an emerald pendant.",
     "color": "green"
   },
   {
@@ -2861,7 +3218,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "alexandrite and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with an alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an alexandrite pendant.",
     "color": "green"
   },
   {
@@ -2869,14 +3226,14 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "ruby and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a ruby pendant.  You can wear it if you like, but it won't provide any effects."
+    "description": "A shiny, platinum necklace adorned with a ruby pendant."
   },
   {
     "id": "peridot_platinum_pendant_necklace",
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "peridot and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a peridot pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with a peridot pendant.",
     "color": "light_green"
   },
   {
@@ -2884,7 +3241,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "sapphire and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a sapphire pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with a sapphire pendant.",
     "color": "blue"
   },
   {
@@ -2892,7 +3249,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "tourmaline and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a tourmaline pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with a tourmaline pendant.",
     "color": "light_red"
   },
   {
@@ -2900,7 +3257,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "citrine and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a citrine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with a citrine pendant.",
     "color": "yellow"
   },
   {
@@ -2908,7 +3265,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a blue topaz pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with a blue topaz pendant.",
     "color": "light_blue"
   },
   {
@@ -2916,7 +3273,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "opal and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with an opal pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an opal pendant.",
     "color": "white"
   },
   {
@@ -2924,8 +3281,16 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "pearl and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a pearl pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with a pearl pendant.",
     "color": "white"
+  },
+  {
+    "id": "onyx_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "onyx and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with an onyx pendant.",
+    "color": "dark_gray"
   },
   {
     "id": "garnet_platinum_tiara",
@@ -2940,10 +3305,9 @@
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
-    "coverage": 5,
-    "encumbrance": 1,
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "diamond_platinum_tiara",
@@ -2959,7 +3323,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "amethyst and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with amethyst.",
+    "description": "A shiny, platinum tiara adorned with amethysts.",
     "color": "blue"
   },
   {
@@ -2967,7 +3331,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "aquamarine and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with aquamarine.",
+    "description": "A shiny, platinum tiara adorned with aquamarines.",
     "color": "light_blue"
   },
   {
@@ -3030,7 +3394,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with blue topaz.",
+    "description": "A shiny, platinum tiara adorned with blue topazes.",
     "color": "light_blue"
   },
   {
@@ -3050,6 +3414,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "onyx and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with onyxes.",
+    "color": "dark_gray"
+  },
+  {
     "id": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "garnet and gold tiara" },
@@ -3062,10 +3434,9 @@
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
-    "coverage": 5,
-    "encumbrance": 1,
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "diamond_gold_tiara",
@@ -3081,7 +3452,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "amethyst and gold tiara" },
-    "description": "A shiny, gold tiara adorned with amethyst.",
+    "description": "A shiny, gold tiara adorned with amethysts.",
     "color": "blue"
   },
   {
@@ -3089,7 +3460,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "aquamarine and gold tiara" },
-    "description": "A shiny, gold tiara adorned with aquamarine.",
+    "description": "A shiny, gold tiara adorned with aquamarines.",
     "color": "light_blue"
   },
   {
@@ -3152,7 +3523,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold tiara" },
-    "description": "A shiny, gold tiara adorned with blue topaz.",
+    "description": "A shiny, gold tiara adorned with blue topazes.",
     "color": "light_blue"
   },
   {
@@ -3172,6 +3543,14 @@
     "color": "white"
   },
   {
+    "id": "onyx_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "onyx and gold tiara" },
+    "description": "A shiny, gold tiara adorned with onyxes.",
+    "color": "dark_gray"
+  },
+  {
     "id": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "garnet and silver tiara" },
@@ -3184,10 +3563,9 @@
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
-    "coverage": 5,
-    "encumbrance": 1,
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "diamond_silver_tiara",
@@ -3203,7 +3581,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "amethyst and silver tiara" },
-    "description": "A shiny, silver tiara adorned with amethyst.",
+    "description": "A shiny, silver tiara adorned with amethysts.",
     "color": "blue"
   },
   {
@@ -3211,7 +3589,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "aquamarine and silver tiara" },
-    "description": "A shiny, silver tiara adorned with aquamarine.",
+    "description": "A shiny, silver tiara adorned with aquamarines.",
     "color": "light_blue"
   },
   {
@@ -3235,7 +3613,22 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "ruby and silver tiara" },
-    "description": "A shiny, silver tiara adorned with rubies."
+    "description": "A shiny, silver tiara adorned with rubies.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_ruby_silver_tiara",
+        "name": { "str": "ruby and silver tiara" },
+        "description": "A shiny, silver tiara adorned with rubies.",
+        "weight": 99
+      },
+      {
+        "id": "vampire_tiara",
+        "name": { "str": "vampire tiara" },
+        "description": "A sinister dark silver tiara adorned with blood-red rubies.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_tiara",
@@ -3274,7 +3667,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver tiara" },
-    "description": "A shiny, silver tiara adorned with blue topaz.",
+    "description": "A shiny, silver tiara adorned with blue topazes.",
     "color": "light_blue"
   },
   {
@@ -3292,5 +3685,28 @@
     "name": { "str": "pearl and silver tiara" },
     "description": "A shiny, silver tiara adorned with pearls.",
     "color": "white"
+  },
+  {
+    "id": "onyx_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "onyx and silver tiara" },
+    "description": "A shiny, silver tiara adorned with onyxes.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_onyx_silver_tiara",
+        "name": { "str": "onyx and silver tiara" },
+        "description": "A shiny, silver tiara adorned with onyxes.",
+        "weight": 99
+      },
+      {
+        "id": "dark_tiara",
+        "name": { "str": "dark tiara" },
+        "description": "A dark silver tiara adorned with onyxes.",
+        "weight": 1
+      }
+    ],
+    "color": "dark_gray"
   }
 ]

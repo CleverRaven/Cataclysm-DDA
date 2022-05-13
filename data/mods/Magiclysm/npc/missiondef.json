@@ -2,7 +2,7 @@
   {
     "id": "MISSION_GET_MAGIC_BOOK",
     "type": "mission_definition",
-    "name": "Retrieve Magic Book",
+    "name": "Retrieve The Tome of The Battle Mage",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 4,
     "value": 250000,
@@ -35,7 +35,7 @@
     "start": {
       "effect": [ { "npc_remove_item_with": "bio_power_storage" }, "assign_guard", { "clear_npc_rule": "investigate_noises" } ]
     },
-    "end": { "effect": [ { "u_buy_item": "techno_fundamentals", "count": 1 } ] },
+    "end": { "effect": [ { "u_spawn_item": "techno_fundamentals", "count": 1 } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "More power… moar power… MOAR POWAA!",

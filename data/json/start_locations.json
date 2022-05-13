@@ -1,15 +1,74 @@
 [
   {
     "type": "start_location",
-    "id": "sloc_shelter",
-    "name": "Shelter",
-    "terrain": [ "shelter", "shelter_1", "shelter_2" ]
+    "id": "sloc_fort",
+    "name": "Bastion Fort",
+    "terrain": [
+      "fort_1a",
+      "fort_2a",
+      "fort_3a",
+      "fort_4a",
+      "fort_1b",
+      "fort_2b",
+      "fort_3b",
+      "fort_4b",
+      "fort_1c",
+      "fort_2c",
+      "fort_3c",
+      "fort_4c"
+    ]
   },
   {
     "type": "start_location",
-    "id": "sloc_shelter_vandalized",
-    "name": "Shelter (Vandalized)",
-    "terrain": [ "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ]
+    "id": "sloc_shelter_a",
+    "name": "Shelter - Open Floorplan",
+    "terrain": [ "shelter" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_town_hall",
+    "name": "Town Hall",
+    "terrain": [
+      "town_hall_0_0_0",
+      "town_hall_1_0_0",
+      "town_hall_0_1_0",
+      "town_hall_1_1_0",
+      "town_hall_0_0_1",
+      "town_hall_1_0_1",
+      "town_hall_0_1_1",
+      "town_hall_1_1_1",
+      "town_hall_0_0_roof"
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_b",
+    "name": "Shelter - Compartmentalized",
+    "terrain": [ "shelter_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_c",
+    "name": "Shelter - Central Pillar",
+    "terrain": [ "shelter_2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandalized_a",
+    "name": "Shelter - Open Floorplan (Vandalized)",
+    "terrain": [ "shelter_vandal" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandalized_b",
+    "name": "Shelter - Compartmentalized (Vandalized)",
+    "terrain": [ "shelter_1_vandal" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandalized_c",
+    "name": "Shelter - Central Pillar (Vandalized)",
+    "terrain": [ "shelter_2_vandal" ]
   },
   {
     "type": "start_location",
@@ -217,6 +276,20 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_river",
+    "name": "River",
+    "terrain": [ "river" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bridge",
+    "name": "Bridge",
+    "terrain": [ "bridgehead_ground" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_desert_island",
     "name": "Desert Island",
     "terrain": [ "island_sand", "island_forest", "island_forest_thick", "island_forest_water", "island_field" ],
@@ -251,6 +324,12 @@
     "id": "sloc_ice_lab_finale",
     "name": "Deep-frozen science lab",
     "terrain": [ "ice_lab_finale" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lab_concourse_area",
+    "name": "Cargo area Trans-Coast Logistics",
+    "terrain": [ { "om_terrain": "lab_CORE_2x1_1DN", "om_terrain_match_type": "TYPE" } ]
   },
   {
     "type": "start_location",
@@ -305,13 +384,19 @@
     "type": "start_location",
     "id": "sloc_prison",
     "name": "Prison",
-    "terrain": [ "prison_1_b_5" ]
+    "terrain": [ "prison_1_5" ]
   },
   {
     "type": "start_location",
     "id": "sloc_prison_alcatraz",
-    "name": "Island prison",
+    "name": "Island prison type A",
     "terrain": [ "prison_alcatraz_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_prison_island",
+    "name": "Island prison type B",
+    "terrain": [ "prison_island_1_1" ]
   },
   {
     "type": "start_location",
@@ -397,6 +482,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_apartments_rooftop2",
+    "name": "Apartment Building Alternate (rooftop)",
+    "terrain": [ "apartments_mod_tower_113", "apartments_mod_tower_013", "apartments_mod_tower_103", "apartments_mod_tower_003" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_horse_ranch",
     "name": "Horse Ranch",
     "terrain": [ "horse_farm_13" ]
@@ -406,6 +497,18 @@
     "id": "sloc_cabin_lake",
     "name": "Lake Cabin",
     "terrain": [ "cabin_lake" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_freshwater_research_station",
+    "name": "Freshwater Research Station",
+    "terrain": [ "sealab_small_surface" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lodge_ground",
+    "name": "Hunting Lodge",
+    "terrain": [ "lodge_ground1" ]
   },
   {
     "type": "start_location",
@@ -430,5 +533,46 @@
     "id": "sloc_private_resort",
     "name": "Private resort",
     "terrain": [ "p_resort_2ss" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_road",
+    "name": "Road",
+    "terrain": [
+      "road_nesw_manhole",
+      { "om_terrain": "road_straight", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "road_curved", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "road_end", "om_terrain_match_type": "PREFIX" }
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_light_industry_scen",
+    "name": "Industrial Offices",
+    "terrain": [ "s_lightindustry_scen_10" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mansion_basement",
+    "name": "Mansion Basement",
+    "terrain": [ "mansion_t2d", "mansion_c2d", "mansion_c3d", "mansion_c4d", "mansion_t4d" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_hotel_rooftop",
+    "name": "Hotel Rooftop",
+    "terrain": [ "hotel_tower_roof_1_9", "hotel_tower_roof_1_8", "hotel_tower_roof_1_7" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_office_tower_rooftop",
+    "name": "Office Tower Rooftop",
+    "terrain": [ "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_cathedral_rooftop",
+    "name": "Cathedral Rooftop",
+    "terrain": [ "cathedral_3_NW", "cathedral_3_NE", "cathedral_3_SW", "cathedral_3_SE" ]
   }
 ]

@@ -49,6 +49,9 @@ uint32_t StringLiteralIterator::operator*() const
         n = 0;
     }
     for( size_t i = 1; i <= n; ++i ) {
+        if( ind + i >= str.get().getLength() ) {
+            return 0xFFFD; // unknown unicode
+        }
         ch = ( ch << 6 ) | ( str.get().getCodeUnit( ind + i ) & 0x3F );
     }
     return ch;

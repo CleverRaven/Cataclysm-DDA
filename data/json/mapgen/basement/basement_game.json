@@ -3,11 +3,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "basement" ],
-    "//": "used by house_31 and house_32 and house_32",
+    "//": "used by house_31 and house_32",
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "|----|                  ",
         "|...i|                  ",
@@ -59,7 +59,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "|----|                  ",
         "|...i|                  ",
@@ -97,6 +97,8 @@
         { "group": "homebooks", "x": 1, "y": [ 15, 18 ], "chance": 70 },
         { "group": "magazines", "x": [ 6, 7 ], "y": 15, "chance": 30 },
         { "group": "dresser", "x": 18, "y": 18, "chance": 80 },
+        { "group": "costume_all", "x": 18, "y": 18, "chance": 15 },
+        { "group": "costume_all", "x": 22, "y": 18, "chance": 15 },
         { "group": "dresser", "x": 22, "y": 18, "chance": 80 },
         { "group": "cleaning", "x": [ 14, 18 ], "y": 18, "chance": 80 }
       ],
@@ -111,7 +113,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "|----|                  ",
         "|...i|                  ",
@@ -161,7 +163,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "|----|                  ",
         "|...i|                  ",
@@ -197,6 +199,8 @@
         { "group": "pool_table", "x": [ 17, 18 ], "y": [ 10, 12 ], "chance": 90 },
         { "group": "livingroom", "x": [ 9, 23 ], "y": [ 5, 15 ], "chance": 60 },
         { "group": "dresser", "x": 18, "y": 18, "chance": 80 },
+        { "group": "costume_all", "x": 18, "y": 18, "chance": 15 },
+        { "group": "costume_all", "x": 22, "y": 18, "chance": 15 },
         { "group": "dresser", "x": 22, "y": 18, "chance": 80 },
         { "group": "cleaning", "x": [ 14, 18 ], "y": 18, "chance": 80 }
       ],
@@ -211,14 +215,14 @@
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "111111                  ",
         "1...i1                  ",
         "1&...1                  ",
         "1....1                  ",
         "111+11111111111111111111",
-        "1H+,,nFFFn,,,l,,,,,,,,,1",
+        "1H+,,nFFFn,,,l,,,,zzzzz1",
         "1W+,,,,,,,,n,,,,,,,,,,,1",
         "111nnnnnnnnn,,,,,,A,,,,1",
         "1BB,,,,,,,,,,,,,,###,,,1",
@@ -226,7 +230,7 @@
         "1B,,,,,,,,,,,,,,,###,,,1",
         "1B,,,,,,,,,,,,,,,A,A,,,1",
         "1B,,,,,,,,,,,,,,,,,,,,,1",
-        "1,,#####,,,,,,MT,,,,,,,1",
+        "1,,#####,,,,,,MT,,zzzzz1",
         "1S,,,,,,,S1,,11111111111",
         "1SnSSSSSnS1,,1          ",
         "11111111111++1          ",
@@ -238,7 +242,7 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "H": "f_home_furnace", "W": "f_water_heater" },
+      "furniture": { "H": "f_home_furnace", "W": "f_water_heater", "z": "f_cardboard_box" },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
@@ -252,7 +256,8 @@
         "F": { "items": [ { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 3 ] } ] },
         "#": { "items": [ { "item": "fast_food", "chance": 40 } ] },
         "B": { "items": [ { "item": "homebooks", "chance": 30, "repeat": [ 1, 3 ] } ] },
-        "M": { "items": [ { "item": "phones", "chance": 70, "repeat": [ 0, 5 ] } ] }
+        "M": { "items": [ { "item": "phones", "chance": 70, "repeat": [ 0, 5 ] } ] },
+        "z": { "items": [ { "item": "costume_all", "chance": 75, "repeat": [ 1, 3 ] } ] }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 22 ], "y": [ 5, 12 ], "chance": 2 } ],
       "place_monster": [ { "monster": "mon_dragon_dummy", "x": 22, "y": 9, "chance": 10 } ]

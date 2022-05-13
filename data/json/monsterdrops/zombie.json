@@ -37,7 +37,7 @@
       },
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "distribution": [ { "group": "rad_gear", "prob": 1 } ] },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+      { "group": "wallets", "damage": [ 1, 4 ] }
     ]
   },
   {
@@ -48,8 +48,14 @@
       { "item": "rag", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
       { "group": "pants", "damage": [ 1, 4 ] },
       { "group": "default_zombie_items" },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+      { "group": "wallets", "damage": [ 1, 4 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_blob_small_deathdrops",
+    "entries": [ { "item": "slime_scrap", "count": 1 } ]
   },
   {
     "type": "item_group",
@@ -64,7 +70,7 @@
       { "group": "fireman_head", "damage": [ 1, 4 ] },
       { "group": "hazmat_eyes", "damage": [ 1, 4 ], "prob": 33 },
       { "distribution": [ { "group": "fireman_gear", "prob": 1 } ] },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+      { "group": "wallets", "damage": [ 1, 4 ] }
     ]
   },
   {
@@ -84,17 +90,19 @@
         "distribution": [
           { "group": "swimmer_wetsuit", "damage": [ 1, 4 ], "prob": 10 },
           {
-            "collection": [
-              { "group": "swimmer_head", "damage": [ 1, 4 ], "prob": 75 },
-              { "group": "swimmer_torso", "damage": [ 1, 4 ], "prob": 33 },
-              { "group": "swimmer_pants", "damage": [ 1, 4 ] },
-              { "group": "swimmer_shoes", "damage": [ 1, 4 ], "prob": 25 }
-            ],
+            "collection": [ { "group": "swimmer_torso", "damage": [ 1, 4 ], "prob": 45 }, { "group": "swimmer_pants", "damage": [ 1, 4 ] } ],
             "prob": 90
           }
         ]
       },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000, "prob": 10 }
+      { "group": "swimmer_head", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "swimmer_gloves", "damage": [ 1, 4 ], "prob": 5 },
+      { "group": "swimmer_shoes", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "swimmer_accessories", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "swimmer_glasses", "damage": [ 0, 4 ], "prob": 15 },
+      { "group": "swimmer_items", "prob": 5 },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 },
+      { "group": "phones_case", "damage": [ 0, 4 ], "prob": 5 }
     ]
   },
   {
@@ -106,7 +114,7 @@
       { "group": "pants", "damage": [ 1, 4 ] },
       { "group": "shoes", "damage": [ 1, 4 ] },
       { "group": "default_zombie_items" },
-      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 },
       { "item": "fighter_sting", "prob": 60 }
     ]
   }

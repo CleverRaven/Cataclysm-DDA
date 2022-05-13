@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_CONSTRUCTION_H
 #define CATA_SRC_CONSTRUCTION_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -13,11 +14,13 @@
 
 #include "item.h"
 #include "optional.h"
+#include "translations.h"
 #include "type_id.h"
 
-class inventory;
-class player;
+class Character;
+class read_only_visitable;
 struct construction;
+struct point;
 
 namespace catacurses
 {
@@ -33,12 +36,6 @@ struct partial_con {
     construction_id id = construction_id( -1 );
 };
 
-struct build_reqs {
-    std::map<skill_id, int> skills;
-    std::map<requirement_id, int> reqs;
-    int time = 0;
-};
-
 template <>
 const construction &construction_id::obj() const;
 template <>
@@ -47,20 +44,21 @@ bool construction_id::is_valid() const;
 struct construction {
         // Construction type category
         construction_category_id category;
-        // How the action is displayed to the player
-        std::string description;
+        // Which group does this construction belong to.
+        construction_group_str_id group;
         // Additional note displayed along with construction requirements.
-        std::string pre_note;
+        translation pre_note;
         // Beginning terrain for construction
         std::string pre_terrain;
         // Final terrain after construction
         std::string post_terrain;
 
         // Item group of byproducts created by the construction on success.
-        cata::optional<std::string> byproduct_item_group;
+        cata::optional<item_group_id> byproduct_item_group;
 
-        // Flags beginning terrain must have
-        std::set<std::string> pre_flags;
+        // Flags beginning furniture/terrain must have
+        // Second element forces flags to be evaluated on terrain
+        std::map<std::string, bool> pre_flags;
 
         // Post construction flags
         std::set<std::string> post_flags;
@@ -116,14 +114,13 @@ void standardize_construction_times( int time );
 void load_construction( const JsonObject &jo );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );
-void complete_construction( player *p );
+void complete_construction( Character *you );
 bool can_construct( const construction &con, const tripoint &p );
-bool player_can_build( player &p, const inventory &inv, const construction &con );
-bool player_can_see_to_build( player &p, const std::string &desc );
+bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con );
+std::vector<construction *> constructions_by_group( const construction_group_str_id &group );
+std::vector<construction *> constructions_by_filter( std::function<bool( construction const & )>
+        const &filter );
 void check_constructions();
 void finalize_constructions();
 
-void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
-                                      std::map<furn_id, int>> &changed_ids,
-                                      build_reqs &total_reqs );
 #endif // CATA_SRC_CONSTRUCTION_H

@@ -44,14 +44,8 @@
           "failures": [ { "action": "damage" }, { "action": "alarm" }, { "action": "manhacks" } ]
         }
       },
-      "terrain": {
-        "=": "t_chaingate_c",
-        "_": "t_chainfence_h",
-        "8": "t_potential_trans",
-        "P": "t_generator_broken",
-        "!": "t_sewage_pump",
-        "p": "t_sewage_pipe"
-      },
+      "terrain": { "=": "t_chaingate_c", "_": "t_chainfence_h", "8": "t_potential_trans", "!": "t_sewage_pump", "p": "t_sewage_pipe" },
+      "furniture": { "P": "f_generator_broken" },
       "place_nested": [
         { "chunks": [ "lab_train_subway_east" ], "x": 0, "y": 0, "neighbors": { "east": [ "subway" ] } },
         { "chunks": [ "lab_train_subway_west" ], "x": 0, "y": 0, "neighbors": { "west": [ "subway" ] } },
@@ -96,6 +90,7 @@
         "                ........",
         "                       ."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "subway_underground" ],
       "place_vehicles": [
         { "vehicle": "trains_draisine", "x": [ 12, 17 ], "y": 7, "chance": 3, "rotation": 180 },
@@ -135,6 +130,7 @@
         ".......                 ",
         ".                       "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "subway_underground" ],
       "place_vehicles": [
         { "vehicle": "trains_draisine", "x": [ 1, 7 ], "y": 7, "chance": 3, "rotation": 180 },
@@ -174,6 +170,7 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "subway_underground" ],
       "place_vehicles": [
         { "vehicle": "trains_draisine", "x": 7, "y": [ 6, 11 ], "chance": 3, "rotation": 90 },
@@ -213,6 +210,7 @@
         " ..-x---x-....-x---x-.. ",
         "...^X^^^X^....^X^^^X^..."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "subway_underground" ],
       "place_vehicles": [
         { "vehicle": "trains_draisine", "x": 16, "y": [ 12, 17 ], "chance": 3, "rotation": 270 },

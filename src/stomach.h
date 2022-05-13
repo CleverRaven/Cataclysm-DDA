@@ -9,15 +9,15 @@
 #include "units.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 struct needs_rates;
 
 // Separate struct for nutrients so that we can easily perform arithmetic on
 // them
 struct nutrients {
-    /** amount of kcal this food has */
-    int kcal = 0;
+    /** amount of calories (1/1000s of kcal) this food has */
+    int calories = 0;
 
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
@@ -28,6 +28,7 @@ struct nutrients {
     void max_in_place( const nutrients &r );
 
     int get_vitamin( const vitamin_id & ) const;
+    int kcal() const;
 
     bool operator==( const nutrients &r ) const;
     bool operator!=( const nutrients &r ) const {
@@ -60,12 +61,13 @@ struct food_summary {
 // how much a stomach_contents can digest
 // based on 30 minute increments
 struct stomach_digest_rates {
-    units::volume solids;
-    units::volume water;
-    float percent_kcal;
-    int min_kcal;
-    float percent_vitamin;
-    int min_vitamin;
+    units::volume solids = 0_ml;
+    units::volume water = 0_ml;
+    float percent_kcal = 0.0f;
+    // calories, or 1/1000s of kcals
+    int min_calories = 0;
+    float percent_vitamin = 0.0f;
+    int min_vitamin = 0;
 };
 
 // an abstract of food that has been eaten.
@@ -126,7 +128,7 @@ class stomach_contents
         units::volume get_water() const;
 
         // changes calorie amount
-        void mod_calories( int calories );
+        void mod_calories( int kcal );
 
         // changes calorie amount based on old nutr value
         void mod_nutr( int nutr );
@@ -146,27 +148,27 @@ class stomach_contents
         void ate();
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &json );
+        void deserialize( const JsonObject &jo );
 
     private:
 
         // If true, this object represents a stomach; if false, this object represents guts.
-        bool stomach;
+        bool stomach = false; // NOLINT(cata-serialize)
 
         // nutrients (calories and vitamins)
         nutrients nutr;
         // volume of water in stomach_contents
-        units::volume water;
+        units::volume water = 0_ml;
         /**
         * this is the maximum volume without modifiers such as mutations
         * in order to get the maximum volume with all modifiers properly,
         * call stomach_capacity()
         */
-        units::volume max_volume;
+        units::volume max_volume = 0_ml;
         // volume of food in stomach_contents
-        units::volume contents;
+        units::volume contents = 0_ml;
         // when did this stomach_contents call stomach_contents::ingest()
-        time_point last_ate;
+        time_point last_ate = calendar::turn_zero;
 
         // Gets the rates at which this stomach will digest things.
         stomach_digest_rates get_digest_rates( const needs_rates &metabolic_rates,

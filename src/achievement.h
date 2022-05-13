@@ -1,21 +1,33 @@
 #ifndef CATA_SRC_ACHIEVEMENT_H
 #define CATA_SRC_ACHIEVEMENT_H
 
-#include <list>
-#include <string>
+#include <array>
+#include <functional>
+#include <iosfwd>
 #include <memory>
+#include <new>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
-#include "event_bus.h"
+#include "calendar.h"
+#include "cata_variant.h"
+#include "event_subscriber.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
+class JsonIn;
 class JsonObject;
-struct achievement_requirement;
+class JsonOut;
 class achievements_tracker;
+struct achievement_requirement;
+template <typename E> struct enum_traits;
+
+namespace cata
+{
+class event;
+}  // namespace cata
 class requirement_watcher;
 class stats_tracker;
 
@@ -58,6 +70,7 @@ class achievement
         static void reset();
 
         achievement_id id;
+        std::vector<std::pair<achievement_id, mod_id>> src;
         bool was_loaded = false;
 
         const translation &name() const {
@@ -85,7 +98,7 @@ class achievement
                     last
                 };
 
-                void deserialize( JsonIn & );
+                void deserialize( const JsonObject &jo );
                 void check( const achievement_id & ) const;
 
                 time_point target() const;
@@ -93,8 +106,8 @@ class achievement
                 bool becomes_false() const;
                 std::string ui_text( bool is_conduct ) const;
             private:
-                achievement_comparison comparison_;
-                epoch epoch_;
+                achievement_comparison comparison_ = achievement_comparison::anything;
+                epoch epoch_ = epoch::cataclysm;
                 time_duration period_;
         };
 
@@ -134,7 +147,7 @@ struct achievement_state {
     std::string ui_text( const achievement * ) const;
 
     void serialize( JsonOut & ) const;
-    void deserialize( JsonIn & );
+    void deserialize( const JsonObject &jo );
 };
 
 class achievement_tracker
@@ -159,7 +172,7 @@ class achievement_tracker
 
         // sorted_watchers_ maintains two sets of watchers, categorised by
         // whether they watch a satisfied or unsatisfied requirement.  This
-        // allows us to check whether the achievment is met on each new stat
+        // allows us to check whether the achievement is met on each new stat
         // value in O(1) time.
         std::array<std::unordered_set<requirement_watcher *>, 2> sorted_watchers_;
 };
@@ -171,10 +184,17 @@ class achievements_tracker : public event_subscriber
         achievements_tracker( const achievements_tracker & ) = delete;
         achievements_tracker &operator=( const achievements_tracker & ) = delete;
 
+        /**
+         * @param active Whether this achievements_tracker needs to create
+         * watchers for the stats_tracker to monitor ongoing events.  If only
+         * using the achievements_tracker for analyzing past achievements, this
+         * should not be necessary.
+         */
         achievements_tracker(
             stats_tracker &,
             const std::function<void( const achievement *, bool )> &achievement_attained_callback,
-            const std::function<void( const achievement *, bool )> &achievement_failed_callback );
+            const std::function<void( const achievement *, bool )> &achievement_failed_callback,
+            bool active );
         ~achievements_tracker() override;
 
         // Return all scores which are valid now and existed at game start
@@ -196,20 +216,28 @@ class achievements_tracker : public event_subscriber
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &jo );
     private:
         void init_watchers();
 
-        stats_tracker *stats_ = nullptr;
+        stats_tracker *stats_ = nullptr; // NOLINT(cata-serialize)
         bool enabled_ = true;
+        // Active is true when this is the 'real' achievements_tracker for an
+        // ongoing game, but false when it's being used to analyze data from a
+        // past game.
+        bool active_; // NOLINT(cata-serialize)
+        // NOLINTNEXTLINE(cata-serialize)
         std::function<void( const achievement *, bool )> achievement_attained_callback_;
+        // NOLINTNEXTLINE(cata-serialize)
         std::function<void( const achievement *, bool )> achievement_failed_callback_;
         std::unordered_set<achievement_id> initial_achievements_;
 
         // Class invariant: each valid achievement has exactly one of a watcher
         // (if it's pending) or a status (if it's completed or failed).
-        std::unordered_map<achievement_id, achievement_tracker> trackers_;
+        std::unordered_map<achievement_id, achievement_tracker> trackers_; // NOLINT(cata-serialize)
         std::unordered_map<achievement_id, achievement_state> achievements_status_;
 };
+
+achievements_tracker &get_achievements();
 
 #endif // CATA_SRC_ACHIEVEMENT_H

@@ -2,12 +2,18 @@
 #ifndef CATA_SRC_MOVE_MODE_H
 #define CATA_SRC_MOVE_MODE_H
 
+#include <cstdint>
+#include <iosfwd>
 #include <map>
-#include <string>
+#include <vector>
 
-#include "generic_factory.h"
+#include "color.h"
 #include "translations.h"
 #include "type_id.h"
+
+class JsonObject;
+template<typename T>
+class generic_factory;
 
 enum class steed_type : int {
     NONE,
@@ -17,6 +23,7 @@ enum class steed_type : int {
 };
 
 enum class move_mode_type : int {
+    PRONE,
     CROUCHING,
     WALKING,
     RUNNING
@@ -26,9 +33,11 @@ class move_mode
 {
 
         friend class generic_factory<move_mode>;
+        friend struct mod_tracker;
 
         bool was_loaded = false;
         move_mode_id id;
+        std::vector<std::pair<move_mode_id, mod_id>> src;
 
         std::map<steed_type, translation> change_messages_success;
         std::map<steed_type, translation> change_messages_fail;
@@ -39,7 +48,7 @@ class move_mode
         // Which was necessary, because I needed to know the values of the other ones
         // before I could set it
         mutable move_mode_id cycle_to;
-        move_mode_type _type;
+        move_mode_type _type = move_mode_type::WALKING;
 
         float _exertion_level = 0.0f;
         float _move_speed_mult = 0.0f;
@@ -63,6 +72,7 @@ class move_mode
 
         move_mode() = default;
 
+        // name: walk, run, crouch, prone
         std::string name() const;
         std::string change_message( bool success, steed_type steed ) const;
 

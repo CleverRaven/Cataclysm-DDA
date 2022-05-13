@@ -3,11 +3,12 @@
     "id": "bipod",
     "type": "GUNMOD",
     "name": { "str": "bipod" },
-    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are usable only on certain surfaces and are slow to equip.",
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil, they are usable only on certain surfaces (or from the prone position), and are slow to equip.",
     "weight": "400 g",
     "volume": "500 ml",
     "price": 68000,
     "price_postapoc": 500,
+    "install_time": "1 m",
     "to_hit": -1,
     "bashing": 10,
     "material": [ "steel" ],
@@ -24,7 +25,7 @@
     "copy-from": "bipod",
     "type": "GUNMOD",
     "name": { "str": "modified bipod" },
-    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are usable only on certain surfaces and are slow to equip.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil, they are usable only on certain surfaces (or from the prone position), and are slow to equip.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
@@ -37,6 +38,7 @@
     "volume": "0 ml",
     "price": 95000,
     "price_postapoc": 500,
+    "install_time": "0 s",
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": ":",
@@ -50,18 +52,19 @@
   {
     "id": "factory_handguard",
     "type": "GUNMOD",
-    "name": "factory handguard",
+    "name": { "str": "factory handguard" },
     "description": "A removable molded grip that comes standard on guns without rails.  It's not as efficient as a proper forward grip or bipod at controlling recoil, but it's better than nothing.",
     "weight": "246 g",
     "volume": "568ml",
     "price": 6000,
+    "install_time": "5 m",
     "material": [ "plastic" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel mount",
     "mod_targets": [ "fs2000" ],
-    "//install_time": 5000,
-    "handling_modifier": 2
+    "handling_modifier": 2,
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "grip",
@@ -73,6 +76,7 @@
     "volume": "119 ml",
     "price": 6000,
     "price_postapoc": 500,
+    "install_time": "30 s",
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "brown",
@@ -98,18 +102,46 @@
     "weight": "1 g",
     "volume": "92 ml",
     "longest_side": "22 cm",
+    "integral_longest_side": "22 cm",
     "price": 4000,
     "price_postapoc": 500,
+    "install_time": "0 s",
     "to_hit": -1,
     "cutting": 10,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
+    "use_action": {
+      "type": "transform",
+      "msg": "You fold in the bayonet.  It can no longer be used.",
+      "menu_text": "Fold",
+      "target": "inter_bayonet_folded",
+      "moves": 120
+    },
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle" ],
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
-    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
+    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "inter_bayonet_folded",
+    "type": "GUNMOD",
+    "name": { "str": "integrated bayonet (folded)", "str_pl": "integrated bayonets (folded)" },
+    "copy-from": "inter_bayonet",
+    "description": "This bayonet has been folded for storage.",
+    "longest_side": "22 cm",
+    "cutting": 0,
+    "integral_longest_side": "0 cm",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Unfold",
+      "msg": "You fold out the bayonet.  It can be used.",
+      "target": "inter_bayonet",
+      "moves": 120
+    },
+    "mode_modifier": [  ],
+    "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "ksg_aux_shotgun",
@@ -120,6 +152,7 @@
     "volume": "1750 ml",
     "price": 0,
     "price_postapoc": 0,
+    "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -146,6 +179,7 @@
     "volume": "1750 ml",
     "price": 0,
     "price_postapoc": 0,
+    "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -173,6 +207,7 @@
     "integral_volume": "0 ml",
     "price": 0,
     "price_postapoc": 0,
+    "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -184,6 +219,7 @@
       "ranged_damage": { "damage_type": "stab", "amount": 1 },
       "dispersion": 320,
       "durability": 6,
+      "min_cycle_recoil": 1250,
       "clip_size": 5,
       "reload": 120
     },
@@ -200,6 +236,7 @@
     "integral_volume": "0 ml",
     "price": 0,
     "price_postapoc": 0,
+    "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -211,6 +248,7 @@
       "ranged_damage": { "damage_type": "stab", "amount": 1 },
       "dispersion": 320,
       "durability": 6,
+      "min_cycle_recoil": 1250,
       "clip_size": 5,
       "reload": 120
     },
@@ -222,28 +260,31 @@
     "type": "GUNMOD",
     "name": { "str": "underbarrel laser sight" },
     "description": "A visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.  Aside from increased weight, there are no drawbacks.",
-    "weight": "120 g",
-    "volume": "250 ml",
+    "weight": "70 g",
+    "volume": "40 ml",
     "integral_volume": "0 ml",
     "price": 10000,
     "price_postapoc": 500,
+    "install_time": "5 m",
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "sight_dispersion": 30,
-    "aim_speed": 9,
+    "field_of_view": 3000,
+    "aim_speed_modifier": 15,
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
-    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "LASER_SIGHT" ]
   },
   {
     "id": "lemat_revolver_shotgun",
     "type": "GUNMOD",
     "name": { "str": "LeMat revolver shotgun" },
-    "description": "The Lemat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
+    "description": "The LeMat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
     "volume": "250 ml",
     "integral_volume": "0 ml",
+    "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -271,15 +312,24 @@
     "volume": "500 ml",
     "price": 65000,
     "price_postapoc": 1000,
+    "install_time": "5 m",
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
+    "gun_data": {
+      "ammo": "40x46mm",
+      "skill": "launcher",
+      "dispersion": 300,
+      "durability": 10,
+      "blackpowder_tolerance": 60,
+      "clip_size": 1
+    },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "id": "m203_mod",
@@ -298,15 +348,24 @@
     "volume": "500 ml",
     "price": 84000,
     "price_postapoc": 1000,
+    "install_time": "5 m",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
+    "gun_data": {
+      "ammo": "40x46mm",
+      "skill": "launcher",
+      "dispersion": 270,
+      "durability": 10,
+      "blackpowder_tolerance": 60,
+      "clip_size": 1
+    },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "id": "m320_mod_mod",
@@ -324,13 +383,14 @@
     "volume": "0 ml",
     "price": 0,
     "price_postapoc": 0,
+    "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
-    "flags": [ "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_EJECT", "ZERO_WEIGHT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
@@ -339,10 +399,13 @@
     "type": "GENERIC",
     "name": { "str": "makeshift bayonet" },
     "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
+    "longest_side": "12 cm",
+    "integral_longest_side": "12 cm",
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "5 m"
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
@@ -350,11 +413,12 @@
     "id": "masterkey",
     "type": "GUNMOD",
     "name": { "str": "masterkey shotgun" },
-    "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
+    "description": "A minimalist pump-action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
     "weight": "2600 g",
     "volume": "1068 ml",
     "price": 95000,
     "price_postapoc": 1000,
+    "install_time": "5 m",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -370,7 +434,7 @@
     "copy-from": "masterkey",
     "type": "GUNMOD",
     "name": { "str": "modified masterkey shotgun" },
-    "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
+    "description": "A minimalist pump-action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
@@ -382,14 +446,24 @@
     "volume": "750 ml",
     "price": 25000,
     "price_postapoc": 500,
+    "install_time": "10 m",
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
+    "gun_data": {
+      "ammo": "40x46mm",
+      "skill": "launcher",
+      "dispersion": 450,
+      "durability": 10,
+      "blackpowder_tolerance": 60,
+      "clip_size": 1
+    },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "id": "pistol_bayonet",
@@ -400,6 +474,7 @@
     "volume": "250 ml",
     "price": 4000,
     "price_postapoc": 1000,
+    "install_time": "5 m",
     "to_hit": -4,
     "cutting": 6,
     "material": [ "steel" ],
@@ -409,6 +484,7 @@
     "mod_targets": [ "pistol" ],
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
+    "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -418,8 +494,10 @@
     "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.",
     "weight": "1140 g",
     "volume": "750 ml",
+    "longest_side": "380 mm",
     "price": 120000,
     "price_postapoc": 5000,
+    "install_time": "5 m",
     "material": [ "superalloy", "ceramic" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -428,15 +506,7 @@
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "20x66_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ]
   },
   {
     "id": "rm121aux_mod",
@@ -455,6 +525,7 @@
     "volume": "750 ml",
     "price": 65000,
     "price_postapoc": 1000,
+    "install_time": "10 m",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",

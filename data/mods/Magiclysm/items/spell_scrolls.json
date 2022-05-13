@@ -3,6 +3,7 @@
     "abstract": "spell_scroll",
     "name": { "str": "Spell Scroll" },
     "type": "BOOK",
+    "category": "manuals",
     "weight": "475 g",
     "volume": "500 ml",
     "price": 4000,
@@ -85,6 +86,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_baleful_polymorph",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Baleful Polymorph", "str_pl": "Scrolls of Baleful Polymorph" },
+    "description": "Transform your enemies into frogs.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_baleful_polymorph" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_zombie",
     "//": "Animist spell",
     "name": { "str": "Scroll of Summon Zombie", "str_pl": "Scrolls of Summon Zombie" },
@@ -99,6 +109,15 @@
     "name": { "str": "Scroll of Summon Skeleton", "str_pl": "Scrolls of Summon Skeleton" },
     "description": "A ghostly skeleton rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_skeleton" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_rupture",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Rupture", "str_pl": "Scrolls of Rupture" },
+    "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemorrhaging, leylines to become muddled, and electronics to overcharge.  Immensely gruesome, crude, and was once illegal world-wide, not that it matters now.",
+    "use_action": { "type": "learn_spell", "spells": [ "rupture" ] }
   },
   {
     "type": "BOOK",
@@ -267,7 +286,7 @@
     "id": "spell_scroll_recover_fatigue",
     "//": "Druid spell",
     "name": { "str": "Scroll of Nature's Trance", "str_pl": "Scrolls of Nature's Trance" },
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatige quickly in exchange for mana.",
+    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatigue quickly in exchange for mana.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_fatigue" ] }
   },
   {
@@ -278,6 +297,24 @@
     "name": { "str": "Scroll of Bag of Cats", "str_pl": "Scrolls of Bag of Cats" },
     "description": "Are you the crazy cat lady?",
     "use_action": { "type": "learn_spell", "spells": [ "summon_cats" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_wolf",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Summon Wolf", "str_pl": "Scrolls of Summon Wolf" },
+    "description": "Call to the wild for aid from some wolves.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_wolf_druid" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_cause_rot",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Cause Rot", "str_pl": "Scrolls of Cause Rot" },
+    "description": "A spell from a darker sect of druidry, created to forcibly begin the circle of life anew.  For without rot, you cannot have growth.  Affects a huge area, but is indiscriminate and slow both in casting and effect.  Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
+    "use_action": { "type": "learn_spell", "spells": [ "cause_rot" ] }
   },
   {
     "type": "BOOK",
@@ -453,6 +490,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_shadow_field",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Shadow Field", "str_pl": "Scrolls of Shadow Field" },
+    "description": "Cast a field of shadows.",
+    "use_action": { "type": "learn_spell", "spells": [ "shadow_field" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_magic_missile",
     "//": "Magus spell",
     "name": { "str": "Scroll of Magic Missile", "str_pl": "Scrolls of Magic Missile" },
@@ -557,6 +603,24 @@
     "name": { "str": "Scroll of Fox's Cunning", "str_pl": "Scrolls of Fox's Cunning" },
     "description": "You become wily like a fox.",
     "use_action": { "type": "learn_spell", "spells": [ "foxs_cunning" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_focused_bolt",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Focused Bolt", "str_pl": "Scrolls of Focused Bolt" },
+    "description": "You focus your mana into a microscopically thin pulsed beam of pure energy, capable of extreme range and precision; as well as unparalleled penetration, provided proper skill.  Once the invention of a notorious assassin, this spell has slayed many a king and noble.  Passed on only through direct descendants over the ages, though occasionally shared by them to others.",
+    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_shocking_lash",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Shocking Lash", "str_pl": "Scrolls of Shocking Lash" },
+    "description": "A quick burst of electricity strikes a target and possibly one other nearby.",
+    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash" ] }
   },
   {
     "type": "BOOK",
@@ -759,11 +823,20 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_lava_bomb",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Lava Bomb", "str_pl": "Scrolls of Lava Bomb" },
-    "description": "You tear up the ground beneath you to fire a lava bomb: a globe of lava surrounded by hot, solid rock.  It shatters upon impact, spraying shards of rock and lava everywhere.",
-    "use_action": { "type": "learn_spell", "spells": [ "lava_bomb_main" ] }
+    "id": "spell_scroll_bleed",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Bleed", "str_pl": "Scrolls of Bleed" },
+    "description": "With a shout and a gesture, the target starts bleeding from old wounds.",
+    "use_action": { "type": "learn_spell", "spells": [ "bleed" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_banishment_lesser",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Lesser Banishment", "str_pl": "Scrolls of Lesser Banishment" },
+    "description": "Banish a monster to the lesser-known nether dimension.  If a monster is more powerful than you can handle, the spell drains your life force to make up the difference.",
+    "use_action": { "type": "learn_spell", "spells": [ "banishment_lesser" ] }
   },
   {
     "type": "BOOK",
@@ -900,5 +973,129 @@
     "name": { "str": "Scroll of Repelling Arc", "str_pl": "Scrolls of Repelling Arc" },
     "description": "You manifest an aura of crackling electricity around you to strike attackers with baleful lightning.",
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_repelling_arc" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_tornskin",
+    "name": { "str": "Sappy Scroll" },
+    "description": "This scroll is covered in sap and rose thorns.  You can still make out some of the writings, but it probably won't work the same.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_tornskin" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_feralform",
+    "name": { "str": "Scroll of Feral Form", "str_pl": "Scrolls of Feral Form" },
+    "description": "Unleash your inner beast by snapping a fur-covered bone, becoming beastly.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_feralform" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_flamesword",
+    "name": { "str": "Scroll of Flamesword", "str_pl": "Scrolls of Flamesword" },
+    "description": "Ignite a wooden sword to create a flaming saber.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_summon_flamesword" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_flamebreath",
+    "name": { "str": "Scroll of Flamebreath", "str_pl": "Scrolls of Flamebreath" },
+    "description": "A pocketful of combustible powder is ignited, creating a cone of flame with ashes that stick to those in its path.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_flamebreath" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_caustic_aura",
+    "name": { "str": "Scroll of Caustic Aura", "str_pl": "Scrolls of Caustic Aura" },
+    "description": "Animate a layer of acid around you, burning attackers and increasing your melee damage.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_caustic_aura" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_boneclub",
+    "name": { "str": "Scroll of Decaying Boneclub", "str_pl": "Scrolls of Decaying Boneclub" },
+    "description": "Link your live blood to dead blood and bones, creating a club eager to harvest the living.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_summon_decaying_boneclub" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_disruption_bolt",
+    "name": { "str": "Scroll of Disruption Bolt", "str_pl": "Scrolls of Disruption Bolt" },
+    "description": "Release a resonant bolt of spiritual energy at a nearby target.  It will disrupt the natural link between matter and animus, causing heavy but never lethal damage.",
+    "use_action": { "type": "learn_spell", "spells": [ "disruption_bolt" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_impactsling",
+    "name": { "str": "Scroll of Impact Sling", "str_pl": "Scrolls of Impact Sling" },
+    "description": "Infuse a sling with excess energy, delivering devastating throws before it tears itself apart.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_summon_impact_sling" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_knifeshot",
+    "name": { "str": "Scroll of Knifeshot", "str_pl": "Scrolls of Knifeshot" },
+    "description": "Emulate a railgun, launching a knife at high speed.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_knifeshot" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_magic_motorcycle",
+    "name": { "str": "MICE(R) blueprint" },
+    "description": "Manafied Infernal Combustion Engine (Rideable)\nDetailed schematics for a motorcycle, that are somehow simultaneously obviously impossible and yet intriguingly intuitive.\nIn one margin, the word 'Mojocycle' has been scrawled in a flowing hand.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_magic_motorcycle" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_nova_flare",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Nova Flare", "str_pl": "Scrolls of Nova Flare" },
+    "description": "Causes an intense heat at the location, greatly damaging the target.",
+    "use_action": { "type": "learn_spell", "spells": [ "nova_flare" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_force_jar",
+    "name": { "str": "Scroll of Jar of Force", "str_pl": "Scrolls of Jar of Force" },
+    "description": "Summon a jar of force you can use to store liquids in.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_force_jar" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_freezing_touch",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of freezing touch", "str_pl": "Scrolls of freezing touch" },
+    "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
+    "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_natures_commune",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Nature's Commune", "str_pl": "Scrolls of Nature's Commune" },
+    "description": "Your connection with nature allows you to become one with it; you revitalize your body while in communion with the flora and fauna around you.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_natures_commune" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_seed_of_growth",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of seed of growth", "str_pl": "Scrolls of seed of growth" },
+    "description": "Offer some of your life in a ritual to get tokens of growth in return.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
   }
 ]

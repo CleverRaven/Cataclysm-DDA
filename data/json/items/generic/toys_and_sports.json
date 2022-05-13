@@ -13,24 +13,16 @@
     "symbol": "|",
     "color": "pink",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": [ "DOLLCHAT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_minus_disposable_cell",
-          "light_disposable_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
       }
     ]
   },
@@ -48,26 +40,35 @@
     "symbol": "|",
     "color": "pink",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": [ "DOLLCHAT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_minus_disposable_cell",
-          "light_disposable_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "swimming_kickboard",
+    "name": { "str": "swimming kickboard" },
+    "description": "A swimming kickboard, great training aid for the beach or the pool, if only they weren't full of jawed terrors and zombies.",
+    "volume": "3450 ml",
+    "weight": "200 g",
+    "longest_side": "37 cm",
+    "price": "12 USD",
+    "price_postapoc": 5,
+    "bashing": 4,
+    "to_hit": -1,
+    "color": "blue",
+    "symbol": "/",
+    "material": [ "plastic" ],
+    "flags": [ "NONCONDUCTIVE", "FLOTATION" ]
   },
   {
     "id": "shuttlecock",
@@ -77,6 +78,7 @@
     "description": "A high-drag projectile used in the sport of badminton.",
     "weight": "5 g",
     "volume": "600 ml",
+    "longest_side": "90 mm",
     "price": 200,
     "price_postapoc": 0,
     "material": [ "rubber", "plastic" ],
@@ -92,6 +94,7 @@
     "description": "A pin shaped piece of wood meant for holding a golf ball slightly off the ground.",
     "weight": "3 g",
     "volume": "250 ml",
+    "longest_side": "70 mm",
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "wood" ],
@@ -104,7 +107,8 @@
     "category": "other",
     "name": { "str": "golf ball" },
     "description": "A small ball with round indentations on it.",
-    "weight": "50 g",
+    "weight": "46 g",
+    "longest_side": "43 mm",
     "volume": "250 ml",
     "price": 2000,
     "price_postapoc": 0,
@@ -115,7 +119,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "pool_ball",
     "symbol": "*",
     "color": "blue",
@@ -125,10 +129,18 @@
     "price": 3000,
     "price_postapoc": 0,
     "material": [ "plastic" ],
+    "ammo_type": "rock",
+    "flags": [ "NPC_THROWN" ],
     "weight": "170 g",
     "volume": "250 ml",
+    "longest_side": "57 mm",
     "bashing": 8,
-    "to_hit": -3
+    "damage": { "damage_type": "bash", "amount": 8 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -3,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
   },
   {
     "type": "GENERIC",
@@ -141,13 +153,14 @@
     "price": 3000,
     "price_postapoc": 10,
     "material": [ "ceramic" ],
-    "weight": "2000 g",
-    "volume": "2500 ml",
-    "bashing": 16,
+    "weight": "7257 g",
+    "volume": "5277 ml",
+    "longest_side": "216 mm",
+    "bashing": 18,
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "baseball",
     "symbol": "*",
     "color": "white",
@@ -157,10 +170,18 @@
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "leather" ],
+    "ammo_type": "rock",
+    "flags": [ "NPC_THROWN" ],
     "weight": "150 g",
     "volume": "250 ml",
+    "longest_side": "75 mm",
     "bashing": 6,
-    "to_hit": 3
+    "damage": { "damage_type": "bash", "amount": 6 },
+    "range": 12,
+    "dispersion": 12,
+    "loudness": 0,
+    "to_hit": 3,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
   },
   {
     "type": "GENERIC",
@@ -172,9 +193,10 @@
     "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 9 }, { "type": "rubber" } ],
     "weight": "400 g",
     "volume": "750 ml",
+    "longest_side": "29 cm",
     "bashing": 4,
     "to_hit": -1
   },
@@ -185,12 +207,13 @@
     "color": "brown",
     "name": { "str": "basketball" },
     "category": "other",
-    "description": "A high-quality indoor basketball.  You may throw it at zombies.",
+    "description": "A high-quality, size 7 indoor basketball.  You may throw it at zombies.",
     "price": 1200,
     "price_postapoc": 10,
     "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
+    "longest_side": "239 mm",
     "bashing": 6,
     "to_hit": -1
   },
@@ -207,6 +230,7 @@
     "material": [ "rubber" ],
     "weight": "260 g",
     "volume": "1 L",
+    "longest_side": "26 cm",
     "bashing": 4,
     "to_hit": -1
   },
@@ -215,7 +239,7 @@
     "id": "beach_volleyball",
     "symbol": "*",
     "color": "green",
-    "name": { "str": "beach volleyball", "str_pl": "volleyballs" },
+    "name": { "str": "beach volleyball" },
     "category": "other",
     "description": "A brightly colored beach volleyball.  It is slightly larger than a regular white one.",
     "price": 1200,
@@ -223,6 +247,7 @@
     "material": [ "rubber" ],
     "weight": "280 g",
     "volume": "1 L",
+    "longest_side": "27 cm",
     "bashing": 4,
     "to_hit": -1
   },
@@ -239,7 +264,61 @@
     "material": [ "rubber" ],
     "weight": "170 g",
     "volume": "250 ml",
+    "longest_side": "76 mm",
     "bashing": 7,
     "to_hit": 2
+  },
+  {
+    "type": "GENERIC",
+    "id": "mannequin",
+    "symbol": "@",
+    "color": "dark_gray",
+    "name": { "str": "mannequin" },
+    "category": "other",
+    "description": "A figure of an adult human, as seen in the display case at the mall.  It might be able to fool some zombies if it could attract their attention.",
+    "price": 15000,
+    "price_postapoc": 500,
+    "material": [ "wood" ],
+    "weight": "81500 g",
+    "volume": "62500 ml",
+    "longest_side": "180 cm",
+    "bashing": 18,
+    "to_hit": -2
+  },
+  {
+    "type": "TOOL",
+    "id": "mannequin_decoy",
+    "symbol": "@",
+    "color": "light_gray",
+    "name": { "str": "mannequin decoy" },
+    "category": "other",
+    "description": "A figure of an adult human, as seen in the display case at the mall.  This one is cradling a talking doll.  It can make sound when powered by batteries and can be used to distract some zombies.",
+    "price": 15000,
+    "price_postapoc": 500,
+    "material": [ "wood" ],
+    "weight": "81500 g",
+    "volume": "62500 ml",
+    "longest_side": "180 cm",
+    "bashing": 18,
+    "to_hit": -2,
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
+      }
+    ],
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_mannequin_decoy",
+      "friendly_msg": "You activate the talking doll on the mannequin.",
+      "hostile_msg": "Your mannequin seems to have a mind of its own!  If you see this, an error has occurred.",
+      "difficulty": 0,
+      "need_charges": 100,
+      "moves": 20
+    }
   }
 ]

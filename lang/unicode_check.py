@@ -2,6 +2,7 @@
 from __future__ import print_function
 import sys
 
+
 def print_encode_error(unicode_err, counter):
     chunk = unicode_err.object
     err_line = counter + chunk.count(b'\n', 0, unicode_err.start)
@@ -13,6 +14,7 @@ def print_encode_error(unicode_err, counter):
     x_num = unicode_err.end - unicode_err.start + 2
     x_start = unicode_err.start - line_start + 2
     print("{0:>{1}}".format("^" * x_num, x_start))
+
 
 def check(f):
     count = 1
@@ -27,6 +29,7 @@ def check(f):
         return False
 
     return True
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:

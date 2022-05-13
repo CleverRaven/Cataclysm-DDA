@@ -1,0 +1,13 @@
+[
+  {
+    "id": "TALK_WARRENER",
+    "type": "talk_topic",
+    "responses": [ { "text": "What can you tell me about the dinosaurs?", "topic": "TALK_WARRENER_DINOSAURS" } ]
+  },
+  {
+    "id": "TALK_WARRENER_DINOSAURS",
+    "type": "talk_topic",
+    "dynamic_line": "I am afraid that is drifting far out of my area of expertise, but I would be willing to bet some of the little ones might be worth something to you if you tamed them and raised them.  No fur to speak of, but feathers might be of some use, and meat and eggs could help.  I'm not sure what they eat, but I hope it isn't rabbits or people on the more rabbit adjacent end of things.",
+    "responses": [ { "text": "Maybe dinosaurs and rabbits aren't so different.", "topic": "TALK_WARRENER" } ]
+  }
+]

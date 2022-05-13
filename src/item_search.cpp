@@ -3,15 +3,15 @@
 #include <map>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "item.h"
 #include "item_category.h"
 #include "material.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "type_id.h"
 
-std::pair<std::string, std::string> get_both( const std::string &a );
+static std::pair<std::string, std::string> get_both( const std::string &a );
 
 std::function<bool( const item & )> basic_item_filter( std::string filter )
 {
@@ -27,14 +27,14 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // category
         case 'c':
             return [filter]( const item & i ) {
-                return lcmatch( i.get_category().name(), filter );
+                return lcmatch( i.get_category_of_contents().name(), filter );
             };
         // material
         case 'm':
             return [filter]( const item & i ) {
                 return std::any_of( i.made_of().begin(), i.made_of().end(),
-                [&filter]( const material_id & mat ) {
-                    return lcmatch( mat->name(), filter );
+                [&filter]( const std::pair<material_id, int> &mat ) {
+                    return lcmatch( mat.first->name(), filter );
                 } );
             };
         // qualities
@@ -56,7 +56,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         case 'd':
             return [filter]( const item & i ) {
                 const auto &components = i.get_uncraft_components();
-                for( auto &component : components ) {
+                for( const item_comp &component : components ) {
                     if( lcmatch( component.to_string(), filter ) ) {
                         return true;
                     }
@@ -69,10 +69,18 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 const std::string note = i.get_var( "item_note" );
                 return !note.empty() && lcmatch( note, filter );
             };
+        // by book skill
+        case 's':
+            return [filter]( const item & i ) {
+                if( get_avatar().has_identified( i.typeId() ) ) {
+                    return lcmatch( i.get_book_skill(), filter );
+                }
+                return false;
+            };
         // by name
         default:
             return [filter]( const item & a ) {
-                return lcmatch( a.tname(), filter );
+                return lcmatch( remove_color_tags( a.tname() ), filter );
             };
     }
 }
@@ -85,6 +93,6 @@ std::function<bool( const item & )> item_filter_from_string( const std::string &
 std::pair<std::string, std::string> get_both( const std::string &a )
 {
     size_t split_mark = a.find( ';' );
-    return std::make_pair( a.substr( 0, split_mark - 1 ),
+    return std::make_pair( a.substr( 0, split_mark ),
                            a.substr( split_mark + 1 ) );
 }

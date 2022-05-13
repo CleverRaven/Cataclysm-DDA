@@ -39,7 +39,7 @@
     "name": { "str_sp": "shotshell, slug" },
     "description": "A shotshell with a single projectile, shaped somewhat like a shuttlecock.  Slugs are used with shotguns to give them extra range, allowing them to stand in for a rifle.  Extremely damaging but rather inaccurate.",
     "dispersion": 100,
-    "relative": { "range": 12, "damage": { "damage_type": "bullet", "armor_penetratoin": 6 } },
+    "relative": { "range": 12, "damage": { "damage_type": "bullet", "armor_penetration": 6 } },
     "proportional": { "price": 1.4, "price_postapoc": 1.4, "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   },
@@ -59,6 +59,13 @@
       "range": 0.5
     },
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
+  },
+  {
+    "id": "shot_explosive",
+    "copy-from": "shot_he",
+    "type": "AMMO",
+    "name": { "str_sp": "shotshell, explosive" },
+    "ammo_type": "ammo_shot"
   },
   {
     "id": "reloaded_shot_junk",
@@ -108,14 +115,11 @@
   },
   {
     "id": "reloaded_shot_dart",
-    "copy-from": "shot_buck",
+    "copy-from": "reloaded_shot_flechette",
     "name": { "str_sp": "shotshell, flechette (reloaded)" },
-    "//": "intentionally reload only",
+    "//": "intentionally reload only because flechette shot is not available commercially or used by the military",
     "type": "AMMO",
-    "description": "A shotgun shell filled with tiny steel darts, definitely not a factory loading.  Flechettes won't pattern as well as normal shot, and they'll likely do less damage.  However, they may fare better against armor than other shotgun loads.",
-    "relative": { "pierce": 12 },
-    "proportional": { "price": 2, "price_postapoc": 2, "count": 0.5, "damage": { "damage_type": "bullet", "amount": 0.8 } },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "description": "A shotgun shell filled with tiny steel darts, definitely not a factory loading.  Flechettes won't pattern as well as normal shot, and they'll likely do less damage.  However, they may fare better against armor than other shotgun loads."
   },
   {
     "id": "bp_shot_buck",

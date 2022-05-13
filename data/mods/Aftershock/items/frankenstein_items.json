@@ -1,0 +1,23 @@
+[
+  {
+    "id": "inactive_frankenstein",
+    "type": "TOOL",
+    "name": "inactive frankenstein",
+    "description": "This stitched together abomination in human form lies still and waiting for you to give it the spark of life.  In all likelihood you are the monster.",
+    "weight": "68 kg",
+    "volume": "62 L",
+    "price": 600000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": "flesh",
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_npc",
+      "npc_class_id": "frankenstein",
+      "summon_msg": "It's alive!",
+      "place_randomly": false,
+      "moves": 50
+    }
+  }
+]

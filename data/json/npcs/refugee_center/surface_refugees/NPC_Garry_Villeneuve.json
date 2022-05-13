@@ -70,6 +70,20 @@
       "TALK_REFUGEE_Garry_Situation"
     ],
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 25 },
+        "success": { "topic": "TALK_REFUGEE_Accept_Boris_Mission_1" },
+        "failure": { "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1" }
+      },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Garry_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Garry_Situation" }
     ]
@@ -77,37 +91,31 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Garry_Villeneuve",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Hello again.", "Well, hello.", "Good to see you again." ],
-      "no": "Hi.  Hi there.  I'm Garry, Garry Villeneuve."
+    "dynamic_line": "*looks up at you with a gaunt face.  His loose clothes and sharp cheekbones suggest he recently lost a lot of weight.  \"Hi.  Hi there.\"  He scratches at a patchy beard of gray stubble.  \"I'm Garry, Garry Villeneuve.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Garry_1a" }
+      ]
     },
     "responses": [
-      {
-        "text": "Nice to meet you, Garry.",
-        "effect": { "u_add_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Garry_1_firstmeet"
-      },
-      {
-        "text": "Hi, Garry.  What's up?",
-        "topic": "TALK_REFUGEE_Garry_2",
-        "condition": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
-        "text": "Hi Garry, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "Hi Garry.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "Nice to meet you, Garry.", "topic": "TALK_REFUGEE_Garry_1_firstmeet" },
+      { "text": "Hi Garry, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_1a",
+    "dynamic_line": {
+      "and": [
+        "*smiles at you briefly.  He looks like he hasn't been eating well.  \"",
+        [ "Hello again.", "Well, hello.", "Good to see you again." ],
+        "\""
+      ]
+    },
+    "responses": [
+      { "text": "Hi, Garry.  What's up?", "topic": "TALK_REFUGEE_Garry_2" },
+      { "text": "Hi Garry.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -128,7 +136,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_Background",
-    "dynamic_line": "Before the apocalypse I was an electrician.  Boris here is my brother-in-law, and we were a decent contractor team.  When the evacuations sounded, we left together with our… with our families.  We got stuck into a crowded evac shelter, then onto a crowded bus.  Then… everything went wrong.  The bus was attacked, destroyed.  Nearly everyone died.  A few of us made it back… not enough.",
+    "dynamic_line": "Before the apocalypse I was an electrician.  Boris here is my brother-in-law, and we were a decent contractor team.  When the evacuations sounded, we left together with our…\" he swallows and coughs before continuing, \"with our families.  We got stuck into a crowded evac shelter, then onto a crowded bus.  Then… everything went wrong.  The bus was attacked, destroyed.  Nearly everyone died.  A few of us made it back… not enough.\"",
     "responses": [
       { "text": "You lost someone…", "topic": "TALK_REFUGEE_Garry_Background_loss" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -138,8 +146,30 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_Background_loss",
-    "dynamic_line": "Yes.  My wife, Linda… thrown from the bus.  She didn't make it.  And… and my nephew, Ash, Boris and Stan's son.  We got him here, but there wasn't anything we could do.  Internal injuries.",
+    "dynamic_line": "Yes.  My wife, Linda… thrown from the bus.  She didn't make it.  And… and my nephew, Ash, Boris and Stan's son.  We got him here, but there wasn't anything we could do.\"  He gestures for a moment as if trying to explain it without words, then shrugs.  \"Internal injuries.\"",
     "responses": [
+      { "text": "Do you want to tell me about Linda?", "topic": "TALK_REFUGEE_Garry_Background_Linda" },
+      { "text": "Tell me about Ash.", "topic": "TALK_REFUGEE_Garry_Background_Ash" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_Background_Linda",
+    "dynamic_line": "*looks unsure, then sighs softly.  \"I don't know what to say.  She was my second wife; my first wife passed away about fifteen years ago.  I've gone through this before, and it was bad enough then.\"  He stares at the floor for a moment.  \"We don't have any touchstones anymore, you know?  I've got Boris and Stan, but they can't support me, and what else is there?\"  He looks back up at you, appearing to remember the conversation.  \"Sorry, you were asking about Linda.  She was wonderful, always surprising me.  One of those people you just couldn't predict, so much fun and full of life.  Really into rock climbing.  I always used to be afraid she'd hurt herself in a climbing accident.\"  He laughs, a single harsh sound more like a cough.  \"Funny how life throws you curveballs.\"",
+    "responses": [
+      { "text": "Tell me about Ash.", "topic": "TALK_REFUGEE_Garry_Background_Ash" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_Background_Ash",
+    "dynamic_line": "*smiles for a moment, his face returning to what it must have looked like before everything.  \"God, that kid was funny.  Such a little nerd.  He'd come bombing into any conversation to interrupt and tell you about whatever his latest obsession was, didn't matter what else was going on.  We'd have to remind him to go to the bathroom sometimes.\"  Garry looks around, swallowing hard for a second, and wipes his hands across his face.  \"It's so damn quiet here without him.\"",
+    "responses": [
+      { "text": "Do you want to tell me about Linda?", "topic": "TALK_REFUGEE_Garry_Background_Linda" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -147,7 +177,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_Situation",
-    "dynamic_line": "It's tense here, but I don't know.  Stan, Boris and I have been pretty insular.  I guess we'd better get to know some of the others here eventually.  It feels it should be a temporary stop, but it's starting to look like we'll be here for the long term.  If we live that long.",
+    "dynamic_line": "\"It's tense here, but I don't know.  Stan, Boris and I have been pretty insular.  I guess we'd better get to know some of the others here eventually.\"  He looks around the room, his eyes dull.  \"It feels it should be a temporary stop, but it's starting to look like we'll be here for the long term.  If we live that long.\"",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

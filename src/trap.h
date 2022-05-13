@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -83,8 +84,29 @@ struct vehicle_handle_trap_data {
 
 using trap_function = std::function<bool( const tripoint &, Creature *, item * )>;
 
+/**
+ * Some traps aren't actually traps in the usual sense of the word. We use traps to implement
+ * funnels (the main map keeps a list of traps and we iterate over that list during rain
+ * in order to fill the containers with water).
+ * Use @ref is_benign to check for that kind of "non-dangerous" traps. Traps that are not benign
+ * are considered dangerous.
+ *
+ * Some traps are always invisible. They are never revealed as such to the player.
+ * They can still be triggered. Use @ref is_always_invisible to check for that.
+ *
+ * Traps names can be empty. This usually applies to always invisible traps.
+ *
+ * Some traps are always revealed to the player (e.g. funnels). Other traps can be spotted when
+ * the player is close (also needs perception stat).
+ *
+ * Use @ref map::can_see_trap_at or @ref trap::can_see to check whether a creature knows about a
+ * given trap. Monsters / NPCs should base their behavior on that information and not on a simple
+ * check for any trap being there (e.g. don't use `map::tr_at(...).is_null()` - that would reveal
+ * the existence of the trap).
+ */
 struct trap {
         trap_str_id id;
+        std::vector<std::pair<trap_str_id, mod_id>> src;
         trap_id loadid;
 
         bool was_loaded = false;
@@ -92,24 +114,42 @@ struct trap {
         int sym = 0;
         nc_color color;
     private:
-        // 1 to ??, affects detection
+        /**
+         * How easy it is to spot the trap. Smaller values means it's easier to spot.
+         * 1 to ??, affects detection
+         */
+        // @TODO it can be negative (?)
+        // @TODO Add checks for it having proper values
+        // @TODO check usage in combination with is_always_invisible
         int visibility = 1;
         // 0 to ??, affects avoidance
         int avoidance = 0;
-        // 0 to ??, difficulty of assembly & disassembly
+        /*
+         * This is used when disarming the trap. A value of 0 means disarming will always work
+         * (e.g. for funnels), a values of 99 means it can not be disarmed at all. Smaller values
+         * makes it easier to disarm the trap.
+         */
         int difficulty = 0;
         // 0 to ??, trap radius
         int trap_radius = 0;
         bool benign = false;
         bool always_invisible = false;
-        // a valid overmap id, for map_regen action traps
-        std::string map_regen;
+        update_mapgen_id map_regen;
         trap_function act;
-        std::string name_;
+        translation name_;
+
+        cata::optional<translation> memorial_male;
+        cata::optional<translation> memorial_female;
+
+        cata::optional<translation> trigger_message_u;
+        cata::optional<translation> trigger_message_npc;
+
+        cata::flat_set<flag_id> _flags;
+
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
-        units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
+        units::mass trigger_weight = 500_gram;
         int funnel_radius_mm = 0;
         // For disassembly?
         std::vector<std::tuple<itype_id, int, int>> components;
@@ -127,14 +167,39 @@ struct trap {
         bool is_always_invisible() const {
             return always_invisible;
         }
-        /**
-         * How easy it is to spot the trap. Smaller values means it's easier to spot.
-         */
-        int get_visibility() const {
-            return visibility;
+
+        bool operator==( const trap_id &id ) const {
+            return loadid == id;
+        }
+        bool operator!=( const trap_id &id ) const {
+            return loadid != id;
         }
 
-        std::string  map_regen_target() const;
+        bool has_flag( const flag_id &flag ) const {
+            return _flags.count( flag );
+        }
+
+        bool has_memorial_msg() const {
+            return memorial_male && memorial_female;
+        }
+
+        std::string memorial_msg( bool male ) const {
+            if( male ) {
+                return memorial_male->translated();
+            }
+            return memorial_female->translated();
+        }
+
+        /**
+         * Called when the player examines a tile. This is supposed to handled
+         * all kind of interaction of the player with the trap, including removal.
+         * It also handles visibility of the trap, and it does nothing when
+         * called on the null trap.
+         */
+        // Implemented for historical reasons in iexamine.cpp
+        void examine( const tripoint &examp ) const;
+
+        update_mapgen_id map_regen_target() const;
 
         /**
          * Whether triggering the trap can be avoid (if greater than 0) and if so, this is
@@ -145,20 +210,30 @@ struct trap {
             return avoidance;
         }
         /**
-         * This is used when disarming the trap. A value of 0 means disarming will always work
-         * (e.g. for funnels), a values of 99 means it can not be disarmed at all. Smaller values
-         * makes it easier to disarm the trap.
-         */
-        int get_difficulty() const {
-            return difficulty;
-        }
-        /**
          * If true, this is not really a trap and there won't be any safety queries before stepping
          * onto it (e.g. for funnels).
          */
         bool is_benign() const {
             return benign;
         }
+        /**
+         * @return True for traps that can simply be taken down without any skill check or similar.
+         * This usually applies to traps like funnels, rollmat.
+         */
+        bool easy_take_down() const;
+
+        bool is_trivial_to_spot() const;
+
+        /**
+         * Some traps are part of the terrain (e.g. pits) and can therefore not be disarmed
+         * via the usual mechanics. They can be "disarmed" by changing the terrain they are part of.
+         */
+        bool can_not_be_disarmed() const;
+
+        /**
+         * Whether this kind of trap will be detected by ground sonar (e.g. via the bionic).
+         */
+        bool detected_by_ground_sonar() const;
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
         bool detect_trap( const tripoint &pos, const Character &p ) const;
@@ -167,6 +242,23 @@ struct trap {
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
         bool can_see( const tripoint &pos, const Character &p ) const;
+
+        bool has_trigger_msg() const {
+            return trigger_message_u && trigger_message_npc;
+        }
+        /**
+        * Prints a trap-specific trigger message when player steps on it.
+        */
+        std::string get_trigger_message_u() const {
+            return trigger_message_u->translated();
+        }
+        /**
+        * Prints a trap-specific trigger message when NPC or a monster steps on it.
+        */
+        std::string get_trigger_message_npc() const {
+            return trigger_message_npc->translated();
+        }
+    private:
         /**
          * Trigger trap effects.
          * @param creature The creature that triggered the trap, it does not necessarily have to
@@ -176,11 +268,27 @@ struct trap {
          * @param pos The location of the trap in the main map.
          * @param item The item that triggered the trap
          */
-        void trigger( const tripoint &pos, Creature *creature = nullptr, item *item = nullptr ) const;
+        // Don't call from outside this class. Add a wrapper like the ones below instead.
+        void trigger( const tripoint &pos, Creature *creature, item *item ) const;
+    public:
+        /*@{*/
+        /**
+         * This applies the effects of the trap to the world and
+         * possibly to the triggering object (creature, item).
+         *
+         * The function assumes the
+         * caller has already checked whether the trap should be activated
+         * (e.g. the creature has had a chance to avoid the trap, but it failed).
+         */
+        void trigger( const tripoint &pos, Creature &creature ) const;
+        void trigger( const tripoint &pos, item &item ) const;
+        /*@}*/
+
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
          */
         bool triggered_by_item( const item &itm ) const;
+
         /**
          * Called when a trap at the given point in the map has been disarmed.
          * It should spawn trap items (if any) and remove the trap from the map via
@@ -201,6 +309,8 @@ struct trap {
          * Loads this specific trap.
          */
         void load( const JsonObject &jo, const std::string &src );
+
+        std::string debug_describe() const;
 
         /*@{*/
         /**
@@ -238,7 +348,7 @@ struct trap {
         static void reset();
         /**
          * Stores the actual @ref loadid of the loaded traps in the global tr_* variables.
-         * It also sets the trap ids of the terrain types that have build-in traps.
+         * It also sets the trap ids of the terrain types that have built-in traps.
          * Must be called after all traps have been loaded.
          */
         static void finalize();
@@ -252,48 +362,27 @@ struct trap {
 
 const trap_function &trap_function_from_string( const std::string &function_name );
 
-extern trap_id
-tr_null,
-tr_bubblewrap,
-tr_glass,
-tr_cot,
-tr_funnel,
-tr_metal_funnel,
-tr_makeshift_funnel,
-tr_leather_funnel,
-tr_rollmat,
-tr_fur_rollmat,
-tr_beartrap,
-tr_beartrap_buried,
-tr_nailboard,
-tr_caltrops,
-tr_caltrops_glass,
-tr_tripwire,
-tr_crossbow,
-tr_shotgun_2,
-tr_shotgun_2_1,
-tr_shotgun_1,
-tr_engine,
-tr_blade,
-tr_landmine,
-tr_landmine_buried,
-tr_telepad,
-tr_goo,
-tr_dissector,
-tr_sinkhole,
-tr_pit,
-tr_spike_pit,
-tr_glass_pit,
-tr_lava,
-tr_portal,
-tr_ledge,
-tr_boobytrap,
-tr_temple_flood,
-tr_temple_toggle,
-tr_glow,
-tr_hum,
-tr_shadow,
-tr_drain,
-tr_snake;
+extern trap_id tr_null;
+extern const trap_str_id tr_beartrap_buried;
+extern const trap_str_id tr_shotgun_2;
+extern const trap_str_id tr_shotgun_1;
+extern const trap_str_id tr_blade;
+extern const trap_str_id tr_landmine;
+extern const trap_str_id tr_landmine_buried;
+extern const trap_str_id tr_telepad;
+extern const trap_str_id tr_goo;
+extern const trap_str_id tr_dissector;
+extern const trap_str_id tr_sinkhole;
+extern const trap_str_id tr_pit;
+extern const trap_str_id tr_lava;
+extern const trap_str_id tr_portal;
+extern const trap_str_id tr_ledge;
+extern const trap_str_id tr_temple_flood;
+extern const trap_str_id tr_temple_toggle;
+extern const trap_str_id tr_glow;
+extern const trap_str_id tr_hum;
+extern const trap_str_id tr_shadow;
+extern const trap_str_id tr_drain;
+extern const trap_str_id tr_snake;
 
 #endif // CATA_SRC_TRAP_H

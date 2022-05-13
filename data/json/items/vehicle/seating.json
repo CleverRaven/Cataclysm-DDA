@@ -8,7 +8,7 @@
     "to_hit": -4,
     "color": "red",
     "symbol": "0",
-    "material": [ "cotton", "aluminum" ],
+    "material": [ "cotton", "steel" ],
     "volume": "7500 ml",
     "bashing": 4,
     "category": "veh_parts",
@@ -21,7 +21,7 @@
     "id": "seat_leather",
     "name": { "str": "leather seat" },
     "description": "A soft car seat covered with leather.",
-    "material": [ "leather", "cotton", "aluminum" ],
+    "material": [ "leather", "cotton", "steel" ],
     "price": 60000,
     "price_postapoc": 250
   },

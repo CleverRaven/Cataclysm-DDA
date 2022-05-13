@@ -1,345 +1,203 @@
-#include <algorithm>
-#include <cstddef>
-#include <iomanip>
+#include <functional>
 #include <list>
 #include <memory>
+#include <new>
 #include <sstream>
 #include <string>
-#include <utility>
 #include <vector>
 
-#include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
-#include "field.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
-#include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_test_case.h"
+#include "mapdata.h"
+#include "optional.h"
 #include "point.h"
-#include "shadowcasting.h"
 #include "type_id.h"
+#include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
-static const move_mode_id move_mode_walk( "walk" );
-static const move_mode_id move_mode_run( "run" );
+static const efftype_id effect_narcosis( "narcosis" );
+
+static const field_type_str_id field_fd_smoke( "fd_smoke" );
+
 static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_walk( "walk" );
 
-enum class vision_test_flags {
-    none = 0,
-    no_3d = 1 << 0,
-    crouching = 1 << 1,
-};
+static const ter_str_id ter_t_brick_wall( "t_brick_wall" );
+static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_utility_light( "t_utility_light" );
+static const ter_str_id ter_t_window_frame( "t_window_frame" );
 
-static vision_test_flags operator&( vision_test_flags l, vision_test_flags r )
+static const vproto_id vehicle_prototype_meth_lab( "meth_lab" );
+
+static int get_actual_light_level( const map_test_case::tile &t )
 {
-    return static_cast<vision_test_flags>(
-               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
+    const map &here = get_map();
+    const visibility_variables &vvcache = here.get_visibility_variables_cache();
+    return static_cast<int>( here.apparent_light_at( t.p, vvcache ) );
 }
 
-static bool operator!( vision_test_flags f )
+static std::string vision_test_info( map_test_case &t )
 {
-    return !static_cast<unsigned>( f );
+    std::ostringstream out;
+    map &here = get_map();
+
+    using namespace map_test_case_common;
+
+    out << "origin: " << t.get_origin() << '\n';
+    out << "player: " << get_player_character().pos() << '\n';
+    out << "unimpaired_range: " << get_player_character().unimpaired_range()  << '\n';
+    out << "vision_threshold: " << here.get_visibility_variables_cache().vision_threshold << '\n';
+
+    out << "fields:\n" <<  printers::fields( t ) << '\n';
+    out << "transparency:\n" <<  printers::transparency( t ) << '\n';
+
+    out << "seen:\n" <<  printers::seen( t ) << '\n';
+    out << "lm:\n" <<  printers::lm( t ) << '\n';
+    out << "apparent_light:\n" <<  printers::apparent_light( t ) << '\n';
+    out << "obstructed:\n" <<  printers::obstructed( t ) << '\n';
+    out << "floor_above:\n" <<  printers::floor( t, 1 ) << '\n';
+
+    out << "expected:\n" <<  printers::expected( t ) << '\n';
+    out << "actual:\n" << printers::format_2d_array(
+    t.map_tiles_str( [&]( map_test_case::tile t, std::ostringstream & os ) {
+        os << get_actual_light_level( t );
+    } ) ) << '\n';
+
+    return out.str();
 }
 
-static void full_map_test( const std::vector<std::string> &setup,
-                           const std::vector<std::string> &expected_results,
-                           const time_point &time,
-                           const vision_test_flags flags )
+static void assert_tile_light_level( map_test_case::tile t )
 {
-    const ter_id t_brick_wall( "t_brick_wall" );
-    const ter_id t_window_frame( "t_window_frame" );
-    const ter_id t_floor( "t_floor" );
-    const ter_id t_utility_light( "t_utility_light" );
-    const efftype_id effect_narcosis( "narcosis" );
-    const ter_id t_flat_roof( "t_flat_roof" );
-
-    g->place_player( tripoint( 60, 60, 0 ) );
-    g->u.worn.clear(); // Remove any light-emitting clothing
-    g->u.clear_effects();
-    clear_map();
-    g->reset_light_level();
-
-    if( !!( flags & vision_test_flags::crouching ) ) {
-        g->u.set_movement_mode( move_mode_crouch );
-    } else {
-        g->u.set_movement_mode( move_mode_walk );
+    if( t.expect_c < '0' || t.expect_c > '9' ) {
+        FAIL( "unexpected result char '" << t.expect_c << "'" );
     }
-
-    REQUIRE( !g->u.is_blind() );
-    REQUIRE( !g->u.in_sleep_state() );
-    REQUIRE( !g->u.has_effect( effect_narcosis ) );
-
-    g->u.recalc_sight_limits();
-
-    calendar::turn = time;
-
-    int height = setup.size();
-    REQUIRE( height > 0 );
-    REQUIRE( static_cast<size_t>( height ) == expected_results.size() );
-    int width = setup[0].size();
-
-    for( const std::string &line : setup ) {
-        REQUIRE( line.size() == static_cast<size_t>( width ) );
-    }
-
-    for( const std::string &line : expected_results ) {
-        REQUIRE( line.size() == static_cast<size_t>( width ) );
-    }
-
-    tripoint origin;
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            switch( setup[y][x] ) {
-                case 'V':
-                case 'U':
-                case 'u':
-                    origin = g->u.pos() - point( x, y );
-                    if( setup[y][x] == 'V' ) {
-                        item headlamp( "wearable_light_on" );
-                        item battery( "light_battery_cell" );
-                        battery.ammo_set( battery.ammo_default(), -1 );
-                        headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
-                        g->u.worn.push_back( headlamp );
-                    }
-                    break;
-            }
-        }
-    }
-
-    {
-        // Sanity check on player placement
-        REQUIRE( origin.z < OVERMAP_HEIGHT );
-        tripoint player_offset = g->u.pos() - origin;
-        REQUIRE( player_offset.y >= 0 );
-        REQUIRE( player_offset.y < height );
-        REQUIRE( player_offset.x >= 0 );
-        REQUIRE( player_offset.x < width );
-        char player_char = setup[player_offset.y][player_offset.x];
-        REQUIRE( ( player_char == 'U' || player_char == 'u' || player_char == 'V' ) );
-    }
-
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = origin + point( x, y );
-            const tripoint above = p + tripoint_above;
-            switch( setup[y][x] ) {
-                case ' ':
-                    break;
-                case 'L':
-                    g->m.ter_set( p, t_utility_light );
-                    g->m.ter_set( above, t_flat_roof );
-                    break;
-                case '#':
-                    g->m.ter_set( p, t_brick_wall );
-                    g->m.ter_set( above, t_flat_roof );
-                    break;
-                case '=':
-                    g->m.ter_set( p, t_window_frame );
-                    g->m.ter_set( above, t_flat_roof );
-                    break;
-                case '-':
-                case 'u':
-                    g->m.ter_set( p, t_floor );
-                    g->m.ter_set( above, t_flat_roof );
-                    break;
-                case 'U':
-                case 'V':
-                    // Already handled above
-                    break;
-                default:
-                    FAIL( "unexpected setup char '" << setup[y][x] << "'" );
-            }
-        }
-    }
-
-    // We have to run the whole thing twice, because the first time through the
-    // player's vision_threshold is based on the previous lighting level (so
-    // they might, for example, have poor nightvision due to having just been
-    // in daylight)
-    g->m.update_visibility_cache( origin.z );
-    g->m.invalidate_map_cache( origin.z );
-    g->m.build_map_cache( origin.z );
-    g->m.update_visibility_cache( origin.z );
-    g->m.invalidate_map_cache( origin.z );
-    g->m.build_map_cache( origin.z );
-
-    const level_cache &cache = g->m.access_cache( origin.z );
-    const level_cache &above_cache = g->m.access_cache( origin.z + 1 );
-    const visibility_variables &vvcache =
-        g->m.get_visibility_variables_cache();
-
-    std::ostringstream fields;
-    std::ostringstream transparency;
-    std::ostringstream seen;
-    std::ostringstream lm;
-    std::ostringstream apparent_light;
-    std::ostringstream obstructed;
-    std::ostringstream floor_above;
-    transparency << std::setprecision( 3 );
-    seen << std::setprecision( 3 );
-    apparent_light << std::setprecision( 3 );
-
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = origin + point( x, y );
-            const map::apparent_light_info al = map::apparent_light_helper( cache, p );
-            for( auto &pr : g->m.field_at( p ) ) {
-                fields << pr.second.name() << ',';
-            }
-            fields << ' ';
-            transparency << std::setw( 6 )
-                         << cache.transparency_cache[p.x][p.y] << ' ';
-            seen << std::setw( 6 ) << cache.seen_cache[p.x][p.y] << ' ';
-            four_quadrants this_lm = cache.lm[p.x][p.y];
-            lm << this_lm.to_string() << ' ';
-            apparent_light << std::setw( 6 ) << al.apparent_light << ' ';
-            obstructed << ( al.obstructed ? '#' : '.' ) << ' ';
-            floor_above << ( above_cache.floor_cache[p.x][p.y] ? '#' : '.' ) << ' ';
-        }
-        fields << '\n';
-        transparency << '\n';
-        seen << '\n';
-        lm << '\n';
-        apparent_light << '\n';
-        obstructed << '\n';
-        floor_above << '\n';
-    }
-
-    INFO( "zlevels: " << g->m.has_zlevels() );
-    INFO( "origin: " << origin );
-    INFO( "player: " << g->u.pos() );
-    INFO( "unimpaired_range: " << g->u.unimpaired_range() );
-    INFO( "vision_threshold: " << vvcache.vision_threshold );
-    INFO( "fields:\n" << fields.str() );
-    INFO( "transparency:\n" << transparency.str() );
-    INFO( "seen:\n" << seen.str() );
-    INFO( "lm:\n" << lm.str() );
-    INFO( "apparent_light:\n" << apparent_light.str() );
-    INFO( "obstructed:\n" << obstructed.str() );
-    INFO( "floor_above:\n" << floor_above.str() );
-
-    bool success = true;
-    std::ostringstream expected;
-    std::ostringstream observed;
-
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = origin + point( x, y );
-            const lit_level level = g->m.apparent_light_at( p, vvcache );
-            const char exp_char = expected_results[y][x];
-            if( exp_char < '0' || exp_char > '9' ) {
-                FAIL( "unexpected result char '" <<
-                      expected_results[y][x] << "'" );
-            }
-            const int expected_level = exp_char - '0';
-
-            observed << level << ' ';
-            expected << expected_level << ' ';
-            if( level != expected_level ) {
-                success = false;
-            }
-        }
-        observed << '\n';
-        expected << '\n';
-    }
-
-    INFO( "observed:\n" << observed.str() );
-    INFO( "expected:\n" << expected.str() );
-    CHECK( success );
+    const int expected_level = t.expect_c - '0';
+    REQUIRE( expected_level == get_actual_light_level( t ) );
 }
-
-struct vision_test_case {
-    std::vector<std::string> setup;
-    std::vector<std::string> expected_results;
-    time_point time;
-    vision_test_flags flags;
-
-    static void transpose( std::vector<std::string> &v ) {
-        if( v.empty() ) {
-            return;
-        }
-        std::vector<std::string> new_v( v[0].size() );
-
-        for( const std::string &col : v ) {
-            for( size_t y = 0; y < new_v.size(); ++y ) {
-                new_v[y].push_back( col.at( y ) );
-            }
-        }
-
-        v = new_v;
-    }
-
-    void transpose() {
-        transpose( setup );
-        transpose( expected_results );
-    }
-
-    void reflect_x() {
-        for( std::string &s : setup ) {
-            std::reverse( s.begin(), s.end() );
-        }
-        for( std::string &s : expected_results ) {
-            std::reverse( s.begin(), s.end() );
-        }
-    }
-
-    void reflect_y() {
-        std::reverse( setup.begin(), setup.end() );
-        std::reverse( expected_results.begin(), expected_results.end() );
-    }
-
-    void test() const {
-        full_map_test( setup, expected_results, time, flags );
-    }
-
-    void test_all_transformations() const {
-        // Three reflections generate all possible rotations and reflections of
-        // the test case
-        for( int transform = 0; transform < 8; ++transform ) {
-            INFO( "test case transformation: " << transform );
-            vision_test_case copy( *this );
-            if( transform & 1 ) {
-                copy.transpose();
-            }
-            if( transform & 2 ) {
-                copy.reflect_x();
-            }
-            if( transform & 4 ) {
-                copy.reflect_y();
-            }
-            copy.test();
-        }
-    }
-
-    void test_all() const {
-        // Disabling 3d tests for now since 3d sight casting is actually
-        // different (it sees round corners more).
-        const bool test_3d = !( flags & vision_test_flags::no_3d );
-        if( test_3d ) {
-            INFO( "using 3d casting" );
-            fov_3d = true;
-            test_all_transformations();
-        }
-        {
-            INFO( "using 2d casting" );
-            fov_3d = false;
-            test_all_transformations();
-        }
-    }
-};
 
 static const time_point midnight = calendar::turn_zero + 0_hours;
-static const time_point midday = calendar::turn_zero + 12_hours;
+static const time_point day_time = calendar::turn_zero + 9_hours + 30_minutes;
+
+
+
+
+
+using namespace map_test_case_common;
+using namespace map_test_case_common::tiles;
+
+auto static const ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
+
+static const tile_predicate set_up_tiles_common =
+    ifchar( ' ', noop ) ||
+    ifchar( 'U', noop ) ||
+    ifchar( 'u', ter_set( ter_t_floor ) + ter_set_flat_roof_above ) ||
+    ifchar( 'L', ter_set( ter_t_utility_light ) + ter_set_flat_roof_above ) ||
+    ifchar( '#', ter_set( ter_t_brick_wall ) + ter_set_flat_roof_above ) ||
+    ifchar( '=', ter_set( ter_t_window_frame ) + ter_set_flat_roof_above ) ||
+    ifchar( '-', ter_set( ter_t_floor ) + ter_set_flat_roof_above ) ||
+    fail;
+
+struct vision_test_flags {
+    bool crouching = false;
+    bool headlamp = false;
+};
+
+struct vision_test_case {
+
+    std::vector<std::string> setup;
+    std::vector<std::string> expected_results;
+    time_point time = day_time;
+    vision_test_flags flags;
+    tile_predicate set_up_tiles = set_up_tiles_common;
+    std::string section_prefix;
+
+    vision_test_case( const std::vector<std::string> &setup,
+                      const std::vector<std::string> &expectedResults,
+                      const time_point &time ) : setup( setup ), expected_results( expectedResults ), time( time ) {}
+
+    void test_all() const {
+        Character &player_character = get_player_character();
+        g->place_player( tripoint( 60, 60, 0 ) );
+        player_character.worn.clear(); // Remove any light-emitting clothing
+        player_character.clear_effects();
+        player_character.clear_bionics();
+        player_character.clear_mutations(); // remove mutations that potentially affect vision
+        clear_map();
+        g->reset_light_level();
+
+        REQUIRE( !player_character.is_blind() );
+        REQUIRE( !player_character.in_sleep_state() );
+        REQUIRE( !player_character.has_effect( effect_narcosis ) );
+
+        player_character.recalc_sight_limits();
+
+        calendar::turn = time;
+
+        map_test_case t;
+        t.setup = setup;
+        t.expected_results = expected_results;
+        t.set_anchor_char_from( {'u', 'U', 'V'} );
+        REQUIRE( t.anchor_char.has_value() );
+        t.anchor_map_pos = player_character.pos();
+
+        if( flags.crouching ) {
+            player_character.set_movement_mode( move_mode_crouch );
+        } else {
+            player_character.set_movement_mode( move_mode_walk );
+        }
+        if( flags.headlamp ) {
+            player_add_headlamp();
+        }
+
+        // test both 2d and 3d cases
+        restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
+        fov_3d = GENERATE( false, true );
+
+        std::stringstream section_name;
+        section_name << section_prefix;
+        section_name << ( fov_3d ? "3d" : "2d" ) << "_casting__";
+        section_name << t.generate_transform_combinations();
+
+        // Sanity check on player placement in relation to `t`
+        // must be invoked after transformations are applied to `t`
+        t.validate_anchor_point( player_character.pos() );
+
+        SECTION( section_name.str() ) {
+            t.for_each_tile( set_up_tiles );
+            int zlev = t.get_origin().z;
+            map &here = get_map();
+            // We have to run the whole thing twice, because the first time through the
+            // player's vision_threshold is based on the previous lighting level (so
+            // they might, for example, have poor nightvision due to having just been
+            // in daylight)
+            here.update_visibility_cache( zlev );
+            here.invalidate_map_cache( zlev );
+            here.build_map_cache( zlev );
+            here.update_visibility_cache( zlev );
+            here.invalidate_map_cache( zlev );
+            here.build_map_cache( zlev );
+
+            INFO( vision_test_info( t ) );
+            t.for_each_tile( assert_tile_light_level );
+        }
+    }
+};
 
 // The following characters are used in these setups:
 // ' ' - empty, outdoors
 // '-' - empty, indoors
 // 'U' - player, outdoors
 // 'u' - player, indoors
-// 'V' - player, with light in inventory
 // 'L' - light, indoors
 // '#' - wall
 // '=' - window frame
@@ -357,8 +215,7 @@ TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
             "444",
             "444",
         },
-        midday,
-        vision_test_flags::none
+        day_time
     };
 
     t.test_all();
@@ -377,8 +234,7 @@ TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
             "111",
             "111",
         },
-        midday,
-        vision_test_flags::none
+        day_time
     };
 
     t.test_all();
@@ -401,9 +257,7 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
             "1144444444",
             "1144444444",
         },
-        midday,
-        // 3D FOV gives different results here due to it seeing round corners more
-        vision_test_flags::no_3d
+        day_time
     };
 
     t.test_all();
@@ -420,8 +274,7 @@ TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
             "111",
             "111",
         },
-        midnight,
-        vision_test_flags::none
+        midnight
     };
 
     t.test_all();
@@ -440,8 +293,7 @@ TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
             "444",
             "444",
         },
-        midnight,
-        vision_test_flags::none
+        midnight
     };
 
     t.test_all();
@@ -460,8 +312,7 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
             "111",
             "111",
         },
-        midnight,
-        vision_test_flags::none
+        midnight
     };
 
     t.test_all();
@@ -471,7 +322,7 @@ TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
 {
     vision_test_case t {
         {
-            " V",
+            " U",
             "  ",
             "  ",
             "##",
@@ -484,9 +335,9 @@ TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
             "44",
             "66",
         },
-        midnight,
-        vision_test_flags::none
+        midnight
     };
+    t.flags.headlamp = true;
 
     t.test_all();
 }
@@ -506,9 +357,9 @@ TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][visi
             "444",
             "666",
         },
-        midday,
-        vision_test_flags::crouching
+        day_time
     };
+    t.flags.crouching = true;
 
     t.test_all();
 }
@@ -535,9 +386,183 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
             "111",
         },
         // Want a night time
-        full_moon - time_past_midnight( full_moon ),
-        vision_test_flags::none
+        full_moon - time_past_midnight( full_moon )
     };
 
     t.test_all();
+}
+
+TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting][vision]" )
+{
+    /**
+     *  Even when stating inside the opaque wall and surrounded by opaque walls,
+     *  you should see yourself and immediate surrounding.
+     *  (walls here simulate the behavior of the fully opaque fields, e.g. thick smoke)
+     */
+    vision_test_case t {
+        {
+            "#####",
+            "#####",
+            "##u##",
+            "#####",
+            "#####",
+        },
+        {
+            "66666",
+            "61116",
+            "61116",
+            "61116",
+            "66666",
+        },
+        midnight
+    };
+
+    if( GENERATE( false, true ) ) {
+        // first scenario: player is surrounded by walls
+        // overriding 'u' to set up brick wall and roof at player's position
+        t.set_up_tiles =
+            ifchar( 'u', ter_set( ter_t_brick_wall ) + ter_set_flat_roof_above ) ||
+            t.set_up_tiles;
+
+        t.section_prefix = "walls_";
+    } else {
+        // second scenario: player is surrounded by thick smoke
+        // overriding 'u' to set thick smoke everywhere
+        t.set_up_tiles = [&]( map_test_case::tile t ) {
+            get_map().add_field( t.p, field_fd_smoke );
+            return true;
+        };
+        t.section_prefix = "smoke_";
+    }
+
+    t.test_all();
+}
+
+TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
+{
+    /**
+     * Light shines through the single-tile hole in the roof. Apparent light should be symmetrical.
+     */
+    vision_test_case t {
+        {
+            "---------",
+            "-#######-",
+            "-#-----#-",
+            "-#-----#-",
+            "-#--U--#-",
+            "-#-----#-",
+            "-#-----#-",
+            "-#######-",
+            "---------",
+        },
+        {
+            "666666666",
+            "661111166",
+            "611111116",
+            "611141116",
+            "611444116",
+            "611141116",
+            "611111116",
+            "661111166",
+            "666666666",
+        },
+        day_time
+    };
+
+    t.test_all();
+}
+
+TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
+{
+    clear_vehicles();
+
+    bool door_open = GENERATE( false, true );
+
+    vision_test_case t {
+        {
+            "  M M  ", // left M is origin location of meth lab (driver's seat)
+            "       ",
+            "       ",
+            "   U   ",
+            "       ",
+            "       ",
+            "   D   ", // D mark door to be opened
+            "       "
+        },
+        door_open ?
+        std::vector<std::string> {
+            // when door is open, light shines inside, forming a cone
+            "6666666",
+            "6444446",
+            "6444446",
+            "6444446",
+            "6444446",
+            "6144416",
+            "6444446",
+            "6644466"
+} :
+        std::vector<std::string> {
+            // when door is closed, everything is dark
+            "6666666",
+            "6111116",
+            "6111116",
+            "6111116",
+            "6111116",
+            "6111116",
+            "6111116",
+            "6666666"
+        },
+        day_time
+    };
+
+    vehicle *v = nullptr;
+    cata::optional<tripoint> door = cata::nullopt;
+
+    // opens or closes a specific door (marked as 'D')
+    // this is called twice: after either vehicle or door is set
+    // and it executed a single time when both vehicle and door position are available
+    auto open_door = [&]() {
+        if( !door_open || !v || !door ) {
+            return;
+        }
+        // open door at `door` location
+        for( const vehicle_part *vp : v->get_parts_at( *door, "OPENABLE", part_status_flag::any ) ) {
+            v -> open( v->index_of_part( vp ) );
+        }
+    };
+
+    tile_predicate set_door_location = [&]( map_test_case::tile tile ) {
+        door = tile.p;
+        open_door();
+        return true;
+    };
+
+    tile_predicate spawn_meth_lab = [&]( map_test_case::tile tile ) {
+        cata::optional<units::angle> dir;
+        if( tile.p_local == point( 2, 0 ) ) {
+            dir = 270_degrees;
+        } else if( tile.p_local == point( 4, 7 ) ) {
+            dir = 90_degrees;
+        } else if( tile.p_local == point( 0, 4 ) ) {
+            dir = 180_degrees;
+        } else if( tile.p_local == point( 7, 2 ) ) {
+            dir = 0_degrees;
+        }
+        if( dir ) {
+            v = get_map().add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0, 0 );
+            for( const vpart_reference &vp : v->get_avail_parts( "OPENABLE" ) ) {
+                v -> close( vp.part_index() );
+            }
+            open_door();
+        }
+        return true;
+    };
+
+    t.set_up_tiles =
+        ifchar( 'M', spawn_meth_lab ) ||
+        ifchar( 'D', set_door_location ) ||
+        t.set_up_tiles;
+
+    t.test_all();
+    clear_vehicles();
 }

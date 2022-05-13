@@ -1,15 +1,15 @@
 #include "overmap_connection.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <cassert>
+#include <cstddef>
 #include <map>
-#include <memory>
+#include <string>
 
+#include "cata_assert.h"
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "overmap_location.h"
-#include "debug.h"
 
 namespace
 {
@@ -18,8 +18,8 @@ generic_factory<overmap_connection> connections( "overmap connection" );
 
 } // namespace
 
-static const std::map<std::string, overmap_connection::subtype::flag> connection_subtype_flag_map
-= {
+static const std::unordered_map<std::string, overmap_connection::subtype::flag>
+connection_subtype_flag_map = {
     { "ORTHOGONAL", overmap_connection::subtype::flag::orthogonal },
 };
 
@@ -49,7 +49,8 @@ bool overmap_connection::subtype::allows_terrain( const int_id<oter_t> &oter ) c
 
 void overmap_connection::subtype::load( const JsonObject &jo )
 {
-    const auto flag_reader = make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
+    const auto flag_reader =
+        make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
 
     mandatory( jo, false, "terrain", terrain );
     mandatory( jo, false, "locations", locations );
@@ -58,9 +59,8 @@ void overmap_connection::subtype::load( const JsonObject &jo )
     optional( jo, false, "flags", flags, flag_reader );
 }
 
-void overmap_connection::subtype::deserialize( JsonIn &jsin )
+void overmap_connection::subtype::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     load( jo );
 }
 
@@ -72,7 +72,7 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     }
 
     const size_t cache_index = ground.to_i();
-    assert( cache_index < cached_subtypes.size() );
+    cata_assert( cache_index < cached_subtypes.size() );
 
     if( cached_subtypes[cache_index] ) {
         return cached_subtypes[cache_index].value;

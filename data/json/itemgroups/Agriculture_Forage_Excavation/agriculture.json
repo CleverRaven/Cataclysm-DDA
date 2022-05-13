@@ -16,6 +16,7 @@
       [ "seed_onion", 60 ],
       [ "seed_carrot", 60 ],
       [ "seed_sunflower", 60 ],
+      [ "seed_watermelon", 60 ],
       [ "seed_pumpkin", 60 ],
       [ "seed_corn", 60 ],
       [ "seed_oats", 60 ],
@@ -55,11 +56,12 @@
       [ "insecticide", 30 ],
       { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 },
       [ "sickle", 40 ],
-      [ "toolbox", 10 ],
+      { "group": "tools_toolbox", "prob": 10 },
       [ "bullwhip", 30 ],
       [ "distaff_spindle", 2 ],
       [ "carding_paddles", 2 ],
       [ "scythe", 40 ],
+      [ "scythe_fake", 1 ],
       [ "shears", 20 ],
       [ "elec_shears", 10 ],
       [ "tree_spile", 40 ],
@@ -115,6 +117,7 @@
       [ "seed_cabbage", 1 ],
       [ "seed_onion", 1 ],
       [ "seed_carrot", 1 ],
+      [ "seed_watermelon", 1 ],
       [ "seed_pumpkin", 1 ],
       [ "seed_sunflower", 1 ],
       [ "seed_flower", 1 ],
@@ -133,6 +136,7 @@
       [ "seed_oats", 1 ],
       [ "tomato", 9 ],
       [ "pumpkin", 6 ],
+      [ "watermelon", 2 ],
       [ "broccoli", 9 ],
       [ "cucumber", 10 ],
       [ "zucchini", 7 ],
@@ -145,6 +149,46 @@
       [ "withered", 40 ],
       [ "straw_pile", 20 ],
       [ "survnote", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "orchard_supplies",
+    "subtype": "distribution",
+    "items": [
+      [ "fertilizer_liquid", 10 ],
+      [ "fertilizer_commercial", 10 ],
+      [ "insecticide", 10 ],
+      [ "pot_canning", 5 ],
+      { "item": "jar_3l_glass_sealed", "prob": 25, "count": [ 2, 10 ] },
+      { "item": "wooden_barrel", "prob": 20, "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "orchard_tools",
+    "subtype": "collection",
+    "items": [
+      [ "shovel", 5 ],
+      { "item": "trimmer_off", "prob": 5, "charges": [ 0, 600 ] },
+      [ "bucket", 5 ],
+      [ "rake", 15 ],
+      [ "rake_plastic", 5 ],
+      [ "stepladder", 15 ],
+      { "item": "pointy_stick", "prob": 20, "count": [ 3, 10 ] },
+      [ "hammer", 10 ],
+      [ "rope_makeshift_6", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "stored_pulp",
+    "ammo": 100,
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wooden_barrel", "prob": 100, "sealed": true },
+      { "item": "juice_pulp", "prob": 100, "charges": [ 7, 77 ], "container-item": "wooden_barrel" }
     ]
   }
 ]

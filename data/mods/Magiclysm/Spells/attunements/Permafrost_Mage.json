@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cold_energy",
+    "type": "SPELL",
+    "name": { "str": "Ice Fog" },
+    "description": "Using your mana, you began to accelerate ice particles inside a cold mist, eroding everything inside.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_cold_energy",
+    "shape": "blast",
+    "spell_class": "PERMAFROST_MAGE",
+    "energy_source": "MANA",
+    "difficulty": 9,
+    "max_level": 35,
+    "base_casting_time": 600,
+    "casting_time_increment": -15,
+    "final_casting_time": 200,
+    "base_energy_cost": 800,
+    "energy_increment": -15,
+    "final_energy_cost": 400,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 10000,
+    "max_duration": 45000,
+    "duration_increment": 2300
+  },
+  {
+    "id": "aura_cold_energy",
+    "type": "ARMOR",
+    "name": "Ice Orbit",
+    "//": "dirty hack till emit spell would be fixed",
+    "description": "Small particles of ice orbit around your body, as a beacon for a giant field of frozen energy.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "magical_material" ],
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "emitter": "emit_cold_energy_strong" } ] }
+  }
+]

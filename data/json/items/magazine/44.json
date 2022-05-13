@@ -13,15 +13,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "44" ],
-    "capacity": 6,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 6 } } ]
   },
   {
     "id": "deaglemag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Desert Eagle magazine" },
+    "name": { "str": "Desert Eagle 8-round magazine" },
     "description": "A standard 8-round steel box magazine for use with the IMI Desert Eagle.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -31,8 +30,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "44" ],
-    "capacity": 8,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 8 } } ]
   }
 ]

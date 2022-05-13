@@ -1,18 +1,17 @@
 #include <cstdio>
-#include <memory>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
-#include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "cata_catch.h"
+#include "character.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
 #include "test_statistics.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -24,30 +23,32 @@ static const efftype_id effect_blind( "blind" );
 static void clear_game_drag( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
-    calendar::turn = 0;
+    calendar::turn = calendar::turn_zero;
     clear_creatures();
     clear_npcs();
 
+    Character &player_character = get_player_character();
     // Move player somewhere safe
-    CHECK( !g->u.in_vehicle );
-    g->u.setpos( tripoint_zero );
+    CHECK( !player_character.in_vehicle );
+    player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 1_turns, num_bp, true );
+    player_character.add_effect( effect_blind, 1_turns, true );
     // Make sure the ST is 8 so that muscle powered results are consistent
-    g->u.str_cur = 8;
+    player_character.str_cur = 8;
 
     build_test_map( terrain );
 
+    map &here = get_map();
     // hard force a rebuild of caches
-    g->m.shift( point_south );
-    g->m.shift( point_north );
+    here.shift( point_south );
+    here.shift( point_north );
 }
 
 static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
     clear_vehicles();
     const tripoint map_starting_point( 60, 60, 0 );
-    vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
+    vehicle *veh_ptr = get_map().add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
@@ -56,13 +57,13 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
 
     // Remove all items from cargo to normalize weight.
     // turn everything on
-    for( const vpart_reference vp : veh_ptr->get_all_parts() ) {
+    for( const vpart_reference &vp : veh_ptr->get_all_parts() ) {
         veh_ptr->get_items( vp.part_index() ).clear();
         veh_ptr->toggle_specific_part( vp.part_index(), true );
     }
     // close the doors
     const auto doors = veh_ptr->get_avail_parts( "OPENABLE" );
-    for( const vpart_reference vp :  doors ) {
+    for( const vpart_reference &vp :  doors ) {
         const size_t door = vp.part_index();
         veh_ptr->close( door );
     }
@@ -138,7 +139,7 @@ static void test_vehicle_drag(
                expected_safe, expected_max, true );
 }
 
-std::vector<std::string> vehs_to_test_drag = {
+static std::vector<std::string> vehs_to_test_drag = {
     {
         "bicycle",
         "bicycle_electric",
@@ -228,73 +229,73 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
 {
     clear_game_drag( ter_id( "t_pavement" ) );
 
-    test_vehicle_drag( "bicycle", 0.609525, 0.008953, 22.535417, 2360, 3082 );
-    test_vehicle_drag( "bicycle_electric", 0.609525, 0.019330, 48.652083, 2756, 3271 );
-    test_vehicle_drag( "motorcycle", 0.609525, 0.569952, 254.820312, 7296, 8687 );
-    test_vehicle_drag( "motorcycle_sidecart", 0.880425, 0.859065, 455.206250, 6423, 7657 );
-    test_vehicle_drag( "quad_bike", 0.537285, 1.112797, 710.745536, 7457, 8918 );
-    test_vehicle_drag( "scooter", 0.609525, 0.154345, 116.543750, 4279, 5088 );
-    test_vehicle_drag( "scooter_electric", 0.609525, 0.164796, 124.435417, 4831, 5006 );
-    test_vehicle_drag( "superbike", 0.609525, 0.846042, 378.257812, 9912, 11797 );
-    test_vehicle_drag( "tandem", 0.609525, 0.010590, 19.990625, 2359, 3081 );
-    test_vehicle_drag( "unicycle", 0.690795, 0.002493, 25.100000, 2266, 2958 );
-    test_vehicle_drag( "beetle", 0.785610, 1.800385, 1274.482813, 8969, 10711 );
-    test_vehicle_drag( "bubble_car", 0.823987, 1.764712, 1189.742560, 9304, 9651 );
-    test_vehicle_drag( "car", 0.294604, 2.473484, 1167.310417, 11916, 14350 );
-    test_vehicle_drag( "car_mini", 0.294604, 1.816015, 1285.546875, 12157, 14580 );
-    test_vehicle_drag( "car_sports", 0.294604, 2.547639, 1442.767500, 20848, 24904 );
-    test_vehicle_drag( "car_sports_atomic", 0.294604, 3.788275, 1787.798958, 23696, 24593 );
-    test_vehicle_drag( "car_sports_electric", 0.294604, 3.279649, 1857.316250, 23851, 24748 );
-    test_vehicle_drag( "electric_car", 0.304763, 2.309523, 1089.932292, 16266, 16883 );
-    test_vehicle_drag( "rara_x", 0.880425, 2.068105, 1076.965517, 8383, 8699 );
-    test_vehicle_drag( "suv", 0.294604, 2.914201, 1178.826786, 13988, 16827 );
-    test_vehicle_drag( "suv_electric", 0.304763, 2.461925, 995.875893, 16216, 16833 );
-    test_vehicle_drag( "golf_cart", 0.943313, 1.472114, 926.312500, 7039, 7303 );
-    test_vehicle_drag( "golf_cart_4seat", 0.943313, 1.439476, 905.775000, 7044, 7308 );
-    test_vehicle_drag( "hearse", 0.355556, 3.216780, 1301.223214, 11046, 13340 );
-    test_vehicle_drag( "pickup_technical", 0.838097, 2.958591, 1196.783036, 10176, 12173 );
-    test_vehicle_drag( "ambulance", 1.049323, 2.334381, 1915.936458, 11308, 13473 );
-    test_vehicle_drag( "car_fbi", 0.457144, 2.741665, 1293.872917, 14625, 17491 );
-    test_vehicle_drag( "fire_engine", 2.305875, 3.574448, 2346.974107, 8695, 10362 );
-    test_vehicle_drag( "fire_truck", 1.092446, 8.014297, 5312.766947, 10561, 12729 );
-    test_vehicle_drag( "policecar", 0.629843, 2.742769, 1294.393750, 13235, 15808 );
-    test_vehicle_drag( "policesuv", 0.629843, 3.074006, 1243.469643, 13177, 15753 );
-    test_vehicle_drag( "truck_swat", 0.808830, 7.563401, 6207.639583, 9935, 11688 );
+    test_vehicle_drag( "bicycle", 0.609525, 0.008953, 22.535417, 1431, 1871 );
+    test_vehicle_drag( "bicycle_electric", 0.609525, 0.018005, 45.318750, 2338, 2564 );
+    test_vehicle_drag( "motorcycle", 0.609525, 0.568204, 254.039062, 7297, 8687 );
+    test_vehicle_drag( "motorcycle_sidecart", 0.880425, 0.857099, 454.164583, 6424, 7657 );
+    test_vehicle_drag( "quad_bike", 0.537285, 1.110700, 709.406250, 7457, 8919 );
+    test_vehicle_drag( "scooter", 0.609525, 0.152965, 115.502083, 4279, 5088 );
+    test_vehicle_drag( "scooter_electric", 0.609525, 0.108235, 81.727083, 4831, 5007 );
+    test_vehicle_drag( "superbike", 0.609525, 0.844294, 377.476562, 9912, 11797 );
+    test_vehicle_drag( "tandem", 0.609525, 0.010590, 19.990625, 1430, 1870 );
+    test_vehicle_drag( "unicycle", 0.690795, 0.002493, 25.100000, 1377, 1798 );
+    test_vehicle_drag( "beetle", 0.785610, 1.584313, 1121.526562, 9005, 10744 );
+    test_vehicle_drag( "bubble_car", 0.823988, 1.002279, 675.721726, 9424, 9769 );
+    test_vehicle_drag( "car", 0.294604, 2.255646, 1064.506250, 11995, 14426 );
+    test_vehicle_drag( "car_mini", 0.294604, 1.599943, 1132.590625, 12238, 14657 );
+    test_vehicle_drag( "car_sports", 0.294604, 2.331567, 1320.402500, 20918, 24972 );
+    test_vehicle_drag( "car_sports_atomic", 0.294604, 3.185611, 1503.384375, 23795, 24693 );
+    test_vehicle_drag( "car_sports_electric", 0.294604, 1.798178, 1018.336250, 23968, 24864 );
+    test_vehicle_drag( "electric_car", 0.304762, 1.541638, 727.544791, 16337, 16954 );
+    test_vehicle_drag( "rara_x", 0.679185, 1.285418, 718.965277, 9191, 9535 );
+    test_vehicle_drag( "suv", 0.294604, 2.696363, 1090.708929, 14063, 16899 );
+    test_vehicle_drag( "suv_electric", 0.304762, 1.692274, 684.543750, 16288, 16904 );
+    test_vehicle_drag( "golf_cart", 0.943313, 1.058255, 665.895833, 7039, 7303 );
+    test_vehicle_drag( "golf_cart_4seat", 0.943313, 1.025616, 645.358333, 7044, 7308 );
+    test_vehicle_drag( "hearse", 0.355556, 2.672185, 1080.928571, 11212, 13499 );
+    test_vehicle_drag( "pickup_technical", 0.838097, 2.638015, 1067.106250, 10222, 12217 );
+    test_vehicle_drag( "ambulance", 1.049323, 2.191681, 1798.815625, 11324, 13488 );
+    test_vehicle_drag( "car_fbi", 0.457144, 2.525593, 1191.902083, 14675, 17538 );
+    test_vehicle_drag( "fire_engine", 2.305875, 2.866842, 1882.362500, 8706, 10373 );
+    test_vehicle_drag( "fire_truck", 1.056510, 7.862720, 5212.284976, 10681, 12872 );
+    test_vehicle_drag( "policecar", 0.629843, 2.526697, 1192.422917, 13273, 15844 );
+    test_vehicle_drag( "policesuv", 0.629843, 2.878958, 1164.570536, 13211, 15785 );
+    test_vehicle_drag( "truck_swat", 0.808830, 8.226852, 6752.165625, 9846, 11602 );
     test_vehicle_drag( "oldtractor", 0.537285, 0.893482, 1319.981250, 12446, 14408 );
-    test_vehicle_drag( "autotractor", 1.425450, 2.012592, 1982.195000, 7203, 7471 );
+    test_vehicle_drag( "autotractor", 1.425450, 1.426719, 1405.171250, 7778, 8066 );
     test_vehicle_drag( "tractor_plow", 0.609525, 0.918444, 1739.562500, 11941, 13822 );
     test_vehicle_drag( "tractor_reaper", 0.609525, 0.804219, 1523.216346, 11963, 13843 );
     test_vehicle_drag( "tractor_seed", 0.609525, 0.804219, 1523.216346, 11963, 13843 );
-    test_vehicle_drag( "aapc-mg", 1.625400, 8.660271, 4378.969494, 8038, 9427 );
-    test_vehicle_drag( "apc", 1.625400, 8.537083, 4316.680804, 8047, 9436 );
-    test_vehicle_drag( "humvee", 0.616297, 7.288223, 4913.611607, 12935, 15175 );
-    test_vehicle_drag( "military_cargo_truck", 0.840757, 9.507160, 4387.005556, 11554, 13581 );
-    test_vehicle_drag( "flatbed_truck", 0.883327, 4.555703, 2039.498295, 9794, 11767 );
-    test_vehicle_drag( "pickup", 0.589207, 3.226600, 1305.195536, 11295, 13546 );
-    test_vehicle_drag( "semi_truck", 0.781317, 10.083741, 5826.445833, 11718, 13797 );
-    test_vehicle_drag( "truck_trailer", 1.176534, 12.890242, 5713.000000, 0, 0 );
-    test_vehicle_drag( "tatra_truck", 0.440213, 7.828755, 4184.000000, 17772, 20829 );
-    test_vehicle_drag( "animalctrl", 0.345398, 2.823777, 1142.249107, 13373, 16062 );
-    test_vehicle_drag( "autosweeper", 0.986850, 1.844396, 1305.637500, 6884, 7144 );
-    test_vehicle_drag( "excavator", 0.659728, 1.793523, 1269.625000, 13204, 15305 );
-    test_vehicle_drag( "road_roller", 1.823738, 2.768224, 9197.104167, 9430, 10928 );
-    test_vehicle_drag( "forklift", 0.565988, 1.510686, 712.937500, 8258, 8572 );
-    test_vehicle_drag( "trencher", 0.659728, 1.166350, 1325.462019, 7944, 8240 );
-    test_vehicle_drag( "armored_car", 0.896872, 6.982755, 4707.669643, 11645, 13619 );
-    test_vehicle_drag( "cube_van", 0.518580, 2.706587, 2221.423958, 11852, 14197 );
-    test_vehicle_drag( "cube_van_cheap", 0.512775, 2.642748, 1904.512500, 10060, 12081 );
-    test_vehicle_drag( "hippie_van", 0.386033, 2.886681, 1167.694643, 10881, 13109 );
-    test_vehicle_drag( "icecream_truck", 0.681673, 3.956734, 2119.637838, 10680, 12830 );
-    test_vehicle_drag( "lux_rv", 1.609183, 3.770999, 2128.516557, 8453, 9826 );
-    test_vehicle_drag( "meth_lab", 0.518580, 3.114214, 2131.797872, 11765, 14113 );
-    test_vehicle_drag( "rv", 0.541800, 3.092351, 2116.831649, 11614, 13928 );
-    test_vehicle_drag( "schoolbus", 0.411188, 3.331642, 1491.510227, 12930, 15101 );
-    test_vehicle_drag( "security_van", 0.541800, 7.617575, 6252.103125, 11074, 13079 );
-    test_vehicle_drag( "wienermobile", 1.063697, 2.385608, 1957.981250, 11253, 13409 );
+    test_vehicle_drag( "aapc-mg", 1.625400, 8.808073, 4453.703869, 8027, 9416 );
+    test_vehicle_drag( "apc", 1.625400, 8.681954, 4389.933036, 8036, 9425 );
+    test_vehicle_drag( "humvee", 0.616298, 7.936433, 5350.625000, 12830, 15073 );
+    test_vehicle_drag( "military_cargo_truck", 0.840758, 10.714119, 4943.947222, 11407, 13439 );
+    test_vehicle_drag( "flatbed_truck", 0.776903, 4.448263, 1991.399432, 10194, 12254 );
+    test_vehicle_drag( "pickup", 0.589208, 2.852032, 1153.678571, 11367, 13615 );
+    test_vehicle_drag( "semi_truck", 0.778423, 7.637768, 5148.673056, 12051, 14123 );
+    test_vehicle_drag( "truck_trailer", 1.128750, 10.893304, 4827.950000, 0, 0 );
+    test_vehicle_drag( "tatra_truck", 0.968468, 8.157085, 4359.472384, 14080, 16428 );
+    test_vehicle_drag( "animalctrl", 0.396191, 2.611512, 1056.385714, 12891, 15457 );
+    test_vehicle_drag( "autosweeper", 0.986850, 1.298589, 919.264062, 6884, 7144 );
+    test_vehicle_drag( "excavator", 0.659728, 2.439720, 1727.064062, 13095, 15200 );
+    test_vehicle_drag( "road_roller", 1.823738, 2.714826, 9019.696875, 9434, 10932 );
+    test_vehicle_drag( "forklift", 0.565988, 1.096826, 517.625000, 8258, 8572 );
+    test_vehicle_drag( "trencher", 0.520838, 1.386881, 1576.078846, 8466, 8788 );
+    test_vehicle_drag( "armored_car", 0.844628, 7.687341, 5182.691071, 11764, 13780 );
+    test_vehicle_drag( "cube_van", 0.518580, 2.591620, 2127.064583, 11877, 14220 );
+    test_vehicle_drag( "cube_van_cheap", 0.518580, 2.528161, 2074.981250, 10052, 12064 );
+    test_vehicle_drag( "hippie_van", 0.375874, 2.480786, 1003.505357, 11086, 13328 );
+    test_vehicle_drag( "icecream_truck", 0.681673, 2.005141, 1868.108445, 10986, 13120 );
+    test_vehicle_drag( "lux_rv", 1.630929, 3.431263, 1936.754934, 8426, 9792 );
+    test_vehicle_drag( "meth_lab", 0.499230, 3.014333, 2063.425930, 11811, 14195 );
+    test_vehicle_drag( "rv", 0.541800, 2.749458, 1882.109175, 11645, 13958 );
+    test_vehicle_drag( "schoolbus", 0.445050, 3.028119, 1709.202741, 12702, 14813 );
+    test_vehicle_drag( "security_van", 0.541800, 8.623353, 7077.592708, 10891, 12901 );
+    test_vehicle_drag( "wienermobile", 1.281891, 2.237757, 1836.632292, 10612, 12636 );
     test_vehicle_drag( "canoe", 0.609525, 7.741047, 2.191938, 298, 628 );
     test_vehicle_drag( "kayak", 0.609525, 2.935863, 1.108417, 710, 1314 );
     test_vehicle_drag( "kayak_racing", 0.609525, 2.604776, 0.983417, 779, 1406 );
-    test_vehicle_drag( "DUKW", 0.776902, 3.850773, 83.288765, 10283, 12339 );
+    test_vehicle_drag( "DUKW", 0.776903, 3.602238, 77.913176, 10321, 12374 );
     test_vehicle_drag( "raft", 0.997815, 9.743243, 5.517750, 239, 508 );
     test_vehicle_drag( "inflatable_boat", 0.469560, 3.616690, 2.048188, 602, 1173 );
 }

@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[o:cataclysm-dda-translators:p:cataclysm-dda:r:master-cataclysm-dda]
+file_filter  = lang/po/<lang>.po
+source_file  = lang/po/cataclysm-dda.pot
+source_lang  = en
+type         = PO
+minimum_perc = 0
+

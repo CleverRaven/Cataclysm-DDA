@@ -1,0 +1,16 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GENERIC_PROFESSION_ID",
+    "info": "The profession selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "afs_rating"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GENERIC_SCENARIO_ID",
+    "info": "The scenario selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "escape_pod"
+  }
+]

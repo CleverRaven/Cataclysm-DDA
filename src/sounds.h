@@ -2,15 +2,18 @@
 #ifndef CATA_SRC_SOUNDS_H
 #define CATA_SRC_SOUNDS_H
 
-#include <string>
+#include <string> // IWYU pragma: keep
 #include <utility>
 #include <vector>
 
+#include "units_fwd.h"
+#include "optional.h"
+
+class Character;
 class Creature;
 class JsonObject;
 class item;
 class monster;
-class player;
 class translation;
 struct tripoint;
 template <typename E> struct enum_traits;
@@ -69,7 +72,7 @@ void reset_markers();
 // process_sounds() applies the sounds since the last turn to monster AI,
 void process_sounds();
 // process_sound_markers applies sound events to the player and records them for display.
-void process_sound_markers( player *p );
+void process_sound_markers( Character *you );
 
 // Return list of points that have sound events the player can hear.
 std::vector<tripoint> get_footstep_markers();
@@ -83,7 +86,7 @@ extern bool sound_enabled;
 
 template<>
 struct enum_traits<sounds::sound_t> {
-    static constexpr auto last = sounds::sound_t::_LAST;
+    static constexpr sounds::sound_t last = sounds::sound_t::_LAST;
 };
 
 namespace sfx
@@ -116,6 +119,10 @@ enum class channel : int {
     exterior_engine_sound,
     interior_engine_sound,
     radio,
+    outdoors_portal_storm_env,
+    outdoors_clear_env,
+    outdoors_cloudy_env,
+    outdoors_sunny_env,
     MAX_CHANNEL                 //the last reserved channel
 };
 
@@ -130,21 +137,34 @@ enum class group : int {
 void load_sound_effects( const JsonObject &jsobj );
 void load_sound_effect_preload( const JsonObject &jsobj );
 void load_playlist( const JsonObject &jsobj );
-void play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
+void play_variant_sound( const std::string &id, const std::string &variant, int volume,
+                         units::angle angle, double pitch_min = -1.0, double pitch_max = -1.0 );
+void play_variant_sound( const std::string &id, const std::string &variant,
+                         const std::string &season, const cata::optional<bool> &is_indoors,
+                         const cata::optional<bool> &is_night, int volume, units::angle angle,
                          double pitch_min = -1.0, double pitch_max = -1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume );
+void play_variant_sound( const std::string &id, const std::string &variant,
+                         const std::string &season, const cata::optional<bool> &is_indoors,
+                         const cata::optional<bool> &is_night, int volume );
 void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
                                  channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
+void play_ambient_variant_sound( const std::string &id, const std::string &variant,
+                                 const std::string &season, const cata::optional<bool> &is_indoors,
+                                 const cata::optional<bool> &is_night, int volume,
+                                 channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
 void play_activity_sound( const std::string &id, const std::string &variant, int volume );
+void play_activity_sound( const std::string &id, const std::string &variant,
+                          const std::string &season, int volume );
 void end_activity_sounds();
-void generate_gun_sound( const player &source_arg, const item &firing );
+void generate_gun_sound( const Character &source_arg, const item &firing );
 void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
                            bool targ_mon = false, const std::string &material = "flesh" );
 void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
 int get_heard_volume( const tripoint &source );
-int get_heard_angle( const tripoint &source );
+units::angle get_heard_angle( const tripoint &source );
 void do_footstep();
 void do_danger_music();
 void do_ambient();
@@ -154,10 +174,13 @@ void fade_audio_group( group group, int duration );
 void fade_audio_channel( channel channel, int duration );
 bool is_channel_playing( channel channel );
 bool has_variant_sound( const std::string &id, const std::string &variant );
+bool has_variant_sound( const std::string &id, const std::string &variant,
+                        const std::string &season, const cata::optional<bool> &is_indoors,
+                        const cata::optional<bool> &is_night );
 void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
-void do_player_death_hurt( const player &target, bool death );
+void do_player_death_hurt( const Character &target, bool death );
 void do_fatigue();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );

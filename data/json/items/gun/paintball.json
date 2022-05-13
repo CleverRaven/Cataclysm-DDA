@@ -11,7 +11,7 @@
     "price": 8000,
     "price_postapoc": 50,
     "material": [ "aluminum", "plastic" ],
-    "flags": [ "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "skill": "smg",
     "ammo": [ "paintball" ],
     "weight": "1600 g",
@@ -19,7 +19,7 @@
     "bashing": 5,
     "to_hit": -1,
     "range": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bash", "amount": 1 },
     "dispersion": 150,
     "durability": 7,
     "clip_size": 50,
@@ -32,6 +32,6 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "paintball": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "paintball": 50 } } ]
   }
 ]

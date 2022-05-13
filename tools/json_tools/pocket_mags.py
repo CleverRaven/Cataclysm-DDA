@@ -10,16 +10,18 @@ args_dict = vars(args.parse_args())
 
 inheriting_item_ids = []
 
+
 def gen_new(path):
     change = False
-    with open(path, "r") as json_file:
+    with open(path, "r", encoding="utf-8") as json_file:
         json_data = json.load(json_file)
         for jo in json_data:
             if "capacity" in jo:
                 if "ammo_type" in jo:
                     pocket_data = [{
                         "pocket_type": "MAGAZINE",
-                        "ammo_restriction": {k: jo["capacity"] for k in jo["ammo_type"]}
+                        "ammo_restriction": {k: jo["capacity"]
+                                             for k in jo["ammo_type"]}
                     }]
                     jo["pocket_data"] = pocket_data
                     change = True
@@ -38,7 +40,7 @@ for root, directories, filenames in os.walk(args_dict["dir"]):
         if path.endswith(".json"):
             new = gen_new(path)
             if new:
-                with open(path, "w") as jf:
+                with open(path, "w", encoding="utf-8") as jf:
                     json.dump(new, jf, ensure_ascii=False)
                 os.system(f"./tools/format/json_formatter.cgi {path}")
 

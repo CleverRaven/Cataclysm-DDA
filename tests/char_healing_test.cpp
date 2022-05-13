@@ -1,12 +1,11 @@
-#include <string>
+#include <iosfwd>
 
 #include "avatar.h"
-#include "effect.h"
+#include "calendar.h"
+#include "cata_catch.h"
+#include "character.h"
 #include "options.h"
-#include "player.h"
 #include "type_id.h"
-
-#include "catch/catch.hpp"
 
 // Tests for Character healing, including:
 //
@@ -36,7 +35,7 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_disinfected( "disinfected" );
 
 // Empty `dummy` of all traits, and give them a single trait with name `trait_name`
-static void give_one_trait( player &dummy, const std::string &trait_name )
+static void give_one_trait( Character &dummy, const std::string &trait_name )
 {
     const trait_id trait( trait_name );
     dummy.clear_mutations();
@@ -268,7 +267,7 @@ static float bandaged_rate( const std::string &bp_name, const float rest_quality
 {
     avatar dummy;
     const bodypart_id &bp = bodypart_id( bp_name );
-    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
+    dummy.add_effect( effect_bandaged, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
@@ -277,7 +276,7 @@ static float disinfected_rate( const std::string &bp_name, const float rest_qual
 {
     avatar dummy;
     const bodypart_id &bp = bodypart_id( bp_name );
-    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
+    dummy.add_effect( effect_disinfected, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
@@ -286,8 +285,8 @@ static float together_rate( const std::string &bp_name, const float rest_quality
 {
     avatar dummy;
     const bodypart_id &bp = bodypart_id( bp_name );
-    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
-    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
+    dummy.add_effect( effect_bandaged, 1_turns, bp );
+    dummy.add_effect( effect_disinfected, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 

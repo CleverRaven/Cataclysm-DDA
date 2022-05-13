@@ -16,6 +16,98 @@
 #include "npc.h"
 #include "rng.h"
 
+static const mission_type_id mission_MISSION_EXPLORE_SARCOPHAGUS( "MISSION_EXPLORE_SARCOPHAGUS" );
+static const mission_type_id
+mission_MISSION_FREE_MERCHANTS_EVAC_1( "MISSION_FREE_MERCHANTS_EVAC_1" );
+static const mission_type_id
+mission_MISSION_FREE_MERCHANTS_EVAC_2( "MISSION_FREE_MERCHANTS_EVAC_2" );
+static const mission_type_id
+mission_MISSION_FREE_MERCHANTS_EVAC_3( "MISSION_FREE_MERCHANTS_EVAC_3" );
+static const mission_type_id
+mission_MISSION_FREE_MERCHANTS_EVAC_4( "MISSION_FREE_MERCHANTS_EVAC_4" );
+static const mission_type_id mission_MISSION_GET_ANTIBIOTICS( "MISSION_GET_ANTIBIOTICS" );
+static const mission_type_id mission_MISSION_GET_BLACK_BOX( "MISSION_GET_BLACK_BOX" );
+static const mission_type_id
+mission_MISSION_GET_BLACK_BOX_TRANSCRIPT( "MISSION_GET_BLACK_BOX_TRANSCRIPT" );
+static const mission_type_id mission_MISSION_GET_DEPUTY_BADGE( "MISSION_GET_DEPUTY_BADGE" );
+static const mission_type_id mission_MISSION_GET_FLAG( "MISSION_GET_FLAG" );
+static const mission_type_id
+mission_MISSION_GET_RECORD_ACCOUNTING( "MISSION_GET_RECORD_ACCOUNTING" );
+static const mission_type_id mission_MISSION_GET_RECORD_PATIENT( "MISSION_GET_RECORD_PATIENT" );
+static const mission_type_id mission_MISSION_GET_RECORD_WEATHER( "MISSION_GET_RECORD_WEATHER" );
+static const mission_type_id mission_MISSION_GET_RELIC( "MISSION_GET_RELIC" );
+static const mission_type_id mission_MISSION_GET_SAFE_BOX( "MISSION_GET_SAFE_BOX" );
+static const mission_type_id mission_MISSION_GET_SOFTWARE( "MISSION_GET_SOFTWARE" );
+static const mission_type_id
+mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
+static const mission_type_id mission_MISSION_INVESTIGATE_CULT( "MISSION_INVESTIGATE_CULT" );
+static const mission_type_id
+mission_MISSION_INVESTIGATE_PRISON_VISIONARY( "MISSION_INVESTIGATE_PRISON_VISIONARY" );
+static const mission_type_id mission_MISSION_JOIN_TRACKER( "MISSION_JOIN_TRACKER" );
+static const mission_type_id mission_MISSION_KILL_100_Z( "MISSION_KILL_100_Z" );
+static const mission_type_id mission_MISSION_KILL_HORDE_MASTER( "MISSION_KILL_HORDE_MASTER" );
+static const mission_type_id mission_MISSION_KILL_JABBERWOCK( "MISSION_KILL_JABBERWOCK" );
+static const mission_type_id mission_MISSION_KILL_NEMESIS( "MISSION_KILL_NEMESIS" );
+static const mission_type_id mission_MISSION_KILL_ZOMBIE_MOM( "MISSION_KILL_ZOMBIE_MOM" );
+static const mission_type_id mission_MISSION_NULL( "MISSION_NULL" );
+static const mission_type_id mission_MISSION_OLD_GUARD_NEC_1( "MISSION_OLD_GUARD_NEC_1" );
+static const mission_type_id mission_MISSION_OLD_GUARD_NEC_2( "MISSION_OLD_GUARD_NEC_2" );
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_1( "MISSION_OLD_GUARD_NEC_COMMO_1" );
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_2( "MISSION_OLD_GUARD_NEC_COMMO_2" );
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_3( "MISSION_OLD_GUARD_NEC_COMMO_3" );
+static const mission_type_id
+mission_MISSION_OLD_GUARD_NEC_COMMO_4( "MISSION_OLD_GUARD_NEC_COMMO_4" );
+static const mission_type_id mission_MISSION_OLD_GUARD_REP_1( "MISSION_OLD_GUARD_REP_1" );
+static const mission_type_id mission_MISSION_OLD_GUARD_REP_2( "MISSION_OLD_GUARD_REP_2" );
+static const mission_type_id mission_MISSION_OLD_GUARD_REP_3( "MISSION_OLD_GUARD_REP_3" );
+static const mission_type_id mission_MISSION_OLD_GUARD_REP_4( "MISSION_OLD_GUARD_REP_4" );
+static const mission_type_id mission_MISSION_RANCH_BARTENDER_1( "MISSION_RANCH_BARTENDER_1" );
+static const mission_type_id mission_MISSION_RANCH_BARTENDER_2( "MISSION_RANCH_BARTENDER_2" );
+static const mission_type_id mission_MISSION_RANCH_BARTENDER_3( "MISSION_RANCH_BARTENDER_3" );
+static const mission_type_id mission_MISSION_RANCH_BARTENDER_4( "MISSION_RANCH_BARTENDER_4" );
+static const mission_type_id mission_MISSION_RANCH_BARTENDER_5( "MISSION_RANCH_BARTENDER_5" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_1( "MISSION_RANCH_FOREMAN_1" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_10( "MISSION_RANCH_FOREMAN_10" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_11( "MISSION_RANCH_FOREMAN_11" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_12( "MISSION_RANCH_FOREMAN_12" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_13( "MISSION_RANCH_FOREMAN_13" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_14( "MISSION_RANCH_FOREMAN_14" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_15( "MISSION_RANCH_FOREMAN_15" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_16( "MISSION_RANCH_FOREMAN_16" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_17( "MISSION_RANCH_FOREMAN_17" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_2( "MISSION_RANCH_FOREMAN_2" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_3( "MISSION_RANCH_FOREMAN_3" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_4( "MISSION_RANCH_FOREMAN_4" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_5( "MISSION_RANCH_FOREMAN_5" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_6( "MISSION_RANCH_FOREMAN_6" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_7( "MISSION_RANCH_FOREMAN_7" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_8( "MISSION_RANCH_FOREMAN_8" );
+static const mission_type_id mission_MISSION_RANCH_FOREMAN_9( "MISSION_RANCH_FOREMAN_9" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_1( "MISSION_RANCH_NURSE_1" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_10( "MISSION_RANCH_NURSE_10" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_11( "MISSION_RANCH_NURSE_11" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_2( "MISSION_RANCH_NURSE_2" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_3( "MISSION_RANCH_NURSE_3" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_4( "MISSION_RANCH_NURSE_4" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_5( "MISSION_RANCH_NURSE_5" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_6( "MISSION_RANCH_NURSE_6" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_7( "MISSION_RANCH_NURSE_7" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_8( "MISSION_RANCH_NURSE_8" );
+static const mission_type_id mission_MISSION_RANCH_NURSE_9( "MISSION_RANCH_NURSE_9" );
+static const mission_type_id mission_MISSION_RANCH_SCAVENGER_1( "MISSION_RANCH_SCAVENGER_1" );
+static const mission_type_id mission_MISSION_RANCH_SCAVENGER_2( "MISSION_RANCH_SCAVENGER_2" );
+static const mission_type_id mission_MISSION_RANCH_SCAVENGER_3( "MISSION_RANCH_SCAVENGER_3" );
+static const mission_type_id mission_MISSION_RANCH_SCAVENGER_4( "MISSION_RANCH_SCAVENGER_4" );
+static const mission_type_id mission_MISSION_REACH_FARM_HOUSE( "MISSION_REACH_FARM_HOUSE" );
+static const mission_type_id mission_MISSION_REACH_FEMA_CAMP( "MISSION_REACH_FEMA_CAMP" );
+static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
+static const mission_type_id mission_MISSION_RECOVER_PRIEST_DIARY( "MISSION_RECOVER_PRIEST_DIARY" );
+static const mission_type_id mission_MISSION_RECRUIT_TRACKER( "MISSION_RECRUIT_TRACKER" );
+static const mission_type_id mission_MISSION_RESCUE_DOG( "MISSION_RESCUE_DOG" );
+
 enum legacy_mission_type_id {
     MISSION_NULL,
     MISSION_GET_ANTIBIOTICS,
@@ -73,7 +165,7 @@ enum legacy_mission_type_id {
     MISSION_RANCH_FOREMAN_14,              //Need 5 backpacks for scavengers
     MISSION_RANCH_FOREMAN_15,              //Need Homebrewer's Bible for Bar
     MISSION_RANCH_FOREMAN_16,              //Need Sugar for Bar
-    MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st green house
+    MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st greenhouse
     MISSION_RANCH_NURSE_1,                 //Need aspirin
     MISSION_RANCH_NURSE_2,                 //Need hotplates
     MISSION_RANCH_NURSE_3,                 //Need multivitamins
@@ -104,22 +196,11 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "place_dog", mission_start::place_dog },
         { "place_zombie_mom", mission_start::place_zombie_mom },
         { "kill_horde_master", mission_start::kill_horde_master },
+        { "kill_nemesis", mission_start::kill_nemesis },
         { "place_npc_software", mission_start::place_npc_software },
         { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
         { "find_safety", mission_start::find_safety },
-        { "ranch_nurse_1", mission_start::ranch_nurse_1 },
-        { "ranch_nurse_2", mission_start::ranch_nurse_2 },
-        { "ranch_nurse_3", mission_start::ranch_nurse_3 },
-        { "ranch_nurse_4", mission_start::ranch_nurse_4 },
-        { "ranch_nurse_5", mission_start::ranch_nurse_5 },
-        { "ranch_nurse_6", mission_start::ranch_nurse_6 },
-        { "ranch_nurse_7", mission_start::ranch_nurse_7 },
-        { "ranch_nurse_8", mission_start::ranch_nurse_8 },
-        { "ranch_nurse_9", mission_start::ranch_nurse_9 },
-        { "ranch_scavenger_1", mission_start::ranch_scavenger_1 },
-        { "ranch_scavenger_2", mission_start::ranch_scavenger_2 },
-        { "ranch_scavenger_3", mission_start::ranch_scavenger_3 },
         { "place_book", mission_start::place_book },
         { "reveal_refugee_center", mission_start::reveal_refugee_center },
         { "create_lab_console", mission_start::create_lab_console },
@@ -132,8 +213,8 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
     }
 };
 
-static const std::map<std::string, std::function<bool( const tripoint & )>> tripoint_function_map
-= {{
+static const std::map<std::string, std::function<bool( const tripoint_abs_omt & )>>
+tripoint_function_map = {{
         { "never", mission_place::never },
         { "always", mission_place::always },
         { "near_town", mission_place::near_town }
@@ -157,8 +238,7 @@ std::string enum_to_string<mission_origin>( mission_origin data )
         case mission_origin::NUM_ORIGIN:
             break;
     }
-    debugmsg( "Invalid mission_origin" );
-    abort();
+    cata_fatal( "Invalid mission_origin" );
 }
 
 template<>
@@ -178,6 +258,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case MGOAL_KILL_MONSTER: return "MGOAL_KILL_MONSTER";
         case MGOAL_KILL_MONSTER_TYPE: return "MGOAL_KILL_MONSTER_TYPE";
         case MGOAL_KILL_MONSTER_SPEC: return "MGOAL_KILL_MONSTER_SPEC";
+        case MGOAL_KILL_NEMESIS: return "MGOAL_KILL_NEMESIS";
         case MGOAL_RECRUIT_NPC: return "MGOAL_RECRUIT_NPC";
         case MGOAL_RECRUIT_NPC_CLASS: return "MGOAL_RECRUIT_NPC_CLASS";
         case MGOAL_COMPUTER_TOGGLE: return "MGOAL_COMPUTER_TOGGLE";
@@ -187,12 +268,11 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case mission_goal::NUM_MGOAL:
             break;
     }
-    debugmsg( "Invalid mission_goal" );
-    abort();
+    cata_fatal( "Invalid mission_goal" );
 }
 } // namespace io
 
-generic_factory<mission_type> mission_type_factory( "mission_type" );
+static generic_factory<mission_type> mission_type_factory( "mission_type" );
 
 /** @relates string_id */
 template<>
@@ -245,7 +325,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "origins" ) ) {
         origins.clear();
-        for( auto &m : jo.get_tags( "origins" ) ) {
+        for( const std::string &m : jo.get_tags( "origins" ) ) {
             origins.emplace_back( io::string_to_enum<mission_origin>( m ) );
         }
     }
@@ -253,7 +333,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
 } ) ) {
-        auto djo = jo.get_object( "dialogue" );
+        JsonObject djo = jo.get_object( "dialogue" );
         // TODO: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
@@ -287,7 +367,8 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         } else if( jo.has_member( phase ) ) {
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
-                deferred.emplace_back( jo.str(), src );
+                deferred.emplace_back( jo.get_source_location(), src );
+                jo.allow_omitted_members();
                 j_start.allow_omitted_members();
                 return false;
             }
@@ -354,86 +435,87 @@ void mission_type::check_consistency()
 mission_type_id mission_type::from_legacy( int old_id )
 {
     static const std::vector<mission_type_id> old_id_vec = {{
-            mission_type_id( "MISSION_NULL" ),
-            mission_type_id( "MISSION_GET_ANTIBIOTICS" ),
-            mission_type_id( "MISSION_GET_SOFTWARE" ),
-            mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" ),
-            mission_type_id( "MISSION_RESCUE_DOG" ),
-            mission_type_id( "MISSION_KILL_ZOMBIE_MOM" ),
-            mission_type_id( "MISSION_REACH_SAFETY" ),
-            mission_type_id( "MISSION_GET_FLAG" ),
-            mission_type_id( "MISSION_GET_BLACK_BOX" ),
-            mission_type_id( "MISSION_GET_BLACK_BOX_TRANSCRIPT" ),
-            mission_type_id( "MISSION_EXPLORE_SARCOPHAGUS" ),
-            mission_type_id( "MISSION_GET_RELIC" ),
-            mission_type_id( "MISSION_RECOVER_PRIEST_DIARY" ),
-            mission_type_id( "MISSION_INVESTIGATE_CULT" ),
-            mission_type_id( "MISSION_INVESTIGATE_PRISON_VISIONARY" ),
-            mission_type_id( "MISSION_GET_RECORD_WEATHER" ),
-            mission_type_id( "MISSION_GET_RECORD_PATIENT" ),
-            mission_type_id( "MISSION_REACH_FEMA_CAMP" ),
-            mission_type_id( "MISSION_REACH_FARM_HOUSE" ),
-            mission_type_id( "MISSION_GET_RECORD_ACCOUNTING" ),
-            mission_type_id( "MISSION_GET_SAFE_BOX" ),
-            mission_type_id( "MISSION_GET_DEPUTY_BADGE" ),
-            mission_type_id( "MISSION_KILL_JABBERWOCK" ),
-            mission_type_id( "MISSION_KILL_100_Z" ),
-            mission_type_id( "MISSION_KILL_HORDE_MASTER" ),
-            mission_type_id( "MISSION_RECRUIT_TRACKER" ),
-            mission_type_id( "MISSION_JOIN_TRACKER" ),
-            mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_1" ),
-            mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_2" ),
-            mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_4" ),
-            mission_type_id( "MISSION_OLD_GUARD_REP_1" ),
-            mission_type_id( "MISSION_OLD_GUARD_REP_2" ),
-            mission_type_id( "MISSION_OLD_GUARD_REP_3" ),
-            mission_type_id( "MISSION_OLD_GUARD_REP_4" ),
-            mission_type_id( "MISSION_OLD_GUARD_NEC_1" ),
-            mission_type_id( "MISSION_OLD_GUARD_NEC_2" ),
-            mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_1" ),
-            mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" ),
-            mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
-            mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_1" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_2" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_3" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_4" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_5" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_6" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_7" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_8" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_9" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_10" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_11" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_12" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_13" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_14" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_15" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_16" ),
-            mission_type_id( "MISSION_RANCH_FOREMAN_17" ),
-            mission_type_id( "MISSION_RANCH_NURSE_1" ),
-            mission_type_id( "MISSION_RANCH_NURSE_2" ),
-            mission_type_id( "MISSION_RANCH_NURSE_3" ),
-            mission_type_id( "MISSION_RANCH_NURSE_4" ),
-            mission_type_id( "MISSION_RANCH_NURSE_5" ),
-            mission_type_id( "MISSION_RANCH_NURSE_6" ),
-            mission_type_id( "MISSION_RANCH_NURSE_7" ),
-            mission_type_id( "MISSION_RANCH_NURSE_8" ),
-            mission_type_id( "MISSION_RANCH_NURSE_9" ),
-            mission_type_id( "MISSION_RANCH_NURSE_10" ),
-            mission_type_id( "MISSION_RANCH_NURSE_11" ),
-            mission_type_id( "MISSION_RANCH_SCAVENGER_1" ),
-            mission_type_id( "MISSION_RANCH_SCAVENGER_2" ),
-            mission_type_id( "MISSION_RANCH_SCAVENGER_3" ),
-            mission_type_id( "MISSION_RANCH_SCAVENGER_4" ),
-            mission_type_id( "MISSION_RANCH_BARTENDER_1" ),
-            mission_type_id( "MISSION_RANCH_BARTENDER_2" ),
-            mission_type_id( "MISSION_RANCH_BARTENDER_3" ),
-            mission_type_id( "MISSION_RANCH_BARTENDER_4" ),
-            mission_type_id( "MISSION_RANCH_BARTENDER_5" ),
-            mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" ),
+            mission_MISSION_NULL,
+            mission_MISSION_GET_ANTIBIOTICS,
+            mission_MISSION_GET_SOFTWARE,
+            mission_MISSION_GET_ZOMBIE_BLOOD_ANAL,
+            mission_MISSION_RESCUE_DOG,
+            mission_MISSION_KILL_ZOMBIE_MOM,
+            mission_MISSION_REACH_SAFETY,
+            mission_MISSION_GET_FLAG,
+            mission_MISSION_GET_BLACK_BOX,
+            mission_MISSION_GET_BLACK_BOX_TRANSCRIPT,
+            mission_MISSION_EXPLORE_SARCOPHAGUS,
+            mission_MISSION_GET_RELIC,
+            mission_MISSION_RECOVER_PRIEST_DIARY,
+            mission_MISSION_INVESTIGATE_CULT,
+            mission_MISSION_INVESTIGATE_PRISON_VISIONARY,
+            mission_MISSION_GET_RECORD_WEATHER,
+            mission_MISSION_GET_RECORD_PATIENT,
+            mission_MISSION_REACH_FEMA_CAMP,
+            mission_MISSION_REACH_FARM_HOUSE,
+            mission_MISSION_GET_RECORD_ACCOUNTING,
+            mission_MISSION_GET_SAFE_BOX,
+            mission_MISSION_GET_DEPUTY_BADGE,
+            mission_MISSION_KILL_JABBERWOCK,
+            mission_MISSION_KILL_100_Z,
+            mission_MISSION_KILL_HORDE_MASTER,
+            mission_MISSION_KILL_NEMESIS,
+            mission_MISSION_RECRUIT_TRACKER,
+            mission_MISSION_JOIN_TRACKER,
+            mission_MISSION_FREE_MERCHANTS_EVAC_1,
+            mission_MISSION_FREE_MERCHANTS_EVAC_2,
+            mission_MISSION_FREE_MERCHANTS_EVAC_4,
+            mission_MISSION_OLD_GUARD_REP_1,
+            mission_MISSION_OLD_GUARD_REP_2,
+            mission_MISSION_OLD_GUARD_REP_3,
+            mission_MISSION_OLD_GUARD_REP_4,
+            mission_MISSION_OLD_GUARD_NEC_1,
+            mission_MISSION_OLD_GUARD_NEC_2,
+            mission_MISSION_OLD_GUARD_NEC_COMMO_1,
+            mission_MISSION_OLD_GUARD_NEC_COMMO_2,
+            mission_MISSION_OLD_GUARD_NEC_COMMO_3,
+            mission_MISSION_OLD_GUARD_NEC_COMMO_4,
+            mission_MISSION_RANCH_FOREMAN_1,
+            mission_MISSION_RANCH_FOREMAN_2,
+            mission_MISSION_RANCH_FOREMAN_3,
+            mission_MISSION_RANCH_FOREMAN_4,
+            mission_MISSION_RANCH_FOREMAN_5,
+            mission_MISSION_RANCH_FOREMAN_6,
+            mission_MISSION_RANCH_FOREMAN_7,
+            mission_MISSION_RANCH_FOREMAN_8,
+            mission_MISSION_RANCH_FOREMAN_9,
+            mission_MISSION_RANCH_FOREMAN_10,
+            mission_MISSION_RANCH_FOREMAN_11,
+            mission_MISSION_RANCH_FOREMAN_12,
+            mission_MISSION_RANCH_FOREMAN_13,
+            mission_MISSION_RANCH_FOREMAN_14,
+            mission_MISSION_RANCH_FOREMAN_15,
+            mission_MISSION_RANCH_FOREMAN_16,
+            mission_MISSION_RANCH_FOREMAN_17,
+            mission_MISSION_RANCH_NURSE_1,
+            mission_MISSION_RANCH_NURSE_2,
+            mission_MISSION_RANCH_NURSE_3,
+            mission_MISSION_RANCH_NURSE_4,
+            mission_MISSION_RANCH_NURSE_5,
+            mission_MISSION_RANCH_NURSE_6,
+            mission_MISSION_RANCH_NURSE_7,
+            mission_MISSION_RANCH_NURSE_8,
+            mission_MISSION_RANCH_NURSE_9,
+            mission_MISSION_RANCH_NURSE_10,
+            mission_MISSION_RANCH_NURSE_11,
+            mission_MISSION_RANCH_SCAVENGER_1,
+            mission_MISSION_RANCH_SCAVENGER_2,
+            mission_MISSION_RANCH_SCAVENGER_3,
+            mission_MISSION_RANCH_SCAVENGER_4,
+            mission_MISSION_RANCH_BARTENDER_1,
+            mission_MISSION_RANCH_BARTENDER_2,
+            mission_MISSION_RANCH_BARTENDER_3,
+            mission_MISSION_RANCH_BARTENDER_4,
+            mission_MISSION_RANCH_BARTENDER_5,
+            mission_MISSION_FREE_MERCHANTS_EVAC_3,
             // This is to help with the bugged find book mission
-            mission_type_id( "MISSION_NULL" )
+            mission_MISSION_NULL
         }
     };
 
@@ -442,7 +524,7 @@ mission_type_id mission_type::from_legacy( int old_id )
     }
 
     debugmsg( "Invalid legacy mission id: %d", old_id );
-    return mission_type_id( "MISSION_NULL" );
+    return mission_MISSION_NULL;
 }
 
 const mission_type *mission_type::get( const mission_type_id &id )
@@ -459,10 +541,11 @@ const std::vector<mission_type> &mission_type::get_all()
     return mission_type_factory.get_all();
 }
 
-mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
+mission_type_id mission_type::get_random_id( const mission_origin origin,
+        const tripoint_abs_omt &p )
 {
     std::vector<mission_type_id> valid;
-    for( auto &t : get_all() ) {
+    for( const mission_type &t : get_all() ) {
         if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
             continue;
         }

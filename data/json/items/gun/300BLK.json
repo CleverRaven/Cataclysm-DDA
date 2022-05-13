@@ -6,8 +6,9 @@
     "type": "GUN",
     "name": { "str": "Remington ACR .300BLK" },
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.  This version is chambered for the .300 AAC Blackout round.",
-    "weight": "3590 g",
-    "volume": "2 L",
+    "weight": "3419 g",
+    "volume": "3310 ml",
+    "longest_side": "938 mm",
     "price": 234300,
     "price_postapoc": 5500,
     "to_hit": -1,
@@ -21,14 +22,11 @@
     "durability": 8,
     "min_cycle_recoil": 1700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "built_in_mods": [ "folding_stock" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [
           "stanag30",
           "stanag5",
@@ -55,7 +53,8 @@
     "name": { "str": "IWI Tavor X95 .300BLK" },
     "description": "The IWI Tavor X95 (also called Micro-Tavor or MTAR) is an Israeli bullpup assault rifle designed and produced by Israel Weapon Industries.  This is the civilian version chambered for .300 AAC Blackout.",
     "weight": "3610 g",
-    "volume": "1500 ml",
+    "volume": "2400 ml",
+    "longest_side": "665 mm",
     "price": 490000,
     "price_postapoc": 4500,
     "to_hit": -1,
@@ -85,9 +84,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [
           "stanag30",
           "stanag5",
@@ -112,5 +108,58 @@
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_300blk" ]
+  },
+  {
+    "id": "sig_mcx_rattler_sbr",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "SIG MCX Rattler SBR" },
+    "description": "This is a short-barreled, gas-operated rifle, with a 5.5 inch barrel, built-in thin folding stock, and full rail mount on the upper receiver.  This particular one is a select-fire military version.",
+    "weight": "2590 g",
+    "volume": "2850 ml",
+    "//": "This is the unfolded version of the weapon. Folded, it's 597 mm",
+    "longest_side": "775 mm",
+    "price": 271900,
+    "price_postapoc": 3500,
+    "color": "dark_gray",
+    "ammo": [ "300blk" ],
+    "dispersion": 160,
+    "durability": 8,
+    "min_cycle_recoil": 1700,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "built_in_mods": [ "folding_stock" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   }
 ]

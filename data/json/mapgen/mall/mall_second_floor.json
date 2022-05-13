@@ -285,9 +285,9 @@
         "I": "t_thconc_floor",
         "B": "t_thconc_floor",
         "w": "t_thconc_floor",
-        "0": "t_carpet_red",
-        "%": "t_carpet_purple",
-        "d": "t_carpet_purple"
+        "0": "t_carpet_concrete_red",
+        "%": "t_carpet_concrete_purple",
+        "d": "t_carpet_concrete_purple"
       },
       "furniture": { "0": "f_piano", "%": [ "f_indoor_plant_y", "f_indoor_plant" ] },
       "items": {
@@ -339,11 +339,11 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 13 ], "density": 0.4 } ],
       "terrain": {
-        "%": "t_carpet_purple",
-        "T": "t_carpet_purple",
-        "K": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "A": "t_carpet_purple",
+        "%": "t_carpet_concrete_purple",
+        "T": "t_carpet_concrete_purple",
+        "K": "t_carpet_concrete_purple",
+        "!": "t_carpet_concrete_purple",
+        "A": "t_carpet_concrete_purple",
         "z": "t_thconc_floor",
         "^": "t_thconc_floor",
         "t": "t_thconc_floor",
@@ -511,15 +511,15 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "terrain": {
-        "A": "t_carpet_yellow",
-        "B": "t_carpet_yellow",
-        "K": "t_carpet_yellow",
-        "J": "t_carpet_yellow",
-        "i": "t_carpet_green",
-        "j": "t_carpet_green",
-        "m": "t_carpet_green",
-        "~": "t_carpet_green",
-        "7": "t_carpet_green",
+        "A": "t_carpet_concrete_yellow",
+        "B": "t_carpet_concrete_yellow",
+        "K": "t_carpet_concrete_yellow",
+        "J": "t_carpet_concrete_yellow",
+        "i": "t_carpet_concrete_green",
+        "j": "t_carpet_concrete_green",
+        "m": "t_carpet_concrete_green",
+        "~": "t_carpet_concrete_green",
+        "7": "t_carpet_concrete_green",
         "^": "t_linoleum_gray",
         "U": "t_thconc_floor",
         "z": "t_thconc_floor",
@@ -1048,7 +1048,7 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "V": "t_carpet_red",
+        "V": "t_carpet_concrete_red",
         "!": "t_floor",
         "T": "t_floor",
         "d": "t_floor",
@@ -1144,7 +1144,14 @@
         "S": "t_thconc_floor",
         "I": "t_thconc_floor"
       },
-      "furniture": { "%": "f_counter", "*": "f_crate_c", "!": "f_beaded_door", "p": "f_desk", "]": "f_ergometer", "0": "f_exercise" },
+      "furniture": {
+        "%": "f_counter",
+        "*": "f_crate_c",
+        "!": "f_beaded_door",
+        "p": "f_desk",
+        "]": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "0": "f_exercise"
+      },
       "items": {
         "K": { "item": "pottery", "chance": 30, "repeat": [ 2, 4 ] },
         "J": { "item": "office", "chance": 20 },
@@ -1220,8 +1227,8 @@
         "I": "t_thconc_floor"
       },
       "furniture": {
-        "*": "f_treadmill",
-        "]": "f_ergometer",
+        "*": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "]": [ "f_ergometer", "f_ergometer_mechanical" ],
         "!": "f_exercise",
         "&": "f_counter",
         "%": "f_shower",
@@ -1322,7 +1329,6 @@
         "         |||,.,|V99MMMM9",
         "           |.,.|V9999999",
         "           |,.,|V99MMMM9",
-        "           |.,.|V9999999",
         "           |,.,|99999999"
       ],
       "palettes": [ "mall_palette_2" ],
@@ -1395,14 +1401,14 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "b": "t_carpet_yellow",
-        "M": "t_carpet_yellow",
-        "@": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "d": "t_carpet_yellow",
-        "K": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "A": "t_carpet_purple",
+        "b": "t_carpet_concrete_yellow",
+        "M": "t_carpet_concrete_yellow",
+        "@": "t_carpet_concrete_yellow",
+        "!": "t_carpet_concrete_yellow",
+        "d": "t_carpet_concrete_yellow",
+        "K": "t_carpet_concrete_purple",
+        "%": "t_carpet_concrete_purple",
+        "A": "t_carpet_concrete_purple",
         "F": "t_linoleum_white",
         "*": "t_linoleum_white",
         "Ŧ": "t_linoleum_white",
@@ -1671,7 +1677,7 @@
         "t": "t_thconc_floor",
         "j": "t_thconc_floor",
         ")": "t_floor",
-        "*": "t_carpet_yellow",
+        "*": "t_carpet_concrete_yellow",
         "A": "t_linoleum_white",
         "%": "t_linoleum_white",
         ":": "t_linoleum_white",
@@ -1731,7 +1737,7 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 8 ], "y": [ 1, 23 ], "density": 0.4 } ],
-      "terrain": { "d": "t_floor", "K": "t_carpet_yellow", "V": "t_linoleum_gray" },
+      "terrain": { "d": "t_floor", "K": "t_carpet_concrete_yellow", "V": "t_linoleum_gray" },
       "items": {
         "Y": { "item": "trash", "chance": 30, "repeat": [ 2, 4 ] },
         "d": [
@@ -1803,11 +1809,11 @@
         "d": { "item": "fancyfurs", "chance": 20 },
         "V": { "item": "fancyfurs", "chance": 20 },
         "M": { "item": "fancyfurs", "chance": 20 },
-        "3": { "item": "costume_accessories", "chance": 30 },
-        "T": { "item": "costume_clothes", "chance": 30, "repeat": [ 1, 2 ] },
-        "%": [ { "item": "costume_clothes", "chance": 100 }, { "item": "costume_accessories", "chance": 100 } ],
+        "3": { "item": "costume_misc_items", "chance": 30 },
+        "T": { "item": "costume_all_clothing", "chance": 30, "repeat": [ 1, 2 ] },
+        "%": [ { "item": "costume_all_clothing", "chance": 100 }, { "item": "costume_accessories", "chance": 100 } ],
         "z": [
-          { "item": "costume_clothes", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "costume_all_clothing", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "costume_accessories", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       }
@@ -1875,7 +1881,7 @@
         "l": { "item": "fast_fridge", "chance": 20, "repeat": [ 2, 4 ] },
         "Q": { "item": "fast_kitchen", "chance": 20, "repeat": [ 2, 4 ] },
         "3": { "item": "costume_accessories", "chance": 30 },
-        "0": { "item": "costume_weapons", "chance": 30 }
+        "0": { "item": "costume_misc_items", "chance": 30 }
       },
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 3, 23 ], "density": 0.4 } ]
     }
@@ -1988,13 +1994,13 @@
         ">": "t_stairs_down",
         "E": "t_elevator",
         "<": "t_stairs_up",
-        "B": "t_carpet_red",
+        "B": "t_carpet_concrete_red",
         ":": "t_linoleum_white",
         "&": "t_linoleum_white",
-        "I": "t_carpet_red",
-        "S": "t_carpet_red",
-        "C": "t_carpet_red",
-        "@": "t_carpet_red"
+        "I": "t_carpet_concrete_red",
+        "S": "t_carpet_concrete_red",
+        "C": "t_carpet_concrete_red",
+        "@": "t_carpet_concrete_red"
       },
       "furniture": { "&": "f_table", ":": "f_bench" },
       "items": {
@@ -2039,9 +2045,9 @@
       "palettes": [ "mall_palette_2" ],
       "terrain": {
         "<": "t_stairs_up",
-        "S": "t_carpet_red",
-        "B": "t_carpet_red",
-        "I": "t_carpet_red",
+        "S": "t_carpet_concrete_red",
+        "B": "t_carpet_concrete_red",
+        "I": "t_carpet_concrete_red",
         "z": "t_thconc_floor",
         ":": "t_linoleum_white",
         "*": "t_linoleum_white",
@@ -2212,8 +2218,8 @@
       },
       "furniture": { "3": "f_wardrobe", "4": "f_table", "%": "f_beaded_door" },
       "items": {
-        "M": { "item": "costume_accessories", "chance": 20, "repeat": [ 1, 2 ] },
-        "T": { "item": "costume_clothes", "chance": 20, "repeat": [ 1, 2 ] },
+        "M": { "item": "costume_misc_items", "chance": 20, "repeat": [ 1, 2 ] },
+        "T": { "item": "costume_all", "chance": 20, "repeat": [ 1, 2 ] },
         "I": { "item": "office", "chance": 20 },
         "J": { "item": "office", "chance": 20 },
         "S": { "item": "office_paper", "chance": 100, "repeat": [ 1, 2 ] },
@@ -2282,8 +2288,8 @@
       "items": {
         "4": { "item": "baked_goods", "chance": 20, "repeat": [ 1, 2 ] },
         "M": { "item": "costume_accessories", "chance": 20, "repeat": [ 1, 2 ] },
-        "T": { "item": "costume_clothes", "chance": 20, "repeat": [ 1, 2 ] },
-        "d": [ { "item": "costume_clothes", "chance": 100 }, { "item": "costume_accessories", "chance": 100 } ],
+        "T": { "item": "costume_all_clothing", "chance": 20, "repeat": [ 1, 2 ] },
+        "d": [ { "item": "costume_all_clothing", "chance": 100 }, { "item": "costume_misc_items", "chance": 100 } ],
         "I": { "item": "office", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
         "U": { "item": "allclothes", "chance": 30 },
@@ -2322,7 +2328,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ".......,,...............",
         "||||||.,,.||HHH||H+H|H+H",
-        "_|t|t|.,,.|^444^^^^^^^^^^",
+        "_|t|t|.,,.|^444^^^^^^^^^",
         "_|_|_|.,,.|^^^^^^^^^^^^^",
         "=|=|=|.,,.|^^^^^^3333^^^",
         "_____|.,,.|*^^3^^^^^^^^3",

@@ -3,9 +3,9 @@
 #define CATA_SRC_MATTACK_ACTORS_H
 
 #include <climits>
+#include <iosfwd>
 #include <map>
 #include <memory>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -13,7 +13,6 @@
 #include "damage.h"
 #include "magic.h"
 #include "mattack_common.h"
-#include "mtype.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -21,20 +20,21 @@
 class Creature;
 class JsonObject;
 class monster;
+struct mon_effect_data;
 
 class leap_actor : public mattack_actor
 {
     public:
-        float max_range;
+        float max_range = 0.0f;
         // Jump has to be at least this tiles long
-        float min_range;
+        float min_range = 0.0f;
         // Don't leap without a hostile target creature
-        bool allow_no_target;
-        int move_cost;
+        bool allow_no_target = false;
+        int move_cost = 0;
         // Range below which we don't consider jumping at all
-        float min_consider_range;
+        float min_consider_range = 0.0f;
         // Don't jump if distance to target is more than this
-        float max_consider_range;
+        float max_consider_range = 0.0f;
 
         leap_actor() = default;
         ~leap_actor() override = default;
@@ -47,10 +47,7 @@ class leap_actor : public mattack_actor
 class mon_spellcasting_actor : public mattack_actor
 {
     public:
-        // is the spell beneficial to target itself?
-        bool self;
-        spell spell_data;
-        int move_cost;
+        fake_spell spell_data;
 
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
@@ -65,6 +62,8 @@ class melee_actor : public mattack_actor
     public:
         // Maximum damage from the attack
         damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
+        // Percent chance for the attack to happen if the mob tries it
+        int attack_chance = 100;
         // Minimum multiplier on damage above (rolled per attack)
         float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)
@@ -74,13 +73,27 @@ class melee_actor : public mattack_actor
         // If non-negative, the attack will use a different accuracy from mon's
         // regular melee attack.
         int accuracy = INT_MIN;
+        // Attack range, 1 means melee only
+        int range = 1;
+        // Attack fails if aimed at adjacent targets
+        bool no_adjacent = false;
+        // Determines if a special attack can be dodged
+        bool dodgeable = true;
+        // Determines if a special attack can be blocked
+        bool blockable = true;
+        // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
+        int throw_strength = 0;
+        // Limits on target bodypart hit sizes
+        int hitsize_min = -1;
+        int hitsize_max = -1;
+        bool attack_upper = true;
 
         /**
          * If empty, regular melee roll body part selection is used.
          * If non-empty, a body part is selected from the map to be targeted,
          * with a chance proportional to the value.
          */
-        weighted_float_list<body_part> body_parts;
+        weighted_float_list<bodypart_str_id> body_parts;
 
         /** Extra effects applied on damaging hit. */
         std::vector<mon_effect_data> effects;
@@ -91,6 +104,8 @@ class melee_actor : public mattack_actor
         translation no_dmg_msg_u;
         /** Message for damaging hit against the player. */
         translation hit_dmg_u;
+        /** Message for throwing the player. */
+        translation throw_msg_u;
 
         /** Message for missed attack against a non-player. */
         translation miss_msg_npc;
@@ -98,6 +113,8 @@ class melee_actor : public mattack_actor
         translation no_dmg_msg_npc;
         /** Message for damaging hit against a non-player. */
         translation hit_dmg_npc;
+        /** Message for throwing a non-player. */
+        translation throw_msg_npc;
 
         melee_actor();
         ~melee_actor() override = default;
@@ -115,7 +132,7 @@ class bite_actor : public melee_actor
     public:
         // one_in( this - damage dealt ) chance of getting infected
         // i.e. the higher is this, the lower chance of infection
-        int no_infection_chance = 0;
+        int infection_chance = 0;
 
         bite_actor();
         ~bite_actor() override = default;
@@ -150,13 +167,13 @@ class gun_actor : public mattack_actor
         int max_ammo = INT_MAX; /** limited also by monster starting ammo */
 
         /** Description of the attack being run */
-        std::string description;
+        translation description;
 
         /** Message to display (if any) for failures to fire excluding lack of ammo */
-        std::string failure_msg;
+        translation failure_msg;
 
         /** Sound (if any) when either ammo depleted or max_ammo reached */
-        std::string no_ammo_sound;
+        translation no_ammo_sound;
 
         /** Number of moves required for each attack */
         int move_cost = 150;
@@ -173,7 +190,7 @@ class gun_actor : public mattack_actor
         int targeting_timeout = 8; /** Default turns after which targeting is lost and needs repeating */
         int targeting_timeout_extend = 3; /** Increase timeout by this many turns after each shot */
 
-        std::string targeting_sound;
+        translation targeting_sound;
         int targeting_volume = 6; /** If set to zero don't emit any targeting sounds */
 
         bool laser_lock = false; /** Does switching between targets incur further targeting penalty */
@@ -182,7 +199,10 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target, const gun_mode_id &mode ) const;
+        bool try_target( monster &z, Creature &target ) const;
+        void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+                    int inital_recoil = 0 ) const;
+        int get_max_range() const;
 
         gun_actor();
         ~gun_actor() override = default;

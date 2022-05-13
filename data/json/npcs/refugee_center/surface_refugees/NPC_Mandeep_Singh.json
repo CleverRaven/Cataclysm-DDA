@@ -51,7 +51,7 @@
     "type": "item_group",
     "id": "REFUGEE_Mandeep_carried",
     "subtype": "collection",
-    "entries": [ { "item": "1st_aid" } ]
+    "entries": [ { "group": "used_1st_aid" } ]
   },
   {
     "type": "item_group",
@@ -69,6 +69,18 @@
     "//": "common talk responses",
     "id": [ "TALK_REFUGEE_Mandeep_2", "TALK_REFUGEE_Mandeep_Background", "TALK_REFUGEE_Mandeep_Situation" ],
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
+      },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Mandeep_Situation" }
     ]
@@ -77,36 +89,30 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mandeep_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Mandeep_Singh",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": "Hello again.",
-      "no": { "u_male": true, "yes": "Hello sir.  I am Mandeep Singh.", "no": "Hello ma'am.  I am Mandeep Singh." }
+      "and": [
+        "*is a middle-aged man with a crisp turban and a large blade at his side.  He meets your gaze as you approach, his expression stony.  \"Hello\u00A0",
+        { "u_male": true, "yes": "sir", "no": "ma'am" },
+        ".  I am Mandeep Singh.\""
+      ]
+    },
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Mandeep_1a" }
+      ]
     },
     "responses": [
-      {
-        "text": "Nice to meet you, Mandeep.",
-        "effect": { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Mandeep_1_firstmeet"
-      },
-      {
-        "text": "Hi, Mandeep.  What's up?",
-        "topic": "TALK_REFUGEE_Mandeep_2",
-        "condition": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
-        "text": "Hi Mandeep, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "Hi Mandeep.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "Nice to meet you, Mandeep.", "topic": "TALK_REFUGEE_Mandeep_1_firstmeet" },
+      { "text": "Hi Mandeep, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_1a",
+    "dynamic_line": "*peers at you with his intense gaze, his face unreadable.  \"Hello again.\"",
+    "responses": [
+      { "text": "Hi, Mandeep.  What's up?", "topic": "TALK_REFUGEE_Mandeep_2" },
+      { "text": "Hi Mandeep.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -136,7 +142,15 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mandeep_Situation",
-    "dynamic_line": "It is hard for me to say.  No one is happy here.  I sense that some are frustrated that my family and I have escaped the end of the world apparently unscathed.  That, and perhaps some other things, have made it hard for us to make close friends here.",
+    "dynamic_line": {
+      "u_compare_var": "refugee_happiness",
+      "type": "counter",
+      "context": "refugee_center",
+      "op": ">=",
+      "value": 5,
+      "yes": "The situation is tense, but it seems like things are slowly improving.  This place isn't home, but we're starting to become a community.  Perhaps, in time, I will call some of these people friends.  At least we don't feel like outsiders so much anymore.",
+      "no": "It is hard for me to say.  No one is happy here.  I sense that some are frustrated that my family and I have escaped the end of the world apparently unscathed.  That, and perhaps some other things, have made it hard for us to make close friends here."
+    },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

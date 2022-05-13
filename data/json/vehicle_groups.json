@@ -6,13 +6,14 @@
       [ "car", 2000 ],
       [ "car_anmlcmpt", 250 ],
       [ "car_hatch", 1000 ],
+      [ "car_luxury", 400 ],
       [ "electric_car", 500 ],
       [ "car_sports", 300 ],
       [ "car_sports_electric", 60 ],
       [ "suv", 800 ],
-      [ "suv_electric", 200 ],
       [ "suv_electric", 120 ],
       [ "car_mini", 400 ],
+      [ "car_hybrid", 500 ],
       [ "beetle", 500 ],
       [ "bicycle", 800 ],
       [ "bicycle_dirt", 200 ],
@@ -30,6 +31,7 @@
       [ "policesuv_k9", 5 ],
       [ "police_k9tpt", 1 ],
       [ "truck_swat", 200 ],
+      [ "prisoner_van_1", 50 ],
       [ "ambulance", 900 ],
       [ "fire_truck", 300 ],
       [ "fire_engine", 200 ],
@@ -38,6 +40,11 @@
       [ "road_roller", 200 ],
       [ "autosweeper", 200 ],
       [ "hippie_van", 1000 ],
+      [ "van_full-size", 800 ],
+      [ "van_full-size_hybrid", 200 ],
+      [ "van_mini", 1000 ],
+      [ "van_mini_hybrid", 250 ],
+      [ "van_cargo", 600 ],
       [ "cube_van_cheap", 400 ],
       [ "cube_van", 300 ],
       [ "security_van", 500 ],
@@ -55,9 +62,11 @@
       [ "humvee_gl", 50 ],
       [ "icecream_truck", 50 ],
       [ "food_truck", 50 ],
+      [ "food_truck_taco", 50 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 100 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 500 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -74,6 +83,11 @@
   },
   {
     "type": "vehicle_group",
+    "id": "lake",
+    "vehicles": [ [ "DUKW", 250 ], [ "cabin_cruiser_wood", 1500 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "boats_narrow",
     "//": "1 tile wide boats for storage sheds",
     "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ] ]
@@ -85,10 +99,10 @@
       [ "car", 7000 ],
       [ "car_anmlcmpt", 600 ],
       [ "car_hatch", 3500 ],
+      [ "car_luxury", 1400 ],
       [ "electric_car", 1000 ],
       [ "car_sports", 500 ],
       [ "suv", 1000 ],
-      [ "suv_electric", 300 ],
       [ "suv_electric", 150 ],
       [ "car_mini", 500 ],
       [ "beetle", 500 ],
@@ -97,7 +111,12 @@
       [ "cube_van", 500 ],
       [ "cube_van_cheap", 500 ],
       [ "hippie_van", 500 ],
-      [ "4x4_car", 500 ]
+      [ "van_full-size", 200 ],
+      [ "van_mini", 300 ],
+      [ "van_cargo", 400 ],
+      [ "4x4_car", 500 ],
+      [ "car_hybrid", 500 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -112,7 +131,9 @@
       [ "car", 3000 ],
       [ "car_anmlcmpt", 250 ],
       [ "car_hatch", 1000 ],
+      [ "car_luxury", 600 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 500 ],
       [ "car_sports", 1000 ],
       [ "car_sports_electric", 300 ],
       [ "pickup", 600 ],
@@ -129,6 +150,9 @@
       [ "car_fbi", 300 ],
       [ "truck_swat", 200 ],
       [ "hippie_van", 1000 ],
+      [ "van_full-size", 600 ],
+      [ "van_cargo", 400 ],
+      [ "van_camper", 200 ],
       [ "rara_x", 800 ],
       [ "apc", 300 ],
       [ "apc-gl", 100 ],
@@ -147,18 +171,25 @@
       [ "surv_car", 2 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
-      [ "4x4_car", 400 ]
+      [ "4x4_car", 400 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
     "type": "vehicle_group",
     "id": "suburban_home",
+    "//": "Do not add vehicles over 8 tiles long or 4 wide. This is for indoor garages/spaces",
     "vehicles": [
       [ "car", 1000 ],
+      [ "car_rack", 700 ],
       [ "car_anmlcmpt", 150 ],
       [ "car_hatch", 500 ],
+      [ "car_hatch_rack", 500 ],
+      [ "car_luxury", 300 ],
       [ "car_mini", 250 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 400 ],
+      [ "car_hybrid_rack", 400 ],
       [ "beetle", 300 ],
       [ "car_sports", 100 ],
       [ "car_sports_electric", 50 ],
@@ -171,15 +202,43 @@
       [ "scooter", 100 ],
       [ "scooter_electric", 100 ],
       [ "suv", 500 ],
-      [ "suv_electric", 200 ],
       [ "suv_electric", 120 ],
+      [ "suv_electric_rack", 120 ],
       [ "pickup", 300 ],
       [ "portable_generator", 50 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
-      [ "4x4_car", 200 ]
+      [ "4x4_car", 200 ],
+      [ "wheelbarrow", 100 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "suburban_home_compact",
+    "//": "Do not add vehicles over 5 tiles long or 4 wide. This is for compact car garages/spaces",
+    "vehicles": [
+      [ "car_hatch", 500 ],
+      [ "car_hatch_rack", 500 ],
+      [ "car_mini", 250 ],
+      [ "beetle", 300 ],
+      [ "car_sports", 100 ],
+      [ "car_sports_electric", 50 ],
+      [ "car_racing_electric", 5 ],
+      [ "superbike", 50 ],
+      [ "motorcycle", 200 ],
+      [ "motorcycle_cross", 25 ],
+      [ "motorcycle_enduro", 50 ],
+      [ "motorcycle_sidecart", 100 ],
+      [ "scooter", 100 ],
+      [ "scooter_electric", 100 ],
+      [ "portable_generator", 50 ],
+      [ "bicycle", 200 ],
+      [ "bicycle_dirt", 150 ],
+      [ "bicycle_electric", 100 ],
+      [ "tricycle", 5 ],
+      [ "wheelbarrow", 100 ]
     ]
   },
   {
@@ -190,7 +249,8 @@
       [ "pickup", 300 ],
       [ "bicycle_dirt", 100 ],
       [ "motorcycle_cross", 75 ],
-      [ "motorcycle_enduro", 150 ]
+      [ "motorcycle_enduro", 150 ],
+      [ "wheelbarrow", 100 ]
     ]
   },
   {
@@ -224,8 +284,13 @@
       [ "car", 1000 ],
       [ "car_anmlcmpt", 100 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 200 ],
       [ "electric_car", 750 ],
+      [ "car_hybrid", 500 ],
       [ "hippie_van", 750 ],
+      [ "van_full-size", 600 ],
+      [ "van_mini", 400 ],
+      [ "van_cargo", 100 ],
       [ "golf_cart", 300 ],
       [ "scooter", 300 ],
       [ "bicycle", 1000 ],
@@ -240,7 +305,8 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
-      [ "4x4_car", 200 ]
+      [ "4x4_car", 200 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -284,7 +350,8 @@
       [ "tractor_reaper", 1000 ],
       [ "oldtractor", 100 ],
       [ "autotractor", 1000 ],
-      [ "excavator", 500 ]
+      [ "excavator", 500 ],
+      [ "wheelbarrow", 100 ]
     ]
   },
   {
@@ -325,18 +392,21 @@
     "vehicles": [
       [ "car", 1500 ],
       [ "car_hatch", 750 ],
+      [ "car_luxury", 100 ],
       [ "car_chassis", 2000 ],
       [ "electric_car", 400 ],
+      [ "car_hybrid", 400 ],
       [ "car_sports", 400 ],
       [ "car_sports_electric", 100 ],
       [ "car_racing_electric", 5 ],
       [ "suv", 500 ],
-      [ "suv_electric", 200 ],
       [ "suv_electric", 120 ],
       [ "car_mini", 300 ],
       [ "beetle", 500 ],
       [ "pickup", 600 ],
       [ "hippie_van", 700 ],
+      [ "van_full-size", 500 ],
+      [ "van_mini", 300 ],
       [ "4x4_car", 500 ]
     ]
   },
@@ -346,10 +416,12 @@
     "vehicles": [
       [ "car", 1000 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 100 ],
       [ "car_chassis", 1200 ],
       [ "car_sports", 200 ],
       [ "suv", 400 ],
       [ "car_mini", 250 ],
+      [ "car_hybrid", 200 ],
       [ "rv", 250 ],
       [ "meth_lab", 50 ],
       [ "beetle", 400 ],
@@ -369,6 +441,8 @@
       [ "car_hatch", 475 ],
       [ "car_anmlcmpt", 150 ],
       [ "electric_car", 100 ],
+      [ "car_hybrid", 100 ],
+      [ "car_luxury", 50 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
@@ -379,6 +453,8 @@
       [ "beetle", 200 ],
       [ "pickup", 700 ],
       [ "hippie_van", 800 ],
+      [ "van_camper", 200 ],
+      [ "van_motorhome", 50 ],
       [ "4x4_car", 800 ]
     ]
   },
@@ -388,10 +464,13 @@
     "vehicles": [
       [ "car", 1000 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 100 ],
       [ "car_anmlcmpt", 100 ],
       [ "suv", 400 ],
       [ "rv", 200 ],
+      [ "van_motorhome", 50 ],
       [ "car_sports", 300 ],
+      [ "car_hybrid", 200 ],
       [ "cube_van_cheap", 200 ],
       [ "pickup", 500 ],
       [ "hippie_van", 300 ]
@@ -407,12 +486,17 @@
       [ "beetle", 750 ],
       [ "car", 1000 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 200 ],
       [ "car_anmlcmpt", 150 ],
       [ "electric_car", 750 ],
+      [ "car_hybrid", 500 ],
       [ "hippie_van", 750 ],
+      [ "van_full-size", 400 ],
+      [ "van_mini", 300 ],
       [ "motorcycle", 500 ],
       [ "superbike", 50 ],
-      [ "motorcycle_sidecart", 300 ]
+      [ "motorcycle_sidecart", 300 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -529,6 +613,7 @@
       [ "suv_electric", 70 ],
       [ "rara_x", 40 ],
       [ "car_sports", 30 ],
+      [ "car_luxury", 40 ],
       [ "car_sports_electric", 20 ]
     ]
   },
@@ -557,6 +642,7 @@
       [ "truck_trailer", 200 ],
       [ "cube_van", 400 ],
       [ "cube_van_cheap", 500 ],
+      [ "van_cargo", 300 ],
       [ "flatbed_truck", 300 ],
       [ "tatra_truck", 200 ],
       [ "pickup", 100 ]
@@ -569,7 +655,9 @@
     "vehicles": [
       [ "car", 2000 ],
       [ "car_hatch", 1000 ],
+      [ "car_luxury", 1000 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 500 ],
       [ "suv", 800 ],
       [ "suv_electric", 200 ],
       [ "car_mini", 400 ],
@@ -600,9 +688,11 @@
       [ "4x4_car", 200 ],
       [ "car_sports_electric", 100 ],
       [ "car_mini", 375 ],
+      [ "car_hybrid", 200 ],
       [ "beetle", 750 ],
       [ "car", 1500 ],
       [ "car_hatch", 750 ],
+      [ "car_luxury", 500 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
@@ -614,7 +704,8 @@
       [ "motorcycle_enduro", 50 ],
       [ "superbike", 50 ],
       [ "motorcycle_sidecart", 50 ],
-      [ "car_sports", 30 ]
+      [ "car_sports", 30 ],
+      [ "underlift_tow_truck", 10 ]
     ]
   },
   {
@@ -629,7 +720,9 @@
     "vehicles": [
       [ "car", 1000 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 100 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 400 ],
       [ "suv", 800 ],
       [ "suv_electric", 200 ],
       [ "car_mini", 400 ],
@@ -664,8 +757,10 @@
     "id": "oa_vg_ts_vehicles",
     "vehicles": [
       [ "car", 2000 ],
+      [ "car_luxury", 200 ],
       [ "car_hatch", 1000 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 400 ],
       [ "suv", 800 ],
       [ "suv_electric", 200 ],
       [ "car_mini", 400 ],
@@ -690,8 +785,10 @@
     "type": "vehicle_group",
     "vehicles": [
       [ "car", 2000 ],
+      [ "car_luxury", 400 ],
       [ "car_hatch", 1000 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 400 ],
       [ "car_mini", 250 ],
       [ "suv", 800 ],
       [ "suv_electric", 200 ],
@@ -710,7 +807,9 @@
     "id": "dealership",
     "vehicles": [
       [ "car", 500 ],
+      [ "car_luxury", 500 ],
       [ "electric_car", 100 ],
+      [ "car_hybrid", 100 ],
       [ "car_sports", 300 ],
       [ "car_sports_electric", 300 ],
       [ "suv", 500 ],
@@ -724,6 +823,10 @@
       [ "scooter_electric", 150 ],
       [ "pickup", 800 ],
       [ "hippie_van", 200 ],
+      [ "van_full-size", 100 ],
+      [ "van_full-size_hybrid", 50 ],
+      [ "van_mini", 200 ],
+      [ "van_mini_hybrid", 50 ],
       [ "rv", 50 ]
     ]
   },
@@ -731,5 +834,15 @@
     "id": "park_playground_vehicles",
     "type": "vehicle_group",
     "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ], [ "bicycle", 150 ], [ "bicycle_dirt", 125 ], [ "tricycle", 5 ] ]
+  },
+  {
+    "id": "wagons_all",
+    "type": "vehicle_group",
+    "vehicles": [ [ "gig_carriage", 100 ], [ "stagecoach", 100 ], [ "covered_wagon", 100 ], [ "uncovered_wagon", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "prison_vehicles",
+    "vehicles": [ [ "policecar", 15 ], [ "policesuv", 15 ], [ "truck_swat", 5 ], [ "bus_prison", 25 ], [ "ambulance", 10 ] ]
   }
 ]

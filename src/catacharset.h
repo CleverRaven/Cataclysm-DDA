@@ -4,13 +4,14 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
-#define ANY_LENGTH 5
-#define NULL_UNICODE 0x0000
-#define PERCENT_SIGN_UNICODE 0x0025
-#define UNKNOWN_UNICODE 0xFFFD
+constexpr int ANY_LENGTH = 5;
+constexpr int NULL_UNICODE = 0x0000;
+constexpr int PERCENT_SIGN_UNICODE = 0x0025;
+constexpr int UNKNOWN_UNICODE = 0xFFFD;
 
 class utf8_wrapper;
 
@@ -51,8 +52,7 @@ std::string base64_decode( const std::string &str );
 std::wstring utf8_to_wstr( const std::string &str );
 std::string wstr_to_utf8( const std::wstring &wstr );
 
-std::string native_to_utf8( const std::string &str );
-std::string utf8_to_native( const std::string &str );
+std::string wstr_to_native( const std::wstring &wstr );
 
 std::string utf32_to_utf8( const std::u32string &str );
 std::u32string utf8_to_utf32( const std::string &str );
@@ -89,8 +89,8 @@ class utf8_wrapper
 {
     public:
         utf8_wrapper() : _length( 0 ), _display_width( 0 ) { }
-        utf8_wrapper( const std::string &d );
-        utf8_wrapper( const char *d );
+        explicit utf8_wrapper( const std::string &d );
+        explicit utf8_wrapper( const char *d );
 
         void insert( size_t start, const utf8_wrapper &other );
         utf8_wrapper substr( size_t start, size_t length ) const;

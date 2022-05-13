@@ -77,6 +77,18 @@
       "TALK_REFUGEE_Vanessa_Situation"
     ],
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Vanessa_Refuse_Boris_Mission_1"
+      },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Vanessa_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Vanessa_Situation" },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
@@ -110,33 +122,31 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Vanessa_Toby",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": "Oh, you're back.",
-      "no": "Oh, great.  Another new mouth to feed?  Just what we need.  Well, I'm Vanessa."
+    "dynamic_line": "*looks you up and down for several seconds before speaking.  \"Oh, great.\"  Her voice is husky with years of smoking, and her glare suggests it's a habit she's recently given up.  \"Another new mouth to feed?  Just what we need.  Well, I'm Vanessa.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Vanessa_Toby", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Vanessa_1a" }
+      ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Vanessa_Toby", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
-      {
-        "text": "I'm not a new mouth to feed, but nice to meet you too.",
-        "condition": { "not": { "u_has_var": "u_met_Vanessa_Toby", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Vanessa_1_firstmeet"
-      },
-      {
-        "text": "Hi, Vanessa.  What's up?",
-        "condition": { "u_has_var": "u_met_Vanessa_Toby", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_REFUGEE_Vanessa_2"
-      },
+      { "text": "I'm not a new mouth to feed, but nice to meet you too.", "topic": "TALK_REFUGEE_Vanessa_1_firstmeet" },
       { "text": "Yeah, no.  I'm going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Vanessa_1a",
+    "dynamic_line": "*peers at you for a while before speaking.  \"Oh, you're back.\"",
+    "responses": [
+      { "text": "Hi, Vanessa.  What's up?", "topic": "TALK_REFUGEE_Vanessa_2" },
+      { "text": "Nevermind.  I'm going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_1_firstmeet",
-    "dynamic_line": "Well that's good.  If you're going to pull your own weight I guess that's an improvement."
+    "dynamic_line": "Well that's good.\"  She purses her lips and gives you another judgmental stare.  \"If you're going to pull your own weight I guess that's an improvement.\""
   },
   {
     "type": "talk_topic",
@@ -146,7 +156,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Background",
-    "dynamic_line": "I don't really want to talk about my life before this shit-show, if that's what you mean.  I don't need a shoulder to cry on.  I'm a hairdresser, is that enough personal information for you?",
+    "dynamic_line": "I don't really want to talk about my life before this shit-show, if that's what you mean.\"  She shrugs.  \"I don't need a shoulder to cry on.  I'm a hairdresser, is that enough personal information for you?",
     "responses": [
       {
         "text": "Could you give me a haircut?",
@@ -159,12 +169,34 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Situation",
     "dynamic_line": {
-      "u_has_var": "Vanessa_Mission1",
-      "type": "mission",
-      "context": "flag",
-      "value": "yes",
-      "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead, and there's not enough food to go around.  Why don't you fuckin' figure it out?",
-      "yes": "Well, I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead, and there's not enough food to go around.  At least I can do some work to keep me busy though, and the extra merch does go a long way to keeping my belly full.  People like getting a good haircut."
+      "and": [
+        {
+          "u_compare_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "op": ">=",
+          "value": 5,
+          "yes": "Well, I",
+          "no": "You want the sarcastic version, or the really sarcastic version?  I"
+        },
+        "'m stuck in a dank shitty brick building with two dozen strangers, the world's dead",
+        {
+          "u_has_var": "tacoma_started",
+          "type": "knowledge",
+          "context": "flag",
+          "value": "yes",
+          "yes": ", and all anyone will talk about is this new ranch they're building, as though it'll solve all our food problems",
+          "no": ", and there's not enough food to go around"
+        },
+        {
+          "u_has_var": "Vanessa_Mission1",
+          "type": "mission",
+          "context": "flag",
+          "value": "yes",
+          "no": ".  Why don't you fuckin' figure it out?\"",
+          "yes": ".  At least I can do some work to keep me busy though, and the extra merch does go a long way to keeping my belly full.  People like getting a good haircut.\""
+        }
+      ]
     }
   },
   {
@@ -183,7 +215,7 @@
     "dynamic_line": "Sure, I can give you a haircut.  It'll be six merch for a haircut, or three for a shave, okay?",
     "responses": [
       {
-        "text": "Please give me a haircut.",
+        "text": "[6 merch] Please give me a haircut.",
         "topic": "TALK_DONE",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
         "effect": [
@@ -194,7 +226,7 @@
         ]
       },
       {
-        "text": "Please give me a shave.",
+        "text": "[3 merch] Please give me a shave.",
         "topic": "TALK_DONE",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
         "effect": [
@@ -219,9 +251,16 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Vanessa_Refuse_Boris_Mission_1",
+    "dynamic_line": "Ha ha ha ha!  No.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "responses": [ { "text": "I don't know what I expected.", "topic": "TALK_DONE" } ]
+  },
+  {
     "id": "MISSION_REFUGEE_Vanessa_1",
     "type": "mission_definition",
-    "name": { "str": "Make a makeshift haircut kit" },
+    "name": { "str": "Make a makeshift haircut kit for Vanessa Toby in the refugee center" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
@@ -241,7 +280,8 @@
     "end": {
       "effect": [
         { "u_add_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" }
+        { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
       ]
     }
   }

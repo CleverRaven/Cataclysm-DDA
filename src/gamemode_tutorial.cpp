@@ -1,18 +1,19 @@
 #include "gamemode_tutorial.h" // IWYU pragma: associated
 
-#include <array>
 #include <cstdlib>
+#include <iosfwd>
 #include <memory>
-#include <string>
 
 #include "action.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "colony.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
+#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
@@ -22,8 +23,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "point.h"
 #include "profession.h"
 #include "scent_map.h"
@@ -31,21 +31,37 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "units.h"
 #include "weather.h"
 
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_flashlight_on( "flashlight_on" );
 static const itype_id itype_grenade_act( "grenade_act" );
-static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
+
+static const overmap_special_id overmap_special_tutorial( "tutorial" );
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
+static const skill_id skill_throwing( "throwing" );
 
-static const trait_id trait_QUICK( "QUICK" );
-
-static const mtype_id mon_zombie( "mon_zombie" );
+static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
+static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
+static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
+static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
+static const trap_str_id tr_tutorial_12( "tr_tutorial_12" );
+static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
+static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
+static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
+static const trap_str_id tr_tutorial_2( "tr_tutorial_2" );
+static const trap_str_id tr_tutorial_3( "tr_tutorial_3" );
+static const trap_str_id tr_tutorial_4( "tr_tutorial_4" );
+static const trap_str_id tr_tutorial_5( "tr_tutorial_5" );
+static const trap_str_id tr_tutorial_6( "tr_tutorial_6" );
+static const trap_str_id tr_tutorial_7( "tr_tutorial_7" );
+static const trap_str_id tr_tutorial_8( "tr_tutorial_8" );
+static const trap_str_id tr_tutorial_9( "tr_tutorial_9" );
 
 namespace io
 {
@@ -57,6 +73,7 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
             // *INDENT-OFF*
         case tut_lesson::LESSON_INTRO: return "LESSON_INTRO";
         case tut_lesson::LESSON_MOVE: return "LESSON_MOVE";
+        case tut_lesson::LESSON_MOVEMENT_MODES: return "LESSON_MOVEMENT_MODES";
         case tut_lesson::LESSON_LOOK: return "LESSON_LOOK";
         case tut_lesson::LESSON_OPEN: return "LESSON_OPEN";
         case tut_lesson::LESSON_CLOSE: return "LESSON_CLOSE";
@@ -65,10 +82,6 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::LESSON_PICKUP: return "LESSON_PICKUP";
         case tut_lesson::LESSON_EXAMINE: return "LESSON_EXAMINE";
         case tut_lesson::LESSON_INTERACT: return "LESSON_INTERACT";
-        case tut_lesson::LESSON_FULL_INV: return "LESSON_FULL_INV";
-        case tut_lesson::LESSON_WIELD_NO_SPACE: return "LESSON_WIELD_NO_SPACE";
-        case tut_lesson::LESSON_AUTOWIELD: return "LESSON_AUTOWIELD";
-        case tut_lesson::LESSON_ITEM_INTO_INV: return "LESSON_ITEM_INTO_INV";
         case tut_lesson::LESSON_GOT_ARMOR: return "LESSON_GOT_ARMOR";
         case tut_lesson::LESSON_GOT_WEAPON: return "LESSON_GOT_WEAPON";
         case tut_lesson::LESSON_GOT_FOOD: return "LESSON_GOT_FOOD";
@@ -87,7 +100,6 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::LESSON_DRANK_WATER: return "LESSON_DRANK_WATER";
         case tut_lesson::LESSON_ACT_GRENADE: return "LESSON_ACT_GRENADE";
         case tut_lesson::LESSON_ACT_BUBBLEWRAP: return "LESSON_ACT_BUBBLEWRAP";
-        case tut_lesson::LESSON_OVERLOADED: return "LESSON_OVERLOADED";
         case tut_lesson::LESSON_GUN_LOAD: return "LESSON_GUN_LOAD";
         case tut_lesson::LESSON_GUN_FIRE: return "LESSON_GUN_FIRE";
         case tut_lesson::LESSON_RECOIL: return "LESSON_RECOIL";
@@ -95,12 +107,24 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::LESSON_DARK_NO_FLASH: return "LESSON_DARK_NO_FLASH";
         case tut_lesson::LESSON_DARK: return "LESSON_DARK";
         case tut_lesson::LESSON_PICKUP_WATER: return "LESSON_PICKUP_WATER";
+        case tut_lesson::LESSON_MONSTER_SIGHTED: return "LESSON_MONSTER_SIGHTED";
+        case tut_lesson::LESSON_LOCKED_DOOR: return "LESSON_LOCKED_DOOR";
+        case tut_lesson::LESSON_RESTORE_STAMINA: return "LESSON_RESTORE_STAMINA";
+        case tut_lesson::LESSON_REACH_ATTACK: return "LESSON_REACH_ATTACK";
+        case tut_lesson::LESSON_HOLSTERS_WEAR: return "LESSON_HOLSTERS_WEAR";
+        case tut_lesson::LESSON_HOLSTERS_ACTIVATE: return "LESSON_HOLSTERS_ACTIVATE";
+        case tut_lesson::LESSON_INVENTORY: return "LESSON_INVENTORY";
+        case tut_lesson::LESSON_FLASHLIGHT: return "LESSON_FLASHLIGHT";
+        case tut_lesson::LESSON_REMOTE_USE: return "LESSON_REMOTE_USE";
+        case tut_lesson::LESSON_CRAFTING_FOOD: return "LESSON_CRAFTING_FOOD";
+        case tut_lesson::LESSON_CONSTRUCTION: return "LESSON_CONSTRUCTION";
+        case tut_lesson::LESSON_THROWING: return "LESSON_THROWING";
+        case tut_lesson::LESSON_FINALE: return "LESSON_FINALE";
             // *INDENT-ON*
         case tut_lesson::NUM_LESSONS:
             break;
     }
-    debugmsg( "Invalid tut_lesson" );
-    abort();
+    cata_fatal( "Invalid tut_lesson" );
 }
 } // namespace io
 
@@ -108,54 +132,46 @@ bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
-    // Start at noon
-    calendar::turn = calendar::turn_zero + 12_hours;
+    // Start at noon at the end of the spring to prevent freezing
+    calendar::turn = calendar::start_of_cataclysm + 8_weeks + 12_hours;
     tutorials_seen.clear();
-    g->scent.reset();
-    g->weather.temperature = 65;
+    get_scent().reset();
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
-    g->u.normalize();
-    g->u.str_cur = g->u.str_max;
-    g->u.per_cur = g->u.per_max;
-    g->u.int_cur = g->u.int_max;
-    g->u.dex_cur = g->u.dex_max;
+    avatar &player_character = get_avatar();
+    player_character.normalize();
+    player_character.str_cur = player_character.str_max;
+    player_character.per_cur = player_character.per_max;
+    player_character.int_cur = player_character.int_max;
+    player_character.dex_cur = player_character.dex_max;
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        g->u.hp_cur[i] = g->u.hp_max[i];
-    }
+    player_character.set_all_parts_hp_to_max();
 
-    const oter_id rock( "rock" );
     //~ default name for the tutorial
-    g->u.name = _( "John Smith" );
-    g->u.prof = profession::generic();
+    player_character.name = _( "John Smith" );
+    player_character.prof = profession::generic();
     // overmap terrain coordinates
-    const tripoint lp( 50, 50, 0 );
-    auto &starting_om = overmap_buffer.get( point_zero );
-    for( int i = 0; i < OMAPX; i++ ) {
-        for( int j = 0; j < OMAPY; j++ ) {
-            tripoint p( i, j, 0 );
-            starting_om.ter_set( p + tripoint_below, rock );
-            // Start with the overmap revealed
-            starting_om.seen( p ) = true;
-        }
-    }
-    starting_om.ter_set( lp, oter_id( "tutorial" ) );
-    starting_om.ter_set( lp + tripoint_below, oter_id( "tutorial" ) );
+    const tripoint_om_omt lp( 50, 50, 0 );
+    // Assume overmap zero
+    const tripoint_abs_omt lp_abs = project_combine( point_abs_om(), lp );
+    overmap &starting_om = overmap_buffer.get( point_abs_om() );
+    starting_om.place_special_forced( overmap_special_tutorial, lp, om_direction::type::north );
     starting_om.clear_mon_groups();
 
-    g->u.toggle_trait( trait_QUICK );
-    item lighter( "lighter", 0 );
-    lighter.invlet = 'e';
-    g->u.inv.add_item( lighter, true, false );
-    g->u.set_skill_level( skill_gun, 5 );
-    g->u.set_skill_level( skill_melee, 5 );
-    g->load_map( omt_to_sm_copy( lp ) );
-    g->u.setx( 2 );
-    g->u.sety( 4 );
+    player_character.wear_item( item( "boxer_shorts" ), false );
+    player_character.wear_item( item( "jeans" ), false );
+    player_character.wear_item( item( "longshirt" ), false );
+    player_character.wear_item( item( "socks" ), false );
+    player_character.wear_item( item( "sneakers" ), false );
+
+    player_character.set_skill_level( skill_gun, 5 );
+    player_character.set_skill_level( skill_melee, 5 );
+    player_character.set_skill_level( skill_throwing, 5 );
+    g->load_map( project_to<coords::sm>( lp_abs ) );
+    player_character.move_to( project_to<coords::ms>( lp_abs ) + point( 2, 2 ) );
 
     // This shifts the view to center the players pos
-    g->update_map( g->u );
+    g->update_map( player_character );
     return true;
 }
 
@@ -164,27 +180,32 @@ void tutorial_game::per_turn()
     // note that add_message does nothing if the message was already shown
     add_message( tut_lesson::LESSON_INTRO );
     add_message( tut_lesson::LESSON_MOVE );
-    add_message( tut_lesson::LESSON_LOOK );
 
-    if( g->light_level( g->u.posz() ) == 1 ) {
-        if( g->u.has_amount( itype_flashlight, 1 ) ) {
+    Character &player_character = get_player_character();
+    if( g->light_level( player_character.posz() ) == 1 ) {
+        if( player_character.has_amount( itype_flashlight, 1 ) ||
+            player_character.has_amount( itype_flashlight_on, 1 ) ) {
             add_message( tut_lesson::LESSON_DARK );
         } else {
             add_message( tut_lesson::LESSON_DARK_NO_FLASH );
         }
     }
 
-    if( g->u.get_pain() > 0 ) {
+    if( player_character.get_wielded_item().ammo_remaining( &player_character ) > 0 ) {
+        add_message( tut_lesson::LESSON_GUN_FIRE );
+    }
+
+    if( player_character.get_pain() > 0 ) {
         add_message( tut_lesson::LESSON_PAIN );
     }
 
-    if( g->u.recoil >= MAX_RECOIL ) {
-        add_message( tut_lesson::LESSON_RECOIL );
+    if( player_character.get_stamina() <= 9000 ) {
+        add_message( tut_lesson::LESSON_RESTORE_STAMINA );
     }
 
     map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : here.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
+        for( const item &it : here.i_at( player_character.pos().xy() ) ) {
             if( it.is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
@@ -192,30 +213,70 @@ void tutorial_game::per_turn()
         }
     }
 
-    for( const tripoint &p : here.points_in_radius( g->u.pos(), 1 ) ) {
-        if( here.ter( p ) == t_door_o ) {
+    for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
+        if( here.ter( p ) == t_door_c ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( here.ter( p ) == t_door_c ) {
+        } else if( here.ter( p ) == t_door_o ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( here.ter( p ) == t_window ) {
-            add_message( tut_lesson::LESSON_SMASH );
+        } else if( here.ter( p ) == t_door_locked_interior ) {
+            add_message( tut_lesson::LESSON_LOCKED_DOOR );
             break;
-        } else if( here.furn( p ) == f_rack && !here.i_at( p ).empty() ) {
+        } else if( here.ter( p ) == t_window ) {
+            add_message( tut_lesson::LESSON_WINDOW );
+            break;
+        } else if( here.furn( p ) == f_rack ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
         } else if( here.ter( p ) == t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( here.ter( p ) == t_water_sh ) {
+        } else if( here.ter( p ) == ter_id( "t_water_dispenser" ) ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
+            break;
+        } else if( here.tr_at( p ).id == tr_bubblewrap ) {
+            add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
             break;
         }
     }
 
-    if( !here.i_at( point( g->u.posx(), g->u.posy() ) ).empty() ) {
+    if( !here.i_at( point( player_character.posx(), player_character.posy() ) ).empty() ) {
         add_message( tut_lesson::LESSON_PICKUP );
+    }
+
+    if( here.tr_at( player_character.pos() ) == tr_tutorial_1 ) {
+        add_message( tut_lesson::LESSON_LOOK );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_2 ) {
+        add_message( tut_lesson::LESSON_MOVEMENT_MODES );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_3 ) {
+        add_message( tut_lesson::LESSON_MONSTER_SIGHTED );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_4 ) {
+        add_message( tut_lesson::LESSON_REACH_ATTACK );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_5 ) {
+        add_message( tut_lesson::LESSON_HOLSTERS_WEAR );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_6 ) {
+        add_message( tut_lesson::LESSON_GUN_LOAD );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_7 ) {
+        add_message( tut_lesson::LESSON_INVENTORY );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_8 ) {
+        add_message( tut_lesson::LESSON_FLASHLIGHT );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_9 ) {
+        add_message( tut_lesson::LESSON_INTERACT );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_10 ) {
+        add_message( tut_lesson::LESSON_REMOTE_USE );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_11 ) {
+        player_character.set_hunger( 100 );
+        player_character.stomach.empty();
+        add_message( tut_lesson::LESSON_CRAFTING_FOOD );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_12 ) {
+        add_message( tut_lesson::LESSON_CONSTRUCTION );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_13 ) {
+        player_character.set_pain( 20 );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_14 ) {
+        add_message( tut_lesson::LESSON_THROWING );
+    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_15 ) {
+        add_message( tut_lesson::LESSON_FINALE );
     }
 }
 
@@ -235,18 +296,16 @@ void tutorial_game::pre_action( action_id &act )
 
 void tutorial_game::post_action( action_id act )
 {
+    Character &player_character = get_player_character();
     switch( act ) {
-        case ACTION_RELOAD_WEAPON:
-            if( g->u.weapon.is_gun() && !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
-                g->place_critter_at( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
-                g->place_critter_at( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
-                g->place_critter_at( mon_zombie, tripoint( g->u.posx() - 2, g->u.posy() - 5, g->u.posz() ) );
-                add_message( tut_lesson::LESSON_GUN_FIRE );
-            }
-            break;
-
         case ACTION_OPEN:
             add_message( tut_lesson::LESSON_CLOSE );
+            break;
+
+        case ACTION_FIRE:
+            if( player_character.get_wielded_item().is_gun() ) {
+                add_message( tut_lesson::LESSON_RECOIL );
+            }
             break;
 
         case ACTION_CLOSE:
@@ -254,52 +313,44 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_USE: {
-            if( g->u.has_amount( itype_grenade_act, 1 ) ) {
+            if( player_character.has_amount( itype_grenade_act, 1 ) ) {
                 add_message( tut_lesson::LESSON_ACT_GRENADE );
             }
-            map &here = get_map();
-            for( const tripoint &dest : here.points_in_radius( g->u.pos(), 1 ) ) {
-                if( here.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
-                    add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
-                }
+
+            if( player_character.last_item == itype_codeine ) {
+                add_message( tut_lesson::LESSON_TOOK_PAINKILLER );
             }
         }
         break;
 
         case ACTION_EAT:
-            if( g->u.last_item == itype_codeine ) {
-                add_message( tut_lesson::LESSON_TOOK_PAINKILLER );
-            } else if( g->u.last_item == itype_cig ) {
+            if( player_character.last_item == itype_cig ) {
                 add_message( tut_lesson::LESSON_TOOK_CIG );
-            } else if( g->u.last_item == itype_water ) {
+            } else if( player_character.last_item == itype_water_clean ) {
                 add_message( tut_lesson::LESSON_DRANK_WATER );
             }
             break;
 
         case ACTION_WEAR: {
-            item it( g->u.last_item, 0 );
-            if( it.is_armor() ) {
-                if( it.get_coverage() >= 2 || it.get_thickness() >= 2 ) {
-                    add_message( tut_lesson::LESSON_WORE_ARMOR );
-                }
+            item it( player_character.last_item, calendar::turn_zero );
+            if( it.is_holster() ) {
+                add_message( tut_lesson::LESSON_HOLSTERS_ACTIVATE );
+            } else if( it.has_pocket_type( item_pocket::pocket_type::CONTAINER ) ) {
+                add_message( tut_lesson::LESSON_WORE_STORAGE );
+            } else if( it.is_armor() ) {
                 if( it.get_env_resist() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_MASK );
+                } else if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
+                    add_message( tut_lesson::LESSON_WORE_ARMOR );
                 }
+
             }
         }
         break;
 
-        case ACTION_WIELD:
-            if( g->u.weapon.is_gun() ) {
-                add_message( tut_lesson::LESSON_GUN_LOAD );
-            }
-            break;
-
-        case ACTION_EXAMINE:
-            add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
-            item it( g->u.last_item, 0 );
+            item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
                 add_message( tut_lesson::LESSON_GOT_ARMOR );
             } else if( it.is_gun() ) {
@@ -331,6 +382,8 @@ void tutorial_game::add_message( tut_lesson lesson )
     }
     tutorials_seen[lesson] = true;
     g->invalidate_main_ui_adaptor();
-    popup( SNIPPET.get_snippet_by_id( snippet_id( io::enum_to_string<tut_lesson>( lesson ) ) ).value_or(
-               translation() ).translated(), PF_ON_TOP );
+    std::string translated_lesson = SNIPPET.get_snippet_by_id( snippet_id(
+                                        io::enum_to_string<tut_lesson>( lesson ) ) ).value_or( translation() ).translated();
+    replace_keybind_tag( translated_lesson );
+    popup( translated_lesson, PF_ON_TOP );
 }

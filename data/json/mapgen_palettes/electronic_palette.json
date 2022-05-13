@@ -8,7 +8,7 @@
       "_": "t_thconc_floor",
       "^": "t_carpet_yellow",
       "C": "t_carpet_yellow",
-      "!": "t_pavement",
+      "!": "t_concrete",
       "+": "t_door_c",
       "-": "t_brick_wall",
       "=": "t_door_metal_c",
@@ -17,15 +17,15 @@
       "W": "t_wall_glass",
       "w": "t_window",
       "s": "t_sidewalk",
-      "x": "t_console_broken",
       "f": "t_chainfence_v",
       "g": "t_chaingate_c",
       "<": "t_stairs_up",
       "|": "t_ladder_up",
       "O": "t_thconc_floor",
-      "(": "t_pavement"
+      "(": "t_concrete"
     },
     "furniture": {
+      "x": "f_console_broken",
       "n": "f_displaycase",
       "1": "f_rack",
       "2": "f_rack",
@@ -38,8 +38,8 @@
       "S": "f_sink",
       "}": "f_filing_cabinet",
       "c": "f_chair",
-      "o": "f_crate_c",
-      "O": "f_crate_c",
+      "o": "f_cardboard_box",
+      "O": "f_cardboard_box",
       "(": "f_dumpster"
     },
     "toilets": { "T": {  } },

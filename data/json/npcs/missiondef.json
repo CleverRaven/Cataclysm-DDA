@@ -7,19 +7,25 @@
     "difficulty": 2,
     "value": 50000,
     "start": {
-      "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
-      "assign_mission_target": { "om_terrain": "haz_sar_1_1", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
+      "effect": [ "follow", { "u_spawn_item": "sarcophagus_access_code" } ],
+      "assign_mission_target": {
+        "om_terrain": "haz_sar_b_4",
+        "om_special": "Hazardous Waste Sarcophagus",
+        "reveal_radius": 1,
+        "search_range": 240,
+        "min_distance": 60
+      }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "haz_sar_b_1",
+    "destination": "haz_sar_b_4",
     "dialogue": {
       "describe": "You wouldn't believe what I found…",
       "offer": "Holy hell, the crash you recovered the black box from wasn't as old as I thought.  Check this out, it was on its approach to pick up a team sent to secure and destroy something called a 'Hazardous Waste Sarcophagus' in the middle of nowhere.  If the bird never picked up the team then we may still have a chance to meet up with them.  It includes an access code for the elevator and an encoded message for the team leader, I guess.  If we want to join up with what remains of the government then now may be our only chance.",
       "accepted": "Fuck ya, America!",
       "rejected": "Are you going to forfeit your duty when the country needs you the most?",
       "advice": "If there is a military team down there then we better go in prepared if we want to impress them.  Carry as much ammo as you can and prepare to ditch this place if they have a second bird coming to pick them up.",
-      "inquire": "Having any trouble following the map?",
-      "success": "We got this shit!",
+      "inquire": "Having any trouble following the map?  Remember to search underground.",
+      "success": "Maybe these things are what remains of the team we were searching for…",
       "success_lie": "What?!  I out'ta whip your ass.",
       "failure": "Damn, we were so close."
     }
@@ -62,20 +68,20 @@
     "id": "MISSION_GET_ANTIBIOTICS",
     "type": "mission_definition",
     "name": { "str": "Find Antibiotics" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 2,
     "value": 150000,
     "urgent": true,
-    "item": "antibiotics",
+    "goal_condition": { "or": [ { "u_has_item": "antibiotics" }, { "u_has_item": "strong_antibiotic" }, { "u_has_item": "panacea" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "deadline_low": 24,
     "deadline_high": 48,
     "dialogue": {
       "describe": "This infection is bad, <very> bad…",
-      "offer": "I'm infected.  Badly.  I need you to get some antibiotics for me…",
+      "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
       "rejected": "What?!  Please, <ill_die> without your help!",
-      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter.",
+      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter, either antibiotics or broad-spectrum antibiotics will do.",
       "inquire": "Find any antibiotics yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
@@ -106,14 +112,14 @@
     "followup": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "dialogue": {
       "describe": "We've got the flag, now we need to locate US forces.",
-      "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figure'n one of those choppers that were fly'n round during th' outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open'er at.",
-      "accepted": "Fuck ya, America!",
+      "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figurin' one of those choppers that were flyin' round during th' outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open 'er at.",
+      "accepted": "Fuck yeah, America!",
       "rejected": "Do you have any better ideas?",
       "advice": "Survivors were talking about them crashing but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.",
       "inquire": "How 'bout that black box?",
-      "success": "America, fuck ya!",
-      "success_lie": "What?!  I out'ta whip you're ass.",
-      "failure": "Damn, I'll have to find'er myself."
+      "success": "America, fuck yeah!",
+      "success_lie": "What?!  I oughta whip your ass.",
+      "failure": "Damn, I'll have to find 'er myself."
     }
   },
   {
@@ -124,18 +130,21 @@
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
-    "start": { "effect": { "u_buy_item": "black_box" }, "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 } },
+    "start": {
+      "effect": { "u_spawn_item": "black_box" },
+      "assign_mission_target": { "om_terrain": "lab_stairs", "om_special": "Lab", "reveal_radius": 3, "random": true, "search_range": 240, "z": 0 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
       "describe": "With the black box in hand, we need to find a lab.",
-      "offer": "Thanks to your searching we've got the black box but now we need to have a look'n-side her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
-      "accepted": "Fuck ya, America!",
+      "offer": "Thanks to your searching we've got the black box but now we need to have a look inside her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside 'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
+      "accepted": "Fuck yeah, America!",
       "rejected": "Do you have any better ideas?",
-      "advice": "When I was play'n with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
+      "advice": "When I was playin' with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
       "inquire": "How 'bout that black box?",
-      "success": "America, fuck ya!  I was in the guard a few years back so I'm confident I can make heads-or-tails of these transmissions.",
-      "success_lie": "What?!  I out'ta whip you're ass.",
+      "success": "America, fuck yeah!  I was in the guard a few years back so I'm confident I can make heads-or-tails of these transmissions.",
+      "success_lie": "What?!  I oughta whip your ass.",
       "failure": "Damn, I maybe we can find an egg-head to crack the terminal."
     }
   },
@@ -156,7 +165,7 @@
       "advice": "They shouldn't be that hard to find… should they?",
       "inquire": "Any luck?",
       "success": "Great work, Deputy.  We're in business.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "The day of reckoning will come for the criminals if it hasn't already."
     }
   },
@@ -190,7 +199,7 @@
     "difficulty": 2,
     "value": 140000,
     "item": "record_accounting",
-    "start": { "reveal_om_ter": "office_tower_1" },
+    "start": { "reveal_om_ter": "office_tower" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_GET_SAFE_BOX",
     "dialogue": {
@@ -200,8 +209,8 @@
       "rejected": "I know it isn't pressing but the big corporations didn't get a chance to destroy the evidence yet.",
       "advice": "Try a big corporate building of some sort, they're bound to have an accounting department.",
       "inquire": "Any luck?",
-      "success": "Great, let's see… uh… hmmm…  Fine, I didn't even do my own taxes but I'm sure this will prove their guilt if we get an expert to examine it.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success": "Great, let's see… uh… hmmm….  Fine, I didn't even do my own taxes but I'm sure this will prove their guilt if we get an expert to examine it.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "The day of reckoning will come for the corporations if it hasn't already."
     }
   },
@@ -224,7 +233,7 @@
       "advice": "I bet you'll run into a lot of those things in the hospital, please be careful.",
       "inquire": "Any luck?",
       "success": "Oh dear, I thought Timmy would have made it…",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "I bet some of them are still out there…"
     }
   },
@@ -263,7 +272,7 @@
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
-      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic…  I doubt it will be of much use but I've got to hope in something.",
+      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic… I doubt it will be of much use but I've got to hope in something.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "I suppose a large church or cathedral may have something.",
@@ -293,7 +302,7 @@
       "advice": "This shouldn't be hard unless we run into a horde.",
       "inquire": "Any luck?",
       "success": "Great, anything I can't use to prosecute the bastards is yours, as promised.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "The day of reckoning will come for the corporations if it hasn't already."
     }
   },
@@ -328,8 +337,8 @@
     "value": 250000,
     "item": "software_blood_data",
     "start": {
-      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
+      "effect": [ { "u_spawn_item": "vacutainer" }, { "u_spawn_item": "usb_drive" } ],
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3, "search_range": 120 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -352,17 +361,19 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": { "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3, "search_range": 120 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
-      "offer": "You have no idea how interesting this diary is.  I have two very promising leads…  First things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
-      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  You may need it this time more than the past excursions you have gone on.  There is a note about potential human sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed to be the Church of Starry Wisdom but it is noted that accounts differ.",
+      "offer": "You have no idea how interesting this diary is.  I have two very promising leads… first things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path… You may need it this time more than the past excursions you have gone on.  There is a note about potential human sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed to be the Church of Starry Wisdom but it is noted that accounts differ.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
-      "advice": "I doubt the site is still occupied but I'd carry a firearm at least…  I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
+      "advice": "I doubt the site is still occupied but I'd carry a firearm at least… I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
       "inquire": "I'm positive there is something there… there has to be, any luck?",
-      "success": "Thank you, your account of these… demonic creations proves the fears the churches had were well founded.  Our priority should be routing out any survivors of this cult…  I don't known if they are responsible for the outbreak but they certainly know more about it than I do.",
+      "success": "Thank you, your account of these… demonic creations proves the fears the churches had were well founded.  Our priority should be routing out any survivors of this cult… I don't known if they are responsible for the outbreak but they certainly know more about it than I do.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
@@ -375,12 +386,15 @@
     "difficulty": 2,
     "value": 150000,
     "item": "visions_solitude",
-    "start": { "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_4", "om_special": "Prison", "reveal_radius": 3, "search_range": 180 },
+      "update_mapgen": { "om_terrain": "prison_1_4", "place_item": [ { "item": "visions_solitude", "x": 15, "y": 22 } ] }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
       "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet… it seems the man has prophesied events accurately before concerning the Church of Starry Wisdom.",
-      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.  ",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path… I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "The worst case scenario will probably be that the prisoners have escaped their cells and turned the building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in their cells.  Either way, navigating the building will pose its own difficulties.",
       "inquire": "Any luck?",
@@ -462,6 +476,18 @@
     }
   },
   {
+    "id": "MISSION_KILL_NEMESIS",
+    "type": "mission_definition",
+    "name": { "str": "Kill your pursuer" },
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it but never truly escape it.  It won't end until one of you dies.",
+    "goal": "MGOAL_KILL_NEMESIS",
+    "difficulty": 5,
+    "value": 0,
+    "start": "kill_nemesis",
+    "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
     "id": "MISSION_KILL_JABBERWOCK",
     "type": "mission_definition",
     "name": { "str": "Kill Jabberwock" },
@@ -470,7 +496,15 @@
     "value": 200000,
     "urgent": true,
     "start": {
-      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 18, "min_distance": 5, "z": 0 },
+      "assign_mission_target": {
+        "om_terrain": "forest_thick",
+        "om_terrain_replace": "forest",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 60,
+        "min_distance": 5,
+        "z": 0
+      },
       "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
     },
     "end": { "effect": "npc_thankful" },
@@ -485,7 +519,7 @@
       "inquire": "Any luck?",
       "success": "You look a little shaken up, I can't tell you how glad I am that you killed it though.",
       "success_lie": "Something in the shadows still seems to stare at me when I look at the woods.",
-      "failure": "I'm glad you came back alive…  I wasn't sure if I had sent you to your death."
+      "failure": "I'm glad you came back alive… I wasn't sure if I had sent you to your death."
     }
   },
   {
@@ -540,7 +574,7 @@
       "advice": "Traveling the backroads would be a good way to search for one.",
       "inquire": "Shall we keep looking for a farm house?",
       "success": "Well, my adventuring days are over.  I can't thank you enough.  Trying to make this place self sustaining will take some work but the future is looking brighter.  At least it ought to be safe for now.  You'll always be welcome here.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "I guess it was just a pipe dream."
     }
   },
@@ -558,12 +592,12 @@
     "dialogue": {
       "describe": "Maybe they escaped to one of the camps…",
       "offer": "I can't thank you enough for bringing me the patient records but I do have another request.  You seem to know your way around… could you take me to one of the FEMA camps?  I know some were overrun but I don't want to believe all of them could have fallen.",
-      "accepted": "Thank you, just bring me to the camp…  I just want to see.",
+      "accepted": "Thank you, just bring me to the camp… I just want to see.",
       "rejected": "Please, I don't know what else to do.",
       "advice": "We should go at night, if it is overrun then we can quickly make our escape.",
       "inquire": "Any leads on where a camp might be?",
       "success": "I guess this wasn't as bright an idea as I thought.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "I bet some of them are still out there…"
     }
   },
@@ -586,6 +620,20 @@
     "difficulty": 1,
     "value": 0,
     "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Wild", "search_range": 200 } },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_HELICOPTER_REFUEL",
+    "type": "mission_definition",
+    "name": { "str": "Refuel your helicopter." },
+    "description": "You were flying towards a nearby private airport before your forced landing.  You could still reach it by ground, and scavenge it for fuel.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "s_air_hangars",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 120 }
+    },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -615,11 +663,11 @@
     "id": "MISSION_RECRUIT_TRACKER",
     "type": "mission_definition",
     "name": { "str": "Recruit Tracker" },
-    "goal": "MGOAL_RECRUIT_NPC_CLASS",
+    "goal": "MGOAL_RECRUIT_NPC",
     "difficulty": 5,
     "value": 70000,
     "start": {
-      "assign_mission_target": { "om_terrain": "cabin", "reveal_radius": 2, "random": true, "search_range": 80, "z": 0 },
+      "assign_mission_target": { "om_terrain": "cabin", "om_special": "Cabin", "reveal_radius": 2, "search_range": 60 },
       "effect": "follow",
       "update_mapgen": { "place_npcs": [ { "class": "tracker_gunslinger", "x": 11, "y": 11, "target": true } ] }
     },
@@ -701,7 +749,7 @@
     "end": {
       "effect": [
         { "npc_add_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" },
-        { "u_buy_item": "badge_foodkid" }
+        { "u_spawn_item": "badge_foodkid" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -713,7 +761,7 @@
       "advice": "Those are very precious, people would probably keep them on their person or in bank vaults.  And definitely not throw them in the trash!",
       "inquire": "How is it going?  Do you have them?",
       "success": "YES!  I knew you could do it!  You proved your worth and I'm proud to call you a friend.",
-      "success_lie": "Well…  where are they?",
+      "success_lie": "Well… where are they?",
       "failure": "I'm so disappointed in you kid…"
     }
   },
@@ -731,10 +779,10 @@
     "dialogue": {
       "describe": "It's hard to tell who actually has the skills to survive these days…",
       "offer": "It's hard surviving out here on our own, and we'd probably have a better chance working together.  Problem is, I don't really know you and what you're capable of.  You might have what it takes, or you might not.  Either way, I'm going to need some proof.  Come back in a few days and I'll gladly follow you.  It's basically a win-win for me: either you come back and I'll know you've got what it takes, or you don't and I'll know that I was right not to follow you.",
-      "accepted": "I'll see you then…or I won't, and then I'll know I made the right decision.",
+      "accepted": "I'll see you then… or I won't, and then I'll know I made the right decision.",
       "rejected": "Ya, it was a long shot I admit.",
       "advice": "Don't die.  If you're asking me for advice, that doesn't bode well for you.",
-      "inquire": "Well, you're not dead…yet.",
+      "inquire": "Well, you're not dead… yet.",
       "success": "I'll be honest, I wasn't really expecting to see you again.  A promise is a promise, I'll follow you now!",
       "success_lie": "I know time is relative and all that.",
       "failure": "I'm not quite sure how you failed to survive AND are talking to me."
@@ -758,7 +806,7 @@
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "start": {
-      "effect": [ { "u_buy_item": "duffelbag" } ],
+      "effect": [ { "u_spawn_item": "duffelbag" } ],
       "assign_mission_target": { "om_terrain": "forest_water", "reveal_radius": 3 }
     },
     "end": {
@@ -767,7 +815,7 @@
         { "u_sell_item": "cattail_stalk", "count": 80 },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
-        { "u_buy_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
+        { "u_spawn_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
       ]
     },
     "dialogue": {
@@ -776,10 +824,216 @@
       "accepted": "Great!  This bag should be big enough to hold all of the stalks we'll need.  Don't forget to bring it back.",
       "rejected": "Your loss.",
       "advice": "The cattails grow in the fresh water in swamps.  You can't miss them.",
-      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and improve your survival skill to at least 1 as well.",
+      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and to work on improving your survival skill as well.",
       "success": "Great!  Hand them over and I'll show you how this works.",
       "success_lie": "OK, then hand them over.",
       "failure": "Well, that's a shame."
+    }
+  },
+  {
+    "id": "MISSION_PYROMANIAC",
+    "type": "mission_definition",
+    "name": { "str": "Angry pyromaniac" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 0,
+    "value": 0,
+    "//": "NPC will ask player to burn tagged house. Will follow player after accepting mission.",
+    "//2": "Change first topic to do proper checks. MGOAL_GO_TO to check if player stands on tagged tile.",
+    "//3": "At the end of the mission, will place fire on tagged tile and NPC will join player faction.",
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_replace": "forest",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 75,
+        "random": true,
+        "z": 0
+      }
+    },
+    "end": {
+      "effect": [ "follow", { "u_consume_item": "gasoline", "count": 200 }, { "mapgen_update": "MISSION_PYROMANIAC_BURN" } ]
+    },
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "dialogue": {
+      "describe": "Oh man, I want to <swear> burn it so bad…",
+      "offer": "I'm so <swear> infuriated!  I've got an enemy that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn his house!  Would you help me, <name_g>?",
+      "accepted": "Good.  Let's go to his house and <swear> burn it down!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
+      "rejected": "Seriously?  It's such an easy job…",
+      "advice": "Maybe we can find some gasoline at gas station.",
+      "inquire": "Are you ready, <name_g>?",
+      "success": "Sweet, sweet revenge!  Ah, smells so nice!  Feels like the smell of napalm in the morning!  All his stuff, and probably even that <name_b>, will burn to ashes in a matter of minutes.  You helped me get my revenge, so I'll follow you to the end, <name_g>!",
+      "success_lie": "What?!  You liar!",
+      "failure": "Wow, you failed?  How…"
+    }
+  },
+  {
+    "//": "For MISSION_PYROMANIAC. Will spawn fire on tile where PC is standing.",
+    "type": "mapgen",
+    "update_mapgen_id": "MISSION_PYROMANIAC_BURN",
+    "method": "json",
+    "object": {
+      "place_liquids": [ { "liquid": "gasoline", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
+      "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
+    }
+  },
+  {
+    "id": "MISSION_MANSION_START",
+    "type": "mission_definition",
+    "name": { "str": "Ready or Not" },
+    "description": "Survive all day from the crazy inhabitants of the mansion.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "days_since_cataclysm": 1 },
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_ASSASSINATION",
+    "type": "mission_definition",
+    "name": { "str": "Finish your mission" },
+    "description": "Your mission required you to eliminate a certain high-ranking individual in hiding.  Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 4,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_air_term",
+        "om_special": "o_airport",
+        "reveal_radius": 6,
+        "random": true,
+        "search_range": 90,
+        "min_distance": 15,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
+          { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
+          { "monster": "mon_feral_soldier", "name": "The Colaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
+          { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 23, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_alcatraz_9",
+        "om_special": "Alcatraz Prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 15, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 30,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_island_1_8",
+        "om_special": "Island prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 10, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 40,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
     }
   }
 ]

@@ -5,7 +5,8 @@
     "name": "Burning Blade",
     "messages": [ "You unleash a fiery attack against %s", "<npcname> unleash a fiery attack against %s" ],
     "melee_allowed": true,
-    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 3.0 } ]
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 3.0 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -15,7 +16,8 @@
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
     "crit_tec": true,
-    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 7.0 } ]
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 7.0 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -26,7 +28,8 @@
     "melee_allowed": true,
     "crit_ok": true,
     "aoe": "impale",
-    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 7.0 } ]
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 7.0 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -40,7 +43,8 @@
     "melee_allowed": true,
     "crit_tec": true,
     "aoe": "spin",
-    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 10.0 } ]
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 10.0 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -49,7 +53,8 @@
     "messages": [ "You carve an arc through %s and those nearby", "<npcname> carve an arc through %s and those nearby" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
-    "aoe": "wide"
+    "aoe": "wide",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -58,7 +63,8 @@
     "messages": [ "You spot %s's weakpoint and strike", "<npcname> spot %s's weakpoint and strike" ],
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
-    "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 0.5 } ]
+    "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 0.5 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -68,7 +74,8 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "crit_tec": true,
-    "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 1.0 } ]
+    "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 1.0 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -80,9 +87,10 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_any": [ "mma_buff_hylian_onpause", "mma_buff_hylian_spin" ],
     "crit_ok": true,
-    "aoe": "spin"
+    "aoe": "spin",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -94,9 +102,10 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_any": [ "mma_buff_hylian_onpause", "mma_buff_hylian_spin" ],
     "crit_ok": true,
-    "aoe": "wide"
+    "aoe": "wide",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -104,7 +113,8 @@
     "name": "Disarming Strike",
     "messages": [ "You skillfully disarm %s", "<npcname> skillfully disarms %s" ],
     "unarmed_allowed": true,
-    "disarms": true
+    "disarms": true,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -114,7 +124,8 @@
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
     "defensive": true,
-    "miss_recovery": true
+    "miss_recovery": true,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -129,7 +140,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.25 },
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -144,7 +156,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.4 },
       { "stat": "damage", "type": "cut", "scale": 1.4 },
       { "stat": "damage", "type": "stab", "scale": 1.4 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -156,13 +169,14 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "aoe": "wide"
+    "aoe": "wide",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
     "id": "mma_tec_iron_heart_wide_crit",
     "name": "Scything Blade",
-    "messages": [ "You cleanly reap through %s and those nearby", "<npcname> cleanly reap throug %s and those nearby" ],
+    "messages": [ "You cleanly reap through %s and those nearby", "<npcname> cleanly reap through %s and those nearby" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "crit_tec": true,
@@ -171,25 +185,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.25 },
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "mma_tec_panzer_counter",
-    "name": "Ausstoß",
-    "//": "Outer Thrust.",
-    "messages": [ "You redirect %s's attack against them", "<npcname> redirects %s's attack against them" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
-    "melee_allowed": true,
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
-      { "stat": "damage", "type": "bash", "scale": 1.2 },
-      { "stat": "damage", "type": "cut", "scale": 1.2 },
-      { "stat": "damage", "type": "stab", "scale": 1.2 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -199,7 +196,12 @@
     "messages": [ "You jump and somersault kick %s", "<npcname> jump and somersault kick %s" ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -212,8 +214,18 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scale": 10.0 } ],
-    "mult_bonuses": [ { "stat": "movecost", "scale": 1.2 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 1.0 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 1.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 1.0 }
+    ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.2 },
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
   },
   {
     "type": "technique",
@@ -229,7 +241,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
   },
   {
     "type": "technique",
@@ -239,8 +252,12 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "flat_bonuses": [ { "stat": "hit", "scale": -2.0 } ],
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 2.0 },
+      { "stat": "damage", "type": "cut", "scale": 2.0 },
+      { "stat": "damage", "type": "stab", "scale": 2.0 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -250,7 +267,12 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.5 } ]
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.5 }
+    ],
+    "attack_vectors": [ "ARM" ]
   },
   {
     "type": "technique",
@@ -260,7 +282,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ]
+    "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ],
+    "attack_vectors_random": [ "HAND", "FOOT", "HEAD", "TORSO", "HEAD" ]
   },
   {
     "type": "technique",
@@ -270,23 +293,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "down_dur": 1
-  },
-  {
-    "type": "technique",
-    "id": "mma_tec_setting_sun_counter",
-    "name": "Fool's Strike",
-    "messages": [ "You completely fool %s and strike back", "<npcname> completely fools %s and strike back" ],
-    "melee_allowed": true,
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
-      { "stat": "damage", "type": "bash", "scale": 1.2 },
-      { "stat": "damage", "type": "cut", "scale": 1.2 },
-      { "stat": "damage", "type": "stab", "scale": 1.2 }
-    ]
+    "down_dur": 1,
+    "attack_vectors_random": [ "FOOT", "LOWER_LEG" ]
   },
   {
     "type": "technique",
@@ -297,7 +305,8 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 1
+    "stun_dur": 1,
+    "attack_vectors": [ "WEAPON", "HAND" ]
   },
   {
     "type": "technique",
@@ -307,10 +316,15 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
     "down_dur": 2,
     "knockback_dist": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.33 },
+      { "stat": "damage", "type": "cut", "scale": 1.33 },
+      { "stat": "damage", "type": "stab", "scale": 1.33 }
+    ],
+    "attack_vectors": [ "THOW" ]
   },
   {
     "type": "technique",
@@ -320,26 +334,18 @@
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
     "crit_tec": true,
     "down_dur": 2,
     "knockback_dist": 4,
     "powerful_knockback": true,
     "weighting": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
-  },
-  {
-    "type": "technique",
-    "id": "mma_tec_shii_cho_counter",
-    "name": "Flowing Water",
-    "messages": [
-      "You deflect %s's attack and counter in one fluid motion",
-      "<npcname> deflects %s's attack and counters in one fluid motion"
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
-    "melee_allowed": true,
-    "crit_ok": true,
-    "block_counter": true
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -349,7 +355,8 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "crit_ok": true,
-    "disarms": true
+    "disarms": true,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -359,7 +366,8 @@
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "crit_ok": true,
-    "aoe": "wide"
+    "aoe": "wide",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -373,9 +381,11 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
       { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 }
-    ]
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
+    ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
   },
   {
     "type": "technique",
@@ -386,7 +396,8 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 1
+    "stun_dur": 1,
+    "attack_vectors": [ "WEAPON", "HAND" ]
   },
   {
     "type": "technique",
@@ -400,10 +411,11 @@
     "down_dur": 1,
     "knockback_dist": 2,
     "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.2 },
-      { "stat": "damage", "type": "cut", "scale": 1.2 },
-      { "stat": "damage", "type": "stab", "scale": 1.2 }
-    ]
+      { "stat": "damage", "type": "bash", "scale": 1.3 },
+      { "stat": "damage", "type": "cut", "scale": 1.3 },
+      { "stat": "damage", "type": "stab", "scale": 1.3 }
+    ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
   },
   {
     "type": "technique",

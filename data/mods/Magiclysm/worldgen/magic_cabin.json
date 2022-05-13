@@ -112,18 +112,22 @@
       },
       "toilets": { "&": {  } },
       "items": {
-        "I": { "item": "office", "chance": 30 },
-        "Q": { "item": "shower", "chance": 30 },
-        "S": { "item": "softdrugs", "chance": 30 },
+        "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] },
+        "Q": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+        "S": { "item": "softdrugs", "chance": 30, "repeat": [ 1, 2 ] },
         "@": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
-        "V": { "item": "kitchen_counters", "chance": 20, "repeat": [ 1, 2 ] },
+        "V": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "t": { "item": "dishes_dining", "chance": 30 },
-        "D": { "item": "magic_shop_wands", "chance": 30 },
-        "F": { "item": "fridge", "chance": 20, "repeat": [ 1, 2 ] },
+        "D": { "item": "magic_shop_wands", "chance": 30, "repeat": [ 1, 2 ] },
+        "F": { "item": "SUS_fridge", "chance": 100 },
         "G": { "item": "magic_shop_potions", "chance": 30, "repeat": [ 1, 2 ] },
-        "O": { "item": "oven", "chance": 20, "repeat": [ 1, 2 ] },
-        "K": { "item": "allclothes", "chance": 20, "repeat": [ 1, 2 ] },
-        "B": { "item": "magic_shop_books", "chance": 20, "repeat": [ 1, 2 ] }
+        "O": { "item": "oven", "chance": 70, "repeat": [ 1, 2 ] },
+        "K": { "item": "allclothes", "chance": 70, "repeat": [ 1, 2 ] },
+        "B": [
+          { "item": "magic_shop_books", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] },
+          { "item": "games", "chance": 20, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },

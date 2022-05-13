@@ -2,6 +2,7 @@
   {
     "result": "bone_glue",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "survival",
@@ -13,11 +14,12 @@
     "book_learn": [ [ "recipe_arrows", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone_any", 10, "LIST" ], [ "skewer_bone", 500 ] ] ]
   },
   {
     "result": "superglue",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",
@@ -31,9 +33,8 @@
       [
         [ "bleach", 1 ],
         [ "lye_powder", 100 ],
-        [ "bone", 20 ],
-        [ "bone_human", 20 ],
-        [ "bone_tainted", 40 ],
+        [ "bone_any", 20, "LIST" ],
+        [ "skewer_bone", 1000 ],
         [ "cured_hide", 2 ],
         [ "pine_bough", 10 ],
         [ "raw_dandelion", 20 ],
@@ -44,8 +45,38 @@
     ]
   },
   {
+    "result": "rubber_cement",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": false,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "textbook_tailor", 5 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [
+      [ [ "chem_acetone", 1 ], [ "chem_chloroform", 250 ], [ "ammonia", 1 ] ],
+      [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
+      [
+        [ "balloon", 2 ],
+        [ "condom", 2 ],
+        [ "gloves_medical", 2 ],
+        [ "chunk_rubber", 1 ],
+        [ "latex", 2 ],
+        [ "gum", 20 ],
+        [ "sheet_neoprene", 11 ],
+        [ "scrap_neoprene", 16 ],
+        [ "neoprene", 1 ]
+      ]
+    ]
+  },
+  {
     "result": "rosin",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",

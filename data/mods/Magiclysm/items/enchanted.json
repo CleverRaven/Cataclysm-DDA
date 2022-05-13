@@ -3,6 +3,7 @@
     "id": "belt_str",
     "copy-from": "leather_belt",
     "type": "ARMOR",
+    "price_postapoc": "1750 USD",
     "name": { "str": "belt of strength +2", "str_pl": "belts of strength +2" },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
   },
@@ -10,6 +11,7 @@
     "id": "belt_haste",
     "copy-from": "leather_belt",
     "type": "ARMOR",
+    "price_postapoc": "3500 USD",
     "name": { "str": "belt of haste", "str_pl": "belts of haste" },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.15, "add": 5 } ] } ]
@@ -20,41 +22,97 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "brown",
-    "name": { "str": "lesser staff of the magi", "str_pl": "lesser staves of the magi" },
-    "description": "A beautifully carved staff, made of enchanted wood and mithril.  It faintly glows with magic when you cast spells, but it is not a sturdy melee weapon.",
-    "price": 40000,
+    "name": { "str": "minor staff of the magi", "str_pl": "minor staves of the magi" },
+    "description": "A simple carved staff, made of wood.  It faintly glows with magic when you cast spells.  Wielding it slightly increases your mana regeneration",
+    "price": 10000,
     "material": [ "wood" ],
-    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "MAGIC_FOCUS" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": 0.2, "add": 750 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ] } ]
     },
     "weight": "1400 g",
     "volume": "3 L",
-    "bashing": 19,
+    "longest_side": "170 cm",
+    "bashing": 17,
     "category": "weapons",
     "to_hit": 3
+  },
+  {
+    "id": "magi_staff_lesser",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "lesser staff of the magi", "str_pl": "lesser staves of the magi" },
+    "description": "A beautifully carved staff, made of enchanted wood.  It faintly glows with magic when you cast spells, but it is not a sturdy melee weapon.  Wielding it increases your mana regeneration.",
+    "price": 40000,
+    "material": [ "wood" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 1.25 } ] } ]
+    },
+    "weight": "1400 g",
+    "volume": "3 L",
+    "longest_side": "170 cm",
+    "bashing": 17,
+    "category": "weapons",
+    "to_hit": 3
+  },
+  {
+    "id": "magi_staff_greater",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "greater staff of the magi", "str_pl": "greater staves of the magi" },
+    "description": "A beautifully carved staff, made of enchanted wood and mithril.  It faintly glows with magic when you cast spells, but it is not a sturdy melee weapon.  Wielding it greatly increases your mana regeneration.",
+    "price": 1000000,
+    "material": [ "wood", "mithril_metal" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
+    },
+    "weight": "1400 g",
+    "volume": "3 L",
+    "longest_side": "170 cm",
+    "bashing": 17,
+    "category": "weapons",
+    "to_hit": 3
+  },
+  {
+    "id": "bleed_staff_minor",
+    "type": "TOOL",
+    "copy-from": "magi_staff_minor",
+    "symbol": "/",
+    "color": "red",
+    "name": { "str": "sinister minor staff of bleeding", "str_pl": "sinister minor staves of bleeding" },
+    "description": "A sinister looking staff, made of wood and with a red orb of crystallized mana at the handle.  The orb and its rune faintly glow with magic when you cast spells.  Wielding it slightly increases your mana regeneration and allows you to cast the bleed spell.",
+    "price": 15000,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 5 } } ],
+    "charges_per_use": 1,
+    "use_action": [ { "type": "cast_spell", "spell_id": "bleed", "no_fail": true, "level": 5, "need_wielding": true } ]
   },
   {
     "id": "wizard_hat",
     "type": "ARMOR",
     "name": "wizard hat",
-    "description": "A blue pointed hat with stars stiched into it.  Wearing it increases your mana regeneration.",
+    "description": "A blue pointed hat with stars stitched into it.  Wearing it increases your maximum mana.",
     "weight": "390 g",
     "volume": "2 L",
     "price": 9500,
+    "price_postapoc": "1200 USD",
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "light_blue",
-    "covers": [ "HEAD" ],
-    "coverage": 50,
-    "encumbrance": 12,
     "warmth": 7,
     "material_thickness": 2,
     "environmental_protection": 2,
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": 0.2, "add": 500 } ] } ]
     },
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 12, "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "debug_fireball_hammer",
@@ -68,9 +126,74 @@
           "has": "WIELD",
           "condition": "ALWAYS",
           "hit_you_effect": [ { "id": "fireball" } ],
-          "hit_me_effect": [ { "id": "light_healing" } ]
+          "hit_me_effect": [ { "id": "light_healing", "hit_self": true } ]
         }
       ]
     }
+  },
+  {
+    "id": "cloak_morthylla",
+    "type": "ARMOR",
+    "copy-from": "cloak_wool",
+    "name": { "str": "Cloak of Morthylla the Lamia", "str_pl": "Cloaks of Morthylla the Lamia" },
+    "description": "This cloak seems to absorb light except for the pinpricks of stars that move across its surface.",
+    "price": 1500000,
+    "price_postapoc": 360000,
+    "material": [ "black_dragon_hide" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 30,
+    "material_thickness": 3,
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] },
+    "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "magic_knife_bag",
+    "type": "TOOL_ARMOR",
+    "looks_like": "holster",
+    "name": { "str": "Bag of Infinite Throwing Knives", "str_pl": "Bags of Infinite Throwing Knives" },
+    "description": "This bag conjures a magical throwing knife on activation.  Only refills when worn.",
+    "price": 800000,
+    "price_postapoc": "1800 USD",
+    "volume": "100 ml",
+    "weight": "160 g",
+    "material": [ "black_dragon_hide" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "charges_per_use": 1,
+    "armor_data": {
+      "sided": true,
+      "armor": [
+        {
+          "material": [ { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 2,
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ]
+        }
+      ]
+    },
+    "environmental_protection": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 8 } } ],
+    "flags": [ "OVERSIZE", "NO_REPAIR", "STURDY", "BELTED", "NO_UNLOAD", "NO_RELOAD" ],
+    "relic_data": { "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 h", "regenerate_ammo": true } },
+    "use_action": { "type": "cast_spell", "spell_id": "conj_mag_throw_blade_group", "no_fail": true, "level": 1, "need_worn": true }
+  },
+  {
+    "id": "wolfshead_cufflinks",
+    "copy-from": "ruby_silver_cufflinks",
+    "type": "TOOL_ARMOR",
+    "weight": "20 g",
+    "price_postapoc": "1200 USD",
+    "name": { "str": "pair of wolfshead cufflinks", "str_pl": "pairs of wolfshead cufflinks" },
+    "description": "A pair of silver cufflinks with a wolf's head engraved into them.  Each cufflink has a bright ruby eye and pearl teeth.  They appear to be growling.  There is an inscription, 'When the moon shines.  I become alive.'",
+    "charges_per_use": 1,
+    "relic_data": {
+      "charge_info": { "recharge_type": "periodic", "time": "7 day", "regenerate_ammo": true },
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+    },
+    "use_action": { "type": "cast_spell", "spell_id": "lupercalia", "no_fail": true, "level": 1, "need_worn": true },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 1 } } ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   }
 ]

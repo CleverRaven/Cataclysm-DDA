@@ -23,7 +23,7 @@
     "type": "overmap_terrain",
     "id": [ "FEMA_tlc", "FEMA_te", "FEMA_trc", "FEMA_le", "FEMA_mid", "FEMA_re", "FEMA_blc", "FEMA_brc" ],
     "name": "FEMA refugee camp",
-    "sym": "f",
+    "sym": "F",
     "color": "i_blue",
     "extras": "build",
     "see_cost": 2,
@@ -41,8 +41,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter", "shelter_1", "shelter_2", "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ],
-    "name": "evac shelter",
+    "id": [ "shelter", "shelter_vandal" ],
+    "name": "evac shelter A-23",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
@@ -50,16 +50,94 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof", "shelter_roof_1", "shelter_roof_2" ],
-    "name": "evac shelter roof",
+    "id": [ "shelter_1", "shelter_1_vandal" ],
+    "name": "evac shelter B-05",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_1b", "shelter_1b_vandal" ],
+    "name": "evac shelter B-19",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_2", "shelter_2_vandal" ],
+    "name": "evac shelter C-41",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_roof" ],
+    "name": "evac shelter roof A-23",
     "sym": "+",
     "color": "white",
     "see_cost": 2
   },
   {
     "type": "overmap_terrain",
-    "id": "shelter_under",
-    "name": "evac shelter",
+    "id": [ "shelter_roof_1" ],
+    "name": "evac shelter roof B-05",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_roof_1b" ],
+    "name": "evac shelter roof B-19",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_roof_2" ],
+    "name": "evac shelter roof C-41",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_under", "shelter_under_vandal" ],
+    "name": "evac shelter basement A-23",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_under_1b", "shelter_under_1b_vandal" ],
+    "name": "evac shelter basement B-19",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_under_2", "shelter_under_2_vandal" ],
+    "name": "evac shelter basement C-41",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_under_1", "shelter_under_1_vandal" ],
+    "name": "evac shelter basement B-05",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
@@ -90,7 +168,7 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [ "KNOWN_UP", "SHOULD_NOT_SPAWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -100,6 +178,33 @@
     "color": "red",
     "see_cost": 2,
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_zombie",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_zombie_under_empty",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_prepper_shelter",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -121,7 +226,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bunker_basement_1",
+    "name": "military bunker",
+    "sym": "B",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "outpost",
+    "name": "military outpost",
+    "sym": "M",
+    "color": "red",
+    "see_cost": 2,
+    "extras": "build",
+    "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "outpost_cross",
     "name": "military outpost",
     "sym": "M",
     "color": "red",

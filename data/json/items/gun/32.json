@@ -35,24 +35,17 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "sigp230mag" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sigp230mag" ] } ]
   },
   {
     "id": "skorpion_61",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Skorpion Vz. 61" },
+    "name": { "str": "Škorpion vz. 61" },
     "//": "Total unloaded weight of gun 1301.81 grams, rounded to 1302.  Current weight of folding stock 200 grams.",
-    "description": "The Skorpion Vz. 61 is a Czechoslovak submachine gun from the 1950s, chambered in .32 ACP.",
+    "description": "The Škorpion vz. 61 is a Czechoslovak submachine gun from the 1950s, chambered in .32 ACP.",
     "weight": "1300 g",
     "volume": "788 ml",
     "longest_side": "298 mm",
@@ -85,15 +78,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "skorpion61mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "skorpion61mag" ] } ]
   },
   {
     "id": "walther_ppk",
@@ -102,6 +87,7 @@
     "reload_noise_volume": 10,
     "name": { "str_sp": "Walther PPK" },
     "description": "One of the most famous handguns of the 20th century.  Your name is not Bond, but you might find this little gun still useful.",
+    "ascii_picture": "ppk",
     "weight": "540 g",
     "volume": "216 ml",
     "longest_side": "173 mm",
@@ -131,23 +117,17 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ppkmag" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ]
   },
   {
     "id": "kp32",
     "looks_like": "glock_17",
     "copy-from": "pistol_backup",
     "type": "GUN",
-    "name": { "str": "Kel-Tec P32" },
-    "description": "One of Kel-tec's oldest designs, the P32 is a popular option for deep concealment and backup usage.  Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
+    "name": { "str": "Kel-Tec P-32" },
+    "description": "One of Kel-Tec's oldest designs, the P-32 is a popular option for deep concealment and backup usage.  Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
+    "ascii_picture": "P3AT",
     "weight": "186 g",
     "volume": "138 ml",
     "longest_side": "147 mm",
@@ -161,14 +141,6 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 135,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "kp32mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ]
   }
 ]

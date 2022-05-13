@@ -1,3 +1,4 @@
+#include <map>
 #include <memory>
 #include <set>
 #include <sstream>
@@ -5,10 +6,11 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
+#include "character.h"
 #include "common_types.h"
+#include "creature_tracker.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -26,17 +28,28 @@
 #include "point.h"
 #include "text_snippets.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
 class Creature;
 
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_sleep( "sleep" );
+
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const vpart_id vpart_frame( "frame" );
+static const vpart_id vpart_seat( "seat" );
+
+static const vproto_id vehicle_prototype_none( "none" );
+
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = to_turn<int>( calendar::turn_zero + from );
+    calendar::turn = calendar::turn_zero + from;
     who.on_unload();
-    calendar::turn = to_turn<int>( calendar::turn_zero + to );
+    calendar::turn = calendar::turn_zero + to;
     who.on_load();
 }
 
@@ -63,9 +76,9 @@ static npc create_model()
     model_npc.set_hunger( 0 );
     model_npc.set_thirst( 0 );
     model_npc.set_fatigue( 0 );
-    model_npc.remove_effect( efftype_id( "sleep" ) );
+    model_npc.remove_effect( effect_sleep );
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
-    model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
+    model_npc.set_mutation( trait_WEB_WEAVER );
 
     return model_npc;
 }
@@ -98,7 +111,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
     SECTION( "Awake for 2 days, gaining hunger/thirst/fatigue" ) {
         npc test_npc = create_model();
-        const auto five_min_ticks = 2_days / 5_minutes;
+        const double five_min_ticks = 2_days / 5_minutes;
         on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
 
         const int margin = 20;
@@ -111,9 +124,9 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
     SECTION( "Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)" ) {
         npc test_npc = create_model();
-        test_npc.add_effect( efftype_id( "sleep" ), 6_hours );
+        test_npc.add_effect( effect_sleep, 6_hours );
         test_npc.set_fatigue( 1000 );
-        const auto five_min_ticks = 6_hours / 5_minutes;
+        const double five_min_ticks = 6_hours / 5_minutes;
         /*
         // Fatigue regeneration starts at 1 per 5min, but linearly increases to 2 per 5min at 2 hours or more
         const int expected_fatigue_change =
@@ -154,7 +167,7 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
     SECTION( "Awake for 6 hours, gaining hunger/thirst/fatigue" ) {
         npc on_load_npc = create_model();
         npc iterated_npc = create_model();
-        const auto five_min_ticks = 6_hours / 5_minutes;
+        const double five_min_ticks = 6_hours / 5_minutes;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
             iterated_npc.update_body( calendar::turn_zero + turn,
@@ -214,8 +227,8 @@ TEST_CASE( "snippet-tag-test" )
  * A is acid with NPC on it, W/M is vehicle & acid with (follower/non-follower) NPC on it,
  * B/C is acid with (follower/non-follower) NPC on it.
  */
-constexpr int height = 5, width = 17;
-constexpr char setup[height][width + 1] = {
+static constexpr int height = 5, width = 17;
+static constexpr char setup[height][width + 1] = {
     "U ###############",
     "V #R#AAA#W# # #C#",
     "  #A#A#A# #M#B# #",
@@ -225,9 +238,8 @@ constexpr char setup[height][width + 1] = {
 
 static void check_npc_movement( const tripoint &origin )
 {
-    const efftype_id effect_bouldering( "bouldering" );
-
     INFO( "Should not crash from infinite recursion" );
+    creature_tracker &creatures = get_creature_tracker();
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             switch( setup[y][x] ) {
@@ -238,7 +250,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'B':
                 case 'C':
                     tripoint p = origin + point( x, y );
-                    npc *guy = g->critter_at<npc>( p );
+                    npc *guy = creatures.creature_at<npc>( p );
                     REQUIRE( guy != nullptr );
                     guy->move();
                     break;
@@ -251,7 +263,7 @@ static void check_npc_movement( const tripoint &origin )
         for( int x = 0; x < width; ++x ) {
             if( setup[y][x] == 'A' ) {
                 tripoint p = origin + point( x, y );
-                npc *guy = g->critter_at<npc>( p );
+                npc *guy = creatures.creature_at<npc>( p );
                 REQUIRE( guy != nullptr );
                 CHECK( !guy->has_effect( effect_bouldering ) );
             }
@@ -263,7 +275,7 @@ static void check_npc_movement( const tripoint &origin )
         for( int x = 0; x < width; ++x ) {
             if( setup[y][x] == 'R' ) {
                 tripoint p = origin + point( x, y );
-                npc *guy = g->critter_at<npc>( p );
+                npc *guy = creatures.creature_at<npc>( p );
                 REQUIRE( guy != nullptr );
                 CHECK( guy->has_effect( effect_bouldering ) );
             }
@@ -278,7 +290,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'M':
                     CAPTURE( setup[y][x] );
                     tripoint p = origin + point( x, y );
-                    npc *guy = g->critter_at<npc>( p );
+                    npc *guy = creatures.creature_at<npc>( p );
                     CHECK( guy != nullptr );
                     break;
             }
@@ -292,7 +304,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'B':
                 case 'C':
                     tripoint p = origin + point( x, y );
-                    npc *guy = g->critter_at<npc>( p );
+                    npc *guy = creatures.creature_at<npc>( p );
                     CHECK( guy == nullptr );
                     break;
             }
@@ -302,51 +314,52 @@ static void check_npc_movement( const tripoint &origin )
 
 TEST_CASE( "npc-movement" )
 {
-    const ter_id t_reinforced_glass( "t_reinforced_glass" );
+    const ter_id t_wall_metal( "t_wall_metal" );
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
     const furn_id f_null( "f_null" );
-    const vpart_id vpart_frame_vertical( "frame_vertical" );
-    const vpart_id vpart_seat( "seat" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
     clear_map();
 
+    creature_tracker &creatures = get_creature_tracker();
+    Character &player_character = get_player_character();
+    map &here = get_map();
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
-            const tripoint p = g->u.pos() + point( x, y );
+            const tripoint p = player_character.pos() + point( x, y );
             // create walls
             if( type == '#' ) {
-                g->m.ter_set( p, t_reinforced_glass );
+                here.ter_set( p, t_wall_metal );
             } else {
-                g->m.ter_set( p, t_floor );
+                here.ter_set( p, t_floor );
             }
             // spawn acid
             // a copy is needed because we will remove elements from it
-            const field fs = g->m.field_at( p );
+            const field fs = here.field_at( p );
             for( const auto &f : fs ) {
-                g->m.remove_field( p, f.first );
+                here.remove_field( p, f.first );
             }
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                g->m.add_field( p, fd_acid, 3 );
+                here.add_field( p, fd_acid, 3 );
             }
             // spawn rubbles
             if( type == 'R' ) {
-                g->m.furn_set( p, f_rubble );
+                here.furn_set( p, f_rubble );
             } else {
-                g->m.furn_set( p, f_null );
+                here.furn_set( p, f_null );
             }
             // create vehicles
             if( type == 'V' || type == 'W' || type == 'M' ) {
-                vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
+                vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point_zero, vpart_frame_vertical );
+                veh->install_part( point_zero, vpart_frame );
                 veh->install_part( point_zero, vpart_seat );
-                g->m.add_vehicle_to_cache( veh );
+                here.add_vehicle_to_cache( veh );
             }
             // spawn npcs
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
@@ -358,7 +371,7 @@ TEST_CASE( "npc-movement" )
                     guy->randomize();
                     // Repeat until we get an NPC vulnerable to acid
                 } while( guy->is_immune_field( fd_acid ) );
-                guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
+                guy->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
                 // wandering off in search of distant ammo caches, etc.
@@ -374,28 +387,28 @@ TEST_CASE( "npc-movement" )
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
-            const tripoint p = g->u.pos() + point( x, y );
+            const tripoint p = player_character.pos() + point( x, y );
             if( type == '#' ) {
-                REQUIRE( !g->m.passable( p ) );
+                REQUIRE( !here.passable( p ) );
             } else {
-                REQUIRE( g->m.passable( p ) );
+                REQUIRE( here.passable( p ) );
             }
             if( type == 'R' ) {
-                REQUIRE( g->m.has_flag( "UNSTABLE", p ) );
+                REQUIRE( here.has_flag( "UNSTABLE", p ) );
             } else {
-                REQUIRE( !g->m.has_flag( "UNSTABLE", p ) );
+                REQUIRE( !here.has_flag( "UNSTABLE", p ) );
             }
             if( type == 'V' || type == 'W' || type == 'M' ) {
-                REQUIRE( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
+                REQUIRE( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
             } else {
-                REQUIRE( !g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
+                REQUIRE( !here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
             }
-            npc *guy = g->critter_at<npc>( p );
+            npc *guy = creatures.creature_at<npc>( p );
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
                 REQUIRE( guy != nullptr );
-                REQUIRE( guy->is_dangerous_fields( g->m.field_at( p ) ) );
+                REQUIRE( guy->is_dangerous_fields( here.field_at( p ) ) );
             } else {
                 REQUIRE( guy == nullptr );
             }
@@ -403,16 +416,16 @@ TEST_CASE( "npc-movement" )
     }
 
     SECTION( "NPCs escape dangerous terrain by pushing other NPCs" ) {
-        check_npc_movement( g->u.pos() );
+        check_npc_movement( player_character.pos() );
     }
 
     SECTION( "Player in vehicle & NPCs escaping dangerous terrain" ) {
-        const tripoint origin = g->u.pos();
+        const tripoint origin = player_character.pos();
 
         for( int y = 0; y < height; ++y ) {
             for( int x = 0; x < width; ++x ) {
                 if( setup[y][x] == 'V' ) {
-                    g->place_player( g->u.pos() + point( x, y ) );
+                    g->place_player( player_character.pos() + point( x, y ) );
                     break;
                 }
             }
@@ -424,8 +437,14 @@ TEST_CASE( "npc-movement" )
 
 TEST_CASE( "npc_can_target_player" )
 {
+    time_point noon = calendar::turn - time_past_midnight( calendar::turn ) + 12_hours;
+    if( noon < calendar::turn ) {
+        noon = noon + 1_days;
+    }
+    REQUIRE( time_past_midnight( noon ) == 12_hours );
+    REQUIRE( noon >= calendar::turn );
     // Set to daytime for visibiliity
-    calendar::turn = calendar::turn_zero + 12_hours;
+    calendar::turn = noon;
 
     g->faction_manager_ptr->create_if_needed();
 
@@ -434,8 +453,9 @@ TEST_CASE( "npc_can_target_player" )
     clear_npcs();
     clear_creatures();
 
-    npc &hostile = spawn_npc( g->u.pos().xy() + point_south, "thug" );
-    REQUIRE( rl_dist( g->u.pos(), hostile.pos() ) <= 1 );
+    Character &player_character = get_player_character();
+    npc &hostile = spawn_npc( player_character.pos().xy() + point_south, "thug" );
+    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) <= 1 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
 
@@ -443,5 +463,5 @@ TEST_CASE( "npc_can_target_player" )
 
     hostile.regen_ai_cache();
     REQUIRE( hostile.current_target() != nullptr );
-    CHECK( hostile.current_target() == static_cast<Creature *>( &g->u ) );
+    CHECK( hostile.current_target() == static_cast<Creature *>( &player_character ) );
 }

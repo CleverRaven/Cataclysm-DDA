@@ -3,10 +3,15 @@
 #define CATA_SRC_ITEM_STACK_H
 
 #include <cstddef>
+#include <functional>
+#include <list>
 
 #include "colony.h"
 #include "item.h" // IWYU pragma: keep
-#include "units.h"
+#include "type_id.h"
+#include "units_fwd.h"
+
+struct tripoint;
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items and obtain information about items at a particular map x/y location.
@@ -27,7 +32,7 @@ class item_stack
         using reverse_iterator = cata::colony<item>::reverse_iterator;
         using const_reverse_iterator = cata::colony<item>::const_reverse_iterator;
 
-        item_stack( cata::colony<item> *items ) : items( items ) { }
+        explicit item_stack( cata::colony<item> *items ) : items( items ) { }
         virtual ~item_stack() = default;
 
         size_t size() const;
@@ -71,6 +76,17 @@ class item_stack
         /** Return the item (or nullptr) that stacks with the argument */
         item *stacks_with( const item &it );
         const item *stacks_with( const item &it ) const;
+
+        /**
+        * Consumes specified charges (or fewer) from the stack
+        * @param what specific type of charge required, e.g. 'battery'
+        * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
+        * @param pos position at which the charges are being consumed
+        * @param filter Must return true for use to occur.
+        * @return Duplicates of each item that provided consumed charges
+        */
+        std::list<item> use_charges( const itype_id &type, int &quantity, const tripoint &pos,
+                                     const std::function<bool( const item & )> &filter, bool in_tools = false );
 };
 
 #endif // CATA_SRC_ITEM_STACK_H

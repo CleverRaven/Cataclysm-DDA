@@ -91,6 +91,7 @@
     "name": "sewer",
     "color": "green",
     "see_cost": 5,
+    "extras": "sewer",
     "flags": [ "LINEAR" ]
   },
   {
@@ -131,7 +132,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dumpsite",
+    "id": [ "dumpsite", "dumpsite_edge" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "dumpsite",
     "sym": "D",

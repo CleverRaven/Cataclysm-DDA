@@ -13,7 +13,6 @@
       { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
     ],
-    "common": true,
     "worn_override": "NC_GANGER_worn",
     "carry_override": "NC_GANGER_carried",
     "weapon_override": "NC_GANGER_wield",
@@ -67,7 +66,6 @@
       { "skill": "rifle", "bonus": { "rng": [ 1, 6 ] } },
       { "skill": "smg", "bonus": { "rng": [ 1, 4 ] } }
     ],
-    "common": true,
     "worn_override": "NC_CYBERNINJA_worn",
     "carry_override": "NC_CYBERNINJA_carried",
     "weapon_override": "NC_CYBERNINJA_wield",

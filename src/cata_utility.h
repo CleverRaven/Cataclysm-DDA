@@ -2,18 +2,24 @@
 #ifndef CATA_SRC_CATA_UTILITY_H
 #define CATA_SRC_CATA_UTILITY_H
 
-#include <fstream>
+#include <algorithm>
+#include <cstddef>
+#include <ctime>
 #include <functional>
-#include <string>
+#include <iosfwd>
+#include <map>
+#include <string> // IWYU pragma: keep
+#include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
-#include <algorithm>
-#include <type_traits>
 
-#include "units.h"
+#include "enums.h"
+#include "json.h"
 
 class JsonIn;
 class JsonOut;
+class JsonValue;
 class translation;
 
 /**
@@ -72,16 +78,6 @@ template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::t
 T divide_round_up( T num, T den )
 {
     return ( num + den - 1 ) / den;
-}
-
-/** Divide @p num by @p den, rounding up
- *
- * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
- */
-template<typename T, typename U>
-T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
-{
-    return divide_round_up( num.value(), den.value() );
 }
 
 int divide_round_down( int a, int b );
@@ -185,36 +181,6 @@ int bound_mod_to_vals( int val, int mod, int max, int min );
 const char *velocity_units( units_type vel_units );
 
 /**
- * Create a units label for a weight value.
- *
- * Gives the name of the weight unit in the user selected unit system, either
- * "kgs" or "lbs".  Used to add unit labels to the output of @ref convert_weight.
- *
- * @return name of unit
- */
-const char *weight_units();
-
-/**
- * Create an abbreviated units label for a volume value.
- *
- * Returns the abbreviated name for the volume unit for the user selected unit system,
- * i.e. "c", "L", or "qt". Used to add unit labels to the output of @ref convert_volume.
- *
- * @return name of unit.
- */
-const char *volume_units_abbr();
-
-/**
- * Create a units label for a volume value.
- *
- * Returns the abbreviated name for the volume unit for the user selected unit system,
- * ie "cup", "liter", or "quart". Used to add unit labels to the output of @ref convert_volume.
- *
- * @return name of unit.
- */
-const char *volume_units_long();
-
-/**
  * Convert internal velocity units to units defined by user.
  *
  * @param velocity A velocity value in internal units.
@@ -224,41 +190,6 @@ const char *volume_units_long();
  *          units for the object being measured.
  */
 double convert_velocity( int velocity, units_type vel_units );
-
-/**
- * Convert weight in grams to units defined by user (kg or lbs)
- *
- * @param weight to be converted.
- *
- * @returns Weight converted to user selected unit
- */
-double convert_weight( const units::mass &weight );
-
-/**
- * converts length to largest unit available
- * 1000 mm = 1 meter for example
- * assumed to be used in conjunction with unit string functions
- * also works for imperial units
- */
-int convert_length( const units::length &length );
-std::string length_units( const units::length &length );
-
-/** convert a mass unit to a string readable by a human */
-std::string weight_to_string( const units::mass &weight );
-
-/**
- * Convert volume from ml to units defined by user.
- */
-double convert_volume( int volume );
-
-/**
- * Convert volume from ml to units defined by user,
- * optionally returning the units preferred scale.
- */
-double convert_volume( int volume, int *out_scale );
-
-/** convert a volume unit to a string readable by a human */
-std::string vol_to_string( const units::volume &vol );
 
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Celsius.
@@ -273,6 +204,13 @@ double temp_to_celsius( double fahrenheit );
  * @return Temperature in degrees K.
  */
 double temp_to_kelvin( double fahrenheit );
+
+/**
+ * Convert a temperature from degrees Celsius to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double celsius_to_kelvin( double celsius );
 
 /**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
@@ -342,7 +280,7 @@ class list_circularizer
         std::vector<T> *_list;
     public:
         /** Construct list_circularizer from an existing std::vector. */
-        list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
+        explicit list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
         }
 
         /** Advance list to next item, wrapping back to 0 at end of list */
@@ -370,7 +308,7 @@ class list_circularizer
  * \p fail_message, the error text and the path.
  *
  * @return Whether saving succeeded (no error was caught).
- * @throw The void function throws when writing failes or when the @p writer throws.
+ * @throw The void function throws when writing fails or when the @p writer throws.
  * The other function catches all exceptions and returns false.
  */
 ///@{
@@ -378,8 +316,6 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
                     const char *fail_message );
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
 ///@}
-
-class JsonDeserializer;
 
 /**
  * Try to open and read from given file using the given callback.
@@ -390,9 +326,8 @@ class JsonDeserializer;
  * If the stream is in a fail state (other than EOF) after the callback returns, it is handled as
  * error as well.
  *
- * The callback can either be a generic `std::istream`, a @ref JsonIn stream (which has been
- * initialized from the `std::istream`) or a @ref JsonDeserializer object (in case of the later,
- * it's `JsonDeserializer::deserialize` method will be invoked).
+ * The callback can either be a generic `std::istream` or a @ref JsonIn stream (which has been
+ * initialized from the `std::istream`) or a @ref JsonValue object.
  *
  * The functions with the "_optional" prefix do not show a debug message when the file does not
  * exist. They simply ignore the call and return `false` immediately (without calling the callback).
@@ -403,51 +338,16 @@ class JsonDeserializer;
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
 bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const JsonValue & )> &reader );
 /**@}*/
-/**
- * Wrapper around std::ofstream that handles error checking and throws on errors.
- *
- * Use like a normal ofstream: the stream is opened in the constructor and
- * closed via @ref close. Both functions check for success and throw std::exception
- * upon any error (e.g. when opening failed or when the stream is in an error state when
- * being closed).
- * Use @ref stream (or the implicit conversion) to access the output stream and to write
- * to it.
- *
- * @note: The stream is closed in the destructor, but no exception is throw from it. To
- * ensure all errors get reported correctly, you should always call `close` explicitly.
- *
- * @note: This uses exclusive I/O.
- */
-class ofstream_wrapper
-{
-    private:
-        std::ofstream file_stream;
-        std::string path;
-        std::string temp_path;
-
-        void open( std::ios::openmode mode );
-
-    public:
-        ofstream_wrapper( const std::string &path, std::ios::openmode mode );
-        ~ofstream_wrapper();
-
-        std::ostream &stream() {
-            return file_stream;
-        }
-        operator std::ostream &() {
-            return file_stream;
-        }
-
-        void close();
-};
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
@@ -472,7 +372,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
  *
  * The functions here provide a way to (de)serialize objects without actually
  * including "json.h". The `*_wrapper` function create the JSON stream instances
- * and therefor require "json.h", but the caller doesn't. Callers should just
+ * and therefore require "json.h", but the caller doesn't. Callers should just
  * forward the stream reference to the actual (de)serialization function.
  *
  * The inline function do this by calling `T::(de)serialize` (which is assumed
@@ -494,11 +394,21 @@ inline std::string serialize( const T &obj )
     } );
 }
 
-template<typename T>
-inline void deserialize( T &obj, const std::string &data )
+template < typename T, std::enable_if_t < detail::IsJsonInDeserializable<T>::value &&
+           !detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj.deserialize( jsin );
+    }, data );
+}
+
+template < typename T, std::enable_if_t < !detail::IsJsonInDeserializable<T>::value &&
+           detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
+{
+    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+        obj.deserialize( jsin.get_value() );
     }, data );
 }
 /**@}*/
@@ -509,9 +419,33 @@ inline void deserialize( T &obj, const std::string &data )
 bool string_starts_with( const std::string &s1, const std::string &s2 );
 
 /**
+ * Returns true iff s1 starts with s2.
+ * This version accepts constant string literals and is ≈1.5 times faster than std::string version.
+ * Note: N is (size+1) for null-terminated strings.
+ */
+template <std::size_t N>
+inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
+{
+    return s1.compare( 0, N - 1, s2, N - 1 ) == 0;
+}
+
+/**
  * \brief Returns true iff s1 ends with s2
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
+
+/**
+ *  Returns true iff s1 ends with s2.
+ *  This version accepts constant string literals and is ≈1.5 times faster than std::string version.
+ *  Note: N is (size+1) for null-terminated strings.
+ */
+template <std::size_t N>
+inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
+{
+    return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
+}
+
+bool string_empty_or_whitespace( const std::string &s );
 
 /** Used as a default filter in various functions */
 template<typename T>
@@ -520,10 +454,128 @@ bool return_true( const T & )
     return true;
 }
 
+template<typename T>
+bool return_false( const T & )
+{
+    return false;
+}
+
 /**
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+
+/**
+ * Append all arguments after the first to the first.
+ *
+ * This provides a way to append several strings to a single root string
+ * in a single line without an expression like 'a += b + c' which can cause an
+ * unnecessary allocation in the 'b + c' expression.
+ */
+template<typename... T>
+std::string &str_append( std::string &root, T &&...a )
+{
+    // Using initializer list as a poor man's fold expression until C++17.
+    static_cast<void>(
+    std::array<bool, sizeof...( T )> { {
+            ( root.append( std::forward<T>( a ) ), false )...
+        }
+    } );
+    return root;
+}
+
+/**
+ * Concatenates a bunch of strings with append, to minimize unnecessary
+ * allocations
+ */
+template<typename T0, typename... T>
+std::string str_cat( T0 &&a0, T &&...a )
+{
+    std::string result( std::forward<T0>( a0 ) );
+    return str_append( result, std::forward<T>( a )... );
+}
+
+/**
+ * Erases elements from a set that match given predicate function.
+ * Will work on vector, albeit not optimally performance-wise.
+ * @return true if set was changed
+ */
+//bool erase_if( const std::function<bool( const value_type & )> &predicate ) {
+template<typename Col, class Pred>
+bool erase_if( Col &set, Pred predicate )
+{
+    bool ret = false;
+    auto iter = set.begin();
+    for( ; iter != set.end(); ) {
+        if( predicate( *iter ) ) {
+            iter = set.erase( iter );
+            ret = true;
+        } else {
+            ++iter;
+        }
+    }
+    return ret;
+}
+
+/**
+ * Checks if two sets are equal, ignoring specified elements.
+ * Works as if `ignored_elements` were temporarily erased from both sets before comparison.
+ * @tparam Set type of the set (must be ordered, i.e. std::set, cata::flat_set)
+ * @param set first set to compare
+ * @param set2 second set to compare
+ * @param ignored_elements elements from both sets to ignore
+ * @return true, if sets without ignored elements are equal, false otherwise
+ */
+template<typename Set, typename T = std::decay_t<decltype( *std::declval<const Set &>().begin() )>>
+bool equal_ignoring_elements( const Set &set, const Set &set2, const Set &ignored_elements )
+{
+    // general idea: splits both sets into the ranges bounded by elements from `ignored_elements`
+    // and checks that these ranges are equal
+
+    // traverses ignored elements in
+    if( ignored_elements.empty() ) {
+        return set == set2;
+    }
+
+    using Iter = typename Set::iterator;
+    Iter end = ignored_elements.end();
+    Iter cur = ignored_elements.begin();
+    Iter prev = cur;
+    cur++;
+
+    // first comparing the sets range [set.begin() .. ignored_elements.begin()]
+    if( !std::equal( set.begin(), set.lower_bound( *prev ),
+                     set2.begin(), set2.lower_bound( *prev ) ) ) {
+        return false;
+    }
+
+    // compare ranges bounded by two elements: [`prev` .. `cur`]
+    while( cur != end ) {
+        if( !std::equal( set.upper_bound( *prev ), set.lower_bound( *cur ),
+                         set2.upper_bound( *prev ), set2.lower_bound( *cur ) ) ) {
+            return false;
+        }
+        prev = cur;
+        cur++;
+    }
+
+    // compare the range after the last element of ignored_elements: [ignored_elements.back() .. set.end()]
+    return static_cast<bool>( std::equal( set.upper_bound( *prev ), set.end(),
+                                          set2.upper_bound( *prev ), set2.end() ) );
+}
+
+/**
+ * Return a copy of a std::map with some keys removed.
+ */
+template<typename K, typename V>
+std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vector<K> &remove_keys )
+{
+    std::map<K, V> filtered( original );
+    for( const K &key : remove_keys ) {
+        filtered.erase( key );
+    }
+    return filtered;
+}
 
 int modulo( int v, int m );
 
@@ -532,8 +584,13 @@ class on_out_of_scope
     private:
         std::function<void()> func;
     public:
-        on_out_of_scope( const std::function<void()> &func ) : func( func ) {
+        explicit on_out_of_scope( const std::function<void()> &func ) : func( func ) {
         }
+
+        on_out_of_scope( const on_out_of_scope & ) = delete;
+        on_out_of_scope( on_out_of_scope && ) = delete;
+        on_out_of_scope &operator=( const on_out_of_scope & ) = delete;
+        on_out_of_scope &operator=( on_out_of_scope && ) = delete;
 
         ~on_out_of_scope() {
             if( func ) {
@@ -555,14 +612,58 @@ class restore_on_out_of_scope
         on_out_of_scope impl;
     public:
         // *INDENT-OFF*
-        restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
+        explicit restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
 
-        restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
+        explicit restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
         // *INDENT-ON*
+
+        restore_on_out_of_scope( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope( restore_on_out_of_scope<T> && ) = delete;
+        restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
 };
+
+/** Add elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, const std::unordered_set<T> &rhv )
+{
+    lhv.insert( rhv.begin(), rhv.end() );
+    return lhv;
+}
+
+/** Move elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_set<T> &&rhv )
+{
+    for( const T &value : rhv ) {
+        lhv.insert( std::move( value ) );
+    }
+    rhv.clear();
+    return lhv;
+}
+
+/**
+ * Get the current holiday based on the given time, or based on current time if time = 0
+ * @param time The timestampt to assess
+ * @param force_refresh Force recalculation of current holiday, otherwise use cached value
+*/
+holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
+
+/**
+ * Returns a random (weighted) bucket index from a list of weights
+ * @param weights vector with a list of int weights
+ * @return random bucket index
+ */
+int bucket_index_from_weight_list( const std::vector<int> &weights );
+
+/**
+ * Set the game window title.
+ * Implemented in `stdtiles.cpp`, `wincurse.cpp`, and `ncurses_def.cpp`.
+ */
+void set_title( const std::string &title );
 
 #endif // CATA_SRC_CATA_UTILITY_H

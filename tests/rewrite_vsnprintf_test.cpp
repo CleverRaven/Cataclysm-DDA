@@ -1,9 +1,9 @@
 #if !defined(_MSC_VER)
-// the rewrite_vsnprintf function is explicitly defined for non-MS compilers in output.cpp
-
+#include <iosfwd>
 #include <string>
 
-#include "catch/catch.hpp"
+// the rewrite_vsnprintf function is explicitly defined for non-MS compilers in output.cpp
+#include "cata_catch.h"
 #include "output.h"
 
 TEST_CASE( "Test vsnprintf_rewrite" )

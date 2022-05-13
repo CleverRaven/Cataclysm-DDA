@@ -132,6 +132,54 @@
   },
   {
     "type": "furniture",
+    "id": "f_hammock",
+    "name": "hammock",
+    "looks_like": "t_leanto",
+    "symbol": "#",
+    "description": "A large sheet of cloth with ropes on two sides tied to nearby objects.  It's quite comfortable to sleep in, but provides no warmth.",
+    "color": "white",
+    "move_cost_mod": 3,
+    "comfort": 4,
+    "floor_bedding_warmth": -1400,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "hammock", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 14,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 6,
+      "sound_fail_vol": 3,
+      "items": [ { "item": "rag", "count": [ 20, 30 ] }, { "item": "rope_makeshift_6", "count": [ 2, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hammock_net",
+    "name": "net hammock",
+    "looks_like": "f_hammock",
+    "symbol": "#",
+    "description": "A large net with ropes on two sides tied to nearby objects.  It's quite comfortable to sleep in, but provides no warmth.",
+    "color": "white",
+    "move_cost_mod": 3,
+    "comfort": 4,
+    "floor_bedding_warmth": -1500,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "hammock_net", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 6,
+      "sound_fail_vol": 3,
+      "items": [ { "item": "string_36", "count": [ 12, 16 ] }, { "item": "rope_makeshift_6", "count": [ 2, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_makeshift_bed",
     "name": "makeshift bed",
     "symbol": "#",
@@ -180,7 +228,7 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "stick", "count": [ 2, 3 ] },
-        { "item": "straw_pile", "count": [ 7, 8 ] },
+        { "item": "straw_pile", "count": [ 100, 120 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
     }

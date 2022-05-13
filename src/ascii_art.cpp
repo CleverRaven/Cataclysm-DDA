@@ -1,9 +1,16 @@
 #include "ascii_art.h"
 
-#include "assign.h"
-#include "generic_factory.h"
+#include <set>
+#include <string>
 
-static const int ascii_art_width = 42;
+#include "assign.h"
+#include "catacharset.h"
+#include "debug.h"
+#include "generic_factory.h"
+#include "json.h"
+#include "output.h"
+
+static const int ascii_art_width = 41;
 
 namespace
 {
@@ -39,5 +46,10 @@ void ascii_art::load( const JsonObject &jo, const std::string & )
                       ascii_art_width );
         }
     }
+}
+
+void ascii_art::reset()
+{
+    ascii_art_factory.reset();
 }
 

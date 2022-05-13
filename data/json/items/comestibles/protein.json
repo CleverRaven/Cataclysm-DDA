@@ -3,7 +3,7 @@
     "id": "protein_drink",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": "protein drink",
+    "name": { "str": "protein drink" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green drink" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green drink" } },
@@ -19,10 +19,10 @@
     "spoils_in": "2 days",
     "phase": "liquid",
     "container": "bottle_plastic",
+    "sealed": false,
     "material": [ "water" ],
     "calories": 100,
     "quench": 40,
-    "healthy": 2,
     "fun": -1,
     "vitamins": [ [ "calcium", 7 ] ],
     "flags": [ "EATEN_COLD" ]
@@ -50,6 +50,7 @@
     "color": "white",
     "container": "bottle_plastic_small",
     "calories": 100,
+    "freezing_point": -274,
     "vitamins": [  ]
   },
   {
@@ -72,13 +73,13 @@
     "color": "green",
     "container": "wrapper_pr",
     "calories": 400,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
+    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
   },
   {
     "id": "protein_shake",
     "copy-from": "protein_drink",
     "type": "COMESTIBLE",
-    "name": "protein shake",
+    "name": { "str": "protein shake" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
@@ -87,7 +88,6 @@
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
     "material": [ "fruit" ],
     "calories": 150,
-    "healthy": 4,
     "fun": 4,
     "volume": "500 ml",
     "charges": 2,
@@ -98,13 +98,60 @@
     "id": "protein_shake_fortified",
     "copy-from": "protein_shake",
     "type": "COMESTIBLE",
-    "name": "fortified protein shake",
+    "name": { "str": "fortified protein shake" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fortified soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fortified sapient green shake" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
-    "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
-    "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitA", 5 ], [ "vitB", 5 ], [ "vitC", 5 ] ] }
+    "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals.",
+    "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 5 ] ] }
+  },
+  {
+    "id": "milk_fortified",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str": "fortified milk" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent milk" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient-enhanced milk" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "freaky %s" } }
+    ],
+    "description": "Milk enriched with protein powder, it's extra healthy and doesn't taste too bad.",
+    "weight": "286 g",
+    "volume": "250 ml",
+    "price": 300,
+    "price_postapoc": 75,
+    "symbol": "~",
+    "color": "white",
+    "spoils_in": "1 day",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "material": [ "milk" ],
+    "calories": 232,
+    "quench": 22,
+    "fun": 1,
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ] ],
+    "flags": [ "EATEN_COLD" ]
+  },
+  {
+    "id": "protein_smoothie",
+    "copy-from": "milk_fortified",
+    "type": "COMESTIBLE",
+    "name": { "str": "protein smoothie" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent smoothie" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green smoothie" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+    ],
+    "description": "A thick and tasty smoothie made from pure refined protein and nutritious fruit mixed into milk.",
+    "material": [ "fruit", "milk" ],
+    "calories": 165,
+    "fun": 5,
+    "volume": "500 ml",
+    "charges": 2,
+    "quench": 18,
+    "relative": { "vitamins": [ [ "vitC", 20 ] ] }
   }
 ]

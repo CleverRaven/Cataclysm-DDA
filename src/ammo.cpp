@@ -1,15 +1,14 @@
 #include "ammo.h"
 
+#include <string>
 #include <unordered_map>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"
 #include "json.h"
 #include "translations.h"
-#include "string_id.h"
 #include "type_id.h"
-
-static const itype_id itype_UPS( "UPS" );
 
 namespace
 {
@@ -22,10 +21,14 @@ ammo_map_t &all_ammunition_types()
 }
 } //namespace
 
+ammunition_type::ammunition_type() : name_( no_translation( "null" ) )
+{
+}
+
 void ammunition_type::load_ammunition_type( const JsonObject &jsobj )
 {
     ammunition_type &res = all_ammunition_types()[ ammotype( jsobj.get_string( "id" ) ) ];
-    res.name_             = jsobj.get_string( "name" );
+    jsobj.read( "name", res.name_ );
     jsobj.read( "default", res.default_ammotype_, true );
 }
 
@@ -48,9 +51,7 @@ const ammunition_type &string_id<ammunition_type>::obj() const
     }
 
     debugmsg( "Tried to get invalid ammunition: %s", c_str() );
-    static const ammunition_type null_ammunition {
-        "null"
-    };
+    static const ammunition_type null_ammunition;
     return null_ammunition;
 }
 
@@ -66,7 +67,7 @@ void ammunition_type::check_consistency()
         const auto &at = ammo.second.default_ammotype_;
 
         // TODO: these ammo types should probably not have default ammo at all.
-        if( at == itype_UPS || at.str() == "components" || at.str() == "thrown" ) {
+        if( at.str() == "components" || at.str() == "thrown" ) {
             continue;
         }
 
@@ -78,5 +79,5 @@ void ammunition_type::check_consistency()
 
 std::string ammunition_type::name() const
 {
-    return _( name_ );
+    return name_.translated();
 }

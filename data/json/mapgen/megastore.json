@@ -10,7 +10,7 @@
       "^": "t_glass_roof",
       "1": "t_metal_railing",
       "%": "t_grate",
-      ",": "t_grass",
+      ",": "t_region_groundcover_urban",
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",
       "+": "t_door_glass_c",
@@ -23,16 +23,17 @@
       "W": "t_sidewalk",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "6": "t_console_broken",
       "Y": "t_switchgear_s"
     },
     "furniture": {
+      "6": "f_console_broken",
       "a": "f_armchair",
       "A": "f_sofa",
       "b": "f_bookcase",
       "B": "f_bed",
       "c": "f_chair",
       "C": "f_counter",
+      "Á": "f_counter",
       "d": "f_dresser",
       "D": "f_desk",
       "e": "f_counter",
@@ -64,9 +65,10 @@
       "X": "f_crate_c",
       ":": "f_shredder"
     },
-    "toilets": { "&": { "amount": [ 0, 50 ] } },
+    "toilets": { "&": {  } },
     "items": {
       "D": { "item": "office", "chance": 60 },
+      "Á": { "item": "cash_register_random", "chance": 100 },
       "l": { "item": "jackets", "chance": 5 },
       "L": { "item": "home_hw", "chance": 50 },
       "o": { "item": "oven", "chance": 70 },
@@ -202,8 +204,8 @@
       "terrain": {
         ".": "t_pavement",
         "_": "t_pavement_y",
-        "#": [ "t_underbrush", "t_grass" ],
-        "T": [ "t_tree_young", "t_tree" ],
+        "#": "t_region_groundcover_urban",
+        "T": "t_region_tree_shade",
         "W": "t_sidewalk"
       },
       "vehicles": { "v": { "vehicle": "city_vehicles", "chance": 10 } }
@@ -240,7 +242,7 @@
         ",,|e..............g.....",
         ",,|e....eeeee.....g.....",
         ",,|e..............g.....",
-        ",,|ggggg......C6CCC.....",
+        ",,|ggggg......CÁCCC.....",
         ",,|....................."
       ],
       "rotation": 0,
@@ -870,7 +872,7 @@
         "....rI..CCCCCCC..%I.....",
         "....r|...........%|..RR.",
         "....r|....CCC....%|..RR.",
-        "....r|....6......%|.....",
+        "....r|....Á......%|.....",
         ".....C....C......%|..RR.",
         ".....C....CCC%%%%CC..RR.",
         "........................",
@@ -1353,7 +1355,7 @@
         ".KK.KI......CCCCCCI.....",
         "..................C.....",
         "............C.c...C.....",
-        ".RR.........C6CCCCC.....",
+        ".RR.........CÁCCCCC.....",
         ".RR.....................",
         "........................"
       ],
@@ -1430,11 +1432,11 @@
         ",,|..!..................",
         ",,|..|..................",
         ",,|..I.........CCCI.....",
-        ",,----....CCCr.6........",
-        ",,WW|.....6.............",
+        ",,----....CCCr.Á........",
+        ",,WW|.....Á.............",
         ",,WWg..........CCCr.....",
-        ",,WWg.....CCCr.6........",
-        ",,WWg.....6............."
+        ",,WWg.....CCCr.Á........",
+        ",,WWg.....Á............."
       ],
       "rotation": 3,
       "palettes": [ "megastore", "mega_goods_a" ],
@@ -1458,7 +1460,7 @@
         ",,|U.I|CCCCffFffF|I.....",
         ",,|o..!..........!......",
         ",,|o..|.......TTo|......",
-        ",,|----C6CC6CC---|......",
+        ",,|----CÁCCÁCC---|......",
         ",,|..............|......",
         ",,|..c..................",
         ",,|......TT...c.........",
@@ -1469,11 +1471,11 @@
         ",,|s..!.................",
         ",,|-+-|.................",
         ",,|&.I|........CCCI.....",
-        ",,-----...CCCr.6........",
-        ",,WWg.....6.............",
+        ",,-----...CCCr.Á........",
+        ",,WWg.....Á.............",
         ",,WWg..........CCCr.....",
-        ",,WWg.....CCCr.6........",
-        ",,WWg.....6............."
+        ",,WWg.....CCCr.Á........",
+        ",,WWg.....Á............."
       ],
       "rotation": 3,
       "palettes": [ "megastore", "mega_goods_b" ],
@@ -1508,11 +1510,11 @@
         ",,|%....................",
         ",,|.....................",
         ",,|%%I.........CCCI.....",
-        ",,---.....CCCr.6........",
-        ",,WW|.....6.............",
+        ",,---.....CCCr.Á........",
+        ",,WW|.....Á.............",
         ",,WWg..........CCCr.....",
-        ",,WWg.....CCCr.6........",
-        ",,WWg.....6............."
+        ",,WWg.....CCCr.Á........",
+        ",,WWg.....Á............."
       ],
       "rotation": 3,
       "palettes": [ "megastore", "mega_goods_c" ],
@@ -1548,11 +1550,11 @@
         ",,|.....................",
         ",,|.....................",
         ",,|iiI.........CCCI.....",
-        ",,---.....CCCr.6........",
-        ",,WW|.....6.............",
+        ",,---.....CCCr.Á........",
+        ",,WW|.....Á.............",
         ",,WWg..........CCCr.....",
-        ",,WWg.....CCCr.6........",
-        ",,WWg.....6............."
+        ",,WWg.....CCCr.Á........",
+        ",,WWg.....Á............."
       ],
       "rotation": 3,
       "palettes": [ "megastore", "mega_goods_d" ],
@@ -1587,11 +1589,11 @@
         ",,|.....................",
         ",,|.....................",
         ",,|FFIFFF......CCCI.....",
-        ",,---.....CCCr.6........",
-        ",,WW|.....6.............",
+        ",,---.....CCCr.Á........",
+        ",,WW|.....Á.............",
         ",,WWg..........CCCr.....",
-        ",,WWg.....CCCr.6........",
-        ",,WW|.....6............."
+        ",,WWg.....CCCr.Á........",
+        ",,WW|.....Á............."
       ],
       "rotation": 3,
       "palettes": [ "megastore", "mega_goods_e" ],
@@ -1620,11 +1622,11 @@
         ".......vvvvv|...........",
         "....vvvvvvvv|...........",
         ".-----------|...........",
-        ".|eeeeeee...|6C..6C..6C.",
+        ".|eeeeeee...|ÁC..ÁC..ÁC.",
         ".|.........D|.C...C...C.",
         ".|EEEEEEE.cD|.r...r...r.",
         ".|.........D|...........",
-        ".|eeeee.....|.6C..6C..6C",
+        ".|eeeee.....|.ÁC..ÁC..ÁC",
         ".|..........|..C...C...C",
         ".--!-I--CCC--..r..Ir...r",
         "........................",
@@ -1661,12 +1663,12 @@
         "...vvvvvvvvv|...........",
         ".vvvvvvvvvvv|...........",
         ".-----------|...........",
-        "..TTTT..!..U|6C..6C..6C.",
+        "..TTTT..!..U|ÁC..ÁC..ÁC.",
         "........|..U|.C...C...C.",
         "........C..C|.r...r...r.",
         "........C..f|...........",
-        "........C..f|.6C..6C..6C",
-        "........6..s|..C...C...C",
+        "........C..f|.ÁC..ÁC..ÁC",
+        "........Á..s|..C...C...C",
         ".....I-------..r..Ir...r",
         "........................",
         "........................",
@@ -1989,7 +1991,7 @@
       ],
       "rotation": 1,
       "palettes": [ "megastore" ],
-      "terrain": { "%": "t_machinery_heavy" }
+      "furniture": { "%": "f_machinery_heavy" }
     }
   },
   {
@@ -2256,18 +2258,18 @@
       ],
       "rotation": 0,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
-            [ "roof_16x16_help", 5 ],
+            [ "null", 10 ],
             [ "roof_2x2_infrastructure", 80 ],
             [ "roof_2x2_infrastructure_2", 40 ],
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 7, 22 ],
-          "y": [ 6, 22 ]
+          "x": [ 7, 18 ],
+          "y": [ 6, 18 ]
         }
       ]
     }
@@ -2308,20 +2310,8 @@
       ],
       "rotation": 0,
       "palettes": [ "megastore" ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 5 ],
-            [ "roof_16x16_help", 5 ],
-            [ "roof_2x2_infrastructure", 80 ],
-            [ "roof_2x2_infrastructure_2", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 5 ]
-          ],
-          "x": [ 1, 22 ],
-          "y": [ 6, 22 ]
-        }
-      ]
+      "terrain": { " ": "t_flat_roof" },
+      "place_nested": [ { "chunks": [ [ "null", 160 ], [ "roof_16x16_help", 5 ] ], "x": [ 1, 8 ], "y": [ 6, 8 ] } ]
     }
   },
   {
@@ -2360,18 +2350,18 @@
       ],
       "rotation": 1,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [
             [ "null", 5 ],
-            [ "roof_16x16_help", 5 ],
             [ "roof_2x2_infrastructure", 80 ],
             [ "roof_2x2_infrastructure_2", 40 ],
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 6, 22 ],
-          "y": [ 7, 22 ]
+          "x": [ 6, 18 ],
+          "y": [ 7, 18 ]
         }
       ]
     }
@@ -2412,6 +2402,7 @@
       ],
       "rotation": 3,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ] },
         { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 20 }
@@ -2425,8 +2416,8 @@
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 18, 22 ]
+          "x": [ 1, 18 ],
+          "y": [ 16, 18 ]
         }
       ]
     }
@@ -2467,11 +2458,12 @@
       ],
       "rotation": [ 0, 3 ],
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 20 ], [ "roof_2x2_infrastructure_2", 20 ], [ "roof_2x2_utilities", 20 ] ],
-          "x": [ 1, 22 ],
-          "y": [ 1, 6 ]
+          "x": [ 1, 18 ],
+          "y": [ 0, 2 ]
         }
       ]
     }
@@ -2512,6 +2504,7 @@
       ],
       "rotation": 1,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [
@@ -2521,8 +2514,8 @@
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 18, 22 ]
+          "x": [ 1, 18 ],
+          "y": [ 16, 18 ]
         }
       ]
     }
@@ -2563,10 +2556,11 @@
       ],
       "rotation": 3,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 80 ], [ "roof_2x2_infrastructure_2", 40 ], [ "roof_2x2_utilities", 40 ] ],
-          "x": [ 1, 22 ],
+          "x": [ 5, 22 ],
           "y": [ 18, 22 ]
         }
       ]
@@ -2608,6 +2602,7 @@
       ],
       "rotation": 2,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [
@@ -2617,8 +2612,8 @@
             [ "roof_2x2_utilities", 40 ],
             [ "roof_6x6_survivor", 5 ]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 7, 22 ]
+          "x": [ 1, 18 ],
+          "y": [ 7, 18 ]
         }
       ]
     }
@@ -2659,6 +2654,7 @@
       ],
       "rotation": 2,
       "palettes": [ "megastore" ],
+      "terrain": { " ": "t_flat_roof" },
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 80 ], [ "roof_2x2_infrastructure_2", 40 ], [ "roof_2x2_utilities", 40 ] ],

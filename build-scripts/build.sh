@@ -1,30 +1,36 @@
 #!/bin/bash
 
-# Build script intended for use in Travis CI
+# Build script intended for use in Travis CI and Github workflow
 
+echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
 num_jobs=3
-
-function run_tests
-{
-    # The grep suppresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
-    $WINE "$@" -d yes --use-colour yes --rng-seed time $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
-}
+[ -z $NUM_TEST_JOBS ] && num_test_jobs=3 || num_test_jobs=$NUM_TEST_JOBS
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
 
+$COMPILER --version
+if [ -n "$CROSS_COMPILATION" ]
+then
+    "$CROSS_COMPILATION$COMPILER" --version
+fi
+
 if [ -n "$TEST_STAGE" ]
 then
-    build-scripts/lint-json.sh
-    make -j "$num_jobs" style-json
+    build-scripts/validate_json.py
+    make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
+
+    tools/json_tools/generic_guns_validator.py
+
     # Also build chkjson (even though we're not using it), to catch any
     # compile errors there
     make -j "$num_jobs" chkjson
-elif [ -n "$JUST_JSON" ]
+# Skip the rest of the run if this change is pure json and this job doesn't test any extra mods
+elif [ -n "$JUST_JSON" -a -z "$MODS" ]
 then
     echo "Early exit on just-json change"
     exit 0
@@ -32,10 +38,33 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 2G
+ccache -M 5G
 ccache --show-stats
 
-if [ -n "$CMAKE" ]
+function run_test
+{
+    set -eo pipefail
+    test_exit_code=0 sed_exit_code=0 exit_code=0
+    test_bin=$1
+    prefix=$2
+    shift 2
+
+    $WINE "$test_bin" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "$@" 2>&1 | sed -E 's/^(::(warning|error|debug)[^:]*::)?/\1'"$prefix"'/' || test_exit_code="${PIPESTATUS[0]}" sed_exit_code="${PIPESTATUS[1]}"
+    if [ "$test_exit_code" -ne "0" ]
+    then
+        echo "$3test exited with code $test_exit_code"
+        exit_code=1
+    fi
+    if [ "$sed_exit_code" -ne "0" ]
+    then
+        echo "$3sed exited with code $sed_exit_code"
+        exit_code=1
+    fi
+    return $exit_code
+}
+export -f run_test
+
+if [ "$CMAKE" = "1" ]
 then
     bin_path="./"
     if [ "$RELEASE" = "1" ]
@@ -53,19 +82,19 @@ then
         cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
         # Need to specify the particular LLVM / Clang versions to use, lest it
         # use the llvm-7 that comes by default on the Travis Xenial image.
-        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-8/lib/cmake/llvm")
-        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang")
+        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-12/lib/cmake/llvm")
+        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-12/lib/cmake/clang")
     fi
 
-    if [ "$COMPILER" = "clang++-8" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
+    if [ "$COMPILER" = "clang++-12" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
     then
         # This is a hacky workaround for the fact that the custom clang-tidy we are
         # using is built for Travis CI, so it's not using the correct include directories
         # for GitHub workflows.
-        cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/8.0.0/include")
+        cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/12.0.0/include")
     fi
 
-    mkdir build
+    mkdir -p build
     cd build
     cmake \
         -DBACKTRACE=ON \
@@ -107,24 +136,45 @@ then
         compiledb -n make
 
         cd ..
-        ln -s build/compile_commands.json
+        rm -f compile_commands.json && ln -s build/compile_commands.json
 
-        # We want to first analyze all files that changed in this PR, then as
-        # many others as possible, in a random order.
         set +x
+        # Check for changes to any files that would require us to run clang-tidy across everything
+        changed_global_files="$( ( ./build-scripts/files_changed || echo 'unknown') | \
+            egrep -i "clang-tidy|build-scripts|cmake|unknown" || true )"
+        if [ -n "$changed_global_files" ]
+        then
+            first_changed_file="$(echo "$changed_global_files" | head -n 1)"
+            echo "Analyzing all files because $first_changed_file was changed"
+            TIDY="all"
+        fi
+
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
             sed "s+.*$PWD/++;s+\"$++")"
-        changed_cpp_files="$( \
-            ./build-scripts/files_changed | grep -F "$all_cpp_files" || true )"
-        if [ -n "$changed_cpp_files" ]
+        if [ "$TIDY" == "all" ]
         then
-            remaining_cpp_files="$( \
-                echo "$all_cpp_files" | grep -v -F "$changed_cpp_files" || true )"
+            echo "Analyzing all files"
+            tidyable_cpp_files=$all_cpp_files
         else
-            remaining_cpp_files="$all_cpp_files"
+            make \
+                -j $num_jobs \
+                ${COMPILER:+COMPILER=$COMPILER} \
+                TILES=${TILES:-0} \
+                SOUND=${SOUND:-0} \
+                includes
+
+            ./build-scripts/files_changed > ./files_changed
+            tidyable_cpp_files="$( \
+                ( build-scripts/get_affected_files.py ./files_changed ) || \
+                echo unknown )"
+
+            if [ "tidyable_cpp_files" == "unknown" ]
+            then
+                echo "Unable to determine affected files, tidying all files"
+                tidyable_cpp_files=$all_cpp_files
+            fi
         fi
-        set -x
 
         function analyze_files_in_random_order
         {
@@ -137,18 +187,16 @@ then
             fi
         }
 
-        echo "Analyzing changed files"
-        analyze_files_in_random_order "$changed_cpp_files"
-
-        echo "Analyzing remaining files"
-        analyze_files_in_random_order "$remaining_cpp_files"
+        echo "Analyzing affected files"
+        analyze_files_in_random_order "$tidyable_cpp_files"
+        set -x
     else
         # Regular build
         make -j$num_jobs
         cd ..
         # Run regular tests
-        [ -f "${bin_path}cata_test" ] && run_tests "${bin_path}cata_test"
-        [ -f "${bin_path}cata_test-tiles" ] && run_tests "${bin_path}cata_test-tiles"
+        [ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 elif [ "$NATIVE" == "android" ]
 then
@@ -165,33 +213,28 @@ then
     # fills the log with nonsense.
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
-    if [ "$TRAVIS_OS_NAME" == "osx" ]
+    export ASAN_OPTIONS=detect_odr_violation=1
+    export UBSAN_OPTIONS=print_stacktrace=1
+    parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    if [ -n "$MODS" ]
     then
-        run_tests ./tests/cata_test
-    else
-        run_tests ./tests/cata_test &
-        if [ -n "$MODS" ]
-        then
-            run_tests ./tests/cata_test --user-dir=modded $MODS &
-            wait -n
-        fi
-        wait -n
+        parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' 'Mods-('{}')=> ' $(printf %q "${MODS}") --user-dir=modded_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 
     if [ -n "$TEST_STAGE" ]
     then
-        # Run the tests one more time, without actually running any tests, just to verify that all
-        # the mod data can be successfully loaded
+        # Run the tests with all the mods, without actually running any tests,
+        # just to verify that all the mod data can be successfully loaded.
+        # Because some mods might be mutually incompatible we might need to run a few times.
 
-        # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
-        # shrink over time.
-        blacklist=build-scripts/mod_test_blacklist
-        mods="$(./build-scripts/get_all_mods.py $blacklist)"
-        run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
+        ./build-scripts/get_all_mods.py | \
+            while read mods
+            do
+                run_test ./tests/cata_test '(all_mods)=> ' '~*' --user-dir=all_modded --mods="${mods}"
+            done
     fi
 fi
-ccache --show-stats
 
 # vim:tw=0

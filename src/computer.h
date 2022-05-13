@@ -2,14 +2,19 @@
 #ifndef CATA_SRC_COMPUTER_H
 #define CATA_SRC_COMPUTER_H
 
+#include <iosfwd>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "calendar.h"
+#include "point.h"
+#include "talker.h"
+#include "type_id.h"
 
-class JsonIn;
-class JsonOut;
 class JsonObject;
+class JsonOut;
+class JsonValue;
 
 enum computer_action {
     COMPACT_NULL = 0,
@@ -35,8 +40,11 @@ enum computer_action {
     COMPACT_MAP_SUBWAY,
     COMPACT_MAPS,
     COMPACT_MISS_DISARM,
+    COMPACT_MISS_LAUNCH,
     COMPACT_OPEN,
     COMPACT_OPEN_DISARM,
+    COMPACT_OPEN_GATE,
+    COMPACT_CLOSE_GATE,
     COMPACT_PORTAL,
     COMPACT_RADIO_ARCHIVE,
     COMPACT_RELEASE,
@@ -88,7 +96,7 @@ struct computer_option {
     computer_option( const std::string &N, computer_action A, int S );
     // Save to/load from saves
     void serialize( JsonOut &jout ) const;
-    void deserialize( JsonIn &jin );
+    void deserialize( const JsonObject &jo );
     // Load from data files
     static computer_option from_json( const JsonObject &jo );
 };
@@ -97,11 +105,11 @@ struct computer_failure {
     computer_failure_type type;
 
     computer_failure();
-    computer_failure( computer_failure_type t ) : type( t ) {
+    explicit computer_failure( computer_failure_type t ) : type( t ) {
     }
     // Save to/load from saves
     void serialize( JsonOut &jout ) const;
-    void deserialize( JsonIn &jin );
+    void deserialize( const JsonObject &jo );
     // Load from data files
     static computer_failure from_json( const JsonObject &jo );
 };
@@ -109,11 +117,13 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &new_name, int new_security );
+        computer( const std::string &new_name, int new_security, tripoint new_loc );
 
         // Initialization
         void set_security( int Security );
         void add_option( const computer_option &opt );
+        void add_eoc( const effect_on_condition_id &eoc );
+        void add_chat_topic( const std::string &topic );
         void add_option( const std::string &opt_name, computer_action action, int security );
         void add_failure( const computer_failure &failure );
         void add_failure( computer_failure_type failure );
@@ -122,10 +132,10 @@ class computer
         // Save/load
         void load_legacy_data( const std::string &data );
         void serialize( JsonOut &jout ) const;
-        void deserialize( JsonIn &jin );
+        void deserialize( const JsonValue &jv );
 
         friend class computer_session;
-    private:
+        tripoint loc;
         // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         std::string name;
         // Linked to a mission?
@@ -144,8 +154,18 @@ class computer
         // Can be customized to for example warn the player of potentially lethal
         // consequences like secubots spawning.
         std::string access_denied;
+        std::vector<std::string> chat_topics; // What it has to say.
+        std::vector<effect_on_condition_id> eocs; // Effect on conditions to run when accessed.
+        // Miscellaneous key/value pairs.
+        std::unordered_map<std::string, std::string> values;
+        // Methods for setting/getting misc key/value pairs.
+        void set_value( const std::string &key, const std::string &value );
+        void remove_value( const std::string &key );
+        std::string get_value( const std::string &key ) const;
 
         void remove_option( computer_action action );
 };
+std::unique_ptr<talker> get_talker_for( computer &me );
+std::unique_ptr<talker> get_talker_for( computer *me );
 
 #endif // CATA_SRC_COMPUTER_H

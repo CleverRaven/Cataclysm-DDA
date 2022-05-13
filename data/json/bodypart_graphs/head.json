@@ -1,0 +1,43 @@
+[
+  {
+    "type": "body_graph",
+    "id": "head",
+    "parent_bodypart": "head",
+    "fill_sym": "#",
+    "fill_color": "white",
+    "rows": [
+      "             7777777777777              ",
+      "          7777777777777777777           ",
+      "         777777777777777777777          ",
+      "        ######66666666666######         ",
+      "        ####666666666666666####         ",
+      "        ####666666666666666####         ",
+      "      9 #####6666666666666##### 0       ",
+      "      99#####111###4###222#####00       ",
+      "      99####11111#444#22222####00       ",
+      "      99##5555555544455555555##00       ",
+      "       9##5555555544455555555##0        ",
+      "        ##5555555444445555555##         ",
+      "         ###555533333335555###          ",
+      "          #####333333333#####           ",
+      "           #######333#######            ",
+      "            ###############             ",
+      "            8 ########### 8             ",
+      "         8888888 ##### 8888888          ",
+      "       88888888888   88888888888        ",
+      "           88888888888888888            "
+    ],
+    "parts": {
+      "1": { "sub_body_parts": [ "eyes_left" ], "select_color": "red" },
+      "2": { "sub_body_parts": [ "eyes_right" ], "select_color": "red" },
+      "3": { "sub_body_parts": [ "mouth_lips" ], "select_color": "red" },
+      "4": { "sub_body_parts": [ "mouth_nose" ], "select_color": "red" },
+      "5": { "sub_body_parts": [ "mouth_cheeks" ], "select_color": "red" },
+      "6": { "sub_body_parts": [ "head_forehead" ], "select_color": "red" },
+      "7": { "sub_body_parts": [ "head_crown" ], "select_color": "red" },
+      "8": { "sub_body_parts": [ "head_throat", "head_nape" ], "select_color": "red" },
+      "9": { "sub_body_parts": [ "head_ear_r" ], "select_color": "red" },
+      "0": { "sub_body_parts": [ "head_ear_l" ], "select_color": "red" }
+    }
+  }
+]

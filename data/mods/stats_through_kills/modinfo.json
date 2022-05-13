@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "stats_through_kills",
+    "id": "stats_through_kills",
     "name": "Stats Through Kills",
     "authors": [ "KorGgenT" ],
     "maintainers": [ "KorGgenT" ],

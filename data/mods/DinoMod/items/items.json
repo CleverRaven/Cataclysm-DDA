@@ -1,0 +1,9 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "report_dino_exploration",
+    "copy-from": "log_immersion27",
+    "name": { "str": "PRELIMINARY REPORT: IMMERSION-30D" },
+    "snippet_category": "dino-reports"
+  }
+]

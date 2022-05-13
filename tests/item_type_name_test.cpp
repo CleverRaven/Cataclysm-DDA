@@ -1,11 +1,16 @@
+#include <iosfwd>
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 #include "type_id.h"
 
 // Test cases focused on item::type_name
+static const itype_id itype_blood( "blood" );
+
+static const mtype_id mon_chicken( "mon_chicken" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
 {
@@ -47,16 +52,12 @@ TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
         SECTION( "pluralize the first part" ) {
             item glass( "glass_sheet" );
             item cards( "deck_of_cards" );
-            item jar( "jar_eggs_pickled" );
 
             CHECK( glass.type_name( 1 ) == "sheet of glass" );
             CHECK( glass.type_name( 2 ) == "sheets of glass" );
 
             CHECK( cards.type_name( 1 ) == "deck of cards" );
             CHECK( cards.type_name( 2 ) == "decks of cards" );
-
-            CHECK( jar.type_name( 1 ) == "sealed jar of eggs" );
-            CHECK( jar.type_name( 2 ) == "sealed jars of eggs" );
         }
 
         SECTION( "pluralize by inserting a word" ) {
@@ -84,14 +85,11 @@ TEST_CASE( "custom named item", "[item][type_name][named]" )
 
 TEST_CASE( "blood item", "[item][type_name][blood]" )
 {
-    static const mtype_id mon_zombie( "mon_zombie" );
-    static const mtype_id mon_chicken( "mon_chicken" );
-
     SECTION( "blood from a zombie corpse" ) {
         item corpse = item::make_corpse( mon_zombie );
         item blood( "blood" );
         blood.set_mtype( corpse.get_mtype() );
-        REQUIRE( blood.typeId() == itype_id( "blood" ) );
+        REQUIRE( blood.typeId() == itype_blood );
         REQUIRE_FALSE( blood.is_corpse() );
 
         CHECK( blood.type_name() == "zombie blood" );
@@ -101,7 +99,7 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
         item corpse = item::make_corpse( mon_chicken );
         item blood( "blood" );
         blood.set_mtype( corpse.get_mtype() );
-        REQUIRE( blood.typeId() == itype_id( "blood" ) );
+        REQUIRE( blood.typeId() == itype_blood );
         REQUIRE_FALSE( blood.is_corpse() );
 
         CHECK( blood.type_name() == "chicken blood" );
@@ -109,7 +107,7 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
 
     SECTION( "blood from an unknown corpse" ) {
         item blood( "blood" );
-        REQUIRE( blood.typeId() == itype_id( "blood" ) );
+        REQUIRE( blood.typeId() == itype_blood );
         REQUIRE_FALSE( blood.is_corpse() );
 
         CHECK( blood.type_name() == "human blood" );
@@ -118,9 +116,6 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
 
 TEST_CASE( "corpse item", "[item][type_name][corpse]" )
 {
-    static const mtype_id mon_zombie( "mon_zombie" );
-    static const mtype_id mon_chicken( "mon_chicken" );
-
     // Anonymous corpses
 
     SECTION( "human corpse" ) {

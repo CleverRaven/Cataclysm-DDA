@@ -1,5 +1,7 @@
 #include "event.h"
 
+#include <string>
+
 namespace io
 {
 
@@ -16,9 +18,12 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::avatar_moves: return "avatar_moves";
         case event_type::awakes_dark_wyrms: return "awakes_dark_wyrms";
         case event_type::becomes_wanted: return "becomes_wanted";
+        case event_type::broken_bone: return "broken_bone";
         case event_type::broken_bone_mends: return "broken_bone_mends";
         case event_type::buries_corpse: return "buries_corpse";
         case event_type::causes_resonance_cascade: return "causes_resonance_cascade";
+        case event_type::character_consumes_item: return "character_consumes_item";
+        case event_type::character_eats_item: return "character_eats_item";
         case event_type::character_forgets_spell: return "character_forgets_spell";
         case event_type::character_gains_effect: return "character_gains_effect";
         case event_type::character_gets_headshot: return "character_gets_headshot";
@@ -27,6 +32,15 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::character_kills_monster: return "character_kills_monster";
         case event_type::character_learns_spell: return "character_learns_spell";
         case event_type::character_loses_effect: return "character_loses_effect";
+        case event_type::character_melee_attacks_character:
+                                                 return "character_melee_attacks_character";
+        case event_type::character_melee_attacks_monster:
+                                                 return "character_melee_attacks_monster";
+        case event_type::character_ranged_attacks_character:
+                                                 return "character_ranged_attacks_character";
+        case event_type::character_ranged_attacks_monster:
+                                                 return "character_ranged_attacks_monster";
+        case event_type::character_smashes_tile: return "character_smashes_tile";
         case event_type::character_takes_damage: return "character_takes_damage";
         case event_type::character_triggers_trap: return "character_triggers_trap";
         case event_type::character_wakes_up: return "character_wakes_up";
@@ -36,11 +50,15 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::crosses_marloss_threshold: return "crosses_marloss_threshold";
         case event_type::crosses_mutation_threshold: return "crosses_mutation_threshold";
         case event_type::crosses_mycus_threshold: return "crosses_mycus_threshold";
+        case event_type::cuts_tree: return "cuts_tree";
         case event_type::dermatik_eggs_hatch: return "dermatik_eggs_hatch";
         case event_type::dermatik_eggs_injected: return "dermatik_eggs_injected";
         case event_type::destroys_triffid_grove: return "destroys_triffid_grove";
         case event_type::dies_from_asthma_attack: return "dies_from_asthma_attack";
         case event_type::dies_from_drug_overdose: return "dies_from_drug_overdose";
+        case event_type::dies_from_bleeding: return "dies_from_bleeding";
+        case event_type::dies_from_hypovolemia: return "dies_from_hypovolemia";
+        case event_type::dies_from_redcells_loss: return "dies_from_redcells_loss";
         case event_type::dies_of_infection: return "dies_of_infection";
         case event_type::dies_of_starvation: return "dies_of_starvation";
         case event_type::dies_of_thirst: return "dies_of_thirst";
@@ -70,6 +88,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::player_fails_conduct: return "player_fails_conduct";
         case event_type::player_gets_achievement: return "player_gets_achievement";
         case event_type::player_levels_spell: return "player_levels_spell";
+        case event_type::reads_book: return "reads_book";
         case event_type::releases_subspace_specimens: return "releases_subspace_specimens";
         case event_type::removes_cbm: return "removes_cbm";
         case event_type::seals_hazardous_material_sarcophagus: return "seals_hazardous_material_sarcophagus";
@@ -84,8 +103,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::num_event_types:
             break;
     }
-    debugmsg( "Invalid event_type" );
-    abort();
+    cata_fatal( "Invalid event_type" );
 }
 
 } // namespace io
@@ -104,7 +122,7 @@ DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 72,
+static_assert( static_cast<int>( event_type::num_event_types ) == 85,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -118,6 +136,7 @@ DEFINE_EVENT_FIELDS( activates_artifact )
 DEFINE_EVENT_FIELDS( administers_mutagen )
 DEFINE_EVENT_FIELDS( avatar_enters_omt )
 DEFINE_EVENT_FIELDS( avatar_moves )
+DEFINE_EVENT_FIELDS( broken_bone )
 DEFINE_EVENT_FIELDS( broken_bone_mends )
 DEFINE_EVENT_FIELDS( buries_corpse )
 DEFINE_EVENT_FIELDS( character_forgets_spell )
@@ -127,6 +146,11 @@ DEFINE_EVENT_FIELDS( character_kills_character )
 DEFINE_EVENT_FIELDS( character_kills_monster )
 DEFINE_EVENT_FIELDS( character_learns_spell )
 DEFINE_EVENT_FIELDS( character_loses_effect )
+DEFINE_EVENT_FIELDS( character_melee_attacks_character )
+DEFINE_EVENT_FIELDS( character_melee_attacks_monster )
+DEFINE_EVENT_FIELDS( character_ranged_attacks_character )
+DEFINE_EVENT_FIELDS( character_ranged_attacks_monster )
+DEFINE_EVENT_FIELDS( character_smashes_tile )
 DEFINE_EVENT_FIELDS( character_takes_damage )
 DEFINE_EVENT_FIELDS( character_triggers_trap )
 DEFINE_EVENT_FIELDS( character_wakes_up )

@@ -1,0 +1,43 @@
+[
+  {
+    "type": "technique",
+    "id": "test_technique",
+    "name": "Test Technique",
+    "melee_allowed": true,
+    "crit_tec": true,
+    "messages": [ "You start debugging %s", "<npcname> starts debugging %s" ],
+    "weapon_categories_allowed": [ "TEST_CAT1", "BLADES" ],
+    "stun_dur": 2
+  },
+  {
+    "type": "martial_art",
+    "id": "test_style_ma1",
+    "name": { "str": "Test Style 1" },
+    "description": "Test martial arts 1",
+    "initiate": [ "You use a test martial art.", "%s enters a generic combat stance." ],
+    "allow_all_weapons": true,
+    "weapons": [ "test_weapon1" ],
+    "onmiss_buffs": [
+      {
+        "id": "test_buff_onmiss1",
+        "name": "Test OnMiss 1",
+        "description": "Test martial arts buff",
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "speed", "scale": 1.0 } ],
+        "weapon_categories_allowed": [ "TEST_CAT1", "BLADES" ]
+      },
+      {
+        "id": "test_buff_onmiss2",
+        "name": "Test OnMiss 2",
+        "description": "Test martial arts buff",
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "speed", "scale": 1.0 } ],
+        "weapon_categories_allowed": "KNIVES"
+      }
+    ],
+    "techniques": [ "test_technique" ],
+    "weapon_category": [ "TEST_CAT1" ]
+  }
+]

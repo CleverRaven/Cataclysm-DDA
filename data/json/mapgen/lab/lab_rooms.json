@@ -139,7 +139,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
         ".........",
@@ -267,7 +267,7 @@
         "........."
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": [ "t_centrifuge" ] }
+      "furniture": { "C": [ "f_centrifuge" ] }
     }
   },
   {
@@ -732,14 +732,14 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "A" ],
-      "terrain": {
+      "furniture": {
         "A": [
-          "t_machinery_heavy",
-          "t_machinery_heavy",
-          "t_machinery_electronic",
-          "t_machinery_light",
-          "t_centrifuge",
-          "t_console_broken"
+          "f_machinery_heavy",
+          "f_machinery_heavy",
+          "f_machinery_electronic",
+          "f_machinery_light",
+          "f_centrifuge",
+          "f_console_broken"
         ]
       }
     }
@@ -820,13 +820,13 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "b..|.|T.B",
-        "b..|.W..B",
+        "b..W.W..B",
         "..s|.|S..",
-        "-W--.----",
+        "----.----",
         ".........",
-        "----.--W-",
+        "----.----",
         "..s|.|s..",
-        "b..W.|...",
+        "b..W.W...",
         "b..|.|.bb"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
@@ -986,7 +986,11 @@
       ],
       "palettes": [ "lab_palette" ],
       "terrain": { "%": "t_thconc_floor" },
-      "furniture": { "%": "f_treadmill", "5": [ "f_ergometer", "f_exercise" ], "`": "f_canvas_floor" },
+      "furniture": {
+        "%": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "5": [ "f_ergometer", "f_ergometer_mechanical", "f_exercise" ],
+        "`": "f_canvas_floor"
+      },
       "items": {
         ".": { "item": "clutter_gym", "chance": 3 },
         "l": { "item": "locker_gym", "chance": 30 },
@@ -1077,7 +1081,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "a" ],
-      "terrain": { "a": "t_thconc_floor" },
       "furniture": { "a": "f_ash" },
       "item": { "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ] },
       "items": { "a": { "item": "science", "chance": 10 } }

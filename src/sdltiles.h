@@ -2,30 +2,48 @@
 #ifndef CATA_SRC_SDLTILES_H
 #define CATA_SRC_SDLTILES_H
 
-#include <array>
-#if defined(TILES)
-
-#include <string>
-#include <memory>
-
-#include "color_loader.h"
-#include "point.h"
-#include "sdl_wrappers.h"
-
-class cata_tiles;
+#include "point.h" // IWYU pragma: keep
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 
-extern SDL_Texture_Ptr alt_rect_tex;
-extern bool alt_rect_tex_enabled;
-extern std::unique_ptr<cata_tiles> tilecontext;
-extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
+#if defined(TILES)
 
-void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
-                    Uint32 r, Uint32 g, Uint32 b );
+#include <memory>
+#include <string>
+
+#include "color_loader.h"
+#include "coordinates.h"
+#include "sdl_wrappers.h"
+#include "string_id.h"
+
+#if defined(__APPLE__)
+// For TARGET_OS_IPHONE macro to test if is on iOS
+#include <TargetConditionals.h>
+#endif
+
+class cata_tiles;
+
+struct weather_type;
+
+using weather_type_id = string_id<weather_type>;
+
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+
+extern std::unique_ptr<cata_tiles> tilecontext;
+extern std::unique_ptr<cata_tiles> overmap_tilecontext;
+extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
+extern int fontheight;
+extern int fontwidth;
+
+// This function may refresh the screen, so it should not be used where tiles
+// may be displayed. Actually, this is supposed to be called from init.cpp,
+// and only from there.
 void load_tileset();
 void rescale_tileset( int size );
 bool save_screenshot( const std::string &file_path );
@@ -43,6 +61,10 @@ window_dimensions get_window_dimensions( const catacurses::window &win );
 // position and size. Unlike real catacurses::window, size can be zero.
 window_dimensions get_window_dimensions( const point &pos, const point &size );
 
+const SDL_Renderer_Ptr &get_sdl_renderer();
+
 #endif // TILES
 
+// Text level, valid only for a point relative to the window, not a point in overall space.
+bool window_contains_point_relative( const catacurses::window &win, const point &p );
 #endif // CATA_SRC_SDLTILES_H

@@ -1,7 +1,7 @@
 [
   {
     "type": "material",
-    "ident": "dks_blend_mat",
+    "id": "dks_blend_mat",
     "name": "Prismetallic Blend",
     "density": 30,
     "specific_heat_liquid": 0.79,
@@ -18,12 +18,11 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "dks_blend_scrap", 1 ] ],
-    "compacts_into": [ "dks_blend_scrap" ]
+    "burn_products": [ [ "dks_blend_scrap", 1 ] ]
   },
   {
     "type": "material",
-    "ident": "dks_weave_mat",
+    "id": "dks_weave_mat",
     "name": "Chromogenic Weave",
     "density": 2,
     "specific_heat_liquid": 1.7,
@@ -38,6 +37,7 @@
     "fire_resist": 2,
     "elec_resist": 2,
     "chip_resist": 7,
+    "breathability": "SECOND_SKIN",
     "repaired_with": "dks_weave_scrap",
     "salvaged_into": "dks_weave_scrap",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
@@ -51,7 +51,7 @@
   },
   {
     "type": "material",
-    "ident": "dks_biopoly_mat",
+    "id": "dks_biopoly_mat",
     "name": "Collagenic Polymer",
     "density": 8,
     "specific_heat_liquid": 1.6,
@@ -77,7 +77,7 @@
   },
   {
     "type": "material",
-    "ident": "dks_biogel_mat",
+    "id": "dks_biogel_mat",
     "name": "Emulsified Hydrogel",
     "density": 8,
     "specific_heat_liquid": 1.6,

@@ -2,11 +2,13 @@
 
 #include <cmath>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
+#include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -14,14 +16,16 @@
 #include "game.h"
 #include "map.h"
 #include "messages.h"
-#include "player.h"
 #include "point.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "viewer.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
+
+static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
@@ -30,68 +34,116 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         debugmsg( "ERROR: Function teleport::teleport called with invalid arguments." );
         return false;
     }
-    player *const p = critter.as_player();
-    const bool c_is_u = p != nullptr && p == &g->u;
     int tries = 0;
     tripoint origin = critter.pos();
     tripoint new_pos = origin;
-    //The teleportee is dimensionally anchored so nothing happens
-    if( p && ( p->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-               p->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
-        p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
-        return false;
-    }
+    map &here = get_map();
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
         new_pos.x = origin.x + rdistance * std::cos( rangle );
         new_pos.y = origin.y + rdistance * std::sin( rangle );
         tries++;
-    } while( g->m.impassable( new_pos ) && tries < 20 );
+    } while( here.impassable( new_pos ) && tries < 20 );
+    return teleport_to_point( critter, new_pos, safe, add_teleglow );
+}
+
+bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
+                                  bool add_teleglow, bool display_message )
+{
+    if( critter.pos() == target ) {
+        return false;
+    }
+    Character *const p = critter.as_character();
+    const bool c_is_u = p != nullptr && p->is_avatar();
+    map &here = get_map();
+    //The teleportee is dimensionally anchored so nothing happens
+    if( p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
+               p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
+        if( display_message ) {
+            p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
+        }
+        return false;
+    }
+    tripoint_abs_ms avatar_pos = get_avatar().get_location();
+    bool shifted = false;
+    if( !here.inbounds( target ) ) {
+        const tripoint_abs_ms abs_ms( here.getabs( target ) );
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
+        shifted = true;
+        target = here.getlocal( abs_ms );
+    }
     //handles teleporting into solids.
-    if( g->m.impassable( new_pos ) ) {
+    if( here.impassable( target ) ) {
         if( safe ) {
-            if( c_is_u ) {
+            if( c_is_u && display_message ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
+            }
+            if( shifted ) {
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
         }
         critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
         if( c_is_u ) {
-            g->events().send<event_type::teleports_into_wall>( p->getID(), g->m.obstacle_name( new_pos ) );
-            add_msg( m_bad, _( "You die after teleporting into a solid." ) );
+            get_event_bus().send<event_type::teleports_into_wall>( p->getID(), here.obstacle_name( target ) );
+            if( display_message ) {
+                add_msg( m_bad, _( "You die after teleporting into a solid." ) );
+            }
         }
         critter.check_dead_state();
 
     }
     //handles telefragging other creatures
-    if( Creature *const poor_soul = g->critter_at<Creature>( new_pos ) ) {
-        player *const poor_player = dynamic_cast<player *>( poor_soul );
-        if( safe ) {
-            if( c_is_u ) {
-                add_msg( m_bad, _( "You cannot teleport safely." ) );
+    int tfrag_attempts = 5;
+    while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
+        //Fail if we run out of telefrag attempts
+        if( tfrag_attempts-- < 1 ) {
+            if( p && display_message ) {
+                p->add_msg_player_or_npc( m_warning, _( "You flicker." ), _( "<npcname> flickers." ) );
+            } else if( get_player_view().sees( critter ) && display_message ) {
+                add_msg( _( "%1$s flickers." ), critter.disp_name() );
             }
             return false;
-        } else if( poor_player && ( poor_player->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-                                    poor_player->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
-            poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+        }
+        Character *const poor_player = dynamic_cast<Character *>( poor_soul );
+        if( safe ) {
+            if( c_is_u && display_message ) {
+                add_msg( m_bad, _( "You cannot teleport safely." ) );
+            }
+            if( shifted ) {
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+            }
+            return false;
+        } else if( poor_player && ( poor_player->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
+                                    poor_player->has_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
+            if( display_message ) {
+                poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+            }
+            if( shifted ) {
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+            }
             return false;
         } else {
-            const bool poor_soul_is_u = ( poor_soul == &g->u );
-            if( poor_soul_is_u ) {
+            const bool poor_soul_is_u = poor_soul->is_avatar();
+            if( poor_soul_is_u && display_message ) {
                 add_msg( m_bad, _( "…" ) );
                 add_msg( m_bad, _( "You explode into thousands of fragments." ) );
             }
             if( p ) {
-                p->add_msg_player_or_npc( m_warning,
-                                          _( "You teleport into %s, and they explode into thousands of fragments." ),
-                                          _( "<npcname> teleports into %s, and they explode into thousands of fragments." ),
-                                          poor_soul->disp_name() );
-                g->events().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
+                if( display_message ) {
+                    p->add_msg_player_or_npc( m_warning,
+                                              _( "You teleport into %s, and they explode into thousands of fragments." ),
+                                              _( "<npcname> teleports into %s, and they explode into thousands of fragments." ),
+                                              poor_soul->disp_name() );
+                }
+                get_event_bus().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
             } else {
-                if( g->u.sees( *poor_soul ) ) {
-                    add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
-                             critter.disp_name(), poor_soul->disp_name() );
+                if( get_player_view().sees( *poor_soul ) ) {
+                    if( display_message ) {
+                        add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
+                                 critter.disp_name(), poor_soul->disp_name() );
+                    }
                 }
             }
             //Splatter real nice.
@@ -99,10 +151,10 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
             poor_soul->check_dead_state();
         }
     }
-
-    critter.setpos( new_pos );
+    critter.setpos( target );
     //player and npc exclusive teleporting effects
     if( p ) {
+        g->place_player( p->pos() );
         if( add_teleglow ) {
             p->add_effect( effect_teleglow, 30_minutes );
         }

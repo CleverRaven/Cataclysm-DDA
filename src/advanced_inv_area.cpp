@@ -1,42 +1,46 @@
-#include <algorithm>
-#include <cassert>
-#include <cstring>
+#include <cstddef>
 #include <iterator>
+#include <list>
+#include <map>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <unordered_map>
 #include <utility>
 
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "avatar.h"
+#include "cata_assert.h"
+#include "character.h"
 #include "enums.h"
 #include "field.h"
 #include "field_type.h"
-#include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "map.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "pimpl.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 
 int advanced_inv_area::get_item_count() const
 {
+    Character &player_character = get_player_character();
     if( id == AIM_INVENTORY ) {
-        return g->u.inv.size();
+        return player_character.inv->size();
     } else if( id == AIM_WORN ) {
-        return g->u.worn.size();
+        return player_character.worn.size();
     } else if( id == AIM_ALL ) {
         return 0;
     } else if( id == AIM_DRAGGED ) {
@@ -60,13 +64,16 @@ advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint 
 
 void advanced_inv_area::init()
 {
-    pos = g->u.pos() + off;
+    avatar &player_character = get_avatar();
+    pos = player_character.pos() + off;
     veh = nullptr;
     vstor = -1;
     // must update in main function
     volume = 0_ml;
+    volume_veh = 0_ml;
     // must update in main function
     weight = 0_gram;
+    weight_veh = 0_gram;
     map &here = get_map();
     switch( id ) {
         case AIM_INVENTORY:
@@ -74,15 +81,15 @@ void advanced_inv_area::init()
             canputitemsloc = true;
             break;
         case AIM_DRAGGED:
-            if( g->u.get_grab_type() != object_type::VEHICLE ) {
+            if( player_character.get_grab_type() != object_type::VEHICLE ) {
                 canputitemsloc = false;
                 desc[0] = _( "Not dragging any vehicle!" );
                 break;
             }
             // offset for dragged vehicles is not statically initialized, so get it
-            off = g->u.grab_point;
+            off = player_character.grab_point;
             // Reset position because offset changed
-            pos = g->u.pos() + off;
+            pos = player_character.pos() + off;
             if( const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO",
                     false ) ) {
                 veh = &vp->vehicle();
@@ -107,7 +114,7 @@ void advanced_inv_area::init()
             // location always valid, actual check is done in canputitems()
             // and depends on selected item in pane (if it is valid container)
             canputitemsloc = true;
-            if( get_container() == nullptr ) {
+            if( !get_container() ) {
                 desc[0] = _( "Invalid container!" );
             }
             break;
@@ -151,7 +158,7 @@ void advanced_inv_area::init()
     // fields? with a special case for fire
     bool danger_field = false;
     const field &tmpfld = here.field_at( pos );
-    for( auto &fld : tmpfld ) {
+    for( const auto &fld : tmpfld ) {
         const field_entry &cur = fld.second;
         if( fld.first.obj().has_fire ) {
             flags.append( _( " <color_white_red>FIRE</color>" ) );
@@ -167,12 +174,13 @@ void advanced_inv_area::init()
 
     // trap?
     const trap &tr = here.tr_at( pos );
-    if( tr.can_see( pos, g->u ) && !tr.is_benign() ) {
+    if( tr.can_see( pos, player_character ) && !tr.is_benign() ) {
         flags.append( _( " TRAP" ) );
     }
 
     // water?
-    if( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos ) || here.has_flag_ter( TFLAG_DEEP_WATER, pos ) ) {
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ) {
         flags.append( _( " WATER" ) );
     }
 
@@ -185,9 +193,9 @@ void advanced_inv_area::init()
 units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
 {
     // should be a specific location instead
-    assert( id != AIM_ALL );
+    cata_assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
-        return g->u.free_space();
+        return get_player_character().free_space();
     }
     return in_vehicle ? veh->free_volume( vstor ) : get_map().free_volume( pos );
 }
@@ -210,20 +218,21 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
 {
     bool canputitems = false;
     bool from_vehicle = false;
-    item *it = nullptr;
     switch( id ) {
-        case AIM_CONTAINER:
+        case AIM_CONTAINER: {
+            item_location it;
             if( advitem != nullptr ) {
                 it = advitem->items.front();
                 from_vehicle = advitem->from_vehicle;
             }
-            if( get_container( from_vehicle ) != nullptr ) {
+            if( get_container( from_vehicle ) ) {
                 it = get_container( from_vehicle );
             }
-            if( it != nullptr ) {
-                canputitems = it->is_watertight_container();
+            if( it ) {
+                canputitems = true;
             }
             break;
+        }
         default:
             canputitems = canputitemsloc;
             break;
@@ -231,56 +240,63 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
     return canputitems;
 }
 
-item *advanced_inv_area::get_container( bool in_vehicle )
+item_location outfit::adv_inv_get_container( item_location container, const advanced_inv_area &area,
+        Character &guy )
 {
-    item *container = nullptr;
+    size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
+    if( worn.size() > idx ) {
+        auto iter = worn.begin();
+        std::advance( iter, idx );
+        if( area.is_container_valid( &*iter ) ) {
+            container = item_location( guy, &*iter );
+        }
+    }
 
+    // no need to reinvent the wheel
+    if( !container ) {
+        auto iter = worn.begin();
+        for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
+            if( area.is_container_valid( &*iter ) ) {
+                container = item_location( guy, &*iter );
+                uistate.adv_inv_container_index = i;
+                break;
+            }
+        }
+    }
+    return container;
+}
+
+item_location advanced_inv_area::get_container( bool in_vehicle )
+{
+    item_location container;
+
+    Character &player_character = get_player_character();
     if( uistate.adv_inv_container_location != -1 ) {
         // try to find valid container in the area
         if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
-            const invslice &stacks = g->u.inv.slice();
+            const invslice &stacks = player_character.inv->slice();
 
             // check index first
             if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
                 auto &it = stacks[uistate.adv_inv_container_index]->front();
                 if( is_container_valid( &it ) ) {
-                    container = &it;
+                    container = item_location( player_character, &it );
                 }
             }
 
             // try entire area
-            if( container == nullptr ) {
+            if( !container ) {
                 for( size_t x = 0; x < stacks.size(); ++x ) {
-                    auto &it = stacks[x]->front();
+                    item &it = stacks[x]->front();
                     if( is_container_valid( &it ) ) {
-                        container = &it;
+                        container = item_location( player_character, &it );
                         uistate.adv_inv_container_index = x;
                         break;
                     }
                 }
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
-            auto &worn = g->u.worn;
-            size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
-            if( worn.size() > idx ) {
-                auto iter = worn.begin();
-                std::advance( iter, idx );
-                if( is_container_valid( &*iter ) ) {
-                    container = &*iter;
-                }
-            }
-
-            // no need to reinvent the wheel
-            if( container == nullptr ) {
-                auto iter = worn.begin();
-                for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
-                    if( is_container_valid( &*iter ) ) {
-                        container = &*iter;
-                        uistate.adv_inv_container_index = i;
-                        break;
-                    }
-                }
-            }
+            container = player_character.worn.adv_inv_get_container( container, *this, player_character );
         } else {
             map &here = get_map();
             bool is_in_vehicle = veh &&
@@ -292,18 +308,26 @@ item *advanced_inv_area::get_container( bool in_vehicle )
 
             // check index first
             if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
-                auto it = stacks[uistate.adv_inv_container_index].front();
+                item *it = stacks[uistate.adv_inv_container_index].front();
                 if( is_container_valid( it ) ) {
-                    container = it;
+                    if( is_in_vehicle ) {
+                        container = item_location( vehicle_cursor( *veh, vstor ), it );
+                    } else {
+                        container = item_location( map_cursor( pos ), it );
+                    }
                 }
             }
 
             // try entire area
-            if( container == nullptr ) {
+            if( !container ) {
                 for( size_t x = 0; x < stacks.size(); ++x ) {
-                    auto it = stacks[x].front();
+                    item *it = stacks[x].front();
                     if( is_container_valid( it ) ) {
-                        container = it;
+                        if( is_in_vehicle ) {
+                            container = item_location( vehicle_cursor( *veh, vstor ), it );
+                        } else {
+                            container = item_location( map_cursor( pos ), it );
+                        }
                         uistate.adv_inv_container_index = x;
                         break;
                     }
@@ -312,7 +336,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
         }
 
         // no valid container in the area, resetting container
-        if( container == nullptr ) {
+        if( !container ) {
             set_container( nullptr );
             desc[0] = _( "Invalid container" );
         }
@@ -324,13 +348,13 @@ item *advanced_inv_area::get_container( bool in_vehicle )
 void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
 {
     if( advitem != nullptr ) {
-        item *it( advitem->items.front() );
+        const item_location &it = advitem->items.front();
         uistate.adv_inv_container_location = advitem->area;
         uistate.adv_inv_container_in_vehicle = advitem->from_vehicle;
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
-        uistate.adv_inv_container_content_type = !it->is_container_empty() ?
-                it->contents.legacy_front().typeId() : itype_id::NULL_ID();
+        uistate.adv_inv_container_content_type = !it->is_container_empty() ? it->legacy_front().typeId() :
+                itype_id::NULL_ID();
         set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;
@@ -350,7 +374,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
                     return true;
                 }
             } else {
-                if( it->contents.legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
+                if( it->legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
                     return true;
                 }
             }
@@ -385,14 +409,15 @@ static tripoint aim_vector( aim_location id )
 }
 void advanced_inv_area::set_container_position()
 {
+    avatar &player_character = get_avatar();
     // update the offset of the container based on location
     if( uistate.adv_inv_container_location == AIM_DRAGGED ) {
-        off = g->u.grab_point;
+        off = player_character.grab_point;
     } else {
         off = aim_vector( static_cast<aim_location>( uistate.adv_inv_container_location ) );
     }
     // update the absolute position
-    pos = g->u.pos() + off;
+    pos = player_character.pos() + off;
     // update vehicle information
     if( const cata::optional<vpart_reference> vp = get_map().veh_at( pos ).part_with_feature( "CARGO",
             false ) ) {
@@ -412,6 +437,20 @@ aim_location advanced_inv_area::offset_to_location() const
         {AIM_SOUTHWEST,     AIM_SOUTH,      AIM_SOUTHEAST}
     };
     return loc_array[off.y + 1][off.x + 1];
+}
+
+bool advanced_inv_area::can_store_in_vehicle() const
+{
+    // disallow for non-valid vehicle locations
+    if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
+        return false;
+    }
+    // Prevent AIM access to activated dishwasher, washing machine, or autoclave.
+    if( veh != nullptr && vstor >= 0 ) {
+        return !veh->part( vstor ).is_cleaner_on();
+    } else {
+        return false;
+    }
 }
 
 template <typename T>

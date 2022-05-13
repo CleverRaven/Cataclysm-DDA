@@ -1,11 +1,13 @@
 #include "live_view.h"
 
 #include <algorithm> // min & max
+#include <functional>
+#include <iosfwd>
 #include <memory>
+#include <string>
 
 #include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "game.h"
 #include "map.h"
 #include "options.h"
@@ -45,9 +47,9 @@ void live_view::show( const tripoint &p )
             const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
             const int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
 
-            const int max_height = TERMY / 2;
+            const int max_height = pixel_minimap_option ? TERMY / 2 : TERMY;
             const int line_limit = max_height - 2;
-            const visibility_variables &cache = g->m.get_visibility_variables_cache();
+            const visibility_variables &cache = get_map().get_visibility_variables_cache();
             int line_out = START_LINE;
             // HACK: using dummy window to get the window height without refreshing.
             win = catacurses::newwin( 1, width, point_zero );
@@ -60,11 +62,11 @@ void live_view::show( const tripoint &p )
         } );
         ui->on_redraw( [this]( const ui_adaptor & ) {
             werase( win );
-            const visibility_variables &cache = g->m.get_visibility_variables_cache();
+            const visibility_variables &cache = get_map().get_visibility_variables_cache();
             int line_out = START_LINE;
             g->pre_print_all_tile_info( mouse_position, win, line_out, getmaxy( win ) - 2, cache );
             draw_border( win );
-            center_print( win, 0, c_white, _( "< <color_green>Mouse View</color> >" ) );
+            center_print( win, 0, c_white, _( "< <color_green>Mouse view</color> >" ) );
             wnoutrefresh( win );
         } );
     }

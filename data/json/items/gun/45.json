@@ -4,8 +4,22 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "TDI Vector" },
-    "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
+    "//": [
+      "Yes, I know it's not really a glock smg.",
+      "It takes glock magazines, and it's own special one that I am also renaming to a glock magazine",
+      "so, I'm calling it a glock smg."
+    ],
+    "name": { "str": "Glock SMG" },
+    "description": "This is a submachine gun chambered in .45 ACP, accepting Glock magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "TDI",
+        "name": { "str": "Vector SMG .45" },
+        "description": "The Vector SMG is a delayed blowback submachine gun with a unique, in-line design that places both the shooter's hand and shoulder in line with the bore axis, reducing muzzle climb during bursts.  This one is chambered in .45 ACP.",
+        "weight": 1
+      }
+    ],
     "weight": "3100 g",
     "volume": "4248 ml",
     "longest_side": "611 mm",
@@ -27,7 +41,7 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
+      [ "grip mount", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
@@ -37,23 +51,26 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "tdi_mag" ]
-      }
-    ]
+    "default_mods": [ "folding_stock" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tdi_mag", "glock_21mag", "glock_21mag26" ] } ]
   },
   {
     "id": "hk_ump45",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "H&K UMP45" },
-    "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
+    "name": { "str": "UMP45 SMG" },
+    "description": "This is a submachine gun, chambered in .45 ACP, and accepting UMP45 magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hk_ump45",
+        "name": { "str": "H&K UMP45" },
+        "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
+        "weight": 1
+      }
+    ],
+    "ascii_picture": "hk_ump",
     "weight": "2300 g",
     "volume": "4451 ml",
     "longest_side": "452 mm",
@@ -87,24 +104,31 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "default_mods": [ "folding_stock" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ump45mag", "ump45_makeshiftmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ump45mag", "ump45_makeshiftmag" ] } ]
   },
   {
     "id": "m1911",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "M1911" },
-    "//": "You can get 'em for over US$1K if you want.  This is a fairly cheap remake.",
-    "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today.",
+    "name": { "str": "M1911 pistol" },
+    "description": "This is a semi-automatic pistol, chambered in .45 ACP and accepting M1911 magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1911",
+        "name": { "str": "M1911" },
+        "//": "You can get 'em for over US$1K if you want.  This is a fairly cheap remake.",
+        "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today.",
+        "weight": 1
+      },
+      {
+        "id": "m1911_MEU",
+        "name": { "str": "M45A1" },
+        "description": "The M45A1 supplanted earlier M45 MEUSOC pistols in use by Force Recon elements of Marine Expeditionary Units.  Where the original M45 pistols were gutted M1911A1's hand-fitted by USMC armorers, the updated M45A1's are hardly different from any other commercial 1911 design save for their dual recoil springs.  Most were replaced in 2016 with Glock 19's due to logistics issues."
+      }
+    ],
+    "ascii_picture": "m1911",
     "weight": "1120 g",
     "volume": "454 ml",
     "longest_side": "245 mm",
@@ -118,39 +142,27 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 540,
+    "min_cycle_recoil": 450,
     "blackpowder_tolerance": 48,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "m1911mag", "m1911bigmag" ]
-      }
-    ]
-  },
-  {
-    "id": "m1911_MEU",
-    "copy-from": "m1911",
-    "looks_like": "glock_17",
-    "type": "GUN",
-    "name": { "str": "M45A1" },
-    "description": "The M45A1 supplanted earlier M45 MEUSOC pistols in use by Force Recon elements of Marine Expeditionary Units.  Where the original M45 pistols were gutted M1911A1's hand-fitted by USMC armorers, the updated M45A1's are hardly different from any other commercial 1911 design save for their dual recoil springs.  Most were replaced in 2016 with Glock 19's due to logistics issues.",
-    "weight": "1105 g",
-    "price": 169900,
-    "price_postapoc": 2750,
-    "color": "brown_yellow",
-    "dispersion": 420,
-    "durability": 8
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ]
   },
   {
     "id": "mac_10",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "MAC-10" },
-    "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years they were the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
+    "name": { "str": "MAC-10 SMG" },
+    "description": "This is a submachine gun chambered in .45 ACP, and accepting MAC-10 magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mac_10",
+        "name": { "str": "MAC-10" },
+        "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years they were the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
+        "weight": 1
+      }
+    ],
     "weight": "2810 g",
     "volume": "1195 ml",
     "longest_side": "298 mm",
@@ -183,15 +195,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mac10mag", "smg_45_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac10mag", "smg_45_mag" ] } ]
   },
   {
     "id": "rifle_45",
@@ -200,8 +204,10 @@
     "reload_noise_volume": 10,
     "name": { "str": "pipe rifle: .45", "str_pl": "pipe rifles: .45" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "ascii_picture": "ps_pipe_gun",
     "weight": "2114 g",
     "volume": "2 L",
+    "longest_side": "100 cm",
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -218,7 +224,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -231,7 +237,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 1 } } ]
   },
   {
     "id": "smg_45",
@@ -241,8 +247,9 @@
     "name": { "str": "Luty SMG: .45", "str_pl": "Luty SMGs: .45" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
-    "weight": "3274 g",
-    "volume": "1750 ml",
+    "weight": "3520 g",
+    "volume": "1110 ml",
+    "longest_side": "538 mm",
     "price": 20000,
     "price_postapoc": 1500,
     "to_hit": -1,
@@ -257,7 +264,7 @@
     "min_cycle_recoil": 456,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -271,15 +278,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "smg_45_mag", "mac10mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_45_mag", "mac10mag" ] } ]
   },
   {
     "id": "surv_hand_cannon",
@@ -291,6 +290,7 @@
     "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
     "weight": "1200 g",
     "volume": "1 L",
+    "longest_side": "30 cm",
     "price": 60000,
     "price_postapoc": 750,
     "to_hit": -3,
@@ -305,15 +305,24 @@
     "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 5,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 5 } } ]
   },
   {
     "id": "tommygun",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Thompson M1928A1" },
-    "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-expensive alternatives.",
+    "name": { "str": "Thompson SMG" },
+    "description": "This is a submachine gun chambered in .45 ACP, and accepting Thompson magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "tommygun",
+        "name": { "str": "Thompson M1928A1" },
+        "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-expensive alternatives.",
+        "weight": 1
+      }
+    ],
     "weight": "4899 g",
     "volume": "1230 ml",
     "longest_side": "832 mm",
@@ -331,7 +340,7 @@
     "durability": 7,
     "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -344,15 +353,13 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ]
       }
     ]
@@ -361,44 +368,49 @@
     "id": "usp_45",
     "copy-from": "usp_9mm",
     "type": "GUN",
-    "name": { "str": "USP .45" },
+    "name": { "str": "USP pistol" },
+    "description": "A semi-automatic pistol chambered in .45 ACP, and accepting USP magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "usp_45",
+        "name": { "str": "USP .45" },
+        "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
+        "weight": 1
+      },
+      {
+        "id": "mk23",
+        "name": { "str": "MK 23 MOD 0" },
+        "description": "Jokingly referred to as \"The World's Only Crew-Served Pistol\", this massive pistol was designed as a primary weapon for select \"special operators\".  Its cumbersome nature, the introduction of the derivative HK USP series and the logistics of getting .45 ACP ammunition in theater doomed this behemoth to US SOCOM armories.  Like the USP, the MK 23 is a remarkably reliable gun; someone could probably take out a nuclear equipped walking tank with this in their holster."
+      }
+    ],
     "weight": "887 g",
     "volume": "483 ml",
     "longest_side": "241 mm",
     "ammo": [ "45" ],
+    "price": 70000,
     "price_postapoc": 2500,
-    "ranged_damage": 0,
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "match_trigger" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "usp45mag" ]
-      }
-    ]
-  },
-  {
-    "id": "mk23",
-    "copy-from": "usp_45",
-    "type": "GUN",
-    "name": { "str": "MK 23 MOD 0" },
-    "description": "Jokingly referred to as \"The World's Only Crew-Served Pistol\", this massive pistol was designed as a primary weapon for select \"special operators\".  Its cumbersome nature, the introduction of the derivative HK USP series and the logistics of getting .45 ACP ammunition in theater doomed this behemoth to US SOCOM armories.  Like the USP, the Mk 23 is a remarkably reliable gun; someone could probably take out a nuclear equipped walking tank with this in their holster.",
-    "weight": "844 g",
-    "volume": "698 ml",
-    "longest_side": "277 mm",
-    "price_postapoc": 3000,
-    "default_mods": [ "suppressor", "laser_sight" ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usp45mag" ] } ]
   },
   {
     "id": "walther_ppq_45",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Walther PPQ 45" },
-    "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .45 ACP.",
+    "name": { "str": "PPQ pistol" },
+    "description": "This is a semi-automatic pistol chambered in .45 ACP, and accepting PPQ magazines",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "walther_ppq_45",
+        "name": { "str": "Walther PPQ 45" },
+        "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .45 ACP.",
+        "weight": 1
+      }
+    ],
     "weight": "799 g",
     "volume": "472 ml",
     "longest_side": "224 mm",
@@ -410,23 +422,26 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 9,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ppq45mag" ]
-      }
-    ]
+    "min_cycle_recoil": 540,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "240 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppq45mag" ] } ]
   },
   {
     "id": "hptjhp",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Hi-Point Model JHP" },
-    "description": "The Hi-Point Model JHP is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
+    "name": { "str": "Hi-Point pistol" },
+    "description": "This is a semi-automatic pistol chambered in .45 ACP, and accepting Hi-Point magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hptjhp",
+        "name": { "str": "Hi-Point Model JHP" },
+        "description": "The Hi-Point Model JHP is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
+        "weight": 1
+      }
+    ],
     "weight": "990 g",
     "volume": "538 ml",
     "longest_side": "238 mm",
@@ -439,14 +454,44 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 7,
-    "pocket_data": [
+    "min_cycle_recoil": 540,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "353 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjhpmag" ] } ]
+  },
+  {
+    "id": "glock_21",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "Glock pistol" },
+    "description": "This is a semi-automatic pistol chambered in .45 ACP, and accepting Glock magazines.",
+    "variant_type": "gun",
+    "variants": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "hptjhpmag" ]
+        "id": "glock_21",
+        "name": { "str": "Glock 21" },
+        "description": "A full-sized version of the highly successful Glock.  This model is chambered in .45 ACP.",
+        "weight": 1
       }
+    ],
+    "ascii_picture": "glock_20",
+    "weight": "835 g",
+    "volume": "490 ml",
+    "longest_side": "209 mm",
+    "price": 60200,
+    "price_postapoc": 2600,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "45" ],
+    "dispersion": 480,
+    "durability": 8,
+    "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 450,
+    "pocket_data": [
+      { "magazine_well": "107 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_21mag", "glock_21mag26" ] }
     ]
   }
 ]

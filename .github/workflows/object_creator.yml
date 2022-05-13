@@ -1,0 +1,107 @@
+name: ObjectCreator Windows build
+
+on:
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'data/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'tests/**'
+    - 'tools/**'
+    - 'utilities/**'
+  pull_request:
+    branches:
+    - master
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'data/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'src/**'
+    - '!src/messages.*'
+    - 'tests/**'
+    - 'tools/**'
+    - 'utilities/**'
+
+# We only care about the latest revision of a PR, so cancel all previous instances.
+concurrency:
+  group: object-creator-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  # There's not enough disk space to build both release and debug versions of
+  # our dependencies, so we hack the triplet file to build only release versions
+  # Have to use github.workspace because runner namespace isn't available yet.
+  VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
+  ZSTD_CLEVEL: 17
+
+jobs:
+  build_object_creator:
+    name: Build
+    runs-on: windows-2019
+ 
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore artifacts, or run vcpkg, build and cache artifacts
+      uses: lukka/run-vcpkg@v10.2
+      id: runvcpkg
+      with:
+        # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
+        # That said, we also have our custom vcpkg_triplets to hash, so we keep everything the same.
+        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', 'msvc-object_creator/vcpkg.json',  '.github/vcpkg_triplets/**' ) }}-x64
+        vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+        # We have to use at least this version of vcpkg to include fixes for yasm-tool's
+        # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
+        # field in vcpkg.json. Caching happens as a post-action which runs at the end of
+        # the whole workflow, after vcpkg install happens during msbuild run.
+        vcpkgGitCommitId: 'bd1ef2df46303989eeb048eb7aa9b816aa46365e'
+
+    - name: Integrate vcpkg
+      run: |
+        vcpkg integrate install
+
+    - name: Build
+      run: |
+          cd msvc-object_creator
+          msbuild -m -p:Configuration=Release -p:Platform=x64 ObjectCreator-vcpkg-static.sln
+
+    - name: Dump logs if build failed
+      if: failure()
+      run: |
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-object_creator/vcpkg_installed" -Recurse
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
+        Foreach-Object {
+            Get-ChildItem $_.FullName -Filter *.log |
+            Foreach-Object {
+              echo =================================================
+              echo $_.FullName
+              echo =================================================
+              type $_.FullName
+            }
+        }
+
+    - name: Clean
+      run: |
+          Get-ChildItem -Path Cataclysm-lib-vcpkg-static-Release-x64.*,ObjectCreator-vcpkg-static-Release-x64.* | Foreach-Object { rm $_.FullName }

@@ -19,15 +19,9 @@
     "ammo": [ "357sig" ],
     "dispersion": 480,
     "durability": 7,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p226mag_12rd_357sig" ]
-      }
-    ]
+    "min_cycle_recoil": 540,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p226mag_12rd_357sig" ] } ]
   },
   {
     "id": "glock_31",
@@ -35,20 +29,14 @@
     "type": "GUN",
     "name": { "str": "Glock 31" },
     "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
+    "ascii_picture": "glock_20",
     "weight": "660 g",
     "volume": "443 ml",
     "longest_side": "234 mm",
     "price_postapoc": 2250,
+    "min_cycle_recoil": 450,
     "ammo": [ "357sig" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock40mag", "glock40bigmag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock40mag", "glock40bigmag" ] } ]
   },
   {
     "id": "p320_357sig",
@@ -57,6 +45,7 @@
     "type": "GUN",
     "name": { "str": "SIG P320 Compact" },
     "description": "The P320 Compact is a semi-automatic, short recoil operated pistol.  This one is chambered for .357 SIG.",
+    "ascii_picture": "sig_p320",
     "weight": "731 g",
     "volume": "462 ml",
     "longest_side": "217 mm",
@@ -69,14 +58,8 @@
     "ammo": [ "357sig" ],
     "dispersion": 480,
     "durability": 6,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p320mag_13rd_357sig" ]
-      }
-    ]
+    "min_cycle_recoil": 540,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p320mag_13rd_357sig" ] } ]
   }
 ]

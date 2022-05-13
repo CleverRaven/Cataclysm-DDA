@@ -116,16 +116,16 @@ void bonus_container::load( const JsonObject &jo )
 
 void bonus_container::load( const JsonArray &jarr, const bool mult )
 {
-    for( const JsonObject &qualifiers : jarr ) {
+    for( const JsonObject qualifiers : jarr ) {
         const affected_stat as = affected_stat_from_string( qualifiers.get_string( "stat" ) );
         if( as == affected_stat::NONE ) {
             qualifiers.throw_error( "Invalid affected stat", "stat" );
         }
 
-        damage_type dt = DT_NULL;
+        damage_type dt = damage_type::NONE;
         if( needs_damage_type( as ) ) {
-            dt = dt_by_name( qualifiers.get_string( "type" ) );
-            if( dt == DT_NULL ) {
+            qualifiers.read( "type", dt );
+            if( dt == damage_type::NONE ) {
                 qualifiers.throw_error( "Invalid damage type", "type" );
             }
         }
@@ -148,7 +148,7 @@ affected_type::affected_type( affected_stat s, damage_type t )
     if( needs_damage_type( s ) ) {
         type = t;
     } else {
-        type = DT_NULL;
+        type = damage_type::NONE;
     }
 }
 
@@ -179,7 +179,7 @@ float bonus_container::get_flat( const Character &u, affected_stat stat, damage_
 }
 float bonus_container::get_flat( const Character &u, affected_stat stat ) const
 {
-    return get_flat( u, stat, DT_NULL );
+    return get_flat( u, stat, damage_type::NONE );
 }
 
 float bonus_container::get_mult( const Character &u, affected_stat stat, damage_type dt ) const
@@ -200,7 +200,7 @@ float bonus_container::get_mult( const Character &u, affected_stat stat, damage_
 }
 float bonus_container::get_mult( const Character &u, affected_stat stat ) const
 {
-    return get_mult( u, stat, DT_NULL );
+    return get_mult( u, stat, damage_type::NONE );
 }
 
 std::string bonus_container::get_description() const

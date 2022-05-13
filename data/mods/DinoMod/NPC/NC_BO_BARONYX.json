@@ -41,7 +41,7 @@
       "type": "dialogue",
       "context": "first_meeting",
       "value": "yes",
-      "no": "You look hungry friend.  So much hunger in this world. This is the time of the eaters.",
+      "no": "You look hungry friend.  So much hunger in this world.  This is the time of the eaters.",
       "yes": {
         "u_has_var": "asked_about_eating",
         "type": "dialogue",
@@ -126,7 +126,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_END",
-    "dynamic_line": "The return of the great eaters was fortold by a prophet.  We faithful have been waiting and preparing since the revelation.",
+    "dynamic_line": "The return of the great eaters was foretold by a prophet.  We faithful have been waiting and preparing since the revelation.",
     "responses": [
       { "text": "I guess it must be nice to be proven right.", "topic": "TALK_SWAMPER_JOIN" },
       { "text": "This is crazy.", "topic": "TALK_SWAMPER_INSULT" }
@@ -141,7 +141,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_INSULT",
-    "dynamic_line": "You deny what you see right in front of you.  This world is what was fortold.",
+    "dynamic_line": "You deny what you see right in front of you.  This world is what was foretold.",
     "responses": [ { "text": "Yeah, alright.", "topic": "TALK_SWAMPER" } ]
   },
   {
@@ -154,7 +154,12 @@
     "item": "meat",
     "count": 8,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "end": { "effect": [ { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" } ] },
+    "end": {
+      "effect": [
+        { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" },
+        { "u_buy_monster": "mon_eoraptor", "count": 1, "name": "Bamm-Bamm" }
+      ]
+    },
     "dialogue": {
       "describe": "The eaters are hungry.  They need meat",
       "offer": "If you wish to feed the eaters, your work will be rewarded.  Go out, butcher a pure animal.  Not a false eater, the meat must be good to eat.  Then bring me the meat and I will see to the eaters.",
@@ -162,7 +167,7 @@
       "rejected": "Understood.  The great eaters will feed either way.",
       "advice": "Some of the animals have become touched by the pretenders in recent days, larger and more dangerous, producing tainted mutant meat.  This will not work for the great eaters, it must be the true meat.",
       "inquire": "Have you brought meat?",
-      "success": "The eaters will feed.",
+      "success": "The eaters will feed.  Oh, this one seems to like you.",
       "success_lie": "The eaters will feed I am sure.",
       "failure": "I see no meat.  There is meat in the forests and swamps waiting for the eaters."
     }
@@ -219,7 +224,7 @@
   {
     "id": "TALK_MISSION_ACCEPTED_SWAMPER",
     "type": "talk_topic",
-    "dynamic_line": "Excellent. Make it happen.",
+    "dynamic_line": "Excellent.  Make it happen.",
     "responses": [
       { "text": "Consider it done.  But I also wanted to ask…", "topic": "TALK_SWAMPER" },
       { "text": "Where should I start?", "topic": "TALK_MISSION_ADVICE_SWAMPER" },
@@ -269,7 +274,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_PRETENDER",
-    "dynamic_line": "It was fortold that as the great eaters returned, so too would the pretenders, who would come to steal the meat.  Very little is asked of us, except that we do all we can to ensure that the true great eaters received as much meat as possible and the pretenders go hungry.",
+    "dynamic_line": "It was foretold that as the great eaters returned, so too would the pretenders, who would come to steal the meat.  Very little is asked of us, except that we do all we can to ensure that the true great eaters received as much meat as possible and the pretenders go hungry.",
     "responses": [
       { "text": "Yes CEO Baronyx, very good CEO Baronyx.", "topic": "TALK_NONE" },
       { "text": "This makes no sense and I'm done talking about it.", "topic": "TALK_DONE" }

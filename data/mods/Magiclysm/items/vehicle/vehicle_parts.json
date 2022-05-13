@@ -1,0 +1,14 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "v2_combustion_magic",
+    "name": "magic v-twin combustion engine",
+    "symbol": "v",
+    "description": "A magically manifested combustion engine.  Despite operating entirely off of mana rather than normal fuel, it otherwise functions exactly as a conventional internal combustion engine.",
+    "volume": "2 L",
+    "weight": "10 kg",
+    "color": "yellow",
+    "material": [ "steel" ],
+    "price": 800000
+  }
+]

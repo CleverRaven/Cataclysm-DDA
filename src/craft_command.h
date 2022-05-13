@@ -2,19 +2,20 @@
 #ifndef CATA_SRC_CRAFT_COMMAND_H
 #define CATA_SRC_CRAFT_COMMAND_H
 
-#include <string>
+#include <iosfwd>
+#include <new>
 #include <vector>
 
+#include "optional.h"
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "type_id.h"
 
-class JsonIn;
+class Character;
 class JsonOut;
-class inventory;
 class item;
-class player;
+class read_only_visitable;
 template<typename T> struct enum_traits;
 
 /**
@@ -32,13 +33,8 @@ enum class usage_from : int {
 template<>
 struct enum_traits<usage_from> {
     static constexpr usage_from last = usage_from::num_usages_from;
+    static constexpr bool is_flag_enum = true;
 };
-
-inline bool operator&( usage_from l, usage_from r )
-{
-    using I = std::underlying_type_t<usage_from>;
-    return static_cast<I>( l ) & static_cast<I>( r );
-}
 
 /**
 *   Struct that represents a selection of a component for crafting.
@@ -53,7 +49,7 @@ struct comp_selection {
     std::string nname() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 /**
@@ -66,12 +62,17 @@ class craft_command
     public:
         /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() = default;
-        craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter,
-                       const tripoint &loc = tripoint_zero ) :
+        craft_command( const recipe *to_make, int batch_size, bool is_long, Character *crafter,
+                       const cata::optional<tripoint> &loc ) :
             rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
 
-        /** Selects components to use for the craft, then assigns the crafting activity to 'crafter'. */
-        void execute( const tripoint &new_loc = tripoint_zero );
+        /**
+         * Selects components to use for the craft, then assigns the crafting activity to 'crafter'.
+         * Executes with supplied location, cata::nullopt means crafting from inventory.
+         */
+        void execute( const cata::optional<tripoint> &new_loc );
+        /** Executes with saved location, NOT the same as execute( cata::nullopt )! */
+        void execute( bool only_cache_comps = false );
 
         /**
          * Consumes the selected components and returns the resulting in progress craft item.
@@ -92,6 +93,10 @@ class craft_command
         }
         skill_id get_skill_id();
 
+        bool continue_prompt_liquids( const std::function<bool( const item & )> &filter,
+                                      bool no_prompt = false );
+        static bool safe_to_unload_comp( const item &it );
+
     private:
         const recipe *rec = nullptr;
         int batch_size = 0;
@@ -101,23 +106,23 @@ class craft_command
         */
         bool longcraft = false;
         // This is mainly here for maintainability reasons.
-        player *crafter;
+        Character *crafter;
 
         recipe_filter_flags flags = recipe_filter_flags::none;
 
         // Location of the workbench to place the item on
         // zero_tripoint indicates crafting without a workbench
-        tripoint loc = tripoint_zero;
+        cata::optional<tripoint> loc;
 
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;
 
         /** Checks if tools we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<item_comp>> check_item_components_missing(
-                                                const inventory &map_inv ) const;
+                                                const read_only_visitable &map_inv ) const;
         /** Checks if items we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<tool_comp>> check_tool_components_missing(
-                                                const inventory &map_inv ) const;
+                                                const read_only_visitable &map_inv ) const;
 
         /** Creates a continue pop up asking to continue crafting and listing the missing components */
         bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,

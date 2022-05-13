@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGRS_MIGO_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Antes do Cataclisma eu era o cientista que encabeçava um laboratório militar no meu país.  Foram dias difíceis…",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGRS_MIGO_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_MIGO_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Nós estávamos pesquisando um remédio que curasse um virus altamente letal na época, mas os resultados dos testes mostravam que o remédio era mais letal do que o próprio virus.  Então, ao invés de recolherem os remédios das prateleiras, eles nos forçaram a vendê-lo como sendo a cura para o vírus.",
+    "responses": [
+      { "text": "Ummm?", "topic": "BGRS_MIGO_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_MIGO_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Bem… aqueles sem cérebro seguiram cegamente o líder.  Quanto àqueles com algum cérebro… bom, acho que você está conversando com um deles agora",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]
