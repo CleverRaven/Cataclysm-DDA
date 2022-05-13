@@ -773,7 +773,7 @@
         "c": "f_chair",
         "l": "f_locker",
         "t": "f_table",
-        "{": "f_rack",
+        "{": "f_rack_wood",
         "%": "f_sink",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
       },
