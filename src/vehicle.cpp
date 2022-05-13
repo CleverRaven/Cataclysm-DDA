@@ -264,7 +264,7 @@ units::volume vehicle_stack::max_volume() const
 
 // Vehicle class methods.
 
-vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
+vehicle::vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel,
                   int init_veh_status ): type( type_id )
 {
     turn_dir = 0_degrees;
@@ -280,13 +280,13 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         // The game language may have changed after the blueprint was created,
         // so translated the prototype name again.
         name = proto.name.translated();
-        init_state( init_veh_fuel, init_veh_status );
+        init_state( placed_on, init_veh_fuel, init_veh_status );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     refresh();
 }
 
-vehicle::vehicle() : vehicle( vproto_id() )
+vehicle::vehicle() : vehicle( get_map(), vproto_id() )
 {
     sm_pos = tripoint_zero;
 }
@@ -332,7 +332,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( int init_veh_fuel, int init_veh_status )
+void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status )
 {
     // vehicle parts excluding engines are by default turned off
     for( vehicle_part &pt : parts ) {
@@ -628,15 +628,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
     // Additional 50% chance for heavy damage to disabled vehicles
     if( veh_status == 1 && one_in( 2 ) ) {
-        if( get_map().inbounds( global_square_location() ) ) {
-            // Currently in map bounds - use current map
-            smash( get_map(), 0.5 );
-        } else {
-            // Out of bounds - load separate map
-            tinymap tm;
-            tm.load( project_to<coords::sm>( global_square_location() ), false );
-            smash( tm, 0.5 );
-        }
+        smash( placed_on, 0.5 );
     }
 
     for( size_t i = 0; i < engines.size(); i++ ) {
