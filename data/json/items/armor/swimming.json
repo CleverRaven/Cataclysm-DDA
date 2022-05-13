@@ -775,7 +775,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of swimming gloves", "str_pl": "pairs of swimming gloves" },
     "description": "A pair of very flexible neoprene-silicone rubber gloves, suitable for underwater use.",
-    "weight": "70 g",
+    "weight": "80 g",
     "volume": "500 ml",
     "price": 3000,
     "price_postapoc": 100,
