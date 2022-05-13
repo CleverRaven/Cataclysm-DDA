@@ -123,7 +123,7 @@ Case use example:
 ```json
 {
 "type":"npc",
-(snip)
+"...": "rest of fields go here",
 "<acknowledged>": "I gotcha fam",
 "camp_food_thanks>": "<food_thanks_custom>"
 },
