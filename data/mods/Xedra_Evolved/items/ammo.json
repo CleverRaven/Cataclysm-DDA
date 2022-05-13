@@ -26,7 +26,7 @@
     "category": "spare_parts",
     "price": 150,
     "price_postapoc": 50,
-    "name": { "str": "moon tear chain links" },
+    "name": { "str_sp": "moon tear chain links" },
     "symbol": "=",
     "color": "light_gray",
     "description": "Small metal rings, suitable for constructing chainmail, made from moon tears.",
