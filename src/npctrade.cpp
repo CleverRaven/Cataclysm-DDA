@@ -202,7 +202,7 @@ int npc_trading::trading_price( Character const &buyer, Character const &seller,
                 return VisitResponse::SKIP;
             }
         }
-        if( price <= 10 ) {
+        if( price < 10 ) {
             // Make sure nothing is sold for free
             ret += 10;
         }
