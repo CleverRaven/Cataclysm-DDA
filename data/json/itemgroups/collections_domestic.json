@@ -1187,5 +1187,22 @@
       [ "fencing_epee", 20 ],
       [ "fencing_mask", 20 ]
     ]
+  },
+  {
+    "id": "hoarder",
+    "//": "Items that might be found scattered around the home of a hoarder.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "trash", "prob": 100 },
+      { "group": "cleaning", "prob": 20 },
+      { "group": "dishes_dining", "prob": 20 },
+      { "group": "dishes_utility", "prob": 10 },
+      { "group": "child_items", "prob": 10 },
+      { "group": "SUS_bathroom_sink", "prob": 10 },
+      { "group": "bed", "prob": 10 },
+      { "group": "games", "prob": 5 },
+      { "group": "SUS_junk_drawer", "prob": 1 }
+    ]
   }
 ]

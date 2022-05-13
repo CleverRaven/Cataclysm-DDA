@@ -210,6 +210,69 @@
     }
   },
   {
+    "method": "json",
+    "om_terrain": "house_23",
+    "//": "hoarder variant",
+    "type": "mapgen",
+    "weight": 5,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "......[.......p.........",
+        "...........[...`........",
+        "````````````````........",
+        "`%.....jj......`........",
+        "`.##oo####oo#$$/$##o##..",
+        "`.#T!~!~s~!~#G  y#123#..",
+        "`%#H!~!!H!~!###*o#J!4#..",
+        "`.oH~l~!H!!~!E|~!|J~O#..",
+        "`.oH!~!~H~!!~s|!~|J~fo..",
+        "`.#!~!!~~!!!~E|!~|J!no..",
+        "`.#yxxx!~!!!~~!!~~!~7#..",
+        "`.#||||!!hh!!~!~!!~~Y#..",
+        "`.#S__+~fffh~!~!~!~!6#..",
+        "`.#98t|!h!h!Ty~RR!~Y6#..",
+        "`.#####*###|||+||+|||#..",
+        "`.Ŧ=.??``^#db~~T|!~dD#^.",
+        "``ɤ``````?o~!~!I|!!~~o..",
+        "..Ŧ.?=..=?o@@~hI|!~!yo..",
+        "..Ŧ?==.?==o@@!~!|@~~Eo..",
+        "..Ŧ=??=??=#s!~ED|@I!T#..",
+        "..ŦŦŦŦŦŦŦŦ##ooo###oo##..",
+        "...........%%%...%.%.%..",
+        "...............[........",
+        "........................"
+      ],
+      "palettes": [ "house_hoarder_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "`": "t_concrete",
+        "#": "t_rock_wall",
+        "Q": "t_linoleum_white",
+        "8": "t_linoleum_white",
+        "9": "t_linoleum_white",
+        "B": "t_linoleum_white",
+        "S": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "$": "t_screened_porch_wall",
+        "/": "t_screen_door_c",
+        "ɤ": "t_concrete"
+      },
+      "place_item": [ 
+        { "item": "stereo", "x": 4, "y": 10, "chance": 100 },
+        { "item": "television", "x": 5, "y": 10, "chance": 100 },
+        { "item": "feces_dog", "x": [ 3, 21 ], "y": [ 5, 19 ], "chance": 15, "repeat": [ 5, 10 ] },
+        { "item": "feces_roach", "x": [ 3, 21 ], "y": [ 5, 19 ], "chance": 20, "repeat": [ 4, 8 ] }
+      ],
+      "place_monster": [
+        { "monster": "mon_large_cockroach", "x": [ 3, 21 ], "y": [ 5, 19 ], "chance": 100, "repeat": 8 },
+        { "monster": "mon_giant_cockroach", "x": [ 3, 21 ], "y": [ 5, 19 ], "chance": 50, "repeat": 2 },
+        { "monster": "mon_plague_vector", "x": [ 3, 21 ], "y": [ 5, 19 ], "chance": 20}
+      ]
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_23_roof",
