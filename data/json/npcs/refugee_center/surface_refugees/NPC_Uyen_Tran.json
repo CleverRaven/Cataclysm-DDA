@@ -110,8 +110,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_1a",
-    "dynamic_line": {
-      "and": [
+    "dynamic_line": { "concatenate": [
         [
           "*smiles and brushes her hair out of her eyes.  \"",
           "*looks you up and down with a faint smile.  \"",
@@ -160,8 +159,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_Situation",
-    "dynamic_line": {
-      "and": [
+    "dynamic_line": { "concatenate": [
         "\"We've got it okay, I guess",
         {
           "u_compare_var": "refugee_happiness",

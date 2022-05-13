@@ -101,8 +101,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Aleesha_1a",
-    "dynamic_line": {
-      "and": [
+    "dynamic_line": { "concatenate": [
         "*doesn't quite meet your gaze as you approach.  \"",
         [
           "Hey there.",

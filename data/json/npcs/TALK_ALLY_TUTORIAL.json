@@ -68,8 +68,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL_RADIO",
     "type": "talk_topic",
-    "dynamic_line": {
-      "and": [
+    "dynamic_line": { "concatenate": [
         {
           "is_by_radio": "Are you making a joke?  We're using two-way radios to talk right now.\n  Whatever, I'll go over it again in case you forgot.\n"
         },
@@ -114,8 +113,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL_MEDIC",
     "type": "talk_topic",
-    "dynamic_line": {
-      "and": [
+    "dynamic_line": { "concatenate": [
         {
           "npc_has_trait": "PROF_MED",
           "yes": "Hey, I'm a doctor!  I know how to treat trauma.  You give me some bandages or a bottle of antiseptic, I'm get you fixed when I see you hurting.",

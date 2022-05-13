@@ -117,8 +117,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_1a",
-    "dynamic_line": {
-      "and": [
+    "dynamic_line": { "concatenate": [
         "*futilely dusts a bit of grime on her coveralls, then looks at you.  \"",
         [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
         "\""

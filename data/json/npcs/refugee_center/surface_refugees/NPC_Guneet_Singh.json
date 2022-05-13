@@ -104,8 +104,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_1a",
-    "dynamic_line": {
-      "and": [
+    "dynamic_line": { "concatenate": [
         "*turns away from the window, noticing you coming close.  \"",
         [ "Hey there.", "Hi.", "Hey again.", "Oh, hi." ],
         "\""
@@ -165,8 +164,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_Situation",
-    "dynamic_line": {
-      "and": [
+    "dynamic_line": { "concatenate": [
         "It sucks in here, there's no two ways about it",
         {
           "u_compare_var": "refugee_happiness",
