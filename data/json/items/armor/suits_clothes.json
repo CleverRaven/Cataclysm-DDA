@@ -5,7 +5,7 @@
     "type": "ARMOR",
     "name": { "str": "bondage suit" },
     "description": "A suit of snug, black leather.  Has no pockets, but does feature an abundance of unusually located zippers.",
-    "weight": "1800 g",
+    "weight": "1000 g",
     "volume": "3250 ml",
     "price": 211000,
     "price_postapoc": 50,
