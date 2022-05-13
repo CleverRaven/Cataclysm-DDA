@@ -326,7 +326,7 @@
       {
         "id": "skull_rashguard_shirt",
         "name": { "str": "skull rashguard shirt" },
-        "description": "It's colored black and with a big skull on the front and back.  It makes you look tough.",
+        "description": "It's colored black and has a big skull on the front and back.  It makes you look tough.",
         "weight": 2,
         "append": true
       },

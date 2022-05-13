@@ -74,7 +74,10 @@
     "autolearn": true,
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "sewing_standard", 12 ], [ "tailoring_fur_small", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.25, "fail_multiplier": 1.25 }, { "proficiency": "prof_furriery", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ]
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.25, "fail_multiplier": 1.25 },
+      { "proficiency": "prof_furriery", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
+    ]
   },
   {
     "result": "bikini_top_leather",
