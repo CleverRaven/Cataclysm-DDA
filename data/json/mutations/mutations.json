@@ -1309,6 +1309,7 @@
     "description": "You simply cannot carry as much as people with a similar strength could.  Your maximum weight carried is reduced by 35%.",
     "starting_trait": true,
     "category": [ "BIRD", "ELFA" ],
+    "cancels": [ "STRONGBACK" ],
     "weight_capacity_modifier": 0.65
   },
   {
