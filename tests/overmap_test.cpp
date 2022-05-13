@@ -28,10 +28,13 @@ static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
 static const oter_type_str_id oter_type_marina_1( "marina_1" );
 static const oter_type_str_id oter_type_marina_10( "marina_10" );
 static const oter_type_str_id oter_type_marina_11( "marina_11" );
+static const oter_type_str_id oter_type_marina_11_roof( "marina_11_roof" );
 static const oter_type_str_id oter_type_marina_12( "marina_12" );
+static const oter_type_str_id oter_type_marina_12_roof( "marina_12_roof" );
 static const oter_type_str_id oter_type_marina_13( "marina_13" );
 static const oter_type_str_id oter_type_marina_14( "marina_14" );
 static const oter_type_str_id oter_type_marina_15( "marina_15" );
+static const oter_type_str_id oter_type_marina_15_roof( "marina_15_roof" );
 static const oter_type_str_id oter_type_marina_16( "marina_16" );
 static const oter_type_str_id oter_type_marina_17( "marina_17" );
 static const oter_type_str_id oter_type_marina_18( "marina_18" );
@@ -321,10 +324,13 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_marina_9.id(),
         oter_type_marina_10.id(),
         oter_type_marina_11.id(),
+        oter_type_marina_11_roof.id(),
         oter_type_marina_12.id(),
+        oter_type_marina_12_roof.id(),
         oter_type_marina_13.id(),
         oter_type_marina_14.id(),
         oter_type_marina_15.id(),
+        oter_type_marina_15_roof.id(),
         oter_type_marina_16.id(),
         oter_type_marina_17.id(),
         oter_type_marina_18.id(),
