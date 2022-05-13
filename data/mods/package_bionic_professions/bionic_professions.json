@@ -235,7 +235,8 @@
       },
       "male": [ "briefs", "socks", "pants", "platinum_bracelet" ],
       "female": [ "bra", "panties", "stockings", "garter_belt", "skirt", "platinum_ear" ]
-    }
+    },
+    "missions": [ "MISSION_ASSASSINATION" ]
   },
   {
     "type": "profession",

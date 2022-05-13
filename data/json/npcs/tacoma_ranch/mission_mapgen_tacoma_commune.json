@@ -91,9 +91,9 @@
         "B#",
         "  "
       ],
-      "terrain": { "#": "t_dirt" },
       "furniture": { "#": "f_makeshift_bed", "B": "f_makeshift_bed" },
-      "item": { "B": { "item": "blanket", "faction": "tacoma_commune" } }
+      "item": { "B": { "item": "blanket", "faction": "tacoma_commune" } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -209,7 +209,7 @@
         " ............& .... ",
         " CC..CtC...c..+.... ",
         "]tt........c.r vvkk ",
-        "]tt........c.r      ",
+        "]tt.2....2.c.r      ",
         " CC..CtC...c.u      ",
         " ............s      ",
         "    &.C..C..        ",
@@ -229,7 +229,8 @@
         "u": "t_floor",
         "s": "t_floor",
         "&": "t_floor",
-        "+": "t_door_c"
+        "+": "t_door_c",
+        "2": "t_floor_olight"
       },
       "furniture": {
         "c": "f_counter",
@@ -242,6 +243,18 @@
         "s": "f_sink",
         "&": "f_trashcan"
       },
+      "place_zones": [
+        { "type": "LOOT_DRINK", "faction": "tacoma_commune", "x": 13, "y": [ 12, 13 ] },
+        {
+          "type": "LOOT_CUSTOM",
+          "faction": "tacoma_commune",
+          "x": 13,
+          "y": 14,
+          "filter": "shot glass,drinking glass"
+        },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": 13, "y": [ 7, 8 ] },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": 12, "y": 7 }
+      ],
       "place_npcs": [ { "class": "ranch_bartender", "x": 12, "y": 12 }, { "class": "scavenger_merc", "x": 5, "y": 11 } ],
       "place_items": [
         { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 2, 3 ], "faction": "tacoma_commune" },
@@ -281,8 +294,7 @@
         "               ",
         "               "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirt", "q": "t_wall_half" },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
+      "terrain": { "w": "t_wall", ".": "t_dirt", "q": "t_wall_half" }
     }
   },
   {
@@ -327,7 +339,7 @@
         "    ]]   ]]         ",
         "+.............      ",
         "+............. wwwww",
-        " ............. ....w",
+        " ...2.....2... ....w",
         "]............. ....]",
         " ............. ....w",
         "               ....w",
@@ -345,7 +357,7 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c" }
+      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c", "2": "t_floor_olight" }
     }
   },
   {
@@ -528,7 +540,8 @@
         "                   ",
         "                   "
       ],
-      "terrain": { "w": "t_wall_half" }
+      "terrain": { "w": "t_wall_half" },
+      "place_item": [ { "item": "hammer_sledge", "x": 12, "y": 18, "faction": "tacoma_commune" } ]
     }
   },
   {
@@ -603,7 +616,7 @@
         "                 ",
         "......     .cccc.",
         "......  +  ..s...",
-        "...... ... ......",
+        "..2... ... ...2..",
         "............tt...",
         "...... ... ......",
         "......     ......",
@@ -615,10 +628,11 @@
         "                 ",
         "                 "
       ],
-      "terrain": { "+": "t_door_c", ".": "t_floor", "c": "t_floor", "t": "t_floor", "s": "t_floor" },
+      "terrain": { "+": "t_door_c", ".": "t_floor", "c": "t_floor", "t": "t_floor", "s": "t_floor", "2": "t_floor_olight" },
       "furniture": { "c": "f_cupboard", "t": "f_table", "s": "f_stool" },
       "place_signs": [ { "signage": "Clinic", "x": 1, "y": 10 } ],
-      "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ]
+      "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ],
+      "place_item": [ { "item": "hoe", "x": 14, "y": 18, "faction": "tacoma_commune" } ]
     }
   },
   {
@@ -831,7 +845,7 @@
         "                ",
         "         [[[    ",
         "[             r ",
-        "[             r ",
+        "[    =        r ",
         "        cc cc r[",
         "        cclcc r[",
         "        cc cc r ",
@@ -840,13 +854,26 @@
         "                ",
         "          l     ",
         "          c     ",
-        "       [  c  +  ",
-        "          c     ",
+        "       [C c  +  ",
+        "        Csc r   ",
         "                ",
         "                "
       ],
-      "terrain": { "[": "t_window_boarded_noglass", "+": "t_door_c", "l": "t_dirtfloor_olight" },
-      "furniture": { "c": "f_counter", "r": "f_rack" },
+      "terrain": { "[": "t_window_boarded_noglass", "+": "t_door_c", "l": "t_dirtfloor_olight", "=": "t_door_curtain_c" },
+      "furniture": { "c": "f_counter", "r": "f_rack", "s": "f_safe_o", "C": "f_clothing_rail" },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": [ 1, 4 ], "y": 1 },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": [ 1, 4 ], "y": 4 },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": 10, "y": [ 11, 13 ] },
+        { "type": "LOOT_MANUALS", "faction": "tacoma_commune", "x": 12, "y": 13 },
+        { "type": "LOOT_CURRENCY", "faction": "tacoma_commune", "x": 9, "y": 13 },
+        { "type": "LOOT_ARMOR", "faction": "tacoma_commune", "x": 8, "y": 12 },
+        { "type": "LOOT_CLOTHING", "faction": "tacoma_commune", "x": 8, "y": 13 }
+      ],
+      "place_signs": [
+        { "signage": "Extra Supplies.  Take what you need.", "x": 11, "y": 8 },
+        { "signage": "Scavenger Storage.  Stay out!", "x": 5, "y": 4 }
+      ],
       "place_npcs": [ { "class": "ranch_scavenger_1", "x": 9, "y": 12 } ]
     }
   },
@@ -1004,13 +1031,13 @@
       "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor", "m": "t_dirtfloor", "M": "t_dirtfloor", "c": "t_conveyor" },
       "furniture": { "m": "f_machinery_old", "M": "f_machinery_heavy", "r": "f_rack" },
       "place_item": [
-        { "item": "log", "x": 3, "y": 0, "faction": "tacoma_commune" },
-        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
-        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
-        { "item": "log", "x": 0, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
-        { "item": "log", "x": 1, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
-        { "item": "2x4", "x": 3, "y": 9, "faction": "tacoma_commune", "amount": [ 1, 10 ] },
-        { "item": "log", "x": 3, "y": 2, "faction": "tacoma_commune" }
+        { "item": "log", "x": 3, "y": 0 },
+        { "item": "log", "x": 3, "y": 1 },
+        { "item": "log", "x": 3, "y": 1 },
+        { "item": "log", "x": 0, "y": 1, "amount": [ 1, 5 ] },
+        { "item": "log", "x": 1, "y": 1, "amount": [ 1, 5 ] },
+        { "item": "2x4", "x": 3, "y": 9, "amount": [ 1, 10 ] },
+        { "item": "log", "x": 3, "y": 2 }
       ],
       "place_npcs": [ { "class": "ranch_woodcutter_2", "x": 4, "y": 7 } ]
     }

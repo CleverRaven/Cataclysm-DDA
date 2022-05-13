@@ -2235,6 +2235,7 @@ void npc::load( const JsonObject &data )
         member.read( p );
         complaints.emplace( member.name(), p );
     }
+    data.read( "unique_id", unique_id );
 }
 
 /*
@@ -2302,6 +2303,7 @@ void npc::store( JsonOut &json ) const
     json.member( "restock", restock );
 
     json.member( "complaints", complaints );
+    json.member( "unique_id", unique_id );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

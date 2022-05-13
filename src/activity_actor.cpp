@@ -88,6 +88,11 @@ static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
 static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
 static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
+static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
+static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
+static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
+static const activity_id ACT_CHURN( "ACT_CHURN" );
+static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
@@ -96,10 +101,12 @@ static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
 static const activity_id ACT_HACKING( "ACT_HACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
@@ -108,9 +115,11 @@ static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
+static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_MILK( "ACT_MILK" );
+static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
@@ -603,7 +612,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     }
 
     const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-    who.mod_stored_kcal( 43 - 9 * helpersize );
+    who.mod_stored_kcal( 9 * helpersize - 43 );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
     if( grave ) {
@@ -674,7 +683,7 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     }
 
     const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-    who.mod_stored_kcal( 43 - 9 * helpersize );
+    who.mod_stored_kcal( 9 * helpersize - 43 );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
@@ -2685,6 +2694,11 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         act.set_to_null();
     }
 
+    if( act.id() == ACT_FIRSTAID && consume_loc ) {
+        act.targets.clear();
+        act.targets.push_back( consume_loc );
+    }
+
     if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
             player_character.assign_activity( new_act );
@@ -3210,6 +3224,20 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 void craft_activity_actor::finish( player_activity &act, Character & )
 {
     act.set_to_null();
+}
+
+void craft_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
+{
+    item *craft = craft_item.get_item();
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !craft ) {
+        return;
+    }
+    const recipe item_recipe = craft->get_making();
+    // practice recipe items with no components can be safely removed
+    if( item_recipe.category == "CC_PRACTICE" && craft->components.empty() ) {
+        craft_item.remove_item();
+    }
 }
 
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
@@ -5751,8 +5779,8 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
 {
     static const std::string iuse_name_string( "heal" );
 
-    item &it = *act.targets.front();
-    item *used_tool = it.get_usable_item( iuse_name_string );
+    item_location it = act.targets.front();
+    item *used_tool = it->get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for healing" );
         act.set_to_null();
@@ -5776,13 +5804,27 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     const bodypart_id healed = bodypart_id( act.str_values[0] );
-    const int charges_consumed = actor->finish_using( who, *patient,
-                                 *used_tool, healed );
-    who.consume_charges( it, charges_consumed );
+    int charges_consumed = actor->finish_using( who, *patient,
+                           *used_tool, healed );
+    std::list<item>used;
+    if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+        it.remove_item();
+    }
 
     // Erase activity and values.
     act.set_to_null();
     act.values.clear();
+
+    // Return to eat menu activity if it is in the activity backlog.
+    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
+        if( iter->id() == ACT_CONSUME ) {
+            iter = who.backlog.erase( iter );
+        }
+        if( iter->id() == ACT_EAT_MENU ) {
+            iter->auto_resume = true;
+            break;
+        }
+    }
 }
 
 void firstaid_activity_actor::serialize( JsonOut &jsout ) const
@@ -6120,6 +6162,11 @@ deserialize_functions = {
     { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
     { ACT_BOLTCUTTING, &boltcutting_activity_actor::deserialize },
+    { ACT_CHOP_LOGS, &chop_logs_activity_actor::deserialize },
+    { ACT_CHOP_PLANKS, &chop_planks_activity_actor::deserialize },
+    { ACT_CHOP_TREE, &chop_tree_activity_actor::deserialize },
+    { ACT_CHURN, &churn_activity_actor::deserialize },
+    { ACT_CLEAR_RUBBLE, &clear_rubble_activity_actor::deserialize },
     { ACT_CONSUME, &consume_activity_actor::deserialize },
     { ACT_CRACKING, &safecracking_activity_actor::deserialize },
     { ACT_CRAFT, &craft_activity_actor::deserialize },
@@ -6132,6 +6179,7 @@ deserialize_functions = {
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
+    { ACT_GUNMOD_ADD, &gunmod_add_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
     { ACT_HACKING, &hacking_activity_actor::deserialize },
     { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
@@ -6140,9 +6188,11 @@ deserialize_functions = {
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
     { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
+    { ACT_LONGSALVAGE, &longsalvage_activity_actor::deserialize },
     { ACT_MEDITATE, &meditate_activity_actor::deserialize },
     { ACT_MIGRATION_CANCEL, &migration_cancel_activity_actor::deserialize },
     { ACT_MILK, &milk_activity_actor::deserialize },
+    { ACT_MOP, &mop_activity_actor::deserialize },
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },

@@ -734,6 +734,7 @@ void game::setup()
     remoteveh_cache = nullptr;
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
+    unique_npcs.clear();
     get_weather().weather_override = WEATHER_NULL;
     // back to menu for save loading, new game etc
 }
@@ -1483,7 +1484,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
             continue;
         }
         if( player_character.pos() == location ) {
-            if( !here.pl_line_of_sight( dest, -1 ) ) {
+            if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
                 continue;
             }
         } else if( !here.sees( location, dest, -1 ) ) {
@@ -1531,6 +1532,11 @@ int game::assign_mission_id()
 npc *game::find_npc( character_id id )
 {
     return overmap_buffer.find_npc( id ).get();
+}
+
+npc *game::find_npc_by_unique_id( std::string unique_id )
+{
+    return overmap_buffer.find_npc_by_unique_id( unique_id ).get();
 }
 
 void game::add_npc_follower( const character_id &id )
@@ -2904,6 +2910,26 @@ achievements_tracker &game::achievements()
 memorial_logger &game::memorial()
 {
     return *memorial_logger_ptr;
+}
+
+void game::update_unique_npc_location( std::string id, point_abs_om loc )
+{
+    unique_npcs[id] = loc;
+}
+
+point_abs_om game::get_unique_npc_location( std::string id )
+{
+    if( unique_npc_exists( id ) ) {
+        return unique_npcs[id];
+    } else {
+        debugmsg( "Tried to find npc %s which doesn't exist.", id );
+        return point_abs_om();
+    }
+}
+
+bool game::unique_npc_exists( std::string id )
+{
+    return unique_npcs.count( id ) > 0;
 }
 
 spell_events &game::spell_events_subscriber()
@@ -11281,7 +11307,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
                     u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
-                    u.mod_stored_kcal( 87 );
+                    u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                 } else {
                     add_msg( _( "You gingerly descend using your vines." ) );
@@ -11289,7 +11315,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             } else {
                 add_msg( _( "You effortlessly lower yourself and leave a vine rooted for future use." ) );
                 rope_ladder = true;
-                u.mod_stored_kcal( 87 );
+                u.mod_stored_kcal( -87 );
                 u.mod_thirst( 10 );
             }
         } else {

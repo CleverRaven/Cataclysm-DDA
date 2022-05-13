@@ -30,6 +30,7 @@
       },
       { "group": "ketchup_sealed_rng", "prob": 85 },
       { "group": "mustard_sealed_rng", "prob": 85 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 40 },
       { "item": "mayonnaise", "charges-min": 1, "prob": 75 },
       { "item": "soysauce", "charges-min": 1, "prob": 65 },
       { "item": "horseradish", "charges-min": 1, "prob": 25 },
@@ -316,6 +317,7 @@
         "prob": 75
       },
       { "group": "ketchup_sealed_rng", "prob": 55 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 50 },
       { "group": "mustard_sealed_rng", "prob": 85 },
       {
         "distribution": [

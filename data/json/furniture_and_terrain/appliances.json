@@ -517,7 +517,7 @@
     "broken_color": "red",
     "durability": 20,
     "description": "Electric wires embedded in the wall.",
-    "flags": [ "APPLIANCE" ]
+    "flags": [ "APPLIANCE", "OBSTACLE" ]
   },
   {
     "type": "vehicle_part",

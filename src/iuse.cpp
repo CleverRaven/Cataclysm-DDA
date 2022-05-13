@@ -1320,7 +1320,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.mutate();
         // Gruss dich, mutation drain, missed you!
         p.mod_pain( 2 * rng( 1, 5 ) );
-        p.mod_stored_kcal( 87 );
+        p.mod_stored_kcal( -87 );
         p.mod_thirst( 10 );
         p.mod_fatigue( 5 );
     } else if( effect <= 6 ) { // Radiation cleanse is below
@@ -1538,7 +1538,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
             p->mutate_category( mutation_category_MYCUS );
-            p->mod_stored_kcal( 87 );
+            p->mod_stored_kcal( -87 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
             p->add_morale( MORALE_MARLOSS, 25, 200 ); // still covers up mutation pain
@@ -1552,7 +1552,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
             _( "This tastes really weird!  You're not sure it's good for you…" ) );
         p->mutate();
         p->mod_pain( 2 * rng( 1, 5 ) );
-        p->mod_stored_kcal( 87 );
+        p->mod_stored_kcal( -87 );
         p->mod_thirst( 10 );
         p->mod_fatigue( 5 );
         p->vomit(); // no hunger/quench benefit for you

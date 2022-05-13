@@ -1207,6 +1207,12 @@ class item : public visitable
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
                              int roll = 0 ) const;
+        float biological_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                                 int roll = 0 ) const;
+        float electric_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                               int roll = 0 ) const;
+        float cold_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                           int roll = 0 ) const;
         /*@}*/
 
         // same as above but specific to the sublocation
@@ -1220,6 +1226,11 @@ class item : public visitable
         float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+        float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
+                                 int roll = 0 ) const;
+        float electric_resist( const sub_bodypart_id &bp, bool to_self = false,
+                               int roll = 0 ) const;
+        float cold_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
 
         /**
          * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.

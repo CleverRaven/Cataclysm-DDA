@@ -435,6 +435,8 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
+        //spawn monster's inventory without killing it
+        void generate_inventory( bool disableDrops = true );
 
         // Other
         /**

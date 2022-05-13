@@ -52,7 +52,8 @@
           "mx_nest_torosaurus": 30,
           "mx_nest_triceratops": 30
         }
-      }
+      },
+      "field": { "chance": 6, "extras": { "mx_mass_grave_dino": 50 } }
     },
     "city": { "parks": { "dinozoo": 25 } }
   }
