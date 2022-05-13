@@ -2578,7 +2578,10 @@
     "flags": [ "NO_BONUS_ITEMS" ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
     "items": {
-      "both": { "items": [ "bondage_suit", "bondage_mask", "boots", "leather_belt" ], "entries": [ { "group": "charged_matches" } ] }
+      "both": {
+        "items": [ "bondage_suit", "bondage_mask", "boots", "gloves_leather", "leather_belt" ],
+        "entries": [ { "group": "charged_matches" } ]
+      }
     }
   },
   {

@@ -1005,6 +1005,7 @@
       { "item": "clownshoes", "prob": 1 },
       { "item": "bondage_suit", "prob": 5 },
       { "item": "bondage_mask", "prob": 5 },
+      { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 5 },
       { "item": "bodysuit_lycra", "prob": 1 },
       { "item": "flask_hip", "prob": 5 },
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
