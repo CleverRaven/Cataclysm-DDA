@@ -193,7 +193,7 @@
         "cover_melee": 95,
         "cover_ranged": 95,
         "cover_vitals": 90,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l"  ]
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ]
       }
     ]
   },
