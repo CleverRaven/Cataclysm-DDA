@@ -1952,11 +1952,7 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
         return true;
     }
 
-    if( it.has_flag( flag_TRADER_AVOID ) ) {
-        return false;
-    }
-
-    if( it.has_flag( flag_FILTHY ) ) {
+    if( it.has_flag( flag_TRADER_AVOID ) || it.has_flag( flag_FILTHY) ) {
         return false;
     }
 
