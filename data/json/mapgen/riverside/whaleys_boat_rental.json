@@ -5,10 +5,11 @@
     "parameters": {
       "wall": {
         "type": "ter_str_id",
-        "default": { "distribution": [ [ "t_wall_wood", 1 ], [ "t_wall_log", 3 ], [ "t_wall_b", 1 ], [ "t_wall_g", 2 ] ] }
+        "default": { "distribution": [ [ "t_wall_wood", 1 ], [ "t_wall_log", 1 ], [ "t_wall_b", 1 ], [ "t_wall_g", 1 ] ] }
       }
     },
     "terrain": {
+      "4": "t_gutter_downspout",
       "s": "t_concrete",
       "'": "t_thconc_floor",
       ".": "t_floor",
@@ -16,8 +17,9 @@
       "h": "t_floor",
       "D": "t_floor",
       "F": "t_floor",
-      "S": "t_floor",
-      "t": "t_floor",
+      ",": "t_linoleum_white",
+      "S": "t_linoleum_white",
+      "t": "t_linoleum_white",
       "T": "t_floor",
       "r": "t_floor",
       "&": "t_floor",
@@ -79,8 +81,8 @@
         "      ---s              ",
         "  |||||w|+||___________ ",
         "  |tS|F....|___________ ",
-        "  |..|D....|___________ ",
-        "  ||+|&....|___________ ",
+        "  |,,|D....|___________ ",
+        " 4||+|&....|___________ ",
         "  |........|___________ ",
         "  |h...cccc|___________ ",
         "  whT....h.w___________ ",
@@ -103,6 +105,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "boat_rental_palette" ],
+      "place_loot": [ { "group": "cash_register_random", "x": [ 7, 10 ], "y": 6 } ],
       "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_vehicles": [
         { "chance": 66, "rotation": 90, "vehicle": "canoe", "x": 2, "y": [ 13, 14 ] },
@@ -117,7 +120,43 @@
   },
   {
     "method": "json",
-    "om_terrain": "boat_rental",
+    "om_terrain": "boat_rental_roof",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "  |222222223            ",
+        "  |........3            ",
+        "  |........3            ",
+        "  5........3            ",
+        "  |........3            ",
+        "  |........3            ",
+        "  |........3            ",
+        "  |........3            ",
+        "  |........3            ",
+        "  |--------3            ",
+        "   ...                  ",
+        "   ...                  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "boat_rental_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -133,7 +172,7 @@
         "   ______s-|.....h|-s   ",
         "   ______s-|rrr.TT|-s   ",
         "         s-||||+|||-s   ",
-        "         s-----s----s   ",
+        "         s-----s4---s   ",
         "         ssssssssssss   ",
         "                        ",
         "                        ",
@@ -150,6 +189,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "boat_rental_palette" ],
+      "place_loot": [ { "group": "cash_register_random", "x": [ 12, 14 ], "y": 4 } ],
       "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_vehicles": [
         { "chance": 66, "rotation": 90, "vehicle": "raft", "x": 10, "y": [ 11, 13 ] },
@@ -164,7 +204,43 @@
   },
   {
     "method": "json",
-    "om_terrain": "boat_rental",
+    "om_terrain": "boat_rental_1_roof",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "           |..oo..3     ",
+        "           |..oo..3     ",
+        "           |......3     ",
+        "           |......3     ",
+        "           |......3     ",
+        "           |......3     ",
+        "           |......3     ",
+        "           |----5-3     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "boat_rental_2",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -176,7 +252,7 @@
         "    |.h.|'''|DF...h|    ",
         "    |...+'''+.....T|    ",
         "    |rrr|'''|....hT|    ",
-        "    ||||||'||||..|||    ",
+        "    ||||||'||||..|||4   ",
         "    ssssssss|XX..XX|    ",
         "    ssssssss|XX..XX|    ",
         "    ssssssss||||||||    ",
@@ -197,6 +273,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "boat_rental_palette" ],
+      "place_loot": [ { "group": "cash_register_random", "x": [ 5, 7 ], "y": 2 } ],
       "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_vehicles": [
         { "chance": 66, "rotation": 270, "vehicle": "raft", "x": 5, "y": [ 9, 14 ] },
@@ -205,6 +282,42 @@
         { "chance": 66, "rotation": 270, "vehicle": "canoe", "x": 15, "y": [ 12, 14 ] },
         { "chance": 66, "rotation": 270, "vehicle": "canoe", "x": 18, "y": [ 12, 14 ] }
       ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "boat_rental_2_roof",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "    |222222222222223    ",
+        "    |..............3    ",
+        "    |..............3    ",
+        "    |..............3    ",
+        "    |-------|......5    ",
+        "            |......3    ",
+        "            |......3    ",
+        "            |------3    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

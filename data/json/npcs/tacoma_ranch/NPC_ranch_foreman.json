@@ -364,7 +364,7 @@
           "om_terrain": "ranch_camp_56",
           "place_vehicles": [
             { "vehicle": "flatbed_truck", "x": 21, "y": 3, "rotation": 0, "chance": 100, "faction": "tacoma_commune" },
-            { "vehicle": "car", "x": 20, "y": 7, "rotation": 315, "chance": 100, "faction": "tacoma_commune" }
+            { "vehicle": "beetle", "x": 21, "y": 9, "rotation": 180, "chance": 100, "faction": "tacoma_commune" }
           ]
         },
         {
@@ -466,12 +466,12 @@
             { "point": "furniture", "id": "f_fireplace", "x": 8, "y": 12 }
           ],
           "place_item": [
-            { "item": "log", "x": 3, "y": 11, "faction": "tacoma_commune" },
-            { "item": "log", "x": 3, "y": 12, "faction": "tacoma_commune" },
-            { "item": "log", "x": 3, "y": 13, "faction": "tacoma_commune" },
-            { "item": "log", "x": 11, "y": 11, "faction": "tacoma_commune" },
-            { "item": "log", "x": 11, "y": 12, "faction": "tacoma_commune" },
-            { "item": "log", "x": 11, "y": 13, "faction": "tacoma_commune" }
+            { "item": "log", "x": 3, "y": 11 },
+            { "item": "log", "x": 3, "y": 12 },
+            { "item": "log", "x": 3, "y": 13 },
+            { "item": "log", "x": 11, "y": 11 },
+            { "item": "log", "x": 11, "y": 12 },
+            { "item": "log", "x": 11, "y": 13 }
           ]
         }
       ]
@@ -731,14 +731,7 @@
               "faction": "tacoma_commune"
             },
             { "vehicle": "car_sports", "chance": 100, "rotation": 90, "x": 3, "y": 9, "faction": "tacoma_commune" },
-            {
-              "vehicle": "flatbed_truck",
-              "chance": 100,
-              "rotation": 270,
-              "x": 10,
-              "y": 23,
-              "faction": "tacoma_commune"
-            }
+            { "vehicle": "pickup", "chance": 100, "rotation": 180, "x": 8, "y": 22, "faction": "tacoma_commune" }
           ]
         },
         {
@@ -747,9 +740,12 @@
           "set": [ { "square": "terrain", "id": "t_palisade", "x": 0, "y": 12, "x2": 2, "y2": 12 } ],
           "place_vehicles": [
             { "vehicle": "car_chassis", "chance": 100, "rotation": 0, "x": 3, "y": 14, "faction": "tacoma_commune" },
-            { "vehicle": "pickup", "chance": 100, "rotation": 0, "x": 8, "y": 15, "faction": "tacoma_commune" },
-            { "vehicle": "schoolbus", "chance": 100, "rotation": 135, "x": 22, "y": 13, "faction": "tacoma_commune" }
+            { "vehicle": "pickup", "chance": 100, "rotation": 0, "x": 8, "y": 15, "faction": "tacoma_commune" }
           ]
+        },
+        {
+          "om_terrain": "ranch_camp_70",
+          "place_vehicles": [ { "vehicle": "schoolbus", "chance": 100, "rotation": 120, "x": 4, "y": 13, "faction": "tacoma_commune" } ]
         }
       ]
     }
@@ -786,7 +782,10 @@
         {
           "om_terrain": "ranch_camp_69",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
-          "place_vehicles": [ { "vehicle": "cube_van", "chance": 100, "rotation": 180, "x": 13, "y": 15, "faction": "tacoma_commune" } ]
+          "place_vehicles": [
+            { "vehicle": "cube_van", "chance": 100, "rotation": 180, "x": 13, "y": 15, "faction": "tacoma_commune" },
+            { "vehicle": "car_sports", "chance": 100, "rotation": 0, "x": 21, "y": 14, "faction": "tacoma_commune" }
+          ]
         }
       ]
     }
@@ -824,7 +823,7 @@
         {
           "om_terrain": "ranch_camp_70",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
-          "place_vehicles": [ { "vehicle": "car_mini", "chance": 100, "rotation": 45, "x": 8, "y": 3, "faction": "tacoma_commune" } ]
+          "place_vehicles": [ { "vehicle": "car_sports", "chance": 100, "rotation": 90, "x": 9, "y": 2, "faction": "tacoma_commune" } ]
         }
       ]
     }
@@ -864,7 +863,7 @@
         {
           "om_terrain": "ranch_camp_61",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
-          "place_vehicles": [ { "vehicle": "ambulance", "chance": 100, "rotation": 90, "x": 16, "y": 5, "faction": "tacoma_commune" } ]
+          "place_vehicles": [ { "vehicle": "ambulance", "chance": 100, "rotation": 270, "x": 13, "y": 2, "faction": "tacoma_commune" } ]
         }
       ]
     }
@@ -896,7 +895,8 @@
         { "om_terrain": "ranch_camp_51", "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ] },
         {
           "om_terrain": "ranch_camp_52",
-          "set": [ { "square": "terrain", "id": "t_dirt", "x": 2, "y": 10, "x2": 12, "y2": 22 } ]
+          "set": [ { "square": "terrain", "id": "t_dirt", "x": 2, "y": 10, "x2": 12, "y2": 22 } ],
+          "place_vehicles": [ { "vehicle": "car_mini", "chance": 100, "rotation": 90, "x": 15, "y": 21, "faction": "tacoma_commune" } ]
         }
       ]
     }

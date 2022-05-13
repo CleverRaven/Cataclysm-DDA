@@ -251,6 +251,8 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_NO_SELF_CONNECT: return "NO_SELF_CONNECT";
         case ter_furn_flag::TFLAG_BURROWABLE: return "BURROWABLE";
         case ter_furn_flag::TFLAG_MURKY: return "MURKY";
+        case ter_furn_flag::TFLAG_AMMOTYPE_RELOAD: return "AMMOTYPE_RELOAD";
+        case ter_furn_flag::TFLAG_TRANSPARENT_FLOOR: return "TRANSPARENT_FLOOR";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:

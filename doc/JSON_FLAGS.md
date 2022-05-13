@@ -565,6 +565,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```ALIGN_WORKBENCH``` (only for furniture) A hint to the tiles display that the sprite for this furniture should face toward any adjacent tile with a workbench quality.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside `SEALED` terrain/furniture.
 - ```ALLOW_ON_OPEN_AIR``` Don't warn when this furniture is placed on `t_open_air` or similar 'open air' terrains which lack a floor.
+- ```AMMOTYPE_RELOAD``` Furniture reloads by ammotype so player can choose from more than one fuel type.
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 
     Example: `-` and `|` are both terrain with the `CONNECT_TO_WALL` flag. `O` does not have the flag, while `X` and `Y` have the `AUTO_WALL_SYMBOL` flag.
@@ -660,6 +661,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
+- ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
@@ -1150,6 +1152,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
 - ```URBAN```
 - ```WILDERNESS```
+- ```MAN_MADE``` - For location, created by human. For Innawood mod purposes
 
 ### Overmap terrains
 

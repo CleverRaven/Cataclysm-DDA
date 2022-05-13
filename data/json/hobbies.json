@@ -370,7 +370,7 @@
     "subtype": "hobby",
     "id": "melee_training",
     "name": "Melee Training",
-    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
     "points": 6,
     "skills": [
       { "level": 2, "name": "melee" },

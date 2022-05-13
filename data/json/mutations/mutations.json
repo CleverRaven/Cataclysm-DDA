@@ -1077,7 +1077,7 @@
     "id": "MARTIAL_ARTS5",
     "name": { "str": "Melee Weapon Training" },
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
     "player_display": false,
     "initial_ma_styles": [
       "style_bojutsu",
@@ -1309,6 +1309,7 @@
     "description": "You simply cannot carry as much as people with a similar strength could.  Your maximum weight carried is reduced by 35%.",
     "starting_trait": true,
     "category": [ "BIRD", "ELFA" ],
+    "cancels": [ "STRONGBACK" ],
     "weight_capacity_modifier": 0.65
   },
   {
@@ -7635,7 +7636,7 @@
     "name": { "str": "Debug Cardio" },
     "points": 99,
     "valid": false,
-    "cardio_multiplier": 999999,
+    "cardio_multiplier": 500000,
     "description": "You can run, but you'll never run out of breath.",
     "debug": true
   },

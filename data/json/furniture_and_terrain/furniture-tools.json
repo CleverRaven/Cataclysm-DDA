@@ -108,7 +108,7 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "fake_forge",
-    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "AMMOTYPE_RELOAD" ],
     "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -131,7 +131,7 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "fake_forge",
-    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "AMMOTYPE_RELOAD" ],
     "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -154,7 +154,7 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "fake_forge",
-    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "AMMOTYPE_RELOAD" ],
     "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -500,7 +500,7 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "fake_forge",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "AMMOTYPE_RELOAD" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -523,7 +523,7 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "fake_clay_kiln",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "AMMOTYPE_RELOAD" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
     "bash": {

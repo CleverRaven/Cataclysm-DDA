@@ -5239,10 +5239,15 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
+        const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
         map_stack stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
-        [ammo]( const item & i ) {
-            return i.typeId() == ammo;
+        [ammo, using_ammotype]( const item & i ) {
+            if( using_ammotype && i.type->ammo && ammo->ammo ) {
+                return i.type->ammo->type == ammo->ammo->type;
+            } else {
+                return i.typeId() == ammo;
+            }
         } );
         if( iter != stack.end() ) {
             item furn_item( itt, calendar::turn_zero );
@@ -8266,7 +8271,8 @@ bool map::build_floor_cache( const int zlev )
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                     if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
+                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
+                        terrain.has_flag( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR ) ) {
                         if( below_submap &&
                             below_submap->get_furn( sp ).obj().has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) ) {
                             continue;
@@ -8649,8 +8655,8 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
         return;
     }
 
-    if( !tr.is_always_invisible() ) {
-        c.add_msg_player_or_npc( m_bad, _( "You trigger a %s!" ), _( "<npcname> triggers a %s!" ),
+    if( !tr.is_always_invisible() && tr.has_trigger_msg() ) {
+        c.add_msg_player_or_npc( m_bad, tr.get_trigger_message_u(), tr.get_trigger_message_npc(),
                                  tr.name() );
     }
     tr.trigger( c.pos(), c );
