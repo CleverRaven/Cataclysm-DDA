@@ -135,6 +135,7 @@ Case use example:
         "thanks for the food!",
         "itadakimasu!"
     ]
+}
 ```
 
 For further information on snippets, see [New Contributor Guide: Dialogue](https://github.com/CleverRaven/Cataclysm-DDA/wiki/New-Contributor-Guide-Dialogue)
