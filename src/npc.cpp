@@ -1956,6 +1956,10 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
         return false;
     }
 
+    if( it.has_flag( flag_FILTHY ) ) {
+        return false;
+    }
+
     // TODO: Base on inventory
     return at_price > 0;
 }

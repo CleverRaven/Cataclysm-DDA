@@ -21,7 +21,6 @@
 #include "type_id.h"
 
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
-static const flag_id flag_FILTHY( "FILTHY" );
 static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
 static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
 
@@ -70,8 +69,6 @@ std::string trade_preset::get_denial( const item_location &loc ) const
         npc const &np = *_trader.as_npc();
         if( !np.wants_to_buy( *loc, price, market_price ) ) {
             return string_format( _( "%s does not want to buy this" ), np.get_name() );
-        } else if( loc->has_flag( flag_FILTHY ) ) {
-            return string_format( _( "%s does not want filthy items" ), np.get_name() );
         }
     }
 
