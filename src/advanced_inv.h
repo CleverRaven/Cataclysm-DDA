@@ -177,9 +177,9 @@ class advanced_inventory
          * @param src_container Source container
          * @param dest_container Destination container
          */
-        bool move_content( item &src_container, item &dest_container );
-        void move_cont_item( drop_location thing, item_location dest_container );
-        void move_cont_item( drop_locations things, item_location dest_container );
+        bool move_content( item *src_container, item *dest_container );
+        bool move_cont_item( drop_location thing, item_location dest_container );
+        bool move_cont_item( drop_locations things, item_location dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.

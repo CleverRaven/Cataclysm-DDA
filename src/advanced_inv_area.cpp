@@ -286,7 +286,7 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
             if( inv_stacks.size() > static_cast<size_t>( uistate.get_adv_inv_container_index( id ) ) ) {
                 item_location i_location = inv_stacks[ uistate.get_adv_inv_container_index( id ) ].items.front();
                 item *it = i_location.get_item();
-                if( is_container_valid( it ) && inv_stacks[ uistate.get_adv_inv_container_index( id ) ].idx ) {
+                if( is_container_valid( it ) ) {
                     container = item_location( player_character, it );
                 }
             }
