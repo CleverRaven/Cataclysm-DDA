@@ -126,7 +126,7 @@ Case use example:
 (snip)
 "<acknowledged>": "I gotcha fam",
 "camp_food_thanks>": "<food_thanks_custom>"
-}
+},
 {
 "type":"snippet",
 "category":"<food_thanks_custom>",
