@@ -817,7 +817,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
 
         // Add gunshot noise if player is the one who shot
         const item::sound_data gunnoise = gun.gun_noise( shots > 1 );
-        add_msg_if_player( _( "You shoot. %s" ), gunnoise.sound );
+        add_msg_if_player( _( "You shoot your %1$s. %2$s" ), gun.tname(),
+                           uppercase_first_letter( gunnoise.sound ) );
 
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
