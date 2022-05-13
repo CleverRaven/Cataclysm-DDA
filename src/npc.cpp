@@ -1957,7 +1957,7 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
     }
 
     // TODO: Base on inventory
-    return at_price > 1;
+    return at_price > 5;
 }
 
 // Will the NPC freely exchange items with the player?
