@@ -1553,7 +1553,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_DOG_LOVER" ]
   },
   {
     "type": "profession",
