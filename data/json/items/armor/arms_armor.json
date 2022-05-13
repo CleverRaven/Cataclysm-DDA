@@ -182,18 +182,30 @@
     "looks_like": "arm_warmers",
     "color": "brown",
     "warmth": 25,
-    "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
     "armor": [
       {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 4 }
+        ],
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 6,
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
         "coverage": 95,
         "cover_melee": 95,
         "cover_ranged": 95,
         "cover_vitals": 90,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ]
+        "encumbrance": 8
+      },
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "//": "skip second entry for arm encumbrance"
       }
     ]
   },
@@ -937,7 +949,7 @@
     "copy-from": "vambrace_chitin",
     "looks_like": "vambrace_chitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL vambraces", "str_pl": "pairs of XL vambraces" },
+    "name": { "str": "pair of XL chitin vambraces", "str_pl": "pairs of XL vambraces" },
     "description": "A pair of vambraces made from the exoskeletons of insects.  Light and durable.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.23 },
     "extend": { "flags": [ "OVERSIZE" ] }

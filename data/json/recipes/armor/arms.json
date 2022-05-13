@@ -141,8 +141,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "tailor",
-    "difficulty": 3,
-    "time": "840 m",
+    "difficulty": 4,
+    "time": "900 m",
     "autolearn": true,
     "byproducts": [ [ "leather", 12 ], [ "scrap_leather", 36 ] ],
     "using": [ [ "tailoring_leather", 4 ] ],
@@ -152,7 +152,7 @@
     "result": "xs_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
-    "time": "945 m",
+    "time": "900 m",
     "byproducts": [ [ "leather", 8 ], [ "scrap_leather", 25 ] ],
     "using": [ [ "tailoring_leather", 2 ] ]
   },
@@ -160,7 +160,7 @@
     "result": "xl_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
-    "time": "810 m",
+    "time": "980 m",
     "byproducts": [ [ "leather", 18 ], [ "scrap_leather", 60 ] ],
     "using": [ [ "tailoring_leather", 8 ] ]
   },
