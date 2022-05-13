@@ -168,6 +168,9 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     if( it->count_by_charges() and amount >= 0 ) {
         price /= it->charges;
         price *= amount;
+        if( price < 1 ) {
+            price = 1 * amount;
+        }
     }
     if( buyer.is_npc() ) {
         price = buyer.as_npc()->value( *it, price );
@@ -202,10 +205,6 @@ int npc_trading::trading_price( Character const &buyer, Character const &seller,
                 return VisitResponse::SKIP;
             }
         }
-        if( price < 10 ) {
-            // Make sure nothing is sold for free
-            ret += 10;
-        }
         ret += price;
         return VisitResponse::NEXT;
     } );
@@ -225,6 +224,9 @@ void item_pricing::set_values( int ip_count )
         charges = i_p->count();
         if( charges > 0 ) {
             price /= charges;
+            if( price < 1 ) {
+                price = 1;
+            }
             vol /= charges;
             weight /= charges;
         } else {
