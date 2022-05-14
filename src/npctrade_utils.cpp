@@ -30,7 +30,10 @@ void _consume_item( item_location elem, consume_queue &consumed, consume_cache &
         if( it == cache.end() ) {
             it = cache.emplace( elem->typeId(), amount ).first;
         }
-        if( it->second != 0 ) {
+        // FIXME: jsonize
+        if( units::money( elem->price( true ), units::money::unit_type{} ) < 10_cent or
+            ( guy.get_faction() != nullptr and guy.get_faction()->currency == elem->typeId() ) or
+            it->second > 0 ) {
             consumed.push_back( elem );
             it->second--;
         }
@@ -49,27 +52,25 @@ dest_t _get_shuffled_point_set( std::unordered_set<tripoint_abs_ms> const &set )
     return ret;
 }
 
+// returns true if item wasn't placed
 bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
 {
-    bool leftover = true;
     if( here.can_put_items_ter_furn( dpoint_here ) and
         here.free_volume( dpoint_here ) >= it.volume() ) {
-        here.add_item_or_charges( dpoint_here, it, false );
-        leftover = false;
+        item const &ret = here.add_item_or_charges( dpoint_here, it, false );
+        return ret.is_null();
     }
-
-    return leftover;
+    return true;
 }
 
 bool _to_veh( item const &it, cata::optional<vpart_reference> const vp )
 {
-    bool leftover = true;
     int const part = static_cast<int>( vp->part_index() );
     if( vp->vehicle().free_volume( part ) >= it.volume() ) {
-        vp->vehicle().add_item( part, it );
-        leftover = false;
+        cata::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( part, it );
+        return !ret.has_value();
     }
-    return leftover;
+    return true;
 }
 
 } // namespace
