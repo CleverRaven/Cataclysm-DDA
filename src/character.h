@@ -1506,7 +1506,8 @@ class Character : public Creature, public visitable
         trinary consume( item &target, bool force = false, bool refuel = false );
 
         /**
-         * Stores an item inside another consuming moves proportional to weapon skill and volume
+         * Stores an item inside another consuming moves proportional to weapon skill and volume.
+         * Note: This method bypasses pocket settings.
          * @param container Container in which to store the item
          * @param put Item to add to the container
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
