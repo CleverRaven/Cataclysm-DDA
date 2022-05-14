@@ -842,6 +842,12 @@ bool advanced_inventory::move_all_items()
     advanced_inventory_pane &spane = panes[src];
     advanced_inventory_pane &dpane = panes[dest];
 
+    if( spane.get_area() == AIM_CONTAINER_L || spane.get_area() == AIM_CONTAINER_R ) {
+        // TODO: make it possible to move all
+        popup( _( "Currently cannot move all from containers." ) );
+        return false;
+    }
+
     Character &player_character = get_player_character();
     // AIM_ALL source area routine
     if( spane.get_area() == AIM_ALL ) {

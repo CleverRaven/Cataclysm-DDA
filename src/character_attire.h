@@ -196,7 +196,7 @@ class outfit
                                            const Character &c, const bodypart_id &_bp );
         std::vector<advanced_inv_listitem> get_AIM_inventory( size_t &item_index, avatar &you,
                 const advanced_inventory_pane &pane, advanced_inv_area &square );
-        std::vector<advanced_inv_listitem> get_AIM_inventory( size_t &item_index, avatar &you);
+        std::vector<advanced_inv_listitem> get_AIM_inventory( size_t &item_index, avatar &you );
         void add_AIM_items_from_area( avatar &you, advanced_inv_area &square,
                                       advanced_inventory_pane &pane );
         void fire_options( Character &guy, std::vector<std::string> &options,
