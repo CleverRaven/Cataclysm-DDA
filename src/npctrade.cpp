@@ -166,8 +166,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
 
     int price = it->price_no_contents( true );
     if( it->count_by_charges() and amount >= 0 ) {
-        price /= it->charges;
-        price *= amount;
+        price *= static_cast<double>( amount ) / it->charges;
     }
     if( buyer.is_npc() ) {
         price = buyer.as_npc()->value( *it, price );
