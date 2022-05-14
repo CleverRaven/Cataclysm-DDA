@@ -2044,9 +2044,6 @@ void npc::shop_restock()
         return;
     }
 
-    add_fallback_zone( *this );
-    consume_items_in_zones( *this, elapsed );
-
     std::list<item> ret;
     int shop_value = 75000;
     if( my_fac ) {
@@ -2105,6 +2102,8 @@ void npc::shop_restock()
     }
 
     if( mission == NPC_MISSION_SHOPKEEP ) {
+        add_fallback_zone( *this );
+        consume_items_in_zones( *this, elapsed );
         distribute_items_to_npc_zones( ret, *this );
     } else {
         for( const item &i : ret ) {
