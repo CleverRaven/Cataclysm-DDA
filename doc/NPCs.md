@@ -125,7 +125,7 @@ Case use example:
     "type":"npc",
     "...": "rest of fields go here",
     "<acknowledged>": "I gotcha fam",
-    "camp_food_thanks>": "<food_thanks_custom>"
+    "<camp_food_thanks>": "<food_thanks_custom>"
 },
 {
     "type":"snippet",
