@@ -72,13 +72,11 @@ static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SEW( "SEW" );
 
 static const recipe_id recipe_2byarm_guard( "2byarm_guard" );
-static const recipe_id recipe_armguard_acidchitin( "armguard_acidchitin" );
-static const recipe_id recipe_armguard_chitin( "armguard_chitin" );
-static const recipe_id recipe_armguard_larmor( "armguard_larmor" );
 static const recipe_id recipe_armguard_lightplate( "armguard_lightplate" );
 static const recipe_id recipe_armguard_metal( "armguard_metal" );
 static const recipe_id recipe_balclava( "balclava" );
 static const recipe_id recipe_blanket( "blanket" );
+static const recipe_id recipe_bracer_larmor( "bracer_larmor" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
 static const recipe_id recipe_carver_off( "carver_off" );
@@ -92,6 +90,8 @@ static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
 static const recipe_id recipe_test_tallow2( "test_tallow2" );
+static const recipe_id recipe_vambrace_acidchitin( "vambrace_acidchitin" );
+static const recipe_id recipe_vambrace_chitin( "vambrace_chitin" );
 static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
@@ -903,24 +903,24 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 2 -> lvl 3" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 6291, 0, true );
+            test_skill_progression( recipe_bracer_larmor, 6291, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 5230, 50, true );
+            test_skill_progression( recipe_bracer_larmor, 5230, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 4836, 100, true );
+            test_skill_progression( recipe_bracer_larmor, 4836, 100, true );
         }
     }
     SECTION( "lvl 3 -> lvl 4" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 12138, 0, true );
+            test_skill_progression( recipe_vambrace_larmor, 12138, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 10003, 50, true );
+            test_skill_progression( recipe_vambrace_larmor, 10003, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9203, 100, true );
+            test_skill_progression( recipe_vambrace_larmor, 9203, 100, true );
         }
     }
     SECTION( "lvl 4 -> 5" ) {
@@ -936,24 +936,24 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 5 -> 6" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 28817, 0, true );
+            test_skill_progression( recipe_vambrace_chitin, 28817, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 23613, 50, true );
+            test_skill_progression( recipe_vambrace_chitin, 23613, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 21651, 100, true );
+            test_skill_progression( recipe_vambrace_chitin, 21651, 100, true );
         }
     }
     SECTION( "lvl 6 -> 7" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 39651, 0, true );
+            test_skill_progression( recipe_vambrace_acidchitin, 39651, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 32470, 50, true );
+            test_skill_progression( recipe_vambrace_acidchitin, 32470, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 29755, 100, true );
+            test_skill_progression( recipe_vambrace_acidchitin, 29755, 100, true );
         }
     }
     SECTION( "lvl 7 -> 8" ) {
