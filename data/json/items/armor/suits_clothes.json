@@ -19,7 +19,7 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 20 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 }
     ],
-    "warmth": 30,
+    "warmth": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
