@@ -294,7 +294,7 @@
       "ammo": "shotpaper",
       "skill": "shotgun",
       "range": -2,
-      "ranged_damage": { "damage_type": "stab", "amount": -12 },
+      "ranged_damage": { "damage_type": "bullet", "amount": -6 },
       "dispersion": 600,
       "durability": 10,
       "reload": 150,
