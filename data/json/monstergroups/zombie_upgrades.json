@@ -137,7 +137,6 @@
       { "monster": "mon_zombie_shriekling", "weight": 300 },
       { "monster": "mon_zombie_creepy", "weight": 50 },
       { "monster": "mon_zombie_snotgobbler", "weight": 300 },
-      { "monster": "mon_zombie_wretch", "weight": 100 },
       { "monster": "mon_zombie_waif", "weight": 200 }
     ]
   },
