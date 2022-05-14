@@ -4908,6 +4908,15 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "bundle_pipe",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "pipe", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "nomex",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
