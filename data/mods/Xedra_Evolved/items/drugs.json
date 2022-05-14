@@ -27,7 +27,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "lotus blossom" },
-    "description": "A drug that became popular over the last few years before the cataclysm.  It appears to be exactly as it's street name, a dark purple lotus blossom.  It's known to be a strong painkiller while also causing vivid hallucinations.",
+    "description": "A drug that became popular over the last few years before the cataclysm.  It appears to be exactly as its street name, a dark purple lotus blossom.  It's known to be a strong painkiller while also causing vivid hallucinations.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 10000,

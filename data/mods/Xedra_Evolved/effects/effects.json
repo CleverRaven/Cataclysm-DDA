@@ -36,7 +36,7 @@
     "rating": "mixed",
     "max_duration": "30 m",
     "base_mods": { "per_mod": [ 6 ], "dex_mod": [ -2 ], "speed_mod": [ -5 ] },
-    "blood_analysis_description": "Cross-Dimensional Narcotic, unexpected physics encountered"
+    "blood_analysis_description": "Cross-dimensional Narcotic, unexpected physics encountered"
   },
   {
     "type": "effect_type",
@@ -76,7 +76,7 @@
   {
     "type": "effect_type",
     "id": "foxfire_imbibed",
-    "name": [ "Foxfire", "Balefire", "St Elmo's Fire" ],
+    "name": [ "Foxfire", "Balefire", "St, Elmo's Fire" ],
     "desc": [
       "Your body is dimly covered in ephemeral flames.",
       "The flames sometimes obstruct your vision, yet you feel no pain from them.",

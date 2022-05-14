@@ -48,7 +48,7 @@
     "type": "GENERIC",
     "name": { "str": "frostrimed estoc" },
     "copy-from": "mirror_march_estoc",
-    "description": "This sword is covered in shifting frost and seems to move of it's own volition in your hands.",
+    "description": "This sword is covered in shifting frost and seems to move of its own volition in your hands.",
     "relic_data": {
       "passive_effects": [
         {

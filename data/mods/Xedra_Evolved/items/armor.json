@@ -221,7 +221,7 @@
     "copy-from": "hc_chainmail_feet",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
-    "description": "Moon tear chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where changeling bannermen are numerous",
+    "description": "Moon tear chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where changeling bannermen are numerous.",
     "armor": [
       {
         "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -237,7 +237,7 @@
     "copy-from": "mt_chainmail_feet",
     "name": { "str": "pair of XL moon tears chainmail chausses", "str_pl": "pairs of XL moon tears chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where redcap aspirants are numerous",
+    "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where redcap aspirants are numerous.",
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -246,7 +246,7 @@
     "copy-from": "mt_chainmail_feet",
     "name": { "str": "pair of XS moon tears chainmail chausses", "str_pl": "pairs of XS moon tears chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "description": "Moon tear chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous",
+    "description": "Moon tear chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous.",
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -302,7 +302,7 @@
     "type": "ARMOR",
     "copy-from": "mt_chainmail_hood",
     "name": { "str": "XL moon tears chainmail coif" },
-    "description": "A fine moon tear chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
+    "description": "A fine moon tear chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -312,7 +312,7 @@
     "copy-from": "mt_chainmail_hood",
     "looks_like": "hc_chainmail_hood",
     "name": { "str": "XS moon tears chainmail coif" },
-    "description": "A fine moon tear chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
+    "description": "A fine moon tear chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

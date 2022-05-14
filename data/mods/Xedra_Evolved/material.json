@@ -2,7 +2,7 @@
   {
     "type": "material",
     "id": "fae_fur",
-    "name": "glimmer fur",
+    "name": "Glimmer Fur",
     "density": 12,
     "specific_heat_liquid": 0.02,
     "specific_heat_solid": 0.02,
@@ -37,7 +37,7 @@
   {
     "type": "material",
     "id": "fae_flesh",
-    "name": "Fae beast Flesh",
+    "name": "Fae Beast Flesh",
     "density": 1.1,
     "specific_heat_liquid": 3.7,
     "specific_heat_solid": 2.15,
@@ -64,7 +64,7 @@
   {
     "type": "material",
     "id": "moon_tears",
-    "name": "Moon tears",
+    "name": "Moon Tears",
     "density": 13,
     "bash_resist": 13,
     "specific_heat_liquid": 0.82,
@@ -84,7 +84,7 @@
   {
     "type": "material",
     "id": "moon_tears_fine_chain",
-    "name": "Moon tears fine chain",
+    "name": "Moon Tears Fine Chain",
     "density": 13,
     "bash_resist": 13,
     "specific_heat_liquid": 0.82,
