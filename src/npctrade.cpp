@@ -146,7 +146,7 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
                     price_adjustment( seller.get_skill_level( skill_speech ) -
                                       buyer.get_skill_level( skill_speech ) );
-    return std::max( adjust, 1.0 );
+    return seller.is_npc() ? adjust : -1 / adjust;
 }
 
 int npc_trading::bionic_install_price( Character &installer, Character &patient,
@@ -176,7 +176,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     }
 
     if( fac == nullptr || fac->currency != it->typeId() ) {
-        return static_cast<int>( price * adjust );
+        return static_cast<int>( price * ( 1 + 0.25 * adjust ) );
     }
 
     return price;
