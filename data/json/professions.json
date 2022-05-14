@@ -4580,7 +4580,7 @@
         "items": [ "american_flag", "socks", "sneakers", "wristwatch" ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "flag_mask_dust" } ]
       },
-      "male": [ "flag_shirt", "flag_pants", "flag_swimsuit" ],
+      "male": { "items": [ "flag_shirt", "flag_pants" ], "entries": [ { "item": "flag_swimsuit", "variant": "flag_swimsuit" } ] },
       "female": {
         "items": [ "flag_jumpsuit" ],
         "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
