@@ -194,7 +194,7 @@
       {
         "id": "mma_buff_hylian_onpause_2",
         "name": "Greater Charge Up",
-        "description": "By charging a second time, you are able to keep on spinning with slightly less destructive force after the first spin.\n\n\n\nLasts 1 turn.",
+        "description": "By charging a second time, you are able to keep on spinning with slightly less destructive force after the first spin.\n\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "required_buffs_all": [ "mma_buff_hylian_onpause" ],
         "weapon_categories_allowed": [ "HYLIAN_MASTER_SWORD" ],
