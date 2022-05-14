@@ -559,7 +559,7 @@
       },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
     ],
-    "warmth": 10,
+    "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
@@ -583,7 +583,7 @@
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": 6 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 6 }
     ],
-    "warmth": 10,
+    "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
@@ -604,7 +604,7 @@
     "color": "dark_gray",
     "looks_like": "pants",
     "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 6 } ],
-    "warmth": 10,
+    "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
@@ -632,7 +632,7 @@
       },
       { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ],
-    "warmth": 5,
+    "warmth": 8,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
@@ -677,7 +677,7 @@
         "moves": 130
       }
     ],
-    "warmth": 8,
+    "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POCKETS" ]
@@ -706,7 +706,7 @@
         "encumbrance": 0
       }
     ],
-    "warmth": 7,
+    "warmth": 8,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
