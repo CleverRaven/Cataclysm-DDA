@@ -651,6 +651,7 @@ frigger
 frostburn
 frostburnt
 frostnipped
+frostrimed
 froths
 ft
 fuckit
@@ -689,6 +690,8 @@ generalist
 gesticulates
 ghast
 github
+gladii
+glasknife
 glassblowing
 glassteel
 glassworking
@@ -752,6 +755,7 @@ harmonically
 harries
 harvestable
 hauberk
+hauberks
 hbhbh
 hdd
 heartlike
@@ -1302,6 +1306,7 @@ posteriori
 posthuman
 potboiler
 potentiates
+poufs
 pouncer
 powerplants
 powertool
@@ -1395,6 +1400,7 @@ reckonin
 recolherem
 recrafted
 recursively
+redcaps
 redear
 redits
 reenabled
@@ -1903,6 +1909,7 @@ wibble
 wibbles
 wibbling
 wicking
+wieldable
 willin
 willowbark
 windowframe
