@@ -280,6 +280,7 @@ class avatar : public Character
         /** gets the inventory from the avatar that is interactible via advanced inventory management */
         std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,
                 advanced_inv_area &square );
+        std::vector<advanced_inv_listitem> get_AIM_inventory();
 
         using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;

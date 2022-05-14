@@ -125,6 +125,25 @@ static std::vector<std::vector<item_location>> item_list_to_stack(
     return ret;
 }
 
+std::vector<advanced_inv_listitem> outfit::get_AIM_inventory( size_t &item_index, avatar &you )
+{
+    std::vector<advanced_inv_listitem> items;
+    for( item &worn_item : worn ) {
+        if( worn_item.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
+            continue;
+        }
+        for( const std::vector<item_location> &it_stack : item_list_to_stack(
+                 item_location( you, &worn_item ),
+                 worn_item.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+            advanced_inv_listitem adv_it( it_stack, item_index++, AIM_INVENTORY, false );
+            items.push_back( adv_it );
+
+        }
+    }
+    return items;
+}
+
+
 std::vector<advanced_inv_listitem> outfit::get_AIM_inventory( size_t &item_index, avatar &you,
         const advanced_inventory_pane &pane, advanced_inv_area &square )
 {
@@ -142,6 +161,23 @@ std::vector<advanced_inv_listitem> outfit::get_AIM_inventory( size_t &item_index
                 square.weight += adv_it.weight;
                 items.push_back( adv_it );
             }
+        }
+    }
+    return items;
+}
+
+std::vector<advanced_inv_listitem> avatar::get_AIM_inventory()
+{
+    size_t item_index = 0;
+    std::vector<advanced_inv_listitem> items = worn.get_AIM_inventory( item_index, *this );
+
+    item &weapon = get_wielded_item();
+    if( weapon.is_container() ) {
+        for( const std::vector<item_location> &it_stack : item_list_to_stack(
+                 item_location( *this, &weapon ),
+                 weapon.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+            advanced_inv_listitem adv_it( it_stack, item_index++, AIM_INVENTORY, false );
+            items.push_back( adv_it );
         }
     }
     return items;
@@ -224,8 +260,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             if( !cont->is_container_empty() ) {
                 // filtering does not make sense for liquid in container
                 item_location container = square.get_container( in_vehicle() );
-                std::list<item*> contained = container->all_items_top();
-                for( item* object : contained ) {
+                std::list<item *> contained = container->all_items_top();
+                for( item *object : contained ) {
                     advanced_inv_listitem ait( item_location( container, object ), 0, 1, square.id, in_vehicle() );
                     square.volume += ait.volume;
                     square.weight += ait.weight;

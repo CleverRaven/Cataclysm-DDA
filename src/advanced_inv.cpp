@@ -210,13 +210,12 @@ bool advanced_inventory::get_square( const std::string &action, aim_location &re
 {
     for( advanced_inv_area &s : squares ) {
         if( "ITEMS_CONTAINER" == action ) {
-            if( ( src == left && s.id == AIM_CONTAINER_L ) || 
+            if( ( src == left && s.id == AIM_CONTAINER_L ) ||
                 ( src == right && s.id == AIM_CONTAINER_R ) ) {
                 ret = screen_relative_location( s.id );
                 return true;
             }
-        }
-        else if( s.actionname == action ) {
+        } else if( s.actionname == action ) {
             ret = screen_relative_location( s.id );
             return true;
         }
@@ -303,9 +302,9 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         } else {
             units::volume maxvolume = 0_ml;
             advanced_inv_area &s = squares[pane.get_area()];
-            if( ( pane.get_area() == AIM_CONTAINER_L || pane.get_area() == AIM_CONTAINER_R ) && 
+            if( ( pane.get_area() == AIM_CONTAINER_L || pane.get_area() == AIM_CONTAINER_R ) &&
                 s.get_container( pane.in_vehicle() ) ) {
-                maxvolume = s.get_container( pane.in_vehicle() )->get_total_capacity(); // TODO: Max volume changes for other container when opening container
+                maxvolume = s.get_container( pane.in_vehicle() )->get_total_capacity();
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
             } else {
@@ -609,7 +608,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
-        if ( i == AIM_CONTAINER_R && area == AIM_CONTAINER_L ) {
+        if( i == AIM_CONTAINER_R && area == AIM_CONTAINER_L ) {
             continue;
         }
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
@@ -972,9 +971,9 @@ bool advanced_inventory::move_all_items()
             // TODO: implement this
             popup( _( "Putting on everything from your inventory would be tricky." ) );
             return false;
-        } else if ( dpane.get_area() == AIM_CONTAINER_L || dpane.get_area() == AIM_CONTAINER_R ) {
-            const units::volume& src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
-            if ( !is_processing() && src_volume > darea.free_volume( dpane.in_vehicle() ) &&
+        } else if( dpane.get_area() == AIM_CONTAINER_L || dpane.get_area() == AIM_CONTAINER_R ) {
+            const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
+            if( !is_processing() && src_volume > darea.free_volume( dpane.in_vehicle() ) &&
                 !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
                 return false;
             }
@@ -997,7 +996,7 @@ bool advanced_inventory::move_all_items()
             } else if( spane.get_area() == AIM_WORN ) {
                 for( item_location item : player_character.worn.all_items_loc( player_character ) ) {
                     drop_location clothing = drop_location( item, 1 );
-                    if ( item.get_item()->is_worn_by_player() && item != darea.get_container() ) {
+                    if( item.get_item()->is_worn_by_player() && item != darea.get_container() ) {
                         if( item.get_item()->is_favorite ) {
                             dropped_favorite.push_back( clothing );
                         } else {
@@ -1007,8 +1006,8 @@ bool advanced_inventory::move_all_items()
                 }
             }
 
-            if ( dropped.empty() ) {
-                if ( !query_yn( _( "Really move all your favorite items?" ) ) ) {
+            if( dropped.empty() ) {
+                if( !query_yn( _( "Really move all your favorite items?" ) ) ) {
                     return false;
                 }
                 dropped = dropped_favorite;
@@ -1306,7 +1305,7 @@ void advanced_inventory::redraw_sidebar()
 void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    if( ( panes[left].get_area() == changeSquare && changeSquare != AIM_CONTAINER_L ) || 
+    if( ( panes[left].get_area() == changeSquare && changeSquare != AIM_CONTAINER_L ) ||
         ( panes[right].get_area() == changeSquare && changeSquare != AIM_CONTAINER_R ) ) {
         if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
             spane.get_area() != changeSquare ) {
@@ -1452,20 +1451,15 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         item_location container = squares[destarea].get_container( to_vehicle );
         thing.first = sitem->items.front();
         thing.second = amount_to_move;
-        if ( thing.first.get_item()->made_of( phase_id::LIQUID ) ) {
-            if( !move_content( *sitem->items.front(),
-                               *container ) ) {
-                return false;
-            }
-        } else {
-            if ( srcarea > AIM_INVENTORY &&
-                 srcarea < AIM_CONTAINER_L &&
-                 srcarea != AIM_DRAGGED ) {
-                start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
-                do_return_entry();
-                exit = true;
-            }
-            move_cont_item( thing, container );
+        if( srcarea > AIM_INVENTORY &&
+            srcarea < AIM_CONTAINER_L &&
+            srcarea != AIM_DRAGGED ) {
+            start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
+            do_return_entry();
+            exit = true;
+        }
+        if( move_cont_item( thing, container ) ) {
+            return false;
         }
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
@@ -1927,18 +1921,19 @@ bool advanced_inventory::query_destination( aim_location &def )
     return false;
 }
 
-bool advanced_inventory::move_content( item &src_container, item &dest_container )
+// not used and probably deprecated
+bool advanced_inventory::move_content( item *src_container, item *dest_container )
 {
-    if( !src_container.is_container() ) {
+    if( !src_container->is_watertight_container() ) {
         popup( _( "Source must be container." ) );
         return false;
     }
-    if( src_container.is_container_empty() ) {
+    if( src_container->is_container_empty() ) {
         popup( _( "Source container is empty." ) );
         return false;
     }
 
-    item &src_contents = src_container.legacy_front();
+    item &src_contents = src_container->legacy_front();
 
     if( !src_contents.made_of( phase_id::LIQUID ) ) {
         return false;
@@ -1946,33 +1941,79 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     std::string err;
     // TODO: Allow buckets here, but require them to be on the ground or wielded
-    const int amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
+    const int amount = dest_container->get_remaining_capacity_for_liquid( src_contents, false, &err );
     if( !err.empty() ) {
         popup( err );
         return false;
     }
-    dest_container.fill_with( src_contents, amount );
+    dest_container->fill_with( src_contents, amount );
     src_contents.charges -= amount;
-    src_container.contained_where( src_contents )->on_contents_changed();
-    src_container.on_contents_changed();
+    src_container->contained_where( src_contents )->on_contents_changed();
+    src_container->on_contents_changed();
     get_avatar().flag_encumbrance();
 
     if( src_contents.charges <= 0 ) {
-        src_container.clear_items();
+        src_container->clear_items();
     }
 
     return true;
 }
 
-void advanced_inventory::move_cont_item( drop_location thing, item_location dest_container ) {
+bool advanced_inventory::move_cont_item( drop_location thing, item_location dest_container )
+{
     drop_locations things;
     things.push_back( thing );
 
-    move_cont_item( things, dest_container );
+    return move_cont_item( things, dest_container );
 }
 
-void advanced_inventory::move_cont_item( drop_locations things, item_location dest_container ) {
-    Character& player_character = get_player_character();
+bool advanced_inventory::move_cont_item( drop_locations things, item_location dest_container )
+{
+    Character &player_character = get_player_character();
+
+    units::volume total_volume;
+    units::mass total_mass;
+    for( int i = 0; i < things.size(); i++ ) {
+        drop_location thing = things.front();
+
+        if( !dest_container->can_contain( *thing.first ).success() ) {
+            popup( _( "Container cannot contain %s." ), thing.first->type_name() );
+            things.remove( thing );
+            continue;
+        }
+        if( dest_container.get_item()->will_spill_if_unsealed() &&
+            dest_container.where() != item_location::type::map &&
+            !get_avatar().is_wielding( *dest_container ) ) {
+            popup( _( "The %s would spill unless it's on the ground or wielded." ),
+                   dest_container.get_item()->type_name() );
+            things.remove( thing );
+            continue;
+        }
+        if( thing.first.get_item()->made_of( phase_id::LIQUID ) ) {
+            if( !dest_container.get_item()->is_watertight_container() ) {
+                popup( _( "Can't put liquids in container that's not watertight." ) );
+                things.remove( thing );
+                continue;
+            }
+        }
+        if( dest_container.volume_capacity() - ( total_volume + thing.first.get_item()->volume() ) <
+            units::volume() ||
+            dest_container.weight_capacity() - ( total_mass + thing.first.get_item()->weight() ) <
+            units::mass() ) {
+            popup( _( "Not enough room for %s." ), thing.first->type_name() );
+            things.remove( thing );
+            continue;
+        }
+
+        total_volume += thing.first.get_item()->volume();
+        total_mass += thing.first.get_item()->weight();
+        things.splice( things.end(), things );
+        continue;
+    }
+
+    if( things.empty() ) {
+        return false;
+    }
 
     insert_item_activity_actor insert = insert_item_activity_actor( dest_container, things );
     player_activity activity = player_activity( insert );
@@ -1981,6 +2022,8 @@ void advanced_inventory::move_cont_item( drop_locations things, item_location de
 
     insert.start( activity, player_character );
     insert.finish( activity, player_character );
+
+    return true;
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
@@ -2001,7 +2044,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     amount = input_amount;
 
     // Includes moving from/to inventory and around on the map.
-    if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
+    if( ( sitem.items.front().has_parent() ?
+          !sitem.items.front().parent_item().get_item()->is_watertight_container() :
+          true ) && it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
         return false;
     }

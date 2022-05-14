@@ -7,6 +7,7 @@
 #include <set>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
@@ -252,7 +253,7 @@ item_location outfit::adv_inv_get_container( item_location container, const adva
     if( worn.size() > idx ) {
         auto iter = worn.begin();
         std::advance( iter, idx );
-        if( area.is_container_valid( &*iter ) ) {
+        if( area.is_container_valid( &*iter ) && item_location( guy, &*iter ) ) {
             container = item_location( guy, &*iter );
         }
     }
@@ -261,7 +262,8 @@ item_location outfit::adv_inv_get_container( item_location container, const adva
     if( !container ) {
         auto iter = worn.begin();
         for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
-            if( area.is_container_valid( &*iter ) ) {
+            if( area.is_container_valid( &*iter ) &&
+                item_location( guy, &*iter ) == uistate.get_adv_inv_container( area.id ) ) {
                 container = item_location( guy, &*iter );
                 uistate.set_adv_inv_container_index( area.id, i );
                 break;
@@ -279,29 +281,56 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
     if( uistate.get_adv_inv_container_location( id ) != -1 ) {
         // try to find valid container in the area
         if( uistate.get_adv_inv_container_location( id ) == AIM_INVENTORY ) {
-            const invslice &stacks = player_character.inv->slice();
+            const std::vector<advanced_inv_listitem> &inv_stacks = get_avatar().get_AIM_inventory();
 
             // check index first
-            if( stacks.size() > static_cast<size_t>( uistate.get_adv_inv_container_index( id ) ) ) {
-                auto &it = stacks[uistate.get_adv_inv_container_index( id )]->front();
-                if( is_container_valid( &it ) ) {
-                    container = item_location( player_character, &it );
+            if( inv_stacks.size() > static_cast<size_t>( uistate.get_adv_inv_container_index( id ) ) ) {
+                item_location i_location = inv_stacks[ uistate.get_adv_inv_container_index( id ) ].items.front();
+                item *it = i_location.get_item();
+                if( is_container_valid( it ) && i_location == uistate.get_adv_inv_container( id ) ) {
+                    container = item_location( player_character, it );
                 }
             }
 
-            // try entire area
             if( !container ) {
-                for( size_t x = 0; x < stacks.size(); ++x ) {
-                    item &it = stacks[x]->front();
-                    if( is_container_valid( &it ) ) {
-                        container = item_location( player_character, &it );
-                        uistate.set_adv_inv_container_index( id, x );
+                for( advanced_inv_listitem search : inv_stacks ) {
+                    item_location i_location = search.items.front();
+                    item *it = i_location.get_item();
+                    if( i_location == uistate.get_adv_inv_container( id ) ) {
+                        container = item_location( player_character, it );
                         break;
                     }
                 }
             }
+
         } else if( uistate.get_adv_inv_container_location( id ) == AIM_WORN ) {
             container = player_character.worn.adv_inv_get_container( container, *this, player_character );
+        } else if( uistate.get_adv_inv_container_location( id ) == AIM_CONTAINER_L ||
+                   uistate.get_adv_inv_container_location( id ) == AIM_CONTAINER_R ) {
+            const item_location current_container = uistate.get_adv_inv_container( id );
+
+            if( current_container && current_container.has_parent() ) {
+                std::list<item *> items = current_container.parent_item().get_item()->all_items_top();
+
+                if( items.size() > static_cast<size_t>( uistate.get_adv_inv_container_index( id ) ) ) {
+                    auto iter = items.begin();
+                    std::advance( iter, uistate.get_adv_inv_container_index( id ) );
+                    item *it = *iter;
+                    item_location loc = item_location();
+                    if( is_container_valid( it ) && it == uistate.get_adv_inv_container( id ).get_item() ) {
+                        container = current_container;
+                    }
+                }
+
+                if( !container ) {
+                    for( item *it : items ) {
+                        if( is_container_valid( it ) && it == uistate.get_adv_inv_container( id ).get_item() ) {
+                            container = current_container;
+                            break;
+                        }
+                    }
+                }
+            }
         } else {
             map &here = get_map();
             bool is_in_vehicle = veh &&
@@ -354,12 +383,14 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
 {
     if( advitem != nullptr ) {
         const item_location &it = advitem->items.front();
+        uistate.set_adv_inv_container( id, it );
         uistate.set_adv_inv_container_location( id, advitem->area );
         uistate.set_adv_inv_container_in_vehicle( id, advitem->from_vehicle );
         uistate.set_adv_inv_container_index( id, advitem->idx );
         uistate.set_adv_inv_container_type( id, it->typeId() );
         set_container_position();
     } else {
+        uistate.set_adv_inv_container( id, item_location() );
         uistate.set_adv_inv_container_location( id, -1 );
         uistate.set_adv_inv_container_index( id, 0 );
         uistate.set_adv_inv_container_in_vehicle( id, false );

@@ -117,10 +117,12 @@ class uistatedata
         int adv_inv_container_index = 0;
         itype_id adv_inv_container_type = itype_id::NULL_ID();
         bool adv_inv_container_in_vehicle = false;
+        item_location adv_inv_container = item_location();
         int adv_inv_rcontainer_location = -1;
         int adv_inv_rcontainer_index = 0;
         itype_id adv_inv_rcontainer_type = itype_id::NULL_ID();
         bool adv_inv_rcontainer_in_vehicle = false;
+        item_location adv_inv_rcontainer = item_location();
 
         int get_adv_inv_container_location( const aim_location id ) {
             return id == AIM_CONTAINER_L ? adv_inv_container_location : adv_inv_rcontainer_location;
@@ -134,6 +136,9 @@ class uistatedata
         bool get_adv_inv_container_in_vehicle( const aim_location id ) {
             return id == AIM_CONTAINER_L ? adv_inv_container_in_vehicle : adv_inv_rcontainer_in_vehicle;
         }
+        item_location get_adv_inv_container( const aim_location id ) {
+            return id == AIM_CONTAINER_L ? adv_inv_container : adv_inv_rcontainer;
+        }
 
         void set_adv_inv_container_location( const aim_location id, int value ) {
             ( id == AIM_CONTAINER_L ? adv_inv_container_location : adv_inv_rcontainer_location ) = value;
@@ -146,6 +151,9 @@ class uistatedata
         }
         void set_adv_inv_container_in_vehicle( const aim_location id, bool value ) {
             ( id == AIM_CONTAINER_L ? adv_inv_container_in_vehicle : adv_inv_rcontainer_in_vehicle ) = value;
+        }
+        void set_adv_inv_container( const aim_location id, item_location value ) {
+            ( id == AIM_CONTAINER_L ? adv_inv_container : adv_inv_rcontainer ) = value;
         }
 
 
@@ -241,10 +249,12 @@ class uistatedata
             json.member( "adv_inv_container_index", adv_inv_container_index );
             json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             json.member( "adv_inv_container_type", adv_inv_container_type );
+            json.member( "adv_inv_container", adv_inv_container );
             json.member( "adv_inv_rcontainer_location", adv_inv_rcontainer_location );
             json.member( "adv_inv_rcontainer_index", adv_inv_rcontainer_index );
             json.member( "adv_inv_rcontainer_in_vehicle", adv_inv_rcontainer_in_vehicle );
             json.member( "adv_inv_rcontainer_type", adv_inv_rcontainer_type );
+            json.member( "adv_inv_rcontainer", adv_inv_rcontainer );
             json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
@@ -304,10 +314,12 @@ class uistatedata
             jo.read( "adv_inv_container_index", adv_inv_container_index );
             jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             jo.read( "adv_inv_container_type", adv_inv_container_type );
+            jo.read( "adv_inv_container", adv_inv_container );
             jo.read( "adv_inv_rcontainer_location", adv_inv_rcontainer_location );
             jo.read( "adv_inv_rcontainer_index", adv_inv_rcontainer_index );
             jo.read( "adv_inv_rcontainer_in_vehicle", adv_inv_rcontainer_in_vehicle );
             jo.read( "adv_inv_rcontainer_type", adv_inv_rcontainer_type );
+            jo.read( "adv_inv_rcontainer", adv_inv_rcontainer );
             jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
