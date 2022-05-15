@@ -1223,7 +1223,9 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
     }
 
     for( zone_data &zone : zones ) {
-        _rotate_zone( target_map, zone, turns );
+        if( !zone.get_is_personal() ) {
+            _rotate_zone( target_map, zone, turns );
+        }
     }
 
     for( zone_data *zone : target_map.get_vehicle_zones( target_map.get_abs_sub().z() ) ) {
