@@ -47,6 +47,24 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
+enum class main_menu_opts : int {
+    MOTD = 0,
+    NEWCHAR = 1,
+    LOADCHAR = 2,
+    WORLD = 3,
+    SPECIAL = 4,
+    SETTINGS = 5,
+    HELP = 6,
+    CREDITS = 7,
+    QUIT = 8
+};
+static constexpr int max_menu_opts = 8;
+
+static int getopt( main_menu_opts o )
+{
+    return static_cast<int>( o );
+}
+
 void main_menu::on_move() const
 {
     sfx::play_variant_sound( "menu_move", "default", 100 );
@@ -92,22 +110,20 @@ static int utf8_width_notags( const char *s )
     return w;
 }
 
-void main_menu::print_menu_items( const catacurses::window &w_in,
-                                  const std::vector<std::string> &vItems,
-                                  size_t iSel, point offset, int spacing )
+std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
+        const std::vector<std::string> &vItems,
+        size_t iSel, point offset, int spacing )
 {
+    std::vector<int> ret;
     std::string text;
     for( size_t i = 0; i < vItems.size(); ++i ) {
         if( i > 0 ) {
             text += std::string( spacing, ' ' );
         }
+        ret.push_back( utf8_width_notags( text.c_str() ) );
 
-        std::string temp = shortcut_text( c_white, vItems[i] );
-        if( iSel == i ) {
-            text += string_format( "[%s]", colorize( remove_color_tags( temp ), h_white ) );
-        } else {
-            text += string_format( "[%s]", temp );
-        }
+        std::string temp = shortcut_text( iSel == i ? hilite( c_yellow ) : c_yellow, vItems[i] );
+        text += string_format( "[%s]", colorize( temp, iSel == i ? hilite( c_white ) : c_white ) );
     }
 
     int text_width = utf8_width_notags( text.c_str() );
@@ -115,10 +131,102 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
         offset.y -= std::ceil( text_width / getmaxx( w_in ) );
     }
 
-    fold_and_print( w_in, offset, getmaxx( w_in ), c_light_gray, text, ']' );
+    fold_and_print( w_in, offset, getmaxx( w_in ), c_white, text, ']' );
+    return ret;
 }
 
-void main_menu::print_menu( const catacurses::window &w_open, int iSel, const point &offset )
+void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_line )
+{
+    std::vector<std::string> sub_opts;
+    int xlen = 0;
+    main_menu_opts sel_o = static_cast<main_menu_opts>( sel );
+    switch( sel_o ) {
+        case main_menu_opts::CREDITS:
+            display_text( mmenu_credits, "Credits", sel_line );
+            return;
+        case main_menu_opts::MOTD:
+            display_text( mmenu_motd, "MOTD", sel_line );
+            return;
+        case main_menu_opts::SPECIAL:
+            for( int i = 1; i < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ); i++ ) {
+                std::string spec_name = special_game_name( static_cast<special_game_type>( i ) );
+                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
+                sub_opts.push_back( shortcut_text( clr, spec_name ) );
+                int len = utf8_width( shortcut_text( clr, spec_name ), true );
+                if( len > xlen ) {
+                    xlen = len;
+                }
+            }
+            break;
+        case main_menu_opts::SETTINGS:
+            for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
+                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
+                sub_opts.push_back( shortcut_text( clr, vSettingsSubItems[i] ) );
+                int len = utf8_width( shortcut_text( clr, vSettingsSubItems[i] ), true );
+                if( len > xlen ) {
+                    xlen = len;
+                }
+            }
+            break;
+        case main_menu_opts::NEWCHAR:
+            for( int i = 0; static_cast<size_t>( i ) < vNewGameSubItems.size(); i++ ) {
+                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
+                sub_opts.push_back( shortcut_text( clr, vNewGameSubItems[i] ) );
+                int len = utf8_width( shortcut_text( clr, vNewGameSubItems[i] ), true );
+                if( len > xlen ) {
+                    xlen = len;
+                }
+            }
+            break;
+        case main_menu_opts::LOADCHAR:
+        case main_menu_opts::WORLD: {
+            std::vector<std::string> all_worldnames = world_generator->all_worldnames();
+            for( int i = 0; static_cast<size_t>( i ) < all_worldnames.size(); i++ ) {
+                int savegames_count = world_generator->get_world( all_worldnames[i] )->world_saves.size();
+                nc_color color1;
+                nc_color color2;
+                if( all_worldnames[i] == "TUTORIAL" || all_worldnames[i] == "DEFENSE" ) {
+                    color1 = c_light_cyan;
+                    color2 = h_light_cyan;
+                } else {
+                    color1 = c_white;
+                    color2 = h_white;
+                }
+                sub_opts.push_back( colorize( string_format( "%s (%d)", all_worldnames[i], savegames_count ),
+                                              sel2 == i ? color2 : color1 ) );
+                int len = utf8_width( sub_opts.back(), true );
+                if( len > xlen ) {
+                    xlen = len;
+                }
+            }
+        }
+        break;
+        case main_menu_opts::HELP:
+        case main_menu_opts::QUIT:
+        default:
+            return;
+    }
+
+    if( sub_opts.empty() ) {
+        return;
+    }
+
+    catacurses::window w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4,
+                               bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
+    werase( w_sub );
+    draw_border( w_sub, c_white );
+    for( int y = 0; static_cast<size_t>( y ) < sub_opts.size(); y++ ) {
+        std::string opt = ( sel2 == y ? "» " : "  " ) + sub_opts[y];
+        int padding = ( xlen + 2 ) - utf8_width( opt, true );
+        opt.append( padding, ' ' );
+        nc_color clr = sel2 == y ? hilite( c_white ) : c_white;
+        trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, clr, opt );
+    }
+    wnoutrefresh( w_sub );
+}
+
+void main_menu::print_menu( const catacurses::window &w_open, int iSel, const point &offset,
+                            int sel_line )
 {
     // Clear Lines
     werase( w_open );
@@ -132,8 +240,12 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
         mvwputch( w_open, point( i, window_height - 4 ), c_white, LINE_OXOX );
     }
 
-    center_print( w_open, window_height - 2, c_red,
-                  _( "Bugs?  Suggestions?  Use links in MOTD to report them." ) );
+    if( iSel == getopt( main_menu_opts::NEWCHAR ) ) {
+        center_print( w_open, window_height - 2, c_yellow, vNewGameHints[sel2] );
+    } else {
+        center_print( w_open, window_height - 2, c_red,
+                      _( "Bugs?  Suggestions?  Use links in MOTD to report them." ) );
+    }
 
     center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
                   vdaytip ) );
@@ -187,9 +299,14 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     const int adj_offset = std::max( 0, ( free_space - width_of_spacing ) / 2 );
     const int final_offset = offset.x + adj_offset + spacing;
 
-    print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y ), spacing );
+    std::vector<int> offsets =
+        print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y ), spacing );
 
     wnoutrefresh( w_open );
+
+    const point p_offset( catacurses::getbegx( w_open ), catacurses::getbegy( w_open ) );
+
+    display_sub_menu( iSel, p_offset + point( offsets[iSel], offset.y - 2 ), sel_line );
 }
 
 std::vector<std::string> main_menu::load_file( const std::string &path,
@@ -282,6 +399,32 @@ void main_menu::init_strings()
     vMenuItems.emplace_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<C|c>redits" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<Q|q>uit" ) );
+
+    // new game menu items
+    vNewGameSubItems.clear();
+    vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
+    vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
+    vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
+    if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
+        vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game",
+                                       "Play Now!  (<F|f>ixed Scenario)" ) );
+        vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
+    }
+    vNewGameHints.clear();
+    vNewGameHints.emplace_back(
+        _( "Allows you to fully customize points pool, scenario, and character's profession, stats, traits, skills and other parameters." ) );
+    vNewGameHints.emplace_back( _( "Select from one of previously created character templates." ) );
+    vNewGameHints.emplace_back(
+        _( "Creates random character, but lets you preview the generated character and the scenario and change character and/or scenario if needed." ) );
+    vNewGameHints.emplace_back(
+        _( "Puts you right in the game, randomly choosing character's traits, profession, skills and other parameters.  Scenario is fixed to Evacuee." ) );
+    vNewGameHints.emplace_back(
+        _( "Puts you right in the game, randomly choosing scenario and character's traits, profession, skills and other parameters." ) );
+    vNewGameHotkeys.clear();
+    vNewGameHotkeys.reserve( vNewGameSubItems.size() );
+    for( const std::string &item : vNewGameSubItems ) {
+        vNewGameHotkeys.push_back( get_hotkeys( item ) );
+    }
 
     // determine hotkeys from translated menu item text
     vMenuHotkeys.clear();
@@ -432,6 +575,259 @@ bool main_menu::opening_screen()
 
     // Make [Load Game] the default cursor position if there's game save available
     if( !world_generator->all_worldnames().empty() ) {
+        sel1 = getopt( main_menu_opts::LOADCHAR );
+    }
+
+    background_pane background;
+
+    ui_adaptor ui;
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        print_menu( w_open, sel1, menu_offset, sel_line );
+    } );
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        init_windows();
+        ui.position_from_window( w_open );
+    } );
+    ui.mark_resize();
+
+    while( !start ) {
+        ui_manager::redraw();
+        std::string action = ctxt.handle_input();
+        std::string sInput = ctxt.get_raw_input().text;
+
+        // check automatic menu shortcuts
+        for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size(); ++i ) {
+            for( const std::string &hotkey : vMenuHotkeys[i] ) {
+                if( sInput == hotkey && sel1 != i ) {
+                    sel1 = i;
+                    sel2 = 0;
+                    sel_line = 0;
+                    if( i == getopt( main_menu_opts::HELP ) ) {
+                        action = "CONFIRM";
+                    } else if( i == getopt( main_menu_opts::QUIT ) ) {
+                        action = "QUIT";
+                    }
+                }
+            }
+        }
+        if( sel1 == getopt( main_menu_opts::SETTINGS ) ) {
+            for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
+                for( const std::string &hotkey : vSettingsHotkeys[i] ) {
+                    if( sInput == hotkey ) {
+                        sel2 = i;
+                        action = "CONFIRM";
+                    }
+                }
+            }
+        }
+
+        // also check special keys
+        if( action == "QUIT" ) {
+            if( query_yn( _( "Really quit?" ) ) ) {
+                return false;
+            }
+        } else if( action == "LEFT" || action == "PREV_TAB" ) {
+            sel2 = 0;
+            sel_line = 0;
+            if( sel1 > 0 ) {
+                sel1--;
+            } else {
+                sel1 = max_menu_opts;
+            }
+            on_move();
+        } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
+            sel2 = 0;
+            sel_line = 0;
+            if( sel1 < max_menu_opts ) {
+                sel1++;
+            } else {
+                sel1 = 0;
+            }
+            on_move();
+        } else if( action == "UP" || action == "DOWN" || action == "PAGE_UP" || action == "PAGE_DOWN" ) {
+            int max_item_count = 0;
+            int min_item_val = 0;
+            switch( static_cast<main_menu_opts>( sel1 ) ) {
+                case main_menu_opts::MOTD:
+                case main_menu_opts::CREDITS:
+                    if( action == "UP" || action == "PAGE_UP" ) {
+                        sel_line--;
+                        if( sel_line < 0 ) {
+                            sel_line = 0;
+                        }
+                    } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
+                        sel_line++;
+                    }
+                    break;
+                case main_menu_opts::LOADCHAR:
+                case main_menu_opts::WORLD:
+                    max_item_count = world_generator->all_worldnames().size();
+                    break;
+                case main_menu_opts::NEWCHAR:
+                    max_item_count = vNewGameSubItems.size();
+                    break;
+                case main_menu_opts::SETTINGS:
+                    max_item_count = vSettingsSubItems.size();
+                    break;
+                case main_menu_opts::SPECIAL:
+                    max_item_count = static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1;
+                    break;
+                case main_menu_opts::HELP:
+                case main_menu_opts::QUIT:
+                default:
+                    break;
+            }
+            if( max_item_count > 0 ) {
+                if( action == "UP" || action == "PAGE_UP" ) {
+                    sel2--;
+                    if( sel2 < min_item_val ) {
+                        sel2 = max_item_count - 1;
+                    }
+                } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
+                    sel2++;
+                    if( sel2 >= max_item_count ) {
+                        sel2 = min_item_val;
+                    }
+                }
+                on_move();
+            }
+        } else if( action == "CONFIRM" ) {
+            switch( static_cast<main_menu_opts>( sel1 ) ) {
+                case main_menu_opts::HELP:
+                    get_help().display_help();
+                    break;
+                case main_menu_opts::QUIT:
+                    return false;
+                case main_menu_opts::SPECIAL:
+                    if( MAP_SHARING::isSharing() ) {
+                        on_error();
+                        popup( _( "Special games don't work with shared maps." ) );
+                        clear_error();
+                    } else if( sel2 >= 0 && sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1 ) {
+                        on_out_of_scope cleanup( [&player_character]() {
+                            g->gamemode.reset();
+                            player_character = avatar();
+                            world_generator->set_active_world( nullptr );
+                        } );
+                        g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
+                        // check world
+                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
+                        if( world == nullptr ) {
+                            break;
+                        }
+                        world_generator->set_active_world( world );
+                        try {
+                            g->setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                            break;
+                        }
+                        if( !g->gamemode->init() ) {
+                            break;
+                        }
+                        cleanup.cancel();
+                        start = true;
+                    }
+                    break;
+                case main_menu_opts::SETTINGS:
+                    if( sel2 == 0 ) {        /// Options
+                        get_options().show( false );
+                        // The language may have changed- gracefully handle this.
+                        init_strings();
+                    } else if( sel2 == 1 ) { /// Keybindings
+                        input_context ctxt_default = get_default_mode_input_context();
+                        ctxt_default.display_menu();
+                    } else if( sel2 == 2 ) { /// Autopickup
+                        get_auto_pickup().show();
+                    } else if( sel2 == 3 ) { /// Safemode
+                        get_safemode().show();
+                    } else if( sel2 == 4 ) { /// Colors
+                        all_colors.show_gui();
+                    }
+                    break;
+                case main_menu_opts::LOADCHAR:
+                case main_menu_opts::NEWCHAR:
+                case main_menu_opts::WORLD:
+                case main_menu_opts::MOTD:
+                case main_menu_opts::CREDITS:
+                default:
+                    break;
+            }
+        }
+    }
+    return true;
+}
+
+bool main_menu::opening_screen_old()
+{
+    // set holiday based on local system time
+    current_holiday = get_holiday_from_time();
+
+    if( music::get_music_id() != music::music_id::title ) {
+        music::deactivate_music_id_all();
+    } else {
+        play_music( music::get_music_id_string() );
+    }
+
+    world_generator->set_active_world( nullptr );
+    world_generator->init();
+
+    get_help().load();
+    init_strings();
+
+    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
+        popup( _( "Unable to make config directory.  Check permissions." ) );
+        return false;
+    }
+
+    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
+        popup( _( "Unable to make save directory.  Check permissions." ) );
+        return false;
+    }
+
+    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
+        popup( _( "Unable to make templates directory.  Check permissions." ) );
+        return false;
+    }
+
+    if( !assure_dir_exist( PATH_INFO::user_font() ) ) {
+        popup( _( "Unable to make fonts directory.  Check permissions." ) );
+        return false;
+    }
+
+    if( !assure_dir_exist( PATH_INFO::user_sound() ) ) {
+        popup( _( "Unable to make sound directory.  Check permissions." ) );
+        return false;
+    }
+
+    if( !assure_dir_exist( PATH_INFO::user_gfx() ) ) {
+        popup( _( "Unable to make graphics directory.  Check permissions." ) );
+        return false;
+    }
+
+    load_char_templates();
+
+    ctxt.register_cardinal();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
+
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "DELETE_TEMPLATE" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+
+    // for the menu shortcuts
+    ctxt.register_action( "ANY_INPUT" );
+    bool start = false;
+
+    avatar &player_character = get_avatar();
+    player_character = avatar();
+
+    int sel_line = 0;
+
+    // Make [Load Game] the default cursor position if there's game save available
+    if( !world_generator->all_worldnames().empty() ) {
         sel1 = 2;
     }
 
@@ -439,7 +835,7 @@ bool main_menu::opening_screen()
 
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        print_menu( w_open, sel1, menu_offset );
+        print_menu( w_open, sel1, menu_offset, sel_line );
 
         if( layer == 1 ) {
             if( sel1 == 0 ) { // Print MOTD.
@@ -668,39 +1064,14 @@ bool main_menu::opening_screen()
 
 bool main_menu::new_character_tab()
 {
-    std::vector<std::string> vSubItems;
-    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
-    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
-    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
-    if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play Now!  (<F|f>ixed Scenario)" ) );
-        vSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
-    }
-    std::vector<std::string> hints;
-    hints.emplace_back(
-        _( "Allows you to fully customize points pool, scenario, and character's profession, stats, traits, skills and other parameters." ) );
-    hints.emplace_back( _( "Select from one of previously created character templates." ) );
-    hints.emplace_back(
-        _( "Creates random character, but lets you preview the generated character and the scenario and change character and/or scenario if needed." ) );
-    hints.emplace_back(
-        _( "Puts you right in the game, randomly choosing character's traits, profession, skills and other parameters.  Scenario is fixed to Evacuee." ) );
-    hints.emplace_back(
-        _( "Puts you right in the game, randomly choosing scenario and character's traits, profession, skills and other parameters." ) );
-
-    std::vector<std::vector<std::string>> vNewGameHotkeys;
-    vNewGameHotkeys.reserve( vSubItems.size() );
-    for( const std::string &item : vSubItems ) {
-        vNewGameHotkeys.push_back( get_hotkeys( item ) );
-    }
-
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        print_menu( w_open, 1, menu_offset );
+        print_menu( w_open, 1, menu_offset, 0 );
 
         if( layer == 2 && sel1 == 1 ) {
-            center_print( w_open, getmaxy( w_open ) - 7, c_yellow, hints[sel2] );
+            center_print( w_open, getmaxy( w_open ) - 7, c_yellow, vNewGameHints[sel2] );
 
-            print_menu_items( w_open, vSubItems, sel2, menu_offset + point( 0, -2 ) );
+            print_menu_items( w_open, vNewGameSubItems, sel2, menu_offset + point( 0, -2 ) );
             wnoutrefresh( w_open );
         } else if( layer == 3 && sel1 == 1 ) {
             // Then view presets
@@ -752,12 +1123,12 @@ bool main_menu::new_character_tab()
             if( action == "LEFT" || action == "PREV_TAB" ) {
                 sel2--;
                 if( sel2 < 0 ) {
-                    sel2 = vSubItems.size() - 1;
+                    sel2 = vNewGameSubItems.size() - 1;
                 }
                 on_move();
             } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
                 sel2++;
-                if( sel2 >= static_cast<int>( vSubItems.size() ) ) {
+                if( sel2 >= static_cast<int>( vNewGameSubItems.size() ) ) {
                     sel2 = 0;
                 }
                 on_move();
@@ -932,7 +1303,7 @@ bool main_menu::load_character_tab( bool transfer )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         const point offset( transfer ? 25 : 15, transfer ? -1 : 0 );
 
-        print_menu( w_open, transfer ? 3 : 2, menu_offset );
+        print_menu( w_open, transfer ? 3 : 2, menu_offset, 0 );
 
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
@@ -1097,7 +1468,7 @@ void main_menu::world_tab()
     ui_adaptor ui;
     ui.on_redraw( [this]( const ui_adaptor & ) {
         if( sel1 == 3 ) { // bail out if we're actually in load_character_tab
-            print_menu( w_open, 3, menu_offset );
+            print_menu( w_open, 3, menu_offset, 0 );
 
             if( layer == 3 ) { // World Menu
                 const point offset = menu_offset + point( 40 + extra_w / 2, -2 - sel2 );
