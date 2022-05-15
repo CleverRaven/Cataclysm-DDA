@@ -97,7 +97,6 @@
   - "**/**bandolier**"
   - "src/item_pocket.*"
   - "src/item_contents.*"
-  - "src/item_contents.*"
   - "tests/item_pocket_test.*"
 
 "Items: Magazines":
