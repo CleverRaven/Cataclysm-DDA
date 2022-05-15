@@ -318,7 +318,7 @@
     "name": { "str_sp": "PBJ Toast" },
     "copy-from": "toast",
     "description": "A slice of toast with peanut butter and jelly on top of it with added butter for flavor.",
-    "material": [ "fruit", "wheat" ],
+    "material": [ "fruit", "milk", "wheat" ],
     "primary_material": "wheat",
     "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
   },
@@ -328,7 +328,7 @@
     "name": { "str_sp": "wheat-free PBJ Toast" },
     "copy-from": "toast_wheat_free",
     "description": "A slice of wheat-free toast with peanut butter and jelly on top of it with added butter for flavor.",
-    "material": [ "fruit", "veggy" ],
+    "material": [ "fruit", "milk", "veggy" ],
     "primary_material": "veggy",
     "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
   },
