@@ -679,7 +679,7 @@
     "parent": "hand_r",
     "side": 2,
     "opposite": "hand_fingers_l",
-    "name_multiple": "wrists",
+    "name_multiple": "fingers",
     "name": "right fingers"
   },
   {
