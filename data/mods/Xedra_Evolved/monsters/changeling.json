@@ -299,7 +299,7 @@
   {
     "id": "mon_fae_wolf",
     "type": "MONSTER",
-    "name": { "str": "shimmer wolf" },
+    "name": { "str": "shimmer wolf", "str_pl": "shimmer wolves" },
     "description": "This is some form of otherworldly wolf.  Its luxurious fur shimmers in the light.  If an Irish Wolfhound had an ancestor that couldn't be bothered to mingle with mere mortal men it would be this wolf.",
     "default_faction": "changeling",
     "looks_like": "mon_wolf",
