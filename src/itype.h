@@ -247,6 +247,13 @@ struct enum_traits<encumbrance_modifier> {
     static constexpr encumbrance_modifier last = encumbrance_modifier::last;
 };
 
+// if it is a multiplier or flat modifier
+enum class encumbrance_modifier_type : int {
+    MULT = 0,
+    FLAT,
+    last
+};
+
 struct armor_portion_data {
 
     // The base volume for an item
@@ -341,7 +348,8 @@ struct armor_portion_data {
     int calc_encumbrance( units::mass weight, bodypart_id bp ) const;
 
     // converts a specific encumbrance modifier to an actual encumbrance value
-    static int convert_descriptor_to_int( encumbrance_modifier em );
+    static std::tuple<encumbrance_modifier_type, int> convert_descriptor_to_val(
+        encumbrance_modifier em );
 
     void deserialize( const JsonObject &jo );
 };

@@ -967,7 +967,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
 
     if( customize_character ) {
         right_print( w_tip, 0, 8, c_light_gray, string_format(
-                         _( "[<color_yellow>%s</color>]Customize character" ),
+                         _( "[<color_yellow>%s</color>] Customize character" ),
                          ctxt.get_desc( "SWITCH_GENDER" ) ) );
     }
 
@@ -1128,7 +1128,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     } else if( action == "VIEW_PROFICIENCIES" ) {
         show_proficiencies_window( you );
     } else if( action == "VIEW_BODYSTAT" ) {
-        display_bodygraph();
+        display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
         uilist cmenu;
         cmenu.title = _( "Customize Character" );

@@ -1267,6 +1267,12 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
     return nullptr;
 }
 
+shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( std::string unique_id )
+{
+    point_abs_om loc = g->get_unique_npc_location( unique_id );
+    return get( loc ).find_npc_by_unique_id( unique_id );
+}
+
 cata::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
 {
     for( auto &it : overmaps ) {

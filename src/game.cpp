@@ -44,6 +44,7 @@
 #include "avatar_action.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cached_options.h"
@@ -733,6 +734,7 @@ void game::setup()
     remoteveh_cache = nullptr;
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
+    unique_npcs.clear();
     get_weather().weather_override = WEATHER_NULL;
     // back to menu for save loading, new game etc
 }
@@ -831,7 +833,6 @@ bool game::start_game()
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
-    m.build_lightmap( level, u.pos() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( u.global_omt_location().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
@@ -959,6 +960,22 @@ bool game::start_game()
         new_mission->assign( u );
     }
 
+    // Same for profession missions
+    if( !!u.prof ) {
+        for( const mission_type_id &m : u.prof->missions() ) {
+            mission *new_mission = mission::reserve_new( m, character_id() );
+            new_mission->assign( u );
+        }
+    }
+    // ... and for hobbies
+    for( const profession *hby : u.hobbies ) {
+        if( !!hby ) {
+            for( const mission_type_id &m : hby->missions() ) {
+                mission *new_mission = mission::reserve_new( m, character_id() );
+                new_mission->assign( u );
+            }
+        }
+    }
 
     get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
             u.custom_profession, getVersionString() );
@@ -1349,50 +1366,20 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
     if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
-    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
-                            : input_context::allow_all_keys;
 
-    const int color_num = rng( 0, 6 );
-    std::string color;
-    switch( color_num ) {
-        case 0:
-            color = "light_red";
-            break;
-        case 1:
-            color = "red";
-            break;
-        case 2:
-            color = "green";
-            break;
-        case 3:
-            color = "light_green";
-            break;
-        case 4:
-            color = "blue";
-            break;
-        case 5:
-            color = "light_blue";
-            break;
-        case 6:
-            color = "yellow";
-            break;
-    }
-
-    std::string color_string = force_uc && !is_keycode_mode_supported()
-                               ? "<color_" + color + "> %s</color> (Case Sensitive)"
-                               : "<color_" + color + "> %s</color>";
+    static const std::vector<nc_color> color_list = {
+        c_light_red, c_red, c_green, c_light_green,
+        c_blue, c_light_blue, c_yellow
+    };
+    const nc_color color = random_entry( color_list );
 
     query_popup()
-    .preferred_keyboard_mode( keyboard_mode::keycode )
     .context( "YES_QUERY" )
-    .message(
-        pgettext( "yes_query",
-                  color_string.c_str() ),
-        text )
-    .option( "YES0", allow_key )
-    .option( "YES1", allow_key )
-    .option( "YES2", allow_key )
+    .message( "%s", text )
+    .option( "YES0" )
+    .option( "YES1" )
+    .option( "YES2" )
+    .default_color( color )
     .query();
 
     // ensure it never happens again during this activity - shouldn't be an issue anyway
@@ -1497,7 +1484,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
             continue;
         }
         if( player_character.pos() == location ) {
-            if( !here.pl_line_of_sight( dest, -1 ) ) {
+            if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
                 continue;
             }
         } else if( !here.sees( location, dest, -1 ) ) {
@@ -1545,6 +1532,11 @@ int game::assign_mission_id()
 npc *game::find_npc( character_id id )
 {
     return overmap_buffer.find_npc( id ).get();
+}
+
+npc *game::find_npc_by_unique_id( std::string unique_id )
+{
+    return overmap_buffer.find_npc_by_unique_id( unique_id ).get();
 }
 
 void game::add_npc_follower( const character_id &id )
@@ -2324,6 +2316,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "bionics" );
     ctxt.register_action( "mutations" );
     ctxt.register_action( "medical" );
+    ctxt.register_action( "bodystatus" );
     ctxt.register_action( "sort_armor" );
     ctxt.register_action( "wait" );
     ctxt.register_action( "craft" );
@@ -2757,7 +2750,6 @@ bool game::load( const save_t &name )
     effect_on_conditions::load_existing_character( u );
     // recalculate light level for correctly resuming crafting and disassembly
     m.build_map_cache( m.get_abs_sub().z() );
-    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     return true;
 }
@@ -2920,6 +2912,26 @@ memorial_logger &game::memorial()
     return *memorial_logger_ptr;
 }
 
+void game::update_unique_npc_location( std::string id, point_abs_om loc )
+{
+    unique_npcs[id] = loc;
+}
+
+point_abs_om game::get_unique_npc_location( std::string id )
+{
+    if( unique_npc_exists( id ) ) {
+        return unique_npcs[id];
+    } else {
+        debugmsg( "Tried to find npc %s which doesn't exist.", id );
+        return point_abs_om();
+    }
+}
+
+bool game::unique_npc_exists( std::string id )
+{
+    return unique_npcs.count( id ) > 0;
+}
+
 spell_events &game::spell_events_subscriber()
 {
     return *spell_events_ptr;
@@ -2939,6 +2951,7 @@ bool game::save()
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save( true ) ||
             !get_safemode().save_character() ||
+            !zone_manager::get_manager().save_zones() ||
         !write_to_file( PATH_INFO::world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
             uistate.serialize( jsout );
@@ -3355,7 +3368,6 @@ void game::draw()
     //temporary fix for updating visibility for minimap
     ter_view_p.z = ( u.pos() + u.view_offset ).z;
     m.build_map_cache( ter_view_p.z );
-    m.build_lightmap( ter_view_p.z, u.pos() );
     m.update_visibility_cache( ter_view_p.z );
 
     werase( w_terrain );
@@ -5215,6 +5227,7 @@ bool game::npc_menu( npc &who )
         swap_pos,
         push,
         examine_wounds,
+        examine_status,
         use_item,
         sort_armor,
         attack,
@@ -5233,6 +5246,7 @@ bool game::npc_menu( npc &who )
                     !u.is_mounted(), 's', _( "Swap positions" ) );
     amenu.addentry( push, obeys && !who.is_mounted(), 'p', _( "Push away" ) );
     amenu.addentry( examine_wounds, true, 'w', _( "Examine wounds" ) );
+    amenu.addentry( examine_status, true, 'e', _( "Examine status" ) );
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
     amenu.addentry( sort_armor, true, 'r', _( "Sort armor" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
@@ -5280,6 +5294,14 @@ bool game::npc_menu( npc &who )
         const bool precise = prof_bonus * 4 + u.per_cur >= 20;
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
+    } else if( choice == examine_status ) {
+        if( debug_mode || ( who.is_npc() && ( who.as_npc()->op_of_u.trust >= 5 ||
+                                              who.is_friendly( u ) ) ) ||
+            who.in_sleep_state() ) {
+            display_bodygraph( who );
+        } else {
+            who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
+        }
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
         const auto will_accept = [&who]( const item & it ) {
@@ -6018,6 +6040,17 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
+static void add_visible_items_recursive( std::map<std::string, std::pair<int, nc_color>>
+        &item_names, const item &it )
+{
+    ++item_names[it.tname()].first;
+    item_names[it.tname()].second = it.color_in_inventory();
+
+    for( const item *content : it.all_known_contents() ) {
+        add_visible_items_recursive( item_names, *content );
+    }
+}
+
 void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                              int &line,
                              const int last_line )
@@ -6032,9 +6065,8 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         return;
     } else {
         std::map<std::string, std::pair<int, nc_color>> item_names;
-        for( item &item : m.i_at( lp ) ) {
-            ++item_names[item.tname()].first;
-            item_names[item.tname()].second = item.color_in_inventory();
+        for( const item &it : m.i_at( lp ) ) {
+            add_visible_items_recursive( item_names, it );
         }
 
         const int max_width = getmaxx( w_look ) - column - 1;
@@ -6088,7 +6120,7 @@ bool game::is_zones_manager_open() const
     return zones_manager_open;
 }
 
-static void zones_manager_shortcuts( const catacurses::window &w_info )
+static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction )
 {
     werase( w_info );
 
@@ -6114,6 +6146,11 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
     tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
     shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
+
+    if( debug_mode ) {
+        shortcut_print( w_info, point( 1, 5 ), c_light_red, c_light_green,
+                        string_format( _( "Shown <F>action: %s" ), faction.str() ) );
+    }
 
     wnoutrefresh( w_info );
 }
@@ -6167,7 +6204,7 @@ void game::zones_manager()
     u.view_offset = tripoint_zero;
 
     const int zone_ui_height = 13;
-    const int zone_options_height = 7;
+    const int zone_options_height = debug_mode ? 6 : 7;
 
     const int width = 45;
 
@@ -6226,6 +6263,9 @@ void game::zones_manager()
     ctxt.register_action( "DISABLE_PERSONAL_ZONES" );
     ctxt.register_action( "SHOW_ALL_ZONES" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    if( debug_mode ) {
+        ctxt.register_action( "CHANGE_FACTION" );
+    }
 
     auto &mgr = zone_manager::get_manager();
     int start_index = 0;
@@ -6234,6 +6274,7 @@ void game::zones_manager()
     bool stuff_changed = false;
     bool show_all_zones = false;
     int zone_cnt = 0;
+    faction_id zones_faction( your_fac );
 
     // reset any zones that were temporarily disabled for an activity
     mgr.reset_disabled();
@@ -6248,10 +6289,10 @@ void game::zones_manager()
     auto get_zones = [&]() {
         std::vector<zone_manager::ref_zone_data> zones;
         if( show_all_zones ) {
-            zones = mgr.get_zones();
+            zones = mgr.get_zones( zones_faction );
         } else {
             const tripoint_abs_ms u_abs_pos = u.get_location();
-            for( zone_manager::ref_zone_data &ref : mgr.get_zones() ) {
+            for( zone_manager::ref_zone_data &ref : mgr.get_zones( zones_faction ) ) {
                 const tripoint_abs_ms &zone_abs_pos = ref.get().get_center_point();
                 if( u_abs_pos.z() == zone_abs_pos.z() &&
                     rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
@@ -6366,7 +6407,7 @@ void game::zones_manager()
             return;
         }
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-        zones_manager_shortcuts( w_zones_info );
+        zones_manager_shortcuts( w_zones_info, zones_faction );
 
         if( zone_cnt == 0 ) {
             werase( w_zones );
@@ -6430,6 +6471,7 @@ void game::zones_manager()
 
     const int scroll_rate = zone_cnt > 20 ? 10 : 3;
     zones_manager_open = true;
+    zone_manager::get_manager().save_zones( "zmgr-temp" );
     do {
         if( action == "ADD_ZONE" ) {
             do { // not a loop, just for quick bailing out if canceled
@@ -6515,6 +6557,16 @@ void game::zones_manager()
             show_all_zones = !show_all_zones;
             zones = get_zones();
             active_index = 0;
+        } else if( action == "CHANGE_FACTION" ) {
+            ui.invalidate_ui();
+            std::string facname = zones_faction.str();
+            string_input_popup()
+            .description( _( "Show zones for faction:" ) )
+            .width( 55 )
+            .max_length( 256 )
+            .edit( facname );
+            zones_faction = faction_id( facname );
+            zones = get_zones();
         } else if( zone_cnt > 0 ) {
             if( action == "UP" ) {
                 active_index--;
@@ -6741,10 +6793,8 @@ void game::zones_manager()
 
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
-        if( query_yn( _( "Save changes?" ) ) ) {
-            zones.save_zones();
-        } else {
-            zones.load_zones();
+        if( !query_yn( _( "Save changes?" ) ) ) {
+            zones.load_zones( "zmgr-temp" );
         }
 
         zones.cache_data();
@@ -7141,6 +7191,24 @@ look_around_result game::look_around( look_around_params looka_params )
                         looka_params.select_zone, looka_params.peeking );
 }
 
+
+static void add_item_recursive( std::vector<std::string> &item_order,
+                                std::map<std::string, map_item_stack> &temp_items, const item *it, const tripoint &relative_pos )
+{
+    const std::string name = it->tname();
+
+    if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
+        item_order.push_back( name );
+        temp_items[name] = map_item_stack( it, relative_pos );
+    } else {
+        temp_items[name].add_at_pos( it, relative_pos );
+    }
+
+    for( const item *content : it->all_known_contents() ) {
+        add_item_recursive( item_order, temp_items, content, relative_pos );
+    }
+}
+
 std::vector<map_item_stack> game::find_nearby_items( int iRadius )
 {
     std::map<std::string, map_item_stack> temp_items;
@@ -7160,12 +7228,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
                 const std::string name = elem.tname();
                 const tripoint relative_pos = points_p_it - u.pos();
 
-                if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
-                    item_order.push_back( name );
-                    temp_items[name] = map_item_stack( &elem, relative_pos );
-                } else {
-                    temp_items[name].add_at_pos( &elem, relative_pos );
-                }
+                add_item_recursive( item_order, temp_items, &elem, relative_pos );
             }
         }
     }
@@ -11267,7 +11330,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
                     u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
-                    u.mod_stored_kcal( 87 );
+                    u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                 } else {
                     add_msg( _( "You gingerly descend using your vines." ) );
@@ -11275,7 +11338,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             } else {
                 add_msg( _( "You effortlessly lower yourself and leave a vine rooted for future use." ) );
                 rope_ladder = true;
-                u.mod_stored_kcal( 87 );
+                u.mod_stored_kcal( -87 );
                 u.mod_thirst( 10 );
             }
         } else {
@@ -11448,7 +11511,6 @@ point game::update_map( int &x, int &y, bool z_level_changed )
         m.invalidate_map_cache( zlev );
     }
     m.build_map_cache( m.get_abs_sub().z() );
-    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     // Spawn monsters if appropriate
     // This call will generate new monsters in addition to loading, so it's placed after NPC loading

@@ -207,15 +207,24 @@ void standardize_construction_times( const int time )
     }
 }
 
-static std::vector<construction *> constructions_by_group( const construction_group_str_id &group )
+std::vector<construction *> constructions_by_group( const construction_group_str_id &group )
+{
+    return constructions_by_filter(
+    [&group]( construction const & it ) {
+        return it.group == group;
+    } );
+}
+
+std::vector<construction *>
+constructions_by_filter( std::function<bool( construction const & )> const &filter )
 {
     if( !finalized ) {
-        debugmsg( "constructions_by_group called before finalization" );
+        debugmsg( "constructions_by_filter called before finalization" );
         return {};
     }
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
-        if( constructions_a.group == group ) {
+        if( filter( constructions_a ) ) {
             result.push_back( &constructions_a );
         }
     }
@@ -1547,7 +1556,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
-    player_character.mod_stored_kcal( 43 + 9 * mine_penalty + 9 * no_mut_penalty );
+    player_character.mod_stored_kcal( -43 - 9 * mine_penalty - 9 * no_mut_penalty );
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
@@ -1619,7 +1628,7 @@ void construct::done_mine_upstair( const tripoint &p )
                     player_character.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
-    player_character.mod_stored_kcal( 174 + 9 * no_mut_penalty );
+    player_character.mod_stored_kcal( -174 - 9 * no_mut_penalty );
     player_character.mod_thirst( 20 + no_mut_penalty );
     player_character.mod_fatigue( 25 + no_mut_penalty );
 

@@ -1245,7 +1245,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             break;
         case butcher_type::FIELD_DRESS: {
             bool success = roll_butchery_dissect( you->get_skill_level( skill_survival ), you->dex_cur,
-                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) < 0;
+                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) > 0;
             add_msg( success ? m_good : m_warning,
                      SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
                                                    "harvest_drop_default_field_dress_failed" ).value_or( translation() ).translated() );

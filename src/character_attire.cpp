@@ -1,6 +1,8 @@
 #include "character_attire.h"
 
+#include "bodygraph.h"
 #include "character.h"
+#include "display.h"
 #include "event.h"
 #include "event_bus.h"
 #include "flag.h"
@@ -1829,36 +1831,19 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
     std::map<bodypart_id, int> total_warmth;
     for( const bodypart_id &bp : guy.get_all_body_parts() ) {
         double warmth_val = 0.0;
-        float limb_coverage = 0.0f;
         const float wetness_pct = guy.get_part_wetness_percentage( bp );
         for( const item &clothing : worn ) {
             if( !clothing.covers( bp ) ) {
                 continue;
             }
-            warmth_val = clothing.get_warmth();
+            warmth_val = clothing.get_warmth( bp );
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
             if( !clothing.made_of( material_wool ) ) {
                 warmth_val *= 1.0 - 0.66 * wetness_pct;
             }
-            // calculate how much of the limb the armor ideally covers
-            // idea being that an item that covers the shoulders and torso shouldn't
-            // heat the whole arm like it covers it
-            // TODO: fully configure this per armor entry
-            if( !clothing.has_sublocations() ) {
-                // if it doesn't have sublocations it has 100% covered
-                limb_coverage = 100;
-            } else {
-                for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
-                    if( !clothing.covers( sbp ) ) {
-                        continue;
-                    }
 
-                    // TODO: handle non 100% sub body part coverages
-                    limb_coverage += sbp->max_coverage;
-                }
-            }
-            total_warmth[bp] += std::round( warmth_val * limb_coverage / 100.0f );
+            total_warmth[bp] += warmth_val;
         }
         total_warmth[bp] += guy.get_effect_int( effect_heating_bionic, bp );
     }
@@ -2096,6 +2081,22 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
     std::map<sub_bodypart_id, resistances> best_cases;
     std::map<sub_bodypart_id, resistances> median_cases;
     std::map<sub_bodypart_id, resistances> worst_cases;
+
+    // general body part stats
+    info.part_hp_cur = person.get_part_hp_cur( bp );
+    info.part_hp_max = person.get_part_hp_max( bp );
+    info.wetness = person.get_part_wetness_percentage( bp );
+    info.temperature = { person.get_part_temp_conv( bp ), display::bodytemp_color( person, bp ) };
+    std::pair<std::string, nc_color> tmp_approx = display::temp_text_color( person, bp.id() );
+    info.temp_approx = colorize( tmp_approx.first, tmp_approx.second );
+    info.parent_bp_name = uppercase_first_letter( bp->name.translated() );
+
+    // body part effects
+    for( const effect &eff : person.get_effects() ) {
+        if( eff.get_bp() == bp ) {
+            info.effects.emplace_back( eff );
+        }
+    }
 
     // go through every item and see how it handles every part of the character
     for( const item &armor : worn ) {

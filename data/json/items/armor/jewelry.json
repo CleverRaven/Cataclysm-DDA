@@ -1193,7 +1193,7 @@
     "material": [ "platinum", "silver" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "SKINTIGHT" ],
+    "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
     "armor": [ { "covers": [ "mouth" ] } ]
   },
   {

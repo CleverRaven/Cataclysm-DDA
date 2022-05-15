@@ -870,7 +870,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 2, "coverage": 35, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "vest_leather_mod",

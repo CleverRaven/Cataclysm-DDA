@@ -20,13 +20,19 @@
               [ "gasoline", 125 ],
               [ "diesel", 125 ],
               [ "chem_ethanol", 125 ],
+              [ "chem_methanol", 125 ],
+              [ "methed_alcohol", 125 ],
               [ "denat_alcohol", 125 ],
-              [ "vinegar", 16 ],
-              [ "ammonia", 2 ],
-              [ "bleach", 2 ],
-              [ "soapy_water", 32 ]
+              [ "chem_acetone", 1 ],
+              [ "chem_chloroform", 125 ],
+              [ "ether", 125 ],
+              [ "chem_DMSO", 125 ],
+              [ "vinegar", 8 ],
+              [ "ammonia", 1 ],
+              [ "bleach", 1 ],
+              [ "soapy_water", 1 ]
             ],
-            [ [ "rag", 1 ], [ "fur", 1 ] ]
+            [ [ "rag", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
           ]
         }
       },
@@ -45,13 +51,19 @@
               [ "gasoline", 125 ],
               [ "diesel", 125 ],
               [ "chem_ethanol", 125 ],
+              [ "chem_methanol", 125 ],
+              [ "methed_alcohol", 125 ],
               [ "denat_alcohol", 125 ],
-              [ "vinegar", 16 ],
-              [ "ammonia", 2 ],
-              [ "bleach", 2 ],
-              [ "soapy_water", 32 ]
+              [ "chem_acetone", 1 ],
+              [ "chem_chloroform", 125 ],
+              [ "ether", 125 ],
+              [ "chem_DMSO", 125 ],
+              [ "vinegar", 8 ],
+              [ "ammonia", 1 ],
+              [ "bleach", 1 ],
+              [ "soapy_water", 1 ]
             ],
-            [ [ "rag", 2 ], [ "fur", 2 ] ],
+            [ [ "rag", 2 ], [ "fur", 2 ], [ "faux_fur", 2 ], [ "felt_patch", 2 ], [ "cotton_ball", 4 ] ],
             [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
           ]
         }
@@ -93,7 +105,7 @@
           "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
           "components": [
             [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ],
-            [ [ "rag", 1 ], [ "fur", 1 ] ]
+            [ [ "rag", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
           ]
         }
       }
@@ -121,13 +133,19 @@
               [ "gasoline", 125 ],
               [ "diesel", 125 ],
               [ "chem_ethanol", 125 ],
+              [ "chem_methanol", 125 ],
+              [ "methed_alcohol", 125 ],
               [ "denat_alcohol", 125 ],
-              [ "vinegar", 16 ],
-              [ "ammonia", 2 ],
-              [ "bleach", 2 ],
-              [ "soapy_water", 32 ]
+              [ "chem_acetone", 1 ],
+              [ "chem_chloroform", 125 ],
+              [ "ether", 125 ],
+              [ "chem_DMSO", 125 ],
+              [ "vinegar", 8 ],
+              [ "ammonia", 1 ],
+              [ "bleach", 1 ],
+              [ "soapy_water", 1 ]
             ],
-            [ [ "rag", 1 ], [ "fur", 1 ] ]
+            [ [ "rag", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
           ]
         }
       },
@@ -146,13 +164,19 @@
               [ "gasoline", 125 ],
               [ "diesel", 125 ],
               [ "chem_ethanol", 125 ],
+              [ "chem_methanol", 125 ],
+              [ "methed_alcohol", 125 ],
               [ "denat_alcohol", 125 ],
-              [ "vinegar", 16 ],
-              [ "ammonia", 2 ],
-              [ "bleach", 2 ],
-              [ "soapy_water", 32 ]
+              [ "chem_acetone", 1 ],
+              [ "chem_chloroform", 125 ],
+              [ "ether", 125 ],
+              [ "chem_DMSO", 125 ],
+              [ "vinegar", 8 ],
+              [ "ammonia", 1 ],
+              [ "bleach", 1 ],
+              [ "soapy_water", 1 ]
             ],
-            [ [ "rag", 2 ], [ "fur", 2 ] ],
+            [ [ "rag", 2 ], [ "fur", 2 ], [ "faux_fur", 2 ], [ "felt_patch", 2 ], [ "cotton_ball", 4 ] ],
             [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
           ]
         }

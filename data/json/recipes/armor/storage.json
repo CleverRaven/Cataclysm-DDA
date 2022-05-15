@@ -687,10 +687,10 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
-    "time": "4 h",
+    "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 7 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 3 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1014,6 +1014,22 @@
     "reversible": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cordage_superior", 6, "LIST" ] ] ]
+  },
+  {
+    "result": "quiver_takedown_bow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "archery", 1 ],
+    "time": "12 h",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 7 ], [ "fastener_large", 2 ], [ "clasps", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "quiver",
@@ -1516,7 +1532,7 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "components": [ [ [ "leather_pouch", 7 ] ] ]
+    "components": [ [ [ "leather_pouch", 6 ] ] ]
   },
   {
     "result": "javelin_bag",
@@ -1843,5 +1859,43 @@
     "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 3 ] ],
     "components": [ [ [ "holster", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "trapper_pack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "3 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "strap_large", 3 ], [ "tailoring_cotton_patchwork", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
+  },
+  {
+    "result": "bigtrapper_pack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "5 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "strap_large", 3 ], [ "tailoring_cotton_patchwork", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ],
+    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ] ]
   }
 ]

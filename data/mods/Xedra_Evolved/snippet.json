@@ -1,0 +1,14 @@
+[
+  {
+    "type": "snippet",
+    "category": "fae_organs_desc",
+    "text": [
+      {
+        "id": "fae_organs_1",
+        "text": "These organs came from a glittering nether beast, and you really aren't sure what to make of them.  There are things you've possibly seen in an anatomy book, but in colors and shapes that leave you doubtful."
+      },
+      { "id": "fae_organs_2", "text": "These might be a kidney equivalent but they smell of rosemary at your touch." },
+      { "id": "fae_organs_3", "text": "The lung looking organs are oozing a shimmering green substance." }
+    ]
+  }
+]

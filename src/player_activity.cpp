@@ -47,6 +47,7 @@ static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
@@ -201,7 +202,8 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == ACT_FILL_PIT ||
             type == ACT_CHOP_TREE ||
             type == ACT_CHOP_LOGS ||
-            type == ACT_CHOP_PLANKS
+            type == ACT_CHOP_PLANKS ||
+            type == ACT_HEATING
           ) {
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 

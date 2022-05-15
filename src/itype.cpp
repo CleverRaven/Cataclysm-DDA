@@ -265,10 +265,13 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
 
     std::map<units::mass, int>::iterator itt = mass_to_encumbrance.lower_bound( weight );
 
-    if( itt == mass_to_encumbrance.end() ) {
+    if( itt == mass_to_encumbrance.begin() || itt == mass_to_encumbrance.end() ) {
         debugmsg( "Can't find a notable point to match this with" );
         return 100;
     }
+
+    // get the bound bellow our given weight
+    --itt;
 
     std::map<units::mass, int>::iterator next_itt = std::next( itt );
 
@@ -281,27 +284,41 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
                   scale );
 
     // then add some modifiers
-
+    int multiplier = 100;
+    int additional_encumbrance = 0;
     for( const encumbrance_modifier &em : encumber_modifiers ) {
-        encumbrance += armor_portion_data::convert_descriptor_to_int( em );
+        std::tuple<encumbrance_modifier_type, int> modifier = armor_portion_data::convert_descriptor_to_val(
+                    em );
+        if( std::get<0>( modifier ) == encumbrance_modifier_type::FLAT ) {
+            additional_encumbrance += std::get<1>( modifier );
+        } else if( std::get<0>( modifier ) == encumbrance_modifier_type::MULT ) {
+            multiplier += std::get<1>( modifier );
+        }
     }
+    // modify by multiplier
+    encumbrance = std::roundf( static_cast<float>( encumbrance ) * static_cast<float>
+                               ( multiplier ) / 100.0f );
+    // modify by flat
+    encumbrance += additional_encumbrance;
 
-    return encumbrance;
+    // cap encumbrance at at least 1
+    return std::max( encumbrance, 1 );
 }
 
-int armor_portion_data::convert_descriptor_to_int( encumbrance_modifier em )
+std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descriptor_to_val(
+    encumbrance_modifier em )
 {
     // this is where the values for each of these exist
     switch( em ) {
         case encumbrance_modifier::IMBALANCED:
         case encumbrance_modifier::RESTRICTS_NECK:
-            return 10;
+            return { encumbrance_modifier_type::FLAT, 10 };
         case encumbrance_modifier::WELL_SUPPORTED:
-            return -10;
+            return { encumbrance_modifier_type::MULT, -20 };
         case encumbrance_modifier::NONE:
-            return 0;
+            return { encumbrance_modifier_type::FLAT, 0 };
         case encumbrance_modifier::last:
             break;
     }
-    return 0;
+    return { encumbrance_modifier_type::FLAT, 0 };
 }
