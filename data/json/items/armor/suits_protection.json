@@ -2326,7 +2326,7 @@
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
           {
             "type": "hc_steel",
-            "covered_by_mat": 50,
+            "covered_by_mat": 25,
             "thickness": 1,
             "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
           },
