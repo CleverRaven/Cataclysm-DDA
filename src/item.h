@@ -2673,6 +2673,10 @@ class item : public visitable
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
 
+        /** returns a list of pointers to all visible or remembered top-level items */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
+
         void clear_items();
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.

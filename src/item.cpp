@@ -13874,6 +13874,16 @@ std::list<item *> item::all_items_top_recursive( item_pocket::pocket_type pk_typ
     return all_items_internal;
 }
 
+std::list<item *> item::all_known_contents()
+{
+    return contents.all_known_contents();
+}
+
+std::list<const item *> item::all_known_contents() const
+{
+    return contents.all_known_contents();
+}
+
 void item::clear_items()
 {
     contents.clear_items();
