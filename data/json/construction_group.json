@@ -117,12 +117,12 @@
   {
     "type": "construction_group",
     "id": "build_chainlink_fence",
-    "name": "Build Chainlink Fence"
+    "name": "Build Chain Link Fence"
   },
   {
     "type": "construction_group",
     "id": "build_chainlink_gate",
-    "name": "Build Chainlink Gate"
+    "name": "Build Chain Link Gate"
   },
   {
     "type": "construction_group",

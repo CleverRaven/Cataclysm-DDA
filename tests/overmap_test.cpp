@@ -8,6 +8,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "map.h"
 #include "omdata.h"
 #include "overmap.h"
@@ -245,6 +246,9 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
     constexpr int num_overmaps = 100;
     constexpr int num_trials_per_overmap = 100;
 
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
     for( int j = 0; j < num_overmaps; ++j ) {
         // overmap objects are really large, so we don't want them on the
         // stack.  Use unique_ptr and put it on the heap
@@ -345,6 +349,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 
     std::unordered_set<oter_type_id> done;
     std::vector<oter_type_id> missing;
+
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
 
     for( const oter_t &ter : overmap_terrains::get_all() ) {
         oter_type_id id = ter.get_type_id();
