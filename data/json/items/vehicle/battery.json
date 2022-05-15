@@ -9,7 +9,7 @@
     "volume": "10 L",
     "price": 4000,
     "price_postapoc": 500,
-    "material": [ "plastic" ],
+    "material": [ "plastic", "lead" ],
     "symbol": ":",
     "color": "light_cyan",
     "ammo_type": [ "battery" ],
