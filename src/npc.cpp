@@ -1937,6 +1937,7 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
     }
 
     // TODO: Base on inventory
+    // why should he sell things for free?
     return at_price >= 0;
 }
 
@@ -1952,12 +1953,13 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
         return true;
     }
 
-    if( it.has_flag( flag_TRADER_AVOID ) || it.has_flag( flag_FILTHY ) ) {
+    if( it.has_flag( flag_TRADER_AVOID ) ) {
         return false;
     }
 
+    // Item sale refusal if worthless
     // TODO: Base on inventory
-    return at_price > 5;
+    return at_price > 1;
 }
 
 // Will the NPC freely exchange items with the player?

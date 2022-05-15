@@ -138,12 +138,14 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     // cap adjustment so nothing is ever sold below value
 
     // Boost the NPC selling/buying power
+    // average (a+b)/2;
+
+    //    double average = ( seller.int_cur + buyer.int_cur ) / 2;
     double selladjust = 0.05;
-    double buyadjust = 0.05;
     if( seller.is_npc() ) {
         selladjust = 0.2;
     }
-    double adjust = ( ( selladjust * seller.int_cur ) - ( buyadjust * buyer.int_cur ) ) +
+    double adjust = ( ( selladjust * seller.int_cur ) - ( 0.05 * buyer.int_cur ) ) +
                     price_adjustment( seller.get_skill_level( skill_speech ) - buyer.get_skill_level( skill_speech ) );
     return std::max( adjust, 1.0 );
 }
@@ -167,9 +169,6 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     if( it->count_by_charges() and amount >= 0 ) {
         price /= it->charges;
         price *= amount;
-        if( price < 1 ) {
-            price = 1 * amount;
-        }
     }
     if( buyer.is_npc() ) {
         price = buyer.as_npc()->value( *it, price );
@@ -202,6 +201,14 @@ int npc_trading::trading_price( Character const &buyer, Character const &seller,
             npc const &np = *buyer.as_npc();
             if( !np.wants_to_buy( *e, price, market_price ) ) {
                 return VisitResponse::SKIP;
+            }
+        }
+        // Prevent free items
+        if( price < 1 ) {
+            if( e->count_by_charges() ) {
+                ret = 1 * amount;
+            } else {
+                ret = 1;
             }
         }
         ret += price;

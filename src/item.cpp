@@ -6352,33 +6352,7 @@ int item::price( bool practical ) const
     int res = 0;
 
     visit_items( [&res, practical]( const item * e, item * ) {
-        if( e->rotten() ) {
-            // TODO: Special case things that stay useful when rotten
-            return VisitResponse::NEXT;
-        }
-
-        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
-        if( e->damage() > 0 ) {
-            // maximal damage level is 4, maximal reduction is 80% of the value.
-            child -= child * static_cast<double>( e->damage_level() ) / 5;
-        }
-
-        if( e->count_by_charges() || e->made_of( phase_id::LIQUID ) ) {
-            // price from json data is for default-sized stack
-            child *= e->charges / static_cast<double>( e->type->stack_size );
-        } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
-            // items with integral magazines may contain ammunition which can affect the price
-            child += item( e->ammo_data(), calendar::turn, e->ammo_remaining() ).price( practical );
-
-        } else if( e->is_tool() && e->type->tool->max_charges != 0 ) {
-            // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
-            child *= e->ammo_remaining() / static_cast<double>( std::max( e->type->charges_default(), 1 ) );
-        }
-        if( child < 1 ) {
-            // Prevent items that are free
-            child = 1;
-        }
-        res += child;
+        res += e->price_no_contents( practical );
         return VisitResponse::NEXT;
     } );
 
@@ -6396,6 +6370,10 @@ int item::price_no_contents( bool practical ) const
         price -= price * static_cast< double >( damage_level() ) / 5;
     }
 
+    if( is_filthy() ) {
+        price *= 0.5;
+    }
+
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
         // price from json data is for default-sized stack
         price *= charges / static_cast< double >( type->stack_size );
@@ -6408,10 +6386,6 @@ int item::price_no_contents( bool practical ) const
         // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
         price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
 
-    }
-    if( price < 1 ) {
-        // Prevent items that are free
-        price++;
     }
     return price;
 }
