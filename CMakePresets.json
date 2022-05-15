@@ -45,7 +45,7 @@
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/x64-release.cmake",
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "CURSES": "False",
-        "LOCALIZE": "False",
+        "LOCALIZE": "True",
         "TILES": "True"
       }
     },
