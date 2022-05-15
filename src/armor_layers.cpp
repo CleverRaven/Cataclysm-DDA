@@ -917,12 +917,13 @@ void outfit::sort_armor( Character &guy )
                 }
             }
         } else if( action == "TOGGLE_CLOTH" ) {
-            if( !tmp_worn[leftListIndex]->has_flag( json_flag_HIDDEN ) ) {
-                tmp_worn[leftListIndex]->set_flag( json_flag_HIDDEN );
-            } else {
-                tmp_worn[leftListIndex]->unset_flag( json_flag_HIDDEN );
+            if( leftListIndex < leftListSize ) {
+                if( !tmp_worn[leftListIndex]->has_flag( json_flag_HIDDEN ) ) {
+                    tmp_worn[leftListIndex]->set_flag( json_flag_HIDDEN );
+                } else {
+                    tmp_worn[leftListIndex]->unset_flag( json_flag_HIDDEN );
+                }
             }
-
         } else if( action == "SORT_ARMOR" ) {
             // Copy to a vector because stable_sort requires random-access
             // iterators

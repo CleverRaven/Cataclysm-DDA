@@ -1,0 +1,109 @@
+[
+  {
+    "type": "effect_type",
+    "id": "blood_spiders",
+    "name": [ "Blood Spiders" ],
+    "desc": [
+      "You have contracted an interdimensional disease, specifically Blood Spiders.  Symptoms can be alleviated by medication (antiparasitic)."
+    ],
+    "apply_memorial_log": "Caught blood spiders.",
+    "remove_memorial_log": "Eradicated the spiders in his blood.",
+    "apply_message": "Your veins itch…",
+    "rating": "bad",
+    "resist_traits": [ "PARAIMMUNE", "ACIDBLOOD" ],
+    "base_mods": {
+      "thirst_tick": [ 580 ],
+      "thirst_min": [ 1 ],
+      "fatigue_tick": [ 300 ],
+      "fatigue_min": [ 1 ],
+      "str_mod": [ -2, -1 ],
+      "dex_mod": [ -1, 0 ],
+      "per_mod": [ -1, 0 ],
+      "pain_max_val": [ 30 ],
+      "pain_min": [ 2, 0 ],
+      "pain_chance": [ 3, 9 ],
+      "health_amount": [ -2, -12 ]
+    },
+    "blood_analysis_description": "Unknown Hemolytic Parasite"
+  },
+  {
+    "type": "effect_type",
+    "id": "faewild",
+    "name": [ "glamoured" ],
+    "desc": [ "The world is beautiful and breathtaking but maybe also terrifying." ],
+    "apply_message": "Colors brighten and vision sharpens.",
+    "remove_message": "The world becomes a duller place.",
+    "rating": "mixed",
+    "max_duration": "30 m",
+    "base_mods": { "per_mod": [ 6 ], "dex_mod": [ -2 ], "speed_mod": [ -5 ] },
+    "blood_analysis_description": "Cross-dimensional Narcotic, unexpected physics encountered"
+  },
+  {
+    "type": "effect_type",
+    "id": "relative_physics",
+    "name": [ "Angled", "Canted", "Mirrored" ],
+    "desc": [
+      "Your vision suddenly feels as if it shifted down and to the left.",
+      "You are viewing the world as if from an orchestra pit.",
+      "You feel your body moves mirrored to the thoughts in your head."
+    ],
+    "apply_message": "You feel the universe vibrating.",
+    "remove_message": "The hum in your bones subsides.",
+    "decay_messages": [ [ "Your body accepts your presence once more.", "good" ], [ "A mirror cracks in the distance.", "good" ] ],
+    "max_intensity": 3,
+    "rating": "bad",
+    "base_mods": {
+      "pain_chance": [ 256 ],
+      "pain_max_val": [ 15 ],
+      "pain_min": [ 1, 0 ],
+      "fatigue_min": [ 10 ],
+      "fatigue_max": [ 20 ],
+      "fatigue_chance": [ 900 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ 0 ],
+      "h_mod_chance": [ 900 ]
+    },
+    "scaling_mods": {
+      "pain_max_val": [ 5 ],
+      "pain_chance": [ 150 ],
+      "fatigue_chance": [ -300 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ -50 ],
+      "h_mod_chance": [ -200 ]
+    },
+    "blood_analysis_description": "Anomalous Readings"
+  },
+  {
+    "type": "effect_type",
+    "id": "foxfire_imbibed",
+    "name": [ "Foxfire", "Balefire", "St, Elmo's Fire" ],
+    "desc": [
+      "Your body is dimly covered in ephemeral flames.",
+      "The flames sometimes obstruct your vision, yet you feel no pain from them.",
+      "You body shines like a lit beacon."
+    ],
+    "miss_messages": [ [ "The flames distract you.", 1 ] ],
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
+    "//": "Needs to emit light once Mylie unites traits, effects etc 'light_emitted: 3'.",
+    "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "visuals",
+    "name": [ "Hallucinating" ],
+    "desc": [ "You can't trust everything that you see." ],
+    "rating": "bad",
+    "resist_effects": [ "relative_physics" ],
+    "base_mods": { "int_mod": [ -2 ], "dex_mod": [ -1 ], "per_mod": [ -4 ] },
+    "blood_analysis_description": "Hallucinations"
+  },
+  {
+    "type": "effect_type",
+    "id": "hallu",
+    "max_duration": "6 h",
+    "resist_effects": [ "relative_physics" ],
+    "blood_analysis_description": "Hallucinations"
+  }
+]

@@ -19,6 +19,7 @@
 #include "itype.h"
 #include "json.h"
 #include "magic.h"
+#include "mission.h"
 #include "options.h"
 #include "pimpl.h"
 #include "translations.h"
@@ -254,6 +255,7 @@ void profession::load( const JsonObject &jo, const std::string & )
 
     // Flag which denotes if a profession is a hobby
     optional( jo, was_loaded, "subtype", _subtype, "" );
+    optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
 }
 
 const profession *profession::generic()
@@ -368,6 +370,17 @@ void profession::check_definition() const
     for( const auto &elem : _starting_skills ) {
         if( !elem.first.is_valid() ) {
             debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
+        }
+    }
+
+    for( const auto &m : _missions ) {
+        if( !m.is_valid() ) {
+            debugmsg( "starting mission %s for profession %s does not exist", m.c_str(), id.c_str() );
+        }
+
+        if( std::find( m->origins.begin(), m->origins.end(), ORIGIN_GAME_START ) == m->origins.end() ) {
+            debugmsg( "starting mission %s for profession %s must include an origin of ORIGIN_GAME_START",
+                      m.c_str(), id.c_str() );
         }
     }
 }
@@ -772,4 +785,9 @@ const
 bool profession::is_hobby() const
 {
     return _subtype == "hobby";
+}
+
+const std::vector<mission_type_id> &profession::missions() const
+{
+    return _missions;
 }

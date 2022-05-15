@@ -310,11 +310,7 @@ class hacksaw_activity_actor : public activity_actor
         item_location tool;
 
         bool can_resume_with_internal( const activity_actor &other,
-                                       const Character &/*who*/ ) const override {
-            const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
-                                                  ( other );
-            return actor.target == target;
-        }
+                                       const Character &/*who*/ ) const override;
 };
 
 class hacking_activity_actor : public activity_actor
@@ -973,6 +969,7 @@ class craft_activity_actor : public activity_actor
         void start( player_activity &act, Character &crafter ) override;
         void do_turn( player_activity &act, Character &crafter ) override;
         void finish( player_activity &act, Character &crafter ) override;
+        void canceled( player_activity &/*act*/, Character &/*who*/ ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<craft_activity_actor>( *this );
@@ -1828,8 +1825,8 @@ class firstaid_activity_actor : public activity_actor
 {
     public:
         firstaid_activity_actor() = default;
-        firstaid_activity_actor( int moves, std::string name ) : moves( moves ),
-            name( std::move( name ) ) {}
+        firstaid_activity_actor( int moves, std::string name, character_id patientID ) : moves( moves ),
+            name( std::move( name ) ), patientID( patientID ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_FIRSTAID" );
@@ -1849,6 +1846,7 @@ class firstaid_activity_actor : public activity_actor
     private:
         int moves;
         std::string name;
+        character_id patientID;
 };
 
 class forage_activity_actor : public activity_actor

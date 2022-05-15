@@ -162,7 +162,6 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "upgrades": { "half_life": 45, "into_group": "GROUP_RATKIN_EVOLVED" },
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "STUMBLES", "PATH_AVOID_DANGER_1" ]
   },
@@ -194,7 +193,6 @@
     "harvest": "mammal_tiny",
     "dissect": "dissect_rat_sample_single",
     "path_settings": { "max_dist": 10 },
-    "upgrades": { "half_life": 13, "into_group": "GROUP_RATKIN_EVOLVED" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "petfood": {

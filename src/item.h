@@ -462,6 +462,10 @@ class item : public visitable
                           bool debug ) const;
         void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                                     bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void armor_material_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                  bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void armor_attribute_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                   bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
         void pet_armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
@@ -1207,6 +1211,12 @@ class item : public visitable
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
                              int roll = 0 ) const;
+        float biological_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                                 int roll = 0 ) const;
+        float electric_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                               int roll = 0 ) const;
+        float cold_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                           int roll = 0 ) const;
         /*@}*/
 
         // same as above but specific to the sublocation
@@ -1220,6 +1230,11 @@ class item : public visitable
         float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+        float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
+                                 int roll = 0 ) const;
+        float electric_resist( const sub_bodypart_id &bp, bool to_self = false,
+                               int roll = 0 ) const;
+        float cold_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
 
         /**
          * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
@@ -1936,6 +1951,8 @@ class item : public visitable
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
          */
         int get_warmth() const;
+        /** Returns the warmth on the body part of the item on a specific bp. */
+        int get_warmth( const bodypart_id bp ) const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
@@ -2555,6 +2572,7 @@ class item : public visitable
          * @return the recipe in progress
          */
         const recipe &get_making() const;
+        int get_making_batch_size() const;
 
         /**
          * Get the failure point stored in this item.
@@ -2654,6 +2672,10 @@ class item : public visitable
         std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+
+        /** returns a list of pointers to all visible or remembered top-level items */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
 
         void clear_items();
         bool empty() const;
@@ -2797,6 +2819,7 @@ class item : public visitable
                 std::vector<item_comp> comps_used;
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
+                int batch_size = -1;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
                 cata::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
                 cata::optional<units::volume> cached_volume; // NOLINT(cata-serialize)

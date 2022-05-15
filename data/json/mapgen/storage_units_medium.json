@@ -239,7 +239,8 @@
         { "item": "softdrugs", "x": 23, "y": [ 15, 17 ], "chance": 50, "repeat": [ 1, 11 ] },
         { "item": "dining", "x": 23, "y": [ 15, 17 ], "chance": 50, "repeat": [ 1, 11 ] },
         { "item": "camping", "x": 23, "y": [ 19, 22 ], "chance": 50, "repeat": [ 1, 11 ] },
-        { "item": "dining", "x": [ 22, 23 ], "y": [ 19, 22 ], "chance": 50, "repeat": [ 1, 11 ] }
+        { "item": "dining", "x": [ 22, 23 ], "y": [ 19, 22 ], "chance": 50, "repeat": [ 1, 11 ] },
+        { "item": "cash_register_random", "x": 21, "y": 10, "chance": 100 }
       ]
     }
   },

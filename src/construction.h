@@ -117,6 +117,9 @@ construction_id construction_menu( bool blueprint );
 void complete_construction( Character *you );
 bool can_construct( const construction &con, const tripoint &p );
 bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con );
+std::vector<construction *> constructions_by_group( const construction_group_str_id &group );
+std::vector<construction *> constructions_by_filter( std::function<bool( construction const & )>
+        const &filter );
 void check_constructions();
 void finalize_constructions();
 

@@ -1077,7 +1077,7 @@
     "type": "ARMOR",
     "name": { "str": "leather pouch", "str_pl": "leather pouches" },
     "description": "A bag stitched together from leather scraps.  Doesn't hold an awful lot but is easy to wear.",
-    "weight": "610 g",
+    "weight": "250 g",
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 150,
@@ -2749,5 +2749,64 @@
     ],
     "material_thickness": 2,
     "armor": [ { "encumbrance": [ 3, 80 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "bigtrapper_pack",
+    "type": "ARMOR",
+    "name": { "str": "big trapper pack" },
+    "description": "A wooden frame with waterproofed cloth stretched around it, and a drawstring at the top to hold things in.  It has straps to wear it on your back.",
+    "weight": "10 kg",
+    "volume": "45 L",
+    "price": 800,
+    "price_postapoc": 750,
+    "material": [ "wood", "cotton" ],
+    "symbol": "[",
+    "looks_like": "golf_bag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "100 kg",
+        "moves": 300,
+        "rigid": true,
+        "max_item_length": "150 cm"
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "encumbrance": [ 30, 35 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
+  },
+  {
+    "id": "trapper_pack",
+    "type": "ARMOR",
+    "name": { "str": "trapper pack" },
+    "description": "A L-shaped wooden frame with a waterproofed cloth sack attached to it.  There's a drawstring to hold things in and straps to carry it on your back.",
+    "weight": "5 kg",
+    "volume": "10 L",
+    "price": 800,
+    "price_postapoc": 750,
+    "material": [ "wood", "cotton" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "50 kg",
+        "moves": 300,
+        "max_item_length": "60 cm"
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      { "encumbrance": [ 10, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   }
 ]

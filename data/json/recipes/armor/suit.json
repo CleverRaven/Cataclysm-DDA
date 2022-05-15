@@ -1863,8 +1863,7 @@
     "difficulty": 4,
     "time": "10 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 50 ], [ "fabric_standard_nostretch", 12 ], [ "fabric_neoprene", 12 ] ],
-    "qualities": [ { "id": "SEW_CURVED", "level": 1 } ],
+    "using": [ [ "sewing_standard", 50 ], [ "tailoring_neoprene_patchwork", 12 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1875,11 +1874,10 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "7 h 30 m",
+    "time": "6 h 30 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 8 ], [ "fabric_neoprene", 8 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "qualities": [ { "id": "SEW_CURVED", "level": 1 } ]
+    "using": [ [ "sewing_standard", 30 ], [ "tailoring_neoprene_patchwork", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "wool_suit",

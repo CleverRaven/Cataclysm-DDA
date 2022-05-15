@@ -1270,6 +1270,20 @@ std::list<const item *> item_contents::all_items_top() const
     } );
 }
 
+std::list<item *> item_contents::all_known_contents()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type() && pocket.transparent();
+    } );
+}
+
+std::list<const item *> item_contents::all_known_contents() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type() && pocket.transparent();
+    } );
+}
+
 item &item_contents::legacy_front()
 {
     if( empty() ) {
