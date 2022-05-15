@@ -290,6 +290,8 @@
     "name": { "str_sp": "toad in a hole" },
     "copy-from": "toast",
     "description": "A cooked egg served inside a piece of toast.",
+    "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
+    "material": [ "wheat", "egg" ],
     "relative": { "calories": 80, "fun": 4, "flags": [ "FREEZERBURN" ], "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
   },
   {
@@ -298,7 +300,9 @@
     "name": { "str_sp": "wheat-free toad in a hole" },
     "copy-from": "toast_wheat_free",
     "description": "A cooked egg served inside a piece of wheat-free toast.",
-    "relative": { "calories": 80, "fun": 4, "flags": [ "FREEZERBURN" ], "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
+    "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
+    "material": [ "veggy", "egg" ],
+    "relative": { "calories": 80, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
   },
   {
     "type": "COMESTIBLE",
