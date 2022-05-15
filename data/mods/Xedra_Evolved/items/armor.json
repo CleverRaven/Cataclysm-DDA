@@ -187,7 +187,7 @@
     "copy-from": "hc_chainmail_arms",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
-    "description": "Moon tear chainmail arms, found in places where changeling bannermen are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "description": "Moon tears chainmail arms, found in places where changeling bannermen are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "armor": [
       {
         "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -202,7 +202,7 @@
     "type": "ARMOR",
     "copy-from": "mt_chainmail_arms",
     "name": { "str": "pair of XL moon tears chainmail sleeves", "str_pl": "pairs of XL moon tears chainmail sleeves" },
-    "description": "Moon tear chainmail arms found in places where redcap aspirants are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "description": "Moon tears chainmail arms found in places where redcap aspirants are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -211,7 +211,7 @@
     "type": "ARMOR",
     "copy-from": "mt_chainmail_arms",
     "name": { "str": "pair of XS moon tears chainmail sleeves", "str_pl": "pairs of XS moon tears chainmail sleeves" },
-    "description": "Moon tear chainmail arms found in places where pooka aspirants are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
+    "description": "Moon tears chainmail arms found in places where pooka aspirants are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -221,7 +221,7 @@
     "copy-from": "hc_chainmail_feet",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
-    "description": "Moon tear chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where changeling bannermen are numerous.",
+    "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where changeling bannermen are numerous.",
     "armor": [
       {
         "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -246,7 +246,7 @@
     "copy-from": "mt_chainmail_feet",
     "name": { "str": "pair of XS moon tears chainmail chausses", "str_pl": "pairs of XS moon tears chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "description": "Moon tear chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous.",
+    "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous.",
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -255,7 +255,7 @@
     "copy-from": "hc_chainmail_hands",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
-    "description": "Moon tear chainmail gloves that fully enclose the hand.",
+    "description": "Moon tears chainmail gloves that fully enclose the hand.",
     "armor": [
       {
         "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -287,7 +287,7 @@
     "copy-from": "lc_chainmail_hood",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "moon tears chainmail coif" },
-    "description": "A fine moon tear chainmail hood.  Can be worn comfortably under helmets.",
+    "description": "A fine moon tears chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
       {
         "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -302,7 +302,7 @@
     "type": "ARMOR",
     "copy-from": "mt_chainmail_hood",
     "name": { "str": "XL moon tears chainmail coif" },
-    "description": "A fine moon tear chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
+    "description": "A fine moon tears chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -312,7 +312,7 @@
     "copy-from": "mt_chainmail_hood",
     "looks_like": "hc_chainmail_hood",
     "name": { "str": "XS moon tears chainmail coif" },
-    "description": "A fine moon tear chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
+    "description": "A fine moon tears chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
