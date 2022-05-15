@@ -230,6 +230,19 @@
     "entries": [ { "item": "flashbang" }, { "item": "flashbang" }, { "item": "smokebomb" }, { "item": "smokebomb" } ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "leg_sheath6_throwing_knives",
+    "entries": [
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" }
+    ]
+  },
+  {
     "type": "profession_item_substitutions",
     "trait": "WOOLALLERGY",
     "sub": [
@@ -1994,8 +2007,15 @@
     "id": "construction_worker",
     "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did plenty of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help rebuild?",
-    "points": 1,
-    "proficiencies": [ "prof_plumbing", "prof_elec_soldering", "prof_metalworking", "prof_lockpicking", "prof_carpentry_basic" ],
+    "points": 2,
+    "proficiencies": [
+      "prof_plumbing",
+      "prof_elec_soldering",
+      "prof_metalworking",
+      "prof_lockpicking",
+      "prof_carpentry_basic",
+      "prof_appliance_repair"
+    ],
     "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "traps" } ],
     "items": {
       "both": {
@@ -2093,6 +2113,7 @@
     "description": "Employed by a large company, you performed installation and troubleshooting services at the homes of ungrateful luddites.  Driving back from your last call, you were suddenly swarmed by what you believed to be angry rioters.  You veered off onto an old, neglected side road to escape, only to find yourself lost and low on gas.",
     "points": 4,
     "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_appliance_repair" ],
     "vehicle": "cube_van_cheap",
     "items": {
       "both": {
@@ -2301,7 +2322,7 @@
     "name": "Electrician",
     "description": "Small businesses often hired you for electrical work.  You were halfway through your latest job when the whole power grid went dead.",
     "points": 1,
-    "proficiencies": [ "prof_elec_soldering" ],
+    "proficiencies": [ "prof_elec_soldering", "prof_appliance_repair" ],
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
       "both": {
@@ -2557,7 +2578,10 @@
     "flags": [ "NO_BONUS_ITEMS" ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
     "items": {
-      "both": { "items": [ "bondage_suit", "bondage_mask", "boots", "leather_belt" ], "entries": [ { "group": "charged_matches" } ] }
+      "both": {
+        "items": [ "bondage_suit", "bondage_mask", "boots", "gloves_leather", "leather_belt" ],
+        "entries": [ { "group": "charged_matches" } ]
+      }
     }
   },
   {
@@ -3961,6 +3985,7 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "mechanics" }
     ],
+    "proficiencies": [ "prof_appliance_repair" ],
     "items": {
       "both": {
         "items": [ "jacket_jean", "tshirt_tour", "jeans", "socks", "boots_steel", "multitool", "wristwatch", "gloves_work", "mbag" ],
@@ -4558,11 +4583,117 @@
         "items": [ "american_flag", "socks", "sneakers", "wristwatch" ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "flag_mask_dust" } ]
       },
-      "male": [ "flag_shirt", "flag_pants", "flag_swimsuit" ],
+      "male": { "items": [ "flag_shirt", "flag_pants" ], "entries": [ { "item": "flag_swimsuit", "variant": "flag_swimsuit" } ] },
       "female": {
         "items": [ "flag_jumpsuit" ],
         "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
       }
     }
+  },
+  {
+    "type": "profession",
+    "id": "hitman",
+    "name": { "male": "Hitman", "female": "Hitwoman" },
+    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
+    "points": 5,
+    "skills": [
+      { "level": 3, "name": "dodge" },
+      { "level": 1, "name": "melee" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" }
+    ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wp_syn_armored" ],
+    "items": {
+      "both": {
+        "items": [
+          "fancy_sunglasses",
+          "platinum_watch",
+          "knit_scarf_loose",
+          "gloves_liner",
+          "polaroid_photo",
+          "suppressor",
+          "tele_sight_pistol"
+        ],
+        "entries": [
+          { "item": "glock_29", "ammo-item": "10mm_fmj", "charges": 15 },
+          { "item": "glock_20mag", "ammo-item": "10mm_fmj", "charges": 15, "container-item": "bbholster" }
+        ]
+      },
+      "male": [
+        "briefs",
+        "socks",
+        "dress_shoes",
+        "bowhat",
+        "suit",
+        "tie_necktie",
+        "tieclip",
+        "leather_belt",
+        "briefcase",
+        "cufflinks_intricate"
+      ],
+      "female": [
+        "panties",
+        "bra",
+        "stockings",
+        "garter_belt",
+        "heels",
+        "hat_cotton",
+        "dress",
+        "purse",
+        "platinum_ear",
+        "platinum_necklace",
+        "platinum_hairpin"
+      ]
+    },
+    "missions": [ "MISSION_ASSASSINATION" ]
+  },
+  {
+    "type": "profession",
+    "id": "assassin",
+    "name": "Assassin",
+    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
+    "points": 5,
+    "skills": [
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "throw" },
+      { "level": 2, "name": "stabbing" }
+    ],
+    "proficiencies": [ "prof_spotting", "prof_wp_syn_armored" ],
+    "items": {
+      "both": {
+        "items": [ "fancy_sunglasses", "platinum_watch", "knit_scarf_loose", "gloves_liner", "polaroid_photo", "switchblade" ],
+        "entries": [
+          { "item": "knife_combat", "container-item": "gartersheath1" },
+          { "item": "leg_sheath6", "contents-group": "leg_sheath6_throwing_knives" }
+        ]
+      },
+      "male": [
+        "briefs",
+        "socks",
+        "dress_shoes",
+        "bowhat",
+        "suit",
+        "tie_necktie",
+        "tieclip",
+        "leather_belt",
+        "briefcase",
+        "cufflinks_intricate"
+      ],
+      "female": [
+        "panties",
+        "bra",
+        "stockings",
+        "garter_belt",
+        "heels",
+        "hat_cotton",
+        "dress",
+        "purse",
+        "platinum_ear",
+        "platinum_necklace",
+        "platinum_hairpin"
+      ]
+    },
+    "missions": [ "MISSION_ASSASSINATION" ]
   }
 ]

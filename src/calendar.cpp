@@ -77,12 +77,15 @@ template<>
 std::string enum_to_string<time_accuracy>( time_accuracy acc )
 {
     switch( acc ) {
-        case time_accuracy::NONE: return "NONE";
         case time_accuracy::PARTIAL: return "PARTIAL";
         case time_accuracy::FULL: return "FULL";
-        case time_accuracy::NUM_TIME_ACCURACY: break;
+        case time_accuracy::NUM_TIME_ACCURACY:
+        case time_accuracy::NONE: break;
+        default:
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                << "Invalid time_accuracy " << static_cast<int>( acc );
     }
-    cata_fatal( "Invalid time_accuracy %d", acc );
+    return "NONE";
 }
 // *INDENT-ON*
 } // namespace io
@@ -845,12 +848,16 @@ std::string get_diary_time_since_str( const time_duration &turn_diff, time_accur
                 days_text = _( "Not long" );
             }
             break;
+        default:
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                    << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
+        /* fallthrough */
+        case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE:
             //~ Estimate of how much time has passed since the last entry
             days_text = days > 0 ? _( "A long while" ) : hours > 0 ? _( "A while" ) : _( "A short while" );
             break;
-        default:
-            debugmsg( "Unknown time_accuracy %s", io::enum_to_string<time_accuracy>( acc ) );
+
     }
     //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
     return string_format( _( "%1$s%2$s%3$s since last entry" ), days_text, hours_text, minutes_text );
@@ -874,6 +881,11 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
             return string_format( _( "Year %1$d, %2$s, day %3$d, %4$s" ), year,
                                   calendar::name_season( season_of_year( turn ) ),
                                   day, display::time_approx() );
+        default:
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                    << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
+        /* fallthrough */
+        case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE: {
             // normalized to 100 day seasons
             const int day_norm = ( day * 100 ) / to_days<int>( calendar::season_length() );
@@ -894,8 +906,6 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
             //~ Time of year: $1 = year since Cataclysm, $2 = season
             return string_format( _( "Year %1$d, %2$s" ), year, season );
         }
-        default:
-            debugmsg( "Unknown time_accuracy %s", io::enum_to_string<time_accuracy>( acc ) );
     }
     return std::string();
 }

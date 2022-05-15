@@ -138,7 +138,7 @@
       {
         "id": "mma_buff_hylian_spin",
         "name": "Spinning",
-        "description": "You keep on spinning!  You can still move while spinning but it slows you down quite a bit.\n\n+25% move cost.\nEnables \"Spin Attack\" technique.\nLasts 5 turns after your last spin",
+        "description": "You keep on spinning!  You can still move while spinning but it slows you down quite a bit.\n\n+25% move cost.\nEnables \"Spin Attack\" technique.\nLasts 5 turns after your last spin.",
         "required_buffs_any": [ "mma_buff_hylian_onpause_2", "mma_buff_hylian_spin" ],
         "weapon_categories_allowed": [ "HYLIAN_MASTER_SWORD" ],
         "max_stacks": 1,
@@ -194,7 +194,7 @@
       {
         "id": "mma_buff_hylian_onpause_2",
         "name": "Greater Charge Up",
-        "description": "By charging a second time, you are able to keep on spinning with slightly less destructive force after the first spin.\n\n\n\nLasts 1 turn.",
+        "description": "By charging a second time, you are able to keep on spinning with slightly less destructive force after the first spin.\n\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "required_buffs_all": [ "mma_buff_hylian_onpause" ],
         "weapon_categories_allowed": [ "HYLIAN_MASTER_SWORD" ],
