@@ -95,6 +95,10 @@
   - "**/**holster**"
   - "**/**ammo_pouch**"
   - "**/**bandolier**"
+  - "src/item_pocket.*"
+  - "src/item_contents.*"
+  - "src/item_contents.*"
+  - "tests/item_pocket_test.*"
 
 "Items: Magazines":
   - "**/magazine/**/*"
@@ -195,7 +199,7 @@
 
 "Mods: TropiCataclysm 🌴":
   - data/mods/TropiCataclysm/**/*
-  
+
 "Mods: Tamable Wildlife":
   - data/mods/Tamable_Wildlife/**/*
 
