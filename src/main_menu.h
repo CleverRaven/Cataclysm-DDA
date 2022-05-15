@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <vector>
 
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
@@ -81,6 +82,8 @@ class main_menu
         std::vector<std::string> templates;
         int extra_w = 0;
         std::vector<save_t> savegames;
+        std::vector<std::pair<inclusive_rectangle<point>, std::pair<int, int>>> main_menu_sub_button_map;
+        std::vector<std::pair<inclusive_rectangle<point>, int>> main_menu_button_map;
 
         /**
          * Prints a horizontal list of options
@@ -95,7 +98,7 @@ class main_menu
          */
         std::vector<int> print_menu_items( const catacurses::window &w_in,
                                            const std::vector<std::string> &vItems, size_t iSel,
-                                           point offset, int spacing = 1 );
+                                           point offset, int spacing = 1, bool main = false );
 
         /**
          * Called by @ref opening_screen, this prints all the text that you see on the main menu

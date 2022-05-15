@@ -112,8 +112,9 @@ static int utf8_width_notags( const char *s )
 
 std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         const std::vector<std::string> &vItems,
-        size_t iSel, point offset, int spacing )
+        size_t iSel, point offset, int spacing, bool main )
 {
+    const point win_offset( getbegx( w_in ), getbegy( w_in ) );
     std::vector<int> ret;
     std::string text;
     for( size_t i = 0; i < vItems.size(); ++i ) {
@@ -131,12 +132,38 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         offset.y -= std::ceil( text_width / getmaxx( w_in ) );
     }
 
-    fold_and_print( w_in, offset, getmaxx( w_in ), c_white, text, ']' );
+    std::vector<std::string> menu_txt = foldstring( text, getmaxx( w_in ), ']' );
+
+    int y_off = 0;
+    int sel_opt = 0;
+    for( const std::string &txt : menu_txt ) {
+        trim_and_print( w_in, offset + point( 0, y_off ), getmaxx( w_in ), c_white, txt );
+        if( !main ) {
+            y_off++;
+            continue;
+        }
+        std::vector<std::string> tmp_chars = utf8_display_split( remove_color_tags( txt ) );
+        for( int x = 0; static_cast<size_t>( x ) < tmp_chars.size(); x++ ) {
+            if( tmp_chars.at( x ) == "[" ) {
+                for( int x2 = x; static_cast<size_t>( x2 ) < tmp_chars.size(); x2++ ) {
+                    if( tmp_chars.at( x2 ) == "]" ) {
+                        inclusive_rectangle<point> rec( win_offset + offset + point( x, y_off ),
+                                                        win_offset + offset + point( x2, y_off ) );
+                        main_menu_button_map.emplace_back( rec, sel_opt++ );
+                        break;
+                    }
+                }
+            }
+        }
+        y_off++;
+    }
+
     return ret;
 }
 
 void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_line )
 {
+    main_menu_sub_button_map.clear();
     std::vector<std::string> sub_opts;
     int xlen = 0;
     main_menu_opts sel_o = static_cast<main_menu_opts>( sel );
@@ -211,8 +238,8 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         return;
     }
 
-    catacurses::window w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4,
-                               bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
+    const point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
+    catacurses::window w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4, top_left );
     werase( w_sub );
     draw_border( w_sub, c_white );
     for( int y = 0; static_cast<size_t>( y ) < sub_opts.size(); y++ ) {
@@ -221,6 +248,8 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         opt.append( padding, ' ' );
         nc_color clr = sel2 == y ? hilite( c_white ) : c_white;
         trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, clr, opt );
+        inclusive_rectangle<point> rec( top_left + point( 1, y + 1 ), top_left + point( xlen + 2, y + 1 ) );
+        main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
     }
     wnoutrefresh( w_sub );
 }
@@ -228,6 +257,8 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
 void main_menu::print_menu( const catacurses::window &w_open, int iSel, const point &offset,
                             int sel_line )
 {
+    main_menu_button_map.clear();
+
     // Clear Lines
     werase( w_open );
 
@@ -300,7 +331,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     const int final_offset = offset.x + adj_offset + spacing;
 
     std::vector<int> offsets =
-        print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y ), spacing );
+        print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y ), spacing, true );
 
     wnoutrefresh( w_open );
 
@@ -564,6 +595,9 @@ bool main_menu::opening_screen()
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
 
+    // for mouse selection
+    ctxt.register_action( "SELECT" );
+
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
@@ -593,12 +627,12 @@ bool main_menu::opening_screen()
     while( !start ) {
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
-        std::string sInput = ctxt.get_raw_input().text;
+        input_event sInput = ctxt.get_raw_input();
 
         // check automatic menu shortcuts
         for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size(); ++i ) {
             for( const std::string &hotkey : vMenuHotkeys[i] ) {
-                if( sInput == hotkey && sel1 != i ) {
+                if( sInput.text == hotkey && sel1 != i ) {
                     sel1 = i;
                     sel2 = 0;
                     sel_line = 0;
@@ -613,10 +647,35 @@ bool main_menu::opening_screen()
         if( sel1 == getopt( main_menu_opts::SETTINGS ) ) {
             for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vSettingsHotkeys[i] ) {
-                    if( sInput == hotkey ) {
+                    if( sInput.text == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
                     }
+                }
+            }
+        }
+
+        // handle mouse click
+        if( action == "SELECT" ) {
+            cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+            for( const auto &it : main_menu_button_map ) {
+                if( coord.has_value() && it.first.contains( coord.value() ) ) {
+                    if( sel1 != it.second ) {
+                        sel2 = 0;
+                        sel1 = it.second;
+                    }
+                    if( sel1 == getopt( main_menu_opts::HELP ) || sel1 == getopt( main_menu_opts::QUIT ) ) {
+                        action = "CONFIRM";
+                    }
+                    break;
+                }
+            }
+            for( const auto &it : main_menu_sub_button_map ) {
+                if( coord.has_value() && it.first.contains( coord.value() ) ) {
+                    sel1 = it.second.first;
+                    sel2 = it.second.second;
+                    action = "CONFIRM";
+                    break;
                 }
             }
         }
