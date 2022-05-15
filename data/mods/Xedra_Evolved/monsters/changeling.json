@@ -237,7 +237,7 @@
   {
     "id": "mon_fetch_child",
     "type": "MONSTER",
-    "name": { "str": "fetch, childlike", "str_pl": "childlike fetches" },
+    "name": { "str": "childlike fetch", "str_pl": "childlike fetches" },
     "description": "It looks like either a child or a child sized doll the sharp objects in its hands and the reflective nature of its eyes are the real tells this isn't just a living child or doll.  You'd be hard-pressed to not feel like you were killing an actual child by putting it down.",
     "default_faction": "changeling",
     "bodytype": "human",
