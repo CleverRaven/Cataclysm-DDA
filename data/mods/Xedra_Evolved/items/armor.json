@@ -378,7 +378,7 @@
     "id": "mt_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_hauberk",
-    "name": { "str": "XS moon tears` chainmail hauberk" },
+    "name": { "str": "XS moon tears chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
