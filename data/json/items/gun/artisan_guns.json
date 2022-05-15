@@ -34,7 +34,7 @@
     "proportional": { "weight": 1.2 },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "powder_blank": 1 } } ],
     "extend": { "flags": [ "RELOAD_EJECT" ] },
-    "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP", "SWEETSPOT" ]
+    "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP", "SWEETSPOT", "DURABLE_MELEE" ]
   },
   {
     "id": "louverture",
