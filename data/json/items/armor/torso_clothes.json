@@ -1,5 +1,199 @@
 [
   {
+    "id": "waist_apron_long",
+    "repairs_like": "apron_cotton",
+    "type": "ARMOR",
+    "name": { "str": "long waist apron" },
+    "description": "A long waist apron made of cotton.",
+    "copy-from": "apron_cotton",
+    "volume": "1750 ml",
+    "weight": "226 g",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "color": "white",
+    "delete": { "flags": [ "WATER_FRIENDLY" ] },
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 70, "encumbrance": 2, "volume_encumber_modifier": 0.3 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "long waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black long waist apron" },
+        "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue long waist apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red long waist apron" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink long waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral long waist apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo long waist apron" },
+        "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull long waist apron" },
+        "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid long waist apron" },
+        "description": "It's colored white and with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic long waist apron" },
+        "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "waist_apron_short",
+    "repairs_like": "apron_cotton",
+    "type": "ARMOR",
+    "name": { "str": "short waist apron" },
+    "description": "A short waist apron made of cotton.",
+    "copy-from": "apron_cotton",
+    "volume": "350 ml",
+    "weight": "136 g",
+    "price": 2500,
+    "material": [ "cotton" ],
+    "color": "white",
+    "delete": { "flags": [ "WATER_FRIENDLY" ] },
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 80, "encumbrance": [ 0, 0 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 70,
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "encumbrance": 0,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "coverage": 20,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "short waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black short waist apron" },
+        "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue short waist apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red short waist apron" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink short waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral short waist apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo short waist apron" },
+        "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull short waist apron" },
+        "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid short waist apron" },
+        "description": "It's colored white and with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic short waist apron" },
+        "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "apron_cotton",
     "repairs_like": "apron_leather",
     "type": "ARMOR",
@@ -12,61 +206,78 @@
     "material": [ "cotton" ],
     "color": "white",
     "material_thickness": 1.5,
+    "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_apron_cotton",
         "name": { "str": "cotton apron" },
-        "description": "A white apron made of cotton, commonly used by chefs, professional or otherwise.",
-        "weight": 50
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
       },
       {
         "id": "black_apron_cotton",
         "name": { "str": "black cotton apron" },
-        "description": "A black apron made of cotton, commonly used by chefs working on the night or who just want to look cool.",
-        "weight": 25
+        "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25,
+        "append": true
       },
       {
         "id": "blue_apron_cotton",
         "name": { "str": "blue cotton apron" },
-        "description": "A royal blue apron made of cotton, commonly used by supermarket workers around the world.",
-        "weight": 15
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red cotton apron" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
       },
       {
         "id": "pink_apron_cotton",
         "name": { "str": "pink cotton apron" },
-        "description": "A neon pink apron made of cotton, commonly used by women or men who do not fear weird looks.",
-        "weight": 3
+        "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "weight": 3,
+        "append": true
       },
       {
         "id": "floral_apron_cotton",
         "name": { "str": "floral cotton apron" },
-        "description": "A floral and colorful yellow apron made of cotton, perfect for cooking outdoors.",
-        "weight": 2
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "weight": 2,
+        "append": true
       },
       {
         "id": "camo_apron_cotton",
         "name": { "str": "camo cotton apron" },
-        "description": "A cotton apron with camouflage dye, perfect for those chefs that want to hide in the wild.",
-        "weight": 2
+        "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2,
+        "append": true
       },
       {
         "id": "skull_apron",
         "name": { "str": "skull apron" },
-        "description": "A black cotton apron with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
-        "weight": 1
+        "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1,
+        "append": true
       },
       {
         "id": "maid_apron",
         "name": { "str": "maid apron" },
-        "description": "A white cotton apron with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
-        "weight": 1
+        "description": "It's colored white and with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1,
+        "append": true
       },
       {
         "id": "gothic_apron",
         "name": { "str": "gothic apron" },
-        "description": "A jet black apron made of cotton with dark red decorations, perfect for cosplay or an adventurous gourmet.",
-        "weight": 1
+        "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1,
+        "append": true
       }
     ]
   },
@@ -223,7 +434,7 @@
         "moves": 100
       }
     ],
-    "warmth": 20,
+    "warmth": 25,
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "FANCY", "OUTER" ]
@@ -347,7 +558,7 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "pink",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY" ],
     "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
@@ -398,10 +609,13 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "white",
-    "warmth": 30,
+    "warmth": 16,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
-    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ], "encumbrance": 12 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 }
+    ]
   },
   {
     "id": "flag_shirt",
@@ -446,7 +660,7 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "yellow",
-    "warmth": 5,
+    "warmth": 3,
     "material_thickness": 4,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
     "armor": [ { "encumbrance": 40, "coverage": 40, "covers": [ "torso" ] } ]
@@ -485,7 +699,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "dark_gray",
-    "warmth": 5,
+    "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
     "armor": [ { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
@@ -536,7 +750,7 @@
         "moves": 80
       }
     ],
-    "warmth": 30,
+    "warmth": 20,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
@@ -556,7 +770,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "yellow",
-    "warmth": 25,
+    "warmth": 12,
     "material_thickness": 0.3,
     "snippet_category": [
       { "id": "decatur", "text": "A pro thunderball jersey made of cotton, imprinted with the logo of the Decatur Fist." },
@@ -722,7 +936,7 @@
         "moves": 80
       }
     ],
-    "warmth": 5,
+    "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
   },
@@ -863,7 +1077,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "light_red",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
     "armor": [
@@ -943,7 +1157,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "red",
-    "warmth": 25,
+    "warmth": 20,
     "material_thickness": 0.4,
     "flags": [ "VARSIZE" ],
     "armor": [
@@ -973,7 +1187,7 @@
     "symbol": "[",
     "looks_like": "santa_dress",
     "color": "red",
-    "warmth": 30,
+    "warmth": 25,
     "material_thickness": 0.8,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
     "armor": [
@@ -1055,7 +1269,7 @@
         "moves": 80
       }
     ],
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
@@ -1099,7 +1313,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "dark_gray",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY", "COLLAR" ],
     "armor": [
@@ -1121,7 +1335,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "red",
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY" ],
     "armor": [
@@ -1155,7 +1369,7 @@
     "symbol": "[",
     "looks_like": "gown",
     "color": "light_red",
-    "warmth": 20,
+    "warmth": 12,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
     "armor": [
@@ -1221,7 +1435,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "blue",
-    "warmth": 40,
+    "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ],
@@ -1400,6 +1614,18 @@
         "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
         "description": "A hooded child stands behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semi circle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
         "weight": 1
+      },
+      {
+        "id": "baseball_fan_tshirt",
+        "name": { "str": "baseball t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a local baseball team printed on its front and back.",
+        "weight": 1
+      },
+      {
+        "id": "football_fan_tshirt",
+        "name": { "str": "football t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a local football team printed on its front and back.",
+        "weight": 1
       }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -1575,7 +1801,7 @@
         "moves": 120
       }
     ],
-    "warmth": 20,
+    "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
@@ -1704,7 +1930,7 @@
         "moves": 80
       }
     ],
-    "warmth": 45,
+    "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]

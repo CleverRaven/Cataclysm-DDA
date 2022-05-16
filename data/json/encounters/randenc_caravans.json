@@ -2,8 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RandEnc_Roadstop_add",
-    "recurrence": 6000,
-    "global": true,
+    "eoc_type": "OM_MOVE",
     "condition": {
       "and": [
         { "u_near_om_location": "roadstop_a", "range": 2 },
@@ -32,9 +31,9 @@
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_roadstop_a_remove", "om_terrain": "roadstop_a" },
-      { "remove_npc": "FM_caravan_merchant_random" },
-      { "remove_npc": "FM_caravan_guard_A" },
-      { "remove_npc": "FM_caravan_guard_B" }
+      { "remove_npc": { "class": "NC_TRADER", "chat": "TALK_CARAVAN_MERCHANT_1" } },
+      { "remove_npc": { "class": "NC_BOUNTY_HUNTER", "chat": "TALK_CARAVAN_GUARD_A1" } },
+      { "remove_npc": { "class": "NC_BOUNTY_HUNTER", "chat": "TALK_CARAVAN_GUARD_B" } }
     ]
   },
   {

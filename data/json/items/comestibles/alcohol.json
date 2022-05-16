@@ -903,7 +903,7 @@
     "type": "COMESTIBLE",
     "id": "mead",
     "looks_like": "beer",
-    "name": { "str_sp": "spiced mead" },
+    "name": { "str_sp": "hops spiced mead" },
     "weight": "36 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -926,6 +926,30 @@
     "flags": [ "EATEN_COLD" ],
     "freezing_point": -5,
     "fun": 14
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hopped_mead",
+    "name": { "str_sp": "hopped mead" },
+    "copy-from": "mead",
+    "description": "Homebrewed Honey wine, spiced with a bit of hops.  Goes down bittersweet.",
+    "fun": 12
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "plain_mead",
+    "name": { "str_sp": "plain mead" },
+    "copy-from": "mead",
+    "description": "Homebrewed honey wine, a smooth and silky golden liquid.",
+    "fun": 10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "spiced_mead",
+    "name": { "str_sp": "spiced mead" },
+    "copy-from": "mead",
+    "description": "Homebrewed spiced honey wine, a spicy maybe hot liquid.",
+    "fun": 13
   },
   {
     "type": "COMESTIBLE",

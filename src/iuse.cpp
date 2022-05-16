@@ -377,6 +377,7 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -1319,7 +1320,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.mutate();
         // Gruss dich, mutation drain, missed you!
         p.mod_pain( 2 * rng( 1, 5 ) );
-        p.mod_stored_kcal( 87 );
+        p.mod_stored_kcal( -87 );
         p.mod_thirst( 10 );
         p.mod_fatigue( 5 );
     } else if( effect <= 6 ) { // Radiation cleanse is below
@@ -1537,7 +1538,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
             p->mutate_category( mutation_category_MYCUS );
-            p->mod_stored_kcal( 87 );
+            p->mod_stored_kcal( -87 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
             p->add_morale( MORALE_MARLOSS, 25, 200 ); // still covers up mutation pain
@@ -1551,7 +1552,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
             _( "This tastes really weird!  You're not sure it's good for you…" ) );
         p->mutate();
         p->mod_pain( 2 * rng( 1, 5 ) );
-        p->mod_stored_kcal( 87 );
+        p->mod_stored_kcal( -87 );
         p->mod_thirst( 10 );
         p->mod_fatigue( 5 );
         p->vomit(); // no hunger/quench benefit for you
@@ -3775,7 +3776,7 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
         sounds::sound( pos, 0, sounds::sound_t::electronic_speech, _( "Merged!" ),
                        true, "speech", it->typeId().str() );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin; try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
                               it->tname() );
         return cata::nullopt;
     } else { // When that timer runs down...
@@ -3953,7 +3954,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
         // Vol 0 = only heard if you hold it
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ), true, "misc", "bomb_ticking" );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already released the handle; try throwing it instead." ) );
+        p->add_msg_if_player( m_info, _( "You've already released the handle, try throwing it instead." ) );
         return cata::nullopt;
     } else {  // blow up
         map &here = get_map();
@@ -3970,6 +3971,11 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
             here.add_field( dest, fd_incendiary, 3 );
         }
 
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+        }
     }
     return 0;
 }
@@ -3984,9 +3990,14 @@ cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tri
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
             here.add_field( pt, fd_fire, intensity );
         }
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+        }
         return 1;
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s; try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
         return cata::nullopt;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
@@ -4066,7 +4077,7 @@ cata::optional<int> iuse::firecracker_act( Character *p, item *it, bool t, const
     if( t ) { // Simple timer effects
         sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s; try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
         return cata::nullopt;
     } else { // When that timer runs down...

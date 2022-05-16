@@ -1,0 +1,14 @@
+[
+  {
+    "id": "fn57_sup",
+    "copy-from": "fn57",
+    "type": "GUN",
+    "reload_noise_volume": 6,
+    "name": { "str": "FN Five-seveN suppressor" },
+    "longest_side": "194 mm",
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
+    "volume": "600 ml",
+    "description": "Designed to work with FN's proprietary 5.7x28mm round and with a built in suppressor, the Five-seveN is a lightweight integrally suppressed pistol with a very high capacity, best used against armored opponents.",
+    "built_in_mods": [ "integrated_fn_suppressor" ]
+  }
+]

@@ -36,6 +36,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
+#include "unicode.h"
 #include "units_utility.h"
 #include "wcwidth.h"
 
@@ -391,7 +392,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ui.on_screen_resize( screen_resize_cb );
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_border( w, BORDER_COLOR, title, c_black_white );
+        draw_border( w, BORDER_COLOR, title );
         for( int line = beg_line, pos_y = text2.y; line < std::min<int>( beg_line + text_h, lines.size() );
              ++line, ++pos_y ) {
             nc_color dummy = c_white;
@@ -1285,7 +1286,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
 
         x += mk_wcwidth( uc );
 
-        if( uc == split || uc >= 0x2E80 ) { // param split (default ' ') or CJK characters
+        if( uc == split || is_cjk_or_emoji( uc ) ) {
             if( x <= width ) {
                 lastwb = j; // break after character
             } else {
@@ -2011,14 +2012,16 @@ void replace_keybind_tag( std::string &input )
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all )
 {
-    if( all ) {
-        while( input.find( substring ) != std::string::npos ) {
-            replace_substring( input, substring, replacement, false );
+    std::size_t find_after = 0;
+    std::size_t pos = 0;
+    const std::size_t pattern_length = substring.length();
+    const std::size_t replacement_length = replacement.length();
+    while( ( pos = input.find( substring, find_after ) ) != std::string::npos ) {
+        input.replace( pos, pattern_length, replacement );
+        find_after = pos + replacement_length;
+        if( !all ) {
+            break;
         }
-    } else {
-        size_t len = substring.length();
-        size_t offset = input.find( substring );
-        input.replace( offset, len, replacement );
     }
 }
 

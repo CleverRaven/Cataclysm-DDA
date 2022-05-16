@@ -170,9 +170,11 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "watertight", watertight, false );
     optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
+    optional( jo, was_loaded, "transparent", transparent, false );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
+    optional( jo, was_loaded, "inherits_flags", inherits_flags );
     // if ablative also flag as a holster so it only holds 1 item
     if( ablative ) {
         holster = true;
@@ -1746,6 +1748,11 @@ bool item_pocket::watertight() const
     return data->watertight;
 }
 
+bool item_pocket::transparent() const
+{
+    return data->transparent || ( data->open_container && !sealed() );
+}
+
 bool item_pocket::is_standard_type() const
 {
     return data->type == pocket_type::CONTAINER ||
@@ -1766,6 +1773,11 @@ void item_pocket::set_usability( bool show )
 bool item_pocket::airtight() const
 {
     return data->airtight;
+}
+
+bool item_pocket::inherits_flags() const
+{
+    return data->inherits_flags;
 }
 
 bool item_pocket::allows_speedloader( const itype_id &speedloader_id ) const

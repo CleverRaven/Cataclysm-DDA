@@ -1740,6 +1740,7 @@ class jmapgen_npc : public jmapgen_piece
         mapgen_value<string_id<npc_template>> npc_class;
         bool target;
         std::vector<trait_id> traits;
+        std::string unique_id;
         jmapgen_npc( const JsonObject &jsi, const std::string &/*context*/ ) :
             npc_class( jsi.get_member( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
@@ -1750,11 +1751,19 @@ class jmapgen_npc : public jmapgen_piece
             } else if( jsi.has_array( "add_trait" ) ) {
                 jsi.read( "add_trait", traits );
             }
+            if( jsi.has_string( "unique_id" ) ) {
+                jsi.read( "unique_id", unique_id );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             string_id<npc_template> chosen_id = npc_class.get( dat );
             if( chosen_id.is_null() ) {
+                return;
+            }
+            if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
+                get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
+                                                      unique_id );
                 return;
             }
             character_id npc_id = dat.m.place_npc( point( x.get(), y.get() ), chosen_id );
@@ -1765,6 +1774,9 @@ class jmapgen_npc : public jmapgen_piece
             if( p != nullptr ) {
                 for( const trait_id &new_trait : traits ) {
                     p->set_mutation( new_trait );
+                }
+                if( !unique_id.empty() ) {
+                    p->set_unique_id( unique_id );
                 }
             }
         }
@@ -4489,6 +4501,9 @@ static bool apply_mapgen_in_phases(
     // phases, and apply each type restricted to each phase.
     auto setmap_point = setmap_points.begin();
     for( mapgen_phase phase : all_enum_values<mapgen_phase>() ) {
+        if( std::find( md.skip.begin(), md.skip.end(), phase ) != md.skip.end() ) {
+            continue;
+        }
         for( ; setmap_point != setmap_points.end(); ++setmap_point ) {
             const jmapgen_setmap &elem = *setmap_point;
             if( elem.phase() != phase ) {
@@ -7540,6 +7555,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     fake_map tmp_map( t_dirt );
 
     mapgendata fake_md( tmp_map, mapgendata::dummy_settings );
+    fake_md.skip = { mapgen_phase::zones };
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {

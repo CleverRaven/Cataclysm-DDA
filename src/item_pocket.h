@@ -148,6 +148,9 @@ class item_pocket
         bool rigid() const;
         bool watertight() const;
         bool airtight() const;
+        bool inherits_flags() const;
+        // open pockets are always considered transparent
+        bool transparent() const;
         // is this speedloader compatible with this pocket (if any speedloaders are whitelisted)
         bool allows_speedloader( const itype_id &speedloader_id ) const;
 
@@ -479,6 +482,10 @@ class pocket_data
         bool airtight = false;
         // the pocket will spill its contents if placed in another container
         bool open_container = false;
+        // items in this pocket pass their flags to the parent item
+        bool inherits_flags = false;
+        // the contents of the pocket are visible
+        bool transparent = false;
 
         // a description of the pocket
         translation description;

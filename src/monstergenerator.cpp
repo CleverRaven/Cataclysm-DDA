@@ -436,6 +436,15 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_elec < 0 ) {
             mon.armor_elec = 0;
         }
+        if( mon.armor_cold < 0 ) {
+            mon.armor_cold = 0;
+        }
+        if( mon.armor_pure < 0 ) {
+            mon.armor_pure = 0;
+        }
+        if( mon.armor_biological < 0 ) {
+            mon.armor_biological = 0;
+        }
         if( mon.status_chance_multiplier < 0 ) {
             mon.status_chance_multiplier = 0;
         }
@@ -740,6 +749,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
     assign( jo, "armor_elec", armor_elec, strict, 0 );
+    assign( jo, "armor_cold", armor_cold, strict, 0 );
+    assign( jo, "armor_pure", armor_pure, strict, 0 );
+    assign( jo, "armor_biological", armor_biological, strict, 0 );
 
     if( !was_loaded || jo.has_array( "weakpoint_sets" ) || jo.has_array( "weakpoints" ) ) {
         weakpoints_deferred.clear();

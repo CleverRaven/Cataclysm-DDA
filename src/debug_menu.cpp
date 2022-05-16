@@ -1621,6 +1621,9 @@ static void character_edit_menu()
         std::stringstream data;
         data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
              np->myclass->get_name() << std::endl;
+        if( !np->get_unique_id().empty() ) {
+            data << string_format( _( "Unique Id: %s" ), np->get_unique_id() ) << std::endl;
+        }
         data << string_format( _( "Faction: %s (api v%d)" ), np->get_faction()->id.str(),
                                np->get_faction_ver() ) << "; "
              << string_format( _( "Attitude: %s" ), npc_attitude_name( np->get_attitude() ) ) << std::endl;
@@ -1689,7 +1692,7 @@ static void character_edit_menu()
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attack" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
-    nmenu.addentry( D_WRITE_EOCS, true, 'w', "%s",
+    nmenu.addentry( D_WRITE_EOCS, true, 'W', "%s",
                     _( "Write effect_on_condition(s) to eocs.output" ) );
     nmenu.addentry( D_EDIT_VARS, true, 'v', "%s", _( "Edit vars" ) );
 

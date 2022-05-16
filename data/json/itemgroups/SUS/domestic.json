@@ -65,7 +65,8 @@
       { "item": "bottle_opener", "prob": 95 },
       { "item": "pizza_cutter", "prob": 30 },
       { "item": "icecream_scoop", "prob": 25 },
-      { "item": "cheese_grater", "prob": 40 }
+      { "item": "cheese_grater", "prob": 40 },
+      { "item": "mortar_pestle", "prob": 50 }
     ]
   },
   {
@@ -842,7 +843,8 @@
       { "group": "suits_mens", "prob": 10 },
       { "group": "bags_unisex", "prob": 20 },
       { "group": "hats_unisex", "prob": 20 },
-      { "group": "scarfs_unisex", "prob": 30 }
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "item": "crutches", "prob": 1 }
     ]
   },
   {
@@ -869,7 +871,8 @@
       { "group": "suits_womens", "prob": 50 },
       { "group": "bags_unisex", "prob": 20 },
       { "group": "hats_unisex", "prob": 20 },
-      { "group": "scarfs_unisex", "prob": 20 }
+      { "group": "scarfs_unisex", "prob": 20 },
+      { "item": "crutches", "prob": 1 }
     ]
   },
   {

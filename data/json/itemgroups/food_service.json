@@ -206,6 +206,7 @@
       { "item": "mayonnaise", "prob": 3 },
       { "group": "ketchup_sealed_rng", "prob": 3 },
       { "group": "mustard_sealed_rng", "prob": 3 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 2 },
       { "item": "pickle", "prob": 5, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 5 },
       { "item": "cheeseburger", "prob": 10 },
@@ -252,6 +253,7 @@
       { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
       { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 70 },
+      { "item": "shot_glass", "prob": 60 },
       { "item": "bucket", "prob": 5 },
       { "item": "can_drink", "prob": 65 },
       { "item": "wrapper", "prob": 50 },
@@ -520,6 +522,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "apron_cotton", "prob": 20 },
+      { "item": "waist_apron_long", "prob": 5 },
+      { "item": "waist_apron_short", "prob": 20 },
       { "item": "apron_leather", "prob": 5 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       { "item": "hat_ball", "prob": 25 },
@@ -811,6 +815,7 @@
       { "item": "mayonnaise", "prob": 40 },
       { "group": "ketchup_sealed_rng", "prob": 60 },
       { "group": "mustard_sealed_rng", "prob": 60 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 40 },
       { "item": "horseradish", "prob": 10 },
       { "item": "sprinkles", "prob": 20 },
       { "item": "honey_bottled", "prob": 35 },
@@ -1052,6 +1057,8 @@
       [ "hat_chef", 30 ],
       [ "jacket_chef", 30 ],
       [ "apron_cotton", 30 ],
+      [ "waist_apron_long", 20 ],
+      [ "waist_apron_short", 20 ],
       [ "pants_checkered", 28 ]
     ]
   },

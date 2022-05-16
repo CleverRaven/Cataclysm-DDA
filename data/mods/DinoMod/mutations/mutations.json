@@ -481,5 +481,53 @@
     "id": "COLDBLOOD4",
     "copy-from": "COLDBLOOD4",
     "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP",
+    "copy-from": "STR_UP",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_2",
+    "copy-from": "STR_UP_2",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_3",
+    "copy-from": "STR_UP_3",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_4",
+    "copy-from": "STR_UP_4",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN",
+    "copy-from": "THICKSKIN",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGBACK",
+    "copy-from": "STRONGBACK",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FANGS",
+    "copy-from": "FANGS",
+    "extend": { "category": [ "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_CLUB",
+    "copy-from": "TAIL_CLUB",
+    "extend": { "category": [ "STEGO" ] }
   }
 ]

@@ -60,7 +60,6 @@ class string_input_popup // NOLINT(cata-xy)
         int _max_length = -1;
         bool _only_digits = false;
         bool _hist_use_uilist = true;
-        bool _ignore_custom_actions = true;
         int _startx = 0;
         int _starty = 0;
         int _endx = 0;
@@ -167,16 +166,6 @@ class string_input_popup // NOLINT(cata-xy)
          */
         string_input_popup &hist_use_uilist( bool value ) {
             _hist_use_uilist = value;
-            return *this;
-        }
-        /**
-         * If true and the custom input context returns an input action, the
-         * action is not handled at all and left to be handled by the caller.
-         * Otherwise the action is always handled as an input event to the popup.
-         * The caller can use @ref handled to check whether the last input is handled.
-         */
-        string_input_popup &ignore_custom_actions( const bool value ) {
-            _ignore_custom_actions = value;
             return *this;
         }
         /**
