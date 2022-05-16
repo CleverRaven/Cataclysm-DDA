@@ -824,6 +824,7 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( you.has_trait( trait_SUNBURN ) ) {
+        debugmsg( "Starting severe sunburn" );
         suffer::from_sunburn( you, true );
     }
 
@@ -901,21 +902,14 @@ static float medium_eff_chance( float exp )
 
 static float heavy_eff_chance( float exp )
 {
-    if( exp <= 0.5 ) {
-        // Starts at 15%, slowly increases to 0.2 until 50%
-        return linear_interpolation( 0.15, 0.0, 0.5, 0.2, exp );
-    } else {
-        // Sharp increase after 0.5 to 1.0 at 100% exposure
-        return linear_interpolation( 0.5, 0.2, 1.0, 1.0, exp );
-    }
+    // Starts at 15%, increases to 0.5 at 100%
+    return linear_interpolation( 0.15, 0.0, 1.0, 0.5, exp );
 }
 
 void suffer::from_sunburn( Character &you, const bool severe )
 {
-    if( ( severe && !one_turn_in( 3_minutes ) ) ||
-        ( !severe && !one_turn_in( 3_minutes ) ) ) {
-        // Sunburn effects occur about 3 times per minute
-        // albinism/datura occur about once per minute
+    if( !one_turn_in( 1_minutes ) ) {
+        // Sunburn effects and albinism/datura occur about once per minute
         return;
     }
 

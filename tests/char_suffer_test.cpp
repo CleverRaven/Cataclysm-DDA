@@ -231,19 +231,20 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
             THEN( "they suffer injuries on every body part" ) {
-                // Should lose an average of 6 HP per minute from each body part with hit points
+                // Should lose an average of 1 HP per minute from each body part with hit points
                 // (head, torso, both arms, both legs)
+                // 1/minute * 0.5 * 2 (as two body parts contribute to each part with HP, e.g. l. arm + l. hand both damage l. arm)
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 1_hours );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
-                    CHECK( bp_hp_lost[bp] == Approx( 10 ).margin( 10 ) );
+                    CHECK( bp_hp_lost[bp] == Approx( 60 ).margin( 40 ) );
                 }
             }
 
             THEN( "they suffer pain several times a minute" ) {
-                // This will pass if pain is between 0 and 90, but 3/minute is expected baseline
-                //pain_felt = test_suffer_pain_felt( dummy, 10_minutes );
-                //CHECK( pain_felt == Approx( 30 ).margin( 60 ) );
+                // 1/minute * 0.5 * 11 (num body parts, excluding eyes)
+                pain_felt = test_suffer_pain_felt( dummy, 1_hours );
+                CHECK( pain_felt == Approx( 30 * 11 ).margin( 20 * 11 ) );
             }
         }
 
@@ -256,39 +257,38 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
 
             // Umbrella completely shields the skin from exposure when wielded
             THEN( "they suffer no injury" ) {
-                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
+                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 1_hours );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
                     CHECK( bp_hp_lost[bp] == 0 );
                 }
             }
             THEN( "they suffer no pain" ) {
-                pain_felt = test_suffer_pain_felt( dummy, 10_minutes );
+                pain_felt = test_suffer_pain_felt( dummy, 1_hours );
                 CHECK( pain_felt == 0 );
             }
         }
 
-        WHEN( "naked and wielding an umbrella, without sunglasses" ) {
+        WHEN( "wielding an umbrella, without sunglasses" ) {
             dummy.worn.clear();
             dummy.wield( umbrella );
             REQUIRE( dummy.get_wielded_item().has_flag( flag_RAIN_PROTECT ) );
             REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
             THEN( "they suffer only head injury" ) {
-                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 1_hour );
+                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 1_hours );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
                     if( bp == bodypart_id( "head" )) {
-                        CHECK( bp_hp_lost[bp] == Approx( 10 ).margin( 10 ) );
+                        CHECK( bp_hp_lost[bp] == Approx( 30 ).margin( 20 ) );
                     } else {
                         CHECK( bp_hp_lost[bp] == 0 );
                     }
                 }
             }
             THEN( "they suffer pain" ) {
-                // Only about 3 pain per hour from exposed eyes
-                // This assertion will pass when pain is between 0 and 13 in an hour
-                //pain_felt = test_suffer_pain_felt( dummy, 1_hours );
-                //CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
+                // 1/minute * 0.5
+                pain_felt = test_suffer_pain_felt( dummy, 1_hours );
+                CHECK( pain_felt == Approx( 30 ).margin( 20 ) );
             }
         }
 
@@ -305,13 +305,12 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                     if( bp.id().str() == "torso" ) {
                         CHECK( bp_hp_lost[bp] == 0 );
                     } else if( bp.id().str() == "arm_l" || bp.id().str() == "arm_r" ) {
-                        // Hands are exposed, and still lose 1 HP, 3x per minute (30 in 10m)
-                        CHECK_THAT( bp_hp_lost[bp],
-                                    IsBinomialObservation( num_turns, 1.0 / 200 + 1.0 / 20 ) );
+                        // Hands are exposed, and still lose 0.5 HP per minute
+                        CHECK( bp_hp_lost[bp] == Approx( 30 ).margin( 20 ) );
                     } else {
-                        // All other parts lose 1 HP, 3x per minute (30 in 10m)
-                        // but legs+feet combine, and head+mouth combine (60 in 10m)
-                        CHECK_THAT( bp_hp_lost[bp], IsBinomialObservation( num_turns, 2.0 / 20 ) );
+                        // All other parts lose 1 HP per minute
+                        // but legs+feet combine, and head+mouth combine (doubled damage)
+                        CHECK( bp_hp_lost[bp] == Approx( 60 ).margin( 40 ) );
                     }
                 }
             }
