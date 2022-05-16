@@ -196,10 +196,7 @@
         "collection": [ { "item": "rebreather_filter", "prob": 50 }, { "item": "rebreather", "prob": 90, "charges": [ 10, 60 ] } ],
         "prob": 20
       },
-      {
-        "collection": [ { "item": "inflatable_boat", "prob": 30 }, { "item": "hand_pump", "prob": 60 } ],
-        "prob": 15
-      }
+      { "collection": [ { "item": "inflatable_boat", "prob": 30 }, { "item": "hand_pump", "prob": 60 } ], "prob": 15 }
     ]
   },
   {

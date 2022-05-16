@@ -623,7 +623,7 @@
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
       [ "hand_pump", 10 ],
-      [ "inflatable_boat", 10 ]
+      [ "inflatable_boat", 10 ],
       [ "grapnel", 40 ],
       [ "fishing_rod_professional", 60 ],
       [ "fishing_rod_basic", 60 ],
