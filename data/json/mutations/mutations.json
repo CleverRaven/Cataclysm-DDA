@@ -548,7 +548,7 @@
     "description": "You have a high tolerance for pain.",
     "starting_trait": true,
     "types": [ "PAIN" ],
-    "category": [ "MEDICAL" ]
+    "category": [ "MEDICAL", "TROGLOBITE" ]
   },
   {
     "type": "mutation",
@@ -594,7 +594,7 @@
       "RAT",
       "BATRACHIAN",
       "CHIMERA",
-      "MOUSE"
+      "GASTROPOD"
     ]
   },
   {
@@ -687,7 +687,7 @@
     "points": 1,
     "description": "Your skin is tough.  Cutting and bashing damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
     "types": [ "ARMOR" ],
-    "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR", "GASTROPOD" ],
+    "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR", "GASTROPOD", "CEPHALOPOD" ],
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1, "bash": 1 } ]
   },
   {
@@ -871,7 +871,7 @@
     "description": "It's very unlikely that you will catch ambient diseases like the cold or flu.",
     "starting_trait": true,
     "changes_to": [ "DISIMMUNE" ],
-    "category": [ "CATTLE", "RAT", "MEDICAL", "PLANT", "SLIME", "TROGLOBITE" ]
+    "category": [ "CATTLE", "RAT", "MEDICAL", "PLANT", "SLIME", "TROGLOBITE", "CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -1267,7 +1267,7 @@
     "description": "You're quite the heavy sleeper.  Noises are unlikely to wake you up.",
     "changes_to": [ "HEAVYSLEEPER2" ],
     "starting_trait": true,
-    "category": [ "INSECT", "PLANT", "MEDICAL", "LUPINE", "BEAST" ]
+    "category": [ "INSECT", "PLANT", "MEDICAL", "LUPINE", "BEAST", "URSINE" ]
   },
   {
     "type": "mutation",
@@ -1309,6 +1309,7 @@
     "description": "You simply cannot carry as much as people with a similar strength could.  Your maximum weight carried is reduced by 35%.",
     "starting_trait": true,
     "category": [ "BIRD", "ELFA" ],
+    "cancels": [ "STRONGBACK" ],
     "weight_capacity_modifier": 0.65
   },
   {
@@ -1533,7 +1534,7 @@
     "points": -2,
     "description": "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
     "starting_trait": true,
-    "category": [ "MEDICAL", "MOUSE", "RABBIT" ],
+    "category": [ "MEDICAL" ],
     "cancels": [ "NONADDICTIVE" ]
   },
   {
@@ -1684,7 +1685,7 @@
     "vomit_multiplier": 2,
     "types": [ "CONSTITUTION" ],
     "changes_to": [ "NAUSEA" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "MOUSE" ]
+    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -3033,7 +3034,7 @@
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "changes_to": [ "CLAWS", "TALONS" ],
-    "category": [ "RAPTOR", "BIRD", "CHIMERA", "BEAST", "RAT", "URSINE", "LIZARD", "FELINE" ]
+    "category": [ "RAPTOR", "BIRD", "CHIMERA", "BEAST", "RAT", "URSINE", "LIZARD", "FELINE", "RABBIT", "LUPINE" ]
   },
   {
     "type": "mutation",
@@ -3049,7 +3050,7 @@
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
     "changes_to": [ "CLAWS_RETRACT", "CLAWS_RAT" ],
-    "category": [ "BEAST", "RAT", "URSINE", "FELINE" ]
+    "category": [ "BEAST", "RAT", "URSINE", "FELINE", "LUPINE" ]
   },
   {
     "type": "mutation",
@@ -3330,7 +3331,7 @@
     "description": "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
     "starting_trait": true,
     "changes_to": [ "INFIMMUNE" ],
-    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD" ]
+    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD", "CHIMERA", "SLIME" ]
   },
   {
     "type": "mutation",
@@ -3518,7 +3519,7 @@
     "visibility": 1,
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
     "types": [ "SOLES" ],
-    "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE" ]
+    "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER" ]
   },
   {
     "type": "mutation",
@@ -3658,7 +3659,7 @@
     "name": { "str": "Saprovore" },
     "points": 2,
     "description": "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-    "category": [ "TROGLOBITE", "CHIMERA", "GASTROPOD" ],
+    "category": [ "TROGLOBITE", "CHIMERA", "GASTROPOD", "MOUSE" ],
     "flags": [ "IMMUNE_SPOIL" ]
   },
   {
@@ -3740,7 +3741,7 @@
     "prereqs2": [ "SAPROVORE", "TOLERANCE" ],
     "threshreq": [ "THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE", "THRESH_BATRACHIAN" ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
-    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "MOUSE" ]
+    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -3750,10 +3751,10 @@
     "description": "Your digestion has evolved further.  In addition to mutated meat, you can also stomach the tainted and long-dead flesh of zombies… if you can stand the taste, of course.",
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "EATPOISON" ],
-    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE" ],
+    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT" ],
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
-    "category": [ "RAT", "CHIMERA", "MOUSE" ],
+    "category": [ "RAT", "CHIMERA" ],
     "flags": [ "IMMUNE_SPOIL" ]
   },
   {
@@ -4154,7 +4155,7 @@
       "THRESH_BATRACHIAN"
     ],
     "changes_to": [ "MUT_TOUGH2" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "MEDICAL", "BATRACHIAN" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
     "hp_modifier_secondary": 0.2
   },
   {
@@ -4168,7 +4169,7 @@
     "prereqs": [ "MUT_TOUGH" ],
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL" ],
     "changes_to": [ "MUT_TOUGH3" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA", "MEDICAL" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA" ],
     "hp_modifier_secondary": 0.3
   },
   {
@@ -4298,7 +4299,7 @@
     "purifiable": false,
     "types": [ "PREDATION" ],
     "changes_to": [ "PRED2" ],
-    "prereqs": [ "CARNIVORE", "THRESH_URSINE" ],
+    "prereqs": [ "CARNIVORE", "CARNIVORE_FAKE" ],
     "threshreq": [
       "THRESH_BEAST",
       "THRESH_RAPTOR",
@@ -4323,7 +4324,7 @@
     "social_modifiers": { "intimidate": 3 },
     "purifiable": false,
     "types": [ "PREDATION" ],
-    "prereqs": [ "CARNIVORE", "THRESH_URSINE" ],
+    "prereqs": [ "CARNIVORE", "CARNIVORE_FAKE" ],
     "prereqs2": [ "PRED1" ],
     "changes_to": [ "PRED3" ],
     "threshreq": [
@@ -4348,7 +4349,7 @@
     "social_modifiers": { "intimidate": 4 },
     "purifiable": false,
     "types": [ "PREDATION" ],
-    "prereqs": [ "CARNIVORE", "THRESH_URSINE" ],
+    "prereqs": [ "CARNIVORE", "CARNIVORE_FAKE" ],
     "prereqs2": [ "PRED2" ],
     "leads_to": [ "SAPIOVORE" ],
     "changes_to": [ "PRED4", "PACK_HUNTER" ],
@@ -4376,7 +4377,7 @@
     "social_modifiers": { "intimidate": 5 },
     "purifiable": false,
     "types": [ "PREDATION" ],
-    "prereqs": [ "CARNIVORE", "THRESH_URSINE" ],
+    "prereqs": [ "CARNIVORE", "CARNIVORE_FAKE" ],
     "prereqs2": [ "PRED3" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE" ],
@@ -4392,7 +4393,7 @@
     "social_modifiers": { "persuade": -20, "lie": -20, "intimidate": 6 },
     "purifiable": false,
     "types": [ "HUMAN_EMPATHY" ],
-    "prereqs": [ "CARNIVORE" ],
+    "prereqs": [ "CARNIVORE", "CARNIVORE_FAKE" ],
     "prereqs2": [ "PRED3", "PRED4" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER" ],
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
@@ -4897,7 +4898,7 @@
     "types": [ "STR" ],
     "prereqs": [ "STR_UP_2" ],
     "changes_to": [ "STR_UP_4" ],
-    "category": [ "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE" ],
+    "category": [ "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE", "CATTLE" ],
     "threshreq": [ "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_TROGLOBITE", "THRESH_BEAST", "THRESH_URSINE" ],
     "passive_mods": { "str_mod": 4 }
   },
@@ -4937,7 +4938,6 @@
     "changes_to": [ "DEX_UP_2", "DEX_ALPHA" ],
     "category": [
       "INSECT",
-      "SLIME",
       "ALPHA",
       "LIZARD",
       "SPIDER",
@@ -5535,6 +5535,7 @@
     "description": "Your visage is disgusting and liable to induce vomiting.  People will not want to interact with you unless they have a very good reason to.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "DEFORMED2" ],
+    "threshreq": [ "THRESH_SLIME", "THRESH_RAT", "THRESH_CHIMERA" ],
     "category": [ "SLIME", "RAT", "CHIMERA" ]
   },
   {
@@ -5593,7 +5594,7 @@
       "MUZZLE_RAT",
       "RABBIT_NOSE"
     ],
-    "category": [ "BIRD", "CEPHALOPOD", "FELINE", "INSECT", "CATTLE", "BEAST", "LUPINE", "URSINE", "LIZARD", "RAT", "RABBIT" ]
+    "category": [ "BIRD", "CEPHALOPOD", "FELINE", "INSECT", "CATTLE", "BEAST", "LUPINE", "URSINE", "LIZARD", "RAT", "RABBIT", "MOUSE" ]
   },
   {
     "type": "mutation",
@@ -5665,7 +5666,7 @@
     "description": "Your face and jaw have extended, giving you an alert and attentive appearance.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
-    "category": [ "RAT" ],
+    "category": [ "RAT", "MOUSE" ],
     "restricts_gear": [ "mouth" ]
   },
   {
@@ -5744,7 +5745,7 @@
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "WEAKSTOMACH" ],
     "changes_to": [ "VOMITOUS" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "MOUSE" ],
+    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ],
     "active": true
   },
   {
@@ -5757,7 +5758,7 @@
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "MOUSE" ],
+    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ],
     "active": true
   },
   {
@@ -5895,7 +5896,7 @@
     "points": -2,
     "description": "You could probably sleep through a firefight.",
     "prereqs": [ "HEAVYSLEEPER" ],
-    "category": [ "BEAST", "LUPINE" ]
+    "category": [ "BEAST", "LUPINE", "URSINE" ]
   },
   {
     "type": "mutation",
@@ -6287,7 +6288,7 @@
     "points": -4,
     "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat.",
     "types": [ "DIET" ],
-    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN" ],
+    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN", "BEAST", "LUPINE" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
   {
@@ -7635,7 +7636,7 @@
     "name": { "str": "Debug Cardio" },
     "points": 99,
     "valid": false,
-    "cardio_multiplier": 999999,
+    "cardio_multiplier": 500000,
     "description": "You can run, but you'll never run out of breath.",
     "debug": true
   },
@@ -7975,5 +7976,41 @@
       { "part": "hand_r", "good": -16 },
       { "part": "torso", "good": -30 }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "CARNIVORE_FAKE",
+    "name": { "str": "Imitation Carnivore" },
+    "points": 0,
+    "description": "Fake mutation to allow post-threshold Ursine mutants access to mutations normally gated behind Carnivore.  This is not meant to be visible in-game.",
+    "category": [ "URSINE" ],
+    "threshreq": [ "THRESH_URSINE" ],
+    "player_display": false
+  },
+  {
+    "//": "Like Resilient, but Medical-flavored, and doesn't need huge/strong",
+    "type": "mutation",
+    "id": "TOUGH_MEDICAL",
+    "name": { "str": "Resilient Physiology" },
+    "points": 2,
+    "description": "Your body is well-adapted to resist trauma.  20% bonus to all hit points.  Stacks with Tough, etc.",
+    "types": [ "DURABILITY" ],
+    "changes_to": [ "TOUGH2_MEDICAL" ],
+    "category": [ "MEDICAL" ],
+    "threshreq": [ "THRESH_MEDICAL" ],
+    "hp_modifier_secondary": 0.2
+  },
+  {
+    "//": "Like Solidly Built, but Medical-flavored, and doesn't need huge/strong",
+    "type": "mutation",
+    "id": "TOUGH2_MEDICAL",
+    "name": { "str": "Solid Physiology" },
+    "points": 3,
+    "description": "Your body is extremely well-adapted to resist trauma.  30% bonus to all hit points.  Stacks with Tough, etc.",
+    "types": [ "DURABILITY" ],
+    "prereqs": [ "TOUGH_MEDICAL" ],
+    "category": [ "MEDICAL" ],
+    "threshreq": [ "THRESH_MEDICAL" ],
+    "hp_modifier_secondary": 0.3
   }
 ]

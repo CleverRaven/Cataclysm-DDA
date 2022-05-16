@@ -43,6 +43,8 @@ struct effect_on_condition {
         duration_or_var recurrence;
         bool activate( dialogue &d ) const;
         bool check_deactivate( dialogue &d ) const;
+        bool test_condition( dialogue &d ) const;
+        void apply_true_effects( dialogue &d ) const;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;

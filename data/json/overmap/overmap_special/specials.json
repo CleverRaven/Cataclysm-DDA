@@ -39,10 +39,37 @@
   {
     "type": "overmap_special",
     "id": "Boat Rental",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north", "locations": [ "lake_shore" ] } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "boat_rental_roof_north", "locations": [ "open_air" ] }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "city_distance": [ 5, 40 ],
-    "occurrences": [ 0, 5 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Boat Rental 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "boat_rental_1_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "boat_rental_1_roof_north", "locations": [ "open_air" ] }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "city_distance": [ 5, 40 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Boat Rental 2",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "boat_rental_2_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "boat_rental_2_roof_north", "locations": [ "open_air" ] }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "city_distance": [ 5, 40 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
@@ -4449,6 +4476,14 @@
       { "point": [ 1, 2, 0 ], "overmap": "railroad_station_1_2_north" },
       { "point": [ 1, 3, 0 ], "overmap": "railroad_station_1_3_north" },
       { "point": [ 1, 4, 0 ], "overmap": "railroad_station_1_4_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "railroad_station_0_1_roof_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "railroad_station_0_2_roof_north" },
+      { "point": [ 0, 3, 1 ], "overmap": "railroad_station_0_3_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "railroad_station_1_1_roof_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "railroad_station_1_2_roof_north" },
+      { "point": [ 1, 3, 1 ], "overmap": "railroad_station_1_3_roof_north" },
+      { "point": [ 1, 4, 1 ], "overmap": "railroad_station_1_4_roof_north" },
+      { "point": [ 2, 4, 1 ], "overmap": "railroad_station_2_4_roof_north" },
       { "point": [ 2, 0, 0 ], "overmap": "road_end_north" },
       { "point": [ 2, 1, 0 ], "overmap": "railroad_station_2_1_north" },
       { "point": [ 2, 2, 0 ], "overmap": "railroad_station_2_2_north" },
@@ -5970,7 +6005,10 @@
       { "point": [ 3, 3, 0 ], "overmap": "marina_17_north", "locations": [ "land" ] },
       { "point": [ 2, 3, 0 ], "overmap": "marina_18_north", "locations": [ "land" ] },
       { "point": [ 1, 3, 0 ], "overmap": "marina_19_north", "locations": [ "land" ] },
-      { "point": [ 0, 3, 0 ], "overmap": "marina_20_north", "locations": [ "land" ] }
+      { "point": [ 0, 3, 0 ], "overmap": "marina_20_north", "locations": [ "land" ] },
+      { "point": [ 0, 2, 1 ], "overmap": "marina_15_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 4, 2, 1 ], "overmap": "marina_11_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 3, 2, 1 ], "overmap": "marina_12_roof_north", "locations": [ "open_air" ] }
     ],
     "city_sizes": [ 4, 20 ],
     "occurrences": [ 0, 1 ],

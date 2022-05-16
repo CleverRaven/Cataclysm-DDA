@@ -2250,10 +2250,9 @@
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "qualities": [ { "id": "SEW_CURVED", "level": 1 } ],
-    "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_polymerworking" } ]
+    "using": [ [ "sewing_standard", 10 ], [ "tailoring_neoprene_patchwork", 2 ] ],
+    "//": "Should use fabric_neoprene when the tailoring recipe audit is done.",
+    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "lc_chainmail_hood",

@@ -2116,8 +2116,9 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
 
     switch( dt ) {
         case damage_type::PURE:
+            return worn_armor + static_cast<int>( type->armor_pure );
         case damage_type::BIOLOGICAL:
-            return 0;
+            return worn_armor + static_cast<int>( type->armor_biological );
         case damage_type::BASH:
             return get_armor_bash( bp );
         case damage_type::CUT:
@@ -2131,7 +2132,7 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case damage_type::COLD:
-            return worn_armor;
+            return worn_armor + static_cast<int>( type->armor_cold );
         case damage_type::ELECTRIC:
             return worn_armor + static_cast<int>( type->armor_elec );
         case damage_type::NONE:

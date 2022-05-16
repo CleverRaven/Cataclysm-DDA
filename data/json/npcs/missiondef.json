@@ -901,6 +901,47 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_ASSASSINATION",
+    "type": "mission_definition",
+    "name": { "str": "Finish your mission" },
+    "description": "Your mission required you to eliminate a certain high-ranking individual in hiding.  Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 4,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_air_term",
+        "om_special": "o_airport",
+        "reveal_radius": 6,
+        "random": true,
+        "search_range": 90,
+        "min_distance": 15,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
+          { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
+          { "monster": "mon_feral_soldier", "name": "The Colaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
+          { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    }
+  },
+  {
     "id": "MISSION_ASSASSIN_CONVICT_PRISON",
     "type": "mission_definition",
     "name": { "str": "Kill your mark" },
