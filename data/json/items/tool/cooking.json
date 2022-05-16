@@ -280,7 +280,7 @@
     "weight": "2500 g",
     "volume": "13 L",
     "price": 6000,
-    "price_postapoc": 12000,
+    "price_postapoc": 2000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic" ],
