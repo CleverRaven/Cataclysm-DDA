@@ -1511,9 +1511,9 @@ void map::player_in_field( Character &you )
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your legs and feet!" ),
                                                _( "The acid burns <npcname>s legs and feet!" ) );
                 } else if( on_ground ) {
-                    you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid" ) );
-                } else {
-                    you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid" ) );
+                    you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
+                } else if( !you.is_immune_field( fd_acid ) ) {
+                    you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid!" ) );
                 }
 
                 you.check_dead_state();
