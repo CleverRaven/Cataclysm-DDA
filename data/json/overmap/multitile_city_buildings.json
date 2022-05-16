@@ -3205,6 +3205,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_cosmetic",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_cosmetic_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_cosmetic_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "s_grocery_1",
     "locations": [ "land" ],
     "overmaps": [
