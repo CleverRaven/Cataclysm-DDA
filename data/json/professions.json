@@ -4654,6 +4654,7 @@
     "name": "Surfer",
     "description": "You went to ride the waves, but the waves ended up riding you instead when a putrid hand appeared from underwater and grabbed you by the ankle.  You could have lost your surfboard in favor of a kickboard, but that will not stop you from riding the next big wave, the wave of undead.",
     "points": 1,
+    "flags": [ "NO_BONUS_ITEMS" ],
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
     "items": {
       "both": [ "swimming_kickboard" ],
