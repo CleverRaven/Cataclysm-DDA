@@ -2145,12 +2145,7 @@ int npc::value( const item &it, int market_price ) const
 {
     if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
         // NPCs won't be interested in buying active explosives
-        return -1000;
-    }
-    if( mission == NPC_MISSION_SHOPKEEP ||
-        // faction currency trades at market price
-        ( my_fac != nullptr && my_fac->currency == it.typeId() ) ) {
-        return market_price;
+        return -1;
     }
 
     const item weapon = get_wielded_item();

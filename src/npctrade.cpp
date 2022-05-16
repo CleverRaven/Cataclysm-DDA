@@ -26,6 +26,7 @@
 
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 static const skill_id skill_speech( "speech" );
+static const item_category_id item_category_currency( "currency" );
 
 std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Character &giver,
         Character &receiver, std::list<item_location *> &from_map, bool use_escrow )
@@ -145,11 +146,10 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     double adjust = ( ( selladjust * seller.int_cur ) - ( 0.05 * buyer.int_cur ) ) +
                     price_adjustment( seller.get_skill_level( skill_speech ) - buyer.get_skill_level( skill_speech ) );
     if( seller.is_npc() ) {
-        return clamp( adjust, 1.6, 2.5 );
+        return clamp( adjust, 1.6, 2.2 );
     } else {
         return clamp( adjust, 0.5, 1.4 );
     }
-    //    return std::max( adjust, 1.0 );
 }
 
 int npc_trading::bionic_install_price( Character &installer, Character &patient,
@@ -178,11 +178,16 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
         price = seller.as_npc()->value( *it, price );
     }
 
-    if( fac == nullptr || fac->currency != it->typeId() ) {
+    if( fac == nullptr ) {
         return static_cast<int>( price * adjust );
+        // check currency id matches faction currency
+    } else if( it->get_category_shallow().get_id() == item_category_currency ) {
+        std::string itemid_str = it->typeId().str();
+        if( itemid_str.find( fac->currency.str() ) != std::string::npos ) {
+            return price;
+        }
     }
-
-    return price;
+    return static_cast<int>( price * adjust );
 }
 
 int npc_trading::trading_price( Character const &buyer, Character const &seller,
