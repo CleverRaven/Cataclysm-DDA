@@ -729,6 +729,26 @@ void conditional_t<T>::set_npc_allies( const JsonObject &jo )
     };
 }
 
+
+template<class T>
+void conditional_t<T>::set_npc_allies_global( const JsonObject &jo )
+{
+    int_or_var iov = get_int_or_var( jo, "npc_allies_global" );
+
+    condition = [iov]( const T & d ) {
+        const auto all_npcs = overmap_buffer.get_overmap_npcs();
+        std::vector<shared_ptr_fast<npc>> filtered_npcs{};
+        const size_t count = std::count_if( all_npcs.begin(),
+        all_npcs.end(), []( const shared_ptr_fast<npc> &ptr ) {
+            // Note: it seems that the is_npc check /is/ necessary to avoid including dead friends
+            return ptr.get()->is_player_ally() && !ptr.get()->hallucination && ptr.get()->is_npc();
+        } );
+
+        return count >= static_cast<size_t>( iov.evaluate( d.actor( iov.is_npc() ) ) );
+    };
+}
+
+
 template<class T>
 void conditional_t<T>::set_u_has_cash( const JsonObject &jo )
 {
@@ -1985,6 +2005,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_npc_role_nearby( jo );
     } else if( jo.has_int( "npc_allies" ) || jo.has_object( "npc_allies" ) ) {
         set_npc_allies( jo );
+    } else if( jo.has_int( "npc_allies_global" ) || jo.has_object( "npc_allies_global" ) ) {
+        set_npc_allies_global( jo );
     } else if( jo.get_bool( "npc_service", false ) ) {
         set_npc_available( true );
     } else if( jo.get_bool( "u_service", false ) ) {

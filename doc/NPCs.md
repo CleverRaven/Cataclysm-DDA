@@ -909,7 +909,8 @@ Condition | Type | Description
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
 `"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
 `"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
-`"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` ( or the value of the variable described see `variable_object` above) number of NPC allies.
+`"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` (or the value of the variable described; see `variable_object` above) number of NPC allies _within the reality bubble_.
+`"npc_allies_global"` | int or variable_object | `true` if the player character has at least `npc_allies_global` (or the value of the variable as above) number of NPC allies _anywhere_.
 `"is_by_radio"` | simple string | `true` if the player is talking to the NPC over a radio.
 `"u_available" or "npc_available"` | simple string | `true` if u or the NPC does not have effect `"currently_busy"`.
 `"u_following" or "npc_following"` | simple string | `true` if u or the NPC is following the player character.
