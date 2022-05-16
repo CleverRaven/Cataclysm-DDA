@@ -49,7 +49,7 @@
       "&": "f_trashcan",
       "^": "f_indoor_plant"
     },
-    "liquids": { "0": { "liquid": "water_clean", "amount": [ 0, 50 ] } },
+    "liquids": { "0": { "liquid": "water", "amount": [ 0, 450 ] } },
     "items": {
       "a": { "item": "livingroom", "chance": 20 },
       "A": [
