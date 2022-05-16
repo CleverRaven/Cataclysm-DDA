@@ -757,6 +757,18 @@
     "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
+    "id": "moisturizer",
+    "type": "GENERIC",
+    "name": { "str": "moisturizer" },
+    "description": "A cosmetic preparation used for protecting, moisturizing, and lubricating the skin.",
+    "volume": "50ml",
+    "weight": "50 g",
+    "price": 300,
+    "price_postapoc": 300,
+    "symbol": "s",
+    "color": "light_green"
+  },
+  {
     "id": "flu_shot",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
