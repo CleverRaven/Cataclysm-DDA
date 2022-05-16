@@ -135,19 +135,21 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
 double npc_trading::net_price_adjustment( const Character &buyer, const Character &seller )
 {
     // Adjust the prices based on your social skill.
-    // cap adjustment so nothing is ever sold below value
-
+    // cap adjustment so npc/player pricing never matches
     // Boost the NPC selling/buying power
-    // average (a+b)/2;
 
-    //    double average = ( seller.int_cur + buyer.int_cur ) / 2;
     double selladjust = 0.05;
     if( seller.is_npc() ) {
-        selladjust = 0.2;
+        selladjust = 0.15;
     }
     double adjust = ( ( selladjust * seller.int_cur ) - ( 0.05 * buyer.int_cur ) ) +
                     price_adjustment( seller.get_skill_level( skill_speech ) - buyer.get_skill_level( skill_speech ) );
-    return std::max( adjust, 1.0 );
+    if( seller.is_npc() ) {
+        return clamp( adjust, 1.6, 2.5 );
+    } else {
+        return clamp( adjust, 0.5, 1.4 );
+    }
+    //    return std::max( adjust, 1.0 );
 }
 
 int npc_trading::bionic_install_price( Character &installer, Character &patient,
@@ -230,9 +232,6 @@ void item_pricing::set_values( int ip_count )
         charges = i_p->count();
         if( charges > 0 ) {
             price /= charges;
-            if( price < 1 ) {
-                price = 1;
-            }
             vol /= charges;
             weight /= charges;
         } else {
