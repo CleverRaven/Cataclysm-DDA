@@ -2771,7 +2771,7 @@ void drop_or_handle( const item &newit, Character &p )
 void remove_ammo( item &dis_item, Character &p )
 {
     dis_item.remove_items_with( [&p]( const item & it ) {
-        if( it.is_irremovable() || ( !it.is_gunmod() && !it.is_toolmod() ) ) {
+        if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || it.is_magazine() ) ) {
             return false;
         }
         drop_or_handle( it, p );
