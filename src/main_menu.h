@@ -19,7 +19,6 @@ class main_menu
         main_menu() : ctxt( "MAIN_MENU", keyboard_mode::keychar ) { }
         // Shows the main menu and returns whether a game was started or not
         bool opening_screen();
-        bool opening_screen_old();
 
     private:
         // ASCII art that says "Cataclysm Dark Days Ahead"
