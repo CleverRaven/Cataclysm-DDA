@@ -374,6 +374,7 @@
       { "item": "wetsuit_gloves", "prob": 3 },
       { "item": "wetsuit_booties", "prob": 3 },
       { "item": "wetsuit_hood", "prob": 2 },
+      { "item": "swim_cap", "prob": 10 },
       { "item": "scuba_tank", "prob": 2 },
       { "item": "dive_bag", "prob": 3 },
       { "item": "poncho", "prob": 15 },

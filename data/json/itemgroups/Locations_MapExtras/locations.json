@@ -616,6 +616,7 @@
       [ "wetsuit_booties_thick", 2 ],
       [ "wetsuit_hood", 10 ],
       [ "wetsuit_hood_thick", 1 ],
+      [ "swim_cap", 10 ],
       { "item": "scuba_tank", "prob": 5, "charges": [ 0, 60 ] },
       { "item": "small_scuba_tank", "prob": 5, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],
