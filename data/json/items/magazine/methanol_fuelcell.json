@@ -32,7 +32,7 @@
     "material": [ "plastic" ],
     "symbol": "=",
     "color": "yellow",
-	"count": 40000,
+    "count": 40000,
     "ammo_type": [ "methanol_fuelcell" ],
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "METHANOL_TANK" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "methanol_fuelcell": 40000 }, "watertight": true } ]
@@ -51,7 +51,7 @@
     "material": [ "plastic" ],
     "symbol": "=",
     "color": "yellow",
-	"count": 112000,
+    "count": 112000,
     "ammo_type": [ "methanol_fuelcell" ],
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "METHANOL_TANK" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "methanol_fuelcell": 112000 }, "watertight": true } ]
@@ -70,7 +70,7 @@
     "material": [ "plastic" ],
     "symbol": "=",
     "color": "yellow",
-	"count": 240000,
+    "count": 240000,
     "ammo_type": [ "methanol_fuelcell" ],
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "METHANOL_TANK" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "methanol_fuelcell": 240000 }, "watertight": true } ]
