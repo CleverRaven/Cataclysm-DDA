@@ -462,6 +462,10 @@ class item : public visitable
                           bool debug ) const;
         void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                                     bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void armor_material_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                  bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void armor_attribute_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                   bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
         void pet_armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
@@ -1947,6 +1951,8 @@ class item : public visitable
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
          */
         int get_warmth() const;
+        /** Returns the warmth on the body part of the item on a specific bp. */
+        int get_warmth( const bodypart_id bp ) const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
@@ -2666,6 +2672,10 @@ class item : public visitable
         std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+
+        /** returns a list of pointers to all visible or remembered top-level items */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
 
         void clear_items();
         bool empty() const;
