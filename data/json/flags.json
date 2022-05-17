@@ -1923,6 +1923,12 @@
     "name": "heavy battery"
   },
   {
+    "id": "METHANOL_TANK",
+    "type": "json_flag",
+    "info": "This item fits in items that use methanol fuel cells.",
+    "name": "methanol fuel cell"
+  },
+  {
     "id": "COMBAT_TOGGLEABLE",
     "type": "json_flag",
     "info": "This item is meant to be toggled during combat."

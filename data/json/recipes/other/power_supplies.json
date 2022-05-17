@@ -739,6 +739,55 @@
     ]
   },
   {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "5l_methanol_tank",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "time": "1 m",
+    "//time": "2 h 40 m",
+    "autolearn": true,
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "5l_methanol_tank", 1 ] ], [ [ "chem_methanol", 5000 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "10l_methanol_tank",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "time": "5 h 20 m",
+    "autolearn": true,
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "10l_methanol_tank", 1 ] ], [ [ "chem_methanol", 10000 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "28l_methanol_tank",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "time": "14 h 56 m",
+    "autolearn": true,
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "28l_methanol_tank", 1 ] ], [ [ "chem_methanol", 28000 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "60l_methanol_tank",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "time": "32 h",
+    "autolearn": true,
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "60l_methanol_tank", 1 ] ], [ [ "chem_methanol", 60000 ] ] ]
+  },
+  {
     "result": "carbon_electrode",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
