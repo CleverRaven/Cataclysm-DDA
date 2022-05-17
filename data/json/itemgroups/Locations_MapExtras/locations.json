@@ -623,6 +623,8 @@
       { "item": "rebreather", "prob": 2, "charges": [ 0, 60 ] },
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
+      [ "hand_pump", 10 ],
+      [ "inflatable_boat", 10 ],
       [ "grapnel", 40 ],
       [ "fishing_rod_professional", 60 ],
       [ "fishing_rod_basic", 60 ],
@@ -803,6 +805,7 @@
       [ "wearable_light", 5 ],
       [ "rebreather", 1 ],
       [ "small_scuba_tank", 1 ],
+      [ "hand_pump", 3 ],
       [ "pilot_light", 30 ]
     ]
   },

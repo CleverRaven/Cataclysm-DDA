@@ -199,7 +199,9 @@
       { "item": "powered_earplugs", "prob": 60, "charges": [ 0, 50 ] },
       { "item": "stab_vest", "variant": "airsoft_stab_vest", "prob": 10 },
       { "item": "bandolier_wrist", "prob": 100 },
-      { "item": "fitness_band", "prob": 5 }
+      { "item": "fitness_band", "prob": 10 },
+      { "item": "hand_pump", "prob": 10 },
+      { "item": "inflatable_boat", "prob": 4 }
     ]
   },
   {

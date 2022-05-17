@@ -2287,7 +2287,9 @@
       [ "sports_drink", 5 ],
       [ "water_clean", 5 ],
       [ "fish_sandwich", 2 ],
-      [ "mango", 1 ]
+      [ "mango", 1 ],
+      [ "hand_pump", 5 ],
+      [ "inflatable_boat", 1 ]
     ]
   },
   {
