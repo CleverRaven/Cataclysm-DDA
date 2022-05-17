@@ -513,7 +513,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     if( action == butcher_type::BLEED && ( corpse_item.has_flag( flag_BLED ) ||
                                            corpse_item.has_flag( flag_QUARTERED ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ||
                                            corpse_item.has_flag( flag_FIELD_DRESS ) ) ) {
-        you.add_msg_if_player( m_info, _( "This corpse hase already been bled." ) );
+        you.add_msg_if_player( m_info, _( "This corpse has already been bled." ) );
         act.targets.pop_back();
         return;
     }
