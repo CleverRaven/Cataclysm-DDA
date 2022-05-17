@@ -18,14 +18,6 @@
     ]
   },
   {
-    "result": "XS_holster",
-    "type": "recipe",
-    "copy-from": "holster",
-    "time": "6 h",
-    "using": [ [ "tailoring_leather_small", 2 ] ],
-    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
-  },
-  {
     "result": "ammo_satchel",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -627,6 +619,14 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_leatherworking_basic" }
     ],
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "XS_holster",
+    "type": "recipe",
+    "copy-from": "holster",
+    "time": "6 h",
+    "using": [ [ "tailoring_leather_small", 2 ] ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
   {
