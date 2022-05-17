@@ -10873,7 +10873,7 @@ void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 
 void Character::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( this, pos() ) ) {
+    if( weapon.needs_processing() && weapon.process( get_map(), this, pos() ) ) {
         weapon.spill_contents( pos() );
         remove_weapon();
     }
@@ -10884,7 +10884,7 @@ void Character::process_items()
             continue;
         }
         if( it->needs_processing() ) {
-            if( it->process( this, pos() ) ) {
+            if( it->process( get_map(), this, pos() ) ) {
                 it->spill_contents( pos() );
                 removed_items.push_back( it );
             }
