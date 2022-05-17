@@ -597,6 +597,7 @@ bool main_menu::opening_screen()
 
     // for mouse selection
     ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
 
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
@@ -674,7 +675,7 @@ bool main_menu::opening_screen()
         }
 
         // handle mouse click
-        if( action == "SELECT" ) {
+        if( action == "SELECT" || action == "MOUSE_MOVE" ) {
             cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
             for( const auto &it : main_menu_button_map ) {
                 if( coord.has_value() && it.first.contains( coord.value() ) ) {
@@ -682,7 +683,8 @@ bool main_menu::opening_screen()
                         sel1 = it.second;
                         sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
                     }
-                    if( sel1 == getopt( main_menu_opts::HELP ) || sel1 == getopt( main_menu_opts::QUIT ) ) {
+                    if( action == "SELECT" &&
+                        ( sel1 == getopt( main_menu_opts::HELP ) || sel1 == getopt( main_menu_opts::QUIT ) ) ) {
                         action = "CONFIRM";
                     }
                     ui_manager::redraw();
@@ -693,7 +695,9 @@ bool main_menu::opening_screen()
                 if( coord.has_value() && it.first.contains( coord.value() ) ) {
                     sel1 = it.second.first;
                     sel2 = it.second.second;
-                    action = "CONFIRM";
+                    if( action == "SELECT" ) {
+                        action = "CONFIRM";
+                    }
                     ui_manager::redraw();
                     break;
                 }
