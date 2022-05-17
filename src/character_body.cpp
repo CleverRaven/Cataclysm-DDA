@@ -243,6 +243,19 @@ void Character::update_body( const time_point &from, const time_point &to )
         enforce_minimum_healing();
     }
 
+    if( calendar::once_every( 1_days ) ) {
+        // not getting below half stamina even once in a whole day is not healthy
+        if( get_value( "got_to_half_stam" ).empty() ) {
+            mod_healthy_mod( -4, -200 );
+        } else {
+            remove_value( "got_to_half_stam" );
+        }
+        // reset counter for number of time going below quarter stamina
+        set_value( "quarter_stam_counter", "0" );
+    }
+
+
+
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
 
