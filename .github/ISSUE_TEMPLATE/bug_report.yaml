@@ -1,6 +1,5 @@
 name: Bug Report 🐛
 description: Create a report to help us improve
-labels: ["(S1 - Need Confirmation)"]
 
 body:
   - type: markdown
