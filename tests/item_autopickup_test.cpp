@@ -12,6 +12,7 @@ static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bag_body_bag( "bag_body_bag" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
 static const itype_id itype_box_cigarette( "box_cigarette" );
@@ -34,6 +35,7 @@ static const itype_id itype_paper( "paper" );
 static const itype_id itype_pebble( "pebble" );
 static const itype_id itype_rolling_paper( "rolling_paper" );
 static const itype_id itype_steel_lump( "steel_lump" );
+static const itype_id itype_storage_battery( "storage_battery" );
 static const itype_id itype_wallet_leather( "wallet_leather" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wrapper( "wrapper" );
@@ -481,6 +483,26 @@ TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][
                 // make sure excluded items were not dropped on the ground
                 REQUIRE_FALSE( item_lump_of_steel.is_on_ground( ground ) );
             }
+        }
+    }
+
+    GIVEN( "a whitelist rule for picking up battery charges" ) {
+        item item_store_bat( itype_storage_battery );
+        item item_bat( itype_battery, calendar::turn, 10 );
+        item_store_bat.ammo_set( itype_battery, 10 );
+        REQUIRE( !item_store_bat.all_items_top().empty() );
+        REQUIRE( item_store_bat.all_items_top().front()->charges == 10 );
+        unique_item item_storage_battery = unique_item( item_store_bat );
+        unique_item item_battery = unique_item( item_bat );
+        REQUIRE( item_storage_battery.spawn_item( ground ) );
+        add_autopickup_rules( { &item_storage_battery }, false );
+        add_autopickup_rules( { &item_battery }, true );
+        THEN( "ignore battery charges" ) {
+            simulate_auto_pickup( ground, they );
+            expect_to_find( backpack, {} );
+            CHECK( item_storage_battery.is_on_ground( ground ) );
+            REQUIRE( !item_storage_battery.find_on_ground( ground )->all_items_top().empty() );
+            REQUIRE( item_storage_battery.find_on_ground( ground )->all_items_top().front()->charges == 10 );
         }
     }
 }
