@@ -726,17 +726,17 @@ static bool assert_maximum_density_for_material( const item &target )
 TEST_CASE( "item_material_density_sanity_check", "[item][!mayfail]" )
 {
     // randomize items so you get varied failures when testing densities
-    std::vector<const itype*> all_items = item_controller->all();
-    std::shuffle(std::begin(all_items), std::end(all_items), rng_get_engine());
+    std::vector<const itype *> all_items = item_controller->all();
+    std::shuffle( std::begin( all_items ), std::end( all_items ), rng_get_engine() );
 
     // only allow so many failures before stopping
     int number_of_failures = 0;
 
-    for( const itype *type : all_items) {
+    for( const itype *type : all_items ) {
         const item sample( type, calendar::turn_zero, item::solitary_tag{} );
-        if (assert_maximum_density_for_material(sample)) {
+        if( assert_maximum_density_for_material( sample ) ) {
             number_of_failures++;
-            if (number_of_failures > 20) {
+            if( number_of_failures > 20 ) {
                 break;
             }
         }
