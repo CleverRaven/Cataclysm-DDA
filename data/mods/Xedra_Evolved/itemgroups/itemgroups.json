@@ -5,6 +5,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "softdrinks_canned", "prob": 560 },
+      { "group": "zebra_pistol_cache", "prob": 60 },
       { "item": "file", "prob": 90 },
       { "group": "magazines", "prob": 365 },
       { "item": "glassblowing_book", "prob": 1 },
@@ -80,6 +81,7 @@
     "magazine": 100,
     "items": [
       { "group": "softdrinks_canned", "prob": 370 },
+      { "group": "zebra_pistol_cache", "prob": 10 },
       [ "file", 90 ],
       { "group": "magazines", "prob": 130 },
       [ "survival_book", 1 ],
@@ -177,6 +179,16 @@
       { "item": "xl_mt_chainmail_legs", "prob": 20 },
       { "item": "xl_mt_chainmail_vest", "prob": 20 },
       { "item": "xl_mt_chainmail_feet", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "zebra_pistol_cache",
+    "entries": [
+      { "item": "fn57mag", "ammo-item": "57mm_ss", "charges": 20 },
+      { "item": "fn57mag", "ammo-item": "57mm_ss", "charges": 20 },
+      { "item": "fn57_sup" }
     ]
   },
   {

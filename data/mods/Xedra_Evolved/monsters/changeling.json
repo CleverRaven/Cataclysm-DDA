@@ -70,6 +70,7 @@
     "armor_bash": 8,
     "armor_cut": 8,
     "armor_bullet": 8,
+    "armor_pure": 8,
     "death_drops": "changeling_bannerman_death_drops"
   },
   {
@@ -90,6 +91,7 @@
     "armor_bash": 12,
     "armor_cut": 12,
     "armor_bullet": 24,
+    "armor_pure": 16,
     "special_attacks": [ { "id": "impale" } ],
     "death_drops": "changeling_redcap_aspirant_death_drops"
   },
@@ -111,6 +113,7 @@
     "armor_bash": 12,
     "armor_cut": 12,
     "armor_bullet": 24,
+    "armor_pure": 16,
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
     "death_drops": "changeling_pooka_aspirant_death_drops"
   },
@@ -140,6 +143,7 @@
     "armor_bullet": 36,
     "armor_stab": 16,
     "armor_fire": 90,
+    "armor_pure": 160,
     "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
