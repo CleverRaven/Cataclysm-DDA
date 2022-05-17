@@ -170,10 +170,11 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
     main_menu_opts sel_o = static_cast<main_menu_opts>( sel );
     switch( sel_o ) {
         case main_menu_opts::CREDITS:
-            display_text( mmenu_credits, "Credits", sel_line );
+            display_text( mmenu_credits, _( "Credits" ), sel_line );
             return;
         case main_menu_opts::MOTD:
-            display_text( mmenu_motd, "MOTD", sel_line );
+            //~ Message Of The Day
+            display_text( mmenu_motd, _( "MOTD" ), sel_line );
             return;
         case main_menu_opts::SPECIAL:
             for( int i = 1; i < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ); i++ ) {
@@ -439,7 +440,7 @@ void main_menu::init_strings()
     vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
         vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game",
-                                       "Play Now!  (<F|f>ixed Scenario)" ) );
+                                       "Play Now!  (<D|d>efault Scenario)" ) );
         vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play N<o|O>w!" ) );
     }
     vNewGameHints.clear();
@@ -684,6 +685,7 @@ bool main_menu::opening_screen()
                     if( sel1 == getopt( main_menu_opts::HELP ) || sel1 == getopt( main_menu_opts::QUIT ) ) {
                         action = "CONFIRM";
                     }
+                    ui_manager::redraw();
                     break;
                 }
             }
@@ -692,6 +694,7 @@ bool main_menu::opening_screen()
                     sel1 = it.second.first;
                     sel2 = it.second.second;
                     action = "CONFIRM";
+                    ui_manager::redraw();
                     break;
                 }
             }
@@ -854,8 +857,8 @@ bool main_menu::new_character_tab()
             clear_error();
             return false;
         }
-        while( 1 ) {
-            uilist mmenu( _( "Choose a preset character template." ), {} );
+        while( true ) {
+            uilist mmenu( _( "Choose a preset character template" ), {} );
             mmenu.border_color = c_white;
             int opt_val = 0;
             for( const std::string &tmpl : templates ) {
@@ -977,7 +980,8 @@ bool main_menu::load_character_tab( const std::string &worldname )
 
     if( savegames.empty() ) {
         on_error();
-        popup( _( "%s has no loadable characters!" ), worldname );
+        //~ %s = world name
+        popup( _( "%s has no characters to load!" ), worldname );
         clear_error();
         return false;
     }

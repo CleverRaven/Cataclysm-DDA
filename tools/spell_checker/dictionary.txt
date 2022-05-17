@@ -13,7 +13,6 @@ adze
 aerarium
 aerially
 aeterna
-afemode
 afterbirth
 afterimage
 afterlife
@@ -509,6 +508,7 @@ editable
 edmontonia
 edmontosaurus
 eeds
+efault
 eidolon
 elderberries
 electrochemistry
@@ -518,6 +518,7 @@ electroreceptors
 elete
 elopements
 elytra
+emode
 emove
 emplate
 encumbering
@@ -865,7 +866,6 @@ isassembled
 issions
 itemname
 iterating
-ixed
 j
 jabberwock
 jabberwocks
@@ -1159,6 +1159,7 @@ neutrite
 nevah
 newsbots
 newsweekly
+ngs
 nibblin
 nibelung
 nichrome
@@ -1210,7 +1211,6 @@ openable
 openair
 opengl
 openingly
-opy
 orichalcum
 ornithomimid
 ornithomimus
@@ -1766,6 +1766,7 @@ toolmod
 toolset
 toolshelf
 topazes
+topickup
 toque
 toques
 toroids
@@ -1869,7 +1870,6 @@ usselves
 ustom
 utahraptor
 utilibot
-utopickup
 uttarasanga
 v
 vajra
