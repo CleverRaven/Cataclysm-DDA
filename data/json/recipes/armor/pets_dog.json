@@ -178,7 +178,7 @@
     "autolearn": true,
     "using": [ [ "clasps", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ], [ [ "rag", 10 ] ] ],
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "plastic_sheet", 5 ] ], [ [ "rag", 10 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   }
 ]

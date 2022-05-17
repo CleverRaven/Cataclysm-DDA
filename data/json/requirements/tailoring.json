@@ -425,11 +425,11 @@
     ]
   },
   {
-    "id": "waterproofing_plastic_bags",
+    "id": "waterproofing_plastic_sheets",
     "type": "requirement",
-    "//": "Making a waterproof layer from plastic bags duct taped together, per 25 g of such waterproofing.  Takes 15 minutes per unit.",
+    "//": "Making a waterproof layer from plastic sheets duct taped together, per 50 g of such waterproofing.  Takes 30 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "bag_plastic", 1 ] ], [ [ "duct_tape", 5 ] ] ]
+    "components": [ [ [ "plastic_sheet", 1 ] ], [ [ "duct_tape", 10 ] ] ]
   },
   {
     "id": "tanning_agent",

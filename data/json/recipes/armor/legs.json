@@ -653,7 +653,7 @@
     "autolearn": true,
     "using": [
       [ "tailoring_cotton_patchwork", 2 ],
-      [ "waterproofing_plastic_bags", 8 ],
+      [ "waterproofing_plastic_sheets", 4 ],
       [ "tailoring_kevlar_fabric", 4 ],
       [ "fastener_small", 1 ]
     ],
@@ -681,7 +681,7 @@
     "time": "12 h",
     "using": [
       [ "tailoring_cotton_patchwork", 1 ],
-      [ "waterproofing_plastic_bags", 6 ],
+      [ "waterproofing_plastic_sheets", 3 ],
       [ "tailoring_kevlar_fabric", 3 ],
       [ "fastener_small", 1 ]
     ],
@@ -704,7 +704,7 @@
     "time": "13 h 30 m",
     "using": [
       [ "tailoring_cotton_patchwork", 4 ],
-      [ "waterproofing_plastic_bags", 10 ],
+      [ "waterproofing_plastic_sheets", 5 ],
       [ "tailoring_kevlar_fabric", 6 ],
       [ "fastener_small", 1 ]
     ],
@@ -837,7 +837,7 @@
     "using": [
       [ "tailoring_kevlar_fabric", 4 ],
       [ "tailoring_cotton", 4 ],
-      [ "waterproofing_plastic_bags", 8 ],
+      [ "waterproofing_plastic_sheets", 4 ],
       [ "fastener_small", 1 ]
     ],
     "proficiencies": [
@@ -868,7 +868,7 @@
     "using": [
       [ "tailoring_kevlar_fabric", 3 ],
       [ "tailoring_cotton", 3 ],
-      [ "waterproofing_plastic_bags", 6 ],
+      [ "waterproofing_plastic_sheets", 3 ],
       [ "fastener_small", 1 ]
     ],
     "components": [
@@ -894,7 +894,7 @@
     "using": [
       [ "tailoring_kevlar_fabric", 6 ],
       [ "tailoring_cotton", 6 ],
-      [ "waterproofing_plastic_bags", 10 ],
+      [ "waterproofing_plastic_sheets", 5 ],
       [ "fastener_small", 1 ]
     ],
     "components": [

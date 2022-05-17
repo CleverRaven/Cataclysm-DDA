@@ -153,6 +153,7 @@
         [ "bag_zipper", 25 ],
         [ "cup_plastic", 25 ],
         [ "bag_plastic", 10 ],
+        [ "plastic_sheet", 5 ],
         [ "tumbler_plastic", 4 ],
         [ "bowl_plastic", 4 ],
         [ "plastic_bowl_kids", 8 ],

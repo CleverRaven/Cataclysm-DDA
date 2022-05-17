@@ -164,7 +164,7 @@
     "time": "28 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "components": [ [ [ "tarp", 2 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "tarp", 2 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -181,7 +181,7 @@
     "time": "32 m",
     "autolearn": true,
     "using": [ [ "adhesive", 3 ] ],
-    "components": [ [ [ "tarp", 6 ] ], [ [ "tent_pole", 6 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "bag_plastic", 3 ] ] ]
+    "components": [ [ [ "tarp", 6 ] ], [ [ "tent_pole", 6 ] ], [ [ "plastic_sheet", 5 ] ] ]
   },
   {
     "type": "recipe",
