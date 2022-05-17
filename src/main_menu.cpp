@@ -818,7 +818,7 @@ bool main_menu::opening_screen()
                     world_tab( sel2 > 0 ? world_generator->all_worldnames().at( sel2 - 1 ) : "" );
                     break;
                 case main_menu_opts::LOADCHAR:
-                    //start = load_character_tab();
+                    start = load_character_tab( world_generator->all_worldnames().at( sel2 ) );
                     break;
                 case main_menu_opts::NEWCHAR:
                     start = new_character_tab();
@@ -955,198 +955,61 @@ bool main_menu::new_character_tab()
     return false;
 }
 
-bool main_menu::load_character_tab( bool transfer )
+bool main_menu::load_character_tab( const std::string &worldname )
 {
-    bool start = false;
-    const auto all_worldnames = world_generator->all_worldnames();
-
-    if( transfer ) {
-        layer = 3;
-        sel1 = 2;
-        sel2 -= 1;
-        sel3 = 0;
-        savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
-    } else {
-        const size_t last_world_pos = std::find( all_worldnames.begin(), all_worldnames.end(),
-                                      world_generator->last_world_name ) - all_worldnames.begin();
-        if( last_world_pos < all_worldnames.size() ) {
-            sel2 = last_world_pos;
-            savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
-        }
-
-        const size_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
-        []( const save_t &it ) {
-            return it.decoded_name() == world_generator->last_character_name;
-        } ) - savegames.begin();
-        if( last_character_pos < savegames.size() ) {
-            sel3 = last_character_pos;
-        } else {
-            sel3 = 0;
-        }
+    savegames = world_generator->get_world( worldname )->world_saves;
+    if( MAP_SHARING::isSharing() ) {
+        auto new_end = std::remove_if( savegames.begin(), savegames.end(), []( const save_t &str ) {
+            return str.decoded_name() != MAP_SHARING::getUsername();
+        } );
+        savegames.erase( new_end, savegames.end() );
     }
 
-    ui_adaptor ui;
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        const point offset( transfer ? 25 : 15, transfer ? -1 : 0 );
-
-        print_menu( w_open, transfer ? 3 : 2, menu_offset, 0 );
-
-        if( layer == 2 && sel1 == 2 ) {
-            if( all_worldnames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( offset.x + extra_w / 2, -2 ),
-                           c_red, "%s", _( "No Worlds found!" ) );
-            } else {
-                for( int i = 0; i < static_cast<int>( all_worldnames.size() ); ++i ) {
-                    int line = menu_offset.y - 2 - i;
-                    std::string world_name = all_worldnames[i];
-                    int savegames_count = world_generator->get_world( world_name )->world_saves.size();
-                    nc_color color1;
-                    nc_color color2;
-                    if( world_name == "TUTORIAL" || world_name == "DEFENSE" ) {
-                        color1 = c_light_cyan;
-                        color2 = h_light_cyan;
-                    } else {
-                        color1 = c_white;
-                        color2 = h_white;
-                    }
-                    mvwprintz( w_open, offset + point( extra_w / 2 + menu_offset.x, line ),
-                               ( sel2 == i ? color2 : color1 ), "%s (%d)",
-                               world_name, savegames_count );
-                }
-            }
-            wnoutrefresh( w_open );
-        } else if( layer == 3 && sel1 == 2 ) {
-            savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
-
-            const std::string &wn = all_worldnames[sel2];
-
-            mvwprintz( w_open, menu_offset + offset + point( extra_w / 2, -2 - sel2 ), h_white,
-                       "%s", wn );
-
-            if( savegames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset.y ),
-                           c_red, "%s", _( "No save games found!" ) );
-            } else {
-                int line = menu_offset.y - 2;
-
-                for( const auto &savename : savegames ) {
-                    const bool selected = sel3 + line == menu_offset.y - 2;
-                    mvwprintz( w_open, point( ( 16 + wn.length() ) + menu_offset.x + extra_w / 2, line-- + offset.y ),
-                               selected ? h_white : c_white,
-                               "%s", savename.decoded_name() );
-                }
-            }
-            wnoutrefresh( w_open );
-        }
-    } );
-    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
-        init_windows();
-        ui.position_from_window( w_open );
-    } );
-    ui.position_from_window( w_open );
-    avatar &player_character = get_avatar();
-
-    while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
-        ui_manager::redraw();
-        if( layer == 2 && sel1 == 2 ) {
-            if( all_worldnames.empty() ) {
-                on_error();
-            }
-            std::string action = ctxt.handle_input();
-            if( errflag && action != "TIMEOUT" ) {
-                clear_error();
-                layer = 1;
-            } else if( action == "DOWN" ) {
-                if( sel2 > 0 ) {
-                    sel2--;
-                } else {
-                    sel2 = all_worldnames.size() - 1;
-                }
-            } else if( action == "UP" ) {
-                if( sel2 < static_cast<int>( all_worldnames.size() ) - 1 ) {
-                    sel2++;
-                } else {
-                    sel2 = 0;
-                }
-            } else if( action == "LEFT" || action == "PREV_TAB" || action == "QUIT" ) {
-                layer = 1;
-            } else if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
-                if( sel2 >= 0 && sel2 < static_cast<int>( all_worldnames.size() ) ) {
-                    layer = 3;
-                }
-            }
-        } else if( layer == 3 && sel1 == 2 ) {
-            savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
-
-            if( MAP_SHARING::isSharing() ) {
-                auto new_end = std::remove_if( savegames.begin(), savegames.end(),
-                []( const save_t &str ) {
-                    return str.decoded_name() != MAP_SHARING::getUsername();
-                } );
-                savegames.erase( new_end, savegames.end() );
-            }
-
-            if( savegames.empty() ) {
-                on_error();
-            }
-            std::string action = ctxt.handle_input();
-            if( errflag && action != "TIMEOUT" ) {
-                clear_error();
-                layer = transfer ? 1 : 2;
-            } else if( action == "DOWN" ) {
-                if( sel3 > 0 ) {
-                    sel3--;
-                } else {
-                    sel3 = savegames.size() - 1;
-                }
-            } else if( action == "UP" ) {
-                if( sel3 < static_cast<int>( savegames.size() - 1 ) ) {
-                    sel3++;
-                } else {
-                    sel3 = 0;
-                }
-            } else if( action == "LEFT" || action == "PREV_TAB" || action == "QUIT" ) {
-                layer = transfer ? 1 : 2;
-                sel3 = 0;
-            }
-            if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
-                if( sel3 >= 0 && sel3 < static_cast<int>( savegames.size() ) ) {
-                    on_out_of_scope cleanup( [&player_character]() {
-                        player_character = avatar();
-                        world_generator->set_active_world( nullptr );
-                    } );
-
-                    g->gamemode = nullptr;
-                    WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
-                    world_generator->last_world_name = world->world_name;
-                    world_generator->last_character_name = savegames[sel3].decoded_name();
-                    world_generator->save_last_world_info();
-                    world_generator->set_active_world( world );
-
-                    try {
-                        g->setup();
-                    } catch( const std::exception &err ) {
-                        debugmsg( "Error: %s", err.what() );
-                        continue;
-                    }
-
-                    if( g->load( savegames[sel3] ) ) {
-                        cleanup.cancel();
-                        start = true;
-                    }
-                }
-            }
-        }
-    } // end while
-
-    if( transfer ) {
-        layer = 3;
-        sel1 = 3;
-        sel2++;
-        sel3 = vWorldSubItems.size() - 1;
+    if( savegames.empty() ) {
+        on_error();
+        popup( _( "%s has no loadable characters!" ), worldname );
+        clear_error();
+        return false;
     }
 
-    return start;
+    uilist mmenu( string_format( _( "Load character from \"%s\"" ), worldname ), {} );
+    mmenu.border_color = c_white;
+    int opt_val = 0;
+    for( const save_t &s : savegames ) {
+        mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, s.decoded_name() );
+    }
+    mmenu.query();
+    opt_val = mmenu.ret;
+    if( opt_val < 0 || static_cast<size_t>( opt_val ) >= savegames.size() ) {
+        return false;
+    }
+
+    avatar &pc = get_avatar();
+    on_out_of_scope cleanup( [&pc]() {
+        pc = avatar();
+        world_generator->set_active_world( nullptr );
+    } );
+
+    g->gamemode = nullptr;
+    WORLDPTR world = world_generator->get_world( worldname );
+    world_generator->last_world_name = world->world_name;
+    world_generator->last_character_name = savegames[opt_val].decoded_name();
+    world_generator->save_last_world_info();
+    world_generator->set_active_world( world );
+
+    try {
+        g->setup();
+    } catch( const std::exception &err ) {
+        debugmsg( "Error: %s", err.what() );
+        return false;
+    }
+
+    if( g->load( savegames[opt_val] ) ) {
+        cleanup.cancel();
+        return true;
+    }
+
+    return false;
 }
 
 void main_menu::world_tab( const std::string &worldname )
@@ -1199,7 +1062,7 @@ void main_menu::world_tab( const std::string &worldname )
             world_generator->make_new_world( true, worldname );
             break;
         case 4: // Character to Template
-            if( load_character_tab( true ) ) {
+            if( load_character_tab( worldname ) ) {
                 avatar &pc = get_avatar();
                 pc.setID( character_id(), true );
                 pc.reset_all_missions();

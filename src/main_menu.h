@@ -59,7 +59,7 @@ class main_menu
         // Tab functions. They return whether a game was started or not. The ones that can never
         // start a game have a void return type.
         bool new_character_tab();
-        bool load_character_tab( bool transfer = false );
+        bool load_character_tab( const std::string &worldname );
         void world_tab( const std::string &worldname );
 
         /*
@@ -72,9 +72,6 @@ class main_menu
         input_context ctxt;
         int sel1 = 1;
         int sel2 = 1;
-        int sel3 = 1;
-        int sel4 = 1;
-        int layer = 1;
         point LAST_TERM;
         catacurses::window w_open;
         point menu_offset;
