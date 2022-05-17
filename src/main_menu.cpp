@@ -434,13 +434,13 @@ void main_menu::init_strings()
 
     // new game menu items
     vNewGameSubItems.clear();
-    vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
+    vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "C<u|U>stom Character" ) );
     vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
     vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
         vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game",
                                        "Play Now!  (<F|f>ixed Scenario)" ) );
-        vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
+        vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play N<o|O>w!" ) );
     }
     vNewGameHints.clear();
     vNewGameHints.emplace_back(
@@ -467,9 +467,9 @@ void main_menu::init_strings()
     vWorldSubItems.clear();
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to <T|t>emplate" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Sh<o|O>w World Mods" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Sett<i|I>ngs" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Tem<p|P>late" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -478,10 +478,10 @@ void main_menu::init_strings()
 
     vSettingsSubItems.clear();
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
-    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
-    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
-    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
-    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Ke<y|Y>bindings" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
 
     vSettingsHotkeys.clear();
     for( const std::string &item : vSettingsSubItems ) {
@@ -586,7 +586,7 @@ bool main_menu::opening_screen()
 
     load_char_templates();
 
-    ctxt.register_cardinal();
+    ctxt.register_directions();
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "PAGE_UP" );
@@ -654,6 +654,16 @@ bool main_menu::opening_screen()
         if( sel1 == getopt( main_menu_opts::SETTINGS ) ) {
             for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vSettingsHotkeys[i] ) {
+                    if( sInput.text == hotkey ) {
+                        sel2 = i;
+                        action = "CONFIRM";
+                    }
+                }
+            }
+        }
+        if( sel1 == getopt( main_menu_opts::NEWCHAR ) ) {
+            for( int i = 0; static_cast<size_t>( i ) < vNewGameSubItems.size(); ++i ) {
+                for( const std::string &hotkey : vNewGameHotkeys[i] ) {
                     if( sInput.text == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
