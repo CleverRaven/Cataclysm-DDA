@@ -421,7 +421,7 @@ bool vehicle_part::can_reload( const item &obj ) const
     return ammo_capacity( obj.ammo_type() ) > 0;
 }
 
-void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
+void vehicle_part::process_contents( map &here, const tripoint &pos, const bool e_heater )
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
@@ -439,7 +439,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         } else if( enabled && info().has_flag( VPFLAG_HEATED_TANK ) ) {
             flag = temperature_flag::HEATER;
         }
-        base.process( nullptr, pos, 1, flag );
+        base.process( here, nullptr, pos, 1, flag );
     }
 }
 

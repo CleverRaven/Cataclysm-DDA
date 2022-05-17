@@ -149,7 +149,7 @@
       "fields_radius": 3,
       "fields_min_intensity": 3,
       "fields_max_intensity": 3,
-      "no_deactivate_msg": "You've already pulled the %s's pin; try throwing it instead.",
+      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
       "explosion": { "power": 540, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.125 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]

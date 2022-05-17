@@ -3776,7 +3776,7 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
         sounds::sound( pos, 0, sounds::sound_t::electronic_speech, _( "Merged!" ),
                        true, "speech", it->typeId().str() );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin; try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
                               it->tname() );
         return cata::nullopt;
     } else { // When that timer runs down...
@@ -3954,7 +3954,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
         // Vol 0 = only heard if you hold it
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ), true, "misc", "bomb_ticking" );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already released the handle; try throwing it instead." ) );
+        p->add_msg_if_player( m_info, _( "You've already released the handle, try throwing it instead." ) );
         return cata::nullopt;
     } else {  // blow up
         map &here = get_map();
@@ -3997,7 +3997,7 @@ cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tri
         }
         return 1;
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s; try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
         return cata::nullopt;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
@@ -4077,7 +4077,7 @@ cata::optional<int> iuse::firecracker_act( Character *p, item *it, bool t, const
     if( t ) { // Simple timer effects
         sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s; try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
         return cata::nullopt;
     } else { // When that timer runs down...
@@ -8665,7 +8665,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
     const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
@@ -8808,7 +8808,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
 
         if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
@@ -9043,7 +9043,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
 
         if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&

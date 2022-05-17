@@ -1270,6 +1270,20 @@ std::list<const item *> item_contents::all_items_top() const
     } );
 }
 
+std::list<item *> item_contents::all_known_contents()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type() && pocket.transparent();
+    } );
+}
+
+std::list<const item *> item_contents::all_known_contents() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type() && pocket.transparent();
+    } );
+}
+
 item &item_contents::legacy_front()
 {
     if( empty() ) {
@@ -1880,12 +1894,12 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
     }
 }
 
-void item_contents::process( Character *carrier, const tripoint &pos, float insulation,
+void item_contents::process( map &here, Character *carrier, const tripoint &pos, float insulation,
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            pocket.process( carrier, pos, insulation, flag, spoil_multiplier_parent );
+            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
         }
     }
 }

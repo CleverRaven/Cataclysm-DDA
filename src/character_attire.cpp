@@ -1831,36 +1831,19 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
     std::map<bodypart_id, int> total_warmth;
     for( const bodypart_id &bp : guy.get_all_body_parts() ) {
         double warmth_val = 0.0;
-        float limb_coverage = 0.0f;
         const float wetness_pct = guy.get_part_wetness_percentage( bp );
         for( const item &clothing : worn ) {
             if( !clothing.covers( bp ) ) {
                 continue;
             }
-            warmth_val = clothing.get_warmth();
+            warmth_val = clothing.get_warmth( bp );
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
             if( !clothing.made_of( material_wool ) ) {
                 warmth_val *= 1.0 - 0.66 * wetness_pct;
             }
-            // calculate how much of the limb the armor ideally covers
-            // idea being that an item that covers the shoulders and torso shouldn't
-            // heat the whole arm like it covers it
-            // TODO: fully configure this per armor entry
-            if( !clothing.has_sublocations() ) {
-                // if it doesn't have sublocations it has 100% covered
-                limb_coverage = 100;
-            } else {
-                for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
-                    if( !clothing.covers( sbp ) ) {
-                        continue;
-                    }
 
-                    // TODO: handle non 100% sub body part coverages
-                    limb_coverage += sbp->max_coverage;
-                }
-            }
-            total_warmth[bp] += std::round( warmth_val * limb_coverage / 100.0f );
+            total_warmth[bp] += warmth_val;
         }
         total_warmth[bp] += guy.get_effect_int( effect_heating_bionic, bp );
     }
