@@ -698,7 +698,7 @@
     "color": "brown",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY" ],
     "armor": [ { "encumbrance": 22, "coverage": 12, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
