@@ -243,6 +243,7 @@ void Character::update_body( const time_point &from, const time_point &to )
         enforce_minimum_healing();
     }
 
+    // Cardio related health stuff
     if( calendar::once_every( 1_days ) ) {
         // not getting below half stamina even once in a whole day is not healthy
         if( get_value( "got_to_half_stam" ).empty() ) {
@@ -252,6 +253,23 @@ void Character::update_body( const time_point &from, const time_point &to )
         }
         // reset counter for number of time going below quarter stamina
         set_value( "quarter_stam_counter", "0" );
+
+        int cardio_accumultor = get_cardio_acc();
+        if( cardio_accumultor > 0 ) {
+            mod_healthy_mod( 1, 200 );
+            if( cardio_accumultor >= 10 ) {
+                mod_healthy_mod( 1, 200 );
+            }
+        }
+        if( cardio_accumultor < 0 ) {
+            mod_healthy_mod( -1, -200 );
+            if( cardio_accumultor <= -10 ) {
+                mod_healthy_mod( -1, -200 );
+            }
+        }
+        if( cardio_accumultor >= get_bmr() / 2 ) {
+            mod_healthy_mod( 2, 200 );
+        }
     }
 
 
