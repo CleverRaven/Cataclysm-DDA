@@ -20,9 +20,10 @@
   {
     "result": "XS_holster",
     "type": "recipe",
-    "copy-from": "XL_holster",
-    "time": "8 h",
-    "using": [ [ "strap_small", 1 ], [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ]
+    "copy-from": "holster",
+    "time": "6 h",
+    "using": [ [ "tailoring_leather_small", 2 ] ],
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
   {
     "result": "ammo_satchel",
