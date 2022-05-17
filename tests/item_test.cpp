@@ -704,7 +704,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 static bool assert_maximum_density_for_material( const item &target )
 {
     if( to_milliliter( target.volume() ) == 0 ) {
-        return;
+        return false;
     }
     const std::map<material_id, int> mats = target.made_of();
     if( !mats.empty() ) {
