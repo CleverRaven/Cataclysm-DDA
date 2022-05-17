@@ -32,7 +32,11 @@
     "//": "butcher knives and carving knives are between 30-40cm.",
     "price": 8000,
     "price_postapoc": 1000,
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
+    "qualities": [
+      [ "CUT", 2 ],
+      [ "CUT_FINE", 1 ],
+      [ "BUTCHER", 37 ]
+    ]
   },
   {
     "id": "butter_churn",
@@ -70,7 +74,10 @@
   {
     "id": "carver_off",
     "type": "TOOL",
-    "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
+    "name": {
+      "str": "electric carver (off)",
+      "str_pl": "electric carvers (off)"
+    },
     "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
     "weight": "1106 g",
     "volume": "1500 ml",
@@ -100,14 +107,20 @@
     "id": "carver_on",
     "copy-from": "carver_off",
     "type": "TOOL",
-    "name": { "str": "electric carver (on)", "str_pl": "electric carvers (on)" },
+    "name": {
+      "str": "electric carver (on)",
+      "str_pl": "electric carvers (on)"
+    },
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
     "cutting": 30,
     "to_hit": 1,
     "power_draw": 150000,
     "charges_per_use": 0,
     "revert_to": "carver_off",
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
+    "qualities": [
+      [ "CUT", 2 ],
+      [ "BUTCHER", 25 ]
+    ],
     "use_action": [ "CARVER_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -126,7 +139,12 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 75 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "charcoal": 75 }
+      }
+    ],
     "charges_per_use": 1,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
@@ -147,7 +165,12 @@
     "material": [ "clay" ],
     "symbol": ";",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 300 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "charcoal": 300 }
+      }
+    ],
     "charges_per_use": 1,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
@@ -168,7 +191,13 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 375 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "charcoal": 375 }
+      }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -188,7 +217,12 @@
     "color": "green",
     "ammo": [ "charcoal" ],
     "sub": "hotplate",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "charcoal": 50 }
+      }
+    ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -206,8 +240,20 @@
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2100 g",
+        "watertight": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [
+      [ "COOK", 3 ],
+      [ "BOIL", 2 ],
+      [ "CONTAIN", 1 ],
+      [ "CHEM", 1 ]
+    ],
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -240,7 +286,14 @@
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -339,7 +392,12 @@
     "color": "light_gray",
     "ammo": [ "esbit" ],
     "sub": "hotplate",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 50 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "esbit": 50 }
+      }
+    ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
@@ -414,7 +472,14 @@
     "color": "green",
     "ammo": [ "gasoline" ],
     "sub": "hotplate",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "gasoline": 500 },
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -525,7 +590,11 @@
     "flags": [ "WATER_BREAK" ],
     "sub": "hotplate",
     "charges_per_use": 5,
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "qualities": [
+      [ "COOK", 2 ],
+      [ "BOIL", 2 ],
+      [ "CONTAIN", 1 ]
+    ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "pocket_data": [
       {
@@ -552,7 +621,11 @@
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "qualities": [
+      [ "COOK", 2 ],
+      [ "BOIL", 1 ],
+      [ "CONTAIN", 1 ]
+    ],
     "use_action": [ "HEAT_FOOD" ]
   },
   {
@@ -615,7 +688,11 @@
     "ammo": [ "battery" ],
     "sub": "hotplate",
     "charges_per_use": 5,
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "qualities": [
+      [ "COOK", 2 ],
+      [ "BOIL", 2 ],
+      [ "CONTAIN", 1 ]
+    ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "pocket_data": [
       {
@@ -629,7 +706,10 @@
   {
     "id": "mortar_pestle",
     "type": "TOOL",
-    "name": { "str": "mortar and pestle", "str_pl": "mortars and pestles" },
+    "name": {
+      "str": "mortar and pestle",
+      "str_pl": "mortars and pestles"
+    },
     "description": "This is a simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
     "weight": "1632 g",
     "volume": "1 L",
@@ -641,7 +721,12 @@
     "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "FINE_GRIND", 1 ], [ "HAMMER", 1 ] ]
+    "qualities": [
+      [ "BOIL", 2 ],
+      [ "CONTAIN", 1 ],
+      [ "FINE_GRIND", 1 ],
+      [ "HAMMER", 1 ]
+    ]
   },
   {
     "id": "multi_cooker",
@@ -703,14 +788,24 @@
     "color": "green",
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "lamp_oil": 800 },
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "oil_press_manual",
     "type": "TOOL",
-    "name": { "str": "manual oil press", "str_pl": "manual oil presses" },
+    "name": {
+      "str": "manual oil press",
+      "str_pl": "manual oil presses"
+    },
     "description": "This is a hand cranked press for creating vegetable oil.  A hotplate heats the raw material to increase extraction efficiency.",
     "weight": "2300 g",
     "volume": "1560 ml",
@@ -735,7 +830,10 @@
   {
     "id": "oil_press_primitive",
     "type": "TOOL",
-    "name": { "str": "oil powered manual oil press", "str_pl": "oil powered manual oil presses" },
+    "name": {
+      "str": "oil powered manual oil press",
+      "str_pl": "oil powered manual oil presses"
+    },
     "description": "A barrel with a large screw press for creating vegetable oil.  A lamp oil cooker heats the raw material to increase extraction efficiency.",
     "weight": "12000 g",
     "volume": "20 L",
@@ -748,7 +846,14 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "lamp_oil" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "lamp_oil": 800 },
+        "watertight": true,
+        "rigid": true
+      }
+    ]
   },
   {
     "id": "pastaextruder",
@@ -809,7 +914,14 @@
     "color": "light_gray",
     "ammo": [ "conc_alcohol" ],
     "sub": "hotplate",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 }, "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "conc_alcohol": 500 },
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -829,8 +941,20 @@
     "symbol": ")",
     "color": "light_gray",
     "looks_like": "pot_canning",
-    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "watertight": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [
+      [ "COOK", 3 ],
+      [ "BOIL", 2 ],
+      [ "CONTAIN", 1 ],
+      [ "CHEM", 1 ]
+    ],
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -921,7 +1045,11 @@
     "material": [ "copper" ],
     "symbol": "L",
     "color": "white",
-    "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [
+      [ "DISTILL", 2 ],
+      [ "BOIL", 2 ],
+      [ "CONTAIN", 1 ]
+    ]
   },
   {
     "id": "survivor_mess_kit",
@@ -940,9 +1068,21 @@
     "color": "brown",
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "lamp_oil": 800 },
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "charges_per_use": 1,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "qualities": [
+      [ "COOK", 3 ],
+      [ "BOIL", 2 ],
+      [ "CONTAIN", 1 ],
+      [ "CHEM", 1 ]
+    ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
@@ -960,7 +1100,14 @@
     "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
-    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -1049,7 +1196,13 @@
     "color": "green",
     "ammo": [ "propane" ],
     "sub": "hotplate",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GAS_TANK" ],
+        "default_magazine": "small_propane_tank"
+      }
+    ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   }
