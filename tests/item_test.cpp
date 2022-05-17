@@ -721,6 +721,9 @@ static bool assert_maximum_density_for_material( const item &target )
 
         return item_density > max_density;
     }
+
+    // fallback return
+    return false;
 }
 
 TEST_CASE( "item_material_density_sanity_check", "[item][!mayfail]" )
