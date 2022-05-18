@@ -745,8 +745,7 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "mechanics",
-    "time": "1 m",
-    "//time": "2 h 40 m",
+    "time": "2 h 40 m",
     "autolearn": true,
     "tools": [ [ [ "syringe", -1 ] ] ],
     "components": [ [ [ "5l_methanol_tank", 1 ] ], [ [ "chem_methanol", 5000 ] ] ]
