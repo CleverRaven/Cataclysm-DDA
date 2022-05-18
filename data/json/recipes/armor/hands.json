@@ -919,7 +919,8 @@
     "difficulty": 4,
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "tailoring_neoprene_patchwork", 2 ], [ "adhesive", 2 ] ],
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "sewing_standard", 15 ], [ "adhesive", 2 ] ],
+    "//": "Should use fabric_neoprene when the tailoring recipe audit is done.",
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {

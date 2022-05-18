@@ -5498,7 +5498,7 @@ static void mill_activate( Character &you, const tripoint &examp )
     for( item &it : here.i_at( examp ) ) {
         if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, examp, nullptr );
+            it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -5599,7 +5599,7 @@ static void smoker_activate( Character &you, const tripoint &examp )
     you.use_charges( itype_fire, 1 );
     for( item &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, examp, nullptr );
+            it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }

@@ -769,7 +769,8 @@ static void smash()
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
         if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
             maybe_corpse.can_revive() ) {
-            if( maybe_corpse.get_mtype()->bloodType()->has_acid ) {
+            if( maybe_corpse.get_mtype()->bloodType()->has_acid &&
+                !player_character.is_immune_field( fd_acid ) ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     return; // Player doesn't want an acid bath
                 }

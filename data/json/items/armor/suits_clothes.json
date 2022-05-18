@@ -5,7 +5,7 @@
     "type": "ARMOR",
     "name": { "str": "bondage suit" },
     "description": "A suit of snug, black leather.  Has no pockets, but does feature an abundance of unusually located zippers.",
-    "weight": "1800 g",
+    "weight": "1000 g",
     "volume": "3250 ml",
     "price": 211000,
     "price_postapoc": 50,
@@ -15,11 +15,11 @@
     "looks_like": "armor_larmor",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 20 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": 20 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": 20 }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 }
     ],
-    "warmth": 30,
+    "warmth": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
@@ -117,6 +117,13 @@
         "name": { "str": "super hero pink bodysuit" },
         "description": "It's primarily colored pink and has a superhero design.",
         "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bondage_suit",
+        "name": { "str": "bondage lycra bodysuit" },
+        "description": "It's colored black and looks pretty kinky.  A great alternative to the leather version.",
+        "weight": 20,
         "append": true
       },
       {
