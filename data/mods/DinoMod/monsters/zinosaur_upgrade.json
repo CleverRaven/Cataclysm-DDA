@@ -1096,7 +1096,7 @@
     "type": "MONSTER",
     "id": "mon_zilophosaurus_shady",
     "name": { "str_sp": "shady dilophosaurus zombie" },
-    "copy-from": "mon_zilophoosaurus",
+    "copy-from": "mon_zilophosaurus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with sharp teeth and bulges on the head.",
     "upgrades": {  },
