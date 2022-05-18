@@ -126,7 +126,7 @@
         " |#................{|   ",
         " |#................{|   ",
         " |..y......h.h|--^----| ",
-        " |.........###|]....##| ",
+        " |.........#16|]....##| ",
         " |.........h.h|]....h#| ",
         " |............|.......| ",
         " |.......|-^--|dbb.bbd| ",
@@ -146,6 +146,7 @@
       ],
       "terrain": {
         "#": "t_thconc_floor",
+        "1": "t_thconc_floor",
         "+": "t_door_c",
         "-": "t_wall",
         ".": "t_thconc_floor",
@@ -165,10 +166,12 @@
         "y": "t_thconc_floor",
         "{": "t_thconc_floor",
         "|": "t_wall",
-        "^": "t_secretdoor_wall_c"
+        "^": "t_secretdoor_wall_c",
+        "6": "t_radio_equipment"
       },
       "furniture": {
         "#": "f_counter",
+        "1": "f_counter",
         "X": "f_crate_o",
         "]": "f_bookcase",
         "b": "f_bed",
@@ -183,6 +186,7 @@
         "y": "f_woodstove",
         "{": "f_rack"
       },
+      "items": { "1": { "item": "spy_map" } },
       "toilets": { "t": {  } },
       "place_liquids": [ { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 } ],
       "place_loot": [
