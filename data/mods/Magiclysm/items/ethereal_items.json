@@ -357,7 +357,7 @@
       "menu_text": "Squeeze seed"
     },
     "symbol": "!",
-    "description": "A magical seed that can be squeezed to release purifying dust, which can then be used to purify up to a gallon of water",
+    "description": "A magical seed that can be squeezed to release purifying dust, which can then be used to purify up to a gallon of water.",
     "volume": "250 ml",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -365,7 +365,7 @@
     "id": "druid_dust",
     "type": "TOOL",
     "name": "faintly glowing dust",
-    "description": "This fine dust glows with a growing intensity",
+    "description": "This fine dust glows with a growing intensity.",
     "weight": "1 g",
     "volume": "30 ml",
     "price": 0,

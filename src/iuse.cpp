@@ -8665,7 +8665,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
     const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
@@ -8808,7 +8808,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
 
         if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
@@ -9043,7 +9043,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
 
         if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&

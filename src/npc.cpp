@@ -3357,7 +3357,7 @@ std::set<tripoint> npc::get_path_avoid() const
     map &here = get_map();
     if( rules.has_flag( ally_rule::avoid_doors ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
-            if( here.open_door( p, true, true ) ) {
+            if( here.open_door( *this, p, true, true ) ) {
                 ret.insert( p );
             }
         }
