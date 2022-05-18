@@ -420,7 +420,7 @@ Normally armor degrades with use. This degradation is incremental and decreases 
 ```
 
 #### Further Reading
-The MIGO ablative plates use this to slag off and grow back. As well as all other old school ceramic plates. Easily search able in the code with "non_functional".
+The MIGO ablative plates use this to slag off and grow back. As well as all other old school ceramic plates. Easily searchable in the code with "non_functional".
 
 ### Actions and Transforms
 #### Explanation
