@@ -496,18 +496,20 @@ void main_menu::init_strings()
 
 void main_menu::display_text( const std::string &text, const std::string &title, int &selected )
 {
-    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                  point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+    const int w_open_height = getmaxy( w_open );
+    const int b_height = FULL_SCREEN_HEIGHT - clamp( ( FULL_SCREEN_HEIGHT - w_open_height ) + 4, 0, 4 );
+    const int vert_off = clamp( ( w_open_height - FULL_SCREEN_HEIGHT ) / 2, getbegy( w_open ), TERMY );
 
-    catacurses::window w_text = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
-                                       1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
+    catacurses::window w_border = catacurses::newwin( b_height, FULL_SCREEN_WIDTH,
+                                  point( clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), vert_off ) );
+
+    catacurses::window w_text = catacurses::newwin( b_height - 2, FULL_SCREEN_WIDTH - 2,
+                                point( 1 + clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), 1 + vert_off ) );
 
     draw_border( w_border, BORDER_COLOR, title );
 
     int width = FULL_SCREEN_WIDTH - 2;
-    int height = FULL_SCREEN_HEIGHT - 2;
+    int height = b_height - 2;
     const auto vFolded = foldstring( text, width );
     int iLines = vFolded.size();
 
@@ -598,6 +600,8 @@ bool main_menu::opening_screen()
     // for mouse selection
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
 
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
@@ -682,6 +686,7 @@ bool main_menu::opening_screen()
                     if( sel1 != it.second ) {
                         sel1 = it.second;
                         sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
+                        sel_line = 0;
                     }
                     if( action == "SELECT" &&
                         ( sel1 == getopt( main_menu_opts::HELP ) || sel1 == getopt( main_menu_opts::QUIT ) ) ) {
@@ -695,6 +700,7 @@ bool main_menu::opening_screen()
                 if( coord.has_value() && it.first.contains( coord.value() ) ) {
                     sel1 = it.second.first;
                     sel2 = it.second.second;
+                    sel_line = 0;
                     if( action == "SELECT" ) {
                         action = "CONFIRM";
                     }
@@ -727,18 +733,20 @@ bool main_menu::opening_screen()
             }
             sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
             on_move();
-        } else if( action == "UP" || action == "DOWN" || action == "PAGE_UP" || action == "PAGE_DOWN" ) {
+        } else if( action == "UP" || action == "DOWN" ||
+                   action == "PAGE_UP" || action == "PAGE_DOWN" ||
+                   action == "SCROLL_UP" || action == "SCROLL_DOWN" ) {
             int max_item_count = 0;
             int min_item_val = 0;
             switch( static_cast<main_menu_opts>( sel1 ) ) {
                 case main_menu_opts::MOTD:
                 case main_menu_opts::CREDITS:
-                    if( action == "UP" || action == "PAGE_UP" ) {
+                    if( action == "UP" || action == "PAGE_UP" || action == "SCROLL_UP" ) {
                         sel_line--;
                         if( sel_line < 0 ) {
                             sel_line = 0;
                         }
-                    } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
+                    } else if( action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
                         sel_line++;
                     }
                     break;
@@ -764,12 +772,12 @@ bool main_menu::opening_screen()
                     break;
             }
             if( max_item_count > 0 ) {
-                if( action == "UP" || action == "PAGE_UP" ) {
+                if( action == "UP" || action == "PAGE_UP" || action == "SCROLL_UP" ) {
                     sel2--;
                     if( sel2 < min_item_val ) {
                         sel2 = max_item_count - 1;
                     }
-                } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
+                } else if( action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
                     sel2++;
                     if( sel2 >= max_item_count ) {
                         sel2 = min_item_val;
