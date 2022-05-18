@@ -11,7 +11,7 @@
     "id": "45_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".45 ACP JHP" },
-    "description": ".45 ACP ammunition with a 185gr JHP bullet.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century, but has since fallen out of favour to more modern handgun ammo.",
+    "description": ".45 ACP ammunition with a 185gr JHP bullet.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century, but has since lost some popularity to more modern handgun ammo.",
     "weight": "10 g",
     "volume": "112 ml",
     "price": 180,
