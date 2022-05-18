@@ -188,7 +188,7 @@
     "id": "MISSION_MUTANT_VOLUNTEER",
     "type": "mission_definition",
     "name": { "str": "Continue with your evolution" },
-    "description": "Your evolution to a more perfect form was interrupted by the cataclysm.  Restart your transformation process whatever it costs.",
+    "description": "Your evolution to a more perfect form was interrupted by the Cataclysm.  Restart your transformation process whatever it costs.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "u_has_trait": "CHANGING" },
     "difficulty": 5,
