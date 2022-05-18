@@ -158,7 +158,7 @@
       { "item": "jar_3l_glass_sealed", "prob": 40 },
       { "item": "flotation_vest", "prob": 1 },
       { "item": "fishing_rod_professional", "prob": 2 },
-	  { "item": "methanol_fuel_cell", "prob": 1 },
+      { "item": "methanol_fuel_cell", "prob": 1 },
       { "item": "5l_methanol_tank", "prob": 1 },
       { "item": "10l_methanol_tank", "prob": 1 },
       { "item": "28l_methanol_tank", "prob": 1 },
