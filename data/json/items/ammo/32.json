@@ -3,7 +3,7 @@
     "id": "32_acp",
     "type": "AMMO",
     "name": { "str_sp": ".32 ACP" },
-    "description": "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so powerful as the .38 or the 9x19mm though.",
+    "description": ".32 ACP, once a popular handgun cartridge in the 20th century.  It lacks power compared to the .38 and the 9x19mm.",
     "weight": "5 g",
     "volume": "116 ml",
     "price": 160,
