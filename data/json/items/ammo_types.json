@@ -451,6 +451,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "methanol_fuelcell",
+    "name": "methanol",
+    "default": "chem_methanol_fuelcell"
+  },
+  {
+    "type": "ammunition_type",
     "id": "8x40mm",
     "name": "8x40mm caseless",
     "default": "8mm_caseless"
