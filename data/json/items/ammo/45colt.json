@@ -3,7 +3,7 @@
     "id": "45colt_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".45 Colt JHP" },
-    "description": ".45 Colt ammunition with 250gr jacketed hollow point bullets.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  Originally a black powder cartridge, modern loads can make this round competitive in the new era.",
+    "description": ".45 Colt ammunition with a 250gr jacketed hollow point bullet.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  Originally a black powder cartridge, modern loads can make this round competitive in the new era.",
     "weight": "12 g",
     "volume": "190 ml",
     "price": 200,
