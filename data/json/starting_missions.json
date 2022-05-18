@@ -96,8 +96,8 @@
   {
     "id": "MISSION_URBAN_SAMURAI",
     "type": "mission_definition",
-    "name": { "str": "Find a real Katana" },
-    "description": "The world has ended, but as an authentic samurai you lack a Katana, you must find one, quickly.",
+    "name": { "str": "Find a real katana" },
+    "description": "The world has ended, but as an authentic samurai you lack a katana, you must find one, quickly.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "katana",
     "difficulty": 4,
