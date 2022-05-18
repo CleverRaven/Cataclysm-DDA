@@ -1840,10 +1840,10 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "time": "2 m",
+    "time": "6 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "cordage_short", 1, "LIST" ] ] ]
+    "components": [ [ [ "rope_any_short", 1, "LIST" ] ] ]
   },
   {
     "result": "suspenders_holster",
