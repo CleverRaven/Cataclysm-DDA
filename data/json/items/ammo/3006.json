@@ -3,7 +3,7 @@
     "id": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 Springfield" },
-    "description": ".30-06 Springfield rounds with 165gr soft point bullets.  The .30-06 cartridge has excellent accuracy, range, and stopping power making it popular with hunters and snipers for well over a century.",
+    "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge has excellent accuracy, range, and stopping power, making it popular with hunters and snipers for well over a century.",
     "weight": "20 g",
     "volume": "192 ml",
     "price": 160,
@@ -27,7 +27,7 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 M14A1 tracer" },
-    "description": "Armor piercing incendiary .30-06 M14A1 ammunition containing tracer rounds to help keep the weapon they are fired from on target.  It penetrates all but the strongest body armor with ease.",
+    "description": ".30-06 M14A1 tracer ammunition to help keep the weapon it is fired from on target.",
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
@@ -35,7 +35,7 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 M2 AP" },
-    "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for its armor penetration abilities with lowered damage.",
+    "description": "Armor piercing .30-06 M2 ammunition with a 168gr FMJ bullet.  It is an extremely powerful and accurate cartridge, but pays for its armor penetration abilities with lowered damage.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
   },
   {
