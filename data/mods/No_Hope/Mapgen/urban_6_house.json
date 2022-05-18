@@ -1,0 +1,81 @@
+[
+  {
+    "method": "json",
+    "om_terrain": [ [ "urban_6_1", "urban_6_2" ] ],
+    "type": "mapgen",
+    "weight": 100000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "................................................",
+        "...........[........`````````````````....u......",
+        "....................`````````````````...........",
+        "...............^#oo#`````````````````...........",
+        "...........######JJ##*#oo########*##########....",
+        "....[......#34F57,,,  L  y|}}}Q|''''UU''''U#....",
+        "..........%o2,,,,,,,           |U'''''''''U#....",
+        "..........%o5,,JJ0,,|+||+||WZ S|U'UU''''''U#....",
+        "..........%oO,,JJ0,,|>|S~~###*##########*###....",
+        "...........#1n,,0,,,|||8~t#'''''''NNN'''''''....",
+        "......[....#||JJJ| ||<||+|#'''''''''''''''''....",
+        "...........#          TE y#q''''''''''''''''....",
+        "...........o hffh   H    x#q'''''''#'''''''#....",
+        "...........o hffh   H l  x#'''''''''''''''''....",
+        "...........#        H    x#Y''''''''''''''''....",
+        "..[........#yT            #Y''''''''''''''''....",
+        ".........[.###rr##**##rr###''''''''#'''''''#....",
+        ".............#oo#````#oo#^.._______________.....",
+        ".................%``%......._______________.....",
+        ".................!``!......._______________.....",
+        ".................!``!......._______________.....",
+        ".......[.........!``!......._______________.....",
+        ".................!``!......._______________.....",
+        ".................%``%.....p._______________....."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "#": "t_adobe_brick_wall",
+        "_": "t_pavement",
+        "'": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "Y": "t_thconc_floor",
+        "`": "t_concrete",
+        ",": "t_linoleum_white",
+        "O": "t_linoleum_white",
+        "F": "t_linoleum_white",
+        "1": "t_linoleum_white",
+        "2": "t_linoleum_white",
+        "3": "t_linoleum_white",
+        "4": "t_linoleum_white",
+        "5": "t_linoleum_white",
+        "6": "t_linoleum_white",
+        "7": "t_linoleum_white",
+        "0": "t_linoleum_white",
+        "n": "t_linoleum_white",
+        "J": "t_linoleum_white",
+        "~": "t_linoleum_gray",
+        "B": "t_linoleum_gray",
+        "8": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
+        "9": "t_linoleum_gray",
+        "t": "t_linoleum_gray"
+      },
+      "furniture": { "!": "f_region_flower", "0": "f_stool", "}": "f_counter" },
+      "place_loot": [
+        { "item": "television", "x": 25, "y": 13, "chance": 20 },
+        { "item": "stereo", "x": 25, "y": 14, "chance": 20 },
+        { "item": "hose", "x": 38, "y": 3, "chance": 20 },
+        { "item": "lawnmower", "x": 38, "y": 5, "chance": 20 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "suburban_home", "x": 31, "y": 12, "chance": 30, "rotation": 270, "status": 1 },
+        { "vehicle": "suburban_home", "x": 39, "y": 12, "chance": 30, "rotation": 270, "status": 1 }
+      ]
+    }
+  }
+]

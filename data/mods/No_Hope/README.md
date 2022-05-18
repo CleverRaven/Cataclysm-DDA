@@ -14,7 +14,7 @@ The major goal is to make Cataclysm harder and harsher. To achieve this goal, I 
 
 - Made ordinary walls hard to set on fire. Based on my old closed PR (https://github.com/CleverRaven/Cataclysm-DDA/pull/15537). Now you can't set it on fire using a simple lighter.
 
-- Updated domestic mapgen pallette so now any window in most houses will spawn shattered with 70% chance or fully smashed to frame (20% chance). Intact windows will spawn only with remaining 10% chance. The same for wooden doors: 60% chance to spawn open (imagine it was pryed open), 20% chance to spawn closed but damaged, 10% chance to spawn smashed to frame. Intact doors will spawn only with remaining 10% chance.
+- Updated domestic mapgen palette so now any window in most houses will spawn shattered with 70% chance or fully smashed to frame (20% chance). Intact windows will spawn only with remaining 10% chance. The same for wooden doors: 60% chance to spawn open (imagine it was pryed open), 20% chance to spawn closed but damaged, 10% chance to spawn smashed to frame. Intact doors will spawn only with remaining 10% chance.
 
 - Removed most of the guaranteed loot spawn in every location in the game. The chances to spawn guaranteed loot was dropped to 50-80%.
 
@@ -32,7 +32,7 @@ The major goal is to make Cataclysm harder and harsher. To achieve this goal, I 
 
 - Removed all turrets from military vehicles.
 
-- All LMOE shelter now have a rather high chance to spawn bandits inside.
+- Most LMOE shelters now have a rather high chance to spawn bandits inside. Empty LMOEs now has very low chance (5% per overmap) to spawn.
 
 - Slightly reduced stamina burn rate while walking.
 
@@ -41,3 +41,5 @@ The major goal is to make Cataclysm harder and harsher. To achieve this goal, I 
 - Reduced chance to drop military gear from zombie soldiers.
 
 - Gave all mechas ability to protect their operators from melee and ranged damage.
+
+- Returned CBM loot in most places it was removed from (electronic stores, toxic dumps, sewage treatment plants etc).

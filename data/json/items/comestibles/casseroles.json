@@ -34,5 +34,23 @@
     "price": 50,
     "price_postapoc": 100,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lazy_lobster_casserole",
+    "name": { "str_sp": "lazy lobster casserole" },
+    "comestible_type": "FOOD",
+    "weight": "178 g",
+    "color": "yellow",
+    "symbol": "%",
+    "spoils_in": "2 days",
+    "container": "casserole",
+    "calories": 601,
+    "fun": 10,
+    "volume": "250 ml",
+    "description": "New England classic casserole with made with butter, lobster, and crackers, in roughly that order.",
+    "price": 60,
+    "price_postapoc": 150,
+    "flags": [ "EATEN_HOT" ]
   }
 ]

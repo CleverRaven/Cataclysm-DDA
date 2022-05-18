@@ -160,7 +160,7 @@
     "dynamic_line": "I do have a twin.  Malsumis is probably around here somewhere, very tricky.  You know I turned Malsumis to stone once?  I'm supposed to be the nice one, but you know how much it hurts turning yourself back from stone?  It takes days.",
     "responses": [
       {
-        "text": "[INT 14] I'll look out then, thanks.  Of course if you were Malsumis you probaby wouldn't admit it because no one likes Malsumis.  Who would your twin say you are?",
+        "text": "[INT 14] I'll look out then, thanks.  Of course if you were Malsumis you probably wouldn't admit it because no one likes Malsumis.  Who would your twin say you are?",
         "topic": "TALK_GLOOSCAP_MYTH_RIDDLE",
         "effect": { "u_add_var": "u_asked_malsumis", "type": "general", "context": "meeting", "value": "yes" }
       },

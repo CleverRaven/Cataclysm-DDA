@@ -5,7 +5,7 @@
     "type": "ARMOR",
     "name": { "str": "bondage suit" },
     "description": "A suit of snug, black leather.  Has no pockets, but does feature an abundance of unusually located zippers.",
-    "weight": "1800 g",
+    "weight": "1000 g",
     "volume": "3250 ml",
     "price": 211000,
     "price_postapoc": 50,
@@ -15,14 +15,132 @@
     "looks_like": "armor_larmor",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 20 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": 20 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": 20 }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 }
     ],
-    "warmth": 30,
+    "warmth": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "bodysuit_lycra",
+    "repairs_like": "zentai",
+    "type": "ARMOR",
+    "name": { "str": "lycra bodysuit" },
+    "description": "A tight fitting bodysuit made of lycra.  Covers the whole body from neck to toe.",
+    "weight": "408 g",
+    "volume": "2 L",
+    "price": "45 USD",
+    "price_postapoc": 80,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "color": "blue",
+    "warmth": 15,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 14
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "samus_zero_suit_blue",
+        "name": { "str": "futuristic blue bodysuit" },
+        "description": "It's colored neon blue and has a bright pink symbol on the back.  Perfect for hunting space pirates and parasitic aliens.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "samus_zero_suit_red",
+        "name": { "str": "futuristic red bodysuit" },
+        "description": "It's colored neon red and has a bright orange symbol on the back.  Perfect for hunting space pirates and parasitic aliens.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "samus_zero_suit_black",
+        "name": { "str": "futuristic black bodysuit" },
+        "description": "It's colored neon black and has a bright blue symbol on the back.  Perfect for hunting space pirates and parasitic aliens.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "black_widow_suit",
+        "name": { "str": "black infiltration bodysuit" },
+        "description": "It's colored black and seems to fade with the background.  Commonly used by special agents when on mission.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "superman_suit_blue",
+        "name": { "str": "super hero blue bodysuit" },
+        "description": "It's colored blue and has a big \"S\" symbol on the front.  It would combine nicely with a red cape.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "batman_suit_black",
+        "name": { "str": "super hero black bodysuit" },
+        "description": "It's colored black and has a symbol in the shape of a bat on the front.  It would combine nicely with a black cape and mask.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "spiderman_suit_red",
+        "name": { "str": "super hero spider bodysuit" },
+        "description": "It's colored red and blue and has web-like lines all over it as well as a big spider symbol on the front and back.  It makes you want to climb buildings and shoot spider webs.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "superhero_suit_green",
+        "name": { "str": "super hero green bodysuit" },
+        "description": "It's primarily colored green and has a superhero design.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "superhero_suit_purple",
+        "name": { "str": "super hero purple bodysuit" },
+        "description": "It's primarily colored purple and has a superhero design.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "superhero_suit_pink",
+        "name": { "str": "super hero pink bodysuit" },
+        "description": "It's primarily colored pink and has a superhero design.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bondage_suit",
+        "name": { "str": "bondage lycra bodysuit" },
+        "description": "It's colored black and looks pretty kinky.  A great alternative to the leather version.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "skeleton_suit",
+        "name": { "str": "skeleton bodysuit" },
+        "description": "It's colored jet black and has a skeleton design all over it.  Maybe the zombies would ignore you in this.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "flag_suit",
+        "name": { "str": "flag bodysuit" },
+        "description": "It's embroidered with the pattern of an American flag.",
+        "weight": 5,
+        "append": true
+      }
+    ]
   },
   {
     "id": "clown_suit",
@@ -132,6 +250,33 @@
     "flags": [ "OUTER" ]
   },
   {
+    "id": "flag_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "flag jumpsuit" },
+    "description": "A jumpsuit embroidered with the pattern of an American flag.  Provides decent storage and is not very encumbering.",
+    "weight": "558 g",
+    "volume": "3500 ml",
+    "price": 9500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "jumpsuit",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso", "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+  },
+  {
     "id": "jumpsuit",
     "type": "ARMOR",
     "name": { "str": "jumpsuit" },
@@ -200,6 +345,56 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "jumpsuit_skeleton",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "name": { "str": "skeleton jumpsuit" },
+    "description": "A black jumpsuit with a skeleton pattern printed on it.  It can be zipped all the way up to cover your head and face in a skull pattern too.  Use it to zip the head portion too.",
+    "weight": "939 g",
+    "volume": "3500 ml",
+    "price": 9500,
+    "price_postapoc": 60,
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You now have a skull as head.",
+      "target": "jumpsuit_skeleton_zipped",
+      "menu_text": "Zip the head portion"
+    },
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "extend": { "flags": [ "HOOD" ] }
+  },
+  {
+    "id": "jumpsuit_skeleton_zipped",
+    "copy-from": "jumpsuit_skeleton",
+    "type": "ARMOR",
+    "name": { "str": "skeleton jumpsuit (zipped)", "str_pl": "skeleton jumpsuits (zipped)" },
+    "description": "A black jumpsuit with a skeleton pattern printed on it.  It covers all the way up to your head and gives a skull pattern to your face.  Use it to unzip the head portion.",
+    "use_action": {
+      "type": "transform",
+      "msg": "You facial skin is now visible.",
+      "target": "jumpsuit_skeleton",
+      "menu_text": "Unzip the head portion"
+    },
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "mouth", "eyes" ], "coverage": 100, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ]
+  },
+  {
     "id": "robofac_jumpsuit",
     "repairs_like": "jumpsuit",
     "type": "ARMOR",
@@ -208,6 +403,29 @@
     "name": { "str": "Hub 01 jumpsuit" },
     "description": "A brown jumpsuit worn by the staff of Hub 01.",
     "color": "brown"
+  },
+  {
+    "id": "mummy_jumpsuit",
+    "repairs_like": "jumpsuit",
+    "type": "ARMOR",
+    "name": { "str_sp": "mummy jumpsuit" },
+    "description": "A white and apparently tattered dress made in semblance of ancient mummies.  Very easy to move in, but it doesn't offer any type of protection.",
+    "weight": "639 g",
+    "volume": "3500 ml",
+    "price": 8500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "jumpsuit",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 2 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 1 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 1 }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
     "id": "subsuit_xl",

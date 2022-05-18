@@ -39,19 +39,16 @@ enum mission_kind : int {
     //  Jobs assigned to companions for external parties
     Scavenging_Patrol_Job,
     Scavenging_Raid_Job,
+    Hospital_Raid_Job,
     Menial_Job,
     Carpentry_Job,
     Forage_Job,
     Caravan_Commune_Center_Job,
 
-    //  Tacoma Farm direct tasks
-    Purchase_East_Field,
-    Upgrade_East_Field,
-    Plant_East_Field,
-    Harvest_East_Field,
-
     //  Faction camp tasks
     Camp_Distribute_Food,  //  Direct action, not serialized
+    Camp_Hide_Mission,     //  Direct action, not serialized
+    Camp_Reveal_Mission,   //  Direct action, not serialized
     Camp_Assign_Jobs,
     Camp_Assign_Workers,
     Camp_Abandon,
@@ -182,12 +179,11 @@ void caravan_return( npc &p, const std::string &dest, const mission_id &miss_id 
 void caravan_depart( npc &p, const std::string &dest, const mission_id &miss_id );
 int caravan_dist( const std::string &dest );
 
-void field_build_1( npc &p );
-void field_build_2( npc &p );
 void field_plant( npc &p, const std::string &place );
 void field_harvest( npc &p, const std::string &place );
 bool scavenging_patrol_return( npc &p );
 bool scavenging_raid_return( npc &p );
+bool hospital_raid_return( npc &p );
 bool labor_return( npc &p );
 bool carpenter_return( npc &p );
 bool forage_return( npc &p );
@@ -233,9 +229,8 @@ npc_ptr companion_choose_return( comp_list &npc_list );
 
 //Return NPC to your party
 void companion_return( npc &comp );
-//Smash stuff, steal valuables, and change map maker
-// TODO: Make this return the loot gained
-void loot_building( const tripoint_abs_omt &site );
+//Smash stuff, steal valuables, and change map marker
+std::set<item> loot_building( const tripoint_abs_omt &site, oter_str_id looted_replacement );
 
 } // namespace talk_function
 #endif // CATA_SRC_MISSION_COMPANION_H

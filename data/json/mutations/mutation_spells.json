@@ -2,7 +2,7 @@
   {
     "id": "generic_blinding_spray_1",
     "type": "SPELL",
-    "name": { "str": "Blinding spray" },
+    "name": { "str": "Blinding Spray" },
     "description": "Blinds enemy for a short time.",
     "effect": "attack",
     "effect_str": "blind",

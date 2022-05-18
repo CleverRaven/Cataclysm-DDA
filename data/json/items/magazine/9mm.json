@@ -597,7 +597,7 @@
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": "STEN 32-round magazine" },
-    "description": "A double-column, single-feed 9x19mm magazine used by the STEN submachine gun, based off the magazines for the German MP-28 and later MP-40.",
+    "description": "A double-column, single-feed 9x19mm magazine used by the STEN submachine gun, based off the magazines for the German MP 28 and later MP 40.",
     "weight": "255 g",
     "volume": "500 ml",
     "price": 4000,

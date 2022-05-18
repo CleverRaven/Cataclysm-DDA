@@ -12,7 +12,7 @@ Monsters include not just zombies, but fish, dogs, moose, Mi-gos, manhacks, and 
 
 The `"id"` member is the unique identifier for this monster type. It can be any string, but by convention has the prefix `mon_`. This id is referenced in monster groups or in mapgen to spawn specific monsters.
 
-For quantity strings (ie. volume, weight) use the largest unit you can keep full precision with.
+For quantity strings (i.e. volume, weight) use the largest unit you can keep full precision with.
 
 
 ## Monster properties
@@ -62,6 +62,9 @@ Monsters may also have any of these optional properties:
 | `armor_stab`             | (integer) Monster's protection from stab damage
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
+| `armor_electric`         | (integer) Monster's protection from electric damage
+| `armor_cold`             | (integer) Monster's protection from cold damage
+| `armor_pure`             | (integer) Monster's protection from pure damage
 | `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 | `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
 | `families`               | (array of objects) Weakpoint families that the monster belongs to
@@ -326,7 +329,7 @@ Intensity of the grab effect applied by this monster. Defaults to 1, is only use
 
 Amount of cutting damage added to die roll on monster melee attack.
 
-## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire"
+## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire", "armor_electric", "armor_biological", "armor_pure"
 (integer, optional)
 
 Monster protection from bashing, cutting, stabbing, acid and fire damage.

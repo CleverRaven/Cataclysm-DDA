@@ -21,7 +21,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "vampire mutagenic primer",
-    "description": "A super-concentrated pitch-black substance with silvery flecks that reminds you of a starry-night sky.  You need a syringe to inject it and prime your body for mutation.",
+    "description": "A super-concentrated pitch-black substance with silvery flecks that reminds you of a starry-night sky.",
     "color": "light_gray",
     "healthy": -2,
     "use_action": {

@@ -47,16 +47,14 @@ void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
     move_mode_factory.load( jo, src );
 }
 
-void move_mode::load( const JsonObject &jo, const std::string &src )
+void move_mode::load( const JsonObject &jo, const std::string &/*src*/ )
 {
-    bool strict = src == "dda";
-
     mandatory( jo, was_loaded, "character", _letter, unicode_codepoint_from_symbol_reader );
     mandatory( jo, was_loaded, "name",  _name );
 
     mandatory( jo, was_loaded, "panel_char", _panel_letter, unicode_codepoint_from_symbol_reader );
-    assign( jo, "panel_color", _panel_color, strict );
-    assign( jo, "symbol_color", _symbol_color, strict );
+    assign( jo, "panel_color", _panel_color );
+    assign( jo, "symbol_color", _symbol_color );
 
     std::string exert = jo.get_string( "exertion_level" );
     if( !activity_levels_map.count( exert ) ) {

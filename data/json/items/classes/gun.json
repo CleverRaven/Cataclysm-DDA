@@ -229,7 +229,7 @@
     "abstract": "shotgun_pump",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "pump action shotgun" },
+    "name": { "str": "pump-action shotgun" },
     "reload_noise": "chuk chuk.",
     "flags": [ "RELOAD_ONE", "PUMP_ACTION" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]

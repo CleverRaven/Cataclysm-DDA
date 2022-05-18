@@ -1114,7 +1114,7 @@ void veh_interact::do_install()
                         selected_shape = smenu.ret;
                     }
                     if( selected_shape >= 0 && ( num_shapes_total == 0 ||
-                                                 static_cast<size_t>( selected_shape ) < num_shapes_total ) ) {
+                                                 static_cast<size_t>( selected_shape ) <= num_shapes_total ) ) {
                         int offset = selected_shape - 1;
                         if( offset >= 0 ) {
                             int j = 0;
@@ -1269,7 +1269,9 @@ void veh_interact::do_repair()
         bool would_prevent_flying = veh->would_repair_prevent_flyable( pt, player_character );
         if( would_prevent_flying &&
             !player_character.has_proficiency( proficiency_prof_aircraft_mechanic ) ) {
-            nmsg += _( "\n<color_yellow>You require the Airframe and Powerplant Mechanics proficiency to repair this part safely!</color>\n\n" );
+            nmsg += string_format(
+                        _( "\n<color_yellow>You require the \"%s\" proficiency to repair this part safely!</color>\n\n" ),
+                        proficiency_prof_aircraft_mechanic->name() );
         }
 
         const nc_color desc_color = pt.is_broken() ? c_dark_gray : c_light_gray;
@@ -2632,20 +2634,20 @@ void veh_interact::display_stats() const
     int i = 0;
     if( is_aircraft ) {
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        _( "Air Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                        _( "Air Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                         vel_to_int( veh->safe_rotor_velocity( false ) ),
                         vel_to_int( veh->max_rotor_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        _( "Air Acceleration: <color_light_blue>%3d</color> %s/s" ),
+                        _( "Air acceleration: <color_light_blue>%3d</color> %s/s" ),
                         vel_to_int( veh->rotor_acceleration( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
     } else {
         if( is_ground ) {
             fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                            _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                            _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                             vel_to_int( veh->safe_ground_velocity( false ) ),
                             vel_to_int( veh->max_ground_velocity( false ) ),
                             velocity_units( VU_VEHICLE ) );
@@ -2662,7 +2664,7 @@ void veh_interact::display_stats() const
         }
         if( is_boat ) {
             fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                            _( "Water Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                            _( "Water Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                             vel_to_int( veh->safe_water_velocity( false ) ),
                             vel_to_int( veh->max_water_velocity( false ) ),
                             velocity_units( VU_VEHICLE ) );
@@ -2670,7 +2672,7 @@ void veh_interact::display_stats() const
             // TODO: extract accelerations units to its own function
             fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                             //~ /t means per turn
-                            _( "Water Acceleration: <color_light_blue>%3d</color> %s/s" ),
+                            _( "Water acceleration: <color_light_blue>%3d</color> %s/s" ),
                             vel_to_int( veh->water_acceleration( false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
@@ -2683,7 +2685,7 @@ void veh_interact::display_stats() const
                     convert_weight( veh->total_mass() ), weight_units() );
     i += 1;
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                    _( "Cargo Volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
+                    _( "Cargo volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
                     format_volume( total_cargo - free_cargo ),
                     format_volume( total_cargo ), volume_units_abbr() );
     i += 1;
@@ -3239,8 +3241,8 @@ void veh_interact::complete_vehicle( Character &you )
 
     point d( you.activity.values[4], you.activity.values[5] );
     int vehicle_part = you.activity.values[6];
+    cata_assert( !you.activity.str_values.empty() );
     const vpart_id part_id( you.activity.str_values[0] );
-    const std::string &variant_id =  you.activity.str_values[1];
 
     const vpart_info &vpinfo = part_id.obj();
 
@@ -3282,7 +3284,8 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             you.invalidate_crafting_inventory();
-
+            cata_assert( you.activity.str_values.size() >= 2 );
+            const std::string &variant_id =  you.activity.str_values[1];
             int partnum = !base.is_null() ? veh->install_part( d, part_id,
                           std::move( base ), variant_id ) : -1;
             if( partnum < 0 ) {
@@ -3343,6 +3346,8 @@ void veh_interact::complete_vehicle( Character &you )
         }
 
         case 'r': {
+            cata_assert( you.activity.str_values.size() >= 2 );
+            const std::string &variant_id =  you.activity.str_values[1];
             veh_utils::repair_part( *veh, veh->part( vehicle_part ), you, variant_id );
             break;
         }
@@ -3500,6 +3505,8 @@ void veh_interact::complete_vehicle( Character &you )
                     }
                 }
                 veh->part_removal_cleanup();
+                //always stop after removing an appliance
+                you.activity.set_to_null();
             }
 
             if( veh->part_count() < 2 ) {

@@ -413,7 +413,7 @@
     "id": "masterkey",
     "type": "GUNMOD",
     "name": { "str": "masterkey shotgun" },
-    "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
+    "description": "A minimalist pump-action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
     "weight": "2600 g",
     "volume": "1068 ml",
     "price": 95000,
@@ -434,7 +434,7 @@
     "copy-from": "masterkey",
     "type": "GUNMOD",
     "name": { "str": "modified masterkey shotgun" },
-    "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
+    "description": "A minimalist pump-action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
@@ -484,6 +484,7 @@
     "mod_targets": [ "pistol" ],
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
+    "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
     "flags": [ "STAB" ]
   },
   {

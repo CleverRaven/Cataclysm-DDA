@@ -24,6 +24,7 @@
     "bleed_rate": 50,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_flying" ],
     "weakpoints": [
       {
         "id": "arm",
@@ -90,6 +91,7 @@
     "bleed_rate": 0,
     "vision_night": 7,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_flying" ],
     "weakpoints": [
       {
         "id": "arm",

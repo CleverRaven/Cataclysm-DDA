@@ -40,7 +40,7 @@ std::unique_ptr<worldfactory> world_generator;
   * Max utf-8 character worldname length.
   * 0 index is inclusive.
   */
-static const int max_worldname_len = 31;
+static const int max_worldname_len = 32;
 
 save_t::save_t( const std::string &name ): name( name ) {}
 
@@ -376,13 +376,14 @@ std::vector<std::string> worldfactory::all_worldnames() const
     return result;
 }
 
-WORLDPTR worldfactory::pick_world( bool show_prompt )
+WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
 {
     std::vector<std::string> world_names = all_worldnames();
 
     // Filter out special worlds (TUTORIAL | DEFENSE) from world_names.
     for( std::vector<std::string>::iterator it = world_names.begin(); it != world_names.end(); ) {
-        if( *it == "TUTORIAL" || *it == "DEFENSE" ) {
+        if( *it == "TUTORIAL" || *it == "DEFENSE" ||
+            ( empty_only && !get_world( *it )->world_saves.empty() ) ) {
             it = world_names.erase( it );
         } else {
             ++it;
@@ -455,7 +456,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     ui.on_screen_resize( init_windows );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w_worlds_border, BORDER_COLOR, _( " WORLD SELECTION " ) );
+        draw_border( w_worlds_border, BORDER_COLOR, _( "World selection" ) );
         mvwputch( w_worlds_border, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
         mvwputch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
 
@@ -836,7 +837,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
+        draw_border( w_border, BORDER_COLOR, _( "Active world mods" ) );
         wnoutrefresh( w_border );
 
         draw_mod_list( w_mods, start, static_cast<size_t>( cursor ), world_mods,
@@ -1318,6 +1319,32 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
     ui_adaptor ui;
 
+    string_input_popup spopup;
+    spopup.max_length( max_worldname_len );
+
+    const point namebar_pos( 3 + utf8_width( _( "World Name:" ) ), 1 );
+
+    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG", keyboard_mode::keychar );
+    // dialog actions
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "PICK_RANDOM_WORLDNAME" );
+    // string input popup actions
+    ctxt.register_action( "TEXT.LEFT" );
+    ctxt.register_action( "TEXT.RIGHT" );
+    ctxt.register_action( "TEXT.CLEAR" );
+    ctxt.register_action( "TEXT.BACKSPACE" );
+    ctxt.register_action( "TEXT.HOME" );
+    ctxt.register_action( "TEXT.END" );
+    ctxt.register_action( "TEXT.DELETE" );
+#if defined( TILES )
+    ctxt.register_action( "TEXT.PASTE" );
+#endif
+    ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" );
+
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int iTooltipHeight = 1;
         const int iContentHeight = TERMY - 3 - iTooltipHeight;
@@ -1327,29 +1354,25 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
         w_confirmation = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
                                              point( 1 + iOffsetX, iTooltipHeight + 2 ) );
 
+        // +1 for end-of-text cursor
+        spopup.window( w_confirmation, namebar_pos, namebar_pos.x + max_worldname_len + 1 )
+        .context( ctxt );
+
         ui.position_from_window( win );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    int namebar_y = 1;
-    int namebar_x = 3 + utf8_width( _( "World Name:" ) );
-
     bool noname = false;
-    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG", keyboard_mode::keychar );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "PICK_RANDOM_WORLDNAME" );
 
     std::string worldname = world->world_name;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_worldgen_tabs( win, 2 );
+        wnoutrefresh( win );
 
-        mvwprintz( w_confirmation, point( 2, namebar_y ), c_white, _( "World Name:" ) );
+        werase( w_confirmation );
+        mvwprintz( w_confirmation, point( 2, namebar_pos.y ), c_white, _( "World Name:" ) );
         fold_and_print( w_confirmation, point( 2, 3 ), getmaxx( w_confirmation ) - 2, c_light_gray,
                         _( "Press [<color_yellow>%s</color>] to pick a random name for your world." ),
                         ctxt.get_desc( "PICK_RANDOM_WORLDNAME" ) );
@@ -1359,25 +1382,22 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                            "to continue, or [<color_yellow>%s</color>] to go back and review your world." ),
                         ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
         if( noname ) {
-            mvwprintz( w_confirmation, point( namebar_x, namebar_y ), h_light_gray,
+            mvwprintz( w_confirmation, namebar_pos, h_light_gray,
                        _( "________NO NAME ENTERED!________" ) );
+            wnoutrefresh( w_confirmation );
         } else {
-            mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, worldname );
-            wprintz( w_confirmation, h_light_gray, "_" );
-            for( int underscores = max_worldname_len - utf8_width( worldname );
-                 underscores > 0; --underscores ) {
-                wprintz( w_confirmation, c_light_gray, "_" );
-            }
+            // spopup.query_string() will call wnoutrefresh( w_confirmation ), and should
+            // be called last to position the cursor at the correct place in the curses build.
+            spopup.text( worldname );
+            spopup.query_string( false, true );
         }
-
-        wnoutrefresh( win );
-        wnoutrefresh( w_confirmation );
     } );
 
     do {
         ui_manager::redraw();
 
-        const std::string action = ctxt.handle_input();
+        worldname = spopup.query_string( false );
+        const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
         if( action == "NEXT_TAB" ) {
             if( worldname.empty() ) {
                 noname = true;
@@ -1393,13 +1413,9 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                     }
                     return 1;
                 }
-            } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
-                if( valid_worldname( worldname ) ) {
-                    world->world_name = worldname;
-                    return 1;
-                } else {
-                    continue;
-                }
+            } else if( valid_worldname( worldname ) && query_yn( _( "Are you SURE you're finished?" ) ) ) {
+                world->world_name = worldname;
+                return 1;
             } else {
                 continue;
             }
@@ -1411,30 +1427,6 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
         } else if( action == "QUIT" && ( !on_quit || on_quit() ) ) {
             world->world_name = worldname;
             return -999;
-        } else if( action == "ANY_INPUT" ) {
-            const input_event ev = ctxt.get_raw_input();
-            const int ch = ev.get_first_input();
-            utf8_wrapper wrap( worldname );
-            utf8_wrapper newtext( ev.text );
-            if( ch == KEY_BACKSPACE ) {
-                if( !wrap.empty() ) {
-                    wrap.erase( wrap.length() - 1, 1 );
-                    worldname = wrap.str();
-                }
-            } else if( ch == KEY_F( 2 ) ) {
-                std::string tmp = get_input_string_from_file();
-                int tmplen = utf8_width( tmp );
-                if( tmplen > 0 && tmplen + utf8_width( worldname ) < 30 ) {
-                    worldname.append( tmp );
-                }
-            } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
-                // No empty string, no slash, no backslash, no control sequence
-                // Also put a hard limit on the max amount of characters
-                if( wrap.length() < max_worldname_len ) {
-                    wrap.append( newtext );
-                }
-                worldname = wrap.str();
-            }
         }
     } while( true );
 
@@ -1527,12 +1519,32 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
 {
     std::string msg;
 
-    if( name == "save" || name == "TUTORIAL" || name == "DEFENSE" ) {
+    if( name.empty() ) {
+        msg = _( "World name cannot be empty!" );
+    } else if( name == "save" || name == "TUTORIAL" || name == "DEFENSE" ) {
         msg = string_format( _( "%s is a reserved name!" ), name );
-    } else if( !has_world( name ) ) {
-        return true;
-    } else {
+    } else if( has_world( name ) ) {
         msg = string_format( _( "A world named %s already exists!" ), name );
+    } else {
+        // just check the raw bytes because unicode characters are always acceptable
+        bool allowed = true;
+        for( const char ch : name ) {
+            // Convert to unsigned char because `std::isprint` is undefined for
+            // values unrepresentable by unsigned char which is not EOF.
+            const unsigned char uc = static_cast<unsigned char>( ch );
+            if( !is_char_allowed( uc ) ) {
+                if( std::isprint( uc ) ) {
+                    msg = string_format( _( "World name contains invalid character: '%c'" ), uc );
+                } else {
+                    msg = string_format( _( "World name contains invalid character: 0x%x" ), uc );
+                }
+                allowed = false;
+                break;
+            }
+        }
+        if( allowed ) {
+            return true;
+        }
     }
     if( !automated ) {
         popup( msg, PF_GET_KEY );

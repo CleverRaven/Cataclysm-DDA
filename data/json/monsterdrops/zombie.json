@@ -90,17 +90,19 @@
         "distribution": [
           { "group": "swimmer_wetsuit", "damage": [ 1, 4 ], "prob": 10 },
           {
-            "collection": [
-              { "group": "swimmer_head", "damage": [ 1, 4 ], "prob": 75 },
-              { "group": "swimmer_torso", "damage": [ 1, 4 ], "prob": 33 },
-              { "group": "swimmer_pants", "damage": [ 1, 4 ] },
-              { "group": "swimmer_shoes", "damage": [ 1, 4 ], "prob": 25 }
-            ],
+            "collection": [ { "group": "swimmer_torso", "damage": [ 1, 4 ], "prob": 45 }, { "group": "swimmer_pants", "damage": [ 1, 4 ] } ],
             "prob": 90
           }
         ]
       },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
+      { "group": "swimmer_head", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "swimmer_gloves", "damage": [ 1, 4 ], "prob": 5 },
+      { "group": "swimmer_shoes", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "swimmer_accessories", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "swimmer_glasses", "damage": [ 0, 4 ], "prob": 15 },
+      { "group": "swimmer_items", "prob": 5 },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 },
+      { "group": "phones_case", "damage": [ 0, 4 ], "prob": 5 }
     ]
   },
   {

@@ -95,11 +95,9 @@ static const item_group_id Item_spawn_data_dresser( "dresser" );
 static const item_group_id Item_spawn_data_goo( "goo" );
 static const item_group_id Item_spawn_data_guns_rare( "guns_rare" );
 static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
-static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
 static const item_group_id Item_spawn_data_sewer( "sewer" );
 static const item_group_id Item_spawn_data_teleport( "teleport" );
-static const item_group_id Item_spawn_data_wreckage( "wreckage" );
 
 static const itype_id itype_avgas( "avgas" );
 static const itype_id itype_diesel( "diesel" );
@@ -108,7 +106,6 @@ static const itype_id itype_jp8( "jp8" );
 
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
-static const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 static const mongroup_id GROUP_LAB( "GROUP_LAB" );
@@ -145,9 +142,6 @@ static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_finale( "lab_finale" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
-static const oter_str_id oter_mine( "mine" );
-static const oter_str_id oter_mine_down( "mine_down" );
-static const oter_str_id oter_mine_finale( "mine_finale" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_str_id oter_sewer_es( "sewer_es" );
 static const oter_str_id oter_sewer_esw( "sewer_esw" );
@@ -174,7 +168,6 @@ static const oter_type_str_id oter_type_sewer( "sewer" );
 static const oter_type_str_id oter_type_subway( "subway" );
 
 static const relic_procgen_id relic_procgen_data_cult( "cult" );
-static const relic_procgen_id relic_procgen_data_netherum_tunnels( "netherum_tunnels" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
@@ -878,6 +871,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
     setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
     setmap_opmap[ "item_remove" ] = JMAPGEN_SETMAP_ITEM_REMOVE;
+    setmap_opmap[ "field_remove" ] = JMAPGEN_SETMAP_FIELD_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
     setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
     setmap_opmap[ "variable" ] = JMAPGEN_SETMAP_VARIABLE;
@@ -930,7 +924,8 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
-        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ) {
+        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ||
+                   tmpop == JMAPGEN_SETMAP_FIELD_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = "npctalk_var_" + pjo.get_string( "id" );
@@ -1338,7 +1333,7 @@ class mapgen_value
                 std::vector<std::string> possible_values = on->all_possible_results( params );
                 for( const std::string &value : possible_values ) {
                     if( !cases.count( value ) ) {
-                        debugmsg( "mapgen '%s' has switch whcih does not account for potential "
+                        debugmsg( "mapgen '%s' has switch which does not account for potential "
                                   "case '%s' of the switched-on value", context, value );
                     }
                 }
@@ -1745,6 +1740,7 @@ class jmapgen_npc : public jmapgen_piece
         mapgen_value<string_id<npc_template>> npc_class;
         bool target;
         std::vector<trait_id> traits;
+        std::string unique_id;
         jmapgen_npc( const JsonObject &jsi, const std::string &/*context*/ ) :
             npc_class( jsi.get_member( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
@@ -1755,11 +1751,19 @@ class jmapgen_npc : public jmapgen_piece
             } else if( jsi.has_array( "add_trait" ) ) {
                 jsi.read( "add_trait", traits );
             }
+            if( jsi.has_string( "unique_id" ) ) {
+                jsi.read( "unique_id", unique_id );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             string_id<npc_template> chosen_id = npc_class.get( dat );
             if( chosen_id.is_null() ) {
+                return;
+            }
+            if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
+                get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
+                                                      unique_id );
                 return;
             }
             character_id npc_id = dat.m.place_npc( point( x.get(), y.get() ), chosen_id );
@@ -1770,6 +1774,9 @@ class jmapgen_npc : public jmapgen_piece
             if( p != nullptr ) {
                 for( const trait_id &new_trait : traits ) {
                     p->set_mutation( new_trait );
+                }
+                if( !unique_id.empty() ) {
+                    p->set_unique_id( unique_id );
                 }
             }
         }
@@ -2110,12 +2117,16 @@ class jmapgen_item_group : public jmapgen_piece
     public:
         item_group_id group_id;
         jmapgen_int chance;
+        std::string faction;
         jmapgen_item_group( const JsonObject &jsi, const std::string &context ) :
             chance( jsi, "chance", 1, 1 ) {
             JsonValue group = jsi.get_member( "item" );
             group_id = item_group::load_item_group( group, "collection",
                                                     "mapgen item group " + context );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
+            }
         }
         void check( const std::string &context, const mapgen_parameters &,
                     const jmapgen_int &/*x*/, const jmapgen_int &/*y*/ ) const override {
@@ -2126,7 +2137,7 @@ class jmapgen_item_group : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             dat.m.place_items( group_id, chance.get(), point( x.val, y.val ), point( x.valmax, y.valmax ), true,
-                               calendar::start_of_cataclysm );
+                               calendar::start_of_cataclysm, 0, 0, faction );
         }
 };
 
@@ -2362,6 +2373,7 @@ class jmapgen_vehicle : public jmapgen_piece
         std::vector<units::angle> rotation;
         int fuel;
         int status;
+        std::string faction;
         jmapgen_vehicle( const JsonObject &jsi, const std::string &/*context*/ ) :
             type( jsi.get_member( "vehicle" ) )
             , chance( jsi, "chance", 1, 1 )
@@ -2376,6 +2388,10 @@ class jmapgen_vehicle : public jmapgen_piece
             } else {
                 rotation.push_back( units::from_degrees( jsi.get_int( "rotation", 0 ) ) );
             }
+
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
@@ -2387,7 +2403,7 @@ class jmapgen_vehicle : public jmapgen_piece
                 return;
             }
             dat.m.add_vehicle( chosen_id, point( x.get(), y.get() ), random_entry( rotation ),
-                               fuel, status );
+                               fuel, status, true, faction );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -2411,6 +2427,7 @@ class jmapgen_spawn_item : public jmapgen_piece
     public:
         mapgen_value<itype_id> type;
         std::string variant;
+        std::string faction;
         jmapgen_int amount;
         jmapgen_int chance;
         std::set<flag_id> flags;
@@ -2421,6 +2438,9 @@ class jmapgen_spawn_item : public jmapgen_piece
             , flags( jsi.get_tags<flag_id>( "custom-flags" ) ) {
             if( jsi.has_string( "variant" ) ) {
                 variant = jsi.get_string( "variant" );
+            }
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -2441,7 +2461,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
                 dat.m.spawn_item( point( x.get(), y.get() ), chosen_id, amount.get(),
-                                  0, calendar::start_of_cataclysm, 0, flags, variant );
+                                  0, calendar::start_of_cataclysm, 0, flags, variant, faction );
             }
         }
 
@@ -2937,21 +2957,27 @@ class jmapgen_zone : public jmapgen_piece
         mapgen_value<zone_type_id> zone_type;
         mapgen_value<faction_id> faction;
         std::string name;
+        std::string filter;
         jmapgen_zone( const JsonObject &jsi, const std::string &/*context*/ )
             : zone_type( jsi.get_member( "type" ) )
             , faction( jsi.get_member( "faction" ) ) {
             if( jsi.has_string( "name" ) ) {
                 name = jsi.get_string( "name" );
             }
+            if( jsi.has_string( "filter" ) ) {
+                filter = jsi.get_string( "filter" );
+            }
+        }
+        mapgen_phase phase() const override {
+            return mapgen_phase::zones;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             zone_type_id chosen_zone_type = zone_type.get( dat );
             faction_id chosen_faction = faction.get( dat );
-            zone_manager &mgr = zone_manager::get_manager();
-            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
-            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
-            mgr.add( name, chosen_zone_type, chosen_faction, false, true, start, end );
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.m.get_abs_sub().z() ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.m.get_abs_sub().z() ) );
+            mapgen_place_zone( start, end, chosen_zone_type, chosen_faction, name, filter, &dat.m );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -3757,7 +3783,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings, c );
     new_pal.load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings, c );
     // json member name is not optimal, it should be plural like all the others above, but that conflicts
-    // with the items entry with refers to item groups.
+    // with the items entry which refers to item groups.
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_vehicles>( jo, "remove_vehicles", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_all>( jo, "remove_all", format_placings, c );
@@ -4192,12 +4218,15 @@ mapgen_phase jmapgen_setmap::phase() const
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_TRAP_REMOVE:
         case JMAPGEN_SETMAP_ITEM_REMOVE:
+        case JMAPGEN_SETMAP_FIELD_REMOVE:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
+        case JMAPGEN_SETMAP_LINE_FIELD_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE:
             return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
@@ -4263,6 +4292,10 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 m.i_clear( point( x_get(), y_get() ) );
             }
             break;
+            case JMAPGEN_SETMAP_FIELD_REMOVE: {
+                mremove_fields( &m, point( x_get(), y_get() ) );
+            }
+            break;
             case JMAPGEN_SETMAP_BASH: {
                 m.bash( tripoint( x_get(), y_get(), m.get_abs_sub().z() ), 9999 );
             }
@@ -4305,6 +4338,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                                                 0 );
                 for( const point &i : line ) {
                     m.i_clear( i );
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_LINE_FIELD_REMOVE: {
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
+                for( const point &i : line ) {
+                    mremove_fields( &m, i );
                 }
             }
             break;
@@ -4357,6 +4398,17 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 for( int tx = c.x; tx <= cx2; tx++ ) {
                     for( int ty = c.y; ty <= cy2; ty++ ) {
                         m.i_clear( point( tx, ty ) );
+                    }
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE: {
+                const point c( x_get(), y_get() );
+                const int cx2 = x2_get();
+                const int cy2 = y2_get();
+                for( int tx = c.x; tx <= cx2; tx++ ) {
+                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                        mremove_fields( &m, point( tx, ty ) );
                     }
                 }
             }
@@ -4449,6 +4501,9 @@ static bool apply_mapgen_in_phases(
     // phases, and apply each type restricted to each phase.
     auto setmap_point = setmap_points.begin();
     for( mapgen_phase phase : all_enum_values<mapgen_phase>() ) {
+        if( std::find( md.skip.begin(), md.skip.end(), phase ) != md.skip.end() ) {
+            continue;
+        }
         for( ; setmap_point != setmap_points.end(); ++setmap_point ) {
             const jmapgen_setmap &elem = *setmap_point;
             if( elem.phase() != phase ) {
@@ -4622,8 +4677,6 @@ void map::draw_map( mapgendata &dat )
             draw_slimepit( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( dat );
-        } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
-            draw_mine( dat );
         } else if( is_ot_match( "lab", terrain_type, ot_match_type::contains ) ) {
             draw_lab( dat );
         } else {
@@ -5910,265 +5963,6 @@ void map::draw_temple( const mapgendata &dat )
     }
 }
 
-void map::draw_mine( mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == oter_mine || terrain_type == oter_mine_down ) {
-        if( is_ot_match( "mine", dat.north(), ot_match_type::prefix ) ) {
-            dat.n_fac = ( one_in( 10 ) ? 0 : -2 );
-        } else {
-            dat.n_fac = 4;
-        }
-        if( is_ot_match( "mine", dat.east(), ot_match_type::prefix ) ) {
-            dat.e_fac = ( one_in( 10 ) ? 0 : -2 );
-        } else {
-            dat.e_fac = 4;
-        }
-        if( is_ot_match( "mine", dat.south(), ot_match_type::prefix ) ) {
-            dat.s_fac = ( one_in( 10 ) ? 0 : -2 );
-        } else {
-            dat.s_fac = 4;
-        }
-        if( is_ot_match( "mine", dat.west(), ot_match_type::prefix ) ) {
-            dat.w_fac = ( one_in( 10 ) ? 0 : -2 );
-        } else {
-            dat.w_fac = 4;
-        }
-
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( i >= dat.w_fac + rng( 0, 2 ) && i <= EAST_EDGE - dat.e_fac - rng( 0, 2 ) &&
-                    j >= dat.n_fac + rng( 0, 2 ) && j <= SOUTH_EDGE - dat.s_fac - rng( 0, 2 ) &&
-                    i + j >= 4 && ( SEEX * 2 - i ) + ( SEEY * 2 - j ) >= 6 ) {
-                    ter_set( point( i, j ), t_rock_floor );
-                } else {
-                    ter_set( point( i, j ), t_rock );
-                }
-            }
-        }
-
-        // Not an entrance; maybe some hazards!
-        switch( rng( 0, 4 ) ) {
-            case 0:
-                break; // Nothing!  Lucky!
-
-            case 1: { // Toxic gas
-                point gas_vent_location( rng( 9, 14 ), rng( 9, 14 ) );
-                ter_set( point( gas_vent_location ), t_rock );
-                add_field( { gas_vent_location, abs_sub.z() }, fd_gas_vent, 2 );
-            }
-            break;
-
-            case 2: { // Lava
-                point start_location( rng( 6, SEEX ), rng( 6, SEEY ) );
-                point end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
-                const int num = rng( 2, 4 );
-                for( int i = 0; i < num; i++ ) {
-                    int lx1 = start_location.x + rng( -1, 1 );
-                    int lx2 = end_location.x + rng( -1, 1 );
-                    int ly1 = start_location.y + rng( -1, 1 );
-                    int ly2 = end_location.y + rng( -1, 1 );
-                    line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
-                }
-            }
-            break;
-
-            case 3: { // Wrecked equipment
-                point wreck_location( rng( 9, 14 ), rng( 9, 14 ) );
-                for( int i = wreck_location.x - 3; i < wreck_location.x + 3; i++ ) {
-                    for( int j = wreck_location.y - 3; j < wreck_location.y + 3; j++ ) {
-                        if( !one_in( 4 ) ) {
-                            make_rubble( tripoint( i,  j, abs_sub.z() ), f_wreckage, true );
-                        }
-                    }
-                }
-                place_items( Item_spawn_data_wreckage, 70, wreck_location + point( -3, -3 ),
-                             wreck_location + point( 2, 2 ), false, calendar::start_of_cataclysm );
-            }
-            break;
-
-            case 4: { // Dead miners
-                const int num_bodies = rng( 4, 8 );
-                for( int i = 0; i < num_bodies; i++ ) {
-                    if( const auto body = random_point( *this, [this]( const tripoint & p ) {
-                    return move_cost( p ) == 2;
-                    } ) ) {
-                        add_item( *body, item::make_corpse() );
-                        place_items( Item_spawn_data_mine_equipment, 60, *body, *body,
-                                     false, calendar::start_of_cataclysm );
-                    }
-                }
-            }
-            break;
-
-        }
-
-        if( terrain_type == oter_mine_down ) { // Don't forget to build a slope down!
-            std::vector<direction> open;
-            if( dat.n_fac == 4 ) {
-                open.push_back( direction::NORTH );
-            }
-            if( dat.e_fac == 4 ) {
-                open.push_back( direction::EAST );
-            }
-            if( dat.s_fac == 4 ) {
-                open.push_back( direction::SOUTH );
-            }
-            if( dat.w_fac == 4 ) {
-                open.push_back( direction::WEST );
-            }
-
-            if( open.empty() ) { // We'll have to build it in the center
-                int tries = 0;
-                point p;
-                bool okay = true;
-                do {
-                    p.x = rng( SEEX - 6, SEEX + 1 );
-                    p.y = rng( SEEY - 6, SEEY + 1 );
-                    okay = true;
-                    for( int i = p.x; ( i <= p.x + 5 ) && okay; i++ ) {
-                        for( int j = p.y; ( j <= p.y + 5 ) && okay; j++ ) {
-                            if( ter( point( i, j ) ) != t_rock_floor ) {
-                                okay = false;
-                            }
-                        }
-                    }
-                    if( !okay ) {
-                        tries++;
-                    }
-                } while( !okay && tries < 10 );
-                if( tries == 10 ) { // Clear the area around the slope down
-                    square( this, t_rock_floor, p, p + point( 5, 5 ) );
-                }
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                square( this, t_slope_down, p + point( 1, 1 ), p + point( 2, 2 ) );
-            } else { // We can build against a wall
-                switch( random_entry( open ) ) {
-                    case direction::NORTH:
-                        square( this, t_rock_floor, point( SEEX - 3, 6 ), point( SEEX + 2, SEEY ) );
-                        line( this, t_slope_down, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
-                        break;
-                    case direction::EAST:
-                        square( this, t_rock_floor, point( SEEX + 1, SEEY - 3 ), point( SEEX * 2 - 7, SEEY + 2 ) );
-                        line( this, t_slope_down, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
-                        break;
-                    case direction::SOUTH:
-                        square( this, t_rock_floor, point( SEEX - 3, SEEY + 1 ), point( SEEX + 2, SEEY * 2 - 7 ) );
-                        line( this, t_slope_down, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
-                        break;
-                    case direction::WEST:
-                        square( this, t_rock_floor, point( 6, SEEY - 3 ), point( SEEX, SEEY + 2 ) );
-                        line( this, t_slope_down, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } // Done building a slope down
-
-        if( dat.above() == oter_mine_down ) { // Don't forget to build a slope up!
-            std::vector<direction> open;
-            if( dat.n_fac == 6 && ter( point( SEEX, 6 ) ) != t_slope_down ) {
-                open.push_back( direction::NORTH );
-            }
-            if( dat.e_fac == 6 && ter( point( SEEX * 2 - 7, SEEY ) ) != t_slope_down ) {
-                open.push_back( direction::EAST );
-            }
-            if( dat.s_fac == 6 && ter( point( SEEX, SEEY * 2 - 7 ) ) != t_slope_down ) {
-                open.push_back( direction::SOUTH );
-            }
-            if( dat.w_fac == 6 && ter( point( 6, SEEY ) ) != t_slope_down ) {
-                open.push_back( direction::WEST );
-            }
-
-            if( open.empty() ) { // We'll have to build it in the center
-                int tries = 0;
-                point p;
-                bool okay = true;
-                do {
-                    p.x = rng( SEEX - 6, SEEX + 1 );
-                    p.y = rng( SEEY - 6, SEEY + 1 );
-                    okay = true;
-                    for( int i = p.x; ( i <= p.x + 5 ) && okay; i++ ) {
-                        for( int j = p.y; ( j <= p.y + 5 ) && okay; j++ ) {
-                            if( ter( point( i, j ) ) != t_rock_floor ) {
-                                okay = false;
-                            }
-                        }
-                    }
-                    if( !okay ) {
-                        tries++;
-                    }
-                } while( !okay && tries < 10 );
-                if( tries == 10 ) { // Clear the area around the slope down
-                    square( this, t_rock_floor, p, p + point( 5, 5 ) );
-                }
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                square( this, t_slope_up, p + point( 1, 1 ), p + point( 2, 2 ) );
-
-            } else { // We can build against a wall
-                switch( random_entry( open ) ) {
-                    case direction::NORTH:
-                        line( this, t_slope_up, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
-                        break;
-                    case direction::EAST:
-                        line( this, t_slope_up, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
-                        break;
-                    case direction::SOUTH:
-                        line( this, t_slope_up, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
-                        break;
-                    case direction::WEST:
-                        line( this, t_slope_up, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } // Done building a slope up
-    } else if( terrain_type == oter_mine_finale ) {
-        // Set up the basic chamber
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( i > rng( 1, 3 ) && i < SEEX * 2 - rng( 2, 4 ) &&
-                    j > rng( 1, 3 ) && j < SEEY * 2 - rng( 2, 4 ) ) {
-                    ter_set( point( i, j ), t_rock_floor );
-                } else {
-                    ter_set( point( i, j ), t_rock );
-                }
-            }
-        }
-
-        // Now draw the entrance(s)
-        if( dat.north() == oter_mine ) {
-            square( this, t_rock_floor, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
-        }
-
-        if( dat.east()  == oter_mine ) {
-            square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
-        }
-
-        if( dat.south() == oter_mine ) {
-            square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
-        }
-
-        if( dat.west()  == oter_mine ) {
-            square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
-        }
-
-        // The Thing dog
-        const int num_bodies = rng( 4, 8 );
-        for( int i = 0; i < num_bodies; i++ ) {
-            point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
-            add_item( p3, item::make_corpse() );
-            place_items( Item_spawn_data_mine_equipment, 60, p3,
-                         p3, false, calendar::start_of_cataclysm );
-        }
-        place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
-        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z() ),
-                        relic_procgen_data_netherum_tunnels );
-    }
-}
-
 void map::draw_slimepit( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -6486,7 +6280,8 @@ void map::apply_faction_ownership( const point &p1, const point &p2, const facti
 // the item group should be responsible for determining the amount of items.
 std::vector<item *> map::place_items(
     const item_group_id &group_id, const int chance, const tripoint &p1, const tripoint &p2,
-    const bool ongrass, const time_point &turn, const int magazine, const int ammo )
+    const bool ongrass, const time_point &turn, const int magazine, const int ammo,
+    const std::string &faction )
 {
     std::vector<item *> res;
 
@@ -6538,6 +6333,8 @@ std::vector<item *> map::place_items(
                 e->ammo_set( e->ammo_default() );
             }
         }
+
+        e->set_owner( faction_id( faction ) );
     }
     return res;
 }
@@ -6588,25 +6385,26 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks,
+                        faction );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
 {
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
@@ -6623,6 +6421,9 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
+    if( !faction.empty() ) {
+        veh->set_owner( faction_id( faction ) );
+    }
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
@@ -6650,6 +6451,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         add_vehicle_to_cache( placed_vehicle );
 
         rebuild_vehicle_level_caches();
+        placed_vehicle->place_zones( *this );
         //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
     }
     return placed_vehicle;
@@ -6730,7 +6532,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         first_veh->install_part( target_point, *vp );
                     }
 
-                    // this couuld probably be done in a single loop with installing parts above
+                    // this could probably be done in a single loop with installing parts above
                     std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
                     std::set<int> parts_to_check;
                     for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
@@ -7753,6 +7555,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     fake_map tmp_map( t_dirt );
 
     mapgendata fake_md( tmp_map, mapgendata::dummy_settings );
+    fake_md.skip = { mapgen_phase::zones };
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {

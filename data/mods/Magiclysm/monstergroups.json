@@ -71,7 +71,7 @@
     "type": "monstergroup",
     "name": "GROUP_POLYMORPH_SHADOW",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_shadow", "weight": 990 }, { "monster": "mon_shadow_snake", "weight": 10 } ]
+    "monsters": [ { "monster": "mon_magi_shadow", "weight": 990 }, { "monster": "mon_shadow_snake", "weight": 10 } ]
   },
   {
     "type": "monstergroup",

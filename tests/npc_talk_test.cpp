@@ -1166,7 +1166,6 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
     player_character.add_morale( MORALE_HAIRCUT, 23 );
-    player_character.set_focus( 24 );
     player_character.magic->set_mana( 25 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
@@ -1178,6 +1177,10 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     cata::event e = cata::event::make<event_type::character_kills_monster>(
                         get_player_character().getID(), mon_zombie_bio_op );
     get_event_bus().send( e );
+    // Set focus after killing monster, since the character
+    // gains weakpoint proficiency practice which lowers focus
+    // (see kill_tracker::notify() -> weakpoint_families::practice_kill())
+    player_character.set_focus( 24 );
 
     gen_response_lines( d, 41 );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );

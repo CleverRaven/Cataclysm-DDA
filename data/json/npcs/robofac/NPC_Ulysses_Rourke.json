@@ -36,19 +36,6 @@
       { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "smg", "bonus": { "rng": [ 2, 6 ] } }
     ],
-    "bionics": [
-      { "id": "bio_targeting", "chance": 100 },
-      { "id": "bio_memory", "chance": 100 },
-      { "id": "bio_armor_arms", "chance": 100 },
-      { "id": "bio_armor_legs", "chance": 100 },
-      { "id": "bio_hydraulics", "chance": 100 },
-      { "id": "bio_cqb", "chance": 100 },
-      { "id": "bio_metabolics", "chance": 100 },
-      { "id": "bio_str_enhancer", "chance": 100 },
-      { "id": "bio_blade", "chance": 100 },
-      { "id": "bio_power_storage", "chance": 100 },
-      { "id": "bio_torsionratchet", "chance": 100 }
-    ],
     "carry_override": "NC_robofac_security_head_misc",
     "worn_override": "NC_robofac_security_head_worn"
   },

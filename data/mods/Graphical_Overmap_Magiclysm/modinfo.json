@@ -8,6 +8,6 @@
     "description": "Magiclysm support for Graphical Overmap.",
     "category": "graphical",
     "dependencies": [ "dda", "Graphical_Overmap", "magiclysm" ],
-    "obsolete": false
+    "obsolete": true
   }
 ]

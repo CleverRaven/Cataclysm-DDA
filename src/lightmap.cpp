@@ -659,6 +659,13 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
                map_cache.vision_transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
+    // possibly reduce view if aiming (also blocks light)
+    if( get_avatar().recoil < MAX_RECOIL ) {
+        if( get_avatar().cant_see( p ) ) {
+            return { true, 0.0 };
+        }
+    }
+
     const bool p_opaque = is_opaque( p.xy() );
     float apparent_light;
 
@@ -725,14 +732,20 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     const auto &map_cache = get_cache_ref( p.z );
     const apparent_light_info a = apparent_light_helper( map_cache, p );
 
-    // Unimpaired range is an override to strictly limit vision range based on various conditions,
-    // but the player can still see light sources.
-    if( dist > player_character.unimpaired_range() ) {
-        if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
-            return lit_level::BRIGHT_ONLY;
+    // Cameras are based on their own positions.
+    if( ( dist > player_character.unimpaired_range() || a.obstructed ) &&
+        map_cache.camera_cache[p.x][p.y] > 0.0f ) {
+        if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.6 > LIGHT_AMBIENT_LIT ) {
+            return lit_level::BRIGHT;
+        } else if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.8 >
+                   LIGHT_AMBIENT_LIT ) {
+            return lit_level::LOW;
         } else {
             return lit_level::DARK;
         }
+    }
+    if( dist > player_character.unimpaired_range() ) {
+        return lit_level::BLANK;
     }
     if( a.obstructed ) {
         if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
@@ -768,12 +781,17 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
         return false;
     }
 
+    const auto &map_cache = get_cache_ref( t.z );
+    if( map_cache.camera_cache[t.x][t.y] * map_cache.lm[t.x][t.y].max() * 0.8 >
+        LIGHT_AMBIENT_LIT ) {
+        return true;
+    }
+
     Character &player_character = get_player_character();
     if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range ) {
         return false;    // Out of range!
     }
 
-    const auto &map_cache = get_cache_ref( t.z );
     const apparent_light_info a = apparent_light_helper( map_cache, t );
     const float light_at_player = map_cache.lm[player_character.posx()][player_character.posy()].max();
     return !a.obstructed &&
@@ -787,15 +805,18 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
         return false;
     }
 
+    const auto &map_cache = get_cache_ref( t.z );
+    if( map_cache.camera_cache[t.x][t.y] > 0.075f ) {
+        return true;
+    }
+
     if( max_range >= 0 && square_dist( t, get_player_character().pos() ) > max_range ) {
         // Out of range!
         return false;
     }
 
-    const auto &map_cache = get_cache_ref( t.z );
     // Any epsilon > 0 is fine - it means lightmap processing visited the point
-    return map_cache.seen_cache[t.x][t.y] > 0.0f ||
-           map_cache.camera_cache[t.x][t.y] > 0.0f;
+    return map_cache.seen_cache[t.x][t.y] > 0.0f;
 }
 
 // For a direction vector defined by x, y, return the quadrant that's the
@@ -978,6 +999,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     std::uninitialized_fill_n(
         &camera_cache[0][0], map_dimensions, light_transparency_solid );
 
+    const int avatar_sight_offset = std::max( 60 - get_avatar().unimpaired_range(), 0 );
     if( !fov_3d ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             auto &cur_cache = get_cache( z );
@@ -990,7 +1012,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             if( z == target_z ) {
                 seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
                 castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                    seen_cache, transparency_cache, origin.xy(), 0 );
+                    seen_cache, transparency_cache, origin.xy(), avatar_sight_offset );
             }
         }
     } else {
@@ -1014,8 +1036,32 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         if( origin.z == target_z ) {
             get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
+
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-            seen_caches, transparency_caches, floor_caches, origin, 0, 1.0, directions_to_cast );
+            seen_caches, transparency_caches, floor_caches, origin, avatar_sight_offset, 1.0,
+            directions_to_cast );
+    }
+
+    for( const std::pair<mtype_id, int> moncam : get_avatar().get_moncams() ) {
+        const std::vector<Creature *> moncams = g->get_creatures_if( [&]( const Creature & c ) {
+            if( !c.is_monster() ) {
+                return false;
+            }
+            const monster *mon = c.as_monster();
+            return mon->type->id == moncam.first && mon->friendly != 0 &&
+                   ( rl_dist( get_avatar().pos(), mon->pos() ) < moncam.second );
+        } );
+
+        for( const Creature *mon : moncams ) {
+            const tripoint camera_pos = mon->pos();
+            if( camera_pos.z == target_z ) {
+                int offsetDistance = std::max( 60 - mon->as_monster()->type->vision_day, 0 );
+                camera_cache[camera_pos.x][camera_pos.y] = VISIBILITY_FULL;
+                map_cache.seen_cache_dirty = true;
+                castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
+                    camera_cache, transparency_cache, camera_pos.xy(), offsetDistance );
+            }
+        }
     }
 
     const optional_vpart_position vp = veh_at( origin );
@@ -1058,7 +1104,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // don't cheat the light distance falloff.
         int offsetDistance;
         if( !is_camera ) {
-            offsetDistance = rl_dist( origin, mirror_pos );
+            offsetDistance = ( avatar_sight_offset + rl_dist( origin, mirror_pos ) * 4 ) * 2;
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                              veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
@@ -1073,6 +1119,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             camera_cache, transparency_cache, mirror_pos.xy(), offsetDistance );
     }
+
+
 }
 
 //Schraudolph's algorithm with John's constants

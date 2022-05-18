@@ -94,7 +94,7 @@
         "+": "t_reinforced_door_glass_c",
         "-": "t_brick_wall",
         "D": "t_dirt",
-        "_": "t_grass",
+        "_": [ "t_bamboo", "t_bamboo_long", "t_bamboo_tall", "t_grass" ],
         "b": "t_dirt",
         "d": "t_door_metal_c",
         "f": "t_dirt",
@@ -181,7 +181,7 @@
         "+": "t_reinforced_door_glass_c",
         "-": "t_brick_wall",
         "D": "t_dirt",
-        "_": "t_grass",
+        "_": [ "t_bamboo", "t_bamboo_long", "t_bamboo_tall", "t_grass" ],
         "b": "t_dirt",
         "d": "t_door_metal_c",
         "f": "t_dirt",
@@ -301,7 +301,7 @@
         "------------------------"
       ],
       "terrain": {
-        "#": "t_underbrush",
+        "#": [ "t_bamboo", "t_bamboo_long", "t_bamboo_tall", "t_underbrush" ],
         "&": "t_grass",
         "+": "t_door_metal_pickable",
         "-": "t_brick_wall",

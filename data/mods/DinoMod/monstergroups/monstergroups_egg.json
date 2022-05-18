@@ -3,14 +3,6 @@
     "name": "GROUP_EGG_DINO",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_eoraptor_hatchling", "weight": 20 },
-      { "monster": "mon_apatosaurus_hatchling", "weight": 10 },
-      { "monster": "mon_brontosaurus_hatchling", "weight": 10 },
-      { "monster": "mon_diplodocus_hatchling", "weight": 20 },
-      { "monster": "mon_camarasaurus_hatchling", "weight": 20 },
-      { "monster": "mon_brachiosaurus_hatchling", "weight": 20 },
-      { "monster": "mon_alamosaurus_hatchling", "weight": 20 },
-      { "monster": "mon_scutellosaurus_hatchling", "weight": 5 },
       { "monster": "mon_stegosaurus_hatchling", "weight": 5 },
       { "monster": "mon_dyoplosaurus_hatchling", "weight": 5 },
       { "monster": "mon_ankylosaurus_hatchling", "weight": 5 },
@@ -27,9 +19,29 @@
       { "monster": "mon_pentaceratops_hatchling", "weight": 3 },
       { "monster": "mon_torosaurus_hatchling", "weight": 3 },
       { "monster": "mon_triceratops_hatchling", "weight": 3 },
-      { "monster": "mon_dimorphodon_hatchling", "weight": 10 },
       { "monster": "mon_pteranodon_hatchling", "weight": 20 },
-      { "monster": "mon_quetzalcoatlus_hatchling", "weight": 5 },
+      { "monster": "mon_quetzalcoatlus_hatchling", "weight": 5 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_DINO_SMALL",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_eoraptor_hatchling", "weight": 20 },
+      { "monster": "mon_scutellosaurus_hatchling", "weight": 5 },
+      { "monster": "mon_dimorphodon_hatchling", "weight": 10 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_DINO_LARGE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_apatosaurus_hatchling", "weight": 10 },
+      { "monster": "mon_brontosaurus_hatchling", "weight": 10 },
+      { "monster": "mon_diplodocus_hatchling", "weight": 20 },
+      { "monster": "mon_camarasaurus_hatchling", "weight": 20 },
+      { "monster": "mon_brachiosaurus_hatchling", "weight": 20 },
+      { "monster": "mon_alamosaurus_hatchling", "weight": 20 },
       { "monster": "mon_mosasaurus_hatchling", "weight": 5 }
     ]
   },
@@ -37,24 +49,41 @@
     "name": "GROUP_EGG_THEROPOD",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_coelophysis_hatchling", "weight": 8 },
       { "monster": "mon_dilophosaurus_hatchling", "weight": 1 },
       { "monster": "mon_ceratosaurus_hatchling", "weight": 1 },
-      { "monster": "mon_spinosaurus_hatchling", "weight": 1 },
+      { "monster": "mon_torvosaurus_hatchling", "weight": 1 },
       { "monster": "mon_allosaurus_hatchling", "weight": 8 },
       { "monster": "mon_acrocanthosaurus_hatchling", "weight": 8 },
       { "monster": "mon_siats_hatchling", "weight": 8 },
-      { "monster": "mon_tyrannosaurus_hatchling", "weight": 8 },
+      { "monster": "mon_dryptosaurus_hatchling", "weight": 8 },
+      { "monster": "mon_appalachiosaurus_hatchling", "weight": 8 },
+      { "monster": "mon_gorgosaurus_hatchling", "weight": 8 },
       { "monster": "mon_albertosaurus_hatchling", "weight": 8 },
-      { "monster": "mon_compsognathus_hatchling", "weight": 20 },
+      { "monster": "mon_daspletosaurus_hatchling", "weight": 8 },
       { "monster": "mon_gallimimus_hatchling", "weight": 20 },
-      { "monster": "mon_albertonykus_hatchling", "weight": 20 },
+      { "monster": "mon_struthiomimus_hatchling", "weight": 20 },
+      { "monster": "mon_ornithomimus_hatchling", "weight": 20 },
       { "monster": "mon_nothronychus_hatchling", "weight": 10 },
       { "monster": "mon_anzu_hatchling", "weight": 10 },
-      { "monster": "mon_velociraptor_hatchling", "weight": 15 },
       { "monster": "mon_deinonychus_hatchling", "weight": 10 },
       { "monster": "mon_utahraptor_hatchling", "weight": 5 }
     ]
+  },
+  {
+    "name": "GROUP_EGG_THEROPOD_SMALL",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_compsognathus_hatchling", "weight": 20 },
+      { "monster": "mon_albertonykus_hatchling", "weight": 20 },
+      { "monster": "mon_velociraptor_hatchling", "weight": 15 },
+      { "monster": "mon_dromaeosaurus_hatchling", "weight": 15 },
+      { "monster": "mon_stenonychosaurus_hatchling", "weight": 10 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_THEROPOD_LARGE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_spinosaurus_hatchling", "weight": 1 }, { "monster": "mon_tyrannosaurus_hatchling", "weight": 8 } ]
   },
   {
     "name": "GROUP_EGG_coelophysis",
@@ -77,6 +106,11 @@
     "monsters": [ { "monster": "mon_spinosaurus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_torvosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_torvosaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_allosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_allosaurus_hatchling" } ]
@@ -90,6 +124,16 @@
     "name": "GROUP_EGG_siats",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_siats_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_dryptosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_dryptosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_appalachiosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_appalachiosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_gorgosaurus",
@@ -107,6 +151,11 @@
     "monsters": [ { "monster": "mon_qianzhousaurus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_daspletosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_daspletosaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_tyrannosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_tyrannosaurus_hatchling" } ]
@@ -120,6 +169,16 @@
     "name": "GROUP_EGG_gallimimus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_gallimimus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_struthiomimus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_struthiomimus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_ornithomimus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_ornithomimus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_albertonykus",
@@ -150,6 +209,16 @@
     "name": "GROUP_EGG_utahraptor",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_utahraptor_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_dromaeosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_dromaeosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_stenonychosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_stenonychosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_eoraptor",

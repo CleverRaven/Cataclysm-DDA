@@ -42,7 +42,7 @@
   {
     "type": "GENERIC",
     "id": "hdframe",
-    "name": { "str": "heavy duty frame" },
+    "name": { "str": "heavy-duty frame" },
     "description": "A large, reinforced steel frame, used in military vehicle construction.",
     "weight": "100000 g",
     "to_hit": -6,

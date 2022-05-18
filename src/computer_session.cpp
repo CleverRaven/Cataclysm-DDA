@@ -1266,7 +1266,7 @@ void computer_session::action_irradiator()
     }
 }
 
-// geiger counter for irradiator, primary measurement at t_rad_platform, secondary at player loacation
+// geiger counter for irradiator, primary measurement at t_rad_platform, secondary at player location
 void computer_session::action_geiger()
 {
     Character &player_character = get_player_character();

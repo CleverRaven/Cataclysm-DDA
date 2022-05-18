@@ -116,7 +116,7 @@
         "coverage": 0,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "material": [ { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 } ]
+        "material": [ { "type": "flesh", "covered_by_mat": 100, "thickness": 4.0 } ]
       }
     ]
   },
@@ -180,13 +180,13 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN", "SOFT" ]
   },
   {
     "id": "migo_skin_off",
     "type": "ARMOR",
     "name": { "str": "resonating gorget" },
-    "description": "A heavy duty gorget made from odd materials that hums slightly, it feels damp to the touch and there is a mechanical button of some kind on the front.  The inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".",
+    "description": "A heavy-duty gorget made from odd materials that hums slightly, it feels damp to the touch and there is a mechanical button of some kind on the front.  The inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".",
     "weight": "1500 g",
     "volume": "100 ml",
     "price": 2500,
@@ -221,7 +221,7 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "SOFT" ]
   },
   {
     "id": "feeding_kit",

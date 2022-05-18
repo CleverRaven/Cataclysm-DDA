@@ -28,6 +28,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "event.h"
@@ -205,8 +206,8 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         return false;
     }
 
-    // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
-    if( shield.has_flag( flag_UNBREAKABLE_MELEE ) ) {
+    // UNBREAKABLE_MELEE and UNBREAKABLE items can't be damaged through melee combat usage.
+    if( shield.has_flag( flag_UNBREAKABLE_MELEE ) || shield.has_flag( flag_UNBREAKABLE ) ) {
         return false;
     }
 
@@ -502,8 +503,9 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
         if( mod_type == enchant_vals::mod::NUM_MOD ) {
             return val;
         } else {
-            return enchantment_cache->modify_value( dt_to_ench_dt( dt ), val );
+            val = enchantment_cache->modify_value( dt_to_ench_dt( dt ), val );
         }
+        return enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE, val );
     };
 
     for( damage_unit du : dam ) {
@@ -518,6 +520,8 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
             continue;
         }
         modified.add_damage( converted, modify_damage_type( converted, 0.0f ) );
+        modified.add_damage( converted, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
+                             0.0f ) );
     }
 
     return modified;
@@ -535,6 +539,11 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     if( !is_adjacent( &t, fov_3d ) ) {
         return false;
     }
+
+    // Max out recoil & reset aim point
+    recoil = MAX_RECOIL;
+    last_target_pos = cata::nullopt;
+
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
 }
 
@@ -1174,7 +1183,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
                                   const item &weap, std::string attack_vector, float crit_mod ) const
 {
     float bash_dam = 0.0f;
-    bool unarmed = attack_vector == "WEAPON";
+    bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
@@ -1336,7 +1345,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 {
     float cut_dam = mabuff_damage_bonus( damage_type::CUT ) + weap.damage_melee( damage_type::CUT );
     float cut_mul = 1.0f;
-    bool unarmed = attack_vector == "WEAPON";
+    bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_cutting );
@@ -1443,7 +1452,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
                                   const item &weap, std::string attack_vector, float crit_mod ) const
 {
     float stab_dam = mabuff_damage_bonus( damage_type::STAB ) + weap.damage_melee( damage_type::STAB );
-    bool unarmed = attack_vector == "WEAPON";
+    bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_stabbing );
@@ -1556,7 +1565,7 @@ void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*av
                                    const item &weap, std::string attack_vector, float /*crit_mod*/ ) const
 {
     std::map<std::string, damage_type> dt_map = get_dt_map();
-    bool unarmed = attack_vector == "WEAPON";
+    bool unarmed = attack_vector != "WEAPON";
 
     for( const std::pair<const std::string, damage_type> &dt : dt_map ) {
         damage_type type_name = dt.second;
@@ -1878,7 +1887,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     int rep = rng( technique.repeat_min, technique.repeat_max );
     add_msg_debug( debugmode::DF_MELEE, "Tech repeats %d times", rep );
 
-    // Keep the technique definitons shorter
+    // Keep the technique definitions shorter
     if( technique.attack_override ) {
         move_cost = 0;
         di.clear();
@@ -1932,6 +1941,15 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
         if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
             t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
+        }
+
+        for( const effect_on_condition_id &eoc : technique.eocs ) {
+            dialogue d( get_talker_for( *this ), get_talker_for( t ) );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a technique activation.  If you don't want the effect_on_condition to happen on its own (without the technique being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this technique with its condition and effects, then have a recurring one queue it." );
+            }
         }
     }
 

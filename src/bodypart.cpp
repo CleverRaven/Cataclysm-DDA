@@ -28,6 +28,8 @@ const bodypart_str_id body_part_leg_r( "leg_r" );
 const bodypart_str_id body_part_mouth( "mouth" );
 const bodypart_str_id body_part_torso( "torso" );
 
+const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
+
 side opposite_side( side s )
 {
     switch( s ) {
@@ -391,6 +393,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
     optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
 
+    optional( jo, was_loaded, "feels_discomfort", feels_discomfort, true );
+
     optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
@@ -437,6 +441,19 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "side", part_side );
 
     optional( jo, was_loaded, "sub_parts", sub_parts );
+
+    if( jo.has_array( "encumbrance_per_weight" ) ) {
+        const JsonArray &jarr = jo.get_array( "encumbrance_per_weight" );
+        for( const JsonObject jval : jarr ) {
+            units::mass weight = 0_gram;
+            int encumbrance = 0;
+
+            assign( jval, "weight", weight, true );
+            mandatory( jval, was_loaded, "encumbrance", encumbrance );
+
+            encumbrance_per_weight.insert( std::pair<units::mass, int>( weight, encumbrance ) );
+        }
+    }
 }
 
 void body_part_type::reset()
@@ -536,6 +553,136 @@ float body_part_type::damage_resistance( const damage_type &dt ) const
 float body_part_type::damage_resistance( const damage_unit &du ) const
 {
     return armor.get_effective_resist( du );
+}
+
+std::set<translation, localized_comparator> body_part_type::consolidate(
+    std::vector<sub_bodypart_id> &covered )
+{
+    std::set<translation, localized_comparator> to_return;
+    std::vector<bodypart_id> full_bps;
+
+    //first try to compress sets of sub body parts together into a full limb
+    for( size_t i = 0; i < covered.size(); i++ ) {
+        const sub_bodypart_id &sbp = covered[i];
+        if( sbp == sub_body_part_sub_limb_debug ) {
+            // if we have already covered this continue
+            continue;
+        }
+
+        // try to find all matching sublimbs from the parent
+        bool found_all = true;
+        for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
+            found_all = std::find( covered.begin(), covered.end(), searching.id() ) != covered.end() &&
+                        found_all;
+        }
+
+        // if found all consolidate all the limb bits together
+        // TODO: shouldn't need so many loops to do this
+        if( found_all ) {
+            full_bps.emplace_back( sbp->parent );
+            // set the initial to a skipped value
+            for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
+                auto sbp_it = std::find( covered.begin(), covered.end(), searching.id() );
+                *sbp_it = sub_body_part_sub_limb_debug;
+            }
+        }
+    }
+
+    // now try and compress together matching limbs
+    for( size_t i = 0; i < full_bps.size(); i++ ) {
+        const bodypart_id &bp = full_bps[i];
+
+        if( bp == bodypart_str_id::NULL_ID().id() ) {
+            //its already been covered
+            continue;
+        }
+        // bodyparts with no opposite are their own opposite
+        if( bp->opposite_part.id() == bp ) {
+            // if no opposite don't look for one
+            to_return.insert( bp->name_as_heading );
+            continue;
+        }
+        auto bp_itt = std::find( full_bps.begin(), full_bps.end(), bp->opposite_part );
+        if( bp_itt == full_bps.end() ) {
+            // if we didn't find the match just add the limb we were just looking at
+            to_return.insert( bp->name_as_heading );
+            continue;
+        }
+
+        *bp_itt = bodypart_str_id::NULL_ID().id();
+        to_return.insert( bp->name_as_heading_multiple );
+
+    }
+
+    for( size_t i = 0; i < covered.size(); i++ ) {
+        const sub_bodypart_id &sbp = covered[i];
+        if( sbp == sub_body_part_sub_limb_debug ) {
+            // if we have already covered this value as a pair continue
+            continue;
+        }
+        sub_bodypart_id temp;
+        // if our sub part has an opposite
+        if( sbp->opposite != sub_body_part_sub_limb_debug ) {
+            temp = sbp->opposite;
+        } else {
+            // if it doesn't have an opposite add it to the return vector alone and continue
+            to_return.insert( sbp->name );
+            continue;
+        }
+
+        bool found = false;
+        for( std::vector<sub_bodypart_id>::iterator sbp_it = covered.begin(); sbp_it != covered.end();
+             ++sbp_it ) {
+            // go through each body part and test if its partner is there as well
+            if( temp == *sbp_it ) {
+                // add the multiple name not the single
+                to_return.insert( sbp->name_multiple );
+                found = true;
+                // set the found part to a null value
+                *sbp_it = sub_body_part_sub_limb_debug;
+                break;
+            }
+        }
+        // if we didn't find its pair print it normally
+        if( !found ) {
+            to_return.insert( sbp->name );
+        }
+    }
+
+    return to_return;
+}
+
+std::set<translation, localized_comparator> body_part_type::consolidate(
+    std::vector<bodypart_id> &covered )
+{
+    std::set<translation, localized_comparator> to_return;
+
+    // now try and compress together matching limbs
+    for( size_t i = 0; i < covered.size(); i++ ) {
+        const bodypart_id &bp = covered[i];
+
+        if( bp == bodypart_str_id::NULL_ID().id() ) {
+            //its already been covered
+            continue;
+        }
+        // bodyparts with no opposite are their own opposite
+        if( bp->opposite_part.id() == bp ) {
+            // if no opposite don't look for one
+            to_return.insert( bp->name_as_heading );
+            continue;
+        }
+        auto bp_itt = std::find( covered.begin(), covered.end(), bp->opposite_part );
+        if( bp_itt == covered.end() ) {
+            // if we didn't find the match just add the limb we were just looking at
+            to_return.insert( bp->name_as_heading );
+            continue;
+        }
+
+        *bp_itt = bodypart_str_id::NULL_ID().id();
+        to_return.insert( bp->name_as_heading_multiple );
+    }
+
+    return to_return;
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )

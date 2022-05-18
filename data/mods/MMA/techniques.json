@@ -87,7 +87,7 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "required_buffs_all": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_any": [ "mma_buff_hylian_onpause", "mma_buff_hylian_spin" ],
     "crit_ok": true,
     "aoe": "spin",
     "attack_vectors": [ "WEAPON" ]
@@ -102,7 +102,7 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "required_buffs_all": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_any": [ "mma_buff_hylian_onpause", "mma_buff_hylian_spin" ],
     "crit_ok": true,
     "aoe": "wide",
     "attack_vectors": [ "WEAPON" ]
@@ -176,7 +176,7 @@
     "type": "technique",
     "id": "mma_tec_iron_heart_wide_crit",
     "name": "Scything Blade",
-    "messages": [ "You cleanly reap through %s and those nearby", "<npcname> cleanly reap throug %s and those nearby" ],
+    "messages": [ "You cleanly reap through %s and those nearby", "<npcname> cleanly reap through %s and those nearby" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "crit_tec": true,

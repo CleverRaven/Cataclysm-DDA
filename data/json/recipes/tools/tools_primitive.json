@@ -39,7 +39,7 @@
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ],
+      [ [ "rock_flaking_any", 1, "LIST" ] ],
       [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
     ]
   },
@@ -138,7 +138,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "HAMMER_SOFT", "level": 1 }, { "id": "CHISEL_WOOD", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock_flaking_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -173,13 +173,14 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "HAMMER_SOFT", "level": 1 },
+      { "id": "PUNCH", "level": 1 },
+      { "id": "CUT", "level": 2 }
+    ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
-    "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock_flaking_any", 1, "LIST" ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -196,7 +197,7 @@
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
+      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "rock_flaking_any", 1, "LIST" ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
     ]
   },
@@ -340,7 +341,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
-    "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ] ]
+    "components": [ [ [ "rock_flaking_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -355,7 +356,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "HAMMER_SOFT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
-    "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ] ]
+    "components": [ [ [ "rock_flaking_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

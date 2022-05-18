@@ -19,6 +19,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "subbodypart.h"
+#include "localized_comparator.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -42,6 +43,8 @@ extern const bodypart_str_id body_part_leg_l;
 extern const bodypart_str_id body_part_foot_l;
 extern const bodypart_str_id body_part_leg_r;
 extern const bodypart_str_id body_part_foot_r;
+
+extern const sub_bodypart_str_id sub_body_part_sub_limb_debug;
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
@@ -176,6 +179,8 @@ struct body_part_type {
          */
         std::vector<sub_bodypart_str_id> sub_parts;
 
+        std::map<units::mass, int> encumbrance_per_weight;
+
         cata::flat_set<json_character_flag> flags;
         cata::flat_set<json_character_flag> conditional_flags;
 
@@ -241,6 +246,7 @@ struct body_part_type {
         float cold_morale_mod = 0.0f;
         float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
+        bool feels_discomfort = true;
 
         int fire_warmth_bonus = 0;
 
@@ -344,6 +350,15 @@ struct body_part_type {
 
         float damage_resistance( const damage_type &dt ) const;
         float damage_resistance( const damage_unit &du ) const;
+
+
+        // combine matching body part and subbodypart strings together for printing
+        static std::set<translation, localized_comparator> consolidate( std::vector<sub_bodypart_id>
+                &covered );
+
+        // this version just pairs normal body parts
+        static std::set<translation, localized_comparator> consolidate( std::vector<bodypart_id>
+                &covered );
 };
 
 

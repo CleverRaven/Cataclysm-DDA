@@ -6,6 +6,7 @@
     "magazine": 100,
     "ammo": 40,
     "entries": [
+      { "group": "cop_armor", "prob": 70, "damage": [ 0, 2 ] },
       { "group": "cop_gear", "prob": 70, "damage": [ 0, 2 ] },
       { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
       { "group": "cop_helmet", "prob": 20, "damage": [ 1, 4 ] },
@@ -21,6 +22,26 @@
         "prob": 10
       },
       { "group": "wallets", "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cop_items",
+    "//": "combination of armor and tools",
+    "items": [ { "group": "cop_armor", "prob": 30 }, { "group": "cop_gear", "prob": 70 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cop_armor",
+    "items": [
+      [ "armor_riot", 20 ],
+      [ "kevlar", 35 ],
+      {
+        "item": "level_3_vest",
+        "variant": "police_armor_vest",
+        "contents-group": "some_steel_front_plates",
+        "prob": 75
+      }
     ]
   },
   {
@@ -200,16 +221,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      {
-        "distribution": [
-          { "item": "swat_armor", "prob": 15 },
-          { "item": "kevlar", "prob": 25 },
-          { "item": "tacvest", "prob": 5 },
-          { "item": "armor_riot", "prob": 25 },
-          { "group": "military_ballistic_vest", "prob": 10 }
-        ],
-        "prob": 65
-      },
+      { "distribution": [ { "item": "armor_riot", "prob": 25 }, { "group": "swat_ballistic_vest", "prob": 75 } ], "prob": 65 },
       {
         "distribution": [
           { "item": "tank_top", "prob": 30 },

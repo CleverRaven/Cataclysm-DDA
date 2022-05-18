@@ -41,6 +41,8 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_anemia( "anemia" );
@@ -111,6 +113,7 @@ static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
 static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -284,8 +287,37 @@ static void eff_fun_bleed( Character &u, effect &it )
             u.mod_pain( 1 );
         }
         if( one_in( 120 / intense ) ) {
+            static const translation blood_str = !u.has_trait( trait_ACIDBLOOD ) ?
+                                                 to_translation( "bleed_message", "Blood" ) : to_translation( "bleed_message", "Acid" );
+            // the numerical values here coincide with the intensity thresholds at which the name of the effect changes
+            // i.e. 0-5 intensity is displayed as "Minor Bleeding", 11-20 intensity is displayed as "Bad Bleeding", etc
+            static const std::map<int, translation> intensity_strings = {
+                { 0, to_translation( "%1s drips from your %2s." ) },
+                { 6, to_translation( "%1s leaks from your %2s." ) },
+                { 11, to_translation( "%1s flows from your %2s." ) },
+                { 21, to_translation( "%1s pours from your %2s!" ) },
+                { 31, to_translation( "%1s gushes from your %2s!" ) }
+            };
+            translation suffer_string = intensity_strings.at( 0 );
+            // iterate in reverse to find the first string that we qualify for based on intensity
+            // if we go through the map from front to back, we end up choosing the string for the lowest intensity all the time
+            for( auto iter = intensity_strings.rbegin(); iter != intensity_strings.rend(); ++iter ) {
+                if( intense >= iter->first ) {
+                    suffer_string = iter->second;
+                    break;
+                }
+            }
             u.bleed();
-            u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
+            bodypart_id bp = it.get_bp();
+            // piece together the final displayed message here instead of inline, for readability's sake
+            // format the chosen string with the relevant variables to make it human-readable, then translate everything we have so far
+            // we maintain a generic part-less fallback just in case the effect is added without a target body part, in order to avoid crashes
+            const std::string final_message = bp != bodypart_str_id::NULL_ID() ? string_format(
+                                                  suffer_string,
+                                                  blood_str, body_part_name_accusative( bp ) ) : _( "You lose some blood." );
+            // display the final message
+            u.add_msg_player_or_npc( m_bad,
+                                     final_message,
                                      _( "<npcname> loses some blood." ) );
         }
     }
@@ -972,7 +1004,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
                     // photosynthesis warrants absorbing kcal directly
-                    u.mod_stored_nutr( -5 );
+                    u.mod_stored_kcal( 43 );
                 }
             }
             if( u.get_thirst() >= -40 ) {
@@ -999,18 +1031,22 @@ static void eff_fun_sleep( Character &u, effect &it )
     }
 
     // Check mutation category strengths to see if we're mutated enough to get a dream
-    mutation_category_id highcat = u.get_highest_category();
-    int highest = u.mutation_category_level[highcat];
+    mutation_category_id cat;
+    weighted_int_list<mutation_category_id> cat_list = u.get_vitamin_weighted_categories();
+    if( cat_list.get_weight() > 0 ) {
+        cat = *cat_list.pick();
+    }
+    int cat_strength = u.mutation_category_level[cat];
 
     // Determine the strength of effects or dreams based upon category strength
     int strength = 0; // Category too weak for any effect or dream
     if( u.crossed_threshold() ) {
         strength = 4; // Post-human.
-    } else if( highest >= 20 && highest < 35 ) {
+    } else if( cat_strength >= 15 && cat_strength < 22 ) {
         strength = 1; // Low strength
-    } else if( highest >= 35 && highest < 50 ) {
+    } else if( cat_strength >= 22 && cat_strength < 30 ) {
         strength = 2; // Medium strength
-    } else if( highest >= 50 ) {
+    } else if( cat_strength >= 30 ) {
         strength = 3; // High strength
     }
 
@@ -1019,7 +1055,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         //Once every 6 / 3 / 2 hours, with a bit of randomness
         if( calendar::once_every( 6_hours / strength ) && one_in( 3 ) ) {
             // Select a dream
-            std::string dream = u.get_category_dream( highcat, strength );
+            std::string dream = u.get_category_dream( cat, strength );
             if( !dream.empty() ) {
                 u.add_msg_if_player( dream );
             }
@@ -1027,7 +1063,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
                     u.mutate_category( mutation_category_MYCUS );
-                    u.mod_stored_nutr( 10 );
+                    u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );
                 }
@@ -1038,7 +1074,7 @@ static void eff_fun_sleep( Character &u, effect &it )
     bool woke_up = false;
     int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
     if( !u.is_blind() && !u.has_effect( effect_narcosis ) &&
-        !u.has_active_mutation( trait_CHLOROMORPH ) ) {
+        !u.has_active_mutation( trait_CHLOROMORPH ) && !u.has_bionic( bio_sleep_shutdown ) ) {
         // People who can see while sleeping are acclimated to the light.
         if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
@@ -1539,10 +1575,12 @@ void Character::hardcoded_effects( effect &it )
                         add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
                         activity.set_to_null();
                     } else if( ( !( has_trait( trait_HEAVYSLEEPER ) ||
-                                    has_trait( trait_HEAVYSLEEPER2 ) ) &&
+                                    has_trait( trait_HEAVYSLEEPER2 ) ||
+                                    has_bionic( bio_sleep_shutdown ) ) &&
                                  dice( 2, 15 ) < volume ) ||
                                ( has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < volume ) ||
-                               ( has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < volume ) ) {
+                               ( has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < volume ) ||
+                               has_bionic( bio_sleep_shutdown ) ) {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();

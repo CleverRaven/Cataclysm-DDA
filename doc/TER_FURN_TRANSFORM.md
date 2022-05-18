@@ -19,12 +19,12 @@ A ter_furn_transform is a type of json object that allows you to specify a trans
 ]
 ```
 
-The example above turns "sand" into "dirt". It does so by comparing the direct terrain ids. 
+The example above turns "sand" into "dirt". It does so by comparing the direct terrain ids.
 If, however, we wanted to turn sand into "dirt or grass" we can do:
 
 ```json
 "terrain": [
-  {    
+  {
     "result": [ "t_dirt", "t_grass" ],
     "valid_terrain": [ "t_sand" ],
     "message": "sandy!"
@@ -32,7 +32,7 @@ If, however, we wanted to turn sand into "dirt or grass" we can do:
 ],
 ```
 
-message_good is optional and defaults to true. 
+message_good is optional and defaults to true.
 This example chooses either dirt or grass at a 1:1 ratio. But, if you want a 4:1 ratio:
 
 ```json

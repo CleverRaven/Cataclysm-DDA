@@ -47,6 +47,7 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "morale.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -86,6 +87,7 @@ static const species_id species_SLIME( "SLIME" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 namespace spell_detail
 {
@@ -512,6 +514,15 @@ static void damage_targets( const spell &sp, Creature &caster,
         sp.create_field( target );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
             here.add_field( target, fd_fire, 1, 10_minutes );
+
+            Character &player_character = get_player_character();
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flames burst out!" ) );
+                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
         }
         Creature *const cr = creatures.creature_at<Creature>( target );
         if( !cr ) {
@@ -545,6 +556,9 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         if( sp.damage() > 0 ) {
             for( damage_unit &val : atk.proj.impact.damage_units ) {
+                if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+                    val.amount = cr->get_hp( cr->get_root_body_part() ) * sp.damage() / 100.0;
+                }
                 val.amount *= damage_mitigation_multiplier;
             }
             cr->deal_projectile_attack( &caster, atk, true );

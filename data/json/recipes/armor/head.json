@@ -53,7 +53,7 @@
     "time": "20 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "withered", 10 ] ], [ [ "string_6", 2 ], [ "cordage_6", 2 ] ] ],
+    "components": [ [ [ "withered", 10 ] ], [ [ "cordage_short", 2, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ]
   },
   {
@@ -985,7 +985,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ] ],
     "using": [ [ "sewing_standard", 40 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "nomex", 8 ] ], [ [ "sheet_kevlar_layered", 4 ] ], [ [ "nomex_hood", 1 ] ], [ [ "duct_tape", 100 ] ] ],
     "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_polymerworking" } ]
   },
@@ -995,7 +995,7 @@
     "copy-from": "hood_fsurvivor",
     "time": "6 h",
     "using": [ [ "sewing_standard", 30 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "nomex", 6 ] ], [ [ "sheet_kevlar_layered", 3 ] ], [ [ "nomex_hood", 1 ] ], [ [ "duct_tape", 75 ] ] ]
   },
   {
@@ -1004,7 +1004,7 @@
     "copy-from": "hood_fsurvivor",
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 55 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 43 ], [ "soldering_iron", 43 ], [ "toolset", 43 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "nomex", 10 ] ], [ [ "sheet_kevlar_layered", 6 ] ], [ [ "nomex_hood", 1 ] ], [ [ "duct_tape", 150 ] ] ]
   },
   {
@@ -1019,7 +1019,7 @@
     "time": "7 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ], [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "sheet_kevlar_layered", 4 ] ], [ [ "wetsuit_hood", 1 ] ], [ [ "duct_tape", 100 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
@@ -1039,7 +1039,7 @@
     "time": "6 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "rag", 8 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
@@ -1058,7 +1058,7 @@
     "copy-from": "hood_lsurvivor",
     "time": "6 h",
     "using": [ [ "sewing_standard", 30 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "rag", 6 ] ],
       [ [ "sheet_kevlar_layered", 3 ] ],
@@ -1072,7 +1072,7 @@
     "copy-from": "hood_lsurvivor",
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 43 ], [ "soldering_iron", 43 ], [ "toolset", 43 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "rag", 10 ] ],
       [ [ "sheet_kevlar_layered", 6 ] ],
@@ -1092,7 +1092,7 @@
     "time": "6 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "faux_fur", 8 ] ],
       [ [ "rag", 2 ] ],
@@ -1113,7 +1113,7 @@
     "copy-from": "hood_wsurvivor_nofur",
     "time": "6 h",
     "using": [ [ "sewing_standard", 30 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "faux_fur", 6 ] ],
       [ [ "rag", 2 ] ],
@@ -1128,7 +1128,7 @@
     "copy-from": "hood_wsurvivor_nofur",
     "time": "8 h",
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 43 ], [ "soldering_iron", 43 ], [ "toolset", 43 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "faux_fur", 10 ] ],
       [ [ "rag", 4 ] ],
@@ -1163,7 +1163,7 @@
     "time": "6 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "rag", 2 ] ],
@@ -1184,7 +1184,7 @@
     "copy-from": "hood_survivor",
     "time": "6 h",
     "using": [ [ "sewing_standard", 30 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "leather", 5 ], [ "tanned_hide", 1 ] ],
       [ [ "rag", 2 ] ],
@@ -1205,7 +1205,7 @@
     "time": "6 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
       [ [ "rag", 2 ] ],
@@ -1214,6 +1214,7 @@
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
+      { "proficiency": "prof_furriery" },
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_plasticworking" },
@@ -1226,7 +1227,7 @@
     "copy-from": "hood_wsurvivor",
     "time": "6 h",
     "using": [ [ "sewing_standard", 30 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "fur", 6 ], [ "tanned_pelt", 2 ] ],
       [ [ "rag", 2 ] ],
@@ -1241,7 +1242,7 @@
     "copy-from": "hood_wsurvivor",
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 43 ], [ "soldering_iron", 43 ], [ "toolset", 43 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ],
       [ [ "rag", 4 ] ],
@@ -1262,7 +1263,7 @@
     "time": "6 h 45 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "leather", 14 ], [ "tanned_hide", 3 ] ],
       [ [ "rag", 4 ] ],
@@ -1308,6 +1309,19 @@
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
     "components": [ [ [ "sheet", 1 ] ] ]
+  },
+  {
+    "result": "grass_keffiyeh",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "grass_sheet", 1 ] ] ]
   },
   {
     "result": "knit_scarf",
@@ -1404,7 +1418,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 4 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_polymerworking" } ]
   },
@@ -1414,7 +1428,7 @@
     "copy-from": "mask_fsurvivor",
     "time": "2 h",
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 15 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 3 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ] ]
   },
   {
@@ -1430,7 +1444,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 8 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_polymerworking" } ]
   },
@@ -1478,7 +1492,6 @@
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [ [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ], [ [ "mask_filter", 3 ] ], [ [ "hose", 1 ] ], [ [ "charcoal", 20 ] ] ]
   },
   {
@@ -1503,7 +1516,6 @@
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 3 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [ [ [ "mask_gas", 1 ] ], [ [ "mask_filter", 1 ] ] ]
   },
   {
@@ -1549,7 +1561,6 @@
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 3 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [ [ [ "mask_gas", 1 ] ], [ [ "mask_filter", 1 ] ] ]
   },
   {
@@ -1564,8 +1575,8 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ], [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [ [ [ "rebreather", 1 ] ], [ [ "goggles_swim", 1 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ] ]
   },
   {
@@ -1574,7 +1585,7 @@
     "copy-from": "mask_h20survivor",
     "time": "1 h",
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 15 ], [ "plastic_molding", 3 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "rebreather", 1 ] ], [ [ "goggles_swim", 1 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ] ]
   },
   {
@@ -1590,7 +1601,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ], [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "goggles_swim", 1 ] ],
@@ -1610,7 +1621,7 @@
     "time": "4 h",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1636,7 +1647,7 @@
     "time": "4 h",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1661,7 +1672,7 @@
     "time": "4 h 30 m",
     "autolearn": true,
     "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1712,7 +1723,7 @@
     "time": "4 h",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1731,7 +1742,7 @@
     "copy-from": "mask_survivor",
     "time": "4 h",
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 7 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1751,7 +1762,7 @@
     "time": "4 h 30 m",
     "autolearn": true,
     "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1776,7 +1787,7 @@
     "time": "4 h",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1797,7 +1808,7 @@
     "copy-from": "mask_wsurvivor",
     "time": "4 h",
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 7 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1817,7 +1828,7 @@
     "time": "4 h 30 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -2128,7 +2139,7 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [
         [ "goggles_ski", 1 ],
@@ -2239,58 +2250,9 @@
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
-    "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_polymerworking" } ]
-  },
-  {
-    "result": "chainmail_hood",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "3 h",
-    "reversible": true,
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 2 ] ],
-    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
-  },
-  {
-    "result": "xs_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "less_charges",
-    "copy-from": "chainmail_hood",
-    "time": "3 h",
-    "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 38 ] ], [ [ "wire", 2 ] ], [ [ "rag", 3 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "more_charges",
-    "copy-from": "chainmail_hood",
-    "time": "3 h 20 m",
-    "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "chainmail_hood",
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xs_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "chainmail_hood",
-    "time": "3 h 20 m",
-    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 2 ] ], [ [ "rag", 4 ] ] ]
+    "using": [ [ "sewing_standard", 10 ], [ "tailoring_neoprene_patchwork", 2 ] ],
+    "//": "Should use fabric_neoprene when the tailoring recipe audit is done.",
+    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "lc_chainmail_hood",
@@ -2576,6 +2538,37 @@
     "components": [ [ [ "scrap_bronze", 10 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
+    "result": "helmet_bronze",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "9 h 10 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
+  },
+  {
+    "result": "xs_helmet_bronze",
+    "type": "recipe",
+    "copy-from": "helmet_bronze",
+    "time": "9 h 10 m",
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 5 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_helmet_bronze",
+    "type": "recipe",
+    "copy-from": "helmet_bronze",
+    "time": "10 h 20 m",
+    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 10 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
     "result": "helmet_armet",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -2669,7 +2662,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
+    "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "5 d",
@@ -2699,7 +2692,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
+    "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "5 d",
@@ -2729,7 +2722,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
+    "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "5 d",
@@ -2759,7 +2752,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
+    "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "5 d 12 h",
@@ -2789,7 +2782,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
+    "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "5 d 16 h",

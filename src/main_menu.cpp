@@ -36,7 +36,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "pldata.h"
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "sdlsound.h"
@@ -776,7 +775,7 @@ bool main_menu::new_character_tab()
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
-                    WORLDPTR world = world_generator->pick_world( sel2 != 3 && sel2 != 4 );
+                    WORLDPTR world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
                     if( world == nullptr ) {
                         continue;
                     }
@@ -1218,7 +1217,7 @@ void main_menu::world_tab()
                     bool query_yes = false;
                     bool do_delete = false;
                     if( sel3 == 0 ) { // Delete World
-                        if( query_yn( _( "Delete the world and all saves?" ) ) ) {
+                        if( query_yn( _( "Delete the world and all saves within?" ) ) ) {
                             query_yes = true;
                             do_delete = true;
                         }

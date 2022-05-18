@@ -139,7 +139,7 @@
     "id": "mon_troll_zombie",
     "copy-from": "mon_troll",
     "name": "Undying",
-    "description": "An enourmous humanoid monster with a yellowish-green skin.  Trolls are renowned for their thick hides and natural regenerative ability.  After death, its pus filled body seems to have much grown stronger, it looks at you ferociously with hunger in its eyes.",
+    "description": "An enormous humanoid monster with a yellowish-green skin.  Trolls are renowned for their thick hides and natural regenerative ability.  After death, its pus filled body seems to have much grown stronger, it looks at you ferociously with hunger in its eyes.",
     "default_faction": "zombie",
     "harvest": "zombie",
     "relative": {

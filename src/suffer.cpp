@@ -49,7 +49,6 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "skill.h"
@@ -63,11 +62,16 @@
 #include "weather.h"
 #include "weather_type.h"
 
+static const addiction_id addiction_alcohol( "alcohol" );
+static const addiction_id addiction_nicotine( "nicotine" );
+
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
+static const bionic_id bio_radleak( "bio_radleak" );
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
@@ -240,7 +244,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.deactivate_mutation( mut_id );
             } else {
                 // does not directly modify hunger, but burns kcal
-                you.mod_stored_nutr( mut_id->cost );
+                you.mod_stored_kcal( -mut_id->cost );
             }
         }
         if( mut_id->thirst ) {
@@ -332,7 +336,7 @@ void suffer::from_addictions( Character &you )
     for( addiction &cur_addiction : you.addictions ) {
         if( cur_addiction.sated <= 0_turns &&
             cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-            addict_effect( you, cur_addiction );
+            cur_addiction.run_effect( you );
         }
         cur_addiction.sated -= 1_turns;
         // Higher intensity addictions heal faster
@@ -708,7 +712,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             you.mod_power_level( -bio_gills->power_trigger / 8 );
             you.add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                               "then go back to sleep." ) );
-        } else if( auto_use ) {
+        } else if( auto_use  && !you.has_bionic( bio_sleep_shutdown ) ) {
             if( you.use_charges_if_avail( itype_inhaler, 1 ) ) {
                 you.add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 you.add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
@@ -717,7 +721,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
                 you.add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                                   "and go back to sleep." ) );
             }
-        } else if( nearby_use ) {
+        } else if( nearby_use  && !you.has_bionic( bio_sleep_shutdown ) ) {
             // create new variable to resolve a reference issue
             int amount = 1;
             if( !here.use_charges( you.pos(), 2, itype_inhaler, amount ).empty() ) {
@@ -731,7 +735,9 @@ void suffer::from_asthma( Character &you, const int current_stim )
         } else {
             you.add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
             if( you.has_effect( effect_sleep ) ) {
-                you.wake_up();
+                if( !you.has_bionic( bio_sleep_shutdown ) ) {
+                    you.wake_up();
+                }
             } else {
                 if( !you.is_npc() ) {
                     g->cancel_activity_or_ignore_query( distraction_type::asthma,
@@ -1012,7 +1018,8 @@ void suffer::from_item_dropping( Character &you )
         std::vector<item *> dump = you.inv_dump();
         std::list<item> tumble_items;
         for( item *dump_item : dump ) {
-            if( !dump_item->has_flag( flag_NO_UNWIELD ) && !dump_item->has_flag( flag_NO_TAKEOFF ) ) {
+            if( !dump_item->has_flag( flag_NO_UNWIELD ) && !dump_item->has_flag( flag_NO_TAKEOFF ) &&
+                !dump_item->has_flag( flag_INTEGRATED ) ) {
                 tumble_items.push_back( *dump_item );
             }
         }
@@ -1268,6 +1275,14 @@ void suffer::from_bad_bionics( Character &you )
     if( you.has_bionic( bio_power_weakness ) && you.has_max_power() &&
         you.get_power_level() >= you.get_max_power_level() * .75 ) {
         you.mod_str_bonus( -3 );
+    }
+    if( you.has_bionic( bio_radleak ) && one_turn_in( 300_minutes ) ) {
+        you.add_msg_if_player( m_bad, _( "You CBM leaks radiation." ) );
+        if( you.has_effect( effect_iodine ) ) {
+            you.mod_rad( 2 );
+        } else {
+            you.mod_rad( 5 );
+        }
     }
 }
 
@@ -1687,13 +1702,13 @@ void Character::mend( int rate_multiplier )
     if( has_effect( effect_cig ) ) {
         healing_factor *= 0.5;
     } else {
-        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( add_type::CIG ) );
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( addiction_nicotine ) );
     }
 
     if( has_effect( effect_drunk ) ) {
         healing_factor *= 0.5;
     } else {
-        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( add_type::ALCOHOL ) );
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( addiction_alcohol ) );
     }
 
     if( get_rad() > 0 && !has_trait( trait_RADIOGENIC ) ) {
@@ -1934,9 +1949,9 @@ void Character::apply_wetness_morale( int temperature )
         }
 
         // For an unmutated human swimming in deep water, this will add up to:
-        // +51 when hot in 100% water friendly clothing
-        // -103 when cold/hot in 100% unfriendly clothing
-        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 2.0 );
+        // +12 when hot in 100% water friendly clothing
+        // -26 when cold/hot in 100% unfriendly clothing
+        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 8.0 );
     }
 
     if( total_morale == 0 ) {
@@ -1955,9 +1970,9 @@ void Character::apply_wetness_morale( int temperature )
     add_morale( MORALE_WET, morale_effect, total_morale, 61_seconds, 61_seconds, true );
 }
 
-void Character::add_addiction( add_type type, int strength )
+void Character::add_addiction( const addiction_id &type, int strength )
 {
-    if( type == add_type::NONE ) {
+    if( type.is_null() ) {
         return;
     }
     time_duration timer = 2_hours;
@@ -1996,14 +2011,14 @@ void Character::add_addiction( add_type type, int strength )
     const int roll = rng( 0, 100 );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
-        const std::string &type_name = addiction_type_name( type );
+        const std::string type_name = type->get_type_name().translated();
         add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
         get_event_bus().send<event_type::gains_addiction>( getID(), type );
     }
 }
 
-bool Character::has_addiction( add_type type ) const
+bool Character::has_addiction( const addiction_id &type ) const
 {
     return std::any_of( addictions.begin(), addictions.end(),
     [type]( const addiction & ad ) {
@@ -2011,7 +2026,7 @@ bool Character::has_addiction( add_type type ) const
     } );
 }
 
-void Character::rem_addiction( add_type type )
+void Character::rem_addiction( const addiction_id &type )
 {
     auto iter = std::find_if( addictions.begin(), addictions.end(),
     [type]( const addiction & ad ) {
@@ -2024,7 +2039,7 @@ void Character::rem_addiction( add_type type )
     }
 }
 
-int Character::addiction_level( add_type type ) const
+int Character::addiction_level( const addiction_id &type ) const
 {
     auto iter = std::find_if( addictions.begin(), addictions.end(),
     [type]( const addiction & ad ) {

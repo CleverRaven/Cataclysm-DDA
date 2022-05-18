@@ -958,7 +958,8 @@ void avatar::reset_stats()
     if( has_trait( trait_INSECT_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 1 );
-        } else {
+        } else if( !exclusive_flag_coverage( STATIC( flag_id( "INTEGRATED" ) ) )
+                   .test( body_part_torso ) ) {
             mod_dex_bonus( -1 );
             add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
         }
@@ -973,6 +974,7 @@ void avatar::reset_stats()
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
         } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
+                   .test( body_part_torso ) && !exclusive_flag_coverage( STATIC( flag_id( "INTEGRATED" ) ) )
                    .test( body_part_torso ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
@@ -1189,6 +1191,81 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
 faction *avatar::get_faction() const
 {
     return g->faction_manager_ptr->get( faction_your_followers );
+}
+
+bool avatar::cant_see( const tripoint &p )
+{
+
+    // calc based on recoil
+    if( !last_target_pos.has_value() ) {
+        return false;
+    }
+
+    if( aim_cache_dirty ) {
+        rebuild_aim_cache();
+    }
+
+    return aim_cache[p.x][p.y];
+}
+
+void avatar::rebuild_aim_cache()
+{
+    double pi = 2 * acos( 0.0 );
+
+    const tripoint local_last_target = get_map().getlocal( last_target_pos.value() );
+
+    float base_angle = atan2f( local_last_target.y - posy(),
+                               local_last_target.x - posx() );
+
+    // move from -pi to pi, to 0 to 2pi for angles
+    if( base_angle < 0 ) {
+        base_angle = base_angle + 2 * pi;
+    }
+
+    // calc steadiness with player recoil (like they are taking a regular shot not careful etc.
+    float range = 3.0f - 2.8f * calc_steadiness( *this, &get_wielded_item(),
+                  last_target_pos.value(), recoil );
+
+    // pin between pi and negative pi
+    float upper_bound = base_angle + range;
+    float lower_bound = base_angle - range;
+
+    // cap each within 0 - 2pi
+    if( upper_bound > 2 * pi ) {
+        upper_bound = upper_bound - 2 * pi;
+    }
+
+    if( lower_bound < 0 ) {
+        lower_bound = lower_bound + 2 * pi;
+    }
+
+    for( int smx = 0; smx < MAPSIZE_X; ++smx ) {
+        for( int smy = 0; smy < MAPSIZE_Y; ++smy ) {
+
+            float current_angle = atan2f( smy - posy(), smx - posx() );
+
+
+            // move from -pi to pi, to 0 to 2pi for angles
+            if( current_angle < 0 ) {
+                current_angle = current_angle + 2 * pi;
+            }
+
+
+            // some basic angle inclusion math, but also everything with 15 is still seen
+            if( rl_dist( tripoint( point( smx, smy ), pos().z ), pos() ) < 15 ) {
+                aim_cache[smx][smy] = false;
+            } else if( lower_bound > upper_bound ) {
+                aim_cache[smx][smy] = !( current_angle >= lower_bound ||
+                                         current_angle <= upper_bound );
+            } else {
+                aim_cache[smx][smy] = !( current_angle >= lower_bound &&
+                                         current_angle <= upper_bound );
+            }
+        }
+    }
+
+    // set cache as no longer dirty
+    aim_cache_dirty = false;
 }
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )
