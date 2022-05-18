@@ -702,38 +702,6 @@
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
-    "result": "bikini_bottom",
-    "type": "uncraft",
-    "time": "1 m",
-    "activity_level": "NO_EXERCISE",
-    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_lycra", 10 ] ], [ [ "thread_nomex", 1 ] ], [ [ "thread", 3 ] ] ]
-  },
-  {
-    "result": "bikini_top",
-    "type": "uncraft",
-    "time": "2 m",
-    "activity_level": "NO_EXERCISE",
-    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_lycra", 10 ] ], [ [ "thread_nomex", 1 ] ], [ [ "thread", 6 ] ] ]
-  },
-  {
-    "result": "bikini_top_fur",
-    "type": "uncraft",
-    "time": "20 s",
-    "activity_level": "NO_EXERCISE",
-    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "fur", 1 ] ] ]
-  },
-  {
-    "result": "bikini_top_leather",
-    "type": "uncraft",
-    "time": "20 s",
-    "activity_level": "NO_EXERCISE",
-    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "leather", 1 ] ] ]
-  },
-  {
     "result": "blade",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -6155,5 +6123,19 @@
       [ [ "e_scrap", 3 ] ],
       [ [ "lock", 1 ] ]
     ]
+  },
+  {
+    "result": "blanched_acorns_clay",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "components": [ [ [ "acorns_blanched", 50 ] ], [ [ "clay_watercont", 1 ] ] ]
+  },
+  {
+    "result": "blanched_acorns_metal",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "components": [ [ [ "acorns_blanched", 100 ] ], [ [ "metal_tank", 1 ] ] ]
   }
 ]
