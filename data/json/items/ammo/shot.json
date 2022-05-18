@@ -126,7 +126,7 @@
     "copy-from": "shotshell_abstract",
     "type": "AMMO",
     "name": { "str": "shotgun beanbag" },
-    "description": "A beanbag round for shotguns. Designated 'less-lethal' and intended to disable, but remember that 'less-lethal' does not mean 'non-lethal'.",
+    "description": "A beanbag round for shotguns.  Designated 'less-lethal' and intended to disable, but remember that 'less-lethal' does not mean 'non-lethal'.",
     "price": 500,
     "price_postapoc": 200,
     "range": 10,
