@@ -18,7 +18,7 @@
     "copy-from": "40x53mm_grenade",
     "type": "AMMO",
     "name": { "str": "40x53mm M1001 flechette" },
-    "description": "40x53mm canister shot loaded with 115 17-grain flechettes.",
+    "description": "A 40x53mm shot load with 115 17-grain flechettes.",
     "damage": { "damage_type": "bullet", "amount": 150, "armor_penetration": 12 },
     "range": 14,
     "recoil": 18750,
@@ -29,7 +29,7 @@
     "copy-from": "40x53mm_grenade",
     "type": "AMMO",
     "name": { "str_sp": "40x53mm M430A1 HEDP" },
-    "description": "A high velocity 40x53mm high explosive dual-purpose grenade.  It can penetrate 3 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
+    "description": "A high velocity 40x53mm high explosive dual-purpose grenade.  It can penetrate 3 inches of steel armor, and the fragmentation of the projectile body also makes it suitable for use against infantry.",
     "volume": "132 ml",
     "damage": { "damage_type": "bullet", "amount": 250, "armor_penetration": 45 },
     "extend": { "effects": [ "EXPLOSIVE_m430a1" ] }
@@ -56,7 +56,7 @@
     "copy-from": "40x53mm_m1001",
     "type": "AMMO",
     "name": { "str_sp": "40x53mm flechette, reloaded" },
-    "description": "An improvised 40x53mm flechette load containing 115 steel darts, similar to M1001 flechette load.",
+    "description": "An improvised 40x53mm flechette load containing 115 steel darts, similar to a M1001 flechette load.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 }
   },
   {
@@ -83,7 +83,7 @@
     "copy-from": "40x53mm_m1001",
     "type": "AMMO",
     "name": { "str_sp": "40x53mm flechette, black powder" },
-    "description": "An improvised 40x53mm flechette load containing 115 steel darts, similar to M1001 flechette load.",
+    "description": "An improvised 40x53mm flechette load containing 115 steel darts, similar to a M1001 flechette load.",
     "damage": { "damage_type": "bullet", "amount": 114, "armor_penetration": 6 },
     "proportional": { "price": 0.3, "recoil": 0.76, "dispersion": 1.2 },
     "extend": { "effects": [ "BLACKPOWDER", "MUZZLE_SMOKE" ] },
