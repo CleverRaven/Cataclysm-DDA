@@ -1,0 +1,13 @@
+[
+  {
+    "type": "palette",
+    "id": "textile_mill_museum",
+    "terrain": {
+      "+": "t_door_c",
+      "-": "t_wall",
+      ".": "t_region_groundcover_urban",
+      "1": "t_window",
+      "~": "t_water_sh"
+    }
+  }
+]

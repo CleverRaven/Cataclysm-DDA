@@ -3577,6 +3577,19 @@
   },
   {
     "type": "city_building",
+    "id": "textile_mill_museum",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "textile_mill_museum_0a0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "textile_mill_museum_0a1_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "textile_mill_museum_0a2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "textile_mill_museum_0b0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "textile_mill_museum_0b1_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "textile_mill_museum_0b2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "craft_shop",
     "locations": [ "land" ],
     "overmaps": [
