@@ -17,11 +17,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_mdoor_frame",
-      "items": [
-        { "item": "chain", "count": [ 0, 2 ] },
-        { "item": "spring", "count": [ 1, 3 ] },
-        { "items": "wall_bash_results", "charges": [ 4, 12 ] }
-      ]
+      "items": "wall_bash_results"
     }
   },
   {
@@ -41,11 +37,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_mdoor_frame",
-      "items": [
-        { "item": "chain", "count": [ 0, 2 ] },
-        { "item": "spring", "count": [ 1, 3 ] },
-        { "items": "wall_bash_results", "charges": [ 4, 12 ] }
-      ]
+      "items": "wall_bash_results"
     }
   }
 ]
