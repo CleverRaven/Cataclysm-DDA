@@ -9,5 +9,5 @@
     "value": 0,
     "start": { "assign_mission_target": { "om_terrain": "safe_house", "om_special": "safe_house", "search_range": 200 } },
     "origins": [ "ORIGIN_GAME_START" ]
-  },
+  }
 ]

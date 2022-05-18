@@ -14,6 +14,6 @@
     "color": "light_gray",
     "ammo_type": [ "9x21mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 18 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9x21mm": 18 } } ]
   }
 ]

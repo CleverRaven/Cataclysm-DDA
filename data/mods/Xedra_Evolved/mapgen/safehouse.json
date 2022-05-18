@@ -125,11 +125,11 @@
         " |######....ccgf...{|   ",
         " |#................{|   ",
         " |#................{|   ",
-        " |..y......h.h|--+----| ",
+        " |..y......h.h|--^----| ",
         " |.........###|]....##| ",
         " |.........h.h|]....h#| ",
         " |............|.......| ",
-        " |sssss.s|{..{|dbb.bbd| ",
+        " |.......|-^--|dbb.bbd| ",
         " |.......|{..{|-------| ",
         " |X...xXX|{..{|..t|     ",
         " |Xx....X|{...+...|     ",
@@ -164,7 +164,8 @@
         "x": "t_thconc_floor",
         "y": "t_thconc_floor",
         "{": "t_thconc_floor",
-        "|": "t_wall"
+        "|": "t_wall",
+        "^": "t_secretdoor_wall_c"
       },
       "furniture": {
         "#": "f_counter",
@@ -185,15 +186,6 @@
       "toilets": { "t": {  } },
       "place_liquids": [ { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 } ],
       "place_loot": [
-        { "group": "basement_survival_last_stand_casing", "x": 2, "y": 8, "chance": 20, "repeat": [ 1, 10 ] },
-        { "group": "basement_survival_last_stand_casing", "x": 3, "y": 8, "chance": 20, "repeat": [ 1, 10 ] },
-        { "group": "basement_survival_last_stand_casing", "x": 4, "y": 8, "chance": 20, "repeat": [ 1, 10 ] },
-        { "group": "basement_survival_last_stand_casing", "x": 5, "y": 9, "chance": 20, "repeat": [ 1, 10 ] },
-        { "group": "basement_survival_last_stand_casing", "x": 2, "y": 9, "chance": 20, "repeat": [ 1, 10 ] },
-        { "group": "basement_survival_last_stand_casing", "x": 3, "y": 9, "chance": 20, "repeat": [ 1, 10 ] },
-        { "group": "basement_survival_last_stand_casing", "x": 4, "y": 9, "chance": 20, "repeat": [ 1, 10 ] },
-        { "group": "basement_survival_last_stand_casing", "x": 5, "y": 9, "chance": 20, "repeat": [ 1, 10 ] },
-        { "group": "basement_survival_last_stand", "x": [ 3, 4 ], "y": 9, "chance": 100 },
         { "group": "tools_common", "x": [ 3, 7 ], "y": 3, "chance": 100 },
         { "group": "tools_entry", "x": [ 3, 7 ], "y": 3, "chance": 50 },
         { "item": "fire_ax", "x": 2, "y": 2, "chance": 25 },
@@ -215,17 +207,8 @@
         { "group": "gear_survival", "x": 13, "y": 12, "chance": 75 },
         { "group": "gear_survival", "x": 13, "y": 14, "chance": 75 },
         { "group": "gear_survival", "x": 13, "y": 15, "chance": 75 },
-        {
-          "group": "guns_survival",
-          "x": 19,
-          "y": [ 3, 4 ],
-          "chance": 100,
-          "repeat": [ 1, 2 ],
-          "ammo": 75,
-          "magazine": 100
-        },
-        { "group": "ammo_reloaded", "x": 19, "y": 5, "chance": 100, "repeat": [ 1, 3 ], "magazine": 100 },
-        { "group": "guns_pistol_common", "x": 15, "y": 10, "chance": 30, "ammo": 75, "magazine": 100 },
+        { "item": "9x21mm", "x": 19, "y": 5, "chance": 100, "repeat": [ 1, 3 ], "magazine": 100 },
+        { "item": "9x21mm", "x": 15, "y": 10, "chance": 30, "ammo": 75, "magazine": 100 },
         { "group": "guns_pistol_common", "x": 21, "y": 10, "chance": 30, "ammo": 75, "magazine": 100 },
         { "group": "clothing_outdoor_set", "x": 15, "y": 10, "chance": 30 },
         { "group": "clothing_outdoor_set", "x": 21, "y": 10, "chance": 30 },
@@ -234,7 +217,7 @@
         { "item": "pillow", "x": 16, "y": 10, "chance": 30 },
         { "item": "pillow", "x": 20, "y": 10, "chance": 30 }
       ],
-      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 10 ], "y": [ 6, 9 ], "chance": 2 } ]
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_SPIDER", "x": [ 2, 10 ], "y": [ 6, 9 ], "chance": 2 } ]
     }
   }
 ]

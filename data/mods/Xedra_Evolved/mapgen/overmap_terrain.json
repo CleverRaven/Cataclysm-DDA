@@ -25,5 +25,20 @@
       "field_office_20"
     ],
     "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "safe_house" ],
+    "copy-from": "generic_city_house"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "safe_house_roof" ],
+    "copy-from": "generic_city_house_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "safe_house_basement" ],
+    "copy-from": "generic_city_house_basement"
   }
 ]
