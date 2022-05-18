@@ -284,18 +284,18 @@
     "type": "monstergroup",
     "name": "GROUP_ztruthiomimus_UPGRADE",
     "monsters": [
-      { "monster": "mon_sktruthiomimus", "weight": 600 },
+      { "monster": "mon_sktruthiomimus", "weight": 400 },
       { "monster": "mon_ztruthiomimus_shady", "weight": 300 },
-      { "monster": "mon_ztruthiomimus_brute", "weight": 400 }
+      { "monster": "mon_ztruthiomimus_brute", "weight": 300 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zornithomimus_UPGRADE",
     "monsters": [
-      { "monster": "mon_sornithomimus", "weight": 600 },
+      { "monster": "mon_sornithomimus", "weight": 400 },
       { "monster": "mon_zornithomimus_shady", "weight": 300 },
-      { "monster": "mon_zornithomimus_brute", "weight": 400 }
+      { "monster": "mon_zornithomimus_brute", "weight": 300 }
     ]
   },
   {
