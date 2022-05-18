@@ -279,5 +279,36 @@
     "qualities": [ { "id": "ANVIL", "level": 1 } ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
     "components": [ [ [ "pistachio", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "blanching_acorns_clay",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 2 ],
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
+    "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
+    "components": [ [ [ "acorns", 50 ] ], [ [ "clay_watercont", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "blanching_acorns_metal",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
+    "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
+    "components": [ [ [ "acorns", 100 ] ], [ [ "metal_tank", 1 ] ] ]
   }
 ]
