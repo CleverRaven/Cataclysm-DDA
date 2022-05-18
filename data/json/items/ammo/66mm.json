@@ -7,7 +7,7 @@
     "name": { "str": "M74 rocket" },
     "symbol": "=",
     "color": "dark_gray",
-    "description": "66mm incendiary rockets used in the M202 FLASH rocket launcher.  Their warheads are filled with a thickened pyrophoric agent, which burns at 2200 degrees Fahrenheit.",
+    "description": "A 66mm incendiary rocket used in the M202 FLASH rocket launcher.  The warhead is filled with a thickened pyrophoric agent, which burns at 2200 degrees Fahrenheit.",
     "material": [ "steel", "powder" ],
     "volume": "2 L",
     "longest_side": "53 cm",
