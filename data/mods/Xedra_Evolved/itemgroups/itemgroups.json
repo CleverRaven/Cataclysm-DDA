@@ -182,6 +182,16 @@
     ]
   },
   {
+      "type": "item_group",
+      "subtype": "collection",
+      "id": "spy_map",
+      "entries": [
+        { "item": "permanent_marker", "prob": 50, "charges": [ 0, 500 ] },
+        { "item": "spy_note", "prob": 90 },
+        { "item": "spy_map" }
+      ]
+    },
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "zebra_pistol_cache",

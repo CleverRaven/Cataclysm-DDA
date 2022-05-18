@@ -947,6 +947,7 @@ latticed
 lavrae
 lawd
 layin
+lb
 lbs
 leache
 leatherbacked

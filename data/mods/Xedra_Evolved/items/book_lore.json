@@ -13,5 +13,21 @@
       "terrain": [ "field_office", "lab_surface_brick_blockC3", "lab_surface_brick_basementD1_hidden_lab_stairs" ],
       "message": "You add the locations to your map."
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spy_note",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "left behind note" },
+    "snippet_category": "spy_note",
+    "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "3 g",
+    "volume": "1 ml"
   }
 ]
