@@ -54,7 +54,9 @@
     "count": 112000,
     "ammo_type": [ "methanol_fuelcell" ],
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "METHANOL_TANK" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "methanol_fuelcell": 112000 }, "watertight": true } ]
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "methanol_fuelcell": 112000 }, "watertight": true }
+    ]
   },
   {
     "id": "60l_methanol_tank",
@@ -73,6 +75,8 @@
     "count": 240000,
     "ammo_type": [ "methanol_fuelcell" ],
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "METHANOL_TANK" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "methanol_fuelcell": 240000 }, "watertight": true } ]
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "methanol_fuelcell": 240000 }, "watertight": true }
+    ]
   }
 ]
