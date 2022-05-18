@@ -4643,7 +4643,7 @@
     "points": 1,
     "skills": [ { "level": 1, "name": "dodge" }, { "level": 4, "name": "swimming" } ],
     "items": {
-      "both": [ "goggles_swim", "wetsuit_hood" ],
+      "both": [ "goggles_swim", "swim_cap" ],
       "male": [ "speedo" ],
       "female": { "entries": [ { "item": "flag_swimsuit", "variant": "generic_swimsuit" } ] }
     }
