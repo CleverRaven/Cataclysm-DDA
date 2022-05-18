@@ -3,7 +3,7 @@
     "id": "308",
     "type": "AMMO",
     "name": { "str_sp": ".308 Winchester" },
-    "description": ".308 Winchester ammunition with 168gr hollow point bullets.  The .308 round is one of the most popular hunting cartridges in the world due to its accuracy and power.",
+    "description": ".308 Winchester ammunition with a 168gr hollow point bullet.  The .308 round is one of the most popular hunting cartridges in the world due to its accuracy and power.",
     "weight": "18 g",
     "volume": "158 ml",
     "price": 180,
