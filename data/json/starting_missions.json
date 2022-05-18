@@ -254,7 +254,7 @@
     "id": "MISSION_NINJA",
     "type": "mission_definition",
     "name": { "str": "Kill your rivals" },
-    "description": "As a real ninja, you can't allow competitors for the night.  Kill 10 Shady Zombies and demonstrate who is the real ninja here.",
+    "description": "As a real ninja, you can't allow competitors for the night.  Kill 10 shady zombies and demonstrate who is the real ninja here.",
     "goal": "MGOAL_KILL_MONSTER_TYPE",
     "monster_type": "mon_zombie_shady",
     "monster_kill_goal": 10,
