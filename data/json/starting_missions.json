@@ -231,7 +231,7 @@
   {
     "id": "MISSION_SOCIAL_BUTTERFLY",
     "type": "mission_definition",
-    "name": { "str": "Social Butterfly" },
+    "name": { "str": "Social butterfly" },
     "description": "You have always had good social abilities.  Go and recruit 2 followers and establish your leadership among them.  Don't forget to order them to build a base of operations for you in the form of a survivor camp.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "and": [ { "u_at_om_location": "FACTION_CAMP_ANY" }, { "npc_allies": 2 } ] },
