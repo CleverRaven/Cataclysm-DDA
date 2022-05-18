@@ -51,5 +51,28 @@
     "material": [ "moon_tears" ],
     "symbol": "=",
     "color": "light_blue"
+  },
+  {
+    "id": "9x21mm",
+    "type": "AMMO",
+    "name": { "str_sp": "9x21mm Гюрза SP-10 (7N29)" },
+    "description": "The 9×21mm Gyurza (Гюрза, Russian for 'blunt-nosed viper') round is a Russian handgun round designed to defeat body armor that was developed by TsNIITochMash for its SR-1 Vektor semi-automatic pistol and SR-2 Veresk submachine gun.  The 7N29 AP loading fires a 6.7 g (103 gr) bullet at 410 m/s (1,300 ft/s) with 560 J (410 ft⋅lb) of muzzle energy, and will reportedly penetrate two 1.2 mm titanium plates, plus 30 layers of Kevlar, at 50 m (160 ft).  The disadvantage of the rounds is that high impact velocities are needed for them to work effectively, so the bullets are relatively light to maximize their muzzle velocity.  This means they will lose velocity relatively quickly, limiting their effective range.",
+    "weight": "6700 mg",
+    "volume": "115 ml",
+    "price": 250,
+    "price_postapoc": 1000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "red",
+    "count": 50,
+    "stack_size": 50,
+    "ammo_type": "9x21mm",
+    "casing": "9x21mm_casing",
+    "range": 12,
+    "damage": { "damage_type": "bullet", "amount": 24, "armor_penetration": 16 },
+    "dispersion": 80,
+    "recoil": 500,
+    "effects": [ "COOKOFF" ]
   }
 ]

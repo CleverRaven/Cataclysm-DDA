@@ -193,6 +193,16 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "vektor_pistol_cache",
+    "entries": [
+      { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
+      { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
+      { "item": "sr1vektor_9x21mm" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "pooka_armor",
     "subtype": "distribution",
     "entries": [
