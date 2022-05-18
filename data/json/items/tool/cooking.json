@@ -1056,7 +1056,7 @@
     "id": "blanching_acorns_clay",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str_sp": "pot of blanching acorns" },
+    "name": { "str": "pot of blanching acorns", "str_pl": "pots of blanching acorns" },
     "description": "This is a pot filled with water and hulled acorns, slowly leaching the tannins.  It'll take about a week.",
     "weight": "31 kg",
     "volume": "44250 ml",
