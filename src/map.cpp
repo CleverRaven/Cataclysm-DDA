@@ -4009,12 +4009,11 @@ bool map::hit_with_fire( const tripoint &p )
     }
     return true;
 }
-
-bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
+bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
+                     const bool check_only )
 {
     const auto &ter = this->ter( p ).obj();
     const auto &furn = this->furn( p ).obj();
-    avatar &player_character = get_avatar();
     if( ter.open ) {
         if( has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) && !inside ) {
             return false;
@@ -4025,9 +4024,9 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( player_character.has_trait( trait_SCHIZOPHRENIC ) &&
+            if( u.has_trait( trait_SCHIZOPHRENIC ) &&
                 one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
-                tripoint mp = p + -2 * player_character.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
+                tripoint mp = p + -2 * u.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
             }
         }
@@ -4049,7 +4048,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
             if( !check_only ) {
-                if( !vp->vehicle().handle_potential_theft( player_character ) ) {
+                if( ( u.is_npc() or u.is_avatar() ) and
+                    !vp->vehicle().handle_potential_theft( *u.as_character() ) ) {
                     return false;
                 }
                 vp->vehicle().open_all_at( openable );

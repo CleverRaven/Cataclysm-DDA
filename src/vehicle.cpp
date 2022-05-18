@@ -4420,7 +4420,7 @@ void vehicle::set_owner( const Character &c )
     owner = c.get_faction()->id;
 }
 
-bool vehicle::handle_potential_theft( Character &you, bool check_only, bool prompt )
+bool vehicle::handle_potential_theft( Character const &you, bool check_only, bool prompt )
 {
     const bool is_owned_by_player = is_owned_by( you );
     std::vector<npc *> witnesses;

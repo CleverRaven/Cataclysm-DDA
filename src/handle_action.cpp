@@ -567,7 +567,7 @@ static void open()
         return;
     }
     // Not a vehicle part, just a regular door
-    bool didit = here.open_door( openp, !here.is_outside( player_character.pos() ) );
+    bool didit = here.open_door( player_character, openp, !here.is_outside( player_character.pos() ) );
     if( didit ) {
         player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
     } else {
