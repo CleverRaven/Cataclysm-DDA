@@ -27,7 +27,7 @@
     "copy-from": "4570_sp",
     "type": "AMMO",
     "name": { "str": ".45-70 +P penetrator" },
-    "description": ".45-70 Government +P ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.",
+    "description": ".45-70 Government overpressure ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.",
     "price": 175,
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -60,7 +60,7 @@
     "copy-from": "4570_pen",
     "type": "AMMO",
     "name": { "str": ".45-70 +P penetrator, reloaded", "str_pl": ".45-70 +P penetrators, reloaded" },
-    "description": ".45-70 Government +P ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.  This one has been hand-loaded.",
+    "description": ".45-70 Government overpressure ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.  This one has been hand-loaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
