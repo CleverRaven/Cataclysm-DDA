@@ -7,7 +7,7 @@
     "name": { "str_sp": "paintball" },
     "symbol": "=",
     "color": "red",
-    "description": "A tube of small paintballs.  They deal virtually no damage.",
+    "description": "A small paintball for recreational shooting.  Getting shot with one stings a bit, but you'd be hard-pressed to kill anything with it.",
     "material": [ "plastic" ],
     "volume": "250 ml",
     "weight": "1 g",
