@@ -511,6 +511,21 @@
     "material": [ "nut" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
     "volume": "250 ml",
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 7.5 }
+    "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
+    "milling": { "into": "flour_wheat_free", "conversion_rate": 7.5 },
+    "smoking_result": "acorn_roasted"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "acorns_blanched",
+    "name": { "str_sp": "blanched acorns" },
+    "copy-from": "acorns",
+    "spoils_in": "5 days",
+    "description": "A handful of soft blanched acorns.  No longer bitter, but not pleasant to eat in this state.",
+    "price": 90,
+    "price_postapoc": 200,
+    "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
+    "smoking_result": "acorns_cooked",
+    "fun": -1
   }
 ]
