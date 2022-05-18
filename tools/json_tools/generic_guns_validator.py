@@ -32,6 +32,7 @@ AMMO_TYPE_WHITELIST = {
     'plasma',
     'rock',
     'signal_flare',
+    'methanol_fuelcell',
     'weldgas'
 }
 SKILL_WHITELIST = {
