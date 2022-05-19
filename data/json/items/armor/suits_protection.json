@@ -2463,7 +2463,7 @@
     "copy-from": "robofac_enviro_suit_casual",
     "type": "ARMOR",
     "name": { "str": "activity suit (casual)", "str_pl": "activity suits (casual)" },
-    "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The letters \"X.E.D.R.A\" are inscribed on its back, and a white shoulder patch on the right arm shows an arrow reaching within rings of concentric circles.",
+    "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The upper portion has been tied around the waist casually.",
     "use_action": {
       "type": "transform",
       "menu_text": "Wear normally",
