@@ -525,7 +525,7 @@
     "type": "terrain",
     "id": "t_deck_coating_no_roof_w",
     "name": "white deck coating",
-    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in red white.",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in white color.",
     "copy-from": "t_deck_coating_no_roof",
     "looks_like": " ",
     "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
