@@ -1767,7 +1767,7 @@ void vehicle::use_washing_machine( int p )
         add_msg( m_bad, _( "You need 5 charges of a detergent for the washing machine." ) );
     } else if( !filthy_items ) {
         add_msg( m_bad,
-                 _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
+                 _( "You need to remove all non-filthy items from the washing machine to start the washing program. Hard items such as flashlights can't be washed here." ) );
     } else if( cbms ) {
         add_msg( m_bad,
                  _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
