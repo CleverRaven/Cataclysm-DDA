@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "aircraft_carrier_palette",
-    "//": "big elevators are disabled bu default due bugs with elevators itself - they works really weird with such size. same to small one - the game can transport only character, ignoring everything else",
+    "//": "big elevators are disabled by default due to bugs with elevators itself - they works really weird with such size. same to small one - the game can transport only character, ignoring everything else",
     "terrain": {
       ",": "t_bridge",
       "*": "t_gates_control_metal",
