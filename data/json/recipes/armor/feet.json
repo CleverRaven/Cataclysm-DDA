@@ -554,7 +554,7 @@
     "using": [
       [ "tailoring_felt_patchwork", 4 ],
       [ "plastic_molding", 4 ],
-      [ "waterproofing_plastic_bags", 2 ],
+      [ "waterproofing_plastic_sheets", 2 ],
       [ "fastener_shoes", 2 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]
@@ -573,7 +573,7 @@
     "using": [
       [ "tailoring_felt_patchwork", 3 ],
       [ "plastic_molding", 3 ],
-      [ "waterproofing_plastic_bags", 1 ],
+      [ "waterproofing_plastic_sheets", 1 ],
       [ "fastener_shoes", 1 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]
@@ -587,7 +587,7 @@
     "using": [
       [ "tailoring_felt_patchwork", 6 ],
       [ "plastic_molding", 5 ],
-      [ "waterproofing_plastic_bags", 2 ],
+      [ "waterproofing_plastic_sheets", 2 ],
       [ "fastener_shoes", 3 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]

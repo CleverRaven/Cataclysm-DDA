@@ -324,8 +324,7 @@
     "difficulty": 1,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "fastener_large", 1 ], [ "fabric_standard_nostretch", 10 ] ],
-    "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ] ],
+    "using": [ [ "fastener_large", 1 ], [ "fabric_standard_nostretch", 10 ], [ "waterproofing_plastic_sheets", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {

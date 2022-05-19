@@ -153,6 +153,7 @@
         [ "bag_zipper", 25 ],
         [ "cup_plastic", 25 ],
         [ "bag_plastic", 10 ],
+        [ "plastic_sheet_small", 10 ],
         [ "tumbler_plastic", 4 ],
         [ "bowl_plastic", 4 ],
         [ "plastic_bowl_kids", 8 ],
@@ -985,5 +986,17 @@
     "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "budget_steel_chunk", 4 ] ] ]
+  },
+  {
+    "result": "plastic_sheet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_sheet_small", 8 ] ], [ [ "duct_tape", 40 ] ] ]
   }
 ]
