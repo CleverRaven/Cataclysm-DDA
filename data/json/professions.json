@@ -896,7 +896,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -1886,7 +1887,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -1924,7 +1926,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -1962,7 +1965,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -2000,7 +2004,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -2466,7 +2471,8 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_PATIENT" ]
   },
   {
     "type": "profession",
@@ -2489,7 +2495,8 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
   },
   {
     "type": "profession",
@@ -2566,7 +2573,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_CLOWN" ]
   },
   {
     "type": "profession",
@@ -2578,8 +2586,12 @@
     "flags": [ "NO_BONUS_ITEMS" ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
     "items": {
-      "both": { "items": [ "bondage_suit", "bondage_mask", "boots", "leather_belt" ], "entries": [ { "group": "charged_matches" } ] }
-    }
+      "both": {
+        "items": [ "bondage_suit", "bondage_mask", "boots", "gloves_leather", "leather_belt" ],
+        "entries": [ { "group": "charged_matches" } ]
+      }
+    },
+    "missions": [ "MISSION_LOST_SUB" ]
   },
   {
     "type": "profession",
@@ -2625,7 +2637,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_OTAKU" ]
   },
   {
     "type": "profession",
@@ -3035,7 +3048,8 @@
       "both": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   },
   {
     "type": "profession",
@@ -3054,7 +3068,8 @@
       "both": [ "karate_gi", "judo_belt_orange", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   },
   {
     "type": "profession",
@@ -3895,7 +3910,8 @@
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
-    }
+    },
+    "missions": [ "MISSION_URBAN_SAMURAI" ]
   },
   {
     "type": "profession",
@@ -3938,7 +3954,8 @@
       },
       "male": [ "boxer_shorts", "opal_platinum_cufflinks" ],
       "female": [ "bra", "panties", "opal_platinum_earring" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -4454,7 +4471,8 @@
       "male": [ "boxer_shorts", "diamond_gold_cufflinks" ],
       "female": [ "bra", "panties", "diamond_gold_earring" ]
     },
-    "traits": [ "LIAR" ]
+    "traits": [ "LIAR" ],
+    "missions": [ "MISSION_MAFIA_BOSS", "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -4529,7 +4547,8 @@
         ]
       }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_PORTAL_TRAVELER" ]
   },
   {
     "type": "profession",
@@ -4554,7 +4573,8 @@
       "male": [ "boxer_shorts" ],
       "female": [ "chestwrap", "panties" ]
     },
-    "traits": [ "LIGHTSTEP" ]
+    "traits": [ "LIGHTSTEP" ],
+    "missions": [ "MISSION_NINJA" ]
   },
   {
     "type": "profession",
@@ -4567,7 +4587,8 @@
       "both": { "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -4580,7 +4601,7 @@
         "items": [ "american_flag", "socks", "sneakers", "wristwatch" ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "flag_mask_dust" } ]
       },
-      "male": [ "flag_shirt", "flag_pants", "flag_swimsuit" ],
+      "male": { "items": [ "flag_shirt", "flag_pants" ], "entries": [ { "item": "flag_swimsuit", "variant": "flag_swimsuit" } ] },
       "female": {
         "items": [ "flag_jumpsuit" ],
         "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]

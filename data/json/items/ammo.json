@@ -256,6 +256,22 @@
   },
   {
     "type": "AMMO",
+    "id": "moisturizer",
+    "category": "chems",
+    "price": 300,
+    "price_postapoc": 100,
+    "name": { "str": "moisturizer" },
+    "symbol": "m",
+    "color": "white",
+    "description": "A cosmetic preparation used for protecting, moisturizing, and lubricating the skin.",
+    "volume": "50 ml",
+    "weight": "5 g",
+    "ammo_type": "soap",
+    "count": 10,
+    "stack_size": 10
+  },
+  {
+    "type": "AMMO",
     "id": "duct_tape",
     "category": "spare_parts",
     "price": 2000,

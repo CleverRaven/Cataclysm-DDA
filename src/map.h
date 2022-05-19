@@ -1097,7 +1097,7 @@ class map
                                bool same_submap = false, bool toggle_between = false );
         void transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p );
         bool close_door( const tripoint &p, bool inside, bool check_only );
-        bool open_door( const tripoint &p, bool inside, bool check_only = false );
+        bool open_door( Creature const &u, const tripoint &p, bool inside, bool check_only = false );
         // Destruction
         /** bash a square for a set number of times at set power.  Does not destroy */
         void batter( const tripoint &p, int power, int tries = 1, bool silent = false );

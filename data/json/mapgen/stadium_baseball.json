@@ -157,9 +157,12 @@
         "q": { "item": "baseball_equip", "chance": 80, "repeat": [ 1, 2 ] }
       },
       "place_item": [ { "item": "napkin", "x": 93, "y": 75, "chance": 70 }, { "item": "napkin", "x": 5, "y": 48, "chance": 70 } ],
-      "place_items": [
-        { "item": "ketchup_sealed_rng", "x": 5, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "mustard_sealed_rng", "x": 5, "y": 51, "chance": 60, "repeat": [ 1, 2 ] }
+      "place_loot": [
+        { "group": "ketchup_sealed_rng", "x": 5, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "mustard_sealed_rng", "x": 5, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "cash_register_random", "x": 5, "y": [ 48, 50 ] },
+        { "group": "cash_register_random", "x": [ 89, 92 ], "y": 75 },
+        { "group": "cash_register_random", "x": [ 1, 4 ], "y": 72 }
       ],
       "place_monsters": [
         { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.066 },
@@ -300,7 +303,13 @@
         "e": { "item": "fridgesnacks", "chance": 45, "repeat": [ 1, 6 ] }
       },
       "place_item": [ { "item": "television", "x": 92, "y": 47 } ],
-      "place_items": [ { "item": "beer", "repeat": [ 1, 6 ], "x": 92, "y": [ 50, 55 ], "chance": 70 } ],
+      "place_loot": [
+        { "group": "beer", "repeat": [ 1, 6 ], "x": 92, "y": [ 50, 55 ], "chance": 70 },
+        { "group": "cash_register_random", "x": 6, "y": [ 6, 7 ] },
+        { "group": "cash_register_random", "x": [ 1, 5 ], "y": 50 },
+        { "group": "cash_register_random", "x": [ 90, 91 ], "y": 50 },
+        { "group": "cash_register_random", "x": 89, "y": [ 92, 93 ] }
+      ],
       "place_monsters": [
         { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 4, 23 ], "density": 0.066 },
         { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 4, 17 ], "density": 0.066 },
@@ -455,9 +464,10 @@
         { "item": "television", "x": 29, "y": 10 },
         { "item": "television", "x": 46, "y": 11 }
       ],
-      "place_items": [
-        { "item": "ketchup_sealed_rng", "x": 4, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "mustard_sealed_rng", "x": 4, "y": 51, "chance": 60, "repeat": [ 1, 2 ] }
+      "place_loot": [
+        { "group": "ketchup_sealed_rng", "x": 4, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "mustard_sealed_rng", "x": 4, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "cash_register_random", "x": 4, "y": [ 49, 50 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_HOUSE", "x": [ 30, 47 ], "y": [ 5, 14 ], "density": 0.066 },

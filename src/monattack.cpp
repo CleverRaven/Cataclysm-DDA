@@ -5734,7 +5734,7 @@ bool mattack::kamikaze( monster *z )
             // Timer is out, detonate
             item i_explodes( act_bomb_type, calendar::turn, 0 );
             i_explodes.active = true;
-            i_explodes.process( nullptr, z->pos() );
+            i_explodes.process( get_map(), nullptr, z->pos() );
             return false;
         }
         return false;

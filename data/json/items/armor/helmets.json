@@ -18,7 +18,7 @@
     "material_thickness": 2,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "armor": [ { "encumbrance": 50, "coverage": 55, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 55, "covers": [ "head" ] } ]
   },
   {
     "id": "headgear",
@@ -39,7 +39,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_army",
@@ -62,7 +62,7 @@
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "WELL_SUPPORTED" ], "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "tac_fullhelmet",
@@ -82,7 +82,7 @@
     "looks_like": "helmet_motor",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ] },
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
     ],
@@ -113,7 +113,7 @@
     "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance": 16, "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "firehelmet",
@@ -136,7 +136,7 @@
     "material_thickness": 6,
     "environmental_protection": 6,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance": 40, "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_ball",
@@ -160,7 +160,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "PADDED" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_barbute",
@@ -178,7 +178,7 @@
     "looks_like": "helmet_plate",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
+      { "covers": [ "head" ], "coverage": 95, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "eyes", "mouth" ], "coverage": 65, "encumbrance": 0, "rigid_layer_only": true }
     ],
     "warmth": 10,
@@ -225,7 +225,7 @@
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "PADDED" ],
-    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_chitin",
@@ -244,7 +244,7 @@
     "looks_like": "helmet_larmor",
     "color": "green",
     "armor": [
-      { "covers": [ "head" ], "coverage": 90, "encumbrance": 10 },
+      { "covers": [ "head" ], "coverage": 90, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "mouth", "eyes" ], "rigid_layer_only": true, "coverage": 90, "encumbrance": 5 }
     ],
     "warmth": 20,
@@ -290,7 +290,7 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 90, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_helmet_conical",
@@ -360,7 +360,7 @@
     "looks_like": "helmet_motor",
     "color": "yellow",
     "armor": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance": 50 },
+      { "covers": [ "head" ], "coverage": 95, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 5 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 0 }
     ],
@@ -383,7 +383,7 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "armor": [ { "covers": [ "head" ], "coverage": 90, "encumbrance": 10 } ],
+    "armor": [ { "covers": [ "head" ], "coverage": 90, "encumbrance_modifiers": [ "NONE" ] } ],
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
@@ -425,7 +425,7 @@
     "looks_like": "helmet_barbute",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
+      { "covers": [ "head" ], "coverage": 95, "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ] },
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 35, "encumbrance": 0 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 95, "encumbrance": 10 }
     ],
@@ -472,7 +472,7 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_helmet_larmor",
@@ -507,7 +507,7 @@
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 26, "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_liner",
@@ -528,7 +528,7 @@
     "warmth": 30,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_motor",
@@ -609,7 +609,7 @@
           { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "encumbrance": 25,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ],
         "coverage": 100,
         "covers": [ "head" ]
       }
@@ -636,7 +636,7 @@
     "looks_like": "helmet_barbute",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "head" ], "coverage": 85, "encumbrance": 10 },
+      { "covers": [ "head" ], "coverage": 85, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "eyes" ], "coverage": 25, "encumbrance": 0, "rigid_layer_only": true }
     ],
     "warmth": 10,
@@ -679,7 +679,7 @@
     "looks_like": "helmet_barbute",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 40 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ] },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 },
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
@@ -723,7 +723,7 @@
     "symbol": "n",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "armor": [ { "covers": [ "head" ], "coverage": 85, "encumbrance": 20 } ],
+    "armor": [ { "covers": [ "head" ], "coverage": 85, "encumbrance_modifiers": [ "NONE" ] } ],
     "warmth": 5,
     "material_thickness": 4,
     "environmental_protection": 1,
@@ -766,7 +766,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 80,
-        "encumbrance": 35
+        "encumbrance_modifiers": [ "IMBALANCED" ]
       }
     ]
   },
@@ -808,7 +808,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "armor": [ { "encumbrance": 20, "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "pickelhaube",
@@ -831,7 +831,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "flags": [ "STAB", "PADDED" ],
-    "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 70, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_corinthian",
@@ -849,7 +849,7 @@
     "looks_like": "helmet_plate",
     "color": "yellow",
     "armor": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance": 30 },
+      { "covers": [ "head" ], "coverage": 95, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 0 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 0 }
     ],
@@ -892,7 +892,7 @@
     "looks_like": "helmet_corinthian",
     "color": "yellow",
     "armor": [
-      { "covers": [ "head" ], "coverage": 85, "encumbrance": 30 },
+      { "covers": [ "head" ], "coverage": 85, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 10 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 10 }
     ],
@@ -932,7 +932,7 @@
     "copy-from": "pot_helmet",
     "material_thickness": 2,
     "extend": { "flags": [ "OVERSIZE" ] },
-    "armor": [ { "encumbrance": 50, "coverage": 55, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 55, "covers": [ "head" ] } ]
   },
   {
     "id": "pot_helmet_xs",
@@ -968,7 +968,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
         "material": [
@@ -1002,7 +1002,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ],
     "warmth": 5,
@@ -1052,7 +1052,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
         "material": [
@@ -1086,7 +1086,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ],
     "warmth": 5,
@@ -1136,7 +1136,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
         "material": [
@@ -1170,7 +1170,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ],
     "warmth": 5,
@@ -1220,7 +1220,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
         "material": [
@@ -1254,7 +1254,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ],
     "warmth": 5,
@@ -1304,7 +1304,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
         "material": [
@@ -1338,7 +1338,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ],
     "warmth": 5,

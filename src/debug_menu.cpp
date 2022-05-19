@@ -527,7 +527,7 @@ static void spell_description(
     // Casting Cost: 0 (impeded) ( 0 current )
     description << string_format(
                     //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
-                    _( "Casting Cost: %1$s %2$s ( %3$s current ) " ),
+                    _( "Casting Cost: %1$s %2$s (%3$s current) " ),
                     spl.energy_cost_string( chrc ),
                     spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
                     spl.energy_cur_string( chrc ) ) << '\n';
@@ -535,7 +535,7 @@ static void spell_description(
     // Casting Time: 0 (impeded)
     description << string_format(
                     //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
-                    _( "Casting Time: %1$s %2$s ( %3$s base time ) " ),
+                    _( "Casting Time: %1$s %2$s (%3$s base time) " ),
                     to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
                     spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
                     to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time ) ) ) << '\n';

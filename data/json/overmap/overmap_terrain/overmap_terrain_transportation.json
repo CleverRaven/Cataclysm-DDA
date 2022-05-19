@@ -178,7 +178,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "railroad_station_1_1", "railroad_station_1_2", "railroad_station_1_3", "railroad_station_1_4" ],
+    "id": [
+      "railroad_station_1_1",
+      "railroad_station_1_2",
+      "railroad_station_1_3",
+      "railroad_station_1_4",
+      "railroad_station_0_1_roof",
+      "railroad_station_0_2_roof",
+      "railroad_station_0_3_roof",
+      "railroad_station_1_1_roof",
+      "railroad_station_1_2_roof",
+      "railroad_station_1_3_roof",
+      "railroad_station_1_4_roof",
+      "railroad_station_2_4_roof"
+    ],
     "copy-from": "generic_railroad_station"
   },
   {

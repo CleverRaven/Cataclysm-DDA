@@ -1686,6 +1686,24 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( Charac
     return final_map;
 }
 
+namespace
+{
+
+void _tidy_move_items( Character &you, item_stack &stack, tripoint const &src_loc,
+                       tripoint const &dst_loc, vehicle *src_veh, int src_part,
+                       activity_id const &activity_to_restore )
+{
+    for( item &it : stack ) {
+        if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) == you.name ) {
+            move_item( you, it, it.count(), src_loc, dst_loc, src_veh, src_part,
+                       activity_to_restore );
+            break;
+        }
+    }
+}
+
+} // namespace
+
 static bool construction_activity( Character &you, const zone_data * /*zone*/,
                                    const tripoint &src_loc,
                                    const activity_reason_info &act_info,
@@ -1746,25 +1764,18 @@ static bool tidy_activity( Character &you, const tripoint &src_loc,
     if( loot_src_lot == tripoint_zero ) {
         return false;
     }
-    map_stack items_there = here.i_at( src_loc );
-    vehicle *dest_veh;
-    int dest_part;
     if( const cata::optional<vpart_reference> vp = here.veh_at(
-                loot_src_lot ).part_with_feature( "CARGO",
+                src_loc ).part_with_feature( "CARGO",
                         false ) ) {
-        dest_veh = &vp->vehicle();
-        dest_part = vp->part_index();
-    } else {
-        dest_veh = nullptr;
-        dest_part = -1;
+        vehicle *const src_veh = &vp->vehicle();
+        int const src_part = vp->part_index();
+        vehicle_stack stack = src_veh->get_items( src_part );
+        _tidy_move_items( you, stack, src_loc, loot_src_lot, src_veh, src_part,
+                          activity_to_restore );
     }
-    for( item &it : items_there ) {
-        if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) == you.name ) {
-            move_item( you, it, it.count(), src_loc, loot_src_lot, dest_veh, dest_part,
-                       activity_to_restore );
-            break;
-        }
-    }
+    map_stack stack = here.i_at( src_loc );
+    _tidy_move_items( you, stack, src_loc, loot_src_lot, nullptr, -1, activity_to_restore );
+
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
     if( mgr.has( zone_type_LOOT_UNSORTED, here.getglobal( src_loc ), _fac_id( you ) ) ) {
         for( item *inv_elem : you.inv_dump() ) {

@@ -58,8 +58,9 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 4 ], [ "fabric_standard_nostretch", 4 ] ]
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
+    "using": [ [ "sewing_standard", 10 ], [ "tailoring_lycra_patchwork", 1 ] ]
   },
   {
     "result": "bikini_top_fur",
@@ -71,9 +72,12 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 12 ], [ "fabric_fur", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
+    "book_learn": [ [ "mag_animecon", 1 ] ],
+    "using": [ [ "sewing_standard", 12 ], [ "tailoring_fur_small", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.25, "fail_multiplier": 1.25 },
+      { "proficiency": "prof_furriery", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
+    ]
   },
   {
     "result": "bikini_top_leather",
@@ -85,10 +89,9 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "leather", 3 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
+    "book_learn": [ [ "mag_animecon", 1 ] ],
+    "using": [ [ "sewing_standard", 12 ], [ "tailoring_leather_small", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "blazer",

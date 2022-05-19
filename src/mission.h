@@ -382,6 +382,7 @@ class mission
         /*@{*/
         void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
+        void set_assigned_player_id( const character_id &char_id );
         /*@}*/
 
         /** Assigns the mission to the player. */

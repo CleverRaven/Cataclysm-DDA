@@ -1,0 +1,8 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "throwing_knives",
+    "name": "throwing knives",
+    "default": "throwing_knives"
+  }
+]
