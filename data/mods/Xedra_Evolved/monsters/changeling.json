@@ -297,7 +297,7 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 30,
     "vision_night": 3,
-    "death_function": { "message": "The %'s body *poufs* and bursts into a rain of pollen!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The % bursts into a rain of pollen!" },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES" ]
   },
   {
