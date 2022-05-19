@@ -733,7 +733,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 0, 6, "DEFAULT" ] ],
-        "require_targeting_player": false,
+        "require_targeting_player": true,
         "description": "The feral arsonist fires its flamethrower!"
       }
     ],
