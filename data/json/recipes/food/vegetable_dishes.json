@@ -291,9 +291,12 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_forage_cooking" }
+    ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
-    "components": [ [ [ "acorns", 50 ] ], [ [ "clay_watercont", 1 ] ] ]
+    "components": [ [ [ "acorns", 50 ] ], [ [ "clay_watercont", 1 ] ], [ [ "water", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -307,8 +310,11 @@
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_forage_cooking" }
+    ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
-    "components": [ [ [ "acorns", 100 ] ], [ [ "metal_tank", 1 ] ] ]
+    "components": [ [ [ "acorns", 100 ] ], [ [ "metal_tank", 1 ] ], [ [ "water", 200 ] ] ]
   }
 ]
