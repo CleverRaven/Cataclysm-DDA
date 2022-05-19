@@ -328,7 +328,7 @@
       },
       {
         "id": "daynight_moisturizer",
-        "name": { "str": "day and night moisturizer" },
+        "name": { "str_sp": "day and night moisturizer" },
         "description": "This moisturizer will work day and night. A perfect fit for those that decide their own sleep schedule.",
         "weight": 5
       }
