@@ -69,7 +69,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "winter survivor hood" },
-    "description": "A customized armored Kevlar hood.  Warm thanks to the real fur lining.",
+    "description": "A customized armored Kevlar hood.  Warm, thanks to the real fur lining.",
     "weight": "870 g",
     "volume": "1500 ml",
     "price": 58000,
@@ -91,7 +91,7 @@
     "type": "ARMOR",
     "copy-from": "hood_wsurvivor",
     "name": { "str": "XL winter survivor hood" },
-    "description": "A customized and oversized armored Kevlar hood.  Warm thanks to the real fur lining.",
+    "description": "A customized and oversized armored Kevlar hood.  Warm, thanks to the real fur lining.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -101,7 +101,7 @@
     "copy-from": "hood_wsurvivor",
     "looks_like": "hood_wsurvivor",
     "name": { "str": "XS winter survivor hood" },
-    "description": "A customized and undersized armored Kevlar hood.  Warm thanks to the real fur lining.",
+    "description": "A customized and undersized armored Kevlar hood.  Warm, thanks to the real fur lining.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -170,7 +170,7 @@
     "id": "hood_wsurvivor_nofur",
     "type": "ARMOR",
     "name": { "str": "winter faux fur survivor hood" },
-    "description": "A customized armored Kevlar hood.  Warm thanks to the faux-fur lining.",
+    "description": "A customized armored Kevlar hood.  Warm, thanks to the faux-fur lining.",
     "copy-from": "hood_wsurvivor",
     "material": [ "kevlar_layered", "faux_fur" ],
     "symbol": "[",
@@ -186,7 +186,7 @@
     "color": "pink",
     "warmth": 65,
     "name": { "str": "XL faux fur winter survivor hood" },
-    "description": "A customized and oversized armored Kevlar hood.  Warm thanks to the faux-fur lining.",
+    "description": "A customized and oversized armored Kevlar hood.  Warm, thanks to the faux-fur lining.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -196,7 +196,7 @@
     "copy-from": "hood_wsurvivor_nofur",
     "looks_like": "hood_wsurvivor_nofur",
     "name": { "str": "XS faux fur winter survivor hood" },
-    "description": "A customized and undersized armored Kevlar hood.  Warm thanks to the faux-fur lining.",
+    "description": "A customized and undersized armored Kevlar hood.  Warm, thanks to the faux-fur lining.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "UNDERSIZE" ]
   },
@@ -226,7 +226,7 @@
     "id": "helmet_scavenger",
     "type": "ARMOR",
     "name": { "str": "scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
+    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection for dangerous scavenging ventures.",
     "weight": "695 g",
     "volume": "2500 ml",
     "price": 55000,
@@ -250,7 +250,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_scavenger",
     "name": { "str": "XL scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For oversized dangerous scavenging ventures.",
+    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection for oversized dangerous scavenging ventures.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -260,7 +260,7 @@
     "copy-from": "helmet_scavenger",
     "looks_like": "helmet_scavenger",
     "name": { "str": "XS scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
+    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection for undersized dangerous scavenging ventures.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   }
