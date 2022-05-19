@@ -865,7 +865,8 @@
     "durability": 7,
     "min_cycle_recoil": 1250,
     "barrel_volume": "252 ml",
-    "valid_mod_locations": [ [ "sights mount", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
+    "built_in_mods": [ "m26_mass_stock" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ]
   }
 ]
