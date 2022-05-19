@@ -1084,26 +1084,7 @@
     "reversible": true,
     "autolearn": true,
     "decomp_learn": 0,
-    "components": [
-      [ [ "m26_mass", 1 ], [ "m26_mass_mod", 1 ] ],
-      [
-        [ "pistol_grip", 1 ],
-        [ "adjustable_stock", 1 ],
-        [ "folding_stock", 1 ],
-        [ "folding_stock_folded", 1 ],
-        [ "high_end_folding_stock", 1 ],
-        [ "high_end_folding_stock_folded", 1 ],
-        [ "wire_stock", 1 ],
-        [ "wire_stock_folded", 1 ],
-        [ "pistol_stock", 1 ],
-        [ "recoil_stock", 1 ],
-        [ "cheek_pad", 1 ],
-        [ "butt_hook", 1 ],
-        [ "tail_hook_stock", 1 ],
-        [ "under_folding_stock", 1 ],
-        [ "under_folding_stock_folded", 1 ]
-      ]
-    ]
+    "components": [ [ [ "m26_mass", 1 ], [ "m26_mass_mod", 1 ] ], [ [ "pistol_grip", 1 ] ] ]
   },
   {
     "type": "recipe",
