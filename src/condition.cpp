@@ -737,7 +737,6 @@ void conditional_t<T>::set_npc_allies_global( const JsonObject &jo )
 
     condition = [iov]( const T & d ) {
         const auto all_npcs = overmap_buffer.get_overmap_npcs();
-        std::vector<shared_ptr_fast<npc>> filtered_npcs{};
         const size_t count = std::count_if( all_npcs.begin(),
         all_npcs.end(), []( const shared_ptr_fast<npc> &ptr ) {
             // Note: it seems that the is_npc check /is/ necessary to avoid including dead friends
