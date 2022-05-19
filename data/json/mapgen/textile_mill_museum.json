@@ -61,7 +61,7 @@
       ],
       "palettes": [ "textile_mill_museum" ],
       "place_loot": [ { "group": "cash_register_random", "x": 37, "y": 10 } ],
-      "place_monsters": [ 
+      "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 23 ], "y": [ 1, 23 ], "chance": 1 },
         { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 24, 47 ], "chance": 1 }
       ]
@@ -129,7 +129,7 @@
       ],
       "palettes": [ "textile_mill_museum" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": 17, "y": [ 17, 18 ], "chance": 95, "rotation": 90 } ],
-      "place_monsters": [ 
+      "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 10, 23 ], "y": [ 9, 23 ], "chance": 1 },
         { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 24, 26 ], "chance": 1 }
       ]
