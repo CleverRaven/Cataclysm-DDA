@@ -3226,22 +3226,48 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::string &src )
+void islot_magazine::deserialize(const JsonObject& jo) {
+    load(jo);
+}
+
+void islot_magazine::load(const JsonObject &jo)
 {
-    bool strict = src == "dda";
-    assign( jo, "ammo_type", slot.type, strict );
-    assign( jo, "capacity", slot.capacity, strict, 0 );
-    assign( jo, "count", slot.count, strict, 0 );
-    assign( jo, "default_ammo", slot.default_ammo, strict );
-    assign( jo, "reload_time", slot.reload_time, strict, 0 );
-    assign( jo, "linkage", slot.linkage, strict );
+    //Ammotype has to be stored as a set, but might be a single string value in json. 
+    //If this is the case, make it a set. If not the case, just assign it (or not) straight from json.  
+    if (jo.has_string("ammo_type")) {
+        ammotype am;
+        optional(jo, was_loaded, "ammo_type", am);
+        type = { am };
+    }
+    else {
+        optional(jo, was_loaded, "ammo_type", type);
+    }
+    
+    optional( jo, was_loaded, "capacity", capacity, 0 );
+    optional( jo, was_loaded, "count", count, 0 );
+    //assign(jo, "default_ammo", default_ammo, true);
+    optional( jo, was_loaded, "default_ammo", default_ammo );
+    optional( jo, was_loaded, "reload_time", reload_time, 0 );
+    optional( jo, was_loaded, "linkage", linkage );
 }
 
 void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.magazine, jo, src );
+        if (def.was_loaded) {
+            if (def.magazine) {
+                def.magazine->was_loaded = true;
+            }
+            else {
+                def.magazine = cata::make_value<islot_magazine>();
+                def.magazine->was_loaded = true;
+            }
+        }
+        else {
+            def.magazine = cata::make_value<islot_magazine>();
+        }
+        def.magazine->load(jo);
         load_basic_info( jo, def, src );
     }
 }

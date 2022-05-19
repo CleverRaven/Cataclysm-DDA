@@ -877,6 +877,11 @@ struct islot_magazine {
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     cata::optional<itype_id> linkage;
+
+    bool was_loaded = false;
+
+    void load(const JsonObject& jo);
+    void deserialize(const JsonObject& jo);
 };
 
 struct islot_battery {
