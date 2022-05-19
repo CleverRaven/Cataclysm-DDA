@@ -718,7 +718,7 @@
     "id": "mon_feral_soldier_flamer",
     "type": "MONSTER",
     "name": { "str": "feral burner" },
-    "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead. Their failure manifested in this ragged and bloodied soldier, now turned feral.  Tense, dirty hands grip a working flamethrower as it peers from its mask for threats.",
+    "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead. Their failure manifested in this ragged and bloodied soldier, now turned feral.  Tense, dirty hands grip a working flamethrower as they peers from its mask for threats.",
     "copy-from": "mon_feral_soldier",
     "color": "red",
     "starting_ammo": { "napalm": 1000 },
@@ -734,7 +734,7 @@
         "fake_per": 10,
         "ranges": [ [ 0, 6, "DEFAULT" ] ],
         "require_targeting_player": true,
-        "description": "The feral arsonist fires its flamethrower!"
+        "description": "The feral arsonist fires their flamethrower!"
       }
     ],
     "luminance": 8,
