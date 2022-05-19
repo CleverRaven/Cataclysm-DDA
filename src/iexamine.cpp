@@ -1910,7 +1910,7 @@ void iexamine::door_peephole( Character &you, const tripoint &examp )
         g->peek( examp );
         you.add_msg_if_player( _( "You peek through the peephole." ) );
     } else if( choice == 1 ) {
-        here.open_door( examp, true, false );
+        here.open_door( you, examp, true, false );
         you.add_msg_if_player( _( "You open the door." ) );
     } else {
         you.add_msg_if_player( _( "Never mind." ) );
@@ -5498,7 +5498,7 @@ static void mill_activate( Character &you, const tripoint &examp )
     for( item &it : here.i_at( examp ) ) {
         if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, examp, nullptr );
+            it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -5599,7 +5599,7 @@ static void smoker_activate( Character &you, const tripoint &examp )
     you.use_charges( itype_fire, 1 );
     for( item &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, examp, nullptr );
+            it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }

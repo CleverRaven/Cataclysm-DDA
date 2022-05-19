@@ -6,7 +6,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        ",,,,,,,,,,,,,,,,,,''',,,",
+        ",,,,,,,,,,,,,,,,,''''',,",
         ",###::##::##::###''''',,",
         ";#..............#''''',,",
         ",#..............+''''',,",
@@ -16,23 +16,24 @@
         ",#..LL..LL......D=====#,",
         ",#..LL..LL..CC C#=n=n=#,",
         ",#..LL..LL..d..|WRWRWRW,",
-        ",#..LL..LL..?a.|W=====W,",
+        ",#..LL..LL..Ca.|W=====W,",
         ",#..##..##..d..|W=====W,",
-        ",#..........?a.|W.....W,",
+        ",#..........Ca.|W.....W,",
         ",#..........dr.XW.....W,",
         ",#-D--D-------D-W.....W,",
         ",#r.-..-<-EEEO..D.....W,",
         ",#^.-l.-D-EA..rEWT.T.TW,",
-        ",#q&-l...-EA..AEWxxxxxW,",
+        ",#q&-l...-?A..AEWxxxxxW,",
         ",#---....----D-#WWWWWWW,",
-        ",#sss..........#;____ww,",
-        ",#......ss.ss..+_____ww,",
-        ",#ss....ss.ss..+_____ww,",
-        ",#ssss.........#_______,",
-        ",###############_______,"
+        ",#sss..........#;''''ww,",
+        ",#......ss.ss..+'''''ww,",
+        ",#ss....ss.ss..+'''''ww,",
+        ",#ssss.........#''''''',",
+        ",###############''''''',"
       ],
       "palettes": [ "gun_store_palette" ],
-      "terrain": { "w": "t_pavement" }
+      "terrain": { "w": "t_sidewalk" },
+      "place_loot": [ { "group": "cash_register_random", "x": 12, "y": 10 }, { "group": "cash_register_random", "x": 12, "y": 12 } ]
     }
   },
   {
@@ -147,7 +148,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        ",,,,,,,,,,,,,,,,,,''',,,",
+        ",,,,,,,,,,,,,,,,,''''',,",
         ",###::##::##::###''''',,",
         ";#``````````````#''''',,",
         ",#``````````````+''''',,",
@@ -157,23 +158,23 @@
         ",#``mm``mm``````D=====#,",
         ",#``mm``mm``CC C#=n=n=#,",
         ",#``mm``mm``p``MWCWCWCW,",
-        ",#``mm``mm``?a`MW=====W,",
+        ",#``mm``mm``Ca`MW=====W,",
         ",#``##``##``p``MW=====W,",
-        ",#``````````?a`MW.....W,",
+        ",#``````````Ca`MW.....W,",
         ",#``````````pr`eW.....W,",
         ",#-D--D-------D-W.....W,",
         ",#r`-``-<-EEEe..D.....W,",
         ",#^`-M`-D-EA``rEWT.T.TW,",
         ",#q&-M```-EA``AEWxxxxxW,",
         ",#---````----D-#WWWWWWW,",
-        ",#SSS``````````#;____ww,",
-        ",#``````SS`SS``+_____ww,",
-        ",#SS````SS`SS``+_____ww,",
-        ",#SSSS`````````#_______,",
-        ",###############_______,"
+        ",#SSS``````````#;''''ww,",
+        ",#``````SS`SS``+'''''ww,",
+        ",#SS````SS`SS``+'''''ww,",
+        ",#SSSS`````````#''''''',",
+        ",###############''''''',"
       ],
       "palettes": [ "gun_store_palette" ],
-      "terrain": { "w": "t_pavement" },
+      "terrain": { "w": "t_sidewalk" },
       "nested": {
         "#": { "chunks": [ [ "general_graffiti", 15 ], [ "null", 75 ] ] },
         "m": { "chunks": [ [ "destroyed_furniture_gunstore", 40 ], [ "null", 80 ] ] },
@@ -197,7 +198,11 @@
         "e": { "chunks": [ [ "looted_gunsafe_nested", 25 ], [ "jammed_gunsafe_nested", 75 ], [ "null", 95 ] ] },
         "+": { "chunks": [ [ "destroyed_metal_door_nested", 90 ], [ "null", 100 ] ] },
         "`": { "chunks": [ [ "corpse_blood_casings_1x1", 4 ], [ "null", 20 ] ] }
-      }
+      },
+      "place_loot": [
+        { "group": "cash_register_random_ransacked", "x": 12, "y": 10 },
+        { "group": "cash_register_random_ransacked", "x": 12, "y": 12 }
+      ]
     }
   }
 ]

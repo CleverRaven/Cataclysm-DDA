@@ -2253,7 +2253,7 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 bool npc::can_open_door( const tripoint &p, const bool inside ) const
 {
     return !is_hallucination() && !rules.has_flag( ally_rule::avoid_doors ) &&
-           get_map().open_door( p, inside, true );
+           get_map().open_door( *this, p, inside, true );
 }
 
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
@@ -2414,9 +2414,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             moves -= run_cost( here.combined_movecost( pos(), p ), diag );
         }
         moved = true;
-    } else if( here.open_door( p, !here.is_outside( pos() ), true ) ) {
+    } else if( here.open_door( *this, p, !here.is_outside( pos() ), true ) ) {
         if( !is_hallucination() ) { // hallucinations don't open doors
-            here.open_door( p, !here.is_outside( pos() ) );
+            here.open_door( *this, p, !here.is_outside( pos() ) );
             moves -= 100;
         } else { // hallucinations teleport through doors
             moves -= 100;

@@ -4009,12 +4009,11 @@ bool map::hit_with_fire( const tripoint &p )
     }
     return true;
 }
-
-bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
+bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
+                     const bool check_only )
 {
     const auto &ter = this->ter( p ).obj();
     const auto &furn = this->furn( p ).obj();
-    avatar &player_character = get_avatar();
     if( ter.open ) {
         if( has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) && !inside ) {
             return false;
@@ -4025,9 +4024,9 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( player_character.has_trait( trait_SCHIZOPHRENIC ) &&
+            if( u.has_trait( trait_SCHIZOPHRENIC ) &&
                 one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
-                tripoint mp = p + -2 * player_character.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
+                tripoint mp = p + -2 * u.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
             }
         }
@@ -4049,7 +4048,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
             if( !check_only ) {
-                if( !vp->vehicle().handle_potential_theft( player_character ) ) {
+                if( ( u.is_npc() or u.is_avatar() ) and
+                    !vp->vehicle().handle_potential_theft( *u.as_character() ) ) {
                     return false;
                 }
                 vp->vehicle().open_all_at( openable );
@@ -4566,7 +4566,7 @@ item &map::add_item( const tripoint &p, item new_item )
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
     if( new_item.has_temperature() && !new_item.is_corpse() ) {
-        new_item.process( nullptr, p );
+        new_item.process( *this, nullptr, p );
     }
 
     if( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
@@ -4740,11 +4740,11 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
+static bool process_map_items( map &here, item_stack &items, safe_reference<item> &item_ref,
                                const tripoint &location, const float insulation, const temperature_flag flag,
                                const float spoil_multiplier )
 {
-    if( item_ref->process( nullptr, location, insulation, flag, spoil_multiplier ) ) {
+    if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -4954,7 +4954,8 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 
         map_stack items = i_at( map_location );
 
-        process_map_items( items, active_item_ref.item_ref, map_location, 1, flag, spoil_multiplier );
+        process_map_items( *this, items, active_item_ref.item_ref, map_location, 1, flag,
+                           spoil_multiplier );
     }
 }
 
@@ -4983,7 +4984,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        vp.part().process_contents( vp.pos(), engine_heater_is_on );
+        vp.part().process_contents( *this, vp.pos(), engine_heater_is_on );
     }
 
     auto cargo_parts = cur_veh.get_parts_including_carried( VPFLAG_CARGO );
@@ -5032,7 +5033,8 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
                 flag = temperature_flag::HEATER;
             }
         }
-        if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag, 1.0f ) ) {
+        if( !process_map_items( *this, items, active_item_ref.item_ref, item_loc, it_insulation, flag,
+                                1.0f ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -5243,7 +5245,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
         map_stack stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
         [ammo, using_ammotype]( const item & i ) {
-            if( using_ammotype ) {
+            if( using_ammotype && i.type->ammo && ammo->ammo ) {
                 return i.type->ammo->type == ammo->ammo->type;
             } else {
                 return i.typeId() == ammo;
@@ -8271,7 +8273,8 @@ bool map::build_floor_cache( const int zlev )
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                     if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
+                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
+                        terrain.has_flag( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR ) ) {
                         if( below_submap &&
                             below_submap->get_furn( sp ).obj().has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) ) {
                             continue;

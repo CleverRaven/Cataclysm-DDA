@@ -148,32 +148,121 @@
     "description": "A simple bikini top.",
     "variant_type": "generic",
     "variants": [
-      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 90 },
+      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 30 },
+      {
+        "id": "black_bikini_top",
+        "name": { "str": "black bikini top" },
+        "description": "It's colored black.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "white_bikini_top",
+        "name": { "str": "white bikini top" },
+        "description": "It's colored white.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_bikini_top",
+        "name": { "str": "red bikini top" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "blue_bikini_top",
+        "name": { "str": "blue bikini top" },
+        "description": "It's colored blue.",
+        "weight": 10,
+        "append": true
+      },
       {
         "id": "flag_bikini_top",
         "name": { "str": "flag bikini top" },
-        "description": "A simple bikini top embroidered with the pattern of an American flag",
-        "weight": 10
+        "description": "It's embroidered with the pattern of an American flag.",
+        "weight": 7,
+        "append": true
+      },
+      {
+        "id": "pink_bikini_top",
+        "name": { "str": "pink bikini top" },
+        "description": "It's colored neon pink.  Pretty flashy.",
+        "weight": 6,
+        "append": true
+      },
+      {
+        "id": "tropical_bikini_top",
+        "name": { "str": "tropical bikini top" },
+        "description": "It's green and has a tropical design.",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "floral_bikini_top",
+        "name": { "str": "floral bikini top" },
+        "description": "It's colored yellow and has a floral design.",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "camo_bikini_top",
+        "name": { "str": "camo bikini top" },
+        "description": "It has camouflage dye, perfect for those soldiers on a beach leave.",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "skull_bikini_top",
+        "name": { "str": "skull bikini top" },
+        "description": "It's colored black and with a skull pattern.  Works wonders to communicate your happiness on the beach.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "maid_bikini_top",
+        "name": { "str": "maid bikini top" },
+        "description": "It's colored black and with white frilly decorations.  You are not sure that this is a common attire for the beach.",
+        "weight": 1,
+        "append": true
       }
     ],
     "weight": "32 g",
     "volume": "250 ml",
     "price": 1800,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": [ "lycra" ],
     "symbol": "[",
     "looks_like": "bra",
     "color": "light_red",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "bikini_top_short",
+    "repairs_like": "bikini_top",
+    "type": "ARMOR",
+    "name": { "str": "short bikini top" },
+    "description": "A very short bikini top.  It doesn't cover much but was in fashion before the world ended.",
+    "weight": "15 g",
+    "volume": "150 ml",
+    "price": 1800,
+    "price_postapoc": 10,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "bikini_top",
+    "color": "red",
+    "material_thickness": 0.01,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "bikini_top_fur",
     "type": "ARMOR",
     "name": { "str": "fur bikini top" },
     "description": "A simple fur bikini top.",
-    "weight": "44 g",
+    "weight": "118 g",
     "volume": "250 ml",
     "price": 4900,
     "price_postapoc": 100,
@@ -191,7 +280,7 @@
     "type": "ARMOR",
     "name": { "str": "leather bikini top" },
     "description": "A simple leather bikini top.",
-    "weight": "38 g",
+    "weight": "115 g",
     "volume": "250 ml",
     "price": 3500,
     "price_postapoc": 50,

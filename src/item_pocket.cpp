@@ -170,6 +170,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "watertight", watertight, false );
     optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
+    optional( jo, was_loaded, "transparent", transparent, false );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
@@ -859,7 +860,7 @@ bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
     return false;
 }
 
-bool item_pocket::process( const itype &type, Character *carrier, const tripoint &pos,
+bool item_pocket::process( const itype &type, map &here, Character *carrier, const tripoint &pos,
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
@@ -868,7 +869,8 @@ bool item_pocket::process( const itype &type, Character *carrier, const tripoint
         if( _sealed ) {
             spoil_multiplier = 0.0f;
         }
-        if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
+        if( it->process( here, carrier, pos, type.insulation_factor * insulation, flag,
+                         spoil_multiplier ) ) {
             it->spill_contents( pos );
             it = contents.erase( it );
             processed = true;
@@ -1691,11 +1693,11 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
     on_contents_changed();
 }
 
-void item_pocket::process( Character *carrier, const tripoint &pos, float insulation,
+void item_pocket::process( map &here, Character *carrier, const tripoint &pos, float insulation,
                            temperature_flag flag, float spoil_multiplier_parent )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->process( carrier, pos, insulation, flag,
+        if( iter->process( here, carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ) ) ) {
             iter->spill_contents( pos );
@@ -1745,6 +1747,11 @@ bool item_pocket::rigid() const
 bool item_pocket::watertight() const
 {
     return data->watertight;
+}
+
+bool item_pocket::transparent() const
+{
+    return data->transparent || ( data->open_container && !sealed() );
 }
 
 bool item_pocket::is_standard_type() const

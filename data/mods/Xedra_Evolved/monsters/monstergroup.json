@@ -1,0 +1,34 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER",
+    "monsters": [ { "monster": "mon_spider_disease", "weight": 400, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CHANGELING_MIRRORED_FIELD",
+    "monsters": [
+      { "monster": "mon_changeling", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fetch_child", "weight": 400, "cost_multiplier": 0 },
+      { "monster": "mon_fae_wolf", "weight": 250, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CHANGELING_STRIKE_FORCE",
+    "monsters": [
+      { "monster": "mon_changeling_bannerman", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fetch_daffodil_warrior", "weight": 400, "cost_multiplier": 0 },
+      { "monster": "mon_pooka_aspirant", "weight": 10, "cost_multiplier": 4 },
+      { "monster": "mon_redcap_aspirant", "weight": 10, "cost_multiplier": 4 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOBLIN_SPIDER",
+    "monsters": [
+      { "monster": "mon_goblin_spider", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fetch_child", "weight": 200, "cost_multiplier": 1 }
+    ]
+  }
+]
