@@ -13,6 +13,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
+#include "flag.h"
 #include "game.h"
 #include "input.h"
 #include "item.h"
@@ -52,13 +53,15 @@ auto_pickup::player_settings &get_auto_pickup()
  */
 static bool within_autopickup_limits( const item *pickup_item )
 {
+    bool valid_item = !pickup_item->has_any_flag( cata::flat_set<flag_id> { flag_ZERO_WEIGHT, flag_NO_DROP } );
+
     int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
     int volume_limit = get_option<int>( "AUTO_PICKUP_VOLUME_LIMIT" );
 
     bool valid_volume = pickup_item->volume() <= volume_limit * 50_ml;
     bool valid_weight = pickup_item->weight() <= weight_limit * 50_gram;
 
-    return ( volume_limit <= 0 || valid_volume ) && ( weight_limit <= 0 || valid_weight );
+    return valid_item && ( volume_limit <= 0 || valid_volume ) && ( weight_limit <= 0 || valid_weight );
 }
 
 /**
