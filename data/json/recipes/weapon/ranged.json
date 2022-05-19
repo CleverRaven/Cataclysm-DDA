@@ -1084,7 +1084,7 @@
     "reversible": true,
     "autolearn": true,
     "decomp_learn": 0,
-    "components": [ [ [ "m26_mass", 1 ], [ "m26_mass_mod", 1 ] ], [ [ "pistol_grip", 1 ] ] ]
+    "components": [ [ [ "m26_mass", 1 ], [ "m26_mass_mod", 1 ] ], [ [ "m26_mass_stock", 1 ] ] ]
   },
   {
     "type": "recipe",
