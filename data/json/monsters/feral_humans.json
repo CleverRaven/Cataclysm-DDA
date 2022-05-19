@@ -714,6 +714,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
   },
+  
   {
     "id": "mon_feral_soldier_flamer",
     "type": "MONSTER",
@@ -740,7 +741,43 @@
     "luminance": 8,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
     "zombify_into": "mon_zombie_flamer",
-    "death_drops": { "subtype": "collection", "groups": [ [ "mon_feral_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ], "items": [ { "item": "mask_gas", "prob": 100, "damage": [ 2, 3 ] } ] }
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "mon_feral_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ],
+      "items": [ { "item": "mask_gas", "prob": 100, "damage": [ 2, 3 ] } ]
+    }
+  },
+  {
+    "id": "mon_feral_soldier_flamer",
+    "type": "MONSTER",
+    "name": { "str": "feral arsonist" },
+    "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead. Their failure is manifest in this ragged and bloodied soldier, now turned feral. Tense, dirty hands grip a live flamethrower as it peers from its mask for threats.",
+    "copy-from": "mon_feral_soldier",
+    "color": "red",
+    "starting_ammo": { "napalm": 1000 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "flamethrower",
+        "ammo_type": "napalm",
+        "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
+        "fake_dex": 8,
+        "fake_per": 10,
+        "ranges": [ [ 0, 6, "DEFAULT" ] ],
+        "require_targeting_player": false,
+        "description": "The feral arsonist launches its flamethrower!"
+      }
+    ],
+    "luminance": 8,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+    "zombify_into": "mon_zombie_flamer",
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "mon_feral_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ],
+      "items": [ { "item": "mask_gas", "prob": 100, "damage": [ 2, 3 ] } ]
+    }
   },
   {
     "id": "mon_feral_swimmer_kickboard",
