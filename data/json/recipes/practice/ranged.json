@@ -40,7 +40,7 @@
     "skill_used": "archery",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
-    "autolearn": [ [ "archery", 0 ] ],
+    "autolearn": [ [ "archery", 1 ] ],
     "book_learn": [ [ "book_archery", 0 ], [ "manual_archery", 0 ], [ "mag_archery", 0 ] ],
     "tools": [
       [
@@ -69,13 +69,13 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "archery (intermediate)",
-    "description": "Practice firing fletched arrows into a target. Requires a decent quality bow.",
+    "description": "Practice the best ways of firing fletched arrows into a target.  Requires a decent quality bow.",
     "skill_used": "archery",
-    "time": "1 h",
-    "practice_data": { "min_difficulty": 0, "max_difficulty": 4, "skill_limit": 5 },
-    "proficiencies": [ { "proficiency": "prof_bow_basic", "fail_multiplier": 1, "time_multiplier": 1 } ],
-    "autolearn": [ [ "archery", 0 ] ],
-    "book_learn": [ [ "book_archery", 0 ], [ "manual_archery", 0 ], [ "mag_archery", 0 ] ],
+    "time": "30 m",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
+    "proficiencies": [ { "proficiency": "prof_bow_basic", "fail_multiplier": 1, "time_multiplier": 1.5 } ],
+    "autolearn": [ [ "archery", 3 ] ],
+    "book_learn": [ [ "book_archery", 2 ], [ "manual_archery", 2 ] ],
     "tools": [
       [
         "shortbow",
@@ -92,8 +92,8 @@
       ],
       [ "pseudo_archery_target_box", "pseudo_archery_target_bale" ]
     ],
-    "components": [ [ [ "arrow_wood_heavy", 10 ] ] ],
-    "byproduct_group": [ { "item": "arrow_wood_heavy", "charges": [ 8, 10 ] } ]
+    "components": [ [ [ "arrow_wood_heavy", 20 ] ] ],
+    "byproduct_group": [ { "item": "arrow_wood_heavy", "charges": [ 0, 4 ] } ]
   },
   {
     "id": "prac_expert_archers_form",
@@ -105,14 +105,14 @@
     "description": "Practice drawing, holding, and releasing a heavy bow.",
     "skill_used": "archery",
     "time": "1 h",
-    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 2 },
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
     "proficiencies": [
       { "proficiency": "prof_bow_basic", "required": true },
-      { "proficiency": "prof_bow_expert", "fail_multiplier": 1, "time_multiplier": 1 }
+      { "proficiency": "prof_bow_expert", "fail_multiplier": 1, "time_multiplier": 2 }
     ],
-    "autolearn": [ [ "archery", 2 ] ],
+    "autolearn": [ [ "archery", 3 ] ],
     "flags": [ "BLIND_EASY" ],
-    "book_learn": [ [ "book_archery", 1 ], [ "manual_archery", 1 ], [ "mag_archery", 1 ] ],
+    "book_learn": [ [ "book_archery", 2 ], [ "manual_archery", 2 ] ],
     "tools": [ [ "compbow", "compbow_high", "compositebow", "reflexbow", "recurbow", "longbow", "woodgreatbow", "compgreatbow" ] ]
   }
 ]
