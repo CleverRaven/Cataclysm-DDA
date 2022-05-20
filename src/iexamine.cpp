@@ -1193,17 +1193,29 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_avatar() ) {
             continue;
-        } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+        } else if( here.ter( critter.pos() ) == t_elevator ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( here.ter( candidate ) != ter_id( "t_elevator" ) &&
+                    if( here.ter( candidate ) != t_elevator &&
                         here.passable( candidate ) &&
                         !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
                 }
+            }
+        }
+    }
+
+    // move along every item in the elevator
+    for( const tripoint &pos : closest_points_first( you.pos(), 10 ) ) {
+        if( get_map().ter( pos ) == t_elevator ) {
+            map_stack items = get_map().i_at( pos );
+            tripoint dest = pos + tripoint( 0, 0, movez );
+            for( auto it = items.begin(); it != items.end(); ) {
+                get_map().add_item_or_charges( dest, *it );
+                it = get_map().i_rem( pos, it );
             }
         }
     }
@@ -1215,12 +1227,12 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_avatar() ) {
             continue;
-        } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+        } else if( here.ter( critter.pos() ) == t_elevator ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( you.pos(), 10 ) ) {
-                    if( here.ter( candidate ) == ter_id( "t_elevator" ) &&
+                    if( here.ter( candidate ) == t_elevator &&
                         candidate != you.pos() &&
                         !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
