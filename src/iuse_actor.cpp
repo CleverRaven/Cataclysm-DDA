@@ -305,6 +305,8 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             }
             if( !ammo_type.is_empty() ) {
                 obj->ammo_set( ammo_type, qty );
+            } else if( obj->is_ammo() ) {
+                obj->charges = qty;
             } else if( !obj->ammo_current().is_null() ) {
                 obj->ammo_set( obj->ammo_current(), qty );
             } else if( obj->has_flag( flag_RADIO_ACTIVATION ) && obj->has_flag( flag_BOMB ) ) {
@@ -324,13 +326,18 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             it.seal();
         }
     }
-    if( p.is_worn( *obj ) ) {
-        p.calc_encumbrance();
-        p.update_bodytemp();
-        p.on_worn_item_transform( obj_copy, *obj );
-    }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
+    if( p.is_worn( *obj ) ) {
+        if( !obj->is_armor() ) {
+            item_location il = item_location( p, obj );
+            p.takeoff( il );
+        } else {
+            p.calc_encumbrance();
+            p.update_bodytemp();
+            p.on_worn_item_transform( obj_copy, *obj );
+        }
+    }
 
     return result;
 }
@@ -2586,7 +2593,7 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
     you.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
-                               item_pocket::pocket_type::CONTAINER );
+                               item_pocket::pocket_type::CONTAINER, true );
     return true;
 }
 
@@ -3137,6 +3144,9 @@ static bool damage_item( Character &pl, item_location &fix )
             fix.remove_item();
         }
 
+        pl.calc_encumbrance();
+        pl.calc_discomfort();
+
         return true;
     }
 
@@ -3235,6 +3245,8 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                       fix->tname() );
                 fix->set_flag( flag_FIT );
+
+                pl.calc_encumbrance();
             }
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
@@ -3249,6 +3261,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
                                   fix->tname().c_str() );
             fix->set_flag( flag_UNDERSIZE );
+            pl.calc_encumbrance();
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
@@ -3261,6 +3274,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
                                   fix->tname().c_str() );
             fix->unset_flag( flag_UNDERSIZE );
+            pl.calc_encumbrance();
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
@@ -3338,8 +3352,6 @@ void heal_actor::load( const JsonObject &obj )
     bite = obj.get_float( "bite", 0.0f );
     infect = obj.get_float( "infect", 0.0f );
 
-    long_action = obj.get_bool( "long_action", false );
-
     if( obj.has_array( "effects" ) ) {
         for( const JsonObject e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
@@ -3394,24 +3406,22 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
         return cata::nullopt;
     }
 
-    // each tier of proficiency cuts requred time by half
+    // each tier of proficiency cuts required time by half
     int cost = move_cost;
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
-    // NPCs can use first aid now, but they can't perform long actions
-    if( long_action && &patient == &p && !p.is_npc() ) {
-        // Assign first aid long action.
-        p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname() ) ) );
-        p.activity.targets.emplace_back( p, &it );
-        p.activity.str_values.emplace_back( hpp.c_str() );
-        p.moves = 0;
-        return 0;
-    }
+    p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname(),
+                                        patient.getID() ) ) );
 
-    p.moves -= cost;
-    p.add_msg_if_player( m_good, _( "You use your %s." ), it.tname() );
-    return it.type->charges_to_use();
+    // Player: Only time this item_location gets used in firstaid::finish() is when activating the item's
+    // container from the inventory window, so an item_on_person impl is all that is needed.
+    // Otherwise the proper item_location provided by menu selection supercedes it in consume::finish().
+    // NPC: Will only use its inventory for first aid items.
+    p.activity.targets.emplace_back( p, &it );
+    p.activity.str_values.emplace_back( hpp.c_str() );
+    p.moves = 0;
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> heal_actor::clone() const
@@ -3566,8 +3576,11 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         practice_amount += infect * 10.0f;
     }
 
-    if( long_action ) {
-        healer.add_msg_if_player( _( "You finish using the %s." ), it.tname() );
+    healer.add_msg_if_player( _( "You finish using the %s." ), it.tname() );
+
+    if( u_see && !healer.is_avatar() ) {
+        //~ Healing complete message. %1$s is healer name, %2$s is item name.
+        add_msg( _( "%1$s finishes using the %2$s." ), healer.disp_name(), it.tname() );
     }
 
     for( const auto &eff : effects ) {
@@ -3718,12 +3731,8 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
                 add_msg( m_info, _( "Never mind." ) );
                 return bodypart_id( "bp_null" ); // canceled
             }
-        }
-        // Brick healing if using a first aid kit for the first time.
-        if( long_action && healer.activity.id() != ACT_FIRSTAID ) {
-            // Cancel and wait for activity completion.
             return healed;
-        } else if( healer.activity.id() == ACT_FIRSTAID ) {
+        } else {
             // Completed activity, extract body part from it.
             healed =  bodypart_id( healer.activity.str_values[0] );
         }
@@ -3737,10 +3746,6 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
         healed = pick_part_to_heal( healer, patient, menu_header, limb_power, head_bonus, torso_bonus,
                                     get_stopbleed_level( healer ), bite, infect, force, get_bandaged_level( healer ),
                                     get_disinfected_level( healer ) );
-    }
-
-    if( healed != bodypart_id( "bp_null" ) ) {
-        finish_using( healer, patient, it,  healed );
     }
 
     return healed;
@@ -4032,6 +4037,7 @@ void saw_barrel_actor::load( const JsonObject &jo )
     assign( jo, "cost", cost );
 }
 
+//Todo: Make this consume charges if performed with a tool that uses charges.
 cata::optional<int> saw_barrel_actor::use( Character &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
@@ -4108,7 +4114,7 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
     }
 
     item &obj = *loc.get_item();
-    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+    p.add_msg_if_player( _( "You attach %s to your MOLLE webbing." ), obj.tname() );
 
     it.get_contents().add_pocket( obj );
 
@@ -4328,7 +4334,7 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
-        // set gun to default incase this changes anything
+        // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
         p.invoke_item( mods[prompt.ret], "transform", pnt );
         return 0;
@@ -4537,7 +4543,7 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
 
     auto filter = [this]( const item & itm ) {
         return itm.is_armor() && !itm.is_firearm() && !itm.is_power_armor() && !itm.is_gunmod() &&
-               itm.made_of_any( materials );
+               itm.made_of_any( materials ) && !itm.has_flag( flag_INTEGRATED );
     };
     // note: if !p.is_npc() then p is avatar.
     item_location loc = game_menus::inv::titled_filter_menu(
@@ -4701,6 +4707,8 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
         if( destroyed ) {
             p.add_msg_if_player( m_bad, _( "You destroy it!" ) );
             p.i_rem_keep_contents( &mod );
+            p.calc_encumbrance();
+            p.calc_discomfort();
         }
         return thread_needed / 2;
     } else if( rn <= 10 ) {
@@ -4714,6 +4722,8 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
         p.consume_items( comps, 1, is_crafting_component );
         mod.set_flag( the_mod );
         mod.update_clothing_mod_val();
+        p.calc_encumbrance();
+        p.calc_discomfort();
         return thread_needed;
     }
 
@@ -4721,6 +4731,8 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
     mod.set_flag( the_mod );
     mod.update_clothing_mod_val();
     p.consume_items( comps, 1, is_crafting_component );
+    p.calc_encumbrance();
+    p.calc_discomfort();
     return thread_needed / 2;
 }
 

@@ -33,9 +33,30 @@ struct disp_overmap_cache {
             _om_wgt_str = om_wgt_str;
         }
 
-        // Retreive the cached widget string
+        // Retrieve the cached widget string
         const std::string &get_val() const {
             return _om_wgt_str;
+        }
+};
+
+struct disp_bodygraph_cache {
+    private:
+        std::map<bodypart_id, std::pair<int, int>> _bp_cur_max;
+        std::string _graph_wgt_str;
+
+    public:
+        disp_bodygraph_cache();
+
+        // Returns true if the stored map of current/max HP values differ from the character.
+        bool is_valid_for( const Character &u ) const;
+
+        // Rebuild the cache using the bodypart HP values from the character and
+        // store the resulting widget string.
+        void rebuild( const Character &u, const std::string &bg_wgt_str );
+
+        // Retrieve the cached widget string
+        const std::string &get_val() const {
+            return _graph_wgt_str;
         }
 };
 
@@ -101,7 +122,8 @@ std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
 // Movement counter and mode letter, like "50(R)" or "100(W)"
 std::pair<std::string, nc_color> move_count_and_mode_text_color( const avatar &u );
 
-std::pair<std::string, nc_color> temp_text_color( const Character &u );
+std::pair<std::string, nc_color> temp_text_color( const Character &u,
+        const bodypart_str_id &bp = bodypart_str_id::NULL_ID() );
 std::pair<std::string, nc_color> power_text_color( const Character &u );
 std::pair<std::string, nc_color> mana_text_color( const Character &you );
 std::pair<std::string, nc_color> str_text_color( const Character &p );
@@ -115,6 +137,10 @@ std::pair<std::string, nc_color> weather_text_color( const Character &u );
 // Get visible threats by cardinal direction - Already colorized
 std::string colorized_compass_text( const cardinal_direction dir, int width );
 std::string colorized_compass_legend_text( int width, int max_height, int &height );
+
+// Get color-coded body graph representing body part HP
+std::string colorized_bodygraph_text( const Character &u, const std::string graph_id, int width,
+                                      int max_height, int &height );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );

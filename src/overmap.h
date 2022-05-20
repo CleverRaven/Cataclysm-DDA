@@ -46,15 +46,40 @@ template<typename Point>
 struct directed_path;
 } // namespace pf
 
+generic_factory<city> &get_city_factory();
+
 struct city {
+    void load( const JsonObject &, const std::string & );
+    void check() const;
+    static void load_city( const JsonObject &, const std::string & );
+    static void finalize();
+    static void check_consistency();
+    static const std::vector<city> &get_all();
+    static void reset();
+
+    city_id id;
+    bool was_loaded = false;
+
+    int database_id = 0;
+    // location of the city (in overmap coordinates)
+    point_abs_om pos_om;
     // location of the city (in overmap terrain coordinates)
     point_om_omt pos;
-    int size;
+    // original population
+    int population = 0;
+    int size = -1;
     std::string name;
+
     explicit city( const point_om_omt &P = point_om_omt(), int S = -1 );
 
     explicit operator bool() const {
         return size >= 0;
+    }
+
+    bool operator==( const city &rhs ) const {
+        return id == rhs.id ||
+               database_id == rhs.database_id ||
+               ( pos_om == rhs.pos_om && pos == rhs.pos ) ;
     }
 
     int get_distance_from( const tripoint_om_omt &p ) const;
@@ -73,7 +98,7 @@ struct om_map_extra {
 };
 
 struct om_vehicle {
-    point_om_omt p; // overmap coordinates of tracked vehicle
+    tripoint_om_omt p; // overmap coordinates of tracked vehicle
     std::string name;
 };
 
@@ -223,10 +248,12 @@ class overmap
          * chosen place on the overmap with the specific overmap terrain.
          * Returns @ref invalid_tripoint if no suitable place has been found.
          */
-        tripoint_om_omt find_random_omt( const std::pair<std::string, ot_match_type> &target ) const;
+        tripoint_om_omt find_random_omt( const std::pair<std::string, ot_match_type> &target,
+                                         cata::optional<city> target_city = cata::nullopt ) const;
         tripoint_om_omt find_random_omt( const std::string &omt_base_type,
-                                         ot_match_type match_type = ot_match_type::type ) const {
-            return find_random_omt( std::make_pair( omt_base_type, match_type ) );
+                                         ot_match_type match_type = ot_match_type::type,
+                                         cata::optional<city> target_city = cata::nullopt ) const {
+            return find_random_omt( std::make_pair( omt_base_type, match_type ), target_city );
         }
         /**
          * Return a vector containing the absolute coordinates of
@@ -342,7 +369,7 @@ class overmap
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
         shared_ptr_fast<npc> find_npc( const character_id &id ) const;
-
+        shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &id ) const;
         const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
             return npcs;
         }
@@ -405,6 +432,8 @@ class overmap
 
         // parse data in an opened overmap file
         void unserialize( std::istream &fin );
+        // parse data in an opened omap file
+        void unserialize_omap( std::istream &fin );
         // Parse per-player overmap view data.
         void unserialize_view( std::istream &fin );
         // Save data in an opened overmap file
@@ -463,7 +492,6 @@ class overmap
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
-        void build_mine( const tripoint_om_omt &origin, int s );
         void place_ravines();
 
         // Connection laying

@@ -66,6 +66,10 @@ class monfaction
 
         // temporary attitude cache, used by `attitude_rec`
         mutable mfaction_att_map attitude_map;
+        std::set<mfaction_str_id> _att_by_mood;
+        std::set<mfaction_str_id> _att_neutral;
+        std::set<mfaction_str_id> _att_friendly;
+        std::set<mfaction_str_id> _att_hate;
         // final attitude cache,
         // compact vector of attitudes towards other factions,
         // where index is other faction's `int_id`

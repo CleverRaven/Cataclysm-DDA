@@ -497,7 +497,7 @@ void remove_battery( monster &z )
 void insert_battery( monster &z )
 {
     if( z.battery_item ) {
-        // already has a battery, shouldn't be called with one, but just incase.
+        // already has a battery, shouldn't be called with one, but just in case.
         return;
     }
     Character &player_character = get_player_character();

@@ -135,7 +135,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         if( valid_entry && it->is_group() ) {
             MonsterGroupResult tmp = GetResultFromGroup( it->group, quantity, &monster_found );
             if( monster_found ) {
-                // Valid monster found withing subgroup, break early
+                // Valid monster found within subgroup, break early
                 spawn_details = tmp;
                 break;
             } else if( quantity ) {

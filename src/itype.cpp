@@ -252,3 +252,73 @@ int armor_portion_data::max_coverage( bodypart_str_id bp ) const
     // return the max of primary or hanging sublocations (this only matters for hanging items on chest)
     return std::max( primary_max_coverage, secondary_max_coverage );
 }
+
+int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) const
+{
+    // this function takes some fixed points for mass to encumbrance and interpolates them to get results for head encumbrance
+    // TODO: Generalize this for other body parts (either with a modifier or seperated point graphs)
+    // TODO: Handle distributed weight
+
+    int encumbrance = 0;
+
+    std::map<units::mass, int> mass_to_encumbrance = bp->encumbrance_per_weight;
+
+    std::map<units::mass, int>::iterator itt = mass_to_encumbrance.lower_bound( weight );
+
+    if( itt == mass_to_encumbrance.begin() || itt == mass_to_encumbrance.end() ) {
+        debugmsg( "Can't find a notable point to match this with" );
+        return 100;
+    }
+
+    // get the bound bellow our given weight
+    --itt;
+
+    std::map<units::mass, int>::iterator next_itt = std::next( itt );
+
+    // between itt and next_itt need to figure out how much and scale values
+    float scale = static_cast<float>( weight.value() - itt->first.value() ) / static_cast<float>
+                  ( next_itt->first.value() - itt->first.value() );
+
+    // encumbrance is scaled by range between the two values
+    encumbrance = itt->second + std::roundf( static_cast<float>( next_itt->second - itt->second ) *
+                  scale );
+
+    // then add some modifiers
+    int multiplier = 100;
+    int additional_encumbrance = 0;
+    for( const encumbrance_modifier &em : encumber_modifiers ) {
+        std::tuple<encumbrance_modifier_type, int> modifier = armor_portion_data::convert_descriptor_to_val(
+                    em );
+        if( std::get<0>( modifier ) == encumbrance_modifier_type::FLAT ) {
+            additional_encumbrance += std::get<1>( modifier );
+        } else if( std::get<0>( modifier ) == encumbrance_modifier_type::MULT ) {
+            multiplier += std::get<1>( modifier );
+        }
+    }
+    // modify by multiplier
+    encumbrance = std::roundf( static_cast<float>( encumbrance ) * static_cast<float>
+                               ( multiplier ) / 100.0f );
+    // modify by flat
+    encumbrance += additional_encumbrance;
+
+    // cap encumbrance at at least 1
+    return std::max( encumbrance, 1 );
+}
+
+std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descriptor_to_val(
+    encumbrance_modifier em )
+{
+    // this is where the values for each of these exist
+    switch( em ) {
+        case encumbrance_modifier::IMBALANCED:
+        case encumbrance_modifier::RESTRICTS_NECK:
+            return { encumbrance_modifier_type::FLAT, 10 };
+        case encumbrance_modifier::WELL_SUPPORTED:
+            return { encumbrance_modifier_type::MULT, -20 };
+        case encumbrance_modifier::NONE:
+            return { encumbrance_modifier_type::FLAT, 0 };
+        case encumbrance_modifier::last:
+            break;
+    }
+    return { encumbrance_modifier_type::FLAT, 0 };
+}

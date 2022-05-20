@@ -371,7 +371,7 @@
       },
       {
         "id": "m4_cqbr",
-        "name": { "str": "MK 18 CQBR" },
+        "name": { "str": "Mk 18 CQBR" },
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
       }
     ],
@@ -424,7 +424,7 @@
       {
         "id": "m16a4",
         "name": { "str": "M16A4" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.",
         "weight": 1
       }
     ],
@@ -471,13 +471,13 @@
       {
         "id": "m16a3",
         "name": { "str": "M16A3" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
         "weight": 1
       },
       {
         "id": "acr",
         "name": { "str": "Remington ACR" },
-        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]

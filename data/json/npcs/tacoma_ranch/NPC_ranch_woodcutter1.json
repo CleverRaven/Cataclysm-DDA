@@ -15,6 +15,19 @@
     "id": "TALK_RANCH_WOODCUTTER",
     "dynamic_line": "You need something?",
     "responses": [
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_GENERIC_ANESTHETIC_FOR_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
+            {
+              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+      },
       { "text": "What are you doing here?", "topic": "TALK_RANCH_WOODCUTTER_JOB" },
       { "text": "I'd like to hire your services.", "topic": "TALK_RANCH_WOODCUTTER_HIRE" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
@@ -39,10 +52,17 @@
         "text": "[$2000, 1d] 10 logs",
         "topic": "TALK_DONE",
         "effect": [
-          { "u_spend_cash": 200000 },
-          { "mapgen_update": "tacoma_commune_woodcutter_10_logs", "om_terrain": "ranch_camp_67" },
-          { "u_message": "<npc_name> drops the logs off in the garage…", "type": "good", "popup": true },
-          { "npc_add_effect": "currently_busy", "duration": "24 h" }
+          {
+            "u_spend_cash": 200000,
+            "true_eocs": {
+              "id": "EOC_10_logs",
+              "effect": [
+                { "mapgen_update": "tacoma_commune_woodcutter_10_logs", "om_terrain": "ranch_camp_67" },
+                { "u_message": "<npc_name> drops the logs off in the garage…", "type": "good", "popup": true },
+                { "npc_add_effect": "currently_busy", "duration": "24 h" }
+              ]
+            }
+          }
         ],
         "condition": { "npc_service": true }
       },
@@ -50,10 +70,17 @@
         "text": "[$12000, 7d] 100 logs",
         "topic": "TALK_DONE",
         "effect": [
-          { "u_spend_cash": 1200000 },
-          { "mapgen_update": "tacoma_commune_woodcutter_100_logs", "om_terrain": "ranch_camp_67" },
-          { "u_message": "<npc_name> drops the logs off in the garage…", "type": "good", "popup": true },
-          { "npc_add_effect": "currently_busy", "duration": "168 h" }
+          {
+            "u_spend_cash": 1200000,
+            "true_eocs": {
+              "id": "EOC_100_logs",
+              "effect": [
+                { "mapgen_update": "tacoma_commune_woodcutter_100_logs", "om_terrain": "ranch_camp_67" },
+                { "u_message": "<npc_name> drops the logs off in the garage…", "type": "good", "popup": true },
+                { "npc_add_effect": "currently_busy", "duration": "168 h" }
+              ]
+            }
+          }
         ],
         "condition": { "npc_service": true }
       },

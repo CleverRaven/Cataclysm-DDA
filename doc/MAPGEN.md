@@ -60,6 +60,9 @@
     * ["om_terrain"](#om_terrain)
 * [Mission specials](#mission-specials)
     * ["target"](#target)
+* [Map Extras](#map-extras)
+    * ["map_extra"](#map_extra)
+    * [Example: mx_science](#example-mx_science)
 
 # How buildings and terrain are generated
 
@@ -461,8 +464,8 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"` `"radiation"`, `"variable"`
-| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation" or "item_remove". For `trap_remove` if tr_null is used any traps present will be removed. 
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"radiation"`, `"variable"`
+| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
@@ -482,8 +485,8 @@ Example:
 
 | Field  | Description
 | ---    | ---
-| line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
+| line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
 | amount | Radiation amount. Value from `0-100`.
@@ -506,8 +509,8 @@ Example:
 
 | Field  | Description
 | ---    | ---
-| square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation" and "item_remove". For `trap_remove` if tr_null is used any traps present will be removed. 
+| square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
 
@@ -619,7 +622,7 @@ Example:
 | custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
 The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it is placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with a 1 second countdown to have locations explode as the avatar approaches, creating uniquely ruined terrain.
- 
+
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
@@ -756,6 +759,7 @@ Example:
 | class     | (required, string) the npc class id, see `data/json/npcs/npc.json` or define your own npc class.
 | target    | (optional, bool) this NPC is a mission target.  Only valid for `update_mapgen`.
 | add_trait | (optional, string or string array) this NPC gets these traits, in addition to any from the class definition.
+| unique_id | (optional, string) This is a unique id to descibe the npc, if an npc with this id already exists the command will silently fail.
 
 
 ### Place signs with "signs"
@@ -808,11 +812,12 @@ Places a gas pump with fuel in it.
 
 ### Place items from an item group with "items"
 
-| Field  | Description
-| ---    | ---
-| item   | (required, string or itemgroup object) the item group to use.
-| chance | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
-| repeat | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
+| Field   | Description
+| ---     | ---
+| item    | (required, string or itemgroup object) the item group to use.
+| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
+| repeat  | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
+| faction | (optional, string) the faction that owns these items.
 
 
 ### Place monsters from a monster group with "monsters"
@@ -835,11 +840,12 @@ The actual monsters are spawned when the map is loaded. Fields:
 | rotation | (optional, integer) the direction the vehicle faces.
 | fuel     | (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
 | status   | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
+| faction  | (optional, string) faction this vehicle belongs to.
 
 Note that vehicles cannot be placed over overmap boundaries. So it needs to be 24 tiles long at most.
 
-```json 
-"place_vehicles": [ 
+```json
+"place_vehicles": [
     { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 }
 ]
 ```
@@ -850,8 +856,8 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 | ---      | ---
 | vehicles  | (optional, string array) types of vehicle to be removed. If left empty all vehicles will be removed.
 
-```json 
-"remove_vehicles": [ 
+```json
+"remove_vehicles": [
     { "vehicles": [ "fire_engine" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
 ]
 ```
@@ -1061,8 +1067,8 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 
 | Field              | Description
 | ---                | ---
-| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.  
-| x and y            | (required, int) the cardinal position in which the chunk will be placed. 
+| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.
+| x and y            | (required, int) the cardinal position in which the chunk will be placed.
 | neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
 
@@ -1209,7 +1215,7 @@ Each entry in the `"parameters"` JSON object defines a parameter.  The key is
 the parameter name.  Each such key should have an associated JSON object.  That
 object must provide its type (which should be a type string as for a
 `cata_variant`) and may optionally provide a default value.  The default value
-should be a [mapgen value](#mapgen-value) as defined above.
+should be a [mapgen value](#mapgen-values) as defined above.
 
 At time of writing, the only way for a parameter to get a value is via the
 `"default"`, so you probably want to always have one.
@@ -1384,3 +1390,143 @@ update_mapgen adds new optional keywords to a few mapgen JSON items.
 place_npc, place_monster, and place_computer can take an optional target boolean. If they have `"target": true` and are
 invoked by update_mapgen with a valid mission, then the NPC, monster, or computer will be marked as the target of the
 mission.
+
+# Map Extras
+
+Map extras can be used to place environmental objects and structures that can help create some emergent storytelling. These are placed randomly while exploring the overmap, and can range from simple ponds and groves to full-on crashed spaceships with enemies or NPCs.
+
+### "map_extra"
+
+```JSON
+{
+  "id": "mx_minefield",
+  "type": "map_extra",
+  "name": { "str": "Minefield" },
+  "description": "Mines are scattered here.",
+  "generator": { "generator_method": "map_extra_function", "generator_id": "mx_minefield" },
+  "min_max_zlevel": [ 0, 0 ],
+  "sym": "M",
+  "color": "red",
+  "autonote": true,
+  "flags": [ "MAN_MADE" ]
+}
+```
+
+| Field          | Description
+| ---            | ---
+| generator      | (_optional_) An object defining how and what this extra should spawn.
+| min_max_zlevel | (_optional_) A pair of integers defining the minimum and maximum zlevel in which this extra can spawn. Defaults to none (can spawn at any zlevel).
+| sym            | (_optional_) The symbol to use when marking this extra on the overmap. Defaults to no symbol.
+| color          | (_optional_) The color of the symbol identifying this extra on the overmap. Defaults to white.
+| autonote       | (_optional_) Whether to automatically mark this extra on the overmap. Defaults to false.
+| flags          | (_optional_) List of flags that identify this extra. These flags can be listed in `overmap_feature_flag_settings` to blacklist or whitelist map extras.
+
+The `generator` can use one of 3 methods:
+
+| Method               | Description
+| ---                  | ---
+| `map_extra_function` | The `generator_id` points to a builtin function to generate the extra. See the `builtin_functions` function map in map_extras.cpp for the current list.
+| `mapgen`             | The `generator_id` points to a `om_terrain` string within a `mapgen` definition.
+| `update_mapgen`      | The `generator_id` points to a `update_mapgen_id` string within a `mapgen` definition.
+
+### Example: mx_science
+
+The `mx_science` map extra spawns bodies of scientists as well as a few enemy mobs. The map extra definition is as follows:
+
+```JSON
+{
+  "id": "mx_science",
+  "type": "map_extra",
+  "name": { "str": "Scientists" },
+  "description": "Several corpses of scientists are here.",
+  "generator": { "generator_method": "update_mapgen", "generator_id": "mx_science" },
+  "min_max_zlevel": [ -5, 0 ],
+  "sym": "s",
+  "color": "light_red",
+  "autonote": true
+}
+```
+
+In this case the `generator_id` points to a `mapgen` definition that establishes what objects or structures will spawn at that location:
+
+```JSON
+{
+  "type": "mapgen",
+  "method": "json",
+  "update_mapgen_id": "mx_science",
+  "object": {
+    "rows": [
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "-----------1----------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "                        ",
+      "                        "
+    ],
+    "monsters": {
+      " ": { "monster": "GROUP_NETHER_CAPTURED", "chance": 1, "density": 0.0001 },
+      "-": { "monster": "GROUP_NETHER_CAPTURED", "chance": 1, "density": 0.0001 }
+    },
+    "nested": {
+      "-": { "chunks": [ [ "corpse_blood_gibs_science_3x3", 1 ], [ "null", 150 ] ] },
+      "1": { "chunks": [ "corpse_blood_gibs_science_3x3" ] }
+    }
+  }
+}
+```
+
+The nested chunks define the items and fields that may spawn:
+
+```JSON
+{
+  "type": "mapgen",
+  "method": "json",
+  "nested_mapgen_id": "corpse_blood_gibs_science_3x3",
+  "object": {
+    "mapgensize": [ 3, 3 ],
+    "place_items": [ { "item": "map_extra_science", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 100 } ],
+    "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+  }
+}
+```
+
+In order for the map extra to be available for spawning, one or more `region_settings` entries need to be created for it:
+
+```JSON
+{
+  "type": "region_settings",
+  "id": "default",
+  ...
+  "map_extras": {
+    "forest": {
+      "chance": 20,
+      "extras": {
+        "mx_helicopter": 1,
+        "mx_military": 8,
+        "mx_science": 20,
+        "mx_collegekids": 25,
+        ...
+      }
+    }
+  }
+}
+
+```

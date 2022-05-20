@@ -8,19 +8,19 @@ Characters in Cataclysm wear armor. This armor provides them with protection, wa
 
 ### protection
 When you take a direct hit in Cataclysm the following happens:
-1. When the player is hit at a specific body part, first a sublocation on the limb is generated from the weighted list of sublimbs
-2. For the torso location an additional secondary sublimb is chosen for items hanging off the player (like backpacks)
+1. When the player is hit at a specific body part, first a sub-location on the limb is generated from the weighted list of sub-limbs
+2. For the torso location an additional secondary sub-limb is chosen for items hanging off the player (like backpacks)
 3. Armor coverage determines whether any armor is hit, or an uncovered part of the player is hit (roll a single `1d100` against coverage).
 4. Go through all worn armor from the most outward clothing piece inwards. Reducing the total damage as you apply the defense of each item.
 5. If the armor doesn't cover the chosen sub body part skip it.
-6. Depending on the attack the armors melee, ranged or general coverage (which is not scaled to the overall body part and instead just how much of the sublimb it covers) is compared to the roll from above.
+6. Depending on the attack the armors melee, ranged or general coverage (which is not scaled to the overall body part and instead just how much of the sub-limb it covers) is compared to the roll from above.
 7. In the future Vitals Coverage will be used to scale incoming critical damage, reducing crit multipliers but it is not implemented yet.
 8. If the above roll fails (ie roll value is above coverage), then the armor does not absorb any damage from the blow, neither does it become damaged.
 9. If the above roll succeeds, the armor is hit, possibly absorbing some damage and possibly getting damaged in the process.
 10. If the armor has ABLATIVE pockets (like ballistic vests) at this point the coverage of those plates is rolled to see if they possibly absorb some damage and possibly get damaged in the process. At most one ablative pocket on an item can apply to an attack and the coverage of the plates is scaled based on the coverage of the armor they are in. This is because if a plate covers 45% of the torso but the clothing its in only covers 50% of the torso, you already know the attack hit the jacket and the jacket is 90% (45/50) plate.
 11. Armor protects against damage.  The values are determined by multiplying the armor thickness by the materials individual damage type resistance factor respectively, given in `materials.json`.
 12. For simple definition armors: If the armor is made from more than 1 material types, then it divides the armors overall thickness based on proportions each is (assumes equal proportions by default). Giving a single protection value per type of damage.
-13. For complex definition armors: Each material on each limb/sublimb can have a specific thickness and also an amount of the overall armored portion that it covers (proportional_coverage). Each individual material is rolled against its proportional_coverage vs `1d100` to see if it applies to any given attack. That is why some armors have a red (worst case) percent, green (best case) percent and a median protection value now because an armor itself can have variable protection for any given attack. This is to simulate armor with padding or plating that don't fully cover it.
+13. For complex definition armors: Each material on each limb/sub-limb can have a specific thickness and also an amount of the overall armored portion that it covers (proportional_coverage). Each individual material is rolled against its proportional_coverage vs `1d100` to see if it applies to any given attack. That is why some armors have a red (worst case) percent, green (best case) percent and a median protection value now because an armor itself can have variable protection for any given attack. This is to simulate armor with padding or plating that don't fully cover it.
 
 Specifically to ablative plates, some transform when damaged instead of damaging normally. The chance of transforming scales based on damage taken.
 
@@ -77,7 +77,7 @@ Each subsection of this will consist of an **explanation of the feature**, an **
 
 ### Advanced Armor Definitions
 #### Explanation
-Some items will use an old way of defining armor where their coverage and thickness are loose in the json. This is likely to be phased out. As such I would recommend **always using an advanced armor definition**. Each piece of this will be explained in detail further bellow but the simplest thing you can do is just define an array of objects containing a coverage value, encumbrance, and the covered locations.
+Some items will use an old way of defining armor where their coverage and thickness are loose in the json. This is likely to be phased out. As such I would recommend **always using an advanced armor definition**. Each piece of this will be explained in detail further below but the simplest thing you can do is just define an array of objects containing a coverage value, encumbrance, and the covered locations.
 
 #### Example
 ```json
@@ -141,15 +141,15 @@ The Phase Immersion suit is about as complicated as it gets.
 
 ### Sublocations
 #### Explanation
-Sublocations are a new-ish feature of characters in Cataclysm. Sub-locations are sub divided pieces of characters limbs. For example a human arm consists of a lower arm, elbow, upper arm, and shoulder. All limbs have sublocations and you can find the full list of them in the bodypart definitions in ```body_parts.json```. When you define specific sublocations for armor it does the following:
-* Makes it so that armor only conflicts with armor that shares sublocations with it on it's layer
+Sub-locations are a new-ish feature of characters in Cataclysm. Sub-locations are sub divided pieces of characters limbs. For example a human arm consists of a lower arm, elbow, upper arm, and shoulder. All limbs have sub-locations and you can find the full list of them in the body part definitions in ```body_parts.json```. When you define specific sub-locations for armor it does the following:
+* Makes it so that armor only conflicts with armor that shares sub-locations with it on it's layer
 * Scales total coverage
 
-So if you appropriately use specifically_covers a character can wear multiple pieces on the same limb and layer. For example a character could wear knee pads, and shin guards. Also when defining sublocations and describing coverage you are describing the ammount of the sublocations the armor covers. So a pair of knee pads isn't 5% coverage, specifically covering the knees: its 90% coverage specifically covering the knees and the game is smart enough to know your knee is 5% of your leg. This is to make it simpler, just describe how much of the parts covered are covered, not how much of the overall limb.
+So if you appropriately use specifically_covers a character can wear multiple pieces on the same limb and layer. For example a character could wear knee pads, and shin guards. Also when defining sub-locations and describing coverage you are describing the amount of the sub-locations the armor covers. So a pair of knee pads isn't 5% coverage, specifically covering the knees: its 90% coverage specifically covering the knees and the game is smart enough to know your knee is 5% of your leg. This is to make it simpler, just describe how much of the parts covered are covered, not how much of the overall limb.
 
-The strapped layer also has additional sublimbs that are used for hanging items. These currently only exist on the torso and in the json have ```"secondary": true```. They are for things hanging around your neck (like binoculars), your front (like a rifle on a sling), your back (like a backpack).
+The strapped layer also has additional sub-limbs that are used for hanging items. These currently only exist on the torso and in the json have ```"secondary": true```. They are for things hanging around your neck (like binoculars), your front (like a rifle on a sling), your back (like a backpack).
 
-**if you don't define this for an armor it assumes that the armor covers every sublocation on that limb**
+**if you don't define this for an armor it assumes that the armor covers every sub-location on that limb**
 
 This will play more and more of a role as armor gets further developed.
 
@@ -294,14 +294,14 @@ Thassalonian Bronze armor, Heavy Ballistic Vest
 #### Explanation
 Armor can have pockets. They are defined as a Pocket array. A storage guide will be written separately to this. It's worth keeping in mind how pockets effect armor though.
 
-When your armor has potential volume it can store the encumbrance of the armor defaults to scaling as the armor gets fuller and fuller. By default an armors encumberance is equal to its empty encumbrance + (volume stored / 250ml). However this is the base encumbrance that poorly tying an item to yourself with rope would give; so any man made storage will have a better volume / encumbrance than this.
+When your armor has potential volume it can store the encumbrance of the armor defaults to scaling as the armor gets fuller and fuller. By default an armors encumbrance is equal to its empty encumbrance + (volume stored / 250ml). However this is the base encumbrance that poorly tying an item to yourself with rope would give; so any man made storage will have a better volume / encumbrance than this.
 
 You can represent a better volume / encumbrance in 3 ways:
 * The simplest is to specify the encumbrance as an array of two values "[x, y]" this means the encumbrance empty is "x" and if full the item will have encumbrance "y" between 0 and 100% volume it scales linearly.
 
 * The more modern way to do it is to set a scaling factor on the armor itself. This is much easier to read and quickly parse (not requiring mental math) and is a direct scaling on that 250ml constant. So if I set a "volume_encumber_modifier" of .25 it means that it's one additional encumbrance per 1000ml (250ml/.25). This is defined in the advanced armor definition.
 
-* To get really specific you can combine the above with similar "volume_encumber_modifier" but on any individual pocket of the armor. This has the same effect as above but also effects how much that pocket contributes to the overall encumbrance. An example use case would be a rifle on a tactical sling would be more encumbring per volume than magazines affixed to the same vest so you could represent it as such. This can also be used with a modifier of 0 to set it so a pocket does not contribute to encumbrance.
+* To get really specific you can combine the above with similar "volume_encumber_modifier" but on any individual pocket of the armor. This has the same effect as above but also effects how much that pocket contributes to the overall encumbrance. An example use case would be a rifle on a tactical sling would be more encumbering per volume than magazines affixed to the same vest so you could represent it as such. This can also be used with a modifier of 0 to set it so a pocket does not contribute to encumbrance.
 
 #### Example
 simple:
@@ -521,18 +521,18 @@ This is a hopefully exhaustive list of flags you may wish to use on items and wh
 ID | Description
 -- | --
 PERSONAL | On this layer
-SKINTIGHT | On this layer  
-NORMAL | On this layer  
-WAIST | On this layer  
-OUTER | On this layer  
+SKINTIGHT | On this layer
+NORMAL | On this layer
+WAIST | On this layer
+OUTER | On this layer
 BELTED | On this layer
-AURA | On this layer  
+AURA | On this layer
 
 
 #### Clothing stuff
 ID | Description
 -- | --
-VARSIZE | Item may not fit you, if it fits encumberance values are halved compared to defined values.
+VARSIZE | Item may not fit you, if it fits encumbrance values are halved compared to defined values.
 STURDY | Armor is much less likely to take damage and degrade when struck
 NO_REPAIR | Can't be repaired by the player using tools like the sewing kit, or welder
 WATER_FRIENDLY | Armor makes the covered body parts not feel bad to be wet
@@ -609,7 +609,7 @@ FLASH_PROTECTION | Protects from flashbangs
 FLOTATION | Causes you to float
 FIN | Makes you swim faster
 PARTIAL_DEAF | Protects from loud sounds while you can hear other sounds
-NO_WEAR_EFFECT | Lets players no this item gives no benefits (used on jewelry)
+NO_WEAR_EFFECT | Lets players know this item gives no benefits (used on jewelry)
 PALS_SMALL | Can be incorporated into a LBV / ballistic vest (takes 1 slot)
 PALS_MEDIUM | Can be incorporated into a LBV / ballistic vest (takes 2 slot)
 PALS_LARGE | Can be incorporated into a LBV / ballistic vest (takes 3 slot)
@@ -630,7 +630,7 @@ The core ideal when making any item but especially armor is that **weight, thick
 Make things as simple as they possibly can be. When a player inspects a t-shirt they shouldn't have to inspect 35 lines of armor data that could be summarized as "basically no protection, keeps you kinda warm". Advanced and dedicated armor can be *very* complicated but try to keep clothing as complex as they need to be to be simulated correctly.
 
 #### Subjective Values
-With the above mentioned you should be able to intuit/research sensible materials, thicknesses, flags, and weight.  Your core variables that are more discretionary are warmth, encumbrance, layer and coverage.  
+With the above mentioned you should be able to intuit/research sensible materials, thicknesses, flags, and weight.  Your core variables that are more discretionary are warmth, encumbrance, layer and coverage.
 
 #### Layer
 Layer should be based on real world intuit however thickness also matters. The loose rule, erring on the side of generosity is (at least for arms, legs and torso)
@@ -644,9 +644,9 @@ Warmth should be based on materials, look at armors similar to what you are maki
 #### Coverage
 Coverage has a big rule on the core team of **No hard, powerful armors with 100% coverage**. This can be subverted slightly by using covered_by_mat to make it so the armors best protection doesn't cover 100% of the body but limbs need to bend so no part of the body can really have 100% coverage with a hard high protection material. Further any armor that **does** have 100% coverage with great protection from hard materials should either be super sci-fi, or made to order. Super covering protective plate mail was made tailored to a persons body in a way mass manufacture gear isn't.
 
-Something a lot of people don't consider is that an armor with 95% coverage is **4 times better** than an armor with 80% coverage when it comes to protecting against attacks.  
+Something a lot of people don't consider is that an armor with 95% coverage is **4 times better** than an armor with 80% coverage when it comes to protecting against attacks.
 
-When balancing coverage try to describe what you would see. Doing multiple armor entries per sublimb can help with this. "well this covers all the elbows and forearms and has some plastic covering 75% of that". Then give it 100% coverage on the elbow and lower arm sublimbs with covered by mat plastic at 75. Then the game is smart enough to figure out how much of the overall arm that all is.
+When balancing coverage try to describe what you would see. Doing multiple armor entries per sub-limb can help with this. "well this covers all the elbows and forearms and has some plastic covering 75% of that". Then give it 100% coverage on the elbow and lower arm sub-limbs with covered by mat plastic at 75. Then the game is smart enough to figure out how much of the overall arm that all is.
 
 
 #### Encumbrance
@@ -656,7 +656,7 @@ This can be very subjective. The main things to keep in mind are.
 3. the more coverage something has the more encumbering it should be.
 4. joints should be penalized more heavily than other locations.
 5. the heavier something is the more encumbering it should be.
-6. the more uncomfortable and poorly designed something is the more encumbring it should be.
+6. the more uncomfortable and poorly designed something is the more encumbering it should be.
 
 So you will find lots of
 * negligible encumbrance (< 2) clothing with almost no protection and 90% to 100% coverage
@@ -678,7 +678,7 @@ also keep in mind that, for example, if something covers the legs and the torso 
 Also the above values assume things being focused around the torso, shoulders, hips and thighs for the same reason mentioned above the further out from your center something is the worse it should be.
 
 ### What 'Just Works'
-Aside from what is described in this guide a lot of the behind the scenes calculations are just handled for you. So for example the info displayed in game per limb is an amalgamation of all of your sublimb entries consolidated. This is just to simplify a single display to the player but is still very useful.
+Aside from what is described in this guide a lot of the behind the scenes calculations are just handled for you. So for example the info displayed in game per limb is an amalgamation of all of your sub-limb entries consolidated. This is just to simplify a single display to the player but is still very useful.
 
 ## FAQ
 Space left for questions as they arise.
@@ -686,7 +686,7 @@ Space left for questions as they arise.
 ## Looking Forward
 In the future ideally
 * Warmth will be handled by material + thickness, or at least scaled by armor coverage.
-* Encumbrance will be entirely handled by material, thickness, 1 - 2 descriptive words, sublocation coverage, coverage (using the 6 tenets from above).
-* Characters will be able to wear human armor on non human limbs with scaling coverage based on how closely their limbs approximate the sublimbs that the armor normally covers.
+* Encumbrance will be entirely handled by material, thickness, 1 - 2 descriptive words, sub-location coverage, coverage (using the 6 tenets from above).
+* Characters will be able to wear human armor on non human limbs with scaling coverage based on how closely their limbs approximate the sub-limbs that the armor normally covers.
 * All old armors will be overhauled to have better and more detailed information.
 * More material refinement.

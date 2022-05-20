@@ -67,7 +67,8 @@
     "entries": [
       { "item": "57mm", "prob": 100, "charges": [ 1, 60 ] },
       { "item": "57mm", "prob": 75, "charges": [ 66, 120 ] },
-      { "item": "57mm", "prob": 30, "charges": [ 132, 240 ] }
+      { "item": "57mm", "prob": 30, "charges": [ 132, 240 ] },
+      { "item": "57mm_ss", "prob": 15, "charges": [ 1, 60 ] }
     ]
   },
   {

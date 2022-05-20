@@ -284,7 +284,7 @@ struct vehicle_part {
          */
         double consume_energy( const itype_id &ftype, double energy_j );
 
-        /* @retun true if part in current state be reloaded optionally with specific itype_id */
+        /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
 
         /**
@@ -293,7 +293,7 @@ struct vehicle_part {
          * @param pos Position of this part for item::process
          * @param e_heater Engine has a heater and is on
          */
-        void process_contents( const tripoint &pos, bool e_heater );
+        void process_contents( map &here, const tripoint &pos, bool e_heater );
 
         /**
          *  Try adding @param liquid to tank optionally limited by @param qty
@@ -877,7 +877,7 @@ class vehicle
         bool has_old_owner() const {
             return !old_owner.is_null();
         }
-        bool handle_potential_theft( Character &you, bool check_only = false, bool prompt = true );
+        bool handle_potential_theft( Character const &you, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( const units::angle &rotate = 0_degrees );
         std::set<point> collision_check_points; // NOLINT(cata-serialize)
@@ -1572,9 +1572,11 @@ class vehicle
         // Generates starting items in the car, should only be called when placed on the map
         void place_spawn_items();
 
+        void place_zones( map &pmap ) const;
+
         void gain_moves();
 
-        // if its a summoned vehicle - its gotta dissappear at some point, return true if destroyed
+        // if its a summoned vehicle - its gotta disappear at some point, return true if destroyed
         bool decrement_summon_timer();
 
         // reduces velocity to 0
@@ -1689,7 +1691,7 @@ class vehicle
         * @return items that provide consumed charges
         */
         std::list<item> use_charges( const vpart_position &vp, const itype_id &type, int &quantity,
-                                     const std::function<bool( const item & )> &filter );
+                                     const std::function<bool( const item & )> &filter, bool in_tools = false );
 
         // opens/closes doors or multipart doors
         void open( int part_index );

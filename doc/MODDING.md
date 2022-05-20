@@ -120,7 +120,7 @@ Professions are what the game calls the character classes you can choose from wh
 ````
 
 ### Adding an item
-Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different. 
+Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different.
 <!--I chose this one because it's about as basic an item as I could find. Everything else does something.-->
 ````json
 [
@@ -142,7 +142,7 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
 ````
 
 ### Preventing monsters from spawning
-This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. You can create blacklists and whitelists to define the allowed monsters individually, by species, or by category. In order to create these you'll need the relevant identifers; look for a monster's `id`, `species`, and any `categories` in its JSON definition, which can be found in `data/json/monsters/` for the core game.
+This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. You can create blacklists and whitelists to define the allowed monsters individually, by species, or by category. In order to create these you'll need the relevant identifiers; look for a monster's `id`, `species`, and any `categories` in its JSON definition, which can be found in `data/json/monsters/` for the core game.
 
 Below is an excerpt from the `Mythos` mod that shows how to blacklist monsters individually and by species. This will prevent all zombies, cyborgs, and robots from spawning in-game, with fungal zombies specified by `id`.
 ````json

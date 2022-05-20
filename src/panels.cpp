@@ -236,20 +236,18 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
-            const bool vehicle_here = overmap_buffer.has_vehicle( omp );
             if( overmap_buffer.has_note( omp ) ) {
                 const std::string &note_text = overmap_buffer.note( omp );
                 std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
                 ter_sym = sym_color.first;
                 ter_color = sym_color.second;
             } else if( !seen ) {
-                // Always grey # for unseen
+                // Always gray # for unseen
                 ter_sym = "#";
                 ter_color = c_dark_gray;
-            } else if( vehicle_here ) {
-                // Always cyan c for vehicle
+            } else if( overmap_buffer.has_vehicle( omp ) ) {
                 ter_color = c_cyan;
-                ter_sym = "c";
+                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
             } else {
                 // Otherwise, get symbol and color appropriate for the terrain
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
@@ -569,7 +567,7 @@ static void draw_time( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 11, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z() >= 0 ) {
+    } else if( is_creature_outside( u ) ) {
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
@@ -1386,6 +1384,34 @@ static void draw_overmap( const draw_args &args )
     wnoutrefresh( w );
 }
 
+static void draw_bodygraph( const draw_args &args )
+{
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
+    werase( w );
+    const int max_width = getmaxx( w );
+    const int max_height = getmaxy( w );
+    int h = 0;
+    std::vector<bodypart_id> bplist = u.get_all_body_parts( get_body_part_flags::sorted |
+                                      get_body_part_flags::only_main );
+    std::string bgtxt = display::colorized_bodygraph_text( u, "full_body_widget",
+                        max_width, max_height, h );
+    std::vector<std::string> bgrows = string_split( bgtxt, '\n' );
+    // FIXME: A non-resource-intensive way of determining the actual graph width
+    const int graph_width = 15;
+    for( int i = 0; static_cast<size_t>( i ) < bgrows.size() && i < max_height; i++ ) {
+        trim_and_print( w, point( 1, i ), max_width, c_white, bgrows[i] );
+        if( max_width - graph_width > 13 && static_cast<size_t>( i ) < bplist.size() ) {
+            mvwprintz( w, point( graph_width + 2, i ), display::limb_color( u, bplist[i], true, true, true ),
+                       body_part_hp_bar_ui_text( bplist[i] ) );
+            wmove( w, point( graph_width + 6, i ) );
+            draw_limb_health( u, w, bplist[i] );
+        }
+    }
+    wnoutrefresh( w );
+}
+
 static void draw_veh_compact( const draw_args &args )
 {
     const avatar &u = args._ava;
@@ -1524,7 +1550,7 @@ static void draw_time_classic( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z() >= 0 ) {
+    } else if( is_creature_outside( u ) ) {
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {
@@ -1737,6 +1763,8 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     5, 44, false ) );
     ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
+    ret.emplace_back( window_panel( draw_bodygraph, "Body Graph", to_translation( "Body Graph" ),
+                                    13, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
                                     -2, 44, true ) );
 #if defined(TILES)
@@ -1781,6 +1809,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     5, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
+    ret.emplace_back( window_panel( draw_bodygraph, "Body Graph", to_translation( "Body Graph" ),
+                                    13, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -1832,6 +1862,8 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                                     5, 32, false ) );
     ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
+    ret.emplace_back( window_panel( draw_bodygraph, "Body Graph", to_translation( "Body Graph" ),
+                                    13, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -1887,6 +1919,8 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     5, 44, false ) );
     ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
+    ret.emplace_back( window_panel( draw_bodygraph, "Body Graph", to_translation( "Body Graph" ),
+                                    13, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );
@@ -2122,7 +2156,7 @@ static void draw_border_win( catacurses::window &w, const std::vector<int> &colu
                              int popup_height )
 {
     werase( w );
-    decorate_panel( _( "SIDEBAR OPTIONS" ), w );
+    decorate_panel( _( "Sidebar options" ), w );
     // Draw vertical separators
     mvwvline( w, point( column_widths[0] + 1, 1 ), 0, popup_height - 2 );
     mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0, popup_height - 2 );

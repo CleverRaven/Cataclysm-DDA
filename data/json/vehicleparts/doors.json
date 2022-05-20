@@ -132,7 +132,7 @@
     "item": "hdframe",
     "location": "center",
     "looks_like": "door",
-    "name": { "str": "heavy duty door" },
+    "name": { "str": "heavy-duty door" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -169,7 +169,7 @@
     "item": "hdframe",
     "location": "center",
     "looks_like": "door_opaque",
-    "name": { "str": "heavy duty opaque door" },
+    "name": { "str": "heavy-duty opaque door" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -283,7 +283,7 @@
     "item": "hdframe",
     "location": "center",
     "looks_like": "hatch",
-    "name": { "str": "heavy duty hatch" },
+    "name": { "str": "heavy-duty hatch" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -309,7 +309,7 @@
     "item": "hdframe",
     "location": "center",
     "looks_like": "hatch_opaque",
-    "name": { "str": "heavy duty opaque hatch" },
+    "name": { "str": "heavy-duty opaque hatch" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },

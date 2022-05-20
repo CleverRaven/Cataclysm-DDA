@@ -1,9 +1,30 @@
 [
   {
+    "id": "longsword",
+    "copy-from": "longsword",
+    "type": "TOOL",
+    "name": { "str": "longsword" },
+    "extend": { "weapon_category": [ "HYLIAN_MASTER_SWORD" ] }
+  },
+  {
+    "id": "sickle",
+    "copy-from": "sickle",
+    "type": "TOOL",
+    "name": { "str": "sickle" },
+    "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] }
+  },
+  {
     "id": "scimitar",
     "copy-from": "scimitar",
     "type": "TOOL",
     "name": { "str": "scimitar" },
     "extend": { "weapon_category": [ "DESERT_SWORDS" ] }
+  },
+  {
+    "id": "kukri",
+    "copy-from": "kukri",
+    "type": "TOOL",
+    "name": { "str": "kukri" },
+    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_TIGER_CLAW" ] }
   }
 ]

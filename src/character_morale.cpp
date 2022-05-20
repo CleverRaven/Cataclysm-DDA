@@ -92,7 +92,7 @@ void Character::apply_persistent_morale()
     }
 
     if( has_trait( trait_PROF_FOODP ) ) {
-        // Loosing your face is distressing
+        // Losing your face is distressing
         if( !( is_wearing( itype_foodperson_mask ) ||
                is_wearing( itype_foodperson_mask_on ) ) ) {
             add_morale( MORALE_PERM_NOFACE, -20, -20, 1_minutes, 1_minutes, true );

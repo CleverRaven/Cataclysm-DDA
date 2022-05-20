@@ -44,7 +44,7 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - Arms" },
+    "name": { "str": "Arms Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
@@ -160,7 +160,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - Head" },
+    "name": { "str": "Head Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "bash_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
@@ -278,7 +278,7 @@
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - Legs" },
+    "name": { "str": "Legs Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
@@ -375,7 +375,7 @@
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - Torso" },
+    "name": { "str": "Torso Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "bash_protec": [ [ "torso", 3 ] ],
@@ -795,6 +795,19 @@
     "fuel_efficiency": 0.5,
     "exothermic_power_gen": true,
     "time": 1,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_lampoil",
+    "type": "bionic",
+    "name": { "str": "Oil Generator" },
+    "description": "Slowly generates bionic power out of lamp oil or motor oil.",
+    "occupied_bodyparts": [ [ "torso", 20 ] ],
+    "fuel_options": [ "lamp_oil", "motor_oil" ],
+    "fuel_capacity": 750,
+    "fuel_efficiency": 0.35,
+    "exothermic_power_gen": true,
+    "time": 5,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
   {
@@ -1632,7 +1645,7 @@
   {
     "id": "bio_ups",
     "type": "bionic",
-    "name": { "str": "Internal Unified Power System" },
+    "name": { "str": "Unified Power System" },
     "description": "You have a Unified Power System wired into your power banks.  Objects that run on a UPS can now draw directly from your bionic power supply.",
     "occupied_bodyparts": [ [ "torso", 5 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
@@ -1666,7 +1679,7 @@
   {
     "id": "bio_fuel_cell_gasoline",
     "type": "bionic",
-    "name": { "str": "Gasoline Fuel Cell CBM" },
+    "name": { "str": "Gasoline Fuel Cell" },
     "description": "A small gasoline fuel cell fixed to your scapula.  Despite its limited energy output compared to other fuel cells, this device still produces a significant amount of heat dissipated through a heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
     "occupied_bodyparts": [ [ "torso", 8 ] ],
     "encumbrance": [ [ "torso", 5 ] ],
@@ -1739,5 +1752,48 @@
     "dupes_allowed": true,
     "description": "A broken implant that sends electromagnetic impulses that reduce other implants capacity to store charge.",
     "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_faulty_grossfood",
+    "type": "bionic",
+    "name": { "str": "Taste Fouler" },
+    "occupied_bodyparts": [ [ "head", 1 ], [ "mouth", 1 ] ],
+    "description": "A malfunctioning processor haphazardly interfaced with your taste receptors has given everything you consume a horrid bitter taste.  Food and drink will severely harm your morale.",
+    "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_radleak",
+    "type": "bionic",
+    "name": { "str": "Radioactive Leak" },
+    "description": "This damaged CBM occasionally leaks radiation.",
+    "occupied_bodyparts": [ [ "torso", 4 ] ],
+    "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_recoil",
+    "type": "bionic",
+    "name": { "str": "Recoil Compensators" },
+    "description": "Reactive shock absorbers installed in your wrists and elbows which greatly reduce felt recoil.",
+    "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RECOIL_MODIFIER", "multiply": -0.35 } ] } ]
+  },
+  {
+    "id": "bio_sleep_shutdown",
+    "type": "bionic",
+    "name": { "str": "Sleep Mode Shutdown" },
+    "description": "For better or worse, this CBM suppresses stimuli while asleep, preventing you from waking up until the end of your natural sleep cycle.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_FAULTY", "BIONIC_SHOCKPROOF" ]
+  },
+  {
+    "id": "bio_trickle",
+    "type": "bionic",
+    "name": { "str": "Trickle Charger" },
+    "description": "You have been equipped with a CBM that slowly recharges your power reserves at all times.  Provides extremely low power but has no cost and will last several years.",
+    "occupied_bodyparts": [ [ "torso", 7 ] ],
+    "dupes_allowed": true,
+    "power_trickle": "2 J",
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   }
 ]

@@ -69,6 +69,7 @@
     "copy-from": "boots",
     "symbol": "[",
     "looks_like": "boots",
+    "repairs_like": "boots_survivor",
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
@@ -199,6 +200,7 @@
     "price": 50000,
     "warmth": 10,
     "material": [ "steel", "nomex" ],
+    "repairs_like": "boots_survivor",
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
@@ -217,6 +219,7 @@
     "to_hit": -1,
     "bashing": 2,
     "material": [ "plastic", "steel" ],
+    "repairs_like": "boots",
     "symbol": "[",
     "color": "brown",
     "warmth": 10,
@@ -630,6 +633,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
+    "repairs_like": "boots",
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 1.5,
@@ -661,7 +665,7 @@
     "id": "flip_flops",
     "type": "ARMOR",
     "name": { "str": "pair of flip-flops", "str_pl": "pairs of flip-flops" },
-    "description": "Simple sandals.  Very difficult to run in.",
+    "description": "Simple sandals.  Somewhat difficult to run in.",
     "weight": "62 g",
     "volume": "250 ml",
     "price": 500,
@@ -670,15 +674,16 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "sneakers",
+    "repairs_like": "boots",
     "color": "blue",
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 35, "coverage": 10, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 10, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "flip_flops_exp",
     "type": "ARMOR",
-    "name": { "str": "pair of expensive flip-flops", "str_pl": "pairs of flip-flops" },
+    "name": { "str": "pair of expensive flip-flops", "str_pl": "pairs of expensive flip-flops" },
     "description": "These are upmarket \"luxury\" flip-flops.  Very difficult to run in.",
     "weight": "170 g",
     "volume": "250 ml",
@@ -689,11 +694,12 @@
     "material": [ "rubber", "leather" ],
     "symbol": "[",
     "looks_like": "flip_flops",
+    "repairs_like": "flip_flops",
     "color": "brown",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 30, "coverage": 12, "covers": [ "foot_l", "foot_r" ] } ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY" ],
+    "armor": [ { "encumbrance": 22, "coverage": 12, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "footrags",
@@ -881,6 +887,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "flip_flops",
+    "repairs_like": "bastsandals",
     "color": "brown",
     "material_thickness": 1.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
@@ -1141,19 +1148,33 @@
     "type": "ARMOR",
     "name": { "str": "pair of swimming booties", "str_pl": "pairs of swimming booties" },
     "description": "A pair of neoprene swimming booties, with individual toes.",
-    "weight": "310 g",
+    "weight": "130 g",
     "volume": "1 L",
     "price": 6800,
     "price_postapoc": 250,
-    "material": [ "neoprene", "cotton" ],
+    "material": [ "neoprene" ],
     "symbol": "[",
     "looks_like": "boots_rubber",
     "color": "dark_gray",
     "warmth": 30,
-    "material_thickness": 2,
-    "environmental_protection": 1,
+    "material_thickness": 3,
+    "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "id": "wetsuit_booties_thick",
+    "type": "ARMOR",
+    "copy-from": "wetsuit_booties",
+    "repairs_like": "wetsuit_booties",
+    "name": { "str": "pair of thick swimming booties", "str_pl": "pairs of thick swimming booties" },
+    "description": "A pair of thick neoprene swimming booties, with individual toes.",
+    "weight": "160 g",
+    "warmth": 50,
+    "material_thickness": 5,
+    "environmental_protection": 4,
+    "extend": { "flags": [ "NORMAL" ] },
+    "armor": [ { "encumbrance": 24, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "roller_shoes_off",
@@ -1207,47 +1228,6 @@
     "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "chainmail_feet",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of chainmail chausses", "str_pl": "pairs of chainmail chausses" },
-    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
-    "weight": "2006 g",
-    "volume": "500 ml",
-    "price": 5012,
-    "price_postapoc": 2000,
-    "to_hit": -1,
-    "material": [ "steel", "iron" ],
-    "symbol": "[",
-    "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "foot_l", "foot_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_chainmail_feet",
-    "type": "ARMOR",
-    "name": { "str": "pair of XL chainmail chausses", "str_pl": "pairs of XL chainmail chausses" },
-    "copy-from": "chainmail_feet",
-    "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_chainmail_feet",
-    "type": "ARMOR",
-    "copy-from": "chainmail_feet",
-    "looks_like": "chainmail_feet",
-    "name": { "str": "pair of XS chainmail chausses", "str_pl": "pairs of XS chainmail chausses" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
     "id": "chainmail_junk_feet",
     "type": "ARMOR",
     "category": "armor",
@@ -1258,13 +1238,13 @@
     "price": 5012,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1550,7 +1530,7 @@
     "looks_like": "socks",
     "color": "light_blue",
     "material_thickness": 0.01,
-    "flags": [ "WATERPROOF", "OVERSIZE" ],
+    "flags": [ "WATERPROOF", "OVERSIZE", "SOFT" ],
     "armor": [ { "encumbrance": 3, "coverage": 70, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {

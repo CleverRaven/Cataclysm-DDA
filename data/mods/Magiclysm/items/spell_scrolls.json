@@ -1025,6 +1025,14 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_disruption_bolt",
+    "name": { "str": "Scroll of Disruption Bolt", "str_pl": "Scrolls of Disruption Bolt" },
+    "description": "Release a resonant bolt of spiritual energy at a nearby target.  It will disrupt the natural link between matter and animus, causing heavy but never lethal damage.",
+    "use_action": { "type": "learn_spell", "spells": [ "disruption_bolt" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_impactsling",
     "name": { "str": "Scroll of Impact Sling", "str_pl": "Scrolls of Impact Sling" },
     "description": "Infuse a sling with excess energy, delivering devastating throws before it tears itself apart.",

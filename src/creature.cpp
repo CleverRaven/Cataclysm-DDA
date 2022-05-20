@@ -43,6 +43,7 @@
 #include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -103,6 +104,7 @@ static const material_id material_wool( "wool" );
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
@@ -535,7 +537,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 } while( continueFlag );
 
                 tripoint oldPos = pos();
-                setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary postion
+                setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary position
                 bool seesFromVehBound = sees( *m ); // And look from there
                 setpos( oldPos );
                 if( !seesFromVehBound ) {
@@ -817,6 +819,8 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             target.add_effect( effect_source( source ), effect_stunned, rng( 3_turns, 8_turns ) );
         }
     }
+
+    Character &player_character = get_player_character();
     if( proj_effects.count( "INCENDIARY" ) ) {
         if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ),
@@ -825,11 +829,27 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 4_turns ),
                                dealt_dam.bp_hit );
         }
+        if( player_character.has_trait( trait_PYROMANIA ) &&
+            !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
+            player_character.sees( target ) ) {
+            player_character.add_msg_if_player( m_good,
+                                                _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
+            player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        }
     } else if( proj_effects.count( "IGNITE" ) ) {
         if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 10_turns, dealt_dam.bp_hit );
+        }
+        if( player_character.has_trait( trait_PYROMANIA ) &&
+            !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
+            player_character.sees( target ) ) {
+            player_character.add_msg_if_player( m_good,
+                                                _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
+            player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
         }
     }
 
@@ -913,22 +933,13 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     projectile_attack_results ret( proj );
     const bool magic = proj.proj_effects.count( "magic" ) > 0;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
-    // Headshots considered elsewhere
-    if( hit_value <= 0.4 || magic ) {
-        ret.bp_hit = bodypart_id( "torso" );
-    } else if( one_in( 4 ) ) {
-        if( one_in( 2 ) ) {
-            ret.bp_hit = bodypart_id( "leg_l" );
-        } else {
-            ret.bp_hit = bodypart_id( "leg_r" );
-        }
-    } else {
-        if( one_in( 2 ) ) {
-            ret.bp_hit = bodypart_id( "arm_l" );
-        } else {
-            ret.bp_hit = bodypart_id( "arm_r" );
-        }
+    if( magic ) {
+        // Best possible hit
+        hit_value = -0.5;
     }
+    // Range is -0.5 to 1.5 -> missed_by will be [1, 0], so the rng addition to it
+    // will push it to at most 1.5 and at least -0.5
+    ret.bp_hit = get_anatomy()->select_body_part_projectile_attack( -0.5, 1.5, hit_value );
     float crit_mod = get_crit_factor( ret.bp_hit );
 
     const float crit_multiplier = proj.critical_multiplier;
@@ -936,16 +947,14 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     if( magic ) {
         // do nothing special, no damage mults, nothing
     } else if( goodhit < accuracy_headshot &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
-        ret.message = _( "Headshot!" );
-        ret.bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
-        crit_mod = get_crit_factor( ret.bp_hit );
+               ret.max_damage * crit_multiplier > get_hp_max( ret.bp_hit ) ) {
+        ret.message = _( "Critical!!" );
         ret.gmtSCTcolor = m_headshot;
         ret.damage_mult *= rng_float( 0.5 + 0.45 * crit_mod, 0.75 + 0.3 * crit_mod ); // ( 0.95, 1.05 )
         ret.damage_mult *= std_hit_mult + ( crit_multiplier - std_hit_mult ) * crit_mod;
         ret.is_crit = true;
     } else if( goodhit < accuracy_critical &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
+               ret.max_damage * crit_multiplier > get_hp_max( ret.bp_hit ) ) {
         ret.message = _( "Critical!" );
         ret.gmtSCTcolor = m_critical;
         ret.damage_mult *= rng_float( 0.5 + 0.25 * crit_mod, 0.75 + 0.25 * crit_mod ); // ( 0.75, 1.0 )
@@ -1176,7 +1185,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     apply_damage( source, bp, total_damage );
 
     if( wp != nullptr ) {
-        wp->apply_effects( *this, total_damage, attack );
+        wp->apply_effects( *this, total_damage, attack_copy );
     }
 
     return dealt_dams;
@@ -1207,6 +1216,15 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
                 add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
+
+                Character &player_character = get_player_character();
+                if( player_character.has_trait( trait_PYROMANIA ) &&
+                    !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) && player_character.sees( *this ) ) {
+                    player_character.add_msg_if_player( m_good,
+                                                        _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
+                    player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                    player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                }
             }
             break;
 

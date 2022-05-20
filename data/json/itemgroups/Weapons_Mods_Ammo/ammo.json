@@ -83,6 +83,7 @@
       { "item": "460_rowland", "prob": 15 },
       { "item": "460_fmj", "prob": 10 },
       { "item": "57mm", "prob": 50 },
+      { "item": "57mm_ss", "prob": 15 },
       { "item": "380_p", "prob": 10 },
       { "item": "9mmP", "prob": 30 },
       { "item": "9mmP2", "prob": 20 }
@@ -103,6 +104,7 @@
       { "item": "460_rowland", "prob": 15 },
       { "item": "460_fmj", "prob": 10 },
       { "item": "57mm", "prob": 50 },
+      { "item": "57mm_ss", "prob": 25 },
       { "item": "380_p", "prob": 10 },
       { "item": "9mmP", "prob": 30 },
       { "item": "9mmP2", "prob": 20 }
@@ -647,6 +649,7 @@
       { "item": "40sw", "prob": 50, "charges": [ 1, 40 ] },
       { "item": "45_acp", "prob": 20, "charges": [ 1, 30 ] },
       { "item": "57mm", "prob": 80, "charges": [ 1, 40 ] },
+      { "item": "57mm_ss", "prob": 25, "charges": [ 1, 40 ] },
       { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
       { "item": "shot_00", "prob": 40, "charges": [ 1, 20 ] },
       { "item": "shot_beanbag", "prob": 40, "charges": [ 1, 10 ] }

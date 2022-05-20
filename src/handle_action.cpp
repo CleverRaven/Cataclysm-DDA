@@ -18,6 +18,7 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -566,7 +567,7 @@ static void open()
         return;
     }
     // Not a vehicle part, just a regular door
-    bool didit = here.open_door( openp, !here.is_outside( player_character.pos() ) );
+    bool didit = here.open_door( player_character, openp, !here.is_outside( player_character.pos() ) );
     if( didit ) {
         player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
     } else {
@@ -768,7 +769,8 @@ static void smash()
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
         if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
             maybe_corpse.can_revive() ) {
-            if( maybe_corpse.get_mtype()->bloodType()->has_acid ) {
+            if( maybe_corpse.get_mtype()->bloodType()->has_acid &&
+                !player_character.is_immune_field( fd_acid ) ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     return; // Player doesn't want an acid bath
                 }
@@ -1172,6 +1174,8 @@ static void loot()
     enum ZoneFlags {
         None = 1,
         SortLoot = 2,
+        SortLootStatic = 4,
+        SortLootPersonal = 8,
         FertilizePlots = 16,
         ConstructPlots = 64,
         MultiFarmPlots = 128,
@@ -1189,6 +1193,9 @@ static void loot()
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
     const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
+
+    // reset any potentially disabled zones from a past activity
+    mgr.reset_disabled();
 
     // cache should only happen if we have personal zones defined
     if( mgr.has_personal_zones() ) {
@@ -1236,7 +1243,17 @@ static void loot()
     menu.desc_enabled = true;
 
     if( flags & SortLoot ) {
-        menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
+        menu.addentry_desc( SortLootStatic, true, 'o', _( "Sort out my loot (static zones only)" ),
+                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring personal zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+    }
+
+    if( flags & SortLoot ) {
+        menu.addentry_desc( SortLootPersonal, true, 'O', _( "Sort out my loot (personal zones only)" ),
+                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring static zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+    }
+
+    if( flags & SortLoot ) {
+        menu.addentry_desc( SortLoot, true, 'I', _( "Sort out my loot (all)" ),
                             _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
     }
 
@@ -1289,12 +1306,43 @@ static void loot()
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
+    bool recache = false;
 
     switch( flags ) {
         case None:
             add_msg( _( "Never mind." ) );
             break;
         case SortLoot:
+            player_character.assign_activity( ACT_MOVE_LOOT );
+            break;
+        case SortLootStatic:
+            //temporarily disable personal zones
+            for( const auto &i : mgr.get_zones() ) {
+                auto &zone = i.get();
+                if( zone.get_is_personal() && zone.get_enabled() ) {
+                    zone.set_enabled( false );
+                    zone.set_temporary_disabled( true );
+                    recache = true;
+                }
+            }
+            if( recache ) {
+                mgr.cache_data();
+            }
+            player_character.assign_activity( ACT_MOVE_LOOT );
+            break;
+        case SortLootPersonal:
+            //temporarily disable non personal zones
+            for( const auto &i : mgr.get_zones() ) {
+                auto &zone = i.get();
+                if( !zone.get_is_personal() && zone.get_enabled() ) {
+                    zone.set_enabled( false );
+                    zone.set_temporary_disabled( true );
+                    recache = true;
+                }
+            }
+            if( recache ) {
+                mgr.cache_data();
+            }
             player_character.assign_activity( ACT_MOVE_LOOT );
             break;
         case FertilizePlots:
@@ -2396,8 +2444,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SUICIDE:
-            if( query_yn( _( "Commit suicide?" ) ) ) {
-                if( query_yn( _( "REALLY commit suicide?" ) ) ) {
+            if( query_yn( _( "Abandon this character?" ) ) ) {
+                if( query_yn( _( "This will kill your character.  Continue?" ) ) ) {
                     player_character.moves = 0;
                     player_character.place_corpse();
                     uquit = QUIT_SUICIDE;
@@ -2459,6 +2507,14 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_MORALE:
             player_character.disp_morale();
+            break;
+
+        case ACTION_MEDICAL:
+            player_character.disp_medical();
+            break;
+
+        case ACTION_BODYSTATUS:
+            display_bodygraph( get_player_character() );
             break;
 
         case ACTION_MESSAGES:

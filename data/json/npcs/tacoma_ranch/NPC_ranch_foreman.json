@@ -25,6 +25,11 @@
         "topic": "TALK_RANCH_FOREMAN_PROSPECTUS",
         "condition": { "and": [ { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }, { "not": { "u_has_effect": "has_prospectus" } } ] }
       },
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_FOREMAN_ANESTHETIC_FOR_DOCTOR",
+        "condition": { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" }
+      },
       { "text": "I heard you were setting up an outpost out here.", "topic": "TALK_RANCH_FOREMAN_OUTPOST" },
       { "text": "What's your job here?", "topic": "TALK_RANCH_FOREMAN_JOB" },
       { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
@@ -51,6 +56,64 @@
         "topic": "TALK_RANCH_FOREMAN",
         "effect": [ { "u_spawn_item": "commune_prospectus" }, { "u_add_effect": "has_prospectus", "duration": "PERMANENT" } ]
       }
+    ]
+  },
+  {
+    "id": "TALK_RANCH_FOREMAN_ANESTHETIC_FOR_DOCTOR",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "doctor_anesthetic_scavengers_helped",
+      "type": "mission",
+      "context": "tacoma_ranch",
+      "value": "yes",
+      "no": {
+        "u_has_var": "doctor_anesthetic_scrappers_helped",
+        "type": "mission",
+        "context": "tacoma_ranch",
+        "value": "yes",
+        "no": "I don't have anything to offer, but you could talk to the scavenger boss and the scrappers; They might be able to help.",
+        "yes": "I don't have anything to offer, but maybe the scavenger boss could help find some materials."
+      },
+      "yes": {
+        "u_has_var": "doctor_anesthetic_scrappers_helped",
+        "type": "mission",
+        "context": "tacoma_ranch",
+        "value": "yes",
+        "no": "I don't have anything to offer, but maybe the scrappers could help find some materials.",
+        "yes": "I'm afraid I don't have anything to offer."
+      }
+    },
+    "responses": [
+      {
+        "text": "Thanks.",
+        "topic": "TALK_RANCH_FOREMAN",
+        "condition": {
+          "or": [
+            {
+              "not": { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "doctor_anesthetic_scrappers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Thanks anyway.",
+        "topic": "TALK_RANCH_FOREMAN",
+        "condition": {
+          "and": [
+            { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" },
+            {
+              "u_has_var": "doctor_anesthetic_scrappers_helped",
+              "type": "mission",
+              "context": "tacoma_ranch",
+              "value": "yes"
+            }
+          ]
+        }
+      },
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -161,14 +224,14 @@
           "om_terrain": "ranch_camp_65",
           "//": "Beds in the barn",
           "place_nested": [
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 1 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 5 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 7 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 11 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 13 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 17 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 19 },
-            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 19, "y": 23 }
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 1 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 5 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 7 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 11 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 13 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 17 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 19 },
+            { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 18, "y": 23 }
           ]
         },
         {
@@ -244,7 +307,7 @@
         {
           "om_terrain": "ranch_camp_56",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
-          "place_vehicles": [ { "vehicle": "hippie_van", "x": 10, "y": 10, "rotation": 270, "chance": 100 } ]
+          "place_vehicles": [ { "vehicle": "hippie_van", "x": 13, "y": 19, "rotation": 270, "chance": 100, "faction": "tacoma_commune" } ]
         },
         {
           "om_terrain": "ranch_camp_65",
@@ -299,7 +362,10 @@
         },
         {
           "om_terrain": "ranch_camp_56",
-          "place_vehicles": [ { "vehicle": "flatbed_truck", "x": 18, "y": 3, "rotation": 0, "chance": 100 } ]
+          "place_vehicles": [
+            { "vehicle": "flatbed_truck", "x": 21, "y": 3, "rotation": 0, "chance": 100, "faction": "tacoma_commune" },
+            { "vehicle": "beetle", "x": 21, "y": 9, "rotation": 180, "chance": 100, "faction": "tacoma_commune" }
+          ]
         },
         {
           "om_terrain": "ranch_camp_57",
@@ -345,7 +411,7 @@
       "update_mapgen": [
         {
           "om_terrain": "ranch_camp_56",
-          "place_vehicles": [ { "vehicle": "car_chassis", "x": 17, "y": 11, "rotation": 90, "chance": 100 } ]
+          "place_vehicles": [ { "vehicle": "car_chassis", "x": 17, "y": 11, "rotation": 90, "chance": 100, "faction": "tacoma_commune" } ]
         },
         {
           "om_terrain": "ranch_camp_58",
@@ -439,7 +505,7 @@
           "om_terrain": "ranch_camp_56",
           "//": "western palisade",
           "set": [
-            { "square": "terrain", "id": "t_palisade", "x": 16, "y": 16, "x2": 16, "y2": 23 },
+            { "square": "terrain", "id": "t_palisade", "x": 16, "y": 17, "x2": 16, "y2": 23 },
             { "square": "terrain", "id": "t_palisade", "x": 16, "y": 14, "x2": 19, "y2": 14 },
             { "square": "terrain", "id": "t_palisade", "x": 19, "y": 11, "x2": 19, "y2": 13 }
           ]
@@ -449,7 +515,7 @@
           "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_7" ], "x": 0, "y": 2 } ],
           "//": "finish the well",
           "set": [
-            { "square": "terrain", "id": "t_sidewalk", "x": 5, "y": 17, "x2": 7, "y2": 19 },
+            { "square": "terrain", "id": "t_concrete", "x": 5, "y": 17, "x2": 7, "y2": 19 },
             { "point": "terrain", "id": "t_water_pump", "x": 6, "y": 18 }
           ]
         },
@@ -490,7 +556,10 @@
           "//": "finish western palisade",
           "set": [
             { "square": "terrain", "id": "t_palisade", "x": 23, "y": 7, "x2": 23, "y2": 10 },
-            { "square": "terrain", "id": "t_palisade", "x": 20, "y": 11, "x2": 23, "y2": 11 }
+            { "square": "terrain", "id": "t_palisade", "x": 20, "y": 11, "x2": 23, "y2": 11 },
+            { "square": "terrain", "id": "t_palisade_gate", "x": 16, "y": 15, "x2": 16, "y2": 16 },
+            { "point": "terrain", "id": "t_palisade_pulley", "x": 15, "y": 14 },
+            { "point": "terrain", "id": "t_palisade_pulley", "x": 17, "y": 17 }
           ]
         },
         {
@@ -501,7 +570,7 @@
           "om_terrain": "ranch_camp_59",
           "place_nested": [
             { "chunks": [ "tacoma_commune_toolshed_8" ], "x": 13, "y": 17 },
-            { "chunks": [ "tacoma_commune_clinic_8" ], "x": 0, "y": 2 }
+            { "chunks": [ "tacoma_commune_clinic_8" ], "x": 2, "y": 0 }
           ]
         },
         {
@@ -549,8 +618,9 @@
           "om_terrain": "ranch_camp_59",
           "place_nested": [
             { "chunks": [ "tacoma_commune_toolshed_9_done" ], "x": 13, "y": 17 },
-            { "chunks": [ "tacoma_commune_clinic_9" ], "x": 0, "y": 2 }
-          ]
+            { "chunks": [ "tacoma_commune_clinic_9" ], "x": 2, "y": 0 }
+          ],
+          "set": [ { "square": "terrain", "id": "t_dirt", "x": 10, "y": 23, "x2": 12, "y2": 23 } ]
         },
         {
           "om_terrain": "ranch_camp_68",
@@ -580,6 +650,11 @@
       "success": "I appreciate it.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10_1" ], "x": 3, "y": 0 } ] }
+      ]
     }
   },
   {
@@ -606,7 +681,7 @@
     },
     "end": {
       "update_mapgen": [
-        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10" ], "x": 0, "y": 2 } ] },
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10" ], "x": 2, "y": 0 } ] },
         {
           "om_terrain": "ranch_camp_60",
           "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_10" ], "x": 0, "y": 4 } ]
@@ -638,7 +713,7 @@
     },
     "end": {
       "update_mapgen": [
-        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_11" ], "x": 0, "y": 2 } ] },
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_11" ], "x": 3, "y": 0 } ] },
         {
           "om_terrain": "ranch_camp_60",
           "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_11" ], "x": 0, "y": 4 } ]
@@ -646,20 +721,31 @@
         {
           "om_terrain": "ranch_camp_61",
           "place_vehicles": [
-            { "vehicle": "car", "chance": 100, "rotation": 270, "x": 1, "y": 20 },
-            { "vehicle": "cube_van_cheap", "chance": 100, "rotation": 90, "x": 10, "y": 10 },
-            { "vehicle": "car_sports", "chance": 100, "rotation": 90, "x": 3, "y": 9 },
-            { "vehicle": "flatbed_truck", "chance": 100, "rotation": 270, "x": 10, "y": 23 }
+            { "vehicle": "car", "chance": 100, "rotation": 270, "x": 1, "y": 20, "faction": "tacoma_commune" },
+            {
+              "vehicle": "cube_van_cheap",
+              "chance": 100,
+              "rotation": 90,
+              "x": 10,
+              "y": 10,
+              "faction": "tacoma_commune"
+            },
+            { "vehicle": "car_sports", "chance": 100, "rotation": 90, "x": 3, "y": 9, "faction": "tacoma_commune" },
+            { "vehicle": "pickup", "chance": 100, "rotation": 180, "x": 8, "y": 22, "faction": "tacoma_commune" }
           ]
         },
         {
           "om_terrain": "ranch_camp_69",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "set": [ { "square": "terrain", "id": "t_palisade", "x": 0, "y": 12, "x2": 2, "y2": 12 } ],
           "place_vehicles": [
-            { "vehicle": "car_chassis", "chance": 100, "rotation": 0, "x": 3, "y": 14 },
-            { "vehicle": "pickup", "chance": 100, "rotation": 0, "x": 8, "y": 15 },
-            { "vehicle": "schoolbus", "chance": 100, "rotation": 135, "x": 22, "y": 13 }
+            { "vehicle": "car_chassis", "chance": 100, "rotation": 0, "x": 3, "y": 14, "faction": "tacoma_commune" },
+            { "vehicle": "pickup", "chance": 100, "rotation": 0, "x": 8, "y": 15, "faction": "tacoma_commune" }
           ]
+        },
+        {
+          "om_terrain": "ranch_camp_70",
+          "place_vehicles": [ { "vehicle": "schoolbus", "chance": 100, "rotation": 120, "x": 4, "y": 13, "faction": "tacoma_commune" } ]
         }
       ]
     }
@@ -677,7 +763,7 @@
     "followup": "MISSION_RANCH_FOREMAN_13",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "We have the basic equipment that we need, but without a functioning power grid we are forced to rely on the readily available vehicle batteries.  This is going to be a chore, but I'll need twelve car batteries to swap between charging and powering our equipment.  The good news is that they don't need to be charged; we can take care of that.",
+      "offer": "We have the basic equipment that we need, but without a functioning power grid, we are forced to rely on the readily available vehicle batteries.  This is going to be a chore, but I'll need twelve car batteries to swap between charging and powering our equipment.  The good news is that they don't need to be charged; we can take care of that.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Cars can be found in traffic jams along roads or in parking lots… I'm sure you can find a few.",
@@ -696,7 +782,10 @@
         {
           "om_terrain": "ranch_camp_69",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
-          "place_vehicles": [ { "vehicle": "cube_van", "chance": 100, "rotation": 180, "x": 13, "y": 15 } ]
+          "place_vehicles": [
+            { "vehicle": "cube_van", "chance": 100, "rotation": 180, "x": 13, "y": 15, "faction": "tacoma_commune" },
+            { "vehicle": "car_sports", "chance": 100, "rotation": 0, "x": 21, "y": 14, "faction": "tacoma_commune" }
+          ]
         }
       ]
     }
@@ -726,11 +815,15 @@
     "end": {
       "update_mapgen": [
         { "om_terrain": "ranch_camp_49", "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_13" ], "x": 0, "y": 9 } ] },
+        {
+          "om_terrain": "ranch_camp_51",
+          "place_nested": [ { "chunks": [ "tacoma_commune_bar_13" ], "x": 0, "y": 0 } ]
+        },
         { "om_terrain": "ranch_camp_66", "place_npcs": [ { "class": "ranch_barber", "x": 5, "y": 3 } ] },
         {
           "om_terrain": "ranch_camp_70",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
-          "place_vehicles": [ { "vehicle": "car_mini", "chance": 100, "rotation": 45, "x": 8, "y": 3 } ]
+          "place_vehicles": [ { "vehicle": "car_sports", "chance": 100, "rotation": 90, "x": 9, "y": 2, "faction": "tacoma_commune" } ]
         }
       ]
     }
@@ -770,7 +863,7 @@
         {
           "om_terrain": "ranch_camp_61",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
-          "place_vehicles": [ { "vehicle": "ambulance", "chance": 100, "rotation": 90, "x": 16, "y": 5 } ]
+          "place_vehicles": [ { "vehicle": "ambulance", "chance": 100, "rotation": 270, "x": 13, "y": 2, "faction": "tacoma_commune" } ]
         }
       ]
     }
@@ -798,7 +891,14 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
-      "update_mapgen": { "om_terrain": "ranch_camp_51", "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ] }
+      "update_mapgen": [
+        { "om_terrain": "ranch_camp_51", "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ] },
+        {
+          "om_terrain": "ranch_camp_52",
+          "set": [ { "square": "terrain", "id": "t_dirt", "x": 2, "y": 10, "x2": 12, "y2": 22 } ],
+          "place_vehicles": [ { "vehicle": "car_mini", "chance": 100, "rotation": 90, "x": 15, "y": 21, "faction": "tacoma_commune" } ]
+        }
+      ]
     }
   },
   {

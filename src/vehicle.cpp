@@ -352,6 +352,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // More realistically it should be -5 days old
     last_update = calendar::turn_zero;
 
+    if( get_option<bool>( "OVERRIDE_VEHICLE_INIT_STATE" ) ) {
+        init_veh_status = get_option<int>( "VEHICLE_STATUS_AT_SPAWN" );
+        init_veh_fuel = get_option<int>( "VEHICLE_FUEL_AT_SPAWN" );
+    }
+
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
     int veh_fuel_mult = init_veh_fuel;
@@ -381,7 +386,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             veh_fuel_mult += rng( 0, 7 );   // add 0-7% more fuel if controls are destroyed
         } else if( rand <= 23 ) {  // battery, minireactor or gasoline tank are destroyed 8%
             destroyTank = true;
-        } else if( rand <= 29 ) {  // engine are destroyed 6%
+        } else if( rand <= 29 ) {  // engine is destroyed 6%
             destroyEngine = true;
             veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
         } else if( rand <= 66 ) {  // tires are destroyed 37%
@@ -4415,7 +4420,7 @@ void vehicle::set_owner( const Character &c )
     owner = c.get_faction()->id;
 }
 
-bool vehicle::handle_potential_theft( Character &you, bool check_only, bool prompt )
+bool vehicle::handle_potential_theft( Character const &you, bool check_only, bool prompt )
 {
     const bool is_owned_by_player = is_owned_by( you );
     std::vector<npc *> witnesses;
@@ -5526,9 +5531,26 @@ void vehicle::place_spawn_items()
                         e.ammo_set( e.ammo_default() );
                     }
                 }
+
+                // Copy vehicle owner for items within
+                if( has_owner() ) {
+                    e.set_owner( get_owner() );
+                }
+
                 add_item( part, e );
             }
         }
+    }
+}
+
+void vehicle::place_zones( map &pmap ) const
+{
+    if( !type.is_valid() || !has_owner() ) {
+        return;
+    }
+    for( vehicle_prototype::zone_def const &d : type->zone_defs ) {
+        tripoint const pt = pmap.getabs( tripoint( pos + d.pt, pmap.get_abs_sub().z() ) );
+        mapgen_place_zone( pt, pt, d.zone_type, get_owner(), d.name, d.filter, &pmap );
     }
 }
 
@@ -6843,8 +6865,7 @@ const std::set<tripoint> &vehicle::get_points( const bool force_refresh ) const
 }
 
 std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &type,
-                                      int &quantity,
-                                      const std::function<bool( const item & )> &filter )
+                                      int &quantity, const std::function<bool( const item & )> &filter, bool in_tools )
 {
     std::list<item> ret;
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
@@ -6879,7 +6900,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
 
     if( cargo_vp ) {
         vehicle_stack veh_stack = get_items( cargo_vp->part_index() );
-        std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter );
+        std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter, in_tools );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
             return ret;
@@ -7000,7 +7021,7 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     const time_point update_from = last_update;
-    if( update_to < update_from ) {
+    if( update_to < update_from || update_from == time_point( 0 ) ) {
         // Special case going backwards in time - that happens
         last_update = update_to;
         return;

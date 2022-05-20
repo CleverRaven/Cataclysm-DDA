@@ -3,7 +3,12 @@
 #define CATA_SRC_OVERMAP_UI_H
 
 #include "coordinates.h"
+#include "regional_settings.h"
 #include "string_id.h"
+
+static constexpr int RANDOM_CITY_ENTRY = INT_MIN;
+
+class uilist;
 
 namespace catacurses
 {
@@ -72,6 +77,11 @@ tripoint_abs_omt choose_point( int z, bool show_debug_info = false );
  * invalid_point if canceled with Escape (or similar key).
  */
 tripoint_abs_omt choose_point( const tripoint_abs_omt &origin, bool show_debug_info = false );
+
+void setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container );
+
+cata::optional<city> select_city( uilist &cities_menu, std::vector<city> &cities_container,
+                                  bool random = false );
 
 } // namespace omap
 

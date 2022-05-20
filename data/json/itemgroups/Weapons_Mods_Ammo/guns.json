@@ -26,6 +26,8 @@
       { "group": "nested_model_10_revolver", "prob": 20 },
       { "group": "nested_taurus_spectrum", "prob": 15 },
       { "group": "nested_p220_10", "prob": 1 },
+      { "group": "nested_p50", "prob": 8 },
+      { "group": "nested_ruger_57", "prob": 12 },
       { "group": "nested_p226_357sig", "prob": 20 },
       { "group": "nested_p320_357sig", "prob": 10 },
       { "group": "nested_kp32", "prob": 10 },
@@ -76,6 +78,8 @@
       { "item": "model_10_revolver", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "taurus_spectrum", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "p220_10", "prob": 1, "charges-min": 0, "charges-max": 0 },
+      { "item": "p50", "prob": 8, "charges-min": 0, "charges-max": 0 },
+      { "item": "ruger_57", "prob": 12, "charges-min": 0, "charges-max": 0 },
       { "item": "p226_357sig", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "p320_357sig", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "kp32", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -349,7 +353,7 @@
     "type": "item_group",
     "id": "guns_smg_collectible",
     "//": "Extremely rare factory-made submachine guns that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Always unloaded.",
-    "items": [ { "item": "mp18", "prob": 3, "charges-min": 0, "charges-max": 0 } ]
+    "items": [ { "item": "mp18", "variant": "mp18", "prob": 3, "charges-min": 0, "charges-max": 0 } ]
   },
   {
     "type": "item_group",
@@ -385,6 +389,7 @@
       { "group": "nested_sks", "prob": 1 },
       { "group": "nested_win70", "prob": 2 },
       { "group": "nested_1895sbl", "prob": 1 },
+      { "group": "nested_fn_ps90", "prob": 30 },
       { "group": "nested_aksemi", "prob": 2 }
     ]
   },
@@ -411,8 +416,10 @@
       { "item": "ruger_mini", "prob": 1, "charges-min": 0, "charges-max": 5 },
       { "item": "sks", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 2, "charges-min": 0, "charges-max": 3 },
+      { "item": "fn_ps90", "prob": 30, "charges-min": 0, "charges-max": 50 },
       { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 6 },
-      { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 }
+      { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
+      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -435,7 +442,9 @@
       { "item": "sharps", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "sks", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "m1a", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 }
+      { "item": "fn_ps90", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -988,7 +997,8 @@
       { "item": "mosin44", "prob": 2, "charges-min": 0, "charges-max": 5 },
       { "item": "remington700_270", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
-      { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 }
+      { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 },
+      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   }
 ]

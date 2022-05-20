@@ -67,7 +67,6 @@ cata::optional<int> xanax( Character *, item *, bool, const tripoint & );
 // TOOLS
 cata::optional<int> acidbomb_act( Character *, item *, bool, const tripoint & );
 cata::optional<int> adrenaline_injector( Character *, item *, bool, const tripoint & );
-cata::optional<int> arrow_flammable( Character *, item *, bool, const tripoint & );
 cata::optional<int> bell( Character *, item *, bool, const tripoint & );
 cata::optional<int> blood_draw( Character *, item *, bool, const tripoint & );
 cata::optional<int> boltcutters( Character *, item *, bool, const tripoint & );
@@ -147,7 +146,6 @@ cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 cata::optional<int> makemound( Character *, item *, bool, const tripoint & );
 cata::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
 cata::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
-cata::optional<int> mind_splicer( Character *, item *, bool, const tripoint & );
 cata::optional<int> mininuke( Character *, item *, bool, const tripoint & );
 cata::optional<int> molotov_lit( Character *, item *, bool, const tripoint & );
 cata::optional<int> mop( Character *, item *, bool, const tripoint & );
@@ -215,8 +213,6 @@ cata::optional<int> radiocar( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocaron( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocontrol( Character *, item *, bool, const tripoint & );
 
-cata::optional<int> autoclave( Character *, item *, bool, const tripoint & );
-
 cata::optional<int> multicooker( Character *, item *, bool, const tripoint & );
 
 cata::optional<int> remoteveh( Character *, item *, bool, const tripoint & );
@@ -230,7 +226,7 @@ void cut_log_into_planks( Character & );
 void play_music( Character &p, const tripoint &source, int volume, int max_morale );
 int towel_common( Character *, item *, bool );
 
-// Helper for validating a potential taget of robot control
+// Helper for validating a potential target of robot control
 bool robotcontrol_can_target( Character *, const monster & );
 
 // Helper for handling pesky wannabe-artists

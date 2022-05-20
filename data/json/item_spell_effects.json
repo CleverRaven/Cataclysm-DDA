@@ -2,7 +2,7 @@
   {
     "id": "dragon_inflatable",
     "type": "SPELL",
-    "name": { "str": "inflatable dragon" },
+    "name": { "str": "Inflatable Dragon" },
     "description": "Creates a short-lived inflatable.",
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT" ],
@@ -22,7 +22,7 @@
   {
     "id": "ghost_inflatable",
     "type": "SPELL",
-    "name": { "str": "inflatable ghost" },
+    "name": { "str": "Inflatable Ghost" },
     "description": "Creates a short-lived inflatable.",
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT" ],
@@ -42,7 +42,7 @@
   {
     "id": "fog_machine",
     "type": "SPELL",
-    "name": { "str": "fog ex machina" },
+    "name": { "str": "Fog Ex Machina" },
     "description": "You see fog bubbling out of the device.",
     "effect": "attack",
     "shape": "cone",

@@ -33,8 +33,8 @@
         "  qqqqqqqqqqqqqqqqqqqq  "
       ],
       "terrain": {
-        " ": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "p": "t_grass_long",
+        " ": [ [ "t_grass", 5 ], [ "t_bamboo_long", 2 ], "t_dirt" ],
+        "p": "t_bamboo_long",
         "'": "t_door_c",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
@@ -202,7 +202,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "z": [ "t_tree", "t_tree_young", "t_shrub", "t_grass" ],
+        "z": [ "t_bamboo", "t_bamboo_long", "t_bamboo_tall", "t_grass" ],
         "#": "t_dirt",
         "'": "t_door_c",
         ".": "t_floor",

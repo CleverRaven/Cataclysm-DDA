@@ -107,7 +107,7 @@ Custom achievement/conduct requirement descriptions.
 Enables mouse input for inventory.
 Worn gloves count as unarmed weapons when no weapon is held.
 Any corpse can rise again as a zombie.
-Added to autodocs the ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus.
+Added to Autodocs the ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus.
 Allow randomizing scenario and profession in new character menu.
 Adds actions to workout and do exercises.
 Vehicles: ground vehicle z-level transitions and z+1 bridges.
@@ -129,7 +129,7 @@ Allows customizing initial date in scenarios.
 Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
 Adds bleeding butchery action.
-Adds autodoc installation programs that almost guarantee flawless installation of supported bionics.
+Adds Autodoc installation programs that almost guarantee flawless installation of supported bionics.
 Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
 Makes thrown glass items drop glass shards when shattered.
 Adds suspension for butchering using cranes (except tiny ones) and forklift arms.
@@ -197,10 +197,10 @@ Shows weariness and activity levels in sidebar panels.
 Warns before crafting armor or clothing you won't be able to wear.
 
 ## Mods:
-[Aftershock] Adds autodoc tiers and augmentation clinics.
+[Aftershock] Adds Autodoc tiers and augmentation clinics.
 [Aftershock] Megacity-oriented overmap generation adjustments
 [Aftershock] Adds new Melee oriented bionics.
-[Aftershock] Replaces Vanilla autodocs with Aftershock Average Autodocs.
+[Aftershock] Replaces Vanilla Autodocs with Aftershock Average Autodocs.
 [Aftershock] Adds an astrobiology lab.
 [Aftershock] Adds a design document.
 [Aftershock] Adds new laser and plasma pistols.
@@ -256,7 +256,7 @@ Ankle storage items don't affect feet-related mutations anymore.
 Gives the default Survivor profession more weather-appropriate clothes for the default start.
 Eating raw meat does not hurt your morale as much if you have traits like Hunter or Predator.
 Very-fast-moving zombie animals only attack once per turn.
-Spawns anesthesia supplies in autodocs.
+Spawns anesthesia supplies in Autodocs.
 Rebalances spawn rates for overmap specials.
 Mycus Fireproofing now also gives heat immunity.
 Tweaks Infection impact by lowering fatigue drain and removing pain.
@@ -670,7 +670,7 @@ Implement blackpowder fouling mechanics.
 Allow items to use multiple ammotypes.
 Tell an NPC to finish your construction tasks.
 NPC will say what their current activity is + some infrastructure.
-Added ability to splint broken limbs to autodoc.
+Added ability to splint broken limbs to Autodoc.
 Factions: start to implement useful faction relationship API.
 Riding animals and animal-pulled vehicles.
 Faction ownership of vehicles.
@@ -1655,7 +1655,7 @@ Separated dashboard (electronics controls) from steering.
 Acidic Ant Expansion - Acidic Chitin Item & Equipment.
 Add engine blocks and engine deconstruction recipes.
 Butchering yields for fungal towers and other structures.
-New basement variant, with and without hidden autodoc.
+New basement variant, with and without hidden Autodoc.
 Disposable filters for filter, gas, PBA, and survivor masks, as well as filters for hazmat and ANBC suits.
 Adds new narcosis effect that Characters cannot be prematurely woken from.
 Replaces heavy sticks with long sticks in many recipes.
@@ -2032,7 +2032,7 @@ Add "Mutant NPCs" mod.
 Mundane Zombies Mod Revival.
 Manual CBM installation moved to Bright Nights mod.
 Allow adding contents to existing monster groups in JSON.
-Safe autodoc mod, a dependency of Bright Nights.
+Safe Autodoc mod, a dependency of Bright Nights.
 Makes Crazy Cataclysm a little crazier.
 Nested mapgen structures.
 Added Fuji's Struct mod.

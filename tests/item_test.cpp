@@ -59,7 +59,7 @@ TEST_CASE( "simple_item_layers", "[item]" )
 {
     CHECK( item( "arm_warmers" ).get_layer().front() == layer_level::SKINTIGHT );
     CHECK( item( "10gal_hat" ).get_layer().front() == layer_level::NORMAL );
-    CHECK( item( "baldric" ).get_layer().front() == layer_level::WAIST );
+    // intentionally no waist layer check since it is obsoleted
     CHECK( item( "armor_lightplate" ).get_layer().front() == layer_level::OUTER );
     CHECK( item( "legrig" ).get_layer().front() == layer_level::BELTED );
 }
@@ -696,6 +696,51 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
             THEN( "should not get wet in water" ) {
                 g->water_affect_items( guy );
                 CHECK_FALSE( guy.has_item_with_flag( flag_WET ) );
+            }
+        }
+    }
+}
+
+static bool assert_maximum_density_for_material( const item &target )
+{
+    if( to_milliliter( target.volume() ) == 0 ) {
+        return false;
+    }
+    const std::map<material_id, int> mats = target.made_of();
+    if( !mats.empty() ) {
+
+        double item_density = static_cast<double>( to_gram( target.weight() ) ) / static_cast<double>
+                              ( to_milliliter( target.volume() ) );
+        double max_density = 0;
+        for( const auto &m : mats ) {
+            // this test will NOT pass right now so for now check but allow failing
+            max_density += m.first.obj().density() * m.second / target.type->mat_portion_total;
+        }
+        INFO( target.type_name() );
+        CHECK( item_density <= max_density );
+
+        return item_density > max_density;
+    }
+
+    // fallback return
+    return false;
+}
+
+TEST_CASE( "item_material_density_sanity_check", "[item][!mayfail]" )
+{
+    // randomize items so you get varied failures when testing densities
+    std::vector<const itype *> all_items = item_controller->all();
+    std::shuffle( std::begin( all_items ), std::end( all_items ), rng_get_engine() );
+
+    // only allow so many failures before stopping
+    int number_of_failures = 0;
+
+    for( const itype *type : all_items ) {
+        const item sample( type, calendar::turn_zero, item::solitary_tag{} );
+        if( assert_maximum_density_for_material( sample ) ) {
+            number_of_failures++;
+            if( number_of_failures > 20 ) {
+                break;
             }
         }
     }

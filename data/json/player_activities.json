@@ -992,15 +992,6 @@
     "no_resume": true
   },
   {
-    "id": "ACT_MIND_SPLICER",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "using the mind splicer",
-    "rooted": true,
-    "based_on": "speed",
-    "no_resume": true
-  },
-  {
     "id": "ACT_HACKING",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

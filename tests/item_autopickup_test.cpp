@@ -12,6 +12,7 @@ static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bag_body_bag( "bag_body_bag" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
 static const itype_id itype_box_cigarette( "box_cigarette" );
@@ -34,6 +35,7 @@ static const itype_id itype_paper( "paper" );
 static const itype_id itype_pebble( "pebble" );
 static const itype_id itype_rolling_paper( "rolling_paper" );
 static const itype_id itype_steel_lump( "steel_lump" );
+static const itype_id itype_storage_battery( "storage_battery" );
 static const itype_id itype_wallet_leather( "wallet_leather" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wrapper( "wrapper" );
@@ -403,6 +405,31 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
             REQUIRE( item_sealed_tuna.find_in_container( backpack )->all_pockets_sealed() );
         }
     }
+    // small tin can (sealed) > canned tuna fish (WL), canned meat
+    WHEN( "there is a sealed container on the ground containing no whitelisted items" ) {
+        item item_small_tin_can = item( itype_can_food );
+        item item_bottle_plastic = item( itype_bottle_plastic );
+        unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
+        unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
+
+        // insert items inside can and seal it
+        item_small_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
+        item_small_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
+        item_small_tin_can.seal();
+
+        unique_item item_sealed_tuna = unique_item( item_small_tin_can );
+        REQUIRE( item_sealed_tuna.spawn_item( ground ) );
+        // autopickup something other than the sealed items
+        unique_item item_red_herring = unique_item( item_bottle_plastic );
+        add_autopickup_rule( item_red_herring.get(), true );
+        THEN( "nothing should be picked up" ) {
+            simulate_auto_pickup( ground, they );
+            expect_to_find( backpack, {} );
+            // make sure the item seal was not broken
+            REQUIRE( item_sealed_tuna.is_on_ground( ground ) );
+            REQUIRE( item_sealed_tuna.find_on_ground( ground )->all_pockets_sealed() );
+        }
+    }
 }
 
 TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][item]" )
@@ -456,6 +483,26 @@ TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][
                 // make sure excluded items were not dropped on the ground
                 REQUIRE_FALSE( item_lump_of_steel.is_on_ground( ground ) );
             }
+        }
+    }
+
+    GIVEN( "a whitelist rule for picking up battery charges" ) {
+        item item_store_bat( itype_storage_battery );
+        item item_bat( itype_battery, calendar::turn, 10 );
+        item_store_bat.ammo_set( itype_battery, 10 );
+        REQUIRE( !item_store_bat.all_items_top().empty() );
+        REQUIRE( item_store_bat.all_items_top().front()->charges == 10 );
+        unique_item item_storage_battery = unique_item( item_store_bat );
+        unique_item item_battery = unique_item( item_bat );
+        REQUIRE( item_storage_battery.spawn_item( ground ) );
+        add_autopickup_rules( { &item_storage_battery }, false );
+        add_autopickup_rules( { &item_battery }, true );
+        THEN( "ignore battery charges" ) {
+            simulate_auto_pickup( ground, they );
+            expect_to_find( backpack, {} );
+            CHECK( item_storage_battery.is_on_ground( ground ) );
+            REQUIRE( !item_storage_battery.find_on_ground( ground )->all_items_top().empty() );
+            REQUIRE( item_storage_battery.find_on_ground( ground )->all_items_top().front()->charges == 10 );
         }
     }
 }

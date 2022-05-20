@@ -72,6 +72,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type )
 
     static const std::unordered_map<std::string, std::string> HardcodedPrefixes = {
         { "activity_type", "" },
+        { "add_type", "addiction_" },
         { "ammunition_type", "ammo_" },
         { "bionic_data", "" },
         { "fault", "" },

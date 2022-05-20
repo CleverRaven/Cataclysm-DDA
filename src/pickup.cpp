@@ -203,7 +203,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
     } else if( !player_character.can_pickWeight_partial( newit, false ) ||
-               !player_character.can_stash_partial( newit, !autopickup ) ) {
+               !player_character.can_stash_partial( newit, false ) ) {
         option = CANCEL;
         stash_successful = false;
     } else if( newit.is_bucket_nonempty() ) {
@@ -243,17 +243,18 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
         // Intentional fallthrough
         case STASH: {
             item &added_it = player_character.i_add( newit, true, nullptr, &it,
-                             /*allow_drop=*/false, /*allow_wield=*/false, !autopickup );
+                             /*allow_drop=*/false, /*allow_wield=*/false, false );
             if( added_it.is_null() ) {
                 // failed to add, fill pockets if it's a stack
                 if( newit.count_by_charges() ) {
                     int remaining_charges = newit.charges;
-                    item &weapon = player_character.get_wielded_item();
-                    if( weapon.can_contain_partial( newit ) ) {
-                        int used_charges = weapon.fill_with( newit, remaining_charges, false, false, !autopickup );
+                    item &carried_item = player_character.get_wielded_item();
+                    if( !carried_item.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
+                        carried_item.can_contain_partial( newit ) ) {
+                        int used_charges = carried_item.fill_with( newit, remaining_charges, false, false, false );
                         remaining_charges -= used_charges;
                     }
-                    player_character.worn.pickup_stash( newit, remaining_charges, !autopickup );
+                    player_character.worn.pickup_stash( newit, remaining_charges, false );
                     newit.charges -= remaining_charges;
                     newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {
@@ -279,6 +280,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
     }
 
     if( picked_up ) {
+        contents_change_handler handler;
+        handler.unseal_pocket_containing( loc );
         item &orig_it = *loc.get_item();
         // Subtract moved charges instead of assigning leftover charges,
         // since the total charges of the original item may have changed
@@ -386,7 +389,7 @@ void Pickup::autopickup( const tripoint &p )
         target_items.push_back( selected.first );
         quantities.push_back( it->count_by_charges() ? it->charges : 0 );
     }
-    pickup_activity_actor actor = pickup_activity_actor( target_items, quantities, player.pos() );
+    pickup_activity_actor actor = pickup_activity_actor( target_items, quantities, player.pos(), true );
     player.assign_activity( player_activity( actor ) );
 
     // Auto pickup will need to auto resume since there can be several of them on the stack.

@@ -10,10 +10,12 @@
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "character_modifier.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -28,7 +30,6 @@
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "skill.h"
@@ -305,17 +306,19 @@ static player_display_tab prev_tab( const player_display_tab tab )
 }
 
 static void draw_proficiencies_tab( const catacurses::window &win, const unsigned line,
-                                    const Character &guy, const player_display_tab curtab )
+                                    const Character &guy, const player_display_tab curtab,
+                                    const input_context &ctxt )
 {
     werase( win );
     const std::vector<display_proficiency> profs = guy.display_proficiencies();
     const bool focused = curtab == player_display_tab::proficiencies;
     const nc_color title_color = focused ? h_light_gray : c_light_gray;
-    center_print( win, 0, title_color, _( title_PROFICIENCIES ) );
+    center_print( win, 0, title_color, string_format( "[<color_yellow>%s</color>] %s",
+                  ctxt.get_desc( "VIEW_PROFICIENCIES" ), _( title_PROFICIENCIES ) ) );
 
     const int height = getmaxy( win ) - 1;
     const bool do_draw_scrollbar = height < static_cast<int>( profs.size() );
-    const int width = getmaxx( win ) - 1 - ( do_draw_scrollbar ? 1 : 0 );  // -1 for beggining space
+    const int width = getmaxx( win ) - 1 - ( do_draw_scrollbar ? 1 : 0 );  // -1 for beginning space
 
     const std::pair<const int, const int> range = subindex_around_cursor( profs.size(), height, line,
             focused );
@@ -364,11 +367,13 @@ static void draw_proficiencies_info( const catacurses::window &w_info, const uns
 }
 
 static void draw_stats_tab( const catacurses::window &w_stats, const Character &you,
-                            const unsigned line, const player_display_tab curtab )
+                            const unsigned line, const player_display_tab curtab, const input_context &ctxt )
 {
     werase( w_stats );
     const nc_color title_col = curtab == player_display_tab::stats ? h_light_gray : c_light_gray;
-    center_print( w_stats, 0, title_col, _( title_STATS ) );
+    center_print( w_stats, 0, title_col,
+                  string_format( "[<color_yellow>%s</color>] %s",
+                                 ctxt.get_desc( "VIEW_BODYSTAT" ), _( title_STATS ) ) );
 
     const auto line_color = [curtab, line]( const unsigned line_to_draw ) {
         if( curtab == player_display_tab::stats && line == line_to_draw ) {
@@ -962,7 +967,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
 
     if( customize_character ) {
         right_print( w_tip, 0, 8, c_light_gray, string_format(
-                         _( "[<color_yellow>%s</color>]Customize character" ),
+                         _( "[<color_yellow>%s</color>] Customize character" ),
                          ctxt.get_desc( "SWITCH_GENDER" ) ) );
     }
 
@@ -1106,6 +1111,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 invalidate_tab( curtab );
                 break;
             }
+            case player_display_tab::proficiencies:
+                show_proficiencies_window( you );
+                break;
         }
     } else if( action == "CHANGE_PROFESSION_NAME" ) {
         string_input_popup popup;
@@ -1117,6 +1125,10 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
 
         you.custom_profession = popup.text();
         ui_tip.invalidate_ui();
+    } else if( action == "VIEW_PROFICIENCIES" ) {
+        show_proficiencies_window( you );
+    } else if( action == "VIEW_BODYSTAT" ) {
+        display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
         uilist cmenu;
         cmenu.title = _( "Customize Character" );
@@ -1150,6 +1162,8 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     } else if( action == "SCROLL_INFOBOX_DOWN" ) {
         ++info_line;
         ui_info.invalidate_ui();
+    } else if( action == "MEDICAL_MENU" ) {
+        you.as_avatar()->disp_medical();
     }
     return done;
 }
@@ -1261,7 +1275,8 @@ void Character::disp_info( bool customize_character )
 
     for( auto &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name_and_text.emplace_back( addiction_name( elem ), addiction_text( elem ) );
+            effect_name_and_text.emplace_back( elem.type->get_name().translated(),
+                                               elem.type->get_description().translated() );
         }
     }
 
@@ -1324,9 +1339,12 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training / Upgrade stat" ) );
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
     ctxt.register_action( "SWITCH_GENDER", to_translation( "Customize base appearance and name" ) );
+    ctxt.register_action( "VIEW_PROFICIENCIES", to_translation( "View character proficiencies" ) );
+    ctxt.register_action( "VIEW_BODYSTAT", to_translation( "View character's body status" ) );
     ctxt.register_action( "SCROLL_INFOBOX_UP", to_translation( "Scroll information box up" ) );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN", to_translation( "Scroll information box down" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "MEDICAL_MENU" );
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {
@@ -1380,7 +1398,7 @@ void Character::disp_info( bool customize_character )
     ui_stats.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_stats_border );
         wnoutrefresh( w_stats_border );
-        draw_stats_tab( w_stats, *this, line, curtab );
+        draw_stats_tab( w_stats, *this, line, curtab, ctxt );
     } );
 
     // TRAITS & BIONICS
@@ -1500,7 +1518,7 @@ void Character::disp_info( bool customize_character )
     ui_proficiencies.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_proficiencies_border );
         wnoutrefresh( w_proficiencies_border );
-        draw_proficiencies_tab( w_proficiencies, line, *this, curtab );
+        draw_proficiencies_tab( w_proficiencies, line, *this, curtab, ctxt );
     } );
 
     // SKILLS

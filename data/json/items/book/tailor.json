@@ -190,7 +190,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Dieselpunk Designs", "str_pl": "copies of Dieselpunk Designs" },
-    "description": "A large, leatherbound book containing a number of leather and rubber pieces for the fashionable dieselpunk.",
+    "description": "A large, leatherbound book containing a number of leather and rubber recipes for the fashionable dieselpunk.",
     "weight": "2600 g",
     "volume": "2 L",
     "price": 6000,
@@ -212,7 +212,7 @@
   },
   {
     "abstract": "exodii_blueprint",
-    "name": "exodii blueprint abstract",
+    "name": "Exodii blueprint abstract",
     "type": "BOOK",
     "category": "manuals",
     "weight": "100 g",
@@ -242,7 +242,7 @@
     "id": "bp_nomad_bodyglove",
     "type": "BOOK",
     "name": { "str": "nomad bodyglove blueprint" },
-    "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a tight-fitting but protective bodysuit, with options to reinforce it with kevlar threads.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
+    "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a tight-fitting but protective bodysuit, with options to reinforce it with Kevlar threads.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
     "copy-from": "exodii_blueprint",
     "color": "blue",
     "proficiencies": [

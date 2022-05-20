@@ -317,9 +317,10 @@ static void debug_error_prompt(
         );
 #endif
 
-    // temporarily disable redrawing and resizing of previous uis since they
-    // could be in an unknown state.
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    // Create a special debug message UI that does various things to ensure
+    // the graphics are correct when the debug message is displayed during a
+    // redraw callback.
+    ui_adaptor ui( ui_adaptor::debug_message_ui {} );
     const auto init_window = []( ui_adaptor & ui ) {
         ui.position_from_window( catacurses::stdscr );
     };
@@ -354,7 +355,7 @@ static void debug_error_prompt(
         catacurses::erase();
         fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
                         "%s", message );
-        catacurses::refresh();
+        wnoutrefresh( catacurses::stdscr );
     } );
 
 #if defined(__ANDROID__)

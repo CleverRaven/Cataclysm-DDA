@@ -54,6 +54,23 @@
     ]
   },
   {
+    "type": "GENERIC",
+    "id": "swimming_kickboard",
+    "name": { "str": "swimming kickboard" },
+    "description": "A swimming kickboard, great training aid for the beach or the pool, if only they weren't full of jawed terrors and zombies.",
+    "volume": "3450 ml",
+    "weight": "200 g",
+    "longest_side": "37 cm",
+    "price": "12 USD",
+    "price_postapoc": 5,
+    "bashing": 4,
+    "to_hit": -1,
+    "color": "blue",
+    "symbol": "/",
+    "material": [ "plastic" ],
+    "flags": [ "NONCONDUCTIVE", "FLOTATION" ]
+  },
+  {
     "id": "shuttlecock",
     "type": "GENERIC",
     "category": "other",
@@ -222,7 +239,7 @@
     "id": "beach_volleyball",
     "symbol": "*",
     "color": "green",
-    "name": { "str": "beach volleyball", "str_pl": "volleyballs" },
+    "name": { "str": "beach volleyball" },
     "category": "other",
     "description": "A brightly colored beach volleyball.  It is slightly larger than a regular white one.",
     "price": 1200,

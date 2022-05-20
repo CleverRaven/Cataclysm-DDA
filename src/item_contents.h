@@ -41,7 +41,7 @@ class item_contents
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
-                bool nested = false );
+                bool nested = false, bool ignore_rigidity = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -61,9 +61,10 @@ class item_contents
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
          * @param it the item being put in
+         * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
-        ret_val<bool> can_contain( const item &it ) const;
-        ret_val<bool> can_contain_rigid( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, const bool ignore_pkt_settings = true ) const;
+        ret_val<bool> can_contain_rigid( const item &it, const bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         /**
@@ -106,6 +107,10 @@ class item_contents
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<const item *> all_items_top() const;
+
+        /** returns a list of pointers to all visible or remembered content items that are not mods */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -167,8 +172,14 @@ class item_contents
         units::volume get_used_holster_volume() const;
 
         // gets all CONTAINER pockets contained in this item
-        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
-        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_contained_pockets() const;
+        std::vector<item_pocket *> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_standard_pockets() const;
+        std::vector<item_pocket *> get_all_standard_pockets();
+        std::vector<const item_pocket *>
+        get_pockets( std::function<bool( item_pocket const & )> const &filter ) const;
+        std::vector<item_pocket *>
+        get_pockets( std::function<bool( item_pocket const & )> const &filter );
 
         // called when adding an item as pockets
         // to a molle item
@@ -179,6 +190,9 @@ class item_contents
         // related vectors
         // returns the item that was attached
         item remove_pocket( int index );
+
+        // retrieves the pocket in contents corresponding to the added pocket item
+        const item_pocket *get_added_pocket( int index ) const;
 
         std::vector<const item *> get_added_pockets() const;
 
@@ -298,7 +312,7 @@ class item_contents
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( Character *carrier, const tripoint &pos, float insulation = 1,
+        void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         bool item_has_uses_recursive() const;
