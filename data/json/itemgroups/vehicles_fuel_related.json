@@ -25,11 +25,44 @@
   },
   {
     "type": "item_group",
+    "id": "spare_tire_kit",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "wheel", "prob": 95 }, { "item": "deflated_wheel", "prob": 5 } ], "prob": 78 },
+      { "item": "jack", "prob": 88 },
+      { "item": "lug_wrench", "prob": 92 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spare_tire_kit_wide_wheel",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "wheel_wide", "prob": 95 }, { "item": "deflated_wheel_wide", "prob": 5 } ], "prob": 78 },
+      { "item": "jack", "prob": 88 },
+      { "item": "lug_wrench", "prob": 92 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spare_tire_kit_small_jack",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "wheel", "prob": 95 }, { "item": "deflated_wheel", "prob": 5 } ], "prob": 78 },
+      { "item": "jack_small", "prob": 88 },
+      { "item": "lug_wrench", "prob": 92 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spare_tire_kit_tools_only",
+    "subtype": "collection",
+    "entries": [ { "item": "jack", "prob": 88 }, { "item": "lug_wrench", "prob": 92 } ]
+  },
+  {
+    "type": "item_group",
     "id": "car_kit",
     "items": [
-      [ "tire_iron", 20 ],
-      [ "jack", 18 ],
-      [ "wheel", 14 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 3 ],
       [ "hose", 7 ],
@@ -43,7 +76,8 @@
       [ "screwdriver", 8 ],
       [ "screwdriver_set", 2 ],
       [ "hd_tow_cable", 5 ],
-      { "group": "tools_toolbox", "prob": 1 }
+      { "group": "tools_toolbox", "prob": 1 },
+      { "group": "bugout_bag", "prob": 3 }
     ]
   },
   {
@@ -51,6 +85,7 @@
     "id": "car_misc",
     "items": [
       { "item": "matches", "prob": 8, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 8, "charges-min": 0, "charges-max": 32 },
       { "item": "lighter", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
       { "group": "tobacco_products", "prob": 26 },

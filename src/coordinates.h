@@ -95,6 +95,7 @@ class coord_point
 {
     public:
         static constexpr int dimension = Point::dimension;
+        using this_as_tripoint = coord_point<tripoint, Origin, Scale>;
 
         constexpr coord_point() = default;
         explicit constexpr coord_point( const Point &p ) :
@@ -186,16 +187,24 @@ class coord_point
             return coord_point( l.raw() + r );
         }
 
-        friend inline coord_point operator+( const coord_point &l, const tripoint &r ) {
-            return coord_point( l.raw() + r );
+        friend inline this_as_tripoint operator+( const coord_point &l, const tripoint &r ) {
+            return this_as_tripoint( l.raw() + r );
+        }
+
+        friend inline coord_point operator+( const point &l, const coord_point &r ) {
+            return coord_point( l + r.raw() );
+        }
+
+        friend inline this_as_tripoint operator+( const tripoint &l, const coord_point &r ) {
+            return this_as_tripoint( l + r.raw() );
         }
 
         friend inline coord_point operator-( const coord_point &l, const point &r ) {
             return coord_point( l.raw() - r );
         }
 
-        friend inline coord_point operator-( const coord_point &l, const tripoint &r ) {
-            return coord_point( l.raw() - r );
+        friend inline this_as_tripoint operator-( const coord_point &l, const tripoint &r ) {
+            return this_as_tripoint( l.raw() - r );
         }
     private:
         Point raw_;
@@ -375,7 +384,7 @@ struct quotient_remainder_tripoint {
 
 // project_remain returns a helper struct, intended to be used with std::tie
 // to pull out the two components of the result.
-// For exmaple, when splitting a point:
+// For example, when splitting a point:
 //  point_abs_sm val;
 //  point_abs_om quotient;
 //  point_om_sm remainder;
@@ -479,6 +488,7 @@ using point_rel_ms = coords::coord_point<point, coords::origin::relative, coords
 using point_abs_ms = coords::coord_point<point, coords::origin::abs, coords::ms>;
 using point_sm_ms = coords::coord_point<point, coords::origin::submap, coords::ms>;
 using point_omt_ms = coords::coord_point<point, coords::origin::overmap_terrain, coords::ms>;
+using point_rel_sm = coords::coord_point<point, coords::origin::relative, coords::sm>;
 using point_abs_sm = coords::coord_point<point, coords::origin::abs, coords::sm>;
 using point_omt_sm = coords::coord_point<point, coords::origin::overmap_terrain, coords::sm>;
 using point_om_sm = coords::coord_point<point, coords::origin::overmap, coords::sm>;

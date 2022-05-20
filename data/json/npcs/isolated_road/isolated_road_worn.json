@@ -1,0 +1,66 @@
+[
+  {
+    "type": "item_group",
+    "id": "CODY_MILLER_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tank_top" },
+      { "item": "under_armor_shorts" },
+      { "item": "apron_leather" },
+      { "item": "jeans" },
+      { "item": "gloves_work" },
+      { "item": "knife_combat", "container-item": "bootsheath" },
+      { "item": "welding_mask_raised" },
+      { "item": "fanny" },
+      { "item": "socks" },
+      { "item": "boots_steel" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "CODY_MILLER_weild",
+    "subtype": "collection",
+    "items": [ { "item": "hammer" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "CODY_MILLER_carry",
+    "subtype": "collection",
+    "items": [
+      { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+      { "item": "swage" },
+      { "item": "metal_file" },
+      { "item": "metalworking_tongs" },
+      { "item": "hotcut" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "JAY_RUCKERS_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "linuxtshirt" },
+      { "group": "ballistic_vest_light_pristine" },
+      { "item": "boxer_briefs" },
+      { "item": "jeans" },
+      { "item": "fn57", "ammo-item": "57mm", "charges": 20, "container-item": "tactical_holster" },
+      { "item": "powered_earmuffs" },
+      { "item": "glasses_bal" },
+      { "item": "mbag" },
+      { "item": "socks" },
+      { "item": "boots_combat" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "JAY_RUCKERS_weild",
+    "subtype": "collection",
+    "items": [ { "item": "screwdriver" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "JAY_RUCKERS_carry",
+    "subtype": "collection",
+    "items": [ { "item": "screwdriver_set" }, { "item": "metal_file" }, { "item": "press" } ]
+  }
+]

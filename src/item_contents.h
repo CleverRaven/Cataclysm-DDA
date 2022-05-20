@@ -36,10 +36,12 @@ class item_contents
 
         /**
           * returns an item_location and pointer to the best pocket that can contain the item @it
+          * checks all items contained in every pocket
           * only checks CONTAINER pocket type
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
+                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
+                bool nested = false, bool ignore_rigidity = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -59,9 +61,10 @@ class item_contents
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
          * @param it the item being put in
+         * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
-        ret_val<bool> can_contain( const item &it ) const;
-        ret_val<bool> can_contain_rigid( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, const bool ignore_pkt_settings = true ) const;
+        ret_val<bool> can_contain_rigid( const item &it, const bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         /**
@@ -71,9 +74,10 @@ class item_contents
          */
         bool can_reload_with( const item &ammo, const bool now ) const;
 
-        // does not ignore mods
-        bool empty_real() const;
+        // Returns true if contents are empty (ignoring item mods, since they aren't contents)
         bool empty() const;
+        // Returns true if contents are empty of everything including mods
+        bool empty_with_no_mods() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
         // checks if CONTAINER pockets are all full
@@ -103,6 +107,10 @@ class item_contents
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<const item *> all_items_top() const;
+
+        /** returns a list of pointers to all visible or remembered content items that are not mods */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -157,9 +165,21 @@ class item_contents
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
 
+        // get all holsters
+        int get_used_holsters() const;
+        int get_total_holsters() const;
+        units::volume get_total_holster_volume() const;
+        units::volume get_used_holster_volume() const;
+
         // gets all CONTAINER pockets contained in this item
-        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
-        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_contained_pockets() const;
+        std::vector<item_pocket *> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_standard_pockets() const;
+        std::vector<item_pocket *> get_all_standard_pockets();
+        std::vector<const item_pocket *>
+        get_pockets( std::function<bool( item_pocket const & )> const &filter ) const;
+        std::vector<item_pocket *>
+        get_pockets( std::function<bool( item_pocket const & )> const &filter );
 
         // called when adding an item as pockets
         // to a molle item
@@ -171,11 +191,14 @@ class item_contents
         // returns the item that was attached
         item remove_pocket( int index );
 
+        // retrieves the pocket in contents corresponding to the added pocket item
+        const item_pocket *get_added_pocket( int index ) const;
+
         std::vector<const item *> get_added_pockets() const;
 
         bool has_additional_pockets() const;
 
-        int get_additional_pocket_encumbrance( ) const;
+        int get_additional_pocket_encumbrance( float mod ) const;
         int get_additional_space_used() const;
         units::mass get_additional_weight() const;
         units::volume get_additional_volume() const;
@@ -289,7 +312,7 @@ class item_contents
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( Character *carrier, const tripoint &pos, float insulation = 1,
+        void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         bool item_has_uses_recursive() const;
@@ -331,7 +354,8 @@ class item_contents
 
         // pockets that have been custom added
         std::vector<item> additional_pockets;
-        int additional_pockets_encumbrance = 0; // NOLINT(cata-serialize)
+        // TODO make this work with non torso items
+        units::volume additional_pockets_volume = 0_ml; // NOLINT(cata-serialize)
 
         // an abstraction for how many 'spaces' of this item have been used attaching additional pockets
         int additional_pockets_space_used = 0; // NOLINT(cata-serialize)

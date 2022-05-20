@@ -10,7 +10,7 @@
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ] ]
+    "components": [ [ [ "rock", 1 ], [ "rock_flaking_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -56,6 +56,22 @@
     "using": [ [ "forging_standard", 5 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "weights", 34, "LIST" ], [ "steel_tiny", 2, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "baseball",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "tailoring_leather_small", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
+    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ],
+    "//": "Essentially a ball of glued-together string with some leather around it"
   },
   {
     "type": "recipe",
@@ -222,7 +238,7 @@
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 3 ], [ "survival", 1 ] ],
+    "skills_required": [ [ "survival", 1 ] ],
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
@@ -238,7 +254,7 @@
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
         [ "nail", 10 ],
-        [ "sharp_rock", 1 ]
+        [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -411,7 +427,7 @@
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
         [ "nail", 10 ],
-        [ "sharp_rock", 1 ]
+        [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -430,13 +446,14 @@
     "book_learn": [ [ "recipe_arrows", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "arrow_field_point_fletched", 5 ] ],
+      [ [ "arrow_field_point_fletched", 1 ] ],
       [ [ "rag", 1, "NO_RECOVER" ] ],
       [
         [ "lamp_oil", 50, "NO_RECOVER" ],
         [ "motor_oil", 50, "NO_RECOVER" ],
         [ "chem_ethanol", 100, "NO_RECOVER" ],
         [ "denat_alcohol", 100, "NO_RECOVER" ],
+        [ "methed_alcohol", 100, "NO_RECOVER" ],
         [ "gasoline", 250, "NO_RECOVER" ],
         [ "diesel", 250, "NO_RECOVER" ],
         [ "biodiesel", 250, "NO_RECOVER" ]

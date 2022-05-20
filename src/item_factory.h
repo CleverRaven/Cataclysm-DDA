@@ -124,6 +124,17 @@ class Item_factory
          */
         void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
                               const std::string &subtype, std::string context = {} );
+
+        /**
+        * Actually the load item group data into the group. Matches the above function, which merely
+        * organises which group to load into and the type.
+        * @param jsobj The json object to load from.
+        * @param group_id The ident of the item that is to be loaded.
+        * @param subtype The type of the item group, either "collection", "distribution" or "old"
+        * ("old" is a distribution, too).
+        */
+        void load_item_group_data( const JsonObject &jsobj, Item_group *ig,
+                                   const std::string &subtype );
         /**
          * Like above, but the above loads data from several members of the object, this function
          * assume the given array is the "entries" member of the item group.

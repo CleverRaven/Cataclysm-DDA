@@ -19,7 +19,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -40,7 +40,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -61,7 +61,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -81,7 +81,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "healthy": 1,
     "calories": 449,
     "description": "A sandwich of meat, vegetables, and cheese with condiments.  Tasty and nutritious!",
     "price": 1200,
@@ -91,7 +90,7 @@
     "volume": "250 ml",
     "charges": 2,
     "fun": 12,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -111,9 +110,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 1,
     "calories": 449,
-    "description": "A pre-cataclysm classic probably made with significant substitions.  Key components are the special sauce and sauerkraut, with bread, meat, and cheese fried in a pan.",
+    "description": "A pre-Cataclysm classic probably made with significant substitutions.  Key components are the special sauce and sauerkraut, with bread, meat, and cheese fried in a pan.",
     "price": 1200,
     "price_postapoc": 300,
     "material": [ "flesh", "veggy", "wheat", "milk" ],
@@ -121,7 +119,7 @@
     "volume": "250 ml",
     "charges": 2,
     "fun": 14,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -134,7 +132,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 6,
-    "healthy": 1,
     "calories": 227,
     "description": "A refreshing cucumber sandwich.  Not very filling, but quite tasty.",
     "price": 400,
@@ -162,7 +159,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -225,7 +222,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ], [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -257,7 +254,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "healthy": 1,
     "calories": 328,
     "description": "A delicious honey sandwich.",
     "price": 175,
@@ -293,7 +289,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "healthy": 1,
     "calories": 202,
     "description": "Bread and vegetables, that's it.",
     "price": 800,
@@ -302,7 +297,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -331,7 +326,7 @@
     "volume": "300 ml",
     "charges": 2,
     "fun": 2,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -432,7 +427,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -451,7 +446,17 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lobster_roll",
+    "name": { "str": "lobster roll" },
+    "copy-from": "fish_sandwich",
+    "color": "pink",
+    "description": "A delicious authentic lobster roll.",
+    "price_postapoc": 500,
+    "fun": 30
   },
   {
     "type": "COMESTIBLE",
@@ -474,7 +479,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -496,7 +501,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -516,7 +521,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "healthy": 1,
     "calories": 449,
     "description": "A sandwich of meat, vegetables, and cheese with condiments made with wheat-free bread.  Tasty and nutritious!",
     "price": 1200,
@@ -526,7 +530,7 @@
     "volume": "250 ml",
     "charges": 2,
     "fun": 12,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -546,9 +550,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 1,
     "calories": 449,
-    "description": "A pre-cataclysm classic probably made with significant substitions.  Key components are the special sauce and sauerkraut, with wheat-free bread, meat, and cheese fried in a pan.",
+    "description": "A pre-Cataclysm classic probably made with significant substitutions.  Key components are the special sauce and sauerkraut, with wheat-free bread, meat, and cheese fried in a pan.",
     "price": 1200,
     "price_postapoc": 300,
     "material": [ "flesh", "veggy", "milk" ],
@@ -556,7 +559,7 @@
     "volume": "250 ml",
     "charges": 2,
     "fun": 14,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -569,7 +572,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 6,
-    "healthy": 1,
     "calories": 504,
     "description": "A refreshing cucumber sandwich made with wheat-free bread.  Not very filling, but quite tasty.",
     "price": 400,
@@ -597,7 +599,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -660,7 +662,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ], [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -673,7 +675,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 220,
-    "description": "An 'open-faced sandwich' consisting of sliced wheat-free bread, a healthy crust-to-crust slathering of butter, and sprinkles.  A wheat-free alterntive to a staple of birthday parties in Australia.",
+    "description": "An 'open-faced sandwich' consisting of sliced wheat-free bread, a healthy crust-to-crust slathering of butter, and sprinkles.  A wheat-free alternative to a staple of birthday parties in Australia.",
     "price": 85,
     "price_postapoc": 300,
     "material": [ "junk", "veggy" ],
@@ -692,7 +694,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "healthy": 1,
     "calories": 328,
     "description": "A delicious honey sandwich made with wheat-free bread.",
     "price": 175,
@@ -727,7 +728,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "healthy": 1,
     "calories": 202,
     "description": "Wheat-free bread and vegetables, that's it.",
     "price": 800,
@@ -736,7 +736,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", 14 ], [ "iron", 28 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -769,7 +769,7 @@
     "volume": "300 ml",
     "charges": 2,
     "fun": 2,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -870,7 +870,7 @@
     "material": [ "flesh", "veggy" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -893,6 +893,6 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ] ]
   }
 ]

@@ -480,17 +480,20 @@ void talk_function::insult_combat( npc &p )
 void talk_function::bionic_install( npc &p )
 {
     avatar &player_character = get_avatar();
-    item_location bionic = game_menus::inv::install_bionic( player_character, player_character, true );
+    item_location bionic = game_menus::inv::install_bionic( p, player_character, true );
 
     if( !bionic ) {
         return;
     }
 
-    const item *tmp = bionic.get_item();
+    item *tmp = bionic.get_item();
+    tmp->set_var( VAR_TRADE_IGNORE, 1 );
     const itype &it = *tmp->type;
 
-    signed int price = tmp->price( true ) * 2;
-    if( !npc_trading::pay_npc( p, price ) ) {
+    signed int price = npc_trading::bionic_install_price( p, player_character, bionic );
+    bool const ret = npc_trading::pay_npc( p, price );
+    tmp->erase_var( VAR_TRADE_IGNORE );
+    if( !ret ) {
         return;
     }
 
@@ -512,6 +515,7 @@ void talk_function::bionic_remove( npc &p )
 
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
+    std::vector<const bionic *> bionics;
     for( const bionic &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(),
                        bio.info().itype() ) == bionic_types.end() ) {
@@ -522,6 +526,7 @@ void talk_function::bionic_remove( npc &p )
             } else {
                 bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
             }
+            bionics.push_back( &bio );
         }
     }
     // Choose bionic if applicable
@@ -543,23 +548,25 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    //Makes the doctor awesome at installing but not perfect
-    if( player_character.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p,
-            false ) ) {
-        player_character.amount_of(
-            bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-        player_character.uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
+    //Makes the doctor awesome at uninstalling but not perfect
+    if( player_character.can_uninstall_bionic( *bionics[bionic_index], p,
+            false, 20 ) ) {
+        player_character.uninstall_bionic( *bionics[bionic_index], p, false, 20 );
     }
-
 }
 
 void talk_function::give_equipment( npc &p )
+{
+    give_equipment_allowance( p, 0 );
+}
+
+void talk_function::give_equipment_allowance( npc &p, int allowance )
 {
     std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
     while( chosen == -1 && !giving.empty() ) {
         int index = rng( 0, giving.size() - 1 );
-        if( giving[index].price < p.op_of_u.owed ) {
+        if( giving[index].price < p.op_of_u.owed + allowance ) {
             chosen = index;
         } else {
             giving.erase( giving.begin() + index );
@@ -579,13 +586,54 @@ void talk_function::give_equipment( npc &p )
     Character &player_character = get_player_character();
     it.set_owner( player_character );
     player_character.i_add( it );
-    p.op_of_u.owed -= giving[chosen].price;
+    allowance -= giving[chosen].price;
+    if( allowance < 0 ) {
+        p.op_of_u.owed += allowance;
+    }
     p.add_effect( effect_asked_for_item, 3_hours );
+}
+
+void talk_function::lesser_give_aid( npc &p )
+{
+    Character &player_character = get_player_character();
+    for( const bodypart_id &bp :
+         player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        player_character.heal( bp, rng( 5, 15 ) );
+        if( player_character.has_effect( effect_bleed, bp.id() ) ) {
+            player_character.remove_effect( effect_bleed, bp );
+        }
+    }
+    const int moves = to_moves<int>( 15_minutes );
+    player_character.assign_activity( ACT_WAIT_NPC, moves );
+    player_character.activity.str_values.push_back( p.get_name() );
+    p.add_effect( effect_currently_busy, 60_minutes );
+}
+
+void talk_function::lesser_give_all_aid( npc &p )
+{
+    lesser_give_aid( p ); // Provide lesser aid to the player first
+
+    Character &player_character = get_player_character();
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_walking_with() && rl_dist( guy.pos(), player_character.pos() ) < PICKUP_RANGE ) {
+            for( const bodypart_id &bp :
+                 guy.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                guy.heal( bp, rng( 5, 15 ) );
+                if( guy.has_effect( effect_bleed, bp.id() ) ) {
+                    guy.remove_effect( effect_bleed, bp );
+                }
+            }
+        }
+    }
+
+    const int moves = to_moves<int>( 30_minutes );
+    player_character.assign_activity( ACT_WAIT_NPC, moves );
+    player_character.activity.str_values.push_back( p.get_name() );
+    p.add_effect( effect_currently_busy, 120_minutes );
 }
 
 void talk_function::give_aid( npc &p )
 {
-    p.add_effect( effect_currently_busy, 30_minutes );
     Character &player_character = get_player_character();
     for( const bodypart_id &bp :
          player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
@@ -600,17 +648,20 @@ void talk_function::give_aid( npc &p )
             player_character.remove_effect( effect_infected, bp );
         }
     }
-    const int moves = to_moves<int>( 100_minutes );
+
+    const int moves = to_moves<int>( 30_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
     player_character.activity.str_values.push_back( p.get_name() );
+    p.add_effect( effect_currently_busy, 120_minutes );
 }
 
 void talk_function::give_all_aid( npc &p )
 {
-    p.add_effect( effect_currently_busy, 30_minutes );
-    give_aid( p );
+    give_aid( p ); // Provide aid to the player first
+
+    Character &player_character = get_player_character();
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_walking_with() && rl_dist( guy.pos(), get_player_character().pos() ) < PICKUP_RANGE ) {
+        if( guy.is_walking_with() && rl_dist( guy.pos(), player_character.pos() ) < PICKUP_RANGE ) {
             for( const bodypart_id &bp :
                  guy.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 guy.heal( bp, 5 * rng( 2, 5 ) );
@@ -626,6 +677,11 @@ void talk_function::give_all_aid( npc &p )
             }
         }
     }
+
+    const int moves = to_moves<int>( 60_minutes );
+    player_character.assign_activity( ACT_WAIT_NPC, moves );
+    player_character.activity.str_values.push_back( p.get_name() );
+    p.add_effect( effect_currently_busy, 240_minutes );
 }
 
 static void generic_barber( const std::string &mut_type )
@@ -708,60 +764,6 @@ void talk_function::morale_chat_activity( npc &p )
     }
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     player_character.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
-}
-
-void talk_function::buy_10_logs( npc &p )
-{
-    std::vector<tripoint_abs_omt> places =
-        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
-                                 false );
-    if( places.empty() ) {
-        debugmsg( "Couldn't find %s", "ranch_camp_67" );
-        return;
-    }
-    const auto &cur_om = g->get_cur_om();
-    std::vector<tripoint_abs_omt> places_om;
-    for( const tripoint_abs_omt &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
-            places_om.push_back( i );
-        }
-    }
-
-    const tripoint_abs_omt site = random_entry( places_om );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.spawn_item( point( 7, 15 ), "log", 10 );
-    bay.save();
-
-    p.add_effect( effect_currently_busy, 1_days );
-    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.get_name() );
-}
-
-void talk_function::buy_100_logs( npc &p )
-{
-    std::vector<tripoint_abs_omt> places =
-        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
-                                 false );
-    if( places.empty() ) {
-        debugmsg( "Couldn't find %s", "ranch_camp_67" );
-        return;
-    }
-    const auto &cur_om = g->get_cur_om();
-    std::vector<tripoint_abs_omt> places_om;
-    for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
-            places_om.push_back( i );
-        }
-    }
-
-    const tripoint_abs_omt site = random_entry( places_om );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.spawn_item( point( 7, 15 ), "log", 100 );
-    bay.save();
-
-    p.add_effect( effect_currently_busy, 7_days );
-    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.get_name() );
 }
 
 /*
@@ -1036,7 +1038,6 @@ void talk_function::start_training_seminar( npc &p )
     }
     students.push_back( &get_player_character() );
 
-    const int s_count = students.size();
     std::vector<Character *> picked;
     std::function<bool( const Character * )> include_func = [&]( const Character * c ) {
         if( d.skill != skill_id() ) {
@@ -1052,36 +1053,17 @@ void talk_function::start_training_seminar( npc &p )
         }
         return false;
     };
-    do {
-        uilist nmenu;
-        nmenu.text = _( "Who should participate?" );
-        for( int i = 0; i < s_count; i++ ) {
-            std::string entry;
-            if( std::find( picked.begin(), picked.end(), students[i] ) != picked.end() ) {
-                entry = "* ";
-            }
-            bool enable = include_func( students[i] );
-            entry += students[i]->disp_name( false, true );
-            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
-        }
-        nmenu.addentry( s_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
-        nmenu.query();
-        if( nmenu.ret < 0 ) {
-            return;
-        } else if( nmenu.ret >= s_count ) {
-            break;
-        }
-        std::vector<Character *>::iterator exists = std::find( picked.begin(), picked.end(),
-                students[nmenu.ret] );
-        if( exists != picked.end() ) {
-            picked.erase( exists );
-        } else {
-            picked.emplace_back( students[nmenu.ret] );
-        }
-    } while( true );
+    std::vector<int> selected = npcs_select_menu( students, _( "Who should participate?" ),
+    [&include_func]( const Character * ch ) {
+        return !include_func( ch );
+    } );
 
-    if( picked.empty() ) {
+    if( selected.empty() ) {
         return;
+    }
+    picked.reserve( selected.size() );
+    for( int sel : selected ) {
+        picked.emplace_back( students[sel] );
     }
     start_training_gen( p, picked, d );
 }

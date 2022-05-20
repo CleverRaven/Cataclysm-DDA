@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "deep one" },
     "looks_like": "mon_irradiated_wanderer_2",
-    "description": "A large, greenish-grey amphibious humanoid with webbed hands and feet.  It's wide, flabby head is distictly fish like with wide staring eyes and its gangling limbs end in wickedly sharp claws.  It moves with an odd hopping gait, occasionally dropping down to walk on four limbs.",
+    "description": "A large, greenish-gray amphibious humanoid with webbed hands and feet.  It's wide, flabby head is distinctly fish like with wide staring eyes and its gangling limbs end in wickedly sharp claws.  It moves with an odd hopping gait, occasionally dropping down to walk on four limbs.",
     "default_faction": "deep_ones",
     "bodytype": "human",
     "species": [ "MYTHOS" ],
@@ -305,7 +305,7 @@
     "special_attacks": [ { "id": "tentacle" } ],
     "luminance": 25,
     "harvest": "exempt",
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s folds into itself and dissapears." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s folds into itself and disappears." },
     "flags": [ "SEES", "FLIES", "HARDTOSHOOT", "NO_BREATHE", "NOHEAD" ]
   },
   {
@@ -376,11 +376,14 @@
     "armor_bullet": 24,
     "harvest": "exempt",
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [ [ "PARROT", 400 ] ],
+    "special_attacks": [ [ "PARROT", 400 ], [ "ABSORB_ITEMS", 0 ], [ "SPLIT", 0 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "regen_morale": true,
-    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "ABSORBS_SPLITS", "NOGIB" ]
+    "absorb_ml_per_hp": 250,
+    "split_move_cost": 0,
+    "absorb_move_cost_per_ml": 0.0,
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ]
   },
   {
     "id": "mon_hunting_horror",

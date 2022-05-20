@@ -9,7 +9,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 5 ]
+    "occurrences": [ 0, 5 ],
+    "flags": [ "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -131,7 +132,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE" ]
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

@@ -1,0 +1,40 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_coral_obelisk",
+    "name": "coral obelisk",
+    "description": "Facets of white coral erupt from the ground and assemble themselves into a free standing column.  The living surface is bioluminescent and rarely sparkles with golden light.",
+    "symbol": "O",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": 32,
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 64,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "resin_chunk", "count": [ 5, 9 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_coral_pedestal",
+    "name": "coral pedestal",
+    "description": "Fluted white coral gently coils itself into a short pedestal.",
+    "symbol": "&",
+    "color": "dark_gray",
+    "move_cost_mod": 3,
+    "coverage": 50,
+    "required_str": 32,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "MINEABLE", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "resin_chunk", "count": [ 15, 19 ] } ]
+    }
+  }
+]

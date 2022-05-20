@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "warrener",
     "//": "A survivor raising rabbits, all by themselves. Give special quests to give rabbits to player",
-    "name_unique": "Mr Lapin",
+    "name_unique": "Mr. Lapin",
     "name_suffix": "Warrener",
     "gender": "male",
     "class": "NC_Rabbit_Raiser",
@@ -16,7 +16,7 @@
   {
     "type": "npc_class",
     "id": "NC_Rabbit_Raiser",
-    "name": { "str": "Mr Lapin" },
+    "name": { "str": "Mr. Lapin" },
     "job_description": "I raise rabbits.",
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
@@ -95,7 +95,7 @@
         "topic": "TALK_WARRENER_ISHERWOOD_MISSION_ACCEPTED",
         "effect": { "add_mission": "MISSION_Warrener_ISHERWOOD" }
       },
-      { "text": "That seems rather dangerous, I think I'll pass.", "topic": "TALK_EVAC_MERCHANT" }
+      { "text": "That seems rather dangerous, I think I'll pass.", "topic": "TALK_WARRENER" }
     ]
   },
   {
@@ -202,7 +202,7 @@
       "advice": "There's a lot of places to look.  Trees are pretty common.",
       "inquire": "How is the search going?  Have you found'em?",
       "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
     "end": { "effect": [ { "u_spawn_item": "cattlefodder", "count": 2 } ] }
@@ -226,7 +226,7 @@
       "advice": "Find someone growing berries or an orchard.",
       "inquire": "Have you found the fruit?",
       "success": "Thank you for your help.  Here's your reward.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
     "end": { "effect": [ { "u_spawn_item": "petpack", "count": 1 } ] }

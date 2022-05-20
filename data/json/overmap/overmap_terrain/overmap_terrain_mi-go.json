@@ -43,5 +43,14 @@
     "color": "light_gray",
     "mondensity": 2,
     "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_portal",
+    "name": "mi-go structure",
+    "sym": "=",
+    "color": "dark_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   }
 ]

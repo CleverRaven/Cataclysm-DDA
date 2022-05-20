@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 #include "map_helpers.h"
+#include "monster_helpers.h"
 #include "player_helpers.h"
 #include "activity_scheduling_helper.h"
 
@@ -8,12 +9,14 @@
 #include "calendar.h"
 #include "character.h"
 #include "flag.h"
+#include "game.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "map.h"
 #include "monster.h"
 #include "point.h"
 
+static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
@@ -27,6 +30,8 @@ static const bionic_id bio_ears( "bio_ears" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_tied( "tied" );
 
+static const field_type_str_id field_fd_smoke( "fd_smoke" );
+
 static const furn_str_id furn_test_f_boltcut1( "test_f_boltcut1" );
 static const furn_str_id furn_test_f_boltcut2( "test_f_boltcut2" );
 static const furn_str_id furn_test_f_boltcut3( "test_f_boltcut3" );
@@ -38,8 +43,10 @@ static const furn_str_id furn_test_f_oxytorch2( "test_f_oxytorch2" );
 static const furn_str_id furn_test_f_oxytorch3( "test_f_oxytorch3" );
 static const furn_str_id furn_test_f_prying1( "test_f_prying1" );
 
+static const itype_id itype_book_binder( "book_binder" );
 static const itype_id itype_glass_shard( "glass_shard" );
 static const itype_id itype_oxyacetylene( "oxyacetylene" );
+static const itype_id itype_tent_kit( "tent_kit" );
 static const itype_id itype_test_2x4( "test_2x4" );
 static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
 static const itype_id itype_test_boltcutter( "test_boltcutter" );
@@ -54,11 +61,13 @@ static const itype_id itype_test_rag( "test_rag" );
 static const itype_id itype_test_rock( "test_rock" );
 static const itype_id itype_test_shears( "test_shears" );
 static const itype_id itype_test_shears_off( "test_shears_off" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
 static const mtype_id mon_test_non_shearable( "mon_test_non_shearable" );
 static const mtype_id mon_test_shearable( "mon_test_shearable" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
@@ -68,8 +77,11 @@ static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SHEAR( "SHEAR" );
 static const quality_id qual_WELD( "WELD" );
 
+static const recipe_id recipe_water_clean( "water_clean" );
+
 static const skill_id skill_traps( "traps" );
 
+static const ter_str_id ter_t_wall( "t_wall" );
 static const ter_str_id ter_test_t_boltcut1( "test_t_boltcut1" );
 static const ter_str_id ter_test_t_boltcut2( "test_t_boltcut2" );
 static const ter_str_id ter_test_t_hacksaw1( "test_t_hacksaw1" );
@@ -819,7 +831,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
         dummy.wield( it_hacksaw );
         REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw );
-        REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
+        REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
         return item_location{dummy, &dummy.get_wielded_item()};
     };
@@ -946,7 +958,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
             dummy.wield( it_hacksaw_elec );
             REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw_elec );
-            REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
+            REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
             item_location hacksaw_elec{ dummy, &dummy.get_wielded_item() };
 
@@ -1651,6 +1663,215 @@ TEST_CASE( "prying", "[activity][prying]" )
                     CHECK( ( 7 <= count_random && count_random <= 9 ) );
                 }
             }
+        }
+    }
+}
+
+/**
+* Helper method to create activity stubs that aren't meant to be processed.
+* The activities here still need to be able to pass activity_actor::start and
+* set activity::moves_left to a value greater than 0.
+* Some require a more complex setup for this, which is why they're commented out for now.
+* To enable them, the activity would need to be paired with a setup method to be called
+* before activity::start_or_resume to spawn necessary terrain/items/vehicles/etc.
+* Activity actors that use ui functionality in their start methods cannot work at all,
+* only affects workout_activity_actor right now
+*/
+static std::vector<player_activity> get_test_activities( avatar &dummy, map &m )
+{
+    tripoint p = dummy.pos();
+    tripoint north = p + tripoint_north;
+    map_cursor c( p );
+    item_location loc;
+    std::vector<item_location> locs;
+    //this currently only works because the bookbinder is used in the first activity
+    //after that it's removed from the map
+    item &binderit = m.add_item( dummy.pos(), item( itype_book_binder ) );
+    item_location bookbinder( c, &binderit );
+
+    std::vector<player_activity> res{
+        //player_activity( autodrive_activity_actor() ),
+        //player_activity( bikerack_racking_activity_actor() ),
+        //player_activity( boltcutting_activity_actor( north, item_location() ) ),
+        player_activity( bookbinder_copy_activity_actor( bookbinder, recipe_water_clean ) ),
+        player_activity( consume_activity_actor( item( itype_water_clean ) ) ),
+        //player_activity( craft_activity_actor() ),
+        //player_activity( disable_activity_actor() ),
+        //player_activity( disassemble_activity_actor( 1 ) ),
+        player_activity( drop_activity_actor() ),
+        //player_activity( ebooksave_activity_actor( loc, loc ) ),
+        player_activity( firstaid_activity_actor( 1, std::string(), dummy.getID() ) ),
+        player_activity( forage_activity_actor( 1 ) ),
+        player_activity( gunmod_remove_activity_actor( 1, loc, 0 ) ),
+        player_activity( hacking_activity_actor() ),
+        //player_activity( hacksaw_activity_actor( p, loc ) ),
+        player_activity( haircut_activity_actor() ),
+        //player_activity( harvest_activity_actor( p ) ),
+        player_activity( hotwire_car_activity_actor( 1, p ) ),
+        //player_activity( insert_item_activity_actor() ),
+        player_activity( lockpick_activity_actor::use_item( 1, loc, p ) ),
+        //player_activity( longsalvage_activity_actor() ),
+        player_activity( meditate_activity_actor() ),
+        player_activity( migration_cancel_activity_actor() ),
+        player_activity( milk_activity_actor( 1, {p}, {std::string()} ) ),
+        player_activity( mop_activity_actor( 1 ) ),
+        //player_activity( move_furniture_activity_actor( p, false ) ),
+        player_activity( move_items_activity_actor( {}, {}, false, north ) ),
+        player_activity( open_gate_activity_actor( 1, p ) ),
+        //player_activity( oxytorch_activity_actor( p, loc ) ),
+        player_activity( pickup_activity_actor( {}, {}, cata::nullopt, false ) ),
+        player_activity( play_with_pet_activity_actor() ),
+        //player_activity( prying_activity_actor( p, loc ) ),
+        //player_activity( read_activity_actor() ),
+        player_activity( reload_activity_actor( 1, 0, locs ) ),
+        player_activity( safecracking_activity_actor( north ) ),
+        player_activity( shave_activity_actor() ),
+        //player_activity( shearing_activity_actor( north ) ),
+        player_activity( stash_activity_actor() ),
+        player_activity( tent_deconstruct_activity_actor( 1, 1, p, itype_tent_kit ) ),
+        //player_activity( tent_placement_activity_actor() ),
+        player_activity( try_sleep_activity_actor( time_duration::from_hours( 1 ) ) ),
+        player_activity( unload_activity_actor( 1, loc ) ),
+        player_activity( wear_activity_actor( {}, {} ) ),
+        player_activity( wield_activity_actor( loc, 1 ) )
+        //player_activity( workout_activity_actor( p ) )
+    };
+
+    return res;
+}
+
+static void cleanup( avatar &dummy )
+{
+    clear_map();
+
+    REQUIRE( dummy.activity.get_distractions().empty() );
+    REQUIRE( !dummy.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) );
+    REQUIRE( !dummy.activity.is_distraction_ignored( distraction_type::dangerous_field ) );
+}
+
+static void update_cache( map &m )
+{
+    // Why twice? See vision_test.cpp
+    m.update_visibility_cache( 0 );
+    m.invalidate_map_cache( 0 );
+    m.build_map_cache( 0 );
+    m.update_visibility_cache( 0 );
+    m.invalidate_map_cache( 0 );
+    m.build_map_cache( 0 );
+}
+
+TEST_CASE( "activity interruption by distractions", "[activity][interruption]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    clear_map();
+    map &m = get_map();
+    calendar::turn = daylight_time( calendar::turn ) + 2_hours;
+
+    for( player_activity &activity : get_test_activities( dummy, m ) ) {
+        CAPTURE( activity.id() );
+        dummy.activity = activity;
+        dummy.activity.start_or_resume( dummy, false );
+
+        //this must be larger than 0 for interruption to happen
+        REQUIRE( dummy.activity.moves_left > 0 );
+        //some activities are set to null during start if they don't get valid data
+        REQUIRE( dummy.activity.id() != ACT_NULL );
+        //aiming is excluded from this kind of interruption
+        REQUIRE( dummy.activity.id() != ACT_AIM );
+
+        tripoint zombie_pos_near = dummy.pos() + tripoint( 2, 0, 0 );
+        tripoint zombie_pos_far = dummy.pos() + tripoint( 10, 0, 0 );
+
+        //to make section names unique
+        std::string act = activity.id().str();
+
+        SECTION( act + " interruption by nearby enemy" ) {
+            cleanup( dummy );
+
+            spawn_test_monster( mon_zombie.str(), zombie_pos_near );
+            update_cache( m );
+
+            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+
+            CHECK( dists.size() == 1 );
+            CHECK( dists.find( distraction_type::hostile_spotted_near ) != dists.end() );
+        }
+
+        SECTION( act + " enemy too far away to interrupt" ) {
+            cleanup( dummy );
+
+            monster &zombie = spawn_test_monster( mon_zombie.str(), zombie_pos_far );
+            update_cache( m );
+
+            REQUIRE( dummy.sees( zombie ) );
+
+            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+
+            CHECK( dists.empty() );
+
+            THEN( "interruption by zombie moving towards dummy" ) {
+                zombie.set_dest( get_map().getglobal( dummy.pos() ) );
+                int turns = 0;
+                do {
+                    move_monster_turn( zombie );
+                    dists = dummy.activity.get_distractions();
+                    turns++;
+                } while( turns < 10 && dists.empty() );
+
+                CHECK( dists.size() == 1 );
+                CHECK( dists.find( distraction_type::hostile_spotted_near ) != dists.end() );
+            }
+        }
+
+        SECTION( act + " enemy nearby, but no line of sight" ) {
+            cleanup( dummy );
+
+            m.ter_set( dummy.pos() + tripoint_east, ter_t_wall );
+            monster &zombie = spawn_test_monster( mon_zombie.str(), zombie_pos_near );
+            update_cache( m );
+
+            REQUIRE( !dummy.sees( zombie ) );
+
+            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+
+            CHECK( dists.empty() );
+
+            THEN( "interruption by zombie moving towards dummy" ) {
+                zombie.set_dest( get_map().getglobal( dummy.pos() ) );
+                int turns = 0;
+                do {
+                    move_monster_turn( zombie );
+                    dists = dummy.activity.get_distractions();
+                    turns++;
+                } while( turns < 5 && dists.empty() );
+
+                CHECK( dists.size() == 1 );
+                CHECK( dists.find( distraction_type::hostile_spotted_near ) != dists.end() );
+            }
+        }
+
+        SECTION( act + " interruption by dangerous field" ) {
+            cleanup( dummy );
+
+            m.add_field( dummy.pos(), field_fd_smoke );
+
+            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+
+            CHECK( dists.size() == 1 );
+            CHECK( dists.find( distraction_type::dangerous_field ) != dists.end() );
+        }
+
+        SECTION( act + " interruption by multiple sources" ) {
+            cleanup( dummy );
+
+            spawn_test_monster( mon_zombie.str(), zombie_pos_near );
+            m.add_field( dummy.pos(), field_fd_smoke );
+            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+
+            CHECK( dists.size() == 2 );
+            CHECK( dists.find( distraction_type::hostile_spotted_near ) != dists.end() );
+            CHECK( dists.find( distraction_type::dangerous_field ) != dists.end() );
         }
     }
 }

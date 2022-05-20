@@ -150,7 +150,7 @@
     "melee_cut": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 20 ] ],
-    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s disappears.", "effect": { "id": "death_guilt", "min_level": 40 }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS", "GUILT" ]
   },
   {
@@ -250,7 +250,7 @@
     "id": "mon_halloween_ghost",
     "type": "MONSTER",
     "name": { "str": "inflatable ghost" },
-    "description": "A human sized inflatable for Halloween decorations.",
+    "description": "A human-sized inflatable ghost for Halloween decorations.",
     "looks_like": "mon_darkman",
     "default_faction": "factionless",
     "species": [ "UNKNOWN" ],
@@ -274,7 +274,7 @@
     "id": "mon_mannequin_decoy",
     "type": "MONSTER",
     "name": { "str": "mannequin decoy" },
-    "description": "A human sized mannequin, making noise.",
+    "description": "A human-sized mannequin, speaking pre-recorded phrases.",
     "looks_like": "mon_shia",
     "default_faction": "factionless",
     "species": [ "UNKNOWN" ],

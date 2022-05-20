@@ -3,7 +3,7 @@
     "id": "anesthetic_kit",
     "type": "TOOL",
     "name": { "str": "anesthesia kit" },
-    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgesic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
     "weight": "100 g",
     "volume": "3250 ml",
     "price": 1000,
@@ -15,40 +15,6 @@
     "ammo": [ "anesthetic" ],
     "qualities": [ [ "ANESTHESIA", 1 ] ],
     "pocket_data": [ { "watertight": true, "rigid": true, "pocket_type": "MAGAZINE", "ammo_restriction": { "anesthetic": 6000 } } ]
-  },
-  {
-    "id": "autoclave",
-    "type": "TOOL",
-    "name": { "str": "autoclave" },
-    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so standard batteries will not power it sufficiently.",
-    "weight": "34500 g",
-    "volume": "76 L",
-    "price": 162654,
-    "price_postapoc": 2000,
-    "to_hit": -6,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "symbol": "A",
-    "color": "yellow",
-    "use_action": [ "AUTOCLAVE" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "power_draw": 1500000,
-    "looks_like": "microwave",
-    "ammo": [ "battery" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "BATTERY_HEAVY" ],
-        "default_magazine": "heavy_plus_battery_cell"
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "flag_restriction": [ "CBM" ]
-      }
-    ]
   },
   {
     "id": "inhaler",

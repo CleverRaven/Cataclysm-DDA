@@ -139,6 +139,32 @@
   },
   {
     "type": "terrain",
+    "id": "t_dirtfloor_olight",
+    "name": "dirt floor, overhead light",
+    "description": "Floor consisting of finely mixed earth that has been tamped down, with a still-functioning light attached to the ceiling above.",
+    "symbol": ".",
+    "color": "brown",
+    "connects_to": "DIRT",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "roof": "t_shingle_flat_roof",
+    "looks_like": "t_dirtfloor",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_dirtfloor",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [
+        { "item": "splinter", "count": [ 2, 8 ] },
+        { "item": "nail", "charges": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_metal_floor_olight",
     "name": "metal floor, with overhead light",
     "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a still-functioning light attached to the ceiling above.",
@@ -354,7 +380,7 @@
     "color": "light_gray",
     "connects_to": "ROCKFLOOR",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_rock_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
@@ -367,6 +393,7 @@
     "color": "magenta",
     "connects_to": "ROCKFLOOR",
     "move_cost": 2,
+    "roof": "t_warped_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "SUPPORTS_ROOF", "FLAT", "ROAD" ]
   },
   {
@@ -1110,7 +1137,7 @@
     "type": "terrain",
     "id": "t_floor_brood_wasp",
     "name": "paper brood cap",
-    "description": "A thin paper floor, protecting the pupatig wasp larva until it's ready to emerge.",
+    "description": "A thin paper floor, protecting the pupating wasp larva until it's ready to emerge.",
     "looks_like": "t_floor_paper",
     "symbol": ".",
     "color": "white",

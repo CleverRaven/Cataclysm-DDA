@@ -144,12 +144,13 @@
     "type": "furniture",
     "id": "f_arcade_machine",
     "name": "arcade machine",
-    "description": "A bulky upright arcade cabinet, brightly painted and slightly worn with age.  Useless for its intended purpose, it's bound to have valuable parts.",
+    "description": "A bulky upright arcade cabinet, brightly painted and slightly worn with age.  Useless for its intended purpose without power, it's bound to have valuable parts.",
     "symbol": "6",
     "color": "red",
     "move_cost_mod": -1,
     "coverage": 75,
     "required_str": 12,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -546,6 +547,96 @@
         { "item": "splinter", "count": 1 },
         { "item": "felt_patch", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_organ",
+    "name": "pipe organ",
+    "description": "A majestic pipe organ.  Dubbed \"the king of instruments\", it is capable of producing powerful sound harmonies if used by a skilled player.  Rows of off-white and black keys all linked to a set of iron pipes, which resonate at a specific pitch when pressurized air is driven through them.",
+    "symbol": "P",
+    "color": "i_brown",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE", "ORGANIC", "NOITEM" ],
+    "looks_like": "f_piano",
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 26 },
+        { "item": "2x4", "count": 12 },
+        { "item": "nail", "charges": [ 10, 15 ] },
+        { "item": "wire", "count": [ 4, 12 ] },
+        { "item": "plastic_chunk", "count": [ 1, 12 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "cable", "count": [ 1, 3 ] },
+        { "item": "motor_tiny", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "a dramatic pipe organ!",
+      "sound_fail": "kerchang.",
+      "items": [
+        { "item": "pipe", "count": [ 4, 12 ] },
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "wire", "count": [ 0, 4 ] },
+        { "item": "splinter", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_training_dummy_light",
+    "name": "training dummy",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it has some duct tape to mark the striking points.",
+    "symbol": "@",
+    "color": "brown",
+    "move_cost_mod": 9,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
+    "crafting_pseudo_item": "pseudo_training_dummy_light",
+    "deconstruct": { "items": [ { "item": "training_dummy_light", "count": 1 } ] },
+    "bash": {
+      "str_min": 25,
+      "str_max": 75,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "nail", "count": [ 5, 18 ] },
+        { "item": "splinter", "count": [ 5, 17 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_training_dummy_heavy",
+    "name": "armored training dummy",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.",
+    "symbol": "@",
+    "color": "brown",
+    "move_cost_mod": 11,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
+    "crafting_pseudo_item": "pseudo_training_dummy_heavy",
+    "deconstruct": { "items": [ { "item": "training_dummy_heavy", "count": 1 } ] },
+    "bash": {
+      "str_min": 75,
+      "str_max": 150,
+      "sound": "smash!",
+      "sound_fail": "thump!",
+      "items": [
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "nail", "count": [ 5, 18 ] },
+        { "item": "splinter", "count": [ 5, 17 ] },
+        { "item": "scrap", "count": [ 15, 60 ] }
       ]
     }
   }

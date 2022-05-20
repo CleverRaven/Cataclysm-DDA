@@ -140,6 +140,9 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "memorial_male", memorial_male );
     optional( jo, was_loaded, "memorial_female", memorial_female );
 
+    optional( jo, was_loaded, "trigger_message_u", trigger_message_u );
+    optional( jo, was_loaded, "trigger_message_npc", trigger_message_npc );
+
     // Require either none, or both
     if( !!memorial_male != !!memorial_female ) {
         jo.throw_error( "Only one gender of memorial message specified for trap %s, but none or both required.",
@@ -232,8 +235,7 @@ bool trap::is_trivial_to_spot() const
 
 bool trap::detected_by_ground_sonar() const
 {
-    static const flag_id sonar_detectable = json_flag_SONAR_DETECTABLE;
-    return has_flag( sonar_detectable );
+    return has_flag( json_flag_SONAR_DETECTABLE );
 }
 
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const

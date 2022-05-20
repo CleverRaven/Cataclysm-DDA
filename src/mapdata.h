@@ -91,7 +91,7 @@ struct map_shoot_info {
     int reduce_dmg_max_laser = 0;
     // Damage required to have a chance to destroy
     int destroy_dmg_min = 0;
-    // Damage required to guarentee destruction
+    // Damage required to guarantee destruction
     int destroy_dmg_max = 0;
     // Are lasers incapable of destroying the object (defaults to false)
     bool no_laser_destroy = false;
@@ -160,6 +160,7 @@ struct plant_data {
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
  * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
+ * ROAD - Mainly affects the speed of rollerblades
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -223,6 +224,7 @@ enum class ter_furn_flag : int {
     TFLAG_GOES_DOWN,
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
+    TFLAG_ALLOW_ON_OPEN_AIR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP_DOWN,
     TFLAG_RAMP_UP,
@@ -281,6 +283,7 @@ enum class ter_furn_flag : int {
     TFLAG_NO_PICKUP_ON_EXAMINE,
     TFLAG_RUBBLE,
     TFLAG_DIGGABLE_CAN_DEEPEN,
+    TFLAG_PIT_FILLABLE,
     TFLAG_DIFFICULT_Z,
     TFLAG_ALIGN_WORKBENCH,
     TFLAG_NO_SPOIL,
@@ -294,6 +297,8 @@ enum class ter_furn_flag : int {
     TFLAG_NO_SELF_CONNECT,
     TFLAG_BURROWABLE,
     TFLAG_MURKY,
+    TFLAG_AMMOTYPE_RELOAD,
+    TFLAG_TRANSPARENT_FLOOR,
 
     NUM_TFLAG_FLAGS
 };
@@ -499,7 +504,7 @@ struct map_data_common_t {
 
         // The color the sym will draw in on the GUI.
         std::array<nc_color, NUM_SEASONS> color_;
-        void load_symbol( const JsonObject &jo );
+        void load_symbol( const JsonObject &jo, const std::string &context );
 
         std::string looks_like;
 

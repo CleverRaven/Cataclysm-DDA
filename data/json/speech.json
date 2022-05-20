@@ -2579,5 +2579,119 @@
     "speaker": [ "mon_dermatik_incubator_bear", "mon_dermatik_incubator_dog" ],
     "sound": "a rasping growl.",
     "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Mommy?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Come on, wake up…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Please help me.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"It's so cold.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Take my hand.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Cover your head, everyone!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"I love you and I'll never forget you.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Put it down!  We can talk about this…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"It'll be over quick.  I promise.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "agonized screaming!",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"I DON'T WANT TO DIE!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"HELP!  HEEEEELP!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"What IS that?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Here!  Someone's here!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Come on, come on, they can help us!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Get it OFF ME!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Don't look at the sky!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Hello?  Hello?!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "quiet crying.",
+    "volume": 20
   }
 ]

@@ -26,20 +26,49 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cathedral_1_NW", "cathedral_1_NE", "cathedral_1_SW", "cathedral_1_SE" ],
+    "id": [
+      "cathedral_1_NW",
+      "cathedral_1_NE",
+      "cathedral_1_SW",
+      "cathedral_1_SE",
+      "cathedral_2_NW",
+      "cathedral_2_NE",
+      "cathedral_2_SW",
+      "cathedral_2_SE",
+      "cathedral_3_NW",
+      "cathedral_3_NE",
+      "cathedral_3_SW",
+      "cathedral_3_SE"
+    ],
     "name": "cathedral",
     "sym": "C",
     "color": "i_light_red",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "KNOWN_DOWN" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "cathedral_b_NW", "cathedral_b_NE", "cathedral_b_SW", "cathedral_b_SE" ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral basement",
-    "delete": { "flags": [ "SIDEWALK", "KNOWN_DOWN" ] }
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cathedral_4_NW",
+      "cathedral_4_NE",
+      "cathedral_5_NW",
+      "cathedral_5_NE",
+      "cathedral_6_NW",
+      "cathedral_6_NE",
+      "cathedral_7_NW",
+      "cathedral_7_NE"
+    ],
+    "copy-from": "cathedral_1_NW",
+    "name": "cathedral tower",
+    "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -75,6 +104,62 @@
     "type": "overmap_terrain",
     "id": "police_2ndfloor_1",
     "name": "police station 2nd floor",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "police_dept_u000",
+      "police_dept_u010",
+      "police_dept_u100",
+      "police_dept_u110",
+      "police_dept_u001",
+      "police_dept_u011",
+      "police_dept_u101",
+      "police_dept_u111",
+      "police_dept_d000",
+      "police_dept_d010",
+      "police_dept_d100",
+      "police_dept_d110",
+      "police_dept_d001",
+      "police_dept_d011",
+      "police_dept_d101",
+      "police_dept_d111"
+    ],
+    "name": "police department",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow",
+    "extend": { "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "police_dept_u002",
+      "police_dept_u012",
+      "police_dept_u102",
+      "police_dept_u112",
+      "police_dept_d002",
+      "police_dept_d012",
+      "police_dept_d102",
+      "police_dept_d112"
+    ],
+    "name": "police department roof",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "police_dept_skyway", "police_dept_skyway_roof" ],
+    "name": "skybridge",
+    "copy-from": "generic_city_building",
+    "sym": "│",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "police_dept_b00", "police_dept_b10", "police_dept_b01", "police_dept_b11" ],
+    "name": "police department garage",
     "copy-from": "generic_city_building",
     "color": "h_yellow"
   },
@@ -426,10 +511,10 @@
     "type": "overmap_terrain",
     "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof" ],
     "name": "town hall",
-    "sym": ".",
-    "color": "light_blue",
+    "sym": "^",
+    "color": "i_black",
     "see_cost": 2,
-    "mondensity": 2
+    "mondensity": 1
   },
   {
     "type": "overmap_terrain",

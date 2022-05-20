@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "buildPresets": [
+    {
+      "name": "x64-release",
+      "configurePreset": "x64-release",
+      "environment": {
+        @_MSVC_DEVENV@
+      },
+      "verbose": true
+    }
+  ]
+}

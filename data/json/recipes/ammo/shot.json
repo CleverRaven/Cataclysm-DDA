@@ -75,7 +75,7 @@
     "using": [ [ "ammo_shot", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "//": "same charge as a 1 oz load, could find no refference to actual loading data. 1490 mg gunpowder rounded to 15 100 mg 'pieces'",
+    "//": "same charge as a 1 oz load, could find no reference to actual loading data. 1490 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [ [ [ "gunpowder", 15 ], [ "gunpowder_pistol", 15 ], [ "gunpowder_shotgun", 15 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {

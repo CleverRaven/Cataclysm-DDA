@@ -40,6 +40,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "relative": { "price": 10000 }
@@ -50,7 +51,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str_sp": "Mosin-Nagant 1891/30" },
-    "description": "The Mosin-Nagant 1891/30 is a bolt action, internal magazine-fed, military rifle, developed by the Russian Empire, and later used and perfected by the Soviet Union.",
+    "description": "The Mosin-Nagant 1891/30 is a bolt-action, internal magazine-fed, military rifle, developed by the Russian Empire, and later used and perfected by the Soviet Union.",
     "weight": "4000 g",
     "volume": "3120 ml",
     "longest_side": "1241 mm",
@@ -78,10 +79,13 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] } ]
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
+    ]
   },
   {
     "id": "mosin91_30_ebr",
@@ -106,6 +110,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "relative": { "price": 10000 }

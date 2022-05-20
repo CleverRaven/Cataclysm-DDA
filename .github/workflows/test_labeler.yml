@@ -42,7 +42,7 @@ jobs:
       id: set-pr-id
       run: echo "::set-output name=pr-id::$( cat pull_request_id )"
     - name: set-label
-      if: ${{ github.event.workflow_run.conclusion == 'success' || steps.set-basic-build-success.outputs.basic-build-success == 'true' }}
+      if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.conclusion != 'skipped' || steps.set-basic-build-success.outputs.basic-build-success == 'true' }}
       uses: actions/github-script@v5
       with:
         script: |
@@ -54,7 +54,6 @@ jobs:
             })
     - name: remove-label
       if: ${{ github.event.workflow_run.conclusion == 'failure' && steps.set-basic-build-success.outputs.basic-build-success != 'true' }}
-      uses: actions/github-script@v5 }}
       uses: actions/github-script@v5
       with:
         script: |

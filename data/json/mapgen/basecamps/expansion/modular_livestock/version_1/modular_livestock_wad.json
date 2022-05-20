@@ -15,7 +15,19 @@
       "w": "t_wall_wattle",
       "+": "t_door_makeshift_c"
     },
-    "furniture": { "b": "f_bench", "r": "f_rack_wood", "t": "f_table" }
+    "furniture": {
+      ".": "f_clear",
+      "b": "f_bench",
+      "r": "f_rack_wood",
+      "t": "f_table",
+      "d": "f_clear",
+      "f": "f_clear",
+      "o": "f_clear",
+      "F": "f_clear",
+      "D": "f_clear",
+      "w": "f_clear",
+      "+": "f_clear"
+    }
   },
   {
     "type": "mapgen",
@@ -31,6 +43,7 @@
         "w....w",
         "wwdfww"
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
       "palettes": [ "fbml_wad_palette" ]
     }
   },
@@ -77,6 +90,7 @@
         "w..Fbb",
         "wwwwww"
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
       "palettes": [ "fbml_wad_palette" ]
     }
   },
@@ -100,6 +114,7 @@
         "w..Fb.",
         "w..D.."
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
       "palettes": [ "fbml_wad_palette" ]
     }
   },
@@ -123,6 +138,7 @@
         "w..Fb.",
         "w..D.."
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
       "palettes": [ "fbml_wad_palette" ]
     }
   },

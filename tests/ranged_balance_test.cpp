@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "anatomy.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -241,7 +242,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
-    shooter.worn.emplace_back( "backpack" );
+    shooter.worn.wear_item( shooter, item( "backpack" ), false, false );
     equip_shooter( shooter, { "bastsandals", "armguard_hard", "armguard_soft", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
     assert_encumbrance( shooter, 10 );
 
@@ -443,22 +444,24 @@ static void shoot_monster( std::string gun_type, const std::vector<std::string> 
                            std::string ammo_type, int range,
                            int expected_damage, std::string monster_type )
 {
+    clear_map();
     statistics<int> damage;
+    constexpr tripoint shooter_pos{ 60, 60, 0 };
+    const tripoint monster_pos = shooter_pos + ( point_east * range );
+    std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter", shooter_pos,
+                                            std::vector<std::string>(), 5, 10, 10, 10, 10 );
     do {
-        const tripoint shooter_pos( 60, 60, 0 );
-        const tripoint monster_pos = shooter_pos + ( point_east * range );
-        standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
-        shooter.set_body();
-        arm_shooter( shooter, gun_type, mods, ammo_type );
-        shooter.recoil = 0;
+        shooter->set_body();
+        arm_shooter( *shooter, gun_type, mods, ammo_type );
+        shooter->recoil = 0;
         monster &mon = spawn_test_monster( monster_type, monster_pos );
-        int prev_HP = mon.get_hp();
-        shooter.fire_gun( monster_pos, 1, shooter.get_wielded_item() );
+        const int prev_HP = mon.get_hp();
+        shooter->fire_gun( monster_pos, 1, shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
-        clear_map();
         if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
             break;
         }
+        mon.die( nullptr );
     } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
     CAPTURE( gun_type );
@@ -467,10 +470,9 @@ static void shoot_monster( std::string gun_type, const std::vector<std::string> 
     CAPTURE( range );
     CAPTURE( monster_type );
     CAPTURE( avg );
-    CHECK( avg + 30 >= expected_damage );
-    CHECK( avg - 30  < expected_damage );
-
+    CHECK( avg == Approx( expected_damage ).margin( 10 ) );
 }
+
 TEST_CASE( "shot_features", "[gun]" "[slow]" )
 {
     clear_map();
@@ -502,7 +504,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Can't hurt at close range.
     shoot_monster( "shotgun_s", {}, "shot_bird", 5, 1, "mon_skeleton_hulk" );
     // Barely injure at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 25, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 18, "mon_skeleton_hulk" );
     // TODO: can't harm heavily armored enemies even at point blank.
 
     // BUCKSHOT
@@ -556,7 +558,7 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 48, "mon_zombie_tough" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 79, "mon_zombie_tough" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 108, "mon_zombie_tough" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 116, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 95, "mon_zombie_tough" );
     // Armored target (armor_bullet: 5)
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 35, "mon_zombie_brute" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 58, "mon_zombie_brute" );
@@ -569,4 +571,669 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 63, "mon_hulk_pupa_decoy" );
 }
 
+// Targeting graph tests
+static constexpr float fudge_factor = 0.025;
+
+template<typename T, typename W>
+std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
+                                     cata::optional<float> guess = cata::nullopt, int iters = 100000 )
+{
+    std::map<T, float> hits;
+    for( int i = 0; i < iters; ++i ) {
+        typename std::map<T, float>::iterator it;
+        if( guess ) {
+            it = hits.emplace( graph.select( 0.0, 1.0, *guess ), 0 ).first;
+        } else {
+            it = hits.emplace( graph.select( 0.0, 1.0, rng_float( 0, 1 ) ), 0 ).first;
+        }
+        ++it->second;
+    }
+
+    for( std::pair<const T, float> &hit : hits ) {
+        hit.second /= iters;
+    }
+
+    return hits;
+}
+
+TEST_CASE( "targeting_graph_linear_distribution", "[targeting_graph][random]" )
+{
+    // Represents a typical circle target with  N+1 equally spaced rings
+    // The center circle is twice as wide as any ring
+    // All chances assume hit selection is totally random
+    // As a line:
+    // 00->1->2->3->..->N
+    // For N = 1:
+    // 66% chance to hit center (0), 33% to hit 1
+    // For N = 2:
+    // 50% to hit center (0), 25% to hit 1, 25% to hit 2
+    struct circle_target {
+        static int connection( const int &i ) {
+            if( i == 0 ) {
+                return 0;
+            }
+            return i - 1;
+        }
+
+        static double weight( const int &i ) {
+            if( i == 0 ) {
+                return 2;
+            }
+            return 1;
+        }
+    };
+
+    std::vector<int> parts = { 0, 1, 2 };
+    targeting_graph<int, circle_target> graph;
+    graph.generate( 0, parts );
+
+    std::map<int, float> hits;
+    SECTION( "With random hits, hit probability is evenly split between rings (with center counting as double" ) {
+        hits = hit_distribution( graph );
+
+        // Check that we're within 2.5% of the expected distribution for simple targets
+        CHECK( hits[0] == Approx( 0.5 ).margin( fudge_factor ) );
+        CHECK( hits[1] == Approx( 0.25 ).margin( fudge_factor ) );
+        CHECK( hits[2] == Approx( 0.25 ).margin( fudge_factor ) );
+    }
+
+    SECTION( "With a perfectly accurate hit, only the center is hit" ) {
+        hits = hit_distribution( graph, cata::optional<float>( 0 ) );
+        REQUIRE( hits[0] == 1.0f );
+        CHECK( hits[1] == 0.0f );
+        CHECK( hits[2] == 0.0f );
+    }
+
+    SECTION( "With the least accurate hit, only the end is hit" ) {
+        hits = hit_distribution( graph, cata::optional<float>( 1 ) );
+        REQUIRE( hits[2] == 1.0f );
+        CHECK( hits[0] == 0.0f );
+        CHECK( hits[1] == 0.0f );
+    }
+
+    SECTION( "With a middling hit, only the middle ring is hit" ) {
+        hits = hit_distribution( graph, cata::optional<float>( 0.6 ) );
+        REQUIRE( hits[1] == 1.0f );
+        CHECK( hits[0] == 0.0f );
+        CHECK( hits[2] == 0.0f );
+    }
+}
+
+TEST_CASE( "targeting_graph_simple_limb_distribution", "[targeting_graph][random]" )
+{
+    // A target with a center and N equally sized limbs connecting to it
+    // All chances assume hit selection is totally random
+    // Hit chance:
+    // 0 -> 1 || 2 || .. || N
+    // For N = 1:
+    // 50% to hit center (0), 50% to hit 1
+    // For N = 2:
+    // 50% to hit center (0), 25% to hit 1, 25% to hit 2
+    struct center_target {
+        static int connection( const int & ) {
+            return 0;
+        }
+
+        static double weight( const int & ) {
+            return 1;
+        }
+    };
+
+    SECTION( "With two options, and no hits hitting center, hits are equally split" ) {
+        std::vector<int> parts = { 0, 1, 2 };
+        targeting_graph<int, center_target> graph;
+        graph.generate( 0, parts );
+
+        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 0.9 ) );
+
+        // Check that we're within 2.5% of the expected distribution for simple targets
+        // Nothing should hit the center, the hit is too inaccurate for that
+        REQUIRE( hits[0] == 0.0f );
+        // And as these two are of equal weight, hits between them should be equally likely
+        CHECK( hits[1] == Approx( 0.50 ).margin( fudge_factor ) );
+        CHECK( hits[2] == Approx( 0.50 ).margin( fudge_factor ) );
+    }
+
+    SECTION( "With entirely random hits, the center is hit 50% of the time, and the remainder of hits are split equally" ) {
+        std::vector<int> parts = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+        targeting_graph<int, center_target> graph;
+        graph.generate( 0, parts );
+        std::map<int, float> hits = hit_distribution( graph );
+
+        CHECK( hits[0] == Approx( 0.50 ).margin( fudge_factor ) );
+        CHECK( hits[1] == Approx( 0.0625 ).margin( fudge_factor ) );
+        CHECK( hits[2] == Approx( 0.0625 ).margin( fudge_factor ) );
+        CHECK( hits[3] == Approx( 0.0625 ).margin( fudge_factor ) );
+        CHECK( hits[4] == Approx( 0.0625 ).margin( fudge_factor ) );
+        CHECK( hits[5] == Approx( 0.0625 ).margin( fudge_factor ) );
+        CHECK( hits[6] == Approx( 0.0625 ).margin( fudge_factor ) );
+        CHECK( hits[7] == Approx( 0.0625 ).margin( fudge_factor ) );
+        CHECK( hits[8] == Approx( 0.0625 ).margin( fudge_factor ) );
+    }
+}
+
+TEST_CASE( "targeting_graph_complex_linear_distribution", "[targeting_graph][random]" )
+{
+    // A target with a center and N limbs connecting to it
+    // N cannot be more than 9
+    // For 9 limbs, with random hits the percent chance of each limb being hit is the weight
+    // if the center is not hit.
+    struct linear_target {
+        static int connection( const int &i ) {
+            if( i == 0 ) {
+                return 0;
+            }
+            return i - 1;
+        }
+
+        static double weight( const int &i ) {
+            switch( i ) {
+                // *INDENT-OFF*
+                case 0: return 10;
+                case 1: return 40;
+                case 2: return 8;
+                case 3: return 9;
+                case 4: return 2;
+                case 6: return 10;
+                case 5: return 1;
+                case 7: return 10;
+                case 8: return 4;
+                case 9: return 6;
+                // *INDENT-ON*
+            }
+            return 0;
+        }
+    };
+
+    SECTION( "With random hits on a small target, hits follow weights" ) {
+        std::vector<int> parts = { 0, 1, 2 };
+        targeting_graph<int, linear_target> graph;
+        graph.generate( 0, parts );
+
+        std::map<int, float> hits = hit_distribution( graph );
+
+        // 10 / 58
+        CHECK( hits[0] == Approx( 10.0f / 58.0f ).margin( fudge_factor ) );
+        // 40 / 58
+        CHECK( hits[1] == Approx( 40.0f / 58.0f ).margin( fudge_factor ) );
+        // 8 / 58
+        CHECK( hits[2] == Approx( 8.0f / 58.0f ).margin( fudge_factor ) );
+    }
+
+    SECTION( "With a complete target, hits are split by weight" ) {
+        std::vector<int> parts = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        targeting_graph<int, linear_target> graph;
+        graph.generate( 0, parts );
+        std::map<int, float> hits = hit_distribution( graph );
+
+        CHECK( hits[0] == Approx( 0.10 ).margin( fudge_factor ) );
+        CHECK( hits[1] == Approx( 0.40 ).margin( fudge_factor ) );
+        CHECK( hits[2] == Approx( 0.08 ).margin( fudge_factor ) );
+        CHECK( hits[3] == Approx( 0.09 ).margin( fudge_factor ) );
+        CHECK( hits[4] == Approx( 0.02 ).margin( fudge_factor ) );
+        CHECK( hits[5] == Approx( 0.01 ).margin( fudge_factor ) );
+        CHECK( hits[6] == Approx( 0.10 ).margin( fudge_factor ) );
+        CHECK( hits[7] == Approx( 0.10 ).margin( fudge_factor ) );
+        CHECK( hits[8] == Approx( 0.04 ).margin( fudge_factor ) );
+        CHECK( hits[9] == Approx( 0.06 ).margin( fudge_factor ) );
+    }
+}
+
+TEST_CASE( "targeting_graph_complex_limb_distribution", "[targeting_graph][random]" )
+{
+    // A target with a center and N limbs connecting to it
+    // N cannot be more than 9
+    // For 9 limbs, with random hits the percent chance of each limb being hit is the weight
+    // if the center is not hit.
+    struct center_target {
+        static int connection( const int & ) {
+            return 0;
+        }
+
+        static double weight( const int &i ) {
+            switch( i ) {
+                // *INDENT-OFF*
+                case 0: return 10;
+                case 1: return 40;
+                case 2: return 8;
+                case 3: return 9;
+                case 4: return 7;
+                case 7: return 10;
+                case 5: return 3;
+                case 6: return 10;
+                case 8: return 8;
+                case 9: return 5;
+                // *INDENT-ON*
+            }
+            return 0;
+        }
+    };
+
+    SECTION( "With two options, and no hits hitting center, hits follow weights" ) {
+        std::vector<int> parts = { 0, 1, 2 };
+        targeting_graph<int, center_target> graph;
+        graph.generate( 0, parts );
+
+        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 0.9 ) );
+
+        // Nothing should hit the center, the hit is too inaccurate for that
+        REQUIRE( hits[0] == 0.0f );
+        // Weight 40 / 48
+        CHECK( hits[1] == Approx( 5.0f / 6.0f ).margin( fudge_factor ) );
+        // Weight 8 / 48
+        CHECK( hits[2] == Approx( 1.0f / 6.0f ).margin( fudge_factor ) );
+    }
+
+    SECTION( "With all limbs, and no hits to center, hits are split by weight among limbs" ) {
+        std::vector<int> parts = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        targeting_graph<int, center_target> graph;
+        graph.generate( 0, parts );
+        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 1.0 ) );
+
+        REQUIRE( hits[0] == 0.0f );
+        CHECK( hits[1] == Approx( 0.40 ).margin( fudge_factor ) );
+        CHECK( hits[2] == Approx( 0.08 ).margin( fudge_factor ) );
+        CHECK( hits[3] == Approx( 0.09 ).margin( fudge_factor ) );
+        CHECK( hits[4] == Approx( 0.07 ).margin( fudge_factor ) );
+        CHECK( hits[5] == Approx( 0.03 ).margin( fudge_factor ) );
+        CHECK( hits[6] == Approx( 0.10 ).margin( fudge_factor ) );
+        CHECK( hits[7] == Approx( 0.10 ).margin( fudge_factor ) );
+        CHECK( hits[8] == Approx( 0.08 ).margin( fudge_factor ) );
+        CHECK( hits[9] == Approx( 0.05 ).margin( fudge_factor ) );
+    }
+
+    SECTION( "With random hits, hits are split by weight among limbs and weight down branches" ) {
+        // Weights 10, 40, 7, 3
+        std::vector<int> parts = { 0, 1, 4, 5 };
+        targeting_graph<int, center_target> graph;
+        graph.generate( 0, parts );
+        std::map<int, float> hits = hit_distribution( graph );
+
+        /* Hit distribution expectations:
+         * 80% of the time, the path chosen includes 1 -> 40 / 50
+         * 14% of the time, the path chosen includes 4 ->  7 / 50
+         *  6% of the time, the path chosen includes 5 ->  3 / 50
+         *
+         * When the path includes 1:
+         * 20% of the time, 0 will be hit -> 10 / 50
+         * 80% of the time, 1 will be hit -> 40 / 50
+         *
+         * When the path includes 4:
+         * 59% of the time, 0 will be hit -> 10 / 17
+         * 41% of the time, 4 will be hit ->  7 / 17
+         *
+         * When the path includes 5:
+         * 77% of the time, 0 will be hit -> 10 / 13
+         * 23% of the time, 5 will be hit ->  3 / 13
+         *
+         * In total:
+         * 1 will be hit 80% * 80% = 64% of the time
+         * 4 will be hit 41% * 14% = 5.7% of the time
+         * 5 will be hit 23% * 6%  = 1.4% of the time
+         * 0 will be hit 100% - 64% - 5.7% - 1.4% = 28.9% of the time
+         */
+        CHECK( hits[0] == Approx( 0.289 ).margin( fudge_factor ) );
+        CHECK( hits[1] == Approx( 0.640 ).margin( fudge_factor ) );
+        CHECK( hits[4] == Approx( 0.057 ).margin( fudge_factor ) );
+        CHECK( hits[5] == Approx( 0.014 ).margin( fudge_factor ) );
+    }
+}
+
+TEST_CASE( "targeting_graph_complex_target", "[targeting_graph][random]" )
+{
+
+    struct node {
+        int val;
+        int weight;
+        const node *connect = nullptr;
+
+        node() = default;
+        node( int a, int b ) : val( a ), weight( b ) {}
+        bool operator==( const node &rhs ) const {
+            return val == rhs.val;
+        }
+        bool operator<( const node &rhs ) const {
+            return val < rhs.val;
+        }
+    };
+
+    struct graph_wrapper {
+        static node connection( const node &nd ) {
+            return *nd.connect;
+        }
+
+        static double weight( const node &nd ) {
+            return nd.weight;
+        }
+    };
+
+    /* Test complex construction and hit distribution
+     * Here's the complex graph being represented, all connections are one-way and down
+     * if an element has no connections, it connects to itself.
+     *
+     * 1   2    3
+     *  \ /    |
+     *   4     |
+     *    \   /
+     *      5
+     * 6 7  |
+     *  \|  |
+     *   8  |  9
+     *    \ | /
+     *      0
+     *
+     * 5 is the biggest node
+     */
+    std::map<int, int> connections = {
+        {1, 4},
+        {2, 4},
+        {3, 5},
+        {4, 5},
+        {5, 0},
+        {6, 8},
+        {7, 8},
+        {8, 0},
+        {9, 0},
+        {0, 0}
+    };
+
+    SECTION( "Equally weighted nodes" ) {
+        std::vector<node> nodes = {
+            {0, 1},
+            {1, 1},
+            {2, 1},
+            {3, 1},
+            {4, 1},
+            {5, 1},
+            {6, 1},
+            {7, 1},
+            {8, 1},
+            {9, 1}
+        };
+        for( node &nd : nodes ) {
+            nd.connect = &nodes[connections[nd.val]];
+        }
+
+        targeting_graph<node, graph_wrapper> graph;
+        graph.generate( nodes[5], nodes );
+
+        std::map<node, float> node_hits = hit_distribution( graph );
+        std::map<int, float> hits;
+        for( const std::pair<const node, float> &entry : node_hits ) {
+            hits.emplace( entry.first.val, entry.second );
+        }
+
+        /* Hit chances:
+         * 5 connects to 0, 4, 3
+         * 0 connects to 8, 9
+         * 8 connects to 6, 7
+         * 4 connects to 1, 2
+         *
+         * Potential paths:
+         * 5 0 8 6
+         * 5 0 8 7
+         * 5 0 9
+         * 5 4 1
+         * 5 4 2
+         * 5 3
+         *
+         * 1/3 of hits go down the 0 path:
+         * 0 8 6
+         * 0 8 7
+         * 0 9
+         * of those, 1/2 go down the 8 path:
+         * 8 6
+         * 8 7
+         * and 1/2 of those go down the 6, 1/2 down the 7
+         *
+         * of those, 1/2 go down the 9 path
+         *
+         * 1/3 of hits go down the 4 path:
+         * 4 1
+         * 4 2
+         * of those, 1/2 go down the 1 path, 1/2 go down the 2 path
+         *
+         * 1/3 of hits go down the 3 path:
+         * 3
+         *
+         * So, we have these paths, with these probabilities of being selected
+         * (1/12) 5 0 8 6
+         * (1/12) 5 0 8 7
+         * (1/ 6) 5 0 9
+         * (1/ 6) 5 4 1
+         * (1/ 6) 5 4 2
+         * (1/ 3) 5 3
+         *
+         * Each individual element in a path has a 1/(length) chance of being selected
+         * So, at the edges:
+         * 6 has a 1/4 * 1/12 = 1/48 chance of being selected
+         * 7 has a 1/4 * 1/12 = 1/48 chance of being selected
+         * 9 has a 1/3 * 1/ 6 = 1/18 chance of being selected
+         * 1 has a 1/3 * 1/ 6 = 1/18 chance of being selected
+         * 2 has a 1/3 * 1/ 6 = 1/18 chance of being selected
+         * 3 has a 1/2 * 1/ 3 = 1/ 6 chance of being selected
+         *
+         * 8 has a 2 * 1/4 * 1/12 = 1/24 chance of being selected
+         * 4 has a 2 * 1/3 * 1/ 6 = 1/ 9 chance of being selected
+         *
+         * 0 has a 2 * 1/12 * 1/4
+         *       + 1 * 1/ 6 * 1/3
+         *       = 1/24 + 1/18
+         *       = 7/72 chance of being selected
+         *
+         * 5 has a 2 * 1/12 * 1/4
+         *       + 3 * 1/ 6 * 1/3
+         *       + 1 * 1/ 3 * 1/2
+         *       = 1/24 + 1/6 + 1/6
+         *       = 3/8 chance of being selected
+         */
+        CHECK( hits[6] == Approx( 1.0f / 48.0f ).margin( fudge_factor ) );
+        CHECK( hits[7] == Approx( 1.0f / 48.0f ).margin( fudge_factor ) );
+        CHECK( hits[9] == Approx( 1.0f / 18.0f ).margin( fudge_factor ) );
+        CHECK( hits[1] == Approx( 1.0f / 18.0f ).margin( fudge_factor ) );
+        CHECK( hits[2] == Approx( 1.0f / 18.0f ).margin( fudge_factor ) );
+        CHECK( hits[3] == Approx( 1.0f /  6.0f ).margin( fudge_factor ) );
+
+        CHECK( hits[8] == Approx( 1.0f / 24.0f ).margin( fudge_factor ) );
+        CHECK( hits[4] == Approx( 1.0f /  9.0f ).margin( fudge_factor ) );
+
+        CHECK( hits[0] == Approx( 7.0f / 72.0f ).margin( fudge_factor ) );
+
+        CHECK( hits[5] == Approx( 3.0f /  8.0f ).margin( fudge_factor ) );
+    }
+
+
+    SECTION( "Non-equally weighted nodes" ) {
+        std::vector<node> nodes = {
+            {0, 12},
+            {1, 2},
+            {2, 4},
+            {3, 8},
+            {4, 12},
+            {5, 16},
+            {6, 1},
+            {7, 1},
+            {8, 4},
+            {9, 1}
+        };
+        for( node &nd : nodes ) {
+            nd.connect = &nodes[connections[nd.val]];
+        }
+
+        targeting_graph<node, graph_wrapper> graph;
+        graph.generate( nodes[5], nodes );
+
+        std::map<node, float> node_hits = hit_distribution( graph );
+        std::map<int, float> hits;
+        for( const std::pair<const node, float> &entry : node_hits ) {
+            hits.emplace( entry.first.val, entry.second );
+        }
+
+        /* Hit chances:
+         * 5 connects to 0, 4, 3
+         * 0 connects to 8, 9
+         * 8 connects to 6, 7
+         * 4 connects to 1, 2
+         *
+         * Potential paths:
+         * 5 0 8 6
+         * 5 0 8 7
+         * 5 0 9
+         * 5 4 1
+         * 5 4 2
+         * 5 3
+         *
+         * 12/32 = 3/8 of hits go down the 0 path:
+         * 0 8 6
+         * 0 8 7
+         * 0 9
+         * of those 4/5 go down the 8 path:
+         * 8 6
+         * 8 7
+         * then 1/2 of that goes to 6, and the other 1/2 to 7
+         * so 1/5 go to 9
+         *
+         * 12/32 = 3/8 of hits go down the 4 path:
+         * 4 1
+         * 4 2
+         * then 2/6 = 1/3 of that go to 1
+         * and  4/6 = 2/3 of that go to 2
+         *
+         * 8/32 = 1/4 of hits go down the 3 path:
+         * 3
+         *
+         * So, we have these paths, with these probabilities of being selected
+         * (3/20) 5 0 8 6 [16 + 12 + 4 + 1 = 33]
+         * (3/20) 5 0 8 7 [16 + 12 + 4 + 1 = 33]
+         * (3/40) 5 0 9   [16 + 12 + 1     = 29]
+         * (1/ 8) 5 4 1   [16 + 12 + 2     = 30]
+         * (1/ 4) 5 4 2   [16 + 12 + 4     = 32]
+         * (1/ 4) 5 3     [16 +  8         = 24]
+         *
+         * Each individual element in a path has a weight/(sum of weights) chance of being selected
+         * So, at the edges:
+         * 6 has a 3/20 * 1/33 = 1/ 220 chance of being selected
+         * 7 has a 3/20 * 1/33 = 1/ 220 chance of being selected
+         * 9 has a 3/40 * 1/29 = 1/1160 chance of being selected
+         * 1 has a 1/ 8 * 2/30 = 1/ 120 chance of being selected
+         * 2 has a 1/ 4 * 4/32 = 1/  32 chance of being selected
+         * 3 has a 1/ 4 * 8/24 = 1/  12 chance of being selected
+         *
+         * 8 has a 2 * 3/20 *  4/33 = 2 / 55 chance of being selected
+         * 4 has a 1 * 1/ 8 * 12/30
+         *       + 1 * 1/ 4 * 12/32 = 23/160 chance of being selected
+         *
+         * 0 has a 2 * 3/20 * 12/33
+         *       + 1 * 3/40 * 12/29
+         *       = 447 / 3190 chance of being selected
+         *
+         * 5 has a 2 * 3/20 * 16/33
+         *       + 1 * 3/40 * 16/29
+         *       + 1 * 1/ 8 * 16/30
+         *       + 1 * 1/ 4 * 16/32
+         *       + 1 * 1/ 4 * 16/24
+         *       = 20869/38280 chance of being selected
+         */
+        CHECK( hits[6] == Approx( 1.0f /  220.0f ).margin( fudge_factor ) );
+        CHECK( hits[7] == Approx( 1.0f /  220.0f ).margin( fudge_factor ) );
+        CHECK( hits[9] == Approx( 1.0f / 1160.0f ).margin( fudge_factor ) );
+        CHECK( hits[1] == Approx( 1.0f /  120.0f ).margin( fudge_factor ) );
+        CHECK( hits[2] == Approx( 1.0f /   32.0f ).margin( fudge_factor ) );
+        CHECK( hits[3] == Approx( 1.0f /   12.0f ).margin( fudge_factor ) );
+
+        CHECK( hits[8] == Approx( 2.0f /  55.0f ).margin( fudge_factor ) );
+        CHECK( hits[4] == Approx( 23.0f / 160.0f ).margin( fudge_factor ) );
+
+        CHECK( hits[0] == Approx( 447.0f / 3190.0f ).margin( fudge_factor ) );
+
+        CHECK( hits[5] == Approx( 20869.0f / 38280.0f ).margin( fudge_factor ) );
+    }
+}
+
+// Mostly just a targeting graph test, but under a layer of indirection
+TEST_CASE( "Default_anatomy_body_part_hit_chances", "[targeting_graph][anatomy][random]" )
+{
+    anatomy_id tested( "human_anatomy" );
+    std::map<bodypart_id, float> hits;
+    // This is the fewest number of iterations to get values that are relatively close to expected
+    // But it does make this test a little slow (few seconds)
+    const int total_hits = 1000000;
+    for( int i = 0; i < total_hits; ++i ) {
+        auto it = hits.emplace( tested->select_body_part_projectile_attack( 0, 1, rng_float( 0, 1 ) ),
+                                0 ).first;
+        ++it->second;
+    }
+
+    for( std::pair<const bodypart_id, float> &hit : hits ) {
+        hit.second /= total_hits;
+    }
+
+    /* The body is:
+     *
+     * h   H     f   F
+     * |   |     |   |
+     * a   A     l   L
+     * \   \     /   /
+     *  \   \   /   /
+     *   \--- t ---/
+     *        |
+     *        d
+     *       / \
+     *      m   e
+     *
+     * Where
+     * h,H = hand_l,r at HS  1.5
+     * a,A = arm_l,r  at HS 13
+     * f,F = foot_l,r at HS  2
+     * l,L = leg_l,r  at HS 13
+     * t   = torso    at HS 36
+     * d   = head     at HS  4
+     * m   = mouth    at HS  0.5
+     * e   = eyes     at HS  0.5
+     *
+     * Number crunching:
+     * (13/56) t a h [36 + 13 + 1.5 = 50.5]
+     * (13/56) t A H [36 + 13 + 1.5 = 50.5]
+     * (13/56) t l f [36 + 13 + 2   = 51  ]
+     * (13/56) t L F [36 + 13 + 2   = 51  ]
+     * ( 1/28) t d m [36 +  4 + 0.5 = 40.5]
+     * ( 1/28) t d e [36 +  4 + 0.5 = 40.5]
+     *
+     * h,H = 13/56 *  1.5/50.5 =  39/5656
+     * f,F = 13/56 *  2  /51   =  13/1428
+     * a,A = 13/56 * 13  /50.5 = 169/2828
+     * l,L = 13/56 * 13  /51   = 169/2856
+     * m   =  1/28 *  0.5/40.5 =   1/2268
+     * e   =  1/28 *  0.5/40.5 =   1/2268
+     * d   =  1/14 *  4  /40.5 =   4/ 567
+     * t   = 2 * 13/56 * 36/50.5
+     *     + 2 * 13/56 * 36/51
+     *     + 2 *  1/28 * 36/40.5
+     *     =                     78121/108171
+     *
+     * For:
+     * hands:  0.69%
+     * feet :  0.91%
+     * arms :  5.98%
+     * legs :  5.92%
+     * mouth:  0.04%
+     * eyes :  0.04%
+     * head :  0.71%
+     * torso: 72.22%
+     */
+
+
+    CHECK( hits.at( body_part_eyes ) == Approx( 1.0f / 2268.0f ).margin( fudge_factor / 10 ) );
+    CHECK( hits.at( body_part_head ) == Approx( 4.0f / 567.0f ).margin( fudge_factor / 10 ) );
+    CHECK( hits.at( body_part_mouth ) == Approx( 1.0f / 2268.0f ).margin( fudge_factor / 10 ) );
+    CHECK( hits.at( body_part_torso ) == Approx( 78121.0f / 108171.0f ).margin( fudge_factor ) );
+    CHECK( hits.at( body_part_arm_l ) == Approx( 169.0f / 2828.0f ).margin( fudge_factor ) );
+    CHECK( hits.at( body_part_arm_r ) == Approx( 169.0f / 2828.0f ).margin( fudge_factor ) );
+    CHECK( hits.at( body_part_hand_l ) == Approx( 39.0f / 5656.0f ).margin( fudge_factor / 10 ) );
+    CHECK( hits.at( body_part_hand_r ) == Approx( 39.0f / 5656.0f ).margin( fudge_factor / 10 ) );
+    CHECK( hits.at( body_part_leg_l ) == Approx( 169.0f / 2856.0f ).margin( fudge_factor ) );
+    CHECK( hits.at( body_part_leg_r ) == Approx( 169.0f / 2856.0f ).margin( fudge_factor ) );
+    CHECK( hits.at( body_part_foot_l ) == Approx( 13.0f / 1428.0f ).margin( fudge_factor / 10 ) );
+    CHECK( hits.at( body_part_foot_r ) == Approx( 13.0f / 1428.0f ).margin( fudge_factor / 10 ) );
+}
 

@@ -21,7 +21,9 @@
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "mapbuffer.h"
 #include "mapdata.h"
+#include "mapgen_functions.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
@@ -35,6 +37,8 @@
 #include "type_id.h"
 
 static const itype_id itype_petrified_eye( "petrified_eye" );
+
+static const map_extra_id map_extra_mx_dsa_alrp( "mx_dsa_alrp" );
 
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
@@ -57,6 +61,29 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , map_point( p )
     , strength( s )
 {
+}
+
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+                          int s, std::string s_id )
+    : type( e_t )
+    , when( w )
+    , faction_id( f_id )
+    , map_point( p )
+    , strength( s )
+    , string_id( s_id )
+{
+}
+
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+                          int s, std::string s_id, submap_revert &sr )
+    : type( e_t )
+    , when( w )
+    , faction_id( f_id )
+    , map_point( p )
+    , strength( s )
+    , string_id( s_id )
+{
+    revert = sr;
 }
 
 void timed_event::actualize()
@@ -82,7 +109,7 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::SPAWN_WYRMS: {
-            if( here.get_abs_sub().z >= 0 ) {
+            if( here.get_abs_sub().z() >= 0 ) {
                 return;
             }
             get_memorial().add(
@@ -259,12 +286,31 @@ void timed_event::actualize()
             } else {
                 tinymap mx_map;
                 mx_map.load( map_point, false );
-                MapExtras::apply_function( "mx_dsa_alrp", mx_map, map_point );
+                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, map_point );
                 g->load_npcs();
                 here.invalidate_map_cache( map_point.z() );
             }
         }
         break;
+
+        case timed_event_type::TRANSFORM_RADIUS:
+            get_map().transform_radius( ter_furn_transform_id( string_id ), strength,
+                                        tripoint( map_point.x(), map_point.y(), map_point.z() ) );
+            get_map().invalidate_map_cache( map_point.z() );
+            break;
+
+        case timed_event_type::UPDATE_MAPGEN:
+            run_mapgen_update_func( update_mapgen_id( string_id ), project_to<coords::omt>( map_point ),
+                                    nullptr );
+            get_map().invalidate_map_cache( map_point.z() );
+            break;
+
+        case timed_event_type::REVERT_SUBMAP: {
+            submap *sm = MAPBUFFER.lookup_submap( map_point );
+            sm->revert_submap( revert );
+            get_map().invalidate_map_cache( map_point.z() );
+            break;
+        }
 
         default:
             // Nothing happens for other events
@@ -279,7 +325,7 @@ void timed_event::per_turn()
     switch( type ) {
         case timed_event_type::WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
-            if( here.get_abs_sub().z >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
+            if( here.get_abs_sub().z() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
                 point place = here.random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
                     // We're safely indoors!
@@ -296,7 +342,7 @@ void timed_event::per_turn()
         break;
 
         case timed_event_type::SPAWN_WYRMS:
-            if( here.get_abs_sub().z >= 0 ) {
+            if( here.get_abs_sub().z() >= 0 ) {
                 when -= 1_turns;
                 return;
             }
@@ -365,6 +411,22 @@ void timed_event_manager::add( const timed_event_type type, const time_point &wh
                                int strength )
 {
     events.emplace_back( type, when, faction_id, where, strength );
+}
+
+void timed_event_manager::add( const timed_event_type type, const time_point &when,
+                               const int faction_id,
+                               const tripoint_abs_sm &where,
+                               int strength, std::string string_id )
+{
+    events.emplace_back( type, when, faction_id, where, strength, string_id );
+}
+
+void timed_event_manager::add( const timed_event_type type, const time_point &when,
+                               const int faction_id,
+                               const tripoint_abs_sm &where,
+                               int strength, std::string string_id, submap_revert sr )
+{
+    events.emplace_back( type, when, faction_id, where, strength, string_id, sr );
 }
 
 bool timed_event_manager::queued( const timed_event_type type ) const

@@ -10,7 +10,7 @@
 | prof_baking_bread | Breadmaking | You've baked enough bread to consider yourself an expert.  May your yeast be ever frothy. | prof_baking
 | prof_baking_desserts_1 | Dessert Baking | Anyone can make a cookie, but you can make it look amazing.  Cakes and other fluffies are also no longer a barrier. | prof_baking
 | prof_baking_desserts_2 | Patisserie Expert | You could have been a professional baker before the Cataclysm.  Your profiteroles are the envy of the wastelands. | prof_baking_desserts_1
-| prof_frying | Principles of Frying | Anyone can toss stuff into deep frier oil.  You know more about selecting oil, keeping the food from burning, and the like. | None
+| prof_frying | Principles of Frying | Anyone can toss stuff into deep fryer oil.  You know more about selecting oil, keeping the food from burning, and the like. | None
 | prof_frying_bread | Breading & Battering | You know enough about deep frying breads and batters to do it easily without thinking about it. | prof_frying
 | prof_frying_dessert | Fried Desserts | You know the vaunted secrets of creating delicious deep fried sweets. | prof_frying / prof_baking_desserts_1
 | |
@@ -30,14 +30,14 @@
 | prof_beverage_distilling | Beverage Distillation | Applying the science of distillation to alcoholic beverages to get something tasty. | prof_distilling
 | |
 | prof_intro_chemistry | Principles of Chemistry | You are beginning to grasp a general idea of how elements and compounds react with each other. | None
-| prof_intro_biology | Principles of Biology | You are beginning to gain a general idea of how various living beings fuction. | None
+| prof_intro_biology | Principles of Biology | You are beginning to gain a general idea of how various living beings function. | None
 | prof_organic_chemistry | Organic Chemistry | Knowledge of the branch of chemistry that studies and uses carbon-containing compounds. | prof_intro_chemistry
 | prof_inorganic_chemistry | Inorganic Chemistry | Knowledge of the branch of chemistry that studies and uses compounds not containing carbon. | prof_intro_chemistry
 | prof_biochemistry | Biochemistry | The understanding of the chemistry of living things. | prof_organic_chemistry / prof_intro_biology
 | prof_physiology | Physiology | An in-depth understanding of how humans and animals operate. | prof_intro_biology
 | prof_xenology | Xenology | You are beginning to grasp a general idea of how alien and post-Cataclysm mutated creatures function and operate. | prof_intro_biology
 | prof_intro_chem_synth | Principles of Chemical Synthesis | You're beginning to grasp the basics of chemical production. | prof_intro_chemistry
-| prof_chem_synth | Complex Chemical Synthesis | The proper understanding of safe chemical synthesization and how to clean your tools used for the next batch. | prof_intro_chem_synth
+| prof_chem_synth | Complex Chemical Synthesis | The proper understanding of safe chemical synthesis and how to clean your tools used for the next batch. | prof_intro_chem_synth
 | prof_pharmaceutical | Pharmaceutical Production. | An understanding of how to produce various natural and chemical substances pure enough for human consumption. | prof_intro_chemistry / prof_intro_biology
 | prof_metallurgy | Metallurgy | An understanding of the chemistry of metalworking and alloys. | None
 | |

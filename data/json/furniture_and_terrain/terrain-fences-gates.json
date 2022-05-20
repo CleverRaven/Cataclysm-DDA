@@ -84,7 +84,7 @@
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -117,7 +117,7 @@
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -145,6 +145,17 @@
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "close": "t_chaingate_c",
+    "oxytorch": {
+      "result": "t_dirt",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
+    },
     "bash": {
       "str_min": 5,
       "str_max": 150,
@@ -369,7 +380,7 @@
     "id": "t_screen_door_o",
     "name": "open screen door",
     "description": "A simple wooden doorway with screen mesh.",
-    "symbol": "+",
+    "symbol": ".",
     "color": "brown",
     "looks_like": "t_chickenwire_gate_o",
     "move_cost": 2,
@@ -581,7 +592,7 @@
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 16 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -1075,7 +1086,7 @@
     "symbol": ".",
     "color": "brown",
     "looks_like": "t_fencegate_o",
-    "move_cost": 1,
+    "move_cost": 2,
     "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE", "TRANSPARENT" ],
     "connects_to": "WOODFENCE",
     "close": "t_privacy_fencegate_c",

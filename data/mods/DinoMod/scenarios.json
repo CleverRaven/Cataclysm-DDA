@@ -6,7 +6,7 @@
     "points": 0,
     "description": "You find yourself among trees.  The screaming and moaning is fainter, but it sounds like something bigger and more dangerous is close by.",
     "start_name": "Wilderness",
-    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_campsite", "sloc_campground", "sloc_desert_island", "sloc_river" ],
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_swamp", "sloc_campsite", "sloc_campground", "sloc_desert_island", "sloc_river" ],
     "flags": [ "LONE_START" ],
     "surround_groups": [ [ "GROUP_DINOSAUR_MEGA_CARNIVORE", 70.0 ] ]
   },
@@ -24,6 +24,8 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
+      "sloc_dinozoo_giftshop",
+      "sloc_dinozoo_cages",
       "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
@@ -46,6 +48,8 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
+      "sloc_dinozoo_giftshop",
+      "sloc_dinozoo_cages",
       "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
@@ -70,6 +74,8 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
+      "sloc_dinozoo_giftshop",
+      "sloc_dinozoo_cages",
       "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
@@ -92,6 +98,8 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
+      "sloc_dinozoo_giftshop",
+      "sloc_dinozoo_cages",
       "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
@@ -118,6 +126,8 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
+      "sloc_dinozoo_giftshop",
+      "sloc_dinozoo_cages",
       "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
@@ -150,5 +160,16 @@
       "sloc_ice_lab_finale",
       "sloc_dinolab"
     ]
+  },
+  {
+    "type": "scenario",
+    "id": "dm_predator_nest",
+    "name": "Woke up in a Dinosaur Nest",
+    "points": 0,
+    "description": "When you wake up, you find yourself in the swamp next to some large eggs.  Something big is nearby.",
+    "start_name": "Predator Dinosaur Nest",
+    "allowed_locs": [ "sloc_swamp" ],
+    "map_extra": "mx_nest_tyrannosaurus",
+    "flags": [ "LONE_START" ]
   }
 ]

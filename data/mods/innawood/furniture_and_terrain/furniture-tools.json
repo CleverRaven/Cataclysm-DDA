@@ -1,0 +1,36 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_fvat_empty",
+    "name": "fermenting vat",
+    "looks_like": "f_standing_tank",
+    "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
+    "symbol": "O",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "fvat_empty",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 14 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "splinter", "count": 1 }
+      ]
+    }
+  }
+]

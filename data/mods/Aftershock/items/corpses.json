@@ -1,10 +1,21 @@
 [
   {
     "type": "GENERIC",
+    "id": "afs_corpse_old",
+    "copy-from": "corpse",
+    "name": { "str": "mummified corpse" },
+    "description": "The corpse of a long-dead colonist.  Near perfectly preserved by the merciless cold.",
+    "looks_like": "corpse_generic_human",
+    "volume": "40 L",
+    "weight": "52 kg",
+    "material": [ "hflesh" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_afs_mon_sentinel_lx",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken sentinel-lx", "str_pl": "broken sentinels-lx" },
+    "name": { "str": "broken Sentinel-lx", "str_pl": "broken Sentinels-lx" },
     "category": "other",
     "description": "The irreparably broken remains of a Sentinel-lx.  Could be gutted for valuable parts.",
     "price": 30000,
@@ -175,7 +186,7 @@
     "symbol": ",",
     "color": "white",
     "looks_like": "broken_copbot",
-    "name": "broken disarmed advanced bot",
+    "name": "broken disarmed advanced robot",
     "category": "other",
     "description": "A broken advanced robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 30000,

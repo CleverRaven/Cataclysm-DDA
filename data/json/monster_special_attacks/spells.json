@@ -3,7 +3,7 @@
     "id": "pain_damage",
     "type": "SPELL",
     "name": { "str": "Pain" },
-    "description": "Increases pain",
+    "description": "Increases pain.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
@@ -19,7 +19,7 @@
     "id": "stamina_damage",
     "type": "SPELL",
     "name": { "str": "Tired" },
-    "description": "decreases stamina",
+    "description": "Decreases stamina.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
@@ -95,7 +95,7 @@
     "type": "SPELL",
     "id": "frog_mother_hurt_self",
     "name": { "str": "Frog Mother Hurt Self" },
-    "description": "Hurts yourself",
+    "description": "Hurts yourself.",
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
     "min_damage": 10,
     "max_damage": 20,
@@ -107,7 +107,7 @@
   {
     "type": "SPELL",
     "id": "small_raptor_spawn",
-    "name": { "str": "Spawn Raptors" },
+    "name": { "str": "Summon Raptors" },
     "description": "Summons a few zombiespawn raptors.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
@@ -124,7 +124,7 @@
   {
     "type": "SPELL",
     "id": "big_raptor_spawn",
-    "name": { "str": "Spawn Raptors" },
+    "name": { "str": "Summon Many Raptors" },
     "description": "Summons many zombiespawn raptors.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
@@ -141,7 +141,7 @@
   {
     "type": "SPELL",
     "id": "hive_raptor_spawn",
-    "name": { "str": "Spawn Raptor" },
+    "name": { "str": "Summon Raptor" },
     "description": "Summons a zombie-spawn raptor without killing the zombie.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
@@ -157,7 +157,7 @@
   {
     "type": "SPELL",
     "id": "shady_raptor_spawn",
-    "name": { "str": "Spawn Shady Raptors" },
+    "name": { "str": "Summon Shady Raptors" },
     "description": "Summons a few shady zombiespawn raptors.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
@@ -170,6 +170,23 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor_shady"
+  },
+  {
+    "type": "SPELL",
+    "id": "small_fungal_raptor_spawn",
+    "name": { "str": "Summon Fungal Raptors" },
+    "description": "Summons a few fungal raptors.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_casting_time": 500,
+    "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_fungal_raptor"
   },
   {
     "type": "SPELL",
@@ -243,7 +260,7 @@
   {
     "type": "SPELL",
     "id": "spur_shrill",
-    "name": { "str": "spur shrill" },
+    "name": { "str": "Spur Shrill" },
     "description": "Heals nearby scrap swarms.",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
     "targeted_monster_ids": [ "mon_shrapnel_swarm" ],
@@ -285,7 +302,7 @@
   {
     "type": "SPELL",
     "id": "mutant_frenzy",
-    "name": { "str": "Mutant frenzy" },
+    "name": { "str": "Mutant Frenzy" },
     "description": "Speeds up allied mutants in a radius.",
     "valid_targets": [ "ally" ],
     "targeted_monster_ids": [
@@ -336,7 +353,7 @@
     "id": "shifting_mass",
     "name": { "str": "Shifting Mass Attack" },
     "description": "Drains some of your essence.",
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "base_casting_time": 75,
@@ -358,7 +375,7 @@
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE" ],
     "min_damage": 5,
     "max_damage": 5,
-    "damage_type": "cut",
+    "damage_type": "pure",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "attack"
@@ -369,35 +386,27 @@
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 20 }
         ]
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_stamina", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_stamina" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 50 }
         ]
       },
       {
-        "arithmetic": [
-          { "u_val": "fatigue" },
-          "+=",
-          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue", "type": "weather", "context": "ps" }
-        ]
+        "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" } ]
       },
       {
-        "arithmetic": [
-          { "u_val": "stamina" },
-          "+=",
-          { "global_val": "var", "var_name": "ps_shifting_mass_stamina", "type": "weather", "context": "ps" }
-        ]
+        "arithmetic": [ { "u_val": "stamina" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_stamina" } ]
       },
       { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
     ]
@@ -407,7 +416,7 @@
     "id": "impossible_shape_attack",
     "name": { "str": "Impossible Shape Attack" },
     "description": "Hurts you mentally.",
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "base_casting_time": 75,
@@ -453,34 +462,30 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, { "const": 3 } ], "op": ">" },
+    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
     "effect": [
-      { "u_location_variable": { "value": "cage", "type": "eoc", "context": "transform", "global": true } },
+      { "u_location_variable": { "global_val": "portal_cage" } },
       {
         "u_transform_radius": 2,
         "ter_furn_transform": "portal_cage_transform",
-        "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
+        "target_var": { "global_val": "portal_cage" }
       },
       {
-        "set_queue_effect_on_condition": [
-          {
-            "id": "EOC_PORTAL_ABSENCE_CHANGE",
-            "effect": [
-              {
-                "u_transform_radius": 2,
-                "ter_furn_transform": "portal_cage_revert_transform",
-                "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
-              }
-            ]
-          }
-        ],
-        "time_in_future_min": "3 seconds",
-        "time_in_future_max": "5 seconds"
+        "u_transform_radius": 2,
+        "ter_furn_transform": "portal_cage_revert_transform",
+        "target_var": { "global_val": "portal_cage" },
+        "time_in_future": [ "3 seconds", "5 seconds" ]
       },
       { "u_message": "All the empty space around you is suddenly even emptier than should be possible." }
     ],
     "false_effect": [
-      { "set_queue_effect_on_condition": [ "EOC_impossible_shape_attack", "EOC_shifting_mass_attack" ] },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_shifting_mass_attack", { "const": 2 } ],
+          [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
+          [ "EOC_PORTAL_INCORPOREAL", { "const": 1 } ]
+        ]
+      },
       { "u_message": "For an instant you feel the absence's hunger upon you." }
     ]
   },
@@ -493,5 +498,108 @@
     "type": "ter_furn_transform",
     "id": "portal_cage_revert_transform",
     "furniture": [ { "result": [ "f_null" ], "valid_furniture": [ "f_absence" ] } ]
+  },
+  {
+    "id": "boomer_claymore_initial",
+    "type": "SPELL",
+    "//": "exist because zed try to use boomer_claymore on max range except trying to minimize the distance (ty venera for idea)",
+    "name": { "str": "Initial Boomer Claymore Attack" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 3,
+    "max_range": 3,
+    "extra_effects": [ { "id": "boomer_claymore" } ]
+  },
+  {
+    "id": "boomer_claymore",
+    "type": "SPELL",
+    "name": { "str": "Boomer Claymore Attack" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "effect": "attack",
+    "shape": "cone",
+    "min_damage": 30,
+    "max_damage": 30,
+    "damage_type": "cut",
+    "min_range": 6,
+    "max_range": 6,
+    "min_aoe": 120,
+    "max_aoe": 120,
+    "extra_effects": [ { "id": "boomer_claymore_suicide", "hit_self": true } ]
+  },
+  {
+    "id": "boomer_claymore_suicide",
+    "type": "SPELL",
+    "name": { "str": "Boomer Suicide Spell" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile", "ally", "self" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "biological",
+    "min_damage": 9999,
+    "max_damage": 9999
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_twisting_blade_attack",
+    "name": { "str": "Twisting Blade Attack" },
+    "description": "Hurts you mentally.",
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 1,
+    "max_range": 1,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_mon_twisting_blade_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_twisting_blade_attack",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_add_effect": "nightmares", "duration": "18 hours" },
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 15 } ] },
+      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 300 } ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_swarm_structure_attack",
+    "name": { "str": "Swarm Structure Action" },
+    "description": "Teleports and summons monsters.",
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_mon_swarm_structure_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_swarm_structure_attack",
+    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
+    "effect": [
+      { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
+      { "npc_teleport": { "npc_val": "swarm_target" } }
+    ],
+    "false_effect": {
+      "u_spawn_monster": "mon_twisting_blade",
+      "real_count": [ 3, 5 ],
+      "hallucination_count": [ 5, 10 ],
+      "min_radius": 3,
+      "max_radius": 5,
+      "lifespan": [ "5 seconds", "10 seconds" ]
+    }
   }
 ]

@@ -20,7 +20,6 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -225,7 +224,6 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -316,7 +314,8 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ]
     ],
     "pocket_data": [
       {
@@ -372,7 +371,7 @@
       },
       {
         "id": "m4_cqbr",
-        "name": { "str": "MK 18 CQBR" },
+        "name": { "str": "Mk 18 CQBR" },
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
       }
     ],
@@ -387,7 +386,6 @@
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -426,7 +424,7 @@
       {
         "id": "m16a4",
         "name": { "str": "M16A4" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.",
         "weight": 1
       }
     ],
@@ -440,7 +438,6 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -474,16 +471,15 @@
       {
         "id": "m16a3",
         "name": { "str": "M16A3" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
         "weight": 1
       },
       {
         "id": "acr",
         "name": { "str": "Remington ACR" },
-        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
   },
   {
@@ -502,7 +498,7 @@
       {
         "id": "m231pfw",
         "name": { "str": "M231 port firing weapon" },
-        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard does nothing to protect you from the potentially scorching hot barrel collar, making it slighly less than ergonomic.  You could screw it into a firing port if you were so inclined.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
+        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard does nothing to protect you from the potentially scorching hot barrel collar, making it slightly less than ergonomic.  You could screw it into a firing port if you were so inclined.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
       }
     ],
     "dispersion": 350,
@@ -620,7 +616,6 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -726,7 +721,6 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] }
     ]

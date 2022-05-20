@@ -10,7 +10,6 @@
     "symbol": "%",
     "calories": 60,
     "quench": -1,
-    "healthy": -1,
     "description": "These balls of dough have been cut into shape, covered with sugar, and cooked to a crisp.  A staple of fairgrounds everywhere.",
     "price": 100,
     "price_postapoc": 50,
@@ -21,23 +20,23 @@
     "fun": 4
   },
   {
-    "id": "sourdough_young",
-    "type": "GENERIC",
+    "id": "sourdough_young_uncovered",
+    "type": "COMESTIBLE",
     "category": "food",
     "name": { "str": "juvenile sourdough starter" },
-    "description": "This jar contains a floury paste that is slowly going bad.  Someday it will be sourdough.",
-    "weight": "450 g",
-    "volume": "680 ml",
-    "longest_side": "132 mm",
+    "description": "A floury paste that is slowly going bad.  Someday it will be sourdough.",
+    "weight": "750 g",
+    "volume": "480 ml",
     "price": 10,
     "price_postapoc": 10,
-    "bashing": 8,
-    "material": [ "glass", "wheat" ],
-    "looks_like": "jar_glass_sealed",
+    "material": [ "wheat" ],
     "symbol": "%",
     "color": "white",
+    "flags": [ "SOFT" ],
+    "fun": -5,
+    "calories": 192,
     "use_action": {
-      "target": "sourdough_starter",
+      "target": "sourdough_starter_uncovered",
       "msg": "After feeding it and caring for it for a week, your sourdough starter is finally ready for the big leagues.",
       "moves": 50,
       "type": "delayed_transform",
@@ -46,23 +45,23 @@
     }
   },
   {
-    "id": "sourdough_split",
-    "type": "GENERIC",
+    "id": "sourdough_split_uncovered",
+    "type": "COMESTIBLE",
     "category": "food",
     "name": { "str": "freshly fed sourdough starter" },
-    "description": "This jar contains a floury paste with sourdough starter mixed in.  It needs a day to recover its strength before it can be used again.",
-    "weight": "450 g",
-    "volume": "680 ml",
-    "longest_side": "132 mm",
+    "description": "A floury paste with sourdough starter mixed in.  It needs a day to recover its strength before it can be used again.",
+    "weight": "750 g",
+    "volume": "480 ml",
     "price": 10,
     "price_postapoc": 10,
-    "bashing": 8,
-    "material": [ "glass", "wheat" ],
-    "looks_like": "jar_glass_sealed",
+    "material": [ "wheat" ],
     "symbol": "%",
     "color": "white",
+    "flags": [ "SOFT" ],
+    "fun": -5,
+    "calories": 192,
     "use_action": {
-      "target": "sourdough_starter",
+      "target": "sourdough_starter_uncovered",
       "msg": "The starter is now stinky and bubbly, and looks ready for cooking.",
       "moves": 50,
       "type": "delayed_transform",
@@ -71,21 +70,21 @@
     }
   },
   {
-    "id": "sourdough_starter",
-    "type": "GENERIC",
+    "id": "sourdough_starter_uncovered",
+    "type": "COMESTIBLE",
     "category": "food",
     "name": { "str": "sourdough starter" },
-    "description": "This jar contains a precious mix of flour, water, molds and bacteria from the air.  When you add flour and water to it, after a few hours it froths and rises.",
-    "weight": "450 g",
-    "looks_like": "jar_glass_sealed",
-    "volume": "680 ml",
-    "longest_side": "132 mm",
+    "description": "A precious mix of flour, water, molds and bacteria from the air.  When you add flour and water to it, after a few hours it froths and rises.",
+    "weight": "750 g",
+    "volume": "480 ml",
     "price": 50,
     "price_postapoc": 10,
-    "bashing": 8,
-    "material": [ "glass", "wheat" ],
+    "material": [ "wheat" ],
     "symbol": "%",
-    "color": "white"
+    "color": "yellow",
+    "flags": [ "SOFT" ],
+    "fun": -1,
+    "calories": 192
   },
   {
     "type": "COMESTIBLE",
@@ -97,7 +96,6 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 2,
     "calories": 174,
     "description": "Healthy and filling, with a sharper taste and thicker crust than yeast-only bread.",
     "price": 190,
@@ -159,7 +157,6 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 84,
     "description": "Healthy and filling.",
     "price": 47,
@@ -181,7 +178,6 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 84,
     "description": "Made from wheat-free flour, healthy and filling.",
     "price": 47,
@@ -192,6 +188,29 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 10 ], [ "iron", 4 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "bread_garlic",
+    "looks_like": "bread",
+    "name": { "str_sp": "garlic bread" },
+    "weight": "85 g",
+    "color": "brown",
+    "spoils_in": "10 days",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 298,
+    "quench": -2,
+    "description": "Bread cooked with garlic, oil and seasonings.",
+    "price": 90,
+    "price_postapoc": 100,
+    "material": [ "wheat" ],
+    "volume": "250 ml",
+    "charges": 14,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 3,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -221,7 +240,7 @@
     "name": { "str_sp": "buttered toast" },
     "copy-from": "toast",
     "description": "Toast with butter spread on top to make it taste better.",
-    "relative": { "calories": 101, "fun": 4, "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ] ] }
+    "relative": { "calories": 101, "fun": 4 }
   },
   {
     "type": "COMESTIBLE",
@@ -229,7 +248,7 @@
     "name": { "str_sp": "wheat-free buttered toast" },
     "copy-from": "toast_wheat_free",
     "description": "Wheat-free toast with butter spread on top to make it taste better.",
-    "relative": { "calories": 101, "fun": 4, "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ] ] }
+    "relative": { "calories": 101, "fun": 4 }
   },
   {
     "type": "COMESTIBLE",
@@ -271,12 +290,7 @@
     "name": { "str_sp": "toad in a hole" },
     "copy-from": "toast",
     "description": "A cooked egg served inside a piece of toast.",
-    "relative": {
-      "calories": 80,
-      "fun": 4,
-      "flags": [ "FREEZERBURN" ],
-      "vitamins": [ [ "iron", 4 ], [ "vitB", 21 ], [ "vitA", 9 ], [ "calcium", 3 ] ]
-    }
+    "relative": { "calories": 80, "fun": 4, "flags": [ "FREEZERBURN" ], "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
   },
   {
     "type": "COMESTIBLE",
@@ -284,12 +298,7 @@
     "name": { "str_sp": "wheat-free toad in a hole" },
     "copy-from": "toast_wheat_free",
     "description": "A cooked egg served inside a piece of wheat-free toast.",
-    "relative": {
-      "calories": 80,
-      "fun": 4,
-      "flags": [ "FREEZERBURN" ],
-      "vitamins": [ [ "iron", 4 ], [ "vitB", 21 ], [ "vitA", 9 ], [ "calcium", 3 ] ]
-    }
+    "relative": { "calories": 80, "fun": 4, "flags": [ "FREEZERBURN" ], "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
   },
   {
     "type": "COMESTIBLE",
@@ -297,7 +306,7 @@
     "name": { "str_sp": "PBJ Toast" },
     "copy-from": "toast_wheat_free",
     "description": "A slice of toast with peanut butter and jelly on top of it with added butter for flavor.",
-    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitB", 3 ], [ "vitA", 7 ], [ "vitC", 2 ] ] }
+    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
   },
   {
     "type": "COMESTIBLE",
@@ -305,7 +314,7 @@
     "name": { "str_sp": "wheat-free PBJ Toast" },
     "copy-from": "toast_wheat_free",
     "description": "A slice of wheat-free toast with peanut butter and jelly on top of it with added butter for flavor.",
-    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitB", 3 ], [ "vitA", 7 ], [ "vitC", 2 ] ] }
+    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
   },
   {
     "type": "COMESTIBLE",
@@ -317,7 +326,6 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 198,
     "description": "Healthy and filling cornbread.",
     "price": 75,
@@ -328,7 +336,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 8 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -349,7 +357,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -361,7 +369,6 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 52,
     "description": "A round, thin flatbread made from finely ground corn flour.",
     "price": 50,
@@ -385,14 +392,35 @@
     "symbol": "%",
     "quench": -2,
     "calories": 280,
-    "description": "A dry and virtually tasteless bread product capable of remaining edible without spoilage for vast lengths of time.",
+    "description": "A dry and virtually tasteless bread product capable of remaining edible without spoilage for vast lengths of time.  So dry it is almost inedible by itself.",
     "price": 125,
     "price_postapoc": 150,
     "material": [ "wheat" ],
     "volume": "250 ml",
     "charges": 2,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "bad_food", 10 ] ],
+    "stack_size": 20,
+    "fun": -4
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "soggy_hardtack",
+    "name": { "str_sp": "soggy hardtack" },
+    "weight": "80 g",
+    "color": "white",
+    "spoils_in": "5 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 280,
+    "description": "A soggy and virtually tasteless bread product that has soaked up enough water that it won't hurt your teeth chewing.",
+    "price": 125,
+    "price_postapoc": 150,
+    "material": [ "wheat" ],
+    "volume": "250 ml",
+    "charges": 2,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "bad_food", 10 ] ],
     "stack_size": 20,
     "fun": -1
   },
@@ -415,7 +443,7 @@
     "charges": 10,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 11 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "calcium", 11 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -427,7 +455,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -3,
-    "healthy": -1,
     "calories": 80,
     "description": "Flour is a commodity these days and to deal with that, most survivors resort to mix it with leftovers of other ingredients and bake it all into bread.  It's filling, and that's what matters.",
     "price": 400,
@@ -452,9 +479,8 @@
     "container": "can_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 130,
-    "description": "A sweet wheat-free bread, like cake.",
+    "description": "A sweet bread, like cake.",
     "price": "272 cent",
     "price_postapoc": "2 USD",
     "material": [ "wheat" ],
@@ -474,9 +500,8 @@
     "container": "can_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 130,
-    "description": "A sweet bread, like cake.",
+    "description": "A sweet wheat-free bread, like cake.",
     "price": "272 cent",
     "price_postapoc": "2 USD",
     "material": [ "veggy" ],
@@ -496,7 +521,6 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 61,
     "description": "This type of bread is popular in Chile and Bolivia.  Prepared using animal lard or oil, it resembles a large, round scone.  In the pre-Cataclysm world, it would usually be filled with savory ingredients rather than sweet ones.",
     "price": "272 cent",

@@ -206,7 +206,8 @@
       { "item": "mayonnaise", "prob": 3 },
       { "group": "ketchup_sealed_rng", "prob": 3 },
       { "group": "mustard_sealed_rng", "prob": 3 },
-      { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 2 },
+      { "item": "pickle", "prob": 5, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 5 },
       { "item": "cheeseburger", "prob": 10 },
       { "item": "hamburger", "prob": 8 },
@@ -227,7 +228,9 @@
     "entries": [
       { "item": "water_clean", "prob": 50 },
       { "item": "water_mineral", "prob": 20 },
+      { "item": "grenadine_syrup", "prob": 40 },
       { "item": "oj", "prob": 40 },
+      { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
       { "item": "tomato_juice", "prob": 25 },
       { "item": "cranberry_juice", "prob": 35 },
@@ -247,11 +250,14 @@
     "entries": [
       { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
       { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 70 },
+      { "item": "shot_glass", "prob": 60 },
       { "item": "bucket", "prob": 5 },
       { "item": "can_drink", "prob": 65 },
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "ceramic_plate", "prob": 40 },
       { "item": "news_regional", "prob": 20 },
       { "item": "mag_news", "prob": 20 }
@@ -280,6 +286,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "bottle_glass", "prob": 70 },
       { "item": "can_drink", "prob": 60 },
       { "item": "flyer", "prob": 30 },
@@ -350,6 +357,7 @@
       { "item": "cig", "prob": 15, "charges": [ 1, 20 ] },
       { "item": "rolling_paper", "prob": 7, "charges": [ 1, 30 ] },
       [ "wrapper", 35 ],
+      [ "wrapper_foil", 2 ],
       [ "ceramic_plate", 40 ],
       [ "cup_plastic", 40 ],
       { "item": "portable_game", "prob": 10, "charges": [ 0, 100 ] },
@@ -396,6 +404,7 @@
     "items": [
       [ "cup_plastic", 40 ],
       [ "wrapper", 34 ],
+      [ "wrapper_foil", 3 ],
       [ "bag_plastic", 20 ],
       [ "bottle_glass", 30 ],
       [ "can_drink", 30 ],
@@ -447,6 +456,7 @@
       { "item": "tea_raw", "prob": 15 },
       { "item": "tea_green_raw", "prob": 10 },
       { "item": "wrapper", "prob": 75 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "group": "teabag_box", "prob": 10 }
     ]
   },
@@ -511,7 +521,10 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "apron_leather", "prob": 25 },
+      { "item": "apron_cotton", "prob": 20 },
+      { "item": "waist_apron_long", "prob": 5 },
+      { "item": "waist_apron_short", "prob": 20 },
+      { "item": "apron_leather", "prob": 5 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       { "item": "hat_ball", "prob": 25 },
       { "item": "towel", "prob": 10 },
@@ -540,6 +553,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wrapper", "prob": 17 },
+      { "item": "wrapper_foil", "prob": 1 },
       { "item": "bag_plastic", "prob": 15 },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "can_drink", "prob": 10 },
@@ -570,6 +584,7 @@
     "entries": [
       { "item": "cup_plastic", "prob": 60 },
       { "item": "wrapper", "prob": 60 },
+      { "item": "wrapper_foil", "prob": 6 },
       { "item": "bag_plastic", "prob": 45 },
       { "item": "rag", "prob": 10 },
       { "item": "fries", "prob": 25 },
@@ -613,6 +628,7 @@
     "entries": [
       { "item": "cup_plastic", "prob": 50 },
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "bag_plastic", "prob": 50 },
       { "item": "rag", "prob": 50 },
       { "item": "syringe", "prob": 5 },
@@ -669,6 +685,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "bread", "prob": 65 },
+      { "item": "bread_garlic", "prob": 20 },
       { "item": "brown_bread", "prob": 50, "container-item": "bag_plastic" },
       { "item": "cake2", "prob": 10 },
       { "item": "cake3", "prob": 10 },
@@ -747,6 +764,7 @@
       { "item": "bread_flour", "prob": 35 },
       { "item": "cornmeal", "prob": 50 },
       { "item": "yeast", "prob": 40 },
+      { "item": "koji", "prob": 2 },
       { "item": "powder_eggs", "prob": 55 },
       { "item": "milk_UHT", "prob": 15 },
       { "item": "milk_evap", "prob": 25 },
@@ -778,11 +796,13 @@
       { "item": "orangesoda", "prob": 15, "container-item": "bottle_plastic", "sealed": false },
       { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic", "sealed": false },
       { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "tonic_water", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
       { "item": "cola", "prob": 20, "container-item": "bottle_twoliter" },
       { "item": "creamsoda", "prob": 10, "container-item": "bottle_twoliter" },
       { "item": "lemonlime", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "orangesoda", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "colamdew", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "tonic_water", "prob": 2, "container-item": "bottle_twoliter" },
       { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" }
     ]
   },
@@ -795,12 +815,13 @@
       { "item": "mayonnaise", "prob": 40 },
       { "group": "ketchup_sealed_rng", "prob": 60 },
       { "group": "mustard_sealed_rng", "prob": 60 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 40 },
       { "item": "horseradish", "prob": 10 },
       { "item": "sprinkles", "prob": 20 },
       { "item": "honey_bottled", "prob": 35 },
       { "item": "honey_glassed", "prob": 35 },
       { "item": "peanutbutter", "prob": 60 },
-      { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
+      { "item": "pickle", "prob": 40, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "coffee_syrup", "prob": 35 },
       { "item": "coffee_raw", "prob": 45 },
       { "item": "tea_raw", "prob": 45 },
@@ -932,7 +953,7 @@
       [ "fish_fried", 7 ],
       [ "cheese", 10 ],
       [ "lemon", 15 ],
-      { "item": "pickle", "prob": 10, "charges": 6, "container-item": "jar_glass_sealed" },
+      { "item": "pickle", "prob": 10, "charges": 2, "container-item": "jar_glass_sealed" },
       [ "lutefisk", 15 ],
       [ "fries", 15 ],
       [ "cheese_fries", 10 ],
@@ -954,6 +975,7 @@
       [ "vinegar", 20 ],
       [ "jam_fruit", 5 ],
       [ "bread", 17 ],
+      { "item": "confit_meat", "prob": 14 },
       [ "meat", 20 ],
       [ "cornbread", 7 ],
       [ "biscuit", 8 ],
@@ -1004,6 +1026,7 @@
     "type": "item_group",
     "items": [
       [ "wrapper", 40 ],
+      [ "wrapper_foil", 2 ],
       [ "bag_plastic", 35 ],
       [ "bottle_glass", 35 ],
       [ "rag", 30 ],
@@ -1033,6 +1056,9 @@
       [ "armguard_cut_resistant", 2 ],
       [ "hat_chef", 30 ],
       [ "jacket_chef", 30 ],
+      [ "apron_cotton", 30 ],
+      [ "waist_apron_long", 20 ],
+      [ "waist_apron_short", 20 ],
       [ "pants_checkered", 28 ]
     ]
   },
@@ -1122,7 +1148,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
+      { "item": "pickle", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "bacon", "prob": 20 },
       { "item": "fries", "prob": 20 },
       { "item": "onion_rings", "prob": 20 },

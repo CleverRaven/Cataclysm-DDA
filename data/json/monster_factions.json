@@ -9,19 +9,19 @@
   {
     "type": "MONSTER_FACTION",
     "name": "factionless",
-    "by_mood": "factionless"
+    "by_mood": [ "factionless" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "human",
     "neutral": [ "mech_bot" ],
-    "by_mood": "exodii"
+    "by_mood": [ "exodii", "isolated_artisans" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "player",
     "base_faction": "human",
-    "neutral": "robofac_spy"
+    "neutral": [ "robofac_spy" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -34,7 +34,13 @@
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "base_faction": "zombie",
-    "hate": [ "aquatic_predator" ],
+    "hate": [ "aquatic_predator", "kraken" ],
+    "by_mood": [ "fish" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "kraken",
+    "hate": [ "aquatic_predator", "zombie_aquatic" ],
     "by_mood": [ "fish" ]
   },
   {
@@ -48,26 +54,26 @@
     "name": "cult",
     "base_faction": "zombie",
     "neutral": [ "slime", "zombie", "nether", "vortex" ],
-    "by_mood": "leech_plant"
+    "by_mood": [ "leech_plant" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "animal",
-    "by_mood": "animal",
-    "neutral": [ "small_animal", "fish", "bot", "aquatic_predator", "robofac" ]
+    "neutral": [ "small_animal", "fish", "bot", "aquatic_predator", "robofac" ],
+    "by_mood": [ "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "small_animal",
     "base_faction": "animal",
-    "neutral": [ "zombie", "fish", "exodii", "nether", "animal" ],
+    "neutral": [ "zombie", "fish", "exodii", "isolated_artisans", "nether", "animal" ],
     "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "base_faction": "animal",
-    "neutral": [ "small_animal", "fish", "exodii" ]
+    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -79,33 +85,33 @@
     "name": "bear",
     "base_faction": "animal",
     "//": "Hunts small things, can't resist honey",
-    "by_mood": "fish",
-    "hate": [ "small_animal", "bee" ]
+    "hate": [ "small_animal", "bee" ],
+    "by_mood": [ "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "fox",
     "base_faction": "animal",
-    "hate": "small_animal"
+    "hate": [ "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "big_cat",
     "base_faction": "animal",
-    "by_mood": "fish",
-    "hate": [ "small_animal", "herbivore" ]
+    "hate": [ "small_animal", "herbivore" ],
+    "by_mood": [ "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "cat",
     "base_faction": "small_animal",
-    "hate": "small_animal"
+    "hate": [ "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "dog",
     "base_faction": "animal",
-    "hate": "small_animal"
+    "hate": [ "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -121,15 +127,29 @@
   {
     "type": "MONSTER_FACTION",
     "name": "rat",
-    "base_faction": "vermin"
+    "base_faction": "vermin",
+    "neutral": [ "ratkin" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "fish",
     "base_faction": "animal",
     "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider" ],
-    "by_mood": [ "bear", "big_cat" ],
-    "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "plant", "nether", "jabberwock", "insect", "mutant", "fungus" ]
+    "by_mood": [ "bear", "big_cat", "kraken" ],
+    "neutral": [
+      "zombie",
+      "bot",
+      "animal",
+      "small_animal",
+      "exodii",
+      "isolated_artisans",
+      "plant",
+      "nether",
+      "jabberwock",
+      "insect",
+      "mutant",
+      "fungus"
+    ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -142,14 +162,14 @@
     "name": "vortex",
     "base_faction": "nether",
     "by_mood": [ "nether", "slime", "mi-go" ],
-    "neutral": "mutant_with_vortex"
+    "neutral": [ "mutant_with_vortex" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "slime",
     "base_faction": "nether",
-    "friendly": "zombie",
-    "neutral": [ "nether", "mi-go" ]
+    "neutral": [ "nether", "mi-go" ],
+    "friendly": [ "zombie" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -197,8 +217,8 @@
     "//": "Primarily meant as a base_faction;",
     "//2": "if used as a faction, they may attack each other.",
     "base_faction": "mutant",
-    "hate": "fish",
-    "by_mood": [ "mutant", "mutant_piscivores" ]
+    "by_mood": [ "mutant", "mutant_piscivores" ],
+    "hate": [ "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -214,18 +234,24 @@
     "type": "MONSTER_FACTION",
     "name": "amigara",
     "base_faction": "mutant",
-    "neutral": "amigara"
+    "neutral": [ "amigara" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "mutant_with_vortex",
     "base_faction": "mutant",
-    "neutral": "vortex"
+    "neutral": [ "vortex" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "corvid",
     "base_faction": "mutant"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ratkin",
+    "base_faction": "mutant",
+    "neutral": [ "rat" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -251,7 +277,7 @@
     "type": "MONSTER_FACTION",
     "name": "defense_bot",
     "base_faction": "bot",
-    "friendly": "science"
+    "friendly": [ "science" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -268,7 +294,7 @@
     "type": "MONSTER_FACTION",
     "name": "nurse_bot",
     "base_faction": "bot",
-    "by_mood": "zombie"
+    "by_mood": [ "zombie" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -298,9 +324,9 @@
     "type": "MONSTER_FACTION",
     "name": "bee",
     "base_faction": "insect",
-    "friendly": "plant",
     "neutral": [ "spider", "centipede" ],
-    "by_mood": [ "zombie", "fungus" ]
+    "by_mood": [ "zombie", "fungus" ],
+    "friendly": [ "plant" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -311,7 +337,7 @@
     "type": "MONSTER_FACTION",
     "name": "mosquito",
     "base_faction": "insect",
-    "hate": "animal"
+    "hate": [ "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -339,7 +365,7 @@
     "base_faction": "insect",
     "neutral": [ "centipede", "bee", "wasp" ],
     "hate": [ "insect", "animal" ],
-    "by_mood": "spider"
+    "by_mood": [ "spider" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -395,13 +421,13 @@
     "type": "MONSTER_FACTION",
     "name": "crayfish",
     "base_faction": "insect",
-    "hate": "fish"
+    "hate": [ "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "stag_beetle",
     "base_faction": "insect",
-    "by_mood": "zombie"
+    "by_mood": [ "zombie" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -447,7 +473,7 @@
     "type": "MONSTER_FACTION",
     "name": "fungus",
     "neutral": [ "bot", "fish" ],
-    "hate": "triffid"
+    "hate": [ "triffid" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -478,47 +504,55 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "isolated_artisans",
+    "base_faction": "human",
+    "neutral": [ "fish", "small_animal", "herbivore" ],
+    "by_mood": [ "animal", "nether", "human" ],
+    "hate": [ "zombie", "fungus", "triffid", "mi-go" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "mi-go",
     "base_faction": "nether",
     "neutral": [ "fish", "small_animal", "slime" ],
     "by_mood": [ "nether" ],
-    "hate": [ "zombie", "triffid", "fungus", "exodii" ]
+    "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "plant",
     "neutral": [ "bot", "fish" ],
-    "friendly": "bee"
+    "friendly": [ "bee" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "triffid",
     "base_faction": "plant",
-    "hate": "fungus"
+    "hate": [ "fungus" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "aquatic_predator",
     "base_faction": "insect",
     "neutral": [ "bot", "insect", "animal", "zombie" ],
-    "hate": [ "fish", "zombie_aquatic" ]
+    "hate": [ "fish", "zombie_aquatic", "kraken" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "seweranha",
     "base_faction": "mutant_piscivores",
-    "neutral": "seweranha"
+    "neutral": [ "seweranha" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "sewer_snake",
     "base_faction": "mutant_piscivores",
-    "neutral": "sewer_snake"
+    "neutral": [ "sewer_snake" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "dark_wyrm",
     "base_faction": "mutant",
-    "neutral": "dark_wyrm"
+    "neutral": [ "dark_wyrm" ]
   }
 ]

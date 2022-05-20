@@ -9,7 +9,7 @@
 #include "translations.h"
 #include "translation_manager_impl.h"
 
-std::uint32_t TranslationManagerImpl::Hash( const char *str )
+std::uint32_t TranslationManager::Impl::Hash( const char *str )
 {
     std::uint32_t hash = 5381U;
     while( *str != '\0' ) {
@@ -18,7 +18,7 @@ std::uint32_t TranslationManagerImpl::Hash( const char *str )
     return hash;
 }
 
-cata::optional<std::pair<std::size_t, std::size_t>> TranslationManagerImpl::LookupString(
+cata::optional<std::pair<std::size_t, std::size_t>> TranslationManager::Impl::LookupString(
             const char *query ) const
 {
     std::uint32_t hash = Hash( query );
@@ -36,7 +36,7 @@ cata::optional<std::pair<std::size_t, std::size_t>> TranslationManagerImpl::Look
     return cata::nullopt;
 }
 
-std::string TranslationManagerImpl::LanguageCodeOfPath( const std::string &path )
+std::string TranslationManager::Impl::LanguageCodeOfPath( const std::string &path )
 {
     const std::size_t end = path.rfind( "/LC_MESSAGES" );
     if( end == std::string::npos ) {
@@ -49,20 +49,24 @@ std::string TranslationManagerImpl::LanguageCodeOfPath( const std::string &path 
     return path.substr( begin, end - begin );
 }
 
-void TranslationManagerImpl::ScanTranslationDocuments()
+void TranslationManager::Impl::ScanTranslationDocuments()
 {
     DebugLog( D_INFO, DC_ALL ) << "[i18n] Scanning core translations from " << locale_dir();
     DebugLog( D_INFO, DC_ALL ) << "[i18n] Scanning mod translations from " << PATH_INFO::user_moddir();
-    std::vector<std::string> core_mo_dirs = get_files_from_path( "LC_MESSAGES", locale_dir(),
-                                            true );
-    std::vector<std::string> mods_mo_dirs = get_files_from_path( "LC_MESSAGES",
-                                            PATH_INFO::user_moddir(),
-                                            true );
-    std::vector<std::string> mo_dirs;
-    mo_dirs.insert( mo_dirs.end(), core_mo_dirs.begin(), core_mo_dirs.end() );
-    mo_dirs.insert( mo_dirs.end(), mods_mo_dirs.begin(), mods_mo_dirs.end() );
-    for( const auto &dir : mo_dirs ) {
-        std::vector<std::string> mo_dir_files = get_files_from_path( ".mo", dir, false, true );
+    std::vector<std::pair<std::string, std::string>> mo_dirs;
+    for( const auto &dir : get_files_from_path( "LC_MESSAGES",
+            PATH_INFO::user_moddir(),
+            true ) ) {
+        mo_dirs.emplace_back( dir, ".mo" );
+    }
+    for( const auto &dir : get_files_from_path( "LC_MESSAGES", locale_dir(),
+            true ) ) {
+        mo_dirs.emplace_back( dir, "cataclysm-dda.mo" );
+    }
+    for( const auto &entry : mo_dirs ) {
+        const auto &dir = entry.first;
+        const auto &pattern = entry.second;
+        std::vector<std::string> mo_dir_files = get_files_from_path( pattern, dir, false, true );
         for( const auto &file : mo_dir_files ) {
             const std::string lang = LanguageCodeOfPath( file );
             if( mo_files.count( lang ) == 0 ) {
@@ -73,19 +77,19 @@ void TranslationManagerImpl::ScanTranslationDocuments()
     }
 }
 
-void TranslationManagerImpl::Reset()
+void TranslationManager::Impl::Reset()
 {
     documents.clear();
     strings.clear();
     strings.max_load_factor( 1.0f );
 }
 
-TranslationManagerImpl::TranslationManagerImpl()
+TranslationManager::Impl::Impl()
 {
     current_language_code = "en";
 }
 
-std::unordered_set<std::string> TranslationManagerImpl::GetAvailableLanguages()
+std::unordered_set<std::string> TranslationManager::Impl::GetAvailableLanguages()
 {
     if( mo_files.empty() ) {
         ScanTranslationDocuments();
@@ -97,7 +101,7 @@ std::unordered_set<std::string> TranslationManagerImpl::GetAvailableLanguages()
     return languages;
 }
 
-void TranslationManagerImpl::SetLanguage( const std::string &language_code )
+void TranslationManager::Impl::SetLanguage( const std::string &language_code )
 {
     if( mo_files.empty() ) {
         ScanTranslationDocuments();
@@ -113,12 +117,12 @@ void TranslationManagerImpl::SetLanguage( const std::string &language_code )
     LoadDocuments( mo_files[current_language_code] );
 }
 
-std::string TranslationManagerImpl::GetCurrentLanguage() const
+std::string TranslationManager::Impl::GetCurrentLanguage() const
 {
     return current_language_code;
 }
 
-void TranslationManagerImpl::LoadDocuments( const std::vector<std::string> &files )
+void TranslationManager::Impl::LoadDocuments( const std::vector<std::string> &files )
 {
     Reset();
     for( const std::string &file : files ) {
@@ -150,12 +154,12 @@ void TranslationManagerImpl::LoadDocuments( const std::vector<std::string> &file
     }
 }
 
-const char *TranslationManagerImpl::Translate( const std::string &message ) const
+const char *TranslationManager::Impl::Translate( const std::string &message ) const
 {
     return Translate( message.c_str() );
 }
 
-const char *TranslationManagerImpl::Translate( const char *message ) const
+const char *TranslationManager::Impl::Translate( const char *message ) const
 {
     cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( message );
     if( entry ) {
@@ -166,7 +170,7 @@ const char *TranslationManagerImpl::Translate( const char *message ) const
     return message;
 }
 
-const char *TranslationManagerImpl::TranslatePlural( const char *singular, const char *plural,
+const char *TranslationManager::Impl::TranslatePlural( const char *singular, const char *plural,
         std::size_t n ) const
 {
     cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( singular );
@@ -182,7 +186,7 @@ const char *TranslationManagerImpl::TranslatePlural( const char *singular, const
     }
 }
 
-std::string TranslationManagerImpl::ConstructContextualQuery( const char *context,
+std::string TranslationManager::Impl::ConstructContextualQuery( const char *context,
         const char *message ) const
 {
     std::string query;
@@ -193,7 +197,7 @@ std::string TranslationManagerImpl::ConstructContextualQuery( const char *contex
     return query;
 }
 
-const char *TranslationManagerImpl::TranslateWithContext( const char *context,
+const char *TranslationManager::Impl::TranslateWithContext( const char *context,
         const char *message ) const
 {
     std::string query = ConstructContextualQuery( context, message );
@@ -206,7 +210,7 @@ const char *TranslationManagerImpl::TranslateWithContext( const char *context,
     return message;
 }
 
-const char *TranslationManagerImpl::TranslatePluralWithContext( const char *context,
+const char *TranslationManager::Impl::TranslatePluralWithContext( const char *context,
         const char *singular,
         const char *plural,
         std::size_t n ) const

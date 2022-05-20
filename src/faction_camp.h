@@ -33,8 +33,6 @@ struct enum_traits<farm_ops> {
     static constexpr bool is_flag_enum = true;
 };
 
-std::string get_mission_action_string( const std::string &input_mission );
-
 namespace talk_function
 {
 void basecamp_mission( npc & );

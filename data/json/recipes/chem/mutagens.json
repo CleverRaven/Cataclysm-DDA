@@ -23,7 +23,6 @@
         [ "tallow_tainted", 2 ],
         [ "meat_tainted", 3 ],
         [ "dry_meat_tainted", 3 ],
-        [ "slime_scrap", 5 ],
         [ "fetus", 1 ],
         [ "arm", 2 ],
         [ "leg", 2 ]
@@ -79,8 +78,9 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
+      [ [ "plant_sample", 1 ] ],
       [ [ "veggy", 3 ], [ "biollante_bud", 1 ], [ "datura_seed", 16 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "fungicide", 200 ], [ "plant_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -97,7 +97,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_plant", 2 ] ] ],
+    "components": [ [ [ "mutagen_plant", 2 ] ], [ [ "plant_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -117,7 +117,7 @@
       [ [ "mutagen", 1 ] ],
       [ [ "insect_sample", 1 ] ],
       [ [ "bee_sting", 3 ], [ "wasp_sting", 3 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "acidchitin_piece", 3 ], [ "insect_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -134,7 +134,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_insect", 2 ] ], [ [ "insect_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_insect", 2 ] ], [ [ "insect_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -171,7 +171,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_spider", 2 ] ], [ [ "spider_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_spider", 2 ] ], [ [ "spider_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -187,7 +187,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_creepy", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "snail_sample", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "gastropod_sample", 1 ] ],
+      [ [ "salt", 600 ], [ "lead", 4 ] ],
+      [ [ "stomach", 6 ], [ "stomach_large", 2 ], [ "gastropod_sample", 1 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -203,7 +208,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_snail", 2 ] ], [ [ "snail_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_snail", 2 ] ], [ [ "gastropod_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -218,8 +223,8 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ], [ "recipe_creepy", 6 ] ],
-    "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "slime_scrap", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "using": [ [ "mutagen_production_standard", 40 ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "slime_sample", 1 ] ], [ [ "mutagen", 2 ], [ "slime_sample", 2 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -235,7 +240,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ], [ "recipe_creepy", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_slime", 2 ] ] ],
+    "components": [ [ [ "mutagen_slime", 2 ] ], [ [ "slime_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -247,21 +252,23 @@
     "skill_used": "chemistry",
     "skills_required": [ "firstaid", 1 ],
     "difficulty": 7,
-    "time": "45 m",
+    "time": "3 h",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
+      [ [ "fish_sample", 1 ] ],
+      [ [ "water", 160 ] ],
       [
-        [ "fish", 2 ],
-        [ "can_sardine", 1 ],
-        [ "can_tuna", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_herring", 1 ],
-        [ "fish_pickled", 1 ]
-      ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+        [ "fish", 3 ],
+        [ "can_sardine", 2 ],
+        [ "can_tuna", 2 ],
+        [ "can_salmon", 2 ],
+        [ "can_herring", 2 ],
+        [ "fish_pickled", 2 ],
+        [ "fish_sample", 1 ]
+      ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -278,7 +285,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_fish", 2 ] ] ],
+    "components": [ [ [ "mutagen_fish", 2 ] ], [ [ "fish_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -296,8 +303,9 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat_tainted", 3 ], [ "dry_meat_tainted", 3 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "rat_sample", 1 ] ],
+      [ [ "meat_tainted", 6 ], [ "dry_meat_tainted", 6 ] ],
+      [ [ "quikclot", 2 ], [ "rat_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -314,7 +322,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_rat", 2 ] ] ],
+    "components": [ [ [ "mutagen_rat", 2 ] ], [ [ "rat_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -334,7 +342,7 @@
       [ [ "mutagen", 1 ] ],
       [ [ "beast_sample", 1 ] ],
       [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "animal_blood", 4 ], [ "beast_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -351,7 +359,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_beast", 2 ] ], [ [ "beast_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_beast", 2 ] ], [ [ "beast_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -369,9 +377,9 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
       [ [ "ursine_sample", 1 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "mutant_lard", 5 ], [ "honey_bottled", 1 ] ],
+      [ [ "honeycomb", 2 ], [ "ursine_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -388,7 +396,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_ursine", 2 ] ], [ [ "ursine_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_ursine", 2 ] ], [ [ "ursine_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -404,7 +412,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 1 ], [ "meat_scrap", 10 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "mouse_sample", 1 ] ],
+      [ [ "meat", 2 ], [ "meat_scrap", 20 ] ],
+      [ [ "quikclot", 2 ], [ "mouse_sample", 1 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -420,7 +433,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_mouse", 2 ] ] ],
+    "components": [ [ [ "mutagen_mouse", 2 ] ], [ [ "mouse_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -439,8 +452,8 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "feline_sample", 1 ] ],
-      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ],
+      [ [ "iodine", 1 ], [ "feline_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -457,7 +470,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_feline", 2 ] ], [ [ "feline_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_feline", 2 ] ], [ [ "feline_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -476,8 +489,8 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "lupine_sample", 1 ] ],
-      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "meat", 5 ], [ "meat_scrap", 50 ] ],
+      [ [ "bone", 5 ], [ "lupine_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -494,7 +507,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_lupine", 2 ] ], [ [ "lupine_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_lupine", 2 ] ], [ [ "lupine_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -512,9 +525,9 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "bovine_sample", 1 ] ],
-      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "cattle_sample", 1 ] ],
+      [ [ "milk_powder", 2 ], [ "cattle_sample", 1 ] ],
+      [ [ "milk_raw", 6 ], [ "cattle_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -531,7 +544,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_cattle", 2 ] ], [ [ "bovine_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_cattle", 2 ] ], [ [ "cattle_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -550,8 +563,8 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "cephalopod_sample", 1 ] ],
-      [ [ "meat_tainted", 3 ], [ "dry_meat_tainted", 3 ], [ "can_chowder", 1 ], [ "can_clams", 1 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "meat_tainted", 6 ], [ "dry_meat_tainted", 6 ], [ "can_chowder", 1 ], [ "can_clams", 1 ] ],
+      [ [ "permanent_ink", 800 ], [ "cephalopod_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -568,7 +581,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_cephalopod", 2 ] ], [ [ "cephalopod_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_cephalopod", 2 ] ], [ [ "cephalopod_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -584,7 +597,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "eggs_bird", 1, "LIST" ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "bird_sample", 1 ] ],
+      [ [ "eggs_bird", 2, "LIST" ] ],
+      [ [ "feather", 2 ], [ "bird_sample", 1 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -600,7 +618,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_bird", 2 ] ] ],
+    "components": [ [ [ "mutagen_bird", 2 ] ], [ [ "bird_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -618,9 +636,9 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
+      [ [ "lizard_sample", 1 ] ],
       [ [ "egg_reptile", 1 ] ],
-      [ [ "reptile_sample", 1 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "bfipowder", 4 ], [ "lizard_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -637,7 +655,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_lizard", 2 ] ], [ [ "reptile_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_lizard", 2 ] ], [ [ "lizard_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -653,7 +671,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "frog_sample", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "batrachian_sample", 1 ] ],
+      [ [ "chem_rocket_fuel", 1 ], [ "tool_rocket_candy", 2 ] ],
+      [ [ "egg_frog", 1 ], [ "batrachian_sample", 1 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -669,7 +692,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_batrachian", 2 ] ], [ [ "frog_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_batrachian", 2 ] ], [ [ "batrachian_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -685,7 +708,13 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "molerat_sample", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "troglobite_sample", 1 ] ],
+      [ [ "mutant_bug_organs", 3 ] ],
+      [ [ "human_sample", 1 ] ],
+      [ [ "chem_saltpetre", 1 ], [ "troglobite_sample", 1 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -701,7 +730,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_troglobite", 2 ] ], [ [ "molerat_sample", 3 ] ] ],
+    "components": [ [ [ "mutagen_troglobite", 2 ] ], [ [ "troglobite_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -717,27 +746,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_medicalmut", 7 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [
-        [ "heroin", 5 ],
-        [ "oxycodone", 10 ],
-        [ "tramadol", 15 ],
-        [ "diazepam", 15 ],
-        [ "codeine", 20 ],
-        [ "poppy_pain", 20 ]
-      ],
-      [
-        [ "lsd", 5 ],
-        [ "prozac", 10 ],
-        [ "thorazine", 10 ],
-        [ "adderall", 10 ],
-        [ "xanax", 10 ],
-        [ "pills_sleep", 10 ],
-        [ "poppy_sleep", 15 ]
-      ],
-      [ [ "vitamins", 5 ], [ "iodine", 5 ], [ "disinfectant", 25 ], [ "protein_powder", 20 ] ]
-    ],
+    "components": [ [ [ "mutagen", 2 ] ], [ [ "medical_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -753,7 +762,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_medicalmut", 7 ], [ "recipe_serum", 7 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_medical", 2 ] ] ],
+    "components": [ [ [ "mutagen_medical", 2 ] ], [ [ "medical_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -791,7 +800,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 7 ], [ "recipe_labchem", 7 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "purifier", 2 ] ], [ [ "human_sample", 4 ] ] ],
+    "components": [ [ [ "purifier", 2 ] ], [ [ "human_sample", 2 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -807,11 +816,27 @@
     "book_learn": [ [ "recipe_alpha", 7 ] ],
     "using": [ [ "mutagen_production_standard", 50 ] ],
     "components": [
-      [ [ "mutagen_slime", 2 ], [ "iv_mutagen_slime", 1 ] ],
-      [ [ "mutagen_plant", 2 ], [ "iv_mutagen_plant", 1 ] ],
-      [ [ "mutagen_bird", 2 ], [ "iv_mutagen_bird", 1 ] ],
-      [ [ "purifier", 4 ], [ "iv_purifier", 2 ] ]
+      [ [ "mutagen_slime", 3 ], [ "iv_mutagen_slime", 1 ] ],
+      [ [ "mutagen_plant", 3 ], [ "iv_mutagen_plant", 1 ] ],
+      [ [ "mutagen_bird", 3 ], [ "iv_mutagen_bird", 1 ] ],
+      [ [ "purifier", 4 ], [ "iv_purifier", 1 ] ]
     ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_alpha",
+    "id_suffix": "from_sample",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 8,
+    "time": "20 m",
+    "book_learn": [ [ "recipe_alpha", 7 ] ],
+    "using": [ [ "mutagen_production_standard", 50 ] ],
+    "components": [ [ [ "purifier", 2 ], [ "iv_purifier", 1 ] ], [ [ "alpha_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -827,7 +852,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_alpha", 7 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_alpha", 2 ] ] ],
+    "components": [ [ [ "mutagen_alpha", 1 ] ], [ [ "alpha_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -842,7 +867,7 @@
     "time": "12 m",
     "book_learn": [ [ "recipe_elfa", 8 ] ],
     "using": [ [ "mutagen_production_standard", 31 ] ],
-    "components": [ [ [ "mutagen_slime", 2 ], [ "iv_mutagen_slime", 1 ] ], [ [ "mutagen_plant", 1 ] ], [ [ "mutagen_bird", 1 ] ] ],
+    "components": [ [ [ "mutagen_bird", 1 ] ], [ [ "elfa_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -858,7 +883,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_elfa", 8 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_elfa", 2 ] ] ],
+    "components": [ [ [ "mutagen_elfa", 1 ] ], [ [ "elfa_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -874,7 +899,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_chimera", 7 ] ],
     "using": [ [ "mutagen_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_lizard", 1 ] ], [ [ "mutagen_bird", 1 ] ], [ [ "mutagen_beast", 1 ] ], [ [ "mutagen_cattle", 1 ] ] ],
+    "components": [ [ [ "mutagen_beast", 1 ] ], [ [ "chimera_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -890,7 +915,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_chimera", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_chimera", 2 ] ] ],
+    "components": [ [ [ "mutagen_chimera", 1 ] ], [ [ "chimera_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -905,7 +930,7 @@
     "time": "12 m",
     "book_learn": [ [ "recipe_raptor", 7 ] ],
     "using": [ [ "mutagen_production_standard", 31 ] ],
-    "components": [ [ [ "mutagen_lizard", 1 ] ], [ [ "mutagen_bird", 1 ] ], [ [ "purifier", 1 ] ] ],
+    "components": [ [ [ "raptor_sample", 1 ] ], [ [ "purifier", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -921,7 +946,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_raptor", 7 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_raptor", 2 ] ] ],
+    "components": [ [ [ "mutagen_raptor", 1 ] ], [ [ "raptor_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -936,7 +961,7 @@
     "time": "12 m",
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "rabbit_foot", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "rabbit_sample", 1 ] ], [ [ "animal_blood", 12 ], [ "rabbit_sample", 2 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -952,7 +977,94 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_rabbit", 2 ] ], [ [ "rabbit_foot", 2 ] ] ],
+    "components": [ [ [ "mutagen_rabbit", 2 ] ], [ [ "rabbit_sample", 1 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chimera_sample",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 5,
+    "time": "5 m",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_animal", 5 ] ],
+    "using": [ [ "mutagen_production_standard", 10 ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "feline_sample", 1 ], [ "lupine_sample", 1 ], [ "ursine_sample", 1 ] ],
+      [ [ "fish_sample", 1 ], [ "lizard_sample", 1 ], [ "bird_sample", 1 ] ],
+      [ [ "gastropod_sample", 1 ], [ "insect_sample", 1 ], [ "spider_sample", 1 ] ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "elfa_sample",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 6,
+    "time": "5 m",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_elfa", 6 ] ],
+    "using": [ [ "mutagen_production_standard", 10 ] ],
+    "components": [ [ [ "alpha_sample", 1 ], [ "slime_sample", 3 ] ], [ [ "plant_sample", 2 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "medical_sample",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 7,
+    "time": "5 m",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_serum", 4 ], [ "recipe_labchem", 4 ] ],
+    "components": [
+      [ [ "human_sample", 1 ] ],
+      [
+        [ "heroin", 5 ],
+        [ "oxycodone", 10 ],
+        [ "tramadol", 15 ],
+        [ "diazepam", 15 ],
+        [ "codeine", 20 ],
+        [ "poppy_pain", 20 ]
+      ],
+      [
+        [ "lsd", 5 ],
+        [ "prozac", 10 ],
+        [ "thorazine", 10 ],
+        [ "adderall", 10 ],
+        [ "xanax", 10 ],
+        [ "pills_sleep", 10 ],
+        [ "poppy_sleep", 15 ]
+      ],
+      [ [ "vitamins", 5 ], [ "iodine", 5 ], [ "disinfectant", 25 ], [ "protein_powder", 20 ] ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "raptor_sample",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 7,
+    "time": "5 m",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_animal", 8 ] ],
+    "components": [ [ [ "beast_sample", 1 ] ], [ [ "bird_sample", 1 ] ], [ [ "lizard_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   }
 ]

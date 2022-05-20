@@ -32,7 +32,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_gel",
-    "name": { "str": "gelatin", "str_pl": "marloss gelatin" },
+    "name": { "str": "gelatin-shaped anomaly", "str_pl": "gelatin-shaped anomalies" },
     "weight": "177 g",
     "color": "yellow",
     "use_action": [ "BLECH" ],

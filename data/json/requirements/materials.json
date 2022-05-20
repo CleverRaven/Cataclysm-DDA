@@ -51,13 +51,13 @@
     "id": "cordage",
     "type": "requirement",
     "//": "Materials used for tying items, primitive bowstrings, and other uses involving string or makeshift cordage, 36 g/90 cm of cordage per unit.",
-    "components": [ [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_short", 6, "LIST" ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_36_leather", 1 ], [ "cordage_short", 6, "LIST" ] ] ]
   },
   {
     "id": "cordage_short",
     "type": "requirement",
     "//": "Materials used for tying smaller items requiring less string, 6 g/15 cm of cordage per unit.",
-    "components": [ [ [ "string_6", 1 ], [ "cordage_6", 1 ], [ "filament", 50, "LIST" ] ] ]
+    "components": [ [ [ "string_6", 1 ], [ "cordage_6", 1 ], [ "cordage_6_leather", 1 ], [ "filament", 50, "LIST" ] ] ]
   },
   {
     "id": "cordage_superior",
@@ -190,12 +190,12 @@
     "id": "fabric_leather_fur_hide",
     "type": "requirement",
     "//": "Materials used for crafting leather clothing where fur is or should be an option (can be scraped off with a cutting tool for example), when tanned hides/pelts are available it seems to roughly be a 1:6 ratio",
-    "components": [ [ [ "fur", 6 ], [ "leather", 6 ], [ "tanned_hide", 1 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "leather", 6 ], [ "fur", 6 ], [ "tanned_hide", 1 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "id": "fabric_nomex",
     "type": "requirement",
-    "//": "Materials used for crafting nomex clothing",
+    "//": "Materials used for crafting Nomex clothing",
     "components": [ [ [ "nomex", 1 ], [ "sheet_nomex_patchwork", 1 ], [ "sheet_nomex", 1 ] ] ]
   },
   {
@@ -223,6 +223,12 @@
     "components": [
       [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ], [ "thread_nomex", 1 ], [ "thread_kevlar", 1 ] ]
     ]
+  },
+  {
+    "id": "filament_durable",
+    "type": "requirement",
+    "//": "Materials for use when sewing high end items, restricted to only the aramid threads.",
+    "components": [ [ [ "thread_kevlar", 1 ], [ "thread_nomex", 1 ] ] ]
   },
   {
     "id": "glazing",
@@ -263,26 +269,50 @@
   {
     "id": "rope_superior",
     "type": "requirement",
-    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 1080 g/9 m of rope.",
+    "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 1080 g/9 m of rope.",
     "components": [ [ [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_superior_short", 5, "LIST" ] ] ]
   },
   {
     "id": "rope_superior_short",
     "type": "requirement",
-    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 216 g/180 cm of rope.",
+    "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 216 g/180 cm of rope.",
     "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
   },
   {
     "id": "steel_standard",
     "type": "requirement",
     "//": "Materials for use when forging items from steel",
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ] ] ]
+  },
+  {
+    "id": "mixed_steel",
+    "type": "requirement",
+    "//": "Materials for use in scrap armor",
+    "components": [
+      [
+        [ "scrap", 50 ],
+        [ "budget_steel_chunk", 4 ],
+        [ "budget_steel_lump", 1 ],
+        [ "lc_steel_chunk", 4 ],
+        [ "lc_steel_lump", 1 ],
+        [ "mc_steel_chunk", 4 ],
+        [ "mc_steel_lump", 1 ],
+        [ "hc_steel_chunk", 4 ],
+        [ "hc_steel_lump", 1 ]
+      ]
+    ]
   },
   {
     "id": "steel_tiny",
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from steel",
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "id": "rock_flaking_any",
+    "type": "requirement",
+    "//": "Rocks that can be used for knapping.",
+    "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ], [ "flint", 1 ] ] ]
   },
   {
     "id": "waterproofing",
@@ -354,5 +384,23 @@
     "type": "requirement",
     "//": "Materials used for joining soft, flexible material where regular brittle superglue would be inappropriate.",
     "components": [ [ [ "rubber_cement", 1 ] ] ]
+  },
+  {
+    "id": "lc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "lc_steel_lump", 1 ], [ "lc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "id": "mc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "mc_steel_lump", 1 ], [ "mc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "id": "hc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "hc_steel_lump", 1 ], [ "hc_steel_chunk", 4 ] ] ]
   }
 ]

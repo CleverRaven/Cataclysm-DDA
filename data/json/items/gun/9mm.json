@@ -109,6 +109,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
@@ -125,7 +126,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Glock 19" },
-    "description": "Possibly the most popular pistol in existence.  The Glock 19 is often derided for its plastic construction, but it is easy to shoot.",
+    "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, despite the weapon’s polymer-based material the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right.",
     "ascii_picture": "glock_19",
     "weight": "600 g",
     "volume": "386 ml",
@@ -190,7 +191,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
@@ -270,7 +272,8 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
     ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
@@ -319,7 +322,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Luger P08" },
-    "description": "A semi-automatic 9x19mm pistol with an unusual toggle-lock action, well-known for its use by Germans during both World Wars.  Notably accurate even by modern standards.",
+    "description": "A semi-automatic 9x19mm military issued pistol with an unusual toggle-lock action.  Well-known for its use by the Germans during both World Wars, it's a notably accurate handgun even by modern standards, and this example of a P08 was more than likely either brought back state-side as a war trophy by a veteran, or imported.",
     "weight": "871 g",
     "volume": "465 ml",
     "longest_side": "248 mm",
@@ -356,8 +359,17 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "MP 18" },
-    "description": "An early German submachine gun with wooden stock chambered for 9x19mm, introduced near the end of First World War.",
+    "name": { "str": "MP 18 submachine gun" },
+    "description": "An early German Submachinegun introduced near the end of the First World War, the MP 18 chambers 9x19mm cartridges and makes use of Luger magazines.  Sporting a fixed wooden stock, the weapon more than likely entered the US as a personal holdover from the Great War.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mp18",
+        "name": { "str": "Bergmann MP 18" },
+        "description": "An incredibly rare German automatic firearm developed by Hugo Schmeisser whilst working under Bergmann Waffenfabrik during 1918; the MP 18 holds the reputation of being the world’s first proper and practical submachine gun.  Chambered for 9x19mm and being designed for use in close quarters trench based combat by assault troops, a role in which it excelled, the weapon was outlawed from military use by the Versailles treaty and was relegated to police and counterinsurgency use in the interwar period.  More than likely entering the US as a personal holdover from the Great War, this century old grandfather to most classic SMGs just might be better off coming out of retirement now that the world’s entered the true greatest war.",
+        "weight": 1
+      }
+    ],
     "weight": "4180 g",
     "volume": "2630 ml",
     "longest_side": "832 mm",
@@ -382,7 +394,7 @@
       [ "magazine", 1 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
@@ -395,11 +407,20 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Broomhandle Mauser" },
-    "description": "A semi-automatic pistol with an integral magazine loaded from the top.  Red '9' number burned and painted into the grip marks it as a variant chambered for 9x19mm.",
+    "name": { "str": "Broomhandle Mauser pistol" },
+    "description": "A semi-automatic German pistol developed prior to 1900, the firearm features a burned and painted number ‘9’ on its broom handle-shaped grip to signify its chambering, 9x19mm parabellum, and makes use of appropriate stripper clips or single round loading.  Quite possibly the most aesthetically steampunk weapon that one could ever possibly get their hands on, this example likely found its way into the US via early import or as a holdover from the Great War.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mauser_c96",
+        "name": { "str": "Mauser C96 Broomhandle" },
+        "description": "An early 19th century semi-automatic German pistol with an integral magazine loaded from the top via stripper clips, and quite possibly the most steampunk gun one could ever possibly lay their hands on.  A red number '9' burned and painted into the weapon's broom handle-shaped grip marks it as a variant chambered for 9x19mm rounds.  Both exported for commercial use and produced for the German military during the First World War, to make up for production shortages of the standard Luger, this example likely entered the US as a holdover from the Great War.  You suppose that it’s only fitting that one of the globe’s first produced and oldest semi-automatic handguns gets reinstated into service now that the planet’s facing its end.",
+        "weight": 1
+      }
+    ],
     "weight": "1134 g",
     "volume": "640 ml",
-    "longest_side": "333 mm",
+    "longest_side": "312 mm",
     "price": 130000,
     "price_postapoc": 2500,
     "to_hit": -2,
@@ -422,18 +443,34 @@
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 10 }, "allowed_speedloaders": [ "clip9mm_10rd" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "9mm": 10 },
+        "allowed_speedloaders": [ "clip9mm_10rd" ]
+      }
+    ]
   },
   {
     "id": "mauser_m714",
     "copy-from": "mauser_c96",
     "type": "GUN",
-    "name": { "str": "detachable-magazine Mauser" },
-    "description": "This is a variant of the Mauser C96 pistol chambered for 9x19mm, which uses a detachable magazine rather than an integral one.",
+    "name": { "str": "reproduction Broomhandle pistol" },
+    "description": " A modern take on the original Mauser design, this variant is chambered for 9x19mm cartridges and, unlike its elder brother, the pre-1900 Mauser Broomhandle, this firearm feeds from detachable box magazines.  Whilst it features surplus Mauser parts in its construction, the frame of the pistol is of relatively modern manufacture.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mauser_m714",
+        "name": { "str": "M714 Broomhandle" },
+        "description": "Recognised the world over as one of the first practical self-loading pistols, the Mauser C96 and its derivatives are nearly universally regarded as some of the most classic and rugged guns in history, with the model being praised as a true marvel of industrial craftsmanship and most collectors wishing to be the proud owner of an example.  However, what stands before you is not an original production C96, but rather a modern American spin on the original Mauser recipe.  Feeding from detachable box magazines rather than an internal clip, the M714 is crafted out of a mix of modern and surplus parts, being chambered for 9x19mm rounds, with some other models being offered in the Mauser’s own 7.63x25mm cartridge.",
+        "weight": 1
+      }
+    ],
     "weight": "1070 g",
     "volume": "615 ml",
     "price": 90000,
@@ -447,8 +484,17 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "MP 40" },
-    "description": "This is a 9x19mm submachine gun with a folding stock, which was used extensively during Second World War.",
+    "name": { "str": "MP 40 submachine gun" },
+    "description": "An antique German issued submachine gun from the Second World War, likely having entered the United States as a personal holdover by a veteran.  Chambered in 9x19mm and utilising proprietary box magazines, the firearm has an integrated under folding wire stock.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mp40",
+        "name": { "str": "Schmeisser MP 40" },
+        "description": "This is a simple and renowned 9x19mm submachine gun developed by Hugo Schmeisser for the German army.  Adopted  in 1940, it saw extensive service on both fronts of the Second World War and was much regarded by soldiers who fielded the weapon in combat, being praised for its reliability and relatively modern design.  Featuring an integral folding wire butt stock, this weapon more than likely entered the United States as a war trophy by a returning veteran.",
+        "weight": 1
+      }
+    ],
     "weight": "3969 g",
     "volume": "2320 ml",
     "longest_side": "648 mm",
@@ -463,6 +509,7 @@
     "dispersion": 360,
     "durability": 6,
     "min_cycle_recoil": 450,
+    "built_in_mods": [ "under_folding_stock" ],
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -478,15 +525,14 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "SLOW_WIELD" ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp40mag_32rd" ] } ]
   },
   {
     "id": "mp40semi",
     "copy-from": "mp40",
     "type": "GUN",
-    "name": { "str": "MP 40 Semi Auto" },
-    "description": "This is a modern semi-automatic replica of MP 40 SMG, without a stock, to make it legally be considered a pistol.  It actually bears only a visual resemblance to the original, differing substantially from originally manufactured MP 40s in internal operations.",
+    "name": { "str": "Semi Automatic MP 40" },
+    "description": "This is a modern semi-automatic replica of the MP 40 submachine gun, which lacks a butt stock to make it legally be considered a pistol.  It actually bears only a visual resemblance to the original, differing substantially from originally manufactured MP 40 submachine guns in its internal operations.",
     "weight": "3722 g",
     "volume": "2020 ml",
     "price": 90000,
@@ -513,10 +559,11 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str_sp": "Kel-Tec SUB-2000" },
-    "description": "A uniquely designed pistol caliber carbine with an integral folding stock.  It makes use of 9x19mm Glock magazines.",
+    "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, the Kel-Tec SUB-2000 is a uniquely designed pistol calibre carbine sporting an integral folding mechanism and chambered for customary 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon’s extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light, incredibly transportable when fully folded, and an all-round inventive firearm.",
     "weight": "1930 g",
     "volume": "1240 ml",
-    "longest_side": "742 mm",
+    "longest_side": "390 mm",
+    "//": "The actual gun is around 30 cm longer than what’s depicted here, but the inbuilt accessory adds 35 cm, which ends up totalling to the same length. IRL the SUB-2000 folds literally in half, which is a greatly smaller size than what our folding stocks can collapse to, so like this the length stays the same as far as the player can see, and you still get the same largely folded effect as you’d have on the real gun.",
     "price": 75000,
     "price_postapoc": 3000,
     "to_hit": -1,
@@ -532,7 +579,7 @@
     "durability": 7,
     "min_cycle_recoil": 450,
     "barrel_volume": "250 ml",
-    "built_in_mods": [ "folding_stock" ],
+    "built_in_mods": [ "sub2000_folding_mechanism" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -561,7 +608,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str_sp": "Beretta M9A1" },
-    "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of US armed force from 1985 only until recently.  It was formerly popular amongst law enforcement before the advent of commercially available polymer-framed handguns and the FBI's adoption of .40S&W.",
+    "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of the US armed forces from 1985 only until recently.  It was formerly popular amongst law enforcement before the advent of commercially available polymer-framed handguns and the FBI's adoption of .40S&W.",
     "ascii_picture": "beretta_m9",
     "weight": "961 g",
     "volume": "570 ml",
@@ -593,7 +640,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Beretta Px4 Storm" },
-    "description": "Lighter than Beretta's iconic 92 series of guns, the Px4 Storm was built by utilizing light-weight polymer construction with steel inserts.  Its shape was also optimized for concealed carry, while maintaining the reliability the 92 series is known for.",
+    "description": "Lighter than Beretta's iconic 92 series of guns, the Px4 Storm was built by utilizing light-weight polymer construction with steel inserts.  Its shape was also optimized for concealed carry, while maintaining the reliability that the 92 series is known for.",
     "weight": "785 g",
     "volume": "520 ml",
     "longest_side": "231 mm",
@@ -706,8 +753,8 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "STEN" },
-    "description": "A British submachine gun developed during World War II, to make up for shortages of supplies.  Designed to be made using unskilled labor and not known for reliability, its main advantages were low cost and being able to use German 9mm ammunition.",
+    "name": { "str": "STEN Mk II", "str_pl": "STENs Mk II" },
+    "description": "The standard issue 9mm submachine gun of the British military throughout most of the Second World War.  The STEN is aesthetically far from pretty.  Featuring an iconic side mounted magazine well and a design optimized for mass production using unskilled labor, the STEN was developed to make up for drastic supply shortages during the early days of the war.  Likely entering the US prior to the 1960s, either as a war time holdover or a museum purchase; you suppose that if you were to try and defend your nation, whatever the cost may be, and fight the undead ‘on the beaches, fight on the landing grounds, fight in the fields and in the streets, fight in the hills; and never surrender’, than it might be the time for the STEN to come back into frontline service.",
     "weight": "3200 g",
     "volume": "1240 ml",
     "longest_side": "765 mm",
@@ -730,6 +777,7 @@
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
@@ -866,7 +914,7 @@
     "//": "Tilelist whitelist for pistols.",
     "type": "GUN",
     "name": { "str": "Glock 17" },
-    "description": "Designed for all shooters, the Glock 17 is marketed towards law-enforcement and military.",
+    "description": "Designed for all shooters, the Glock 17 is a full-sized handgun marketed towards law-enforcement and military users.",
     "ascii_picture": "glock_17",
     "weight": "630 g",
     "volume": "427 ml",
@@ -977,7 +1025,7 @@
     "copy-from": "m17",
     "type": "GUN",
     "name": { "str": "M18" },
-    "description": "The M18 is a compact, semi-automatic, short recoil operated pistol derived from the SIG Sauer P320 Carry, used by US Armed Forces.",
+    "description": "The M18 is a compact, semi-automatic, short recoil operated pistol derived from the SIG Sauer P320 Carry, used by US Armed Forces.  Practically the same as its big brother, the M17, in every respect, the M18 features a moderately shorter slide and barrel which terminates at the end of the frame rather than extending part way beyond it like the M17.",
     "weight": "737 g",
     "volume": "457 ml",
     "longest_side": "221 mm"
@@ -987,7 +1035,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": "SIG P226 MK25" },
-    "description": "The P226 MK25 is a full-size semi-automatic DA/SA, short-recoil operated pistol with corrosion resitant internal coating, and an engraved anchor on the side of the slide.",
+    "description": "The P226 MK25 is a full-size semi-automatic DA/SA, short-recoil operated pistol with corrosion resistant internal coating, and an engraved anchor on the side of the slide.",
     "weight": "804 g",
     "volume": "570 ml",
     "longest_side": "237 mm",
@@ -1197,7 +1245,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "Colt Model 635" },
-    "description": "This is a 9x19mm submachine gun based on the M16 rifle design.  It is a closed bolt, blowback operated gun.  There is a large plastic brass deflector mounted by the ejection port, and there is no forward assist.  It looks very similar to an M4 carbine, except for the magazine well that accepts Uzi-style magazines.",
+    "description": "This is a 9x19mm submachine gun based on the M16 rifle design, and is a closed bolt, blowback operated firearm.  There is a large plastic brass deflector mounted by the ejection port, and there is no forward assist.  It looks very similar to an M4 carbine, except for the magazine well that accepts Uzi-style magazines.",
     "weight": "2690 g",
     "volume": "3450 ml",
     "longest_side": "655 mm",
@@ -1261,14 +1309,15 @@
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
-      [ "brass_catcher", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail mount", 3 ],
       [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
     ],
     "default_mods": [ "folding_stock", "red_dot_sight" ],
     "pocket_data": [

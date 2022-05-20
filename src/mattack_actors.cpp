@@ -45,6 +45,7 @@ static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
+static const efftype_id effect_zombie_virus( "zombie_virus" );
 
 static const skill_id skill_throw( "throw" );
 
@@ -320,12 +321,21 @@ bool melee_actor::call( monster &z ) const
     // Dodge check
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
+
+    // Pick body part
+    bodypart_str_id bp_hit = body_parts.empty() ?
+                             target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread ).id() :
+                             *body_parts.pick();
+
+    bodypart_id bp_id = bodypart_id( bp_hit );
+
     if( dodgeable ) {
         if( hitspread < 0 ) {
             game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                      sfx::get_heard_angle( z.pos() ) );
-            target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name() );
+            target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name(),
+                                           body_part_name_accusative( bp_id ) );
             return true;
         }
     }
@@ -334,13 +344,6 @@ bool melee_actor::call( monster &z ) const
     damage_instance damage = damage_max_instance;
     double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
-
-    // Pick body part
-    bodypart_str_id bp_hit = body_parts.empty() ?
-                             target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread ).id() :
-                             *body_parts.pick();
-
-    bodypart_id bp_id = bodypart_id( bp_hit );
 
     // Block our hit
     if( blockable ) {
@@ -375,17 +378,7 @@ bool melee_actor::call( monster &z ) const
         // when you break out of a grab you have a chance to lose some things from your pockets
         // that are hanging off your character
         if( target->is_avatar() ) {
-            std::vector<item_pocket *> pd;
-            for( item &i : target->as_character()->worn ) {
-                // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
-                if( i.has_ripoff_pockets() ) {
-                    for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
-                        if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
-                            pd.push_back( pocket );
-                        }
-                    }
-                }
-            }
+            std::vector<item_pocket *> pd = target->as_character()->worn.grab_drop_pockets();
             // if we have items that can be pulled off
             if( !pd.empty() ) {
                 // choose an item to be ripped off
@@ -458,6 +451,13 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
             target.add_effect( effect_infected, 25_minutes, hit, true );
         } else {
             target.add_effect( effect_bite, 1_turns, hit, true );
+        }
+    }
+
+    // Flag only set for zombies in the deadly_bites mod
+    if( z.has_flag( MF_DEADLY_VIRUS ) && x_in_y( infection_chance, 20 ) ) {
+        if( !target.has_effect( effect_zombie_virus ) ) {
+            target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
         }
     }
 
@@ -670,11 +670,11 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 
     standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
-    tmp.worn.emplace_back( "backpack" );
+    tmp.worn.wear_item( tmp, item( "backpack" ), false, false, true, true );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
 
-    tmp.recoil = inital_recoil; // set inital recoil
+    tmp.recoil = inital_recoil; // set initial recoil
     bool throwing = false;
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );

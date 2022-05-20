@@ -19,6 +19,7 @@ enum eoc_type {
     SCENARIO_SPECIFIC,
     AVATAR_DEATH,
     NPC_DEATH,
+    OM_MOVE,
     NUM_EOC_TYPES
 };
 struct effect_on_condition {
@@ -30,6 +31,7 @@ struct effect_on_condition {
         /* If this is true it will be run on the player and every npc.  Deactivate conditions will work based on the player.  */
         bool global = false;
         effect_on_condition_id id;
+        std::vector<std::pair<effect_on_condition_id, mod_id>> src;
         eoc_type type;
         std::function<bool( const dialogue & )> condition;
         std::function<bool( const dialogue & )> deactivate_condition;
@@ -38,10 +40,11 @@ struct effect_on_condition {
         bool has_deactivate_condition = false;
         bool has_condition = false;
         bool has_false_effect = false;
-        duration_or_var recurrence_min;
-        duration_or_var recurrence_max;
+        duration_or_var recurrence;
         bool activate( dialogue &d ) const;
-        bool check_deactivate() const;
+        bool check_deactivate( dialogue &d ) const;
+        bool test_condition( dialogue &d ) const;
+        void apply_true_effects( dialogue &d ) const;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
@@ -80,6 +83,8 @@ void write_eocs_to_file( Character &you );
 void write_global_eocs_to_file();
 /** Run all avatar death eocs */
 void avatar_death();
+/** Run all OM_MOVE eocs */
+void om_move();
 } // namespace effect_on_conditions
 
 template<>

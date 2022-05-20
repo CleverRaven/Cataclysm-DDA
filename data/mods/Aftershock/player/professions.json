@@ -163,7 +163,7 @@
         "socks",
         "mbag",
         "afs_atomic_smartphone",
-        "atomic_light",
+        "atomic_light_off",
         "atomic_coffeepot",
         "atomic_lamp_off",
         "afs_atompot",
@@ -215,18 +215,8 @@
     "skills": [ { "level": 4, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [
-          "coat_lab",
-          "gloves_medical",
-          "mask_dust",
-          "longshirt",
-          "afs_complete_bionic_toolkit",
-          "socks",
-          "boots",
-          "backpack",
-          "jeans"
-        ],
-        "entries": [ { "item": "cash_card", "charges": 50000 } ]
+        "items": [ "coat_lab", "gloves_medical", "longshirt", "afs_complete_bionic_toolkit", "socks", "boots", "backpack", "jeans" ],
+        "entries": [ { "item": "cash_card", "charges": 50000 }, { "item": "mask_dust", "variant": "white_mask_dust" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -453,7 +443,6 @@
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
-          { "item": "makeshift_scrambler" },
           {
             "item": "afs_cartridge",
             "ammo-item": "battery",

@@ -6,10 +6,22 @@
     "restriction": "Item must be a large ablative plate"
   },
   {
+    "id": "ABLATIVE_MANTLE",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> mantle connector",
+    "restriction": "Item must be an armored mantle"
+  },
+  {
     "id": "ABLATIVE_MEDIUM",
     "type": "json_flag",
     "info": "This plate will fit in <info>medium</info> armor pockets",
     "restriction": "Item must be a medium ablative plate"
+  },
+  {
+    "id": "ABLATIVE_SKIRT",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> skirt connector",
+    "restriction": "Item must be an armored skirt"
   },
   {
     "id": "ACTIVE_CLOAKING",
@@ -43,8 +55,7 @@
     "id": "AURA",
     "type": "json_flag",
     "//": "This item goes in the outer aura layer, intended for metaphysical effects.",
-    "info": "This is in your <info>outer aura</info>.",
-    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "BELTED" ]
+    "info": "This is in your <info>outer aura</info>."
   },
   {
     "id": "BAROMETER",
@@ -61,8 +72,7 @@
     "id": "BELTED",
     "type": "json_flag",
     "//": "Layer for backpacks and things worn over outerwear.",
-    "info": "This gear is <info>strapped</info> onto you.",
-    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
+    "info": "This gear is <info>strapped</info> onto you."
   },
   {
     "id": "BIONIC_INSTALLATION_DATA",
@@ -84,6 +94,16 @@
     "id": "BLOCK_WHILE_WORN",
     "type": "json_flag",
     "info": "This item can be used to block attacks when worn."
+  },
+  {
+    "id": "CALORIES_INTAKE",
+    "type": "json_flag",
+    "info": "This item enables you to keep track of calorie intake."
+  },
+  {
+    "id": "CASELESS_ROUNDS",
+    "type": "json_flag",
+    "info": "Being caseless rounds, these <bad>cannot be disassembled or reloaded</bad>."
   },
   {
     "id": "CBM",
@@ -161,6 +181,11 @@
     "info": "You could probably use this to get into a secure industrial facility."
   },
   {
+    "id": "COOP_CARD",
+    "type": "json_flag",
+    "info": "Gives you access to the artisans workshop."
+  },
+  {
     "id": "SKINNED",
     "type": "json_flag"
   },
@@ -177,6 +202,11 @@
     "id": "CANT_WEAR",
     "type": "json_flag",
     "info": "This armor can't be worn directly."
+  },
+  {
+    "id": "DECAY_EXPOSED_ATMOSPHERE",
+    "type": "json_flag",
+    "info": "If exposed to the atmosphere, it will <bad>start to go bad</bad>."
   },
   {
     "id": "DIRTY",
@@ -353,6 +383,12 @@
     "inherit": false
   },
   {
+    "id": "NORMAL",
+    "type": "json_flag",
+    "//": "Item is on the normal layer.",
+    "info": "This gear <info>fits like</info> normal clothing."
+  },
+  {
     "id": "NO_CVD",
     "type": "json_flag",
     "//": "Item can never be used with a CVD machine."
@@ -367,6 +403,12 @@
     "type": "json_flag",
     "//": "Prevents repairing of this item even if otherwise suitable tools exist.",
     "inherit": false
+  },
+  {
+    "id": "NO_CLEAN",
+    "type": "json_flag",
+    "//": "items that are impossible to clean no matter how hard you try",
+    "info": "This item is impossible to clean."
   },
   {
     "id": "NUTRIENT_OVERRIDE",
@@ -391,8 +433,7 @@
     "id": "OUTER",
     "type": "json_flag",
     "//": "Outer garment layer.",
-    "info": "This gear is generally <info>worn over</info> clothing.",
-    "conflicts": [ "BELTED", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
+    "info": "This gear is generally <info>worn over</info> clothing."
   },
   {
     "id": "OVERSIZE",
@@ -415,8 +456,7 @@
     "id": "PERSONAL",
     "type": "json_flag",
     "//": "This item goes in the personal aura layer, intended for metaphysical effects.",
-    "info": "This is in your <info>personal aura</info>.",
-    "conflicts": [ "BELTED", "OUTER", "WAIST", "SKINTIGHT", "AURA" ]
+    "info": "This is in your <info>personal aura</info>."
   },
   {
     "id": "POCKETS",
@@ -550,25 +590,44 @@
     "info": "This item used to be legal tender before the Cataclysm."
   },
   {
+    "id": "NO_AUTO_CONSUME",
+    "type": "json_flag"
+  },
+  {
+    "id": "NO_WEAR_EFFECT",
+    "type": "json_flag",
+    "info": "This item can be worn, but it <neutral>won't provide any effects</neutral>."
+  },
+  {
+    "id": "PADDED",
+    "type": "json_flag",
+    "info": "This item has notable padding and will be comfortable worn without clothing under it."
+  },
+  {
     "id": "PALS_SMALL",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small ammount of space</good>."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking a <good>small amount of space</good>."
   },
   {
     "id": "PALS_MEDIUM",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking an average ammount of space."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking an average amount of space."
   },
   {
     "id": "PALS_LARGE",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> take a <bad>large ammount of space</bad>."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking a <bad>large amount of space</bad>."
   },
   {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "//": "25% chance to protect against fear_paralyze monster attack.",
     "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
+  },
+  {
+    "id": "RAD_DETECT",
+    "type": "json_flag",
+    "info": "This item can <good>detect</good> dangerous levels of <info>radiation</info>."
   },
   {
     "id": "RAD_PROOF",
@@ -581,6 +640,16 @@
     "type": "json_flag",
     "info": "This clothing <good>partially protects</good> you from <info>radiation</info>.",
     "conflicts": [ "RAD_PROOF" ]
+  },
+  {
+    "id": "RAD_STERILIZED",
+    "type": "json_flag",
+    "info": "Sterilized using radiation, so it's <good>safe to eat</good>."
+  },
+  {
+    "id": "RAD_STERILIZED_EDIBLE_FOREVER",
+    "type": "json_flag",
+    "info": "Sterilized using radiation, so it's <good>safe to eat</good> and <good>will remain edible nearly forever</good>."
   },
   {
     "id": "REQUIRES_BALANCE",
@@ -665,8 +734,7 @@
     "id": "SKINTIGHT",
     "type": "json_flag",
     "//": "Undergarment layer.",
-    "info": "This clothing <info>lies close</info> to the skin.",
-    "conflicts": [ "BELTED", "OUTER", "WAIST", "PERSONAL", "AURA" ]
+    "info": "This clothing <info>lies close</info> to the skin."
   },
   {
     "id": "SLEEP_AID",
@@ -730,8 +798,7 @@
     "id": "WAIST",
     "type": "json_flag",
     "//": "Layer for belts and other things worn on the waist.",
-    "info": "This gear is worn on or around your <info>waist</info>.",
-    "conflicts": [ "BELTED", "OUTER", "SKINTIGHT", "PERSONAL", "AURA" ]
+    "info": "This gear is worn on or around your <info>waist</info>."
   },
   {
     "id": "WATCH",
@@ -822,9 +889,19 @@
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
   },
   {
+    "id": "NANOFAB_REPAIR",
+    "type": "json_flag",
+    "info": "This item has a holographic patch that reflects the light oddly.  It was constructed in a nanofabricator and can be <info>repaired in one</info>."
+  },
+  {
     "id": "NANOFAB_TEMPLATE",
     "type": "json_flag",
     "info": "This item contains a nanofabricator recipe."
+  },
+  {
+    "id": "NANOFAB_TEMPLATE_SINGLE_USE",
+    "type": "json_flag",
+    "info": "This template is copy protected and will be <bad>destroyed</bad> after a single use."
   },
   {
     "id": "BIONIC_FAULTY",
@@ -1084,7 +1161,20 @@
   },
   {
     "id": "COLLAPSIBLE_STOCK",
+    "//": "this is deprecated for the COLLAPSED_STOCK and FOLDED_STOCK, kept around for mod support",
     "type": "json_flag"
+  },
+  {
+    "id": "FOLDED_STOCK",
+    "//": "for weapons that stock folds to one side, no change in volume.",
+    "type": "json_flag",
+    "info": "This items stock is folded it will be hard to shoot with."
+  },
+  {
+    "id": "COLLAPSED_STOCK",
+    "//": "for weapons that stock collapses into the body reducing volume as well.",
+    "type": "json_flag",
+    "info": "This items stock is collapsed it will be hard to shoot with."
   },
   {
     "id": "CONDUCTIVE",
@@ -1243,6 +1333,11 @@
     "type": "json_flag"
   },
   {
+    "id": "INTEGRATED",
+    "type": "json_flag",
+    "info": "This is <info>integrated into the body</info>."
+  },
+  {
     "id": "IR_EFFECT",
     "type": "json_flag"
   },
@@ -1302,6 +1397,27 @@
     "type": "json_flag"
   },
   {
+    "id": "MUNDANE",
+    "//": "For items that have relic data but aren't actually magic",
+    "info": "This item is designed to have special effects",
+    "type": "json_flag"
+  },
+  {
+    "id": "MUTAGEN_SAMPLE",
+    "type": "json_flag",
+    "info": "Used in the <neutral>creation of mutagenic drugs</neutral>."
+  },
+  {
+    "id": "MUTAGEN_CATALYST",
+    "type": "json_flag",
+    "info": "Injecting it will <neutral>jumpstart mutation</neutral>."
+  },
+  {
+    "id": "MUTAGEN_PRIMER",
+    "type": "json_flag",
+    "info": "Injecting it will <neutral>prime your body for mutation</neutral>."
+  },
+  {
     "id": "MYCUS_OK",
     "type": "json_flag"
   },
@@ -1311,6 +1427,7 @@
   },
   {
     "id": "NEEDS_UNFOLD",
+    "//": "should not be used for folding mods, use a transforming mod instead",
     "type": "json_flag"
   },
   {
@@ -1694,6 +1811,10 @@
     "type": "json_flag"
   },
   {
+    "id": "UNBREAKABLE",
+    "type": "json_flag"
+  },
+  {
     "id": "UNBREAKABLE_MELEE",
     "type": "json_flag"
   },
@@ -1811,9 +1932,85 @@
     "type": "json_flag"
   },
   {
+    "id": "GAS_TANK",
+    "type": "json_flag",
+    "info": "Airtight tanks for propane, natural gas, etc.",
+    "name": "gas tank"
+  },
+  {
     "id": "LASER_SIGHT",
     "type": "json_flag",
     "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
+  },
+  {
+    "id": "EXO_SMALL",
+    "type": "json_flag",
+    "info": "This is meant for a small exosuit hardpoint."
+  },
+  {
+    "id": "EXO_LARGE",
+    "type": "json_flag",
+    "info": "This is meant for a large exosuit hardpoint."
+  },
+  {
+    "id": "EXO_PSU",
+    "type": "json_flag",
+    "info": "This is meant for an exosuit PSU hardpoint."
+  },
+  {
+    "id": "EXO_SMALL_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for small exosuit gadgets, 1 L or less."
+  },
+  {
+    "id": "EXO_HELMET_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for helmet-specific gadgets."
+  },
+  {
+    "id": "EXO_MEDIUM_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for medium exosuit gadgets, between 1 L and 5 L."
+  },
+  {
+    "id": "EXO_LARGE_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for large exosuit gadgets, larger than 5 L."
+  },
+  {
+    "id": "EXO_HELMET_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit helmet plating."
+  },
+  {
+    "id": "EXO_TORSO_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit torso plating."
+  },
+  {
+    "id": "EXO_PSU_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit PSU plating."
+  },
+  {
+    "id": "EXO_ARM_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit arm plating."
+  },
+  {
+    "id": "EXO_GLOVE_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit arm plating."
+  },
+  {
+    "id": "EXO_LEG_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit leg plating."
+  },
+  {
+    "id": "EXO_BOOT_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit foot plating."
   }
 ]

@@ -16,6 +16,18 @@
     "type": "talk_topic",
     "responses": [
       {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1"
+      },
+      {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
         "condition": {
@@ -27,7 +39,7 @@
         },
         "effect": [
           {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 3 } ]
+            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
           },
           { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
         ],
@@ -50,7 +62,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
         "effect": [
           {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 3 } ]
+            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
           },
           { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
         ],
@@ -99,22 +111,22 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
     "dynamic_line": {
-      "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 0 } ],
-      "op": "=",
+      "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 0 } ],
       "yes": "No, sorry.  Nothin' much worth notin' out there these days, just the odd scattered survivor and they usually don't want random visitors.",
       "no": {
-        "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 1 } ],
-        "op": "=",
+        "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ],
         "yes": "Matter of fact, yeah.  Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
         "no": {
-          "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 2 } ],
-          "op": "=",
+          "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ],
           "yes": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
           "no": {
-            "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 3 } ],
-            "op": "=",
+            "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ],
             "yes": "Well, a few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
-            "no": "ERROR: out of bounds on randomize_directions."
+            "no": {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ],
+              "yes": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+              "no": "ERROR: out of bounds on randomize_directions."
+            }
           }
         }
       }
@@ -126,8 +138,7 @@
         "condition": {
           "and": [
             {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 1 } ],
-              "op": "="
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
             },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" } }
           ]
@@ -141,8 +152,7 @@
         "condition": {
           "and": [
             {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 2 } ],
-              "op": "="
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ]
             },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" } }
           ]
@@ -156,13 +166,26 @@
         "condition": {
           "and": [
             {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 3 } ],
-              "op": "="
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ]
             },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } }
           ]
         },
         "effect": { "assign_mission": "directions_exodii" },
+        "switch": true
+      },
+      {
+        "text": "Where was that?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": {
+          "and": [
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ]
+            },
+            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" } }
+          ]
+        },
+        "effect": { "assign_mission": "directions_artisans" },
         "switch": true
       },
       {
@@ -187,7 +210,7 @@
     "dynamic_line": "Always lookin' for new places to trade.  What you got for me?",
     "responses": [
       {
-        "text": "[ Tell them about Rubik and the Exodii ]",
+        "text": "[Tell them about Rubik and the Exodii]",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
         "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
       },
@@ -198,9 +221,24 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
-    "//": "In the future this should start a quest line or allow free merchant caravans to sometimes show up near the exodii base.",
+    "//": "In the future this should start a quest line or allow free merchant caravans to sometimes show up near the Exodii base.",
     "dynamic_line": "Well now, that's a hell of a story.  Some day, I'll see if we can get out there an' look into it.  Sounds like there'd be some real interestin' trade.",
     "responses": [ { "text": "Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1",
+    "dynamic_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 }
+      ]
+    },
+    "responses": [
+      { "text": "Thanks so much!  Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
+      { "text": "Thanks so much!  I have to go ask a few others, talk to you later.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "directions_isherwood",
@@ -211,7 +249,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -230,13 +268,13 @@
   {
     "id": "directions_hub01",
     "type": "mission_definition",
-    "name": { "str": "Check out that farm" },
+    "name": { "str": "Check out that lab" },
     "description": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "robofac_hq_surface_freemerchant_camp", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 400 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -271,6 +309,31 @@
       "accepted": "Your funeral.",
       "rejected": "Seems reasonable.",
       "advice": "Be careful.  Seems like a rough place to me.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "Seems reasonable."
+    }
+  },
+  {
+    "id": "directions_artisans",
+    "type": "mission_definition",
+    "name": { "str": "Check out bullet bank" },
+    "description": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "isolated_road", "om_terrain": "isolated_house_farm_gunsmith", "reveal_radius": 2, "search_range": 400 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+      "offer": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+      "accepted": "Hopefully they are still around.",
+      "rejected": "Seems reasonable.",
+      "advice": "Don't worry about the turrets they seem friendly to people.",
       "inquire": "How is the search going?",
       "success": "Huh, go figure.",
       "success_lie": "Huh, go figure.",

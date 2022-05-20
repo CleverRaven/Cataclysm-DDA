@@ -18,7 +18,7 @@
     "volume": "1 L",
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 10 ] ],
     "fun": 20
   },
   {
@@ -65,7 +65,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": -10,
-    "vitamins": [ [ "vitA", 16 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -161,7 +161,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "healthy": 1,
     "calories": 30,
     "description": "Plain and unseasoned popcorn.  Not as tasty as other kinds, but healthier as a result.",
     "price": 115,
@@ -649,7 +648,7 @@
     "charges": 5,
     "stack_size": 30,
     "fun": 2,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -691,7 +690,7 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": -2,
+    "healthy": -1,
     "calories": 165,
     "description": "A handful of soft chocolate-covered peppermint patties… yum!",
     "price": 130,
@@ -756,7 +755,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "healthy": -2,
+    "healthy": -1,
     "calories": 267,
     "description": "Some caramel.  Still bad for your health.",
     "price": 150,
@@ -764,7 +763,7 @@
     "material": [ "junk" ],
     "volume": "150 ml",
     "charges": 5,
-    "vitamins": [ [ "calcium", 9 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "calcium", 9 ] ],
     "fun": 2
   },
   {
@@ -783,7 +782,7 @@
     "price_postapoc": 500,
     "material": [ "junk", "fruit" ],
     "volume": "150 ml",
-    "vitamins": [ [ "calcium", 9 ], [ "vitB", 8 ], [ "vitA", 2 ], [ "vitC", 14 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "vitC", 14 ], [ "iron", 1 ] ],
     "fun": 5
   },
   {
@@ -877,7 +876,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ], [ "vitB", 259 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -904,7 +903,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "vitA", 10 ], [ "calcium", 10 ], [ "iron", 12 ], [ "vitB", 29 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -945,7 +944,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 13 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "calcium", 13 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -966,7 +965,7 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
     "fun": 4
   },
   {
@@ -980,7 +979,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -12,
-    "healthy": -2,
+    "healthy": -1,
     "calories": 434,
     "description": "A small, microwaveable steak & cheese burrito, like those found at gas stations.",
     "price": 200,
@@ -1002,7 +1001,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "healthy": -2,
+    "healthy": -1,
     "calories": 313,
     "description": "Now with ONE POUND of meat and ONE POUND of carbs!  Not as appetizing or nutritious as it would be if heated up.",
     "price": 320,
@@ -1059,7 +1058,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chilidogs",
-    "name": { "str_sp": "chili dogs" },
+    "name": { "str": "chili dog" },
     "weight": "318 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -1076,12 +1075,12 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
+    "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "chilidogs_wheat_free",
-    "name": { "str_sp": "wheat-free chili dogs" },
+    "name": { "str": "wheat-free chili dog" },
     "weight": "318 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -1098,19 +1097,18 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
+    "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "corndogs_frozen",
-    "name": { "str_sp": "uncooked corn dogs" },
+    "name": { "str": "uncooked corn dog" },
     "weight": "78 g",
     "color": "yellow",
     "spoils_in": "11 days 16 hours",
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": -6,
     "calories": 195,
     "description": "A heavily processed sausage, dipped in batter and deep-fried.  It would taste much better prepared.",
     "price": 900,
@@ -1120,7 +1118,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": -18,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 6 ], [ "iron", 8 ], [ "vitB", 15 ] ]
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1129,7 +1127,7 @@
     "copy-from": "corndogs_frozen",
     "spoils_in": "1 day",
     "container": "wrapper",
-    "healthy": -2,
+    "healthy": -1,
     "description": "A heavily processed sausage, dipped in batter and deep-fried.  Cooked, this corn dog now tastes much better, but will spoil.",
     "fun": 18
   },
@@ -1139,7 +1137,6 @@
     "name": { "str": "homemade corn dog" },
     "copy-from": "corndogs_frozen",
     "spoils_in": "1 day",
-    "healthy": -2,
     "charges": 1,
     "description": "A homemade sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
     "fun": 18,
@@ -1151,7 +1148,6 @@
     "copy-from": "pancakes",
     "name": { "str": "chocolate pancake" },
     "weight": "78 g",
-    "healthy": 0,
     "calories": 201,
     "description": "Fluffy and delicious pancakes with real maple syrup, with delicious chocolate baked right in.",
     "price": 700,
@@ -1159,7 +1155,7 @@
     "material": [ "wheat", "junk", "milk" ],
     "primary_material": "processed_food",
     "fun": 6,
-    "vitamins": [ [ "vitA", 5 ], [ "calcium", 5 ], [ "iron", 17 ], [ "vitB", 33 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1179,7 +1175,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "vitA", 7 ], [ "calcium", 25 ], [ "iron", 25 ], [ "vitB", 63 ] ]
+    "vitamins": [ [ "calcium", 25 ], [ "iron", 25 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1201,7 +1197,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 15 ] ]
+    "vitamins": [ [ "calcium", 15 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1223,7 +1219,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1256,7 +1252,7 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": -2,
+    "healthy": -1,
     "calories": 130,
     "description": "A heavily processed sausage, commonplace at baseball games before the Cataclysm.  It would taste much better prepared.",
     "price": 800,
@@ -1275,7 +1271,6 @@
     "copy-from": "hotdogs_frozen",
     "description": "The simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked",
     "stack_size": 4,
-    "healthy": -1,
     "fun": 5
   },
   {
@@ -1359,7 +1354,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "healthy": -2,
+    "healthy": -1,
     "calories": 200,
     "description": "Crunchy sugar in chocolate capsules.  The malt gives them a distinct, yet delicious flavor.",
     "price": 100,
@@ -1380,13 +1375,13 @@
     "color": "brown",
     "spoils_in": "240 days",
     "container": "box_small",
-    "healthy": -2,
+    "healthy": -1,
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -4,
     "calories": 220,
     "description": "Peanuts coated in a sweet, crunchy candy coating.  A regional delicacy.",
-    "//": "Based on a new england candy called Boston Baked Beans",
+    "//": "Based on a New England candy called Boston Baked Beans",
     "price": 150,
     "price_postapoc": 600,
     "volume": "250 ml",
@@ -1414,7 +1409,7 @@
     "material": [ "flesh", "egg", "junk" ],
     "volume": "250ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 10 ] ],
     "fun": -2
   },
   {
@@ -1435,7 +1430,7 @@
     "material": [ "flesh", "egg", "junk" ],
     "volume": "500ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 10 ] ],
     "fun": 4
   },
   {
@@ -1517,7 +1512,6 @@
     "color": "light_red",
     "description": "A jiggly, sugary treat made from gelatin and sugar flavored with fruit juice and set with fruit.  A kid favorite pre-Cataclysm and a healthy treat",
     "fun": 20,
-    "healthy": 1,
     "copy-from": "gelatin_dessert_base"
   },
   {
@@ -1538,7 +1532,6 @@
     "description": "A vegan friendly jiggly, sugary treat made from agar and sugar flavored with fruit juice and set with fruit.  A kid favorite pre-Cataclysm and a healthy treat",
     "fun": 15,
     "material": [ "veggy", "junk" ],
-    "healthy": 1,
     "copy-from": "gelatin_dessert_base"
   }
 ]

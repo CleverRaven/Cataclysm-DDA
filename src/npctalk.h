@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_NPCTALK_H
 #define CATA_SRC_NPCTALK_H
 
+#include "npc.h"
 #include "type_id.h"
-#include "character.h"
 
 class item;
 class json_talk_topic;
@@ -28,6 +28,9 @@ void clear_mission( npc & );
 void mission_reward( npc & );
 void mission_favor( npc & );
 void give_equipment( npc & );
+void give_equipment_allowance( npc &p, int allowance );
+void lesser_give_aid( npc & );
+void lesser_give_all_aid( npc & );
 void give_aid( npc & );
 void give_all_aid( npc & );
 void buy_horse( npc & );
@@ -44,8 +47,6 @@ void buy_haircut( npc & );
 void buy_shave( npc & );
 void morale_chat( npc & );
 void morale_chat_activity( npc & );
-void buy_10_logs( npc & );
-void buy_100_logs( npc & );
 void start_trade( npc & );
 void sort_loot( npc & );
 void do_construction( npc & );
@@ -135,5 +136,9 @@ int calc_spell_training_cost( const Character &teacher, const Character &student
                               const spell_id &id );
 
 const json_talk_topic *get_talk_topic( const std::string &id );
+
+std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
+                                   const std::string &prompt,
+                                   std::function<bool( const Character * )> exclude_func );
 
 #endif // CATA_SRC_NPCTALK_H

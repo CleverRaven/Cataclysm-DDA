@@ -30,8 +30,14 @@ bool is_char_allowed( int ch )
     }
 #endif
 
-    if( !std::isprint( ch ) && ch <= 127 ) {
-        // above 127 are non-ASCII, therefore Unicode, therefore OK
+    // Values outside 0-127 are unicode values (either part of a utf-8 sequence
+    // or a unicode codepoint), therefore OK. Negative values are allowed because
+    // `char` is usually signed. Also ensures that the argument to `std::isprint`
+    // is within 0-127 to avoid undefined behavior.
+    if( ch < 0 || ch >= 128 ) {
+        return true;
+    }
+    if( !std::isprint( ch ) ) {
         return false;
     }
     if( ch == '\\' || ch == '/' ) {

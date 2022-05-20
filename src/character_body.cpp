@@ -1,20 +1,23 @@
 #include "avatar.h"
 #include "character.h"
+#include "display.h"
 #include "flag.h"
 #include "game.h"
+#include "make_static.h"
 #include "map.h"
 #include "messages.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "panels.h"
 #include "type_id.h"
 #include "vitamin.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -43,12 +46,14 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_wet( "wet" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 
@@ -80,71 +85,87 @@ void Character::update_body_wetness( const w_point &weather )
 {
     // Average number of turns to go from completely soaked to fully dry
     // assuming average temperature and humidity
-    constexpr time_duration average_drying = 2_hours;
+    constexpr time_duration average_drying = 30_minutes;
 
-    // A modifier on drying time
-    double delay = 1.0;
-    // Weather slows down drying
-    delay += ( ( weather.humidity - 66 ) - ( weather.temperature - 65 ) ) / 100;
-    delay = std::max( 0.1, delay );
     // Fur/slime retains moisture
+    float trait_mult = 1.0;
     if( has_trait( trait_LIGHTFUR ) || has_trait( trait_FUR ) || has_trait( trait_FELINE_FUR ) ||
         has_trait( trait_LUPINE_FUR ) || has_trait( trait_CHITIN_FUR ) || has_trait( trait_CHITIN_FUR2 ) ||
         has_trait( trait_CHITIN_FUR3 ) ) {
-        delay = delay * 6 / 5;
+        trait_mult = 2.0;
     }
     if( has_trait( trait_URSINE_FUR ) || has_trait( trait_SLIMY ) ) {
-        delay *= 1.5;
+        trait_mult = 4.0;
     }
 
-    if( !x_in_y( 1, to_turns<int>( average_drying * delay / 100.0 ) ) ) {
-        // No drying this turn
-        return;
-    }
-
-    // Now per-body-part stuff
-    // To make drying uniform, make just one roll and reuse it
-    const int drying_roll = rng( 1, 80 );
+    // Weather slows down drying
+    float weather_mult = 1.0;
+    weather_mult += ( ( weather.humidity - 66.0f ) - ( weather.temperature - 65.0f ) ) / 100.0f;
+    weather_mult = std::max( 0.1f, weather_mult );
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( get_part_wetness( bp ) == 0 ) {
+        const int wetness = get_part_wetness( bp );
+        if( wetness == 0 ) {
+            remove_effect( effect_wet, bp );
             continue;
         }
-        // This is to normalize drying times
-        int drying_chance = get_part_drench_capacity( bp );
-        const int temp_conv = get_part_temp_conv( bp );
+
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
+        const int temp_conv = get_part_temp_conv( bp );
+        float temp_mult = 1.0;
         if( temp_conv >= BODYTEMP_SCORCHING ) {
-            drying_chance *= 2;
+            temp_mult = 0.5;
         } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
-            drying_chance = drying_chance * 3 / 2;
+            temp_mult = 0.67;
         } else if( temp_conv >= BODYTEMP_HOT ) {
-            drying_chance = drying_chance * 4 / 3;
+            temp_mult = 0.75;
         } else if( temp_conv > BODYTEMP_COLD ) {
             // Comfortable, doesn't need any changes
         } else {
             // Evaporation doesn't change that much at lower temp
-            drying_chance = drying_chance * 3 / 4;
+            temp_mult = 1.2;
         }
 
-        if( drying_chance < 1 ) {
-            drying_chance = 1;
+        // Make clothing slow down drying
+        const float clothing_mult = worn.clothing_wetness_mult( bp );
+
+        const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
+                                     temp_mult / clothing_mult;
+        const float turns_to_dry = to_turns<float>( drying );
+
+        const int drench_cap = get_part_drench_capacity( bp );
+        const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
+        mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
+
+
+        // Make evaporation reduce body heat
+        // if under 50 in the menu or 7500 temp_conv you should be able to regulate temperature by sweating
+        // with current calcs a character moving towards 7500 heat will at most move 5 temperature points
+        // down to not having a slowdown
+        if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
+            mod_part_temp_cur( bp, roll_remainder( 4 * clothing_mult ) * -1 );
         }
 
-        // TODO: Make evaporation reduce body heat
-        if( drying_chance >= drying_roll ) {
-            mod_part_wetness( bp, -1 );
-            if( get_part_wetness( bp ) < 0 ) {
-                set_part_wetness( bp, 0 );
-            }
-        }
         // Safety measure to keep wetness within bounds
+        if( get_part_wetness( bp ) < 0 ) {
+            set_part_wetness( bp, 0 );
+        }
         if( get_part_wetness( bp ) > get_part_drench_capacity( bp ) ) {
             set_part_wetness( bp, get_part_drench_capacity( bp ) );
         }
+
+        // Add effects to track wetness
+        const int updatedWetness = get_part_wetness( bp );
+        const int wetnessCapacity = get_part_drench_capacity( bp );
+        if( updatedWetness < wetnessCapacity * .3 ) {
+            add_effect( effect_wet, 1_turns, bp, true, 1 );
+        } else if( updatedWetness < wetnessCapacity * .6 ) {
+            add_effect( effect_wet, 1_turns, bp, true, 2 );
+        } else if( updatedWetness < wetnessCapacity ) {
+            add_effect( effect_wet, 1_turns, bp, true, 3 );
+        }
     }
-    // TODO: Make clothing slow down drying
 }
 
 void Character::update_body()
@@ -171,8 +192,33 @@ void Character::update_body( const time_point &from, const time_point &to )
     if( !is_npc() ) {
         update_stamina( to_turns<int>( to - from ) );
     }
+    if( can_recover_oxygen() && oxygen < get_oxygen_max() ) {
+        oxygen += std::max( ( to_turns<int>( to - from ) * get_stamina() * 5 ) / get_stamina_max(), 1 );
+        oxygen = std::min( oxygen, get_oxygen_max() );
+    }
     update_stomach( from, to );
     recalculate_enchantment_cache();
+    // after recalcing the enchantment cache can properly remove and add mutations
+    const std::vector<trait_id> &current_traits = get_mutations();
+    for( const trait_id &mut : mutations_to_remove ) {
+        // check if the player still has a mutation
+        // since a trait from an item might be provided by another item as well
+        auto it = std::find( current_traits.begin(), current_traits.end(), mut );
+        if( it == current_traits.end() ) {
+            const mutation_branch &mut_b = *mut;
+            cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut_b ),
+                                    cached_mutations.end() );
+            mutation_loss_effect( mut );
+            enchantment_wear_change();
+        }
+    }
+    for( const trait_id &mut : mutations_to_add ) {
+        cached_mutations.push_back( &mut.obj() );
+        mutation_effect( mut, true );
+        enchantment_wear_change();
+    }
+    mutations_to_add.clear();
+    mutations_to_remove.clear();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
         magic->update_mana( *this, to_turns<float>( 3_minutes ) );
     }
@@ -197,13 +243,6 @@ void Character::update_body( const time_point &from, const time_point &to )
         enforce_minimum_healing();
     }
 
-    const int thirty_mins = ticks_between( from, to, 30_minutes );
-    if( thirty_mins > 0 ) {
-        // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
-        get_sick();
-    }
-
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
 
@@ -225,6 +264,23 @@ void Character::update_body( const time_point &from, const time_point &to )
                 vitamin_mod( v.first, qty );
             }
         }
+        if( calendar::once_every( 12_hours ) && v.first->type() == vitamin_type::VITAMIN ) {
+            const double rda = 1_days / rate;
+            const int &vit_quantity = vitamin_get( v.first );
+            if( vit_quantity > 0.5 * rda ) {
+                mod_healthy_mod( 1, 200 );
+            }
+            if( vit_quantity > 0.90 * rda ) {
+                mod_healthy_mod( 1, 200 );
+            }
+        }
+    }
+
+    const int thirty_mins = ticks_between( from, to, 30_minutes );
+    if( thirty_mins > 0 ) {
+        // Radiation kills health even at low doses
+        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
+        get_sick();
     }
 
     if( calendar::once_every( 10_minutes ) ) {
@@ -305,7 +361,7 @@ void Character::update_bodytemp()
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
-    const bool heat_immune = has_flag( json_flag_HEATPROOF );
+    const bool heat_immune = has_flag( json_flag_HEAT_IMMUNE );
     const bool has_heatsink = has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on ) ||
                               heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
@@ -358,13 +414,8 @@ void Character::update_bodytemp()
     for( const bodypart_id &bp : get_all_body_parts() ) {
         clothing_map.emplace( bp, std::vector<const item *>() );
     }
-    for( const item &it : worn ) {
-        for( const bodypart_str_id &covered : it.get_covered_body_parts() ) {
-            clothing_map[covered.id()].emplace_back( &it );
-        }
-    }
 
-    std::map<bodypart_id, int> warmth_per_bp = warmth( clothing_map );
+    std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
     // We might not use this at all, so leave it empty
@@ -400,11 +451,12 @@ void Character::update_bodytemp()
                                              bp_windpower );
 
         static const auto is_lower = []( const bodypart_id & bp ) {
-            return bp == body_part_foot_l  ||
-                   bp ==  body_part_foot_r  ||
-                   bp ==  body_part_leg_l  ||
-                   bp ==  body_part_leg_r ;
+            return bp->has_flag( json_flag_LIMB_LOWER );
         };
+
+        // Intrinsic bp warmth is always applied
+        int bp_temp_min = bp->temp_min;
+        int bp_temp_bonus = bp->temp_max - bp_temp_min;
 
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to 0.01C
@@ -417,7 +469,7 @@ void Character::update_bodytemp()
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         set_part_temp_conv( bp, BODYTEMP_NORM + adjusted_temp + windchill * 100 +
-                            clothing_warmth_adjustment );
+                            clothing_warmth_adjustment + bp_temp_min );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
         // FATIGUE
@@ -466,8 +518,6 @@ void Character::update_bodytemp()
         if( has_common_cold ) {
             mod_part_temp_conv( bp, -750 );
         }
-        // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
-        mod_part_temp_conv( bp, - blood_loss( bp ) * get_part_temp_conv( bp ) / 200 );
 
         temp_equalizer( bp, bp->connected_to );
         temp_equalizer( bp, bp->main_part );
@@ -498,7 +548,8 @@ void Character::update_bodytemp()
         }
 
         const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
-        const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus;
+        const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus +
+                                 bp_temp_bonus;
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
@@ -543,6 +594,7 @@ void Character::update_bodytemp()
             set_part_temp_cur( bp, static_cast<int>( temp_difference * std::exp( -0.002 ) + cur_temp_conv +
                                rounding_error ) );
         }
+
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
         if( clothing_warmth_adjusted_bonus != 0 &&
@@ -570,18 +622,27 @@ void Character::update_bodytemp()
             add_effect( effect_cold, 1_turns, bp, true, 1 );
         } else if( temp_after > BODYTEMP_SCORCHING && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 3 );
-            if( bp->main_part == bp.id() ) {
+            // if a main part and past the additional threshold for heat tolerance
+            if( bp->main_part == bp.id() && temp_after > BODYTEMP_SCORCHING + BODYTEMP_THRESHOLD ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 3 );
+            } else {
+                add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
             }
         } else if( temp_after > BODYTEMP_VERY_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 2 );
-            if( bp->main_part == bp.id() ) {
+            // if a main part and past the additional threshold for heat tolerance
+            if( bp->main_part == bp.id() && temp_after > BODYTEMP_VERY_HOT + BODYTEMP_THRESHOLD ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
+            } else {
+                add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
             }
         } else if( temp_after > BODYTEMP_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 1 );
-            if( bp->main_part == bp.id() ) {
+            // if a main part and past the additional threshold for heat tolerance
+            if( bp->main_part == bp.id() && temp_after > BODYTEMP_HOT + BODYTEMP_THRESHOLD ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
+            } else {
+                remove_effect( effect_hot_speed, bp );
             }
         } else {
             remove_effect( effect_cold, bp );
@@ -624,11 +685,11 @@ void Character::update_bodytemp()
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
-            if( bp == body_part_torso && temp_after <= BODYTEMP_COLD ) {
+            if( bp == body_part_torso && temp_after <= BODYTEMP_COLD && !has_bionic( bio_sleep_shutdown ) ) {
                 add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                 wake_up();
             } else if( bp != body_part_torso && temp_after <= BODYTEMP_VERY_COLD &&
-                       has_effect( effect_frostbite ) ) {
+                       has_effect( effect_frostbite ) && !has_bionic( bio_sleep_shutdown ) ) {
                 add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
                 wake_up();
             }
@@ -788,7 +849,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         guts.ingest( digested_to_guts );
 
         mod_stored_kcal( digested_to_body.nutr.kcal() );
-        vitamins_mod( effect_vitamin_mod( digested_to_body.nutr.vitamins ), false );
+        vitamins_mod( effect_vitamin_mod( digested_to_body.nutr.vitamins ) );
         log_activity_level( activity_history.average_activity() );
 
         if( !foodless && rates.hunger > 0.0f ) {
@@ -1174,7 +1235,8 @@ void Character::update_heartrate_index()
     float hr_nicotine_mod = 0.0f;
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
-        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( add_type::CIG ) + 1 ) ) {
+        if( get_effect_dur( effect_cig ) >
+            10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
             hr_nicotine_mod = 0.4f;
         } else {
             hr_nicotine_mod = 0.1f;

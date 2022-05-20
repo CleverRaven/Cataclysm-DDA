@@ -2,7 +2,7 @@
   {
     "id": "mon_yrax_trifacet",
     "type": "MONSTER",
-    "name": { "str": "Yrax Trifacet" },
+    "name": { "str": "Yrax trifacet" },
     "description": "Three dual leg modules join with each lower vertex of a pyramidal body, in a abstract configuration that vaguely recalls an alien arthropod.  Devoid of any exterior signs that betray its artificial origin, it looks like it could fold itself into a perfectly featureless quartz pyramid.  It crawls with a gait like none you've seen before, its minute movements too fast for your eyes to track.",
     "default_faction": "berserk_bot",
     "volume": "50 L",
@@ -58,7 +58,8 @@
       "KEEP_DISTANCE",
       "PATH_AVOID_DANGER_2",
       "PRIORITIZE_TARGETS",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "ELECTRONIC"
     ]
   }
 ]

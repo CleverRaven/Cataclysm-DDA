@@ -86,6 +86,49 @@
     "armor": [ { "encumbrance": 8, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "cheerleader_skirt",
+    "repairs_like": "skirt",
+    "type": "ARMOR",
+    "name": { "str": "cheerleader skirt" },
+    "description": "A breezy red cheerleader skirt.  Easy to move in, and of an acceptable length for most real cheerleading.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "red",
+    "warmth": 2,
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "cheerleader_skirt_short",
+    "repairs_like": "skirt",
+    "type": "ARMOR",
+    "name": { "str": "short cheerleader skirt" },
+    "description": "A very short, breezy and red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to practice cheerleading.",
+    "weight": "70 g",
+    "volume": "200 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "red",
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
     "id": "fishing_waders",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
@@ -117,6 +160,55 @@
     "material_thickness": 2,
     "environmental_protection": 6,
     "flags": [ "VARSIZE", "WATERPROOF" ]
+  },
+  {
+    "id": "flag_pants",
+    "repairs_like": "pants",
+    "type": "ARMOR",
+    "name": { "str_sp": "flag pants" },
+    "description": "A pair of pants embroidered with the pattern of an American flag.",
+    "weight": "399 g",
+    "volume": "2 L",
+    "price": 5500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "light_red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "hot_pants",
@@ -228,7 +320,7 @@
         "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
       }
     ],
-    "armor": [ { "encumbrance": [ 12, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans_red",
@@ -278,7 +370,7 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 12, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "kilt",
@@ -434,7 +526,7 @@
     "type": "ARMOR",
     "name": { "str": "nanoskirt" },
     "description": "Apparently the microskirt wasn't short enough.",
-    "weight": "11 g",
+    "weight": "115 g",
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 10,
@@ -578,8 +670,8 @@
     ],
     "warmth": 20,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 9, 18 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "VARSIZE", "POCKETS", "SOFT" ],
+    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
     "id": "pants_cargo",
@@ -641,7 +733,7 @@
     "warmth": 15,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
     "id": "pants_checkered",
@@ -751,6 +843,25 @@
     "description": "A pair of long cotton pants lined with warm imitation fur.",
     "material": [ "faux_fur", "cotton" ],
     "warmth": 70
+  },
+  {
+    "id": "trousers_ninja",
+    "type": "ARMOR",
+    "repairs_like": "pants",
+    "name": { "str_sp": "ninja trousers" },
+    "description": "A pair of black trousers with calf and waistband ties.  Comfortable to use but lacks pockets.",
+    "weight": "400 g",
+    "volume": "1500 ml",
+    "price": 4800,
+    "price_postapoc": 40,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "dark_gray",
+    "warmth": 8,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_leather",
@@ -1176,7 +1287,7 @@
     "type": "ARMOR",
     "name": { "str": "skirt" },
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
-    "weight": "74 g",
+    "weight": "225 g",
     "volume": "250 ml",
     "price": 6500,
     "price_postapoc": 50,

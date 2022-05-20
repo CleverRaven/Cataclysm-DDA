@@ -117,6 +117,7 @@ class overmap_land_use_code
 {
     public:
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
+        std::vector<std::pair<overmap_land_use_code_id, mod_id>> src;
 
         int land_use_code = 0;
         translation name;
@@ -221,6 +222,7 @@ struct oter_type_t {
 
     public:
         string_id<oter_type_t> id;
+        std::vector<std::pair<string_id<oter_type_t>, mod_id>> src;
         translation name;
         uint32_t symbol = 0;
         nc_color color = c_black;
@@ -284,6 +286,7 @@ struct oter_t {
 
     public:
         oter_str_id id;         // definitive identifier.
+        std::vector < std::pair < oter_str_id, mod_id>> src;
 
         oter_t();
         explicit oter_t( const oter_type_t &type );
@@ -509,6 +512,12 @@ class overmap_special
         bool is_rotatable() const {
             return rotatable_;
         }
+        bool has_eoc() const {
+            return has_eoc_;
+        }
+        effect_on_condition_id get_eoc() const {
+            return eoc;
+        }
         bool can_spawn() const;
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
@@ -540,6 +549,11 @@ class overmap_special
         mapgen_arguments get_args( const mapgendata & ) const;
 
         overmap_special_id id;
+        // TODO: fix how this works with fake specials
+        // Due to fake specials being created after data loading, if any mod has a region settings
+        // which has a fake special defined in DDA, it will count as from the same src, and thus
+        // a duplicate.
+        //std::vector<std::pair<overmap_special_id, mod_id>> src;
 
         // Used by generic_factory
         bool was_loaded = false;
@@ -551,7 +565,8 @@ class overmap_special
         overmap_special_subtype subtype_;
         overmap_special_placement_constraints constraints_;
         shared_ptr_fast<const overmap_special_data> data_;
-
+        effect_on_condition_id eoc;
+        bool has_eoc_ = false;
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
         cata::flat_set<std::string> flags_;
@@ -559,6 +574,27 @@ class overmap_special
         // These locations are the default values if ones are not specified for the individual OMTs.
         cata::flat_set<string_id<overmap_location>> default_locations_;
         mapgen_parameters mapgen_params_;
+};
+
+struct overmap_special_migration {
+    public:
+        static void load_migrations( const JsonObject &jo, const std::string &src );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src );
+        static void check();
+        // Check if the given overmap special should be migrated
+        static bool migrated( const overmap_special_id &os_id );
+        // Get the migrated id. Returns null id if the special was removed,
+        // or the same id if no migration is necessary
+        static overmap_special_id migrate( const overmap_special_id &old_id );
+
+    private:
+        bool was_loaded = false;
+        overmap_special_migration_id id;
+        std::vector<std::pair<overmap_special_migration_id, mod_id>> src;
+        overmap_special_id new_id;
+        friend generic_factory<overmap_special_migration>;
+        friend struct mod_tracker;
 };
 
 namespace overmap_terrains

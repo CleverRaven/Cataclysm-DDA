@@ -7,7 +7,7 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 ## Hardcoded Examine Actions
 
 - ```aggie_plant``` Harvest plants.
-- ```autodoc``` Brings the autodoc consoles menu. Needs the ```AUTODOC``` flag to function properly and an adjacent furniture with the ```AUTODOC_COUCH``` flag.
+- ```autodoc``` Brings the Autodoc consoles menu. Needs the ```AUTODOC``` flag to function properly and an adjacent furniture with the ```AUTODOC_COUCH``` flag.
 - ```autoclave_empty``` Start the autoclave cycle if it contains filthy CBM, and the player has enough water.
 - ```autoclave_full``` Check on the progress of the cycle, and collect sterile CBM once cycle is completed.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
@@ -34,13 +34,40 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
-- ```shrub_marloss``` Pick a marloss bush.
+- ```shrub_marloss``` Pick a Marloss bush.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```slot_machine``` Gamble.
 - ```toilet``` Either drink or get water out of the toilet.
 - ```water_source``` Drink or get water from a water source.
 
 ## Examine Actors
+
+### `appliance_convert`
+
+#### `furn_set`
+Optional, defaults to no change.
+String.
+Furniture id that this tile will be set to after placing the appliance.
+
+#### `ter_set`
+Optional, defaults to no change.
+String.
+Terrain id that this tile will be set to after placing the appliance.
+
+#### `item`
+Mandatory.
+String.
+Item id of the base item of this appliance.
+
+#### Example
+```json
+{
+  "type": "appliance_convert",
+  "furn_set": "f_null",
+  "ter_set": "t_floor",
+  "item": "fridge"
+}
+```
 
 ### `cardreader`
 
@@ -52,7 +79,7 @@ List of item flags that, when on an item, mean that the item can be used as card
 #### `consume_card`
 Optional, defaults to true.
 Boolean (true/false).
-Whether or not to consume the item used to activite this cardreader.
+Whether or not to consume the item used to activate this cardreader.
 
 #### `allow_hacking`
 Optional, defaults to true.
@@ -108,7 +135,7 @@ What message to display when querying the player on whether or not to activate t
 #### `success_msg`
 Mandatory.
 String.
-What message to print to the log when this is sucessfully activated.
+What message to print to the log when this is successfully activated.
 
 #### `redundant_msg`
 Mandatory.

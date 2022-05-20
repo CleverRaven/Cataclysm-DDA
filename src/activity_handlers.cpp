@@ -109,11 +109,6 @@ static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
-static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
-static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
-static const activity_id ACT_CHURN( "ACT_CHURN" );
-static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
@@ -125,21 +120,14 @@ static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
-static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
-static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
-static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
-static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -180,7 +168,6 @@ static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
-static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -199,21 +186,10 @@ static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
 static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
-static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
-static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
-static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
-static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
-static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
-
-static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_log( "log" );
-static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
-static const itype_id itype_splinter( "splinter" );
-static const itype_id itype_stick_long( "stick_long" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
@@ -225,17 +201,11 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const skill_id skill_computer( "computer" );
-static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
-
-static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
-static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
-static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
-static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -256,7 +226,6 @@ activity_handlers::do_turn_functions = {
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
-    { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
@@ -289,22 +258,18 @@ activity_handlers::do_turn_functions = {
     { ACT_QUARTER, butcher_do_turn },
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
-    { ACT_CHOP_TREE, chop_tree_do_turn },
-    { ACT_CHOP_LOGS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
-    { ACT_CHOP_PLANKS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_FILL_PIT, fill_pit_do_turn },
     { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
     { ACT_OPERATION, operation_do_turn },
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
-    { ACT_STUDY_SPELL, study_spell_do_turn},
+    { ACT_STUDY_SPELL, study_spell_do_turn },
     { ACT_WAIT_STAMINA, wait_stamina_do_turn },
-    { ACT_MULTIPLE_DIS, multiple_dis_do_turn }
+    { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -317,17 +282,12 @@ activity_handlers::finish_functions = {
     { ACT_QUARTER, butcher_finish },
     { ACT_DISMEMBER, butcher_finish },
     { ACT_DISSECT, butcher_finish },
-    { ACT_FIRSTAID, firstaid_finish },
     { ACT_FISH, fish_finish },
-    { ACT_FORAGE, forage_finish },
-    { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
-    { ACT_MOP, mopping_finish },
     { ACT_START_FIRE, start_fire_finish },
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
     { ACT_TRAIN_TEACHER, teach_finish },
-    { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
@@ -335,9 +295,7 @@ activity_handlers::finish_functions = {
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
-    { ACT_GUNMOD_ADD, gunmod_add_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
-    { ACT_CLEAR_RUBBLE, clear_rubble_finish },
     { ACT_WAIT, wait_finish },
     { ACT_WAIT_WEATHER, wait_weather_finish },
     { ACT_WAIT_NPC, wait_npc_finish },
@@ -353,16 +311,11 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_VIEW_RECIPE, view_recipe_finish },
     { ACT_WASH, washing_finish },
-    { ACT_CHOP_TREE, chop_tree_finish },
-    { ACT_CHOP_LOGS, chop_logs_finish },
-    { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
-    { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
-    { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
-    { ACT_STUDY_SPELL, study_spell_finish }
+    { ACT_STUDY_SPELL, study_spell_finish },
 };
 
 namespace io
@@ -404,13 +357,13 @@ bool activity_handlers::resume_for_multi_activities( Character &you )
 static bool check_butcher_dissect( const int roll )
 {
     // Failure rates for dissection rolls
-    // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
+    // 100% at roll 0, 66% at roll 1, 50% at roll 2, 40% @ 3, 33% @ 4, 28% @ 5, ... , 16% @ 10
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll = %i", roll );
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Failure chance = %f%%",
-                   ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
-    const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
+                   ( 19.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
+    const bool failed = x_in_y( 10, ( 10 + roll * 5 ) );
     return !failed;
 }
 
@@ -557,7 +510,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     if( action == butcher_type::BLEED && ( corpse_item.has_flag( flag_BLED ) ||
                                            corpse_item.has_flag( flag_QUARTERED ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ||
                                            corpse_item.has_flag( flag_FIELD_DRESS ) ) ) {
-        you.add_msg_if_player( m_info, _( "This corpse hase already been bled." ) );
+        you.add_msg_if_player( m_info, _( "This corpse has already been bled." ) );
         act.targets.pop_back();
         return;
     }
@@ -565,7 +518,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     if( action == butcher_type::DISSECT && ( corpse_item.has_flag( flag_QUARTERED ) ||
             corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
         you.add_msg_if_player( m_info,
-                               _( "It would be futile to search for implants inside this badly damaged corpse." ) );
+                               _( "It would be futile to dissect this badly damaged corpse." ) );
         act.targets.pop_back();
         return;
     }
@@ -608,9 +561,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
-    if( is_human && !( you.has_trait_flag( json_flag_CANNIBAL ) ||
-                       you.has_trait_flag( json_flag_PSYCHOPATH ) ||
-                       you.has_trait_flag( json_flag_SAPIOVORE ) ) ) {
+    if( is_human && !( you.has_flag( json_flag_CANNIBAL ) ||
+                       you.has_flag( json_flag_PSYCHOPATH ) ||
+                       you.has_flag( json_flag_SAPIOVORE ) ) ) {
 
         if( you.is_avatar() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
@@ -804,6 +757,8 @@ static int roll_butchery_dissect( int skill_level, int dex, int tool_quality )
 
     if( tool_quality < 0 ) {
         skill_shift -= rng_float( 0, -tool_quality / 5.0 );
+    } else {
+        skill_shift += std::min( tool_quality, 4 );
     }
 
     return static_cast<int>( std::round( skill_shift ) );
@@ -851,7 +806,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
-    const int entry_count = mt.harvest->get_all().size();
+    const int entry_count = ( action == butcher_type::DISSECT &&
+                              !mt.dissect.is_empty() ) ? mt.dissect->get_all().size() : mt.harvest->get_all().size();
     int monster_weight_remaining = monster_weight;
     int practice = 0;
 
@@ -861,7 +817,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     map &here = get_map();
-    for( const harvest_entry &entry : *mt.harvest ) {
+    for( const harvest_entry &entry : ( action == butcher_type::DISSECT &&
+                                        !mt.dissect.is_empty() ) ? *mt.dissect : *mt.harvest ) {
         const int skill_level = butchery_dissect_skill_level( you, tool_quality, entry.type );
         const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
         practice += ( 4 + butchery ) / entry_count;
@@ -872,7 +829,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
-        } else if( !entry.type->dissect_only() ) {
+        } else if( action != butcher_type::DISSECT ) {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
@@ -885,29 +842,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             drop = item::find_type( drop_id );
         }
 
-        if( entry.type->dissect_only() ) {
-            if( action == butcher_type::FIELD_DRESS ) {
-                const translation msg = entry.type->field_dress_msg( false );
-                if( !msg.empty() ) {
-                    add_msg( m_bad, msg.translated() );
-                }
-                continue;
-            }
-            if( action == butcher_type::QUICK ||
-                action == butcher_type::FULL ||
-                action == butcher_type::DISMEMBER ) {
-                const translation msg = entry.type->butcher_msg( false );
-                if( !msg.empty() ) {
-                    add_msg( m_bad, msg.translated() );
-                }
-                continue;
-            }
-        }
         if( action == butcher_type::DISSECT ) {
             int roll = roll_butchery_dissect( skill_level, you.dex_cur,
                                               tool_quality ) - corpse_item->damage_level();
             roll = roll < 0 ? 0 : roll;
-            roll = std::min( entry.max, roll );
             add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
                            0 - corpse_item->damage_level() );
             bool dissect_success = false;
@@ -1149,8 +1087,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     if( action == butcher_type::DISSECT ) {
-        you.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
-                      0 ) + 4 );
+        you.practice( skill_firstaid, std::max( 0, practice ), mt.size + std::min( tool_quality, 3 ) + 2 );
         mt.families.practice_dissect( you );
     } else {
         you.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
@@ -1305,7 +1242,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             break;
         case butcher_type::FIELD_DRESS: {
             bool success = roll_butchery_dissect( you->get_skill_level( skill_survival ), you->dex_cur,
-                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) < 0;
+                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) > 0;
             add_msg( success ? m_good : m_warning,
                      SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
                                                    "harvest_drop_default_field_dress_failed" ).value_or( translation() ).translated() );
@@ -1454,7 +1391,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             }
             case liquid_target_type::CONTAINER:
-                you->pour_into( *act_ref.targets.at( 0 ), liquid );
+                you->pour_into( *act_ref.targets.at( 0 ), liquid, true );
                 break;
             case liquid_target_type::MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
@@ -1544,125 +1481,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
     }
 }
 
-void activity_handlers::firstaid_finish( player_activity *act, Character *you )
-{
-    static const std::string iuse_name_string( "heal" );
-
-    item &it = *act->targets.front();
-    item *used_tool = it.get_usable_item( iuse_name_string );
-    if( used_tool == nullptr ) {
-        debugmsg( "Lost tool used for healing" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = used_tool->get_use( iuse_name_string );
-    const heal_actor *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-
-    // TODO: Store the patient somehow, retrieve here
-    Character &patient = *you;
-    const bodypart_id healed = bodypart_id( act->str_values[0] );
-    const int charges_consumed = actor->finish_using( *you, patient, *used_tool, healed );
-    you->consume_charges( it, charges_consumed );
-
-    // Erase activity and values.
-    act->set_to_null();
-    act->values.clear();
-}
-
-void activity_handlers::forage_finish( player_activity *act, Character *you )
-{
-    // Don't forage if we aren't next to the bush - otherwise we get weird bugs
-    bool next_to_bush = false;
-    map &here = get_map();
-    for( const tripoint &pnt : here.points_in_radius( you->pos(), 1 ) ) {
-        if( here.getabs( pnt ) == act->placement ) {
-            next_to_bush = true;
-            break;
-        }
-    }
-
-    if( !next_to_bush ) {
-        act->set_to_null();
-        return;
-    }
-
-    const int veggy_chance = rng( 1, 100 );
-    bool found_something = false;
-
-    item_group_id group_id;
-    ter_str_id next_ter;
-
-    switch( season_of_year( calendar::turn ) ) {
-        case SPRING:
-            group_id = Item_spawn_data_forage_spring;
-            next_ter = ter_t_underbrush_harvested_spring;
-            break;
-        case SUMMER:
-            group_id = Item_spawn_data_forage_summer;
-            next_ter = ter_t_underbrush_harvested_summer;
-            break;
-        case AUTUMN:
-            group_id = Item_spawn_data_forage_autumn;
-            next_ter = ter_t_underbrush_harvested_autumn;
-            break;
-        case WINTER:
-            group_id = Item_spawn_data_forage_winter;
-            next_ter = ter_t_underbrush_harvested_winter;
-            break;
-        default:
-            debugmsg( "Invalid season" );
-    }
-
-    const tripoint bush_pos = here.getlocal( act->placement );
-    here.ter_set( bush_pos, next_ter );
-
-    // Survival gives a bigger boost, and Perception is leveled a bit.
-    // Both survival and perception affect time to forage
-
-    ///\EFFECT_PER slightly increases forage success chance
-    ///\EFFECT_SURVIVAL increases forage success chance
-    if( veggy_chance < you->get_skill_level( skill_survival ) * 3 + you->per_cur - 2 ) {
-        const std::vector<item *> dropped =
-            here.put_items_from_loc( group_id, you->pos(), calendar::turn );
-        for( item *it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
-            found_something = true;
-            if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
-                it->set_flag( flag_HIDDEN_POISON );
-                it->poison = rng( 2, 7 );
-            }
-            if( it->has_flag( flag_FORAGE_HALLU ) && !it->has_flag( flag_HIDDEN_POISON ) && one_in( 10 ) ) {
-                it->set_flag( flag_HIDDEN_HALLU );
-            }
-        }
-    }
-    // 10% to drop a item/items from this group.
-    if( one_in( 10 ) ) {
-        const std::vector<item *> dropped =
-            here.put_items_from_loc( Item_spawn_data_trash_forest, you->pos(), calendar::turn );
-        for( item * const &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
-            found_something = true;
-        }
-    }
-
-    if( !found_something ) {
-        add_msg( _( "You didn't find anything." ) );
-    }
-
-    iexamine::practice_survival_while_foraging( you );
-
-    act->set_to_null();
-
-    here.maybe_trigger_trap( bush_pos, *you, true );
-}
-
 // Repurposing the activity's index to convey the number of friends participating
 void activity_handlers::generic_game_turn_handler( player_activity *act, Character *you,
         int morale_bonus, int morale_max_bonus )
@@ -1671,7 +1489,8 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
     if( calendar::once_every( 1_minutes ) ) {
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
-            bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, you ) == 0;
+            int req = game_item.ammo_required();
+            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
                 if( you->is_avatar() ) {
@@ -1723,50 +1542,6 @@ void activity_handlers::generic_game_do_turn( player_activity *act, Character *y
 void activity_handlers::game_do_turn( player_activity *act, Character *you )
 {
     generic_game_turn_handler( act, you, 1, 100 );
-}
-
-void activity_handlers::longsalvage_finish( player_activity *act, Character *you )
-{
-    static const std::string salvage_string = "salvage";
-    item &main_tool = you->i_at( act->index );
-    map &here = get_map();
-    map_stack items = here.i_at( you->pos() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
-        debugmsg( "Lost tool used for long salvage" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = salvage_tool->get_use( salvage_string );
-    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-
-    for( item &it : items ) {
-        if( actor->valid_to_cut_up( it ) ) {
-            item_location item_loc( map_cursor( you->pos() ), &it );
-            actor->cut_up( *you, *salvage_tool, item_loc );
-            return;
-        }
-    }
-
-    add_msg( _( "You finish salvaging." ) );
-    act->set_to_null();
-}
-
-void activity_handlers::mopping_finish( player_activity *act, Character *you )
-{
-    // blind character have a 1/3 chance of actually mopping
-    const bool will_mop = one_in( you->is_blind() ? 1 : 3 );
-    if( will_mop ) {
-        map &here = get_map();
-        here.mop_spills( here.getlocal( act->placement ) );
-    }
-    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
@@ -1827,7 +1602,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
                                     weapon.damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->str_cur + weapon.damage_melee( damage_type::BASH ) ) *
+    float pulp_power = std::sqrt( ( you->get_arm_str() + weapon.damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
     float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill
@@ -2024,18 +1799,29 @@ static bool magic_train( player_activity *act, Character *you )
 void activity_handlers::teach_finish( player_activity *act, Character *you )
 {
     const skill_id sk( act->name );
+    const proficiency_id pr( act->name );
+    const matype_id ma( act->name );
+    const spell_id sp( act->name );
+
+    std::string subject;
     if( sk.is_valid() ) {
-        const std::string sk_name = sk.obj().name();
-        if( you->is_avatar() ) {
-            add_msg( m_good, _( "You finish teaching %s." ), sk_name );
-        } else {
-            add_msg( m_good, _( "%s finishes teaching %s." ), you->name, sk_name );
-        }
-        act->set_to_null();
-        return;
+        subject = sk->name();
+    } else if( pr.is_valid() ) {
+        subject = pr->name();
+    } else if( ma.is_valid() ) {
+        subject = ma->name.translated();
+    } else if( sp.is_valid() ) {
+        subject = sp->name.translated();
+    } else {
+        debugmsg( "teach_finish without a valid skill or style or spell name" );
     }
 
-    debugmsg( "teach_finish without a valid skill or style or spell name" );
+    if( you->is_avatar() ) {
+        add_msg( m_good, _( "You finish teaching %s." ), subject );
+    } else {
+        add_msg( m_good, _( "%s finishes teaching %s." ), you->name, subject );
+    }
+
     act->set_to_null();
 }
 
@@ -2134,11 +1920,16 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( here.get_abs_sub().z );
+                here.invalidate_map_cache( here.get_abs_sub().z() );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
-                    g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
+                    point int_p( act->values[ 2 ], act->values[ 3 ] );
+                    if( vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                        g->exam_appliance( vp->vehicle(), int_p );
+                    } else {
+                        g->exam_vehicle( vp->vehicle(), int_p );
+                    }
                 }
                 return;
             } else {
@@ -2392,6 +2183,11 @@ struct weldrig_hack {
 
 void activity_handlers::repair_item_finish( player_activity *act, Character *you )
 {
+    ::repair_item_finish( act, you, false );
+}
+
+void repair_item_finish( player_activity *act, Character *you, bool no_menu )
+{
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
                          static_cast<int>( repeat_type::INIT ) ) );
@@ -2469,11 +2265,15 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
             ( repeat == repeat_type::FULL && ( cannot_continue_repair ||
-                                               fix_location->damage() <= fix_location->degradation() ) ) ||
+                                               fix_location->damage() <= fix_location->damage_floor( false ) ) ) ||
             ( repeat == repeat_type::REFIT_ONCE ) ||
             ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
             repeat = repeat_type::INIT;
+            if( no_menu ) {
+                act->set_to_null();
+                return;
+            }
         }
     }
     // Check tool is valid before we query target and Repeat choice.
@@ -2582,7 +2382,8 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
+            if( repeat == repeat_type::FULL &&
+                fix.damage() <= fix.damage_floor( false ) ) {
                 const char *msg = fix.damage_level() > 0 ?
                                   _( "Your %s is repaired as much as possible, considering the degradation." ) :
                                   _( "Your %s is already fully repaired." );
@@ -2688,62 +2489,6 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
-void activity_handlers::gunmod_add_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    // first unpack all of our arguments
-    if( act->values.size() != 4 ) {
-        debugmsg( "Insufficient arguments to ACT_GUNMOD_ADD" );
-        return;
-    }
-
-    item &gun = *act->targets.at( 0 );
-    item &mod = *act->targets.at( 1 );
-
-    // chance of success (%)
-    const int roll = act->values[1];
-    // chance of damage (%)
-    const int risk = act->values[2];
-
-    // any tool charges used during installation
-    const itype_id tool( act->name );
-    const int qty = act->values[3];
-
-    if( !gun.is_gunmod_compatible( mod ).success() ) {
-        debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
-        return;
-    }
-
-    if( !tool.is_empty() && qty > 0 ) {
-        you->use_charges( tool, qty );
-    }
-
-    if( rng( 0, 100 ) <= roll ) {
-        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
-                 gun.tname() );
-        gun.put_in( you->i_rem( &mod ), item_pocket::pocket_type::MOD );
-
-    } else if( rng( 0, 100 ) <= risk ) {
-        if( gun.inc_damage() ) {
-            // Remove irremovable mods prior to destroying the gun
-            for( item *mod : gun.gunmods() ) {
-                if( mod->is_irremovable() ) {
-                    you->remove_item( *mod );
-                }
-            }
-            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
-                     gun.tname() );
-            you->i_rem( &gun );
-        } else {
-            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
-                     gun.tname() );
-        }
-
-    } else {
-        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname() );
-    }
-}
-
 void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
 {
     act->set_to_null();
@@ -2758,24 +2503,6 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod, item_pocket::pocket_type::MOD );
     act->targets[1].remove_item();
-}
-
-void activity_handlers::clear_rubble_finish( player_activity *act, Character *you )
-{
-    const tripoint &pos = act->placement;
-    map &here = get_map();
-    you->add_msg_if_player( m_info, _( "You clear up the %s." ),
-                            here.furnname( pos ) );
-    here.furn_set( pos, f_null );
-
-    act->set_to_null();
-
-    here.maybe_trigger_trap( pos, *you, true );
-}
-
-void activity_handlers::wear_do_turn( player_activity *act, Character *you )
-{
-    activity_on_turn_wear( *act, *you );
 }
 
 // This activity opens the menu (it's not meant to queue consumption of items)
@@ -2872,8 +2599,7 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
             waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
         }
         map &here = get_map();
-        // TODO: fix point types
-        tripoint centre_sub = here.getlocal( waypoint.raw() );
+        tripoint centre_sub = here.getlocal( waypoint );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
@@ -2901,7 +2627,7 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
 void activity_handlers::armor_layers_do_turn( player_activity *, Character *you )
 {
     you->cancel_activity();
-    you->sort_armor();
+    you->worn.sort_armor( *you );
 }
 
 void activity_handlers::atm_do_turn( player_activity *, Character *you )
@@ -3109,10 +2835,10 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     /**
     - values[0]: Difficulty
     - values[1]: success
-    - values[2]: max_power_level
+    - values[2]: bionic UID when uninstalling
     - values[3]: pl_skill
     - str_values[0]: install/uninstall
-    - str_values[1]: bionic_id
+    - str_values[1]: bionic_id when installing
     - str_values[2]: installer_name
     - str_values[3]: bool autodoc
     */
@@ -3147,7 +2873,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
             act->set_to_null();
 
             if( u_see ) {
-                add_msg( m_bad, _( "The autodoc suffers a catastrophic failure." ) );
+                add_msg( m_bad, _( "The Autodoc suffers a catastrophic failure." ) );
 
                 you->add_msg_player_or_npc( m_bad,
                                             _( "The Autodoc's failure damages you greatly." ),
@@ -3197,10 +2923,11 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( you->has_bionic( bid ) ) {
-                you->perform_uninstall( bid, act->values[0], act->values[1], act->values[3] );
+            if( cata::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
+                you->perform_uninstall( **bio, act->values[0], act->values[1], act->values[3] );
             } else {
-                debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ), bid.c_str() );
+                debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
+                          act->values[2] );
                 you->remove_effect( effect_under_operation );
                 act->set_to_null();
             }
@@ -3211,7 +2938,13 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
 
             if( bid.is_valid() ) {
                 const bionic_id upbid = bid->upgraded_bionic;
-                you->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
+                // TODO: Let the user pick bionic to upgrade if multiple candidates exist
+                bionic_uid upbio_uid = 0;
+                if( cata::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
+                    upbio_uid = ( *bio )->get_uid();
+                }
+
+                you->perform_install( bid, upbio_uid, act->values[0], act->values[1], act->values[3],
                                       act->str_values[installer_name], bid->canceled_mutations, you->pos() );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
@@ -3294,17 +3027,6 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
     act->set_to_null();
 }
 
-void activity_handlers::churn_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    you->add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.getlocal( act->placement ), t_dirtmound );
-    // Go back to what we were doing before
-    // could be player zone activity, or could be NPC multi-farming
-    act->set_to_null();
-    resume_for_multi_activities( *you );
-}
-
 void activity_handlers::plant_seed_finish( player_activity *act, Character *you )
 {
     map &here = get_map();
@@ -3354,6 +3076,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
                  you->disp_name() );
         return;
     }
+    you->set_activity_level( pc->id->activity_level );
     // if you ( or NPC ) are finishing someone else's started construction...
     const construction &built = pc->id.obj();
     if( !you->has_trait( trait_DEBUG_HS ) && !you->meets_skill_requirements( built ) ) {
@@ -3384,6 +3107,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
 
     you->set_moves( 0 );
 
+    pc->id->do_turn_special( here.getlocal( act->placement ), *you );
     pc->counter = std::min( pc->counter, 10000000 );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
@@ -3482,136 +3206,6 @@ void activity_handlers::view_recipe_finish( player_activity *act, Character * )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, Character * )
-{
-    map &here = get_map();
-    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a wood chopping tool at work!
-        sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
-    }
-}
-
-void activity_handlers::chop_tree_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    const tripoint &pos = here.getlocal( act->placement );
-
-    tripoint direction;
-    if( !you->is_npc() ) {
-        if( you->backlog.empty() || you->backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) {
-            while( true ) {
-                if( const cata::optional<tripoint> dir = choose_direction(
-                            _( "Select a direction for the tree to fall in." ) ) ) {
-                    direction = *dir;
-                    break;
-                }
-                // try again
-            }
-        }
-    } else {
-        creature_tracker &creatures = get_creature_tracker();
-        for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
-            bool cantuse = false;
-            tripoint direc = elem - pos;
-            tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
-            std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
-            for( const tripoint &elem : rough_tree_line ) {
-                if( creatures.creature_at( elem ) ) {
-                    cantuse = true;
-                    break;
-                }
-            }
-            if( !cantuse ) {
-                direction = direc;
-            }
-        }
-    }
-
-    const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
-    for( const tripoint &elem : tree ) {
-        here.batter( elem, 300, 5 );
-        here.ter_set( elem, t_trunk );
-    }
-
-    here.ter_set( pos, t_stump );
-    you->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
-    // sound of falling tree
-    sfx::play_variant_sound( "misc", "timber",
-                             sfx::get_heard_volume( here.getlocal( act->placement ) ) );
-    get_event_bus().send<event_type::cuts_tree>( you->getID() );
-    act->set_to_null();
-    resume_for_multi_activities( *you );
-}
-
-void activity_handlers::chop_logs_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    const tripoint &pos = here.getlocal( act->placement );
-    int log_quan;
-    int stick_quan;
-    int splint_quan;
-    if( here.ter( pos ) == t_trunk ) {
-        log_quan = rng( 2, 3 );
-        stick_quan = rng( 0, 1 );
-        splint_quan = 0;
-    } else if( here.ter( pos ) == t_stump ) {
-        log_quan = rng( 0, 2 );
-        stick_quan = 0;
-        splint_quan = rng( 5, 15 );
-    } else {
-        log_quan = 0;
-        stick_quan = 0;
-        splint_quan = 0;
-    }
-    for( int i = 0; i != log_quan; ++i ) {
-        item obj( itype_log, calendar::turn );
-        obj.set_var( "activity_var", you->name );
-        here.add_item_or_charges( pos, obj );
-    }
-    for( int i = 0; i != stick_quan; ++i ) {
-        item obj( itype_stick_long, calendar::turn );
-        obj.set_var( "activity_var", you->name );
-        here.add_item_or_charges( pos, obj );
-    }
-    for( int i = 0; i != splint_quan; ++i ) {
-        item obj( itype_splinter, calendar::turn );
-        obj.set_var( "activity_var", you->name );
-        here.add_item_or_charges( pos, obj );
-    }
-    here.ter_set( pos, t_dirt );
-    you->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
-
-    act->set_to_null();
-    resume_for_multi_activities( *you );
-}
-
-void activity_handlers::chop_planks_finish( player_activity *act, Character *you )
-{
-    const int max_planks = 10;
-    /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = normal_roll( 2 + you->get_skill_level( skill_fabrication ), 1 );
-    int wasted_planks = max_planks - planks;
-    int scraps = rng( wasted_planks, wasted_planks * 3 );
-    planks = std::min( planks, max_planks );
-
-    map &here = get_map();
-    if( planks > 0 ) {
-        here.spawn_item( here.getlocal( act->placement ), itype_2x4, planks, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
-    }
-    if( scraps > 0 ) {
-        here.spawn_item( here.getlocal( act->placement ), itype_splinter, scraps, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
-    }
-    if( planks < max_planks / 2 ) {
-        you->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
-    }
-    act->set_to_null();
-    resume_for_multi_activities( *you );
-}
-
 void activity_handlers::jackhammer_do_turn( player_activity *act, Character * )
 {
     map &here = get_map();
@@ -3648,51 +3242,8 @@ void activity_handlers::jackhammer_finish( player_activity *act, Character *you 
     }
 }
 
-void activity_handlers::fill_pit_do_turn( player_activity *act, Character * )
-{
-    sfx::play_activity_sound( "tool", "shovel", 100 );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-    }
-}
-
-void activity_handlers::fill_pit_finish( player_activity *act, Character *you )
-{
-    const tripoint &pos = act->placement;
-    map &here = get_map();
-    const ter_id ter = here.ter( pos );
-    const ter_id old_ter = ter;
-
-    if( ter == t_pit || ter == t_pit_spiked || ter == t_pit_glass ||
-        ter == t_pit_corpsed ) {
-        here.ter_set( pos, t_pit_shallow );
-    } else {
-        here.ter_set( pos, t_dirt );
-    }
-    you->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
-
-    act->set_to_null();
-}
-
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
-        const std::unordered_set<tripoint> &tiles )
-{
-    const auto cmp = [abspos]( tripoint a, tripoint b ) {
-        const int da = rl_dist( abspos, a );
-        const int db = rl_dist( abspos, b );
-
-        return da < db;
-    };
-
-    std::vector<tripoint> sorted( tiles.begin(), tiles.end() );
-    std::sort( sorted.begin(), sorted.end(), cmp );
-
-    return sorted;
-}
-
 template<typename fn>
-static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
+static void cleanup_tiles( std::unordered_set<tripoint_abs_ms> &tiles, fn &cleanup )
 {
     auto it = tiles.begin();
     map &here = get_map();
@@ -3715,15 +3266,16 @@ static void perform_zone_activity_turn( Character *you,
 {
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
-    const tripoint abspos = here.getabs( you->pos() );
-    std::unordered_set<tripoint> unsorted_tiles = mgr.get_near( ztype, abspos );
+    const tripoint_abs_ms abspos = you->get_location();
+    std::unordered_set<tripoint_abs_ms> unsorted_tiles = mgr.get_near( ztype, abspos );
 
     cleanup_tiles( unsorted_tiles, tile_filter );
 
     // sort remaining tiles by distance
-    const std::vector<tripoint> &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+    const std::vector<tripoint_abs_ms> &tiles =
+        get_sorted_tiles_by_distance( abspos, unsorted_tiles );
 
-    for( const tripoint &tile : tiles ) {
+    for( const tripoint_abs_ms &tile : tiles ) {
         const tripoint &tile_loc = here.getlocal( tile );
 
         std::vector<tripoint> route = here.route( you->pos(), tile_loc, you->get_pathfinding_settings(),
@@ -3984,135 +3536,83 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
         spell_being_cast.set_level( level_override );
     }
 
-    const bool no_fail = act->get_value( 1 ) == 1;
-    const bool no_mana = act->get_value( 2 ) == 0;
+    // choose target for spell before continuing
+    const cata::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
+            you ) : get_map().getlocal( act->coords.front() );
+    if( target ) {
+        // npcs check for target viability
+        if( !you->is_npc() || !spell_being_cast.is_valid_target( *you, *target ) ) {
+            // no turning back now. it's all said and done.
+            bool success = act->get_value( 1 ) == 1 ||
+                           rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );
+            int exp_gained = spell_being_cast.casting_exp( *you );
+            if( !success ) {
+                you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                        _( "You lose your concentration!" ) );
+                if( !spell_being_cast.is_max_level() && level_override == -1 ) {
+                    // still get some experience for trying
+                    spell_being_cast.gain_exp( exp_gained / 5 );
+                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
+                                            spell_being_cast.xp() );
+                }
+                return;
+            }
 
-    // choose target for spell (if the spell has a range > 0)
-    tripoint target = you->pos();
-    bool target_is_valid = false;
-    if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( spell_target::none ) &&
-        !spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
-        if( you->is_avatar() ) {
-            do {
-                avatar &you_avatar = *you->as_avatar();
-                std::vector<tripoint> trajectory = target_handler::mode_spell( you_avatar, spell_being_cast,
-                                                   no_fail,
-                                                   no_mana );
-                if( !trajectory.empty() ) {
-                    target = trajectory.back();
-                    target_is_valid = spell_being_cast.is_valid_target( you_avatar, target );
-                    if( !( spell_being_cast.is_valid_target( spell_target::ground ) || you_avatar.sees( target ) ) ) {
-                        target_is_valid = false;
-                    }
-                } else {
-                    target_is_valid = false;
+            if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
+                sounds::sound( you->pos(), you->get_shout_volume() / 2, sounds::sound_t::speech,
+                               _( "cast a spell" ),
+                               false );
+            }
+
+            you->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
+
+            // this is here now so that the spell first consume its components then casts its effects, necessary to cast
+            // spells with the components in hand.
+            spell_being_cast.use_components( *you );
+
+            spell_being_cast.cast_all_effects( *you, *target );
+
+            if( act->get_value( 2 ) != 0 ) {
+                // pay the cost
+                int cost = spell_being_cast.energy_cost( *you );
+                switch( spell_being_cast.energy_source() ) {
+                    case magic_energy_type::mana:
+                        you->magic->mod_mana( *you, -cost );
+                        break;
+                    case magic_energy_type::stamina:
+                        you->mod_stamina( -cost );
+                        break;
+                    case magic_energy_type::bionic:
+                        you->mod_power_level( -units::from_kilojoule( cost ) );
+                        break;
+                    case magic_energy_type::hp:
+                        blood_magic( you, cost );
+                        break;
+                    case magic_energy_type::none:
+                    default:
+                        break;
                 }
-                if( !target_is_valid ) {
-                    if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
-                        return;
-                    }
-                }
-            } while( !target_is_valid );
-        } else {
-            if( act->coords.empty() ) {
-                debugmsg( "ERROR: npc tried to cast a spell without a target." );
-            } else {
-                const tripoint local_target = get_map().getlocal( act->coords.front() );
-                if( spell_being_cast.is_valid_target( *you, local_target ) ) {
-                    target = local_target;
-                } else {
-                    npc_attack_spell npc_spell( spell_being_cast.id() );
-                    // recalculate effectiveness because it's been a few turns since the npc started casting.
-                    const npc_attack_rating effectiveness = npc_spell.evaluate( *you->as_npc(),
-                                                            you->last_target.lock().get() );
-                    if( effectiveness < 0 ) {
-                        add_msg_debug( debugmode::debug_filter::DF_NPC, "%s cancels casting %s, target lost",
-                                       you->disp_name(), spell_being_cast.name() );
-                        return;
+
+            }
+            if( level_override == -1 ) {
+                if( !spell_being_cast.is_max_level() ) {
+                    // reap the reward
+                    int old_level = spell_being_cast.get_level();
+                    if( old_level == 0 ) {
+                        spell_being_cast.gain_level();
+                        you->add_msg_if_player( m_good,
+                                                _( "Something about how this spell works just clicked!  You gained a level!" ) );
                     } else {
-                        target = effectiveness.target();
+                        spell_being_cast.gain_exp( exp_gained );
+                        you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
+                                                spell_being_cast.xp() );
                     }
-                }
-            }
-        }
-    } else if( spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
-        const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *you, you->pos() );
-        if( !target_ ) {
-            you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                    _( "Your spell can't find a suitable target." ) );
-            return;
-        }
-        target = *target_;
-    }
-
-    // no turning back now. it's all said and done.
-    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );
-    int exp_gained = spell_being_cast.casting_exp( *you );
-    if( !success ) {
-        you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                _( "You lose your concentration!" ) );
-        if( !spell_being_cast.is_max_level() && level_override == -1 ) {
-            // still get some experience for trying
-            spell_being_cast.gain_exp( exp_gained / 5 );
-            you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
-                                    spell_being_cast.xp() );
-        }
-        return;
-    }
-
-    if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
-        sounds::sound( you->pos(), you->get_shout_volume() / 2, sounds::sound_t::speech,
-                       _( "cast a spell" ),
-                       false );
-    }
-
-    you->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
-
-    // this is here now so that the spell first consume its components then casts its effects, necessary to cast
-    // spells with the components in hand.
-    spell_being_cast.use_components( *you );
-
-    spell_being_cast.cast_all_effects( *you, target );
-
-    if( !no_mana ) {
-        // pay the cost
-        int cost = spell_being_cast.energy_cost( *you );
-        switch( spell_being_cast.energy_source() ) {
-            case magic_energy_type::mana:
-                you->magic->mod_mana( *you, -cost );
-                break;
-            case magic_energy_type::stamina:
-                you->mod_stamina( -cost );
-                break;
-            case magic_energy_type::bionic:
-                you->mod_power_level( -units::from_kilojoule( cost ) );
-                break;
-            case magic_energy_type::hp:
-                blood_magic( you, cost );
-                break;
-            case magic_energy_type::none:
-            default:
-                break;
-        }
-
-    }
-    if( level_override == -1 ) {
-        if( !spell_being_cast.is_max_level() ) {
-            // reap the reward
-            int old_level = spell_being_cast.get_level();
-            if( old_level == 0 ) {
-                spell_being_cast.gain_level();
-                you->add_msg_if_player( m_good,
-                                        _( "Something about how this spell works just clicked!  You gained a level!" ) );
-            } else {
-                spell_being_cast.gain_exp( exp_gained );
-                you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                        spell_being_cast.xp() );
-            }
-            if( spell_being_cast.get_level() != old_level ) {
-                // Level 0-1 message is printed above - notify player when leveling up further
-                if( old_level > 0 ) {
-                    you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
+                    if( spell_being_cast.get_level() != old_level ) {
+                        // Level 0-1 message is printed above - notify player when leveling up further
+                        if( old_level > 0 ) {
+                            you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
+                        }
+                    }
                 }
             }
         }
@@ -4169,20 +3669,4 @@ void activity_handlers::study_spell_finish( player_activity *act, Character *you
     if( act->values[2] == -1 ) {
         you->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
     }
-}
-
-//This is just used for robofac_intercom_mission_2
-void activity_handlers::mind_splicer_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-
-    if( act->targets.size() != 1 || !act->targets[0] ) {
-        debugmsg( "Incompatible arguments to: activity_handlers::mind_splicer_finish" );
-        return;
-    }
-    item &data_card = *act->targets[0];
-    you->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
-    you->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
-    data_card.clear_items();
-    data_card.put_in( item( itype_mind_scan_robofac ), item_pocket::pocket_type::SOFTWARE );
 }

@@ -1,6 +1,6 @@
 [
   {
-    "//": "autodoc operating theater",
+    "//": "Autodoc operating theater",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_finale_1level" ],
@@ -188,7 +188,7 @@
         { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 50 }
       ],
       "place_loot": [
-        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 },
+        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 30 },
         { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 }
       ]
     }
@@ -254,7 +254,7 @@
         { "monster": "mon_secubot", "x": [ 13, 22 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 1, 7 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 21, 22 ], "chance": 50 },
-        { "monster": "mon_mech_recon", "x": 3, "y": 21, "chance": 80 }
+        { "monster": "mon_mech_recon", "x": 2, "y": 21, "chance": 80 }
       ],
       "place_loot": [ { "item": "id_science", "x": 6, "y": 14, "chance": 100 } ],
       "place_nested": [

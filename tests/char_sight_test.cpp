@@ -159,10 +159,10 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
             dummy.worn.clear();
             REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
-            THEN( "impaired sight, with 4 tiles of range" ) {
+            THEN( "impaired sight, with 12 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 4 );
+                CHECK( dummy.unimpaired_range() == 12 );
             }
         }
 
@@ -271,11 +271,11 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             REQUIRE( g->is_in_sunlight( dummy.pos() ) );
             REQUIRE( light_here == Approx( 100.0f ).margin( 1 ) );
 
-            THEN( "impaired sight, with 4 tiles of range" ) {
+            THEN( "impaired sight, with 12 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 4 );
-                CHECK( dummy.sight_range( light_here ) == 4 );
+                CHECK( dummy.unimpaired_range() == 12 );
+                CHECK( dummy.sight_range( light_here ) == 12 );
             }
 
             // Glasses can correct Ursine Vision in bright light

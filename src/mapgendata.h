@@ -6,6 +6,9 @@
 #include "cata_variant.h"
 #include "coordinates.h"
 #include "cube_direction.h"
+#include "enum_bitset.h"
+#include "jmapgen_flags.h"
+#include "mapgen.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -69,6 +72,7 @@ class mapgendata
         ::mission *mission_;
         int zlevel_;
         mapgen_arguments mapgen_args_;
+        enum_bitset<jmapgen_flags> mapgen_flags_;
         std::vector<oter_id> predecessors_;
 
     public:
@@ -102,6 +106,8 @@ class mapgendata
         mapgendata( const tripoint_abs_omt &over, map &m, float density, const time_point &when,
                     ::mission *miss );
 
+        std::vector<mapgen_phase> skip;
+
         /**
          * Creates a copy of this mapgen data, but stores a different @ref terrain_type.
          * Useful when you want to create a base map (e.g. forest/field/river), that gets
@@ -120,6 +126,13 @@ class mapgendata
          * Creates a copy of this mapgendata, but stores new parameter values.
          */
         mapgendata( const mapgendata &other, const mapgen_arguments & );
+
+        /**
+         * Creates a copy of this mapgendata, but stores new parameter values
+         * and flags.
+         */
+        mapgendata( const mapgendata &other, const mapgen_arguments &,
+                    const enum_bitset<jmapgen_flags> & );
 
         const oter_id &terrain_type() const {
             return terrain_type_;
@@ -177,6 +190,8 @@ class mapgendata
         void square_groundcover( const point &p1, const point &p2 ) const;
         ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
+
+        bool has_flag( jmapgen_flags ) const;
 
         bool has_join( const cube_direction, const std::string &join_id ) const;
 

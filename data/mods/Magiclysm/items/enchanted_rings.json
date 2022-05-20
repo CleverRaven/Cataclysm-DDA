@@ -14,7 +14,7 @@
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "rigid_layer_only": true } ]
   },
   {
     "abstract": "mring_silver",
@@ -31,7 +31,7 @@
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "rigid_layer_only": true } ]
   },
   {
     "abstract": "mring_gold",
@@ -48,7 +48,7 @@
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "rigid_layer_only": true } ]
   },
   {
     "abstract": "mring_platinum",
@@ -65,7 +65,7 @@
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "rigid_layer_only": true } ]
   },
   {
     "copy-from": "mring_copper",
@@ -111,7 +111,7 @@
     "price_postapoc": "300 USD",
     "description": "An ornate silver ring engraved with daggers that conjures three mundane throwing knives on activation.",
     "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade3", "no_fail": true, "level": 1, "need_worn": true },
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "charges_per_use": 1,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 5 } } ]

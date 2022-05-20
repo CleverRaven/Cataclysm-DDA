@@ -179,8 +179,8 @@ class overmapbuffer
         void delete_note( const tripoint_abs_omt &p );
         void mark_note_dangerous( const tripoint_abs_omt &p, int radius, bool is_dangerous );
         bool has_extra( const tripoint_abs_omt &p );
-        const string_id<map_extra> &extra( const tripoint_abs_omt &p );
-        void add_extra( const tripoint_abs_omt &p, const string_id<map_extra> &id );
+        const map_extra_id &extra( const tripoint_abs_omt &p );
+        void add_extra( const tripoint_abs_omt &p, const map_extra_id &id );
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
@@ -191,6 +191,8 @@ class overmapbuffer
         bool has_horde( const tripoint_abs_omt &p );
         int get_horde_size( const tripoint_abs_omt &p );
         std::vector<om_vehicle> get_vehicle( const tripoint_abs_omt &p );
+        std::string get_vehicle_ter_sym( const tripoint_abs_omt &omt );
+        std::string get_vehicle_tile_id( const tripoint_abs_omt &omt );
         const regional_settings &get_settings( const tripoint_abs_omt &p );
         /**
          * Accessors for horde introspection into overmaps.
@@ -281,6 +283,7 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        shared_ptr_fast<npc> find_npc_by_unique_id( std::string unique_id );
         /**
          * Get all NPCs active on the overmap
          */
@@ -397,7 +400,7 @@ class overmapbuffer
         t_notes_vector find_notes( int z, const std::string &pattern ) {
             return get_notes( z, &pattern ); // filter with pattern
         }
-        using t_point_with_extra = std::pair<point_abs_omt, string_id<map_extra>>;
+        using t_point_with_extra = std::pair<point_abs_omt, map_extra_id>;
         using t_extras_vector = std::vector<t_point_with_extra>;
         t_extras_vector get_all_extras( int z ) {
             return get_extras( z, nullptr ); // NULL => don't filter extras

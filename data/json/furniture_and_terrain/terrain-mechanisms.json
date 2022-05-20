@@ -368,6 +368,33 @@
   },
   {
     "type": "terrain",
+    "id": "t_card_artisans",
+    "name": "card reader",
+    "description": "This is a smartcard reader.  Text written on a post note above reads 'CO-OP MEMBERS ONLY'.",
+    "//": "for the isolated artisans faction",
+    "symbol": "6",
+    "color": "pink",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "COOP_CARD" ],
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_card_reader_broken",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_card_science_maintenance_green",
     "name": "Maintenance: green zone card reader",
     "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a wrench on a green background.  You could swipe a maintenance employee badge near it to unlock the gates.",
@@ -609,7 +636,7 @@
   {
     "type": "terrain",
     "id": "t_card_science_medical_red",
-    "name": "Medical: Red zone card reader",
+    "name": "Medical: red zone card reader",
     "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a syringe on a red background.  You could swipe a researcher scientist badge near it to unlock the gates.",
     "//": "Entrance card for a lab medical areas.",
     "symbol": "6",
@@ -669,6 +696,104 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": "elevator",
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_elevator_control_robofac_up",
+    "name": "elevator controls",
+    "description": "This is the control face for an elevator.  You could press the appropriate button to take you to your choice of floor.",
+    "symbol": "6",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ROBOFAC_ELEVATOR_UP",
+          "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" },
+          "effect": [
+            { "u_location_variable": { "u_val": "robofac_elevator_up" }, "z_adjust": 1 },
+            { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+            { "u_teleport": { "u_val": "robofac_elevator_up" } }
+          ],
+          "false_effect": {
+            "u_message": "The control panels' screen flashes before displaying \"UNAUTHORIZED\" in bold red letters.",
+            "popup": true
+          }
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_elevator_control_robofac_down",
+    "name": "elevator controls",
+    "description": "This is the control face for an elevator.  You could press the appropriate button to take you to your choice of floor.",
+    "symbol": "6",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ROBOFAC_ELEVATOR_DOWN",
+          "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" },
+          "effect": [
+            { "u_location_variable": { "u_val": "robofac_elevator_down" }, "z_adjust": -1 },
+            { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+            { "u_teleport": { "u_val": "robofac_elevator_down" } }
+          ],
+          "false_effect": {
+            "u_message": "The control panels' screen flashes before displaying \"UNAUTHORIZED\" in bold red letters.",
+            "popup": true
+          }
+        }
+      ]
+    },
     "bash": {
       "str_min": 40,
       "str_max": 150,

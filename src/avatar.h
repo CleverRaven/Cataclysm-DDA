@@ -14,7 +14,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
-#include "diary.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "json.h"
@@ -26,6 +25,7 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
+class diary;
 class faction;
 class item;
 class item_location;
@@ -143,6 +143,8 @@ class avatar : public Character
 
         /** Provides the window and detailed morale data */
         void disp_morale();
+        /** Opens the medical window */
+        void disp_medical();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
@@ -198,12 +200,17 @@ class avatar : public Character
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
+        void set_location( const tripoint_abs_ms &loc );
         /** Handles reading effects and returns true if activity started */
         bool read( item_location &book, item_location ereader = {} );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
         void clear_identified();
+
+        void add_snippet( snippet_id snippet );
+        bool has_seen_snippet( const snippet_id &snippet ) const;
+        const std::set<snippet_id> &get_snippets();
 
         // the encumbrance on your limbs reducing your dodging ability
         int limb_dodge_encumbrance() const;
@@ -245,6 +252,12 @@ class avatar : public Character
         // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
         std::string preferred_aiming_mode;
 
+        // checks if the point is blocked based on characters current aiming state
+        bool cant_see( const tripoint &p );
+
+        // rebuilds the full aim cache for the character if it is dirty
+        void rebuild_aim_cache();
+
         void set_movement_mode( const move_mode_id &mode ) override;
 
         // Cycles to the next move mode.
@@ -276,6 +289,10 @@ class avatar : public Character
         bool invoke_item( item *, const std::string & ) override;
 
         monster_visible_info &get_mon_visible() {
+            return mon_visible;
+        }
+
+        const monster_visible_info &get_mon_visible() const {
             return mon_visible;
         }
 
@@ -337,20 +354,18 @@ class avatar : public Character
 
         int movecounter = 0;
 
-        // ammount of turns since last check for pocket noise
+        // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );
 
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
-        const mood_face_id &character_mood_face();
-        void clear_mood_face();
+        bool aim_cache_dirty = true;
+
+        const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
-
-        bool mood_face_horizontal = false;
-        cata::optional<mood_face_id> mood_face_cache;
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;
@@ -389,6 +404,9 @@ class avatar : public Character
         // Items the player has identified.
         std::unordered_set<itype_id> items_identified;
 
+        // Snippets the player has seen
+        std::set<snippet_id> snippets_read;
+
         object_type grab_type;
 
         monster_visible_info mon_visible;
@@ -398,6 +416,9 @@ class avatar : public Character
          * The Character data in this object is not relevant/used.
          */
         std::unique_ptr<npc> shadow_npc;
+
+        // true when the space is still visible when aiming
+        bool aim_cache[MAPSIZE_X][MAPSIZE_Y];
 };
 
 avatar &get_avatar();

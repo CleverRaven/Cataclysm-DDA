@@ -162,8 +162,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CHITIN: return "CHITIN";
         case MF_VERMIN: return "VERMIN";
         case MF_NOGIB: return "NOGIB";
-        case MF_ABSORBS: return "ABSORBS";
-        case MF_ABSORBS_SPLITS: return "ABSORBS_SPLITS";
         case MF_LARVA: return "LARVA";
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
@@ -212,6 +210,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
         case MF_ATTACK_UPPER: return "ATTACK_UPPER";
         case MF_ATTACK_LOWER: return "ATTACK_LOWER";
+        case MF_DEADLY_VIRUS: return "DEADLY_VIRUS";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -337,6 +336,8 @@ void monster_adjustment::apply( mtype &mon )
             mon.speed *= stat_adjust;
         } else if( stat == "hp" ) {
             mon.hp *= stat_adjust;
+        } else if( stat == "bleed_rate" ) {
+            mon.bleed_rate *= stat_adjust;
         }
     }
     if( !flag.empty() ) {
@@ -379,9 +380,6 @@ void load_monster_adjustment( const JsonObject &jsobj )
 static void build_behavior_tree( mtype &type )
 {
     type.set_strategy();
-    if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
-        type.add_goal( "absorb_items" );
-    }
     for( const std::pair<const std::string, mtype_special_attack> &attack : type.special_attacks ) {
         if( string_id<behavior::node_t>( attack.first ).is_valid() ) {
             type.add_goal( attack.first );
@@ -435,6 +433,21 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_fire < 0 ) {
             mon.armor_fire = 0;
         }
+        if( mon.armor_elec < 0 ) {
+            mon.armor_elec = 0;
+        }
+        if( mon.armor_cold < 0 ) {
+            mon.armor_cold = 0;
+        }
+        if( mon.armor_pure < 0 ) {
+            mon.armor_pure = 0;
+        }
+        if( mon.armor_biological < 0 ) {
+            mon.armor_biological = 0;
+        }
+        if( mon.status_chance_multiplier < 0 ) {
+            mon.status_chance_multiplier = 0;
+        }
 
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
@@ -447,6 +460,14 @@ void MonsterGenerator::finalize_mtypes()
 
         build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
+
+        mon.weakpoints.clear();
+        for( const weakpoints_id &wpset : mon.weakpoints_deferred ) {
+            mon.weakpoints.add_from_set( wpset, true );
+        }
+        if( !mon.weakpoints_deferred_inline.weakpoint_list.empty() ) {
+            mon.weakpoints.add_from_set( mon.weakpoints_deferred_inline, true );
+        }
     }
 
     for( const auto &mon : mon_templates->get_all() ) {
@@ -498,6 +519,8 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
+    add_hardcoded_attack( "ABSORB_ITEMS", mattack::absorb_items );
+    add_hardcoded_attack( "SPLIT", mattack::split );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
@@ -725,9 +748,14 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
+    assign( jo, "armor_elec", armor_elec, strict, 0 );
+    assign( jo, "armor_cold", armor_cold, strict, 0 );
+    assign( jo, "armor_pure", armor_pure, strict, 0 );
+    assign( jo, "armor_biological", armor_biological, strict, 0 );
 
     if( !was_loaded || jo.has_array( "weakpoint_sets" ) || jo.has_array( "weakpoints" ) ) {
-        weakpoints.clear();
+        weakpoints_deferred.clear();
+        weakpoints_deferred_inline.clear();
     }
 
     // Load each set of weakpoints.
@@ -735,8 +763,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     // matching weakpoints from the previous set.
     if( jo.has_array( "weakpoint_sets" ) ) {
         for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
-            weakpoints_id set_id( jval.get_string() );
-            weakpoints.add_from_set( set_id, true );
+            weakpoints_deferred.emplace_back( weakpoints_id( jval.get_string() ) );
         }
     } else {
         if( jo.has_object( "extend" ) ) {
@@ -744,8 +771,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             tmp.allow_omitted_members();
             if( tmp.has_array( "weakpoint_sets" ) ) {
                 for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
-                    weakpoints_id set_id( jval.get_string() );
-                    weakpoints.add_from_set( set_id, true );
+                    weakpoints_deferred.emplace_back( jval.get_string() );
                 }
             }
         }
@@ -755,7 +781,10 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             if( tmp.has_array( "weakpoint_sets" ) ) {
                 for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
                     weakpoints_id set_id( jval.get_string() );
-                    weakpoints.del_from_set( set_id );
+                    auto iter = std::find( weakpoints_deferred.begin(), weakpoints_deferred.end(), set_id );
+                    if( iter != weakpoints_deferred.end() ) {
+                        weakpoints_deferred.erase( iter );
+                    }
                 }
             }
         }
@@ -766,7 +795,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "weakpoints" ) ) {
         ::weakpoints tmp_wp;
         tmp_wp.load( jo.get_array( "weakpoints" ) );
-        weakpoints.add_from_set( tmp_wp, true );
+        weakpoints_deferred_inline.add_from_set( tmp_wp, true );
     } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
@@ -774,7 +803,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             if( tmp.has_array( "weakpoints" ) ) {
                 ::weakpoints tmp_wp;
                 tmp_wp.load( jo.get_array( "weakpoints" ) );
-                weakpoints.add_from_set( tmp_wp, true );
+                weakpoints_deferred_inline.add_from_set( tmp_wp, true );
             }
         }
         if( jo.has_object( "delete" ) ) {
@@ -783,10 +812,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             if( tmp.has_array( "weakpoints" ) ) {
                 ::weakpoints tmp_wp;
                 tmp_wp.load( jo.get_array( "weakpoints" ) );
-                weakpoints.del_from_set( tmp_wp );
+                weakpoints_deferred_inline.del_from_set( tmp_wp );
             }
         }
     }
+
+    assign( jo, "status_chance_multiplier", status_chance_multiplier, strict, 0.0f, 5.0f );
 
     if( !was_loaded || jo.has_array( "families" ) ) {
         families.clear();
@@ -805,6 +836,23 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             if( tmp.has_array( "families" ) ) {
                 families.remove( tmp.get_array( "families" ) );
             }
+        }
+    }
+
+    optional( jo, was_loaded, "absorb_ml_per_hp", absorb_ml_per_hp, 250 );
+    optional( jo, was_loaded, "split_move_cost", split_move_cost, 200 );
+    optional( jo, was_loaded, "absorb_move_cost_per_ml", absorb_move_cost_per_ml, 0.025f );
+    optional( jo, was_loaded, "absorb_move_cost_min", absorb_move_cost_min, 1 );
+    optional( jo, was_loaded, "absorb_move_cost_max", absorb_move_cost_max, -1 );
+
+    if( jo.has_member( "absorb_material" ) ) {
+        absorb_material.clear();
+        if( jo.has_array( "absorb_material" ) ) {
+            for( std::string mat : jo.get_string_array( "absorb_material" ) ) {
+                absorb_material.emplace_back( material_id( mat ) );
+            }
+        } else {
+            absorb_material.emplace_back( material_id( jo.get_string( "absorb_material" ) ) );
         }
     }
 
@@ -882,6 +930,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "harvest", harvest );
+
+    optional( jo, was_loaded, "dissect", dissect );
 
     if( jo.has_array( "shearing" ) ) {
         std::vector<shearing_entry> entries;
@@ -1258,7 +1308,7 @@ void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
     if( regeneration_modifiers.count( effect ) > 0 ) {
         regeneration_modifiers.erase( effect );
         if( test_mode ) {
-            debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
+            debugmsg( "%s specifies more than one regeneration modifier for effect %s, ignoring all but the last",
                       id.c_str(), effect_name );
         }
     }
@@ -1352,6 +1402,10 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
+        if( !mon.dissect.is_empty() && !mon.dissect.is_valid() ) {
+            debugmsg( "monster %s has invalid dissection harvest_entry: %s", mon.id.c_str(),
+                      mon.dissect.c_str() );
         }
         if( mon.has_flag( MF_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
             debugmsg( "monster %s has WATER_CAMOUFLAGE but cannot submerge", mon.id.c_str() );

@@ -641,7 +641,7 @@
     "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "FINE_GRIND", 1 ], [ "HAMMER", 1 ] ]
   },
   {
     "id": "multi_cooker",
@@ -708,6 +708,49 @@
     "use_action": [ "HOTPLATE" ]
   },
   {
+    "id": "oil_press_manual",
+    "type": "TOOL",
+    "name": { "str": "manual oil press", "str_pl": "manual oil presses" },
+    "description": "This is a hand cranked press for creating vegetable oil.  A hotplate heats the raw material to increase extraction efficiency.",
+    "weight": "2300 g",
+    "volume": "1560 ml",
+    "longest_side": "20 cm",
+    "price": 12000,
+    "price_postapoc": 1000,
+    "to_hit": -2,
+    "bashing": 7,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "oil_press_primitive",
+    "type": "TOOL",
+    "name": { "str": "oil powered manual oil press", "str_pl": "oil powered manual oil presses" },
+    "description": "A barrel with a large screw press for creating vegetable oil.  A lamp oil cooker heats the raw material to increase extraction efficiency.",
+    "weight": "12000 g",
+    "volume": "20 L",
+    "looks_like": "oil_press_manual",
+    "price": 12000,
+    "price_postapoc": 1000,
+    "to_hit": -2,
+    "bashing": 7,
+    "material": [ "wood" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "lamp_oil" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ]
+  },
+  {
     "id": "pastaextruder",
     "type": "GENERIC",
     "category": "tools",
@@ -747,7 +790,7 @@
       "type": "delayed_transform",
       "transform_age": 201600,
       "not_ready_msg": "The pickles are not done fermenting yet.",
-      "//": "2 1/3 days, from the suggested recipie of 1 rl week"
+      "//": "2 1/3 days, from the suggested recipe of 1 rl week"
     }
   },
   {
@@ -830,7 +873,7 @@
       "type": "delayed_transform",
       "transform_age": 201600,
       "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
-      "//": "2 1/3 days, from the suggested recipie of 1 rl week"
+      "//": "2 1/3 days, from the suggested recipe of 1 rl week"
     }
   },
   {
@@ -988,5 +1031,25 @@
         "default_magazine": "light_battery_cell"
       }
     ]
+  },
+  {
+    "id": "propane_cooker",
+    "type": "TOOL",
+    "name": { "str": "propane cooker" },
+    "description": "This is a simple heater powered by propane.  It is designed for cooking food.",
+    "weight": "800 g",
+    "volume": "1250 ml",
+    "price": 5000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "propane" ],
+    "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
+    "charges_per_use": 1,
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   }
 ]

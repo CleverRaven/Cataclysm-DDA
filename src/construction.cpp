@@ -56,6 +56,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -66,18 +67,31 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
+static const construction_category_id  construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
+static const flag_id json_flag_FILTHY( "FILTHY" );
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
+static const item_group_id Item_spawn_data_allclothes( "allclothes" );
+static const item_group_id Item_spawn_data_grave( "grave" );
+static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
+
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
+
+static const mtype_id mon_skeleton( "mon_skeleton" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 
 static const quality_id qual_CUT( "CUT" );
 
@@ -85,7 +99,11 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_EATDEAD( "EATDEAD" );
+static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
@@ -98,6 +116,11 @@ static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
+static const std::string flag_WIRING( "WIRING" );
+
+static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 static bool finalized = false;
 
@@ -109,6 +132,8 @@ static bool check_nothing( const tripoint & )
 {
     return true;
 }
+bool check_channel( const tripoint & ); // tile has adjacent flowing water
+bool check_empty_lite( const tripoint & );
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
@@ -121,25 +146,31 @@ bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
 bool check_ramp_low( const tripoint & );
 bool check_ramp_high( const tripoint & );
+bool check_no_wiring( const tripoint & );
 
 // Special actions to be run post-terrain-mod
-static void done_nothing( const tripoint & ) {}
-void done_trunk_plank( const tripoint & );
-void done_grave( const tripoint & );
-void done_vehicle( const tripoint & );
-void done_appliance( const tripoint & );
-void done_deconstruct( const tripoint & );
-void done_digormine_stair( const tripoint &, bool );
-void done_dig_stair( const tripoint & );
-void done_mine_downstair( const tripoint & );
-void done_mine_upstair( const tripoint & );
-void done_wood_stairs( const tripoint & );
-void done_window_curtains( const tripoint & );
-void done_extract_maybe_revert_to_dirt( const tripoint & );
-void done_mark_firewood( const tripoint & );
-void done_mark_practice_target( const tripoint & );
-void done_ramp_low( const tripoint & );
-void done_ramp_high( const tripoint & );
+static void done_nothing( const tripoint &, Character & ) {}
+void done_trunk_plank( const tripoint &, Character & );
+void done_grave( const tripoint &, Character & );
+void done_vehicle( const tripoint &, Character & );
+void done_appliance( const tripoint &, Character & );
+void done_wiring( const tripoint &, Character & );
+void done_deconstruct( const tripoint &, Character & );
+void done_digormine_stair( const tripoint &, bool, Character & );
+void done_dig_grave( const tripoint &p, Character & );
+void done_dig_stair( const tripoint &, Character & );
+void done_mine_downstair( const tripoint &, Character & );
+void done_mine_upstair( const tripoint &, Character & );
+void done_wood_stairs( const tripoint &, Character & );
+void done_window_curtains( const tripoint &, Character & );
+void done_extract_maybe_revert_to_dirt( const tripoint &, Character & );
+void done_mark_firewood( const tripoint &, Character & );
+void done_mark_practice_target( const tripoint &, Character & );
+void done_ramp_low( const tripoint &, Character & );
+void done_ramp_high( const tripoint &, Character & );
+
+void do_turn_shovel( const tripoint &, Character & );
+void do_turn_exhume( const tripoint &, Character & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -154,7 +185,6 @@ static bool can_construct( const construction &con );
 static bool player_can_build( Character &you, const read_only_visitable &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( Character &you, const construction_group_str_id &group );
-static void place_construction( const construction_group_str_id &group );
 
 // Color standardization for string streams
 static const deferred_color color_title = def_c_light_red; //color for titles
@@ -198,15 +228,24 @@ void standardize_construction_times( const int time )
     }
 }
 
-static std::vector<construction *> constructions_by_group( const construction_group_str_id &group )
+std::vector<construction *> constructions_by_group( const construction_group_str_id &group )
+{
+    return constructions_by_filter(
+    [&group]( construction const & it ) {
+        return it.group == group;
+    } );
+}
+
+std::vector<construction *>
+constructions_by_filter( std::function<bool( construction const & )> const &filter )
 {
     if( !finalized ) {
-        debugmsg( "constructions_by_group called before finalization" );
+        debugmsg( "constructions_by_filter called before finalization" );
         return {};
     }
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
-        if( constructions_a.group == group ) {
+        if( filter( constructions_a ) ) {
             result.push_back( &constructions_a );
         }
     }
@@ -899,6 +938,15 @@ bool can_construct( const construction_group_str_id &group )
     return false;
 }
 
+bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id const &t )
+{
+    return std::all_of( con.pre_flags.begin(), con.pre_flags.end(), [&f, &t]( auto const & flag ) {
+        const bool use_ter = flag.second || f == f_null;
+        return ( use_ter || f->has_flag( flag.first ) ) &&
+               ( !use_ter || t->has_flag( flag.first ) );
+    } );
+}
+
 bool can_construct( const construction &con, const tripoint &p )
 {
     // see if the special pre-function checks out
@@ -906,10 +954,9 @@ bool can_construct( const construction &con, const tripoint &p )
     // see if the terrain type checks out
     place_okay &= has_pre_terrain( con, p );
     // see if the flags check out
-    place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
-    [&p]( const std::string & flag ) {
-        return get_map().has_flag( flag, p );
-    } );
+    furn_id f = get_map().furn( p );
+    ter_id t = get_map().ter( p );
+    place_okay &= can_construct_furn_ter( con, f, t );
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
         map &here = get_map();
@@ -991,10 +1038,24 @@ void place_construction( const construction_group_str_id &group )
     if( here.tr_at( pnt ).is_null() ) {
         here.trap_set( pnt, tr_unfinished_construction );
     }
+    const bool is_appliance = con.category == construction_category_APPLIANCE;
     // Use up the components
     for( const auto &it : con.requirements->get_components() ) {
-        std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
-        used.splice( used.end(), tmp );
+        if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
+            // appliances require a base item in the construction
+            used.emplace_back( item( it.front().type ) );
+        } else {
+            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
+            used.splice( used.end(), tmp );
+        }
+    }
+    // If player has debug hammerspace while building an appliance, they won't get
+    // the appliance they want unless lastconsumed points to the appliance's base itype
+    if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
+        const std::vector<std::vector<item_comp> > &comp_list = con.requirements->get_components();
+        if( !comp_list.empty() && !comp_list.front().empty() ) {
+            player_character.lastconsumed = comp_list.front().front().type;
+        }
     }
     pc.components = used;
     here.partial_con_set( pnt, pc );
@@ -1028,6 +1089,7 @@ void complete_construction( Character *you )
         return;
     }
     const construction &built = pc->id.obj();
+    you->activity.str_values.emplace_back( built.str_id );
     const auto award_xp = [&]( Character & practicer ) {
         for( const auto &pr : built.required_skills ) {
             practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
@@ -1054,7 +1116,13 @@ void complete_construction( Character *you )
     if( here.tr_at( terp ) == tr_unfinished_construction ) {
         here.remove_trap( terp );
     }
-    here.partial_con_remove( terp );
+
+    //We need to keep the partial_con when building appliance to get the component items
+    //It will be removed in done_appliance()
+    if( pc->id->category != construction_category_APPLIANCE ) {
+        here.partial_con_remove( terp );
+    }
+
     // Some constructions are allowed to have items left on the tile.
     if( built.post_flags.count( "keep_items" ) == 0 ) {
         // Move any items that have found their way onto the construction site.
@@ -1107,13 +1175,30 @@ void complete_construction( Character *you )
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built.post_special( terp );
+    built.post_special( terp, *you );
     // npcs will automatically resume backlog, players wont.
     if( you->is_avatar() && !you->backlog.empty() &&
         you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
         you->backlog.clear();
         you->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
+}
+
+bool construct::check_channel( const tripoint &p )
+{
+
+    map &here = get_map();
+    return check_empty( p ) && ( here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_north ) ||
+                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_south ) ||
+                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_east ) ||
+                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_west ) );
+}
+
+bool construct::check_empty_lite( const tripoint &p )
+{
+    map &here = get_map();
+    return ( !here.has_furn( p ) && g->is_empty( p ) && here.tr_at( p ).is_null() &&
+             here.i_at( p ).empty() && !here.veh_at( p ) );
 }
 
 bool construct::check_empty( const tripoint &p )
@@ -1185,13 +1270,13 @@ bool construct::check_empty_up_OK( const tripoint &p )
 bool construct::check_up_OK( const tripoint & )
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return ( get_map().get_abs_sub().z < OVERMAP_HEIGHT );
+    return ( get_map().get_abs_sub().z() < OVERMAP_HEIGHT );
 }
 
 bool construct::check_down_OK( const tripoint & )
 {
     // You're not going below -OVERMAP_DEPTH.
-    return ( get_map().get_abs_sub().z > -OVERMAP_DEPTH );
+    return ( get_map().get_abs_sub().z() > -OVERMAP_DEPTH );
 }
 
 bool construct::check_no_trap( const tripoint &p )
@@ -1217,7 +1302,18 @@ bool construct::check_ramp_low( const tripoint &p )
     return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
 }
 
-void construct::done_trunk_plank( const tripoint &/*p*/ )
+bool construct::check_no_wiring( const tripoint &p )
+{
+    const optional_vpart_position vp = get_map().veh_at( p );
+    if( !vp ) {
+        return true;
+    }
+
+    const vehicle &veh_target = vp->vehicle();
+    return !veh_target.has_tag( flag_WIRING );
+}
+
+void construct::done_trunk_plank( const tripoint &/*p*/, Character &/*who*/ )
 {
     int num_logs = rng( 2, 3 );
     Character &player_character = get_player_character();
@@ -1226,9 +1322,8 @@ void construct::done_trunk_plank( const tripoint &/*p*/ )
     }
 }
 
-void construct::done_grave( const tripoint &p )
+void construct::done_grave( const tripoint &p, Character &player_character )
 {
-    Character &player_character = get_player_character();
     map &here = get_map();
     map_stack its = here.i_at( p );
     for( const item &it : its ) {
@@ -1291,7 +1386,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     return vpart_frame_vertical_2;
 }
 
-void construct::done_vehicle( const tripoint &p )
+void construct::done_vehicle( const tripoint &p, Character &who )
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
@@ -1309,34 +1404,102 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( get_avatar().has_trait( trait_DEBUG_HS ) ?
-                       STATIC( itype_id( "frame" ) ) : get_avatar().lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( who.has_trait( trait_DEBUG_HS ) ?
+                       STATIC( itype_id( "frame" ) ) : who.lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
 }
 
-void construct::done_appliance( const tripoint &p )
+void construct::done_wiring( const tripoint &p, Character &/*who*/ )
 {
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
 
+    here.partial_con_remove( p );
+
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
         return;
     }
-    const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
-    veh->install_part( point_zero, vpart );
-    veh->add_tag( "APPLIANCE" );
 
-    veh->name = vpart->name();
+    veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
+    veh->name = _( "wall wiring" );
+    veh->add_tag( flag_CANT_DRAG );
+    veh->add_tag( flag_APPLIANCE );
+    veh->add_tag( flag_WIRING );
+
+    // Merge any neighbouring wire vehicles into this one if the resulting vehicle would not be too large.
+    for( const point &offset : four_adjacent_offsets ) {
+        const optional_vpart_position vp = here.veh_at( p + offset );
+        if( !vp ) {
+            continue;
+        }
+
+        bounding_box vehicle_box = veh->get_bounding_box( false );
+        point size;
+        size.x = abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+        size.y = abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+
+        vehicle &veh_target = vp->vehicle();
+        if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
+            bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
+
+            point target_size;
+            target_size.x = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+            target_size.y = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+
+            if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
+                size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+                if( !veh->merge_vehicle_parts( &veh_target ) ) {
+                    debugmsg( "failed to merge vehicle parts" );
+                }
+            }
+        }
+    }
+
     // Update the vehicle cache immediately,
-    // or the appliance will be invisible for the first couple of turns.
+    // or the wiring will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
+
+    // Connect to any neighbouring appliances or wires
+    std::unordered_set<const vehicle *> connected_vehicles;
+    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+        const optional_vpart_position vp = here.veh_at( trip );
+        if( !vp ) {
+            continue;
+        }
+        const vehicle &veh_target = vp->vehicle();
+        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
+                veh->connect( p, trip );
+                connected_vehicles.insert( &veh_target );
+            }
+        }
+    }
 }
 
-void construct::done_deconstruct( const tripoint &p )
+void construct::done_appliance( const tripoint &p, Character &who )
+{
+    map &here = get_map();
+    partial_con *pc = here.partial_con_at( p );
+    cata::optional<item> base = cata::nullopt;
+    const vpart_id &vpart = vpart_appliance_from_item( who.lastconsumed );
+    if( pc ) {
+        for( item &obj : pc->components ) {
+            if( obj.typeId() == vpart->base_item ) {
+                base = obj;
+            }
+        }
+    } else {
+        debugmsg( "partial construction not found" );
+    }
+    here.partial_con_remove( p );
+    place_appliance( p, vpart, base );
+}
+
+void construct::done_deconstruct( const tripoint &p, Character &player_character )
 {
     map &here = get_map();
     // TODO: Make this the argument
@@ -1346,7 +1509,6 @@ void construct::done_deconstruct( const tripoint &p )
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
-        Character &player_character = get_player_character();
         if( f.id.id() == furn_f_console_broken )  {
             if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
                 player_character.practice( skill_electronics, 20, 4 );
@@ -1387,7 +1549,7 @@ void construct::done_deconstruct( const tripoint &p )
                 add_msg( _( "That %s can not be disassembled, since there is furniture above it." ), t.name() );
                 return;
             }
-            done_deconstruct( top );
+            done_deconstruct( top, player_character );
         }
         avatar &player_character = get_avatar();
         if( t.id.id() == t_console_broken )  {
@@ -1417,24 +1579,22 @@ static void unroll_digging( const int numer_of_2x4s )
     here.spawn_item( avatar_pos, itype_2x4, numer_of_2x4s );
 }
 
-void construct::done_digormine_stair( const tripoint &p, bool dig )
+void construct::done_digormine_stair( const tripoint &p, bool dig, Character &player_character )
 {
     map &here = get_map();
     // TODO: fix point types
-    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_ms abs_pos = here.getglobal( p );
     const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm + tripoint_below, false );
-    // TODO: fix point types
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
-    Character &player_character = get_player_character();
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
                     player_character.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
-    player_character.mod_stored_nutr( 5 + mine_penalty + no_mut_penalty );
+    player_character.mod_stored_kcal( -43 - 9 * mine_penalty - 9 * no_mut_penalty );
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
@@ -1466,26 +1626,54 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.save();
 }
 
-void construct::done_dig_stair( const tripoint &p )
+void construct::done_dig_grave( const tripoint &p, Character &who )
 {
-    done_digormine_stair( p, true );
+    map &here = get_map();
+    if( one_in( 10 ) ) {
+        static const std::array<mtype_id, 5> monids = {
+            { mon_zombie, mon_zombie_fat, mon_zombie_rot, mon_skeleton, mon_zombie_crawler }
+        };
+
+        g->place_critter_at( random_entry( monids ), p );
+        here.furn_set( p, f_coffin_o );
+        who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
+    } else {
+        here.spawn_item( p, itype_bone_human, rng( 5, 15 ) );
+        here.furn_set( p, f_coffin_c );
+    }
+    std::vector<item *> dropped =
+        here.place_items( Item_spawn_data_allclothes, 50, p, p, false, calendar::turn );
+    here.place_items( Item_spawn_data_grave, 25, p, p, false, calendar::turn );
+    here.place_items( Item_spawn_data_jewelry_front, 20, p, p, false, calendar::turn );
+    for( item * const &it : dropped ) {
+        if( it->is_armor() ) {
+            it->set_flag( json_flag_FILTHY );
+            it->set_damage( rng( 1, it->max_damage() - 1 ) );
+            it->rand_degradation();
+        }
+    }
+    get_event_bus().send<event_type::exhumes_grave>( who.getID() );
 }
 
-void construct::done_mine_downstair( const tripoint &p )
+void construct::done_dig_stair( const tripoint &p, Character &who )
 {
-    done_digormine_stair( p, false );
+    done_digormine_stair( p, true, who );
 }
 
-void construct::done_mine_upstair( const tripoint &p )
+void construct::done_mine_downstair( const tripoint &p, Character &who )
+{
+    done_digormine_stair( p, false, who );
+}
+
+void construct::done_mine_upstair( const tripoint &p, Character &player_character )
 {
     map &here = get_map();
     // TODO: fix point types
-    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_ms abs_pos = here.getglobal( p );
     const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm + tripoint_above, false );
-    // TODO: fix point types
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
         here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
@@ -1502,12 +1690,11 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    Character &player_character = get_player_character();
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
                     player_character.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
-    player_character.mod_stored_nutr( 20 + no_mut_penalty );
+    player_character.mod_stored_kcal( -174 - 9 * no_mut_penalty );
     player_character.mod_thirst( 20 + no_mut_penalty );
     player_character.mod_fatigue( 25 + no_mut_penalty );
 
@@ -1518,16 +1705,16 @@ void construct::done_mine_upstair( const tripoint &p )
     tmpmap.save();
 }
 
-void construct::done_wood_stairs( const tripoint &p )
+void construct::done_wood_stairs( const tripoint &p, Character &/*who*/ )
 {
     const tripoint top = p + tripoint_above;
     get_map().ter_set( top, ter_id( "t_wood_stairs_down" ) );
 }
 
-void construct::done_window_curtains( const tripoint & )
+void construct::done_window_curtains( const tripoint &, Character &who )
 {
     map &here = get_map();
-    tripoint avatar_pos = get_player_character().pos();
+    tripoint avatar_pos = who.pos();
     // copied from iexamine::curtains
     here.spawn_item( avatar_pos, itype_nail, 1, 4 );
     here.spawn_item( avatar_pos, itype_sheet, 2 );
@@ -1536,7 +1723,7 @@ void construct::done_window_curtains( const tripoint & )
     add_msg( _( "After boarding up the window the curtains and curtain rod are left." ) );
 }
 
-void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
+void construct::done_extract_maybe_revert_to_dirt( const tripoint &p, Character &/*who*/ )
 {
     map &here = get_map();
     if( one_in( 10 ) ) {
@@ -1553,26 +1740,70 @@ void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
     }
 }
 
-void construct::done_mark_firewood( const tripoint &p )
+void construct::done_mark_firewood( const tripoint &p, Character &/*who*/ )
 {
     get_map().trap_set( p, tr_firewood_source );
 }
 
-void construct::done_mark_practice_target( const tripoint &p )
+void construct::done_mark_practice_target( const tripoint &p, Character &/*who*/ )
 {
     get_map().trap_set( p, tr_practice_target );
 }
 
-void construct::done_ramp_low( const tripoint &p )
+void construct::done_ramp_low( const tripoint &p, Character &/*who*/ )
 {
     const tripoint top = p + tripoint_above;
     get_map().ter_set( top, ter_id( "t_ramp_down_low" ) );
 }
 
-void construct::done_ramp_high( const tripoint &p )
+void construct::done_ramp_high( const tripoint &p, Character &/*who*/ )
 {
     const tripoint top = p + tripoint_above;
     get_map().ter_set( top, ter_id( "t_ramp_down_high" ) );
+}
+
+void construct::do_turn_shovel( const tripoint &p, Character &who )
+{
+    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( p ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( p, 10, sounds::sound_t::activity, _( "hsh!" ) );
+    }
+    if( !who.knows_trap( p ) ) {
+        get_map().maybe_trigger_trap( p, who, true );
+    }
+}
+
+void construct::do_turn_exhume( const tripoint &p, Character &who )
+{
+    do_turn_shovel( p, who );
+    if( !who.has_morale( MORALE_GRAVEDIGGER ) ) {
+        if( who.has_trait( trait_SPIRITUAL ) && !who.has_trait( trait_PSYCHOPATH ) )  {
+            if( who.query_yn(
+                    _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+                add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
+                who.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                if( one_in( 3 ) ) {
+                    who.vomit();
+                }
+            } else {
+                who.activity.set_to_null();
+            }
+        } else if( who.has_trait( trait_PSYCHOPATH ) ) {
+            who.add_msg_if_player(
+                m_good, _( "Exhuming a grave is fun now, when there is no one to object." ) );
+            who.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( who.has_trait( trait_NUMB ) ) {
+            who.add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
+            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+        } else if( !who.has_trait( trait_EATDEAD ) && !who.has_trait( trait_SAPROVORE ) ) {
+            who.add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
+            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            if( one_in( 5 ) ) {
+                who.vomit();
+            }
+        }
+    }
 }
 
 void construct::failure_standard( const tripoint & )
@@ -1661,7 +1892,27 @@ void load_construction( const JsonObject &jo )
         con.post_is_furniture = true;
     }
 
-    con.pre_flags = jo.get_tags( "pre_flags" );
+    con.activity_level =
+        activity_levels_map.find( jo.get_string( "activity_level", "NO_EXERCISE" ) )->second;
+
+    if( jo.has_member( "pre_flags" ) ) {
+        con.pre_flags.clear();
+        if( jo.has_string( "pre_flags" ) ) {
+            con.pre_flags.emplace( jo.get_string( "pre_flags" ), false );
+        } else if( jo.has_object( "pre_flags" ) ) {
+            JsonObject jflag = jo.get_object( "pre_flags" );
+            con.pre_flags.emplace( jflag.get_string( "flag" ), jflag.get_bool( "force_terrain" ) );
+        } else if( jo.has_array( "pre_flags" ) ) {
+            for( JsonValue jval : jo.get_array( "pre_flags" ) ) {
+                if( jval.test_string() ) {
+                    con.pre_flags.emplace( jval.get_string(), false );
+                } else if( jval.test_object() ) {
+                    JsonObject jflag = jval.get_object();
+                    con.pre_flags.emplace( jflag.get_string( "flag" ), jflag.get_bool( "force_terrain" ) );
+                }
+            }
+        }
+    }
 
     con.post_flags = jo.get_tags( "post_flags" );
 
@@ -1672,7 +1923,9 @@ void load_construction( const JsonObject &jo )
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
             { "", construct::check_nothing },
+            { "check_channel", construct::check_channel },
             { "check_empty", construct::check_empty },
+            { "check_empty_lite", construct::check_empty_lite },
             { "check_support", construct::check_support },
             { "check_stable", construct::check_stable },
             { "check_empty_stable", construct::check_empty_stable },
@@ -1683,16 +1936,20 @@ void load_construction( const JsonObject &jo )
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
             { "check_ramp_low", construct::check_ramp_low },
-            { "check_ramp_high", construct::check_ramp_high }
+            { "check_ramp_high", construct::check_ramp_high },
+            { "check_no_wiring", construct::check_no_wiring }
         }
     };
-    static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
+    static const std::map<std::string, std::function<void( const tripoint &, Character & )>>
+    post_special_map = {{
             { "", construct::done_nothing },
             { "done_trunk_plank", construct::done_trunk_plank },
             { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
             { "done_appliance", construct::done_appliance },
+            { "done_wiring", construct::done_wiring },
             { "done_deconstruct", construct::done_deconstruct },
+            { "done_dig_grave", construct::done_dig_grave },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
@@ -1705,6 +1962,13 @@ void load_construction( const JsonObject &jo )
             { "done_ramp_high", construct::done_ramp_high }
         }
     };
+    static const std::map<std::string, std::function<void( const tripoint &, Character & )>>
+    do_turn_special_map = {{
+            { "", construct::done_nothing },
+            { "do_turn_shovel", construct::do_turn_shovel },
+            { "do_turn_exhume", construct::do_turn_exhume },
+        }
+    };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;
     if( jo.has_string( "pre_special" ) &&
         jo.get_string( "pre_special" )  == std::string( "check_deconstruct" ) ) {
@@ -1715,6 +1979,8 @@ void load_construction( const JsonObject &jo )
 
     assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
     assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
+    assign_or_debugmsg( con.do_turn_special, jo.get_string( "do_turn_special", "" ),
+                        do_turn_special_map );
     assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", "" ), explain_fail_map );
     con.vehicle_start = jo.get_bool( "vehicle_start", false );
 
@@ -1889,7 +2155,8 @@ void finalize_constructions()
 }
 
 build_reqs get_build_reqs_for_furn_ter_ids(
-    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids )
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids,
+    ter_id const &base_ter )
 {
     build_reqs total_reqs;
 
@@ -1901,7 +2168,7 @@ build_reqs get_build_reqs_for_furn_ter_ids(
 
     // iteratively recurse through the pre-terrains until the pre-terrain is empty, adding
     // the constructions to the total_builds map
-    const auto add_builds = [&total_builds]( const construction & build, int count ) {
+    const auto add_builds = [&total_builds, &base_ter]( const construction & build, int count ) {
         if( total_builds.find( build.id ) == total_builds.end() ) {
             total_builds[build.id] = 0;
         }
@@ -1912,7 +2179,14 @@ build_reqs get_build_reqs_for_furn_ter_ids(
                 if( pre_build.category == construction_category_REPAIR ) {
                     continue;
                 }
-                if( pre_build.post_terrain == build_pre_ter ) {
+                if( ( pre_build.post_terrain.empty() or
+                      ( !pre_build.post_is_furniture and
+                        ter_id( pre_build.post_terrain ) != base_ter ) ) and
+                    ( pre_build.pre_terrain.empty() or
+                      ( pre_build.post_is_furniture and
+                        ter_id( pre_build.pre_terrain ) == base_ter ) ) and
+                    pre_build.post_terrain == build_pre_ter and
+                    pre_build.pre_terrain != build.post_terrain ) {
                     if( total_builds.find( pre_build.id ) == total_builds.end() ) {
                         total_builds[pre_build.id] = 0;
                     }

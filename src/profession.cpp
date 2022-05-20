@@ -19,9 +19,9 @@
 #include "itype.h"
 #include "json.h"
 #include "magic.h"
+#include "mission.h"
 #include "options.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
 #include "visitable.h"
@@ -111,11 +111,11 @@ class addiction_reader : public generic_typed_reader<addiction_reader>
     public:
         addiction get_next( JsonValue &jv ) const {
             JsonObject jo = jv.get_object();
-            return addiction( addiction_type( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
+            return addiction( addiction_id( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
         }
         template<typename C>
         void erase_next( std::string &&type_str, C &container ) const {
-            const add_type type = addiction_type( type_str );
+            const addiction_id type( type_str );
             reader_detail::handler<C>().erase_if( container, [&type]( const addiction & e ) {
                 return e.type == type;
             } );
@@ -166,11 +166,31 @@ void profession::load( const JsonObject &jo, const std::string & )
 
     if( !was_loaded || jo.has_member( "description" ) ) {
         std::string desc;
-        mandatory( jo, false, "description", desc, text_style_check_reader() );
+        std::string desc_male;
+        std::string desc_female;
+
+        bool use_default_description = true;
+        if( jo.has_object( "description" ) ) {
+            JsonObject desc_obj = jo.get_object( "description" );
+            desc_obj.allow_omitted_members();
+
+            if( desc_obj.has_member( "male" ) && desc_obj.has_member( "female" ) ) {
+                use_default_description = false;
+                mandatory( desc_obj, false, "male", desc_male, text_style_check_reader() );
+                mandatory( desc_obj, false, "female", desc_female, text_style_check_reader() );
+            }
+        }
+
+        if( use_default_description ) {
+            mandatory( jo, false, "description", desc, text_style_check_reader() );
+            desc_male = desc;
+            desc_female = desc;
+        }
         // These also may differ depending on the language settings!
-        _description_male = to_translation( "prof_desc_male", desc );
-        _description_female = to_translation( "prof_desc_female", desc );
+        _description_male = to_translation( "prof_desc_male", desc_male );
+        _description_female = to_translation( "prof_desc_female", desc_female );
     }
+
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }
@@ -235,6 +255,7 @@ void profession::load( const JsonObject &jo, const std::string & )
 
     // Flag which denotes if a profession is a hobby
     optional( jo, was_loaded, "subtype", _subtype, "" );
+    optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
 }
 
 const profession *profession::generic()
@@ -351,6 +372,17 @@ void profession::check_definition() const
             debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
         }
     }
+
+    for( const auto &m : _missions ) {
+        if( !m.is_valid() ) {
+            debugmsg( "starting mission %s for profession %s does not exist", m.c_str(), id.c_str() );
+        }
+
+        if( std::find( m->origins.begin(), m->origins.end(), ORIGIN_GAME_START ) == m->origins.end() ) {
+            debugmsg( "starting mission %s for profession %s must include an origin of ORIGIN_GAME_START",
+                      m.c_str(), id.c_str() );
+        }
+    }
 }
 
 bool profession::has_initialized()
@@ -423,12 +455,14 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     add_legacy_items( legacy_starting_items );
     add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
 
-    const std::vector<item> group_both = item_group::items_from( _starting_items,
-                                         advanced_spawn_time() );
-    const std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
-                                           _starting_items_female, advanced_spawn_time() );
-    result.insert( result.begin(), group_both.begin(), group_both.end() );
-    result.insert( result.begin(), group_gender.begin(), group_gender.end() );
+    std::vector<item> group_both = item_group::items_from( _starting_items,
+                                   advanced_spawn_time() );
+    std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
+                                     _starting_items_female, advanced_spawn_time() );
+    result.insert( result.begin(), std::make_move_iterator( group_both.begin() ),
+                   std::make_move_iterator( group_both.end() ) );
+    result.insert( result.begin(), std::make_move_iterator( group_gender.begin() ),
+                   std::make_move_iterator( group_gender.end() ) );
 
     if( !has_flag( "NO_BONUS_ITEMS" ) ) {
         const std::vector<item> &items = item_substitutions.get_bonus_items( traits );
@@ -751,4 +785,9 @@ const
 bool profession::is_hobby() const
 {
     return _subtype == "hobby";
+}
+
+const std::vector<mission_type_id> &profession::missions() const
+{
+    return _missions;
 }

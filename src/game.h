@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -483,6 +484,7 @@ class game
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
+        bool portal_storm_query( const distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &dest_loc );
 
@@ -495,6 +497,8 @@ class game
         int assign_mission_id();
         /** Find the npc with the given ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
         npc *find_npc( character_id id );
+        /** Find the npc with the given unique ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
+        npc *find_npc_by_unique_id( std::string unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
     private:
@@ -557,6 +561,7 @@ class game
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close( bool dangerous = false );
+        field_entry *is_in_dangerous_field();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( Character &p, bool z_level_changed = false );
@@ -575,8 +580,22 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
+        /**
+        * @brief
+        *
+        * @param show_window display the info window that holds the tile information in the position.
+        * @param center used to calculate the u.view_offset, could center the screen to the position it represents
+        * @param start_point  the start point of the targeting zone, also the initial local position of the cursor
+        * @param has_first_point should be true if the first point has been selected when editing the zone
+        * @param select_zone true if the zone is being edited
+        * @param peeking determines if the player is peeking
+        * @param is_moving_zone true if the zone is being moved, false by default
+        * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint_zero
+        * @return look_around_result
+        */
         look_around_result look_around( bool show_window, tripoint &center,
-                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
+                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero );
         look_around_result look_around( look_around_params );
 
         // Shared method to print "look around" info
@@ -723,6 +742,9 @@ class game
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
 
+        /** open appliance interaction screen */
+        void exam_appliance( vehicle &veh, const point &cp = point_zero );
+
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, const point &cp = point_zero );
 
@@ -829,7 +851,7 @@ class game
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
-        void place_player_overmap( const tripoint_abs_omt &om_dest );
+        void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
 
         unsigned int get_seed() const;
 
@@ -856,6 +878,8 @@ class game
         void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
                                  const std::string &area_name, int column,
                                  int &line );
+        void print_furniture_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                   int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
                               int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
@@ -996,7 +1020,11 @@ class game
         memorial_logger &memorial();
 
         global_variables global_variables_instance;
+        std::unordered_map<std::string, point_abs_om> unique_npcs;
     public:
+        void update_unique_npc_location( std::string id, point_abs_om loc );
+        point_abs_om get_unique_npc_location( std::string id );
+        bool unique_npc_exists( std::string id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
         queued_global_effect_on_conditions;

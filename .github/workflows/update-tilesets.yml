@@ -1,0 +1,52 @@
+# This workflow runs at 23:00 UTC sundays
+name: "Pull Tileset Updates"
+
+on:
+  schedule:
+    - cron: "0 23 * * sun"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  pull-updates:
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get current timestamp
+        id: get-timestamp
+        uses: nanzm/get-time-action@v1.1
+        with:
+          format: 'YYYY-MM-DD'
+      - name: "Update Tilesets"
+        shell: bash
+        run: |
+          gh release download -D gfx/ -p '*.zip' -R I-am-Erk/CDDA-Tilesets
+          gh release download -D gfx/ -p '*.zip' -R pixel-32/CDDA-tileset
+
+          find gfx/ -name "*.zip" | xargs -I{} unzip -o {} -d gfx/
+          rm -fr gfx/*.zip
+
+          # make sure all files are linted just in case
+          # FIXME: make json test check gfx folder instead of using this
+          make tools/format/json_formatter.cgi
+          find gfx/ -name "*.json" -print0 | xargs -0 -L 1 -P $(nproc) tools/format/json_formatter.cgi || exit 0
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: |
+            Routine Tileset updates on ${{ steps.get-timestamp.outputs.time }}
+          committer: casswedson <casswedson@users.noreply.github.com>
+          author: casswedson <casswedson@users.noreply.github.com>
+          branch: tileset-updates
+          delete-branch: true
+          base: master
+          title: Routine Tileset updates on ${{ steps.get-timestamp.outputs.time }}
+          body: |
+            #### Summary
+            None
+
+            Automatic tilesets updates from latest release in
+            <https://github.com/I-am-Erk/CDDA-Tilesets>
+            <https://github.com/pixel-32/CDDA-tileset>

@@ -21,6 +21,16 @@
   },
   {
     "type": "weapon_category",
+    "id": "FLAILS",
+    "name": "FLAILS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "MACES",
+    "name": "MACES"
+  },
+  {
+    "type": "weapon_category",
     "id": "MEDIUM_SWORDS",
     "name": "MEDIUM SWORDS"
   },
@@ -61,6 +71,11 @@
   },
   {
     "type": "weapon_category",
+    "id": "SPEARS",
+    "name": "SPEARS"
+  },
+  {
+    "type": "weapon_category",
     "id": "POLEARMS",
     "name": "POLEARMS"
   },
@@ -76,6 +91,11 @@
   },
   {
     "type": "weapon_category",
+    "id": "BIONIC_SWORDS",
+    "name": "BIONIC SWORDS"
+  },
+  {
+    "type": "weapon_category",
     "id": "MEDIEVAL_SWORDS",
     "name": "MEDIEVAL SWORDS"
   },
@@ -88,5 +108,25 @@
     "type": "weapon_category",
     "id": "JAPANESE_SWORDS",
     "name": "JAPANESE SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "GREAT_SWORDS",
+    "name": "GREAT SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "GREAT_HAMMERS",
+    "name": "GREAT HAMMERS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "GREAT_AXES",
+    "name": "GREAT AXES"
+  },
+  {
+    "type": "weapon_category",
+    "id": "HAND_AXES",
+    "name": "HAND AXES"
   }
 ]

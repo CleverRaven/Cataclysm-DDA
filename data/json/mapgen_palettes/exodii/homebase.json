@@ -55,7 +55,7 @@
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "¶": "f_exodii_portal_tower"
     },
-    "//": "at some point, exodii lockers should contain hints of personal effects and things",
+    "//": "at some point, Exodii lockers should contain hints of personal effects and things",
     "mapping": {
       "d": { "furniture": "f_foot_locker", "items": { "item": "exodii_tools", "chance": 30 } },
       "f": { "furniture": "f_locker", "items": { "item": "exodii_tools", "chance": 30 } },

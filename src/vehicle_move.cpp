@@ -439,7 +439,9 @@ void vehicle::thrust( int thd, int z )
             if( has_engine_type( fuel_type_muscle, true ) ) {
                 add_msg( _( "The %s is too heavy to move!" ), name );
             } else {
-                add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+                add_msg( n_gettext( "The %s is too heavy for its engine!",
+                                    "The %s is too heavy for its engines!",
+                                    engines.size() ), name );
             }
         }
         return;
@@ -517,8 +519,8 @@ void vehicle::thrust( int thd, int z )
             load = std::max( 200, std::min( 1000, ( ( value / 2 ) + 100 ) ) );
         }
         //make noise and consume fuel
-        noise_and_smoke( load );
-        consume_fuel( load, false );
+        noise_and_smoke( load + alternator_load );
+        consume_fuel( load + alternator_load, false );
         if( z != 0 && is_rotorcraft() ) {
             requested_z_change = z;
         }
@@ -1896,6 +1898,7 @@ bool vehicle::level_vehicle()
     if( is_flying && is_rotorcraft() ) {
         return true;
     }
+    is_on_ramp = false;
     // make sure that all parts are either supported across levels or on the same level
     std::map<int, bool> no_support;
     for( vehicle_part &prt : parts ) {
@@ -1909,6 +1912,11 @@ bool vehicle::level_vehicle()
         if( no_support[part_pos.z] ) {
             no_support[part_pos.z] = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, part_pos ) &&
                                      !here.supports_above( part_pos + tripoint_below );
+        }
+        if( !is_on_ramp &&
+            ( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint( part_pos.xy(), part_pos.z - 1 ) ) ||
+              here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint( part_pos.xy(), part_pos.z + 1 ) ) ) ) {
+            is_on_ramp = true;
         }
     }
     std::set<int> dropped_parts;

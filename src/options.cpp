@@ -480,7 +480,7 @@ bool options_manager::cOpt::checkPrerequisite() const
 bool options_manager::cOpt::is_hidden() const
 {
     switch( hide ) {
-        case COPT_NO_HIDE:
+        case COPT_NO_HIDE: // NOLINT(bugprone-branch-clone)
             return false;
 
         case COPT_SDL_HIDE:
@@ -1156,33 +1156,40 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add( "AUTO_PICKUP", "general", to_translation( "Auto pickup enabled" ),
-         to_translation( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager." ),
+         to_translation( "If true, enable item auto pickup.  Change pickup rules with the Auto pickup manager." ),
          false
        );
 
     add( "AUTO_PICKUP_ADJACENT", "general", to_translation( "Auto pickup adjacent" ),
-         to_translation( "If true, will enable to pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your homebase." ),
+         to_translation( "If true, enable auto pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones manager for e.g. your homebase." ),
          false
        );
 
     get_option( "AUTO_PICKUP_ADJACENT" ).setPrerequisite( "AUTO_PICKUP" );
 
+    add( "AUTO_PICKUP_OWNED", "general", to_translation( "Auto pickup owned items" ),
+         to_translation( "If true, items that belong to your faction will be included in auto pickup." ),
+         false
+       );
+
+    get_option( "AUTO_PICKUP_OWNED" ).setPrerequisite( "AUTO_PICKUP" );
+
     add( "AUTO_PICKUP_WEIGHT_LIMIT", "general", to_translation( "Auto pickup weight limit" ),
-         to_translation( "Auto pickup items with weight less than or equal to [option] * 50 grams.  You must also set the small items option.  '0' disables this option" ),
-         0, 20, 0
+         to_translation( "Auto pickup items with weight less than or equal to [option] * 50 grams.  You must also set the small items option.  0 = disabled." ),
+         0, 100, 0
        );
 
     get_option( "AUTO_PICKUP_WEIGHT_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
 
-    add( "AUTO_PICKUP_VOL_LIMIT", "general", to_translation( "Auto pickup volume limit" ),
-         to_translation( "Auto pickup items with volume less than or equal to [option] * 50 milliliters.  You must also set the light items option.  '0' disables this option" ),
-         0, 20, 0
+    add( "AUTO_PICKUP_VOLUME_LIMIT", "general", to_translation( "Auto pickup volume limit" ),
+         to_translation( "Auto pickup items with volume less than or equal to [option] * 50 milliliters.  You must also set the light items option.  0 = disabled." ),
+         0, 100, 0
        );
 
-    get_option( "AUTO_PICKUP_VOL_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
+    get_option( "AUTO_PICKUP_VOLUME_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
 
     add( "AUTO_PICKUP_SAFEMODE", "general", to_translation( "Auto pickup safe mode" ),
-         to_translation( "Auto pickup is disabled as long as you can see monsters nearby.  This is affected by 'Safe Mode proximity distance'." ),
+         to_translation( "If true, auto pickup is disabled as long as you can see monsters nearby.  This is affected by 'Safe mode proximity distance'." ),
          false
        );
 
@@ -1190,7 +1197,7 @@ void options_manager::add_options_general()
 
     add( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS", "general",
          to_translation( "List items within no auto pickup zones" ),
-         to_translation( "If false, you will not see messages about items, you step on, within no auto pickup zones." ),
+         to_translation( "If true, you will see messages about items you step on, within no auto pickup zones." ),
          true
        );
 
@@ -1219,7 +1226,7 @@ void options_manager::add_options_general()
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
     add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
-         to_translation( "If true, enables automatic use of wielded mops to clean surronding terrain." ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surrounding terrain." ),
          false
        );
 
@@ -1236,7 +1243,7 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add( "DANGEROUS_PICKUPS", "general", to_translation( "Dangerous pickups" ),
-         to_translation( "If false, will cause player to drop new items that cause them to exceed the weight limit." ),
+         to_translation( "If true, will allow player to pick new items, even if it causes them to exceed the weight limit." ),
          false
        );
 
@@ -1250,17 +1257,17 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add( "SAFEMODE", "general", to_translation( "Safe mode" ),
-         to_translation( "If true, will hold the game and display a warning if a hostile monster/npc is approaching." ),
+         to_translation( "If true, will hold the game and display a warning if a hostile monster/NPC is approaching." ),
          true
        );
 
     add( "SAFEMODEPROXIMITY", "general", to_translation( "Safe mode proximity distance" ),
-         to_translation( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance.  This option only has effect when no safe mode rule is specified.  Otherwise, edit the default rule in Safe Mode Manager instead of this value." ),
+         to_translation( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance.  This option only has effect when no safe mode rule is specified.  Otherwise, edit the default rule in Safe mode manager instead of this value." ),
          0, MAX_VIEW_DISTANCE, 0
        );
 
     add( "SAFEMODEVEH", "general", to_translation( "Safe mode when driving" ),
-         to_translation( "When true, safe mode will alert you of hostiles while you are driving a vehicle." ),
+         to_translation( "If true, safe mode will alert you of hostiles while you are driving a vehicle." ),
          false
        );
 
@@ -1282,26 +1289,26 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add( "TURN_DURATION", "general", to_translation( "Realtime turn progression" ),
-         to_translation( "If enabled, monsters will take periodic gameplay turns.  This value is the delay between each turn, in seconds.  Works best with Safe Mode disabled.  0 = disabled." ),
+         to_translation( "If higher than 0, monsters will take periodic gameplay turns.  This value is the delay between each turn, in seconds.  Works best with Safe Mode disabled.  0 = disabled." ),
          0.0, 10.0, 0.0, 0.05
        );
 
     add_empty_line();
 
     add( "AUTOSAVE", "general", to_translation( "Autosave" ),
-         to_translation( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
+         to_translation( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or realtime minutes, whichever is larger." ),
          true
        );
 
     add( "AUTOSAVE_TURNS", "general", to_translation( "Game turns between autosaves" ),
-         to_translation( "Number of game turns between autosaves" ),
+         to_translation( "Number of game turns between autosaves." ),
          10, 1000, 50
        );
 
     get_option( "AUTOSAVE_TURNS" ).setPrerequisite( "AUTOSAVE" );
 
     add( "AUTOSAVE_MINUTES", "general", to_translation( "Real minutes between autosaves" ),
-         to_translation( "Number of real time minutes between autosaves" ),
+         to_translation( "Number of realtime minutes between autosaves." ),
          0, 127, 5
        );
 
@@ -1310,19 +1317,19 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add( "AUTO_NOTES", "general", to_translation( "Auto notes" ),
-         to_translation( "If true, automatically sets notes" ),
+         to_translation( "If true, automatically sets notes." ),
          false
        );
 
     add( "AUTO_NOTES_STAIRS", "general", to_translation( "Auto notes (stairs)" ),
-         to_translation( "If true, automatically sets notes on places that have stairs that go up or down" ),
+         to_translation( "If true, automatically sets notes on places that have stairs that go up or down." ),
          false
        );
 
     get_option( "AUTO_NOTES_STAIRS" ).setPrerequisite( "AUTO_NOTES" );
 
     add( "AUTO_NOTES_MAP_EXTRAS", "general", to_translation( "Auto notes (map extras)" ),
-         to_translation( "If true, automatically sets notes on places that contain various map extras" ),
+         to_translation( "If true, automatically sets notes on places that contain various map extras." ),
          false
        );
 
@@ -1331,7 +1338,7 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add( "CIRCLEDIST", "general", to_translation( "Circular distances" ),
-         to_translation( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
+         to_translation( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If false, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
          true
        );
 
@@ -1348,13 +1355,13 @@ void options_manager::add_options_general()
        );
 
     add( "EVENT_SPAWNS", "general", to_translation( "Special event spawns" ),
-         to_translation( "If enabled, unique items and/or monsters can spawn during special events (Christmas, Halloween, etc.)" ),
+         to_translation( "If not disabled, unique items and/or monsters can spawn during special events (Christmas, Halloween, etc.)" ),
     { { "off", to_translation( "Disabled" ) }, { "items", to_translation( "Items" ) }, { "monsters", to_translation( "Monsters" ) }, { "both", to_translation( "Both" ) } },
     "off" );
 
     add_empty_line();
 
-    add( "SOUND_ENABLED", "general", to_translation( "Sound Enabled" ),
+    add( "SOUND_ENABLED", "general", to_translation( "Sound enabled" ),
          to_translation( "If true, music and sound are enabled." ),
          true, COPT_NO_SOUND_HIDE
        );
@@ -1395,34 +1402,34 @@ void options_manager::add_options_interface()
     };
 
     add( "USE_LANG", "interface", to_translation( "Language" ),
-         to_translation( "Switch Language." ), options_manager::get_lang_options(), "" );
+         to_translation( "Switch language." ), options_manager::get_lang_options(), "" );
 
     add_empty_line();
 
     add( "USE_CELSIUS", "interface", to_translation( "Temperature units" ),
-         to_translation( "Switch between Celsius, Fahrenheit and Kelvin." ),
+         to_translation( "Switch between Fahrenheit, Celsius, and Kelvin." ),
     { { "fahrenheit", to_translation( "Fahrenheit" ) }, { "celsius", to_translation( "Celsius" ) }, { "kelvin", to_translation( "Kelvin" ) } },
     "fahrenheit"
        );
 
     add( "USE_METRIC_SPEEDS", "interface", to_translation( "Speed units" ),
-         to_translation( "Switch between mph, km/h and tiles/turn." ),
+         to_translation( "Switch between mph, km/h, and tiles/turn." ),
     { { "mph", to_translation( "mph" ) }, { "km/h", to_translation( "km/h" ) }, { "t/t", to_translation( "tiles/turn" ) } },
     "mph"
        );
 
     add( "USE_METRIC_WEIGHTS", "interface", to_translation( "Mass units" ),
-         to_translation( "Switch between kg and lbs." ),
+         to_translation( "Switch between lbs and kg." ),
     { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } }, "lbs"
        );
 
     add( "VOLUME_UNITS", "interface", to_translation( "Volume units" ),
-         to_translation( "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )." ),
+         to_translation( "Switch between the cups (c), liters (L), and quarts (qt)." ),
     { { "c", to_translation( "Cup" ) }, { "l", to_translation( "Liter" ) }, { "qt", to_translation( "Quart" ) } },
     "l"
        );
     add( "DISTANCE_UNITS", "interface", to_translation( "Distance units" ),
-         to_translation( "Metric or Imperial" ),
+         to_translation( "Switch between metric and imperial distance units." ),
     { { "metric", to_translation( "Metric" ) }, { "imperial", to_translation( "Imperial" ) } },
     "imperial" );
 
@@ -1440,12 +1447,20 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
-         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         to_translation( "If true, show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
          false );
     add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
+    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed containers" ),
+         to_translation( "All: every container has detailed remaining volume info.  - Worn: only worn containers have detailed remaining volume info.  - None: no additional info is provided." ),
+    {
+        { "ALL", to_translation( "All" ) },
+        { "WORN", to_translation( "Worn" ) },
+        { "NONE", to_translation( "None" ) }
+    },
+    "WORN" );
 
     add_empty_line();
 
@@ -1486,13 +1501,13 @@ void options_manager::add_options_interface()
 
     add( "OPEN_DEFAULT_ADV_INV", "interface",
          to_translation( "Open default advanced inventory layout" ),
-         to_translation( "Open default advanced inventory layout instead of last opened layout" ),
+         to_translation( "If true, open default advanced inventory layout instead of last opened layout" ),
          false
        );
 
-    add( "INV_USE_ACTION_NAMES", "interface", to_translation( "Display actions in Use Item menu" ),
+    add( "INV_USE_ACTION_NAMES", "interface", to_translation( "Display actions in \"Use item\" menu" ),
          to_translation(
-             R"(If true, actions ( like "Read", "Smoke", "Wrap tighter" ) will be displayed next to the corresponding items.)" ),
+             R"(If true, actions (like "Read", "Smoke", "Wrap tighter") will be displayed next to the corresponding items.)" ),
          true
        );
 
@@ -1509,14 +1524,14 @@ void options_manager::add_options_interface()
     "\"Symbol\" shows a highlighted caret and \"Highlight\" uses font highlighting." ), {
         { "symbol", to_translation( "Symbol" ) },
         { "highlight", to_translation( "Highlight" ) },
-        { "disable", to_translation( "Disable" ) }
+        { "disable", to_translation( "Disabled" ) }
     },
     "symbol"
        );
 
     add( "HIGHLIGHT_UNREAD_RECIPES", "interface",
          to_translation( "Highlight unread recipes" ),
-         to_translation( "Highlight unread recipes to allow tracking of newly learned recipes." ),
+         to_translation( "If true, highlight unread recipes to allow tracking of newly learned recipes." ),
          true
        );
 
@@ -1574,17 +1589,17 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "VEHICLE_ARMOR_COLOR", "interface", to_translation( "Vehicle plating changes part color" ),
-         to_translation( "If true, vehicle parts will change color if they are armor plated" ),
+         to_translation( "If true, vehicle parts will change color if they are armor plated." ),
          true
        );
 
     add( "DRIVING_VIEW_OFFSET", "interface", to_translation( "Auto-shift the view while driving" ),
-         to_translation( "If true, view will automatically shift towards the driving direction" ),
+         to_translation( "If true, view will automatically shift towards the driving direction." ),
          true
        );
 
     add( "VEHICLE_DIR_INDICATOR", "interface", to_translation( "Draw vehicle facing indicator" ),
-         to_translation( "If true, when controlling a vehicle, a white 'X' ( in curses version ) or a crosshair ( in tiles version ) at distance 10 from the center will display its current facing." ),
+         to_translation( "If true, when controlling a vehicle, a white 'X' (in curses version) or a crosshair (in tiles version) at distance 10 from the center will display its current facing." ),
          true
        );
 
@@ -1614,12 +1629,12 @@ void options_manager::add_options_interface()
        );
 
     add( "MESSAGE_TTL", "interface", to_translation( "Sidebar log message display duration" ),
-         to_translation( "Number of turns after which a message will be removed from the sidebar log.  '0' disables this option." ),
+         to_translation( "Number of turns after which a message will be removed from the sidebar log.  0 = disabled." ),
          0, 1000, 0
        );
 
     add( "MESSAGE_COOLDOWN", "interface", to_translation( "Message cooldown" ),
-         to_translation( "Number of turns during which similar messages are hidden.  '0' disables this option." ),
+         to_translation( "Number of turns during which similar messages are hidden.  0 = disabled." ),
          0, 1000, 0
        );
 
@@ -1629,7 +1644,7 @@ void options_manager::add_options_interface()
        );
 
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",
-         to_translation( "Suppress \"unknown command\" messages" ),
+         to_translation( "Suppress \"Unknown command\" messages" ),
          to_translation( "If true, pressing a key with no set function will not display a notice in the chat log." ),
          false
        );
@@ -1649,12 +1664,6 @@ void options_manager::add_options_interface()
          to_translation( "Switch between look around panel being left or right." ),
     { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } },
     "right"
-       );
-
-    add( "PICKUP_POSITION", "interface", to_translation( "Pickup position" ),
-         to_translation( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
-    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) }, { "overlapping", to_translation( "Overlapping" ) } },
-    "left"
        );
 
     add( "ACCURACY_DISPLAY", "interface", to_translation( "Aim window display style" ),
@@ -1720,12 +1729,12 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "ENABLE_JOYSTICK", "interface", to_translation( "Enable joystick" ),
-         to_translation( "Enable input from joystick." ),
+         to_translation( "If true, enable input from joystick." ),
          true, COPT_CURSES_HIDE
        );
 
     add( "HIDE_CURSOR", "interface", to_translation( "Hide mouse cursor" ),
-         to_translation( "Show: Cursor is always shown.  Hide: Cursor is hidden.  HideKB: Cursor is hidden on keyboard input and unhidden on mouse movement." ),
+         to_translation( "Show: cursor is always shown.  Hide: cursor is hidden.  HideKB: cursor is hidden on keyboard input and unhidden on mouse movement." ),
          //~ show mouse cursor
     {   { "show", to_translation( "Show" ) },
         //~ hide mouse cursor
@@ -1799,14 +1808,24 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
+    add( "ENABLE_ASCII_TITLE", "graphics",
+         to_translation( "Enable ASCII art on the title screen" ),
+         to_translation( "If true, shows an ASCII graphic on the title screen.  If false, shows a text-only title screen." ),
+         true
+       );
+
     add( "SEASONAL_TITLE", "graphics", to_translation( "Use seasonal title screen" ),
          to_translation( "If true, the title screen will use the art appropriate for the season." ),
          true
        );
 
+    get_option( "SEASONAL_TITLE" ).setPrerequisite( "ENABLE_ASCII_TITLE" );
+
     add( "ALT_TITLE", "graphics", to_translation( "Alternative title screen frequency" ),
          to_translation( "Set the probability of the alternate title screen appearing." ), 0, 100, 10
        );
+
+    get_option( "ALT_TITLE" ).setPrerequisite( "ENABLE_ASCII_TITLE" );
 
     add_empty_line();
 
@@ -1873,7 +1892,7 @@ void options_manager::add_options_graphics()
        );
 
     add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", to_translation( "SDL ASCII lines" ),
-         to_translation( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
+         to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
          true, COPT_CURSES_HIDE
        );
 
@@ -1881,7 +1900,7 @@ void options_manager::add_options_graphics()
 
     add( "ENABLE_ASCII_ART", "graphics",
          to_translation( "Enable ASCII art in item and monster descriptions" ),
-         to_translation( "When available item and monster description will show a picture of the object in ascii art." ),
+         to_translation( "If true, item and monster description will show a picture of the object in ASCII art when available." ),
          true, COPT_NO_HIDE
        );
 
@@ -1915,13 +1934,13 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night Vision color overlay" ),
-         to_translation( "Toggle the color overlay from night vision goggles and other similar tools." ),
+    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night vision color overlay" ),
+         to_translation( "If true, toggle the color overlay from night vision goggles and other similar tools." ),
          true, COPT_CURSES_HIDE
        );
 
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
-    to_translation( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
+    to_translation( "Specify the overlay in which the memory map is drawn.  Requires restart.  For custom overlay, define RGB values for dark and bright colors as well as gamma." ), {
         { "color_pixel_darken", to_translation( "Darkened" ) },
         { "color_pixel_sepia_light", to_translation( "Sepia" ) },
         { "color_pixel_sepia_dark", to_translation( "Sepia Dark" ) },
@@ -2008,14 +2027,14 @@ void options_manager::add_options_graphics()
     get_option( "PIXEL_MINIMAP_HEIGHT" ).setPrerequisite( "PIXEL_MINIMAP" );
 
     add( "PIXEL_MINIMAP_SCALE_TO_FIT", "graphics", to_translation( "Scale pixel minimap" ),
-         to_translation( "Scale pixel minimap to fit its surroundings.  May produce crappy results, especially in modes other than \"Solid\"." ),
+         to_translation( "If true, scale pixel minimap to fit its surroundings.  May produce crappy results, especially in modes other than \"Solid\"." ),
          false, COPT_CURSES_HIDE
        );
 
     get_option( "PIXEL_MINIMAP_SCALE_TO_FIT" ).setPrerequisite( "PIXEL_MINIMAP" );
 
     add( "PIXEL_MINIMAP_RATIO", "graphics", to_translation( "Maintain pixel minimap aspect ratio" ),
-         to_translation( "Preserves the square shape of tiles shown on the pixel minimap." ),
+         to_translation( "If true, preserves the square shape of tiles shown on the pixel minimap." ),
          true, COPT_CURSES_HIDE
        );
 
@@ -2030,7 +2049,7 @@ void options_manager::add_options_graphics()
     get_option( "PIXEL_MINIMAP_BEACON_SIZE" ).setPrerequisite( "PIXEL_MINIMAP" );
 
     add( "PIXEL_MINIMAP_BLINK", "graphics", to_translation( "Hostile creature beacon blink speed" ),
-         to_translation( "Controls how fast the hostile creature beacons blink on the pixel minimap.  Value is multiplied by 200 ms.  Set to 0 to disable." ),
+         to_translation( "Controls how fast the hostile creature beacons blink on the pixel minimap.  Value is multiplied by 200ms.  0 = disabled." ),
          0, 50, 10, COPT_CURSES_HIDE
        );
 
@@ -2092,12 +2111,12 @@ void options_manager::add_options_graphics()
 
 #if defined(SDL_HINT_RENDER_BATCHING)
     add( "RENDER_BATCHING", "graphics", to_translation( "Allow render batching" ),
-         to_translation( "Use render batching for 2D render API to make it more efficient.  Requires restart." ),
+         to_translation( "If true, use render batching for 2D render API to make it more efficient.  Requires restart." ),
          true, COPT_CURSES_HIDE
        );
 #endif
     add( "FRAMEBUFFER_ACCEL", "graphics", to_translation( "Software framebuffer acceleration" ),
-         to_translation( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
+         to_translation( "If true, use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE
        );
 
@@ -2113,7 +2132,7 @@ void options_manager::add_options_graphics()
        );
 
     add( "SCALING_MODE", "graphics", to_translation( "Scaling mode" ),
-         to_translation( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
+         to_translation( "Sets the scaling mode, 'none' (default) displays at the game's native resolution, 'nearest' uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
          //~ Do not scale the game image to the window size.
     {   { "none", to_translation( "No scaling" ) },
         //~ An algorithm for image scaling.
@@ -2126,7 +2145,7 @@ void options_manager::add_options_graphics()
 #if !defined(__ANDROID__)
     add( "SCALING_FACTOR", "graphics", to_translation( "Scaling factor" ),
     to_translation( "Factor by which to scale the display.  Requires restart." ), {
-        { "1", to_translation( "1x" ) },
+        { "1", to_translation( "1x" )},
         { "2", to_translation( "2x" )},
         { "4", to_translation( "4x" )}
     },
@@ -2196,7 +2215,7 @@ void options_manager::add_options_world_default()
     add_empty_line();
 
     add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
-         to_translation( "( WIP feature ) Determines terrain, shops, plants, and more." ),
+         to_translation( "(WIP feature) Determines terrain, shops, plants, and more." ),
     { { "default", to_translation( "default" ) } }, "default"
        );
 
@@ -2208,12 +2227,12 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
-         to_translation( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         to_translation( "How many days into the year the Cataclysm ended.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          -1, 999, 60
        );
 
     add( "SPAWN_DELAY", "world_default", to_translation( "Spawn delay" ),
-         to_translation( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+         to_translation( "How many days after the end of the Cataclysm the player spawns.  Day 0 is immediately after the end of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 
@@ -2228,14 +2247,22 @@ void options_manager::add_options_world_default()
        );
 
     add( "ETERNAL_SEASON", "world_default", to_translation( "Eternal season" ),
-         to_translation( "Keep the initial season for ever." ),
+         to_translation( "If true, keep the initial season for ever." ),
          false
+       );
+
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day/night cycle" ),
+    to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "day", to_translation( "Eternal Day" ) },
+        { "night", to_translation( "Eternal Night" ) },
+    }, "normal"
        );
 
     add_empty_line();
 
     add( "WANDER_SPAWNS", "world_default", to_translation( "Wandering hordes" ),
-         to_translation( "Emulation of zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
+         to_translation( "If true, emulates zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
          false
        );
 
@@ -2303,7 +2330,7 @@ void options_manager::add_options_debug()
     add_empty_line();
 
     add( "SKILL_RUST", "debug", to_translation( "Skill rust" ),
-         to_translation( "Set the type of skill rust.  Vanilla: Skill rust can decrease levels - Capped: Skill rust cannot decrease levels - Off: None at all." ),
+         to_translation( "Set the type of skill rust.  Vanilla: Skill rust can decrease levels.  - Capped: Skill rust cannot decrease levels.  - Off: None at all." ),
          //~ plain, default, normal
     {   { "vanilla", to_translation( "Vanilla" ) },
         //~ capped at a value
@@ -2315,7 +2342,7 @@ void options_manager::add_options_debug()
     add_empty_line();
 
     add( "FOV_3D", "debug", to_translation( "Experimental 3D field of vision" ),
-         to_translation( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
+         to_translation( "If true and the world is in Z-level mode, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level.  Currently very bugged!" ),
          false
        );
 
@@ -2335,7 +2362,7 @@ void options_manager::add_options_android()
     };
 
     add( "ANDROID_QUICKSAVE", "android", to_translation( "Quicksave on app lose focus" ),
-         to_translation( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),
+         to_translation( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.)  WARNING: Experimental.  This may result in corrupt save games." ),
          false
        );
 
@@ -2355,27 +2382,27 @@ void options_manager::add_options_android()
        );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", to_translation( "Auto-manage virtual keyboard" ),
-         to_translation( "If true, automatically show/hide the virtual keyboard when necessary based on context. If false, virtual keyboard must be toggled manually." ),
+         to_translation( "If true, automatically show/hide the virtual keyboard when necessary based on context.  If false, virtual keyboard must be toggled manually." ),
          true
        );
 
     add( "ANDROID_KEYBOARD_SCREEN_SCALE", "android",
          to_translation( "Virtual keyboard screen scale" ),
-         to_translation( "When the virtual keyboard is visible, scale the screen to prevent overlapping. Useful for text entry so you can see what you're typing." ),
+         to_translation( "If true, when the virtual keyboard is visible, scale the screen to prevent overlapping.  Useful for text entry so you can see what you're typing." ),
          true
        );
 
     add_empty_line();
 
     add( "ANDROID_VIBRATION", "android", to_translation( "Vibration duration" ),
-         to_translation( "If non-zero, vibrate the device for this long on input, in milliseconds. Ignored if hardware keyboard connected." ),
+         to_translation( "If non-zero, vibrate the device for this long on input, in milliseconds.  Ignored if hardware keyboard connected." ),
          0, 200, 10
        );
 
     add_empty_line();
 
     add( "ANDROID_SHOW_VIRTUAL_JOYSTICK", "android", to_translation( "Show virtual joystick" ),
-         to_translation( "If true, show the virtual joystick when touching and holding the screen. Gives a visual indicator of deadzone and stick deflection." ),
+         to_translation( "If true, show the virtual joystick when touching and holding the screen.  Gives a visual indicator of deadzone and stick deflection." ),
          true
        );
 
@@ -2385,12 +2412,12 @@ void options_manager::add_options_android()
        );
 
     add( "ANDROID_DEADZONE_RANGE", "android", to_translation( "Virtual joystick deadzone size" ),
-         to_translation( "While using the virtual joystick, deflecting the stick beyond this distance will trigger directional input. Specified as a percentage of longest screen edge." ),
+         to_translation( "While using the virtual joystick, deflecting the stick beyond this distance will trigger directional input.  Specified as a percentage of longest screen edge." ),
          0.01f, 0.2f, 0.03f, 0.001f, COPT_NO_HIDE, "%.3f"
        );
 
     add( "ANDROID_REPEAT_DELAY_RANGE", "android", to_translation( "Virtual joystick size" ),
-         to_translation( "While using the virtual joystick, deflecting the stick by this much will repeat input at the deflected rate (see below). Specified as a percentage of longest screen edge." ),
+         to_translation( "While using the virtual joystick, deflecting the stick by this much will repeat input at the deflected rate (see below).  Specified as a percentage of longest screen edge." ),
          0.05f, 0.5f, 0.10f, 0.001f, COPT_NO_HIDE, "%.3f"
        );
 
@@ -2414,24 +2441,24 @@ void options_manager::add_options_android()
 
     add( "ANDROID_SENSITIVITY_POWER", "android",
          to_translation( "Virtual joystick repeat rate sensitivity" ),
-         to_translation( "As the virtual joystick moves from centered to fully deflected, this value is an exponent that controls the blend between the two repeat rates defined above. 1.0 = linear." ),
+         to_translation( "As the virtual joystick moves from centered to fully deflected, this value is an exponent that controls the blend between the two repeat rates defined above.  1.0 = linear." ),
          0.1f, 5.0f, 0.75f, 0.05f, COPT_NO_HIDE, "%.2f"
        );
 
     add( "ANDROID_INITIAL_DELAY", "android", to_translation( "Input repeat delay" ),
-         to_translation( "While touching the screen, wait this long before showing the virtual joystick and repeating input, in milliseconds. Also used to determine tap/double-tap detection, flick detection and toggling quick shortcuts." ),
+         to_translation( "While touching the screen, wait this long before showing the virtual joystick and repeating input, in milliseconds.  Also used to determine tap/double-tap detection, flick detection and toggling quick shortcuts." ),
          150, 1000, 300
        );
 
     add( "ANDROID_HIDE_HOLDS", "android", to_translation( "Virtual joystick hides shortcuts" ),
-         to_translation( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while traveling long distances and navigating menus." ),
+         to_translation( "If true, hides on-screen keyboard shortcuts while using the virtual joystick.  Helps keep the view uncluttered while traveling long distances and navigating menus." ),
          true
        );
 
     add_empty_line();
 
     add( "ANDROID_SHORTCUT_DEFAULTS", "android", to_translation( "Default gameplay shortcuts" ),
-         to_translation( "The default set of gameplay shortcuts to show. Used on starting a new game and whenever all gameplay shortcuts are removed." ),
+         to_translation( "The default set of gameplay shortcuts to show.  Used on starting a new game and whenever all gameplay shortcuts are removed." ),
          "0mi", 30
        );
 
@@ -2502,18 +2529,18 @@ void options_manager::add_options_android()
 
     add( "ANDROID_SHORTCUT_AUTOADD_FRONT", "android",
          to_translation( "Move contextual gameplay shortcuts to front" ),
-         to_translation( "If the above option is enabled, specifies whether contextual in-game shortcuts will be added to the front or back of the shortcuts list. True makes them easier to reach, False reduces shuffling of shortcut positions." ),
+         to_translation( "If the option above is enabled, specifies whether contextual in-game shortcuts will be added to the front or back of the shortcuts list.  If true, makes them easier to reach.  If false, reduces shuffling of shortcut positions." ),
          false
        );
 
     add( "ANDROID_SHORTCUT_MOVE_FRONT", "android", to_translation( "Move used shortcuts to front" ),
-         to_translation( "If true, using an existing shortcut will always move it to the front of the shortcuts list. If false, only shortcuts typed via keyboard will move to the front." ),
+         to_translation( "If true, using an existing shortcut will always move it to the front of the shortcuts list.  If false, only shortcuts typed via keyboard will move to the front." ),
          false
        );
 
     add( "ANDROID_SHORTCUT_ZONE", "android",
          to_translation( "Separate shortcuts for No Auto Pickup zones" ),
-         to_translation( "If true, separate gameplay shortcuts will be used within No Auto Pickup zones. Useful for keeping home base actions separate from exploring actions." ),
+         to_translation( "If true, separate gameplay shortcuts will be used within No Auto Pickup zones.  Useful for keeping home base actions separate from exploring actions." ),
          true
        );
 
@@ -2524,7 +2551,7 @@ void options_manager::add_options_android()
        );
 
     add( "ANDROID_SHORTCUT_PERSISTENCE", "android", to_translation( "Shortcuts persistence" ),
-         to_translation( "If true, shortcuts are saved/restored with each save game. If false, shortcuts reset between sessions." ),
+         to_translation( "If true, shortcuts are saved/restored with each save game.  If false, shortcuts reset between sessions." ),
          true
        );
 
@@ -2542,7 +2569,7 @@ void options_manager::add_options_android()
        );
 
     add( "ANDROID_SHORTCUT_OVERLAP", "android", to_translation( "Shortcuts overlap screen" ),
-         to_translation( "If true, shortcuts will be drawn transparently overlapping the game screen. If false, the game screen size will be reduced to fit the shortcuts below." ),
+         to_translation( "If true, shortcuts will be drawn transparently overlapping the game screen.  If false, the game screen size will be reduced to fit the shortcuts below." ),
          true
        );
 
@@ -2567,12 +2594,12 @@ void options_manager::add_options_android()
        );
 
     add( "ANDROID_SHORTCUT_BORDER", "android", to_translation( "Shortcut border" ),
-         to_translation( "The border of each on-screen keyboard shortcut in pixels. ." ),
+         to_translation( "The border of each on-screen keyboard shortcut in pixels." ),
          0, 16, 0
        );
 
     add( "ANDROID_SHORTCUT_WIDTH_MIN", "android", to_translation( "Shortcut width (min)" ),
-         to_translation( "The minimum width of each on-screen keyboard shortcut in pixels. Only relevant when lots of shortcuts are visible at once." ),
+         to_translation( "The minimum width of each on-screen keyboard shortcut in pixels.  Only relevant when lots of shortcuts are visible at once." ),
          20, 1000, 50
        );
 
@@ -2640,7 +2667,7 @@ static void draw_borders_external(
     const bool world_options_only )
 {
     if( !world_options_only ) {
-        draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
+        draw_border( w, BORDER_COLOR, _( "Options" ) );
     }
     // intersections
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
@@ -2834,8 +2861,14 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                        value );
         }
 
-        draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
-                        page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( iTooltipHeight + 2 + iWorldOffset )
+        .content_size( page_items.size() )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w_options_border );
+
         wnoutrefresh( w_options_border );
 
         //Draw Tabs
@@ -2870,8 +2903,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_width = projected_window_width();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            n_gettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
-                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
+                            n_gettext( "%s #%s - The window will be %d pixel wide with the selected value.",
+                                       "%s #%s - The window will be %d pixels wide with the selected value.",
                                        new_window_width ),
                             current_opt.getTooltip(),
                             current_opt.getDefaultText(),
@@ -2961,9 +2994,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 iCurrentLine = recmax - 1;
             } else {
                 iCurrentLine += +scroll_rate;
-                do {
+                while( iCurrentLine < recmax && !page_items[iCurrentLine] ) {
                     iCurrentLine++;
-                } while( !page_items[iCurrentLine] );
+                }
             }
         } else if( action == "PAGE_UP" ) {
             if( iCurrentLine == 0 ) {
@@ -2972,9 +3005,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 iCurrentLine = 0;
             } else {
                 iCurrentLine += -scroll_rate;
-                do {
+                while( iCurrentLine > 0 && !page_items[iCurrentLine] ) {
                     iCurrentLine--;
-                } while( !page_items[iCurrentLine] );
+                }
             }
         } else if( action == "RIGHT" ) {
             current_opt.setNext();
@@ -3108,14 +3141,19 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
+
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
         point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
         TERM.x -= TERM.x % scaling_factor;
         TERM.y -= TERM.y % scaling_factor;
-        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERM.x ) );
-        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERM.y ) );
+        const point set_term( std::max( EVEN_MINIMUM_TERM_WIDTH * scaling_factor, TERM.x ),
+                              std::max( EVEN_MINIMUM_TERM_HEIGHT * scaling_factor, TERM.y ) );
+        get_option( "TERMINAL_X" ).setValue( set_term.x );
+        get_option( "TERMINAL_Y" ).setValue( set_term.y );
         save();
 
         resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );

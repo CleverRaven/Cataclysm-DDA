@@ -10,7 +10,8 @@
       { "monster": "mon_dispatch_military", "weight": 5, "cost_multiplier": 80 },
       { "monster": "mon_talon_m202a1", "weight": 15, "cost_multiplier": 50 },
       { "monster": "mon_zombie_flamer", "weight": 10, "cost_multiplier": 50 },
-      { "monster": "mon_zombie_military_pilot", "weight": 0 }
+      { "monster": "mon_zombie_military_pilot", "weight": 0 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
@@ -34,7 +35,8 @@
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "weight": 25, "cost_multiplier": 5, "starts": "60 days" },
-      { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
@@ -53,7 +55,8 @@
       { "monster": "mon_zombie_armored", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_scorched", "weight": 25 },
       { "monster": "mon_zombie_hazmat", "weight": 25 },
-      { "monster": "mon_zombie", "weight": 10 }
+      { "monster": "mon_zombie", "weight": 10 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
@@ -75,7 +78,9 @@
       { "monster": "mon_dog_zombie_cop", "weight": 2, "cost_multiplier": 2 },
       { "monster": "mon_zombie_dog", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_swimmer", "weight": 5, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer_base", "weight": 5, "cost_multiplier": 2 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
@@ -83,7 +88,8 @@
       { "monster": "mon_zombie_soldier", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
-      { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 }
+      { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
+      { "monster": "mon_feral_soldier", "weight": 75 }
     ]
   },
   {
@@ -105,7 +111,9 @@
       { "monster": "mon_dog_zombie_cop", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_swimmer", "weight": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 2 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
@@ -114,7 +122,18 @@
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 20 },
       { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
-      { "monster": "mon_zombie_scientist", "weight": 100 }
+      { "monster": "mon_zombie_scientist", "weight": 100 },
+      { "monster": "mon_feral_soldier", "weight": 75 }
+    ]
+  },
+  {
+    "name": "GROUP_MIL_MASS_GRAVE",
+    "type": "monstergroup",
+    "//": "Lots of hazmats and burners.",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 10 },
+      { "monster": "mon_zombie_flamer", "weight": 20 },
+      { "monster": "mon_zombie_hazmat", "weight": 20 }
     ]
   }
 ]

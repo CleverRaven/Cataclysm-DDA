@@ -9,7 +9,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "healthy": 1,
     "calories": 95,
     "description": "An apple a day keeps the doctor away.",
     "price": 900,
@@ -19,7 +18,7 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 14 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -30,7 +29,6 @@
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 4,
     "calories": 105,
     "description": "A long, curved yellow fruit in a peel.  Some people like using them in desserts.  Those people are probably dead.",
     "price": 120,
@@ -40,7 +38,7 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 17 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 17 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -52,7 +50,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 8,
-    "healthy": 2,
     "calories": 69,
     "description": "Sweet citrus fruit.  Also comes in juice form.",
     "price": 180,
@@ -62,7 +59,7 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 138 ], [ "calcium", 4 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 138 ], [ "calcium", 4 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -74,7 +71,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
-    "healthy": 2,
     "calories": 24,
     "description": "Very sour citrus.  Can be eaten if you really want.",
     "price": 120,
@@ -96,7 +92,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 1,
     "calories": 89,
     "description": "They're blue, but that doesn't mean they're sad.",
     "price": 400,
@@ -106,7 +101,7 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 24 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 24 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -118,9 +113,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "healthy": 1,
     "calories": 46,
-    "description": "Tasty, juicy berry.  Often found growing wild in fields.",
+    "description": "Tasty, juicy berries.  Often found growing wild in fields.",
     "price": 400,
     "price_postapoc": 100,
     "material": [ "fruit" ],
@@ -140,7 +134,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 4,
     "calories": 54,
     "description": "Sour red berries.  Good for your health.",
     "price": 150,
@@ -151,7 +144,7 @@
     "charges": 3,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 27 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 27 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -163,9 +156,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "healthy": 2,
     "calories": 74,
-    "description": "A sweet red berry.",
+    "description": "Sweet red berries.",
     "price": 400,
     "price_postapoc": 100,
     "material": [ "fruit" ],
@@ -185,7 +177,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 1,
     "calories": 56,
     "description": "Huckleberries, often times confused for blueberries.",
     "price": 400,
@@ -195,7 +186,7 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -207,7 +198,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 1,
     "calories": 64,
     "description": "Mulberries, this red variety is unique to east North America and is described to have the strongest flavor of any variety in the world.",
     "price": 400,
@@ -229,7 +219,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": -1,
+    "use_action": [ "POISON" ],
     "calories": 112,
     "description": "Elderberries, toxic when eaten raw but great when cooked.",
     "price": 400,
@@ -239,7 +229,7 @@
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 61 ], [ "calcium", 6 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", 61 ], [ "calcium", 6 ], [ "iron", 14 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -251,9 +241,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "healthy": 1,
     "calories": 217,
-    "description": "The fruit of a pollinated rose flower.",
+    "description": "The fruit of pollinated rose flowers.",
     "price": 400,
     "price_postapoc": 100,
     "material": [ "fruit" ],
@@ -261,7 +250,7 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 32 ], [ "vitC", 634 ], [ "calcium", 23 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", 634 ], [ "calcium", 23 ], [ "iron", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -273,7 +262,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "healthy": 1,
     "calories": 25,
     "description": "Left-over from juicing the fruit.  Not very tasty, but contains a lot of healthy fiber.",
     "price": 25,
@@ -295,7 +283,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 7,
-    "healthy": 3,
     "calories": 84,
     "description": "A juicy, bell-shaped pear.  Yum!",
     "price": 160,
@@ -309,6 +296,69 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "guayaba",
+    "name": { "str": "guava" },
+    "weight": "182 g",
+    "color": "yellow",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 3,
+    "calories": 123,
+    "description": "A sandy and sweet fruit with pink flesh native to the Carribean, Central America and South America, great for milkshakes.",
+    "price": 120,
+    "price_postapoc": 100,
+    "material": [ "fruit" ],
+    "volume": "375 ml",
+    "fun": 4,
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
+    "vitamins": [ [ "vitC", 500 ], [ "iron", 3 ], [ "calcium", 3 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "maracuya",
+    "name": { "str": "passionfruit" },
+    "weight": "84 g",
+    "color": "brown",
+    "spoils_in": "14 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 5,
+    "calories": 81,
+    "description": "A sweet and acidic fruit originating from South America.  It grows on vines and is filled with seeds like a pomegranate.  Also known as maracuya.",
+    "price": 120,
+    "price_postapoc": 100,
+    "material": [ "fruit" ],
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ] ],
+    "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lulo",
+    "name": { "str": "lulo" },
+    "weight": "140 g",
+    "color": "light_red",
+    "spoils_in": "5 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 8,
+    "calories": 35,
+    "description": "An acidic fruit found in South America and the Caribbean, it looks like a hairy orange and is used mainly for juice and desserts.  Also known as naranjilla.",
+    "price": 180,
+    "price_postapoc": 100,
+    "material": [ "fruit" ],
+    "volume": "375 ml",
+    "fun": 3,
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 1 ], [ "iron", 3 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "grapefruit",
     "name": { "str": "grapefruit" },
     "weight": "246 g",
@@ -317,7 +367,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 18,
-    "healthy": 5,
     "calories": 104,
     "description": "A citrus fruit, whose taste ranges from sour to semi-sweet.",
     "price": 180,
@@ -326,7 +375,7 @@
     "volume": "250 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 84 ], [ "calcium", 5 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 84 ], [ "calcium", 5 ], [ "iron", 1 ] ],
     "fun": 2
   },
   {
@@ -339,7 +388,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 1,
     "calories": 92,
     "description": "A red, sweet fruit that grows in trees.",
     "price": 110,
@@ -361,7 +409,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 4,
-    "healthy": 2,
     "calories": 30,
     "description": "A handful of large, purple plums.  Healthy and good for your digestion.",
     "price": 200,
@@ -383,7 +430,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
-    "healthy": 2,
     "calories": 165,
     "description": "A cluster of juicy grapes.",
     "price": 75,
@@ -405,7 +451,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 9,
-    "healthy": 3,
     "calories": 87,
     "description": "A large, spiky pineapple.  A bit sour, though.",
     "price": 450,
@@ -450,7 +495,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 4,
-    "healthy": 1,
     "calories": 63,
     "description": "This fruit's large pit is surrounded by its tasty flesh.",
     "price": 140,
@@ -460,7 +504,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -473,7 +517,6 @@
     "symbol": "%",
     "quench": 28,
     "//": "yes, it really does have that much water in it",
-    "healthy": 1,
     "calories": 48,
     "description": "A fruit, bigger than your head.  It is very juicy!",
     "price": 400,
@@ -485,7 +528,7 @@
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "fun": 4,
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -498,7 +541,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 4,
-    "healthy": 1,
     "calories": 54,
     "description": "A large and very sweet fruit.",
     "price": 39,
@@ -510,7 +552,7 @@
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "fun": 4,
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 30 ], [ "vitC", 65 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 65 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -522,7 +564,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "healthy": 5,
     "calories": 86,
     "description": "A darker cousin of raspberry.",
     "price": 400,
@@ -532,7 +573,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 9 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -544,7 +585,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "healthy": 1,
     "calories": 105,
     "description": "A fleshy fruit with large pit.",
     "price": 180,
@@ -556,7 +596,7 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 70 ], [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 70 ], [ "calcium", 2 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -568,7 +608,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 12,
-    "healthy": 2,
     "calories": 153,
     "description": "Under this pomegranate's spongy skin lies hundreds of fleshy seeds.",
     "price": 190,
@@ -591,7 +630,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 8,
-    "healthy": 2,
     "calories": 104,
     "description": "A very sweet and soft tropical fruit.",
     "price": 250,
@@ -602,7 +640,7 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 13 ], [ "vitC", 164 ], [ "calcium", 5 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 164 ], [ "calcium", 5 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -614,7 +652,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "healthy": 2,
     "calories": 45,
     "description": "A large, brown and fuzzy-skinned berry.  Its delicious insides are green.",
     "price": 250,
@@ -624,7 +661,7 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 80 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 80 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -637,7 +674,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "healthy": 1,
     "calories": 179,
     "description": "A smooth-skinned fruit, related to the peach.",
     "price": 140,
@@ -647,7 +683,7 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 17 ], [ "vitC", 18 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 18 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -659,7 +695,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 6,
-    "healthy": 2,
     "calories": 62,
     "description": "Edible bud of a cholla cactus, with spines removed; the candy of the Mojave indigenous peoples.  Tastes similar to asparagus.",
     "price": 900,
@@ -669,7 +704,7 @@
     "fun": 6,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 18 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 18 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -681,7 +716,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 15,
-    "healthy": 1,
     "calories": 15,
     "description": "An edible pad of a cactus.",
     "price": 50,
@@ -690,6 +724,6 @@
     "volume": "250 ml",
     "fun": -1,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitA", 9 ], [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ] ]
   }
 ]

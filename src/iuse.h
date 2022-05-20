@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "clone_ptr.h"
+#include "item_location.h"
 #include "optional.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -55,8 +56,6 @@ cata::optional<int> petfood( Character *p, item *it, bool, const tripoint & );
 cata::optional<int> plantblech( Character *, item *, bool, const tripoint & );
 cata::optional<int> poison( Character *, item *, bool, const tripoint & );
 cata::optional<int> prozac( Character *, item *, bool, const tripoint & );
-cata::optional<int> purifier( Character *, item *, bool, const tripoint & );
-cata::optional<int> purify_iv( Character *, item *, bool, const tripoint & );
 cata::optional<int> purify_smart( Character *, item *, bool, const tripoint & );
 cata::optional<int> sewage( Character *, item *, bool, const tripoint & );
 cata::optional<int> smoking( Character *, item *, bool, const tripoint & );
@@ -68,7 +67,6 @@ cata::optional<int> xanax( Character *, item *, bool, const tripoint & );
 // TOOLS
 cata::optional<int> acidbomb_act( Character *, item *, bool, const tripoint & );
 cata::optional<int> adrenaline_injector( Character *, item *, bool, const tripoint & );
-cata::optional<int> arrow_flammable( Character *, item *, bool, const tripoint & );
 cata::optional<int> bell( Character *, item *, bool, const tripoint & );
 cata::optional<int> blood_draw( Character *, item *, bool, const tripoint & );
 cata::optional<int> boltcutters( Character *, item *, bool, const tripoint & );
@@ -94,7 +92,9 @@ cata::optional<int> coin_flip( Character *, item *, bool, const tripoint & );
 cata::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> contacts( Character *, item *, bool, const tripoint & );
+cata::optional<int> cord_attach( Character *, item *, bool, const tripoint & );
 cata::optional<int> crowbar( Character *, item *, bool, const tripoint & );
+cata::optional<int> crowbar_weak( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig_channel( Character *, item *, bool, const tripoint & );
 cata::optional<int> directional_antenna( Character *, item *, bool, const tripoint & );
@@ -107,6 +107,8 @@ cata::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
 cata::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_on( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_off( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> extinguisher( Character *, item *, bool, const tripoint & );
 cata::optional<int> fill_pit( Character *, item *, bool, const tripoint & );
 cata::optional<int> firecracker( Character *, item *, bool, const tripoint & );
@@ -142,8 +144,8 @@ cata::optional<int> electricstorage( Character *, item *, bool, const tripoint &
 cata::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 cata::optional<int> makemound( Character *, item *, bool, const tripoint & );
+cata::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
 cata::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
-cata::optional<int> mind_splicer( Character *, item *, bool, const tripoint & );
 cata::optional<int> mininuke( Character *, item *, bool, const tripoint & );
 cata::optional<int> molotov_lit( Character *, item *, bool, const tripoint & );
 cata::optional<int> mop( Character *, item *, bool, const tripoint & );
@@ -211,8 +213,6 @@ cata::optional<int> radiocar( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocaron( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocontrol( Character *, item *, bool, const tripoint & );
 
-cata::optional<int> autoclave( Character *, item *, bool, const tripoint & );
-
 cata::optional<int> multicooker( Character *, item *, bool, const tripoint & );
 
 cata::optional<int> remoteveh( Character *, item *, bool, const tripoint & );
@@ -226,7 +226,7 @@ void cut_log_into_planks( Character & );
 void play_music( Character &p, const tripoint &source, int volume, int max_morale );
 int towel_common( Character *, item *, bool );
 
-// Helper for validating a potential taget of robot control
+// Helper for validating a potential target of robot control
 bool robotcontrol_can_target( Character *, const monster & );
 
 // Helper for handling pesky wannabe-artists
@@ -238,6 +238,8 @@ cata::optional<std::string> can_smoke( const Character &you );
 } // namespace iuse
 
 void remove_radio_mod( item &it, Character &p );
+// used for unit testing iuse::gun_repair
+cata::optional<int> gun_repair( Character *p, item *it, item_location &loc );
 
 // Helper for clothes washing
 struct washing_requirements {

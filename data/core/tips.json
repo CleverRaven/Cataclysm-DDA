@@ -12,7 +12,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Light itself doesn't draw zombies, it's sight, noise or smell." ]
+    "text": [ "Light itself doesn't draw zombies, it's sight, noise, or smell." ]
   },
   {
     "type": "snippet",
@@ -27,7 +27,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Peek around corners, when crouching or up/down the stairs to check for enemies." ]
+    "text": [ "Peek around corners, when crouching, or up/down stairs to check for enemies." ]
   },
   {
     "type": "snippet",
@@ -72,7 +72,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You don't have to sit next to fire to use it." ]
+    "text": [ "You don't have to sit right next to fire to use it." ]
   },
   {
     "type": "snippet",
@@ -122,7 +122,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Drugs are great for quick morale boost and such, but be aware of addiction and overdose." ]
+    "text": [ "Drugs are great for quick morale boosts and more, but be aware of addiction and overdose." ]
   },
   {
     "type": "snippet",
@@ -227,7 +227,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Be mindful of environmental protection of your gear.  It can take you places." ]
+    "text": [ "Be mindful of the environmental protection of your gear.  It can take you places." ]
   },
   {
     "type": "snippet",
@@ -282,12 +282,12 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "When the whole town is one big supermarket a shopping cart becomes your best friend." ]
+    "text": [ "When the whole town is one big supermarket, a shopping cart becomes your best friend." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Different characters, professions, hobbies and scenarios can spice up your game.  Roleplay!" ]
+    "text": [ "Different characters, professions, hobbies, and scenarios can spice up your game.  Roleplay!" ]
   },
   {
     "type": "snippet",
@@ -337,7 +337,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You can make your own Safe Mode rules in the pause menu." ]
+    "text": [ "You can make your own safe mode rules in the pause menu." ]
   },
   {
     "type": "snippet",
@@ -372,7 +372,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Major blood loss?  Drink plenty, supplement iron and rest to regenerate your red blood cells." ]
+    "text": [ "Major blood loss?  Drink plenty, supplement iron, and rest to regenerate your red blood cells." ]
   },
   {
     "type": "snippet",
@@ -387,7 +387,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Tis but a scratch?  Minor bleeding does not require any dressing.  Bandaid is sufficient enough." ]
+    "text": [ "Tis but a scratch?  Minor bleeding does not require any dressing.  A Bandaid is sufficient enough." ]
   },
   {
     "type": "snippet",
@@ -427,12 +427,12 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Long trip ahead?  Autotravel and autodrive to your desired destination." ]
+    "text": [ "Long trip ahead?  Auto travel and auto drive to your desired destination." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You can automate repetitive tasks such as foraging, mining or mopping for your convenience." ]
+    "text": [ "You can automate repetitive tasks such as foraging, mining, or mopping for your convenience." ]
   },
   {
     "type": "snippet",
@@ -477,7 +477,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Save time.  Instead of using a recipe, place water in a container on the fire to boil it." ]
+    "text": [ "Save time.  Instead of using a recipe, place water in a container on a fire to boil it." ]
   },
   {
     "type": "snippet",
@@ -492,12 +492,12 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Being skilled does not mean being proficient.  Gain proficiency to become master in specific areas." ]
+    "text": [ "Being skilled does not mean being proficient.  Gain proficiency to become a master in specific areas." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Prolonged physical exhaustion results in weariness.  Overwork causes loss of productivity." ]
+    "text": [ "Prolonged physical exhaustion results in weariness.  Overworking causes loss of productivity." ]
   },
   {
     "type": "snippet",
@@ -507,7 +507,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Verticality is a thing.  If you can get to the roof somehow, it may save your life." ]
+    "text": [ "Verticality is a thing.  If you can get to a roof somehow, it may save your life." ]
   },
   {
     "type": "snippet",
@@ -517,7 +517,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Fight on your conditions whenever you can.  Use terrain, traps and fire to your advantage." ]
+    "text": [ "Fight on your conditions whenever you can.  Use terrain, traps, and fire to your advantage." ]
   },
   {
     "type": "snippet",
@@ -537,7 +537,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You can view local keybindings in most sub-menus by pressing a question mark (?) key." ]
+    "text": [ "You can view local keybindings in most sub-menus by pressing the question mark (?) key." ]
   },
   {
     "type": "snippet",
@@ -552,12 +552,12 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Where applicable, use blacklists, whitelists and filters for a better quality of life." ]
+    "text": [ "Where applicable, use blacklists, whitelists, and filters for a better quality of life." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Many items have contextual use.  Use item action menu to find out what you can do with them." ]
+    "text": [ "Many items have contextual uses.  Use the item action menu to find out what you can do with them." ]
   },
   {
     "type": "snippet",
@@ -567,7 +567,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Auto-pickup settings can save your time when you need it.  It's fully customizable too." ]
+    "text": [ "Auto-pickup settings can save you time when you need it.  It's fully customizable too." ]
   },
   {
     "type": "snippet",
@@ -582,7 +582,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Be mindful of what, when and how much you eat.  A balanced diet is crucial in the long run." ]
+    "text": [ "Be mindful of what, when, and how much you eat.  A balanced diet is crucial in the long run." ]
   },
   {
     "type": "snippet",
@@ -592,12 +592,12 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "For free in the construction menu: a crafting spot, a firewood source and a practice target." ]
+    "text": [ "For free in the construction menu: a crafting spot, a firewood source, and a practice target." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "When looking around, use T to move to destination or item automatically." ]
+    "text": [ "When looking around, use T to move to a destination or item automatically." ]
   },
   {
     "type": "snippet",

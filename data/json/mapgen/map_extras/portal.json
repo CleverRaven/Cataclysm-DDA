@@ -1,0 +1,54 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "portal_location",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_region_groundcover" },
+      "furniture": { " ": "f_rubble_rock" },
+      "place_traps": [ { "trap": "tr_portal", "x": 1, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_portal",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [ { "chunks": [ "portal_location" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ],
+      "monsters": { " ": { "monster": "GROUP_NETHER_PORTAL", "chance": 1, "density": 0.0001 } }
+    }
+  }
+]

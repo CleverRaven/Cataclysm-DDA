@@ -9,7 +9,7 @@
       "f": "t_chickenwire_fence",
       ";": "t_dirt"
     },
-    "furniture": { "b": "f_bench", "t": "f_table", "r": "f_rack", ";": "f_clear" }
+    "furniture": { "b": "f_bench", "t": "f_table", "r": "f_rack", ";": "f_clear", "w": "f_spinwheel" }
   },
   {
     "type": "mapgen",
@@ -43,6 +43,7 @@
         ";;;;;;;;;;;;;;;;;;;;    ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbml_2_common_palette" ]
     }
   },
@@ -84,6 +85,7 @@
         "g  ",
         "Fbb"
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 2 ], "y": [ 0, 2 ] } ],
       "palettes": [ "fbml_2_common_palette" ]
     }
   },
@@ -100,6 +102,7 @@
         " b   ",
         " b   "
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
       "palettes": [ "fbml_2_common_palette" ]
     }
   },
@@ -114,6 +117,7 @@
         "g  ",
         "F  "
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 2 ], "y": [ 0, 2 ] } ],
       "palettes": [ "fbml_2_common_palette" ]
     }
   },
@@ -130,6 +134,7 @@
         "Fb   ",
         "g    "
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
       "palettes": [ "fbml_2_common_palette" ]
     }
   },
@@ -142,7 +147,7 @@
       "rows": [
         "rrr",
         "  t",
-        "  r"
+        "  w"
       ],
       "palettes": [ "fbml_2_common_palette" ]
     }

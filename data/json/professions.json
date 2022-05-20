@@ -35,6 +35,21 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_soldering_iron",
+    "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "soldering_iron" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "charged_electrical_measuring",
+    "entries": [
+      { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "voltmeter" },
+      { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "multimeter" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "charged_smart_phone",
     "entries": [ { "item": "smart_phone", "ammo-item": "battery", "charges": 120 } ]
   },
@@ -158,13 +173,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_bow_hunter",
-    "entries": [ { "item": "arrow_cf", "charges": 8 } ]
+    "entries": [ { "item": "arrow_cf", "charges": 10 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_crossbow_hunter",
-    "entries": [ { "item": "bolt_metal", "charges": 9 } ]
+    "entries": [ { "item": "bolt_steel", "charges": 4 } ]
   },
   {
     "type": "item_group",
@@ -207,6 +222,25 @@
     "subtype": "collection",
     "id": "bandolier_ww_gunslinger",
     "entries": [ { "item": "45colt_jhp", "charges": 18 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "ninja_grenade_pouch",
+    "entries": [ { "item": "flashbang" }, { "item": "flashbang" }, { "item": "smokebomb" }, { "item": "smokebomb" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "leg_sheath6_throwing_knives",
+    "entries": [
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" },
+      { "item": "throwing_knife" }
+    ]
   },
   {
     "type": "profession_item_substitutions",
@@ -392,7 +426,6 @@
       "both": {
         "items": [
           "jeans",
-          "tshirt",
           "gloves_light",
           "hat_ball",
           "duffelbag",
@@ -402,13 +435,13 @@
           "socks_wool",
           "socks",
           "hoodie",
-          "folding_poncho_on",
+          "folding_poncho",
           "knit_scarf",
           "jug_plastic",
           "can_beans",
           "pockknife"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_matches" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_matches" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
@@ -435,7 +468,7 @@
     "name": "Sheltered Survivor",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",
     "points": 4,
-    "proficiencies": [ "prof_fibers", "prof_knitting" ],
+    "proficiencies": [ "prof_fibers", "prof_knitting", "prof_carving" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "computer" },
@@ -448,8 +481,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt", "socks", "sweater", "sneakers", "multitool", "water_clean", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+        "items": [ "mbag", "pants", "socks", "sweater", "sneakers", "multitool", "water_clean", "wristwatch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_matches" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -466,7 +503,17 @@
     "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "items": {
       "both": {
-        "items": [ "winter_pants_army", "undershirt", "socks", "sweatshirt", "boots_hiking", "knife_folding", "wristwatch" ],
+        "items": [
+          "molle_pack",
+          "winter_pants_army",
+          "winter_jacket_army",
+          "undershirt",
+          "socks",
+          "boots_combat",
+          "sweatshirt",
+          "knife_folding",
+          "wristwatch"
+        ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "charged_matches" },
@@ -489,8 +536,8 @@
     "id": "tailor",
     "name": "Tailor",
     "description": "Tailoring may not seem like the most useful skill when the world has ended.  Most people wouldn't expect a simple tailor to live very long.  This is your opportunity to prove them wrong.",
-    "points": 2,
-    "//": "Tailoring kit makes an already decent class for careful folks much more powerful.",
+    "points": 3,
+    "//": "Tailoring book and kit make an already decent class for careful folks much more powerful.",
     "skills": [ { "level": 4, "name": "tailor" } ],
     "proficiencies": [
       "prof_fibers",
@@ -498,11 +545,24 @@
       "prof_leatherworking",
       "prof_furriery",
       "prof_closures",
-      "prof_closures_waterproofing"
+      "prof_closures_waterproofing",
+      "prof_cobbling",
+      "prof_millinery"
     ],
     "items": {
       "both": {
-        "items": [ "polo_shirt", "blazer", "pants", "socks", "dress_shoes", "knit_scarf", "wristwatch" ],
+        "items": [
+          "mbag",
+          "polo_shirt",
+          "blazer",
+          "pants",
+          "socks",
+          "dress_shoes",
+          "knit_scarf",
+          "textbook_tailor",
+          "sf_watch",
+          "hairpin"
+        ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "tailors_kit", "ammo-item": "thread", "charges": 100 } ]
       },
       "male": [ "briefs" ],
@@ -514,12 +574,19 @@
     "id": "chef",
     "name": "Chef",
     "description": "Bork bork!  Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with your trusty butcher knife and only a small collection of stains on your uniform.",
-    "points": 1,
+    "points": 2,
     "skills": [ { "name": "cooking", "level": 4 } ],
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_baking", "prof_baking_desserts_1", "prof_frying" ],
     "items": {
       "both": {
-        "items": [ "hat_chef", "jacket_chef", "pants_checkered", "socks", "dress_shoes" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "knife_butcher", "container-item": "sheath" } ]
+        "items": [ "pants_checkered", "socks", "dress_shoes" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "knife_butcher", "container-item": "sheath" },
+          { "item": "hat_chef", "variant": "white_hat_chef" },
+          { "item": "jacket_chef", "variant": "white_jacket_chef" },
+          { "item": "apron_cotton", "variant": "generic_apron_cotton" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -562,6 +629,7 @@
       { "level": 2, "name": "electronics" },
       { "level": 2, "name": "mechanics" }
     ],
+    "proficiencies": [ "prof_intro_chemistry", "prof_intro_biology" ],
     "items": {
       "both": {
         "items": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
@@ -664,11 +732,20 @@
     "name": "Baseball Player",
     "description": "You played with the local team.  You're the only one left, but now you can use your trusty bat for another purpose.  Home run!",
     "points": 1,
-    "skills": [ { "level": 3, "name": "throw" }, { "level": 1, "name": "melee" } ],
+    "skills": [
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "swimming" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" }
+    ],
     "items": {
       "both": {
-        "items": [ "baseball", "tshirt", "jacket_light", "jeans", "socks", "sneakers", "helmet_ball", "sports_drink" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "bat", "custom-flags": [ "auto_wield" ] } ]
+        "items": [ "baseball", "jacket_light", "jeans", "socks", "cleats", "helmet_ball", "sports_drink", "gum" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "bat", "custom-flags": [ "auto_wield" ] },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
@@ -680,13 +757,44 @@
     "name": "Basketball Player",
     "description": "Your first major game was abruptly cancelled when zombies stormed the court.  Quick feet and good reflexes meant you were among the lucky few to escape the stadium alive.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "tank_top", "b_shorts", "socks_ankle", "sneakers", "basketball", "sports_drink", "runner_bag" ],
         "entries": [ { "item": "jersey", "snippets": [ "basin" ] }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "football_player",
+    "name": "Football Player",
+    "description": "Your epic touchdown was ruined when your coach's guts were torn out by undead fans.  Now you're first pick in the apocalypse draft.",
+    "points": 3,
+    "skills": [
+      { "level": 3, "name": "swimming" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "throw" },
+      { "level": 1, "name": "unarmed" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "helmet_football",
+          "football_armor",
+          "mouthpiece",
+          "socks_ankle",
+          "cleats",
+          "football",
+          "knee_pads",
+          "sports_drink",
+          "pants"
+        ],
+        "entries": [ { "item": "jersey", "snippets": [ "endsville" ] }, { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "under_armor_shorts" ],
       "female": [ "sports_bra", "panties" ]
     }
   },
@@ -766,17 +874,20 @@
     "items": {
       "both": {
         "items": [
-          "pants_army",
           "undershirt",
+          "officer_uniform",
           "jacket_army_modern",
           "gloves_liner",
           "socks",
           "boots",
           "beret",
-          "wristwatch",
+          "silver_watch",
+          "fancy_sunglasses",
           "binoculars"
         ],
         "entries": [
+          { "item": "cigar", "container-item": "case_cigar", "charges": 2 },
+          { "item": "id_military", "container-item": "wallet_leather" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
@@ -785,7 +896,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -801,7 +913,8 @@
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" }
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -843,8 +956,8 @@
     "id": "combat-mechanic",
     "name": "Combat Mechanic",
     "description": "Early in your military career, you were hand-picked for extra training in the mechanic's trade, keeping the armor running.  It's been years since you last touched a rifle, and the dead men are marching again…",
-    "points": 4,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "points": 5,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_welding_basic", "prof_welding" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -853,7 +966,8 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "survival" },
-      { "level": 6, "name": "mechanics" }
+      { "level": 6, "name": "mechanics" },
+      { "level": 1, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -874,10 +988,12 @@
           { "group": "military_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
+          { "item": "lug_wrench" },
           { "item": "hacksaw" },
           { "item": "pliers" },
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "jack" }
+          { "item": "jack" },
+          { "item": "tinyweldtank", "charges": 60, "container-item": "oxy_torch" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -889,8 +1005,8 @@
     "id": "combat-engineer",
     "name": "Combat Engineer",
     "description": "Your job was simple: Keep the army moving.  You built bridges, you built roads, you destroyed fortifications, and you cleared mines.  It has been years since you last handled a rifle in basic training; now might be the time to dust off those skills.",
-    "points": 6,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "points": 8,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_trapsetting", "prof_disarming", "prof_spotting" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -901,14 +1017,14 @@
       { "level": 1, "name": "survival" },
       { "level": 6, "name": "fabrication" },
       { "level": 6, "name": "mechanics" },
-      { "level": 6, "name": "traps" }
+      { "level": 6, "name": "traps" },
+      { "level": 1, "name": "swimming" }
     ],
     "items": {
       "both": {
         "items": [
           "pants_army",
           "undershirt",
-          "jacket_army",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -933,10 +1049,10 @@
   {
     "type": "profession",
     "id": "nco",
-    "name": "Non Comissioned Officer",
+    "name": "Non Commissioned Officer",
     "description": "You're a veteran of several peacekeeping missions.  You led your squad as a sort of parental figure, and they relied on you to give orders and keep them alive.  You failed them.  And now you're alone.",
     "points": 7,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 2, "name": "speech" },
@@ -946,7 +1062,8 @@
       { "level": 2, "name": "stabbing" },
       { "level": 2, "name": "dodge" },
       { "level": 3, "name": "firstaid" },
-      { "level": 3, "name": "survival" }
+      { "level": 3, "name": "survival" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -960,7 +1077,7 @@
           "gloves_tactical",
           "socks",
           "boots_combat",
-          "wristwatch",
+          "diving_watch",
           "molle_pack"
         ],
         "entries": [
@@ -989,7 +1106,7 @@
     "name": "Rifleman",
     "description": "When you were young, you dreamed of being a soldier.  War is hell and hell is war, but you never thought that it would happen like this.",
     "points": 6,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "rifle" },
@@ -997,7 +1114,8 @@
       { "level": 2, "name": "stabbing" },
       { "level": 2, "name": "dodge" },
       { "level": 2, "name": "survival" },
-      { "level": 2, "name": "firstaid" }
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -1040,7 +1158,7 @@
     "name": "Special Operator",
     "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 8,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming", "prof_spotting" ],
     "skills": [
       { "level": 6, "name": "gun" },
       { "level": 6, "name": "smg" },
@@ -1060,7 +1178,6 @@
           "pants_army",
           "wetsuit_hood",
           "tac_helmet",
-          "glasses_bal",
           "wetsuit_gloves",
           "gloves_tactical",
           "socks",
@@ -1072,6 +1189,7 @@
           { "group": "charged_two_way_radio" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "chestrig", "contents-group": "army_mags_mp5" },
           {
@@ -1093,10 +1211,11 @@
     "description": "You were hired to take care of the housekeeping for a wealthy family.  Naturally, when things got bad, they all took off on a family vacation to somewhere unknown, leaving you to your fate.",
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
+    "proficiencies": [ "prof_food_prep", "prof_closures" ],
     "items": {
       "both": { "items": [ "pocketwatch", "knife_steak" ], "entries": [ { "group": "charged_smart_phone" } ] },
-      "male": [ "briefs", "socks", "dress_shoes", "tux" ],
-      "female": [ "panties", "bra", "stockings", "garter_belt", "dress_shoes", "maid_dress", "maid_hat" ]
+      "male": [ "briefs", "socks", "dress_shoes", "tux", "glasses_monocle", "collarpin" ],
+      "female": [ "panties", "bra", "stockings", "garter_belt", "dress_shoes", "maid_dress", "maid_hat", "corset_waist", "fc_hairpin" ]
     }
   },
   {
@@ -1122,7 +1241,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "armor_farmor", "socks", "boots_fur", "hat_fur", "gloves_fur", "vest", "wristwatch" ],
+        "items": [ "armor_farmor", "socks", "boots_fur", "hat_fur", "gloves_fur", "vest", "wristwatch", "bracelet_friendship" ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
           {
@@ -1134,7 +1253,8 @@
           },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-          { "item": "stanag30", "ammo-item": "556", "charges": 30 }
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+          { "group": "full_gasmask" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1149,7 +1269,7 @@
     "description": "Fresh out of med school, you've got little in the way of practical experience and just a handful of first-aid supplies.  You just hope it will be enough if 'physician, heal thyself' turns out to be more literal than you expected.",
     "points": 2,
     "skills": [ { "level": 4, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert" ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -1160,6 +1280,8 @@
           "socks",
           "dress_shoes",
           "coat_lab",
+          "badge_doctor",
+          "glasses_safety",
           "wristwatch",
           "water_clean",
           "bandages",
@@ -1189,7 +1311,20 @@
     ],
     "items": {
       "both": {
-        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "wristwatch" ],
+        "items": [
+          "suit",
+          "bowhat",
+          "socks",
+          "dress_shoes",
+          "knit_scarf",
+          "cig",
+          "switchblade",
+          "mag_porn",
+          "sunglasses",
+          "cestus",
+          "gold_watch",
+          "gold_ring"
+        ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
@@ -1198,8 +1333,8 @@
           { "item": "lighter", "charges": 100 }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": [ "boxer_shorts", "gold_dental_grill" ],
+      "female": [ "bra", "panties", "gold_hairpin", "gold_ear" ]
     }
   },
   {
@@ -1210,21 +1345,11 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "socks",
-          "boots_combat",
-          "longshirt",
-          "jacket_light",
-          "knife_folding",
-          "hat_ball",
-          "kevlar",
-          "wristwatch",
-          "leather_belt"
-        ],
+        "items": [ "pants", "socks", "boots_combat", "longshirt", "knife_folding", "hat_ball", "wristwatch", "leather_belt" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_flashlight" },
+          { "item": "soft_3a_vest", "variant": "security_armor_vest" },
           { "item": "baton", "custom-flags": [ "auto_wield" ] },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "m9mag", "ammo-item": "9mm", "charges": 15 },
@@ -1241,7 +1366,7 @@
     "name": "Landscaper",
     "description": "You used to mow lawns and trim hedges for the wealthy.  Contract work was getting scarce even before the zombies came, but now you've got nothing left except your tools and expertise.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "survival" } ],
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "survival" }, { "level": 1, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "tank_top", "jacket_windbreaker", "hat_ball", "gloves_work", "glasses_safety", "socks", "sneakers", "pants_cargo" ],
@@ -1261,21 +1386,23 @@
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
     "proficiencies": [ "prof_wound_care" ],
     "items": {
-      "both": [
-        "pants",
-        "dress_shirt",
-        "mask_dust",
-        "gloves_medical",
-        "socks",
-        "dress_shoes",
-        "coat_lab",
-        "water_clean",
-        "bandages",
-        "adhesive_bandages",
-        "aspirin",
-        "stethoscope",
-        "pudding"
-      ],
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "gloves_medical",
+          "socks",
+          "dress_shoes",
+          "coat_lab",
+          "water_clean",
+          "bandages",
+          "adhesive_bandages",
+          "aspirin",
+          "stethoscope",
+          "pudding"
+        ],
+        "entries": [ { "item": "mask_dust", "variant": "white_mask_dust" } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -1285,7 +1412,7 @@
     "id": "survivalist",
     "name": "Survivalist",
     "description": "Living off the land, far from civilization, is nothing new to you.  The only difference is all the monsters that suddenly want you dead.  Your equipment is basic, but versatile… except that your canteen's run out!",
-    "points": 4,
+    "points": 5,
     "proficiencies": [
       "prof_gunsmithing_basic",
       "prof_gunsmithing_improv",
@@ -1296,7 +1423,9 @@
       "prof_metalworking",
       "prof_lockpicking",
       "prof_bow_basic",
-      "prof_bow_expert"
+      "prof_bow_expert",
+      "prof_fletching",
+      "prof_carving"
     ],
     "skills": [
       { "level": 4, "name": "survival" },
@@ -1313,20 +1442,20 @@
           "pants_cargo",
           "boots",
           "hat_boonie",
-          "tshirt",
           "jacket_light",
           "socks",
           "backpack",
           "rope_30",
           "whistle",
-          "wristwatch",
+          "diving_watch",
           "canteen"
         ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
-          { "item": "knife_rambo", "container-item": "scabbard" }
+          { "item": "knife_rambo", "container-item": "scabbard" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1371,19 +1500,26 @@
     "name": "K9 Officer",
     "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended, and none of that matters anymore.  Your loyal dog is still at your side, though, ready to face the Cataclysm with you.",
     "points": 4,
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 2, "name": "survival" } ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "survival" },
+      { "level": 1, "name": "swimming" }
+    ],
     "traits": [ "PROF_POLICE" ],
     "proficiencies": [ "prof_spotting" ],
     "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "dog_whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "dog_whistle", "wristwatch", "dogfood_dry" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "kevlar_harness", "container-item": "runner_bag" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1417,7 +1553,7 @@
     "items": {
       "both": {
         "items": [ "jeans", "longshirt", "socks", "sneakers", "knit_scarf", "pockknife", "water_clean", "wristwatch", "mbag" ],
-        "entries": [ { "group": "charged_matches" } ]
+        "entries": [ { "group": "charged_matches" }, { "item": "catfood_dry", "count": 10 } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -1429,18 +1565,19 @@
     "name": "Police Officer",
     "description": "Just a small-town deputy, you got the call and were ready to come to the rescue.  Soon it was you who needed rescuing, and you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
     "points": 2,
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
     "traits": [ "PROF_POLICE" ],
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1484,7 +1621,7 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
     "addictions": [ { "intensity": 10, "type": "nicotine" } ]
   },
   {
@@ -1494,15 +1631,34 @@
     "description": "As a member of the police force's most elite division, you are more than adequately trained and equipped to survive the brutal onslaught of the apocalypse.  Unfortunately, the chain of command has broken down; your only mission now is to stay alive.",
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "smg" } ],
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "smg" },
+      { "level": 2, "name": "swimming" }
+    ],
     "traits": [ "PROF_SWAT" ],
     "items": {
       "both": {
-        "items": [ "socks", "swat_armor", "police_belt", "tac_helmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch" ],
+        "items": [
+          "socks",
+          "police_belt",
+          "tac_helmet",
+          "boots_combat",
+          "gloves_tactical",
+          "badge_swat",
+          "wristwatch",
+          "pants_cargo",
+          "elbow_pads",
+          "knee_pads"
+        ],
         "entries": [
+          { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
+          { "item": "sheriffshirt", "variant": "swat_shirt" },
+          { "group": "army_mags_mp5" },
+          { "group": "army_mags_usp9" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "tacvest", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           {
@@ -1528,15 +1684,28 @@
       { "level": 3, "name": "shotgun" },
       { "level": 1, "name": "pistol" },
       { "level": 1, "name": "melee" },
-      { "level": 1, "name": "bashing" }
+      { "level": 1, "name": "bashing" },
+      { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_SWAT" ],
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "socks", "swat_armor", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch" ],
+        "items": [
+          "socks",
+          "tac_fullhelmet",
+          "boots_combat",
+          "gloves_tactical",
+          "badge_swat",
+          "wristwatch",
+          "pants_cargo",
+          "elbow_pads",
+          "knee_pads"
+        ],
         "entries": [
+          { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
+          { "item": "sheriffshirt", "variant": "swat_shirt" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
@@ -1557,7 +1726,12 @@
     "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well-placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
-    "skills": [ { "level": 5, "name": "gun" }, { "level": 4, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
+    "skills": [
+      { "level": 5, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "swimming" }
+    ],
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
@@ -1565,11 +1739,9 @@
           "socks",
           "pants_army",
           "police_belt",
-          "sheriffshirt",
           "sweatshirt",
           "sneakers",
           "gloves_tactical",
-          "glasses_bal",
           "hat_ball",
           "badge_deputy",
           "wristwatch",
@@ -1577,11 +1749,13 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_powered_earmuffs" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "762_51", "charges": 20 },
-          { "item": "M24", "ammo-item": "762_51", "charges": 5, "contents-item": "shoulder_strap" }
+          { "item": "M24", "ammo-item": "762_51", "charges": 5, "contents-item": "shoulder_strap" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1598,7 +1772,8 @@
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "bashing" },
       { "level": 1, "name": "gun" },
-      { "level": 1, "name": "throw" }
+      { "level": 1, "name": "throw" },
+      { "level": 3, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
     "proficiencies": [ "prof_spotting" ],
@@ -1635,7 +1810,7 @@
     "name": "Motorized Police Officer",
     "description": "Just a small-town deputy, you got the call and were ready to ride to the rescue.  Soon it was you who needed rescuing, and you had to abandon your motorcycle to escape.  Who's going to respect your authority when the government this badge represents doesn't exist anymore?",
     "points": 2,
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
     "traits": [ "PROF_POLICE" ],
     "proficiencies": [ "prof_spotting" ],
     "items": {
@@ -1644,7 +1819,6 @@
           "socks",
           "police_breeches",
           "badge_deputy",
-          "sheriffshirt",
           "undershirt",
           "police_belt",
           "motor_police_boots",
@@ -1658,7 +1832,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1674,11 +1849,11 @@
     "skills": [ { "level": 4, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "wristwatch" ],
+        "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "wristwatch", "gold_watch", "money_strap_fifty" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": [ "briefs", "citrine_gold_cufflinks" ],
+      "female": [ "bra", "panties", "gold_ear" ]
     }
   },
   {
@@ -1686,9 +1861,9 @@
     "id": "bow_hunter",
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
-    "points": 2,
+    "points": 3,
     "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_bowyery" ],
-    "skills": [ { "level": 2, "name": "archery" } ],
+    "skills": [ { "level": 2, "name": "archery" }, { "level": 1, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [
@@ -1698,41 +1873,61 @@
           "boots_steel",
           "pants_cargo",
           "jacket_flannel",
-          "recurbow",
+          "bow_sling",
+          "bow_sight_pin",
           "hat_hunting",
           "wristwatch"
         ],
         "entries": [
           { "group": "charged_smart_phone" },
+          { "item": "compbow_low", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver", "contents-group": "quiver_bow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
     "id": "crossbow_hunter",
     "name": "Crossbow Hunter",
-    "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along.",
-    "points": 2,
+    "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
+    "points": 3,
     "proficiencies": [ "prof_bow_basic", "prof_gunsmithing_spring" ],
-    "skills": [ { "level": 2, "name": "rifle" } ],
+    "skills": [ { "level": 2, "name": "rifle" }, { "level": 1, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "army_top", "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch" ],
+        "items": [
+          "army_top",
+          "knit_scarf",
+          "socks",
+          "boots_steel",
+          "pants_cargo",
+          "jacket_flannel",
+          "hat_hunting",
+          "wristwatch",
+          "single_sling"
+        ],
         "entries": [
           { "group": "charged_smart_phone" },
-          { "item": "crossbow", "ammo-item": "bolt_metal", "charges": 1, "contents-item": "shoulder_strap" },
+          {
+            "item": "compcrossbow",
+            "ammo-item": "bolt_steel",
+            "charges": 1,
+            "contents-item": "shoulder_strap",
+            "custom-flags": [ "no_auto_equip" ]
+          },
           { "item": "quiver", "contents-group": "quiver_crossbow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -1743,18 +1938,35 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "shotgun" } ],
     "items": {
       "both": {
-        "items": [ "army_top", "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch" ],
+        "items": [
+          "army_top",
+          "knit_scarf",
+          "socks",
+          "boots_steel",
+          "pants_cargo",
+          "jacket_flannel",
+          "hat_hunting",
+          "wristwatch",
+          "back_holster"
+        ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap" },
+          {
+            "item": "remington_870",
+            "ammo-item": "shot_00",
+            "charges": 5,
+            "contents-item": "shoulder_strap",
+            "custom-flags": [ "no_auto_equip" ]
+          },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -1765,26 +1977,50 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
     "items": {
       "both": {
-        "items": [ "army_top", "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch" ],
+        "items": [
+          "army_top",
+          "knit_scarf",
+          "socks",
+          "boots_steel",
+          "pants_cargo",
+          "jacket_flannel",
+          "hat_hunting",
+          "wristwatch",
+          "back_holster"
+        ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" },
+          {
+            "item": "remington700_270",
+            "ammo-item": "270win_jsp",
+            "charges": 4,
+            "contents-item": "shoulder_strap",
+            "custom-flags": [ "no_auto_equip" ]
+          },
           { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
     "id": "construction_worker",
     "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did plenty of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help rebuild?",
-    "points": 1,
-    "proficiencies": [ "prof_plumbing", "prof_elec_soldering", "prof_metalworking", "prof_lockpicking" ],
+    "points": 2,
+    "proficiencies": [
+      "prof_plumbing",
+      "prof_elec_soldering",
+      "prof_metalworking",
+      "prof_lockpicking",
+      "prof_carpentry_basic",
+      "prof_appliance_repair"
+    ],
     "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "traps" } ],
     "items": {
       "both": {
@@ -1840,23 +2076,31 @@
     "name": "EMT Firefighter",
     "description": "On your way to respond to an emergency call, you nearly drove straight into a riot in the city.  Turning off of the burning, debris-covered streets, you took a long detour only to find yourself lost.  That call will have to wait - you're in an emergency of your own now.",
     "points": 5,
-    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 3, "name": "driving" }, { "level": 1, "name": "electronics" } ],
-    "proficiencies": [ "prof_wound_care" ],
+    "skills": [
+      { "level": 1, "name": "firstaid" },
+      { "level": 3, "name": "driving" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "proficiencies": [ "prof_wound_care", "prof_burn_care" ],
     "vehicle": "fire_engine",
     "items": {
       "both": {
         "items": [
           "boots_bunker",
           "bunker_coat",
+          "nomex_suit",
           "bunker_pants",
           "dress_shirt",
+          "nomex_gloves",
           "fire_gauntlets",
+          "nomex_hood",
           "firehelmet",
           "glasses_safety",
           "mbag",
           "nomex_socks",
           "water_clean",
-          "wristwatch"
+          "pocketwatch"
         ],
         "entries": [
           { "group": "full_1st_aid" },
@@ -1864,9 +2108,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "halligan", "container-item": "fireman_belt" }
         ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "panties", "bra" ]
+      }
     }
   },
   {
@@ -1876,6 +2118,7 @@
     "description": "Employed by a large company, you performed installation and troubleshooting services at the homes of ungrateful luddites.  Driving back from your last call, you were suddenly swarmed by what you believed to be angry rioters.  You veered off onto an old, neglected side road to escape, only to find yourself lost and low on gas.",
     "points": 4,
     "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_appliance_repair" ],
     "vehicle": "cube_van_cheap",
     "items": {
       "both": {
@@ -1892,7 +2135,7 @@
           "hammer",
           "hat_ball"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_electrical_measuring" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
@@ -1908,8 +2151,8 @@
     "vehicle": "schoolbus",
     "items": {
       "both": {
-        "items": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "water_clean", "hat_ball" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "sneakers", "socks", "jeans", "wristwatch", "jacket_light", "water_clean", "hat_ball" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
@@ -1922,17 +2165,19 @@
     "description": "An on-duty officer, you received the call and were ready to respond to the robbery.  It all went to shit, your backup got eaten, and you were lucky to escape with your life and patrol car.",
     "points": 6,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "driving" } ],
+    "proficiencies": [ "prof_spotting" ],
     "vehicle": "policecar",
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2013,7 +2258,6 @@
           "pants_army",
           "police_belt",
           "rollmat",
-          "sheriffshirt",
           "socks",
           "travelpack",
           "vest",
@@ -2036,7 +2280,8 @@
           { "item": "permanent_marker", "charges": 500 },
           { "item": "roadmap" },
           { "item": "sm_extinguisher", "charges": 10 },
-          { "item": "trailmap" }
+          { "item": "trailmap" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2049,6 +2294,7 @@
     "name": "Lumberjack",
     "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, and you suspect the undead aren't nearly as tough.",
     "points": 0,
+    "skills": [ { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "jeans", "socks", "boots", "hat_hunting", "jacket_flannel", "knit_scarf", "vest", "wristwatch", "axe_ring" ],
@@ -2065,10 +2311,11 @@
     "description": "The diners at the fancy burger joint where you worked were even more irritable and unreasonable than usual today.  You showed them the meaning of fast food… by running for your life!",
     "points": 0,
     "skills": [ { "level": 1, "name": "cooking" } ],
+    "proficiencies": [ "prof_frying" ],
     "items": {
       "both": {
-        "items": [ "pants", "sneakers", "tshirt", "socks", "knife_steak" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "pants", "sneakers", "socks", "knife_steak" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2080,12 +2327,17 @@
     "name": "Electrician",
     "description": "Small businesses often hired you for electrical work.  You were halfway through your latest job when the whole power grid went dead.",
     "points": 1,
-    "proficiencies": [ "prof_elec_soldering" ],
+    "proficiencies": [ "prof_elec_soldering", "prof_appliance_repair" ],
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "jumpsuit", "socks", "boots", "tool_belt", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_flashlight" } ]
+        "items": [ "jumpsuit", "socks", "boots", "tool_belt", "wristwatch", "mbag", "solder_wire" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_flashlight" },
+          { "group": "charged_soldering_iron" },
+          { "group": "charged_electrical_measuring" }
+        ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
@@ -2100,7 +2352,17 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "caffeine" ],
+        "items": [
+          "pants",
+          "tshirt_text",
+          "socks",
+          "sneakers",
+          "mbag",
+          "caffeine",
+          "caff_gum",
+          "mobile_memory_card_encrypted",
+          "usb_drive"
+        ],
         "entries": [
           { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
           { "group": "charged_smart_phone" },
@@ -2108,7 +2370,7 @@
         ]
       },
       "male": [ "briefs" ],
-      "female": [ "panties" ]
+      "female": [ "sports_bra", "panties" ]
     }
   },
   {
@@ -2120,8 +2382,8 @@
     "skills": [ { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "backpack_leather", "jeans", "sneakers", "tshirt", "knit_scarf", "socks", "wristwatch", "fun_survival" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "backpack_hiking", "jeans", "boots_hiking", "knit_scarf", "socks", "wristwatch", "fun_survival" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -2132,22 +2394,11 @@
     "id": "student",
     "name": "Student",
     "description": "Just an average student, you find yourself facing a test you never studied for, and the stakes are a bit higher than geometry.  Maybe there'll be something useful in one of these books you've been lugging around all year.",
-    "points": 1,
+    "points": 0,
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "tshirt",
-          "socks",
-          "sneakers",
-          "ZSG",
-          "backpack",
-          "wristwatch",
-          "textbook_speech",
-          "story_book",
-          "howto_computer"
-        ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "pants", "socks", "sneakers", "ZSG", "backpack", "wristwatch", "textbook_speech", "story_book", "howto_computer" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -2172,10 +2423,24 @@
     "vehicle": "motorcycle",
     "items": {
       "both": {
-        "items": [ "jeans", "tank_top", "chaps_leather", "socks", "boots", "bandana", "jacket_leather", "wristwatch", "multitool" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "sheath", "contents-item": "knife_trench" } ]
+        "items": [
+          "motorbike_pants",
+          "motorbike_armor",
+          "chaps_leather",
+          "socks",
+          "motorbike_boots",
+          "helmet_motor",
+          "jacket_leather",
+          "wristwatch",
+          "multitool"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "sheath", "contents-item": "knife_trench" },
+          { "item": "leg_bag", "variant": "black_leg_bag" }
+        ]
       },
-      "male": [ "boxer_shorts" ],
+      "male": [ "boxer_shorts", "tank_top" ],
       "female": [ "bra", "boy_shorts" ]
     }
   },
@@ -2188,8 +2453,8 @@
     "skills": [ { "level": 2, "name": "dodge" } ],
     "items": {
       "both": { "items": [ "socks", "knit_scarf", "dance_shoes" ], "entries": [ { "group": "charged_smart_phone" } ] },
-      "male": [ "briefs", "tux" ],
-      "female": [ "bra", "panties", "dress", "purse" ]
+      "male": [ "briefs", "tux", "tourmaline_silver_cufflinks" ],
+      "female": [ "bra", "panties", "dress", "purse", "tourmaline_silver_bracelet" ]
     }
   },
   {
@@ -2199,11 +2464,15 @@
     "description": "When the diagnosis came back positive, you made a vow: to fight for your life, and to never give in to despair.  Now is the time to renew that vow.",
     "points": -2,
     "items": {
-      "both": { "items": [ "jeans", "tshirt", "socks", "sneakers", "wristwatch" ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "both": {
+        "items": [ "jeans", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_PATIENT" ]
   },
   {
     "type": "profession",
@@ -2226,7 +2495,8 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
   },
   {
     "type": "profession",
@@ -2279,11 +2549,11 @@
     "name": "Blacksmith",
     "description": "You ran into trouble coming out of class at your community college's metalsmithing program, but despite the havoc you've managed to keep ahold of some of the equipment you were carrying.",
     "points": 1,
-    "skills": [ { "level": 4, "name": "fabrication" } ],
+    "skills": [ { "level": 4, "name": "fabrication" }, { "level": 1, "name": "swimming" } ],
     "proficiencies": [ "prof_metalworking", "prof_blacksmithing" ],
     "items": {
       "both": {
-        "items": [ "jeans", "socks", "boots", "tank_top", "apron_leather", "fire_gauntlets", "wristwatch", "hammer" ],
+        "items": [ "jeans", "socks", "boots", "tank_top", "apron_cut_resistant", "fire_gauntlets", "wristwatch", "hammer" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
@@ -2299,11 +2569,12 @@
     "items": {
       "both": {
         "items": [ "clown_wig", "clown_suit", "clown_nose", "socks", "clownshoes", "airhorn" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "balloon", "count": 20 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_CLOWN" ]
   },
   {
     "type": "profession",
@@ -2311,11 +2582,16 @@
     "name": "Lost Submissive",
     "description": "In the rush to safety, you were separated from your master by cruel fate.  Now you are on your own, with nothing to your name but a suit of really kinky black leather.  Unfortunately, there are no safewords in the apocalypse.",
     "points": -1,
+    "traits": [ "MASOCHIST" ],
     "flags": [ "NO_BONUS_ITEMS" ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
     "items": {
-      "both": { "items": [ "bondage_suit", "bondage_mask", "boots", "leather_belt" ], "entries": [ { "group": "charged_matches" } ] }
-    }
+      "both": {
+        "items": [ "bondage_suit", "bondage_mask", "boots", "gloves_leather", "leather_belt" ],
+        "entries": [ { "group": "charged_matches" } ]
+      }
+    },
+    "missions": [ "MISSION_LOST_SUB" ]
   },
   {
     "type": "profession",
@@ -2326,7 +2602,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "tobacco", "pipe_tobacco", "socks", "dress_shoes", "knit_scarf" ],
+        "items": [ "tobacco", "pipe_tobacco", "socks", "dress_shoes", "knit_scarf", "bellyband", "dentures" ],
         "entries": [ { "group": "charged_ref_lighter" }, { "item": "cane", "custom-flags": [ "auto_wield" ] } ]
       },
       "male": [ "briefs", "dress_shirt", "pants_checkered", "pocketwatch" ],
@@ -2342,12 +2618,27 @@
     "skills": [ { "level": 1, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [ "shorts", "socks", "sneakers", "tank_top", "mbag", "wristwatch", "mag_animecon", "cheeseburger" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "shorts", "socks", "sneakers", "tank_top", "mbag", "mag_animecon", "cheeseburger" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          {
+            "item": "light_plus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 150,
+            "container-item": "eink_tablet_pc"
+          },
+          {
+            "item": "light_minus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 50,
+            "container-item": "game_watch"
+          }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_OTAKU" ]
   },
   {
     "type": "profession",
@@ -2357,8 +2648,20 @@
     "points": -1,
     "items": {
       "both": { "items": [ "ring_wedding" ], "entries": [ { "group": "charged_smart_phone" } ] },
-      "male": [ "tux", "socks", "dress_shoes", "briefs" ],
-      "female": [ "veil_wedding", "dress_wedding", "stockings", "garter_belt", "dress_shoes", "bra", "panties", "purse" ]
+      "male": [ "tux", "socks", "dress_shoes", "briefs", "leather_belt", "tie_bow", "cufflinks_intricate" ],
+      "female": [
+        "veil_wedding",
+        "dress_wedding",
+        "stockings",
+        "garter_belt",
+        "dress_shoes",
+        "bra",
+        "panties",
+        "purse",
+        "long_glove_white",
+        "pearl_silver_tiara",
+        "pearl_silver_earring"
+      ]
     }
   },
   {
@@ -2370,10 +2673,16 @@
     "items": {
       "both": {
         "items": [ "trenchcoat", "gloves_fingerless", "socks", "boots_combat", "weed", "tobacco", "rolling_paper", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_mp3" }, { "group": "charged_ref_lighter" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_mp3" },
+          { "group": "charged_ref_lighter" },
+          { "item": "onyx_silver_earring", "variant": "dark_earring" },
+          { "item": "onyx_silver_ring", "variant": "dark_ring" }
+        ]
       },
       "male": [ "pants_cargo", "tank_top", "boxer_shorts" ],
-      "female": [ "skirt", "corset", "boxer_shorts" ]
+      "female": [ "skirt", "corset", "boxer_shorts", "stockings" ]
     }
   },
   {
@@ -2383,15 +2692,19 @@
     "description": "As a first responder, you were direct witness to the gut-wrenching horrors of the apocalypse.  Separated from most of your equipment and your unit while on call, you were forced to fight your way to safety with little more than your trusty iron and your bunker gear to protect you.",
     "points": 2,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_burn_care" ],
     "items": {
       "both": {
         "items": [
           "bunker_pants",
           "bunker_coat",
+          "nomex_suit",
           "nomex_socks",
           "boots_bunker",
+          "nomex_gloves",
           "fire_gauntlets",
           "glasses_safety",
+          "nomex_hood",
           "firehelmet",
           "pocketwatch"
         ],
@@ -2399,9 +2712,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "halligan", "container-item": "fireman_belt" }
         ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "boxer_shorts" ]
+      }
     }
   },
   {
@@ -2424,7 +2735,7 @@
     "id": "postman",
     "name": "Mail Carrier",
     "description": "Neither snow nor rain nor heat nor gloom of night stays you from the swift completion of your appointed rounds, but nobody said anything about zombies.",
-    "points": 1,
+    "points": 0,
     "skills": [ { "level": 1, "name": "driving" }, { "level": 1, "name": "dodge" } ],
     "items": {
       "both": {
@@ -2472,6 +2783,27 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "convict_assassin",
+    "name": "Undercover Assassin Convict",
+    "description": "You were given a target, a mission, but killing your mark seems to have become much more difficult now.  Your employer cut contact with you and now you have to make do with what you have.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 2, "name": "stabbing" } ],
+    "traits": [ "PROF_ASSASSIN_CONVICT" ],
+    "items": {
+      "both": {
+        "items": [ "striped_shirt", "striped_pants", "sneakers", "socks" ],
+        "entries": [
+          { "item": "knife_combat", "container-item": "gartersheath1" },
+          { "item": "polaroid_photo", "container-item": "ankle_wallet_pouch" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -2582,7 +2914,7 @@
           "socks",
           "dress_shoes",
           "knit_scarf",
-          "wristwatch",
+          "platinum_watch",
           "briefcase",
           "money_strap_fifty",
           "file"
@@ -2618,7 +2950,7 @@
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki" ],
+        "items": [ "kariginu", "eboshi", "pants", "hakama", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
@@ -2651,8 +2983,8 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "pants", "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2679,25 +3011,12 @@
     "id": "guru",
     "name": "Guru",
     "description": "You spent many years traveling through the world, becoming wise and learned.  Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
-    "points": 2,
-    "//": "1.5 pts skills, cutting implement, and plenty of storage, so lack of fire only goes so far.",
+    "points": 1,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [
-          "jeans",
-          "tshirt",
-          "socks",
-          "robe",
-          "turban",
-          "waterskin",
-          "pockknife",
-          "mbag",
-          "leathersandals",
-          "holy_symbol",
-          "wristwatch"
-        ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "jeans", "socks", "robe", "turban", "waterskin", "pockknife", "mbag", "leathersandals", "holy_symbol", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2708,8 +3027,7 @@
     "id": "preacher",
     "name": "Preacher",
     "description": "You devoted your life to spreading the good word, always on the road, traveling from town to town.  Now everything has gone to hell, you can't host your daily podcast, and the undead don't seem particularly moved by your sermons.",
-    "points": 2,
-    "//": "Storage + 2 points in skills, - no knife or fire.",
+    "points": 1,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
@@ -2730,7 +3048,8 @@
       "both": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   },
   {
     "type": "profession",
@@ -2739,12 +3058,18 @@
     "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them!  SHOW THEM ALL!",
     "points": 3,
     "traits": [ "PROF_MA_ORANGE" ],
-    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "swimming" }
+    ],
     "items": {
       "both": [ "karate_gi", "judo_belt_orange", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   },
   {
     "type": "profession",
@@ -2753,7 +3078,12 @@
     "description": "As the world ends, you alone stand against the coming darkness with your fists of steel.",
     "points": 8,
     "traits": [ "PROF_MA_BLACK" ],
-    "skills": [ { "level": 5, "name": "melee" }, { "level": 5, "name": "unarmed" }, { "level": 5, "name": "dodge" } ],
+    "skills": [
+      { "level": 5, "name": "melee" },
+      { "level": 5, "name": "unarmed" },
+      { "level": 5, "name": "dodge" },
+      { "level": 3, "name": "swimming" }
+    ],
     "items": {
       "both": [ "karate_gi", "judo_belt_black", "mouthpiece", "geta" ],
       "male": [ "boxer_shorts" ],
@@ -2771,7 +3101,6 @@
       "both": {
         "items": [
           "hat_ball",
-          "tshirt",
           "jeans",
           "jacket_light",
           "socks",
@@ -2782,7 +3111,7 @@
           "wristwatch",
           "mbag"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
@@ -2793,7 +3122,7 @@
     "id": "archaeologist",
     "name": "Archaeologist",
     "description": "Following a clue from your dead grandfather's journal, you made your way to a long-lost temple, but then the ground started to shake uncontrollably.  You had a bad feeling about that, so you got out of there quickly.",
-    "points": 3,
+    "points": 2,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "gun" } ],
     "items": {
       "both": {
@@ -2865,9 +3194,9 @@
       "both": {
         "items": [
           "jeans",
-          "tshirt",
           "backpack",
           "knit_scarf",
+          "straw_hat",
           "multitool",
           "hoe",
           "socks",
@@ -2881,7 +3210,7 @@
           "seed_sugar_beet",
           "seed_tomato"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2893,11 +3222,21 @@
     "name": "National Guard",
     "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the dead.",
     "points": 3,
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "firstaid" } ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "rifle" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "proficiencies": [ "prof_wound_care" ],
     "items": {
       "both": {
-        "items": [ "shorts", "tshirt", "socks", "lowtops", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "personal_gobag", "custom-flags": [ "FIT" ] } ]
+        "items": [ "shorts", "socks", "lowtops", "wristwatch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "personal_gobag", "custom-flags": [ "FIT" ] },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2915,7 +3254,8 @@
       { "level": 5, "name": "gun" },
       { "level": 3, "name": "dodge" },
       { "level": 4, "name": "mechanics" },
-      { "level": 3, "name": "rifle" }
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -2954,18 +3294,19 @@
       { "level": 3, "name": "rifle" },
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "stabbing" },
-      { "level": 1, "name": "firstaid" }
+      { "level": 1, "name": "firstaid" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
         "ammo": 100,
         "items": [
           "socks",
-          "pants_army",
-          "jacket_army_modern",
+          "winter_pants_army",
+          "winter_jacket_army",
           "balclava",
           "boots_combat",
-          "gloves_tactical",
+          "winter_gloves_army",
           "tac_helmet",
           "canteen",
           "wristwatch",
@@ -2999,11 +3340,12 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "holster", "pockknife", "wristwatch", "leather_belt" ],
+        "items": [ "pants", "socks", "boots", "longshirt", "holster", "pockknife", "wristwatch", "leather_belt" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_flashlight" },
           { "group": "charged_tazer" },
+          { "item": "stab_vest", "variant": "security_stab_vest" },
           { "item": "baton", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -3016,7 +3358,7 @@
     "id": "naturalist",
     "name": "Naturalist",
     "description": "Over long years of self-imposed exile in the wilderness, you have come to an understanding with Mother Nature.  The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
-    "points": 6,
+    "points": 7,
     "skills": [
       { "level": 6, "name": "survival" },
       { "level": 4, "name": "fabrication" },
@@ -3029,7 +3371,19 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic", "prof_bow_basic" ],
+    "proficiencies": [
+      "prof_bowyery",
+      "prof_fibers",
+      "prof_fibers_rope",
+      "prof_knapping",
+      "prof_pottery",
+      "prof_leatherworking_basic",
+      "prof_furriery",
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_fletching",
+      "prof_carving"
+    ],
     "items": {
       "both": {
         "items": [
@@ -3045,6 +3399,7 @@
           "leather_funnel",
           "clay_pot",
           "waterskin",
+          "awl_bone",
           "fur_rollmat",
           "fire_drill"
         ],
@@ -3097,7 +3452,10 @@
     "type": "profession",
     "id": "reenactor",
     "name": { "male": "Historical Reenactor", "female": "Ahistorical Reenactor" },
-    "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
+    "description": {
+      "male": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
+      "female": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete."
+    },
     "points": 3,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_gunsmithing_antique" ],
     "skills": [
@@ -3141,7 +3499,10 @@
     "type": "profession",
     "id": "reenactor2",
     "name": { "male": "Ahistorical Reenactor", "female": "Historical Reenactor" },
-    "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete.",
+    "description": {
+      "male": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete.",
+      "female": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans."
+    },
     "points": 3,
     "proficiencies": [ "prof_spinning", "prof_closures", "prof_knitting" ],
     "skills": [
@@ -3189,7 +3550,6 @@
     "items": {
       "both": {
         "items": [
-          "tshirt",
           "hoodie",
           "jeans",
           "socks",
@@ -3201,7 +3561,7 @@
           "wristwatch",
           "sports_drink"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -3212,12 +3572,11 @@
     "id": "jdelinquent",
     "name": "Juvenile Delinquent",
     "description": "You never cared for grown-ups telling you what to do, so you ended up spending quite a few days in the principal's office.  Now, not needing grown-ups to tell you what to do is the only reason you're alive.  Man, you really should've played hooky today.",
-    "points": 2,
+    "points": 1,
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "dodge" }, { "level": 1, "name": "melee" } ],
     "items": {
       "both": {
         "items": [
-          "tshirt",
           "hoodie",
           "jeans",
           "socks",
@@ -3232,7 +3591,11 @@
           "marble",
           "slingshot"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_matches" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -3254,7 +3617,6 @@
     "items": {
       "both": {
         "items": [
-          "tshirt",
           "jacket_light",
           "pants_cargo",
           "socks",
@@ -3268,7 +3630,12 @@
           "wristwatch",
           "whistle"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "full_1st_aid" }, { "group": "charged_flashlight" } ]
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "full_1st_aid" },
+          { "group": "charged_flashlight" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -3279,12 +3646,12 @@
     "id": "dodgeball_player",
     "name": "Dodgeball Player",
     "description": "In dodgeball, failing to dodge meant taking a ball to the head and being out of the game.  In the Cataclysm, it means getting eaten by monsters.  Don't slip up.",
-    "points": 1,
-    "skills": [ { "level": 1, "name": "dodge" }, { "level": 1, "name": "throw" } ],
+    "points": 2,
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 1, "name": "throw" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "jacket_light", "jeans", "socks_ankle", "lowtops", "slingpack", "juice" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "jacket_light", "jeans", "socks_ankle", "lowtops", "slingpack", "juice" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -3299,8 +3666,8 @@
     "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "jacket_light", "jeans", "socks", "sneakers", "knit_scarf", "backpack", "basic_chemistry", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "jacket_light", "jeans", "socks", "sneakers", "knit_scarf", "backpack", "basic_chemistry", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
@@ -3371,8 +3738,8 @@
     "id": "gym_teacher",
     "name": "Gym Teacher",
     "description": "It was hard enough getting kids to run laps without having to worry about them trying to eat your brains.  Zombies won't even line up when you blow your whistle.",
-    "points": 3,
-    "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "speech" } ],
+    "points": 2,
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "speech" }, { "level": 1, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "baseball", "bat", "whistle", "tank_top", "shorts", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
@@ -3453,13 +3820,13 @@
     "id": "parkour_practitioner",
     "name": { "male": "Traceur", "female": "Traceuse" },
     "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running FOR your life.",
-    "points": 5,
+    "points": 4,
     "proficiencies": [ "prof_parkour" ],
-    "skills": [ { "level": 4, "name": "dodge" } ],
+    "skills": [ { "level": 4, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "hoodie", "pants_cargo", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "hoodie", "pants_cargo", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
@@ -3476,7 +3843,6 @@
         "items": [
           "hat_ball",
           "knit_scarf",
-          "tshirt",
           "jacket_light",
           "gloves_light",
           "pants",
@@ -3489,7 +3855,8 @@
         ],
         "entries": [
           { "group": "charged_smart_phone" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" }
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3500,7 +3867,7 @@
     "type": "profession",
     "id": "naked",
     "name": "Naked and Afraid",
-    "description": "You were out filming a reality TV show, naked in the woods.  Strangely, the cast and crew all seem to have turned into zombies, which is pretty bad timing for you.  Looks like it's for real this time…",
+    "description": "For some reason you are now completely naked!  Maybe you were robbed, maybe you were in a nudist beach, or maybe you just enjoy the feeling of liberation brought upon the wind touching your skin, whatever it is, you lack clothes in a time when everyone wants a piece of you.",
     "points": -1
   },
   {
@@ -3535,15 +3902,16 @@
     "id": "urban_samurai",
     "name": "Urban Samurai",
     "description": "You were always an inexplicable sight in town, with your funny hair and odd Japanese clothes.  Some claimed you were a visiting Shinto god.  Little of this concerns you, but last week the grocery service stopped coming and now the TV no longer turns on.  This displeases you.",
-    "points": 2,
-    "skills": { "level": 2, "name": "melee" },
+    "points": 1,
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "cutting" } ],
     "items": {
       "both": {
         "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta", "bellywrap" ],
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
-    }
+    },
+    "missions": [ "MISSION_URBAN_SAMURAI" ]
   },
   {
     "type": "profession",
@@ -3551,7 +3919,7 @@
     "name": "Competitive Fencer",
     "description": "Years of training prepared you for the competitive fencing circuit, but your latest tournament was cut short when zombies invaded the piste.  The referee was eaten, so you're not sure if the rules are still in play.",
     "points": 5,
-    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "dodge" } ],
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "dodge" }, { "level": 2, "name": "swimming" } ],
     "traits": [ "MARTIAL_FENCING" ],
     "items": {
       "both": {
@@ -3576,7 +3944,7 @@
     "id": "politician",
     "name": "Career Politician",
     "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
-    "points": 5,
+    "points": 4,
     "skills": [ { "level": 6, "name": "speech" } ],
     "traits": [ "LIAR" ],
     "items": {
@@ -3584,9 +3952,10 @@
         "items": [ "suit", "tieclip", "socks_wool", "dress_shoes", "gold_watch", "briefcase", "tie_skinny", "file", "cigar" ],
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
-    }
+      "male": [ "boxer_shorts", "opal_platinum_cufflinks" ],
+      "female": [ "bra", "panties", "opal_platinum_earring" ]
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -3594,17 +3963,20 @@
     "name": "Rancher",
     "description": "Taking care of cows, horses, and other animals is your passion, but the ways things are going, this isn't going to be just another day at the ranch.",
     "points": 2,
-    "skills": { "level": 2, "name": "survival" },
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "swimming" } ],
     "items": {
       "both": [
         "jeans",
+        "leather_belt",
         "dress_shirt",
         "jacket_leather",
         "socks",
         "cowboy_hat",
         "boots_western",
         "wristwatch",
+        "mbag",
         "horse_tack",
+        "bullwhip",
         "pockknife",
         "cattlefodder",
         "cattlefodder",
@@ -3627,12 +3999,11 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "mechanics" }
     ],
+    "proficiencies": [ "prof_appliance_repair" ],
     "items": {
       "both": {
-        "ammo": 100,
-        "magazine": 100,
-        "items": [ "tshirt_tour", "jeans", "socks", "boots_steel", "multitool", "wristwatch", "gloves_work", "mbag", "soldering_iron" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "jacket_jean" }, { "group": "charged_matches" } ]
+        "items": [ "jacket_jean", "tshirt_tour", "jeans", "socks", "boots_steel", "multitool", "wristwatch", "gloves_work", "mbag" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" }, { "group": "charged_soldering_iron" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -3711,7 +4082,7 @@
           "boots_western",
           "duster",
           "badge_deputy",
-          "sheriffshirt"
+          "novel_western"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -3722,7 +4093,8 @@
             "charges": 6,
             "container-item": "western_holster",
             "contents-group": "bandolier_ww_gunslinger"
-          }
+          },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       }
     }
@@ -3737,11 +4109,23 @@
     "vehicle": "car_sports",
     "items": {
       "both": {
-        "items": [ "gold_watch", "water_mineral", "money_strap_twenty", "cig" ],
+        "items": [ "gold_watch", "fancy_sunglasses", "water_mineral", "money_strap_twenty", "cig", "mag_porn" ],
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
-      "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
-      "female": [ "polo_shirt", "bra", "panties", "skirt", "heels", "stockings", "purse" ]
+      "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks", "mag_dude" ],
+      "female": [
+        "polo_shirt",
+        "bra",
+        "panties",
+        "skirt",
+        "heels",
+        "stockings",
+        "purse",
+        "mag_glam",
+        "bracelet_friendship",
+        "opal_gold_ring",
+        "opal_gold_earring"
+      ]
     }
   },
   {
@@ -3754,7 +4138,8 @@
       { "level": 4, "name": "driving" },
       { "level": 3, "name": "pistol" },
       { "level": 3, "name": "mechanics" },
-      { "level": 3, "name": "gun" }
+      { "level": 3, "name": "gun" },
+      { "level": 1, "name": "swimming" }
     ],
     "proficiencies": [ "prof_helicopter_pilot", "prof_spotting" ],
     "items": {
@@ -3798,7 +4183,7 @@
       { "level": 1, "name": "electronics" },
       { "level": 3, "name": "firstaid" }
     ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert" ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
@@ -3816,8 +4201,8 @@
     "name": "Paramedic",
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
-    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert" ],
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 3, "name": "firstaid" } ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -3828,7 +4213,6 @@
           "gloves_medical",
           "wristwatch",
           "boots",
-          "mask_dust",
           "mbag",
           "bandages",
           "stethoscope",
@@ -3836,7 +4220,11 @@
           "syringe",
           "morphine"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "full_1st_aid" },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3854,10 +4242,18 @@
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "stabbing" },
       { "level": 1, "name": "dodge" },
-      { "level": 4, "name": "firstaid" }
+      { "level": 4, "name": "firstaid" },
+      { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_MED" ],
-    "proficiencies": [ "prof_spotting", "prof_wound_care", "prof_wound_care_expert" ],
+    "proficiencies": [
+      "prof_spotting",
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care"
+    ],
     "items": {
       "both": {
         "items": [
@@ -3888,7 +4284,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "mask_dust", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "mask_dust", "variant": "camo_mask_dust", "custom-flags": [ "no_auto_equip" ] },
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
@@ -3972,7 +4368,8 @@
       { "level": 2, "name": "pistol" },
       { "level": 2, "name": "survival" },
       { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "stabbing" }
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -4010,7 +4407,7 @@
     "description": "You were deployed to autopsy one of the rioters showing feral behavior before being put down.  When they got back up, you knew this was out of your job description.",
     "points": 5,
     "skills": [ { "level": 5, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert" ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -4055,11 +4452,11 @@
         "items": [
           "tux",
           "fedora",
-          "pants",
           "socks",
           "dress_shoes",
           "gold_watch",
           "diamond_ring",
+          "diamond_gold_pendant_necklace",
           "cigar_cutter",
           "gold_bracelet",
           "knuckle_brass"
@@ -4071,10 +4468,11 @@
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": [ "boxer_shorts", "diamond_gold_cufflinks" ],
+      "female": [ "bra", "panties", "diamond_gold_earring" ]
     },
-    "traits": [ "LIAR" ]
+    "traits": [ "LIAR" ],
+    "missions": [ "MISSION_MAFIA_BOSS", "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -4098,7 +4496,8 @@
             "container-item": "rad_monitor"
           },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "radio" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "camera_pro" }
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "camera_pro" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "emf_detector" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -4148,6 +4547,287 @@
         ]
       }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_PORTAL_TRAVELER" ]
+  },
+  {
+    "type": "profession",
+    "id": "ninja",
+    "name": { "male": "Ninja", "female": "Kunoichi" },
+    "description": "You always dreamed with being a ninja, so you practiced your movements, dressed all in black and carried some common ninja weapons with you.  Now, after much practice, you can finally call yourself a real ninja.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "cutting" },
+      { "level": 3, "name": "dodge" },
+      { "level": 1, "name": "swimming" },
+      { "level": 2, "name": "throw" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "hood_ninja", "jacket_ninja", "trousers_ninja", "tabi_dress", "geta", "gloves_wraps", "bellywrap" ],
+        "entries": [
+          { "item": "katana", "container-item": "scabbard" },
+          { "item": "grenadebandolier", "contents-group": "ninja_grenade_pouch" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "chestwrap", "panties" ]
+    },
+    "traits": [ "LIGHTSTEP" ],
+    "missions": [ "MISSION_NINJA" ]
+  },
+  {
+    "type": "profession",
+    "id": "cheerleader",
+    "name": "Cheerleader",
+    "description": "Your last cheerleader routine ended abruptly after your partners started cheering for the unliving team.  Let's hope your quick reflexes and flexibility helps you to find new members for the squad.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "speech" }, { "level": 3, "name": "swimming" } ],
+    "items": {
+      "both": { "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
+      "male": [ "briefs", "shorts", "tank_top" ],
+      "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "patriot",
+    "name": "Patriot",
+    "description": "You are a true American patriot, dressed with star-spangled clothing from head to toes.  The government has fallen, but the nation lives on with its people.",
+    "points": -1,
+    "items": {
+      "both": {
+        "items": [ "american_flag", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "flag_mask_dust" } ]
+      },
+      "male": { "items": [ "flag_shirt", "flag_pants" ], "entries": [ { "item": "flag_swimsuit", "variant": "flag_swimsuit" } ] },
+      "female": {
+        "items": [ "flag_jumpsuit" ],
+        "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "tourist_swimmer",
+    "name": "Tourist Swimmer",
+    "description": "You went to the beach to have a nice and relaxed vacation.  What you didn't know was that the people in there would become crazy and try to use your head to play beach volleyball, at least you managed to grab your bag with your things before running away.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "sunglasses", "straw_hat", "dive_bag", "beach_volleyball" ],
+        "entries": [
+          { "item": "waterproof_smart_phone_case", "variant": "black_smart_phone_case", "contents-group": "charged_smart_phone" },
+          { "item": "towel", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "flip_flops", "custom-flags": [ "no_auto_equip" ] }
+        ]
+      },
+      "male": { "items": [ "trunks", "swim_briefs" ], "entries": [ { "item": "tank_top", "custom-flags": [ "no_auto_equip" ] } ] },
+      "female": {
+        "entries": [
+          { "item": "bikini_top", "variant": "tropical_bikini_top" },
+          { "item": "bikini_bottom", "variant": "tropical_bikini_bottom" },
+          { "item": "halter_top", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "skirt", "custom-flags": [ "no_auto_equip" ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "professional_swimmer",
+    "name": "Professional Swimmer",
+    "description": "After much practice you were sure the next competition would be your big hit, but your rivals started killing each other and you had to escape with only your competition gear on you.  Could your years of training save you one more time?  Let's find out.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 4, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "items": {
+      "both": [ "goggles_swim", "swim_cap" ],
+      "male": [ "speedo" ],
+      "female": { "entries": [ { "item": "flag_swimsuit", "variant": "generic_swimsuit" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "surfer",
+    "name": "Surfer",
+    "description": "You went to ride the waves, but the waves ended up riding you instead when a putrid hand appeared from underwater and grabbed you by the ankle.  You could have lost your surfboard in favor of a kickboard, but that will not stop you from riding the next big wave, the wave of undead.",
+    "points": 2,
+    "flags": [ "NO_BONUS_ITEMS" ],
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "items": {
+      "both": [ "swimming_kickboard" ],
+      "male": [ "wetsuit_top", "wetsuit_shorts" ],
+      "female": [ "wetsuit_spring_sleeveless" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "lifeguard",
+    "name": "Lifeguard",
+    "description": "Your job was to safeguard the lives of everyone in the beach, but when the swimmers started drowning each other you knew the situation was out of your hands.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "firstaid" }, { "level": 3, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "proficiencies": [ "prof_wound_care" ],
+    "items": {
+      "both": [ "whistle", "sunglasses", "diving_watch" ],
+      "male": { "items": [ "trunks", "swim_briefs" ], "entries": [ { "item": "rashguard", "variant": "lifeguard_rashguard_shirt" } ] },
+      "female": { "entries": [ { "item": "flag_swimsuit", "variant": "lifeguard_swimsuit" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "diver",
+    "name": "Diver",
+    "description": "You were enjoying the company of submarine life when you noticed something weird on the nearby beach, you decided to swim away when you heard the screams.",
+    "points": 4,
+    "skills": [ { "level": 5, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "items": {
+      "both": {
+        "items": [ "wetsuit", "wetsuit_hood", "wetsuit_booties", "wetsuit_gloves", "diving_watch", "diveknife" ],
+        "entries": [ { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 20 } ]
+      }
+    }
+  },
+  {
+    "id": "captain_inflatable",
+    "type": "profession",
+    "name": "Captain",
+    "description": "You were the captain of your small ship, making a living by driving divers and tourists around the sea.  The last excursion went wrong after your passengers tried a mutiny, but you managed to escape with your precious ship intact.",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 3, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "items": {
+      "both": {
+        "items": [ "trunks", "bastsandals", "dive_bag", "wristwatch", "flotation_vest", "hand_pump", "inflatable_boat" ],
+        "entries": [
+          { "item": "rashguard", "variant": "tropical_rashguard_shirt" },
+          { "item": "hat_ball", "variant": "generic_hatball" },
+          {
+            "item": "waterproof_smart_phone_case",
+            "variant": "black_smart_phone_case",
+            "contents-group": "charged_smart_phone"
+          }
+        ]
+      },
+      "male": [ "swim_briefs" ],
+      "female": {
+        "entries": [
+          { "item": "bikini_top", "variant": "tropical_bikini_top" },
+          { "item": "bikini_bottom", "variant": "tropical_bikini_bottom" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "hitman",
+    "name": { "male": "Hitman", "female": "Hitwoman" },
+    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
+    "points": 5,
+    "skills": [
+      { "level": 3, "name": "dodge" },
+      { "level": 1, "name": "melee" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" }
+    ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wp_syn_armored" ],
+    "items": {
+      "both": {
+        "items": [
+          "fancy_sunglasses",
+          "platinum_watch",
+          "knit_scarf_loose",
+          "gloves_liner",
+          "polaroid_photo",
+          "suppressor",
+          "tele_sight_pistol"
+        ],
+        "entries": [
+          { "item": "glock_29", "ammo-item": "10mm_fmj", "charges": 15 },
+          { "item": "glock_20mag", "ammo-item": "10mm_fmj", "charges": 15, "container-item": "bbholster" }
+        ]
+      },
+      "male": [
+        "briefs",
+        "socks",
+        "dress_shoes",
+        "bowhat",
+        "suit",
+        "tie_necktie",
+        "tieclip",
+        "leather_belt",
+        "briefcase",
+        "cufflinks_intricate"
+      ],
+      "female": [
+        "panties",
+        "bra",
+        "stockings",
+        "garter_belt",
+        "heels",
+        "hat_cotton",
+        "dress",
+        "purse",
+        "platinum_ear",
+        "platinum_necklace",
+        "platinum_hairpin"
+      ]
+    },
+    "missions": [ "MISSION_ASSASSINATION" ]
+  },
+  {
+    "type": "profession",
+    "id": "assassin",
+    "name": "Assassin",
+    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
+    "points": 5,
+    "skills": [
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "throw" },
+      { "level": 2, "name": "stabbing" }
+    ],
+    "proficiencies": [ "prof_spotting", "prof_wp_syn_armored" ],
+    "items": {
+      "both": {
+        "items": [ "fancy_sunglasses", "platinum_watch", "knit_scarf_loose", "gloves_liner", "polaroid_photo", "switchblade" ],
+        "entries": [
+          { "item": "knife_combat", "container-item": "gartersheath1" },
+          { "item": "leg_sheath6", "contents-group": "leg_sheath6_throwing_knives" }
+        ]
+      },
+      "male": [
+        "briefs",
+        "socks",
+        "dress_shoes",
+        "bowhat",
+        "suit",
+        "tie_necktie",
+        "tieclip",
+        "leather_belt",
+        "briefcase",
+        "cufflinks_intricate"
+      ],
+      "female": [
+        "panties",
+        "bra",
+        "stockings",
+        "garter_belt",
+        "heels",
+        "hat_cotton",
+        "dress",
+        "purse",
+        "platinum_ear",
+        "platinum_necklace",
+        "platinum_hairpin"
+      ]
+    },
+    "missions": [ "MISSION_ASSASSINATION" ]
   }
 ]

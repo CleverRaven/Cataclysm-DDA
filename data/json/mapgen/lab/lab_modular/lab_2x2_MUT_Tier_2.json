@@ -45,7 +45,7 @@
         { "chunks": [ [ "lab_medium_animal_1x1_MUTANT", 30 ] ], "x": 15, "y": 15 },
         { "chunks": [ [ "lab_medium_animal_1x1_MUTANT", 30 ] ], "x": 15, "y": 16 },
         { "chunks": [ [ "lab_mutagen_8x8_vault_west", 100 ] ], "x": 12, "y": 6 },
-        { "chunks": [ [ "lab_mutagen_8x8_west", 100 ] ], "x": 12, "y": 18 },
+        { "chunks": [ [ "lab_mutagen_8x8_west_B", 100 ] ], "x": 12, "y": 18 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 1, "y": 11 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 1, "y": 18 },
         {
@@ -115,7 +115,7 @@
         { "chunks": [ [ "lab_medium_animal_1x1_MUTANT", 30 ] ], "x": 8, "y": 15 },
         { "chunks": [ [ "lab_medium_animal_1x1_MUTANT", 30 ] ], "x": 9, "y": 16 },
         { "chunks": [ [ "lab_mutagen_8x8_east", 95 ], [ "lab_mutagen_8x8_vault_east", 5 ] ], "x": 4, "y": 6 },
-        { "chunks": [ [ "lab_mutagen_8x8_east", 100 ] ], "x": 4, "y": 18 },
+        { "chunks": [ [ "lab_mutagen_8x8_east_B", 100 ] ], "x": 4, "y": 18 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 17, "y": 11 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 17, "y": 18 },
         {
@@ -222,7 +222,10 @@
     "type": "mapgen",
     "update_mapgen_id": "light_on_res_8_SW_2",
     "method": "json",
-    "object": { "place_terrain": [ { "ter": "t_strconc_floor_olight", "x": 9, "y": 3 } ] }
+    "object": {
+      "place_terrain": [ { "ter": "t_strconc_floor_olight", "x": 9, "y": 3 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
   },
   {
     "method": "json",
@@ -309,8 +312,11 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "light_on_MUT_SE_2",
+    "update_mapgen_id": "light_on_res_8_SW_2",
     "method": "json",
-    "object": { "place_terrain": [ { "ter": "t_strconc_floor_olight", "x": 14, "y": 3 } ] }
+    "object": {
+      "place_terrain": [ { "ter": "t_strconc_floor_olight", "x": 14, "y": 3 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
   }
 ]

@@ -98,7 +98,7 @@
     "id": "f_cardboard_wall",
     "name": "cardboard wall",
     "symbol": "#",
-    "bgcolor": "brown",
+    "color": "brown",
     "move_cost_mod": -1,
     "coverage": 100,
     "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.",
@@ -116,8 +116,143 @@
       ]
     },
     "bash": {
-      "str_min": 8,
-      "str_max": 30,
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "box_large", "count": [ 0, 1 ] },
+        { "item": "box_medium", "count": [ 0, 2 ] },
+        { "item": "box_small", "count": [ 0, 4 ] },
+        { "item": "rag", "count": [ 20, 50 ] },
+        { "item": "paper", "count": [ 30, 80 ] },
+        { "item": "plastic_chunk", "count": [ 5, 20 ] },
+        { "item": "plastic_sheet", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_floor",
+    "name": "cardboard floor",
+    "symbol": "_",
+    "color": "brown",
+    "move_cost_mod": 0,
+    "description": "A flat floor made of sheets of cardboard duct-taped together overtop a plastic sheet.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ORGANIC", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "cardboard", "count": 10 }, { "item": "paper", "count": 50 }, { "item": "plastic_sheet", "count": 2 } ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 10,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "cardboard", "count": [ 5, 9 ] },
+        { "item": "paper", "count": [ 10, 40 ] },
+        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_roof",
+    "name": "cardboard roof",
+    "symbol": "_",
+    "color": "brown",
+    "move_cost_mod": 0,
+    "description": "A sloped roof made of cardboard boxes, stuffed with scrap cardboard and paper and layered atop each other.  Sheets of plastic are carefully arrayed on top to shed water.  It looks like it could last a season or two at least before crumbling.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ORGANIC", "EASY_DECONSTRUCT", "ALLOW_ON_OPEN_AIR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "box_small", "count": 10 },
+        { "item": "cardboard", "count": 10 },
+        { "item": "rag", "count": 10 },
+        { "item": "paper", "count": 50 },
+        { "item": "plastic_sheet", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 10,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "box_small", "count": [ 0, 10 ] },
+        { "item": "cardboard", "count": [ 5, 9 ] },
+        { "item": "paper", "count": [ 10, 40 ] },
+        { "item": "rag", "count": [ 0, 10 ] },
+        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_door_o",
+    "name": "cardboard door",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 100,
+    "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is open.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "box_medium", "count": 2 },
+        { "item": "box_small", "count": 4 },
+        { "item": "rag", "count": 50 },
+        { "item": "paper", "count": [ 30, 80 ] },
+        { "item": "plastic_chunk", "count": 20 },
+        { "item": "plastic_sheet", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "box_large", "count": [ 0, 1 ] },
+        { "item": "box_medium", "count": [ 0, 2 ] },
+        { "item": "box_small", "count": [ 0, 4 ] },
+        { "item": "rag", "count": [ 20, 50 ] },
+        { "item": "paper", "count": [ 30, 80 ] },
+        { "item": "plastic_chunk", "count": [ 5, 20 ] },
+        { "item": "plastic_sheet", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_door",
+    "name": "cardboard door",
+    "symbol": "+",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is closed.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "open": "f_cardboard_door_o",
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "box_medium", "count": 2 },
+        { "item": "box_small", "count": 4 },
+        { "item": "rag", "count": 50 },
+        { "item": "paper", "count": [ 30, 80 ] },
+        { "item": "plastic_chunk", "count": 20 },
+        { "item": "plastic_sheet", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 13,
       "sound": "crash!",
       "sound_fail": "whump.",
       "items": [
@@ -796,7 +931,7 @@
     "symbol": "]",
     "color": "light_gray",
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "NOCOLLIDE", "BRIDGE" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": 10 },

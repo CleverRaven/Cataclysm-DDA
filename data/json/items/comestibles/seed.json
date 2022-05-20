@@ -116,7 +116,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "grape seeds" },
     "description": "Some grape seeds.",
-    "seed_data": { "plant_name": "grape", "fruit": "grapes", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "grape", "fruit": "grapes", "byproducts": [ "grape_leaves", "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_rose",
@@ -309,7 +309,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -3,
-    "healthy": 1,
     "calories": 4,
     "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
     "price": 50,
@@ -376,7 +375,6 @@
     "color": "green",
     "use_action": [ "SEED" ],
     "quench": -1,
-    "healthy": 1,
     "calories": 17,
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
     "price": 100,
@@ -419,7 +417,8 @@
     "volume": "100 ml",
     "stack_size": 10,
     "fun": 30,
-    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "91 days" }
+    "flags": [ "NO_AUTO_CONSUME" ],
+    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "Marloss berry", "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -477,6 +476,14 @@
     "description": "Some canola seeds.  You could press them into oil.",
     "charges": 2,
     "seed_data": { "plant_name": "canola", "fruit": "seed_canola", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_watermelon",
+    "copy-from": "seed_fruit",
+    "name": { "str_sp": "watermelon seeds" },
+    "description": "Some watermelon seeds.",
+    "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -588,6 +595,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_raw_bamboo",
+    "copy-from": "seed",
+    "name": { "str_sp": "bamboo seeds" },
+    "color": "green",
+    "description": "Some bamboo seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "bamboo", "fruit": "raw_bamboo", "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_rhubarb",
     "copy-from": "seed",
     "name": { "str_sp": "rhubarb stems" },
@@ -693,7 +710,6 @@
     "looks_like": "hickory_nut",
     "symbol": "%",
     "quench": -6,
-    "healthy": -2,
     "calories": 9,
     "description": "Coffee pods taken from a Kentucky coffeetree.  If washed thoroughly and roasted, you could use them to make a dark and bitter brew much like coffee.",
     "price": 100,
@@ -725,7 +741,7 @@
     "calories": 549,
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "NO_AUTO_CONSUME" ],
     "stack_size": 40,
     "weight": "106 g"
   },
@@ -737,8 +753,7 @@
     "container": "bag_plastic",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
-    "addiction_type": "caffeine",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",

@@ -40,6 +40,7 @@
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 20,
+    "ammo_type": "38super",
     "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 4 }, "dispersion": -10 },
     "proportional": { "recoil": 1.5 }
   },

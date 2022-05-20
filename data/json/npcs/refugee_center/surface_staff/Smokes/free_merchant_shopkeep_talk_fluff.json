@@ -9,7 +9,7 @@
       {
         "text": "[Cannibal + Psychopath] Wait, I thought you were having food problems.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cannibal",
-        "condition": { "and": [ { "u_has_trait_flag": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] }
+        "condition": { "and": [ { "u_has_flag": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] }
       }
     ]
   },
@@ -94,7 +94,7 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
     "type": "talk_topic",
-    "dynamic_line": "Oh, Merch.  They're just paper notes we've started using for local cash.  We started out paying each other with dollar bills, but there's so much paper money out there that it's just useless now.  For our internal use, we started certifying bills that represent food and labor in the center here.  We started trading them internally, and then they started circling around, and now other people have started adopting them, too."
+    "dynamic_line": "Oh, merch.  They're just paper notes we've started using for local cash.  We started out paying each other with dollar bills, but there's so much paper money out there that it's just useless now.  For our internal use, we started certifying bills that represent food and labor in the center here.  We started trading them internally, and then they started circling around, and now other people have started adopting them, too."
   },
   {
     "id": [

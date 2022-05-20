@@ -9,7 +9,6 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 80,
     "description": "Nutritious egg laid by a bird.",
     "price": 44,
@@ -20,7 +19,7 @@
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
     "rot_spawn_chance": 50
   },
   {
@@ -105,7 +104,7 @@
     "calories": 130,
     "volume": "83 ml",
     "weight": "70 g",
-    "vitamins": [ [ "vitA", 15 ], [ "calcium", 5 ], [ "iron", 15 ], [ "vitB", 158 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 15 ] ],
     "rot_spawn": "GROUP_EGG_DUCK"
   },
   {
@@ -116,7 +115,7 @@
     "calories": 266,
     "volume": "125 ml",
     "weight": "144 g",
-    "vitamins": [ [ "vitA", 30 ], [ "calcium", 9 ], [ "iron", 29 ], [ "vitB", 306 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
   },
   {
@@ -127,7 +126,7 @@
     "volume": "83 ml",
     "weight": "79 g",
     "calories": 135,
-    "vitamins": [ [ "vitA", 15 ], [ "calcium", 8 ], [ "iron", 18 ], [ "vitB", 56 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 18 ] ],
     "rot_spawn": "GROUP_EGG_TURKEY"
   },
   {
@@ -154,7 +153,6 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 3,
-    "healthy": 1,
     "calories": 87,
     "description": "An egg belonging to one of reptile species found in New England.",
     "price": 250,
@@ -170,7 +168,7 @@
   {
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "Insect Egg" },
+    "name": { "str": "insect egg" },
     "abstract": "egg_insect",
     "//": "5x the weight and 3x the nutrition of real chicken eggs, toxins equal to 296g mutant meat",
     "color": "white",
@@ -186,7 +184,7 @@
     "price_postapoc": 100,
     "spoils_in": "5 days",
     "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitA", 19 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 66 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -198,7 +196,7 @@
     "price_postapoc": 500,
     "material": [ "egg" ],
     "proportional": { "weight": 4, "calories": 4, "volume": 4 },
-    "vitamins": [ [ "vitA", 76 ], [ "calcium", 28 ], [ "iron", 72 ], [ "vitB", 264 ], [ "mutant_toxin", 100 ] ],
+    "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 60
   },
@@ -219,7 +217,6 @@
     "color": "white",
     "symbol": "%",
     "spoils_in": "4 days 16 hours",
-    "healthy": -1,
     "quench": 3,
     "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
     "price": 80,
@@ -229,9 +226,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_roach_plague",
-    "name": { "str": "roach egg" },
+    "name": { "str": "plague vector egg" },
     "copy-from": "egg_roach",
-    "healthy": -10,
+    "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
+    "vitamins": [ [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
   },
   {
@@ -276,7 +274,7 @@
     "copy-from": "egg_insect",
     "color": "light_green",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
-    "vitamins": [ [ "vitA", 38 ], [ "calcium", 14 ], [ "iron", 36 ], [ "vitB", 132 ], [ "mutant_toxin", 50 ] ],
+    "vitamins": [ [ "calcium", 14 ], [ "iron", 36 ], [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_CENTIPEDE",
     "rot_spawn_chance": 50
   },
@@ -301,7 +299,7 @@
     "symbol": "o",
     "spoils_in": "20 days",
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
-    "vitamins": [ [ "vitA", 95 ], [ "calcium", 35 ], [ "iron", 90 ], [ "vitB", 330 ], [ "mutant_toxin", 125 ] ],
+    "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
     "description": "A huge translucent beetle egg.  You can see a larva slowly squirming inside, contorting uncomfortably outside of the soil.",
     "rot_spawn": "GROUP_EGG_STAG_BEETLE",
     "rot_spawn_chance": 100
@@ -314,7 +312,7 @@
     "color": "yellow",
     "symbol": "o",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
-    "vitamins": [ [ "vitA", 38 ], [ "calcium", 14 ], [ "iron", 36 ], [ "vitB", 132 ], [ "mutant_toxin", 50 ] ],
+    "vitamins": [ [ "calcium", 14 ], [ "iron", 36 ], [ "mutant_toxin", 50 ] ],
     "description": "A large white antlion egg.  There is something hard inside.",
     "rot_spawn": "GROUP_EGG_ANTLION",
     "rot_spawn_chance": 50
@@ -394,7 +392,7 @@
     "price_postapoc": 750,
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 24 ], [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ], [ "vitB", 985 ] ],
+    "vitamins": [ [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ] ],
     "fun": 5,
     "flags": [ "RAW" ]
   },
@@ -408,7 +406,6 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 34,
     "description": "Common roe from an unknown fish.",
     "price": 50,
@@ -417,7 +414,7 @@
     "volume": "25 ml",
     "stack_size": 4,
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ],
+    "vitamins": [ [ "vitC", 1 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -440,8 +437,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
     "fun": -4,
-    "freezing_point": -274,
-    "vitamins": [ [ "vitB", 2 ] ]
+    "freezing_point": -274
   },
   {
     "type": "COMESTIBLE",
@@ -454,14 +450,13 @@
     "looks_like": "powder_egg",
     "quench": 2,
     "calories": 80,
-    "description": "Rehydrated eggs.  You can use it instead of an egg when cooking, provided you don't care that it has lost its complete shape.",
+    "description": "Rehydrated eggs.  You can use them instead of eggs when cooking, provided you don't care that they have lost their complete shape.",
     "price": 22,
     "price_postapoc": 25,
     "material": [ "egg" ],
     "volume": "50 ml",
     "flags": [  ],
-    "fun": -2,
-    "vitamins": [ [ "vitB", 2 ] ]
+    "fun": -2
   },
   {
     "type": "COMESTIBLE",

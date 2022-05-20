@@ -280,9 +280,9 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
     REQUIRE( v12diesel.engine_displacement() == 700 );
     REQUIRE( turbine.engine_displacement() == 2700 );
 
-    CHECK( vtwin.tname() == "1.0L V-twin engine" );
+    CHECK( vtwin.tname() == "1.0L V2 engine" );
     CHECK( v12diesel.tname() == "7.0L V12 diesel engine" );
-    CHECK( turbine.tname() == "27.0L 1350 hp gas turbine engine" );
+    CHECK( turbine.tname() == "27.0L 1,350 HP gas turbine engine" );
 }
 
 TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
@@ -373,24 +373,24 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is one quarter degraded" ) {
             deg_test.set_degradation( deg20 );
             REQUIRE( deg_test.degradation() == deg20 );
-            REQUIRE( deg_test.damage_level() == 1 );
+            REQUIRE( deg_test.damage_level() == 0 );
 
             // yellow bar
             THEN( "it appears slightly degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_yellow>|\\</color><color_c_yellow>\u2587</color>\u00A0baseball" );
+                       "<color_c_light_green>||</color><color_c_yellow>\u2587</color>\u00A0baseball" );
             }
         }
 
         WHEN( "it is half degraded" ) {
             deg_test.set_degradation( deg20 * 2 );
             REQUIRE( deg_test.degradation() == deg20 * 2 );
-            REQUIRE( deg_test.damage_level() == 2 );
+            REQUIRE( deg_test.damage_level() == 1 );
 
             // magenta bar
             THEN( "it appears slightly more degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_magenta>|.</color><color_c_magenta>\u2585</color>\u00A0baseball" );
+                       "<color_c_yellow>|\\</color><color_c_magenta>\u2585</color>\u00A0baseball" );
             }
         }
 
@@ -409,12 +409,12 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is totally degraded" ) {
             deg_test.set_degradation( deg20 * 4 );
             REQUIRE( deg_test.degradation() == deg20 * 4 );
-            REQUIRE( deg_test.damage_level() == 3 );
+            REQUIRE( deg_test.damage_level() == 2 );
 
             // short red bar
             THEN( "it appears extremely degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_light_red>\\.</color><color_c_red>\u2581</color>\u00A0baseball" );
+                       "<color_c_magenta>|.</color><color_c_red>\u2581</color>\u00A0baseball" );
             }
         }
     }
@@ -516,7 +516,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         SECTION( "several rocks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
-                   " TEST rocks" );
+                   " TEST rocks (2)" );
         }
         SECTION( "several stacks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );

@@ -448,7 +448,7 @@
       "fields_max_intensity": 3,
       "sound_volume": 0,
       "sound_msg": "Hiss.",
-      "no_deactivate_msg": "You've already armed the %s; try throwing it instead."
+      "no_deactivate_msg": "You've already armed the %s, try throwing it instead."
     },
     "flags": [ "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -500,7 +500,7 @@
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already pulled the %s's pin; try throwing it instead.",
+      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
       "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.08 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
@@ -814,8 +814,9 @@
     "category": "weapons",
     "name": { "str": "Molotov cocktail" },
     "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
-    "weight": "742 g",
-    "volume": "750 ml",
+    "weight": "1000 g",
+    "volume": "960 ml",
+    "longest_side": "276 mm",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -881,7 +882,7 @@
       "scrambler_blast_radius": 4,
       "sound_volume": 0,
       "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already pulled the %s's pin; try throwing it instead."
+      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
     },
     "flags": [ "TRADER_AVOID" ]
   },
@@ -989,7 +990,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
   },
   {
     "id": "military_explosive_small_grenade_act",
@@ -1005,7 +1006,7 @@
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "sssssh.",
-      "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead."
+      "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead."
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1034,7 +1035,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
   },
   {
     "id": "military_explosive_grenade_act",
@@ -1050,7 +1051,7 @@
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "sssssh.",
-      "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead."
+      "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead."
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1096,7 +1097,7 @@
     "turns_per_charge": 1,
     "use_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You've already pulled the %s pin, try throwing it instead.",
+      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
       "explosion": { "power": 920, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
@@ -1276,7 +1277,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
   },
   {
     "id": "small_homemade_grenade_act",
@@ -1292,7 +1293,7 @@
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "sssssh.",
-      "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead.",
+      "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead.",
       "explosion": { "power": 150, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
@@ -1320,7 +1321,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
   },
   {
     "id": "homemade_grenade_act",
@@ -1336,7 +1337,7 @@
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "sssssh.",
-      "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead.",
+      "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead.",
       "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]

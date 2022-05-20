@@ -3,7 +3,7 @@
     "id": "t_railroad_rubble",
     "type": "terrain",
     "name": "gravel",
-    "description": "A small mallet that a judge uses to call - er, wait.  Oh, gravel!  Gravel is a collection of small stones often used for roads, as railroad ballast, and in many other applications.",
+    "description": "Gravel is a collection of small stones often used for roads, as railroad ballast, and in many other applications.",
     "symbol": ",",
     "color": "light_gray",
     "move_cost": 2,
@@ -13,13 +13,13 @@
       "ter_set": "t_null",
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "material_gravel", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ],
+      "items": [ { "item": "material_gravel", "count": [ 1, 3 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ],
       "bash_below": true
     },
     "deconstruct": {
       "ter_set": "t_pit_shallow",
       "items": [
-        { "item": "material_gravel", "count": [ 350, 500 ] },
+        { "item": "material_gravel", "count": [ 7, 10 ] },
         { "item": "sharp_rock", "count": [ 0, 2 ] },
         { "item": "rock", "count": [ 4, 12 ] }
       ]

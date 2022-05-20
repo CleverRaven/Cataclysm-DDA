@@ -1,6 +1,6 @@
 [
   {
-    "//": "This group picks out background traits that could apply to any survivor. Eventually these should be implemented as the catch-all for NPCs of an unknown class, eg those introduced by mods.",
+    "//": "This group picks out background traits that could apply to any survivor. Eventually these should be implemented as the catch-all for NPCs of an unknown class, e.g. those introduced by mods.",
     "type": "trait_group",
     "id": "BG_survival_story_UNIVERSAL",
     "subtype": "distribution",
@@ -155,5 +155,29 @@
     "id": "BG_survival_story_CYBORG",
     "subtype": "distribution",
     "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Cyborg_1" } ]
+  },
+  {
+    "//": "This assigns a possible story about knowing where to find other survivors - 'background: other survivor stories'.",
+    "type": "trait_group",
+    "id": "BG_other_survivor_stories",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "BOSS_No_Others_01", "prob": 25 },
+      { "trait": "BOSS_No_Others_02", "prob": 25 },
+      { "trait": "BOSS_Lapin_01", "prob": 3 },
+      { "trait": "BOSS_NC_FARMER_01", "prob": 3 },
+      { "trait": "BOSS_NC_SURVIVOR_CHEF_01", "prob": 3 },
+      { "trait": "BOSS_Brigitte_LaCroix_01", "prob": 3 },
+      { "trait": "BOSS_Evac_Shelter_01", "prob": 5 },
+      { "trait": "BOSS_Evac_Shelter_01b", "prob": 5 },
+      { "trait": "BOSS_Evac_Shelter_02", "prob": 5 },
+      { "trait": "BOSS_Evac_Shelter_02b", "prob": 5 },
+      { "trait": "BOSS_Evac_Shelter_03", "prob": 5 },
+      { "trait": "BOSS_Evac_Shelter_03b", "prob": 5 },
+      { "trait": "BOSS_Free_Merchants_01", "prob": 5 },
+      { "trait": "BOSS_Free_Merchants_02", "prob": 5 },
+      { "trait": "BOSS_Hub01_01", "prob": 2 },
+      { "trait": "BOSS_Isherwood_01", "prob": 4 }
+    ]
   }
 ]

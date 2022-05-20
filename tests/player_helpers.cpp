@@ -55,6 +55,15 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
+// Return true if character has an item with get_var( var ) set to the given value
+bool character_has_item_with_var_val( const Character &they, const std::string var,
+                                      const std::string val )
+{
+    return they.has_item_with( [var, val]( const item & cand ) {
+        return cand.get_var( var ) == val;
+    } );
+}
+
 void clear_character( Character &dummy, bool skip_nutrition )
 {
     dummy.set_body();
@@ -131,7 +140,7 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
     shooter.remove_weapon();
     // XL so arrows can fit.
     if( !shooter.is_wearing( itype_debug_backpack ) ) {
-        shooter.worn.emplace_back( "debug_backpack" );
+        shooter.worn.wear_item( shooter, item( "debug_backpack" ), false, false );
     }
 
     const itype_id &gun_id{ itype_id( gun_type ) };
@@ -235,7 +244,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
     }
     REQUIRE( bioindex != -1 );
 
-    const bionic &bio = you.bionic_at_index( bioindex );
+    bionic &bio = you.bionic_at_index( bioindex );
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
@@ -244,7 +253,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
         if( !fuel_opts.empty() ) {
             you.set_value( fuel_opts.front().str(), "2" );
         }
-        you.activate_bionic( bioindex );
+        you.activate_bionic( bio );
         INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( you.has_active_bionic( bioid ) );
         if( !fuel_opts.empty() ) {

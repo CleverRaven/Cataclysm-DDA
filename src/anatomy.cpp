@@ -8,9 +8,12 @@
 #include <string>
 #include <unordered_set>
 
+#include "ballistics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "flag.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
@@ -20,8 +23,12 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
+static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
+
+static const limb_score_id limb_score_block( "block" );
 
 namespace
 {
@@ -129,6 +136,32 @@ std::vector<bodypart_id> anatomy::get_bodyparts() const
     return cached_bps;
 }
 
+float anatomy::get_size_ratio( const anatomy_id &base ) const
+{
+    float ret = get_hit_size_sum() / get_base_hit_size_sum( base );
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "Anatomy hitsize ratio %.3f",
+                   ret );
+    return ret;
+}
+
+float anatomy::get_hit_size_sum() const
+{
+    float ret = 0.0f;
+    for( const bodypart_id &bp : cached_bps ) {
+        ret += bp->hit_size;
+    }
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "Current anatomy hitsize sum %.1f",
+                   ret );
+    return ret;
+}
+
+float anatomy::get_base_hit_size_sum( const anatomy_id &base ) const
+{
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "Base anatomy hitsize sum %.1f",
+                   base->size_sum );
+    return base->size_sum;
+}
+
 anatomy::anatomy( const std::vector<bodypart_id> &parts )
 {
     for( const bodypart_id &part : parts ) {
@@ -190,8 +223,8 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
             }
         }
 
-        if( hit_roll != 0 ) {
-            weight *= std::pow( hit_roll, bp->hit_difficulty );
+        if( hit_roll > 0 ) {
+            weight *= std::pow( static_cast<float>( hit_roll ), bp->hit_difficulty );
         }
 
         hit_weights.add( bp, weight );
@@ -210,4 +243,99 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
 
     add_msg_debug( debugmode::DF_ANATOMY_BP, "selected part: %s", ret->id().obj().name );
     return *ret;
+}
+
+
+bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bool leg,
+        bool nonstandard ) const
+{
+    weighted_float_list<bodypart_id> block_scores;
+    for( const bodypart_id &bp : cached_bps ) {
+        float block_score = bp->get_limb_score( limb_score_block );
+        if( const Character *u = dynamic_cast<const Character *>( blocker ) ) {
+            block_score = u->get_part( bp )->get_limb_score( limb_score_block );
+            // Weigh shielded bodyparts higher
+            block_score *= u->worn_with_flag( flag_BLOCK_WHILE_WORN, bp ) ? 5 : 1;
+        }
+
+        // Filter out nonblocking / broken limbs
+        if( block_score == 0 ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no blocking score",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        // Always blocking limbs block always (if they have a block score)
+        if( bp->has_flag( json_flag_ALWAYS_BLOCK ) ) {
+            block_scores.add( bp, block_score );
+            add_msg_debug( debugmode::DF_MELEE, "BP %s always blocks",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        // Can we block with our normal boring arm?
+        if( bp->has_type( body_part_type::type::arm ) && !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
+            !arm ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no arm blocks allowed",
+                           body_part_name( bp ) );
+            continue;
+            // Can we block with our normal boring legs?
+        } else if( bp->has_type( body_part_type::type::leg ) &&
+                   !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) && !leg ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no leg blocks allowed",
+                           body_part_name( bp ) );
+            continue;
+            // Can we block with our non-normal non-arms/non-legs?
+        } else if( ( ( !bp->has_type( body_part_type::type::arm ) &&
+                       !bp->has_type( body_part_type::type::leg ) ) || bp->has_flag( json_flag_NONSTANDARD_BLOCK ) ) &&
+                   !nonstandard ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no nonstandard blocks allowed",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        block_scores.add( bp, block_score );
+    }
+
+    // Debug for seeing weights.
+    for( const weighted_object<double, bodypart_id> &pr : block_scores ) {
+        add_msg_debug( debugmode::DF_MELEE, "%s = %.3f", pr.obj.obj().name, pr.weight );
+    }
+
+    const bodypart_id *ret = block_scores.pick();
+    if( ret == nullptr ) {
+        debugmsg( "Attempted to select body part from empty anatomy %s", id.c_str() );
+        return bodypart_str_id::NULL_ID().id();
+    }
+
+    add_msg_debug( debugmode::DF_MELEE, "selected part: %s", ret->id().obj().name );
+    return *ret;
+}
+
+bodypart_id anatomy::select_body_part_projectile_attack( const double range_min,
+        const double range_max, const double value ) const
+{
+    // Find the body part with the biggest hitsize - we will treat this as the center of mass
+    const bodypart_id biggest_bp = *std::max_element( cached_bps.begin(), cached_bps.end(),
+    []( const bodypart_id & lhs, const bodypart_id & rhs ) {
+        return lhs->hit_size < rhs->hit_size;
+    } );
+
+    // A little wrapper telling the targeting graph how to connect and weight bodypart_ids
+    struct bp_wrapper {
+        static bodypart_id connection( const bodypart_id &id ) {
+            return id->connected_to.id();
+        }
+        static double weight( const bodypart_id &id ) {
+            return id->hit_size;
+        }
+    };
+
+    // Create a graph
+    targeting_graph<bodypart_id, bp_wrapper> graph;
+    // Fill it in with our body parts
+    graph.generate( biggest_bp, cached_bps );
+
+    // And now, select the right body part
+    return graph.select( range_min, range_max, value );
 }

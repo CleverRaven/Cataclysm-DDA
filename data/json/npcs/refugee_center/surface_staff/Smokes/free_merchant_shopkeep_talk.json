@@ -90,6 +90,11 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup"
       },
       {
+        "text": "Can I talk to you about that fellow over there in the dinosaur suit?",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission"
+      },
+      {
         "text": "'Sorry, we're full'?  Do you greet everyone like that?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting",
         "condition": { "u_has_effect": "u_Gavin_onetime_greeting" },
@@ -117,8 +122,8 @@
       { "text": "Who's in charge here?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_WhosInCharge" },
       { "text": "Is there any way I can join your group?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin" },
       {
-        "text": "What's with these 'free merchant certified notes'?",
-        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Merch",
+        "text": "What's with these 'Free Merchant certified notes'?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
         "condition": { "u_has_item": "FMCNote" },
         "effect": { "u_add_var": "u_knows_about_merch", "type": "general", "context": "free_merchants", "value": "yes" }
       },
@@ -169,10 +174,10 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
     "type": "talk_topic",
-    "dynamic_line": "We don't have a lot to share, but… well, I guess it's not safe for them.  At best, it's a health hazard waiting to happen.  We could pay you in Merch if you can clear them out without anyone getting hurt, yeah.",
+    "dynamic_line": "We don't have a lot to share, but… well, I guess it's not safe for them.  At best, it's a health hazard waiting to happen.  We could pay you in merch if you can clear them out without anyone getting hurt, yeah.",
     "responses": [
       {
-        "text": "I'll see what I can do.  What's Merch?",
+        "text": "I'll see what I can do.  What's merch?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
         "condition": { "not": { "u_has_var": "u_knows_about_merch", "type": "general", "context": "free_merchants", "value": "yes" } }
       },
@@ -191,7 +196,7 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited_Reward",
     "type": "talk_topic",
-    "dynamic_line": "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five Merch a head for the folks you found a new home for.  We won't forget it.",
+    "dynamic_line": "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five merch a head for the folks you found a new home for.  We won't forget it.",
     "speaker_effect": { "effect": { "u_spawn_item": "FMCNote", "count": 20 } },
     "responses": [ { "text": "Thank you!", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" } ]
   },

@@ -3,7 +3,7 @@
     "id": "SUS_exodii_storage_lowvalue",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for exodii storage pods and lockers that contain unprocessed and possibly unsorted scrap.  At some point these pieces should expand to more than just scrap, including various nice tools.",
+    "//2": "This group is for Exodii storage pods and lockers that contain unprocessed and possibly unsorted scrap.  At some point these pieces should expand to more than just scrap, including various nice tools.",
     "subtype": "distribution",
     "entries": [
       {
@@ -52,7 +52,7 @@
     "id": "SUS_exodii_storage_medvalue",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for exodii storage pods and lockers that contain sorted scrap that could use further processing but is definitely useful.",
+    "//2": "This group is for Exodii storage pods and lockers that contain sorted scrap that could use further processing but is definitely useful.",
     "subtype": "distribution",
     "entries": [
       { "group": "SUS_exodii_storage_lowvalue", "prob": 30 },
@@ -78,7 +78,7 @@
     "id": "SUS_exodii_storage_highvalue",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for exodii storage pods and lockers that processed ingots and the like, ready for use.",
+    "//2": "This group is for Exodii storage pods and lockers that processed ingots and the like, ready for use.",
     "subtype": "distribution",
     "entries": [
       { "collection": [ { "item": "pamd68", "count": [ 15, 20 ] }, { "item": "pamd71z", "count": [ 10, 15 ] } ], "prob": 20 },

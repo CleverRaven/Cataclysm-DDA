@@ -61,6 +61,7 @@ enum monster_attitude {
     MATT_IGNORE,
     MATT_FOLLOW,
     MATT_ATTACK,
+    MATT_UNKNOWN,
     NUM_MONSTER_ATTITUDES
 };
 
@@ -118,6 +119,7 @@ class monster : public Creature
         void refill_udders();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
+        std::vector<material_id> get_absorb_material() const;
         creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
@@ -420,6 +422,8 @@ class monster : public Creature
         void set_special( const std::string &special_name, int time );
         /** Sets the enabled flag for the given special to false */
         void disable_special( const std::string &special_name );
+        /** Test whether the monster has the specified special regardless of readiness. */
+        bool has_special( const std::string &special_name ) const;
         /** Test whether the specified special is ready. */
         bool special_available( const std::string &special_name ) const;
 
@@ -431,6 +435,8 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
+        //spawn monster's inventory without killing it
+        void generate_inventory( bool disableDrops = true );
 
         // Other
         /**
@@ -459,6 +465,8 @@ class monster : public Creature
         void hear_sound( const tripoint &source, int vol, int distance, bool provocative );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
+
+        bool is_electrical() const override;    // true if the monster produces electric radiation
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;

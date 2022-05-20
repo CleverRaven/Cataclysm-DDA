@@ -37,7 +37,7 @@
     "type": "mutation",
     "id": "ADDICTIVE",
     "copy-from": "ADDICTIVE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
   },
   {
     "type": "mutation",
@@ -49,13 +49,14 @@
     "type": "mutation",
     "id": "CLUMSY",
     "copy-from": "CLUMSY",
-    "category": [ "DRAGON_BLACK" ]
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
     "id": "HOARDER",
     "copy-from": "HOARDER",
-    "category": [ "DRAGON_BLACK" ]
+    "valid": true,
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
@@ -77,14 +78,32 @@
   },
   {
     "type": "mutation",
+    "id": "FASTHEALER",
+    "copy-from": "FASTHEALER",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
     "id": "REGEN_LIZ",
     "copy-from": "REGEN_LIZ",
     "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
+    "id": "EYEBULGE",
+    "copy-from": "EYEBULGE",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
     "id": "MEMBRANE",
     "copy-from": "MEMBRANE",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SKIN_ROUGH",
+    "copy-from": "SKIN_ROUGH",
     "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
@@ -158,7 +177,7 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "The claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but still prevent you from wearing shoes and slighly impede your movement.",
+    "description": "The claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but still prevent you from wearing shoes and slightly impede your movement.",
     "valid": false,
     "types": [ "LEGS" ],
     "category": [ "DRAGON_BLACK" ],
@@ -174,6 +193,18 @@
     },
     "movecost_modifier": 1.05,
     "enchantments": [ "dragon_leg_strength" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PAINREC1",
+    "copy-from": "PAINREC1",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PAINREC2",
+    "copy-from": "PAINREC2",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
@@ -213,7 +244,6 @@
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "changes_to": [ "HUGE_DRAGON" ],
-    "leads_to": [ "MUT_TOUGH" ],
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
@@ -304,13 +334,36 @@
     "prereqs2": [ "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "leads_to": [ "MUT_TOUGH" ],
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1,
     "anger_relations": [ [ "HUMAN", 40 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUT_TOUGH",
+    "copy-from": "MUT_TOUGH",
+    "extend": { "category": [ "DRAGON_BLACK" ], "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP",
+    "copy-from": "INT_UP",
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_2",
+    "copy-from": "INT_UP_2",
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_3",
+    "copy-from": "INT_UP_3",
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ], "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_MANA" ] }
   },
   {
     "type": "mutation",
@@ -361,8 +414,15 @@
   },
   {
     "type": "mutation",
+    "id": "WEAKSTOMACH",
+    "copy-from": "WEAKSTOMACH",
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
     "id": "NAUSEA",
     "copy-from": "NAUSEA",
+    "extend": { "category": [ "DRAGON_BLACK" ] },
     "leads_to": [ "OVERLY_ACID_GUT" ]
   },
   {
@@ -381,7 +441,7 @@
     "prereqs": [ "NAUSEA" ],
     "category": [ "DRAGON_BLACK", "SLIME" ],
     "metabolism_modifier": 0.5,
-    "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 0.5 ], [ "vitB", 0.5 ], [ "vitC", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ] ] ]
+    "vitamins_absorb_multi": [ [ "all", [ [ "vitC", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ] ] ]
   },
   {
     "type": "mutation",
@@ -541,6 +601,7 @@
     "ugliness": 2,
     "description": "You have a short, stubby tail that has strange bumps and ridges.  You can wiggle it, but it serves no purpose.",
     "types": [ "TAIL" ],
+    "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_TAIL_SCALED" ]
   },
   {
@@ -554,6 +615,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "DRAGON_TAIL_STUB" ],
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
+    "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_TAIL" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
@@ -601,10 +663,11 @@
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
     "destroys_gear": true,
-    "description": "Your scales have grown to cover your hands and elongate the tips in to jagged claws that can be servicable as cutting and piercing weapons in unarmed combat.  You can still use them normally, but you can't wear gloves.",
+    "description": "Your scales have grown to cover your hands and elongate the tips in to jagged claws that can be serviceable as cutting and piercing weapons in unarmed combat.  You can still use them normally, but you can't wear gloves.",
     "types": [ "CLAWS" ],
     "prereqs": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
+    "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_TALONS_BLACK" ]
   },
   {

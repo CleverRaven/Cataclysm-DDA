@@ -8,7 +8,6 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -10,
-    "healthy": 1,
     "calories": 743,
     "description": "Grainy cereal used for malting.  A staple of brewing everywhere.  It can also be ground into flour.",
     "price": 20,
@@ -47,7 +46,6 @@
     "spoils_in": "6 days 16 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 2,
     "calories": 44,
     "description": "It's a bit tough, but quite delicious.",
     "price": 400,
@@ -56,7 +54,7 @@
     "volume": "180 ml",
     "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 95 ], [ "calcium", 5 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 95 ], [ "calcium", 5 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -67,7 +65,6 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -8,
-    "healthy": 1,
     "calories": 616,
     "description": "Seeds from a wild buckwheat plant.  Not particularly good to eat in their raw state, they are commonly cooked or ground into flour.",
     "price": 90,
@@ -90,7 +87,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 1,
     "calories": 27,
     "description": "Crisp white cabbage.",
     "price": 100,
@@ -105,6 +101,25 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "grape_leaves",
+    "looks_like": "lettuce",
+    "name": { "str_sp": "grape leaves" },
+    "weight": "14 g",
+    "color": "light_green",
+    "spoils_in": "6 days 16 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 22,
+    "description": "Edible leaves of a grape vine.  Typically used in salads or as food wrapping.",
+    "price": 80,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "spinach",
     "name": { "str_sp": "spinach" },
     "weight": "139 g",
@@ -113,7 +128,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 1,
     "calories": 43,
     "description": "A bunch of spinach leaves.",
     "price": 100,
@@ -135,7 +149,6 @@
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 2,
     "calories": 39,
     "description": "A healthy root vegetable.  Rich in vitamin A!",
     "price": 200,
@@ -146,7 +159,7 @@
     "fun": 1,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 63 ], [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -205,7 +218,7 @@
     "volume": "190 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 4 ], [ "calcium", 4 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 4 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -216,7 +229,6 @@
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 132,
     "description": "A corn cob full of delicious golden kernels.  You can eat them on the cob or shell it for cooking.",
     "price": 170,
@@ -225,8 +237,8 @@
     "material": [ "veggy" ],
     "volume": "750 ml",
     "flags": [ "EATEN_HOT", "RAW" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ],
-    "use_action": { "type": "transform", "target": "empty_corn_cob", "moves": 500 }
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
   },
   {
     "type": "COMESTIBLE",
@@ -237,7 +249,6 @@
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 132,
     "description": "Delicious golden kernels.",
     "price": 200,
@@ -246,7 +257,7 @@
     "volume": "285 ml",
     "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_corn",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -257,7 +268,6 @@
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "description": "An empty corn cob.  It may seem useless, but it can be used to make stock, a delicious jelly, or as fuel.",
     "price": 1,
     "price_postapoc": 1,
@@ -276,7 +286,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -6,
-    "healthy": -2,
     "calories": 9,
     "description": "A tough protective capsule bulging with densely packed fibers and seeds, this cotton boll can be processed into usable material with the right tools.",
     "price": 100,
@@ -295,7 +304,6 @@
     "spoils_in": "30 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 21,
     "description": "Spicy chili pepper.",
     "price": 50,
@@ -304,7 +312,7 @@
     "volume": "250 ml",
     "charges": 3,
     "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
     "fun": -2
   },
   {
@@ -317,7 +325,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 7,
-    "healthy": 1,
     "calories": 37,
     "description": "Comes from the gourd family.  Not tasty but very juicy.",
     "price": 300,
@@ -396,7 +403,7 @@
     "description": "A weed with a cluster of tiny white flowers.  These are often wild carrots, but beware of poisonous lookalikes.",
     "charges": 3,
     "//": "Also known as Queen Anne's Lace. It's that boring white flower that grows wild everywhere. Water hemlock looks almost exactly like wild carrot. The easiest way to tell them apart is by their scent. Please don't eat either of them at home, hemlock will kill you deader than Socrates.",
-    "flags": [ "FORAGE_POISON", "RAW" ],
+    "flags": [ "FORAGE_POISON", "RAW", "SMOKABLE" ],
     "price": 90,
     "price_postapoc": 50,
     "fun": -2
@@ -411,7 +418,6 @@
     "flags": [ "CORROSIVE" ],
     "calories": 9,
     "fun": -15,
-    "healthy": -2,
     "weight": "40 g",
     "to_hit": -3,
     "color": "magenta",
@@ -431,7 +437,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -18,
-    "healthy": 1,
     "calories": 24,
     "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.  Can be disassembled to cloves.",
     "price": 300,
@@ -452,7 +457,6 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -20,
-    "healthy": 1,
     "calories": 87,
     "description": "A cluster of small cone-like flowers, indispensable for brewing beer.",
     "price": 20,
@@ -472,7 +476,6 @@
     "spoils_in": "60 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 166,
     "description": "Large white tapered root of a horseradish plant.  Way too spicy in this form, but can be used for making condiments.",
     "price": 80,
@@ -501,7 +504,7 @@
     "charges": 5,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -530,7 +533,6 @@
     "spoils_in": "30 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 80,
     "description": "An aromatic onion used in cooking.  Cutting these up can make your eyes sting!",
     "price": 50,
@@ -580,8 +582,9 @@
     "material": [ "veggy" ],
     "volume": "750 ml",
     "fun": -2,
-    "flags": [ "EATEN_HOT", "RAW" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
+    "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "smoking_result": "kernels"
   },
   {
     "type": "COMESTIBLE",
@@ -592,7 +595,7 @@
     "spoils_in": "60 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": -2,
+    "healthy": -1,
     "calories": 193,
     "description": "Mildly toxic and not very tasty raw.  When cooked, it is delicious.",
     "price": 90,
@@ -606,6 +609,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "plantain",
+    "name": { "str": "cooking banana" },
+    "weight": "118 g",
+    "color": "yellow",
+    "spoils_in": "5 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 141,
+    "description": "Much less sweet but more starchy relatives of bananas; unlike dessert bananas, they usually are eaten cooked rather than raw, and can be processed into flour.  They are a staple food in tropical regions of the world.  Also known as plantains.",
+    "price": 120,
+    "price_postapoc": 100,
+    "material": [ "veggy" ],
+    "volume": "500 ml",
+    "fun": -1,
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 26 ], [ "iron", 6 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "pumpkin",
     "name": { "str": "pumpkin" },
     "weight": "123 g",
@@ -614,7 +637,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
-    "healthy": 2,
     "calories": 27,
     "description": "A large vegetable, about the size of your head.  Not very tasty raw, but is great for cooking.",
     "price": 250,
@@ -626,7 +648,7 @@
     "fun": -1,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 58 ], [ "vitC", 12 ], [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 3 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -637,7 +659,6 @@
     "spoils_in": "6 days 16 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 22,
     "description": "Leaves of a horseradish plant with a sharp, bitter and peppery taste.  They're edible, but not commonly eaten.",
     "price": 80,
@@ -646,7 +667,7 @@
     "fun": -2,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -657,7 +678,6 @@
     "spoils_in": "1 day 6 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 41,
     "description": "A collection of freshly picked yellow dandelions.  In their current raw state they are quite bitter.",
     "price": 60,
@@ -668,7 +688,7 @@
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 33 ], [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -679,13 +699,34 @@
     "spoils_in": "1 day 6 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 69,
     "description": "Burdock, a bitter thistle-like vegetable.  Can be eaten raw or cooked.",
     "price": 60,
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "470 ml",
+    "stack_size": 4,
+    "fun": -12,
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "raw_bamboo",
+    "name": { "str_sp": "bamboo shoot" },
+    "weight": "151 g",
+    "color": "green",
+    "spoils_in": "1 day 6 hours",
+    "comestible_type": "FOOD",
+    "symbol": "^",
+    "healthy": -1,
+    "calories": 42,
+    "description": "Raw woody bamboo shoots, require some preparation before eating safely.",
+    "price": 60,
+    "price_postapoc": 50,
+    "material": [ "veggy" ],
+    "volume": "236 ml",
     "stack_size": 4,
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
@@ -702,7 +743,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "healthy": 3,
     "calories": 36,
     "description": "Sour stems of the rhubarb plant, often used in baking pies.",
     "price": 410,
@@ -711,7 +751,7 @@
     "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 11 ], [ "calcium", 11 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 11 ], [ "calcium", 11 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -774,7 +814,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 28,
-    "healthy": 1,
     "calories": 55,
     "description": "Juicy red tomato.  It gained popularity in Italy after being brought back from the New World.",
     "price": 90,
@@ -794,7 +833,6 @@
     "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 34,
     "description": "A nutrient rich chunk of plant matter, could be eaten raw or cooked.",
     "price": 600,
@@ -804,7 +842,7 @@
     "smoking_result": "dry_veggy",
     "volume": "250 ml",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -841,7 +879,6 @@
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 59,
     "description": "A tasty summer squash.",
     "price": 300,
@@ -879,7 +916,7 @@
     "volume": "250 ml",
     "weight": "194 g",
     "symbol": "%",
-    "healthy": -2,
+    "healthy": -1,
     "calories": 56,
     "description": "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.",
     "price": 90,
@@ -901,7 +938,6 @@
     "volume": "250 ml",
     "weight": "194 g",
     "symbol": "%",
-    "healthy": -2,
     "calories": 42,
     "description": "Raw, uncooked lentils.  They could be cooked.",
     "price": 90,
@@ -911,7 +947,7 @@
     "cooks_like": "lentils_cooked",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_lentils",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -930,9 +966,9 @@
     "material": [ "veggy" ],
     "volume": "62 ml",
     "fun": -10,
-    "healthy": -2,
+    "use_action": [ "POISON" ],
     "//": "Fiddleheads that haven't been boiled can make you sick.",
-    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -940,10 +976,10 @@
     "name": { "str": "bell pepper" },
     "weight": "113 g",
     "color": "green",
+    "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
-    "healthy": 1,
     "calories": 39,
     "description": "A green bell pepper.  It could be cooked.",
     "price": 20,
@@ -952,7 +988,7 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "fun": -5,
-    "vitamins": [ [ "calcium", 2 ], [ "vitC", 12 ], [ "vitA", 8 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "vitC", 12 ] ]
   },
   {
     "type": "COMESTIBLE",

@@ -62,6 +62,7 @@ class gun_mode;
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
@@ -84,6 +85,10 @@ static const trait_id trait_SHELL2( "SHELL2" );
 
 static bool check_water_affect_items( avatar &you )
 {
+    if( you.has_effect( effect_stunned ) ) {
+        return true;
+    }
+
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
     std::vector<item_location> wet;
@@ -328,7 +333,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) ) {
             if( you.is_auto_moving() ) {
-                add_msg( m_warning, _( "Monster in the way.  Auto-move canceled." ) );
+                add_msg( m_warning, _( "Monster in the way.  Auto move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
                 you.clear_destination();
                 return false;
@@ -359,7 +364,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( npc *const np_ = creatures.creature_at<npc>( dest_loc ) ) {
         npc &np = *np_;
         if( you.is_auto_moving() ) {
-            add_msg( _( "NPC in the way, Auto-move canceled." ) );
+            add_msg( _( "NPC in the way, Auto move canceled." ) );
             add_msg( m_info, _( "Move into the NPC to interact or attack." ) );
             you.clear_destination();
             return false;
@@ -403,8 +408,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
     }
-    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc );
-    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc );
+    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
+                       !m.has_flag_furn( "BRIDGE", dest_loc );
+    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) &&
+                       !m.has_flag_furn( "BRIDGE", dest_loc );
     bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr;
@@ -449,10 +456,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( m.passable_ter_furn( dest_loc )
         && you.is_walking()
         && !veh_closed_door
-        && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
+        && m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         you.add_msg_if_player( _( "You open the %s." ), door_name );
-        // if auto-move is on, continue moving next turn
+        // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
@@ -478,14 +485,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
         }
         you.moves -= 100;
-        // if auto-move is on, continue moving next turn
+        // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
         return true;
     }
 
-    if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
+    if( m.furn( dest_loc ) != f_safe_c && m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         if( veh1 != nullptr ) {
             //~ %1$s - vehicle name, %2$s - part name
@@ -493,7 +500,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         } else {
             you.add_msg_if_player( _( "You open the %s." ), door_name );
         }
-        // if auto-move is on, continue moving next turn
+        // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
@@ -605,8 +612,6 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
             you.set_underwater( true );
-            ///\EFFECT_STR increases breath-holding capacity while sinking
-            you.oxygen = 30 + 2 * you.str_cur;
         }
     }
     if( you.oxygen <= 5 && you.is_underwater() ) {
@@ -645,16 +650,14 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.burn_move_stamina( movecost );
     }
 
-    body_part_set drenchFlags{ {
-            body_part_leg_l, body_part_leg_r, body_part_torso, body_part_arm_l,
-            body_part_arm_r, body_part_foot_l, body_part_foot_r, body_part_hand_l, body_part_hand_r
-        }
-    };
-
-    if( you.is_underwater() ) {
-        drenchFlags.unify_set( { { body_part_head, body_part_eyes, body_part_mouth, body_part_hand_l, body_part_hand_r } } );
+    body_part_set flags;
+    if( !you.is_underwater() ) {
+        flags = you.get_drenching_body_parts( false, true, true );
+    } else {
+        flags = you.get_drenching_body_parts();
     }
-    you.drench( 100, drenchFlags, true );
+
+    you.drench( 100, flags, false );
 }
 
 static float rate_critter( const Creature &c )
@@ -869,12 +872,11 @@ bool avatar_action::eat_here( avatar &you )
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( here.ter( you.pos() ) == t_underbrush || here.ter( you.pos() ) == t_shrub ) ) {
-        if( you.get_hunger() < 20 ) {
+        if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
             return true;
         } else {
             here.ter_set( you.pos(), t_grass );
-            add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
             you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             return true;
@@ -882,11 +884,10 @@ bool avatar_action::eat_here( avatar &you )
     }
     if( you.has_active_mutation( trait_GRAZER ) && ( here.ter( you.pos() ) == t_grass ||
             here.ter( you.pos() ) == t_grass_long || here.ter( you.pos() ) == t_grass_tall ) ) {
-        if( you.get_hunger() < 8 ) {
+        if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
             you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             if( here.ter( you.pos() ) == t_grass_tall ) {
