@@ -820,6 +820,13 @@ std::vector<tripoint> route_best_workbench( const Character &you, const tripoint
 namespace
 {
 
+bool _can_construct( tripoint const &loc, construction_id const &idx, construction const &check,
+                     cata::optional<construction_id> const &part_con_idx )
+{
+    return ( part_con_idx and * part_con_idx == check.id ) or
+           ( check.pre_terrain != idx->post_terrain and can_construct( check, loc ) );
+}
+
 construction const *
 _find_alt_construction( tripoint const &loc, construction_id const &idx,
                         cata::optional<construction_id> const &part_con_idx,
@@ -827,9 +834,51 @@ _find_alt_construction( tripoint const &loc, construction_id const &idx,
 {
     std::vector<construction *> cons = constructions_by_filter( filter );
     for( construction const *el : cons ) {
-        if( ( part_con_idx and * part_con_idx == el->id ) or
-            ( el->pre_terrain != idx->post_terrain and can_construct( *el, loc ) ) ) {
+        if( _can_construct( loc, idx, *el, part_con_idx ) ) {
             return el;
+        }
+    }
+    return nullptr;
+}
+
+template <class ID>
+ID _get_id( construction_id const &idx )
+{
+    return idx->post_terrain.empty() ? ID() : ID( idx->post_terrain );
+}
+
+using checked_cache_t = std::vector<construction_id>;
+construction const *_find_prereq( tripoint const &loc, construction_id const &idx,
+                                  construction_id const &top_idx,
+                                  cata::optional<construction_id> const &part_con_idx, checked_cache_t &checked_cache )
+{
+    construction const *con = nullptr;
+    std::vector<construction *> cons = constructions_by_filter( [&idx, &top_idx](
+    construction const & it ) {
+        furn_id const f = top_idx->post_is_furniture ? _get_id<furn_id>( top_idx ) : furn_id();
+        ter_id const t = top_idx->post_is_furniture ? ter_id() : _get_id<ter_id>( top_idx );
+        return it.group != idx->group and !it.post_terrain.empty() and
+               it.post_terrain == idx->pre_terrain and
+               // don't get stuck building and deconstructing the top level post_terrain
+               it.pre_terrain != top_idx->post_terrain and
+               ( it.pre_flags.empty() or !can_construct_furn_ter( it, f, t ) );
+    } );
+
+    for( construction const *gcon : cons ) {
+        if( std::find( checked_cache.begin(), checked_cache.end(), gcon->id ) !=
+            checked_cache.end() ) {
+            continue;
+        }
+        checked_cache.emplace_back( gcon->id );
+        if( _can_construct( loc, idx, *gcon, part_con_idx ) ) {
+            return gcon;
+        }
+        // try to find a prerequisite of this prerequisite
+        if( !gcon->pre_terrain.empty() or !gcon->pre_flags.empty() ) {
+            con = _find_prereq( loc, gcon->id, top_idx, part_con_idx, checked_cache );
+        }
+        if( con != nullptr ) {
+            return con;
         }
     }
     return nullptr;
@@ -853,11 +902,14 @@ static activity_reason_info find_base_construction(
             return it.group == idx->group;
         } );
         if( con == nullptr ) {
-            // try to build a pre-requisite from a different group
-            con = _find_alt_construction( loc, idx, part_con_idx, [&idx]( construction const & it ) {
-                return it.group != idx->group and !it.post_terrain.empty() and
-                       it.post_terrain == idx->pre_terrain;
-            } );
+            // try to build a pre-requisite from a different group, recursively
+            checked_cache_t checked_cache;
+            for( construction const *vcon : constructions_by_group( idx->group ) ) {
+                con = _find_prereq( loc, vcon->id, vcon->id, part_con_idx, checked_cache );
+                if( con != nullptr ) {
+                    break;
+                }
+            }
         }
         cc = con != nullptr;
     }
