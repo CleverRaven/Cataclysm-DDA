@@ -1,0 +1,8 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "fire_ammotype",
+    "name": "fire ammotype",
+    "default": "fake_projectile_heat_weak"
+  }
+]

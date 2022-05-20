@@ -1,0 +1,23 @@
+[
+  {
+    "type": "effect_type",
+    "id": "fstung_weak",
+    "name": [ "Ant Sting" ],
+    "desc": [ "You have been stabbed by a hot stung" ],
+	"max_intensity": 4,
+    "rating": "bad",
+    "base_mods": { "pain_min": [1], "pain_max": [1], "pain_max_val": [ 30 ] },
+	"main_parts_only": true,
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "fstung_strong",
+    "name": [ "Ant Sting" ],
+    "desc": [ "You have been stabbed by a scorching stung" ],
+    "rating": "bad",
+    "base_mods": { "pain_min": [1], "pain_max": [2], "pain_max_val": [ 60 ] },
+	"main_parts_only": true,
+    "show_in_info": true
+  }
+]

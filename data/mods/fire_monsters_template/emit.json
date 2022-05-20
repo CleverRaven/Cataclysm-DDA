@@ -1,0 +1,26 @@
+[
+  {
+    "id": "fire_emit_hotair_weak",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 3,
+    "chance": 100
+   },
+   {
+    "id": "fire_emit_hotair_medium",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 9,
+    "chance": 100
+   },
+   {
+    "id": "fire_emit_hotair_strong",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 25,
+    "chance": 100
+   }
+]

@@ -1,0 +1,258 @@
+[
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "firesting_weak",
+    "cooldown": 25,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 3 , "armor_penetration": 8, "armor_multiplier": 0.5 } ],
+    "body_parts": [
+      [ "head", 3 ],
+      [ "eyes", 2 ],
+      [ "mouth", 1 ],
+      [ "torso", 1 ],
+      [ "arm_l", 3 ],
+      [ "arm_r", 3 ],
+      [ "hand_l", 2 ],
+      [ "hand_r", 2 ],
+      [ "leg_l", 3 ],
+      [ "leg_r", 3 ],
+      [ "foot_l", 2 ],
+      [ "foot_r", 2 ]
+    ],
+    "effects": [ { "id": "fstung_weak", "duration": 60 , "chance": 80}, { "id": "fstung_strong", "duration": 30 , "chance": 5} ],
+    "hit_dmg_u": "The %1$s stings you!",
+    "hit_dmg_npc": "The %1$s stings <npcname>!",
+    "no_dmg_msg_u": "The %1$s tries to sting you, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "The %1$s tries to sting <npcname>, but fails to penetrate their armor!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "firesting_strong",
+    "cooldown": 25,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_penetration": 15, "armor_multiplier": 0.5 } ],
+    "body_parts": [
+      [ "head", 3 ],
+      [ "eyes", 2 ],
+      [ "mouth", 1 ],
+      [ "torso", 1 ],
+      [ "arm_l", 3 ],
+      [ "arm_r", 3 ],
+      [ "hand_l", 2 ],
+      [ "hand_r", 2 ],
+      [ "leg_l", 3 ],
+      [ "leg_r", 3 ],
+      [ "foot_l", 2 ],
+      [ "foot_r", 2 ]
+    ],
+    "effects": [ { "id": "fstung_strong", "duration": 80 , "chance": 80} ],
+    "hit_dmg_u": "The %1$s stings strongly at you!",
+    "hit_dmg_npc": "The %1$s stings strongly at <npcname>!",
+    "no_dmg_msg_u": "The %1$s tries to sting you, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "The %1$s tries to sting <npcname>, but fails to penetrate their armor!"
+  },
+  
+  
+
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "fire_hunter_attack1",
+    "cooldown": 2,
+    "move_cost": 140,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 2, "armor_penetration": 8 }, { "damage_type": "heat", "amount": 6 }],
+	"min_mul": 0.4,
+	"max_mul": 1,
+	"body_parts": [
+      [ "head", 1 ],
+      [ "eyes", 1 ],
+      [ "mouth", 1 ],
+      [ "torso", 5 ],
+      [ "arm_l", 2 ],
+      [ "arm_r", 2 ],
+      [ "hand_l", 1 ],
+      [ "hand_r", 1 ],
+      [ "leg_l", 3 ],
+      [ "leg_r", 3 ],
+      [ "foot_l", 1 ],
+      [ "foot_r", 1 ]
+    ],
+    "hit_dmg_u": "The %1$s slashes you with burning claws",
+    "hit_dmg_npc": "The %1$s slashes <npcname> with burning claws"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "fire_hunter_attack2",
+    "cooldown": 2,
+    "move_cost": 140,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 2, "armor_penetration": 8 }, { "damage_type": "heat", "amount": 6 } ],
+	"min_mul": 0.4,
+	"max_mul": 1,
+	"body_parts": [
+      [ "head", 1 ],
+      [ "eyes", 1 ],
+      [ "mouth", 1 ],
+      [ "torso", 5 ],
+      [ "arm_l", 2 ],
+      [ "arm_r", 2 ],
+      [ "hand_l", 1 ],
+      [ "hand_r", 1 ],
+      [ "leg_l", 3 ],
+      [ "leg_r", 3 ],
+      [ "foot_l", 1 ],
+      [ "foot_r", 1 ]
+    ],
+    "hit_dmg_u": "The %1$s pierces you with burning fangs",
+    "hit_dmg_npc": "The %1$s pierces <npcname> with burning fangs"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "fire_hunter_impale",
+    "cooldown": 25,
+    "move_cost": 140,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_penetration": 15, "armor_multiplier": 0.5 }, { "damage_type": "heat", "amount": 10, "armor_penetration": 15, "armor_multiplier": 0.8 } ],
+	"body_parts": [ [ "head", 1 ],[ "eyes", 1 ],[ "mouth", 1 ],[ "torso", 5 ],[ "arm_l", 2 ],[ "arm_r", 2 ],[ "hand_l", 1 ],[ "hand_r", 1 ],[ "leg_l", 3 ],[ "leg_r", 3 ],[ "foot_l", 1 ],[ "foot_r", 1 ] ],
+    "effects": [ { "id": "bleed", "duration": 100 }, { "id": "downed", "duration": 3 } ],
+    "hit_dmg_u": "The %1$s impales you!",
+    "hit_dmg_npc": "The %1$s impales <npcname>'s!",
+    "no_dmg_msg_u": "The %1$s tries to impale you, but fails to penetrate!",
+    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>'s, but fails to penetrate them!"
+  },
+  
+  
+  
+  {
+    "type": "monster_attack",
+    "id": "fake_attack_heat1",
+    "attack_type": "gun",
+    "cooldown": 9999,
+    "move_cost": 1,
+    "gun_type": "fake_heat_gun1",
+    "ammo_type": "fake_projectile_heat_weak",
+    "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
+    "fake_str": 0,
+    "fake_dex": 0,
+    "fake_per": 0,
+    "ranges": [ [ 1, 40, "DEFAULT" ] ],
+	"description": "Crimsom heater propells hot gas"
+  },
+  {
+    "type": "monster_attack",
+    "id": "fake_attack_heat2",
+    "attack_type": "gun",
+    "cooldown": 9999,
+    "move_cost": 1,
+    "gun_type": "fake_heat_gun2",
+    "ammo_type": "fake_projectile_heat_strong",
+    "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
+    "fake_str": 0,
+    "fake_dex": 0,
+    "fake_per": 0,
+    "ranges": [ [ 1, 15, "DEFAULT" ] ],
+	"description": "Crimsom heater propells scorching gas"
+  },
+  
+  
+  
+  {
+    "type": "monster_attack",
+    "id": "fake_attack_magma1",
+    "attack_type": "gun",
+    "cooldown": 9999,
+    "move_cost": 1,
+    "gun_type": "fake_magma_gun1",
+    "ammo_type": "fake_projectile_magma1",
+    "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
+    "fake_str": 0,
+    "fake_dex": 0,
+    "fake_per": 0,
+    "ranges": [ [ 1, 60, "DEFAULT" ] ],
+	"description": "Magma zombie spits firey magma"
+  },
+  {
+    "type": "monster_attack",
+    "id": "fake_attack_magma2",
+    "attack_type": "gun",
+    "cooldown": 9999,
+    "move_cost": 1,
+    "gun_type": "fake_magma_gun1",
+    "ammo_type": "fake_projectile_magma2",
+    "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
+    "fake_str": 0,
+    "fake_dex": 0,
+    "fake_per": 0,
+    "ranges": [ [ 1, 60, "DEFAULT" ] ],
+	"description": "Magma zombie spits weakly pressurized magma"
+  },
+  {
+    "type": "monster_attack",
+    "id": "fake_attack_magma3",
+    "attack_type": "gun",
+    "cooldown": 9999,
+    "move_cost": 1,
+    "gun_type": "fake_magma_gun1",
+    "ammo_type": "fake_projectile_magma3",
+    "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
+    "fake_str": 0,
+    "fake_dex": 0,
+    "fake_per": 0,
+    "ranges": [ [ 1, 60, "DEFAULT" ] ],
+	"description": "Magma zombie spits highly pressurized magma"
+  },
+  
+  
+  
+  
+  {
+    "type": "monster_attack",
+    "id": "fake_attack_magma3_plasma",
+    "attack_type": "gun",
+    "cooldown": 9999,
+    "move_cost": 20,
+    "gun_type": "fake_magma_gun1",
+    "ammo_type": "fake_projectile_magma3",
+    "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
+    "fake_str": 0,
+    "fake_dex": 0,
+    "fake_per": 0,
+	"require_targeting_player": false,
+    "ranges": [ [ 1, 60, "DEFAULT" ] ],
+	"description": "Plasma being throws highly pressurized magma"
+  },
+  {
+    "type": "monster_attack",
+    "id": "fake_attack_fire_plasma",
+    "attack_type": "gun",
+    "cooldown": 9999,
+    "move_cost": 0,
+    "gun_type": "fake_fire_gun",
+    "ammo_type": "fake_projectile_fire",
+    "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
+    "fake_str": 0,
+    "fake_dex": 0,
+    "fake_per": 0,
+	"require_targeting_player": false,
+    "ranges": [ [ 1, 15, "DEFAULT" ] ],
+	"description": "Plasma being throws fire"
+  },
+  {
+    "type": "monster_attack",
+    "id": "fake_attack_explosion_plasma",
+    "attack_type": "gun",
+    "cooldown": 8,
+    "move_cost": 30,
+     "gun_type": "fake_explosion_gun",
+    "ammo_type": "fake_projectile_explosion",
+    "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
+    "fake_str": 0,
+    "fake_dex": 0,
+    "fake_per": 0,
+	"require_targeting_player": false,
+    "ranges": [ [ 1, 60, "DEFAULT" ] ],
+	"description": "Plasma being shoots pressurized gas"
+  }
+]

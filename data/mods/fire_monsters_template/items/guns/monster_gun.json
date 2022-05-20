@@ -1,0 +1,324 @@
+[
+   {
+    "id": "fake_gel_gun",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "mouth" },
+    "description": "mouth",
+    "material": [ "flesh" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "NON_FOULING", "NONCONDUCTIVE", "WATERPROOF_GUN" ],
+    "skill": "throw",
+    "ammo": [ "gasoline" ],
+    "clip_size": 1,
+	"modes": [  [ "DEFAULT", "semi-auto", 1 ] ],
+    "weight": "1200 g",
+    "volume": "800 ml",
+    "longest_side": "100 mm",
+    "bashing": 0,
+    "to_hit": 1,
+    "loudness": 0,
+    "range": 25,
+    "dispersion": 0,
+	"sight_dispersion": 999,
+    "durability": 8,
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": false,
+		"watertight": true,
+		"fire_protection": true, 
+        "max_contains_volume": "11000 ml",
+		"ammo_restriction": { "gasoline": 10000 },
+        "max_contains_weight": "11000 mg"
+      }
+	]
+  },
+  
+  
+  
+  {
+    "id": "fake_heat_gun1",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "hot hand" },
+    "description": "hot hand",
+    "material": [ "flesh" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "NON_FOULING", "NONCONDUCTIVE" ],
+    "skill": "pistol",
+    "ammo": [ "fire_ammotype" ],
+    "clip_size": 1,
+	"modes": [  [ "DEFAULT", "semi-auto", 1 ] ],
+    "weight": "800 g",
+    "volume": "1000 ml",
+    "longest_side": "2000 mm",
+    "bashing": 2,
+    "to_hit": 1,
+    "loudness": 0,
+    "range": 0,
+    "dispersion": 800,
+    "durability": 8,
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": false,
+		"watertight": true,
+		"fire_protection": true, 
+        "max_contains_volume": "11000 ml",
+		"ammo_restriction": { "fire_ammotype": 10000 },
+        "max_contains_weight": "11000 mg"
+      }
+	]
+  },
+  {
+    "id": "fake_heat_gun2",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "scorching hand" },
+    "description": "scorching hand",
+    "material": [ "flesh" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "NON_FOULING", "NONCONDUCTIVE" ],
+    "skill": "pistol",
+    "ammo": [ "fire_ammotype" ],
+    "clip_size": 1,
+	"modes": [  [ "DEFAULT", "semi-auto", 1 ] ],
+    "weight": "800 g",
+    "volume": "1000 ml",
+    "longest_side": "2000 mm",
+    "bashing": 2,
+    "to_hit": 1,
+    "loudness": 0,
+    "range": 0,
+    "dispersion": 800,
+    "durability": 8,
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": false,
+		"watertight": true,
+		"fire_protection": true, 
+        "max_contains_volume": "11000 ml",
+		"ammo_restriction": { "fire_ammotype": 10000 },
+        "max_contains_weight": "11000 mg"
+      }
+	]
+  },
+  
+  
+  
+  {
+    "id": "fake_magma_gun1",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "mouth" },
+    "description": "mouth",
+    "material": [ "flesh" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "NON_FOULING", "NONCONDUCTIVE" ],
+    "skill": "pistol",
+    "ammo": [ "fire_ammotype" ],
+    "clip_size": 1,
+	"modes": [  [ "DEFAULT", "semi-auto", 1 ] ],
+    "weight": "800 g",
+    "volume": "1100 ml",
+    "longest_side": "2000 mm",
+    "bashing": 2,
+    "to_hit": 1,
+    "loudness": 0,
+    "range": 0,
+    "dispersion": 3000,
+    "durability": 8,
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": false,
+		"watertight": true,
+		"fire_protection": true, 
+        "max_contains_volume": "11000 ml",
+		"ammo_restriction": { "fire_ammotype": 10000 },
+        "max_contains_weight": "11000 mg"
+      }
+	]
+  },
+  {
+    "id": "fake_magma_gun2",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "mouth" },
+    "description": "mouth",
+    "material": [ "flesh" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "NON_FOULING", "NONCONDUCTIVE" ],
+    "skill": "pistol",
+    "ammo": [ "fire_ammotype" ],
+    "clip_size": 1,
+	"modes": [  [ "DEFAULT", "semi-auto", 1 ] ],
+    "weight": "800 g",
+    "volume": "1100 ml",
+    "longest_side": "2000 mm",
+    "bashing": 2,
+    "to_hit": 1,
+    "loudness": 0,
+    "range": 0,
+    "dispersion": 6000,
+    "durability": 8,
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": false,
+		"watertight": true,
+		"fire_protection": true, 
+        "max_contains_volume": "11000 ml",
+		"ammo_restriction": { "fire_ammotype": 10000 },
+        "max_contains_weight": "11000 mg"
+      }
+	]
+  },
+  {
+    "id": "fake_magma_gun3",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "mouth" },
+    "description": "mouth",
+    "material": [ "flesh" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "NON_FOULING", "NONCONDUCTIVE" ],
+    "skill": "pistol",
+    "ammo": [ "fire_ammotype" ],
+    "clip_size": 1,
+	"modes": [  [ "DEFAULT", "semi-auto", 1 ] ],
+    "weight": "800 g",
+    "volume": "1100 ml",
+    "longest_side": "2000 mm",
+    "bashing": 2,
+    "to_hit": 1,
+    "loudness": 0,
+    "range": 0,
+    "dispersion": 6000,
+    "durability": 8,
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": false,
+		"watertight": true,
+		"fire_protection": true, 
+        "max_contains_volume": "11000 ml",
+		"ammo_restriction": { "fire_ammotype": 10000 },
+        "max_contains_weight": "11000 mg"
+      }
+	]
+  },
+  
+  
+  
+  {
+    "id": "fake_fire_gun",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "mouth" },
+    "description": "mouth",
+    "material": [ "flesh" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "NON_FOULING", "NONCONDUCTIVE" ],
+    "skill": "pistol",
+    "ammo": [ "fire_ammotype" ],
+    "clip_size": 1,
+	"modes": [  [ "DEFAULT", "semi-auto", 1 ] ],
+    "weight": "800 g",
+    "volume": "1000 ml",
+    "longest_side": "2000 mm",
+    "bashing": 2,
+    "to_hit": 1,
+    "loudness": 0,
+    "range": 0,
+    "dispersion": 0,
+    "durability": 8,
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": false,
+		"watertight": true,
+		"fire_protection": true, 
+        "max_contains_volume": "11000 ml",
+		"ammo_restriction": { "fire_ammotype": 10000 },
+        "max_contains_weight": "11000 mg"
+      }
+	]
+  },
+  
+  
+  
+  {
+    "id": "fake_explosion_gun",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "hand" },
+    "description": "hand",
+    "material": [ "flesh" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "NON_FOULING", "NONCONDUCTIVE" ],
+    "skill": "pistol",
+    "ammo": [ "fire_ammotype" ],
+    "clip_size": 1,
+	"modes": [  [ "DEFAULT", "semi-auto", 1 ] ],
+    "weight": "800 g",
+    "volume": "1000 ml",
+    "longest_side": "2000 mm",
+    "bashing": 2,
+    "to_hit": 1,
+    "loudness": 0,
+    "range": 0,
+    "dispersion": 0,
+    "durability": 8,
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": false,
+		"watertight": true,
+		"fire_protection": true, 
+        "max_contains_volume": "11000 ml",
+		"ammo_restriction": { "fire_ammotype": 10000 },
+        "max_contains_weight": "11000 mg"
+      }
+	]
+  },
+  
+  
+  
+  {
+    "id": "fake_napalm_gun",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "barrel" },
+    "description": "barrel",
+    "material": [ "steel" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "NON_FOULING" ],
+    "skill": "pistol",
+    "ammo": [ "gasoline" ],
+    "clip_size": 1,
+	"modes": [  [ "DEFAULT", "semi-auto", 1 ] ],
+    "weight": "300 g",
+    "volume": "100 ml",
+    "longest_side": "2500 mm",
+    "bashing": 0,
+    "to_hit": 1,
+    "loudness": 0,
+    "range": 60,
+    "dispersion": 999999,
+    "durability": 8,
+	"pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": false,
+		"watertight": true,
+		"fire_protection": true, 
+        "max_contains_volume": "11000 ml",
+		"ammo_restriction": { "gasoline": 10000 },
+        "max_contains_weight": "11000 mg"
+      }
+	]
+  }
+]

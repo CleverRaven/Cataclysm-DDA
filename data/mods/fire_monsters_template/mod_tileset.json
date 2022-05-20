@@ -1,0 +1,56 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [
+      "Chibi_Ultica",
+      "UltimateCataclysm",
+      "MshockXottoplus",
+      "UNDEAD_PEOPLE",
+      "UNDEAD_PEOPLE_BASE",
+      "UNDEAD_PEOPLE_LEGACY",
+      "UlticaShell",
+      "MshockXottoplus12",
+      "MSX++DEAD_PEOPLE",
+      "MXplus12_for_cosmetics"
+    ],
+    "tiles-new": [
+      {
+        "file": "definitive32x32.png",
+        "sprite_height": 32,
+        "sprite_width": 32,
+        "tiles": [
+          { "id": "mon_ant_fire_larva", "fg": 0, "bg": 14 },
+          { "id": "mon_ant_fire", "fg": 1, "bg": 15 },
+          { "id": "mon_ant_fire_queen", "fg": 2, "bg": 15 },
+          { "id": "mon_ant_fire_soldier", "fg": 3, "bg": 15 },
+          { "id": "mon_fire_gel", "fg": 4, "bg": 15 },
+          { "id": "mon_upgraded_heater", "fg": 5, "bg": 17 },
+          { "id": "mon_ashboomer", "fg": 6, "bg": 15 },
+          { "id": "mon_hunch", "fg": 7, "bg": 17 },
+          { "id": "mon_heater", "fg": 8, "bg": 17 },
+          { "id": "mon_plasma", "fg": 10, "bg": 13 },
+          { "id": "mon_flamebot", "fg": 11, "bg": 15 },
+          { "id": "mon_napalmbot", "fg": 12, "bg": 17 },
+		  { "id": "mon_brute", "fg": 19, "bg": 17 },
+		  { "id": "fire_napalm_drop", "fg": 20 },
+		  { "id": "fire_napalm_ammo", "fg": 21 },
+		  { "id": "mon_minebot", "fg": 22, "bg": 15 },
+		  { "id": "mon_firehunter", "fg": 23, "bg": 17, "rotates": false },
+		  { "id": "fire_gel_drop", "fg": 24 },
+		  { "id": "fire_gel_ammo", "fg": 25 },
+		  { "id": "fire_magma_tool1_act", "fg": 26 },
+		  { "id": "fire_magma_tool2_act", "fg": 27 },
+		  { "id": "fire_magma_tool3_act", "fg": 28 }
+        ]
+      },
+      {
+        "file": "64x80.png",
+        "sprite_height": 80,
+        "sprite_width": 64,
+        "sprite_offset_x": -16,
+        "sprite_offset_y": -48,
+        "tiles": [ { "id": "mon_flametank", "fg": 100 } ]
+      }
+    ]
+  }
+]

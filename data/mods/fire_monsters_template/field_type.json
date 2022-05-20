@@ -1,0 +1,69 @@
+{
+    "id": "fd_smoke_neto",
+    "type": "field_type",
+    "legacy_enum_id": 12,
+    "intensity_levels": [
+      {
+        "name": "thin smoke",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "smoke",
+        "color": "light_gray",
+        "transparent": false,
+        "translucency": 10,
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "7 seconds",
+            "max_duration": "7 seconds",
+            "immune_inside_vehicle": true
+          }
+        ],
+        "scent_neutralization": 1
+      },
+      {
+        "name": "thick smoke",
+        "color": "dark_gray",
+        "translucency": 0,
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "mouth",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "15 seconds",
+            "immune_inside_vehicle": true
+          }
+        ],
+        "scent_neutralization": 5
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 12,
+    "dirty_transparency_cache": true,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "0 turns",
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] },
+    "priority": 8,
+    "half_life": "2 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_fog"
+}

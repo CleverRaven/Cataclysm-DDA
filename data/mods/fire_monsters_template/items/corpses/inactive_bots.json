@@ -1,0 +1,102 @@
+[
+  {
+    "id": "bot_flamebot",
+    "looks_like": "mon_flamebot",
+    "type": "TOOL",
+    "name": { "str": "inactive exterminator bot" },
+    "description": "This is an inactive exterminator robot. It resembles a security bot only armed with a flamethrower. Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the robot will race towards enemies and torch them alive.",
+    "weight": "100000 g",
+    "volume": "65000 ml",
+    "price": "800 USD",
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_flamebot",
+      "friendly_msg": "The exterminator bot shudders briefly and rolls away.",
+      "hostile_msg": "The exterminator detects gross pests in the area, and shines a multitude of colored lights in your face!",
+      "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_flametank",
+    "looks_like": "mon_flametank",
+    "type": "TOOL",
+    "name": { "str": "inactive exterminator tank" },
+    "description": "This is an inactive exterminator tank. It resembles a large tank only armed with a flamethrower & napalm bomb launchers. Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the tank will race towards enemies and torch them alive.",
+    "weight": "175000 g",
+    "volume": "655000 ml",
+    "price": "800 USD",
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_flametank",
+      "friendly_msg": "The exterminator tank shudders briefly and rolls away.",
+      "hostile_msg": "The exterminator tank detects gross pests in the area, and shines a multitude of colored lights in your face!",
+      "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
+      "difficulty": 10,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_minebot",
+    "looks_like": "mon_minebot",
+    "type": "TOOL",
+    "name": { "str": "inactive breacher bot" },
+    "description": "This is an inactive explosive breacher bot. It resembles a dog size insect packed with explosives. Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the robot will race towards enemies and explode.",
+    "weight": "100000 g",
+    "volume": "65000 ml",
+    "price": "800 USD",
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_minebot",
+      "friendly_msg": "The explosive skitterbot shudders briefly and rolls away.",
+      "hostile_msg": "The explosive skitterbot gives off a loud sharp beep, and shines a multitude of colored lights in your face!",
+      "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_napalmbot",
+    "looks_like": "mon_napalmbot",
+    "type": "TOOL",
+    "name": { "str": "inactive napalm-spreader bot" },
+    "description": "This is an inactive napalm-spreader bot. It resembles a dog size insect packed with napalm spreader hoses. Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the robot will keep following enemies and creating a trail of napalm, good for tracking and putting enemies on fire.",
+    "weight": "100000 g",
+    "volume": "65000 ml",
+    "price": "800 USD",
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_napalmbot",
+      "friendly_msg": "The incendiary skitterbot shudders briefly and rolls away.",
+      "hostile_msg": "The incendiary skitterbot gives off a loud sharp beep, and shines a multitude of colored lights in your face!",
+      "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  }
+]

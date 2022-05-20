@@ -1,0 +1,211 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NULL",
+    "is_safe": true,
+    "default": "mon_null"
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ANT_FIRE",
+    "default": "mon_ant_fire",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_ant_fire_larva", "freq": 30, "cost_multiplier": 0 },
+      { "monster": "mon_ant_fire_soldier", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_ant_fire_queen", "freq": 1, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ANT_ACID",
+    "default": "mon_ant_acid_small",
+    "is_animal": true,
+    "monsters": [
+	  { "monster": "mon_ant_fire", "freq": 50, "cost_multiplier": 0 },
+	  { "monster": "mon_ant_fire_larva", "freq": 15, "cost_multiplier": 0 },
+      { "monster": "mon_ant_fire_soldier", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_ant_fire_queen", "freq": 1, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE",
+	"monsters": [
+   { "monster": "mon_fire_gel", "freq": 10, "cost_multiplier": 5 },
+   { "monster": "mon_heater", "freq": 3, "cost_multiplier": 5 },
+   { "monster": "mon_ashboomer", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_hunch", "freq": 1, "cost_multiplier": 5 },
+   { "monster": "mon_plasma", "freq": 1, "cost_multiplier": 5 },
+   { "monster": "mon_brute", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_firehunter", "freq": 1, "cost_multiplier": 5 }
+  ]
+ },
+ {
+    "type": "monstergroup",
+    "name": "GROUP_VANILLA",
+	"monsters": [
+   { "monster": "mon_fire_gel", "freq": 10, "cost_multiplier": 5 },
+   { "monster": "mon_heater", "freq": 3, "cost_multiplier": 5 },
+   { "monster": "mon_upgraded_heater", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_plasma", "freq": 1, "cost_multiplier": 5 }
+  ]
+ },
+ {
+    "type": "monstergroup",
+    "name": "GROUP_HOUSE",
+	"monsters": [
+    { "monster": "mon_heater", "freq": 5, "cost_multiplier": 5 },
+    { "monster": "mon_upgraded_heater", "freq": 1, "cost_multiplier": 5 },
+    { "monster": "mon_hunch", "freq": 1, "cost_multiplier": 5 },
+	{ "monster": "mon_plasma", "freq": 1, "cost_multiplier": 5 }
+  ]
+ },
+ {
+    "type": "monstergroup",
+    "name": "GROUP_PREPPER_HOUSE",
+	"monsters": [
+   { "monster": "mon_fire_gel", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_upgraded_heater", "freq": 1, "cost_multiplier": 5 },
+   { "monster": "mon_brute", "freq": 1, "cost_multiplier": 5 }
+	]
+ },
+ {
+    "type": "monstergroup",
+    "name": "GROUP_MAYBE_ZOMBIE",
+	"monsters": [
+   { "monster": "mon_fire_gel", "freq": 10, "cost_multiplier": 5 },
+   { "monster": "mon_heater", "freq": 3, "cost_multiplier": 5 },
+   { "monster": "mon_upgraded_heater", "freq": 3, "cost_multiplier": 5 },
+   { "monster": "mon_hunch", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_brute", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_plasma", "freq": 2, "cost_multiplier": 5 }
+  ]
+ },
+ {
+    "type": "monstergroup",
+    "name": "GROUP_SCHOOL",
+	"default": "mon_zombie_child",
+	"monsters": [
+   { "monster": "mon_fire_gel", "freq": 15, "cost_multiplier": 5 },
+   { "monster": "mon_heater", "freq": 5, "cost_multiplier": 5 },
+   { "monster": "mon_plasma", "freq": 5, "cost_multiplier": 5 }
+  ]
+ },
+ {
+    "type": "monstergroup",
+    "name": "GROUP_MALL",
+	"monsters": [
+   { "monster": "mon_fire_gel", "freq": 15, "cost_multiplier": 5 },
+   { "monster": "mon_heater", "freq": 3, "cost_multiplier": 5 },
+   { "monster": "mon_upgraded_heater", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_hunch", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_brute", "freq": 1, "cost_multiplier": 5 },
+   { "monster": "mon_plasma", "freq": 1, "cost_multiplier": 5 }
+  ]
+ },
+ {
+    "type": "monstergroup",
+    "name": "GROUP_FIRE",
+	"monsters": [
+   { "monster": "mon_fire_gel", "freq": 45, "cost_multiplier": 5 },
+   { "monster": "mon_heater", "freq": 30, "cost_multiplier": 5 },
+   { "monster": "mon_upgraded_heater", "freq":  30, "cost_multiplier": 5 },
+   { "monster": "mon_hunch", "freq":  30, "cost_multiplier": 5 },
+   { "monster": "mon_brute", "freq":  30, "cost_multiplier": 5 },
+   { "monster": "mon_plasma", "freq":  15, "cost_multiplier": 5 }
+  ]
+ },
+ {
+    "type": "monstergroup",
+    "name": "GROUP_HOSPITAL",
+    "default": "mon_null",
+    "monsters": [
+   { "monster": "mon_fire_gel", "freq": 15, "cost_multiplier": 5 },
+   { "monster": "mon_heater", "freq": 3, "cost_multiplier": 5 },
+   { "monster": "mon_upgraded_heater", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_hunch", "freq": 2, "cost_multiplier": 5 },
+   { "monster": "mon_brute", "freq":1, "cost_multiplier": 5 },
+   { "monster": "mon_plasma", "freq": 1, "cost_multiplier": 5 }
+   ]
+  },
+  
+	{
+    "name": "GROUP_ROBOT",
+    "type": "monstergroup",
+    "default": "mon_protectron",
+    "monsters": [
+      { "monster": "mon_flamebot", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_flametank", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_minebot", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_napalmbot", "freq": 2, "cost_multiplier": 1 }
+    ]
+  },
+  
+  {
+    "name": "GROUP_HAZMATBOT",
+    "type": "monstergroup",
+    "default": "mon_hazmatbot",
+    "monsters": [  
+	{ "monster": "mon_flamebot", "freq": 2, "cost_multiplier": 1 },
+    { "monster": "mon_flametank", "freq": 2, "cost_multiplier": 1 },
+	{ "monster": "mon_minebot", "freq": 1, "cost_multiplier": 1 },
+	{ "monster": "mon_napalmbot", "freq": 10, "cost_multiplier": 1 }
+	]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT_SECUBOT",
+    "default": "mon_secubot",
+    "monsters": [
+      { "monster": "mon_flamebot", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_flametank", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_minebot", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_napalmbot", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  
+  {
+    "type": "monstergroup",
+    "name": "GROUP_STEEL_MILL",
+    "monsters": [
+	  { "monster": "mon_fire_gel", "freq": 10, "cost_multiplier": 5 },
+	  { "monster": "mon_flametank", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_minebot", "freq": 1, "cost_multiplier": 1 },
+	  { "monster": "mon_upgraded_heater", "freq": 2, "cost_multiplier": 5 },
+	  { "monster": "mon_hunch", "freq": 1, "cost_multiplier": 5 },
+	  { "monster": "mon_napalmbot", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  
+  {
+    "name": "GROUP_MALL",
+    "type": "monstergroup",
+    "monsters": [
+        { "monster": "mon_fire_gel", "freq": 10, "cost_multiplier": 5 },
+		{ "monster": "mon_heater", "freq": 3, "cost_multiplier": 5 },
+		{ "monster": "mon_upgraded_heater", "freq": 2, "cost_multiplier": 5 },
+		{ "monster": "mon_hunch", "freq": 2, "cost_multiplier": 5 },
+		{ "monster": "mon_brute", "freq": 1, "cost_multiplier": 5 },
+		{ "monster": "mon_plasma", "freq": 1, "cost_multiplier": 5 },
+		{ "monster": "mon_flamebot", "freq": 2, "cost_multiplier": 1 },
+		{ "monster": "mon_flametank", "freq": 2, "cost_multiplier": 1 },
+		{ "monster": "mon_minebot", "freq": 1, "cost_multiplier": 1 },
+		{ "monster": "mon_napalmbot", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  
+  {
+    "name": "GROUP_HAZMATBOT",
+    "type": "monstergroup",
+    "default": "mon_hazmatbot",
+    "monsters": [  
+	  { "monster": "mon_flamebot", "freq": 3, "cost_multiplier": 1 },
+      { "monster": "mon_flametank", "freq": 3, "cost_multiplier": 1 },
+      { "monster": "mon_minebot", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_napalmbot", "freq": 10, "cost_multiplier": 1 }
+	]
+  }
+
+]
+  

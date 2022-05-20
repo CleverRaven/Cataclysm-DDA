@@ -1,0 +1,93 @@
+[
+  {
+	"type": "AMMO",
+	"id": "fire_gel_ammo",
+    "name": { "str": "Stinky gray gel" },
+	"description": "Condensed gray gel spilled from the insides of a zombie, it seems to be a white substance mixed with a black ooze. The smell resembles ammonia and oil, both components of explosives.",
+	"category": "fuel",
+	"volume": "200 ml",
+    "weight": "1100 mg",
+    "count": 1,
+    "stack_size": 1,
+    "phase": "liquid",
+	"container": "null",
+	"material": [ "powder", "diesel" ],
+	"symbol": "=",
+    "color": "light_red",
+    "ammo_type": "flammable",
+	"effects": [ "CUSTOM EXPLOSION", "COOKOFF", "NO_ITEM_DAMAGE", "BLINDS_EYES" ],
+	"explosion": { "power": 400, "distance_factor": 0.75 }
+  },
+  {
+    "type": "AMMO",
+	"id": "fire_gel_drop",
+    "name": { "str": "Gray gel with zombie pieces" },
+	"description": "A disperse amount of gray gel from the insides of a zombie, it seems to be a white substance mixed with a black ooze, with sharp pieces of bone. The smell resembles ammonia and oil, both components of explosives, the bone pieces could become shrapnel in an explosion.",
+	"category": "fuel",
+	"weight": "12000 g",
+    "volume": "15000 ml",
+    "stack_size": 1,
+    "phase": "liquid",
+	"container": "null",
+	"material": [ "powder", "diesel", "flesh" ],
+	"symbol": "=",
+    "color": "light_red",
+    "ammo_type": "flammable",
+	"effects" : [ "CUSTOM EXPLOSION", "COOKOFF" ],
+	"explosion": { "power": 200, "distance_factor": 0.6, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.02 } }
+  },
+  {
+    "type": "AMMO",
+	"id": "fire_napalm_ammo",
+    "name": { "str": "2nd generation RIVTECH Napalm-H" },
+	"category": "fuel",
+	"color": "light_red",
+	"symbol": "=",
+	"description": "A substance made by RIVTECH to be extremely efficient at spreading fire, it works well with small robots. Produces a weak blast but a very low quantity of the substance is enough to spread fire to it is surroundings",
+	"phase": "liquid",
+    "weight": "18 g",
+    "volume": "10 ml",
+    "material": [ "gasoline" ],
+	"stack_size": 1,
+	"ammo_type": "flammable",
+    "effects" : [ "CUSTOM_EXPLOSION", "COOKOFF", "NO_ITEM_DAMAGE", "BLINDS_EYES" ],
+	"explosion": { "power": 100, "distance_factor": 0.5, "max_noise": 25, "fire": true }
+  },
+  {
+    "type": "AMMO",
+	"id": "fire_napalm_drop",
+    "name": { "str": "fragment-filled 2nd generation RIVTECH Napalm-H" },
+	"category": "fuel",
+	"color": "light_red",
+	"symbol": "=",
+	"description": "2nd generation RIVTECH Napalm-H filled with robot scraps, fragments into shrapnel",
+	"phase": "liquid",
+    "weight": "2500 g",
+    "volume": "1500 ml",
+    "material": [ "gasoline", "steel" ],
+	"stack_size": 1,
+	"ammo_type": "flammable",
+    "effects" : [ "CUSTOM_EXPLOSION", "COOKOFF" ],
+	"explosion": { "power": 40, "distance_factor": 0.85, "fire": true, "max_noise": 25, "shrapnel": { "casing_mass": 1, "fragment_mass": 0.01 } }
+  },
+  
+  
+  
+  
+  {
+    "type": "AMMO",
+    "id": "human_ash",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str": "ash", "str_pl": "ashes" },
+    "symbol": "=",
+    "looks_like": "f_ash",
+    "color": "light_gray",
+    "description": "Residue left from burnt human skin, useless",
+    "material": [ "powder" ],
+    "volume": "164ml",
+    "weight": "1 g",
+    "ammo_type": "components",
+    "count": 1
+  }
+]

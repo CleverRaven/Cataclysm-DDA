@@ -1,0 +1,143 @@
+[
+  {
+    "id": "FUEL_FIX",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 3, "intensity_max": 3, "radius": 1, "size": 1 }
+  },
+  
+  
+  {
+    "id": "FIRE_TARGET_FIRE",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "radius": 0, "size": 1, "chance": 30 }
+  },
+  {
+    "id": "FIRE_TARGET_EXPLOSION",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_smoke", "intensity_min": 0, "intensity_max": 1, "radius": 1, "size": 1, "chance": 5 }
+  },
+  {
+    "id": "FIRE_TARGET_SMOKE",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_smoke_neto", "intensity_min": 0, "intensity_max": 1, "radius": 1, "size": 1, "chance": 5 }
+  },
+  
+  
+  {
+    "id": "FIRE_TRAIL_SMOKE",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_smoke_neto", "intensity_min": 0, "intensity_max": 1, "chance": 10 }
+  },
+  {
+    "id": "FIRE_TRAIL_HOTAIR",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_hot_air4", "intensity_min": 3, "intensity_max": 3, "chance": 100 }
+  },
+  {
+    "id": "FIRE_TRAIL_FIRE",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "chance": 66 }
+  },
+  
+  
+  {
+    "id": "FIRE_TARGET_HOTAIR1",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_hot_air1", "intensity_min": 3, "intensity_max": 3, "radius": 4, "size": 1, "chance": 100 }
+  },
+  {
+    "id": "FIRE_TARGET_HOTAIR2",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_hot_air2", "intensity_min": 3, "intensity_max": 3, "radius": 4, "size": 1, "chance": 100 }
+  },
+  {
+    "id": "FIRE_TARGET_HOTAIR3",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_hot_air3", "intensity_min": 3, "intensity_max": 3, "radius": 3, "size": 1, "chance": 100 }
+  },
+  {
+    "id": "FIRE_TARGET_HOTAIR4",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_hot_air4", "intensity_min": 3, "intensity_max": 3, "radius": 2, "size": 1, "chance": 100 }
+  },
+  
+  
+  
+  {
+    "type": "AMMO",
+	"id": "chem_ethanol",
+	"copy-from": "chem_ethanol",
+	"name": { "str_sp": "ethanol" },
+	"extend": { "effects": [ "FUEL_FIX" ] }
+  },
+  {
+    "type": "AMMO",
+	"id": "denat_alcohol",
+	"copy-from": "denat_alcohol",
+	"name": { "str_sp": "denatured alcohol" },
+	"extend": { "effects": [ "FUEL_FIX" ] }
+  },
+  {
+    "type": "AMMO",
+	"id": "chem_methanol",
+	"copy-from": "chem_methanol",
+	"name": { "str_sp": "methanol" },
+	"extend": { "effects": [ "FUEL_FIX" ] }
+  },
+  {
+    "type": "AMMO",
+	"id": "gasoline",
+	"copy-from": "gasoline",
+	"name": { "str_sp": "gasoline" },
+    "delete": { "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] },
+	"extend": { "effects": [ "FUEL_FIX", "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] }
+  },
+  {
+    "type": "AMMO",
+	"id": "flamethrower_fuel",
+	"copy-from": "flamethrower_fuel",
+	"name": { "str_sp": "flamethrower fuel" },
+    "delete": { "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] },
+	"extend": { "effects": [ "FUEL_FIX", "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] }
+  },
+  {
+    "type": "AMMO",
+	"id": "gelled_gasoline",
+    "copy-from": "gelled_gasoline",
+    "name": { "str_sp": "gelled gasoline" },
+    "delete": { "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] },
+	"extend": { "effects": [ "FUEL_FIX", "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] }
+  },
+  {
+     "type": "AMMO",
+	"id": "biodiesel",
+	"copy-from": "biodiesel",
+    "name": { "str_sp": "biodiesel" },
+	"delete": { "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] },
+	"extend": { "effects": [ "FUEL_FIX", "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] }
+  },
+  {
+    "type": "AMMO",
+	"id": "avgas",
+    "copy-from": "avgas",
+	"name": { "str_sp": "avgas fuel" },
+    "delete": { "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] },
+	"extend": { "effects": [ "FUEL_FIX", "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] }
+  },
+  {
+    "type": "AMMO",
+	"id": "jp8",
+	"copy-from": "jp8",
+	"name": { "str_sp": "JP8 fuel" },
+    "delete": { "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] },
+	"extend": { "effects": [ "FUEL_FIX", "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] }
+  },
+  {
+    "type": "AMMO",
+	"id": "diesel",
+	"copy-from": "diesel",
+	"name": { "str_sp": "diesel" },
+    "delete": { "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] },
+	"extend": { "effects": [ "FUEL_FIX", "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ] }
+  }
+]
