@@ -1215,8 +1215,8 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
         case damage_type::HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
-
+                add_effect( source, effect_onfire, rng( 1_turns, 2_turns ), bp ); 
+                
                 Character &player_character = get_player_character();
                 if( player_character.has_trait( trait_PYROMANIA ) &&
                     !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) && player_character.sees( *this ) ) {
