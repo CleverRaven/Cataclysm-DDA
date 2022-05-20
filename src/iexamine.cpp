@@ -1210,12 +1210,12 @@ void iexamine::elevator( Character &you, const tripoint &examp )
 
     // move along every item in the elevator
     for( const tripoint &pos : closest_points_first( you.pos(), 10 ) ) {
-        if( get_map().ter( pos ) == t_elevator ) {
-            map_stack items = get_map().i_at( pos );
+        if( here.ter( pos ) == t_elevator ) {
+            map_stack items = here.i_at( pos );
             tripoint dest = pos + tripoint( 0, 0, movez );
             for( auto it = items.begin(); it != items.end(); ) {
-                get_map().add_item_or_charges( dest, *it );
-                it = get_map().i_rem( pos, it );
+                here.add_item_or_charges( dest, *it );
+                it = here.i_rem( pos, it );
             }
         }
     }
