@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "id": "fire_monsters",
     "name": "fire monsters test/template",
-    "authors": [ "Jo-Neto" ],
+    "authors": [ "Trivega, Jo-Neto & Community" ],
     "description": "world on fire mod enemies",
     "category": "monster_exclude",
     "dependencies": [ "dda" ],
