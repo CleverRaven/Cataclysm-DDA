@@ -59,6 +59,6 @@
       "c": { "item": "SUS_tailoring_materials", "chance": 25 },
       "7": { "item": "office_paper", "chance": 30 }
     },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }
+    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } }
   }
 ]
