@@ -3956,6 +3956,23 @@
     "to_hit": -2
   },
   {
+    "type": "TOOL",
+    "id": "archery_target_box",
+    "symbol": "@",
+    "color": "brown",
+    "name": { "str": "box archery target" },
+    "category": "other",
+    "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bulls-eye marked on the front.  Must be set up to use.",
+    "price": 3000,
+    "price_postapoc": 200,
+    "material": [ { "type": "cotton", "portion": 9 }, { "type": "cardboard" } ],
+    "weight": "16 kg",
+    "volume": "50 L",
+    "longest_side": "60 cm",
+    "bashing": 2,
+    "to_hit": -3
+  },
+  {
     "id": "cash_register",
     "type": "GENERIC",
     "category": "container",

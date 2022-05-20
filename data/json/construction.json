@@ -5459,6 +5459,28 @@
   },
   {
     "type": "construction",
+    "id": "constr_archery_target_box",
+    "group": "build_archery_target_box",
+    "category": "CONSTRUCT",
+    "time": "1 m",
+    "difficulty": 0,
+    "components": [ [ [ "archery_target_box", 1 ] ] ],
+    "pre_special": "check_down_OK",
+    "post_terrain": "f_archery_target_box"
+  },
+  {
+    "type": "construction",
+    "id": "constr_archery_target_bale",
+    "group": "build_archery_target_bale",
+    "category": "CONSTRUCT",
+    "time": "1 m",
+    "difficulty": 0,
+    "using": [ [ "marking_soft", 10, "LIST" ] ],
+    "pre_terrain": "f_hay",
+    "post_terrain": "f_archery_target_bale"
+  },
+  {
+    "type": "construction",
     "id": "constr_clayoven",
     "group": "build_clay_oven",
     "category": "FURN",

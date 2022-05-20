@@ -27,5 +27,92 @@
         "bearing"
       ]
     ]
+  },
+  {
+    "id": "prac_archery_beg",
+    "type": "practice",
+    "//": "shooting against a hard target should damage arrows",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "archery (beginner)",
+    "description": "Practice firing unfletched arrows at a spot on the wall.",
+    "skill_used": "archery",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "autolearn": [ [ "archery", 1 ] ],
+    "book_learn": [ [ "book_archery", 0 ], [ "manual_archery", 0 ], [ "mag_archery", 0 ] ],
+    "tools": [
+      [
+        "selfbow",
+        "shortbow",
+        "compbow",
+        "compbow_high",
+        "compbow_low",
+        "compositebow",
+        "reflexbow",
+        "recurbow",
+        "longbow",
+        "woodgreatbow",
+        "compgreatbow",
+        "reflexrecurvebow"
+      ]
+    ],
+    "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ],
+    "byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "charges": [ 0, 2 ] } ]
+  },
+  {
+    "id": "prac_archery_int",
+    "type": "practice",
+    "//": "Ideally, this would accept multiple arrow types and return a portion of the arrows used",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "archery (intermediate)",
+    "description": "Practice the best ways of firing fletched arrows into a target.  Requires a decent quality bow.",
+    "skill_used": "archery",
+    "time": "30 m",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
+    "proficiencies": [ { "proficiency": "prof_bow_basic", "fail_multiplier": 1, "time_multiplier": 1.5 } ],
+    "autolearn": [ [ "archery", 3 ] ],
+    "book_learn": [ [ "book_archery", 2 ], [ "manual_archery", 2 ] ],
+    "tools": [
+      [
+        "shortbow",
+        "compbow",
+        "compbow_high",
+        "compbow_low",
+        "compositebow",
+        "reflexbow",
+        "recurbow",
+        "longbow",
+        "woodgreatbow",
+        "compgreatbow",
+        "reflexrecurvebow"
+      ],
+      [ "pseudo_archery_target_box", "pseudo_archery_target_bale" ]
+    ],
+    "components": [ [ [ "arrow_wood_heavy", 20 ] ] ],
+    "byproduct_group": [ { "item": "arrow_wood_heavy", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "id": "prac_expert_archers_form",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "expert archer's form",
+    "description": "Practice drawing, holding, and releasing a heavy bow.",
+    "skill_used": "archery",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
+    "proficiencies": [
+      { "proficiency": "prof_bow_basic", "required": true },
+      { "proficiency": "prof_bow_expert", "fail_multiplier": 1, "time_multiplier": 2 }
+    ],
+    "autolearn": [ [ "archery", 3 ] ],
+    "flags": [ "BLIND_EASY" ],
+    "book_learn": [ [ "book_archery", 2 ], [ "manual_archery", 2 ] ],
+    "tools": [ [ "compbow", "compbow_high", "compositebow", "reflexbow", "recurbow", "longbow", "woodgreatbow", "compgreatbow" ] ]
   }
 ]
