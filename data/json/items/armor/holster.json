@@ -427,7 +427,7 @@
   {
     "id": "XL_holster",
     "type": "ARMOR",
-    "name": { "str": "big holster" },
+    "name": { "str": "large holster" },
     "description": "A belt holster consisting of a loop and strap intended for use with larger firearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg.  Activate to holster/draw a gun.",
     "weight": "320 g",
     "volume": "250 ml",
