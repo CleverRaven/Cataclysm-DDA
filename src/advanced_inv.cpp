@@ -1979,7 +1979,7 @@ bool advanced_inventory::move_cont_item( drop_locations things, item_location de
 
     units::volume total_volume;
     units::mass total_mass;
-    for( int i = 0; i < things.size(); i++ ) {
+    for( size_t i = 0; i < things.size(); i++ ) {
         drop_location thing = things.front();
 
         if( !dest_container->can_contain( *thing.first ).success() ) {
@@ -2014,7 +2014,6 @@ bool advanced_inventory::move_cont_item( drop_locations things, item_location de
         total_volume += thing.first.get_item()->volume();
         total_mass += thing.first.get_item()->weight();
         things.splice( things.end(), things );
-        continue;
     }
 
     if( things.empty() ) {
