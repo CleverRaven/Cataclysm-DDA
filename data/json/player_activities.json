@@ -992,15 +992,6 @@
     "no_resume": true
   },
   {
-    "id": "ACT_MIND_SPLICER",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "using the mind splicer",
-    "rooted": true,
-    "based_on": "speed",
-    "no_resume": true
-  },
-  {
     "id": "ACT_HACKING",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -1099,6 +1090,16 @@
     "no_resume": true,
     "refuel_fires": false,
     "auto_needs": false
+  },
+  {
+    "id": "ACT_GENERIC_EOC",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "preparing",
+    "based_on": "time",
+    "interruptable": false,
+    "suspendable": false,
+    "interruptable_with_kb": false
   },
   {
     "id": "ACT_CBM_SURGERY",

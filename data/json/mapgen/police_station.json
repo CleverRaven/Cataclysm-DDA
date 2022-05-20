@@ -60,7 +60,7 @@
         ".": { "item": "badge_deputy", "chance": 5 },
         "t": { "item": "trash_cart", "chance": 50 },
         "c": { "item": "kitchen", "chance": 40, "repeat": [ 2, 4 ] },
-        "1": { "item": "cop_gear", "chance": 70, "repeat": [ 2, 4 ] },
+        "1": { "item": "cop_items", "chance": 70, "repeat": [ 2, 4 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 4 ] },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] }
       },
@@ -216,7 +216,7 @@
         ".": { "item": "badge_deputy", "chance": 5 },
         "t": { "item": "trash_cart", "chance": 50 },
         "c": { "item": "kitchen", "chance": 40 },
-        "1": { "item": "cop_gear", "chance": 70 },
+        "1": { "item": "cop_items", "chance": 70 },
         "l": { "item": "cop_armory", "chance": 70 },
         "L": { "item": "cop_evidence", "chance": 60 },
         "N": { "item": "vending_food_items", "chance": 70, "repeat": [ 4, 12 ] },
@@ -330,8 +330,7 @@
           { "item": "jewelry_front", "chance": 50, "repeat": [ 2, 3 ] },
           { "item": "stash_drugs", "chance": 50, "repeat": [ 2, 3 ] },
           { "item": "harddrugs", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "jewelry_safe", "chance": 20 },
-          { "item": "bionics_common", "chance": 10 }
+          { "item": "jewelry_safe", "chance": 20 }
         ],
         "F": [ { "item": "office", "chance": 50 }, { "item": "consumer_electronics", "chance": 30, "repeat": [ 1, 2 ] } ],
         "t": { "item": "trash_cart", "chance": 30, "repeat": [ 1, 2 ] },
@@ -339,7 +338,7 @@
         "B": { "item": "bed", "chance": 30 },
         "b": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
         "^": { "item": "bedroom", "chance": 30, "repeat": [ 1, 2 ] },
-        "1": { "item": "cop_gear", "chance": 30, "repeat": [ 1, 2 ] },
+        "1": { "item": "cop_items", "chance": 30, "repeat": [ 1, 2 ] },
         "l": { "item": "cop_armory", "chance": 30, "repeat": [ 1, 2 ] },
         "L": [
           { "item": "cop_evidence", "chance": 30, "repeat": [ 1, 2 ] },
@@ -491,7 +490,7 @@
         "$": { "item": "cleaning", "chance": 50, "repeat": [ 2, 3 ] },
         "!": { "item": "alcohol_bottled_canned", "chance": 95, "repeat": [ 2, 3 ] },
         "t": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
-        "1": { "item": "cop_gear", "chance": 70, "repeat": [ 2, 3 ] },
+        "1": { "item": "cop_items", "chance": 70, "repeat": [ 2, 3 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 3 ] },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 3 ] },
         "D": { "item": "office", "chance": 60, "repeat": [ 2, 3 ] },

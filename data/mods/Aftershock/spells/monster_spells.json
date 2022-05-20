@@ -37,7 +37,7 @@
   {
     "type": "SPELL",
     "id": "afs_heat_drain",
-    "name": { "str": "heat drain" },
+    "name": { "str": "Heat Drain" },
     "description": "Spews a burst of very cold air.",
     "valid_targets": [ "hostile", "ground" ],
     "max_level": 10,

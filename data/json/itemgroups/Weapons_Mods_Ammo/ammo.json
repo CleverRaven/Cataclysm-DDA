@@ -47,6 +47,29 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_pistol_common_loose",
+    "//": "Loose pistol ammo commonly owned by citizens and found in many locations.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "32_acp", "prob": 5, "charges": [ 0, 7 ] },
+      { "item": "380_FMJ", "prob": 5, "charges": [ 0, 7 ] },
+      { "item": "380_JHP", "prob": 2, "charges": [ 0, 7 ] },
+      { "item": "38_fmj", "prob": 8, "charges": [ 0, 7 ] },
+      { "item": "38_special", "prob": 10, "charges": [ 0, 7 ] },
+      { "item": "357mag_fmj", "prob": 5, "charges": [ 0, 7 ] },
+      { "item": "357mag_jhp", "prob": 5, "charges": [ 0, 7 ] },
+      { "item": "357sig_jhp", "prob": 7, "charges": [ 0, 7 ] },
+      { "item": "357sig_fmj", "prob": 7, "charges": [ 0, 7 ] },
+      { "item": "40sw", "prob": 10, "charges": [ 0, 7 ] },
+      { "item": "40fmj", "prob": 8, "charges": [ 0, 7 ] },
+      { "item": "45_acp", "prob": 10, "charges": [ 0, 7 ] },
+      { "item": "45_jhp", "prob": 10, "charges": [ 0, 7 ] },
+      { "item": "9mm", "prob": 15, "charges": [ 0, 7 ] },
+      { "item": "9mmfmj", "prob": 8, "charges": [ 0, 7 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_pistol_rare",
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
@@ -60,6 +83,7 @@
       { "item": "460_rowland", "prob": 15 },
       { "item": "460_fmj", "prob": 10 },
       { "item": "57mm", "prob": 50 },
+      { "item": "57mm_ss", "prob": 15 },
       { "item": "380_p", "prob": 10 },
       { "item": "9mmP", "prob": 30 },
       { "item": "9mmP2", "prob": 20 }
@@ -80,6 +104,7 @@
       { "item": "460_rowland", "prob": 15 },
       { "item": "460_fmj", "prob": 10 },
       { "item": "57mm", "prob": 50 },
+      { "item": "57mm_ss", "prob": 25 },
       { "item": "380_p", "prob": 10 },
       { "item": "9mmP", "prob": 30 },
       { "item": "9mmP2", "prob": 20 }
@@ -244,6 +269,22 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_rifle_common_loose",
+    "//": "Loose rifle ammo commonly owned by citizens and found in many locations.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "223", "prob": 10, "charges": [ 0, 6 ] },
+      { "item": "22_cb", "prob": 20, "charges": [ 0, 6 ] },
+      { "item": "22_fmj", "prob": 15, "charges": [ 0, 6 ] },
+      { "item": "22_lr", "prob": 20, "charges": [ 0, 6 ] },
+      { "item": "22_ratshot", "prob": 10, "charges": [ 0, 6 ] },
+      { "item": "270win_jsp", "prob": 2, "charges": [ 0, 6 ] },
+      { "item": "3006", "prob": 12, "charges": [ 0, 6 ] },
+      { "item": "308", "prob": 10, "charges": [ 0, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_rifle_rare",
     "//": "Less common rifle ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
@@ -384,6 +425,18 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_shotgun_common_loose",
+    "//": "Loose shotgun ammo commonly owned by citizens and found in many locations.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "shot_00", "prob": 25, "charges": [ 0, 4 ] },
+      { "item": "shot_bird", "prob": 15, "charges": [ 0, 4 ] },
+      { "item": "shot_slug", "prob": 17, "charges": [ 0, 4 ] },
+      { "item": "410shot_000", "prob": 11, "charges": [ 0, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_shotgun_rare",
     "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
@@ -488,6 +541,17 @@
   },
   {
     "type": "item_group",
+    "id": "loose_ammo",
+    "//": "Common ammo for guns typically owned by citizens.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "ammo_pistol_common_loose", "prob": 75 },
+      { "group": "ammo_rifle_common_loose", "prob": 55 },
+      { "group": "ammo_shotgun_common_loose", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_rare",
     "//": "Less common ammo including that only used by police/paramilitary forces",
     "subtype": "distribution",
@@ -585,6 +649,7 @@
       { "item": "40sw", "prob": 50, "charges": [ 1, 40 ] },
       { "item": "45_acp", "prob": 20, "charges": [ 1, 30 ] },
       { "item": "57mm", "prob": 80, "charges": [ 1, 40 ] },
+      { "item": "57mm_ss", "prob": 25, "charges": [ 1, 40 ] },
       { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
       { "item": "shot_00", "prob": 40, "charges": [ 1, 20 ] },
       { "item": "shot_beanbag", "prob": 40, "charges": [ 1, 10 ] }

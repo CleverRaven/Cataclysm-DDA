@@ -217,6 +217,11 @@ item *item_pointer( item &it )
     return &it;
 }
 
+item *item_pointer( item_location it )
+{
+    return it.get_item();
+}
+
 template < typename Parent,
            std::enable_if_t < !std::is_same<std::decay_t<Parent>, item_location>::value, int > = 0 >
 item_location container_from_parent( Parent && )
@@ -863,7 +868,7 @@ void test_scenario::run()
         REQUIRE( !vp.has_value() );
     }
     INFO( "checking worn items" );
-    match( guy, guy.worn, worn_results );
+    match( guy, guy.worn.top_items_loc( guy ), worn_results );
     INFO( "checking wielded item" );
     if( wielded_results ) {
         match( item_location( guy, &guy.get_wielded_item() ), *wielded_results );

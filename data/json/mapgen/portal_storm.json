@@ -6,17 +6,40 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "portal_dungeon",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "portal_dungeon_chunk" ], "x": 0, "y": 0 } ] }
+    "update_mapgen_id": "portal_cell",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [
+        { "square": "terrain", "id": "t_floor_warped", "x": 1, "y": 1, "x2": 3, "y2": 3 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 0, "y2": 4 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 4, "y2": 0 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 4, "y": 0, "x2": 4, "y2": 4 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 4, "x2": 4, "y2": 4 },
+        { "point": "variable", "id": "cell_start", "x": 2, "y": 2 }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "portal_dungeon_chunk",
+    "update_mapgen_id": "portal_cell_roof",
     "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
+      "set": [ { "square": "terrain", "id": "t_warped_roof", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_cell_cleanup",
+    "object": { "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 5, "y2": 5 } ], "flags": [ "NO_UNDERLYING_ROTATE" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_dungeon",
+    "object": {
       "rows": [
         "aaaaaaaaaaaaaaaaaaaaaaaa",
         "aaaaaaaaaaaaaaaaaaaaaaaa",
@@ -44,6 +67,7 @@
         "aaaaaaaaaaaaaaaaaaaaaaaa"
       ],
       "palettes": [ "portal_storm_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
       "set": [ { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 } ]
     }
   },
@@ -57,48 +81,6 @@
         { "point": "trap", "id": "tr_swirling_vortex", "x": [ 5, 18 ], "y": [ 3, 20 ], "repeat": [ 50, 75 ] },
         { "point": "variable", "id": "nether_dungeon_door", "x": 4, "y": 2 }
       ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "portal_dungeon_undo",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "portal_dungeon_chunk_undo" ], "x": 0, "y": 0 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "portal_dungeon_chunk_undo",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG"
-      ],
-      "palettes": [ "portal_storm_palette" ]
     }
   }
 ]

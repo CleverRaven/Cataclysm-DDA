@@ -125,18 +125,16 @@ static std::vector<std::vector<item_location>> item_list_to_stack(
     return ret;
 }
 
-std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inventory_pane &pane,
-        advanced_inv_area &square )
+std::vector<advanced_inv_listitem> outfit::get_AIM_inventory( size_t &item_index, avatar &you,
+        const advanced_inventory_pane &pane, advanced_inv_area &square )
 {
     std::vector<advanced_inv_listitem> items;
-    size_t item_index = 0;
-
     for( item &worn_item : worn ) {
         if( worn_item.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
             continue;
         }
         for( const std::vector<item_location> &it_stack : item_list_to_stack(
-                 item_location( *this, &worn_item ),
+                 item_location( you, &worn_item ),
                  worn_item.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
@@ -146,6 +144,17 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
             }
         }
     }
+    return items;
+}
+
+std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inventory_pane &pane,
+        advanced_inv_area &square )
+{
+    size_t item_index = 0;
+
+    std::vector<advanced_inv_listitem> items = worn.get_AIM_inventory( item_index, *this, pane,
+            square );
+
     item &weapon = get_wielded_item();
     if( weapon.is_container() ) {
         for( const std::vector<item_location> &it_stack : item_list_to_stack(
@@ -160,6 +169,21 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
         }
     }
     return items;
+}
+
+void outfit::add_AIM_items_from_area( avatar &you, advanced_inv_area &square,
+                                      advanced_inventory_pane &pane )
+{
+    auto iter = worn.begin();
+    for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
+        advanced_inv_listitem it( item_location( you, &*iter ), i + 1, 1, square.id, false );
+        if( pane.is_filtered( *it.items.front() ) ) {
+            continue;
+        }
+        square.volume += it.volume;
+        square.weight += it.weight;
+        pane.items.push_back( it );
+    }
 }
 
 void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
@@ -191,16 +215,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             }
         }
 
-        auto iter = u.worn.begin();
-        for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
-            advanced_inv_listitem it( item_location( u, &*iter ), i + 1, 1, square.id, false );
-            if( is_filtered( *it.items.front() ) ) {
-                continue;
-            }
-            square.volume += it.volume;
-            square.weight += it.weight;
-            items.push_back( it );
-        }
+        u.worn.add_AIM_items_from_area( u, square, *this );
     } else if( square.id == AIM_CONTAINER ) {
         square.volume = 0_ml;
         square.weight = 0_gram;

@@ -1,10 +1,292 @@
 [
   {
+    "id": "waist_apron_long",
+    "repairs_like": "apron_cotton",
+    "type": "ARMOR",
+    "name": { "str": "long waist apron" },
+    "description": "A long waist apron made of cotton.",
+    "copy-from": "apron_cotton",
+    "volume": "1750 ml",
+    "weight": "226 g",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "color": "white",
+    "delete": { "flags": [ "WATER_FRIENDLY" ] },
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 70, "encumbrance": 2, "volume_encumber_modifier": 0.3 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "long waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black long waist apron" },
+        "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue long waist apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red long waist apron" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink long waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral long waist apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo long waist apron" },
+        "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull long waist apron" },
+        "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid long waist apron" },
+        "description": "It's colored white and with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic long waist apron" },
+        "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "waist_apron_short",
+    "repairs_like": "apron_cotton",
+    "type": "ARMOR",
+    "name": { "str": "short waist apron" },
+    "description": "A short waist apron made of cotton.",
+    "copy-from": "apron_cotton",
+    "volume": "350 ml",
+    "weight": "136 g",
+    "price": 2500,
+    "material": [ "cotton" ],
+    "color": "white",
+    "delete": { "flags": [ "WATER_FRIENDLY" ] },
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 80, "encumbrance": [ 0, 0 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 70,
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "encumbrance": 0,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "coverage": 20,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "short waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black short waist apron" },
+        "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue short waist apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red short waist apron" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink short waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral short waist apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo short waist apron" },
+        "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull short waist apron" },
+        "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid short waist apron" },
+        "description": "It's colored white and with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic short waist apron" },
+        "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "apron_cotton",
+    "repairs_like": "apron_leather",
+    "type": "ARMOR",
+    "name": { "str": "cotton apron" },
+    "description": "An apron made of cotton.",
+    "copy-from": "apron_leather",
+    "volume": "1750 ml",
+    "weight": "357 g",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "color": "white",
+    "material_thickness": 1.5,
+    "delete": { "flags": [ "WATER_FRIENDLY" ] },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "cotton apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black cotton apron" },
+        "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue cotton apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red cotton apron" },
+        "description": "It's colored red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink cotton apron" },
+        "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral cotton apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo cotton apron" },
+        "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull apron" },
+        "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid apron" },
+        "description": "It's colored white and with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic apron" },
+        "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "leather apron" },
     "description": "An apron made of leather.",
-    "weight": "1950 g",
+    "weight": "680 g",
     "volume": "2250 ml",
     "price": 1500,
     "price_postapoc": 50,
@@ -14,7 +296,7 @@
     "looks_like": "vest_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "torso" ], "coverage": 70, "encumbrance": 2, "volume_encumber_modifier": 0.3 },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 70,
@@ -38,10 +320,21 @@
         "moves": 80
       }
     ],
-    "warmth": 15,
+    "warmth": 2,
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "apron_plastic",
+    "repairs_like": "apron_leather",
+    "type": "ARMOR",
+    "name": { "str": "plastic apron" },
+    "description": "An apron made of plastic, gives a good protection against chemicals splatter.",
+    "copy-from": "apron_leather",
+    "weight": "391 g",
+    "material": [ "plastic" ],
+    "color": "light_cyan"
   },
   {
     "id": "apron_cut_resistant",
@@ -50,8 +343,56 @@
     "name": { "str": "cut-resistant apron" },
     "description": "An apron made of Kevlar fabric.",
     "copy-from": "apron_leather",
+    "weight": "576 g",
     "price": 3800,
-    "material": [ "kevlar" ]
+    "material": [ "kevlar" ],
+    "color": "dark_gray",
+    "material_thickness": 2.5
+  },
+  {
+    "id": "bee_dress",
+    "repairs_like": "dress",
+    "type": "ARMOR",
+    "name": { "str": "bee dress", "str_pl": "bee dresses" },
+    "description": "A short black and yellow dress, reminiscent of a bee.  It includes bee wings, a hood, and a pair of antenna.",
+    "weight": "739 g",
+    "volume": "4000 ml",
+    "price": 7500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "yellow",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 8, 9 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 4, 4 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ]
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 50 }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "12 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "12 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
     "id": "blazer",
@@ -93,16 +434,75 @@
         "moves": 100
       }
     ],
-    "warmth": 20,
+    "warmth": 25,
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "FANCY", "OUTER" ]
   },
   {
-    "id": "combat_shirt",
-    "repairs_like": "jacket_army_modern",
+    "id": "cheerleader_dress",
     "type": "ARMOR",
-    "name": { "str_sp": "combat shirt" },
+    "name": { "str": "cheerleader dress", "str_pl": "cheerleader dresses" },
+    "description": "A light and breezy cheerleader dress.  It's blue and white with the words \"Cheers\" printed on its top.",
+    "repairs_like": "sundress",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": 1250,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sundress",
+    "color": "blue",
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "coverage": 85, "covers": [ "torso" ] },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ], "coverage": 100 },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 25 }
+    ]
+  },
+  {
+    "id": "cheerleader_top",
+    "repairs_like": "tank_top",
+    "type": "ARMOR",
+    "name": { "str": "cheerleader tank top" },
+    "description": "A red cheerleader tank top.  It has the words \"Cheers\" printed on its front.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": 850,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "tank_top",
+    "color": "red",
+    "armor": [ { "covers": [ "torso" ], "coverage": 90, "encumbrance": 3 } ],
+    "warmth": 2,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "cheerleader_top_short",
+    "repairs_like": "tank_top",
+    "type": "ARMOR",
+    "name": { "str": "short cheerleader tank top" },
+    "description": "A red and short cheerleader tank top.  It has the words \"Cheers\" printed on its front.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 800,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "tank_top",
+    "color": "red",
+    "armor": [ { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90, "encumbrance": 2 } ],
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "combat_shirt",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "combat shirt" },
     "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets.  It has a pocket for your pen!",
     "weight": "450 g",
     "volume": "3 L",
@@ -158,7 +558,7 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "pink",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY" ],
     "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
@@ -209,16 +609,19 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "white",
-    "warmth": 30,
+    "warmth": 16,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
-    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ], "encumbrance": 12 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 }
+    ]
   },
   {
     "id": "flag_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": { "str": "flag shirt" },
+    "name": { "str": "flag t-shirt" },
     "description": "A t-shirt embroidered with the pattern of an American flag.",
     "weight": "158 g",
     "volume": "500 ml",
@@ -229,9 +632,17 @@
     "looks_like": "tshirt",
     "color": "light_red",
     "warmth": 10,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      {
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+    ]
   },
   {
     "id": "flotation_vest",
@@ -249,7 +660,7 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "yellow",
-    "warmth": 5,
+    "warmth": 3,
     "material_thickness": 4,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
     "armor": [ { "encumbrance": 40, "coverage": 40, "covers": [ "torso" ] } ]
@@ -288,7 +699,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "dark_gray",
-    "warmth": 5,
+    "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
     "armor": [ { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
@@ -310,7 +721,7 @@
     "color": "pink",
     "warmth": 2,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ] } ]
   },
   {
@@ -339,9 +750,10 @@
         "moves": 80
       }
     ],
-    "warmth": 30,
+    "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
     "id": "jersey",
@@ -358,7 +770,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "yellow",
-    "warmth": 25,
+    "warmth": 12,
     "material_thickness": 0.3,
     "snippet_category": [
       { "id": "decatur", "text": "A pro thunderball jersey made of cotton, imprinted with the logo of the Decatur Fist." },
@@ -403,7 +815,7 @@
   {
     "id": "leotard",
     "type": "ARMOR",
-    "name": { "str_sp": "leotard" },
+    "name": { "str": "leotard" },
     "description": "A skin-tight spandex garment, covering the body from the groin to the shoulders.  With its deep scoop-cut back and high waist cuts, this garment is perfect for showcasing your physique on the stage.",
     "weight": "150 g",
     "volume": "500 ml",
@@ -467,8 +879,16 @@
         "text": "A t-shirt with the Debian logo on it, underneath it says \"The Universal Operating System\""
       }
     ],
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 90, "covers": [ "torso" ] } ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      {
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+    ]
   },
   {
     "id": "longshirt",
@@ -484,9 +904,9 @@
     "looks_like": "dress_shirt",
     "color": "blue",
     "warmth": 5,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 3, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "maid_dress",
@@ -516,7 +936,7 @@
         "moves": 80
       }
     ],
-    "warmth": 5,
+    "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
   },
@@ -556,6 +976,94 @@
     "flags": [ "VARSIZE" ]
   },
   {
+    "id": "mummy_dress",
+    "repairs_like": "dress",
+    "type": "ARMOR",
+    "name": { "str": "mummy dress", "str_pl": "mummy dresses" },
+    "description": "A white and apparently tattered dress made in semblance of ancient mummies.  Very easy to move in, but it doesn't offer any type of protection.",
+    "weight": "10 g",
+    "volume": "2000 ml",
+    "price": 5000,
+    "price_postapoc": 10,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85 },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ], "coverage": 100 },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+    ],
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "FRAGILE" ]
+  },
+  {
+    "id": "ninja_dress",
+    "repairs_like": "sundress",
+    "type": "ARMOR",
+    "name": { "str": "ninja dress", "str_pl": "ninja dresses" },
+    "description": {
+      "str": "A short black and red sleeved dress with oriental dragon motifs printed on it.  Perfect for all of those ninjas that want a little more style."
+    },
+    "weight": "440 g",
+    "volume": "2250 ml",
+    "price": 16000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sundress",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 85, "encumbrance": 4 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+    ]
+  },
+  {
+    "id": "ninja_dress_sleeveless",
+    "repairs_like": "sundress",
+    "type": "ARMOR",
+    "name": { "str": "ninja sleeveless dress", "str_pl": "ninja sleeveless dresses" },
+    "description": {
+      "str": "A short black and red dress with oriental dragon motifs printed on it.  Perfect for all of those ninjas that want a little more style."
+    },
+    "weight": "408 g",
+    "volume": "2000 ml",
+    "price": 16000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sundress",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": 4 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 80
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+    ]
+  },
+  {
     "id": "polo_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
@@ -569,10 +1077,18 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "light_red",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 90, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": 7, "coverage": 90, "covers": [ "torso" ] },
+      {
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+    ]
   },
   {
     "id": "postman_shirt",
@@ -607,14 +1123,31 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      {
+        "encumbrance": [ 0, 0 ],
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "encumbrance": [ 0, 0 ],
+        "coverage": 50,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ]
+      }
+    ]
   },
   {
     "id": "santa_dress",
-    "repairs_like": "jeans",
+    "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "santa dress", "str_pl": "santa dresses" },
-    "description": "A red sleeved dress with white faux fur as trim.  For when you want to be Mrs.  Claus on Christmas, or perhaps Santa going clubbing.",
+    "description": {
+      "//NOLINT(cata-text-style)": "The dot after Mrs is not a period",
+      "str": "A sleeved red dress with white faux fur as trim.  For when you want to be Mrs. Claus on Christmas, or perhaps Santa going clubbing."
+    },
     "weight": "800 g",
     "volume": "3500 ml",
     "price": 18000,
@@ -622,9 +1155,9 @@
     "to_hit": -5,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
-    "looks_like": "robe",
+    "looks_like": "dress",
     "color": "red",
-    "warmth": 25,
+    "warmth": 20,
     "material_thickness": 0.4,
     "flags": [ "VARSIZE" ],
     "armor": [
@@ -641,10 +1174,10 @@
   },
   {
     "id": "santa_dress_long",
-    "repairs_like": "jeans",
+    "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "luxury santa dress", "str_pl": "luxury santa dresses" },
-    "description": "A red sleeved long dress with white faux fur as trim.  This is a fancy version for a queen of the north pole.",
+    "description": "A sleeved long red dress with white faux fur as trim.  This is a fancy version for a queen of the north pole.",
     "weight": "1200 g",
     "volume": "3850 ml",
     "price": 25000,
@@ -654,7 +1187,7 @@
     "symbol": "[",
     "looks_like": "santa_dress",
     "color": "red",
-    "warmth": 30,
+    "warmth": 25,
     "material_thickness": 0.8,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
     "armor": [
@@ -665,10 +1198,13 @@
   },
   {
     "id": "santa_dress_short",
-    "repairs_like": "jeans",
+    "repairs_like": "sundress",
     "type": "ARMOR",
     "name": { "str": "short santa dress", "str_pl": "short santa dresses" },
-    "description": "A short red dress with white faux fur as trim.  Looks like something Mrs.  Claus might wear on Christmas night.",
+    "description": {
+      "//NOLINT(cata-text-style)": "The dot after Mrs is not a period",
+      "str": "A short red dress with white faux fur as trim.  Looks like something Mrs. Claus might wear on Christmas night."
+    },
     "weight": "600 g",
     "volume": "2000 ml",
     "price": 16000,
@@ -700,6 +1236,20 @@
     "description": "A tan button-down shirt with long sleeves.",
     "weight": "250 g",
     "volume": "750 ml",
+    "variants": [
+      {
+        "id": "sheriff",
+        "name": { "str": "sheriff's shirt" },
+        "description": "A tan button-down shirt with long sleeves.",
+        "weight": 1
+      },
+      {
+        "id": "swat_shirt",
+        "name": { "str": "SWAT shirt" },
+        "description": "A charcoal button-down shirt with long sleeves.  Has a patch with the word \"SWAT\" already affixed on one shoulder.",
+        "weight": 1
+      }
+    ],
     "price": 1100,
     "price_postapoc": 50,
     "material": [ "cotton" ],
@@ -719,7 +1269,7 @@
         "moves": 80
       }
     ],
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
@@ -748,6 +1298,85 @@
     "warmth": 5,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "sinister_dress",
+    "repairs_like": "dress",
+    "type": "ARMOR",
+    "name": { "str": "sinister dress", "str_pl": "sinister dresses" },
+    "description": { "str": "A black and red sleeved long dress, with a collar and embroidery reminiscent of a vampire duchess." },
+    "weight": "800 g",
+    "volume": "3500 ml",
+    "price": 18000,
+    "price_postapoc": 60,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "FANCY", "COLLAR" ],
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 7 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 7 }
+    ]
+  },
+  {
+    "id": "sinister_dress_short",
+    "repairs_like": "sundress",
+    "type": "ARMOR",
+    "name": { "str": "short sinister dress", "str_pl": "short sinister dresses" },
+    "description": { "str": "A short red dress made in gothic lolita fashion." },
+    "weight": "600 g",
+    "volume": "2000 ml",
+    "price": 16000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sundress",
+    "color": "red",
+    "warmth": 8,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "FANCY" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 75, "encumbrance": 6 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
+    ]
+  },
+  {
+    "id": "sinister_gown",
+    "repairs_like": "gown",
+    "type": "ARMOR",
+    "name": { "str": "sinister gown" },
+    "description": "A red and black sleeved gown.  It has a gothic style and looks pretty luxurious.",
+    "weight": "2499 g",
+    "volume": "5 L",
+    "price": 21000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "gown",
+    "color": "light_red",
+    "warmth": 12,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": 8 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 8 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 14 }
+    ]
   },
   {
     "id": "striped_shirt",
@@ -806,11 +1435,11 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "blue",
-    "warmth": 40,
+    "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "sweatshirt",
@@ -830,7 +1459,7 @@
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "technician_shirt_gray",
@@ -863,7 +1492,21 @@
       { "id": "technician_shirt_lightblue", "text": "A light-blue work t-shirt with a small front pocket." }
     ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 90, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 4, 5 ], "coverage": 90, "covers": [ "torso" ] },
+      {
+        "encumbrance": [ 0, 0 ],
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "encumbrance": [ 0, 0 ],
+        "coverage": 50,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ]
+      }
+    ]
   },
   {
     "id": "tshirt",
@@ -880,8 +1523,121 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "skeletor_tshirt",
+        "name": { "str": "political meme t-shirt" },
+        "description": "A dark blue t-shirt with a circle of stars inside the start is a blue and yellow skeleton with his arms raised and mouth open.  Above the skeleton are the words 'Make Eternia' and below him are the words 'Great Again'.",
+        "weight": 1
+      },
+      {
+        "id": "my_little_nazgul_tshirt",
+        "name": { "str": "My Little Nazgûl t-shirt" },
+        "description": "A light gray t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
+        "weight": 1
+      },
+      {
+        "id": "generic_tshirt",
+        "name": { "str": "t-shirt" },
+        "description": "A short-sleeved cotton shirt.",
+        "weight": 40
+      },
+      {
+        "id": "faather_tshirt",
+        "name": { "str": "Matt Berry t-shirt" },
+        "description": "Matt Berry in a rugby shirt, a fist raised to the sky, mouth agape 'Faaather'!",
+        "weight": 1
+      },
+      {
+        "id": "doom_song_tshirt",
+        "name": { "str": "doom song t-shirt" },
+        "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it.  \"It's time for the DOOM song.  Doom, doom, doom, dooooom!!\"",
+        "weight": 1
+      },
+      {
+        "id": "boba_fetch_tshirt",
+        "name": { "str": "Boba Fetch t-shirt" },
+        "description": "A black shirt with a dog in the uniform of a well known galactic bounty hunter.  The wrist rocket has been fired, it was a tennis ball on a string.",
+        "weight": 1
+      },
+      {
+        "id": "mouse_portal_tshirt",
+        "name": { "str": "mouse portal t-shirt" },
+        "description": "There is a blue portal on this shirt, with a mouse head sticking out of the portal.  The mouse is holding some kind of gun-like device towards a cube.  Is the cube made of cheese?  The back of the shirt has a yellow portal with the back half of the mouse entering the portal.",
+        "weight": 1
+      },
+      {
+        "id": "ceiling_cthulhu_tshirt",
+        "name": { "str": "Ceiling Cthulhu t-shirt" },
+        "description": "There is a ceiling on this shirt, it has a hole in it, out gazes Cthulhu.  It looks quizzical.",
+        "weight": 1
+      },
+      {
+        "id": "pumpkin_time",
+        "name": { "str": "pumpkin time t-shirt" },
+        "description": "Popping out of the top of a jack o'lantern is a tiny smiling black bat.",
+        "weight": 1
+      },
+      {
+        "id": "portal_to_the_cat_dimension_tshirt",
+        "name": { "str": "portal to the cat dimension t-shirt" },
+        "description": "A black t-shirt with a picture of a woman standing in front of a yawning portal with numerous cats surrounding her and exiting the portal.",
+        "weight": 5
+      },
+      {
+        "id": "forbidden_futurama_tshirt",
+        "name": { "str": "forbidden robot t-shirt" },
+        "description": "A giant blocky robot with a cone shaped head holds both arms out carrying a cyclops woman with purple hair.",
+        "weight": 1
+      },
+      {
+        "id": "swordocracy_tshirt",
+        "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
+        "description": "A t-shirt with a picture of a peasant with an arm raised in a fist, eyes alight with the fire of freedom, proclaiming, 'Down with sword based goverments!'",
+        "weight": 1
+      },
+      {
+        "id": "black_phillip_tshirt",
+        "name": { "str": "Black Phillip t-shirt" },
+        "description": "A black t-shirt with an old style cartoon black goat on the front, above the goat it says 'Black Phillip' and below are the words 'Live Deliciously'.",
+        "weight": 1
+      },
+      {
+        "id": "disney_parody_tshirt",
+        "name": { "str": "theme park parody t-shirt" },
+        "description": "A black t-shirt with a stylized princesses castle with five spires.  Each spire has a purple-gray flame at the top.  At the bottom of the castle it says 'Menzoberranzan'",
+        "weight": 1
+      },
+      {
+        "id": "start_a_cult_tshirt",
+        "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
+        "description": "A hooded child stands behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semi circle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
+        "weight": 1
+      },
+      {
+        "id": "baseball_fan_tshirt",
+        "name": { "str": "baseball t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a local baseball team printed on its front and back.",
+        "weight": 1
+      },
+      {
+        "id": "football_fan_tshirt",
+        "name": { "str": "football t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a local football team printed on its front and back.",
+        "weight": 1
+      }
+    ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      {
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+    ]
   },
   {
     "id": "tshirt_text",
@@ -903,10 +1659,32 @@
       {
         "id": "allyourbase",
         "text": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
-      }
+      },
+      {
+        "id": "fda_approved",
+        "text": "A light blue t-shirt with yellow block letters that say 'FDA Approved to treat all diseases'."
+      },
+      { "id": "anxiety_superpower", "text": "A t-shirt with text 'Anxiety is my super power'." },
+      { "id": "visitryleh", "text": "A t-shirt with text 'Greetings from R'YLEH home of Cthulhu'." },
+      { "id": "robot_finds_kitten", "text": "A t-shirt with text 'Play robotfindskitten today'." },
+      {
+        "id": "survived_apocalypse",
+        "text": "A t-shirt with text 'I survived the apocalypse and all I got was this lousy T-shirt?'"
+      },
+      { "id": "zombiebelief", "text": "A t-shirt with text 'Zombies don't care whether or not you believe.'" },
+      { "id": "cthulhuprez1", "text": "A t-shirt with text 'Cthulhu for President: Why vote for the lesser evil'." },
+      { "id": "cthulhuprez2", "text": "A t-shirt with text 'Cthulhu for President: This time the stars are right'." }
     ],
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      {
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+    ]
   },
   {
     "id": "tshirt_tour",
@@ -951,6 +1729,18 @@
       {
         "id": "mil_punk",
         "text": "A short-sleeved cotton shirt with an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos."
+      },
+      {
+        "id": "mc_chris",
+        "text": "A short-sleeved cotton shirt with an interstellar bounty hunter on the front.  'My backpack's got jets'."
+      },
+      {
+        "id": "cthulhupunk1",
+        "text": "A short-sleeved white cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' with a picture of giant fantastical creatures dancing in a line.  Below the picture read the words 'Where the Great Old Ones Are'."
+      },
+      {
+        "id": "cthulhupunk2",
+        "text": "A short-sleeved black cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' below a picture of a roofless green Dodge Charger with five robed men in it.  The driver is throwing back a drink from a goblet, the first passenger is chanting from a book, the other three passengers are firing various guns at a blue flying eye with tentacles and snail shell.  Red letters read 'THE DUKES OF ALHAZRED'."
       }
     ]
   },
@@ -1011,12 +1801,108 @@
         "moves": 120
       }
     ],
-    "warmth": 20,
+    "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "armor": [ { "encumbrance": [ 4, 8 ], "coverage": 90, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "witch_dress",
+    "repairs_like": "dress",
+    "type": "ARMOR",
+    "name": { "str": "witch dress", "str_pl": "witch dresses" },
+    "description": { "str": "A black sleeved dress with pointed cuts at the edges.  Perfect for halloween night." },
+    "weight": "258 g",
+    "volume": "1500 ml",
+    "price": 14000,
+    "price_postapoc": 40,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "dark_gray",
+    "warmth": 8,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": 3 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 90 }
+    ]
+  },
+  {
+    "id": "witch_dress_long",
+    "repairs_like": "dress",
+    "type": "ARMOR",
+    "name": { "str": "long witch dress", "str_pl": "long witch dresses" },
+    "description": "A sleeved long black dress typical of a witch.  It includes a pouch for storing potions and other magical items.",
+    "weight": "700 g",
+    "volume": "3750 ml",
+    "price": 18000,
+    "price_postapoc": 60,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "FANCY" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 8, 10 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      }
+    ]
+  },
+  {
+    "id": "witch_dress_short",
+    "repairs_like": "sundress",
+    "type": "ARMOR",
+    "name": { "str": "short witch dress", "str_pl": "short witch dresses" },
+    "description": { "str": "A short black dress typically used by witches." },
+    "weight": "200 g",
+    "volume": "1500 ml",
+    "price": 12000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sundress",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 75, "encumbrance": 3 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 1
+      },
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+    ]
   },
   {
     "id": "wool_hoodie",
@@ -1044,9 +1930,9 @@
         "moves": 80
       }
     ],
-    "warmth": 45,
+    "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   }
 ]

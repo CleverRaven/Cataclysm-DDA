@@ -130,5 +130,11 @@
       "NO_BREATHE",
       "FILTHY"
     ]
+  },
+  {
+    "id": "mon_moose",
+    "type": "MONSTER",
+    "name": { "ctxt": "crazy", "str": "moose", "str_pl": "meese", "//~": "joke plural name for CrazyCataclysm" },
+    "copy-from": "mon_moose"
   }
 ]

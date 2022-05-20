@@ -52,6 +52,7 @@
     "vision_day": 15,
     "vision_night": 5,
     "harvest": "alien_arthropod",
+    "dissect": "dissect_insect_sample_single",
     "special_attacks": [
       { "id": "garlander_web" },
       {
@@ -210,7 +211,7 @@
     "id": "afs_venandi",
     "type": "MONSTER",
     "name": { "str": "venandi", "str_pl": "venatores" },
-    "description": "A six legged animal, showing relative intelligence in not only its ability to track and hunt down prey, but its strategy of covering itself with the skin of its hunts to warm itself.",
+    "description": "A six-legged animal, showing relative intelligence in not only its ability to track and hunt down prey, but its strategy of covering itself with the skin of its hunts to warm itself.",
     "default_faction": "venandi",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],

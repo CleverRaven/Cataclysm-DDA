@@ -17,6 +17,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "ballistics.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -76,12 +77,27 @@
 #include "vpart_position.h"
 #include "weakpoint.h"
 
+static const ammotype ammo_120mm( "120mm" );
+static const ammotype ammo_12mm( "12mm" );
+static const ammotype ammo_40x46mm( "40x46mm" );
+static const ammotype ammo_40x53mm( "40x53mm" );
+static const ammotype ammo_66mm( "66mm" );
+static const ammotype ammo_84x246mm( "84x246mm" );
+static const ammotype ammo_RPG_7( "RPG-7" );
+static const ammotype ammo_arrow( "arrow" );
+static const ammotype ammo_atgm( "atgm" );
+static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_flammable( "flammable" );
+static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
+static const ammotype ammo_m235( "m235" );
+static const ammotype ammo_metal_rail( "metal_rail" );
+
 static const bionic_id bio_railgun( "bio_railgun" );
 
 static const character_modifier_id
 character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
 static const character_modifier_id
-character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
+character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 static const character_modifier_id
 character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
 static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_dex_mod" );
@@ -94,20 +110,15 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
-static const itype_id itype_12mm( "12mm" );
-static const itype_id itype_40x46mm( "40x46mm" );
-static const itype_id itype_40x53mm( "40x53mm" );
-static const itype_id itype_66mm( "66mm" );
-static const itype_id itype_84x246mm( "84x246mm" );
-static const itype_id itype_arrow( "arrow" );
-static const itype_id itype_bolt( "bolt" );
-static const itype_id itype_flammable( "flammable" );
-static const itype_id itype_m235( "m235" );
-static const itype_id itype_metal_rail( "metal_rail" );
-
+static const material_id material_budget_steel( "budget_steel" );
+static const material_id material_case_hardened_steel( "case_hardened_steel" );
 static const material_id material_glass( "glass" );
+static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
+static const material_id material_low_steel( "low_steel" );
+static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
+static const material_id material_tempered_steel( "tempered_steel" );
 
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
@@ -124,7 +135,7 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
-static const std::set<material_id> ferric = { material_iron, material_steel };
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
@@ -347,6 +358,9 @@ class target_ui
 
         // Aim for 10 turns. Returns 'false' if ran out of moves
         bool action_aim();
+
+        // drop aim so you can look around
+        bool action_drop_aim();
 
         // Aim and shoot. Returns 'false' if ran out of moves
         bool action_aim_and_shoot( const std::string &action );
@@ -862,18 +876,25 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
-        // Temporarily scale by 5x as we adjust MAX_RECOIL.
-        recoil += 5.0 * ( qty * ( 1.0 - absorb ) );
+        // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
+        recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
+                  ( qty * ( 1.0 - absorb ) );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
         const itype_id current_ammo = gun.ammo_current();
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
-            if( current_ammo == itype_flammable || current_ammo == itype_66mm ||
-                current_ammo == itype_84x246mm || current_ammo == itype_m235 ) {
+            const std::set<ammotype> &at = gun.ammo_types();
+            if( at.count( ammo_flammable ) ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+            } else if( at.count( ammo_66mm ) || at.count( ammo_120mm ) || at.count( ammo_84x246mm ) ||
+                       at.count( ammo_m235 ) || at.count( ammo_atgm ) || at.count( ammo_RPG_7 ) ||
+                       at.count( ammo_homebrew_rocket ) ) {
+                add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames burst out!" ) );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
@@ -920,8 +941,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         // Reset aim for bows and other reload-and-shoot weapons.
         recoil = MAX_RECOIL;
     } else {
-        // apply delayed recoil
-        recoil += delay;
+        // apply delayed recoil, factor in recoil enchantments
+        recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, delay );
         if( is_mech_weapon ) {
             // mechs can handle recoil far better. they are built around their main gun.
             // TODO: shouldn't this affect only recoil accumulated during this function?
@@ -929,6 +950,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
         // Cap
         recoil = std::min( MAX_RECOIL, recoil );
+    }
+
+    if( is_avatar() ) {
+        as_avatar()->aim_cache_dirty = true;
     }
 
     return curshot;
@@ -951,7 +976,7 @@ int throw_cost( const Character &c, const item &to_throw )
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
-    move_cost *= c.get_modifier( character_modifier_melee_thrown_move_manip_mod );
+    move_cost *= c.get_modifier( character_modifier_melee_thrown_move_lift_mod );
     move_cost *= c.get_modifier( character_modifier_melee_thrown_move_balance_mod );
     // Stamina penalty only affects base/2 and encumbrance parts of the cost
     move_cost *= stamina_penalty;
@@ -960,6 +985,37 @@ int throw_cost( const Character &c, const item &to_throw )
     move_cost *= c.mutation_value( "attackcost_modifier" );
 
     return std::max( 25, move_cost );
+}
+
+// Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
+double calculate_aim_cap( const Character &you, const tripoint &target )
+{
+    double min_recoil = 0.0;
+    const Creature *victim = get_creature_tracker().creature_at( target, true );
+    // No p.sees_with_specials() here because special senses are not precise enough
+    // to give creature's exact size & position, only which tile it occupies
+    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
+        const int range = rl_dist( you.pos(), target );
+        // Get angle of triangle that spans the target square.
+        const double angle = 2 * atan2( 0.5, range );
+        // Convert from radians to arcmin.
+        min_recoil = 60 * 180 * angle / M_PI;
+    }
+    return min_recoil;
+}
+
+double calc_steadiness( const Character &you, item *weapon, const tripoint &pos,
+                        double predicted_recoil )
+{
+    const double min_recoil = calculate_aim_cap( you, pos );
+    const double effective_recoil = you.most_accurate_aiming_method_limit( *weapon );
+    const double min_dispersion = std::max( min_recoil, effective_recoil );
+    const double steadiness_range = MAX_RECOIL - min_dispersion;
+    // This is a relative measure of how steady the player's aim is,
+    // 0 is the best the player can do.
+    const double steady_score = std::max( 0.0, predicted_recoil - min_dispersion );
+    // Fairly arbitrary cap on steadiness...
+    return 1.0 - ( steady_score / steadiness_range );
 }
 
 int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
@@ -1163,6 +1219,9 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
 
     if( do_railgun ) {
         proj_effects.insert( "LIGHTNING" );
+
+        const units::energy trigger_cost = bio_railgun->power_trigger;
+        mod_power_level( -trigger_cost );
     }
 
     if( volume > 500_ml ) {
@@ -1610,24 +1669,7 @@ static bool pl_sees( const Creature &cr )
     return u.sees( cr ) || u.sees_with_infrared( cr ) || u.sees_with_specials( cr );
 }
 
-// Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
-static double calculate_aim_cap( const Character &you, const tripoint &target )
-{
-    double min_recoil = 0.0;
-    const Creature *victim = get_creature_tracker().creature_at( target, true );
-    // No p.sees_with_specials() here because special senses are not precise enough
-    // to give creature's exact size & position, only which tile it occupies
-    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
-        const int range = rl_dist( you.pos(), target );
-        // Get angle of triangle that spans the target square.
-        const double angle = 2 * atan2( 0.5, range );
-        // Convert from radians to arcmin.
-        min_recoil = 60 * 180 * angle / M_PI;
-    }
-    return min_recoil;
-}
-
-static int print_aim( const Character &you, const catacurses::window &w, int line_number,
+static int print_aim( Character &you, const catacurses::window &w, int line_number,
                       input_context &ctxt, item *weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
 {
@@ -1639,15 +1681,7 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
     dispersion_sources dispersion = you.get_weapon_dispersion( *weapon );
     dispersion.add_range( you.recoil_vehicle() );
 
-    const double min_recoil = calculate_aim_cap( you, pos );
-    const double effective_recoil = you.most_accurate_aiming_method_limit( *weapon );
-    const double min_dispersion = std::max( min_recoil, effective_recoil );
-    const double steadiness_range = MAX_RECOIL - min_dispersion;
-    // This is a relative measure of how steady the player's aim is,
-    // 0 is the best the player can do.
-    const double steady_score = std::max( 0.0, predicted_recoil - min_dispersion );
-    // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - ( steady_score / steadiness_range );
+    double steadiness = calc_steadiness( you, weapon, pos, predicted_recoil );
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
@@ -1774,6 +1808,7 @@ static projectile make_gun_projectile( const item &gun )
         if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
             item drop( gun.ammo_current(), calendar::turn, 1 );
             drop.active = fx.count( "ACT_ON_RANGED_HIT" );
+            drop.set_favorite( gun.get_contents().first_ammo().is_favorite );
             proj.set_drop( drop );
         }
 
@@ -1884,21 +1919,23 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_current() == itype_40x46mm || ammo_current() == itype_40x53mm ) {
+    const std::set<ammotype> &at = ammo_types();
+    if( at.count( ammo_40x46mm ) || at.count( ammo_40x53mm ) ) {
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    } else if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
+    } else if( at.count( ammo_12mm ) || at.count( ammo_metal_rail ) ) {
         // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
-               ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
+    } else if( at.count( ammo_flammable ) || at.count( ammo_66mm ) || at.count( ammo_120mm ) ||
+               at.count( ammo_84x246mm ) || at.count( ammo_m235 ) || at.count( ammo_atgm ) ||
+               at.count( ammo_RPG_7 ) || at.count( ammo_homebrew_rocket ) ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_current() == itype_arrow ) {
+    } else if( at.count( ammo_arrow ) ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_current() == itype_bolt ) {
+    } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
     }
 
@@ -2326,6 +2363,12 @@ target_handler::trajectory target_ui::run()
                 loop_exit_code = ExitCode::Timeout;
                 break;
             }
+        } else if( action == "STOPAIM" ) {
+            if( status != Status::Good ) {
+                continue;
+            }
+
+            action_drop_aim();
         } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
             if( status != Status::Good ) {
                 continue;
@@ -2443,6 +2486,7 @@ void target_ui::init_window_and_input()
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
+        ctxt.register_action( "STOPAIM" );
 
         aim_types = you->get_aim_types( *relevant );
         for( aim_type &type : aim_types ) {
@@ -2768,6 +2812,9 @@ int target_ui::dist_fn( const tripoint &p )
 
 void target_ui::set_last_target()
 {
+    if( !you->last_target_pos.has_value() || you->last_target_pos.value() != get_map().getabs( dst ) ) {
+        you->aim_cache_dirty = true;
+    }
     you->last_target_pos = get_map().getabs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
@@ -2912,6 +2959,9 @@ void target_ui::update_turrets_in_range()
 
 void target_ui::recalc_aim_turning_penalty()
 {
+    // since we are recalcing recoil dirty the aimm cache
+    you->aim_cache_dirty = true;
+
     if( status != Status::Good ) {
         // We don't care about invalid situations
         predicted_recoil = MAX_RECOIL;
@@ -3083,6 +3133,16 @@ bool target_ui::action_aim()
     recalc_aim_turning_penalty();
 
     return you->moves > 0;
+}
+
+bool target_ui::action_drop_aim()
+{
+    you->recoil = MAX_RECOIL;
+
+    // We've changed pc.recoil, update penalty
+    recalc_aim_turning_penalty();
+
+    return true;
 }
 
 bool target_ui::action_aim_and_shoot( const std::string &action )
@@ -3355,7 +3415,11 @@ void target_ui::draw_controls_list( int text_y )
         std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
                                          bound_key( "AIM" ).short_description() );
 
+        std::string dropaim = string_format( _( "[%s] to stop aiming." ),
+                                             bound_key( "STOPAIM" ).short_description() );
+
         lines.push_back( {2, colored( col_fire, aim )} );
+        lines.push_back( { 2, colored( col_fire, dropaim ) } );
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
@@ -3450,8 +3514,10 @@ void target_ui::panel_gun_info( int &text_y )
     if( status == Status::OutOfAmmo ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
     } else if( ammo ) {
-        str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
-                             colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ), m->ammo_remaining(),
+        bool is_favorite = relevant->get_contents().first_ammo().is_favorite;
+        str = string_format( m->ammo_remaining() ? _( "Ammo: %s%s (%d/%d)" ) : _( "Ammo: %s%s" ),
+                             colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ),
+                             colorize( is_favorite ? " *" : "", ammo->color ), m->ammo_remaining(),
                              m->ammo_capacity( ammo->ammo->type ) );
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     } else {
@@ -3628,7 +3694,6 @@ void target_ui::on_target_accepted( bool harmful )
                 // TODO: get rid of this. Or combine it with effect_hit_by_player
                 guy->hit_by_player = true; // used for morale penalty
             }
-            guy->make_angry();
         }
     } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
         mon->add_effect( effect_hit_by_player, 10_minutes );

@@ -2,7 +2,7 @@
 
 ### Martial arts
 
-```C++
+```JSON
 "type" : "martial_art",
 "id" : "style_debug",       // Unique ID. Must be one continuous word,
                             // use underscores if necessary.
@@ -19,24 +19,41 @@
     "id" : "debug_elem_resist",
     "heat_arm_per" : 1.0
 ],
-"ondodge_buffs" : []        // List of buffs that are automatically applied on successful dodge
-"onattack_buffs" : []       // List of buffs that are automatically applied after any attack, hit or miss
-"onhit_buffs" : []          // List of buffs that are automatically applied on successful hit
-"onmove_buffs" : []         // List of buffs that are automatically applied on movement
-"onmiss_buffs" : []         // List of buffs that are automatically applied on a miss
-"oncrit_buffs" : []         // List of buffs that are automatically applied on a crit
-"onkill_buffs" : []         // List of buffs that are automatically applied upon killing an enemy
+"onmove_buffs" : [],        // List of buffs that are automatically applied on movement
+"onpause_buffs" : [],       // List of buffs that are automatically applied when passing a turn
+"onhit_buffs" : [],         // List of buffs that are automatically applied on successful hit
+"onattack_buffs" : [],      // List of buffs that are automatically applied after any attack, hit or miss
+"ondodge_buffs" : [],       // List of buffs that are automatically applied on successful dodge
+"onblock_buffs" : [],       // List of buffs that are automatically applied on successful block
+"ongethit_buffs" : [],      // List of buffs that are automatically applied on being hit
+"onmiss_buffs" : [],        // List of buffs that are automatically applied on a miss
+"oncrit_buffs" : [],        // List of buffs that are automatically applied on a crit
+"onkill_buffs" : [],        // List of buffs that are automatically applied upon killing an enemy
+"static_eocs" : [           // List of eocs that are automatically triggered every turn
+    "EOC_ID",
+    { "id": "INLINE_EOC_ID" }
+],
+"onmove_eocs" : [],        // List of eocs that are automatically triggered on movement
+"onpause_eocs" : [],       // List of eocs that are automatically triggered when passing a turn
+"onhit_eocs" : [],         // List of eocs that are automatically triggered on successful hit
+"onattack_eocs" : [],      // List of eocs that are automatically triggered after any attack, hit or miss
+"ondodge_eocs" : [],       // List of eocs that are automatically triggered on successful dodge
+"onblock_eocs" : [],       // List of eocs that are automatically triggered on successful block
+"ongethit_eocs" : [],      // List of eocs that are automatically triggered on being hit
+"onmiss_eocs" : [],        // List of eocs that are automatically triggered on a miss
+"oncrit_eocs" : [],        // List of eocs that are automatically triggered on a crit
+"onkill_eocs" : [],        // List of eocs that are automatically triggered upon killing an enemy
 "techniques" : [            // List of techniques available when this martial art is used
     "tec_debug_slow",
     "tec_debug_arpen"
-]
-"weapons": [ "tonfa" ]      // List of weapons usable with this art
-"weapon_category": [ "WEAPON_CAT1" ], // Weapons that have one of the categories in here are usable with this art.
+],
+"weapons": [ "tonfa" ],      // List of weapons usable with this art
+"weapon_category": [ "WEAPON_CAT1" ] // Weapons that have one of the categories in here are usable with this art.
 ```
 
 ### Techniques
 
-```C++
+```JSON
 "id" : "tec_debug_arpen",   // Unique ID. Must be one continuous word
 "name" : "phasing strike",  // In-game name displayed
 "unarmed_allowed" : true,   // Can an unarmed character use this technique
@@ -51,6 +68,7 @@
 "forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
 "req_flags": [ "" ]         // List of item flags the used weapon needs to be eligible for the technique
 "required_char_flags": [ "" ]    // List of "character" (bionic, trait, effect or bodypart) flags the character needs to be able to use this technique
+"required_char_flags_all": [ ""]  // This technique requires all of the listed character flags to trigger
 "forbidden_char_flags": [ "" ]    // List of character flags disabling this technique
 "crit_tec" : true,          // This technique only works on a critical hit
 "crit_ok" : true,           // This technique works on both normal and critical hits
@@ -74,11 +92,12 @@
 "dodge_counter": true,      // This technique may automatically counterattack on a successful dodge
 "weighting": 2,             // Affects likelihood this technique will be selected when many are available. Negative weighting means the technique is only included in the list of possible techs once out of every `weighting` times ( 1/3 for a weighting of -3)
 "defensive": true,          // Game won't try to select this technique when attacking
-"miss_recovery": true,      // Misses while attacking will use fewer moves
+"miss_recovery": true,      // Misses while attacking will use half as many moves
 "messages" : [              // What is printed when this technique is used by the player and by an npc
     "You phase-strike %s",
     "<npcname> phase-strikes %s"
-]
+],
+"eocs": [ "EOC_ID", { "id": "INLINE_EOC_ID" } ],    // EOCs that trigger each time this technique does, with the attacker as the speaker and the target as the listener
 "mult_bonuses" : <array>     // Any bonuses, as described below
 "flat_bonuses": <array>
 "tech_effects": <array>      // List of effects applied by this technique, see below
@@ -88,32 +107,32 @@
 ```JSON
 "tech_effects": [
     {
-        "id": "eff_expl",    // id
+        "id": "eff_expl",    // Unique ID. Must be one continuous word
         "chance": 100,       // Percent chance to apply the effect on this attack
         "permanent": false,  // If true the effect won't decay (default false)
         "duration": 15,      // Duration of the effect in turns
         "on_damage": true,   // If true the effect will only be applied if the attack succeeded in doing damage (default true)
         "req_flag": "ANY",   // A single arbitrary character flag (from traits, bionics, effects, or bodyparts) required to apply this effect
-        "message": "Example" // The message to print if you succesfully apply the effect, %s can be substituted for the target's name
+        "message": "Example" // The message to print if you successfully apply the effect, %s can be substituted for the target's name
     }
 ]
 ```
 
 ### Buffs
 
-```C++
+```JSON
 "id" : "debug_elem_resist",         // Unique ID. Must be one continuous word
-"name" : "Elemental resistance",    // In-game name displayed
-"description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
+"name" : "Elemental Resistance",    // In-game name displayed
+"description" : "You are a walking tank!\n\nBash armor increased by 100% of Strength, Cut armor increased by 100% of Dexterity, Electricic armor increased by 100% of Intelligence, and Fire armor increased by 100% of Perception", // In-game description
 "buff_duration": 2,                 // Duration in turns that this buff lasts
-"persists": false,                 // Allow buff to remain when changing to a new style
+"persists": false,                  // Allow buff to remain when changing to a new style
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
-"unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
+"unarmed_weapons_allowed" : true,   // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
 "weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed.
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
-"bonus_blocks": 1       // Extra blocks per turn
-"bonus_dodges": 1       // Extra dodges per turn
+"bonus_blocks": 1                   // Extra blocks per turn
+"bonus_dodges": 1                   // Extra dodges per turn
 "flat_bonuses" : [                  // Flat bonuses, see below
 ],
 "mult_bonuses" : [                  // Multiplicative bonuses, see below
@@ -124,7 +143,7 @@
 
 The bonuses arrays contain any number of bonus entries like this:
 
-```C++
+```JSON
 {
   "stat": "damage",
   "type": "bash",

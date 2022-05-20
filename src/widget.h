@@ -42,17 +42,13 @@ enum class widget_var : int {
     cardio_acc,     // Cardio accumulator, integer
     // Text vars
     activity_text,  // Activity level text, color string
-    body_temp_text, // Felt body temperature, color string
+    body_graph,     // Body graph showing color-coded body part health
     bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
     compass_text,   // Compass / visible threats by cardinal direction
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
-    fatigue_text,   // Fagitue description text, color string
-    health_text,    // Hidden health message, color string
-    lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
-    moon_phase_text,// Current phase of the moon
     move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
     overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
     overmap_text,   // Local overmap and mission marker, multi-line color string
@@ -196,8 +192,10 @@ class widget
 {
     private:
         friend class generic_factory<widget>;
+        friend struct mod_tracker;
 
         widget_id id;
+        std::vector<std::pair<widget_id, mod_id>> src;
         bool was_loaded = false;
 
         const widget_clause *get_clause( const std::string &clause_id = "" ) const;

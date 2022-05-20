@@ -7,9 +7,10 @@
   - [Ammo](#ammo)
     - [Ammo type](#ammo-type)
     - [Effects](#effects)
+    - [Flags](#flags)
   - [Armor](#armor)
     - [Covers](#covers)
-    - [Flags](#flags)
+    - [Flags](#flags-1)
   - [Bionics](#bionics)
   - [Bodyparts](#bodyparts)
   - [Books](#books)
@@ -19,21 +20,20 @@
     - [Comestible type](#comestible-type)
     - [Addiction type](#addiction-type)
     - [Use action](#use-action)
-    - [Flags](#flags-1)
-  - [Furniture and Terrain](#furniture-and-terrain)
     - [Flags](#flags-2)
-    - [Examine Actions](#examine-actions)
+  - [Furniture and Terrain](#furniture-and-terrain)
+    - [Flags](#flags-3)
     - [Fungal Conversions Only](#fungal-conversions-only)
     - [Furniture Only](#furniture-only)
   - [Generic](#generic)
-    - [Flags](#flags-3)
+    - [Flags](#flags-4)
   - [Guns](#guns)
     - [Firing modes](#firing-modes)
   - [Magazines](#magazines)
   - [MAP SPECIALS](#map-specials)
   - [Material Phases](#material-phases)
   - [Melee](#melee)
-    - [Flags](#flags-4)
+    - [Flags](#flags-5)
   - [Monster Groups](#monster-groups)
     - [Seasons](#seasons)
     - [Time of day](#time-of-day)
@@ -41,35 +41,34 @@
     - [Anger, Fear and Placation Triggers](#anger-fear-and-placation-triggers)
     - [Categories](#categories)
     - [Death Functions](#death-functions)
-    - [Flags](#flags-5)
+    - [Flags](#flags-6)
     - [Sizes](#sizes)
     - [Special attacks](#special-attacks)
   - [Mutations](#mutations)
-      - [Flags](#flags-6)
+      - [Flags](#flags-7)
     - [Categories](#categories-1)
   - [Overmap](#overmap)
     - [Overmap connections](#overmap-connections)
     - [Overmap specials](#overmap-specials)
-      - [Flags](#flags-7)
-    - [Overmap terrains](#overmap-terrains)
       - [Flags](#flags-8)
+    - [Overmap terrains](#overmap-terrains)
+      - [Flags](#flags-9)
   - [Recipes](#recipes)
     - [Categories](#categories-2)
-    - [Flags](#flags-9)
-  - [Scenarios](#scenarios)
     - [Flags](#flags-10)
-      - [Season Flags](#season-flags)
+  - [Scenarios](#scenarios)
+    - [Flags](#flags-11)
   - [Skills](#skills)
     - [Tags](#tags)
   - [Techniques](#techniques)
   - [Tools](#tools)
-    - [Flags](#flags-11)
+    - [Flags](#flags-12)
     - [Flags that apply to items](#flags-that-apply-to-items)
   - [Vehicle Parts](#vehicle-parts)
-    - [Flags](#flags-12)
+    - [Flags](#flags-13)
     - [Fuel types](#fuel-types)
   - [Faults](#faults)
-    - [Flags](#flags-13)
+    - [Flags](#flags-14)
     - [Parameters](#parameters)
 
 ## Notes
@@ -207,6 +206,10 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 - ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
+### Flags
+
+- ```CASELESS_ROUNDS``` Caseless rounds that cannot be disassembled or reloaded.
+
 ## Traps
 
 - ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
@@ -277,6 +280,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
+- ```DECAY_EXPOSED_ATMOSPHERE``` Consumable will go bad once exposed to the atmosphere (such as MREs).
 - ```DEAF``` Makes the player deaf.
 - ```MUTE``` Makes the player mute.
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
@@ -291,9 +295,11 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NORMAL``` Items worn like normal clothing. This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
 - ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
+- ```NO_WEAR_EFFECT``` This gear doesn't provide any effects when worn (most jewelry).
 - ```ONLY_ONE``` You can wear only one.
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
+- ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
@@ -314,7 +320,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```STURDY``` This clothing is a lot more resistant to damage than normal.
 - ```SUN_GLASSES``` Prevents glaring when in sunlight.
 - ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
-- ```SWIM_GOGGLES``` Allows you to see much further under water.
+- ```SWIM_GOGGLES``` Allows you to see much further underwater.
 - ```THERMOMETER``` This gear is equipped with an accurate thermometer (which is used to measure temperature).
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
@@ -328,7 +334,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
 - ```BIONIC_FAULTY``` This bionic is a "faulty" bionic.
 - ```BIONIC_GUN``` This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects.
-- ```BIONIC_NPC_USABLE``` The NPC AI knows how to use this CBM and it can be installed on an NPC.
+- ```BIONIC_NPC_USABLE``` The NPC AI knows how to use this CBM, and it can be installed on an NPC.
 - ```BIONIC_POWER_SOURCE``` This bionic is a power source bionic.
 - ```BIONIC_SLEEP_FRIENDLY``` This bionic won't prompt the user to turn it off if they try to sleep while it's active.
 - ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes its effect every turn.
@@ -355,10 +361,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ### Use actions
 
-- ```ACIDBOMB_ACT``` Get rid of it or you'll end up like that guy in Robocop.
+- ```ACIDBOMB_ACT``` Get rid of it, or you'll end up like that guy in Robocop.
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
 - ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
-- ```ARROW_FLAMABLE``` Light your arrow and let fly.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
 - ```BREAK_STICK``` Breaks long branch into two.
@@ -480,7 +485,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
-- ```BLECH``` Causes vomiting, adds disease `poison`, adds pain and hurts torso. 
+- ```BLECH``` Causes vomiting, adds disease `poison`, adds pain and hurts torso.
 - ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
@@ -518,7 +523,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
-- ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it require a special mutation. See `can_heal_with` in mutation.
+- ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation. See `can_heal_with` in mutation.
 - ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
@@ -531,7 +536,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HIDDEN_POISON``` Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": [ "POISON" ]` as well, or using `FORAGE_POISON` instead.
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
-- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
+- ```MUTAGEN_CATALYST``` Injecting it will jumpstart mutation.
+- ```MUTAGEN_PRIMER``` Injecting it will prime your body for mutation.
+- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to Mycus fruits by default.
 - ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
 - ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat/auto-drink zone.
 - ```NO_INGEST``` Administered by some means other than oral intake.
@@ -539,6 +546,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL_2``` Moderate painkiller.
 - ```PKILL_3``` Heavy painkiller.
 - ```PKILL_L``` Slow-release painkiller.
+- ```RAD_STERILIZED``` Irradiated food that is safe to eat, but is not edible forever (such as MREs).
+- ```RAD_STERILIZED_EDIBLE_FOREVER``` Irradiated food that is safe to eat and remains edible forever.
 - ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source). Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut). TODO: Make a unit test for these criteria after fat/protein/carbs are added.
 - ```SMOKABLE``` Accepted by smoking rack.
 - ```SMOKED``` Not accepted by smoking rack (product of smoking).
@@ -556,6 +565,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```ALIGN_WORKBENCH``` (only for furniture) A hint to the tiles display that the sprite for this furniture should face toward any adjacent tile with a workbench quality.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside `SEALED` terrain/furniture.
 - ```ALLOW_ON_OPEN_AIR``` Don't warn when this furniture is placed on `t_open_air` or similar 'open air' terrains which lack a floor.
+- ```AMMOTYPE_RELOAD``` Furniture reloads by ammotype so player can choose from more than one fuel type.
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 
     Example: `-` and `|` are both terrain with the `CONNECT_TO_WALL` flag. `O` does not have the flag, while `X` and `Y` have the `AUTO_WALL_SYMBOL` flag.
@@ -651,6 +661,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
+- ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
@@ -670,9 +681,10 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ### Furniture Only
 
-- ```AUTODOC``` This furniture can be an autodoc console, it also needs the `autodoc` examine action.
+- ```AUTODOC``` This furniture can be an Autodoc console, it also needs the `autodoc` examine action.
 - ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the `autodoc` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
+- ```BRIDGE``` If this furniture is placed over water tiles, it prevents player from becoming wet.
 
 
 ## Generic
@@ -716,7 +728,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```NPC_THROW_NOW``` ... NPCs will try to throw this item away, preferably at enemies. Implies `TRADER_AVOID` and `NPC_THROWN`.
 - ```OLD_CURRENCY``` ... Paper bills and coins that used to be legal tender before the Cataclysm and may still be accepted by some automated systems.
 - ```PERFECT_LOCKPICK``` ... Item is a perfect lockpick. Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp. The item should have `LOCKPICK` quality of at least 1.
-- ```PRESERVE_SPAWN_OMT``` ... This item will store the OMT that it spawns in in the `spawn_location_omt` item var.
+- ```PRESERVE_SPAWN_OMT``` ... This item will store the OMT that it spawns in, in the `spawn_location_omt` item var.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies `TRADER_AVOID`.
 - ```RADIOACTIVE``` ... Is radioactive (can be used with `LEAK_*`).
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain when wielded.
@@ -1040,8 +1052,8 @@ Other monster flags.
 - ```PATH_AVOID_FIRE``` This monster will path around heat-related dangers instead of through them.
 - ```PATH_AVOID_FALL``` This monster will path around cliffs instead of off of them.
 - ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
-- ```PET_MOUNTABLE``` Creature can be ridden or attached to an harness.
-- ```PET_HARNESSABLE``` Creature can be attached to an harness.
+- ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
+- ```PET_HARNESSABLE``` Creature can be attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
 - ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.
 - ```NULL``` Source use only.
@@ -1133,13 +1145,14 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CLASSIC``` Location is allowed when classic zombies are enabled.
 - ```FARM```
 - ```FUNGAL``` Location is related to fungi. Used to classify location.
-- ```LAKE``` Location is is placed on a lake and will be ignored for placement if the overmap doesn't contain any lake terrain.
+- ```LAKE``` Location is placed on a lake and will be ignored for placement if the overmap doesn't contain any lake terrain.
 - ```MI-GO``` Location is related to mi-go.
 - ```SAFE_AT_WORLDGEN``` Location will not spawn overmap monster groups during worldgen (does not affect monsters spawned by mapgen).
 - ```TRIFFID``` Location is related to triffids. Used to classify location.
 - ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
 - ```URBAN```
 - ```WILDERNESS```
+- ```MAN_MADE``` - For location, created by human. For Innawood mod purposes
 
 ### Overmap terrains
 
@@ -1201,9 +1214,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
-- ```UNCRAFT_BY_QUANTITY``` Suppresses the per-charge handling of uncraft recipes.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
-- ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 
@@ -1348,7 +1359,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```BELTABLE``` Seatbelt can be attached to this part.
 - ```BIKE_RACK_VEH``` Can be used to merge an adjacent single tile wide vehicle, or split a single tile wide vehicle off into its own vehicle.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
-- ```CAMERA_CONTROL```This part allows for using the camera system installed on a vehicle. 
+- ```CAMERA_CONTROL```This part allows for using the camera system installed on a vehicle.
 - ```CAMERA``` Vehicle part which allows looking through the installed camera system.
 - ```CAPTURE_MOSNTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
 - ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs. Can only be installed on a part with ```LOCKABLE_CARGO``` flag.
@@ -1553,14 +1564,14 @@ Gun fault flags:
 - ```THERMOMETER``` You always know what temperature it is.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
 - ```GILLS``` You can breathe underwater.
-- ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice and you get the better result.
+- ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice, and you get the better result.
 - ````HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
 - ````LARGE``` Changes your size to `creature_size::large`.  Checked third of the size category flags.
 - ```PSYCHOPATH``` Butcher humans without a morale penalty
-- ```PRED1``` Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale panalty from the guilt mondeath effect.
-- ```PRED2``` Learn combat skills wit double catchup modifier.  Resist skill rust on combat skills. Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale panalty from the guilt mondeath effect.
-- ```PRED3``` Learn combat skills wit double catchup modifier.  Resist skill rust on combat skills. Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
-- ```PRED4``` Learn combat skills wit triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills. Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
+- ```PRED1``` Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale penalty from the guilt mondeath effect.
+- ```PRED2``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills. Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale penalty from the guilt mondeath effect.
+- ```PRED3``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills. Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
+- ```PRED4``` Learn combat skills with triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills. Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```SAPIOVORE``` Butcher humans without a morale penalty
 - ````SMALL``` Changes your size to `creature_size::small`.  Checked second of the size category flags.
 - ```STEADY``` Your speed can never go below base speed, bonuses from effects etc can still apply.

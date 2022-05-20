@@ -31,13 +31,13 @@ Rare items with some theoretical utility are worth ~(100-500).
 
 Rare items with considerable use tend to have the highest variety in prices ~(1000-15000).
 
-**No item should be worth more than 150000.** They might be worth more if the economy was larger but that's
+**No item should be worth more than 15000.** They might be worth more if the economy was larger but that's
 pretty much the most anyone will be willing to spend on any one thing, no matter how nice it is.
 
 #### Currently Implemented faction currencies
     "id": "FMCNote",
     "description": "The Free Merchant Certified Note, also known by names such as a 'c-note' or 'merch', is a currency based on old American bills.  Fifty dollar bills and larger are printed with a promissory note signed by the treasurer of the Free Merchants, along with a complex design.  The note explains that this can be exchanged for food, water, and other services through the Free Merchants in the Refugee Center.",
-    "name": { "str": "Merch" }, 
+    "name": { "str": "merch" }, 
     "price_postapoc": 250
 
 

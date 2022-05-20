@@ -27,6 +27,7 @@ enum class timed_event_type : int {
     TRANSFORM_RADIUS,
     UPDATE_MAPGEN,
     REVERT_SUBMAP,
+    OVERRIDE_PLACE,
     NUM_TIMED_EVENT_TYPES
 };
 

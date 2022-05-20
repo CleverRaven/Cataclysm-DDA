@@ -342,7 +342,7 @@ class item : public visitable
          * the return value can differ on successive calls.
          * @param pos The location of the item (see REVIVE_SPECIAL flag).
          */
-        bool ready_to_revive( const tripoint &pos ) const;
+        bool ready_to_revive( map &here, const tripoint &pos ) const;
 
         bool is_money() const;
         bool is_software() const;
@@ -461,7 +461,12 @@ class item : public visitable
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
         void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                                    bool debug, const bodypart_id &bp = bodypart_id(), bool combine_opposites = false ) const;
+                                    bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void armor_material_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                  bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void armor_attribute_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                   bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void pet_armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -743,7 +748,7 @@ class item : public visitable
          */
         bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
                           const std::function<bool( const item & )> &filter = return_true<item>,
-                          Character *carrier = nullptr );
+                          Character *carrier = nullptr, bool in_tools = false );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -798,8 +803,10 @@ class item : public visitable
         bool all_pockets_rigid() const;
 
         // gets all pockets contained in this item
-        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
-        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_contained_pockets() const;
+        std::vector<item_pocket *> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_standard_pockets() const;
+        std::vector<item_pocket *> get_all_standard_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -866,6 +873,11 @@ class item : public visitable
         units::volume get_total_contained_volume( bool unrestricted_pockets_only = false ) const;
         units::mass get_total_contained_weight( bool unrestricted_pockets_only = false ) const;
 
+        int get_used_holsters() const;
+        int get_total_holsters() const;
+        units::volume get_total_holster_volume() const;
+        units::volume get_used_holster_volume() const;
+
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
@@ -877,6 +889,11 @@ class item : public visitable
         // returns the abstract 'size' of the pocket
         // used for attaching to molle items
         int get_pocket_size() const;
+
+        /**
+         * Returns true if the item can be attached with PALS straps
+         */
+        bool can_attach_as_pocket() const;
 
         // what will the move cost be of taking @it out of this container?
         // should only be used from item_location if possible, to account for
@@ -973,7 +990,7 @@ class item : public visitable
          * @param flag to specify special temperature situations
          * @return true if the item is fully rotten and is ready to be removed
          */
-        bool process_temperature_rot( float insulation, const tripoint &pos, Character *carrier,
+        bool process_temperature_rot( float insulation, const tripoint &pos, map &here, Character *carrier,
                                       temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
 
         /** Set the item to HOT and resets last_temp_check */
@@ -1194,6 +1211,12 @@ class item : public visitable
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
                              int roll = 0 ) const;
+        float biological_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                                 int roll = 0 ) const;
+        float electric_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                               int roll = 0 ) const;
+        float cold_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                           int roll = 0 ) const;
         /*@}*/
 
         // same as above but specific to the sublocation
@@ -1207,10 +1230,27 @@ class item : public visitable
         float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+        float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
+                                 int roll = 0 ) const;
+        float electric_resist( const sub_bodypart_id &bp, bool to_self = false,
+                               int roll = 0 ) const;
+        float cold_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+
+        /**
+         * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
+         * range 0 - 100 (no breathability - full breathability)
+         * takes as a value the body part to check
+         * @return armor data consolidated breathability
+         */
+        int breathability( const bodypart_id &bp ) const;
+        int breathability() const;
 
         /**
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
+         * roll is normally set to 0 which means all materials protect for legacy
+         * giving a roll between 0-99 will influence the covered materials with a fixed roll
+         * giving a roll of -1 (< 0) will mean each material is rolled individually
          */
         void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
         void mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll = 0 ) const;
@@ -1369,7 +1409,7 @@ class item : public visitable
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( Character *carrier, const tripoint &pos, float insulation = 1,
+        bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         /**
@@ -1410,6 +1450,7 @@ class item : public visitable
         bool is_bionic() const;
         bool is_magazine() const;
         bool is_battery() const;
+        bool is_vehicle_battery() const;
         bool is_ammo_belt() const;
         bool is_holster() const;
         bool is_ammo() const;
@@ -1488,15 +1529,19 @@ class item : public visitable
          * Can the pocket contain the specified item?
          * @param it the item being put in
          * @param nested whether or not the current call is nested (used recursively).
+         * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it, const bool nested = false ) const;
+        ret_val<bool> can_contain( const item &it, const bool nested = false,
+                                   const bool ignore_rigidity = false,
+                                   const bool ignore_pkt_settings = true,
+                                   const item_location &parent_it = item_location() ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
-                bool nested = false );
+                bool nested = false, bool ignore_rigidity = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -1504,7 +1549,7 @@ class item : public visitable
 
         /**
          * Is it ever possible to reload this item?
-         * Only the base item is considered with any mods ignored
+         * ALso checks for reloading installed gunmods
          * @see player::can_reload()
          */
         bool is_reloadable() const;
@@ -1530,6 +1575,18 @@ class item : public visitable
          * Is this item flexible enough to be worn on body parts like antlers?
          */
         bool is_soft() const;
+
+        // is any bit of the armor rigid
+        bool is_rigid() const;
+        // is any bit of the armor comfortable
+        bool is_comfortable() const;
+        template <typename T>
+        bool is_bp_rigid( const T &bp ) const;
+        // check if rigid and that it only cares about the layer it is on
+        template <typename T>
+        bool is_bp_rigid_selective( const T &bp ) const;
+        template <typename T>
+        bool is_bp_comfortable( const T &bp ) const;
 
         /**
          * Set the snippet text (description) of this specific item, using the snippet library.
@@ -1715,7 +1772,7 @@ class item : public visitable
         */
         bool has_own_flag( const flag_id &f ) const;
 
-        /** returs read-only set of flags of this item (not including flags from item type or gunmods) */
+        /** returns read-only set of flags of this item (not including flags from item type or gunmods) */
         const FlagsSetType &get_flags() const;
 
         /** Idempotent filter setting an item specific flag. */
@@ -1894,6 +1951,8 @@ class item : public visitable
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
          */
         int get_warmth() const;
+        /** Returns the warmth on the body part of the item on a specific bp. */
+        int get_warmth( const bodypart_id bp ) const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
@@ -1921,6 +1980,7 @@ class item : public visitable
 
         /**
          * Returns true if an item has a given layer level on a specific part.
+         * matches to any layer within the vector input.
          */
         bool has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const;
 
@@ -1933,6 +1993,11 @@ class item : public visitable
          * Returns true if an item has any of the given layer levels.
          */
         bool has_layer( const std::vector<layer_level> &ll ) const;
+
+        /**
+         * Returns highest layer of an item
+         */
+        layer_level get_highest_layer( sub_bodypart_id sbp ) const;
 
         enum class cover_type {
             COVER_DEFAULT,
@@ -2486,9 +2551,7 @@ class item : public visitable
         inline void remove_old_owner() const {
             old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( const faction_id &new_owner ) {
-            owner = new_owner;
-        }
+        void set_owner( const faction_id &new_owner );
         void set_owner( const Character &c );
         inline void remove_owner() const {
             owner = faction_id::NULL_ID();
@@ -2509,6 +2572,7 @@ class item : public visitable
          * @return the recipe in progress
          */
         const recipe &get_making() const;
+        int get_making_batch_size() const;
 
         /**
          * Get the failure point stored in this item.
@@ -2609,6 +2673,10 @@ class item : public visitable
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
 
+        /** returns a list of pointers to all visible or remembered top-level items */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
+
         void clear_items();
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
@@ -2649,7 +2717,7 @@ class item : public visitable
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
-        bool process_internal( Character *carrier, const tripoint &pos, float insulation = 1,
+        bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         void iterate_covered_body_parts_internal( side s,
                 std::function<void( const bodypart_str_id & )> cb ) const;
@@ -2673,8 +2741,7 @@ class item : public visitable
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
         /** Returns true if protection info was printed as well */
-        bool armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
-                                     bool header = true, int reduce_encumbrance_by = 0 ) const;
+        bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
     public:
         enum class sizing : int {
@@ -2696,14 +2763,14 @@ class item : public visitable
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_corpse( Character *carrier, const tripoint &pos );
+        bool process_corpse( map &here, Character *carrier, const tripoint &pos );
         bool process_wet( Character *carrier, const tripoint &pos );
-        bool process_litcig( Character *carrier, const tripoint &pos );
-        bool process_extinguish( Character *carrier, const tripoint &pos );
+        bool process_litcig( map &here, Character *carrier, const tripoint &pos );
+        bool process_extinguish( map &here, Character *carrier, const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
-        bool process_fake_smoke( Character *carrier, const tripoint &pos );
-        bool process_fake_mill( Character *carrier, const tripoint &pos );
-        bool process_cable( Character *carrier, const tripoint &pos );
+        bool process_fake_smoke( map &here, Character *carrier, const tripoint &pos );
+        bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
+        bool process_cable( map &here, Character *carrier, const tripoint &pos );
         bool process_UPS( Character *carrier, const tripoint &pos );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
@@ -2752,6 +2819,7 @@ class item : public visitable
                 std::vector<item_comp> comps_used;
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
+                int batch_size = -1;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
                 cata::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
                 cata::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
@@ -2782,7 +2850,7 @@ class item : public visitable
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
-        int wetness = 0;           // Turns until this item is completly dry.
+        int wetness = 0;           // Turns until this item is completely dry.
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 

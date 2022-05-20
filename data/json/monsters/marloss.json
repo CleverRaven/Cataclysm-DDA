@@ -2,7 +2,7 @@
   {
     "id": "mon_marloss_zealot_f",
     "type": "MONSTER",
-    "name": { "str": "marloss zealot" },
+    "name": { "str": "Marloss zealot" },
     "description": "Her eyes lie vacant and spittle foams in her mouth, as she recites from the hymns in rapturous ecstasy.",
     "default_faction": "fungus",
     "bodytype": "human",
@@ -34,7 +34,7 @@
   {
     "id": "mon_marloss_zealot_m",
     "type": "MONSTER",
-    "name": { "str": "marloss zealot" },
+    "name": { "str": "Marloss zealot" },
     "description": "His eyes lie vacant and spittle foams in his mouth, as he recites from the hymns in rapturous ecstasy.",
     "default_faction": "fungus",
     "bodytype": "human",

@@ -96,8 +96,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 }, "moves": 25 } ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "torso_bandolier_grenade",
@@ -147,8 +147,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "PALS_LARGE", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "bandolier_wrist",
@@ -231,7 +231,33 @@
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "rock": 10 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "leather_stone_pouch",
+    "type": "ARMOR",
+    "name": { "str": "leather stone pouch", "str_pl": "leather stone pouches" },
+    "description": "A medium-sized pouch for storing rocks, made of heavy leather, with straps for attaching it to your belt or other webbing.",
+    "weight": "380 g",
+    "volume": "500 ml",
+    "price": 5900,
+    "price_postapoc": 750,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "ammo_satchel",
+    "color": "dark_gray",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {

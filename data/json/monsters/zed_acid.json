@@ -25,6 +25,7 @@
     "dodge": 1,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "harvest": "zombie",
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "death_drops": "default_zombie_death_drops",
@@ -79,6 +80,7 @@
     "bleed_rate": 50,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "harvest": "zombie",
     "special_attacks": [
       {
@@ -143,6 +145,7 @@
     "bleed_rate": 50,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "harvest": "zombie",
     "special_attacks": [ [ "ACID", 20 ] ],
     "death_drops": "default_zombie_death_drops",
@@ -194,6 +197,7 @@
     "armor_elec": 1,
     "vision_day": 14,
     "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "harvest": "zombie",
     "special_attacks": [ [ "ACID_BARF", 22 ] ],
     "death_drops": "default_zombie_death_drops",

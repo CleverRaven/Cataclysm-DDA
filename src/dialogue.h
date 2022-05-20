@@ -30,6 +30,7 @@ enum talk_trial_type : unsigned char {
     TALK_TRIAL_LIE, // Straight up lying
     TALK_TRIAL_PERSUADE, // Convince them
     TALK_TRIAL_INTIMIDATE, // Physical intimidation
+    TALK_TRIAL_SKILL_CHECK, // Check a skill's current level against the difficulty
     TALK_TRIAL_CONDITION, // Some other condition
     NUM_TALK_TRIALS
 };
@@ -56,6 +57,9 @@ struct talk_trial {
     talk_trial_type type = TALK_TRIAL_NONE;
     int difficulty = 0;
     std::function<bool( const dialogue & )> condition;
+
+    // If this talk_trial is skill check, this is the string ID of the skill that we check the level of.
+    std::string skill_required;
 
     int calc_chance( const dialogue &d ) const;
     /**
@@ -100,6 +104,8 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_mutate( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_mutate_category( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_lose_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -107,12 +113,15 @@ struct talk_effect_fun_t {
         void set_assign_activity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_assign_mission( const JsonObject &jo, const std::string &member );
         void set_finish_mission( const JsonObject &jo, const std::string &member );
+        void set_offer_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_queue_effect_on_condition( const JsonObject &jo, const std::string &member,
-                                            bool is_npc = false );
+        void set_run_eocs( const JsonObject &jo, const std::string &member );
+        void set_run_npc_eocs( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_queue_eocs( const JsonObject &jo, const std::string &member );
         void set_weighted_list_eocs( const JsonObject &jo, const std::string &member );
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc,
+                             bool targeted = false );
         void set_lightning();
         void set_next_weather();
         void set_sound_effect( const JsonObject &jo, const std::string &member );
@@ -122,10 +131,10 @@ struct talk_effect_fun_t {
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_u_spawn_item( const itype_id &item_name, int count, const std::string &container_name );
         void set_u_buy_item( const itype_id &item_name, int cost, int count,
-                             const std::string &container_name );
-        void set_u_spend_cash( int amount );
-        void set_u_sell_item( const itype_id &item_name, int cost, int count );
-        void set_consume_item( const JsonObject &jo, const std::string &member, int count,
+                             const std::string &container_name, const JsonObject &jo );
+        void set_u_spend_cash( int amount, const JsonObject &jo );
+        void set_u_sell_item( const itype_id &item_name, int cost, int count, const JsonObject &jo );
+        void set_consume_item( const JsonObject &jo, const std::string &member, int count, int charges,
                                bool is_npc = false );
         void set_remove_item_with( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_change_faction( const std::string &faction_name );
@@ -141,14 +150,17 @@ struct talk_effect_fun_t {
         void set_npc_cbm_recharge_rule( const std::string &setting );
         void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_place_override( const JsonObject &jo, const std::string &member );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
+        void set_remove_npc( const JsonObject &jo, const std::string &member );
+        void set_revert_location( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( const std::string &mission_id );
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
-                                const translation &name );
+                                const translation &name, const JsonObject &jo );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
         void set_npc_first_topic( const std::string &chat_topic );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -156,13 +168,14 @@ struct talk_effect_fun_t {
         void set_add_faction_trust( const JsonObject &jo, const std::string &member );
         void set_lose_faction_trust( const JsonObject &jo, const std::string &member );
         void set_arithmetic( const JsonObject &jo, const std::string &member );
+        void set_set_string_var( const JsonObject &jo, const std::string &member );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_give_equipment( const JsonObject &jo, const std::string &member );
-        void set_open_dialogue();
-        void set_take_control();
+        void set_open_dialogue( const JsonObject &jo );
+        void set_take_control( const JsonObject &jo );
         void set_take_control_menu();
         void operator()( const dialogue &d ) const {
             if( !function ) {
@@ -426,7 +439,31 @@ static std::string read_var_value( var_type type, std::string name, talker *talk
     return "";
 }
 
-struct int_or_var {
+struct str_or_var {
+    cata::optional<std::string> str_val;
+    cata::optional<std::string> var_val;
+    cata::optional<std::string> default_val;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
+    std::string evaluate( talker *talk ) const {
+        if( str_val.has_value() ) {
+            return str_val.value();
+        } else if( var_val.has_value() ) {
+            std::string val = read_var_value( type, var_val.value(), talk );
+            if( !val.empty() ) {
+                return std::string( val );
+            }
+            return default_val.value();
+        } else {
+            debugmsg( "No valid value." );
+            return "";
+        }
+    }
+};
+
+struct int_or_var_part {
     cata::optional<int> int_val;
     cata::optional<std::string> var_val;
     cata::optional<int> default_val;
@@ -450,7 +487,23 @@ struct int_or_var {
     }
 };
 
-struct duration_or_var {
+struct int_or_var {
+    bool pair = false;
+    int_or_var_part min;
+    int_or_var_part max;
+    bool is_npc() const {
+        return min.type == var_type::npc || max.type == var_type::npc;
+    }
+    int evaluate( talker *talk ) const {
+        if( pair ) {
+            return rng( min.evaluate( talk ), max.evaluate( talk ) );
+        } else {
+            return min.evaluate( talk );
+        }
+    }
+};
+
+struct duration_or_var_part {
     cata::optional<time_duration> dur_val;
     cata::optional<std::string> var_val;
     cata::optional<time_duration> default_val;
@@ -472,6 +525,22 @@ struct duration_or_var {
         } else {
             debugmsg( "No valid value." );
             return 0_seconds;
+        }
+    }
+};
+
+struct duration_or_var {
+    bool pair = false;
+    duration_or_var_part min;
+    duration_or_var_part max;
+    bool is_npc() const {
+        return min.type == var_type::npc || max.type == var_type::npc;
+    }
+    time_duration evaluate( talker *talk ) const {
+        if( pair ) {
+            return rng( min.evaluate( talk ), max.evaluate( talk ) );
+        } else {
+            return min.evaluate( talk );
         }
     }
 };

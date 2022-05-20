@@ -51,6 +51,7 @@ enum class mod : int {
     BONUS_DODGE,
     BONUS_BLOCK,
     BONUS_DAMAGE,
+    MELEE_DAMAGE,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
@@ -87,6 +88,7 @@ enum class mod : int {
     EXTRA_ELEC,
     EXTRA_ACID,
     EXTRA_BIO,
+    RECOIL_MODIFIER, //affects recoil when shooting a gun
     // effects for the item that has the enchantment
     ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
@@ -186,6 +188,8 @@ class enchantment
         void activate_passive( Character &guy ) const;
 
         enchantment_id id;
+        // NOLINTNEXTLINE(cata-serialize)
+        std::vector<std::pair<enchantment_id, mod_id>> src;
 
         bool was_loaded = false;
 

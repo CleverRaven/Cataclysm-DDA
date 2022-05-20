@@ -35,5 +35,27 @@
     "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 1 },
     "dispersion": 180,
     "effects": [ "NON_FOULING", "HURT_WHEN_WIELDED" ]
+  },
+  {
+    "id": "nuts_bolts",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "nut and bolt", "str_pl": "nuts and bolts" },
+    "description": "A matching nut and bolt.  Useful for securing objects together.",
+    "weight": "4 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 250,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "cyan",
+    "count": 100,
+    "stack_size": 100,
+    "ammo_type": "nuts_bolts",
+    "loudness": 0,
+    "range": 3,
+    "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 1 },
+    "dispersion": 180,
+    "effects": [ "NON_FOULING" ]
   }
 ]

@@ -115,8 +115,8 @@ bool trapfunc::bubble( const tripoint &p, Creature *c, item * )
 bool trapfunc::glass( const tripoint &p, Creature *c, item * )
 {
     if( c != nullptr ) {
-        // tiny animals and hallucinations don't trigger glass trap
-        if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
+        // tiny animals don't trigger glass trap
+        if( c->get_size() == creature_size::tiny ) {
             return false;
         }
         c->add_msg_player_or_npc( m_warning, _( "You step on some glass!" ),
@@ -184,9 +184,9 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
             }
         }
         c->check_dead_state();
-    } else {
-        here.spawn_item( p, "beartrap" );
     }
+
+    here.spawn_item( p, "beartrap" );
     return true;
 }
 
@@ -269,7 +269,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         return false;
     }
     // tiny animals don't trigger caltrops, they can squeeze between them
-    if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You step on a sharp glass caltrop!" ),
@@ -808,7 +808,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
-                                    _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                                    _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
         } else {
             int dodge = you->get_dodge();
             ///\EFFECT_DODGE reduces damage taken falling into a pit
@@ -860,7 +860,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
-                                    _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                                    _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
             ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             you->add_msg_if_player( _( "You avoid the spikes within." ) );
@@ -944,7 +944,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
-                                    _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                                    _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
             ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             you->add_msg_if_player( _( "You avoid the glass shards within." ) );
@@ -1231,10 +1231,17 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
                                     _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else if( you->has_active_bionic( bio_shock_absorber ) ) {
         you->add_msg_if_player( m_info,
-                                _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                                _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
     } else {
         you->impact( height * 30, where );
     }
+
+    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, where ) ) {
+        you->set_underwater( true );
+        g->water_affect_items( *you );
+        you->add_msg_player_or_npc( _( "You dive into water." ), _( "<npcname> dives into water." ) );
+    }
+
     return true;
 }
 

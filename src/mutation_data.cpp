@@ -12,6 +12,7 @@
 #include "color.h"
 #include "condition.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
@@ -22,6 +23,8 @@
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
+
+static const mutation_category_id mutation_category_ANY( "ANY" );
 
 static const trait_group::Trait_group_tag Trait_group_EMPTY_GROUP( "EMPTY_GROUP" );
 
@@ -97,47 +100,12 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut" ) );
 
     jsobj.get_member( "mutagen_message" ).read( new_category.raw_mutagen_message );
-    new_category.mutagen_hunger  = jsobj.get_int( "mutagen_hunger", 10 );
-    new_category.mutagen_thirst  = jsobj.get_int( "mutagen_thirst", 10 );
-    new_category.mutagen_pain    = jsobj.get_int( "mutagen_pain", 2 );
-    new_category.mutagen_fatigue = jsobj.get_int( "mutagen_fatigue", 5 );
-    new_category.mutagen_morale  = jsobj.get_int( "mutagen_morale", 0 );
-    jsobj.get_member( "iv_message" ).read( new_category.raw_iv_message );
-    new_category.iv_min_mutations    = jsobj.get_int( "iv_min_mutations", 1 );
-    new_category.iv_additional_mutations = jsobj.get_int( "iv_additional_mutations", 2 );
-    new_category.iv_additional_mutations_chance = jsobj.get_int( "iv_additional_mutations_chance", 3 );
-    new_category.iv_hunger   = jsobj.get_int( "iv_hunger", 10 );
-    new_category.iv_thirst   = jsobj.get_int( "iv_thirst", 10 );
-    new_category.iv_pain     = jsobj.get_int( "iv_pain", 2 );
-    new_category.iv_fatigue  = jsobj.get_int( "iv_fatigue", 5 );
-    new_category.iv_morale   = jsobj.get_int( "iv_morale", 0 );
-    new_category.iv_morale_max   = jsobj.get_int( "iv_morale_max", 0 );
     new_category.wip = jsobj.get_bool( "wip", false );
-    new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
-    if( jsobj.has_member( "iv_sound_message" ) ) {
-        jsobj.read( "iv_sound_message", new_category.raw_iv_sound_message );
-    } else {
-        new_category.raw_iv_sound_message = to_translation( "You inject yoursel-arRGH!" );
-    }
-    new_category.raw_iv_sound_id = jsobj.get_string( "iv_sound_id", "shout" );
-    new_category.raw_iv_sound_variant = jsobj.get_string( "iv_sound_variant", "default" );
-    new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
-    new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
-    if( jsobj.has_member( "iv_sleep_message" ) ) {
-        jsobj.read( "iv_sleep_message", new_category.raw_iv_sleep_message );
-    } else {
-        new_category.raw_iv_sleep_message = to_translation( "You fall asleep." );
-    }
-    new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
     static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
               text_style_check_reader(), "Crossed a threshold" );
-    if( jsobj.has_member( "junkie_message" ) ) {
-        jsobj.read( "junkie_message", new_category.raw_junkie_message );
-    } else {
-        new_category.raw_junkie_message = to_translation( "Oh, yeah!  That's the stuff!" );
-    }
+    new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }
@@ -150,36 +118,6 @@ std::string mutation_category_trait::name() const
 std::string mutation_category_trait::mutagen_message() const
 {
     return raw_mutagen_message.translated();
-}
-
-std::string mutation_category_trait::iv_message() const
-{
-    return raw_iv_message.translated();
-}
-
-std::string mutation_category_trait::iv_sound_message() const
-{
-    return raw_iv_sound_message.translated();
-}
-
-std::string mutation_category_trait::iv_sound_id() const
-{
-    return raw_iv_sound_id;
-}
-
-std::string mutation_category_trait::iv_sound_variant() const
-{
-    return raw_iv_sound_variant;
-}
-
-std::string mutation_category_trait::iv_sleep_message() const
-{
-    return raw_iv_sleep_message.translated();
-}
-
-std::string mutation_category_trait::junkie_message() const
-{
-    return raw_junkie_message.translated();
 }
 
 std::string mutation_category_trait::memorial_message_male() const
@@ -324,6 +262,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
 
+    optional( jo, was_loaded, "vitamin_cost", vitamin_cost, 100 );
     optional( jo, was_loaded, "visibility", visibility, 0 );
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );
@@ -334,7 +273,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
     optional( jo, was_loaded, "cost", cost, 0 );
     optional( jo, was_loaded, "time", cooldown, 0 );
-    optional( jo, was_loaded, "hunger", hunger, false );
+    optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "fatigue", fatigue, false );
     optional( jo, was_loaded, "valid", valid, true );
@@ -367,6 +306,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
     optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "terminus", terminus, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
@@ -418,6 +358,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, cata::nullopt );
     optional( jo, was_loaded, "stomach_size_multiplier", stomach_size_multiplier, cata::nullopt );
     optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, cata::nullopt );
+    optional( jo, was_loaded, "sweat_multiplier", sweat_multiplier, cata::nullopt );
     optional( jo, was_loaded, "overmap_sight", overmap_sight, cata::nullopt );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, cata::nullopt );
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, cata::nullopt );
@@ -477,6 +418,18 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "active_flags", active_flags, flag_reader{} );
     optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
+
+    for( JsonArray pair : jo.get_array( "moncams" ) ) {
+        moncams.insert( std::pair<mtype_id, int>( mtype_id( pair.get_string( 0 ) ), pair.get_int( 1 ) ) );
+    }
+
+    for( JsonValue jv : jo.get_array( "activated_eocs" ) ) {
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
+    for( JsonValue jv : jo.get_array( "deactivated_eocs" ) ) {
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
@@ -553,10 +506,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         // Set damage resistances for all body parts of the specified type(s)
         for( const std::string &type_string : ao.get_tags( "part_types" ) ) {
             for( const body_part_type &bp : body_part_type::get_all() ) {
-                if( type_string == "ALL" ||
-                    bp.limb_type == io::string_to_enum<body_part_type::type>( type_string ) ||
-                    bp.secondary_types.count( io::string_to_enum<body_part_type::type>( type_string ) ) > 0 ) {
+                if( type_string == "ALL" ) {
                     armor[bp.id] += res;
+                } else if( bp.limbtypes.count( io::string_to_enum<body_part_type::type>( type_string ) ) > 0 ) {
+                    armor[bp.id] += res * bp.limbtypes.at( io::string_to_enum<body_part_type::type>( type_string ) );
                 }
             }
         }
@@ -564,6 +517,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         for( const std::string &part_string : ao.get_tags( "parts" ) ) {
             armor[bodypart_str_id( part_string )] += res;
         }
+    }
+
+    for( const JsonValue jv : jo.get_array( "integrated_armor" ) ) {
+        integrated_armor.emplace_back( itype_id( jv ) );
     }
 
     for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {
@@ -650,6 +607,53 @@ void mutation_branch::check_consistency()
         if( s_id && !s_id.value().is_valid() ) {
             debugmsg( "mutation %s refers to undefined scent type %s", mid.c_str(), s_id.value().c_str() );
         }
+        for( const trait_id &replacement : mdata.replacements ) {
+            const mutation_branch &rdata = replacement.obj();
+            for( const mutation_category_id &cat : rdata.category ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                    debugmsg( "mutation %s lacks category %s present in replacement mutation %s", mid.c_str(),
+                              cat.c_str(), replacement.c_str() );
+                }
+            }
+        }
+        for( const trait_id &addition : mdata.additions ) {
+            const mutation_branch &adata = addition.obj();
+            for( const mutation_category_id &cat : adata.category ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                    debugmsg( "mutation %s lacks category %s present in additive mutation %s", mid.c_str(), cat.c_str(),
+                              addition.c_str() );
+                }
+            }
+        }
+
+        for( const mutation_category_id &cat_id : mdata.category ) {
+            if( !mdata.prereqs.empty() ) {
+                bool found = false;
+                for( const trait_id &prereq_id : mdata.prereqs ) {
+                    const mutation_branch &prereq = prereq_id.obj();
+                    found = found ||
+                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
+                }
+                if( !found ) {
+                    debugmsg( "mutation %s is in category %s but none of its slot 1 prereqs have this category",
+                              mid.c_str(), cat_id.c_str() );
+                }
+            }
+
+            if( !mdata.prereqs2.empty() ) {
+                bool found = false;
+                for( const trait_id &prereq_id : mdata.prereqs2 ) {
+                    const mutation_branch &prereq = prereq_id.obj();
+                    found = found ||
+                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
+                }
+                if( !found ) {
+                    debugmsg( "mutation %s is in category %s but none of its slot 2 prereqs have this category",
+                              mid.c_str(), cat_id.c_str() );
+                }
+            }
+        }
+
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );
@@ -665,6 +669,8 @@ nc_color mutation_branch::get_display_color() const
         return c_green;
     } else if( threshold || profession ) {
         return c_white;
+    } else if( terminus ) {
+        return c_red;
     } else if( debug ) {
         return c_light_cyan;
     } else if( mixed_effect ) {
@@ -750,6 +756,7 @@ void mutation_branch::finalize()
         for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
+        mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
     }
     finalize_trait_blacklist();
 }

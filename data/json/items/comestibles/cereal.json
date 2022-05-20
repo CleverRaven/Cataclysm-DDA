@@ -12,14 +12,13 @@
     "comestible_type": "FOOD",
     "quench": -2,
     "calories": 145,
-    "healthy": 1,
     "description": "A generic box of cereal, you shouldn't see this.",
     "price": 300,
     "price_postapoc": 200,
     "material": [ "wheat" ],
     "flags": [ "EDIBLE_FROZEN", "USE_EAT_VERB" ],
     "looks_like": "cereal",
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 32 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 32 ] ],
     "fun": 8
   },
   {
@@ -34,7 +33,7 @@
     "charges": 6,
     "material": [ "foodplace_foodstuff" ],
     "looks_like": "cereal",
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 16 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 16 ] ],
     "fun": 11,
     "addiction_potential": 5,
     "addiction_type": "caffeine",
@@ -58,7 +57,7 @@
     "description": "This is Foodplace brand \"Carpenter Crunch\" cereal with the iconic \"Breakfast Beaver\" mascot on the box.  It tastes kind of like nails.",
     "material": [ "foodplace_foodstuff" ],
     "charges": 6,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 50 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 50 ] ],
     "fun": -1,
     "spoils_in": "540 days",
     "copy-from": "cereal_tpl"
@@ -124,7 +123,7 @@
     "charges": 4,
     "material": [ "junk" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 21 ], [ "vitC", 17 ], [ "calcium", 13 ], [ "iron", 48 ] ],
+    "vitamins": [ [ "vitC", 17 ], [ "calcium", 13 ], [ "iron", 48 ] ],
     "fun": 10
   },
   {
@@ -138,7 +137,7 @@
     "price_postapoc": 600,
     "charges": 4,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 2 ], [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 9 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 9 ] ],
     "copy-from": "cereal_tpl"
   },
   {

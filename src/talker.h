@@ -135,6 +135,10 @@ class talker
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}
         virtual void set_per_max( int ) {}
+        virtual void set_str_bonus( int ) {}
+        virtual void set_dex_bonus( int ) {}
+        virtual void set_int_bonus( int ) {}
+        virtual void set_per_bonus( int ) {}
         virtual int get_str_max() const {
             return 0;
         }
@@ -147,6 +151,18 @@ class talker
         virtual int get_per_max() const {
             return 0;
         }
+        virtual int get_str_bonus() const {
+            return 0;
+        }
+        virtual int get_dex_bonus() const {
+            return 0;
+        }
+        virtual int get_int_bonus() const {
+            return 0;
+        }
+        virtual int get_per_bonus() const {
+            return 0;
+        }
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
@@ -154,6 +170,8 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual void mutate( const int &, const bool & ) {}
+        virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
         virtual void set_fatigue( int ) {};
@@ -249,7 +267,15 @@ class talker
         virtual bool has_charges( const itype_id &, int ) const {
             return false;
         }
+        // bool = match tool containing charges of itype_id
+        virtual bool has_charges( const itype_id &, int, bool ) const {
+            return false;
+        }
         virtual std::list<item> use_charges( const itype_id &, int ) {
+            return {};
+        }
+        // bool = match tool containing charges of itype_id
+        virtual std::list<item> use_charges( const itype_id &, int, bool ) {
             return {};
         }
         virtual bool has_amount( const itype_id &, int ) const {
@@ -302,8 +328,10 @@ class talker
         virtual bool buy_from( int ) {
             return false;
         }
-        virtual void buy_monster( talker &, const mtype_id &, int, int, bool,
-                                  const translation & ) {}
+        virtual bool buy_monster( talker &, const mtype_id &, int, int, bool,
+                                  const translation & ) {
+            return false;
+        }
 
         // missions
         virtual std::vector<mission *> available_missions() const {
@@ -371,6 +399,9 @@ class talker
             return false;
         }
         virtual void set_class( const npc_class_id & ) {}
+        virtual int get_activity_level() const {
+            return 0;
+        }
         virtual int get_fatigue() const {
             return 0;
         }
@@ -386,6 +417,13 @@ class talker
         virtual int get_stim() const {
             return 0;
         }
+        virtual int get_addiction_intensity( const addiction_id & ) const {
+            return 0;
+        }
+        virtual int get_addiction_turns( const addiction_id & ) const {
+            return 0;
+        }
+        virtual void set_addiction_turns( const addiction_id &, int ) {}
         virtual void set_stored_kcal( int ) {}
         virtual void set_stim( int ) {}
         virtual void set_thirst( int ) {}
@@ -483,11 +521,39 @@ class talker
         virtual int get_height() const {
             return 0;
         }
+        virtual void set_npc_trust( int ) {}
+        virtual int get_npc_trust() const {
+            return 0;
+        }
+        virtual void set_npc_fear( int ) {}
+        virtual int get_npc_fear() const {
+            return 0;
+        }
+        virtual void set_npc_value( int ) {}
+        virtual int get_npc_value() const {
+            return 0;
+        }
+        virtual void set_npc_anger( int ) {}
+        virtual int get_npc_anger() const {
+            return 0;
+        }
         virtual int get_bmi_permil() const {
             return 0;
         }
         virtual const move_mode_id &get_move_mode() const {
             return move_mode_id::NULL_ID();
+        }
+        virtual int get_fine_detail_vision_mod() const {
+            return 0;
+        }
+        virtual int get_health() const {
+            return 0;
+        }
+        virtual int get_body_temp() const {
+            return 0;
+        }
+        virtual int get_body_temp_delta() const {
+            return 0;
         }
 };
 #endif // CATA_SRC_TALKER_H

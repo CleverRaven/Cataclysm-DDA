@@ -56,6 +56,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -66,6 +67,7 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
+static const construction_category_id  construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
@@ -100,6 +102,9 @@ static const vproto_id vehicle_prototype_none( "none" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
+static const std::string flag_WIRING( "WIRING" );
+
+static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 static bool finalized = false;
 
@@ -123,6 +128,7 @@ bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
 bool check_ramp_low( const tripoint & );
 bool check_ramp_high( const tripoint & );
+bool check_no_wiring( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint & ) {}
@@ -130,6 +136,7 @@ void done_trunk_plank( const tripoint & );
 void done_grave( const tripoint & );
 void done_vehicle( const tripoint & );
 void done_appliance( const tripoint & );
+void done_wiring( const tripoint & );
 void done_deconstruct( const tripoint & );
 void done_digormine_stair( const tripoint &, bool );
 void done_dig_stair( const tripoint & );
@@ -200,15 +207,24 @@ void standardize_construction_times( const int time )
     }
 }
 
-static std::vector<construction *> constructions_by_group( const construction_group_str_id &group )
+std::vector<construction *> constructions_by_group( const construction_group_str_id &group )
+{
+    return constructions_by_filter(
+    [&group]( construction const & it ) {
+        return it.group == group;
+    } );
+}
+
+std::vector<construction *>
+constructions_by_filter( std::function<bool( construction const & )> const &filter )
 {
     if( !finalized ) {
-        debugmsg( "constructions_by_group called before finalization" );
+        debugmsg( "constructions_by_filter called before finalization" );
         return {};
     }
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
-        if( constructions_a.group == group ) {
+        if( filter( constructions_a ) ) {
             result.push_back( &constructions_a );
         }
     }
@@ -908,13 +924,15 @@ bool can_construct( const construction &con, const tripoint &p )
     // see if the terrain type checks out
     place_okay &= has_pre_terrain( con, p );
     // see if the flags check out
-    place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
-    [&p]( const std::string & flag ) {
-        map &m = get_map();
-        furn_id f = m.furn( p );
-        ter_id t = m.ter( p );
-        return f == f_null ? t->has_flag( flag ) : f->has_flag( flag );
-    } );
+    for( const auto &flag : con.pre_flags ) {
+        furn_id f = get_map().furn( p );
+        ter_id t = get_map().ter( p );
+        const bool use_ter = flag.second || f == f_null;
+        if( ( !use_ter && !f->has_flag( flag.first ) ) ||
+            ( use_ter && !t->has_flag( flag.first ) ) ) {
+            place_okay = false;
+        }
+    }
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
         map &here = get_map();
@@ -996,10 +1014,24 @@ void place_construction( const construction_group_str_id &group )
     if( here.tr_at( pnt ).is_null() ) {
         here.trap_set( pnt, tr_unfinished_construction );
     }
+    const bool is_appliance = con.category == construction_category_APPLIANCE;
     // Use up the components
     for( const auto &it : con.requirements->get_components() ) {
-        std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
-        used.splice( used.end(), tmp );
+        if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
+            // appliances require a base item in the construction
+            used.emplace_back( item( it.front().type ) );
+        } else {
+            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
+            used.splice( used.end(), tmp );
+        }
+    }
+    // If player has debug hammerspace while building an appliance, they won't get
+    // the appliance they want unless lastconsumed points to the appliance's base itype
+    if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
+        const std::vector<std::vector<item_comp> > &comp_list = con.requirements->get_components();
+        if( !comp_list.empty() && !comp_list.front().empty() ) {
+            player_character.lastconsumed = comp_list.front().front().type;
+        }
     }
     pc.components = used;
     here.partial_con_set( pnt, pc );
@@ -1060,7 +1092,13 @@ void complete_construction( Character *you )
     if( here.tr_at( terp ) == tr_unfinished_construction ) {
         here.remove_trap( terp );
     }
-    here.partial_con_remove( terp );
+
+    //We need to keep the partial_con when building appliance to get the component items
+    //It will be removed in done_appliance()
+    if( pc->id->category != construction_category_APPLIANCE ) {
+        here.partial_con_remove( terp );
+    }
+
     // Some constructions are allowed to have items left on the tile.
     if( built.post_flags.count( "keep_items" ) == 0 ) {
         // Move any items that have found their way onto the construction site.
@@ -1191,13 +1229,13 @@ bool construct::check_empty_up_OK( const tripoint &p )
 bool construct::check_up_OK( const tripoint & )
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return ( get_map().get_abs_sub().z < OVERMAP_HEIGHT );
+    return ( get_map().get_abs_sub().z() < OVERMAP_HEIGHT );
 }
 
 bool construct::check_down_OK( const tripoint & )
 {
     // You're not going below -OVERMAP_DEPTH.
-    return ( get_map().get_abs_sub().z > -OVERMAP_DEPTH );
+    return ( get_map().get_abs_sub().z() > -OVERMAP_DEPTH );
 }
 
 bool construct::check_no_trap( const tripoint &p )
@@ -1221,6 +1259,17 @@ bool construct::check_ramp_high( const tripoint &p )
 bool construct::check_ramp_low( const tripoint &p )
 {
     return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
+}
+
+bool construct::check_no_wiring( const tripoint &p )
+{
+    const optional_vpart_position vp = get_map().veh_at( p );
+    if( !vp ) {
+        return true;
+    }
+
+    const vehicle &veh_target = vp->vehicle();
+    return !veh_target.has_tag( flag_WIRING );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
@@ -1323,43 +1372,91 @@ void construct::done_vehicle( const tripoint &p )
     here.add_vehicle_to_cache( veh );
 }
 
-void construct::done_appliance( const tripoint &p )
+void construct::done_wiring( const tripoint &p )
 {
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
 
+    here.partial_con_remove( p );
+
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
         return;
     }
-    const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
-    const std::string &constrcut_id = get_avatar().activity.get_str_value( 0 );
 
-    if( constrcut_id == STATIC( "app_wall_wiring" ) ) {
-        veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
-        veh->name = _( "wall wiring" );
-        veh->add_tag( flag_CANT_DRAG );
-    } else {
-        veh->install_part( point_zero, vpart );
-        veh->name = vpart->name();
+    veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
+    veh->name = _( "wall wiring" );
+    veh->add_tag( flag_CANT_DRAG );
+    veh->add_tag( flag_APPLIANCE );
+    veh->add_tag( flag_WIRING );
+
+    // Merge any neighbouring wire vehicles into this one if the resulting vehicle would not be too large.
+    for( const point &offset : four_adjacent_offsets ) {
+        const optional_vpart_position vp = here.veh_at( p + offset );
+        if( !vp ) {
+            continue;
+        }
+
+        bounding_box vehicle_box = veh->get_bounding_box( false );
+        point size;
+        size.x = abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+        size.y = abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+
+        vehicle &veh_target = vp->vehicle();
+        if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
+            bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
+
+            point target_size;
+            target_size.x = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+            target_size.y = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+
+            if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
+                size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+                if( !veh->merge_vehicle_parts( &veh_target ) ) {
+                    debugmsg( "failed to merge vehicle parts" );
+                }
+            }
+        }
     }
 
-    veh->add_tag( flag_APPLIANCE );
-
     // Update the vehicle cache immediately,
-    // or the appliance will be invisible for the first couple of turns.
+    // or the wiring will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
 
+    // Connect to any neighbouring appliances or wires
+    std::unordered_set<const vehicle *> connected_vehicles;
     for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;
         }
         const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) ) {
-            veh->connect( p, trip );
+        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
+                veh->connect( p, trip );
+                connected_vehicles.insert( &veh_target );
+            }
         }
     }
+}
+
+void construct::done_appliance( const tripoint &p )
+{
+    map &here = get_map();
+    partial_con *pc = here.partial_con_at( p );
+    cata::optional<item> base = cata::nullopt;
+    const vpart_id &vpart = vpart_appliance_from_item( get_avatar().lastconsumed );
+    if( pc ) {
+        for( item &obj : pc->components ) {
+            if( obj.typeId() == vpart->base_item ) {
+                base = obj;
+            }
+        }
+    } else {
+        debugmsg( "partial construction not found" );
+    }
+    here.partial_con_remove( p );
+    place_appliance( p, vpart, base );
 }
 
 void construct::done_deconstruct( const tripoint &p )
@@ -1459,7 +1556,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
-    player_character.mod_stored_nutr( 5 + mine_penalty + no_mut_penalty );
+    player_character.mod_stored_kcal( -43 - 9 * mine_penalty - 9 * no_mut_penalty );
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
@@ -1531,7 +1628,7 @@ void construct::done_mine_upstair( const tripoint &p )
                     player_character.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
-    player_character.mod_stored_nutr( 20 + no_mut_penalty );
+    player_character.mod_stored_kcal( -174 - 9 * no_mut_penalty );
     player_character.mod_thirst( 20 + no_mut_penalty );
     player_character.mod_fatigue( 25 + no_mut_penalty );
 
@@ -1685,7 +1782,24 @@ void load_construction( const JsonObject &jo )
         con.post_is_furniture = true;
     }
 
-    con.pre_flags = jo.get_tags( "pre_flags" );
+    if( jo.has_member( "pre_flags" ) ) {
+        con.pre_flags.clear();
+        if( jo.has_string( "pre_flags" ) ) {
+            con.pre_flags.emplace( jo.get_string( "pre_flags" ), false );
+        } else if( jo.has_object( "pre_flags" ) ) {
+            JsonObject jflag = jo.get_object( "pre_flags" );
+            con.pre_flags.emplace( jflag.get_string( "flag" ), jflag.get_bool( "force_terrain" ) );
+        } else if( jo.has_array( "pre_flags" ) ) {
+            for( JsonValue jval : jo.get_array( "pre_flags" ) ) {
+                if( jval.test_string() ) {
+                    con.pre_flags.emplace( jval.get_string(), false );
+                } else if( jval.test_object() ) {
+                    JsonObject jflag = jval.get_object();
+                    con.pre_flags.emplace( jflag.get_string( "flag" ), jflag.get_bool( "force_terrain" ) );
+                }
+            }
+        }
+    }
 
     con.post_flags = jo.get_tags( "post_flags" );
 
@@ -1707,7 +1821,8 @@ void load_construction( const JsonObject &jo )
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
             { "check_ramp_low", construct::check_ramp_low },
-            { "check_ramp_high", construct::check_ramp_high }
+            { "check_ramp_high", construct::check_ramp_high },
+            { "check_no_wiring", construct::check_no_wiring }
         }
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
@@ -1716,6 +1831,7 @@ void load_construction( const JsonObject &jo )
             { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
             { "done_appliance", construct::done_appliance },
+            { "done_wiring", construct::done_wiring },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },

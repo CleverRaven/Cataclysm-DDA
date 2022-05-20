@@ -46,6 +46,7 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "sets_intersect.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "text_snippets.h"
@@ -98,7 +99,9 @@ static const itype_id itype_bag_canvas( "bag_canvas" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_chunk_sulfur( "chunk_sulfur" );
 static const itype_id itype_hatchet( "hatchet" );
+static const itype_id itype_jack_small( "jack_small" );
 static const itype_id itype_landmine( "landmine" );
+static const itype_id itype_lug_wrench( "lug_wrench" );
 static const itype_id itype_material_sand( "material_sand" );
 static const itype_id itype_material_soil( "material_soil" );
 static const itype_id itype_rag( "rag" );
@@ -107,7 +110,6 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_stick_long( "stick_long" );
-static const itype_id itype_tire_iron( "tire_iron" );
 static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
@@ -145,7 +147,6 @@ static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
-static const mongroup_id GROUP_MI_GO_CAMP_OM( "GROUP_MI-GO_CAMP_OM" );
 static const mongroup_id GROUP_NETHER_CAPTURED( "GROUP_NETHER_CAPTURED" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
@@ -158,8 +159,6 @@ static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
@@ -378,7 +377,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
                                 madd_field( &m, point( x, y ), fd_web, rng( 2, 3 ) );
                                 if( one_in( 4 ) ) {
                                     m.furn_set( point( i, j ), egg_type );
-                                    m.remove_field( {i, j, m.get_abs_sub().z}, fd_web );
+                                    m.remove_field( {i, j, m.get_abs_sub().z()}, fd_web );
                                 }
                             }
                         }
@@ -635,13 +634,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_east = east->get_type_id() == oter_type_road;
 
     const auto spawn_turret = [&]( const point & p ) {
-        if( one_in( 3 ) ) {
-            m.add_spawn( mon_turret_bmg, 1, { p, abs_sub.z } );
-        } else if( one_in( 2 ) ) {
-            m.add_spawn( mon_turret_rifle, 1, { p, abs_sub.z } );
-        } else {
-            m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
-        }
+        m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
     };
 
     if( one_in( 6 ) ) { //Military doesn't joke around with their barricades!
@@ -948,7 +941,7 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 
 static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
 {
-    tripoint tri_target( target, m.get_abs_sub().z );
+    tripoint tri_target( target, m.get_abs_sub().z() );
     if( m.ter( tri_target ).obj().trap == tr_null ) {
         mtrap_set( &m, target, trap_type );
     }
@@ -1489,7 +1482,6 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
             //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
             if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
                 m.destroy( tripoint( i,  j, abs_sub.z ), true );
-                m.adjust_radiation( point( i, j ), rng( 20, 40 ) );
             }
         }
     }
@@ -1537,7 +1529,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         rng( min_coord, max_coord ), rng( min_coord, max_coord ), abs_sub.z };
     const point p( portal_location.xy() );
 
-    switch( rng( 1, 7 ) ) {
+    switch( rng( 1, 6 ) ) {
         //Mycus spreading through the portal
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
@@ -1632,22 +1624,8 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             }
             break;
         }
-        case 6: {
-            //Mi-go went through the portal and began constructing their base of operations
-            m.add_field( portal_location, fd_fatigue, 3 );
-            for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
-                m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy(), loc.xy(), 1, true );
-            }
-            const int radius = 6;
-            const point pos = point( rng( std::max( p.x - radius, radius ),
-                                          SEEX * 2 - std::min( SEEX * 2 - p.x, SEEX - radius ) ),
-                                     rng( std::max( p.y - radius, radius ), SEEY * 2 - std::min( SEEY * 2 - p.y, SEEY - radius ) ) );
-            circle( &m, ter_id( "t_wall_resin" ), pos, radius );
-            rough_circle( &m, ter_id( "t_floor_resin" ), pos, radius - 1 );
-            break;
-        }
         //Anomaly caused by the portal and spawned an artifact
-        case 7: {
+        case 6: {
             m.add_field( portal_location, fd_fatigue, 3 );
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
@@ -2479,12 +2457,23 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some unfortunate stopped at the roadside to change tire, but was ambushed and killed
         case 3: {
-            m.add_vehicle( vehicle_prototype_car, point( 18, 12 ), 270_degrees );
+            vehicle *veh = m.add_vehicle( vehicle_prototype_car, point( 18, 12 ), 270_degrees );
+
+            for( const vpart_reference &vp : veh->get_any_parts( "CARGO" ) ) {
+                const size_t p = vp.part_index();
+                for( item &elem : veh->get_items( p ) ) {
+                    if( elem.typeId() == itype_wheel || elem.typeId() == itype_lug_wrench ||
+                        elem.typeId() == itype_jack_small ) {
+                        veh->remove_item( p, &elem );
+                    }
+                }
+            }
 
             m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
             m.spawn_item( { 16, 16, abs_sub.z }, itype_wheel, 1, 0, calendar::start_of_cataclysm, 4 );
-            m.spawn_item( { 16, 16, abs_sub.z }, itype_tire_iron );
+            m.spawn_item( { 16, 16, abs_sub.z }, itype_lug_wrench );
+            m.spawn_item( { 16, 16, abs_sub.z }, itype_jack_small );
 
             if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy
                 m.put_items_from_loc( Item_spawn_data_everyday_corpse, { 16, 15, abs_sub.z } );
@@ -2977,6 +2966,18 @@ bool map_extra::is_valid_for( const mapgendata &md ) const
             return false;
         }
     }
+    if( !md.region.overmap_feature_flag.blacklist.empty() ) {
+        // map extra is blacklisted by flag
+        if( cata::sets_intersect( md.region.overmap_feature_flag.blacklist, get_flags() ) ) {
+            return false;
+        }
+    }
+    if( !md.region.overmap_feature_flag.whitelist.empty() ) {
+        // map extra is not whitelisted by flag
+        if( !cata::sets_intersect( md.region.overmap_feature_flag.whitelist, get_flags() ) ) {
+            return false;
+        }
+    }
 
     return true;
 }
@@ -2995,6 +2996,7 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
     optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
+    optional( jo, was_loaded, "flags", flags_ );
 }
 
 void map_extra::check() const

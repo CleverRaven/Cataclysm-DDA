@@ -65,6 +65,7 @@
 #include "viewer.h"
 #include "weakpoint.h"
 #include "weather.h"
+#include "harvest.h"
 
 static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
 
@@ -148,6 +149,7 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PHEROMONE_AMPHIBIAN( "PHEROMONE_AMPHIBIAN" );
@@ -178,6 +180,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
+    {monster_attitude::MATT_UNKNOWN, {translate_marker( "Unknown" ), def_c_yellow}}, //Should only be used for UI.
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -269,6 +272,9 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
 void monster::poly( const mtype_id &id )
 {
     double hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );
+    if( !no_extra_death_drops ) {
+        generate_inventory();
+    }
     type = &id.obj();
     moves = 0;
     Creature::set_speed_base( type->speed );
@@ -698,15 +704,26 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     oss << "<color_h_white>" << get_effect_status() << "</color>";
     vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, oss.str() );
 
+    Character &pc = get_player_character();
+    bool sees_player = sees( pc );
+    const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
+
     // Hostility indicator on the second line.
     std::pair<std::string, nc_color> att = get_attitude();
-    mvwprintz( w, point( column, vStart++ ), att.second, att.first );
+    if( player_knows ) {
+        mvwprintz( w, point( column, vStart++ ), att.second, att.first );
+    } else {
+        mvwprintz( w, point( column, vStart++ ), all_colors.get( attitude_names.at( MATT_UNKNOWN ).second ),
+                   attitude_names.at( MATT_UNKNOWN ).first );
+    }
 
     // Awareness indicator in the third line.
-    bool sees_player = sees( get_player_character() );
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
-    vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
+    senses_str = !player_knows ? _( "You have no idea what is it doing" ) :
+                 senses_str;
+    vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows &&
+                              sees_player ? c_red : c_green,
                               senses_str );
 
     const std::string speed_desc = speed_description(
@@ -1196,6 +1213,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::HOSTILE;
             case MATT_NULL:
+            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
@@ -1640,16 +1658,16 @@ bool monster::melee_attack( Creature &target, float accuracy )
         if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_avatar() ) {
                 if( target_dodging ) {
-                    add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : "something" );
+                    add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : _( "something" ) );
                 } else {
-                    add_msg( _( "%s misses you." ), u_see_me ? disp_name( false, true ) : "Something" );
+                    add_msg( _( "%s misses you." ), u_see_me ? disp_name( false, true ) : _( "Something" ) );
                 }
             } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name(), u_see_me ? name() : "something" );
+                         target.disp_name(), u_see_me ? name() : _( "something" ) );
             } else {
                 add_msg( _( "%1$s misses %2$s!" ),
-                         u_see_me ? disp_name( false, true ) : "Something", target.disp_name() );
+                         u_see_me ? disp_name( false, true ) : _( "Something" ), target.disp_name() );
             }
         } else if( target.is_avatar() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
@@ -1662,7 +1680,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
-                add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : "Something",
+                add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : _( "Something" ),
                          body_part_name_accusative( dealt_dam.bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) &&
@@ -1672,7 +1690,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                              total_dealt );
                 } else {
                     //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
-                    add_msg( _( "%1$s hits %2$s %3$s." ), u_see_me ? disp_name( false, true ) : "Something",
+                    add_msg( _( "%1$s hits %2$s %3$s." ), u_see_me ? disp_name( false, true ) : _( "Something" ),
                              target.disp_name( true ),
                              body_part_name_accusative( dealt_dam.bp_hit ) );
                 }
@@ -1703,14 +1721,14 @@ bool monster::melee_attack( Creature &target, float accuracy )
             if( target.is_avatar() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
                 add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ), u_see_me ? disp_name( false,
-                         true ) : "Something",
+                         true ) : _( "Something" ),
                          body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
             } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
                 add_msg( _( "%1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), u_see_me ? disp_name( false,
-                         true ) : "Something",
+                         true ) : _( "Something" ),
                          target.disp_name( true ),
                          body_part_name_accusative( dealt_dam.bp_hit ),
                          target.disp_name( true ),
@@ -1719,7 +1737,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
                 add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
-                         u_see_me ? disp_name( false, true ) : "Something",
+                         u_see_me ? disp_name( false, true ) : _( "Something" ),
                          target.disp_name(),
                          target.skin_name() );
             }
@@ -1999,7 +2017,6 @@ bool monster::move_effects( bool )
         if( type->melee_dice * type->melee_sides >= 18 ) {
             if( x_in_y( type->melee_dice * type->melee_sides, 200 ) ) {
                 remove_effect( effect_beartrap );
-                here.spawn_item( pos(), "beartrap" );
                 if( u_see_me ) {
                     add_msg( _( "The %s escapes the bear trap!" ), name() );
                 }
@@ -2099,8 +2116,9 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
 
     switch( dt ) {
         case damage_type::PURE:
+            return worn_armor + static_cast<int>( type->armor_pure );
         case damage_type::BIOLOGICAL:
-            return 0;
+            return worn_armor + static_cast<int>( type->armor_biological );
         case damage_type::BASH:
             return get_armor_bash( bp );
         case damage_type::CUT:
@@ -2114,7 +2132,7 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case damage_type::COLD:
-            return worn_armor;
+            return worn_armor + static_cast<int>( type->armor_cold );
         case damage_type::ELECTRIC:
             return worn_armor + static_cast<int>( type->armor_elec );
         case damage_type::NONE:
@@ -2565,7 +2583,7 @@ void monster::die( Creature *nkiller )
             }
         }
         if( corpse ) {
-            for( item_pocket *pocket : corpse->get_all_contained_pockets().value() ) {
+            for( item_pocket *pocket : corpse->get_all_contained_pockets() ) {
                 pocket->set_usability( false );
             }
         }
@@ -2647,6 +2665,31 @@ bool monster::check_mech_powered() const
                  get_name() );
     }
     return true;
+}
+
+void monster::generate_inventory( bool disableDrops )
+{
+    if( is_hallucination() ) {
+        return;
+    }
+    if( type->death_drops.is_empty() ) {
+        return;
+    }
+
+    std::vector<item> new_items = item_group::items_from( type->death_drops,
+                                  calendar::start_of_cataclysm,
+                                  spawn_flags::use_spawn_rate );
+
+    for( item &it : new_items ) {
+        if( has_flag( MF_FILTHY ) ) {
+            if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
+                // handle wearable guns as a special case
+                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+            }
+        }
+        inv.push_back( it );
+    }
+    no_extra_death_drops = disableDrops;
 }
 
 void monster::drop_items_on_death( item *corpse )
@@ -2754,7 +2797,7 @@ void monster::process_effects()
     Character &player_character = get_player_character();
     //If this monster has the ability to heal in combat, do it now.
     int regeneration_amount = type->regenerates;
-    //Apply effect-triggered regeneartion modifers
+    //Apply effect-triggered regeneartion modifiers
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
         if( has_effect( regeneration_modifier.first ) ) {
             regeneration_amount += regeneration_modifier.second;
@@ -2835,7 +2878,7 @@ bool monster::make_fungus()
         return true;
     }
     if( type->has_flag( MF_NO_FUNG_DMG ) ) {
-        return true; // Retrun true when monster is immune to fungal damage.
+        return true; // Return true when monster is immune to fungal damage.
     }
     if( type->fungalize_into.is_empty() ) {
         return false;
@@ -3014,6 +3057,9 @@ void monster::init_from_item( item &itm )
             upgrade_time = std::stoi( up_time );
         }
         for( item *it : itm.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            if( it->is_armor() ) {
+                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
+            }
             inv.push_back( *it );
             itm.remove_item( *it );
         }

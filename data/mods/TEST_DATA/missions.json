@@ -1,0 +1,31 @@
+[
+  {
+    "id": "TEST_MISSION_GOAL_CONDITION1",
+    "type": "mission_definition",
+    "name": { "str": "Test mission goal condition" },
+    "description": "Checks to see if the player has a specific item.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_item": "test_rock" },
+    "difficulty": 2,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "TEST_MISSION_GOAL_CONDITION2",
+    "type": "mission_definition",
+    "copy-from": "TEST_MISSION_GOAL_CONDITION1",
+    "goal": "MGOAL_CONDITION",
+    "origins": [  ]
+  }
+]

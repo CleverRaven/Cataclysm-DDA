@@ -22,7 +22,9 @@ class scenario
     private:
         friend class string_id<scenario>;
         friend class generic_factory<scenario>;
+        friend struct mod_tracker;
         string_id<scenario> id;
+        std::vector<std::pair<string_id<scenario>, mod_id>> src;
         bool was_loaded = false;
         translation _name_male;
         translation _name_female;

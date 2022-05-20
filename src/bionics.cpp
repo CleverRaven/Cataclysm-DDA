@@ -130,7 +130,7 @@ static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paralysepoison( "paralysepoison" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
@@ -170,8 +170,12 @@ static const material_id fuel_type_muscle( "muscle" );
 static const material_id fuel_type_sun_light( "sunlight" );
 static const material_id fuel_type_wind( "wind" );
 static const material_id material_budget_steel( "budget_steel" );
-static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_ch_steel( "ch_steel" );
+static const material_id material_hc_steel( "hc_steel" );
 static const material_id material_iron( "iron" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
@@ -189,6 +193,7 @@ static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 struct Character::auto_toggle_bionic_result {
@@ -336,6 +341,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
+    assign( jsobj, "power_trickle", power_trickle, false, 0_kJ );
 
     optional( jsobj, was_loaded, "time", charge_time, 0 );
 
@@ -377,7 +383,24 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
 
     optional( jsobj, was_loaded, "dupes_allowed", dupes_allowed, false );
+
     optional( jsobj, was_loaded, "auto_deactivates", autodeactivated_bionics );
+
+    optional( jsobj, was_loaded, "activated_close_ui", activated_close_ui, false );
+
+    optional( jsobj, was_loaded, "deactivated_close_ui", deactivated_close_ui, false );
+
+    for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
+    for( JsonValue jv : jsobj.get_array( "processed_eocs" ) ) {
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
+    for( JsonValue jv : jsobj.get_array( "deactivated_eocs" ) ) {
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
 
     int enchant_num = 0;
     for( JsonValue jv : jsobj.get_array( "enchantments" ) ) {
@@ -719,6 +742,17 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     };
 
+    if( !bio.id->activated_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->activated_eocs ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a bionic activation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+    }
+
     item tmp_item;
     avatar &player_character = get_avatar();
     map &here = get_map();
@@ -869,7 +903,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                 effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
                 effect_took_flumed, effect_antifungal, effect_venom_weaken,
-                effect_venom_dmg, effect_paralysepoison
+                effect_venom_dmg, effect_paralyzepoison
             }
         };
 
@@ -893,6 +927,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
+            if( has_trait( trait_PYROMANIA ) ) {
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            }
             mod_moves( -100 );
         } else {
             refund_power();
@@ -967,7 +1006,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_magnet ) {
         add_msg_activate();
         static const std::set<material_id> affected_materials =
-        { material_iron, material_steel, material_hardsteel, material_budget_steel };
+        { material_iron, material_steel, material_lc_steel, material_mc_steel, material_hc_steel, material_ch_steel, material_qt_steel, material_budget_steel };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
@@ -1220,6 +1259,18 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     }
     const item &w_weapon = get_wielded_item();
     // Deactivation effects go here
+
+    if( !bio.id->deactivated_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a bionic deactivation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+    }
+
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
         if( bio.get_uid() == get_weapon_bionic_uid() ) {
             bio.set_weapon( get_wielded_item() );
@@ -1503,6 +1554,8 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
 
 void Character::passive_power_gen( const bionic &bio )
 {
+    mod_power_level( bio.info().power_trickle );
+
     const float passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
     if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( fuel_type_muscle ) ||
         passive_fuel_efficiency == 0.0 ) {
@@ -1661,13 +1714,8 @@ float Character::get_effective_efficiency( const bionic &bio, float fuel_efficie
         int coverage = 0;
         const std::map< bodypart_str_id, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
         for( const std::pair< const bodypart_str_id, size_t > &elem : occupied_bodyparts ) {
-            for( const item &i : worn ) {
-                if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-                    !i.has_flag( flag_SEMITANGIBLE ) &&
-                    !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                    coverage += i.get_coverage( elem.first.id() );
-                }
-            }
+            coverage += worn.coverage_with_flags_exclude( elem.first.id(),
+            { flag_ALLOWS_NATURAL_ATTACKS, flag_SEMITANGIBLE, flag_PERSONAL, flag_AURA } );
         }
         effective_efficiency = fuel_efficiency * ( 1.0 - ( coverage / ( 100.0 *
                                occupied_bodyparts.size() ) )
@@ -1691,11 +1739,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
     if( power_cost > 0_kJ ) {
         if( info.has_flag( STATIC( json_character_flag( "BIONIC_ARMOR_INTERFACE" ) ) ) ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
-            bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(),
-            []( const item & w ) {
-                return w.active && w.is_power_armor();
-            } );
-            if( !powered_armor ) {
+            if( !p.worn.is_wearing_active_power_armor() ) {
                 const units::energy armor_power_cost = 1_kJ;
                 power_cost -= armor_power_cost;
             }
@@ -1765,6 +1809,17 @@ void Character::process_bionic( bionic &bio )
                 if( cost > 0_mJ ) {
                     mod_power_level( -cost );
                 }
+            }
+        }
+    }
+
+    if( !bio.id->processed_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->processed_eocs ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a bionic process.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
             }
         }
     }
@@ -2130,7 +2185,8 @@ float Character::bionics_adjusted_skill( bool autodoc, int skill_level ) const
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                            static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
-    adjusted_skill *= env_surgery_bonus( 1 ) + get_effect_int( effect_assisted );
+    adjusted_skill += get_effect_int( effect_assisted );
+    adjusted_skill *= env_surgery_bonus( 1 );
     return adjusted_skill;
 }
 
@@ -2336,7 +2392,7 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         bionics_uninstall_failure( difficulty, success, adjusted_skill );
 
     }
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 bool Character::uninstall_bionic( const bionic &bio, monster &installer, Character &patient,
@@ -2636,7 +2692,7 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
         bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
     }
     map &here = get_map();
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,

@@ -55,7 +55,7 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
     clear_avatar();
     Character &dummy = get_avatar();
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     GIVEN( "character has some unidentified books" ) {
         item &book1 = dummy.i_add( item( "novel_western" ) );
@@ -81,7 +81,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
     clear_avatar();
     Character &dummy = get_avatar();
     dummy.set_body();
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     GIVEN( "a fun book" ) {
         item &book = dummy.i_add( item( "novel_western" ) );
@@ -152,7 +152,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 {
     clear_avatar();
     Character &dummy = get_avatar();
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     // Note: read_speed() returns number of moves;
     // 6000 == 60 seconds
@@ -202,7 +202,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     REQUIRE( dummy.has_part( bodypart_id( "eyes" ) ) );
     REQUIRE( dummy.get_limb_score( limb_score_vision ) != 0 );
 
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     // Easy, medium, and hard books
     item &child = dummy.i_add( item( "child_book" ) );
@@ -290,7 +290,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
 
@@ -385,7 +385,7 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
 
     avatar dummy;
     dummy.set_body();
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item &child = dummy.i_add( item( "child_book" ) );
     item &alpha = dummy.i_add( item( "recipe_alpha" ) );
@@ -436,7 +436,7 @@ TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
     clear_avatar();
     Character &dummy = get_avatar();
     dummy.set_body();
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item &alpha = dummy.i_add( item( "recipe_alpha" ) );
     REQUIRE( alpha.is_book() );
@@ -477,7 +477,7 @@ TEST_CASE( "reading a book with an ebook reader", "[reading][book][ereader]" )
 
     WHEN( "reading a book" ) {
 
-        dummy.worn.emplace_back( item( "backpack" ) );
+        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
         dummy.i_add( item( "atomic_lamp" ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 

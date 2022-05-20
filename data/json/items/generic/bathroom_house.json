@@ -284,8 +284,8 @@
     "id": "bottle_bathroom",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "plastic bottle" },
-    "description": "A squeezable used bottle to hold various bathroom soaps",
+    "name": { "str": "plastic soap bottle" },
+    "description": "A squeezable bottle used to hold various bathroom soaps.",
     "looks_like": "bottle_plastic",
     "weight": "130 g",
     "volume": "502 ml",
@@ -315,9 +315,8 @@
       { "id": "bbottle_3", "text": "A bottle for body wash.  This one is called 'Afrika'." },
       { "id": "bbottle_4", "text": "A bottle for hair conditioner." },
       { "id": "bbottle_5", "text": "A colorful bottle of body and hair wash marketed for children." },
-      { "id": "bbottle_6", "text": "A plain white bottle made to contain the cheapest shampoo." },
-      { "id": "bbottle_7", "text": "A plain white bottle made to contain the cheapest hair conditioner." },
-      { "id": "bbottle_8", "text": "A plain white bottle made to contain the cheapest shower jell." }
+      { "id": "bbottle_6", "text": "A plain white bottle made to contain the cheapest hair conditioner." },
+      { "id": "bbottle_7", "text": "A plain white bottle made to contain the cheapest shower gel." }
     ]
   },
   {

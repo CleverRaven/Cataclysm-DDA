@@ -3,6 +3,8 @@
     "abstract": "gun_base",
     "type": "GUN",
     "reload_noise_volume": 10,
+    "//": "this is the default handling for anything with a stock",
+    "handling": 20,
     "name": { "str": "base gun" },
     "symbol": "(",
     "color": "light_gray",
@@ -30,6 +32,8 @@
     "name": { "str": "base launcher" },
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
+    "//": "default handling for anything without a recoil stock",
+    "handling": 10,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
@@ -41,6 +45,8 @@
     "name": { "str": "base pistol" },
     "skill": "pistol",
     "sight_dispersion": 60,
+    "//": "default handling for anything without a stock",
+    "handling": 10,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -155,6 +161,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ]
   },
@@ -177,6 +184,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ]
   },
@@ -213,6 +221,7 @@
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ]
   },
@@ -220,7 +229,7 @@
     "abstract": "shotgun_pump",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "pump action shotgun" },
+    "name": { "str": "pump-action shotgun" },
     "reload_noise": "chuk chuk.",
     "flags": [ "RELOAD_ONE", "PUMP_ACTION" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
@@ -244,6 +253,7 @@
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ]
   },

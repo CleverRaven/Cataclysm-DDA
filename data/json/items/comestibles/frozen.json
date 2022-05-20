@@ -15,13 +15,12 @@
     "calories": 150,
     "quench": 30,
     "fun": 20,
-    "healthy": -1,
     "price": 250,
     "price_postapoc": 100,
     "material": [ "milk" ],
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "calcium", 12 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -32,7 +31,7 @@
     "description": "A milkshake made by freezing a premade mix.  Tastes better due to how much sugar is in it, but is bad for your health.",
     "calories": 175,
     "fun": 23,
-    "healthy": -3,
+    "healthy": -1,
     "price": 275,
     "price_postapoc": 100,
     "material": [ "milk", "junk" ],
@@ -56,7 +55,7 @@
     "calories": 265,
     "quench": 40,
     "fun": 25,
-    "healthy": -6,
+    "healthy": -1,
     "price": 400,
     "price_postapoc": 150,
     "material": [ "milk", "junk" ],
@@ -78,7 +77,9 @@
     "description": "An all-natural cold beverage made with lemonade and sweeteners.  Tastes great when frozen.",
     "color": "white",
     "calories": 220,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ] ]
+    "material": [ "water", "fruit" ],
+    "primary_material": "water",
+    "vitamins": [ [ "vitC", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -102,7 +103,7 @@
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
     "charges": 2,
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 9 ], [ "vitB", 11 ] ],
+    "vitamins": [ [ "calcium", 9 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -111,7 +112,6 @@
     "id": "icecream_artificial",
     "name": { "str": "dairy dessert", "str_pl": "dairy dessert scoops" },
     "description": "Government regulations dictate that since this isn't *technically* ice cream, it can be called a dairy dessert instead.  It still tastes good, but your body won't like you.",
-    "healthy": -2,
     "price": 200,
     "price_postapoc": 100,
     "primary_material": "ice_cream",
@@ -137,7 +137,6 @@
     "weight": "25 g",
     "volume": "88 ml",
     "color": "brown",
-    "healthy": -1,
     "calories": 121
   },
   {
@@ -147,12 +146,11 @@
     "name": { "str": "candy ice cream", "str_pl": "candy ice cream scoops" },
     "description": "Ice cream with bits of chocolate, caramel, or other flavoring mixed in.",
     "fun": 20,
-    "healthy": -3,
     "price": 300,
     "price_postapoc": 300,
     "calories": 330,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 8 ], [ "iron", 4 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
     "material": [ "milk", "junk" ]
   },
   {
@@ -160,14 +158,13 @@
     "copy-from": "icecream",
     "id": "icecream_fruit",
     "name": { "str": "fruity ice cream", "str_pl": "fruity ice cream scoops" },
-    "description": "Small bits of sweet fruit have been tossed into this ice cream, making it slightly less terrible for you.",
-    "healthy": 0,
+    "description": "Small bits of sweet fruit have been tossed into this ice cream.",
     "calories": 224,
     "fun": 17,
     "price": 300,
     "price_postapoc": 300,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "vitB", 9 ] ],
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ] ],
     "material": [ "milk", "fruit" ]
   },
   {
@@ -181,14 +178,14 @@
     "price": 300,
     "price_postapoc": 300,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "vitB", 10 ] ],
+    "vitamins": [ [ "calcium", 8 ] ],
     "material": [ "milk", "egg" ]
   },
   {
     "type": "COMESTIBLE",
     "copy-from": "icecream",
     "id": "icecream_yogurt",
-    "name": { "str_sp": "frozen yogurt" },
+    "name": { "str": "frozen yogurt", "str_pl": "frozen yogurt scoops" },
     "description": "Tarter than ice cream, this is made with yogurt and other dairy products, and is generally low-fat compared to ice cream itself.",
     "calories": 127,
     "price": 275,

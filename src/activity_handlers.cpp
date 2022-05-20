@@ -109,8 +109,6 @@ static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_CHURN( "ACT_CHURN" );
-static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
@@ -127,12 +125,10 @@ static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
-static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -194,7 +190,6 @@ static const harvest_drop_type_id harvest_drop_skin( "skin" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
@@ -274,9 +269,9 @@ activity_handlers::do_turn_functions = {
     { ACT_OPERATION, operation_do_turn },
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
-    { ACT_STUDY_SPELL, study_spell_do_turn},
+    { ACT_STUDY_SPELL, study_spell_do_turn },
     { ACT_WAIT_STAMINA, wait_stamina_do_turn },
-    { ACT_MULTIPLE_DIS, multiple_dis_do_turn }
+    { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -295,7 +290,6 @@ activity_handlers::finish_functions = {
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
     { ACT_TRAIN_TEACHER, teach_finish },
-    { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
@@ -303,9 +297,7 @@ activity_handlers::finish_functions = {
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
-    { ACT_GUNMOD_ADD, gunmod_add_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
-    { ACT_CLEAR_RUBBLE, clear_rubble_finish },
     { ACT_WAIT, wait_finish },
     { ACT_WAIT_WEATHER, wait_weather_finish },
     { ACT_WAIT_NPC, wait_npc_finish },
@@ -325,9 +317,8 @@ activity_handlers::finish_functions = {
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
-    { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
-    { ACT_STUDY_SPELL, study_spell_finish }
+    { ACT_STUDY_SPELL, study_spell_finish },
 };
 
 namespace io
@@ -369,13 +360,13 @@ bool activity_handlers::resume_for_multi_activities( Character &you )
 static bool check_butcher_dissect( const int roll )
 {
     // Failure rates for dissection rolls
-    // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
+    // 100% at roll 0, 66% at roll 1, 50% at roll 2, 40% @ 3, 33% @ 4, 28% @ 5, ... , 16% @ 10
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll = %i", roll );
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Failure chance = %f%%",
-                   ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
-    const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
+                   ( 19.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
+    const bool failed = x_in_y( 10, ( 10 + roll * 5 ) );
     return !failed;
 }
 
@@ -522,7 +513,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     if( action == butcher_type::BLEED && ( corpse_item.has_flag( flag_BLED ) ||
                                            corpse_item.has_flag( flag_QUARTERED ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ||
                                            corpse_item.has_flag( flag_FIELD_DRESS ) ) ) {
-        you.add_msg_if_player( m_info, _( "This corpse hase already been bled." ) );
+        you.add_msg_if_player( m_info, _( "This corpse has already been bled." ) );
         act.targets.pop_back();
         return;
     }
@@ -530,7 +521,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     if( action == butcher_type::DISSECT && ( corpse_item.has_flag( flag_QUARTERED ) ||
             corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
         you.add_msg_if_player( m_info,
-                               _( "It would be futile to search for implants inside this badly damaged corpse." ) );
+                               _( "It would be futile to dissect this badly damaged corpse." ) );
         act.targets.pop_back();
         return;
     }
@@ -769,6 +760,8 @@ static int roll_butchery_dissect( int skill_level, int dex, int tool_quality )
 
     if( tool_quality < 0 ) {
         skill_shift -= rng_float( 0, -tool_quality / 5.0 );
+    } else {
+        skill_shift += std::min( tool_quality, 4 );
     }
 
     return static_cast<int>( std::round( skill_shift ) );
@@ -816,7 +809,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
-    const int entry_count = mt.harvest->get_all().size();
+    const int entry_count = ( action == butcher_type::DISSECT &&
+                              !mt.dissect.is_empty() ) ? mt.dissect->get_all().size() : mt.harvest->get_all().size();
     int monster_weight_remaining = monster_weight;
     int practice = 0;
 
@@ -826,7 +820,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     map &here = get_map();
-    for( const harvest_entry &entry : *mt.harvest ) {
+    for( const harvest_entry &entry : ( action == butcher_type::DISSECT &&
+                                        !mt.dissect.is_empty() ) ? *mt.dissect : *mt.harvest ) {
         const int skill_level = butchery_dissect_skill_level( you, tool_quality, entry.type );
         const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
         practice += ( 4 + butchery ) / entry_count;
@@ -837,7 +832,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
-        } else if( !entry.type->dissect_only() ) {
+        } else if( action != butcher_type::DISSECT ) {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
@@ -850,29 +845,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             drop = item::find_type( drop_id );
         }
 
-        if( entry.type->dissect_only() ) {
-            if( action == butcher_type::FIELD_DRESS ) {
-                const translation msg = entry.type->field_dress_msg( false );
-                if( !msg.empty() ) {
-                    add_msg( m_bad, msg.translated() );
-                }
-                continue;
-            }
-            if( action == butcher_type::QUICK ||
-                action == butcher_type::FULL ||
-                action == butcher_type::DISMEMBER ) {
-                const translation msg = entry.type->butcher_msg( false );
-                if( !msg.empty() ) {
-                    add_msg( m_bad, msg.translated() );
-                }
-                continue;
-            }
-        }
         if( action == butcher_type::DISSECT ) {
             int roll = roll_butchery_dissect( skill_level, you.dex_cur,
                                               tool_quality ) - corpse_item->damage_level();
             roll = roll < 0 ? 0 : roll;
-            roll = std::min( entry.max, roll );
             add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
                            0 - corpse_item->damage_level() );
             bool dissect_success = false;
@@ -1114,8 +1090,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     if( action == butcher_type::DISSECT ) {
-        you.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
-                      0 ) + 4 );
+        you.practice( skill_firstaid, std::max( 0, practice ), mt.size + std::min( tool_quality, 3 ) + 2 );
         mt.families.practice_dissect( you );
     } else {
         you.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
@@ -1270,7 +1245,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             break;
         case butcher_type::FIELD_DRESS: {
             bool success = roll_butchery_dissect( you->get_skill_level( skill_survival ), you->dex_cur,
-                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) < 0;
+                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) > 0;
             add_msg( success ? m_good : m_warning,
                      SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
                                                    "harvest_drop_default_field_dress_failed" ).value_or( translation() ).translated() );
@@ -1419,7 +1394,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             }
             case liquid_target_type::CONTAINER:
-                you->pour_into( *act_ref.targets.at( 0 ), liquid );
+                you->pour_into( *act_ref.targets.at( 0 ), liquid, true );
                 break;
             case liquid_target_type::MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
@@ -1517,7 +1492,8 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
     if( calendar::once_every( 1_minutes ) ) {
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
-            bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, you ) == 0;
+            int req = game_item.ammo_required();
+            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
                 if( you->is_avatar() ) {
@@ -1826,18 +1802,29 @@ static bool magic_train( player_activity *act, Character *you )
 void activity_handlers::teach_finish( player_activity *act, Character *you )
 {
     const skill_id sk( act->name );
+    const proficiency_id pr( act->name );
+    const matype_id ma( act->name );
+    const spell_id sp( act->name );
+
+    std::string subject;
     if( sk.is_valid() ) {
-        const std::string sk_name = sk.obj().name();
-        if( you->is_avatar() ) {
-            add_msg( m_good, _( "You finish teaching %s." ), sk_name );
-        } else {
-            add_msg( m_good, _( "%s finishes teaching %s." ), you->name, sk_name );
-        }
-        act->set_to_null();
-        return;
+        subject = sk->name();
+    } else if( pr.is_valid() ) {
+        subject = pr->name();
+    } else if( ma.is_valid() ) {
+        subject = ma->name.translated();
+    } else if( sp.is_valid() ) {
+        subject = sp->name.translated();
+    } else {
+        debugmsg( "teach_finish without a valid skill or style or spell name" );
     }
 
-    debugmsg( "teach_finish without a valid skill or style or spell name" );
+    if( you->is_avatar() ) {
+        add_msg( m_good, _( "You finish teaching %s." ), subject );
+    } else {
+        add_msg( m_good, _( "%s finishes teaching %s." ), you->name, subject );
+    }
+
     act->set_to_null();
 }
 
@@ -1936,7 +1923,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( here.get_abs_sub().z );
+                here.invalidate_map_cache( here.get_abs_sub().z() );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
@@ -2505,62 +2492,6 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
-void activity_handlers::gunmod_add_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    // first unpack all of our arguments
-    if( act->values.size() != 4 ) {
-        debugmsg( "Insufficient arguments to ACT_GUNMOD_ADD" );
-        return;
-    }
-
-    item &gun = *act->targets.at( 0 );
-    item &mod = *act->targets.at( 1 );
-
-    // chance of success (%)
-    const int roll = act->values[1];
-    // chance of damage (%)
-    const int risk = act->values[2];
-
-    // any tool charges used during installation
-    const itype_id tool( act->name );
-    const int qty = act->values[3];
-
-    if( !gun.is_gunmod_compatible( mod ).success() ) {
-        debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
-        return;
-    }
-
-    if( !tool.is_empty() && qty > 0 ) {
-        you->use_charges( tool, qty );
-    }
-
-    if( rng( 0, 100 ) <= roll ) {
-        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
-                 gun.tname() );
-        gun.put_in( you->i_rem( &mod ), item_pocket::pocket_type::MOD );
-
-    } else if( rng( 0, 100 ) <= risk ) {
-        if( gun.inc_damage() ) {
-            // Remove irremovable mods prior to destroying the gun
-            for( item *mod : gun.gunmods() ) {
-                if( mod->is_irremovable() ) {
-                    you->remove_item( *mod );
-                }
-            }
-            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
-                     gun.tname() );
-            you->i_rem( &gun );
-        } else {
-            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
-                     gun.tname() );
-        }
-
-    } else {
-        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname() );
-    }
-}
-
 void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
 {
     act->set_to_null();
@@ -2575,19 +2506,6 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod, item_pocket::pocket_type::MOD );
     act->targets[1].remove_item();
-}
-
-void activity_handlers::clear_rubble_finish( player_activity *act, Character *you )
-{
-    const tripoint &pos = act->placement;
-    map &here = get_map();
-    you->add_msg_if_player( m_info, _( "You clear up the %s." ),
-                            here.furnname( pos ) );
-    here.furn_set( pos, f_null );
-
-    act->set_to_null();
-
-    here.maybe_trigger_trap( pos, *you, true );
 }
 
 // This activity opens the menu (it's not meant to queue consumption of items)
@@ -2712,7 +2630,7 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
 void activity_handlers::armor_layers_do_turn( player_activity *, Character *you )
 {
     you->cancel_activity();
-    you->sort_armor();
+    you->worn.sort_armor( *you );
 }
 
 void activity_handlers::atm_do_turn( player_activity *, Character *you )
@@ -2958,7 +2876,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
             act->set_to_null();
 
             if( u_see ) {
-                add_msg( m_bad, _( "The autodoc suffers a catastrophic failure." ) );
+                add_msg( m_bad, _( "The Autodoc suffers a catastrophic failure." ) );
 
                 you->add_msg_player_or_npc( m_bad,
                                             _( "The Autodoc's failure damages you greatly." ),
@@ -3110,17 +3028,6 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
     }
     you->remove_effect( effect_under_operation );
     act->set_to_null();
-}
-
-void activity_handlers::churn_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    you->add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.getlocal( act->placement ), t_dirtmound );
-    // Go back to what we were doing before
-    // could be player zone activity, or could be NPC multi-farming
-    act->set_to_null();
-    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::plant_seed_finish( player_activity *act, Character *you )
@@ -3657,135 +3564,83 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
         spell_being_cast.set_level( level_override );
     }
 
-    const bool no_fail = act->get_value( 1 ) == 1;
-    const bool no_mana = act->get_value( 2 ) == 0;
+    // choose target for spell before continuing
+    const cata::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
+            you ) : get_map().getlocal( act->coords.front() );
+    if( target ) {
+        // npcs check for target viability
+        if( !you->is_npc() || !spell_being_cast.is_valid_target( *you, *target ) ) {
+            // no turning back now. it's all said and done.
+            bool success = act->get_value( 1 ) == 1 ||
+                           rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );
+            int exp_gained = spell_being_cast.casting_exp( *you );
+            if( !success ) {
+                you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                        _( "You lose your concentration!" ) );
+                if( !spell_being_cast.is_max_level() && level_override == -1 ) {
+                    // still get some experience for trying
+                    spell_being_cast.gain_exp( exp_gained / 5 );
+                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
+                                            spell_being_cast.xp() );
+                }
+                return;
+            }
 
-    // choose target for spell (if the spell has a range > 0)
-    tripoint target = you->pos();
-    bool target_is_valid = false;
-    if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( spell_target::none ) &&
-        !spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
-        if( you->is_avatar() ) {
-            do {
-                avatar &you_avatar = *you->as_avatar();
-                std::vector<tripoint> trajectory = target_handler::mode_spell( you_avatar, spell_being_cast,
-                                                   no_fail,
-                                                   no_mana );
-                if( !trajectory.empty() ) {
-                    target = trajectory.back();
-                    target_is_valid = spell_being_cast.is_valid_target( you_avatar, target );
-                    if( !( spell_being_cast.is_valid_target( spell_target::ground ) || you_avatar.sees( target ) ) ) {
-                        target_is_valid = false;
-                    }
-                } else {
-                    target_is_valid = false;
+            if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
+                sounds::sound( you->pos(), you->get_shout_volume() / 2, sounds::sound_t::speech,
+                               _( "cast a spell" ),
+                               false );
+            }
+
+            you->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
+
+            // this is here now so that the spell first consume its components then casts its effects, necessary to cast
+            // spells with the components in hand.
+            spell_being_cast.use_components( *you );
+
+            spell_being_cast.cast_all_effects( *you, *target );
+
+            if( act->get_value( 2 ) != 0 ) {
+                // pay the cost
+                int cost = spell_being_cast.energy_cost( *you );
+                switch( spell_being_cast.energy_source() ) {
+                    case magic_energy_type::mana:
+                        you->magic->mod_mana( *you, -cost );
+                        break;
+                    case magic_energy_type::stamina:
+                        you->mod_stamina( -cost );
+                        break;
+                    case magic_energy_type::bionic:
+                        you->mod_power_level( -units::from_kilojoule( cost ) );
+                        break;
+                    case magic_energy_type::hp:
+                        blood_magic( you, cost );
+                        break;
+                    case magic_energy_type::none:
+                    default:
+                        break;
                 }
-                if( !target_is_valid ) {
-                    if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
-                        return;
-                    }
-                }
-            } while( !target_is_valid );
-        } else {
-            if( act->coords.empty() ) {
-                debugmsg( "ERROR: npc tried to cast a spell without a target." );
-            } else {
-                const tripoint local_target = get_map().getlocal( act->coords.front() );
-                if( spell_being_cast.is_valid_target( *you, local_target ) ) {
-                    target = local_target;
-                } else {
-                    npc_attack_spell npc_spell( spell_being_cast.id() );
-                    // recalculate effectiveness because it's been a few turns since the npc started casting.
-                    const npc_attack_rating effectiveness = npc_spell.evaluate( *you->as_npc(),
-                                                            you->last_target.lock().get() );
-                    if( effectiveness < 0 ) {
-                        add_msg_debug( debugmode::debug_filter::DF_NPC, "%s cancels casting %s, target lost",
-                                       you->disp_name(), spell_being_cast.name() );
-                        return;
+
+            }
+            if( level_override == -1 ) {
+                if( !spell_being_cast.is_max_level() ) {
+                    // reap the reward
+                    int old_level = spell_being_cast.get_level();
+                    if( old_level == 0 ) {
+                        spell_being_cast.gain_level();
+                        you->add_msg_if_player( m_good,
+                                                _( "Something about how this spell works just clicked!  You gained a level!" ) );
                     } else {
-                        target = effectiveness.target();
+                        spell_being_cast.gain_exp( exp_gained );
+                        you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
+                                                spell_being_cast.xp() );
                     }
-                }
-            }
-        }
-    } else if( spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
-        const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *you, you->pos() );
-        if( !target_ ) {
-            you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                    _( "Your spell can't find a suitable target." ) );
-            return;
-        }
-        target = *target_;
-    }
-
-    // no turning back now. it's all said and done.
-    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );
-    int exp_gained = spell_being_cast.casting_exp( *you );
-    if( !success ) {
-        you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                _( "You lose your concentration!" ) );
-        if( !spell_being_cast.is_max_level() && level_override == -1 ) {
-            // still get some experience for trying
-            spell_being_cast.gain_exp( exp_gained / 5 );
-            you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
-                                    spell_being_cast.xp() );
-        }
-        return;
-    }
-
-    if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
-        sounds::sound( you->pos(), you->get_shout_volume() / 2, sounds::sound_t::speech,
-                       _( "cast a spell" ),
-                       false );
-    }
-
-    you->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
-
-    // this is here now so that the spell first consume its components then casts its effects, necessary to cast
-    // spells with the components in hand.
-    spell_being_cast.use_components( *you );
-
-    spell_being_cast.cast_all_effects( *you, target );
-
-    if( !no_mana ) {
-        // pay the cost
-        int cost = spell_being_cast.energy_cost( *you );
-        switch( spell_being_cast.energy_source() ) {
-            case magic_energy_type::mana:
-                you->magic->mod_mana( *you, -cost );
-                break;
-            case magic_energy_type::stamina:
-                you->mod_stamina( -cost );
-                break;
-            case magic_energy_type::bionic:
-                you->mod_power_level( -units::from_kilojoule( cost ) );
-                break;
-            case magic_energy_type::hp:
-                blood_magic( you, cost );
-                break;
-            case magic_energy_type::none:
-            default:
-                break;
-        }
-
-    }
-    if( level_override == -1 ) {
-        if( !spell_being_cast.is_max_level() ) {
-            // reap the reward
-            int old_level = spell_being_cast.get_level();
-            if( old_level == 0 ) {
-                spell_being_cast.gain_level();
-                you->add_msg_if_player( m_good,
-                                        _( "Something about how this spell works just clicked!  You gained a level!" ) );
-            } else {
-                spell_being_cast.gain_exp( exp_gained );
-                you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                        spell_being_cast.xp() );
-            }
-            if( spell_being_cast.get_level() != old_level ) {
-                // Level 0-1 message is printed above - notify player when leveling up further
-                if( old_level > 0 ) {
-                    you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
+                    if( spell_being_cast.get_level() != old_level ) {
+                        // Level 0-1 message is printed above - notify player when leveling up further
+                        if( old_level > 0 ) {
+                            you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
+                        }
+                    }
                 }
             }
         }
@@ -3842,20 +3697,4 @@ void activity_handlers::study_spell_finish( player_activity *act, Character *you
     if( act->values[2] == -1 ) {
         you->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
     }
-}
-
-//This is just used for robofac_intercom_mission_2
-void activity_handlers::mind_splicer_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-
-    if( act->targets.size() != 1 || !act->targets[0] ) {
-        debugmsg( "Incompatible arguments to: activity_handlers::mind_splicer_finish" );
-        return;
-    }
-    item &data_card = *act->targets[0];
-    you->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
-    you->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
-    data_card.clear_items();
-    data_card.put_in( item( itype_mind_scan_robofac ), item_pocket::pocket_type::SOFTWARE );
 }
