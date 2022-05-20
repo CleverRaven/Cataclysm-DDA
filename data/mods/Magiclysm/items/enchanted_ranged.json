@@ -209,6 +209,7 @@
       "target": "rune_biomancer_weapon_adept",
       "msg": "You feel the spear rapidly contracting and squirming for close combat",
       "need_wielding": true,
+      "ammo_scale": 0,
       "moves": 400
     }
   },
