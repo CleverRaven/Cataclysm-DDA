@@ -1,0 +1,44 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_secretdoor_wall_c",
+    "name": "wall",
+    "description": "A faux wall positioned and joined seamlessly with the wall, this wall looks pretty normal.",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray",
+    "looks_like": "t_wall",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "open": "t_secretdoor_wall_o",
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_mdoor_frame",
+      "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_secretdoor_wall_o",
+    "name": "open secret door",
+    "looks_like": "t_thconc_floor",
+    "description": "This apparently normal segment of wall has opened to reveal a secret passage.",
+    "symbol": "'",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
+    "close": "t_secretdoor_wall_c",
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_mdoor_frame",
+      "items": "wall_bash_results"
+    }
+  }
+]
