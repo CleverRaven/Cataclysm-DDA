@@ -420,7 +420,7 @@
     "type": "MONSTER",
     "name": { "str": "unicorn foal" },
     "looks_like": "mon_horse",
-    "description": "A hooved grazing creature with a thick, shaggy, shimmering mane of hair, a sweeping tail, and powerful-looking muscles.  It has the stubbiest knub of a start of a horn.  This one is still a juvenile; it'll take a while before it can be ridden.",
+    "description": "A hooved grazing creature with a thick, shaggy, shimmering mane of hair, a sweeping tail, and powerful-looking muscles.  It has a stubby nub of a horn growth starting.  This one is still a juvenile; it'll take a while before it can be ridden.",
     "default_faction": "changeling",
     "bodytype": "horse",
     "categories": [ "CHANGELING" ],

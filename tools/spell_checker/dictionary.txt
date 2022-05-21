@@ -856,6 +856,7 @@ interjects
 interlayer
 intolerances
 intoxications
+intradimensional
 invlet
 invlets
 ironshod
