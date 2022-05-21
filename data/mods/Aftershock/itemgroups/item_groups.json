@@ -71,9 +71,7 @@
     "id": "spider",
     "type": "item_group",
     "copy-from": "spider",
-    "extend": {
-      "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_hydraulic_gauntlet", 1 ], [ "alien_battery", 1 ] ]
-    }
+    "extend": { "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_hydraulic_gauntlet", 1 ], [ "alien_battery", 1 ] ] }
   },
   {
     "id": "camping",
