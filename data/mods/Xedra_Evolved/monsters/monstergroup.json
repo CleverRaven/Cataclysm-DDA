@@ -39,5 +39,11 @@
       { "monster": "mon_xe_unicorn", "weight": 10, "cost_multiplier": 10, "starts": 240, "pack_size": [ 1, 5 ] },
       { "monster": "mon_goblin_spider", "weight": 15, "cost_multiplier": 15, "starts": 780, "pack_size": [ 3, 12 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RIVER",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_xe_mavka", "weight": 1, "cost_multiplier": 10, "starts": 500 } ]
   }
 ]
