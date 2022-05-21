@@ -518,7 +518,7 @@ static void spell_description(
     // Difficulty: 0 ( 0.0 % Failure Chance)
     description << string_format(
                     //~ %1$d - difficulty, %2$s - failure chance
-                    _( "Difficulty: %1$d ( %2$s )" ),
+                    _( "Difficulty: %1$d (%2$s)" ),
                     spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
 
 
