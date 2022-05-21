@@ -6,6 +6,7 @@
     "description": "A faux wall positioned and joined seamlessly with the wall, this wall looks pretty normal.",
     "symbol": "LINE_OXOX",
     "color": "light_gray",
+    "looks_like": "t_wall",
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
