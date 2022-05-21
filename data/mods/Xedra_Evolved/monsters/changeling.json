@@ -391,7 +391,7 @@
     "armor_cut": 6,
     "armor_bullet": 18,
     "armor_elec": 9,
-    "amor_cold": 20,
+    "armor_cold": 20,
     "armor_pure": 10,
     "dodge": 3,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
