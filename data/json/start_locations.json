@@ -530,6 +530,18 @@
   },
   {
     "type": "start_location",
+    "id": "aircraft_carrier_berth",
+    "name": "Aircraft Carrier Berth",
+    "terrain": [ "aircraft_carrier_1b" ]
+  },
+  {
+    "type": "start_location",
+    "id": "aircraft_carrier_bridge",
+    "name": "Aircraft Carrier Captain's Bridge",
+    "terrain": [ "aircraft_carrier_1b" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_private_resort",
     "name": "Private resort",
     "terrain": [ "p_resort_2ss" ]

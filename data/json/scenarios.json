@@ -760,5 +760,31 @@
       "major-general"
     ],
     "missions": [ "MISSION_MANSION_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "aircraft_carrier_start",
+    "name": "CVN Sailor",
+    "points": 4,
+    "description": "Lorem ipsum.",
+    "start_name": "Aircraft Carrier",
+    "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
+    "professions": [
+      "unemployed",
+      "recruit",
+      "rifleman",
+      "specops",
+      "labtech",
+      "medic",
+      "mili_pilot",
+      "mili_medic",
+      "mili_burner",
+      "hazmat_unit",
+      "major-general",
+      "nco",
+      "combat-mechanic",
+      "combat-engineer"
+    ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]
