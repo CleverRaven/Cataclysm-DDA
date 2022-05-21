@@ -417,6 +417,21 @@
     "max_aoe": 2
   },
   {
+    "id": "death_chrysalis_young",
+    "type": "SPELL",
+    "name": { "str": "chrysalid cnidarian death" },
+    "description": "Spawns a non-hostile pre-full-gestation chrysalid monster.",
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 3,
+    "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_chrysalis_spawn",
+    "min_aoe": 1,
+    "max_aoe": 1
+  },
+  {
     "id": "death_boomer",
     "type": "SPELL",
     "name": { "str": "Boomer Death" },
