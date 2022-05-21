@@ -332,7 +332,8 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": 10000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -432,7 +433,8 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": 100000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
