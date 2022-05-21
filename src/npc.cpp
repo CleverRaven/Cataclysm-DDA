@@ -2004,7 +2004,7 @@ int npc::max_willing_to_owe() const
     const int credit_altruism = 0;
     const int credit_anger    = -10000;
 
-    return std::max( 0,
+    return std::max( 100,
                      op_of_u.trust * credit_trust +
                      op_of_u.value * credit_value +
                      op_of_u.fear  * credit_fear  +
