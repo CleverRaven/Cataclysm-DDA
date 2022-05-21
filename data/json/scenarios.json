@@ -766,7 +766,7 @@
     "id": "aircraft_carrier_start",
     "name": "CVN Sailor",
     "points": 4,
-    "description": "In some reason your mission on the coast of North Korea was ended in the middle of the lake, in unknown location.  You have no idea what's happened, but now you have more important things to do.",
+    "description": "For some reason your mission off the coast of North Korea was ended in the middle of a lake, in unknown location.  You have no idea what's happened, but now you have more important things to do.",
     "start_name": "Aircraft Carrier",
     "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
     "professions": [
