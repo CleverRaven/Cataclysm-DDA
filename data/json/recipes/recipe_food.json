@@ -2998,8 +2998,9 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "edible_tallow_lard", 2, "LIST" ] ],
-      [
+      [ "edible_tallow_lard", 2, "LIST" ],
+      [ "ghee", 2 ]
+      ],
         [ "jerky", 2 ],
         [ "dry_meat", 2 ],
         [ "meat_smoked", 2 ],
