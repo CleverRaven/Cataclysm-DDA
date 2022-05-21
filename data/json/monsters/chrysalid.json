@@ -1,0 +1,77 @@
+[
+  {
+    "id": "mon_chrysalis_young",
+    "type": "MONSTER",
+    "name": { "str": "chrysalid cnidarian", "str_pl": "chrysalid cnidarians" },
+    "description": "Hovering meters off the ground through some unknown agency, this airborne jellyfish-like behemoth eclipses the sky with its mass, heavily vaned tissue expanding and contracting erratically as it grasps the floor and surrounding structures with ropy tentacles, pulling itself through the air.  A collection of smaller appendages hang beneath its main bulk, most of the limbs terminating in a transparent fleshy sack which contain various struggling lifeforms; assorted animals, undefinable monstrosities, and even a few sacks which appear to contain living humans.  All the contained organisms, whether alive or dead, are visibly deformed or decomposed, and you suspect the floating giant is utilising them as nutrition for some purpose.",
+    "default_faction": "chrysalid_monsters",
+    "bodytype": "blob",
+    "species": [ "CHRYSALID_MONSTER" ],
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "hp": 300,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "n",
+    "color": "pink",
+    "aggression": 50,
+    "morale": 30,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_cut": 4,
+    "vision_day": 38,
+    "vision_night": 4,
+    "harvest": "chrysalid_cnidarian",
+    "weakpoints": [
+      {
+        "id": "tentacle",
+        "name": "the tentacles securing it to the ground",
+        "crit_mult": { "all": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 2 },
+        "coverage_mult": { "point": 0.5 },
+        "effects": [
+          {
+            "effect": "staggered",
+            "chance": 50,
+            "message": "The %s shudders as its grip on the ground loosens, sending it swaying!!",
+            "damage_required": [ 30, 100 ]
+          }
+        ],
+        "coverage": 10
+      }
+    ],
+    "special_attacks": [ [ "RANGED_PULL", 10 ], [ "GRAB_DRAG", 3 ] ],
+    "death_function": { "effect": { "id": "death_chrysalis_young", "hit_self": true } },
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "NO_BREATHE", "FLIES" ]
+  },
+  {
+    "id": "mon_chrysalis_spawn",
+    "type": "MONSTER",
+    "name": { "str": "chrysalid beast", "str_pl": "chrysalid  beasts" },
+    "description": "This pail white beast writhes and squirms along the ground, milky white eyes struggling to take in the new world around it.  Clearly not fully developed, the creature’s skin is a disorienting mix of scales, feathers and smooth epidermis, new pseudopod-like limbs forming and merging back into its worm-like body as if its form hasn’t quite decided on what final shape to assume.  The whines and whimpers which emanate from its shifting jaws would sound pitiful, were it not for the beasts monstrous visage and even more horrific origins; though, you catch yourself contemplating if whilst the creature’s still underdeveloped, perhaps one could steer it away from its monstrous heritage.",
+    "default_faction": "chrysalid_monsters",
+    "bodytype": "snake",
+    "species": [ "CHRYSALID_MONSTER" ],
+    "volume": "175 L",
+    "weight": "110 kg",
+    "hp": 80,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "c",
+    "color": "pink",
+    "morale": 30,
+    "melee_skill": 2,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 2,
+    "armor_elec": 1,
+    "armor_bash": 6,
+    "vision_day": 6,
+    "vision_night": 2,
+    "harvest": "mutant_meatslug",
+    "special_attacks": [ [ "RANGED_PULL", 10 ], [ "GRAB_DRAG", 3 ] ],
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s grows quiet, its thrashing ceasing as it regards you with its barely-seeing eyes.  You wonder what you’ve gotten yourself into." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM" ]
+  }
+]

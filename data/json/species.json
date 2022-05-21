@@ -60,6 +60,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "CHRYSALID_MONSTER",
+    "description": "a chrysalid beast",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "MIGO",
     "description": "a creature from the mi-go homeworld",
     "fear_triggers": [ "HURT" ]

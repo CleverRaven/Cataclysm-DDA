@@ -554,5 +554,11 @@
     "name": "dark_wyrm",
     "base_faction": "mutant",
     "neutral": [ "dark_wyrm" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "chrysalid_monsters",
+    "base_faction": "nether",
+    "neutral": [ "chrysalid_monsters" ]
   }
 ]

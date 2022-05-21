@@ -612,6 +612,36 @@
   },
   {
     "type": "snippet",
+    "category": "<chrysalid_cnidarian_monsters>",
+    "//": "Text for monsters, living or dead, found within the digestion sacks.",
+    "text": [
+      "You’re startled as the closest digestion sack bursts open, a man-sized roach-like creature rising out of the fleshy ruins, its mandibles madly snapping as it lunges at you!  The mostly digested beast’s weakened carapace implodes under its own wait, leaving the horrific creature writhing on the oozing fleshy bed of sacks and tentacles until it grows still, a few inches away from where you’re standing",
+      "Cutting away a collection of tangled limbs, you come across a particularly large and opaque sack, its membranous walls reinforced with cable-like strands of glistening vanes.  The cow-sized sack jerks and shudders as whatever’s contained inside thrashes erratically, guttural bellows and chitters emanating from within.  You decide to give that portion of the dead giant a wide birth",
+      "A collection of bones jingle against one another as you push one of the sacks aside, a collection of small human bodies contained within sagging over as the fleshy pouch settles.  Averting your gaze, you trudge past, partly not wanting to look at the dead children, but mostly not wanting to acknowledge how their rotting eyes follow you as you move, and how their small jaws feebly snap at the thick membrane, trying to get to you"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<chrysalid_cnidarian_mutants>",
+    "//": "Text for mutants, living or dead, found within the digestion sacks.",
+    "text": [
+      "You feel something sharp grazing along your back and, whipping around with your weapon held at the ready, you come face to face with the deformed visage of a humanoid creature trapped within one of the digestion sacks.  Their skin is a mass of flaking scales and their jaws have extended into a reptilian muzzle, baleful cat-like eyes regarding you with a barely conscious gaze as the rose of bristling spines that protrude from their hide poke through the membranous sack.  The light in the creature’s eyes fade as the two of you regard one another with equal surprise, their last breath exiting in a weak hiss which, you could swear, sounded like it contained a handful of garbled words",
+      "Feeling something slippery grazing along your shoulders, you whip around with your weapon held at the ready and come face to face with the deformed visage of a nightmarish creature trapped within one of the digestion sacks.  Their carapace is a mass of stained fir and their face is dominated by weakly moving mouth tentacles, far too many compound eyes regarding you with a barely conscious gaze as the rose of hooks which line their many tentacles poke through the membranous sack.  The light in the creature’s eyes fade as the two of you regard one another with equal surprise, their last breath exiting in a weak chitter which, you could swear, sounded like it contained a handful of guttural words"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<chrysalid_cnidarian_humans>",
+    "//": "Text for humans, living or dead, found within the digestion sacks.",
+    "text": [
+      "Leaning over one of the monster’s ingestion pouches, you slip and fall, landing on the sack and causing it to cave in under your weight.  Your fall is broken by the sack’s occupant, a mummified human corpse dressed in barely distinguishable rags, a US Marine tattoo barely visible on its withered arm and a bandoleer of ravaged magazines slung across their chest.  It takes a long time before you’re sure you managed to pick the last remnants of leathery skin and brittle bones from your gear",
+      "Slicing open one of the beast’s digestion sacks, you peer in at the contents.  A young woman in her late teens is slumped within, a heavily rusted .44 revolver clutched loosely in her hand.  A barely healed bullet whole marks the sack’s wall, directly behind the blown out mess of what used to be the back of her head",
+      "Hacking up one of the monster’s tentacles, you find the interior of the limb chewed hollow and, following the appendage to where it terminates in a fleshy sack, you come across the corpse of a jumpsuit clad man.  The bones of his ribcage are splayed out and his chest cavity is exposed, something having apparently burst out from within him.  The sack’s walls are completely intact, a ragged hole instead burrowed in the top of the pouch where the tentacle is attached",
+      "A mostly digested human body collapses from one of the ingestion sacks as you saw it open, their fingernails torn out of their nailbeds, the bones in their hands broken, and what’s visible of their vocal cords, through their mostly tattered skin, shredded."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<arachnid_harvest>",
     "text": [
       "<bug_harvest_general_chitin>.",
@@ -694,6 +724,15 @@
       "<bug_harvest_acid_chitin>.",
       "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.",
       "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.  <bug_harvest_acid_descriptive>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<chrysalid_cnidarian_harvest>",
+    "text": [
+      "<chrysalid_cnidarian_monsters>.",
+      "<chrysalid_cnidarian_monsters>.  <chrysalid_cnidarian_humans>.",
+      "<chrysalid_cnidarian_humans>.  <chrysalid_cnidarian_monsters>.  <chrysalid_cnidarian_mutants>."
     ]
   }
 ]
