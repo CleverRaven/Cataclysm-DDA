@@ -323,13 +323,13 @@
       {
         "id": "antiaging_moisturizer",
         "name": { "str_sp": "anti-aging moisturizer" },
-        "description": "A favorite among the mature customers. This moisturizer will smooth out the wrinkles on your face and make you appear younger.",
+        "description": "A favorite among the mature customers.  This moisturizer will smooth out the wrinkles on your face and make you appear younger.",
         "weight": 5
       },
       {
         "id": "daynight_moisturizer",
         "name": { "str_sp": "day and night moisturizer" },
-        "description": "This moisturizer will work day and night. A perfect fit for those that decide their own sleep schedule.",
+        "description": "This moisturizer will work day and night.  A perfect fit for those that decide their own sleep schedule.",
         "weight": 5
       }
     ]
