@@ -496,7 +496,10 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
 item &item::convert( const itype_id &new_type )
 {
+    // Carry over relative rot similar to crafting
+    const double rel_rot = get_relative_rot();
     type = find_type( new_type );
+    set_relative_rot( rel_rot );
     requires_tags_processing = true; // new type may have "active" flags
     item temp( *this );
     temp.contents = item_contents( type->pockets );
