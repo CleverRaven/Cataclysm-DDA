@@ -44,6 +44,6 @@
     "type": "monstergroup",
     "name": "GROUP_RIVER",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_xe_mavka", "weight": 1, "cost_multiplier": 10, "starts": 500 } ]
+    "monsters": [ { "monster": "mon_xe_mavka", "weight": 1, "cost_multiplier": 10, "starts": 500 }, "pack_size": [ 1, 5 ] ]
   }
 ]
