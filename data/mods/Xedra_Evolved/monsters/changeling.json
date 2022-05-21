@@ -403,7 +403,17 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "UNICORNFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PET_WONT_FOLLOW",
+      "PET_MOUNTABLE",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "HIT_AND_RUN"
+    ]
   },
   {
     "id": "mon_xe_unicorn_foal",
