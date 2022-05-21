@@ -3962,7 +3962,7 @@
     "color": "brown",
     "name": { "str": "box archery target" },
     "category": "other",
-    "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bulls-eye marked on the front.  Must be set up to use.",
+    "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bullseye marked on the front.  Must be set up to use.",
     "price": 3000,
     "price_postapoc": 200,
     "material": [ { "type": "cotton", "portion": 9 }, { "type": "cardboard" } ],
