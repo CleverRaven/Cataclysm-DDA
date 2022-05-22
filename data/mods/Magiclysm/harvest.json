@@ -384,7 +384,7 @@
   {
     "id": "horn_moss_harv",
     "type": "harvest",
-    "entries": [ { "drop": "horn_moss_capsule", "base_num": [ 1, 2 ] } ]
+    "entries": [ { "drop": "horn_moss_capsule", "base_num": [ 1, 1 ] } ]
   },
   {
     "id": "golden_reed_harv",
