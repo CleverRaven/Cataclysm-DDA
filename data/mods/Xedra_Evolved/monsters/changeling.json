@@ -370,7 +370,7 @@
     "id": "mon_xe_unicorn",
     "type": "MONSTER",
     "name": { "str": "unicorn" },
-    "description": "A hooved grazing creature with a thick, shaggy, shimmering mane of hair, a sweeping tail, and powerful-looking muscles.  Impossible to confuse with a regular horse even if you don't spot the spiraled horn coming from the head.  Rumor has it that some of the Fair Lord's have ways to tame and ride this magnificent creature.",
+    "description": "A hooved grazing creature with a thick, shaggy, shimmering mane of hair, a sweeping tail, and powerful-looking muscles.  Impossible to confuse with a regular horse even if you don't spot the spiraled horn coming from the head.  Rumor has it that some of the Fair Lords have ways to tame and ride this magnificent creature.",
     "default_faction": "changeling",
     "bodytype": "horse",
     "species": [ "CHANGELING" ],
