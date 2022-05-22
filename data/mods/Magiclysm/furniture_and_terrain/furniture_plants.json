@@ -1,4 +1,4 @@
-[
+ [
   {
     "type": "furniture",
     "id": "f_moonflower",
@@ -47,7 +47,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_glowning_mushroom",
+    "id": "f_glowing_mushroom",
     "name": "glowing mushrooms",
     "description": "A bioluminescent mushroom shaped like a small nest.  Motes of light occasionally detach from its surface and float upwards before fading.",
     "symbol": "o",
