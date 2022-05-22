@@ -362,6 +362,11 @@
     ]
   },
   {
+    "id": "platonic_flower_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "platonic_flower", "base_num": [ 1, 1 ] } ]
+  },
+  {
     "id": "moonflower_harv",
     "type": "harvest",
     "entries": [ { "drop": "moonflowers", "base_num": [ 1, 2 ] } ]

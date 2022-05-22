@@ -27,12 +27,13 @@
           "f_sunflower": 30,
           "f_kampuch": 9,
           "f_olieribos": 9,
-          "f_barnacle_weed": 5,
+          "f_barnacle_weed": 4,
           "f_dragonail": 5,
           "f_moly": 5,
           "f_flowering_fern": 1,
           "f_funnelcap": 5,
-          "f_sojourners_palm": 1
+          "f_sojourners_palm": 1,
+          "f_platonic_flower": 2
         },
         "f_region_weed": {
           "f_dandelion": 180,
@@ -56,7 +57,8 @@
           "f_moly": 5,
           "f_flowering_fern": 1,
           "f_funnelcap": 5,
-          "f_sojourners_palm": 2
+          "f_sojourners_palm": 2,
+          "f_platonic_flower": 2
         }
       }
     }
