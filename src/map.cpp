@@ -1090,8 +1090,10 @@ void map::unboard_vehicle( const vpart_reference &vp, Character *passenger, bool
         return;
     }
     passenger->in_vehicle = false;
-    // Only make vehicle go out of control if the driver is the one unboarding.
     if( passenger->controlling_vehicle ) {
+        // If the driver left, stop autodriving.
+        vp.vehicle().stop_autodriving( false );
+        // Only make vehicle go out of control if the driver is the one unboarding.
         vp.vehicle().skidding = true;
     }
     passenger->controlling_vehicle = false;
