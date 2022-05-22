@@ -201,7 +201,7 @@
     "id": "mon_secubot_america",
     "type": "MONSTER",
     "name": { "str": "autonomous TALON UGV Liberty Edition" },
-    "description": "A TALON unmanned ground vehicle equipped with an M16A4.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.  This one has been plastered with an american flag decal.",
+    "description": "A TALON unmanned ground vehicle equipped with an fireworks cannon in place of its usual M16A4.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.  This one has been plastered with an american flag decal.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 20,
