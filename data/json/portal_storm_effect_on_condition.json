@@ -20,14 +20,14 @@
     "id": "scenario_quick_portal_storm",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_woc" }, "=", { "time": "1 days" } ] },
-      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_woc" }, "=", { "time": "2 days" } ] }
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_woc" }, "=", { "time": "2 days" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_woc" }, "=", { "time": "4 days" } ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
-    "recurrence": [ { "global_val": "ps_min_woc", "default": "5 days" }, { "global_val": "ps_max_woc", "default": "9 days" } ],
+    "recurrence": [ { "global_val": "ps_min_woc", "default": "10 days" }, { "global_val": "ps_max_woc", "default": "18 days" } ],
     "global": true,
     "effect": { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" }
   },
