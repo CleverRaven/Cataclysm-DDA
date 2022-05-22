@@ -2237,11 +2237,11 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
 {
     if( disabled ) {
         info.emplace_back( "BASE", string_format(
-                               _( "Items <bad>won't be inserted</bad> into this pocket unless you manually insert them" ) ) );
+                               _( "Items <bad>won't be inserted</bad> into this pocket unless you manually insert them." ) ) );
     }
     if( !unload ) {
         info.emplace_back( "BASE", string_format(
-                               _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them" ) ) );
+                               _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them." ) ) );
     }
     info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
     info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),
