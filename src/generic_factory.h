@@ -1208,6 +1208,22 @@ class mass_reader : public generic_typed_reader<units::mass>
         }
 };
 
+class money_reader : public generic_typed_reader<units::money>
+{
+    public:
+        bool operator()( const JsonObject &jo, const std::string &member_name,
+                         units::money &member, bool /* was_loaded */ ) const {
+            if( !jo.has_member( member_name ) ) {
+                return false;
+            }
+            member = read_from_json_string<units::money>( jo.get_member( member_name ), units::money_units );
+            return true;
+        }
+        static units::money get_next( JsonValue &jv ) {
+            return read_from_json_string<units::money>( jv, units::money_units );
+        }
+};
+
 /**
  * Uses a map (unordered or standard) to convert strings from JSON to some other type
  * (the mapped type of the map: `C::mapped_type`). It works for all mapped types, not just enums.

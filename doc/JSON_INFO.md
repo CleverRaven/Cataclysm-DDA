@@ -74,6 +74,7 @@ Use the `Home` key to return to the top.
       - [`score`](#score)
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
+    - [Shopkeeper consumption rates](#shopkeeper-cons-rates)
     - [Skills](#skills)
     - [Speed Description](#speed-description)
     - [Mood Face](#mood-face)
@@ -1445,6 +1446,21 @@ Example:
 "addictions": [
     { "type": "nicotine", "intensity": 10 }
 ]
+```
+
+#### `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_consumption_rates",
+  "id": "basic_shop_rates",
+  "default_rate": 5, // defined as units/day since last restock
+  "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
+  "rates": [ // lower entries override higher ones
+      { "item": "hammer", "rate": 1 },
+      { "category": "ammo", "rate": 10 },
+      { "group": "EXODII_basic_trade", "rate": 100 }
+      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+  ]
 ```
 
 #### `skills`
