@@ -10,7 +10,7 @@
   {
     "type": "overmap_terrain",
     "id": "unexplored",
-    "name": "unexplored",
+    "name": "Unexplored",
     "sym": "#",
     "color": "dark_gray",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]

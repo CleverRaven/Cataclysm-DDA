@@ -1074,8 +1074,8 @@ static void draw_om_sidebar(
         }
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( wbar, point( 1, 1 ), oter_unexplored.obj().get_color(), _( "%s Unexplored" ),
-                   oter_unexplored.obj().get_symbol() );
+        mvwprintz( wbar, point( 1, 1 ), oter_unexplored.obj().get_color(), _( "%s %s" ),
+                   oter_unexplored.obj().get_symbol(), oter_unexplored.obj().get_name() );
     }
 
     // Describe the weather conditions on the following line, if weather is visible
