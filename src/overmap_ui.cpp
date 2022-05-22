@@ -87,6 +87,7 @@ static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
 static const oter_str_id oter_forest( "forest" );
+static const oter_str_id oter_unexplored( "unexplored" );
 
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
@@ -168,8 +169,8 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
             ter_color = cur_ter->get_color();
             ter_sym = cur_ter->get_symbol();
         } else {
-            ter_color = c_dark_gray;
-            ter_sym = "#";
+            ter_color = oter_unexplored.obj().get_color();
+            ter_sym = oter_unexplored.obj().get_symbol();
         }
         map_around[index++] = std::make_pair( ter_color, ter_sym );
     }
@@ -751,8 +752,8 @@ static void draw_ascii(
                     get_note_display_info( overmap_buffer.note( omp ) );
             } else if( !see ) {
                 // All cases above ignore the seen-status,
-                ter_color = c_dark_gray;
-                ter_sym = "#";
+                ter_color = oter_unexplored.obj().get_color();
+                ter_sym = oter_unexplored.obj().get_symbol();
                 // All cases below assume that see is true.
             } else if( blink && npc_color.count( omp ) != 0 ) {
                 // Visible NPCs are cached already
@@ -1073,7 +1074,8 @@ static void draw_om_sidebar(
         }
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
+        mvwprintz( wbar, point( 1, 1 ), oter_unexplored.obj().get_color(), _( "%s Unexplored" ),
+                   oter_unexplored.obj().get_symbol() );
     }
 
     // Describe the weather conditions on the following line, if weather is visible

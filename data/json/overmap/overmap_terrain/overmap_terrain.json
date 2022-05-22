@@ -9,6 +9,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "unexplored",
+    "name": "unexplored",
+    "sym": "#",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_city_building_no_sidewalk",
     "name": "city building",
     "sym": "^",
