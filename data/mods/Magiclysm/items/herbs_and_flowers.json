@@ -32,7 +32,7 @@
     "description": "A handful of moonflowers glitter like tiny stars and faintly smell of morning dew.  Properly harvested, they will never wilt or wither.",
     "price_postapoc": 2000,
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
+    "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -48,7 +48,7 @@
     "description": "A small rod of curled white petals, delicately shielding toxic pollen that will lead to an agonizing, if mercifully quick death.  Infamously used by romantic assassins, when an artistic death is deemed more important than practicality.",
     "price_postapoc": 700,
     "volume": "5 ml",
-    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -64,7 +64,7 @@
     "calories": 24,
     "use_action": { "type": "cast_spell", "spell_id": "olieribos_spell", "no_fail": true, "level": 0 },
     "looks_like": "wheat",
-    "vitamins": [ [ "vitA", 15 ] ]
+    "vitamins": [ [ "vitC", 15 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -96,7 +96,7 @@
     "calories": 65,
     "use_action": { "type": "cast_spell", "spell_id": "druidic_healing", "no_fail": true, "level": 0 },
     "looks_like": "mushroom",
-    "vitamins": [ [ "iron", 7 ], [ "vitA", 5 ] ]
+    "vitamins": [ [ "iron", 7 ], [ "vitC", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -126,7 +126,7 @@
     "looks_like": "egg",
     "description": "Heavy wooden shells surrounding a diminutive white fruit.",
     "price_postapoc": 1000,
-    "vitamins": [ [ "vitB", 8 ], [ "vitC", 5 ], [ "redcells", 3 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "vitC", 5 ], [ "redcells", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -170,7 +170,7 @@
     "comestible_type": "FOOD",
     "description": "A small flower cut from a fern, it has a faint honeyed aroma.  Believed to bring good luck to whoever finds it.",
     "price_postapoc": 1200,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 4 ], [ "vitB", 2 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "vitC", 4 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -185,7 +185,7 @@
     "comestible_type": "FOOD",
     "description": "Large chunks of funnelcap meat, still leaking fine amounts of clear sap.",
     "price_postapoc": 60,
-    "vitamins": [ [ "vitA", 5 ], [ "iron", 3 ], [ "redcells", 2 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "redcells", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -201,7 +201,7 @@
     "description": "A red puffball flower cut from a sojourner's palm.  When wind wafts between its petals, you can hear the sounds of faraway places.",
     "price_postapoc": 1400,
     "volume": "10 ml",
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
+    "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -217,6 +217,6 @@
     "description": "A pink whisk shaped flower with a powerful alcoholic smell.",
     "price_postapoc": 110,
     "volume": "10 ml",
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
+    "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
   }
 ]
