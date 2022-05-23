@@ -153,6 +153,7 @@
         "id": "black_bikini_top",
         "name": { "str": "black bikini top" },
         "description": "It's colored black.",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -160,6 +161,7 @@
         "id": "white_bikini_top",
         "name": { "str": "white bikini top" },
         "description": "It's colored white.",
+        "color": "white",
         "weight": 10,
         "append": true
       },
@@ -167,6 +169,7 @@
         "id": "red_bikini_top",
         "name": { "str": "red bikini top" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -174,6 +177,7 @@
         "id": "blue_bikini_top",
         "name": { "str": "blue bikini top" },
         "description": "It's colored blue.",
+        "color": "blue",
         "weight": 10,
         "append": true
       },
@@ -188,6 +192,7 @@
         "id": "pink_bikini_top",
         "name": { "str": "pink bikini top" },
         "description": "It's colored neon pink.  Pretty flashy.",
+        "color": "pink",
         "weight": 6,
         "append": true
       },
@@ -195,6 +200,7 @@
         "id": "tropical_bikini_top",
         "name": { "str": "tropical bikini top" },
         "description": "It's green and has a tropical design.",
+        "color": "light_green",
         "weight": 5,
         "append": true
       },
@@ -202,6 +208,7 @@
         "id": "floral_bikini_top",
         "name": { "str": "floral bikini top" },
         "description": "It's colored yellow and has a floral design.",
+        "color": "yellow",
         "weight": 5,
         "append": true
       },
@@ -209,6 +216,7 @@
         "id": "camo_bikini_top",
         "name": { "str": "camo bikini top" },
         "description": "It has camouflage dye, perfect for those soldiers on a beach leave.",
+        "color": "green",
         "weight": 4,
         "append": true
       },
@@ -216,6 +224,8 @@
         "id": "skull_bikini_top",
         "name": { "str": "skull bikini top" },
         "description": "It's colored black and with a skull pattern.  Works wonders to communicate your happiness on the beach.",
+        "symbol": "S",
+        "color": "dark_gray",
         "weight": 2,
         "append": true
       },
@@ -223,6 +233,7 @@
         "id": "maid_bikini_top",
         "name": { "str": "maid bikini top" },
         "description": "It's colored black and with white frilly decorations.  You are not sure that this is a common attire for the beach.",
+        "color": "dark_gray",
         "weight": 1,
         "append": true
       }
