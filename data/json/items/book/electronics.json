@@ -21,6 +21,27 @@
     "fun": -1
   },
   {
+    "id": "arduino_experiments",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Arduino Experiments", "str_pl": "copies of Arduino Experiments" },
+    "description": "A textbook sized book of electronics and robotics experiments.",
+    "weight": "1587 g",
+    "volume": "1750 ml",
+    "price": 8200,
+    "price_postapoc": 750,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "electronics",
+    "required_level": 2,
+    "max_level": 4,
+    "intelligence": 10,
+    "time": "35 m",
+    "fun": -1
+  },
+  {
     "id": "mag_electronics",
     "type": "BOOK",
     "category": "manuals",
