@@ -459,19 +459,5 @@
     "name": [ "Lightness" ],
     "desc": [ "You feel yourself a bit lighter.  You doubt you can lose weight from this." ],
     "base_mods": { "speed_mod": [ 15 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "olieribos_eff",
-    "name": [ "Ouch" ],
-    "desc": [ "It hurts." ],
-    "base_mods": { "pain_amount": [ 1 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "kampuch_eff",
-    "name": [ "OUCH" ],
-    "desc": [ "You feel like your eat a pile of blades." ],
-    "base_mods": { "hurt_amount": [ 1 ], "hurt_tick": [ 5 ], "pain_amount": [ 5 ] }
   }
 ]

@@ -26,32 +26,6 @@
     "max_duration": 60000
   },
   {
-    "id": "olieribos_spell",
-    "type": "SPELL",
-    "name": "Olieribos effect",
-    "description": "Cause some pain.",
-    "valid_targets": [ "self" ],
-    "flags": [ "NO_LEGS", "SILENT", "NO_HANDS" ],
-    "effect": "attack",
-    "effect_str": "olieribos_eff",
-    "shape": "blast",
-    "min_duration": 12000,
-    "max_duration": 12000
-  },
-  {
-    "id": "kampuch_spell",
-    "type": "SPELL",
-    "name": "Kampuch effect",
-    "description": "Cause some huge pain and some damage.",
-    "valid_targets": [ "self" ],
-    "flags": [ "NO_LEGS", "SILENT", "NO_HANDS" ],
-    "effect": "attack",
-    "effect_str": "kampuch_eff",
-    "shape": "blast",
-    "min_duration": 9000,
-    "max_duration": 9000
-  },
-  {
     "id": "whiskflower_spell",
     "type": "SPELL",
     "name": "Whiskflower effect",
