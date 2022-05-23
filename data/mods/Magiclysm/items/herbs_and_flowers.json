@@ -36,7 +36,7 @@
     "type": "COMESTIBLE",
     "id": "kampuch",
     "copy-from": "platonic_flower",
-    "name": { "str": "kämpuch", "str_pl": "kämpuches" },
+    "name": { "str": "kampuch", "str_pl": "kampuches" },
     "//": "magical poisons, 'death' and 'bio' related",
     "color": "blue",
     "symbol": "o",
