@@ -43,7 +43,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "cryo_hacker", "x": 0, "y": 0 } ] }
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "captured_dreamer", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -58,12 +58,12 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "cryo_doctor", "x": 0, "y": 0 } ] }
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "spider_victim", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "cryo_scientist", "x": 0, "y": 0 } ] }
+    "object": { "mapgensize": [ 1, 1 ], "place_items": [ { "item": "corpse", "x": 0, "y": 0 } ] }
   }
 ]
