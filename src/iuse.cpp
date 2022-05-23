@@ -10048,9 +10048,9 @@ cata::optional<int> iuse::voltmeter( Character *p, item *it, bool, const tripoin
         return cata::nullopt;
     }
     if( vp->vehicle().fuel_left( itype_battery, true ) ) {
-        p->add_msg_if_player( _( "The %s has voltage." ), vp->vehicle().name );
+        p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
     } else {
-        p->add_msg_if_player( _( "The %s has no voltage." ), vp->vehicle().name );
+        p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );
     }
     return it->type->charges_to_use();
 }
