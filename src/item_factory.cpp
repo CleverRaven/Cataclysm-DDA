@@ -1696,6 +1696,7 @@ void Item_factory::init()
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "LUX_METER", &iuse::lux_meter );
     add_iuse( "CALORIES_INTAKE_TRACKER", &iuse::calories_intake_tracker );
+    add_iuse( "VOLTMETER", &iuse::voltmeter );
 
     add_actor( std::make_unique<ammobelt_actor>() );
     add_actor( std::make_unique<cauterize_actor>() );

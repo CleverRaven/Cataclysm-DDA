@@ -741,9 +741,11 @@
     "price": 6000,
     "price_postapoc": 250,
     "ammo": [ "battery" ],
+    "charges_per_use": 1,
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic" ],
+    "use_action": [ "VOLTMETER" ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
@@ -767,9 +769,11 @@
     "price": 9000,
     "price_postapoc": 250,
     "ammo": [ "battery" ],
+    "charges_per_use": 1,
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic" ],
+    "use_action": [ "VOLTMETER" ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
