@@ -444,5 +444,27 @@
     "base_mods": { "speed_mod": [ -10 ], "hurt_amount": [ 1 ] },
     "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 4 ] },
     "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "flower_fern_eff",
+    "name": [ "Positivity" ],
+    "desc": [ "Your feel yourself a bit better." ],
+    "rating": "good",
+    "base_mods": { "per_mod": [ 1 ], "dex_mod": [ 1 ], "str_mod": [ 1 ], "int_mod": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_mushroom_eff",
+    "name": [ "Lightness" ],
+    "desc": [ "You feel yourself a bit lighter.  You doubt you can lose weight from this." ],
+    "base_mods": { "speed_mod": [ 15 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "olieribos_eff",
+    "name": [ "Ouch" ],
+    "desc": [ "It hurts." ],
+    "base_mods": { "pain_amount": [ 1 ] }
   }
 ]
