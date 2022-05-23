@@ -50,7 +50,7 @@
     "shape": "blast",
     "min_duration": 9000,
     "max_duration": 9000
-  }
+  },
   {
     "id": "whiskflower_spell",
     "type": "SPELL",
