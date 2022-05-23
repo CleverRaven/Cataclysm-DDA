@@ -155,6 +155,7 @@
       {
         "id": "red_apron_cotton",
         "name": { "str": "red short waist apron" },
+        "description": "It's colored red.",
         "color": "red",
         "weight": 10,
         "append": true
