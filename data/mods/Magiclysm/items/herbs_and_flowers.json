@@ -7,6 +7,7 @@
     "//": "same as barnacle weed, 'duration' and 'sustaining', but not so long and more powerful, for effective and non standard effects like night vision",
     "color": "pink",
     "comestible_type": "FOOD",
+    "flags": [ "NO_AUTO_CONSUME" ],
     "symbol": "%",
     "calories": 200,
     "description": "A fractal corolla winds inward in mathematical harmony, reflecting beauty in its ideal form.",
