@@ -952,7 +952,7 @@
     "type": "terrain",
     "name": "nuclear reactor core",
     "//": "just a copy of aftershock nuclear reactor",
-    "description": "Naval A1B reactor, used in Gerald R. Ford–class aircraft carriers, and can produce enough steam to generate 125 megawatts of energy.",
+    "description": "Naval A1B reactor, used in Gerald R. Ford-class aircraft carriers, and can produce enough steam to generate 125 megawatts of energy.",
     "symbol": "R",
     "color": "light_green",
     "move_cost": 0,
