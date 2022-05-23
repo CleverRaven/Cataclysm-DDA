@@ -255,7 +255,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "outpost_roof",
+    [ "id": "outpost_roof", "outpost_cross_roof" ],
     "name": "military outpost roof",
     "sym": "M",
     "color": "red",
