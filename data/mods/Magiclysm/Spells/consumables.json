@@ -42,14 +42,15 @@
     "id": "kampuch_spell",
     "type": "SPELL",
     "name": "Kampuch effect",
-    "description": "Cause damage equal to 50% of character hp at this moment.",
+    "description": "Cause some huge pain and some damage.",
     "valid_targets": [ "self" ],
-    "flags": [ "NO_LEGS", "SILENT", "NO_HANDS", "PERCENTAGE_DAMAGE" ],
+    "flags": [ "NO_LEGS", "SILENT", "NO_HANDS" ],
     "effect": "attack",
+    "effect_str": "kampuch_eff",
     "shape": "blast",
-    "min_damage": 50,
-    "max_damage": 50
-  },
+    "min_duration": 9000,
+    "max_duration": 9000
+  }
   {
     "id": "whiskflower_spell",
     "type": "SPELL",

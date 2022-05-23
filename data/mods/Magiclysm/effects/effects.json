@@ -466,5 +466,12 @@
     "name": [ "Ouch" ],
     "desc": [ "It hurts." ],
     "base_mods": { "pain_amount": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "kampuch_eff",
+    "name": [ "OUCH" ],
+    "desc": [ "You feel like your eat a pile of blades." ],
+    "base_mods": { "hurt_amount": [ 1 ], "hurt_tick": [ 5 ], "pain_amount": [ 5 ] }
   }
 ]
