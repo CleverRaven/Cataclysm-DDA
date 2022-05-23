@@ -1849,7 +1849,7 @@
     "skills": [ { "level": 4, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "wristwatch", "gold_watch", "money_strap_fifty" ],
+        "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "gold_watch", "money_strap_fifty" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs", "citrine_gold_cufflinks" ],
