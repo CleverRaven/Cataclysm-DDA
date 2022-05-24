@@ -234,6 +234,7 @@
       { "item": "manual_dodge_kid", "prob": 20 },
       { "item": "book_nonf_soft_wedding_coolring", "prob": 1 },
       { "item": "mag_comic", "prob": 20 },
+      { "item": "arduino_experiments", "prob": 3 },
       { "item": "basic_chemistry", "prob": 10 }
     ]
   },
@@ -295,6 +296,7 @@
       { "item": "cookbook_indian", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "survnote", "prob": 1 },
+      { "item": "arduino_experiments", "prob": 5 },
       { "item": "theater_props", "prob": 1 },
       { "item": "scots_cookbook", "prob": 8 },
       { "item": "offalcooking", "prob": 2 },
@@ -394,6 +396,7 @@
       { "item": "manual_canning", "prob": 8 },
       { "item": "manual_sealing", "prob": 9 },
       { "item": "vacuum_sealing", "prob": 5 },
+      { "item": "arduino_experiments", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "book_pneumatics", "prob": 3 },
       { "item": "distilling_cookbook", "prob": 8 }
@@ -552,6 +555,7 @@
       { "item": "manual_canning", "prob": 80 },
       { "item": "manual_sealing", "prob": 190 },
       { "item": "manual_barbaran", "prob": 10 },
+      { "item": "arduino_experiments", "prob": 35 },
       { "item": "vacuum_sealing", "prob": 15 },
       { "item": "baking_book", "prob": 190 },
       { "item": "book_pneumatics", "prob": 8 },
