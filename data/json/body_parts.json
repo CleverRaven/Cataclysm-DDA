@@ -350,7 +350,7 @@
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "sub_parts": [ "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
+    "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -381,7 +381,7 @@
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "sub_parts": [ "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
+    "sub_parts": [ "foot_sole_r", "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -771,9 +771,19 @@
     "name": "cheeks"
   },
   {
+    "id": "foot_sole_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_l",
+    "side": 1,
+    "opposite": "foot_sole_r",
+    "name_multiple": "foot bottoms",
+    "name": "left foot bottom"
+  },
+  {
     "id": "foot_arch_l",
     "type": "sub_body_part",
-    "max_coverage": 50,
+    "max_coverage": 25,
     "parent": "foot_l",
     "side": 1,
     "opposite": "foot_arch_r",
@@ -811,9 +821,19 @@
     "name": "left heel"
   },
   {
+    "id": "foot_sole_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_r",
+    "side": 2,
+    "opposite": "foot_sole_l",
+    "name_multiple": "foot arches",
+    "name": "left foot arch"
+  },
+  {
     "id": "foot_arch_r",
     "type": "sub_body_part",
-    "max_coverage": 50,
+    "max_coverage": 25,
     "parent": "foot_r",
     "side": 2,
     "opposite": "foot_arch_l",
