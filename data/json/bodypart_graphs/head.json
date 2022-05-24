@@ -28,8 +28,8 @@
       "           b888888888888888b            "
     ],
     "parts": {
-      "1": { "sub_body_parts": [ "eyes_left" ], "select_color": "red" },
-      "2": { "sub_body_parts": [ "eyes_right" ], "select_color": "red" },
+      "1": { "sub_body_parts": [ "eyes_right" ], "select_color": "red" },
+      "2": { "sub_body_parts": [ "eyes_left" ], "select_color": "red" },
       "3": { "sub_body_parts": [ "mouth_lips" ], "select_color": "red" },
       "4": { "sub_body_parts": [ "mouth_nose" ], "select_color": "red" },
       "5": { "sub_body_parts": [ "mouth_cheeks" ], "select_color": "red" },
