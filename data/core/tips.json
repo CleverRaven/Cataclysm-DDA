@@ -618,5 +618,45 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Hope for the best but prepare for the worst.  A backup stash of necessities can save the day." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Everything from thirst to pain can slow you down in combat. Check your speed in the @ menu." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Winners don't do drugs. They're too valuable. Winners trade drugs for more bullets." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can set priority levels for pockets in your inventory, letting you decide where your loot goes." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Face masks protect you from smoke and even disease, but make it harder to breathe, affecting stamina." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The burgler alarm for a store won't go off if you break through the wall." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Your character can keep a diary. Use it to roleplay, take notes, or keep score." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Some weapons have techniques that let you do things like hit faster, block attacks, or stun opponents." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "If brute force isn't working, you're not using enough of it." ]
   }
 ]
