@@ -1,6 +1,22 @@
+#[=======================================================================[
+
+x64-release
+-----------
+
+Pre-load script for Microsoft Visual Studio builds.
+
+Used by CMakePresets.json -> "cacheVariables" -> "CMAKE_PROJECT_INCLUDE_BEFORE".
+
+When CMake does not run under VS environment, it sources the VsDevCmd.bat on it own.
+It then writes CMakeUserPresets.json -> "buildPresets" -> "environment"
+
+#]=======================================================================]
+
+# Ref https://github.com/actions/virtual-environments/blob/win19/20220515.1/images/win/Windows2019-Readme.md#environment-variables
 if (NOT $ENV{VCPKG_INSTALLATION_ROOT} STREQUAL "")
     set(ENV{VCPKG_ROOT} $ENV{VCPKG_INSTALLATION_ROOT})
 endif()
+# Ref https://vcpkg.io/en/docs/users/config-environment.html#vcpkg_root
 if ("$ENV{VCPKG_ROOT}" STREQUAL "" AND WIN32)
     set(ENV{VCPKG_ROOT} C:/vcpkg)
 endif()
@@ -30,7 +46,7 @@ if("$ENV{VSCMD_VER}" STREQUAL "")
         message(XX${_value}XX)
         string(SUBSTRING "${_value}" 1 -1 _value) # Remove = at begin
         string(STRIP "${_value}" _value) # Remove \r
-        # This list is essentially a revised result of :comm -1 -3 <(sort before.txt) <(sort after.txt) |egrep -o '^[^=]+='"
+        # This list is essentially a revised result of: comm -1 -3 <(sort before.txt) <(sort after.txt) |egrep -o '^[^=]+='"
         foreach(_replace 
             ExtensionSdkDir=
             Framework40Version=
@@ -76,9 +92,11 @@ if("$ENV{VSCMD_VER}" STREQUAL "")
                     string(APPEND _MSVC_DEVENV ",\n${_json_entry}")
                 endif()
             endif()
-        endforeach()
-    endforeach()
+        endforeach() # replace
+    endforeach() # _ENV
 endif() # VSCMD_VER
+
+# It's fine to keep @_MSVC_DEVENV@ undefined
 configure_file(
     ${CMAKE_SOURCE_DIR}/build-scripts/CMakeUserPresets.json.in
     ${CMAKE_SOURCE_DIR}/CMakeUserPresets.json
