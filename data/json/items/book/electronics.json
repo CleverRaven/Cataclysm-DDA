@@ -25,7 +25,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Arduino Experiments", "str_pl": "copies of Arduino Experiments" },
-    "description": "A textbook sized book of electronics and robotics experiments.",
+    "description": "A textbook-sized book of electronics and robotics experiments.",
     "weight": "1587 g",
     "volume": "1750 ml",
     "price": 8200,
