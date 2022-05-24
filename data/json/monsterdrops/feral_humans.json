@@ -26,6 +26,17 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "feral_martial_artist_death_drops_gi",
+    "entries": [
+      { "item": "karate_gi", "prob": 100, "damage": [ 0, 3 ] },
+	  { "item": "judo_belt_black", "prob": 100, "damage": [ 0, 3 ] },
+	  { "item": "gloves_wraps", "prob": 100, "damage": [ 0, 3 ] },
+	  { "group": "boxing_books", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "feral_sapien_death_drops_spear",
     "entries": [
       { "group": "survivor_stabbing", "prob": 100, "damage": [ 0, 3 ] },
