@@ -2344,3 +2344,57 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
     }
     return pd;
 }
+
+static std::string keys_text()
+{
+    return
+        colorize( "p", c_light_green ) + _( " priority, " ) +
+        colorize( "d", c_light_green ) + _( " toggle auto pickup, " ) +
+        colorize( "u", c_light_green ) + _( " toggle auto unload, " ) +
+        colorize( "i", c_light_green ) + _( " item, " ) +
+        colorize( "c", c_light_green ) + _( " category, " ) +
+        colorize( "w", c_light_green ) + _( " whitelist, " ) +
+        colorize( "b", c_light_green ) + _( " blacklist, " ) +
+        colorize( "x", c_light_green ) + _( " clear" );
+}
+
+void outfit::organize_items_menu()
+{
+    std::list<item_pocket> contents;
+    for( item &i : worn ) {
+        std::vector<item_pocket *> item_pockets = i.get_all_standard_pockets();
+        contents.insert( contents.end(), item_pockets.begin(), item_pockets.end() );
+    }
+    pocket_favorite_callback cb( &contents );
+    int num_container_pockets = 0;
+    std::map<int, std::string> pocket_name;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            pocket_name[num_container_pockets] =
+                string_format( "%s/%s",
+                               vol_to_info( "", "", pocket.contains_volume() ).sValue,
+                               vol_to_info( "", "", pocket.max_contains_volume() ).sValue );
+            num_container_pockets++;
+        }
+    }
+    uilist pocket_selector;
+    pocket_selector.title = "organize this asshole";
+    pocket_selector.text = keys_text() + "\n ";
+    pocket_selector.callback = &cb;
+    pocket_selector.w_x_setup = 0;
+    pocket_selector.w_width_setup = []() {
+        return TERMX;
+    };
+    pocket_selector.pad_right_setup = []() {
+        return std::max( TERMX / 2, TERMX - 50 );
+    };
+    pocket_selector.w_y_setup = 0;
+    pocket_selector.w_height_setup = []() {
+        return TERMY;
+    };
+    for( int i = 1; i <= num_container_pockets; i++ ) {
+        pocket_selector.addentry( 0, true, '\0', string_format( "%d - %s", i, pocket_name[i - 1] ) );
+    }
+
+    pocket_selector.query();
+}

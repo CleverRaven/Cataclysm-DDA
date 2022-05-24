@@ -34,18 +34,6 @@
 
 static const flag_id json_flag_CASING( "CASING" );
 
-class pocket_favorite_callback : public uilist_callback
-{
-    private:
-        std::list<item_pocket> *pockets = nullptr;
-        // whitelist or blacklist, for interactions
-        bool whitelist = true;
-    public:
-        explicit pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {}
-        void refresh( uilist *menu ) override;
-        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
-};
-
 void pocket_favorite_callback::refresh( uilist *menu )
 {
     item_pocket *selected_pocket = nullptr;
