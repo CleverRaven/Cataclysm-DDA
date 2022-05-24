@@ -68,7 +68,7 @@
       "place_monster": [
         { "monster": "mon_zombie_tough", "x": [ 9, 12 ], "y": [ 16, 19 ], "repeat": [ 1, 2 ] },
         { "monster": "mon_zombie", "x": [ 5, 12 ], "y": [ 8, 16 ], "repeat": [ 2, 3 ] },
-		{ "monster": "mon_feral_martial_artist", "x": [ 5, 12 ], "y": [ 8, 16 ], "chance":10 }
+		    { "monster": "mon_feral_martial_artist", "x": [ 5, 12 ], "y": [ 8, 16 ], "chance":10 }
       ]
     }
   },
@@ -269,7 +269,7 @@
       "place_monster": [
         { "monster": "mon_zombie_tough", "x": [ 6, 12 ], "y": [ 7, 12 ], "repeat": [ 1, 2 ] },
         { "monster": "mon_zombie", "x": [ 5, 14 ], "y": [ 5, 14 ], "repeat": [ 2, 3 ] },
-		{ "monster": "mon_feral_martial_artist", "x": [ 5, 14 ], "y": [ 5, 14 ], "chance":10 }
+		    { "monster": "mon_feral_martial_artist", "x": [ 5, 14 ], "y": [ 5, 14 ], "chance":10 }
       ]
     }
   },
