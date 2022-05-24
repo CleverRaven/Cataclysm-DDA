@@ -1761,6 +1761,13 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
   },
   {
+  "type": "keybinding",
+  "id": "ORGANIZE_MENU",
+  "category": "INVENTORY",
+  "name": "Organize contents",
+  "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
+  {
     "type": "keybinding",
     "id": "TOGGLE_FAVORITE",
     "category": "INVENTORY",

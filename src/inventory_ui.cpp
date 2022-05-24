@@ -2248,6 +2248,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "SHOW_HIDE_CONTENTS", to_translation( "Show/hide contents" ) );
     ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "TOGGLE_SKIP_UNSELECTABLE" );
+    ctxt.register_action( "ORGANIZE_MENU" );
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -2345,6 +2346,8 @@ void inventory_selector::on_input( const inventory_input &input )
         set_filter( "" );
     } else if( input.action == "TOGGLE_SKIP_UNSELECTABLE" ) {
         toggle_skip_unselectable();
+    } else if( input.action == "ORGANIZE_MENU" ) {
+        u.worn.organize_items_menu();
     } else {
         for( inventory_column *elem : columns ) {
             elem->on_input( input );
