@@ -622,12 +622,12 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Everything from thirst to pain can slow you down in combat.  Check your speed in the @ menu." ]
+    "text": [ "Everything from thirst to pain can slow you down in combat. Check your speed in the @ menu." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Winners don't do drugs.  They're too valuable.  Winners trade drugs for more bullets." ]
+    "text": [ "Winners don't do drugs. They're too valuable. Winners trade drugs for more bullets." ]
   },
   {
     "type": "snippet",
@@ -658,5 +658,15 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "If brute force isn't working, you're not using enough of it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Sweat is simulated in Cataclysm.  Excessive sweating will dehydrate you quickly." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Feral humans are smarter than zombies.  They throw rocks and can even open doors.  Watch out!" ]
   }
 ]
