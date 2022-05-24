@@ -266,6 +266,7 @@
         "id": "black_hat_chef",
         "name": { "str": "black toque" },
         "description": "It's colored black.",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -273,6 +274,7 @@
         "id": "blue_hat_chef",
         "name": { "str": "blue toque" },
         "description": "It's a royal blue color.",
+        "color": "blue",
         "weight": 10,
         "append": true
       },
@@ -280,6 +282,7 @@
         "id": "red_hat_chef",
         "name": { "str": "red toque" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -287,6 +290,7 @@
         "id": "pink_hat_chef",
         "name": { "str": "pink toque" },
         "description": "It's colored pink.",
+        "color": "pink",
         "weight": 10,
         "append": true
       },
@@ -294,6 +298,7 @@
         "id": "yellow_hat_chef",
         "name": { "str": "yellow toque" },
         "description": "It's colored yellow.",
+        "color": "yellow",
         "weight": 5,
         "append": true
       },
@@ -301,6 +306,7 @@
         "id": "camo_hat_chef",
         "name": { "str": "camo chef's jacket" },
         "description": "It has camouflage dye.",
+        "color": "green",
         "weight": 2,
         "append": true
       }
