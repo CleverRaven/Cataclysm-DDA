@@ -1114,7 +1114,7 @@
     "bodytype": "elephant",
     "material": [ "flesh" ],
     "aggression": -20,
-    "morale": 50,
+    "morale": 90,
     "speed": 25,
     "melee_skill": 5,
     "melee_dice": 2,
