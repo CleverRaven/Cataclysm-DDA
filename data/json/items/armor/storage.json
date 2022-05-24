@@ -2642,8 +2642,8 @@
     "type": "ARMOR",
     "copy-from": "rifle_case_soft_leather",
     "looks_like": "rifle_case_soft_leather",
-    "name": { "str": "long leather rifle case" },
-    "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
+    "name": { "str": "XS leather rifle case" },
+    "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.  The strap on this one has been shortened to fit someone of small stature.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE", "UNDERSIZE" ]
   },
