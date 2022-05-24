@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "id": "mon_feral_human_pipe",
@@ -838,7 +843,7 @@
     "species": [ "HUMAN" ],
     "volume": "82500 ml",
     "weight": "102000 g",
-	  "diff":5,
+    "diff": 5,
     "hp": 140,
     "speed": 120,
     "material": [ "flesh" ],
@@ -848,8 +853,8 @@
     "melee_skill": 8,
     "melee_dice": 3,
     "melee_dice_sides": 5,
-	  "attack_cost":60,
-	  "grab_strength": 3,
+    "attack_cost": 60,
+    "grab_strength": 3,
     "melee_cut": 0,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
@@ -858,30 +863,30 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 30,
     "vision_night": 5,
-    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "bash_strength":12 },
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "bash_strength": 12 },
     "special_attacks": [
-      [ "GRAB", 10 ],  
-	    { "type": "leap", "cooldown": 10, "max_range": 3, "move_cost":100 }, 
-	    {
-		    "type": "monster_attack",
-		    "attack_type": "melee",
-		    "cooldown": 20,
-		    "move_cost": 100,
-		    "damage_max_instance": [ { "damage_type": "bash", "amount": 30, "armor_multiplier": 0.5 } ],
-		    "hitsize_min": 12,
-		    "effects": [ { "id": "downed", "duration": 5 } ],
-		    "throw_strength": 30,
-		    "hit_dmg_u": "The %1$s strikes your %2$s with a violent fist, sending you flying!",
-		    "hit_dmg_npc": "The %1$s strikes <npcname> with a violent fist!",
-		    "miss_msg_u": "The %1$s tries to smash your %2$s with a violent fist, but you dodge!",
-		    "miss_msg_npc": "The %1$s tries to smash <npcname> with a violent fist, but they dodge!",
-		    "no_dmg_msg_u": "The %1$s tries to strike your %2$s with a violent fist, but fails to penetrate your armor!",
-		    "no_dmg_msg_npc": "The %1$s tries to strike <npcname> with a violent fist, but fails to penetrate their armor!",
-		    "dodgeable": true,
-		    "blockable": true
-	    }
+      [ "GRAB", 10 ],
+      { "type": "leap", "cooldown": 10, "max_range": 3, "move_cost": 100 },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "cooldown": 20,
+        "move_cost": 100,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30, "armor_multiplier": 0.5 } ],
+        "hitsize_min": 12,
+        "effects": [ { "id": "downed", "duration": 5 } ],
+        "throw_strength": 30,
+        "hit_dmg_u": "The %1$s strikes your %2$s with a violent fist, sending you flying!",
+        "hit_dmg_npc": "The %1$s strikes <npcname> with a violent fist!",
+        "miss_msg_u": "The %1$s tries to smash your %2$s with a violent fist, but you dodge!",
+        "miss_msg_npc": "The %1$s tries to smash <npcname> with a violent fist, but they dodge!",
+        "no_dmg_msg_u": "The %1$s tries to strike your %2$s with a violent fist, but fails to penetrate your armor!",
+        "no_dmg_msg_npc": "The %1$s tries to strike <npcname> with a violent fist, but fails to penetrate their armor!",
+        "dodgeable": true,
+        "blockable": true
+      }
     ],
-	  "death_drops": "feral_martial_artist_death_drops_gi",
+    "death_drops": "feral_martial_artist_death_drops_gi",
     "zombify_into": "mon_zombie_brute_grappler",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT", "HOSTILE_SEEN" ],
     "flags": [
@@ -892,14 +897,15 @@
       "BASHES",
       "GROUP_BASH",
       "HUMAN",
-	    "ATTACKMON",
-	    "CLIMBS",
-	    "GRABS",
-	    "HARDTOSHOOT",
+      "ATTACKMON",
+      "CLIMBS",
+      "GRABS",
+      "HARDTOSHOOT",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
-	    "PATH_AVOID_FIRE",
-	    "PUSH_MON"
+      "PATH_AVOID_FIRE",
+      "PUSH_MON"
     ]
   }
 ]
+
