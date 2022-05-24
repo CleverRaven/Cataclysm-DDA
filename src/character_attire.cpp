@@ -2358,28 +2358,41 @@ static std::string keys_text()
         colorize( "x", c_light_green ) + _( " clear" );
 }
 
+void add_pockets( const item &i, uilist &pocket_selector,
+                  std::list<item_pocket> &contents, std::string depth )
+{
+    if( i.get_all_standard_pockets().size() > 0 ) {
+        pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
+        // pad list with empty entries for the items themselves
+        contents.push_back( item_pocket() );
+    }
+    for( const item_pocket *it_pocket : i.get_all_standard_pockets() ) {
+        std::string temp = "-";
+
+        pocket_selector.addentry( 0, true, '\0', colorize( string_format( "%s%s %s/%s",
+                                  depth,
+                                  temp,
+                                  vol_to_info( "", "", it_pocket->contains_volume() ).sValue,
+                                  vol_to_info( "", "", it_pocket->max_contains_volume() ).sValue ), c_cyan ) );
+        contents.push_back( *it_pocket );
+
+        // display the items
+        for( const item *it : it_pocket->all_items_top() ) {
+            // check for pockets in that pocket
+            add_pockets( *it, pocket_selector, contents, depth + "  " );
+        }
+    }
+}
+
 void outfit::organize_items_menu()
 {
     std::list<item_pocket> contents;
+    uilist pocket_selector;
     for( const item &i : worn ) {
-        for( const item_pocket *item_pocket : i.get_all_standard_pockets() ) {
-
-            contents.push_back( *item_pocket );
-        }
+        add_pockets( i, pocket_selector, contents, "" );
     }
     pocket_favorite_callback cb( &contents );
-    int num_container_pockets = 0;
-    std::map<int, std::string> pocket_name;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            pocket_name[num_container_pockets] =
-                string_format( "%s/%s",
-                               vol_to_info( "", "", pocket.contains_volume() ).sValue,
-                               vol_to_info( "", "", pocket.max_contains_volume() ).sValue );
-            num_container_pockets++;
-        }
-    }
-    uilist pocket_selector;
+
     pocket_selector.title = "organize this asshole";
     pocket_selector.text = keys_text() + "\n ";
     pocket_selector.callback = &cb;
@@ -2394,9 +2407,6 @@ void outfit::organize_items_menu()
     pocket_selector.w_height_setup = []() {
         return TERMY;
     };
-    for( int i = 1; i <= num_container_pockets; i++ ) {
-        pocket_selector.addentry( 0, true, '\0', string_format( "%d - %s", i, pocket_name[i - 1] ) );
-    }
 
     pocket_selector.query();
 }

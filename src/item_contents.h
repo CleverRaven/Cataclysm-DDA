@@ -370,12 +370,16 @@ class pocket_favorite_callback : public uilist_callback
 {
     private:
         std::list<item_pocket> *pockets = nullptr;
+        input_context ctxt;
         // whitelist or blacklist, for interactions
         bool whitelist = true;
     public:
-        explicit pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {}
+        explicit pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {
+            register_ctxt();
+        }
         void refresh( uilist *menu ) override;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
+        void register_ctxt();
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

@@ -3733,6 +3733,62 @@
   },
   {
     "type": "keybinding",
+    "id": "FAV.PRIORITY",
+    "category": "INVENTORY",
+    "name": "priority",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV.AUTO_PICKUP",
+    "category": "INVENTORY",
+    "name": "toggle auto pickup",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV.AUTO_UNLOAD",
+    "category": "INVENTORY",
+    "name": "toggle auto unload",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV.ITEM",
+    "category": "INVENTORY",
+    "name": "item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV.CATEGORY",
+    "category": "INVENTORY",
+    "name": "category",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV.WHITELIST",
+    "category": "INVENTORY",
+    "name": "whitelist",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV.BLACKLIST",
+    "category": "INVENTORY",
+    "name": "blacklist",
+    "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV.CLEAR",
+    "category": "INVENTORY",
+    "name": "clear",
+    "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CHANGE_PROFESSION_NAME",
     "name": "Change profession name",
     "bindings": [
