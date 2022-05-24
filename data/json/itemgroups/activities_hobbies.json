@@ -96,6 +96,7 @@
       [ "wetsuit_booties_thick", 5 ],
       [ "wetsuit_hood", 10 ],
       [ "wetsuit_hood_thick", 2 ],
+      [ "swim_cap", 35 ],
       { "item": "scuba_tank", "prob": 20, "charges": 60 },
       { "item": "small_scuba_tank", "prob": 10, "charges": 20 },
       [ "fishing_rod_professional", 4 ],
@@ -198,7 +199,9 @@
       { "item": "powered_earplugs", "prob": 60, "charges": [ 0, 50 ] },
       { "item": "stab_vest", "variant": "airsoft_stab_vest", "prob": 10 },
       { "item": "bandolier_wrist", "prob": 100 },
-      { "item": "fitness_band", "prob": 5 }
+      { "item": "fitness_band", "prob": 10 },
+      { "item": "hand_pump", "prob": 10 },
+      { "item": "inflatable_boat", "prob": 4 }
     ]
   },
   {
@@ -341,6 +344,7 @@
       [ "wetsuit_booties_thick", 5 ],
       [ "wetsuit_hood", 10 ],
       [ "wetsuit_hood_thick", 2 ],
+      [ "swim_cap", 15 ],
       { "item": "scuba_tank", "prob": 20, "charges": [ 0, 60 ] },
       { "item": "small_scuba_tank", "prob": 10, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],

@@ -665,7 +665,7 @@
     "id": "flip_flops",
     "type": "ARMOR",
     "name": { "str": "pair of flip-flops", "str_pl": "pairs of flip-flops" },
-    "description": "Simple sandals.  Very difficult to run in.",
+    "description": "Simple sandals.  Somewhat difficult to run in.",
     "weight": "62 g",
     "volume": "250 ml",
     "price": 500,
@@ -678,7 +678,7 @@
     "color": "blue",
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 35, "coverage": 10, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 10, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "flip_flops_exp",
@@ -698,8 +698,8 @@
     "color": "brown",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 30, "coverage": 12, "covers": [ "foot_l", "foot_r" ] } ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY" ],
+    "armor": [ { "encumbrance": 22, "coverage": 12, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "footrags",

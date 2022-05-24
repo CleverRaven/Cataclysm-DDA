@@ -264,7 +264,7 @@ units::volume vehicle_stack::max_volume() const
 
 // Vehicle class methods.
 
-vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
+vehicle::vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel,
                   int init_veh_status ): type( type_id )
 {
     turn_dir = 0_degrees;
@@ -280,13 +280,13 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         // The game language may have changed after the blueprint was created,
         // so translated the prototype name again.
         name = proto.name.translated();
-        init_state( init_veh_fuel, init_veh_status );
+        init_state( placed_on, init_veh_fuel, init_veh_status );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     refresh();
 }
 
-vehicle::vehicle() : vehicle( vproto_id() )
+vehicle::vehicle() : vehicle( get_map(), vproto_id() )
 {
     sm_pos = tripoint_zero;
 }
@@ -332,7 +332,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( int init_veh_fuel, int init_veh_status )
+void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status )
 {
     // vehicle parts excluding engines are by default turned off
     for( vehicle_part &pt : parts ) {
@@ -370,42 +370,40 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
     //  0 = undamaged
-    //  1 = disabled, destroyed tires OR engine
+    //  1 = disabled: destroyed seats, controls, tanks, tires, OR engine
     int veh_status = -1;
     if( init_veh_status == 0 ) {
         veh_status = 0;
     }
     if( init_veh_status == 1 ) {
-        int rand = rng( 1, 100 );
         veh_status = 1;
 
-        if( rand <= 5 ) {          //  seats are destroyed 5%
-            destroySeats = true;
-        } else if( rand <= 15 ) {  // controls are destroyed 10%
-            destroyControls = true;
-            veh_fuel_mult += rng( 0, 7 );   // add 0-7% more fuel if controls are destroyed
-        } else if( rand <= 23 ) {  // battery, minireactor or gasoline tank are destroyed 8%
-            destroyTank = true;
-        } else if( rand <= 29 ) {  // engine is destroyed 6%
-            destroyEngine = true;
-            veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
-        } else if( rand <= 66 ) {  // tires are destroyed 37%
-            destroyTires = true;
-            veh_fuel_mult += rng( 0, 18 );  // add 0-18% more fuel if tires are destroyed
-        } else {                   // vehicle locked 34%
-            has_no_key = true;
+        const int rand = rng( 1, 5 );
+        switch( rand ) {
+            case 1:
+                destroySeats = true;
+                break;
+            case 2:
+                destroyControls = true;
+                break;
+            case 3:
+                destroyTank = true;
+                break;
+            case 4:
+                destroyEngine = true;
+                break;
+            case 5:
+                destroyTires = true;
+                break;
         }
     }
-    // if locked, 16% chance something damaged
-    if( one_in( 6 ) && has_no_key ) {
-        if( one_in( 3 ) ) {
-            destroyTank = true;
-        } else if( one_in( 2 ) ) {
-            destroyEngine = true;
-        } else {
-            destroyTires = true;
-        }
-    } else if( !one_in( 3 ) ) {
+
+    if( one_in( 3 ) ) {
+        //33% chance for a locked vehicle
+        has_no_key = true;
+    }
+
+    if( !one_in( 3 ) ) {
         //most cars should have a destroyed alarm
         destroyAlarm = true;
     }
@@ -626,6 +624,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             set_hp( parts[random_entry( wheelcache )], 0, false );
             tries++;
         }
+    }
+
+    // Additional 50% chance for heavy damage to disabled vehicles
+    if( veh_status == 1 && one_in( 2 ) ) {
+        smash( placed_on, 0.5 );
     }
 
     for( size_t i = 0; i < engines.size(); i++ ) {
@@ -4420,7 +4423,7 @@ void vehicle::set_owner( const Character &c )
     owner = c.get_faction()->id;
 }
 
-bool vehicle::handle_potential_theft( Character &you, bool check_only, bool prompt )
+bool vehicle::handle_potential_theft( Character const &you, bool check_only, bool prompt )
 {
     const bool is_owned_by_player = is_owned_by( you );
     std::vector<npc *> witnesses;

@@ -1696,8 +1696,6 @@ static std::vector<player_activity> get_test_activities( avatar &dummy, map &m )
         player_activity( bookbinder_copy_activity_actor( bookbinder, recipe_water_clean ) ),
         player_activity( consume_activity_actor( item( itype_water_clean ) ) ),
         //player_activity( craft_activity_actor() ),
-        player_activity( dig_activity_actor( 1, p, "", north, 0, "" ) ),
-        player_activity( dig_channel_activity_actor( 1, p, "", north, 0, "" ) ),
         //player_activity( disable_activity_actor() ),
         //player_activity( disassemble_activity_actor( 1 ) ),
         player_activity( drop_activity_actor() ),

@@ -1,0 +1,44 @@
+[
+  {
+    "type": "overmap_terrain",
+    "name": "government office",
+    "id": [
+      "field_office_1",
+      "field_office_2",
+      "field_office_3",
+      "field_office_4",
+      "field_office_5",
+      "field_office_6",
+      "field_office_7",
+      "field_office_8",
+      "field_office_9",
+      "field_office_10",
+      "field_office_11",
+      "field_office_12",
+      "field_office_13",
+      "field_office_14",
+      "field_office_15",
+      "field_office_16",
+      "field_office_17",
+      "field_office_18",
+      "field_office_19",
+      "field_office_20"
+    ],
+    "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "safe_house" ],
+    "copy-from": "generic_city_house"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "safe_house_roof" ],
+    "copy-from": "generic_city_house_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "safe_house_basement" ],
+    "copy-from": "generic_city_house_basement"
+  }
+]
