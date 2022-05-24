@@ -2361,9 +2361,11 @@ static std::string keys_text()
 void outfit::organize_items_menu()
 {
     std::list<item_pocket> contents;
-    for( item &i : worn ) {
-        std::vector<item_pocket *> item_pockets = i.get_all_standard_pockets();
-        contents.insert( contents.end(), item_pockets.begin(), item_pockets.end() );
+    for( const item &i : worn ) {
+        for( const item_pocket *item_pocket : i.get_all_standard_pockets() ) {
+
+            contents.push_back( *item_pocket );
+        }
     }
     pocket_favorite_callback cb( &contents );
     int num_container_pockets = 0;

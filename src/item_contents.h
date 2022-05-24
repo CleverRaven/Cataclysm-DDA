@@ -16,6 +16,7 @@
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "ui.h"
 #include "units_fwd.h"
 #include "visitable.h"
 
