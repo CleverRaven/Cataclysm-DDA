@@ -10,5 +10,26 @@
     "volume": "600 ml",
     "description": "Designed to work with FN's proprietary 5.7x28mm round and with a built in suppressor, the Five-seveN is a lightweight integrally suppressed pistol with a very high capacity, best used against armored opponents.",
     "built_in_mods": [ "integrated_fn_suppressor" ]
+  },
+  {
+    "id": "sr1vektor_9x21mm",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "SR-1 Vektor Gyurza" },
+    "description": "The SR-1 Vektor also known as the Gyurza (Гюрза, Russian for 'blunt-nosed viper') or Serdyukov SPS is a 9×21mm Gyurza semi-automatic pistol designed for the Russian military.  It fires 9x21mm ammunition, which is rare in the States.",
+    "weight": "950 g",
+    "volume": "505 ml",
+    "longest_side": "195 mm",
+    "price": 95000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": [ "9x21mm" ],
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 450,
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sr1vektor_mag_18rd" ] } ]
   }
 ]

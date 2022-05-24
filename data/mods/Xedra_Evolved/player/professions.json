@@ -50,5 +50,32 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "spy",
+    "name": "Foreign Agent",
+    "description": "You came here from another country trying to gain access to secrets the United States had ripped from other worlds.  They probably had sent people to your homeland to do the same.  You were out performing recon when the Cataclysm struck and caught a ride with a stranger trying to find safety.  Sadly you lost your companion and vehicle, getting lost in the process and with now only a vague idea on how to get back to the safehouse, where you hope your hidden gear remains untouched.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 2, "name": "speech" },
+      { "level": 2, "name": "unarmed" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "sneakers", "hoodie", "knit_scarf", "diving_watch", "backpack", "pants_cargo" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
+        ]
+      },
+      "male": [ "briefs", "socks" ],
+      "female": [ "bra", "panties" ]
+    },
+    "missions": [ "MISSION_SAFEHOUSE" ]
   }
 ]

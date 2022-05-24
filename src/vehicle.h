@@ -293,7 +293,7 @@ struct vehicle_part {
          * @param pos Position of this part for item::process
          * @param e_heater Engine has a heater and is on
          */
-        void process_contents( const tripoint &pos, bool e_heater );
+        void process_contents( map &here, const tripoint &pos, bool e_heater );
 
         /**
          *  Try adding @param liquid to tank optionally limited by @param qty
@@ -785,7 +785,8 @@ class vehicle
         template <typename Func, typename Vehicle>
         static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
     public:
-        explicit vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
+        vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel = -1,
+                 int init_veh_status = -1 );
         vehicle();
         vehicle( const vehicle & ) = delete;
         ~vehicle();
@@ -820,7 +821,7 @@ class vehicle
         bool remote_controlled( const Character &p ) const;
 
         // init parts state for randomly generated vehicle
-        void init_state( int init_veh_fuel, int init_veh_status );
+        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status );
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
@@ -877,7 +878,7 @@ class vehicle
         bool has_old_owner() const {
             return !old_owner.is_null();
         }
-        bool handle_potential_theft( Character &you, bool check_only = false, bool prompt = true );
+        bool handle_potential_theft( Character const &you, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( const units::angle &rotate = 0_degrees );
         std::set<point> collision_check_points; // NOLINT(cata-serialize)

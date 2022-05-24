@@ -2529,6 +2529,10 @@ void itype_variant_data::load( const JsonObject &jo )
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", alt_name );
     mandatory( jo, false, "description", alt_description );
+    optional( jo, false, "symbol", alt_sym, cata::nullopt );
+    if( jo.has_string( "color" ) ) {
+        alt_color = color_from_string( jo.get_string( "color" ) );
+    }
     optional( jo, false, "ascii_picture", art );
     optional( jo, false, "weight", weight );
     optional( jo, false, "append", append );
