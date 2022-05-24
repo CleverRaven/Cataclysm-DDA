@@ -65,6 +65,7 @@ json_formatter
 /msvc-full-features/**/
 
 # Temporary CMakeFiles
+CMakeUserPresets.json
 out/
 
 # Visual Studio 2015

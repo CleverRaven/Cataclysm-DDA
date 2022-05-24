@@ -635,6 +635,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
 - ```PICKABLE``` This terrain/furniture could be picked with lockpicks.
+- ```PIT_FILLABLE``` This terrain can be filled with dirt like a shallow pit.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
 - ```PLANTABLE``` This terrain or furniture can have seeds planted in it.

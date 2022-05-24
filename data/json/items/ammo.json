@@ -256,6 +256,86 @@
   },
   {
     "type": "AMMO",
+    "id": "moisturizer",
+    "category": "chems",
+    "price": 300,
+    "price_postapoc": 100,
+    "name": { "str_sp": "moisturizer" },
+    "symbol": "m",
+    "color": "white",
+    "description": "A cosmetic preparation used for protecting, moisturizing, and lubricating the skin.",
+    "volume": "250 ml",
+    "weight": "25 g",
+    "phase": "liquid",
+    "container": "bottle_plastic_small",
+    "ammo_type": "soap",
+    "count": 10,
+    "stack_size": 10,
+    "variants": [
+      {
+        "id": "facecream_moisturizer",
+        "name": { "str_sp": "face cream moisturizer" },
+        "description": "This moisturizer works for all skin types and is really affordable!",
+        "weight": 5
+      },
+      {
+        "id": "lightcream_moisturizer",
+        "name": { "str_sp": "light cream moisturizer" },
+        "description": "This moisturizer is smooth like milk, just like your skin after applying this wonderful product.",
+        "weight": 5
+      },
+      {
+        "id": "simple_moisturizer",
+        "name": { "str_sp": "simple moisturizer" },
+        "description": "This is a simple moisturizer with all-organic ingredients.",
+        "weight": 40
+      },
+      {
+        "id": "sensitive_moisturizer",
+        "name": { "str_sp": "sensitive moisturizer" },
+        "description": "A favorite among customers with sensitive skin.",
+        "weight": 5
+      },
+      {
+        "id": "oilfree_moisturizer",
+        "name": { "str_sp": "oil free moisturizer" },
+        "description": "If you have an oily skin, this moisturizer is for you!",
+        "weight": 5
+      },
+      {
+        "id": "hydro_moisturizer",
+        "name": { "str_sp": "hydro moisturizer" },
+        "description": "After applying this moisturizer your skin will feel hydrated and smooth.",
+        "weight": 5
+      },
+      {
+        "id": "healthy_moisturizer",
+        "name": { "str_sp": "healthy moisturizer" },
+        "description": "Using various plants as ingredients, this moisturizer will give your skin all the vitamins for the day.",
+        "weight": 5
+      },
+      {
+        "id": "mushroom_moisturizer",
+        "name": { "str_sp": "mushroom moisturizer" },
+        "description": "This moisturizer contains mushroom extract to help improve the wellbeing of your skin.",
+        "weight": 5
+      },
+      {
+        "id": "antiaging_moisturizer",
+        "name": { "str_sp": "anti-aging moisturizer" },
+        "description": "A favorite among the mature customers.  This moisturizer will smooth out the wrinkles on your face and make you appear younger.",
+        "weight": 5
+      },
+      {
+        "id": "daynight_moisturizer",
+        "name": { "str_sp": "day and night moisturizer" },
+        "description": "This moisturizer will work day and night.  A perfect fit for those that decide their own sleep schedule.",
+        "weight": 5
+      }
+    ]
+  },
+  {
+    "type": "AMMO",
     "id": "duct_tape",
     "category": "spare_parts",
     "price": 2000,

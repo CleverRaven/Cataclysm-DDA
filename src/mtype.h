@@ -343,6 +343,9 @@ struct mtype {
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
         int armor_elec = -1;    /** innate armor vs. electricity */
+        int armor_cold = -1;    /** innate armor vs. cold **/
+        int armor_pure = -1;    /** innate armor vs. pure **/
+        int armor_biological = -1; /** innate armor vs. biological **/
         ::weakpoints weakpoints;
         weakpoint_families families;
 

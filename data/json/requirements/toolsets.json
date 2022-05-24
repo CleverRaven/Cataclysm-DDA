@@ -242,5 +242,42 @@
       { "id": "PRY", "level": 3 },
       { "id": "SCREW", "level": 1 }
     ]
+  },
+  {
+    "id": "marking_hard",
+    "type": "requirement",
+    "//": "Tools to mark a hard surface. Uses individual paint colors as using the paint requirement didn't work",
+    "tools": [
+      [
+        [ "ink_standard", 2, "LIST" ],
+        [ "medical_tape", 1 ],
+        [ "duct_tape", 1 ],
+        [ "permanent_marker", 1 ],
+        [ "survival_marker", -1 ],
+        [ "r_paint", 1 ],
+        [ "b_paint", 1 ],
+        [ "w_paint", 1 ],
+        [ "g_paint", 1 ],
+        [ "p_paint", 1 ],
+        [ "y_paint", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "marking_soft",
+    "type": "requirement",
+    "//": "Tools to mark a soft, rough surface. Uses individual paint colors as using the paint requirement didn't work",
+    "tools": [
+      [
+        [ "duct_tape", 1 ],
+        [ "survival_marker", -1 ],
+        [ "r_paint", 1 ],
+        [ "b_paint", 1 ],
+        [ "w_paint", 1 ],
+        [ "g_paint", 1 ],
+        [ "p_paint", 1 ],
+        [ "y_paint", 1 ]
+      ]
+    ]
   }
 ]

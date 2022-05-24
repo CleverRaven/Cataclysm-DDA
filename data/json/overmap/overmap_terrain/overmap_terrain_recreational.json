@@ -915,7 +915,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "marina_11", "marina_12", "marina_13", "marina_14", "marina_15" ],
+    "id": [
+      "marina_11",
+      "marina_12",
+      "marina_13",
+      "marina_14",
+      "marina_15",
+      "marina_11_roof",
+      "marina_12_roof",
+      "marina_15_roof"
+    ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "marina",
     "color": "cyan",
