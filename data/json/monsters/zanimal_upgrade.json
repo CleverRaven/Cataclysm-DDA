@@ -45,7 +45,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -122,7 +122,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
