@@ -1,10 +1,78 @@
-# Mutations
+# System info
 
-DDA 
+Mutations in Dark Days Ahead happen through a series of EOCs and hardcoded checks. Different items - usually dedicated mutagens or primers - give the character certain vitamins, and recurring EOCs will use these vitamins to mutate them. Other than uncontrolled mutations from sources like radiation, which are completely random, the traits that a character will get through mutation are determined entirely by the vitamins they have in their body.
 
-## Mutation Logic
+Traits and mutations are the same thing in DDA's code. The terms are used interchangeably in this page to avoid repetition.
 
+### Mutagens and primers
 
+There are two substances required to mutate: mutagen and primer. All mutagen and primers are handled as vitamins in the code.
+
+Mutagen is the core nutrient, and it's what is required to initate and maintain mutation. Thematically, this is the stuff that stimulates the character's infection and gets them mutating. It comes in a ingestable liquid form (which is toxic and generally very messy to drink) and an injectable catalyst form (which is much safer and more concentrated).
+
+Primers do not cause mutations to happen on their own, but instead influence what mutations the player gains. Think of mutagen as a car that can only drive on roads, and each type of primer as a possible road for the car to drive on. Every type of mutation category has an associated primer vitamin, and when mutating, the game will mutate down the category that has the most respective primer present.
+
+As a minor but important note: "liquid mutagens" exist for each category, but these are actually just a mixture of regular mutagen and the category's primer. The same behavior would happen if you used an injectable mutagen catalyst and an injectable primer separately.
+
+#### Purifier
+
+Many different animals have an associated type of primer. Humans are no exception; human primer, however, is called purifier. Code-wise, it functions the same as every other primer, but the mutations actually defined for the human category are special. Instead of being traditional traits you gain and lose, the traits targeted by purifier are abstract and only exist to cancel out other traits.
+
+For instance, if you have the Ursine Vision mutation (which has the `EYES` and `VISION` categories), and the game picks the dummy trait Human Eyes to mutate towards, you will lose the Ursine Vision trait and nothing else will happen. You never actually gain the Human Eyes trait; its only purpose is to be *targeted* by the game for removing other traits. The engine will do everything to simulate mutating towards that trait, but it will back out before it actually gives it to the character.
+
+Like any other primer, purifier requires normal mutagen in the body to function. It will not work on its own.
+
+### Thresholds
+
+Every mutation category has an associated "threshold" mutation, and having that threshold mutation is required to access the most powerful and unique traits in a category. Gaining one of these threshold mutations is called "crossing the threshold", and once a character has crossed the threshold for a category, it is permanent - they can never cross any other thresholds. Doing this requires extreme amounts of primer in the body, so it's very unlikely that a character will accidentally breach a threshold without intending to do so.
+
+Traits that can only be gained after crossing a threshold are generally called "post-threshold" mutations, for obvious reasons.
+
+### How mutation works
+
+The mutation system works in several steps. All time references are in game time.
+
+1. Every 30 to 45 minutes, the game checks if the player has 450 or more `mutagen` vitamin in their body.
+  * If the character doesn't have the required mutagen, nothing happens.
+  * Otherwise, two outcomes can happen: either the character starts mutating, or nothing happens again. The chance to start mutating is equal to the amount of mutagen in the character, while the chance to do nothing is a constant 2500. One of these options is then picked based on weight. Thus, for a player with 1250 mutagen in their body, the compared weights would be 1250 to begin mutating versus 2500 to do nothing, or a 1 in 3 chance to start mutating.
+2. Once mutation begins, the character mutates once immediately and the player receives a unique message. The character then gain sthe invisible `Changing` trait, which signifies to the engine that they are actively undergoing periodic mutation.
+3. Every 1 to 6 hours, the game will attempt to mutate the character. As long as the character has enough mutagen when the effect fires, the attempt will proceed and the timer will restart. Between 60 and 140 mutagen is removed from their body *when the attempt is made* - it does not have to succeed for the mutagen to be deducted.
+4. The engine attempts to mutate the character based on the primers they have in their body. 
+  * If the character has no primer in their body, the player receives a distinct message and nothing happens.
+  * Otherwise, the game chooses a random mutation in that category, and the character mutates towards it.
+  * If the character has an existing trait that conflicts with the target mutation, the conflicting trait will be removed or downgraded.
+  * Each mutation attempt can take only one "step". For instance, if the game attempts to mutate towards the Beautiful trait while the character has no beauty-related traits, it would simply give them the Pretty trait, because Pretty is a prerequisite of Beautiful. However, if the character had the Ugly trait, then that trait would be removed and nothing else would happen.
+  * On a successful mutation, primer of that mutation's category is removed from the character's body. This defaults to 100, but can be overriden on a by-type basis.
+  * Finally, Instability equal to the primer cost is added to the player. Instability is explained in the next section.
+5. When the player mutates towards a trait, if they have at least 2200 of the primer tied to that trait's category, attempt to cross the threshold. If the RNG gods bless the player, or the character is heavily mutated in the relevant category, they will cross the threshold and gain the relevant threshold mutation.
+6. Repeat from step 3 until the character no longer has enough mutagen in their body to continue mutating. The Changing trait will be then removed, and the game will begin repeating step 1 once more until the character takes enough mutagen to begin mutating again.
+
+### Instability and odds of a good mutation
+
+The odds of a mutation being good or bad is directly determined by Instability, which is a hidden stat tracked using a vitamin. It represents long-term genetic damage; a character will begin the game with 0 Instability and obtain only positive or neutral mutations, but with enough Instability, they will become almost exclusively negative ones.
+
+These chances are determined on a curve, ranging from 0 Instability (default) to 8000 Instability (the maximum):
+* There is always a flat 10% chance to obtain a neutral mutation that is neither positive or negative.
+* From roughly 0 to 800 Instability, there is a 90% chance for a positive mutation and a 0% chance for a negative one.
+* Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there is a 45% chance for a positive mutation and for a negative mutation.
+* Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 65% chance for a negative mutation and a 25% chance for a positive one.
+
+Instability very slowly decreases on its own, at a rate of 1 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per hour, for a total of 25 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
+
+### tl;dr
+
+* Characters need mutagen and primer to mutate. Mutagen causes the actual mutation, while primer determines the category that mutations will be in.
+* Once a character has enough mutagen in their body, they will begin mutating, causing them to gain a new mutation every few hours until they no longer have enough mutagen in their body to keep doing so.
+* If a character has a huge amount of one type of primer in their body when they mutate, they might cross the threshold for that primer's category if the conditions are right.
+* The odds of a mutation being good or bad is determined by Instability, which increases with every new mutation. Mutations start being exclusively beneficial or neutral but quickly become biased towards negatives after mutating enough.
+* Human primer is called purifier, and characters can "remove" their gained mutations by using it as their primer while mutating.
+
+### Further reading and relevant files
+
+`data/json/mutations/changing_eocs.json` - contains the EOCs that power the mutation system
+`data/json/mutations/mutations.json` - type definitions for every mutation in the game
+
+# Syntax documentation
 
 ## Mutations
 
