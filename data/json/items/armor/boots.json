@@ -1375,7 +1375,7 @@
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
           { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "wood", "covered_by_mat": 100, "thickness": 4.0 }
+          { "type": "wood", "covered_by_mat": 40, "thickness": 4.0 }
         ],
         "coverage": 80
       }

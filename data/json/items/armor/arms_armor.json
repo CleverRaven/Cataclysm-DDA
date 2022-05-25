@@ -140,8 +140,8 @@
         "encumbrance": 5,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ],
         "material": [
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.50 },
-          { "type": "plastic", "covered_by_mat": 90, "thickness": 1.50 }
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "plastic", "covered_by_mat": 90, "thickness": 1.5 }
         ],
         "coverage": 100,
         "cover_vitals": 90
@@ -150,21 +150,21 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_r", "arm_elbow_l" ],
         "material": [
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.50 },
-          { "type": "plastic", "covered_by_mat": 50, "thickness": 1.50 }
-        ],  
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "plastic", "covered_by_mat": 50, "thickness": 1.5 }
+        ],
         "coverage": 100,
         "cover_vitals": 90
       },
-      { 
-        "covers": [ "arm_l", "arm_r" ], 
-        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ], 
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ],
         "material": [
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.50 },
-          { "type": "plastic", "covered_by_mat": 90, "thickness": 1.50 }
-		    ],
-        "coverage": 80, 
-        "cover_vitals": 90 
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "plastic", "covered_by_mat": 90, "thickness": 1.5 }
+        ],
+        "coverage": 80,
+        "cover_vitals": 90
       }
     ]
   },
