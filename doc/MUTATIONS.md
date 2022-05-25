@@ -76,6 +76,10 @@ Instability very slowly decreases on its own, at a rate of 1 per day. Traits can
 
 ## Mutations
 
+Specific mutations are extremely versatile. A mutation only needs to have a few mandatory fields filled out, but a very high number of optional fields exist, in addition to supporting EOCs.
+
+### Example
+
 ```C++
 "id": "LIGHTEATER",  // Unique ID
 "name": "Optimist",  // In-game name displayed
@@ -211,6 +215,70 @@ Instability very slowly decreases on its own, at a rate of 1 per day. Traits can
                                    // 1.0 gives +/-1% speed for each degree above or below 65F
 "mana_modifier": 100               // Positive or negative change to total mana pool
 
+```
+
+### Mandatory Fields
+
+These fields are mandatory for every mutation object, and the data will fail to load if any of them are missing.
+
+|    Identifier     |                                                   Description                                                   |
+| ----------------- | --------------------------------------------------------------------------------------------------------------- |
+| `type`            | Must be `"mutation"`.                                                                                           |
+| `id`              | Unique ID.                                                                                                      |
+| `name`            | The name for the mutation as it appears in the character sheet.                                                 |
+| `description`     | A human-readable description for the mutation.                                                                  |
+| `points`          | The point cost of this trait. Positive values cost points, while negative values add them. 0 is a valid option. |
+
+### Supplementary Fields
+
+These fields are optional, but are very frequently used in mutations and their code, so they're highlighted here first.
+
+|    Identifier     | Default |                                                                          Description                                                                        |
+| ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `category`        | Nothing | An array of string IDs representing mutation categories. This defines which categories the trait is considered part of, and as such determines which primers must be used for the player to mutate them. |
+| `types`           | Nothing | A list of types that this mutation can be classified under. Each mutation with a certain type is mutually exclusive with other mutations that also have that type; if a trait has the `EXAMPLE` type defined, then no other trait with that type can exist on a character, and mutating such a trait would remove the existing one. |
+| `prereqs`         | Nothing | An array of mutation IDs that are possible requirements for this trait to be obtained. Only a single option from this list needs to be present.             |
+| `prereqs2`        | Nothing | Identical to `prereqs`, and will throw errors if `prereqs` isn't defined. This is used to have multiple traits required to obtain another trait; one option must be present on the character from both `prereqs` and `prereqs2` for a trait to be obtainable. |
+| `threshreq`       | Nothing | This is a dedicated prerequisite slot for threshold mutations, and functions identically to `prereq` and `prereq2`.                                         |
+| `cancels`         | Nothing | Trait IDs defined in this array will be forcibly removed from the character when trait is mutated.                                                          |
+| `changes_to`      | Nothing | Used for defining mutation lines with defined steps. This trait can further mutate into any other trait defined in this list.                               |
+| `leads_to`        | Nothing | Mutations that add onto this one. Effectively a reverse of the `prereqs` tag.                                                                               |
+| `starting_trait`  | false   | If true, this trait can be selected during character creation.                                                                                              |
+| `valid`           | true    | Whether or not this trait can be obtained through mutation. Invalid traits are still obtainable while creating a character.                                 |
+| `purifiable`      | true    | Whether or not this trait can be removed. If false, the trait cannot be removed by any means.                                                               |
+| `player_display`  | true    | If false, this trait is invisible, and will not appear in messages or the character sheet.                                                                  |
+| `mixed_effect`    | false   | Whether this trait has both positive and negative effects. Used only for UI; mixed mutations will appear with purple text instead of green, yellow, or red (as determined automatically by point cost). |
+| `vanity`          | false   | This trait is purely cosmetic, and can be changed at any time. This is for things like skin color, eye color, hair color, etc.                              |
+| `debug`           | false   | Identifies this trait as a debug trait that should never be obtainable in normal play. Debug traits will have a distinct teal color on the character sheet. |
+| `visibility`      | 0       | How visible this mutation is on NPCs when inspecting them, ranging between 0 and 10. Higher numbers are more visible, and can be seen from farther with a lower Perception score. |
+| `ugliness`        | 0       | How unpleasant this mutation is to look at. Ugly mutations increase NPC fear and decrease their trust. Negative values are possibile, and will do the opposite by making NPCs more trusting and less afraid. |
+| `active`          | false   | Active traits have special effects that only occur when the trait is manually or automatically activated; they don't happen on their own.                   |
+| `starts_active`   | false   | If true, a trait will start activated, instead of deactivated. Will throw an error if `active` is not defined.                                              |
+| `time`            | 0       | The time interval (measured in terms times player speed) between an active mutation requiring its cost again. This can be used to create active mutations that continually drain resources while active. If 0 or below, the cost is a one-time requirement instead. |
+| `cost`            | 0       | For active mutations, this value is the cost to activate them. At least one of the following three values will need to be `true` for this to function.      |
+| `kcal`            | false   | If true, this active mutation will consume `cost` kcal during activation or upkeep.                                                                         |
+| `thirst`          | false   | If true, this active mutation will consume `cost` thirst during activation or upkeep.                                                                       |
+| `fatigue`         | false   | If true, this active mutation will consume `cost` fatigue during activation or upkeep.                                                                      |
+| `enchantments`    | Nothing | A list of enchantments granted by this mutation. Can either be string IDs of a defined enchantment, or an inline definition.                                |
+
+### Optional Fields
+
+This is a collection of all of the other many, many optional fields that are present for mutations that aren't described in the above section.
+
+### Sample trait: Example Sleep
+
+```json
+  {
+    "type": "mutation",
+    "id": "EXAMPLE_SLEEP",
+    "name": { "str": "Example Sleep" },
+    "points": 1,
+    "description": "This is an example trait that makes it easier for the character to fall asleep at all times.  It can't be obtained through mutations; it only appears in character creation.",
+    "changes_to": [ "EASYSLEEPER2" ],
+	"valid": false,
+    "starting_trait": true,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 24 } ] } ]
+  }
 ```
 
 ## Mutation Categories
