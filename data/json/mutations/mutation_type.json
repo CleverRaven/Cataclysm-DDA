@@ -193,6 +193,14 @@
   },
   {
     "type": "mutation_type",
+    "id": "LIFTING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "WANDERLUST"
+  },
+  {
+    "type": "mutation_type",
     "id": "skin_tone"
   },
   {

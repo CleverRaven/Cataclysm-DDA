@@ -560,6 +560,9 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty )
     } else if( qty < 0 ) {
         it->second = std::max( it->second + qty, v.min() );
         update_vitamins( vit );
+        for( const std::pair<vitamin_id, int> &dcy : v.decays_into() ) {
+            vitamin_mod( dcy.first, dcy.second * ( it->second == 0 ? 0 : std::abs( qty ) ) );
+        }
     }
 
     return it->second;

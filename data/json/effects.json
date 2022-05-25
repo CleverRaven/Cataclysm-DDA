@@ -758,8 +758,31 @@
     "resist_traits": [ "MUT_JUNKIE" ],
     "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 30 ] },
     "scaling_mods": { "hurt_chance": [ 21, 0 ] },
-    "rating": "bad",
+    "rating": "mixed",
+    "apply_message": "You start to feel very strange all over.",
+    "remove_message": "Your body is starting to feel normal again.",
     "blood_analysis_description": "Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagenic_slurry",
+    "name": [ "Mutagenic Slurry" ],
+    "desc": [ "Your stomach feels like it's burning.  Hopefully that was a good idea…" ],
+    "main_parts_only": true,
+    "resist_traits": [ "MUT_JUNKIE" ],
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 300, 900 ], "vomit_chance": [ 600, 1200 ] },
+    "rating": "bad",
+    "apply_message": "You feel awful!",
+    "remove_message": "You're feeling a little better now.",
+    "blood_analysis_description": "Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_chelator",
+    "name": [ "Mutagen Chelator" ],
+    "desc": [ "You took a dose of chelator, and it's currently purging any mutagenic drugs from your bloodstream." ],
+    "main_parts_only": true,
+    "blood_analysis_description": "Mutagen Chelator Contamination"
   },
   {
     "type": "effect_type",

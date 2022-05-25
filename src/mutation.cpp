@@ -928,7 +928,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
         cat_list.add_or_replace( cat, 0 );
     } else {
         add_msg_if_player( m_bad,
-                           _( "Your body tries to shift, tries to change, but only contorts for a moment.  You crave a more exotic mutagen." ) );
+                           _( "Your body contorts for a moment, but quickly reverts back to normal." ) );
         return;
     }
 
@@ -1040,7 +1040,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             } else {
                 // every option we have vitamins for is invalid
                 add_msg_if_player( m_bad,
-                                   _( "Your body tries to shift, tries to change, but only contorts for a moment.  You crave a more exotic mutagen." ) );
+                                   _( "Your body contorts for a moment, but quickly reverts back to normal." ) );
                 return;
             }
         } else {
@@ -1286,7 +1286,6 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     if( mut_vit != vitamin_id::NULL_ID() ) {
         if( vitamin_get( mut_vit ) >= mdata.vitamin_cost ) {
             vitamin_mod( mut_vit, -mdata.vitamin_cost );
-            vitamin_mod( vitamin_instability, mdata.vitamin_cost );
         } else {
             return false;
         }
@@ -1444,6 +1443,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
 
     set_mutation( mut );
 
+    vitamin_mod( vitamin_instability, mdata.vitamin_cost );
     calc_mutation_levels();
     drench_mut_calc();
     return true;

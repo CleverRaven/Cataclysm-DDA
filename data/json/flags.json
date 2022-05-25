@@ -1405,17 +1405,17 @@
   {
     "id": "MUTAGEN_SAMPLE",
     "type": "json_flag",
-    "info": "Used in the <neutral>creation of mutagenic drugs</neutral>."
+    "info": "This item is <neutral>used in the creation of mutagenic drugs</neutral>."
   },
   {
     "id": "MUTAGEN_CATALYST",
     "type": "json_flag",
-    "info": "Injecting it will <neutral>jumpstart mutation</neutral>."
+    "info": "Injecting this drug will <neutral>jumpstart mutation</neutral>."
   },
   {
     "id": "MUTAGEN_PRIMER",
     "type": "json_flag",
-    "info": "Injecting it will <neutral>prime your body for mutation</neutral>."
+    "info": "Injecting this drug will <neutral>prime your body for mutation</neutral>."
   },
   {
     "id": "MYCUS_OK",

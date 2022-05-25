@@ -11,7 +11,7 @@
     "id": "HUMAN",
     "name": "Human",
     "threshold_mut": "",
-    "mutagen_message": "You feel the aberrance fade.",
+    "mutagen_message": "You feel a little more human again.",
     "vitamin": "mutagen_human"
   },
   {
@@ -28,7 +28,7 @@
     "id": "INSECT",
     "name": "Insect",
     "threshold_mut": "THRESH_INSECT",
-    "mutagen_message": "You hear buzzing, and feel your body harden.",
+    "mutagen_message": "You hear buzzing, and feel your skin harden.",
     "memorial_message": "Metamorphosed.",
     "vitamin": "mutagen_insect"
   },
@@ -127,7 +127,7 @@
     "id": "CEPHALOPOD",
     "name": "Cephalopod",
     "threshold_mut": "THRESH_CEPHALOPOD",
-    "mutagen_message": "Your mind is overcome by images of eldritch horrors… and then they pass.",
+    "mutagen_message": "Your mind is overcome by images of writhing things in the dark… and then it passes.",
     "memorial_message": "Began living the dreams.",
     "vitamin": "mutagen_cephalopod"
   },
@@ -154,7 +154,7 @@
     "id": "BATRACHIAN",
     "name": "Batrachian",
     "threshold_mut": "THRESH_BATRACHIAN",
-    "mutagen_message": "Like a tadpole you must transform.",
+    "mutagen_message": "Like a tadpole, you must transform.",
     "memorial_message": "Found a bigger pond.",
     "vitamin": "mutagen_batrachian"
   },
