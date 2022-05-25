@@ -1,0 +1,8 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CHRYSALID_SPAWNS",
+    "monsters": [ { "monster": "mon_chrysalid_jörmungandr" } ],
+    "monsters": [ { "monster": "mon_chrysalid_devil" } ]
+  }
+]
