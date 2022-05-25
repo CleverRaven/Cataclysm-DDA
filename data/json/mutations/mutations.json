@@ -16,8 +16,10 @@
     "name": { "str": "No Extras" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "TAIL", "WHISKERS", "HORNS", "BIOLUM" ],
+    "types": [ "TAIL", "WHISKERS", "HORNS", "BIOLUM", "WINGS", "SPIKES" ],
+    "cancels": [ "SLIT_NOSTRILS", "BARBS" ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
   {
@@ -26,6 +28,7 @@
     "name": { "str": "Human Arms" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "prereqs": [ "HUMAN_HANDS" ],
     "category": [ "HUMAN" ],
     "types": [ "ARMS" ],
@@ -38,6 +41,7 @@
     "name": { "str": "Human Ears" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "EARS", "HEARING" ],
     "description": "You have human ears and hearing."
@@ -48,6 +52,7 @@
     "name": { "str": "Human Eyes" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "VISION", "EYES" ],
     "description": "You have human eyes."
@@ -58,6 +63,7 @@
     "name": { "str": "Human Hands" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "HANDS", "CLAWS" ],
     "description": "You have human hands."
@@ -68,6 +74,7 @@
     "name": { "str": "Human Healing" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "HEALING", "PAIN", "PAIN_RECOVERY" ],
     "description": "You heal as fast as most humans do in this new world."
@@ -78,6 +85,7 @@
     "name": { "str": "Human Legs" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "LEGS", "RUNNING", "FEET", "SOLES" ],
     "cancels": [ "BENDY1", "BENDY2", "BENDY3" ],
@@ -89,6 +97,7 @@
     "name": { "str": "Human Metabolism" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "METABOLISM", "CARDIO", "THIRST", "DIET", "CONSTITUTION" ],
     "cancels": [ "QUICK", "DEFT" ],
@@ -100,8 +109,9 @@
     "name": { "str": "Human Mouth" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "TEETH", "MUZZLE", "ATTRACTIVENESS" ],
+    "types": [ "TEETH", "TONGUE", "MUZZLE", "ATTRACTIVENESS" ],
     "description": "You have a human mouth with human teeth."
   },
   {
@@ -110,6 +120,7 @@
     "name": { "str": "Human Skin" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "SKIN", "SCENT", "GILLS", "SECRETION", "SUNLIGHT", "ARMOR", "TORSO_ARMOR", "PHEROMONE" ],
     "description": "You have human skin and no distinct smell."
@@ -120,6 +131,7 @@
     "name": { "str": "Human Rest" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "SLEEP" ],
     "cancels": [ "DIRTSLEEPER", "WATERSLEEPER" ],
@@ -131,6 +143,7 @@
     "name": { "str": "Human Capabilities" },
     "points": 0,
     "player_display": false,
+    "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "STR", "DEX", "PER", "INT", "DURABILITY", "BUILD", "BONES", "SIZE" ],
     "cancels": [ "GLASSJAW", "FAST_REFLEXES", "TUNNEL_FIGHTER", "NIGHT_RAIDER" ],

@@ -127,6 +127,8 @@ struct mutation_branch {
         bool player_display = true;
         // True if mutation is purely comestic and can be changed anytime without any effect
         bool vanity = false;
+        // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
+        bool dummy = false;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;

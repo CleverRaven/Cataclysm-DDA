@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "changing_initiate_check",
     "//": "Give player the CHANGING trait when they have enough basic mutagen in their blood.",
-    "recurrence": [ "30 m", "45 m" ],
+    "recurrence": "30 m",
     "condition": {
       "and": [
         { "compare_int": [ { "u_val": "vitamin", "name": "mutagen" }, ">=", { "const": 450 } ] },
@@ -32,7 +32,8 @@
         "type": "mixed"
       },
       { "u_add_trait": "CHANGING" },
-      { "u_mutate": 0 }
+      { "u_mutate": 0 },
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 5 } ] }
     ]
   },
   {
@@ -41,7 +42,7 @@
     "condition": { "one_in_chance": 3 },
     "effect": [
       {
-        "u_message": "You can palpably feel the churning sensation within fade, your mutation cut short by a lack of nutrients.",
+        "u_message": "You can palpably feel the churning sensation within fade, your mutation cut short by a lack of mutagen.",
         "type": "bad"
       },
       { "u_lose_trait": "CHANGING" },
@@ -52,7 +53,7 @@
     "type": "effect_on_condition",
     "id": "changing_mutate",
     "//": "Time for mutation!",
-    "recurrence": [ "1 h", "6 h" ],
+    "recurrence": [ "10 s", "1 m" ],
     "condition": { "and": [ { "u_has_flag": "CHANGING" } ] },
     "deactivate_condition": { "not": { "u_has_flag": "CHANGING" } },
     "effect": [
@@ -63,7 +64,7 @@
             "//": "Mutate!",
             "condition": { "compare_int": [ { "u_val": "vitamin", "name": "mutagen" }, ">=", { "const": 300 } ] },
             "effect": [
-              { "u_message": "You feel a deep, churning sensation fill your body.", "type": "mixed" },
+              { "u_message": "You feel a deep, churning sensation fill your body.", "type": "warning" },
               { "u_mutate": 0 },
               { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "-=", { "const": 60 } ] },
               { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "-=", { "rand": 80 } ] }

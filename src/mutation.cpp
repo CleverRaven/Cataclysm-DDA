@@ -933,6 +933,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
     }
 
     std::vector<trait_id> valid; // Valid mutations
+    std::vector<trait_id> dummies; // Dummy mutations
 
     do {
         // See if we should upgrade/extend an existing mutation...
@@ -955,8 +956,14 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             bool purify_save = !base_mdata.purifiable;
 
             // ...those we don't have are valid.
-            if( base_mdata.valid && is_category_allowed( base_mdata.category ) ) {
+            if( base_mdata.valid && is_category_allowed( base_mdata.category ) &&
+                !has_trait( base_mutation ) && !base_mdata.dummy ) {
                 valid.push_back( base_mdata.id );
+            }
+
+            // ...dummy traits are cached.
+            if( base_mdata.dummy && is_category_allowed( base_mdata.category ) ) {
+                dummies.push_back( base_mdata.id );
             }
 
             // ...for those that we have...
@@ -1032,6 +1039,18 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             }
         }
 
+        // Attempt to mutate towards any dummy traits
+        // We shuffle the list here, and try to find the first dummy trait that would be blocked by existing mutations
+        // If we find one, we mutate towards it and stop there
+        if( !dummies.empty() ) {
+            std::shuffle( dummies.begin(), dummies.end(), rng_get_engine() );
+            for( trait_id &tid : dummies ) {
+                if( has_conflicting_trait( tid ) && mutate_towards( tid, cat ) ) {
+                    add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+                    return;
+                }
+            }
+        }
         if( valid.empty() ) {
             if( cat_list.get_weight() > 0 ) {
                 // try to pick again
@@ -1441,7 +1460,10 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         get_event_bus().send<event_type::gains_mutation>( getID(), mdata.id );
     }
 
-    set_mutation( mut );
+    // If the mutation is a dummy mutation, back out at the last minute
+    if( !mdata.dummy ) {
+        set_mutation( mut );
+    }
 
     vitamin_mod( vitamin_instability, mdata.vitamin_cost );
     calc_mutation_levels();
