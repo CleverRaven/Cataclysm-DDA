@@ -2490,7 +2490,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "cut", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2534,7 +2540,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The twisted back sail means it must have been a spinosaurus once.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "cut", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2576,7 +2588,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "cut", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2618,7 +2636,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "cut", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2699,7 +2723,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "cut", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2743,7 +2773,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "cut", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2787,7 +2823,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting beak suggest some kind of two legged beaked dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "cut", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2831,7 +2873,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting claws and sharp teeth suggest some kind of two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "cut", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
