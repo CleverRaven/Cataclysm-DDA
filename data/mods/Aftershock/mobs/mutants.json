@@ -21,7 +21,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cold", "amount": 4 } ],
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
     "harvest": "human",
     "dissect": "dissect_human",
