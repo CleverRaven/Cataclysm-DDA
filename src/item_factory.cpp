@@ -1050,21 +1050,6 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
-        // now that layering is resolved hard code rules for footwear always being rigid
-        // anything that covers the feet is rigid
-        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
-            auto is_normal = std::find( armor_data.layers.begin(), armor_data.layers.end(),
-                                        layer_level::NORMAL );
-            auto is_legs = std::find_if( armor_data.sub_coverage.begin(),
-            armor_data.sub_coverage.end(), []( const sub_bodypart_id sbp ) {
-                return sbp->parent == body_part_foot_l || sbp->parent == body_part_foot_r;
-            } );
-
-            if( is_normal != armor_data.layers.end() && is_legs != armor_data.sub_coverage.end() ) {
-                armor_data.rigid = true;
-            }
-        }
-
         // anything on a non traditional clothing layer can't be "rigid" as well since it's storage pouches and stuff
         for( armor_portion_data &armor_data : obj.armor->sub_data ) {
             auto clothing_layer = std::find_if( armor_data.layers.begin(),
