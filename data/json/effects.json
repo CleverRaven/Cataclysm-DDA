@@ -774,7 +774,7 @@
     "rating": "bad",
     "apply_message": "You feel awful!",
     "remove_message": "You're feeling a little better now.",
-    "blood_analysis_description": "Mutagen Contamination"
+    "blood_analysis_description": "Mutagenic Toxins Contamination"
   },
   {
     "type": "effect_type",
@@ -791,7 +791,7 @@
     "desc": [
       "You consumed alpha mutagen.",
       "You feel better.  So much better.",
-      "The world needs you, surely this won't kill you.  It better not."
+      "The world needs you - surely this won't kill you.  It better not."
     ],
     "main_parts_only": true,
     "max_intensity": 3,
@@ -901,7 +901,7 @@
     "desc": [
       "You consumed bird mutagen.",
       "You feel the pull of the skies.",
-      "Goosebumps stand across your entire body.  You keep feeling that you're falling."
+      "Goosebumps stand up across your entire body.  You keep feeling like you're falling."
     ],
     "max_intensity": 3,
     "resist_traits": [ "THRESH_BIRD" ],
@@ -1015,7 +1015,7 @@
     "name": [ "Elf-A Mutation", "Elf-A Transformation", "Elf-A Metamorphosis" ],
     "desc": [
       "You consumed Elf-A mutagen.",
-      "You must look after this world, if noone else will.",
+      "You must look after this world.  No one else will.",
       "You see stars.  You see so many stars."
     ],
     "max_intensity": 3,

@@ -47,7 +47,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "mutagenic catalyst" },
-    "description": "A processed, purified, and condensed dose of mutagenic drugs.  If combined with mutagenic primer, this will cause mutations.",
+    "description": "A processed, purified, and condensed dose of mutagenic drugs.  When combined with mutagenic primer, this will cause mutations over time.",
     "healthy": -10,
     "stim": -10,
     "addiction_potential": 12,
@@ -410,7 +410,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "mutagen" },
-    "description": "A slurry of organic chemicals and compounds.  This is toxic and dangerous to consume on its own, but is the foundation for making primers and mutagenic catalyst.",
+    "description": "A slurry of organic chemicals and compounds, used to induce mutations.  This is toxic and dangerous to consume on its own, but is the foundation for making primers and mutagenic catalyst.",
     "addiction_potential": 6,
     "use_action": { "type": "consume_drug", "activation_message": "You drink the mutagen.", "vitamins": [ [ "mutagenic_slurry", 25 ] ] }
   },
@@ -729,8 +729,8 @@
     "id": "iv_purifier",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "purifier catalyst" },
-    "description": "This chunky, flesh-hued injection does wonders for returning mutants to humanity, but requires a dose of mutagenic catalyst.  Do not use on animals.",
+    "name": { "str": "purifier primer" },
+    "description": "This chunky, flesh-hued injection does wonders for returning mutants to humanity, but perhaps counter-intuitively, it requires regular mutagen to function.  Do not use on animals.",
     "price": "9000 USD",
     "price_postapoc": "5 USD",
     "color": "pink",
@@ -800,13 +800,13 @@
     "symbol": "%",
     "healthy": -12,
     "calories": 156,
-    "description": "A deformed human fetus.  Eating this would be the most vile thing you can think of, and just might cause you to mutate.",
+    "description": "A deformed human fetus.  Eating this might just be the most vile thing you can think of.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "hflesh" ],
     "volume": "250 ml",
     "fun": -60,
-    "vitamins": [ [ "mutagen", 100 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 15 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -821,13 +821,13 @@
     "symbol": "%",
     "healthy": -8,
     "calories": 278,
-    "description": "A misshapen human arm.  Eating this would be incredibly disgusting and probably cause you to mutate.",
+    "description": "A misshapen human arm.  Eating this would be incredibly disgusting.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "hflesh" ],
     "volume": "2 L",
     "fun": -20,
-    "vitamins": [ [ "mutagen", 60 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -842,12 +842,12 @@
     "symbol": "%",
     "healthy": -8,
     "calories": 399,
-    "description": "A malformed human leg.  This would be gross to eat, and probably cause mutations.",
+    "description": "A malformed human leg.  This would be gross to eat.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "hflesh" ],
     "volume": "5 L",
     "fun": -20,
-    "vitamins": [ [ "mutagen", 60 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 10 ] ]
   }
 ]
