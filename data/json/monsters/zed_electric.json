@@ -71,7 +71,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "electric", "amount": 8 } ],
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_electromagnetics" ],
