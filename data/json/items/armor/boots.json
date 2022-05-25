@@ -70,7 +70,7 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 } ],
         "encumbrance": 12,
         "coverage": 100
       },
