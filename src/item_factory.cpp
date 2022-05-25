@@ -3226,10 +3226,6 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
     }
 }
 
-void islot_magazine::deserialize(const JsonObject& jo) {
-    load(jo);
-}
-
 void islot_magazine::load(const JsonObject &jo)
 {
     //Ammotype has to be stored as a set, but might be a single string value in json. 
@@ -3249,6 +3245,10 @@ void islot_magazine::load(const JsonObject &jo)
     optional( jo, was_loaded, "default_ammo", default_ammo );
     optional( jo, was_loaded, "reload_time", reload_time, 0 );
     optional( jo, was_loaded, "linkage", linkage );
+}
+
+void islot_magazine::deserialize(const JsonObject& jo) {
+    load(jo);
 }
 
 void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
