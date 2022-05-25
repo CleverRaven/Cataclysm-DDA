@@ -127,7 +127,7 @@
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks" ]
+    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ]
   },
   {
     "id": "arm_l",
@@ -746,7 +746,7 @@
   {
     "id": "mouth_lips",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 15,
     "parent": "mouth",
     "opposite": "sub_limb_debug",
     "side": 0,
@@ -755,7 +755,7 @@
   {
     "id": "mouth_nose",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 15,
     "parent": "mouth",
     "opposite": "sub_limb_debug",
     "side": 0,
@@ -764,11 +764,20 @@
   {
     "id": "mouth_cheeks",
     "type": "sub_body_part",
-    "max_coverage": 40,
+    "max_coverage": 30,
     "parent": "mouth",
     "opposite": "sub_limb_debug",
     "side": 0,
     "name": "cheeks"
+  },
+  {
+    "id": "mouth_chin",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "mouth",
+    "opposite": "sub_limb_debug",
+    "side": 0,
+    "name": "chin"
   },
   {
     "id": "foot_sole_l",
