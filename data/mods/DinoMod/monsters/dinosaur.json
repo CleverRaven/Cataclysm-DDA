@@ -1081,7 +1081,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -1141,7 +1140,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "PET_MOUNTABLE" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
