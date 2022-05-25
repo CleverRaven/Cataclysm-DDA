@@ -880,8 +880,8 @@ struct islot_magazine {
 
     bool was_loaded = false;
 
-    void load(const JsonObject& jo);
-    void deserialize(const JsonObject& jo);
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
 };
 
 struct islot_battery {

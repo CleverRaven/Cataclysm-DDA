@@ -3226,49 +3226,47 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
     }
 }
 
-void islot_magazine::load(const JsonObject &jo)
+void islot_magazine::load( const JsonObject &jo )
 {
-    //Ammotype has to be stored as a set, but might be a single string value in json. 
-    //If this is the case, make it a set. If not the case, just assign it (or not) straight from json.  
-    if (jo.has_string("ammo_type")) {
+    //Ammotype has to be stored as a set, but might be a single string value in json.
+    //If this is the case, make it a set. If not the case, just assign it (or not) straight from json.
+    if( jo.has_string( "ammo_type" ) ) {
         ammotype am;
-        optional(jo, was_loaded, "ammo_type", am);
+        optional( jo, was_loaded, "ammo_type", am );
         type = { am };
+    } else {
+        optional( jo, was_loaded, "ammo_type", type );
     }
-    else {
-        optional(jo, was_loaded, "ammo_type", type);
-    }
-    
+
     optional( jo, was_loaded, "capacity", capacity, 0 );
     optional( jo, was_loaded, "count", count, 0 );
     //TODO: if I do this with assign, it works. If I do this with optional or mandatory, it doesn't.
     //optional( jo, was_loaded, "default_ammo", default_ammo );
-    assign(jo, "default_ammo", default_ammo, true);
+    assign( jo, "default_ammo", default_ammo, true );
     optional( jo, was_loaded, "reload_time", reload_time, 0 );
     optional( jo, was_loaded, "linkage", linkage );
 }
 
-void islot_magazine::deserialize(const JsonObject& jo) {
-    load(jo);
+void islot_magazine::deserialize( const JsonObject &jo )
+{
+    load( jo );
 }
 
 void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        if (def.was_loaded) {
-            if (def.magazine) {
+        if( def.was_loaded ) {
+            if( def.magazine ) {
                 def.magazine->was_loaded = true;
-            }
-            else {
+            } else {
                 def.magazine = cata::make_value<islot_magazine>();
                 def.magazine->was_loaded = true;
             }
-        }
-        else {
+        } else {
             def.magazine = cata::make_value<islot_magazine>();
         }
-        def.magazine->load(jo);
+        def.magazine->load( jo );
         load_basic_info( jo, def, src );
     }
 }
