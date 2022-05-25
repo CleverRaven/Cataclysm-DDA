@@ -786,7 +786,7 @@ class vehicle
         static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
     public:
         vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel = -1,
-                 int init_veh_status = -1, bool locked = false );
+                 int init_veh_status = -1, bool may_spawn_locked = false );
         vehicle();
         vehicle( const vehicle & ) = delete;
         ~vehicle();
