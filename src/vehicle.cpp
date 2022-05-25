@@ -265,7 +265,7 @@ units::volume vehicle_stack::max_volume() const
 // Vehicle class methods.
 
 vehicle::vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel,
-                  int init_veh_status, bool locked ): type( type_id )
+                  int init_veh_status, bool may_spawn_locked ): type( type_id )
 {
     turn_dir = 0_degrees;
     face.init( 0_degrees );
@@ -280,7 +280,7 @@ vehicle::vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel,
         // The game language may have changed after the blueprint was created,
         // so translated the prototype name again.
         name = proto.name.translated();
-        init_state( placed_on, init_veh_fuel, init_veh_status, locked );
+        init_state( placed_on, init_veh_fuel, init_veh_status, may_spawn_locked );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     refresh();
@@ -332,7 +332,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status, bool locked )
+void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status, bool may_spawn_locked )
 {
     // vehicle parts excluding engines are by default turned off
     for( vehicle_part &pt : parts ) {
@@ -398,7 +398,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         }
     }
 
-    if( one_in( 3 ) && locked ) {
+    if( one_in( 3 ) && may_spawn_locked ) {
         //33% chance for a locked vehicle
         has_no_key = true;
     }

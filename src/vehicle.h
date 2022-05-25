@@ -821,7 +821,7 @@ class vehicle
         bool remote_controlled( const Character &p ) const;
 
         // init parts state for randomly generated vehicle
-        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status, bool locked );
+        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status, bool may_spawn_locked );
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
