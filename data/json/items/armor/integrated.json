@@ -173,6 +173,12 @@
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
         "encumbrance": 2
+      },
+	  {
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
+        "encumbrance": 0
       }
     ]
   },
@@ -204,6 +210,12 @@
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
         "coverage": 100,
         "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
+        "encumbrance": 0
       }
     ]
   },
@@ -244,6 +256,12 @@
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
         "coverage": 100,
         "encumbrance": 7
+      },
+      {
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 5 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
+        "encumbrance": 0
       }
     ]
   },
@@ -275,6 +293,12 @@
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
         "coverage": 100,
         "encumbrance": 3
+      },
+      {
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
+        "encumbrance": 0
       }
     ]
   },
@@ -300,6 +324,12 @@
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
         "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
+        "encumbrance": 0
       }
     ]
   },
