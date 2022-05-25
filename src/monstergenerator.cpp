@@ -923,6 +923,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         melee_damage.add_damage( damage_type::CUT, bonus_cut );
     }
 
+    int bonus_bash = 0;
+    if( jo.has_int( "melee_bash" ) ) {
+        bonus_bash = jo.get_int( "melee_bash" );
+        melee_damage.add_damage( damage_type::BASH, bonus_bash );
+    }
+
     if( jo.has_member( "death_drops" ) ) {
         death_drops =
             item_group::load_item_group( jo.get_member( "death_drops" ), "distribution",
@@ -1073,7 +1079,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
-    difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
+    difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + bonus_bash + melee_sides ) * 0.04 +
                  ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
                  ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
     difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
