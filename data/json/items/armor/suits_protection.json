@@ -2351,6 +2351,17 @@
         "encumbrance": [ 0, 0 ]
       },
       {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
         "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
