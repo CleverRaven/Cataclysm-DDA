@@ -412,3 +412,39 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
     }
 
 }
+
+TEST_CASE( "All valid mutations can be purified", "[mutations][purifier]" )
+{
+    std::vector<mutation_branch> dummies;
+    std::vector<mutation_branch> valid_traits;
+    for( const mutation_branch &mbra : mutation_branch::get_all() ) {
+        if( mbra.dummy ) {
+            dummies.push_back( mbra );
+        } else if( !mbra.debug && mbra.valid && mbra.purifiable && !mbra.category.empty() ) {
+            valid_traits.push_back( mbra );
+        }
+    }
+    REQUIRE( !dummies.empty() );
+    for( const mutation_branch &mbra : valid_traits ) {
+        bool is_removable = false;
+        GIVEN( "mutation of ID " + mbra.id.str() + " is valid and removable" ) {
+            THEN( "a dummy mutation should cancel it or have the same type" ) {
+                for( const mutation_branch &dummy : dummies ) {
+                    // First, check if the dummy mutation directly cancels us out
+                    if( std::find( dummy.cancels.begin(), dummy.cancels.end(), mbra.id ) != dummy.cancels.end() ) {
+                        is_removable = true;
+                        break;
+                    }
+                    // If it doesn't, then check to see if we have a conflicting type
+                    for( const std::string &type : dummy.types ) {
+                        if( std::find( mbra.types.begin(), mbra.types.end(), type ) != mbra.types.end() ) {
+                            is_removable = true;
+                            break;
+                        }
+                    }
+                }
+                CHECK( is_removable );
+            }
+        }
+    }
+}
