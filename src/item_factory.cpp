@@ -3241,8 +3241,9 @@ void islot_magazine::load(const JsonObject &jo)
     
     optional( jo, was_loaded, "capacity", capacity, 0 );
     optional( jo, was_loaded, "count", count, 0 );
-    //assign(jo, "default_ammo", default_ammo, true);
-    optional( jo, was_loaded, "default_ammo", default_ammo );
+    //TODO: if I do this with assign, it works. If I do this with optional or mandatory, it doesn't.
+    //optional( jo, was_loaded, "default_ammo", default_ammo );
+    assign(jo, "default_ammo", default_ammo, true);
     optional( jo, was_loaded, "reload_time", reload_time, 0 );
     optional( jo, was_loaded, "linkage", linkage );
 }
