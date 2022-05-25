@@ -18,8 +18,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "TAIL", "WHISKERS", "HORNS", "BIOLUM", "WINGS", "SPIKES" ],
-    "cancels": [ "SLIT_NOSTRILS", "BARBS" ],
+    "types": [ "TAIL", "WHISKERS", "HORNS", "BIOLUM" ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
   {
@@ -111,7 +110,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "TEETH", "TONGUE", "MUZZLE", "ATTRACTIVENESS" ],
+    "types": [ "TEETH", "MUZZLE", "ATTRACTIVENESS" ],
     "description": "You have a human mouth with human teeth."
   },
   {
