@@ -40,7 +40,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -199,7 +198,6 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == ACT_JACKHAMMER ||
             type == ACT_PICKAXE ||
             type == ACT_VEHICLE ||
-            type == ACT_FILL_PIT ||
             type == ACT_CHOP_TREE ||
             type == ACT_CHOP_LOGS ||
             type == ACT_CHOP_PLANKS ||
@@ -508,7 +506,9 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
         if( std::find( consuming.begin(), consuming.end(), act_id ) == consuming.end() ) {
             avatar &player_character = get_avatar();
             if( !is_distraction_ignored( distraction_type::hunger ) ) {
-                if( player_character.get_hunger() >= 300 && player_character.get_starvation() > 2500 ) {
+                // Starvation value of 5300 equates to about 5kCal.
+                if( calendar::once_every( 2_hours ) && player_character.get_hunger() >= 300 &&
+                    player_character.get_starvation() > 5300 ) {
                     res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
                 }
             }

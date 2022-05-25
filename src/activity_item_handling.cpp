@@ -820,6 +820,13 @@ std::vector<tripoint> route_best_workbench( const Character &you, const tripoint
 namespace
 {
 
+bool _can_construct( tripoint const &loc, construction_id const &idx, construction const &check,
+                     cata::optional<construction_id> const &part_con_idx )
+{
+    return ( part_con_idx and * part_con_idx == check.id ) or
+           ( check.pre_terrain != idx->post_terrain and can_construct( check, loc ) );
+}
+
 construction const *
 _find_alt_construction( tripoint const &loc, construction_id const &idx,
                         cata::optional<construction_id> const &part_con_idx,
@@ -827,9 +834,51 @@ _find_alt_construction( tripoint const &loc, construction_id const &idx,
 {
     std::vector<construction *> cons = constructions_by_filter( filter );
     for( construction const *el : cons ) {
-        if( ( part_con_idx and * part_con_idx == el->id ) or
-            ( el->pre_terrain != idx->post_terrain and can_construct( *el, loc ) ) ) {
+        if( _can_construct( loc, idx, *el, part_con_idx ) ) {
             return el;
+        }
+    }
+    return nullptr;
+}
+
+template <class ID>
+ID _get_id( construction_id const &idx )
+{
+    return idx->post_terrain.empty() ? ID() : ID( idx->post_terrain );
+}
+
+using checked_cache_t = std::vector<construction_id>;
+construction const *_find_prereq( tripoint const &loc, construction_id const &idx,
+                                  construction_id const &top_idx,
+                                  cata::optional<construction_id> const &part_con_idx, checked_cache_t &checked_cache )
+{
+    construction const *con = nullptr;
+    std::vector<construction *> cons = constructions_by_filter( [&idx, &top_idx](
+    construction const & it ) {
+        furn_id const f = top_idx->post_is_furniture ? _get_id<furn_id>( top_idx ) : furn_id();
+        ter_id const t = top_idx->post_is_furniture ? ter_id() : _get_id<ter_id>( top_idx );
+        return it.group != idx->group and !it.post_terrain.empty() and
+               it.post_terrain == idx->pre_terrain and
+               // don't get stuck building and deconstructing the top level post_terrain
+               it.pre_terrain != top_idx->post_terrain and
+               ( it.pre_flags.empty() or !can_construct_furn_ter( it, f, t ) );
+    } );
+
+    for( construction const *gcon : cons ) {
+        if( std::find( checked_cache.begin(), checked_cache.end(), gcon->id ) !=
+            checked_cache.end() ) {
+            continue;
+        }
+        checked_cache.emplace_back( gcon->id );
+        if( _can_construct( loc, idx, *gcon, part_con_idx ) ) {
+            return gcon;
+        }
+        // try to find a prerequisite of this prerequisite
+        if( !gcon->pre_terrain.empty() or !gcon->pre_flags.empty() ) {
+            con = _find_prereq( loc, gcon->id, top_idx, part_con_idx, checked_cache );
+        }
+        if( con != nullptr ) {
+            return con;
         }
     }
     return nullptr;
@@ -853,11 +902,14 @@ static activity_reason_info find_base_construction(
             return it.group == idx->group;
         } );
         if( con == nullptr ) {
-            // try to build a pre-requisite from a different group
-            con = _find_alt_construction( loc, idx, part_con_idx, [&idx]( construction const & it ) {
-                return it.group != idx->group and !it.post_terrain.empty() and
-                       it.post_terrain == idx->pre_terrain;
-            } );
+            // try to build a pre-requisite from a different group, recursively
+            checked_cache_t checked_cache;
+            for( construction const *vcon : constructions_by_group( idx->group ) ) {
+                con = _find_prereq( loc, vcon->id, vcon->id, part_con_idx, checked_cache );
+                if( con != nullptr ) {
+                    break;
+                }
+            }
         }
         cc = con != nullptr;
     }
@@ -1686,6 +1738,24 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( Charac
     return final_map;
 }
 
+namespace
+{
+
+void _tidy_move_items( Character &you, item_stack &stack, tripoint const &src_loc,
+                       tripoint const &dst_loc, vehicle *src_veh, int src_part,
+                       activity_id const &activity_to_restore )
+{
+    for( item &it : stack ) {
+        if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) == you.name ) {
+            move_item( you, it, it.count(), src_loc, dst_loc, src_veh, src_part,
+                       activity_to_restore );
+            break;
+        }
+    }
+}
+
+} // namespace
+
 static bool construction_activity( Character &you, const zone_data * /*zone*/,
                                    const tripoint &src_loc,
                                    const activity_reason_info &act_info,
@@ -1746,25 +1816,18 @@ static bool tidy_activity( Character &you, const tripoint &src_loc,
     if( loot_src_lot == tripoint_zero ) {
         return false;
     }
-    map_stack items_there = here.i_at( src_loc );
-    vehicle *dest_veh;
-    int dest_part;
     if( const cata::optional<vpart_reference> vp = here.veh_at(
-                loot_src_lot ).part_with_feature( "CARGO",
+                src_loc ).part_with_feature( "CARGO",
                         false ) ) {
-        dest_veh = &vp->vehicle();
-        dest_part = vp->part_index();
-    } else {
-        dest_veh = nullptr;
-        dest_part = -1;
+        vehicle *const src_veh = &vp->vehicle();
+        int const src_part = vp->part_index();
+        vehicle_stack stack = src_veh->get_items( src_part );
+        _tidy_move_items( you, stack, src_loc, loot_src_lot, src_veh, src_part,
+                          activity_to_restore );
     }
-    for( item &it : items_there ) {
-        if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) == you.name ) {
-            move_item( you, it, it.count(), src_loc, loot_src_lot, dest_veh, dest_part,
-                       activity_to_restore );
-            break;
-        }
-    }
+    map_stack stack = here.i_at( src_loc );
+    _tidy_move_items( you, stack, src_loc, loot_src_lot, nullptr, -1, activity_to_restore );
+
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
     if( mgr.has( zone_type_LOOT_UNSORTED, here.getglobal( src_loc ), _fac_id( you ) ) ) {
         for( item *inv_elem : you.inv_dump() ) {

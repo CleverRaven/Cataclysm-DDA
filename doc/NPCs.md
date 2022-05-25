@@ -118,6 +118,26 @@ If `npc` has one of the following fields, the NPCs will speak the indicated mess
 All messages can be used with snippets.
 Any `%s` included is automatically replaced by the game, with words depending on the message.
 
+Case use example:
+
+```json
+{
+    "type":"npc",
+    "...": "rest of fields go here",
+    "<acknowledged>": "I gotcha fam",
+    "<camp_food_thanks>": "<food_thanks_custom>"
+},
+{
+    "type":"snippet",
+    "category":"<food_thanks_custom>",
+    "text": [
+        "thanks for the grub",
+        "thanks for the food!",
+        "itadakimasu!"
+    ]
+}
+```
+
 For further information on snippets, see [New Contributor Guide: Dialogue](https://github.com/CleverRaven/Cataclysm-DDA/wiki/New-Contributor-Guide-Dialogue)
 
 Field | Default messages/snippets | Used for...

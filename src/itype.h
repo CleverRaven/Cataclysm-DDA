@@ -649,6 +649,8 @@ struct itype_variant_data {
     translation alt_name;
     translation alt_description;
     ascii_art_id art;
+    cata::optional<std::string> alt_sym;
+    cata::optional<nc_color> alt_color = cata::nullopt;
 
     bool append = false; // if the description should be appended to the base description.
 

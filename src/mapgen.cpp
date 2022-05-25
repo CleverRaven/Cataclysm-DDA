@@ -6417,7 +6417,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     }
 
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status );
+    auto veh = std::make_unique<vehicle>( *this, type, veh_fuel, veh_status );
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
@@ -7541,7 +7541,7 @@ bool run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, mapgendat
 }
 
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
-            const update_mapgen_id &update_mapgen_id )
+            const update_mapgen_id &update_mapgen_id, ter_id const &base_ter )
 {
     std::map<ter_id, int> terrains;
     std::map<furn_id, int> furnitures;
@@ -7552,7 +7552,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    fake_map tmp_map( t_dirt );
+    fake_map tmp_map( base_ter );
 
     mapgendata fake_md( tmp_map, mapgendata::dummy_settings );
     fake_md.skip = { mapgen_phase::zones };
@@ -7560,7 +7560,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
             ter_id ter_at_pos = tmp_map.ter( pos );
-            if( ter_at_pos != t_dirt ) {
+            if( ter_at_pos != base_ter ) {
                 terrains[ter_at_pos] += 1;
             }
             if( tmp_map.has_furn( pos ) ) {

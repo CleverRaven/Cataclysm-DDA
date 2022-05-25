@@ -1,0 +1,19 @@
+[
+  {
+    "id": "sr1vektor_mag_18rd",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "SR-1 Vektor 18-round magazine" },
+    "description": "An 18-round box magazine for use with the SR-1 Vektor 9x21mm pistol.",
+    "weight": "90 g",
+    "volume": "270 ml",
+    "price": 4000,
+    "price_postapoc": 120,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "9x21mm" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9x21mm": 18 } } ]
+  }
+]
