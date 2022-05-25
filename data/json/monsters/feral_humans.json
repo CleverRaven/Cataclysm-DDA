@@ -832,7 +832,7 @@
     "id": "mon_feral_martial_artist",
     "type": "MONSTER",
     "name": { "str": "mad blackbelt" },
-    "description": "This feral human stands still as a statue in its martial arts gi, yet its bulging muscles tremble with barely restrained explosive force. Its knuckles are raw and bloody, wrapped by rags soaked with dried gore.",
+    "description": "This feral human stands still as a statue in its martial arts gi, yet its bulging muscles tremble with barely restrained explosive force.  Its knuckles are raw and bloody, wrapped by rags soaked with dried gore.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
