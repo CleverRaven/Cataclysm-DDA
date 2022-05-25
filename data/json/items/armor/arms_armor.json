@@ -138,7 +138,7 @@
       {
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 5,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l" "arm_elbow_r", "arm_elbow_l" ],
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ],
         "material": [
           { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.50 },
           { "type": "plastic", "covered_by_mat": 90, "thickness": 1.50 }
