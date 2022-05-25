@@ -61,6 +61,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "BODY_ARMOR"
+  },
+  {
+    "type": "mutation_type",
     "id": "THIRST"
   },
   {
@@ -190,6 +194,42 @@
   {
     "type": "mutation_type",
     "id": "ARMS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SLEEPINESS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MASOCHISM"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MEMORY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "TONGUE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "GRAZING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ECTOTHERMIC"
+  },
+  {
+    "type": "mutation_type",
+    "id": "VOICE_TONE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "WANDERLUST"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HAIR"
   },
   {
     "type": "mutation_type",

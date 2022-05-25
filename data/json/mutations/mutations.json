@@ -18,7 +18,8 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "TAIL", "WHISKERS", "HORNS", "BIOLUM" ],
+    "types": [ "BIOLUM", "HAIR", "HORNS", "TAIL", "WHISKERS", "WINGS" ],
+    "cancels": [ "ARM_FEATHERS", "CF_HAIR", "HAIRROOTS", "INK_GLANDS", "ROOTS1", "THORNS", "TRANSPIRATION", "WEB_RAPPEL", "WEB_ROPE" ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
   {
@@ -53,7 +54,8 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "VISION", "EYES" ],
+    "types": [ "EYES", "VISION" ],
+    "cancels": [ "EAGLEEYED", "EYEBULGE", "INFRARED", "MEMBRANE", "MYOPIC", "SEESLEEP" ],
     "description": "You have human eyes."
   },
   {
@@ -65,6 +67,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "HANDS", "CLAWS" ],
+    "cancels": [ "CLAWS_TENTACLE", "SLIME_HANDS" ],
     "description": "You have human hands."
   },
   {
@@ -87,7 +90,20 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "LEGS", "RUNNING", "FEET", "SOLES" ],
-    "cancels": [ "BENDY1", "BENDY2", "BENDY3" ],
+    "cancels": [
+      "BADKNEES",
+      "BENDY1",
+      "BENDY2",
+      "BENDY3",
+      "CLUMSY",
+      "FELINE_LEAP",
+      "GASTROPOD_BALANCE",
+      "LEAPING_LEGS",
+      "LEAPING_LEGS2",
+      "LEG_TENT_BRACE",
+      "LIGHTSTEP",
+      "STRONGKNEES"
+    ],
     "description": "You have human legs."
   },
   {
@@ -98,8 +114,8 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "METABOLISM", "CARDIO", "THIRST", "DIET", "CONSTITUTION" ],
-    "cancels": [ "QUICK", "DEFT" ],
+    "types": [ "METABOLISM", "CARDIO", "CONSTITUTION", "DIET", "GRAZING", "THIRST" ],
+    "cancels": [ "ALCMET", "ANTIJUNK", "CARNIVORE_FAKE", "DEFT", "FAT", "GOURMAND", "HIBERNATE", "PROJUNK", "QUICK", "SAPROVORE" ],
     "description": "Your digestive system and cardio health are standard for a human."
   },
   {
@@ -110,8 +126,21 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "TEETH", "MUZZLE", "ATTRACTIVENESS" ],
+    "types": [ "ATTRACTIVENESS", "MUZZLE", "TEETH", "TONGUE" ],
+    "cancels": [ "SLIT_NOSTRILS" ],
     "description": "You have a human mouth with human teeth."
+  },
+  {
+    "type": "mutation",
+    "id": "HUMAN_VOICE",
+    "name": { "str": "Human Voice" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "VOICE_TONE" ],
+    "cancels": [ "BOOMING_VOICE", "SHOUT1", "SHOUT2", "SHOUT3" ],
+    "description": "Your voice doesn't sound especially abnormal."
   },
   {
     "type": "mutation",
@@ -121,7 +150,21 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "SKIN", "SCENT", "GILLS", "SECRETION", "SUNLIGHT", "ARMOR", "TORSO_ARMOR", "PHEROMONE" ],
+    "types": [ "ARMOR", "BODY_ARMOR", "GILLS", "PHEROMONE", "SCENT", "SECRETION", "SKIN", "SUNLIGHT", "TORSO_ARMOR" ],
+    "cancels": [
+      "ALBINO",
+      "BOMBADIER_BLAST",
+      "MUCUS_SECRETION",
+      "MUCUS_SECRETION2",
+      "PALE",
+      "SLIME_SPRAY",
+      "SNAIL_TRAIL",
+      "SORES",
+      "SPOTS",
+      "SUNBURN",
+      "VISCOUS",
+      "WEB_WALKER"
+    ],
     "description": "You have human skin and no distinct smell."
   },
   {
@@ -133,7 +176,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "SLEEP" ],
-    "cancels": [ "DIRTSLEEPER", "WATERSLEEPER" ],
+    "cancels": [ "DIRTSLEEPER", "WATERSLEEP", "WATERSLEEPER" ],
     "description": "You sleep a normal amount for a human."
   },
   {
@@ -144,9 +187,69 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "STR", "DEX", "PER", "INT", "DURABILITY", "BUILD", "BONES", "SIZE" ],
-    "cancels": [ "GLASSJAW", "FAST_REFLEXES", "TUNNEL_FIGHTER", "NIGHT_RAIDER" ],
+    "types": [ "STR", "DEX", "PER", "INT", "BONES", "BUILD", "DURABILITY", "ECTOTHERMIC", "SIZE" ],
+    "cancels": [
+      "ACIDBLOOD",
+      "ACIDPROOF",
+      "BADBACK",
+      "ELECTRORECEPTORS",
+      "FAST_REFLEXES",
+      "FRESHWATEROSMOSIS",
+      "GASTROPOD_EXTREMITY1",
+      "GLASSJAW",
+      "NIGHT_RAIDER",
+      "POISONOUS",
+      "POISONOUS2",
+      "RADIOGENIC",
+      "ROBUST",
+      "STOCKY_TROGLO",
+      "STRONGBACK",
+      "TUNNEL_FIGHTER",
+      "UNSTABLE"
+    ],
     "description": "Your capabilities are pretty normal."
+  },
+  {
+    "type": "mutation",
+    "id": "HUMAN_MIND",
+    "name": { "str": "Human Mind" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "ANIMAL_EMPATHY", "ATTITUDE", "HUMAN_EMPATHY", "MASOCHISM", "MEMORY", "SLEEPINESS", "WANDERLUST" ],
+    "cancels": [
+      "ADDICTIVE",
+      "ADRENALINE",
+      "ADRENALINE2",
+      "CHEMIMBALANCE",
+      "HATES_WATER",
+      "HEAVYSLEEPER",
+      "HEAVYSLEEPER2",
+      "JEKYLL",
+      "JITTERY",
+      "LIGHTWEIGHT",
+      "MOODSWINGS",
+      "MUT_JUNKIE",
+      "NARCOLEPTIC",
+      "NOPAIN",
+      "SCHIZOPHRENIC",
+      "TOLERANCE",
+      "TOLERANCE",
+      "TREE_COMMUNION"
+    ],
+    "description": "Your mind and brain chemistry are not mutated."
+  },
+  {
+    "type": "mutation",
+    "id": "HUMAN_IMMUNITY",
+    "name": { "str": "Human Immunity" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "cancels": [ "DISIMMUNE", "DISRESISTANT", "INFIMMUNE", "INFRESIST", "NONADDICTIVE", "PARAIMMUNE", "POISRESIST", "STIMBOOST" ],
+    "description": "Your immune system is more or less normal for a human."
   },
   {
     "type": "mutation",
@@ -507,6 +610,7 @@
     "name": { "str": "Accomplished Sleeper" },
     "points": 1,
     "description": "You have always been able to fall asleep easily, even when sleeping in less than ideal circumstances.",
+    "types": [ "SLEEPINESS" ],
     "changes_to": [ "EASYSLEEPER2" ],
     "starting_trait": true,
     "cancels": [ "INSOMNIA" ],
@@ -519,6 +623,7 @@
     "name": { "str": "Practiced Sleeper" },
     "points": 2,
     "description": "Your body's demanding energy needs mean you can fall asleep just about anywhere.",
+    "types": [ "SLEEPINESS" ],
     "prereqs": [ "MET_RAT" ],
     "cancels": [ "INSOMNIA" ],
     "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
@@ -531,7 +636,6 @@
     "name": { "str": "Earth Sleeper" },
     "points": 2,
     "description": "You always sleep better surrounded by earth.",
-    "cancels": [ "INSOMNIA", "HUMAN_SLEEP" ],
     "category": [ "BATRACHIAN" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
     "enchantments": [
@@ -547,7 +651,6 @@
     "name": { "str": "Aquatic Sleeper" },
     "points": 2,
     "description": "You always sleep better underwater.",
-    "cancels": [ "INSOMNIA", "HUMAN_SLEEP" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN", "FISH" ],
     "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
@@ -568,6 +671,7 @@
     "name": { "str": "Night Vision" },
     "points": 2,
     "description": "You possess natural night vision, and can see further in the dark than most.  Activate to toggle NV-visible areas on or off.",
+    "types": [ "VISION" ],
     "starting_trait": true,
     "changes_to": [ "NIGHTVISION2" ],
     "category": [
@@ -775,10 +879,10 @@
     "name": { "str": "Good Memory" },
     "points": 3,
     "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
+    "types": [ "MEMORY" ],
     "skill_rust_multiplier": 0.66,
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "FORGETFUL" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAP_MEMORY", "multiply": 1 } ] } ]
   },
   {
@@ -931,6 +1035,7 @@
     "name": { "str": "Masochist" },
     "points": 1,
     "description": "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
+    "types": [ "MASOCHISM" ],
     "starting_trait": true,
     "changes_to": [ "MASOCHIST_MED", "CENOBITE" ],
     "category": [ "MEDICAL" ]
@@ -1395,10 +1500,10 @@
     "name": { "str": "Insomniac" },
     "points": -2,
     "description": "You have a hard time falling asleep, even under the best circumstances!",
+    "types": [ "SLEEPINESS" ],
     "starting_trait": true,
     "category": [ "MEDICAL" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ],
-    "cancels": [ "EASYSLEEPER" ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ]
   },
   {
     "type": "mutation",
@@ -1522,11 +1627,11 @@
     "name": { "str": "Forgetful" },
     "points": -3,
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
+    "types": [ "MEMORY" ],
     "social_modifiers": { "lie": -5 },
     "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
-    "cancels": [ "GOODMEMORY" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAP_MEMORY", "multiply": -0.5 } ] } ]
   },
   {
@@ -2504,6 +2609,7 @@
     "visibility": 8,
     "ugliness": 1,
     "description": "Your fur has grown out significantly around your cheeks and neck, providing excellent protection from attacks.",
+    "types": [ "BODY_ARMOR" ],
     "prereqs": [ "FELINE_FUR" ],
     "category": [ "FELINE" ],
     "integrated_armor": [ "integrated_lynx_fur" ]
@@ -2627,6 +2733,7 @@
     "ugliness": 3,
     "bash_dmg_bonus": 2,
     "description": "You've grown a chitin exoskeleton, much like that of an insect.  It provides considerable physical protection, and make your punches hit a little harder.  Somewhat reduces wet effects.",
+    "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN" ],
     "leads_to": [ "CHITIN3" ],
     "category": [ "SPIDER", "INSECT" ],
@@ -2653,6 +2760,7 @@
     "ugliness": 5,
     "bash_dmg_bonus": 4,
     "description": "You've grown a sclerotin exoskeleton, akin to an organic suit of platemail.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
+    "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN2" ],
     "category": [ "SPIDER" ],
     "leads_to": [ "CHITIN_FUR3" ],
@@ -2681,6 +2789,7 @@
     "bodytemp_modifiers": [ 100, 150 ],
     "bodytemp_sleep": 50,
     "description": "You've developed some sort of hair growing out of your chitin.  It's a bit warmer than not having hair.",
+    "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN" ],
     "category": [ "SPIDER" ],
     "changes_to": [ "CHITIN_FUR2" ]
@@ -2695,6 +2804,7 @@
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
     "description": "Your chitin hair has thickened and spread across your body.  It provides minor warmth and helps you sense nearby vibrations.",
+    "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN_FUR" ],
     "leads_to": [ "CF_HAIR" ],
     "category": [ "SPIDER" ],
@@ -2710,6 +2820,7 @@
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
     "description": "Your thick exoskeleton boasts a fine coat of hairs that put feline whiskers to shame.",
+    "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN_FUR2", "CHITIN3" ],
     "leads_to": [ "CF_HAIR" ],
     "threshreq": [ "THRESH_SPIDER" ],
@@ -2783,6 +2894,7 @@
     "visibility": 10,
     "ugliness": 3,
     "description": "Your skin is coated in a light bark, like that of a tree.  This provides powerful armor and makes you nearly waterproof.",
+    "types": [ "BODY_ARMOR" ],
     "prereqs": [ "PLANTSKIN" ],
     "changes_to": [ "BARK2_a", "BARK2_b", "BARK2_c" ],
     "category": [ "PLANT" ],
@@ -2797,6 +2909,7 @@
     "ugliness": 3,
     "purifiable": false,
     "description": "Your warped bark can be shifted in function, and is currently spread evenly.  Activate to better protect your torso, at the cost of other areas.",
+    "types": [ "BODY_ARMOR" ],
     "prereqs": [ "BARK" ],
     "category": [ "PLANT" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -2819,6 +2932,7 @@
     "purifiable": false,
     "valid": false,
     "description": "Your warped bark can be shifted in function, and is currently consolidated on your torso.  Activate to shift your bark into a lattice, increasing bulk but providing better protection for the entire body.",
+    "types": [ "BODY_ARMOR" ],
     "active": true,
     "integrated_armor": [ "integrated_bark2_b" ],
     "transform": {
@@ -2838,6 +2952,7 @@
     "purifiable": false,
     "valid": false,
     "description": "Your warped bark can be shifted in function, and is currently expanded into a sturdy lattice.  Activate to collapse the lattice, returning to an evenly distributed form.",
+    "types": [ "BODY_ARMOR" ],
     "active": true,
     "integrated_armor": [ "integrated_bark2_c" ],
     "transform": {
@@ -2867,6 +2982,7 @@
     "visibility": 8,
     "ugliness": 3,
     "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrients while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
+    "types": [ "HAIR" ],
     "prereqs": [ "PLANTSKIN", "BARK" ],
     "changes_to": [ "LEAVES2" ],
     "category": [ "PLANT", "ELFA" ],
@@ -2880,6 +2996,7 @@
     "visibility": 10,
     "ugliness": 5,
     "description": "Your leaves have grown in size and prominence, with additional leaves sprouting along your arms.  While your arms and head are uncovered, you will photosynthesize nutrients while in sunlight.  Reduces wet effects.",
+    "types": [ "HAIR" ],
     "prereqs": [ "LEAVES" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -2896,6 +3013,7 @@
     "visibility": 12,
     "ugliness": 6,
     "description": "Your leaves are vibrant, large, and green, and have become a major source of nutrients for your body.  Whenever your arms and head are uncovered you will gain a large amount of nutrients by standing in the sunlight.  Reduces wet effects.",
+    "types": [ "HAIR" ],
     "prereqs": [ "LEAVES2" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -2941,6 +3059,7 @@
     "visibility": 10,
     "ugliness": -6,
     "description": "The top of your head is blooming with rosebuds.  They're eye catching, and have a strong fragrance that makes you pleasant to be around.",
+    "types": [ "SCENT" ],
     "prereqs": [ "FLOWERS" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
@@ -3477,6 +3596,7 @@
     "visibility": 1,
     "points": 6,
     "description": "You've developed an extremely long and mobile tongue capped with teeth.  You may use it to attack your enemies and pull them towards you.",
+    "types": [ "TONGUE" ],
     "changes_to": [ "GASTROPOD_EXTREMITY3" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
     "category": [ "GASTROPOD" ],
@@ -3499,6 +3619,7 @@
     "ugliness": 5,
     "points": 8,
     "description": "Your tongue has increased its length and mobility.  You may use it to pull your enemies towards you.",
+    "types": [ "TONGUE" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
     "category": [ "GASTROPOD" ],
     "active": true,
@@ -3722,6 +3843,7 @@
     "name": { "str": "Ruminant" },
     "points": 2,
     "description": "Your digestive system is capable of digesting cellulose and other rough plant material.  You can eat underbrush and shrubs by activating this, standing over your target, and pressing E.",
+    "types": [ "GRAZING" ],
     "prereqs": [ "HERBIVORE" ],
     "changes_to": [ "GRAZER" ],
     "category": [ "CATTLE", "RABBIT" ],
@@ -3734,6 +3856,7 @@
     "name": { "str": "Grazer" },
     "points": 3,
     "description": "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush and shrubs.  Eat either one by activating this, standing over your target, and pressing E.",
+    "types": [ "GRAZING" ],
     "prereqs": [ "RUMINANT", "INCISORS" ],
     "threshreq": [ "THRESH_CATTLE", "THRESH_RABBIT" ],
     "category": [ "CATTLE", "RABBIT" ],
@@ -4237,6 +4360,7 @@
     "visibility": 3,
     "ugliness": 2,
     "description": "You've developed a serious appetite for pain, and take pride in your scars.",
+    "types": [ "MASOCHISM" ],
     "prereqs": [ "MASOCHIST", "PAINRESIST", "ADDICTIVE" ],
     "prereqs2": [ "PAINREC2", "PAINREC3" ],
     "threshreq": [ "THRESH_MEDICAL" ],
@@ -4252,6 +4376,7 @@
     "visibility": 4,
     "ugliness": 10,
     "description": "You positively adore pain, in all its varied forms.",
+    "types": [ "MASOCHISM" ],
     "purifiable": false,
     "prereqs": [ "MASOCHIST_MED" ],
     "prereqs2": [ "PAINREC3", "ADDICTIVE" ],
@@ -5324,6 +5449,7 @@
     "visibility": 1,
     "ugliness": 3,
     "description": "Your tongue is forked, like that of a reptile.  This has no effect.",
+    "types": [ "TONGUE" ],
     "category": [ "LIZARD", "RAPTOR" ]
   },
   {
@@ -5335,6 +5461,7 @@
     "ugliness": 3,
     "changes_to": [ "LONG_TONGUE2" ],
     "description": "Your tongue has lengthened and often extends far beyond your mouth.  This has no effect.",
+    "types": [ "TONGUE" ],
     "category": [ "BATRACHIAN" ]
   },
   {
@@ -5344,7 +5471,7 @@
     "visibility": 1,
     "points": 3,
     "description": "You've developed an extremely long and mobile tongue.  You may use it to attack your enemies and pull them towards you.",
-    "types": [ "TEETH" ],
+    "types": [ "TONGUE" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN" ],
     "active": true,
@@ -6429,6 +6556,7 @@
     "visibility": 1,
     "ugliness": 5,
     "description": "Your toes have grown wriggly, and you can't imagine why you wear that stuff on your feet.  Take it off.  It's in the way.",
+    "types": [ "FEET" ],
     "prereqs": [ "PLANTSKIN" ],
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "ROOTS2" ],
@@ -6447,7 +6575,7 @@
       "//~": "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task.  The handheld game does count.",
       "str": "It's about time you started developing a root system.  When reading, fishing, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil."
     },
-    "types": [ "LEGS" ],
+    "types": [ "LEGS", "FEET" ],
     "prereqs": [ "ROOTS1" ],
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "ROOTS3" ],
@@ -6509,6 +6637,7 @@
     "points": 0,
     "mixed_effect": true,
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
+    "types": [ "ECTOTHERMIC" ],
     "changes_to": [ "COLDBLOOD2" ],
     "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "RAPTOR", "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
     "temperature_speed_modifier": 0.2,
@@ -6521,6 +6650,7 @@
     "points": -2,
     "mixed_effect": true,
     "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your slow metabolism requires much less energy.",
+    "types": [ "ECTOTHERMIC" ],
     "prereqs": [ "COLDBLOOD" ],
     "changes_to": [ "COLDBLOOD3" ],
     "category": [ "RAPTOR", "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
@@ -6534,6 +6664,7 @@
     "points": -3,
     "mixed_effect": true,
     "description": "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C), resulting in less calorie usage.",
+    "types": [ "ECTOTHERMIC" ],
     "prereqs": [ "COLDBLOOD2" ],
     "changes_to": [ "COLDBLOOD4" ],
     "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
@@ -6547,6 +6678,7 @@
     "points": 0,
     "mixed_effect": true,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  You eat much less than you otherwise would.",
+    "types": [ "ECTOTHERMIC" ],
     "prereqs": [ "COLDBLOOD3" ],
     "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT", "THRESH_BATRACHIAN" ],
     "purifiable": false,
@@ -6561,6 +6693,7 @@
     "points": -1,
     "mixed_effect": true,
     "description": "You have a growling, rough voice.  Persuading NPCs will be more difficult, but threatening them will be easier.",
+    "types": [ "VOICE_TONE" ],
     "changes_to": [ "SNARL" ],
     "category": [ "RAT", "URSINE", "LUPINE", "BEAST", "CHIMERA", "FELINE" ],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
@@ -6572,7 +6705,7 @@
     "points": 1,
     "mixed_effect": true,
     "description": "You have a low, croaking voice, like an aged grandparent.  Persuading NPCs will be easier, but threatening them will be more difficult.",
-    "cancels": [ "SNARL" ],
+    "types": [ "VOICE_TONE" ],
     "category": [ "BATRACHIAN" ],
     "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": -10 }
   },
@@ -6583,6 +6716,7 @@
     "points": -2,
     "mixed_effect": true,
     "description": "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
+    "types": [ "VOICE_TONE" ],
     "prereqs": [ "GROWL" ],
     "category": [ "BEAST", "CHIMERA", "FELINE", "LUPINE" ],
     "social_modifiers": { "persuade": -60, "lie": -40, "intimidate": 20 }
@@ -6594,6 +6728,7 @@
     "mixed_effect": true,
     "points": -1,
     "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
+    "types": [ "VOICE_TONE" ],
     "category": [ "LIZARD", "RAPTOR" ],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
   },
@@ -7786,6 +7921,7 @@
     "name": { "str": "Nomad" },
     "points": -1,
     "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
+    "types": [ "WANDERLUST" ],
     "starting_trait": true,
     "changes_to": [ "NOMAD2" ],
     "category": [ "BIRD", "FISH", "CHIMERA" ]
@@ -7796,6 +7932,7 @@
     "name": { "str": "Antsy" },
     "points": -2,
     "description": "You can't bear to stay still for long.  Your morale will suffer unless you constantly explore new territory.",
+    "types": [ "WANDERLUST" ],
     "prereqs": [ "NOMAD" ],
     "changes_to": [ "NOMAD3" ],
     "category": [ "BIRD", "FISH", "CHIMERA" ]
@@ -7806,6 +7943,7 @@
     "name": { "str": "Restless" },
     "points": -4,
     "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
+    "types": [ "WANDERLUST" ],
     "prereqs": [ "NOMAD2" ],
     "category": [ "CHIMERA" ]
   },

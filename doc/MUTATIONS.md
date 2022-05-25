@@ -78,6 +78,8 @@ Instability very slowly decreases on its own, at a rate of 1 per day. Traits can
 
 Specific mutations are extremely versatile. A mutation only needs to have a few mandatory fields filled out, but a very high number of optional fields exist, in addition to supporting EOCs.
 
+Note that **all new traits that can be obtained through mutation must be purifiable** - otherwise, unit tests will fail. To make a mutation purifiable, just add it to the `cancels` field for an existing appropriate dummy mutation, or define its `types` if you want it to be mutually exclusive with certain other mutations.
+
 ### Example
 
 ```C++
