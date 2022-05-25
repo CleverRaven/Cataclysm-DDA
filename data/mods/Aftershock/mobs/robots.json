@@ -239,7 +239,7 @@
     "melee_dice_sides": 4,
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
     "luminance": 60,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "armor_bash": 2,
     "armor_cut": 8,
     "armor_bullet": 6,
