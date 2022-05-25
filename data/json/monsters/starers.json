@@ -56,7 +56,7 @@
     "copy-from": "mon_starer_pipe",
     "melee_dice": 2,
     "melee_dice_sides": 7,
-    "melee_cut": 9,
+    "melee_damage": [ { "damage_type": "cut", "amount": '$1 place' } ], 9,
     "death_drops": "starer_death_drops_axe"
   }
 ]
