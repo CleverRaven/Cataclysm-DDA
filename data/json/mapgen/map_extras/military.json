@@ -53,8 +53,8 @@
       ],
       "place_monster": [
         { "monster": "mon_zombie_soldier", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 3, 6 ] },
-        { "monster": "mon_zombie_bio_op", "x": [ 1, 23 ], "y": [ 1, 23 ], "chance": 25 },
-        { "monster": "mon_dispatch", "x": [ 1, 23 ], "y": [ 1, 23 ], "chance": 25 },
+        { "monster": "mon_zombie_bio_op", "x": [ 1, 23 ], "y": [ 1, 23 ], "chance": 4 },
+        { "monster": "mon_dispatch", "x": [ 1, 23 ], "y": [ 1, 23 ], "chance": 4 },
         { "group": "GROUP_NETHER_CAPTURED", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 0, 2 ] }
       ],
       "nested": { "-": { "chunks": [ [ "soldier_guns_3x3", 1 ], [ "null", 200 ] ] }, "1": { "chunks": [ "soldier_guns_3x3" ] } }
