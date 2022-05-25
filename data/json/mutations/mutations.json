@@ -513,8 +513,7 @@
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
     "starting_trait": true,
     "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ],
-    "cancels": [ "HUMAN_METABOLISM" ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -529,8 +528,7 @@
         "condition": { "compare_int": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
       }
-    ],
-    "cancels": [ "HUMAN_STATS" ]
+    ]
   },
   {
     "type": "mutation",
@@ -544,8 +542,7 @@
         "condition": { "not": "is_day" },
         "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.5 }, { "value": "ATTACK_NOISE", "multiply": 0.8 } ]
       }
-    ],
-    "cancels": [ "HUMAN_STATS" ]
+    ]
   },
   {
     "type": "mutation",
@@ -892,8 +889,7 @@
     "points": 1,
     "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
-    "category": [ "BIRD", "BEAST", "RAPTOR", "FELINE" ],
-    "cancels": [ "HUMAN_METABOLISM" ]
+    "category": [ "BIRD", "BEAST", "RAPTOR", "FELINE" ]
   },
   {
     "type": "mutation",
@@ -1618,8 +1614,7 @@
     "description": "Your head can't take much abuse.  Its maximum HP is 20% lower than usual.",
     "starting_trait": true,
     "social_modifiers": { "intimidate": -2 },
-    "category": [ "BIRD", "RAPTOR" ],
-    "cancels": [ "HUMAN_STATS" ]
+    "category": [ "BIRD", "RAPTOR" ]
   },
   {
     "type": "mutation",
@@ -7964,8 +7959,7 @@
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
     "dodge_modifier": 3,
-    "category": [ "FELINE" ],
-    "cancels": [ "HUMAN_STATS" ]
+    "category": [ "FELINE" ]
   },
   {
     "type": "mutation",
