@@ -506,7 +506,9 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
         if( std::find( consuming.begin(), consuming.end(), act_id ) == consuming.end() ) {
             avatar &player_character = get_avatar();
             if( !is_distraction_ignored( distraction_type::hunger ) ) {
-                if( player_character.get_hunger() >= 300 && player_character.get_starvation() > 2500 ) {
+                // Starvation value of 5300 equates to about 5kCal.
+                if( calendar::once_every( 2_hours ) && player_character.get_hunger() >= 300 &&
+                    player_character.get_starvation() > 5300 ) {
                     res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
                 }
             }
