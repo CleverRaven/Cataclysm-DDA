@@ -1707,7 +1707,7 @@
     "hp": 50,
     "melee_dice": 3,
     "melee_dice_sides": 9,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" }
   },
   {
