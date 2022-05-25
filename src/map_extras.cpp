@@ -562,63 +562,6 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_military( map &m, const tripoint & )
-{
-    int num_bodies = dice( 2, 6 );
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 25 ) ) {
-                if( one_in( 2 ) ) {
-                    m.add_spawn( mon_zombie_bio_op, 1, *p );
-
-                    int splatter_range = rng( 1, 3 );
-                    for( int j = 0; j <= splatter_range; j++ ) {
-                        m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
-                    }
-                } else {
-                    m.add_spawn( mon_dispatch, 1, *p );
-                }
-            } else {
-                m.add_spawn( mon_zombie_soldier, 1, *p );
-                // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
-                if( !one_in( 10 ) ) {
-                    item_group_id group;
-                    // 80% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
-                    if( one_in( 20 ) ) {
-                        group = Item_spawn_data_military_standard_sniper_rifles;
-                    } else if( one_in( 19 ) ) {
-                        group = Item_spawn_data_military_standard_shotguns;
-                    } else if( one_in( 9 ) ) {
-                        group = Item_spawn_data_military_standard_lmgs;
-                    } else {
-                        group = Item_spawn_data_military_standard_assault_rifles;
-                    }
-                    m.place_items( group, 100, *p, *p, true, calendar::start_of_cataclysm );
-                }
-
-                int splatter_range = rng( 1, 3 );
-                for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
-                }
-            }
-        }
-
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-    m.place_spawns( GROUP_MAYBE_MIL, 2, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                    0.1f ); //0.1 = 1-5
-    m.place_items( Item_spawn_data_rare, 25, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                   true, calendar::start_of_cataclysm );
-
-    return true;
-}
-
 static bool mx_roadblock( map &m, const tripoint &abs_sub )
 {
     // TODO: fix point types
@@ -2789,7 +2732,6 @@ FunctionMap builtin_functions = {
     { map_extra_mx_bandits_block, mx_bandits_block },
     { map_extra_mx_minefield, mx_minefield },
     { map_extra_mx_supplydrop, mx_supplydrop },
-    { map_extra_mx_military, mx_military },
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
     { map_extra_mx_house_spider, mx_house_spider },

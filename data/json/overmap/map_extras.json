@@ -103,7 +103,7 @@
     "type": "map_extra",
     "name": { "str": "Military", "ctxt": "Map Extra" },
     "description": "Several corpses of soldiers are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_military" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_military" },
     "min_max_zlevel": [ -4, 5 ],
     "sym": "m",
     "color": "light_red",
