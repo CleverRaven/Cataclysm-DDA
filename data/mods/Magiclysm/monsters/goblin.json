@@ -84,7 +84,7 @@
     "hp": 135,
     "dodge": 6,
     "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": '$1 place' } ], 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "death_drops": {
       "subtype": "collection",
       "items": [

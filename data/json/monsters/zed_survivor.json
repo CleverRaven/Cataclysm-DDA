@@ -47,7 +47,7 @@
     "speed": 110,
     "melee_skill": 9,
     "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": '$1 place' } ], 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "armor_bash": 15,
     "armor_cut": 25,
     "armor_stab": 18,

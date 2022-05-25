@@ -20,7 +20,7 @@
     "melee_skill": 7,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": '$1 place' } ], 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_bash": 6,
     "armor_cut": 3,
     "path_settings": { "max_dist": 20 },

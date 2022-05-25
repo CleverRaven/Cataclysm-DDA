@@ -569,7 +569,7 @@
     "name": { "str": "fungal edmontonia zombie" },
     "description": "Once something like a gigantic armadillo-dinosaur hybrid with long, bony spikes, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zankylosaurus_fungus",
-    "melee_damage": [ { "damage_type": "cut", "amount": '$1 place' } ], 10,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "proportional": { "hp": 0.65 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": {  }
@@ -687,7 +687,7 @@
     "name": { "str": "fungal kosmoceratops zombie" },
     "description": "This was once a massive, four-legged dinosaur herbivore, with a tall bony crest from which fifteen horns and spikes emerged.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
-    "proportional": { "melee_dice": 2, "melee_damage": [ { "damage_type": "cut", "amount": '$1 place' } ], 0.65 },
+    "proportional": { "melee_dice": 2, "melee_cut": 0.65 },
     "upgrades": {  }
   },
   {
@@ -696,7 +696,7 @@
     "name": { "str": "fungal torosaurus zombie" },
     "description": "This was once a massive, four-legged dinosaur herbivore, with a tall bony crest from which two wicked-looking horns emerged.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
-    "proportional": { "melee_dice": 2, "melee_damage": [ { "damage_type": "cut", "amount": '$1 place' } ], 0.65 },
+    "proportional": { "melee_dice": 2, "melee_cut": 0.65 },
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ],
     "upgrades": {  }
   },
