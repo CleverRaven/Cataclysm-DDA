@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_SHOP_CONS_RATE_H
 #define CATA_SRC_SHOP_CONS_RATE_H
 
+#include "dialogue.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -13,6 +14,8 @@ struct shopkeeper_cons_rate_entry {
     item_category_id category;
     item_group_id item_group;
     int rate = 0;
+
+    std::function<bool( const dialogue & )> condition;
 
     bool operator==( shopkeeper_cons_rate_entry const &rhs ) const;
 };
@@ -32,7 +35,7 @@ struct shopkeeper_cons_rates {
     void load( const JsonObject &jo, std::string const &src );
     void check() const;
 
-    int get_rate( item const &it ) const;
+    int get_rate( item const &it, npc const &beta ) const;
 };
 
 #endif // CATA_SRC_SHOP_CONS_RATE_H

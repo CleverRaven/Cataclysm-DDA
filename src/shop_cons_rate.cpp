@@ -1,5 +1,7 @@
 #include "shop_cons_rate.h"
 
+#include "avatar.h"
+#include "condition.h"
 #include "generic_factory.h"
 #include "item_category.h"
 #include "item_group.h"
@@ -11,6 +13,15 @@ namespace
 
 generic_factory<shopkeeper_cons_rates> shop_cons_rate_factory( SHOPKEEPER_CONSUMPTION_RATES );
 
+bool _matches( shopkeeper_cons_rate_entry const &rit, item const &it, npc const &beta )
+{
+    dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( beta ) );
+    return ( !rit.condition or rit.condition( temp ) ) and
+           ( rit.itype.is_empty() or it.typeId() == rit.itype ) and
+           ( rit.category.is_empty() or it.get_category_shallow().id == rit.category ) and
+           ( rit.item_group.is_empty() or
+             item_group::group_contains_item( rit.item_group, it.typeId() ) );
+}
 } // namespace
 
 /** @relates string_id */
@@ -57,6 +68,9 @@ class shopkeeper_cons_rates_reader : public generic_typed_reader<shopkeeper_cons
             optional( jo, false, "category", ret.category );
             optional( jo, false, "group", ret.item_group );
             mandatory( jo, false, "rate", ret.rate );
+            if( jo.has_member( "condition" ) ) {
+                read_condition<dialogue>( jo, "condition", ret.condition, false );
+            }
             return ret;
         }
 };
@@ -88,18 +102,13 @@ void shopkeeper_cons_rates::check() const
     }
 }
 
-int shopkeeper_cons_rates::get_rate( item const &it ) const
+int shopkeeper_cons_rates::get_rate( item const &it, npc const &beta ) const
 {
     if( it.type->price_post < junk_threshold ) {
         return -1;
     }
     for( auto rit = rates.crbegin(); rit != rates.crend(); ++rit ) {
-        bool const has =
-            ( rit->itype.is_empty() or it.typeId() == rit->itype ) and
-            ( rit->category.is_empty() or it.get_category_shallow().id == rit->category ) and
-            ( rit->item_group.is_empty() or
-              item_group::group_contains_item( rit->item_group, it.typeId() ) );
-        if( has ) {
+        if( _matches( *rit, it, beta ) ) {
             return rit->rate;
         }
     }

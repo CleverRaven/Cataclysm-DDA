@@ -6,6 +6,11 @@
     "junk_threshold": "10 cent",
     "rates": [
       { "item": "bow_saw", "rate": 2 },
+      {
+        "item": "bow_saw",
+        "rate": 99,
+        "condition": { "npc_has_var": "bow_saw_eater", "type": "bool", "context": "dinner", "value": "yes" }
+      },
       { "category": "currency", "rate": 10 },
       { "group": "test_event_item_spawn", "rate": 100 },
       { "group": "test_event_item_spawn", "category": "tools", "rate": 50 }

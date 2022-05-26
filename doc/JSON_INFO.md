@@ -1458,11 +1458,17 @@ Example:
   "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
   "rates": [ // lower entries override higher ones
       { "item": "hammer", "rate": 1 },
+      { 
+        "item": "hammer",
+        "rate": 10,
+        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" } 
+      },
       { "category": "ammo", "rate": 10 },
       { "group": "EXODII_basic_trade", "rate": 100 }
       { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
   ]
 ```
+`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](NPCs.md#player-or-npc-conditions).
 
 #### `skills`
 
