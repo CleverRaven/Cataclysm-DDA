@@ -48,14 +48,6 @@ Linker flags used by all builds:
 No need to force /TLBID:1 because is default
 
 #]=======================================================================]
-if (NOT "$ENV{DevEnvDir}")
-    # Use Community Edition when not specified
-    set(ENV{DevEnvDir} "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\")
-endif()
-if(CMAKE_GENERATOR MATCHES ^Ninja)
-    # Ninja is provided by Microsoft but not in the Path
-    set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe CACHE PATH "")
-endif()
 
 # Path has changed, so this configure run will find cl.exe
 set(CMAKE_C_COMPILER   cl.exe)
