@@ -174,7 +174,7 @@
         "coverage": 100,
         "encumbrance": 2
       },
-	  {
+      {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "mouth" ],
         "coverage": 85,
