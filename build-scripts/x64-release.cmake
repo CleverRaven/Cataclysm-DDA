@@ -29,8 +29,6 @@ if("$ENV{VSCMD_VER}" STREQUAL "")
         # Use Community Edition when not specified
         set(ENV{DevEnvDir} "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\")
     endif()
-    # Ninja is provided by Microsoft but not in the Path
-    set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe CACHE PATH "")
 
     # Run VsDevCmd.bat and set all environment variables it changes
     set(VSDEVCMD_BAT "$ENV{DevEnvDir}\\..\\Tools\\VsDevCmd.bat")
@@ -102,3 +100,6 @@ configure_file(
     ${CMAKE_SOURCE_DIR}/CMakeUserPresets.json
     @ONLY
 )
+
+# Ninja is provided by Microsoft but not in the Path
+set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe CACHE PATH "")
