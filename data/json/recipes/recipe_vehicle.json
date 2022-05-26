@@ -747,6 +747,7 @@
     "skills_required": [ "electronics", 1 ],
     "difficulty": 3,
     "time": "1 h",
+    "reversible": true,
     "book_learn": [ [ "arduino_experiments", 2 ] ],
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
