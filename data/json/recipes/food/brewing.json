@@ -212,7 +212,7 @@
       [ [ "yeast", 2 ] ]
     ]
   },
-  {
+ {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_hb_seltzer",
@@ -230,11 +230,7 @@
       [ [ "water", 10 ], [ "water_clean", 10 ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "yeast", 1 ] ],
-      [
-        [ "juice", 2 ],
-        [ "apple_cider", 4 ],
-        [ "sweet_fruit", 1, "LIST" ]
-      ]
+      [ [ "juice", 2 ], [ "apple_cider", 4 ], [ "sweet_fruit", 1, "LIST" ] ]
     ]
   },
   {
