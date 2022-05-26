@@ -1022,7 +1022,7 @@ vehicle *game::place_vehicle_nearby(
                 }
             };
             vehicle *veh = target_map.add_vehicle(
-                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
+                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false, "", false );
             if( veh ) {
                 tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );

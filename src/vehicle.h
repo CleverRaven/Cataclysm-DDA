@@ -786,7 +786,7 @@ class vehicle
         static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
     public:
         vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel = -1,
-                 int init_veh_status = -1 );
+                 int init_veh_status = -1, bool may_spawn_locked = false );
         vehicle();
         vehicle( const vehicle & ) = delete;
         ~vehicle();
@@ -821,7 +821,7 @@ class vehicle
         bool remote_controlled( const Character &p ) const;
 
         // init parts state for randomly generated vehicle
-        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status );
+        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status, bool may_spawn_locked );
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
