@@ -16,6 +16,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
+#include "condition.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "display.h"
@@ -24,6 +25,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"
+#include "item_group.h"
 #include "json.h"
 #include "line.h"
 #include "localized_comparator.h"
@@ -107,6 +109,17 @@ void faction_template::load_relations( const JsonObject &jsobj )
         relations[fac.name()] = fac_relation;
     }
 }
+class faction_price_rules_reader : public generic_typed_reader<faction_price_rules_reader>
+{
+    public:
+        static faction_price_rule get_next( JsonValue &jv ) {
+            JsonObject jo = jv.get_object();
+            faction_price_rule ret( icg_entry_reader::_part_get_next( jo ) );
+            optional( jo, false, "markup", ret.markup, 1.0 );
+            optional( jo, false, "fixed_adj", ret.fixed_adj, cata::nullopt );
+            return ret;
+        }
+};
 
 faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
@@ -121,8 +134,10 @@ faction_template::faction_template( const JsonObject &jsobj )
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
+    optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
+        price_rules.emplace_back( currency, 1, 0 );
     } else {
         currency = itype_id::NULL_ID();
     }
@@ -341,6 +356,18 @@ nc_color faction::food_supply_color()
     }
 }
 
+faction_price_rule const *faction::get_price_rules( item const &it, npc const &guy ) const
+{
+    auto const el = std::find_if(
+    price_rules.crbegin(), price_rules.crend(), [&it, &guy]( faction_price_rule const & fc ) {
+        return fc.matches( it, guy );
+    } );
+    if( el != price_rules.crend() ) {
+        return &*el;
+    }
+    return nullptr;
+}
+
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
     for( const auto &rel_data : relations ) {
@@ -440,6 +467,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                 for( const faction_template &fac_temp : npc_factions::all_templates ) {
                     if( fac_temp.id == id ) {
                         elem.second.currency = fac_temp.currency;
+                        elem.second.price_rules = fac_temp.price_rules;
                         elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;

@@ -94,25 +94,23 @@ void shopkeeper_cons_rates::check_all()
     shop_cons_rate_factory.check();
 }
 
-class icg_entry_reader : public generic_typed_reader<icg_entry_reader>
+icg_entry icg_entry_reader::_part_get_next( JsonObject const &jo )
 {
-    public:
-        static icg_entry _part_get_next( JsonObject const &jo ) {
-            icg_entry ret;
-            optional( jo, false, "item", ret.itype );
-            optional( jo, false, "category", ret.category );
-            optional( jo, false, "group", ret.item_group );
-            if( jo.has_member( "condition" ) ) {
-                read_condition<dialogue>( jo, "condition", ret.condition, false );
-            }
-            return ret;
-        }
-        static icg_entry get_next( JsonValue &jv ) {
-            JsonObject jo = jv.get_object();
-            icg_entry ret( _part_get_next( jo ) );
-            return ret;
-        }
-};
+    icg_entry ret;
+    optional( jo, false, "item", ret.itype );
+    optional( jo, false, "category", ret.category );
+    optional( jo, false, "group", ret.item_group );
+    if( jo.has_member( "condition" ) ) {
+        read_condition<dialogue>( jo, "condition", ret.condition, false );
+    }
+    return ret;
+}
+icg_entry icg_entry_reader::get_next( JsonValue &jv )
+{
+    JsonObject jo = jv.get_object();
+    icg_entry ret( _part_get_next( jo ) );
+    return ret;
+}
 
 class shopkeeper_cons_rates_reader : public generic_typed_reader<shopkeeper_cons_rates_reader>
 {

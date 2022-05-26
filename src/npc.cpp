@@ -2138,13 +2138,13 @@ void npc::update_worst_item_value()
     }
 }
 
-int npc::value( const item &it ) const
+double npc::value( const item &it ) const
 {
     int market_price = it.price( true );
     return value( it, market_price );
 }
 
-int npc::value( const item &it, int market_price ) const
+double npc::value( const item &it, double market_price ) const
 {
     if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
         // NPCs won't be interested in buying active explosives
