@@ -212,7 +212,7 @@
       [ [ "yeast", 2 ] ]
     ]
   },
- {
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_hb_seltzer",
