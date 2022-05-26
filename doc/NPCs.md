@@ -30,7 +30,11 @@ Format:
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
-    { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true }
+    { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
+    { 
+        "group": "example_shopkeeper_itemgroup4",
+        "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
+    }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]

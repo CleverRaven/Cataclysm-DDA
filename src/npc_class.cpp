@@ -9,6 +9,7 @@
 #include <string>
 #include <utility>
 
+#include "condition.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item_group.h"
@@ -236,6 +237,9 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     optional( jo, false, "trust", trust, 0 );
     optional( jo, false, "strict", strict, false );
     optional( jo, false, "rigid", rigid, false );
+    if( jo.has_member( "condition" ) ) {
+        read_condition<dialogue>( jo, "condition", condition, false );
+    }
 }
 
 void npc_class::load( const JsonObject &jo, const std::string & )

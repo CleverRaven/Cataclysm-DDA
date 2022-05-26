@@ -2035,7 +2035,8 @@ void npc::shop_restock()
     std::vector<item_group_id> value_groups;
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
         const faction *fac = get_faction();
-        if( !fac || ig.trust <= fac->trusts_u ) {
+        dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( this ) );
+        if( ( !fac || ig.trust <= fac->trusts_u ) && ( !ig.condition || ig.condition( temp ) ) ) {
             if( ig.rigid ) {
                 rigid_groups.emplace_back( ig.id );
             } else {
