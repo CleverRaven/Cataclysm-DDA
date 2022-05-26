@@ -1959,6 +1959,10 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
         return false;
     }
 
+    if( myclass->get_shopkeeper_blacklist().matches( it, *this ) ) {
+        return false;
+    }
+
     // TODO: Base on inventory
     return at_price >= 0;
 }

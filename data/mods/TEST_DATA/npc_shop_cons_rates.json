@@ -23,6 +23,16 @@
     "extend": { "rates": [ { "item": "FMCNote", "rate": 25 } ] }
   },
   {
+    "id": "test_blacklist",
+    "type": "shopkeeper_blacklist",
+    "entries": [
+      {
+        "item": "bow_saw",
+        "condition": { "npc_has_var": "hates_bow_saws", "type": "bool", "context": "bigotry", "value": "yes" }
+      }
+    ]
+  },
+  {
     "type": "npc_class",
     "id": "test_npc_trader_class",
     "name": "test_npc_trader",
@@ -39,7 +49,8 @@
         "strict": true,
         "condition": { "u_has_var": "multitool_access", "type": "bool", "context": "test", "value": "yes" }
       }
-    ]
+    ],
+    "shopkeeper_blacklist": "test_blacklist"
   },
   {
     "type": "npc",

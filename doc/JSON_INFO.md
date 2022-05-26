@@ -53,6 +53,7 @@ Use the `Home` key to return to the top.
       - [`points`](#points)
       - [`addictions`](#addictions)
       - [`shopkeeper_consumption_rates`](#shopkeeper_consumption_rates)
+      - [`shopkeeper_blacklist`](#shopkeeper_blacklist)
       - [`skills`](#skills)
       - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
@@ -1469,6 +1470,22 @@ Example:
   ]
 ```
 `condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](NPCs.md#player-or-npc-conditions).
+
+#### `shopkeeper_blacklist`
+Similar to `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_blacklist",
+  "id": "basic_blacklist",
+  "entries": [
+      { 
+        "item": "hammer",
+        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" } 
+      },
+      { "category": "ammo" },
+      { "group": "EXODII_basic_trade" }
+  ]
+```
 
 #### `skills`
 

@@ -12,17 +12,48 @@ namespace
 {
 
 generic_factory<shopkeeper_cons_rates> shop_cons_rate_factory( SHOPKEEPER_CONSUMPTION_RATES );
+generic_factory<shopkeeper_blacklist> shop_blacklist_factory( SHOPKEEPER_BLACKLIST );
 
-bool _matches( shopkeeper_cons_rate_entry const &rit, item const &it, npc const &beta )
+} // namespace
+
+bool icg_entry::operator==( icg_entry const &rhs ) const
+{
+    return itype == rhs.itype and category == rhs.category and item_group == rhs.item_group;
+}
+
+bool icg_entry::matches( item const &it, npc const &beta ) const
 {
     dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( beta ) );
-    return ( !rit.condition or rit.condition( temp ) ) and
-           ( rit.itype.is_empty() or it.typeId() == rit.itype ) and
-           ( rit.category.is_empty() or it.get_category_shallow().id == rit.category ) and
-           ( rit.item_group.is_empty() or
-             item_group::group_contains_item( rit.item_group, it.typeId() ) );
+    return ( !condition or condition( temp ) ) and
+           ( itype.is_empty() or it.typeId() == itype ) and
+           ( category.is_empty() or it.get_category_shallow().id == category ) and
+           ( item_group.is_empty() or
+             item_group::group_contains_item( item_group, it.typeId() ) );
 }
-} // namespace
+
+/** @relates string_id */
+template<>
+shopkeeper_blacklist const &string_id<shopkeeper_blacklist>::obj() const
+{
+    return shop_blacklist_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<shopkeeper_blacklist>::is_valid() const
+{
+    return shop_blacklist_factory.is_valid( *this );
+}
+
+void shopkeeper_blacklist::reset()
+{
+    shop_blacklist_factory.reset();
+}
+
+std::vector<shopkeeper_blacklist> const &shopkeeper_blacklist::get_all()
+{
+    return shop_blacklist_factory.get_all();
+}
 
 /** @relates string_id */
 template<>
@@ -53,32 +84,55 @@ void shopkeeper_cons_rates::load_rate( const JsonObject &jo, std::string const &
     shop_cons_rate_factory.load( jo, src );
 }
 
+void shopkeeper_blacklist::load_blacklist( const JsonObject &jo, std::string const &src )
+{
+    shop_blacklist_factory.load( jo, src );
+}
+
 void shopkeeper_cons_rates::check_all()
 {
     shop_cons_rate_factory.check();
 }
+
+class icg_entry_reader : public generic_typed_reader<icg_entry_reader>
+{
+    public:
+        static icg_entry _part_get_next( JsonObject const &jo ) {
+            icg_entry ret;
+            optional( jo, false, "item", ret.itype );
+            optional( jo, false, "category", ret.category );
+            optional( jo, false, "group", ret.item_group );
+            if( jo.has_member( "condition" ) ) {
+                read_condition<dialogue>( jo, "condition", ret.condition, false );
+            }
+            return ret;
+        }
+        static icg_entry get_next( JsonValue &jv ) {
+            JsonObject jo = jv.get_object();
+            icg_entry ret( _part_get_next( jo ) );
+            return ret;
+        }
+};
 
 class shopkeeper_cons_rates_reader : public generic_typed_reader<shopkeeper_cons_rates_reader>
 {
     public:
         static shopkeeper_cons_rate_entry get_next( JsonValue &jv ) {
             JsonObject jo = jv.get_object();
-            shopkeeper_cons_rate_entry ret;
-            optional( jo, false, "item", ret.itype );
-            optional( jo, false, "category", ret.category );
-            optional( jo, false, "group", ret.item_group );
+            shopkeeper_cons_rate_entry ret( icg_entry_reader::_part_get_next( jo ) );
             mandatory( jo, false, "rate", ret.rate );
-            if( jo.has_member( "condition" ) ) {
-                read_condition<dialogue>( jo, "condition", ret.condition, false );
-            }
             return ret;
         }
 };
 
 bool shopkeeper_cons_rate_entry::operator==( shopkeeper_cons_rate_entry const &rhs ) const
 {
-    return itype == rhs.itype and category == rhs.category and item_group == rhs.item_group and
-           rate == rhs.rate;
+    return icg_entry::operator==( rhs ) and rate == rhs.rate;
+}
+
+void shopkeeper_blacklist::load( JsonObject const &jo, std::string const &/*src*/ )
+{
+    optional( jo, was_loaded, "entries", entries, icg_entry_reader {} );
 }
 
 void shopkeeper_cons_rates::load( JsonObject const &jo, std::string const &/*src*/ )
@@ -108,9 +162,26 @@ int shopkeeper_cons_rates::get_rate( item const &it, npc const &beta ) const
         return -1;
     }
     for( auto rit = rates.crbegin(); rit != rates.crend(); ++rit ) {
-        if( _matches( *rit, it, beta ) ) {
+        if( rit->matches( it, beta ) ) {
             return rit->rate;
         }
     }
     return default_rate;
+}
+
+bool shopkeeper_blacklist::matches( item const &it, npc const &beta ) const
+{
+    return std::any_of( entries.begin(), entries.end(),
+    [&it, &beta]( icg_entry const & rit ) {
+        return rit.matches( it, beta );
+    } );
+}
+
+bool shopkeeper_cons_rates::matches( item const &it, npc const &beta ) const
+{
+    return it.type->price_post < junk_threshold or
+           std::any_of( rates.begin(), rates.end(),
+    [&it, &beta]( shopkeeper_cons_rate_entry const & rit ) {
+        return rit.matches( it, beta );
+    } );
 }

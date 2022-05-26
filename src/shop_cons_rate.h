@@ -8,14 +8,24 @@
 class JsonObject;
 
 constexpr char const *SHOPKEEPER_CONSUMPTION_RATES = "shopkeeper_consumption_rates";
+constexpr char const *SHOPKEEPER_BLACKLIST = "shopkeeper_blacklist";
 
-struct shopkeeper_cons_rate_entry {
+struct icg_entry {
     itype_id itype;
     item_category_id category;
     item_group_id item_group;
-    int rate = 0;
 
     std::function<bool( const dialogue & )> condition;
+
+    bool operator==( icg_entry const &rhs ) const;
+    bool matches( item const &it, npc const &beta ) const;
+};
+
+struct shopkeeper_cons_rate_entry: public icg_entry {
+    int rate = 0;
+
+    shopkeeper_cons_rate_entry() = default;
+    explicit shopkeeper_cons_rate_entry( icg_entry const &rhs ) : icg_entry( rhs ), rate( 0 ) {}
 
     bool operator==( shopkeeper_cons_rate_entry const &rhs ) const;
 };
@@ -28,6 +38,8 @@ struct shopkeeper_cons_rates {
     units::money junk_threshold = 1_cent;
     std::vector<shopkeeper_cons_rate_entry> rates;
 
+    shopkeeper_cons_rates() = default;
+
     static void reset();
     static const std::vector<shopkeeper_cons_rates> &get_all();
     static void load_rate( const JsonObject &jo, std::string const &src );
@@ -36,6 +48,20 @@ struct shopkeeper_cons_rates {
     void check() const;
 
     int get_rate( item const &it, npc const &beta ) const;
+    bool matches( item const &it, npc const &beta ) const;
+};
+
+struct shopkeeper_blacklist {
+    shopkeeper_blacklist_id id;
+    bool was_loaded = false;
+
+    std::vector<icg_entry> entries;
+
+    static void reset();
+    static const std::vector<shopkeeper_blacklist> &get_all();
+    static void load_blacklist( const JsonObject &jo, std::string const &src );
+    void load( const JsonObject &jo, std::string const &src );
+    bool matches( item const &it, npc const &beta ) const;
 };
 
 #endif // CATA_SRC_SHOP_CONS_RATE_H
