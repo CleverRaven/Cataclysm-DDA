@@ -148,7 +148,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_zilophosaurus_UPGRADE",
-    "monsters": [ { "monster": "mon_silophosaurus", "weight": 600 }, { "monster": "mon_zilophosaurus_brute", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_silophosaurus", "weight": 400 },
+      { "monster": "mon_zilophosaurus_shady", "weight": 300 },
+      { "monster": "mon_zilophosaurus_brute", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -189,12 +193,20 @@
   {
     "type": "monstergroup",
     "name": "GROUP_zacrocanthosaurus_UPGRADE",
-    "monsters": [ { "monster": "mon_sacrocanthosaurus", "weight": 600 }, { "monster": "mon_zacrocanthosaurus_brute", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_sacrocanthosaurus", "weight": 400 },
+      { "monster": "mon_zacrocanthosaurus_shady", "weight": 300 },
+      { "monster": "mon_zacrocanthosaurus_brute", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ziats_UPGRADE",
-    "monsters": [ { "monster": "mon_skiats", "weight": 600 }, { "monster": "mon_ziats_brute", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_skiats", "weight": 400 },
+      { "monster": "mon_ziats_shady", "weight": 300 },
+      { "monster": "mon_ziats_brute", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -235,7 +247,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_zianzhousaurus_UPGRADE",
-    "monsters": [ { "monster": "mon_sianzhousaurus", "weight": 600 }, { "monster": "mon_zianzhousaurus_brute", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_sianzhousaurus", "weight": 400 },
+      { "monster": "mon_zianzhousaurus_shady", "weight": 300 },
+      { "monster": "mon_zianzhousaurus_brute", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -258,17 +274,29 @@
   {
     "type": "monstergroup",
     "name": "GROUP_zallimimus_UPGRADE",
-    "monsters": [ { "monster": "mon_sallimimus", "weight": 600 }, { "monster": "mon_zallimimus_brute", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_sallimimus", "weight": 400 },
+      { "monster": "mon_zallimimus_shady", "weight": 300 },
+      { "monster": "mon_zallimimus_brute", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ztruthiomimus_UPGRADE",
-    "monsters": [ { "monster": "mon_sktruthiomimus", "weight": 600 }, { "monster": "mon_ztruthiomimus_brute", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_sktruthiomimus", "weight": 400 },
+      { "monster": "mon_ztruthiomimus_shady", "weight": 300 },
+      { "monster": "mon_ztruthiomimus_brute", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zornithomimus_UPGRADE",
-    "monsters": [ { "monster": "mon_sornithomimus", "weight": 600 }, { "monster": "mon_zornithomimus_brute", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_sornithomimus", "weight": 400 },
+      { "monster": "mon_zornithomimus_shady", "weight": 300 },
+      { "monster": "mon_zornithomimus_brute", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",

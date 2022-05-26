@@ -1054,8 +1054,8 @@
     "weight": "1000 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
-    "aggression": -20,
-    "morale": 50,
+    "aggression": -10,
+    "morale": 90,
     "speed": 20,
     "melee_skill": 5,
     "melee_dice": 2,
@@ -1081,7 +1081,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -1113,8 +1112,8 @@
     "weight": "1000 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
-    "aggression": -20,
-    "morale": 50,
+    "aggression": -5,
+    "morale": 100,
     "speed": 25,
     "melee_skill": 5,
     "melee_dice": 2,
@@ -1141,7 +1140,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "PET_MOUNTABLE" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {

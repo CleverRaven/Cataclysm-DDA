@@ -1625,16 +1625,16 @@ class map
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true, const std::string &faction = "" );
+                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
         vehicle *add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true, const std::string &faction = "" );
+                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
         vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true, const std::string &faction = "" );
+                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
         vehicle *add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true, const std::string &faction = "" );
+                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
         // Light/transparency
         float light_transparency( const tripoint &p ) const;
         // Assumes 0,0 is light map center

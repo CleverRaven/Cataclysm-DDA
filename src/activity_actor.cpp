@@ -469,17 +469,25 @@ void aim_activity_actor::unload_RAS_weapon()
     }
 }
 
-void autodrive_activity_actor::start( player_activity &, Character &who )
+void autodrive_activity_actor::update_player_vehicle( Character &who )
 {
     const bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
     const optional_vpart_position vp = get_map().veh_at( who.pos() );
     if( !( vp && in_vehicle ) ) {
-        who.cancel_activity();
-        return;
+        player_vehicle = nullptr;
+    } else {
+        player_vehicle = &vp->vehicle();
     }
+}
 
-    player_vehicle = &vp->vehicle();
-    player_vehicle->is_autodriving = true;
+void autodrive_activity_actor::start( player_activity &, Character &who )
+{
+    update_player_vehicle( who );
+    if( player_vehicle == nullptr ) {
+        who.cancel_activity();
+    } else {
+        player_vehicle->is_autodriving = true;
+    }
 }
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
@@ -513,6 +521,9 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 
 void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 {
+    // The activity might be canceled because the driver got unboarded, in which case we may not have a valid pointer anymore (e.g. summoned vehicle).
+    update_player_vehicle( who );
+
     who.add_msg_if_player( m_info, _( "Auto drive canceled." ) );
     who.omt_path.clear();
     if( player_vehicle ) {

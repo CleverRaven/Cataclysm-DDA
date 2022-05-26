@@ -108,7 +108,13 @@ class aim_activity_actor : public activity_actor
 class autodrive_activity_actor : public activity_actor
 {
     private:
+        // The player's vehicle, updated at the very start.
+        // Will be updated again if, e.g., the player gets unboarded,
+        // to make sure the pointer is still valid; the pointer might be invalid due to summoning despawn.
         vehicle *player_vehicle = nullptr;
+
+        // Update player_vehicle; will set it to nullptr if the player no longer has a vehicle.
+        void update_player_vehicle( Character & );
 
     public:
         autodrive_activity_actor() = default;

@@ -1606,6 +1606,33 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "textile_mill_museum_0a0",
+      "textile_mill_museum_0a1",
+      "textile_mill_museum_0a2",
+      "textile_mill_museum_0b0",
+      "textile_mill_museum_0b1",
+      "textile_mill_museum_0b2",
+      "textile_mill_museum_1a0",
+      "textile_mill_museum_1a1",
+      "textile_mill_museum_1a2",
+      "textile_mill_museum_1b0",
+      "textile_mill_museum_1b1",
+      "textile_mill_museum_1b2",
+      "textile_mill_museum_2a0",
+      "textile_mill_museum_2a1",
+      "textile_mill_museum_2a2",
+      "textile_mill_museum_2b0",
+      "textile_mill_museum_2b1",
+      "textile_mill_museum_2b2"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "textile mill museum",
+    "color": "light_blue",
+    "extend": { "flags": [ "SOURCE_TAILORING" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "urban_25_3",
       "urban_25_4",
       "urban_25_5",

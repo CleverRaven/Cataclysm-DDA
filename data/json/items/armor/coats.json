@@ -996,6 +996,7 @@
         "id": "black_jacket_chef",
         "name": { "str": "black chef's jacket" },
         "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -1003,6 +1004,7 @@
         "id": "blue_jacket_chef",
         "name": { "str": "blue chef's jacket" },
         "description": "It's a royal blue color.",
+        "color": "blue",
         "weight": 10,
         "append": true
       },
@@ -1010,6 +1012,7 @@
         "id": "red_jacket_chef",
         "name": { "str": "red chef's jacket" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -1017,6 +1020,7 @@
         "id": "pink_jacket_chef",
         "name": { "str": "pink chef's jacket" },
         "description": "It's colored pink, commonly used by women chefs or men who do not fear weird looks.",
+        "color": "pink",
         "weight": 10,
         "append": true
       },
@@ -1024,6 +1028,7 @@
         "id": "yellow_jacket_chef",
         "name": { "str": "yellow chef's jacket" },
         "description": "It's colored yellow.",
+        "color": "yellow",
         "weight": 5,
         "append": true
       },
@@ -1031,6 +1036,7 @@
         "id": "camo_jacket_chef",
         "name": { "str": "camo chef's jacket" },
         "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "color": "green",
         "weight": 2,
         "append": true
       },
@@ -1038,6 +1044,7 @@
         "id": "skull_jacket_chef",
         "name": { "str": "skull chef's jacket" },
         "description": "It's colored white with a giant skull in between crossed kitchen knives painted at the front and back.  Perfect for the apocalyptic chef.",
+        "symbol": "S",
         "weight": 1,
         "append": true
       }
