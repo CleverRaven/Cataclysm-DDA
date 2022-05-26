@@ -622,14 +622,18 @@ One of `"for_item"` or `"for_category"`, and each can either be a single string 
 ## Dialogue Effects
 The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
-`variable_object`: This is either an object or array describing a variable name. It can either describe an int or a time duration. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum and the value will be randomly between the two. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
+`variable_object`: This is either an object, an `arithmetic` expression(see arithmetic below) or array describing a variable name. It can either describe an int or a time duration. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum and the value will be randomly between the two. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
 
 example json:
 ```
 "effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
-  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" } ]
+  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" },
+  {
+    "u_spawn_monster": "mon_absence",
+    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
+  } ]
 
 ```
 
@@ -1018,8 +1022,10 @@ Example | Description
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
 `"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
+`"arithmetic"` | An arithmetic expression with no result.   
 ```
 "condition": { "compare_int": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, ">", { "const": 5 } ] }
+"real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] },
 ```
 
 #### Sample responses with conditions and effects
