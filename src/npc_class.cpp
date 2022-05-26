@@ -283,6 +283,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
               shopkeeper_cons_rates_id::NULL_ID() );
     optional( jo, was_loaded, SHOPKEEPER_BLACKLIST, shop_blacklist_id,
               shopkeeper_blacklist_id::NULL_ID() );
+    optional( jo, was_loaded, "restock_interval", restock_interval, 6_days );
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
@@ -417,6 +418,11 @@ const shopkeeper_blacklist &npc_class::get_shopkeeper_blacklist() const
         return null_blacklist;
     }
     return shop_blacklist_id.obj();
+}
+
+const time_duration &npc_class::get_shop_restock_interval() const
+{
+    return restock_interval;
 }
 
 int npc_class::roll_strength() const

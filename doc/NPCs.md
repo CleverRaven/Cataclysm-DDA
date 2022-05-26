@@ -38,6 +38,7 @@ Format:
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
   "shopkeeper_blacklist": "test_blacklist",
+  "restock_interval": "6 days",
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
@@ -47,6 +48,7 @@ There are a couple of items in the above template that may not be self explanato
 *`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 * `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
+* `"restock_interval"`: optional. Default is 6 days
 
 ##### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:

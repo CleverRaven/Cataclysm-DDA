@@ -50,7 +50,8 @@
         "condition": { "u_has_var": "multitool_access", "type": "bool", "context": "test", "value": "yes" }
       }
     ],
-    "shopkeeper_blacklist": "test_blacklist"
+    "shopkeeper_blacklist": "test_blacklist",
+    "restock_interval": "99 days"
   },
   {
     "type": "npc",
