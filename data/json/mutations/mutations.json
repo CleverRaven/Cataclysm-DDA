@@ -7810,7 +7810,7 @@
     "type": "mutation",
     "id": "BRAWLER",
     "name": { "str": "Brawler" },
-    "points": -8,
+    "points": -4,
     "description": "Whether from personal choice or childhood trauma, using ranged weapons is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
     "valid": false
