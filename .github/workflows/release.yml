@@ -152,7 +152,7 @@ jobs:
             artifact: linux-tiles-sounds-x64
             ext: tar.gz
             content: application/gzip
-          - name: linux-curses-x64
+          - name: Linux Curses x64
             os: ubuntu-18.04
             mxe: none
             android: none
@@ -161,7 +161,7 @@ jobs:
             artifact: linux-curses-x64
             ext: tar.gz
             content: application/gzip
-          - name: osx-curses-x64
+          - name: OSX Curses x64
             os: macos-10.15
             mxe: none
             tiles: 0
@@ -169,7 +169,7 @@ jobs:
             artifact: osx-curses-x64
             ext: dmg
             content: application/x-apple-diskimage
-          - name: osx-tiles-x64
+          - name: OSX Tiles x64
             os: macos-10.15
             mxe: none
             tiles: 1

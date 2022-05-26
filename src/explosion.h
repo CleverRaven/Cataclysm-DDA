@@ -58,7 +58,7 @@ struct explosion_data {
 // handles explosion related functions
 namespace explosion_handler
 {
-using queued_explosion = std::pair<tripoint, explosion_data>;
+using queued_explosion = std::pair<tripoint_abs_ms, explosion_data>;
 static std::vector<queued_explosion> _explosions;
 
 /** Queue an explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.

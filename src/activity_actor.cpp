@@ -94,6 +94,7 @@ static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
@@ -2533,6 +2534,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             player_character.activity.targets = temp_selected_items;
             player_character.activity.str_values = { temp_filter, "true" };
         } else {
+            // Warning: this can add a redundant menu activity to the backlog.
+            // It will prevent deleting the smart pointer of the selected item_location
+            // if the backlog is not sanitized.
             player_activity eat_menu( new_act );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
@@ -5642,14 +5646,18 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
     act.values.clear();
 
-    // Return to eat menu activity if it is in the activity backlog.
+    // Return to first eat or consume meds menu activity in the backlog.
     for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
-        if( iter->id() == ACT_CONSUME ) {
-            iter = who.backlog.erase( iter );
-        }
-        if( iter->id() == ACT_EAT_MENU ) {
+        if( iter->id() == ACT_EAT_MENU ||
+            iter->id() == ACT_CONSUME_MEDS_MENU ) {
             iter->auto_resume = true;
             break;
+        }
+    }
+    // Clear the backlog of any activities that will not auto resume.
+    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
+        if( !iter->auto_resume ) {
+            iter = who.backlog.erase( iter );
         }
     }
 }
