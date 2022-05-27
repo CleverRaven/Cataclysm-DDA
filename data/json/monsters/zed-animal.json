@@ -67,6 +67,7 @@
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
+    "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -132,6 +133,7 @@
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
+    "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 28, "into": "mon_dog_zombie_brute" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },

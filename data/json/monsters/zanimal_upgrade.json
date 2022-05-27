@@ -30,6 +30,7 @@
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
+    "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 15, "into": "mon_dog_skeleton_brute" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
   },
@@ -100,6 +101,7 @@
     "armor_acid": 1,
     "armor_elec": 2,
     "bleed_rate": 0,
+    "death_drops": "mon_dog_death_drops",
     "special_attacks": [
       { "id": "smash", "attack_upper": false, "throw_strength": 66, "cooldown": 45 },
       {
