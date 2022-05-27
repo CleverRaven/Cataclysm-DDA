@@ -496,7 +496,10 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
 item &item::convert( const itype_id &new_type )
 {
+    // Carry over relative rot similar to crafting
+    const double rel_rot = get_relative_rot();
     type = find_type( new_type );
+    set_relative_rot( rel_rot );
     requires_tags_processing = true; // new type may have "active" flags
     item temp( *this );
     temp.contents = item_contents( type->pockets );
@@ -4456,8 +4459,8 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                           "Contains %1$d unique crafting recipes,",
                                           total_recipes ), total_recipes );
             std::string source_line =
-                string_format( n_gettext( "from %1$d stored ebook:",
-                                          "from %1$d stored ebooks:",
+                string_format( n_gettext( "from %1$d stored e-book:",
+                                          "from %1$d stored e-books:",
                                           total_ebooks ), total_ebooks );
 
             insert_separation_line( info );
@@ -5522,6 +5525,9 @@ int item::engine_displacement() const
 
 const std::string &item::symbol() const
 {
+    if( has_itype_variant() && _itype_variant->alt_sym ) {
+        return *_itype_variant->alt_sym;
+    }
     return type->sym;
 }
 
@@ -6390,6 +6396,9 @@ nc_color item::color() const
     if( is_corpse() ) {
         return corpse->color;
     }
+    if( has_itype_variant() && _itype_variant->alt_color ) {
+        return *_itype_variant->alt_color;
+    }
     return type->color;
 }
 
@@ -6398,31 +6407,7 @@ int item::price( bool practical ) const
     int res = 0;
 
     visit_items( [&res, practical]( const item * e, item * ) {
-        if( e->rotten() ) {
-            // TODO: Special case things that stay useful when rotten
-            return VisitResponse::NEXT;
-        }
-
-        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
-        if( e->damage() > 0 ) {
-            // maximal damage level is 4, maximal reduction is 40% of the value.
-            child -= child * static_cast<double>( e->damage_level() ) / 10;
-        }
-
-        if( e->count_by_charges() || e->made_of( phase_id::LIQUID ) ) {
-            // price from json data is for default-sized stack
-            child *= e->charges / static_cast<double>( e->type->stack_size );
-
-        } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
-            // items with integral magazines may contain ammunition which can affect the price
-            child += item( e->ammo_data(), calendar::turn, e->ammo_remaining() ).price( practical );
-
-        } else if( e->is_tool() && e->type->tool->max_charges != 0 ) {
-            // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
-            child *= e->ammo_remaining() / static_cast<double>( std::max( e->type->charges_default(), 1 ) );
-        }
-
-        res += child;
+        res += e->price_no_contents( practical );
         return VisitResponse::NEXT;
     } );
 
@@ -6436,8 +6421,12 @@ int item::price_no_contents( bool practical ) const
     }
     int price = units::to_cent( practical ? type->price_post : type->price );
     if( damage() > 0 ) {
-        // maximal damage level is 4, maximal reduction is 40% of the value.
-        price -= price * static_cast< double >( damage_level() ) / 10;
+        // maximal damage level is 4, maximal reduction is 80% of the value.
+        price -= price * static_cast< double >( damage_level() ) / 5;
+    }
+
+    if( is_filthy() ) {
+        price *= 0.8;
     }
 
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
@@ -7821,12 +7810,12 @@ bool item::can_revive() const
               has_flag( flag_SKINNED ) || has_flag( flag_PULPED ) );
 }
 
-bool item::ready_to_revive( const tripoint &pos ) const
+bool item::ready_to_revive( map &here, const tripoint &pos ) const
 {
     if( !can_revive() ) {
         return false;
     }
-    if( get_map().veh_at( pos ) ) {
+    if( here.veh_at( pos ) ) {
         return false;
     }
     if( !calendar::once_every( 1_seconds ) ) {
@@ -12151,7 +12140,7 @@ void item::apply_freezerburn()
     set_flag( flag_MUSHY );
 }
 
-bool item::process_temperature_rot( float insulation, const tripoint &pos,
+bool item::process_temperature_rot( float insulation, const tripoint &pos, map &here,
                                     Character *carrier, const temperature_flag flag, float spoil_modifier )
 {
     const time_point now = calendar::turn;
@@ -12208,7 +12197,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
 
         const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        int local_mod = g->new_game ? 0 : get_map().get_temperature( pos );
+        int local_mod = g->new_game ? 0 : here.get_temperature( pos );
 
         int enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
@@ -12577,7 +12566,7 @@ void item::process_relic( Character *carrier, const tripoint &pos )
     }
 }
 
-bool item::process_corpse( Character *carrier, const tripoint &pos )
+bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
 {
     // some corpses rez over time
     if( corpse == nullptr || damage() >= max_damage() ) {
@@ -12590,7 +12579,7 @@ bool item::process_corpse( Character *carrier, const tripoint &pos )
         set_var( "zombie_form", mon_human->zombify_into.c_str() );
     }
 
-    if( !ready_to_revive( pos ) ) {
+    if( !ready_to_revive( here, pos ) ) {
         return false;
     }
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
@@ -12616,9 +12605,8 @@ bool item::process_corpse( Character *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_fake_mill( Character * /*carrier*/, const tripoint &pos )
+bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint &pos )
 {
-    map &here = get_map();
     if( here.furn( pos ) != furn_f_wind_mill_active &&
         here.furn( pos ) != furn_f_water_mill_active ) {
         item_counter = 0;
@@ -12633,9 +12621,8 @@ bool item::process_fake_mill( Character * /*carrier*/, const tripoint &pos )
     return false;
 }
 
-bool item::process_fake_smoke( Character * /*carrier*/, const tripoint &pos )
+bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoint &pos )
 {
-    map &here = get_map();
     if( here.furn( pos ) != furn_f_smoking_rack_active &&
         here.furn( pos ) != furn_f_metal_smoking_rack_active ) {
         item_counter = 0;
@@ -12650,17 +12637,16 @@ bool item::process_fake_smoke( Character * /*carrier*/, const tripoint &pos )
     return false;
 }
 
-bool item::process_litcig( Character *carrier, const tripoint &pos )
+bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
 {
     if( !one_in( 10 ) ) {
         return false;
     }
-    process_extinguish( carrier, pos );
+    process_extinguish( here, carrier, pos );
     // process_extinguish might have extinguished the item already
     if( !active ) {
         return false;
     }
-    map &here = get_map();
     // if carried by someone:
     if( carrier != nullptr ) {
         time_duration duration = 15_seconds;
@@ -12726,7 +12712,7 @@ bool item::process_litcig( Character *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_extinguish( Character *carrier, const tripoint &pos )
+bool item::process_extinguish( map &here, Character *carrier, const tripoint &pos )
 {
     // checks for water
     bool extinguish = false;
@@ -12750,7 +12736,6 @@ bool item::process_extinguish( Character *carrier, const tripoint &pos )
         default:
             break;
     }
-    map &here = get_map();
     if( in_inv && !in_veh && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ) {
         extinguish = true;
         submerged = true;
@@ -12823,7 +12808,7 @@ cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &p
     return here.getlocal( source );
 }
 
-bool item::process_cable( Character *carrier, const tripoint &pos )
+bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
 {
     if( carrier == nullptr ) {
         reset_cable( carrier );
@@ -12857,7 +12842,6 @@ bool item::process_cable( Character *carrier, const tripoint &pos )
         return false;
     }
 
-    map &here = get_map();
     if( !here.veh_at( *source ) ) {
         if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
@@ -12987,13 +12971,13 @@ bool item::process_blackpowder_fouling( Character *carrier )
     return false;
 }
 
-bool item::process( Character *carrier, const tripoint &pos, float insulation,
+bool item::process( map &here, Character *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
     process_relic( carrier, pos );
-    contents.process( carrier, pos, type->insulation_factor * insulation, flag,
+    contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
                       spoil_multiplier_parent );
-    return process_internal( carrier, pos, insulation, flag, spoil_multiplier_parent );
+    return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
 }
 
 void item::set_last_temp_check( const time_point &pt )
@@ -13001,7 +12985,7 @@ void item::set_last_temp_check( const time_point &pt )
     last_temp_check = pt;
 }
 
-bool item::process_internal( Character *carrier, const tripoint &pos,
+bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
                              float insulation, const temperature_flag flag, float spoil_modifier )
 {
     if( ethereal ) {
@@ -13047,7 +13031,6 @@ bool item::process_internal( Character *carrier, const tripoint &pos,
             }
         }
 
-        map &here = get_map();
         for( const emit_id &e : type->emits ) {
             here.emit_field( pos, e );
         }
@@ -13060,29 +13043,29 @@ bool item::process_internal( Character *carrier, const tripoint &pos,
                 return true;
             };
 
-            if( has_flag( flag_FAKE_SMOKE ) && mark_flag() && process_fake_smoke( carrier, pos ) ) {
+            if( has_flag( flag_FAKE_SMOKE ) && mark_flag() && process_fake_smoke( here, carrier, pos ) ) {
                 return true;
             }
-            if( has_flag( flag_FAKE_MILL ) && mark_flag() && process_fake_mill( carrier, pos ) ) {
+            if( has_flag( flag_FAKE_MILL ) && mark_flag() && process_fake_mill( here, carrier, pos ) ) {
                 return true;
             }
-            if( is_corpse() && mark_flag() && process_corpse( carrier, pos ) ) {
+            if( is_corpse() && mark_flag() && process_corpse( here, carrier, pos ) ) {
                 return true;
             }
             if( has_flag( flag_WET ) && mark_flag() && process_wet( carrier, pos ) ) {
                 // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
                 return false;
             }
-            if( has_flag( flag_LITCIG ) && mark_flag()  && process_litcig( carrier, pos ) ) {
+            if( has_flag( flag_LITCIG ) && mark_flag()  && process_litcig( here, carrier, pos ) ) {
                 return true;
             }
             if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
-                mark_flag()  && process_extinguish( carrier, pos ) ) {
+                mark_flag()  && process_extinguish( here, carrier, pos ) ) {
                 return false;
             }
             if( has_flag( flag_CABLE_SPOOL ) && mark_flag() ) {
                 // DO NOT process this as a tool! It really isn't!
-                return process_cable( carrier, pos );
+                return process_cable( here, carrier, pos );
             }
             if( has_flag( flag_IS_UPS ) && mark_flag() ) {
                 // DO NOT process this as a tool! It really isn't!
@@ -13101,7 +13084,7 @@ bool item::process_internal( Character *carrier, const tripoint &pos,
         }
         // All foods that go bad have temperature
         if( has_temperature() &&
-            process_temperature_rot( insulation, pos, carrier, flag, spoil_modifier ) ) {
+            process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier ) ) {
             if( is_comestible() ) {
                 here.rotten_item_spawn( *this, pos );
             }

@@ -29,6 +29,7 @@
         "id": "black_apron_cotton",
         "name": { "str": "black long waist apron" },
         "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -36,6 +37,7 @@
         "id": "blue_apron_cotton",
         "name": { "str": "blue long waist apron" },
         "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "color": "blue",
         "weight": 15,
         "append": true
       },
@@ -43,6 +45,7 @@
         "id": "red_apron_cotton",
         "name": { "str": "red long waist apron" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -50,6 +53,7 @@
         "id": "pink_apron_cotton",
         "name": { "str": "pink long waist apron" },
         "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "color": "pink",
         "weight": 3,
         "append": true
       },
@@ -57,6 +61,7 @@
         "id": "floral_apron_cotton",
         "name": { "str": "floral long waist apron" },
         "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "color": "yellow",
         "weight": 2,
         "append": true
       },
@@ -64,6 +69,7 @@
         "id": "camo_apron_cotton",
         "name": { "str": "camo long waist apron" },
         "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "color": "green",
         "weight": 2,
         "append": true
       },
@@ -71,6 +77,7 @@
         "id": "skull_apron",
         "name": { "str": "skull long waist apron" },
         "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "color": "dark_gray",
         "weight": 1,
         "append": true
       },
@@ -85,6 +92,7 @@
         "id": "gothic_apron",
         "name": { "str": "gothic long waist apron" },
         "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "color": "light_red",
         "weight": 1,
         "append": true
       }
@@ -132,6 +140,7 @@
         "id": "black_apron_cotton",
         "name": { "str": "black short waist apron" },
         "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -139,6 +148,7 @@
         "id": "blue_apron_cotton",
         "name": { "str": "blue short waist apron" },
         "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "color": "blue",
         "weight": 15,
         "append": true
       },
@@ -146,6 +156,7 @@
         "id": "red_apron_cotton",
         "name": { "str": "red short waist apron" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -153,6 +164,7 @@
         "id": "pink_apron_cotton",
         "name": { "str": "pink short waist apron" },
         "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "color": "pink",
         "weight": 3,
         "append": true
       },
@@ -160,6 +172,7 @@
         "id": "floral_apron_cotton",
         "name": { "str": "floral short waist apron" },
         "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "color": "yellow",
         "weight": 2,
         "append": true
       },
@@ -167,6 +180,7 @@
         "id": "camo_apron_cotton",
         "name": { "str": "camo short waist apron" },
         "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "color": "green",
         "weight": 2,
         "append": true
       },
@@ -174,6 +188,7 @@
         "id": "skull_apron",
         "name": { "str": "skull short waist apron" },
         "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "color": "dark_gray",
         "weight": 1,
         "append": true
       },
@@ -188,6 +203,7 @@
         "id": "gothic_apron",
         "name": { "str": "gothic short waist apron" },
         "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "color": "light_red",
         "weight": 1,
         "append": true
       }
@@ -220,6 +236,7 @@
         "id": "black_apron_cotton",
         "name": { "str": "black cotton apron" },
         "description": "It's colored black, commonly used by chefs working on the night or who just want to look cool.",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -227,6 +244,7 @@
         "id": "blue_apron_cotton",
         "name": { "str": "blue cotton apron" },
         "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "color": "blue",
         "weight": 15,
         "append": true
       },
@@ -234,6 +252,7 @@
         "id": "red_apron_cotton",
         "name": { "str": "red cotton apron" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -241,6 +260,7 @@
         "id": "pink_apron_cotton",
         "name": { "str": "pink cotton apron" },
         "description": "It's colored neon pink, commonly used by women or men who do not fear weird looks.",
+        "color": "pink",
         "weight": 3,
         "append": true
       },
@@ -248,6 +268,7 @@
         "id": "floral_apron_cotton",
         "name": { "str": "floral cotton apron" },
         "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "color": "yellow",
         "weight": 2,
         "append": true
       },
@@ -255,6 +276,7 @@
         "id": "camo_apron_cotton",
         "name": { "str": "camo cotton apron" },
         "description": "It has camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "color": "green",
         "weight": 2,
         "append": true
       },
@@ -262,6 +284,7 @@
         "id": "skull_apron",
         "name": { "str": "skull apron" },
         "description": "It's colored black and with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "color": "dark_gray",
         "weight": 1,
         "append": true
       },
@@ -276,6 +299,7 @@
         "id": "gothic_apron",
         "name": { "str": "gothic apron" },
         "description": "It has a jet black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "color": "light_red",
         "weight": 1,
         "append": true
       }
@@ -1529,12 +1553,14 @@
         "id": "skeletor_tshirt",
         "name": { "str": "political meme t-shirt" },
         "description": "A dark blue t-shirt with a circle of stars inside the start is a blue and yellow skeleton with his arms raised and mouth open.  Above the skeleton are the words 'Make Eternia' and below him are the words 'Great Again'.",
+        "color": "blue",
         "weight": 1
       },
       {
         "id": "my_little_nazgul_tshirt",
         "name": { "str": "My Little Nazgûl t-shirt" },
         "description": "A light gray t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
+        "color": "light_gray",
         "weight": 1
       },
       {
@@ -1553,12 +1579,14 @@
         "id": "doom_song_tshirt",
         "name": { "str": "doom song t-shirt" },
         "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it.  \"It's time for the DOOM song.  Doom, doom, doom, dooooom!!\"",
+        "color": "dark_gray",
         "weight": 1
       },
       {
         "id": "boba_fetch_tshirt",
         "name": { "str": "Boba Fetch t-shirt" },
         "description": "A black shirt with a dog in the uniform of a well known galactic bounty hunter.  The wrist rocket has been fired, it was a tennis ball on a string.",
+        "color": "dark_gray",
         "weight": 1
       },
       {
@@ -1583,6 +1611,8 @@
         "id": "portal_to_the_cat_dimension_tshirt",
         "name": { "str": "portal to the cat dimension t-shirt" },
         "description": "A black t-shirt with a picture of a woman standing in front of a yawning portal with numerous cats surrounding her and exiting the portal.",
+        "symbol": "c",
+        "color": "dark_gray",
         "weight": 5
       },
       {
@@ -1595,24 +1625,30 @@
         "id": "swordocracy_tshirt",
         "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
         "description": "A t-shirt with a picture of a peasant with an arm raised in a fist, eyes alight with the fire of freedom, proclaiming, 'Down with sword based goverments!'",
+        "color": "light_red",
         "weight": 1
       },
       {
         "id": "black_phillip_tshirt",
         "name": { "str": "Black Phillip t-shirt" },
         "description": "A black t-shirt with an old style cartoon black goat on the front, above the goat it says 'Black Phillip' and below are the words 'Live Deliciously'.",
+        "color": "dark_gray",
         "weight": 1
       },
       {
         "id": "disney_parody_tshirt",
         "name": { "str": "theme park parody t-shirt" },
         "description": "A black t-shirt with a stylized princesses castle with five spires.  Each spire has a purple-gray flame at the top.  At the bottom of the castle it says 'Menzoberranzan'",
+        "symbol": "M",
+        "color": "light_gray",
         "weight": 1
       },
       {
         "id": "start_a_cult_tshirt",
         "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
         "description": "A hooded child stands behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semi circle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
+        "symbol": "o",
+        "color": "dark_gray",
         "weight": 1
       },
       {

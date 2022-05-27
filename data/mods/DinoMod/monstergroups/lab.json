@@ -1,30 +1,8 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_CENTRAL_LAB",
-    "monsters": [
-      { "group": "GROUP_BIO_DINO_HERB", "weight": 200 },
-      { "group": "GROUP_BIO_DINO_PRED", "weight": 200 },
-      { "monster": "mon_dimorphodon_bio_op", "weight": 50, "cost_multiplier": 10, "ends": "28 days" }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_LAB",
-    "monsters": [
-      { "group": "GROUP_BIO_DINO_HERB", "weight": 200 },
-      { "group": "GROUP_BIO_DINO_PRED", "weight": 200 },
-      { "monster": "mon_dimorphodon_bio_op", "weight": 50, "cost_multiplier": 10, "ends": "28 days" }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_MICROLAB",
-    "monsters": [
-      { "group": "GROUP_BIO_DINO_HERB", "weight": 200 },
-      { "group": "GROUP_BIO_DINO_PRED", "weight": 200 },
-      { "monster": "mon_dimorphodon_bio_op", "weight": 50, "cost_multiplier": 10, "ends": "28 days" }
-    ]
+    "name": "GROUP_Exodii_Stowaway",
+    "monsters": [ { "group": "GROUP_BIO_DINO_HERB", "weight": 200 }, { "group": "GROUP_BIO_DINO_PRED", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
@@ -32,7 +10,6 @@
     "monsters": [
       { "group": "GROUP_BIO_DINO_HERB", "weight": 300 },
       { "group": "GROUP_BIO_DINO_PRED", "weight": 300 },
-      { "monster": "mon_dimorphodon_bio_op", "weight": 100, "cost_multiplier": 10, "ends": "28 days" },
       { "group": "GROUP_DINOSAUR_PREDATOR_WILDERNESS", "weight": 300 }
     ]
   },

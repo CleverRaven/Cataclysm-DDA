@@ -278,7 +278,7 @@
     "id": "tailors_kit",
     "type": "TOOL",
     "name": { "str": "tailor's kit" },
-    "description": "This is a high quality kit consisting of a variety of needles, some plastic spools for thread, some small scissors, and an awl.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "description": "This is a high quality kit consisting of a variety of needles, some plastic spools for thread, scissors and shears, and an awl.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
     "weight": "100 g",
     "volume": "500 ml",
     "price": 1000,

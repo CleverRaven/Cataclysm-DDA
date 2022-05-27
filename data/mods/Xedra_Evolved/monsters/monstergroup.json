@@ -30,5 +30,14 @@
       { "monster": "mon_goblin_spider", "weight": 100, "cost_multiplier": 1 },
       { "monster": "mon_fetch_child", "weight": 200, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_xe_unicorn", "weight": 10, "cost_multiplier": 10, "starts": 240, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_goblin_spider", "weight": 15, "cost_multiplier": 15, "starts": 780, "pack_size": [ 3, 12 ] }
+    ]
   }
 ]

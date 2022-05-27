@@ -3205,6 +3205,15 @@
   },
   {
     "type": "city_building",
+    "id": "s_cosmetic",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_cosmetic_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_cosmetic_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_grocery_1",
     "locations": [ "land" ],
     "overmaps": [
@@ -3573,6 +3582,31 @@
       { "point": [ 3, 0, 0 ], "overmap": "city_block2_4_north" },
       { "point": [ 3, 0, 1 ], "overmap": "city_block2_flr2_4_north" },
       { "point": [ 3, 0, 2 ], "overmap": "city_block2_roof_4_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "textile_mill_museum",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "textile_mill_museum_0a0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "textile_mill_museum_0a1_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "textile_mill_museum_0a2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "textile_mill_museum_0b0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "textile_mill_museum_0b1_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "textile_mill_museum_0b2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "textile_mill_museum_1a0_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "textile_mill_museum_1a1_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "textile_mill_museum_1a2_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "textile_mill_museum_1b0_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "textile_mill_museum_1b1_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "textile_mill_museum_1b2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "textile_mill_museum_2a0_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "textile_mill_museum_2a1_north" },
+      { "point": [ 2, 0, 2 ], "overmap": "textile_mill_museum_2a2_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "textile_mill_museum_2b0_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "textile_mill_museum_2b1_north" },
+      { "point": [ 2, 1, 2 ], "overmap": "textile_mill_museum_2b2_north" }
     ]
   },
   {

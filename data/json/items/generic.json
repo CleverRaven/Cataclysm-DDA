@@ -444,6 +444,38 @@
     "color": "light_gray"
   },
   {
+    "id": "bundle_pipe",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "bundle of pipes", "str_pl": "bundles of pipes" },
+    "description": "Ten pipes securely tied together for easier transport.  Disassemble to untie them.",
+    "//": "total volume is equal to 10 pipes, assuming uniformity and tight stacking",
+    "volume": "3700 ml",
+    "weight": "1251 g",
+    "longest_side": "23 cm",
+    "price": 100,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "H",
+    "color": "dark_gray"
+  },
+  {
+    "id": "bundle_copper_pipe",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "bundle of copper tubing", "str_pl": "bundles of copper tubing" },
+    "description": "Ten copper pipes securely tied together for easier transport.  Disassemble to untie them.",
+    "//": "total volume is equal to 10 pipes, assuming uniformity and tight stacking",
+    "volume": "3700 ml",
+    "weight": "1251 g",
+    "longest_side": "23 cm",
+    "price": 100,
+    "price_postapoc": 100,
+    "material": [ "copper" ],
+    "symbol": "H",
+    "color": "light_red"
+  },
+  {
     "id": "bundle_branch",
     "type": "GENERIC",
     "category": "spare_parts",
@@ -3922,6 +3954,23 @@
     "volume": "80 L",
     "bashing": 14,
     "to_hit": -2
+  },
+  {
+    "type": "TOOL",
+    "id": "archery_target_box",
+    "symbol": "@",
+    "color": "brown",
+    "name": { "str": "box archery target" },
+    "category": "other",
+    "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bullseye marked on the front.  Must be set up to use.",
+    "price": 3000,
+    "price_postapoc": 200,
+    "material": [ { "type": "cotton", "portion": 9 }, { "type": "cardboard" } ],
+    "weight": "16 kg",
+    "volume": "50 L",
+    "longest_side": "60 cm",
+    "bashing": 2,
+    "to_hit": -3
   },
   {
     "id": "cash_register",

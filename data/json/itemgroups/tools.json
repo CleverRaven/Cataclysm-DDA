@@ -71,6 +71,7 @@
       [ "tin_snips", 10 ],
       [ "wrench", 20 ],
       [ "wrench_small", 20 ],
+      [ "hand_pump", 10 ],
       [ "socket_wrench_set", 20 ],
       [ "pliers_locking", 20 ],
       [ "xacto", 40 ],
@@ -106,6 +107,7 @@
       [ "pliers_locking", 40 ],
       [ "wrench", 50 ],
       [ "wrench_small", 25 ],
+      [ "hand_pump", 1 ],
       [ "funnel", 50 ],
       [ "metal_file", 40 ],
       [ "sandpaper", 65 ]
