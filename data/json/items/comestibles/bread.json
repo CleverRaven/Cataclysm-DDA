@@ -307,7 +307,7 @@
     "id": "toad_in_a_hole_wheat_free",
     "name": { "str_sp": "wheat-free toad in a hole" },
     "copy-from": "toast_wheat_free",
-    "description": "A cooked egg served inside a piece of wheat-free toast, , not to be confused with the english recipe of the same name.",
+    "description": "A cooked egg served inside a piece of wheat-free toast, not to be confused with the English recipe of the same name.",
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
     "material": [ "veggy", "egg" ],
     "relative": { "calories": 80, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
