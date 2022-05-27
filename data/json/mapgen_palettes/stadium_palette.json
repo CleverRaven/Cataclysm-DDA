@@ -243,7 +243,7 @@
       [ "heatpack", 40 ],
       [ "heatpack_used", 60 ],
       [ "bandages", 20 ],
-      [ "adhesive_bandages", 20 ],
+      { "item": "adhesive_bandages", "prob": 20, "count": [ 1, 20 ] },
       [ "mouthpiece", 40 ],
       [ "football", 60 ],
       [ "football_armor", 60 ],
