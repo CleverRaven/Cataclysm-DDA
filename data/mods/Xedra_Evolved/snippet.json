@@ -10,5 +10,15 @@
       { "id": "fae_organs_2", "text": "These might be a kidney equivalent but they smell of rosemary at your touch." },
       { "id": "fae_organs_3", "text": "The lung looking organs are oozing a shimmering green substance." }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "spy_note",
+    "text": [
+      {
+        "id": "spy_note_1",
+        "text": "I've tracked down rumors an intradimensional contact unit based out a local government building.  I'm going to go recon it, see you in a few days."
+      }
+    ]
   }
 ]

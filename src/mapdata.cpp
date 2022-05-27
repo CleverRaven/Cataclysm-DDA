@@ -238,6 +238,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE: return "NO_PICKUP_ON_EXAMINE";
         case ter_furn_flag::TFLAG_RUBBLE: return "RUBBLE";
         case ter_furn_flag::TFLAG_DIGGABLE_CAN_DEEPEN: return "DIGGABLE_CAN_DEEPEN";
+        case ter_furn_flag::TFLAG_PIT_FILLABLE: return "PIT_FILLABLE";
         case ter_furn_flag::TFLAG_DIFFICULT_Z: return "DIFFICULT_Z";
         case ter_furn_flag::TFLAG_ALIGN_WORKBENCH: return "ALIGN_WORKBENCH";
         case ter_furn_flag::TFLAG_NO_SPOIL: return "NO_SPOIL";

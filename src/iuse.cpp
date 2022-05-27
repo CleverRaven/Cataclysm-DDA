@@ -119,7 +119,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
@@ -140,6 +139,11 @@ static const ammotype ammo_battery( "battery" );
 
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
+
+static const construction_str_id construction_constr_fill_pit( "constr_fill_pit" );
+static const construction_str_id construction_constr_pit( "constr_pit" );
+static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
+static const construction_str_id construction_constr_water_channel( "constr_water_channel" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
@@ -375,10 +379,8 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -2775,138 +2777,7 @@ cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripo
     }
 }
 
-struct digging_moves_and_byproducts {
-    int moves;
-    int spawn_count;
-    std::string byproducts_item_group;
-    ter_id result_terrain;
-};
-
-static digging_moves_and_byproducts dig_pit_moves_and_byproducts( Character *p, item *it, bool deep,
-        bool channel )
-{
-    // When we dig, we're generally digging out either a deep or shallow pit.
-    //
-    // The dimensions are a little hand-wavey... based on our exactly
-    // as-big-as-they-need-to-be tile sizes, we could assume that the width and height
-    // are 1 meter each. Our pit could be a square as well, or we could assume it's
-    // circular and 1 meter in diameter.
-    //
-    // Depth is even less rigidly defined, both in terms of "what is a z-level", and in
-    // terms of how the deep and shallow pits are used in game.
-    //
-    // A shallow pit gets used to do things like build an improvised shelter or start
-    // the foundation for a wall, and is ostensibly a relatively quick effort: a
-    // survivor might get a crude digging implement (e.g. digging stick) and attempt to
-    // dig out the start of an improvised shelter, or they might have a proper shovel
-    // and be digging a foundation footing. Referencing the 2018 IBC
-    // https://codes.iccsafe.org/content/IRC2018/chapter-4-foundations we can see in
-    // R403.1.4 the requirement that "exterior footings shall be placed not less than
-    // 12 inches (305 mm) below the undisturbed ground surface." You'd need even more
-    // space for the actual footing, but that's close enough. I don't think survivors
-    // care about building to code, but let's call it 12 inches (0.3048 meters) at the
-    // maximum for a shallow pit depth.
-    //
-    // The deep pit is a little more complicated because it gets used for more complex
-    // constructions like traps, reinforced concrete wall footings, palisades, wells,
-    // root cellars, and the like. The depth requirements for those are quite varied,
-    // but let's just throw some number around to get a feel for it: say at least 2
-    // meters deep to be an effective pit trap. The USGS maintains
-    // depth-to-ground-water-level records and provides them at
-    // https://waterdata.usgs.gov/nwis/current/?type=gw. A cursory review (and
-    // remembering it's seasonal) shows values in Massachusetts ranging from 122 feet
-    // and 1 foot, and values between 3 to 9 feet aren't uncommon. Root cellars are
-    // ideally constructed where the ground temperature has stabilized, below the frost
-    // line. This depth varies by location, but is somewhere in the 1 to 3 meter range.
-    //
-    // With all of that in hand, let's make some estimates.
-    //
-    // A shallow pit is a circular pit 1 meter in diameter and 0.3048 meters deep,
-    // which works out to... ~0.239 m^3. That's so close, let's just call it 0.25 m^3
-    // or 250 liters.
-    //
-    // A deep pit is a rectangular pit 1m x 1m x 2m, or 2 m^3, or 2000 liters.
-    //
-    // Now, for how long that takes, things are going to get even more subjective and
-    // couched in assumptions. Let's assume a single individual, digging in optimally
-    // diggable soil(rather than something requiring a pickaxe to break the soil or
-    // requiring saws to remove tree roots), using an appropriate (but manual)
-    // implement designed for the task (e.g. a shovel). The Canadian Centre for
-    // Occupational Health and Safety has some interesting recommendations on the rate
-    // of shoveling, weight of the load, and throw distance at
-    // https://www.ccohs.ca/oshanswers/ergonomics/shovel.html. Of particular interest
-    // is the table of "recommended workload for continuous shoveling", which gives a
-    // weight per minute and a total weight per 15 minutes, as well as a description of
-    // the conditions. It also discusses the need to take breaks, for example
-    // alternating 15 minutes of shoveling and 15 minutes of rest in extreme
-    // conditions. Taking all that into consideration, I'm going to call it 10
-    // scoops/min * 5 kg/scoop for 15 minutes followed by 15 minutes of rest, or
-    // effectively 25 kg/min.
-    //
-    // Now we need to bring the weights and volumes together. Again, more hand waving
-    // as the soil composition is going to have a big influence on this. The
-    // engineering toolbox https://www.engineeringtoolbox.com/dirt-mud-densities-d_1727.html
-    // lists the density of wet and dry versions of many materials. I'm going with the
-    // assumption that this is moist/wet soil that includes clay, silt, load, as well as
-    // some rock, so I'll just call it 1700 kg/m^3 on average.
-    //
-    // Shallow pit is 0.25 m^3 * 1700 kg/m^3, or 425 kg.
-    // Deep pit is 2 m^3 * 1700 kg/m^3, or 3400 kg.
-    //
-    // We'll do some variables below, but for reference:
-    // Shallow pit: 425 kg / 25 kg/min = 17 minutes
-    // Deep pit: 3400 kg / 25 kg/min = 136 minutes
-    //
-    // Now, one addendum: we're digging our deep pit in the location that we've already
-    // dug the shallow pit, so really we should exclude the shallow pit volume from the
-    // deep when counting the amount of work we need to do.
-    //
-    // Adjusted deep pit: ( 3400 kg - 425 kg ) / 25 kg/min = 119 minutes
-
-    constexpr double shallow_pit_volume_m3 = 0.25;
-    constexpr double deep_pit_volume_m3 = 2;
-    constexpr int dig_rate_kg_min = 25;
-    constexpr int material_density_kg_m3 = 1700;
-
-    // At the time of writing this, a shovel is DIG 3, which is what the numbers are
-    // balanced around.
-    constexpr double baseline_dig_quality = 3;
-
-    // Get the dig quality of the tool.
-    const int quality = it->get_quality( qual_DIG );
-
-    // Dig quality affects the dig rate linearly relative to baseline dig quality
-    const double tool_dig_rate = dig_rate_kg_min * quality / baseline_dig_quality;
-
-    ///\EFFECT_STR modifies dig rate
-    // Adjust the dig rate by 2 kg/min per point of strength more/less than 10.
-    const double player_dig_rate = std::max( 1.0, tool_dig_rate + ( p->str_cur - 10 ) * 2 );
-
-    // Figure out the volume of the pit we're digging.
-    // Subtract the shallow volume from the deep, since we already dug that.
-    const double volume_m3 = deep ? ( deep_pit_volume_m3 - shallow_pit_volume_m3 ) :
-                             shallow_pit_volume_m3;
-
-    // And now determine the moves...
-    int dig_minutes = volume_m3 * material_density_kg_m3 / player_dig_rate;
-    int moves = to_moves<int>( time_duration::from_minutes( dig_minutes ) );
-
-    // Modify the number of moves based on the help.
-    // TODO: this block of code is all over the place and could probably be consolidated.
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1.0f - ( helpersize / 10.0f ) );
-
-    ter_id result_terrain;
-    if( channel ) {
-        result_terrain = ter_id( "t_water_moving_sh" );
-    } else {
-        result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
-    }
-
-    return { moves, static_cast<int>( volume_m3 / 0.05 ), "digging_soil_loam_50L", result_terrain };
-}
-
-cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const tripoint & )
 {
     if( !p || t ) {
         return cata::nullopt;
@@ -2915,101 +2786,26 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const tripoint dig_point = p->pos();
 
-    map &here = get_map();
-    const bool can_dig_here = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dig_point ) &&
-                              !here.has_furn( dig_point ) &&
-                              !here.can_see_trap_at( dig_point, *p ) &&
-                              ( here.ter( dig_point ) == t_grave_new || here.i_at( dig_point ).empty() ) &&
-                              !here.veh_at( dig_point );
-    const bool here_is_pit = here.ter( dig_point ) == t_pit;
-    if( here_is_pit ) {
-        p->add_msg_if_player(
-            _( "There's already a pit here!" ) );
-        return cata::nullopt;
-    } else if( !can_dig_here ) {
-        p->add_msg_if_player(
-            _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
-        return cata::nullopt;
-    }
-    const bool can_deepen = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE_CAN_DEEPEN, dig_point );
-    const bool grave = here.ter( dig_point ) == t_grave;
-
-    if( !p->crafting_inventory().has_quality( qual_DIG, 2 ) ) {
-        if( can_deepen ) {
-            p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-            return cata::nullopt;
-        } else if( grave ) {
-            p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
-            return cata::nullopt;
-        }
+    std::vector<construction> const &cnstr = get_constructions();
+    auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_pit;
+    } );
+    bool const can_dig_pit = !points_in_radius_where( p->pos(), 1, [&build]( tripoint const & pt ) {
+        return can_construct( *build, pt );
+    } ).empty();
+    if( !can_dig_pit ) {
+        build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+            return it.str_id == construction_constr_pit_shallow;
+        } );
     }
 
-    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.passable( pnt );
-    };
+    place_construction( build->group );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Deposit excavated materials where?" ),
-            _( "There is nowhere to deposit the excavated materials." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint deposit_point = *pnt_;
-
-    if( !f( deposit_point ) ) {
-        p->add_msg_if_player(
-            _( "You can't deposit the excavated materials onto an impassable location." ) );
-        return cata::nullopt;
-    }
-
-    if( grave ) {
-        if( p->has_trait( trait_SPIRITUAL ) && !p->has_trait( trait_PSYCHOPATH ) &&
-            p->query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
-            add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
-            if( one_in( 3 ) ) {
-                p->vomit();
-            }
-        } else if( p->has_trait( trait_PSYCHOPATH ) ) {
-            p->add_msg_if_player( m_good,
-                                  _( "Exhuming a grave is fun now, when there is no one to object." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-        } else if( p->has_trait( trait_NUMB ) ) {
-            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
-        } else if( !p->has_trait( trait_EATDEAD ) &&
-                   !p->has_trait( trait_SAPROVORE ) ) {
-            p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
-            if( one_in( 5 ) ) {
-                p->vomit();
-            }
-        }
-    }
-
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
-            can_deepen, false );
-
-    p->assign_activity( player_activity( dig_activity_actor(
-            moves_and_byproducts.moves,
-            dig_point,
-            moves_and_byproducts.result_terrain.id().str(),
-            deposit_point,
-            moves_and_byproducts.spawn_count,
-            moves_and_byproducts.byproducts_item_group
-                                         ) ) );
-
-    return it->type->charges_to_use();
+    return 0;
 }
 
-cata::optional<int> iuse::dig_channel( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::dig_channel( Character *p, item */* it */, bool t, const tripoint & )
 {
     if( !p || t ) {
         return cata::nullopt;
@@ -3018,67 +2814,17 @@ cata::optional<int> iuse::dig_channel( Character *p, item *it, bool t, const tri
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const tripoint dig_point = p->pos();
 
-    tripoint north = dig_point + point_north;
-    tripoint south = dig_point + point_south;
-    tripoint west = dig_point + point_west;
-    tripoint east = dig_point + point_east;
+    std::vector<construction> const &cnstr = get_constructions();
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_water_channel;
+    } );
 
-    map &here = get_map();
-    const bool can_dig_here = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dig_point ) &&
-                              !here.has_furn( dig_point ) &&
-                              !here.can_see_trap_at( dig_point, *p ) && here.i_at( dig_point ).empty() &&
-                              !here.veh_at( dig_point ) &&
-                              ( here.has_flag( ter_furn_flag::TFLAG_CURRENT, north ) ||
-                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, south ) ||
-                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, east ) ||
-                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, west ) );
-
-    if( !can_dig_here ) {
-        p->add_msg_if_player(
-            _( "You can't dig a channel in this location.  Ensure it is clear diggable ground with no items or obstacles, adjacent to flowing water." ) );
-        return cata::nullopt;
-    }
-
-    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.passable( pnt );
-    };
-
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Deposit excavated materials where?" ),
-            _( "There is nowhere to deposit the excavated materials." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint deposit_point = *pnt_;
-
-    if( !f( deposit_point ) ) {
-        p->add_msg_if_player(
-            _( "You can't deposit the excavated materials onto an impassable location." ) );
-        return cata::nullopt;
-    }
-
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
-            true );
-
-    p->assign_activity( player_activity( dig_channel_activity_actor(
-            moves_and_byproducts.moves,
-            dig_point,
-            moves_and_byproducts.result_terrain.id().str(),
-            deposit_point,
-            moves_and_byproducts.spawn_count,
-            moves_and_byproducts.byproducts_item_group
-                                         ) ) );
-    return it->type->charges_to_use();
+    place_construction( build->group );
+    return 0;
 }
 
-cata::optional<int> iuse::fill_pit( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const tripoint & )
 {
     if( !p || t ) {
         return cata::nullopt;
@@ -3087,62 +2833,14 @@ cata::optional<int> iuse::fill_pit( Character *p, item *it, bool t, const tripoi
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_pit,
-        t_pit_spiked,
-        t_pit_glass,
-        t_pit_corpsed,
-        t_pit_shallow,
-        t_dirtmound
-    };
 
-    map &here = get_map();
-    const std::function<bool( const tripoint & )> f =
-    [&allowed_ter_id, &here, p]( const tripoint & pnt ) {
-        if( pnt == p->pos() ) {
-            return false;
-        }
-        const ter_id type = here.ter( pnt );
-        return ( allowed_ter_id.find( type ) != allowed_ter_id.end() );
-    };
+    std::vector<construction> const &cnstr = get_constructions();
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_fill_pit;
+    } );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Fill which pit or mound?" ), _( "There is no pit or mound to fill nearby." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint &pnt = *pnt_;
-    const ter_id ter = here.ter( pnt );
-    if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
-            p->add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
-        } else {
-            p->add_msg_if_player( m_info, _( "There is nothing to fill." ) );
-        }
-        return cata::nullopt;
-    }
-
-    int moves;
-    if( ter == t_pit || ter == t_pit_spiked ||
-        ter == t_pit_glass || ter == t_pit_corpsed ) {
-        moves = to_moves<int>( time_duration::from_minutes( 15 ) );
-    } else if( ter == t_pit_shallow ) {
-        moves = to_moves<int>( time_duration::from_minutes( 10 ) );
-    } else if( ter == t_dirtmound ) {
-        moves = to_moves<int>( time_duration::from_minutes( 5 ) );
-    } else {
-        return cata::nullopt;
-    }
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1.0f - ( helpersize / 10.0f ) );
-    for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-    p->assign_activity( ACT_FILL_PIT, moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
-
-    return it->type->charges_to_use();
+    place_construction( build->group );
+    return 0;
 }
 
 /**
@@ -8665,7 +8363,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
     const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
@@ -8808,7 +8506,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
 
         if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
@@ -9043,7 +8741,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
 
         if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&

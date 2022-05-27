@@ -6,3 +6,12 @@ Classes and scenarios specific to this mod will likely revolve around either inv
 
 ## Chapter 1 Hail Arcadia
 The first bit of content for Xedra Evolved revolves around a dimension that's relatively nearby in Nether terms, even pre-portal technology mankind had records of encounters with beings matching the descriptions of these creatures across multiple cultures and times.  Future additions will explore other avenues.
+
+
+### Shipping manifest
+14 Monsters
+2 professions
+2 Map Specials
+1 Map Extra
+A dozen or so items
+And a plethora of other effects, furniture/terrain, missions, lore and other things necessary to support the above.

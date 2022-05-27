@@ -355,7 +355,8 @@
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "using first aid",
-    "based_on": "speed"
+    "based_on": "speed",
+    "suspendable": false
   },
   {
     "id": "ACT_FISH",
@@ -782,27 +783,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "planting seeds",
     "based_on": "time"
-  },
-  {
-    "id": "ACT_DIG",
-    "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
-    "verb": "digging",
-    "based_on": "speed"
-  },
-  {
-    "id": "ACT_DIG_CHANNEL",
-    "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
-    "verb": "digging",
-    "based_on": "speed"
-  },
-  {
-    "id": "ACT_FILL_PIT",
-    "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "filling",
-    "based_on": "speed"
   },
   {
     "id": "ACT_SHAVE",

@@ -14,7 +14,7 @@
     "looks_like": "cowboy_hat",
     "color": "white",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5, "breathability": "GOOD" }
     ],
     "warmth": 10,
@@ -46,7 +46,7 @@
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -73,7 +73,7 @@
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -108,7 +108,7 @@
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -143,7 +143,7 @@
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -178,7 +178,7 @@
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -213,7 +213,7 @@
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -254,7 +254,7 @@
     "warmth": 25,
     "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_gambeson_hood",
@@ -292,7 +292,7 @@
     "warmth": 25,
     "material_thickness": 3.2,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_k_gambeson_hood",
@@ -329,7 +329,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "WATERPROOF", "OUTER", "SOFT" ],
-    "armor": [ { "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "nomex_hood",
@@ -349,7 +349,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ],
-    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_gut",
@@ -368,7 +368,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_ninja",
@@ -385,7 +385,7 @@
     "looks_like": "balclava",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 5 }
     ],
     "warmth": 8,

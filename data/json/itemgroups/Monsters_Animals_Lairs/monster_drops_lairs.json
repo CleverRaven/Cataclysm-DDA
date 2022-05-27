@@ -293,6 +293,16 @@
   },
   {
     "type": "item_group",
+    "id": "dog_clothes",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "rubber_harness_dog", "prob": 50 },
+      { "item": "leather_harness_dog", "prob": 25 },
+      { "item": "kevlar_harness", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "hive",
     "//": "Beekeeper gear, as spawned on beekeeper zombie",
     "subtype": "distribution",

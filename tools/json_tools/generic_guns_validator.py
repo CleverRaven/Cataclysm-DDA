@@ -53,6 +53,7 @@ ID_WHITELIST = {
     'rifle_308',
     'surv_carbine_223',
     'feral_militia_gun',
+    'feral_jackboot_gun',
     # Magazines
     '223_speedloader5',
     'coin_wrapper',
