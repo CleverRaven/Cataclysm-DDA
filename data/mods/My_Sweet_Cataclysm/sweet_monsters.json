@@ -529,7 +529,6 @@
     "copy-from": "mon_licorice_snake",
     "harvest": "licorice_snake",
     "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" },
-    "flags": [ "NO_BREED" ]
   },
   {
     "id": "mon_candy_pumpkin",
