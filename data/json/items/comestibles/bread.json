@@ -300,7 +300,7 @@
     "description": "A cooked egg served inside a piece of toast, not to be confused with the english recipe of the same name.",
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
     "material": [ "wheat", "egg" ],
-    "relative": { "calories": 80, "fun": 4, "flags": [ "FREEZERBURN" ], "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
+    "relative": { "fun": 4 }
   },
   {
     "type": "COMESTIBLE",
@@ -310,7 +310,7 @@
     "description": "A cooked egg served inside a piece of wheat-free toast, not to be confused with the English recipe of the same name.",
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
     "material": [ "veggy", "egg" ],
-    "relative": { "calories": 80, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
+    "relative": { "fun": 4 }
   },
   {
     "type": "COMESTIBLE",
