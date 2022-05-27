@@ -246,6 +246,7 @@
     "symbol": "*",
     "color": "white",
     "stim": 10,
+	"quench": -3,
     "fun": 1,
     "flags": [ "NO_INGEST" ],
     "use_action": [ "CHEW" ]
@@ -268,6 +269,7 @@
     "container": "bottle_plastic_pill_supplement",
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "stim": 12,
+	"quench": -4,
     "addiction_potential": 3,
     "addiction_type": "caffeine",
     "use_action": { "type": "consume_drug", "activation_message": "You take a caffeine pill." },
