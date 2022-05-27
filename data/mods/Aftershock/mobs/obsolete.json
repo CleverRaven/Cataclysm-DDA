@@ -140,7 +140,7 @@
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 3,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
