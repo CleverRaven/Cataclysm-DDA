@@ -902,7 +902,46 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );
     } else if( jo.has_object( "melee_damage" ) ) {
-        melee_damage = load_damage_instance( jo );
+        melee_damage = load_damage_instance( jo.get_object( "melee_damage" ) );
+    } else if( jo.has_object( "relative" ) ) {
+        cata::optional<damage_instance> tmp_dmg;
+        JsonObject rel = jo.get_object( "relative" );
+        rel.allow_omitted_members();
+        if( rel.has_array( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( rel.get_array( "melee_damage" ) );
+        } else if( rel.has_object( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( rel.get_object( "melee_damage" ) );
+        } else if( rel.has_int( "melee_damage" ) ) {
+            const int rel_amt = rel.get_int( "melee_damage" );
+            for( damage_unit &du : melee_damage ) {
+                du.amount += rel_amt;
+            }
+        }
+        if( !!tmp_dmg ) {
+            melee_damage.add( tmp_dmg.value() );
+        }
+    } else if( jo.has_object( "proportional" ) ) {
+        cata::optional<damage_instance> tmp_dmg;
+        JsonObject prop = jo.get_object( "proportional" );
+        prop.allow_omitted_members();
+        if( prop.has_array( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( prop.get_array( "melee_damage" ) );
+        } else if( prop.has_object( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( prop.get_object( "melee_damage" ) );
+        } else if( prop.has_float( "melee_damage" ) ) {
+            melee_damage.mult_damage( prop.get_float( "melee_damage" ), true );
+        }
+        if( !!tmp_dmg ) {
+            for( const damage_unit &du : tmp_dmg.value() ) {
+                auto iter = std::find_if( melee_damage.begin(),
+                melee_damage.end(), [&du]( const damage_unit & mdu ) {
+                    return mdu.type == du.type;
+                } );
+                if( iter != melee_damage.end() ) {
+                    iter->amount *= du.amount;
+                }
+            }
+        }
     }
 
     if( jo.has_array( "scents_tracked" ) ) {
