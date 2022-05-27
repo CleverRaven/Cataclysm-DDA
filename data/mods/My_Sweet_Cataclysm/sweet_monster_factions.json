@@ -60,9 +60,7 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "pumpkin_man",
-    "hate": [ "bot", "nether", "human", "insect" ],
-    "by_mood": [ "player", "animal", "crackers", "cookies", "gummy_bears", "chewgum" ],
-    "friendly": [ "plant" ]
+    "name": "candy_pumpkin",
+    "by_mood": [ "crackers", "cookies", "gummy_bears", "chewgum" ],
   }
 ]
