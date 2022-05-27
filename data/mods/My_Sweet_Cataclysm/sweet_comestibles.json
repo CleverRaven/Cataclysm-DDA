@@ -231,16 +231,5 @@
     "container": "null",
     "color": "yellow",
     "description": " A candy pumpkin typically sold around halloween, out of the corner of your eye, you think you see it move, how strange... "
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "candy_cane",
-    "name": { "str_sp": "Candy Cane" },
-    "copy-from": "candy_cane",
-    "rot_spawn": "GROUP_EGG_CANE_WEAK",
-    "rot_spawn_chance": 100,
-    "container": "null",
-    "color": "red",
-    "description": "A cane shaped candy traditionally found during winter season.  You'd swear you've seen wriggle a little bit."
   }
 ]
