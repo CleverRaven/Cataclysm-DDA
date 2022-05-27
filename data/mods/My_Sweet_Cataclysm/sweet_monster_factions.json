@@ -64,11 +64,5 @@
     "hate": [ "bot", "nether", "human", "insect" ],
     "by_mood": [ "player", "animal", "crackers", "cookies", "gummy_bears", "chewgum" ],
     "friendly": [ "plant" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "candy_cane",
-    "hate": [ "animal", "crackers", "cookies", "gummy_bears", "chewgum", "bot", "nether", "human", "insect", "plant" ],
-    "by_mood": [ "player" ]
   }
 ]
