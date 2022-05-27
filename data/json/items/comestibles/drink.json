@@ -75,7 +75,7 @@
     "copy-from": "coffee",
     "fatigue_mod": 90,
     "stim": 30,
-	"quench": 6,
+    "quench": 6,
     "container": "bottle_plastic",
     "healthy": -1,
     "addiction_potential": 8,
@@ -1267,7 +1267,7 @@
     "color": "green",
     "fatigue_mod": 7,
     "stim": 2,
-	"quench": 20,
+    "quench": 20,
     "description": "Made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  Green tea has a lighter, fresher taste than black."
   },
   {
