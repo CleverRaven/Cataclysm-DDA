@@ -63,11 +63,6 @@
     "name": "GROUP_EGG_PUMPKIN",
     "type": "monstergroup",
     "default": "mon_candy_pumpkin"
-  },
-  {
-    "name": "GROUP_EGG_CANE",
-    "type": "monstergroup",
-    "default": "mon_candy_cane"
   }
 ]
 
