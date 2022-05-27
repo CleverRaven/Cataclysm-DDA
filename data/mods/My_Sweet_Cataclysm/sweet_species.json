@@ -44,12 +44,5 @@
     "anger_triggers": [ "FRIEND_DIED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "footsteps": "pat."
-  },
-  {
-    "type": "SPECIES",
-    "id": "CANE",
-    "anger_triggers": [ "FRIEND_DIED", "HURT" ],
-    "fear_triggers": [ "FIRE" ],
-    "footsteps": "tac."
   }
 ]
