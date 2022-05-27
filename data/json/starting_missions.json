@@ -116,6 +116,28 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_DOG_LOVER",
+    "type": "mission_definition",
+    "name": { "str": "Protect your canine friends" },
+    "description": "You have saved your dogs from the fall of the world, but they could still suffer from danger everywhere.  Police dogs used some kevlar harnesses for protection…  Maybe your friends could use some too?",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "item": "kevlar_harness",
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
     "id": "MISSION_HUNTER",
     "type": "mission_definition",
     "name": { "str": "Hunt big game" },

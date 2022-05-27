@@ -226,6 +226,18 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "dog_lover_bag",
+    "entries": [
+      { "item": "rubber_harness_dog" },
+      { "item": "rubber_harness_dog" },
+      { "item": "dog_whistle" },
+      { "item": "dogfood_dry" },
+      { "item": "dogfood_dry" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "ninja_grenade_pouch",
     "entries": [ { "item": "flashbang" }, { "item": "flashbang" }, { "item": "smokebomb" }, { "item": "smokebomb" } ]
   },
@@ -1525,6 +1537,25 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "dog_lover",
+    "name": "Dog Lover",
+    "description": "You spent your days running around with your faithful dogs by your side.  When the world ended, you grabbed your companions along with some of their things to protect them.  The zombies could be nearby, but at least your canine friends shouldn't have to worry about the rain.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "traits": [ "ANIMALEMPATH" ],
+    "pets": [ { "name": "mon_dog", "amount": 2 } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "water_clean", "wristwatch", "petpack", "pet_carrier" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "mbag", "contents-group": "dog_lover_bag" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "missions": [ "MISSION_DOG_LOVER" ]
   },
   {
     "type": "profession",

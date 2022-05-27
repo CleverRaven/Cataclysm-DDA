@@ -20,7 +20,7 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "melee_cut": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "attack_effs": [ { "id": "blood_spiders", "duration": 40000, "affect_hit_bp": true } ],
     "//": "5 hits to max intensity, 6 hits to max duration",
     "dodge": 2,
