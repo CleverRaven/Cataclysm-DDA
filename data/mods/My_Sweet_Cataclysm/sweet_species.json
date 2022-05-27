@@ -40,7 +40,7 @@
   },
   {
     "type": "SPECIES",
-    "id": "PUMPKIN",
+    "id": "C_PUMPKIN",
     "anger_triggers": [ "FRIEND_DIED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "footsteps": "pat."
