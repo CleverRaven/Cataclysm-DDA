@@ -65,12 +65,5 @@
     "entries": [
       { "drop": "pumpkin_candy", "type": "flesh", "mass_ratio": 0.6 },
     ]
-  },
-  {
-    "id": "cane_hulk",
-    "type": "harvest",
-    "leftovers": "ruined_candy",
-    "message": "You break the corpse into smaller candy canes.",
-    "entries": [ { "drop": "candy_cane", "type": "flesh", "mass_ratio": 0.8 } ]
   }
 ]
