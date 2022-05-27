@@ -381,7 +381,6 @@ static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
-static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_BOOMING_VOICE( "BOOMING_VOICE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -6995,10 +6994,6 @@ ret_val<bool> Character::can_wield( const item &it ) const
     if( it.has_flag( flag_BIONIC_WEAPON ) ) {
         return ret_val<bool>::make_failure(
                    _( "You can't wield this.  It looks like it has to be attached to a bionic." ) );
-    }
-    if( it.is_gun() && has_trait( trait_BRAWLER ) ) {
-        return ret_val<bool>::make_failure(
-                   _( "You refuse to wield this weapon." ) );
     }
 
     const item weapon = get_wielded_item();
