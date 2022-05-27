@@ -160,7 +160,7 @@
     "id": "small_printout_portal_storm_data",
     "name": { "str": "short NRE printout" },
     "category": "books",
-    "description": "A sequence of overlapping numbers plotted in thermal paper, at times so so densely packed that they disappear into thick blots of oxide colored ink.  A few number sequences repeat in an almost orderly fashion, but you cant tell wether that means anything.",
+    "description": "A sequence of overlapping numbers plotted in thermal paper, at times so densely packed that they disappear into thick blots of oxide colored ink.  A few number sequences repeat in an almost orderly fashion, but you can't tell whether that means anything.",
     "weight": "1 g",
     "to_hit": -3,
     "color": "white",
