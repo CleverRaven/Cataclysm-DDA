@@ -499,7 +499,7 @@
     "symbol": "e",
     "color": "light_blue",
     "morale": 100,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0  } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
     "armor_bash": 4,
     "vision_day": 50,
