@@ -683,48 +683,5 @@
       { "item": "arm_splint", "count": [ 1, 3 ] },
       { "item": "leg_splint", "count": [ 1, 3 ] }
     ]
-  },
-  {
-    "id": "collapsed_building_rubble",
-    "type": "item_group",
-    "//": "A building has collapsed. Perhaps from a bomb, perhaps from a fire",
-    "//2": "This stuff survived and lies inside tbe remains but is really crude and damaged.",
-    "items": [
-      [ "string_36", 40 ],
-      [ "frame", 20 ],
-      [ "hdframe", 10 ],
-      [ "metal_tank", 10 ],
-      [ "screen_mesh", 10 ],
-      [ "metal_tank_little", 10 ],
-      [ "water_faucet", 10 ],
-      [ "peephole", 25 ],
-      [ "cu_pipe", 50 ],
-      [ "chain", 20 ],
-      [ "rope_6", 4 ],
-      [ "rope_30", 35 ],
-      { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
-      { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
-      { "item": "pipe", "prob": 20, "count": [ 5, 10 ] },
-      { "item": "nail", "prob": 60, "count": [ 2, 4 ] },
-      { "item": "wire", "prob": 50, "count": [ 1, 10 ] },
-      { "item": "charcoal", "prob": 5, "charges": [ 25, 50 ] },
-      { "item": "scrap_copper", "prob": 15, "count": [ 1, 2 ] },
-      { "item": "sheet_metal", "prob": 10 },
-      { "item": "sheet_metal_small", "prob": 10 },
-      { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
-      { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
-      { "item": "steel_lump", "prob": 5, "count": [ 1, 3 ] },
-      { "item": "steel_chunk", "prob": 15, "count": [ 1, 5 ] },
-    ]
-  },
-  {
-    "id": "collapsed_building_outside",
-    "type": "item_group",
-    "//": "A building has collapsed. Perhaps from a bomb, perhaps from a fire",
-    "//2": "This is the stuff that fell outside and lies on the ground in the open.",
-    "items": [
-      { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
-      { "item": "brick", "prob": 20, "count": [ 5, 10 ] }
-    ]
   }
 ]

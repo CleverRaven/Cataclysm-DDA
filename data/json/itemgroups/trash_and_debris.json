@@ -258,5 +258,50 @@
       [ "wheel_mount_medium", 10 ],
       [ "alternator_car", 10 ]
     ]
+  },
+  {
+    "id": "collapsed_building_rubble",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A building has collapsed. Perhaps from a bomb, perhaps from a fire",
+    "//2": "This stuff survived and lies inside tbe remains but is really crude and damaged.",
+    "items": [
+      { "item": "string_36", "prob": 2, "count": [ 5, 40 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "frame", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "hdframe", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "metal_tank", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "screen_mesh", "prob": 2, "count": [ 1, 2 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "metal_tank_little", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "water_faucet", "prob": 2, "count": [ 1, 2 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "peephole", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "cu_pipe", "prob": 2, "count": [ 2, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "chain", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "rope_6", "prob": 2, "count": [ 1, 2 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "rope_30", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "rebar", "prob": 8, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "brick", "prob": 20, "count": [ 10, 20 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "pipe", "prob": 5, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "nail", "prob": 2, "count": [ 0, 1 ], "charges-min": 3, "charges-max": 15 },
+      { "item": "wire", "prob": 3, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "charcoal", "prob": 3, "charges": [ 3, 7 ] },
+      { "item": "scrap_copper", "prob": 2, "count": [ 2, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "sheet_metal", "prob": 2, "count": [ 1, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "sheet_metal_small", "prob": 2, "count": [ 1, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "spike", "prob": 5, "count": [ 2, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "hinge", "prob": 2, "count": [ 1, 2 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "steel_lump", "prob": 5, "count": [ 2, 5 ] },
+      { "item": "steel_chunk", "prob": 5, "count": [ 5, 10 ] }
+    ]
+  },
+  {
+    "id": "collapsed_building_outside",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A building has collapsed. Perhaps from a bomb, perhaps from a fire",
+    "//2": "This is the stuff that fell outside and lies on the ground in the open.",
+    "items": [
+      { "item": "rebar", "prob": 2, "count": [ 5, 10 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "brick", "prob": 20, "count": [ 15, 30 ], "damage-min": 0, "damage-max": 3 }
+    ]
   }
 ]
