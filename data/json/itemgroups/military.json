@@ -302,7 +302,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mossberg_930", "variant": "m1014", "prob": 60, "charges": [ 0, 8 ] },
-      { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] }
+      { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] },
+      { "item": "m26_mass_standalone", "prob": 5, "charges": [ 0, 3 ] }
     ]
   },
   {
@@ -480,6 +481,7 @@
       { "item": "sp2022", "prob": 1 },
       { "item": "m27_assault_rifle", "variant": "h&k416a5", "prob": 7 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
+      { "item": "m26_mass_standalone", "prob": 1 },
       { "item": "m27_assault_rifle", "variant": "scar_l", "prob": 6 },
       { "item": "scar_h", "prob": 5 },
       { "item": "sig_mcx_rattler_sbr", "prob": 1 },
@@ -515,6 +517,7 @@
       { "item": "rm451_flamethrower", "prob": 1 },
       { "item": "binoculars", "prob": 20 },
       { "item": "masterkey", "prob": 2 },
+      { "item": "m26_mass", "prob": 3 },
       { "item": "rm121aux", "prob": 1 },
       { "item": "shot_flechette", "prob": 5 },
       { "item": "canteen", "prob": 15 },

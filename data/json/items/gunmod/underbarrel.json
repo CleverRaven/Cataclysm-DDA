@@ -438,6 +438,33 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
+    "id": "m26_mass",
+    "type": "GUNMOD",
+    "name": { "str": "M26-MASS shotgun" },
+    "description": "Modular Accessory Shotgun System, an underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  It can be mounted under the barrel of different rifles, or used as standalone weapon by attachment to a pistol grip or collapsible buttstock module.  It feeds from three or five shot detachable magazines.",
+    "weight": "2360 g",
+    "volume": "1068 ml",
+    "price": 95000,
+    "price_postapoc": 2041,
+    "install_time": "5 m",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "white",
+    "location": "underbarrel",
+    "mod_targets": [ "rifle" ],
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 310, "durability": 10, "clip_size": 5 },
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ]
+  },
+  {
+    "id": "m26_mass_mod",
+    "copy-from": "m26_mass",
+    "type": "GUNMOD",
+    "name": { "str": "M26-MASS" },
+    "description": "An underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns.",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+  },
+  {
     "id": "pipe_launcher40mm",
     "type": "GUNMOD",
     "name": { "str": "40mm pipe launcher" },
