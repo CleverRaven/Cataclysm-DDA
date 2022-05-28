@@ -1309,11 +1309,14 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item &we
         const Character &u ) const
 {
     std::vector<matec_id> tecs;
-    // Grab individual item techniques
-    const auto &weapon_techs = weap.get_techniques();
-    tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
-    // and martial art techniques
     const auto &style = style_selected.obj();
+
+    // Grab individual item techniques if the style allows them 
+    if( !style.force_unarmed ) {
+        const auto &weapon_techs = weap.get_techniques();
+        tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
+    }
+    // and martial art techniques
     tecs.insert( tecs.end(), style.techniques.begin(), style.techniques.end() );
     // And limb techniques
     const auto &limb_techs = u.get_limb_techs();
