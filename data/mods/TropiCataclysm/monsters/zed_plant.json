@@ -487,8 +487,8 @@
         "cooldown": 4,
         "accuracy": 5,
         "damage_max_instance": [
-          { "damage_type": "stab", "amount":10, "armor_multiplier": 0.3 },
-          { "damage_type": "bash", "amount":10, "armor_multiplier": 0.3 }
+          { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.3 },
+          { "damage_type": "bash", "amount": 10, "armor_multiplier": 0.3 }
         ]
       },
       [ "GRAB", 4 ]
