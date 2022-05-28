@@ -50,14 +50,6 @@ static const efftype_id effect_currently_busy( "currently_busy" );
 
 static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
 
-// throws an error on failure, so no need to return
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value )
-{
-    int_or_var<dialogue> empty;
-    return get_talk_varname<dialogue>( jo, member, check_value, empty );
-}
-
 template<class T>
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, int_or_var<T> &default_val )
@@ -79,6 +71,14 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
     }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
             + var_context ) + "_" + var_basename;
+}
+
+// throws an error on failure, so no need to return
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value )
+{
+    int_or_var<dialogue> empty;
+    return get_talk_varname<dialogue>( jo, member, check_value, empty );
 }
 
 template<class T>
