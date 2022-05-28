@@ -845,5 +845,28 @@
     "modes": [ [ "DEFAULT", "double", 2 ] ],
     "//": "no provision for separate triggers",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
+  },
+  {
+    "id": "m26_mass_standalone",
+    "copy-from": "shotgun_base",
+    "type": "GUN",
+    "name": { "str": "M26-MASS standalone shotgun" },
+    "description": "Modular Accessory Shotgun System, an underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  This one was configured for a standalone usage.",
+    "variant_type": "gun",
+    "weight": "2260 g",
+    "volume": "2390 ml",
+    "longest_side": "610 mm",
+    "price": 189000,
+    "price_postapoc": 4500,
+    "to_hit": -2,
+    "bashing": 3,
+    "material": [ "steel", "plastic" ],
+    "dispersion": 395,
+    "durability": 7,
+    "min_cycle_recoil": 1250,
+    "barrel_volume": "252 ml",
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
+    "built_in_mods": [ "m26_mass_stock" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ]
   }
 ]

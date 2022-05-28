@@ -332,7 +332,7 @@ In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional
 The dynamic line is a list of dynamic lines, all of which are displayed.  The dynamic lines in the list are processed normally.
 ```json
 {
-    "and": [
+    "concatenate": [
         {
             "npc_male": true,
             "yes": "I'm a man.",
