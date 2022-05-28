@@ -84,12 +84,27 @@
         "LOCALIZE": "False",
         "TILES": "True"
       }
+    },
+    {
+      "name": "linux-curses-x64",
+      "inherits": [ "base", "linux" ],
+      "displayName": "Linux Curses x64",
+      "description": "Target Linux (64-bit) with the GCC compiler suite. (RelWithDebInfo)",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CURSES": "True",
+        "LOCALIZE": "True",
+        "TILES": "False",
+        "SOUND": "False"
+      }
     }
   ],
   "buildPresets": [
     {
-      "name": "x64-debug",
-      "configurePreset": "x64-debug"
+      "name": "linux-curses-x64",
+      "configurePreset": "linux-curses-x64",
+      "verbose": true
     }
   ]
 }
