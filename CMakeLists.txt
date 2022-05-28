@@ -187,6 +187,10 @@ else ()
     # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     if (CMAKE_INSTALL_PREFIX AND NOT WIN32 AND USE_PREFIX_DATA_DIR)
         add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
+        configure_file(
+            "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
+            "${CMAKE_SOURCE_DIR}/src/prefix.h"
+            @ONLY)
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
 endif ()
