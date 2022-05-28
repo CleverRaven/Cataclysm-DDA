@@ -360,6 +360,7 @@
       [ "folding_bicycle", 1 ],
       [ "coat_rain", 10 ],
       [ "hood_rain", 5 ],
+      [ "rubber_harness_dog", 3 ],
       [ "jacket_windbreaker", 5 ],
       [ "umbrella", 12 ],
       [ "teleumbrella", 5 ],

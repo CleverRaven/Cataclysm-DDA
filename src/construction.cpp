@@ -1893,7 +1893,7 @@ void load_construction( const JsonObject &jo )
     }
 
     con.activity_level =
-        activity_levels_map.find( jo.get_string( "activity_level", "NO_EXERCISE" ) )->second;
+        activity_levels_map.find( jo.get_string( "activity_level", "MODERATE_EXERCISE" ) )->second;
 
     if( jo.has_member( "pre_flags" ) ) {
         con.pre_flags.clear();

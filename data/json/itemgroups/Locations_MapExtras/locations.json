@@ -1611,6 +1611,7 @@
       { "item": "whistle", "prob": 75 },
       { "item": "ear_plugs", "prob": 66 },
       { "group": "charged_two_way_radio", "prob": 50 },
+      { "item": "kevlar_harness", "prob": 20 },
       { "item": "file", "prob": 25 },
       { "item": "baton", "prob": 20 },
       { "item": "kevlar", "prob": 15 },

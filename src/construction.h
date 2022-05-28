@@ -105,7 +105,7 @@ struct construction {
         //can be build in the dark
         bool dark_craftable = false;
 
-        float activity_level = NO_EXERCISE;
+        float activity_level = MODERATE_EXERCISE;
     private:
         std::string get_time_string() const;
 };

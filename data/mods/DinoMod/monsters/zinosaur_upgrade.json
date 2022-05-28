@@ -11,7 +11,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -36,7 +36,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -60,7 +60,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -84,7 +84,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -108,7 +108,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -132,7 +132,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -156,7 +156,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -181,7 +181,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -206,7 +206,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -231,7 +231,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -256,7 +256,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -281,7 +281,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -306,7 +306,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -331,7 +331,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -356,7 +356,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -407,7 +407,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -431,7 +431,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -455,7 +455,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -480,7 +480,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -504,7 +504,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -528,7 +528,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -552,7 +552,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -576,7 +576,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -600,7 +600,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -624,7 +624,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -648,7 +648,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -672,7 +672,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -696,7 +696,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -720,7 +720,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -744,7 +744,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -768,7 +768,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -792,7 +792,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -816,7 +816,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -840,7 +840,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -864,7 +864,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -888,7 +888,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -912,7 +912,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -936,7 +936,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -960,7 +960,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -984,7 +984,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -1008,7 +1008,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -1032,7 +1032,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -1056,7 +1056,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -1080,7 +1080,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_cut": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -1410,7 +1410,7 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_cut": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "armor_bash": 0,
     "armor_cut": 19,
     "armor_bullet": 26,
@@ -1455,7 +1455,7 @@
     "hp": 170,
     "melee_dice": 5,
     "melee_dice_sides": 8,
-    "melee_cut": 8,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "upgrades": { "half_life": 15, "into": "mon_skinosaurus_brute" },
     "extend": { "flags": [ "DESTROYS" ] }
   },
@@ -1468,7 +1468,7 @@
     "bodytype": "ostrich",
     "hp": 105,
     "melee_dice_sides": 10,
-    "melee_cut": 16,
+    "melee_damage": [ { "damage_type": "cut", "amount": 16 } ],
     "upgrades": { "half_life": 15, "into": "mon_sorvosaurus_brute" },
     "flags": [ "SEES", "HEARS", "POISON", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT" ]
   },
@@ -1484,7 +1484,7 @@
     "hp": 75,
     "melee_dice": 3,
     "melee_dice_sides": 5,
-    "melee_cut": 8,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
   },
   {
@@ -1509,7 +1509,7 @@
     "hp": 145,
     "melee_dice": 3,
     "melee_dice_sides": 5,
-    "melee_cut": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
     "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
   },
@@ -1523,7 +1523,7 @@
     "hp": 80,
     "melee_dice": 4,
     "melee_dice_sides": 7,
-    "melee_cut": 18,
+    "melee_damage": [ { "damage_type": "cut", "amount": 18 } ],
     "special_attacks": [
       { "type": "bite", "cooldown": 15 },
       [ "GRAB", 15 ],
@@ -1547,7 +1547,7 @@
     "copy-from": "mon_sappalachiosaurus",
     "speed": 45,
     "attack_cost": 45,
-    "melee_cut": 17,
+    "melee_damage": [ { "damage_type": "cut", "amount": 17 } ],
     "hp": 100
   },
   {
@@ -1561,7 +1561,7 @@
     "hp": 110,
     "melee_dice": 4,
     "melee_dice_sides": 7,
-    "melee_cut": 18,
+    "melee_damage": [ { "damage_type": "cut", "amount": 18 } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ], [ "LONGSWIPE", 25 ] ]
   },
   {
@@ -1577,7 +1577,7 @@
     "attack_cost": 50,
     "melee_dice": 4,
     "melee_dice_sides": 7,
-    "melee_cut": 17
+    "melee_damage": [ { "damage_type": "cut", "amount": 17 } ]
   },
   {
     "type": "MONSTER",
@@ -1587,7 +1587,7 @@
     "description": "Monstrous columns of dense bone lifting a large jaw with long, pointed teeth dripping with black goo.",
     "melee_dice": 5,
     "melee_dice_sides": 8,
-    "melee_cut": 19,
+    "melee_damage": [ { "damage_type": "cut", "amount": 19 } ],
     "hp": 120,
     "weakpoint_sets": [ "wps_lg_theropod_body" ]
   },
@@ -1602,7 +1602,7 @@
     "melee_skill": 5,
     "melee_dice": 5,
     "melee_dice_sides": 5,
-    "melee_cut": 25,
+    "melee_damage": [ { "damage_type": "cut", "amount": 25 } ],
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 } ]
   },
   {
@@ -1619,7 +1619,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 7,
-    "melee_cut": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "upgrades": { "half_life": 15, "into": "mon_sallimimus_brute" }
   },
   {
@@ -1657,7 +1657,7 @@
     "attack_cost": 40,
     "melee_dice": 5,
     "melee_dice_sides": 7,
-    "melee_cut": 8,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "upgrades": { "half_life": 15, "into": "mon_sothronychus_brute" }
   },
   {
@@ -1685,7 +1685,7 @@
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 11,
-    "melee_cut": 8,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" },
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
@@ -1707,7 +1707,7 @@
     "hp": 50,
     "melee_dice": 3,
     "melee_dice_sides": 9,
-    "melee_cut": 12,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" }
   },
   {
@@ -1723,7 +1723,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1750,7 +1750,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1785,7 +1785,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1828,7 +1828,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1855,7 +1855,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1882,7 +1882,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1910,7 +1910,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1937,7 +1937,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1964,7 +1964,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1991,7 +1991,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2018,7 +2018,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2045,7 +2045,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2072,7 +2072,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2099,7 +2099,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2126,7 +2126,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2153,7 +2153,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2180,7 +2180,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2207,7 +2207,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2234,7 +2234,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2261,7 +2261,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2288,7 +2288,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_cut": 7,
+      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2468,7 +2468,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_cut": 6,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
       "armor_bash": 12,
       "armor_cut": 15,
       "armor_bullet": 6,
@@ -2490,7 +2490,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2512,7 +2518,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_cut": 6,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
       "armor_bash": 12,
       "armor_cut": 15,
       "armor_bullet": 6,
@@ -2534,7 +2540,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The twisted back sail means it must have been a spinosaurus once.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2554,7 +2566,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_cut": 6,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
       "armor_bash": 12,
       "armor_cut": 15,
       "armor_bullet": 6,
@@ -2576,7 +2588,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2596,7 +2614,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_cut": 6,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
       "armor_bash": 12,
       "armor_cut": 15,
       "armor_bullet": 6,
@@ -2618,7 +2636,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2637,7 +2661,7 @@
     "proportional": { "hp": 5 },
     "melee_dice": 4,
     "melee_dice_sides": 5,
-    "melee_cut": 30,
+    "melee_damage": [ { "damage_type": "cut", "amount": 30 } ],
     "relative": { "armor_bash": 12, "armor_cut": 15, "armor_bullet": 6, "vision_day": 35, "vision_night": 3 },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_syrannosaurus_hulk" },
@@ -2656,7 +2680,7 @@
     "proportional": { "hp": 2.5 },
     "melee_dice": 5,
     "melee_dice_sides": 3,
-    "melee_cut": 35,
+    "melee_damage": [ { "damage_type": "cut", "amount": 35 } ],
     "relative": { "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "bleed_rate": 0,
     "special_attacks": [
@@ -2677,7 +2701,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_cut": 6,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
       "armor_bash": 12,
       "armor_cut": 15,
       "armor_bullet": 6,
@@ -2699,7 +2723,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2721,7 +2751,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_cut": 6,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
       "armor_bash": 12,
       "armor_cut": 15,
       "armor_bullet": 6,
@@ -2743,7 +2773,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2765,7 +2801,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_cut": 6,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
       "armor_bash": 12,
       "armor_cut": 15,
       "armor_bullet": 6,
@@ -2787,7 +2823,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting beak suggest some kind of two legged beaked dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -2809,7 +2851,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_cut": 6,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
       "armor_bash": 12,
       "armor_cut": 15,
       "armor_bullet": 6,
@@ -2831,7 +2873,13 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting claws and sharp teeth suggest some kind of two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },

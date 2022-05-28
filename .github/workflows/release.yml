@@ -18,6 +18,9 @@ on:
       - 'README*'
       - 'src/**'
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   release:
     name: Create Release
@@ -54,6 +57,15 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.generate_env_vars.outputs.tag_name }}
           tag_prefix: ""
+      - name: "Generate release notes"
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            /repos/CleverRaven/Cataclysm-DDA/releases/generate-notes \
+            -f tag_name='${{ steps.generate_env_vars.outputs.tag_name }}' \
+            -f target_commitish='master' \
+            -q .body > CHANGELOG.md
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -63,8 +75,7 @@ jobs:
         with:
           tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
           release_name: ${{ steps.generate_env_vars.outputs.release_name }}
-          body: |
-            These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+          body_path: ./CHANGELOG.md
           draft: false
           prerelease: true
   builds:
@@ -152,7 +163,7 @@ jobs:
             artifact: linux-tiles-sounds-x64
             ext: tar.gz
             content: application/gzip
-          - name: linux-curses-x64
+          - name: Linux Curses x64
             os: ubuntu-18.04
             mxe: none
             android: none
@@ -161,7 +172,7 @@ jobs:
             artifact: linux-curses-x64
             ext: tar.gz
             content: application/gzip
-          - name: osx-curses-x64
+          - name: OSX Curses x64
             os: macos-10.15
             mxe: none
             tiles: 0
@@ -169,7 +180,7 @@ jobs:
             artifact: osx-curses-x64
             ext: dmg
             content: application/x-apple-diskimage
-          - name: osx-tiles-x64
+          - name: OSX Tiles x64
             os: macos-10.15
             mxe: none
             tiles: 1

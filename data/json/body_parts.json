@@ -836,8 +836,8 @@
     "parent": "foot_r",
     "side": 2,
     "opposite": "foot_sole_l",
-    "name_multiple": "foot arches",
-    "name": "left foot arch"
+    "name_multiple": "foot bottoms",
+    "name": "right foot bottom"
   },
   {
     "id": "foot_arch_r",
