@@ -2085,7 +2085,7 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
             max, no_result );
     int no_result_mod = ( no_result ) ? 2 : 0; //In the case of a no result we have fewer terms.
     // Normal full version
-    if( objects.size() == 5 - no_result_mod ) {
+    if( static_cast<int>( objects.size() ) == 5 - no_result_mod ) {
         op = objects.get_string( 3 - no_result_mod );
         if( !no_result ) {
             result = objects.get_string( 1 );
