@@ -1078,35 +1078,5 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN_TRAP_CHANGE",
     "effect": { "mapgen_update": "portal_dungeon_trap_change", "target_var": { "global_val": "portal_dungeon" } }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "test",
-    "effect": [
-      {
-        "u_spawn_monster": "mon_absence",
-        "real_count": { "arithmetic": [ { "const": 1 }, "+", { "const": 1 } ] },
-        "outdoor_only": true,
-        "min_radius": 3,
-        "max_radius": 20,
-        "lifespan": [ "45 seconds", "5 minutes" ],
-        "spawn_message": "The very notion of empty space is made a cruel joke.  Nearby nothing becomes even less."
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "test2",
-    "effect": [
-      {
-        "u_spawn_monster": "mon_absence",
-        "real_count": { "arithmetic": [ { "arithmetic": [ { "const": 1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] },
-        "outdoor_only": true,
-        "min_radius": 3,
-        "max_radius": 20,
-        "lifespan": [ "45 seconds", "5 minutes" ],
-        "spawn_message": "The very notion of empty space is made a cruel joke.  Nearby nothing becomes even less."
-      }
-    ]
   }
 ]
