@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ [ "abandoned_textile_mill_0_1", "abandoned_textile_mill_0_2", "abandoned_textile_mill_0_3" ] ],
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_groundcover_barren",
       "rows": [
         "                               ==========                               ",
         "                   =====       =]======]=       =====                   ",
