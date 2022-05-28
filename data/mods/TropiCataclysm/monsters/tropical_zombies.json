@@ -29,7 +29,7 @@
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": : 0 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
     "armor_cut": 15,
     "armor_bullet": 30,
