@@ -73,14 +73,6 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
             + var_context ) + "_" + var_basename;
 }
 
-// throws an error on failure, so no need to return
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value )
-{
-    int_or_var<dialogue> empty;
-    return get_talk_varname<dialogue>( jo, member, check_value, empty );
-}
-
 template<class T>
 int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, std::string member, bool required,
                                         int default_val )
@@ -238,17 +230,19 @@ var_info read_var_info( JsonObject jo, bool require_default )
     } else if( require_default ) {
         jo.throw_error( "No default value provided." );
     }
-
+    int_or_var<dialogue> empty;
     if( jo.has_member( "u_val" ) ) {
-        return var_info( var_type::u, get_talk_varname( jo, "u_val", false ), default_val );
+        return var_info( var_type::u, get_talk_varname( jo, "u_val", false, empty ), default_val );
     } else if( jo.has_member( "npc_val" ) ) {
-        return var_info( var_type::npc, get_talk_varname( jo, "npc_val", false ), default_val );
+        return var_info( var_type::npc, get_talk_varname( jo, "npc_val", false, empty ), default_val );
     } else if( jo.has_member( "global_val" ) ) {
-        return var_info( var_type::global, get_talk_varname( jo, "global_val", false ), default_val );
+        return var_info( var_type::global, get_talk_varname( jo, "global_val", false, empty ),
+                         default_val );
     } else if( jo.has_member( "faction_val" ) ) {
-        return var_info( var_type::faction, get_talk_varname( jo, "faction_val", false ), default_val );
+        return var_info( var_type::faction, get_talk_varname( jo, "faction_val", false, empty ),
+                         default_val );
     } else if( jo.has_member( "party_val" ) ) {
-        return var_info( var_type::party, get_talk_varname( jo, "party_val", false ), default_val );
+        return var_info( var_type::party, get_talk_varname( jo, "party_val", false, empty ), default_val );
     } else {
         jo.throw_error( "Invalid variable type." );
     }
@@ -657,7 +651,8 @@ void conditional_t<T>::set_near_om_location( const JsonObject &jo, const std::st
 template<class T>
 void conditional_t<T>::set_has_var( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    const std::string var_name = get_talk_varname( jo, member, false );
+    int_or_var<dialogue> empty;
+    const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
     condition = [var_name, value, time_check, is_npc]( const T & d ) {
@@ -673,7 +668,8 @@ template<class T>
 void conditional_t<T>::set_compare_var( const JsonObject &jo, const std::string &member,
                                         bool is_npc )
 {
-    const std::string var_name = get_talk_varname( jo, member, false );
+    int_or_var<dialogue> empty;
+    const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string &op = jo.get_string( "op" );
 
     int_or_var<T> iov = get_int_or_var<T>( jo, "value" );
@@ -712,7 +708,8 @@ template<class T>
 void conditional_t<T>::set_compare_time_since_var( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string var_name = get_talk_varname( jo, member, false );
+    int_or_var<dialogue> empty;
+    const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string &op = jo.get_string( "op" );
     const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                      time_duration::units ) );
@@ -1143,17 +1140,18 @@ static std::string get_string_from_input( JsonArray objects, int index )
             return type;
         }
     }
+    int_or_var<dialogue> empty;
     JsonObject object = objects.get_object( index );
     if( object.has_string( "u_val" ) ) {
-        return "u_" + get_talk_varname( object, "u_val", false );
+        return "u_" + get_talk_varname( object, "u_val", false, empty );
     } else if( object.has_string( "npc_val" ) ) {
-        return "npc_" + get_talk_varname( object, "npc_val", false );
+        return "npc_" + get_talk_varname( object, "npc_val", false, empty );
     } else if( object.has_string( "global_val" ) ) {
-        return "global_" + get_talk_varname( object, "global_val", false );
+        return "global_" + get_talk_varname( object, "global_val", false, empty );
     } else if( object.has_string( "faction_val" ) ) {
-        return "faction_" + get_talk_varname( object, "faction_val", false );
+        return "faction_" + get_talk_varname( object, "faction_val", false, empty );
     } else if( object.has_string( "party_val" ) ) {
-        return "party_" + get_talk_varname( object, "party_val", false );
+        return "party_" + get_talk_varname( object, "party_val", false, empty );
     }
     object.throw_error( "Invalid input type." );
     return "";
@@ -1412,7 +1410,8 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 }
             };
         } else if( checked_value == "time_since_var" ) {
-            const std::string var_name = get_talk_varname( jo, "var_name", false );
+            int_or_var<dialogue> empty;
+            const std::string var_name = get_talk_varname( jo, "var_name", false, empty );
             return [is_npc, var_name]( const T & d ) {
                 int stored_value = 0;
                 const std::string &var = d.actor( is_npc )->get_value( var_name );
@@ -1859,7 +1858,8 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
                 d.actor( is_npc )->set_per_max( handle_min_max<T>( d, input, min, max ) );
             };
         } else if( checked_value == "var" ) {
-            const std::string var_name = get_talk_varname( jo, "var_name", false );
+            int_or_var<dialogue> empty;
+            const std::string var_name = get_talk_varname( jo, "var_name", false, empty );
             return [is_npc, var_name, type, min, max]( const T & d, int input ) {
                 write_var_value( type, var_name, d.actor( is_npc ), std::to_string( handle_min_max<T>( d, input,
                                  min,
@@ -1867,7 +1867,8 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
             };
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.
-            const std::string var_name = get_talk_varname( jo, "var_name", false );
+            int_or_var<dialogue> empty;
+            const std::string var_name = get_talk_varname( jo, "var_name", false, empty );
             return [is_npc, var_name, min, max]( const T & d, int input ) {
                 int storing_value = to_turn<int>( calendar::turn ) - handle_min_max<T>( d, input, min, max );
                 d.actor( is_npc )->set_value( var_name, std::to_string( storing_value ) );

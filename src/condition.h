@@ -221,8 +221,6 @@ tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> targ
                                 var_type type, const T &d );
 var_info read_var_info( JsonObject jo, bool require_default );
 void write_var_value( var_type type, std::string name, talker *talk, std::string value );
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value = false );
 template<class T>
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, int_or_var<dialogue> &default_val );

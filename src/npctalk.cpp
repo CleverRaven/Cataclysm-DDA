@@ -2132,7 +2132,8 @@ template<class T>
 void talk_effect_fun_t<T>::set_add_var( const JsonObject &jo, const std::string &member,
                                         bool is_npc )
 {
-    const std::string var_name = get_talk_varname( jo, member );
+    int_or_var<dialogue> empty;
+    const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
     std::vector<std::string> possible_values = jo.get_string_array( "possible_values" );
     if( possible_values.empty() ) {
@@ -2154,7 +2155,8 @@ template<class T>
 void talk_effect_fun_t<T>::set_remove_var( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string var_name = get_talk_varname( jo, member, false );
+    int_or_var<dialogue> empty;
+    const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
     function = [is_npc, var_name]( const T & d ) {
         d.actor( is_npc )->remove_value( var_name );
     };
@@ -2164,7 +2166,8 @@ template<class T>
 void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string var_name = get_talk_varname( jo, member, false );
+    int_or_var<dialogue> empty;
+    const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
     int_or_var<T> iov = get_int_or_var<T>( jo, "adjustment" );
     function = [is_npc, var_name, iov]( const T & d ) {
         int adjusted_value = iov.evaluate( d );
