@@ -21,6 +21,7 @@
 #include "ascii_art.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -118,6 +119,8 @@ static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
+
+static const bodygraph_id bodygraph_full_body_iteminfo( "full_body_iteminfo" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_cig( "cig" );
@@ -3550,10 +3553,14 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     body_part_set covered_parts = get_covered_body_parts();
     bool covers_anything = covered_parts.any();
 
-    if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
+    if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ||
+        parts->test( iteminfo_parts::ARMOR_BODYGRAPH ) ) {
         insert_separation_line( info );
-        std::string coverage = _( "<bold>Covers</bold>:" );
+    }
+
+    if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
         std::vector<sub_bodypart_id> covered = get_covered_sub_body_parts();
+        std::string coverage = _( "<bold>Covers</bold>:" );
 
         if( !covered.empty() ) {
             std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered );
@@ -3567,6 +3574,44 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
 
         info.emplace_back( "ARMOR", coverage );
+    }
+
+    if( parts->test( iteminfo_parts::ARMOR_BODYGRAPH ) ) {
+        auto bg_cb = [this]( const bodygraph_part * bgp, const std::string & sym ) {
+            if( !bgp ) {
+                return colorize( sym, bodygraph_full_body_iteminfo->fill_color );
+            }
+            std::set<sub_bodypart_id> grp { bgp->sub_bodyparts.begin(), bgp->sub_bodyparts.end() };
+            for( const bodypart_id &bid : bgp->bodyparts ) {
+                grp.insert( bid->sub_parts.begin(), bid->sub_parts.end() );
+            }
+            nc_color clr = c_dark_gray;
+            int cov_val = 0;
+            for( const sub_bodypart_id &sid : grp ) {
+                int tmp = get_coverage( sid );
+                cov_val = tmp > cov_val ? tmp : cov_val;
+            }
+            if( cov_val <= 5 ) {
+                clr = c_dark_gray;
+            } else if( cov_val <= 10 ) {
+                clr = c_light_gray;
+            } else if( cov_val <= 25 ) {
+                clr = c_light_red;
+            } else if( cov_val <= 60 ) {
+                clr = c_yellow;
+            } else if( cov_val <= 80 ) {
+                clr = c_green;
+            } else {
+                clr = c_light_green;
+            }
+            return colorize( sym, clr );
+        };
+        std::vector<std::string> bg_lines = get_bodygraph_lines( get_player_character(), bg_cb,
+                                            bodygraph_full_body_iteminfo );
+        for( const std::string &line : bg_lines ) {
+            info.emplace_back( "ARMOR", line );
+        }
+        insert_separation_line( info );
     }
 
     if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_rigid() ) {
