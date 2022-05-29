@@ -589,7 +589,7 @@ bool main_menu::opening_screen()
 
     load_char_templates();
 
-    ctxt.register_directions();
+    ctxt.register_cardinal();
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "PAGE_UP" );
