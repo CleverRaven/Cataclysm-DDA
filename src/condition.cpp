@@ -2083,7 +2083,7 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
     std::string result = "none";
     std::function<void( const T &, int )> set_int = get_set_int( objects.get_object( 0 ), min,
             max, no_result );
-    int no_result_mod = ( no_result ) ? 2 : 0; //In the case of a no result we have fewer terms.
+    int no_result_mod = no_result ? 2 : 0; //In the case of a no result we have fewer terms.
     // Normal full version
     if( static_cast<int>( objects.size() ) == 5 - no_result_mod ) {
         op = objects.get_string( 3 - no_result_mod );
