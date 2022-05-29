@@ -740,7 +740,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "khopesh", "str_pl": "khopeshes" },
-    "description": "This ancient bronze weapon features a curved, sickle-like blunt blade on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to disarm enemies with its hook like shape.",
+    "description": "This ancient bronze weapon features a curved, sickle-like blunt blade on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to disarm enemies with its hook-like shape.",
     "weight": "750 g",
     "volume": "1750 ml",
     "longest_side": "50 cm",
