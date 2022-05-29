@@ -49,7 +49,6 @@
   - data/json/construction_group.json
   - data/json/deconstruction.json
 
-
 "EOC: Effects On Condition":
   - "**/**effect_on_condition**"
   - "**/**eocs**"
@@ -62,7 +61,7 @@
   - "**/comestibles**"
 
 "NPC / Factions":
-  - "**/npc**"
+  - "**/**npc**/**/*"
 
 "Melee":
   - "**/melee**"
