@@ -1,8 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "milspec_arsenal_223_pouch_collection",
-    "//": "only default 223 because have no info about using another one in such pouches",
+    "id": "milspec_arsenal_300blk_collection",
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_300blk", "count": [ 1, 2 ] },
