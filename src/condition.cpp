@@ -2780,7 +2780,7 @@ template void read_condition<dialogue>( const JsonObject &jo, const std::string 
 
 template duration_or_var<dialogue> get_duration_or_var( const JsonObject &jo, std::string member,
         bool required, time_duration default_val );
-template std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+template std::string get_talk_varname<dialogue>( const JsonObject &jo, const std::string &member,
                                        bool check_value, int_or_var<dialogue> &default_val );
 #if !defined(MACOSX)
 template struct conditional_t<mission_goal_condition_context>;
