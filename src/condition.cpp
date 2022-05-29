@@ -2779,12 +2779,6 @@ template void read_condition<dialogue>( const JsonObject &jo, const std::string 
 
 template duration_or_var<dialogue> get_duration_or_var( const JsonObject &jo, std::string member,
         bool required, time_duration default_val );
-template std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                                       bool check_value, int_or_var<dialogue> &default_val );
-template tripoint get_tripoint_from_var<dialogue>( talker *target,
-        cata::optional<std::string> target_var, var_type vtype, const dialogue &d );
-template void talk_effect_fun_t<dialogue>::set_arithmetic( const JsonObject &jo,
-        const std::string &member, bool no_result );
 #if !defined(MACOSX)
 template struct conditional_t<mission_goal_condition_context>;
 #endif

@@ -217,8 +217,6 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, std::stri
         bool required = true,
         time_duration default_val = 0_seconds );
 template<class T>
-dialogue copy_dialogue( const T &d );
-template<class T>
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
                                 var_type type, const T &d );
 var_info read_var_info( JsonObject jo, bool require_default );
