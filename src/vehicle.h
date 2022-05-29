@@ -861,7 +861,7 @@ class vehicle
         void deserialize( const JsonObject &data );
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
-                             int hl = -1, bool detail = false ) const;
+                             int hl = -1, bool detail = false, bool include_fakes = true ) const;
 
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
@@ -1168,11 +1168,11 @@ class vehicle
         int index_of_part( const vehicle_part *part, bool check_removed = false ) const;
 
         // get symbol for map
-        char part_sym( int p, bool exact = false ) const;
+        char part_sym( int p, bool exact = false, bool include_fake = true ) const;
         std::string part_id_string( int p, char &part_mod ) const;
 
         // get color for map
-        nc_color part_color( int p, bool exact = false ) const;
+        nc_color part_color( int p, bool exact = false, bool include_fake = true ) const;
 
         // Get all printable fuel types
         std::vector<itype_id> get_printable_fuel_types() const;

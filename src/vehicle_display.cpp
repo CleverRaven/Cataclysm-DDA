@@ -34,13 +34,13 @@ std::string vehicle::disp_name() const
     return string_format( _( "the %s" ), name );
 }
 
-char vehicle::part_sym( const int p, const bool exact ) const
+char vehicle::part_sym( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return ' ';
     }
 
-    int displayed_part = exact ? p : part_displayed_at( parts[p].mount, true );
+    int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
     if( displayed_part == -1 ) {
         displayed_part = p;
     }
@@ -96,7 +96,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
     return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
 }
 
-nc_color vehicle::part_color( const int p, const bool exact ) const
+nc_color vehicle::part_color( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return c_black;
@@ -114,7 +114,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     if( parm >= 0 ) {
         col = part_info( parm ).color;
     } else {
-        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount, true );
+        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
 
         if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ) {
             return c_black;
@@ -164,12 +164,12 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param detail Whether or not to show detailed contents for fuel components.
  */
 int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
-                              int p, int hl /*= -1*/, bool detail ) const
+                              int p, int hl /*= -1*/, bool detail, bool include_fakes ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true, true );
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true, include_fakes );
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
         const vehicle_part &vp = parts[ pl [ i ] ];
