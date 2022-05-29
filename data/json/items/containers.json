@@ -2919,6 +2919,27 @@
     "color": "black"
   },
   {
+    "id": "ammunition_box_308",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "mini ammo box", "str_pl": "mini ammo boxes" },
+    "description": "Lorem ipsum, 20x308 rounds.",
+    "weight": "12 g",
+    "volume": "170 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "160 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "100 mm"
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": "□",
+    "color": "brown"
+  },
+  {
     "id": "ammunition_box_9mm",
     "type": "GENERIC",
     "category": "container",
