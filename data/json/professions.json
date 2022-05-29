@@ -913,6 +913,62 @@
   },
   {
     "type": "profession",
+    "id": "marine",
+    "name": { "male": "Marine Infantrymen", "female": "Marine Infantrywoman" },
+    "description": "Some call you a 'Jarhead', other’s a 'Devil Dog', and still others have dubed you a 'Leatherneck'.  Before the cataclysm, you were a soldier of the US Marine Corps, a military professional forming the backbone to any amphibious  assault in combination with the US Navy.  Whether it had been paratrooping out of helicopters, conducting maritime assaults, or storming enemy strongholds, the name of the Marines had become renowned all across the world.  Now that that world has come to an end and military command has collapsed in on itself as far as you can tell, you suppose that its up to you to carry the memory of the Marines forwards into the cataclysm.",
+    "points": 5,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "survival" },
+      { "level": 3, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "undershirt",
+          "combat_shirt",
+          "jacket_army_modern",
+          "helmet_liner",
+          "helmet_army",
+          "gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "boots_combat",
+          "diving_watch",
+          "webbing_belt"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "group": "military_ballistic_vest_pristine" },
+          { "item": "pants_army", "variant": "apants_MARPAT" },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "legpouch_large", "contents-group": "army_mags_m4" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
+          {
+            "item": "m4_carbine",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "recruit",
     "name": "Military Recruit",
     "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
@@ -1169,18 +1225,18 @@
     "id": "seal",
     "name": "Navy SEAL",
     "description": "Before the cataclysm you used to be a member of the SEALs: a key component of the United States Navy’s special forces contingent, a highly trained soldier in all respects, and a proficient combatant in both maritime and ground operations.  Generally called upon to eliminate high-value targets and conduct specialised marine and land missions, the greatest test of your capabilities now rests before you.  'The only easy day was yesterday', and now its time to square your shoulders and embark on your last and hardest mission to date.",
-    "points": 6,
+    "points": 7,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 5, "name": "rifle" },
       { "level": 3, "name": "melee" },
-      { "level": 3, "name": "stabbing" },
       { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "stabbing" },
       { "level": 2, "name": "dodge" },
       { "level": 2, "name": "firstaid" },
       { "level": 2, "name": "survival" },
-      { "level": 6, "name": "swimming" }
+      { "level": 5, "name": "swimming" }
     ],
     "items": {
       "both": {
