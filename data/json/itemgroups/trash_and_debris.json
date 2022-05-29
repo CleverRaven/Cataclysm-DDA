@@ -264,7 +264,7 @@
     "type": "item_group",
     "subtype": "collection",
     "//": "A building has collapsed. Perhaps from a bomb, perhaps from a fire",
-    "//2": "This stuff survived and lies inside tbe remains but is really crude and damaged.",
+    "//2": "This stuff survived and lies inside the ruins but is really crude and damaged.",
     "items": [
       { "item": "string_36", "prob": 2, "count": [ 5, 40 ], "damage-min": 0, "damage-max": 3 },
       { "item": "frame", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
