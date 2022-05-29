@@ -27,7 +27,14 @@
     "color": "light_gray",
     "ammo_type": [ "223" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 25 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 25 }
+      }
+    ]
   },
   {
     "id": "ruger5",
@@ -62,7 +69,14 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 10, "300blk": 10 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 10, "300blk": 10 }
+      }
+    ]
   },
   {
     "id": "ruger10",
@@ -153,7 +167,14 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 20, "300blk": 20 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 20, "300blk": 20 }
+      }
+    ]
   },
   {
     "id": "stanag30",
@@ -171,7 +192,14 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 30, "300blk": 30 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 30, "300blk": 30 }
+      }
+    ]
   },
   {
     "id": "stanag40",
@@ -188,7 +216,14 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40, "300blk": 40 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 40, "300blk": 40 }
+      }
+    ]
   },
   {
     "id": "stanag50",
@@ -209,7 +244,14 @@
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 50, "300blk": 50 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 50, "300blk": 50 }
+      }
+    ]
   },
   {
     "id": "stanag60",
@@ -226,7 +268,14 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 60, "300blk": 60 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 60, "300blk": 60 }
+      }
+    ]
   },
   {
     "id": "stanag60drum",
@@ -246,7 +295,14 @@
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 60, "300blk": 60 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 60, "300blk": 60 }
+      }
+    ]
   },
   {
     "id": "stanag90",
@@ -266,7 +322,14 @@
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 90, "300blk": 90 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 90, "300blk": 90 }
+      }
+    ]
   },
   {
     "id": "stanag100",
@@ -283,7 +346,14 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100, "300blk": 100 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 100, "300blk": 100 }
+      }
+    ]
   },
   {
     "id": "stanag100drum",
@@ -301,7 +371,14 @@
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100, "300blk": 100 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 100, "300blk": 100 }
+      }
+    ]
   },
   {
     "id": "stanag150",
@@ -319,7 +396,14 @@
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 150, "300blk": 150 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 150, "300blk": 150 }
+      }
+    ]
   },
   {
     "id": "g36mag_30rd",
@@ -417,5 +501,22 @@
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the Ruger Mini-14 rifle.",
     "ammo_type": [ "223" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 5 } } ]
+  },
+  {
+    "id": "clip223_10rd",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": ".223 10-round clip" },
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load 10 5x56mm rounds to magazine.",
+    "weight": "9 g",
+    "volume": "10 ml",
+    "longest_side": "10 cm",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "count": 10,
+    "ammo_type": [ "223" ],
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 10 } } ]
   }
 ]

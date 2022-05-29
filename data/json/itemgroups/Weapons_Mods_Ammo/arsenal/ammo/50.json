@@ -1,0 +1,22 @@
+[
+  {
+    "type": "item_group",
+    "id": "ammo_can_50bmg_full",
+    "container-item": "ammunition_can_50",
+    "items": [ { "group": "ammo_box_50bmg", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_50bmg_part",
+    "container-item": "ammunition_can_50",
+    "items": [ { "group": "ammo_box_50bmg", "count": [ 1, 6 ] } ]
+  },
+
+  {
+    "type": "item_group",
+    "id": "ammo_box_50bmg",
+    "container-item": "ammunition_box_50bmg",
+    "//": "i have no clue why bmg is the only round that require charges to work, unlike another",
+    "items": [ { "item": "50bmg", "count": 1, "charges-min": 10, "charges-max": 10 } ]
+  }
+]

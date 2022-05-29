@@ -1,0 +1,20 @@
+[
+  {
+    "type": "item_group",
+    "id": "ammo_can_300blk_full",
+    "container-item": "ammunition_can_30",
+    "items": [ { "group": "ammo_box_308", "count": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_300blk_part",
+    "container-item": "ammunition_can_30",
+    "items": [ { "group": "ammo_box_308", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_300blk",
+    "container-item": "ammunition_box_223",
+    "items": [ [ "300blk", 30 ] ]
+  }
+]

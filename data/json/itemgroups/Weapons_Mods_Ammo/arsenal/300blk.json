@@ -1,0 +1,31 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_223_pouch_collection",
+    "//": "only default 223 because have no info about using another one in such pouches",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_300blk", "count": [ 1, 2 ] },
+      { "group": "milspec_arsenal_300blk", "count": [ 1, 2 ], "prob": 40 },
+      { "group": "milspec_arsenal_300blk", "count": [ 1, 2 ], "prob": 10 },
+      { "item": "retool_ar15_300blk" },
+      { "group": "ammo_can_300blk_full", "prob": 30 },
+      { "group": "ammo_can_300blk_part", "prob": 80, "count": [ 1, 2 ] },
+      { "group": "ammo_can_30_empty", "count": [ 2, 4 ] },
+      { "group": "arsenal_mics_collection", "prob": 70 },
+      { "group": "grenade_can_pa120_grenades", "prob": 5 },
+      { "group": "c4_box", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_300blk",
+    "items": [ { "group": "nested_m4blk_carbine_no_ammo", "prob": 40 }, { "group": "nested_m27_assault_rifle_no_ammo", "prob": 70 } ]
+  },
+  {
+    "id": "nested_m4blk_carbine_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "m16_auto_rifle" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+  }
+]

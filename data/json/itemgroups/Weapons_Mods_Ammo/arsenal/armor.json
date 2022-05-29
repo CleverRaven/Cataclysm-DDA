@@ -1,0 +1,18 @@
+[
+{
+    "type": "item_group",
+    "id": "arsenal_mics_armor",
+    "items": [
+      { "item": "ballistic_vest_esapi" },
+      { "item": "esapi_plate" },
+      { "item": "stab_plate" },
+      { "item": "steel_ballistic_plate" },
+      { "item": "heavy_steel_ballistic_plate" },
+      { "item": "esbi_plate" },
+      { "item": "ballistic_vest_heavy" },
+      { "item": "helmet_army" },
+      { "item": "tac_fullhelmet" },
+      { "item": "tac_helmet" }
+    ]
+  }
+]
