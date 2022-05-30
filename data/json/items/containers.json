@@ -743,6 +743,7 @@
     "type": "GENERIC",
     "name": { "str": "compact wooden box", "str_pl": "compact wooden boxes" },
     "copy-from": "ammunition_can_30",
+    "material": [ "wood" ],
     "description": "Small wooden box with handle.",
     "weight": "200 g",
     "volume": "6000 ml",

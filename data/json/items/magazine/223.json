@@ -506,8 +506,8 @@
     "id": "clip223_10rd",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": ".223 10-round clip" },
-    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load 10 5x56mm rounds to magazine.",
+    "name": { "str": "5.56x45mm/.300BLK 10-round clip" },
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load ten 5.56x45mm or .300 AAC Blackout rounds into a magazine.",
     "weight": "9 g",
     "volume": "10 ml",
     "longest_side": "10 cm",
@@ -517,6 +517,6 @@
     "count": 10,
     "ammo_type": [ "223" ],
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 10, "300blk": 10 } } ]
   }
 ]
