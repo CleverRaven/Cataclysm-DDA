@@ -1292,9 +1292,9 @@
       [ "can_chicken", 15 ],
       [ "aquarium_medium", 10 ],
       [ "petpack", 10 ],
-      [ "kevlar_harness", 5 ],
-      [ "leather_harness_dog", 5 ],
-      [ "rubber_harness_dog", 5 ]
+      [ "kevlar_harness", 2 ],
+      [ "leather_harness_dog", 8 ],
+      [ "rubber_harness_dog", 15 ]
     ]
   },
   {

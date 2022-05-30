@@ -569,7 +569,7 @@
     "name": { "str": "fungal edmontonia zombie" },
     "description": "Once something like a gigantic armadillo-dinosaur hybrid with long, bony spikes, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zankylosaurus_fungus",
-    "melee_cut": 10,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "proportional": { "hp": 0.65 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": {  }

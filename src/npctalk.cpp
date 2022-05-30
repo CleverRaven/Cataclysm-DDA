@@ -4841,9 +4841,9 @@ dynamic_line_t::dynamic_line_t( const translation &line )
 
 dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
-    if( jo.has_member( "and" ) ) {
+    if( jo.has_member( "concatenate" ) ) {
         std::vector<dynamic_line_t> lines;
-        for( const JsonValue entry : jo.get_array( "and" ) ) {
+        for( const JsonValue entry : jo.get_array( "concatenate" ) ) {
             if( entry.test_string() ) {
                 translation line;
                 entry.read( line );

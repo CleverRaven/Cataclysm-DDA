@@ -7,6 +7,7 @@
 #include <map>
 #include <vector>
 
+#include "shop_cons_rate.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -77,6 +78,7 @@ class npc_class
 
         // first -> item group, second -> trust
         std::vector<shopkeeper_item_group> shop_item_groups;
+        shopkeeper_cons_rates_id shop_cons_rates_id = shopkeeper_cons_rates_id::NULL_ID();
 
     public:
         npc_class_id id;
@@ -109,6 +111,7 @@ class npc_class
         int roll_skill( const skill_id & ) const;
 
         const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
+        const shopkeeper_cons_rates &get_shopkeeper_cons_rates() const;
 
         void load( const JsonObject &jo, const std::string &src );
 

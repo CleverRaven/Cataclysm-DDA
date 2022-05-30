@@ -193,6 +193,9 @@ using requirement_id = string_id<requirement_data>;
 class score;
 using score_id = string_id<score>;
 
+struct shopkeeper_cons_rates;
+using shopkeeper_cons_rates_id = string_id<shopkeeper_cons_rates>;
+
 class Skill;
 using skill_id = string_id<Skill>;
 

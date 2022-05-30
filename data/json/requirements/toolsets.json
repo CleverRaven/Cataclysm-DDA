@@ -70,7 +70,7 @@
   {
     "id": "sewing_kevlar",
     "type": "requirement",
-    "//": "Crafting or repair of kevlar/aramid items",
+    "//": "Crafting or repair of Kevlar/aramid items",
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "filament_durable", 1, "LIST" ] ] ]
   },

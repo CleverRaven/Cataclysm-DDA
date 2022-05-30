@@ -1843,7 +1843,8 @@ item_pocket *item_pocket::best_pocket_in_contents(
     // try the nested pocket regardless of whether it's soft or rigid.
     const bool ignore_rigidity =
         !settings.accepts_item( it ) ||
-        !get_pocket_data()->get_flag_restrictions().empty();
+        !get_pocket_data()->get_flag_restrictions().empty() ||
+        settings.priority() > 0;
 
     for( item &contained_item : contents ) {
         if( &contained_item == &it || &contained_item == avoid ) {
@@ -2237,11 +2238,11 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
 {
     if( disabled ) {
         info.emplace_back( "BASE", string_format(
-                               _( "Items <bad>won't be inserted</bad> into this pocket unless you manually insert them" ) ) );
+                               _( "Items <bad>won't be inserted</bad> into this pocket unless you manually insert them." ) ) );
     }
     if( !unload ) {
         info.emplace_back( "BASE", string_format(
-                               _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them" ) ) );
+                               _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them." ) ) );
     }
     info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
     info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),

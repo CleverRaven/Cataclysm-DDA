@@ -94,6 +94,7 @@ static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
@@ -469,17 +470,25 @@ void aim_activity_actor::unload_RAS_weapon()
     }
 }
 
-void autodrive_activity_actor::start( player_activity &, Character &who )
+void autodrive_activity_actor::update_player_vehicle( Character &who )
 {
     const bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
     const optional_vpart_position vp = get_map().veh_at( who.pos() );
     if( !( vp && in_vehicle ) ) {
-        who.cancel_activity();
-        return;
+        player_vehicle = nullptr;
+    } else {
+        player_vehicle = &vp->vehicle();
     }
+}
 
-    player_vehicle = &vp->vehicle();
-    player_vehicle->is_autodriving = true;
+void autodrive_activity_actor::start( player_activity &, Character &who )
+{
+    update_player_vehicle( who );
+    if( player_vehicle == nullptr ) {
+        who.cancel_activity();
+    } else {
+        player_vehicle->is_autodriving = true;
+    }
 }
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
@@ -513,6 +522,9 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 
 void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 {
+    // The activity might be canceled because the driver got unboarded, in which case we may not have a valid pointer anymore (e.g. summoned vehicle).
+    update_player_vehicle( who );
+
     who.add_msg_if_player( m_info, _( "Auto drive canceled." ) );
     who.omt_path.clear();
     if( player_vehicle ) {
@@ -2522,6 +2534,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             player_character.activity.targets = temp_selected_items;
             player_character.activity.str_values = { temp_filter, "true" };
         } else {
+            // Warning: this can add a redundant menu activity to the backlog.
+            // It will prevent deleting the smart pointer of the selected item_location
+            // if the backlog is not sanitized.
             player_activity eat_menu( new_act );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
@@ -5631,14 +5646,18 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
     act.values.clear();
 
-    // Return to eat menu activity if it is in the activity backlog.
+    // Return to first eat or consume meds menu activity in the backlog.
     for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
-        if( iter->id() == ACT_CONSUME ) {
-            iter = who.backlog.erase( iter );
-        }
-        if( iter->id() == ACT_EAT_MENU ) {
+        if( iter->id() == ACT_EAT_MENU ||
+            iter->id() == ACT_CONSUME_MEDS_MENU ) {
             iter->auto_resume = true;
             break;
+        }
+    }
+    // Clear the backlog of any activities that will not auto resume.
+    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
+        if( !iter->auto_resume ) {
+            iter = who.backlog.erase( iter );
         }
     }
 }

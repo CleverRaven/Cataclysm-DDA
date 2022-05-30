@@ -74,6 +74,7 @@ Use the `Home` key to return to the top.
       - [`score`](#score)
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
+    - [Shopkeeper consumption rates](#shopkeeper-cons-rates)
     - [Skills](#skills)
     - [Speed Description](#speed-description)
     - [Mood Face](#mood-face)
@@ -1445,6 +1446,21 @@ Example:
 "addictions": [
     { "type": "nicotine", "intensity": 10 }
 ]
+```
+
+#### `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_consumption_rates",
+  "id": "basic_shop_rates",
+  "default_rate": 5, // defined as units/day since last restock
+  "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
+  "rates": [ // lower entries override higher ones
+      { "item": "hammer", "rate": 1 },
+      { "category": "ammo", "rate": 10 },
+      { "group": "EXODII_basic_trade", "rate": 100 }
+      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+  ]
 ```
 
 #### `skills`
@@ -2855,6 +2871,8 @@ Weakpoints only match if they share the same id, so it's important to define the
     "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
     "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
     "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
+    "symbol": "/",                              // Valid unicode character to replace the item symbol. If not specified, no change will be made.
+    "color": "red",                             // Replacement color of item symbol. If not specified, no change will be made.
     "weight": 2,                                // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
     "append": true                              // If this description should just be appended to the base item description instead of completely overwriting it.
   }

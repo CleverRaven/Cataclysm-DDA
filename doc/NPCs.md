@@ -32,6 +32,7 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true }
   ],
+  "shopkeeper_consumption_rates": "basic_shop_rates",
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
@@ -39,6 +40,7 @@ There are a couple of items in the above template that may not be self explanato
 * `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
 * `"sells_belongings": false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
 *`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+* `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 
 ##### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:
@@ -330,7 +332,7 @@ In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional
 The dynamic line is a list of dynamic lines, all of which are displayed.  The dynamic lines in the list are processed normally.
 ```json
 {
-    "and": [
+    "concatenate": [
         {
             "npc_male": true,
             "yes": "I'm a man.",

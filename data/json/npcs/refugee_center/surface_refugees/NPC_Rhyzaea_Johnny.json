@@ -103,7 +103,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Rhyzaea_1a",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         "*tilts her head in recognition as you approach.  \"",
         [ "Hello again.", "Good to see you're still around.", "Oh, hi.", "Need to talk?" ],
         "\""

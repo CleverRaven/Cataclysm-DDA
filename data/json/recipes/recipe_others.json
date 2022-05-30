@@ -332,6 +332,7 @@
     "components": [
       [ [ "sewing_kit", 1 ] ],
       [ [ "scissors", 1 ] ],
+      [ [ "kevlar_shears", 1 ] ],
       [ [ "knitting_needles", 1 ] ],
       [ [ "awl_steel", 1 ] ],
       [ [ "needle_curved", 1 ] ],
@@ -429,6 +430,7 @@
     "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "skewer_bone", 2 ], [ "splinter", 2 ] ] ]
   },
   {

@@ -139,7 +139,7 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 1,
-    "melee_cut": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },

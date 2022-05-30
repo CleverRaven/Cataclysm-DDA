@@ -360,5 +360,10 @@
     "id": [ "remington_870_breacher" ],
     "type": "MIGRATION",
     "replace": "shot_short_pump"
+  },
+  {
+    "id": [ "m26_mass_standalone" ],
+    "type": "MIGRATION",
+    "replace": "small_shotgun"
   }
 ]
