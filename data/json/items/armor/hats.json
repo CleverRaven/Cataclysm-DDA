@@ -560,7 +560,7 @@
         "name": { "str": "blue hooded hard hat" },
         "description": "It's colored blue, commonly used by medical workers and electricians, as well as employees in a technical advisory role.",
         "color": "blue",
-        "weight": 10,
+        "weight": 15,
         "append": true
       },
       {
