@@ -364,7 +364,7 @@
     "type": "ARMOR",
     "name": { "str": "hard hat" },
     "description": "A hard plastic hat worn in construction or industrial sites.  Excellent protection from cuts and percussion.",
-    "weight": "796 g",
+    "weight": "430 g",
     "volume": "2500 ml",
     "price": 1200,
     "price_postapoc": 250,
@@ -378,7 +378,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -507,7 +507,7 @@
     "category": "armor",
     "name": { "str": "hooded hard hat" },
     "description": "A hard plastic hat worn in construction or industrial sites, with a cloth tucked in under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
-    "weight": "876 g",
+    "weight": "470 g",
     "volume": "2750 ml",
     "price": 1200,
     "price_postapoc": 300,
@@ -521,7 +521,7 @@
     "techniques": [ "WBLOCK_1" ],
     "environmental_protection": 2,
     "flags": [ "WATERPROOF", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
     "variant_type": "generic",
     "variants": [
       {
