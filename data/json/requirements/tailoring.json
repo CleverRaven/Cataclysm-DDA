@@ -71,7 +71,7 @@
   {
     "id": "armor_kevlar_layered",
     "type": "requirement",
-    "//": "Joining kevlar panels together into something like a kevlar vest or other armor per 80 g of Kevlar.  Time needed is 90 minutes per unit.",
+    "//": "Joining Kevlar panels together into something like a Kevlar vest or other armor per 80 g of Kevlar.  Time needed is 90 minutes per unit.",
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "sheet_kevlar_layered", 1 ] ], [ [ "filament", 4, "LIST" ] ] ]
   },
