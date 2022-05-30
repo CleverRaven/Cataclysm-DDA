@@ -773,7 +773,7 @@
       "unemployed",
       "electrician",
       "chef",
-      "recruit",
+      "sailor",
       "marine",
       "seal",
       "medic",
@@ -781,7 +781,6 @@
       "mili_medic",
       "major-general",
       "nco",
-      "combat-mechanic",
       "combat-engineer"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
