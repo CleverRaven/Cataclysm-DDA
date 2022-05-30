@@ -161,7 +161,7 @@
     "id": "mon_feral_human_axe",
     "type": "MONSTER",
     "name": { "str": "deranged axeman", "str_pl": "deranged axemen" },
-    "description": "They stumble along dragging a bloodstained fire axe.  Their face is twisted into a sadistic grin, and they walk among the dead as though already one of them.",
+    "description": "They stumble along dragging a large bloodstained axe.  Their face is twisted into a sadistic grin, and they walk among the dead as though already one of them.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
