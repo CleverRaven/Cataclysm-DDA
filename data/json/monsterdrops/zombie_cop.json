@@ -108,19 +108,13 @@
   {
     "id": "cop_weapons",
     "type": "item_group",
-    "items": [
-      { "group": "cop_melee", "prob": 60 },
-      { "group": "longguns_cop", "prob": 10, "contents-item": "shoulder_strap" }
-    ]
+    "items": [ { "group": "cop_melee", "prob": 60 }, { "group": "longguns_cop", "prob": 10, "contents-item": "shoulder_strap" } ]
   },
   {
     "id": "cop_holster",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "holster", "contents-group": "sidearms_cop", "prob": 20 },
-      { "item": "holster", "prob": 80 }
-    ]
+    "entries": [ { "item": "holster", "contents-group": "sidearms_cop", "prob": 20 }, { "item": "holster", "prob": 80 } ]
   },
   {
     "id": "mon_zombie_swat_death_drops",
