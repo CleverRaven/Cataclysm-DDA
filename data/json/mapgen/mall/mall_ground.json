@@ -34,16 +34,16 @@
       "palettes": [ "mall_palette_2" ],
       "terrain": { "3": "t_gates_control_brick", "1": "t_door_metal_locked" },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 2, 23 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 49, 71 ], "y": [ 2, 10 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 56, 68 ], "y": [ 17, 21 ], "density": 0.1 },
-        { "group": "GROUP_MALL", "x": [ 73, 95 ], "y": [ 2, 10 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 73, 95 ], "y": [ 17, 19 ], "density": 0.1 },
-        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 0, 11 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 96, 105 ], "y": [ 16, 21 ], "density": 0.1 },
-        { "group": "GROUP_MALL", "x": [ 170, 191 ], "y": [ 2, 23 ], "density": 0.1 },
-        { "group": "GROUP_MALL", "x": [ 194, 215 ], "y": [ 2, 23 ], "density": 0.05 }
+        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 2, 23 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 49, 71 ], "y": [ 2, 10 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 56, 68 ], "y": [ 17, 21 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 73, 95 ], "y": [ 2, 10 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 73, 95 ], "y": [ 17, 19 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 0, 11 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 96, 105 ], "y": [ 16, 21 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 170, 191 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 194, 215 ], "y": [ 2, 23 ], "repeat": [ 1, 3 ] }
       ],
       "place_loot": [
         { "group": "mechanics", "x": [ 61, 64 ], "y": 13, "chance": 90, "repeat": [ 1, 3 ] },
@@ -185,15 +185,15 @@
         { "item": "cash_register_random", "x": [ 51, 53 ], "y": 13, "chance": 100 }
       ],
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 2, 15 ], "y": [ 2, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 9, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 8, 23 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 8, 23 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 16, 23 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 120, 143 ], "y": [ 2, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 144, 167 ], "y": [ 2, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 168, 191 ], "y": [ 2, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 192, 215 ], "y": [ 2, 23 ], "density": 0.15 }
+        { "group": "GROUP_MALL", "x": [ 2, 15 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 9, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 8, 23 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 8, 23 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 16, 23 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 120, 143 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 144, 167 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 168, 191 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 192, 215 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] }
       ],
       "place_vehicles": [
         { "vehicle": "food_cart", "x": 81, "y": 17, "chance": 35, "rotation": 90 },
@@ -317,11 +317,11 @@
       },
       "place_vehicles": [ { "vehicle": "food_cart", "x": 70, "y": 7, "chance": 100, "rotation": 90 } ],
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 2, 15 ], "y": [ 5, 11 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 25, 40 ], "y": [ 15, 22 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 25, 40 ], "y": [ 0, 8 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 78, 95 ], "y": [ 13, 23 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 2, 23 ], "density": 0.2 }
+        { "group": "GROUP_MALL", "x": [ 2, 15 ], "y": [ 5, 11 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 25, 40 ], "y": [ 15, 22 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 25, 40 ], "y": [ 0, 8 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 78, 95 ], "y": [ 13, 23 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 2, 23 ], "repeat": [ 4, 6 ] }
       ]
     }
   },
@@ -466,11 +466,11 @@
         "Ħ": { "item": "baked_goods", "chance": 30, "repeat": [ 2, 4 ] }
       },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 21 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 2, 21 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 48, 71 ], "y": [ 2, 21 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 2, 21 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 2, 21 ], "density": 0.2 }
+        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 21 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 2, 21 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 48, 71 ], "y": [ 2, 21 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 2, 21 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 2, 21 ], "repeat": [ 4, 6 ] }
       ],
       "place_vehicles": [
         { "vehicle": "car_mini", "x": 94, "y": 5, "chance": 35, "rotation": 180 },
@@ -646,11 +646,11 @@
         "M": { "item": "jewelry_accessories", "chance": 20, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 2, 23 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 2, 23 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 1, 9 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 81, 95 ], "y": [ 9, 22 ], "density": 0.3 }
+        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 2, 23 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 2, 23 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 1, 9 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 81, 95 ], "y": [ 9, 22 ], "repeat": [ 4, 8 ] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 6, "y": 16, "chance": 35, "rotation": 0 },
@@ -828,12 +828,12 @@
         "`": { "item": "teashop_bulk_teas", "chance": 40, "repeat": [ 0, 3 ] }
       },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 0, 14 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 50, 66 ], "y": [ 3, 7 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 11, 22 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 83, 95 ], "y": [ 2, 23 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 0, 23 ], "density": 0.2 }
+        { "group": "GROUP_MALL", "x": [ 0, 14 ], "y": [ 1, 22 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 1, 22 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 66 ], "y": [ 3, 7 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 11, 22 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 83, 95 ], "y": [ 2, 23 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 93, "y": 2, "chance": 35, "rotation": 0 },
@@ -1005,11 +1005,11 @@
         "M": { "item": "jewelry_front", "chance": 30, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 39, 47 ], "y": [ 1, 23 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 24, 32 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 1, 22 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 22 ], "density": 0.4 }
+        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 39, 47 ], "y": [ 1, 23 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 32 ], "y": [ 1, 22 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 22 ], "repeat": [ 7, 9 ] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 5, "y": 6, "chance": 35, "rotation": 0 },
@@ -1146,12 +1146,12 @@
         "M": { "item": "jewelry_accessories", "chance": 40, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 0, 14 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 50, 66 ], "y": [ 3, 7 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 11, 22 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 2, 23 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 0, 23 ], "density": 0.2 }
+        { "group": "GROUP_MALL", "x": [ 0, 14 ], "y": [ 1, 22 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 1, 22 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 66 ], "y": [ 3, 7 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 11, 22 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 2, 23 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] }
       ],
       "place_vehicles": [
         { "vehicle": "lux_rv", "x": 15, "y": 15, "chance": 100, "rotation": 0, "status": 0 },
@@ -1300,13 +1300,13 @@
         "M": { "item": "jewelry_front", "chance": 30, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 24, 31 ], "y": [ 9, 14 ], "density": 0.6 },
-        { "group": "GROUP_MALL", "x": [ 6, 23 ], "y": [ 1, 22 ], "density": 0.5 },
-        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 1, 22 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 0, 6 ], "density": 0.6 },
-        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 7, 22 ], "density": 0.05 }
+        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 31 ], "y": [ 9, 14 ], "repeat": [ 12, 14 ] },
+        { "group": "GROUP_MALL", "x": [ 6, 23 ], "y": [ 1, 22 ], "repeat": [ 8, 12 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 0, 6 ], "repeat": [ 12, 14 ] },
+        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 7, 22 ], "repeat": [ 1, 3 ] }
       ],
       "place_vehicles": [
         { "vehicle": "ambulance", "x": 15, "y": 4, "chance": 35, "rotation": 270 },
@@ -1455,11 +1455,11 @@
         { "item": "SUS_medicine_bookcase", "x": 57, "y": [ 21, 23 ], "chance": 70, "repeat": [ 1, 3 ] }
       ],
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.5 },
-        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 1, 22 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 48, 56 ], "y": [ 1, 22 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 57, 71 ], "y": [ 1, 22 ], "density": 0.5 },
-        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 23 ], "density": 0.2 }
+        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "repeat": [ 8, 12 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 48, 56 ], "y": [ 1, 22 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 57, 71 ], "y": [ 1, 22 ], "repeat": [ 8, 12 ] },
+        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 68, "y": 3, "chance": 35, "rotation": 180 },
@@ -1592,13 +1592,13 @@
         "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 0, 5 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 36, 47 ], "y": [ 6, 23 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 24, 32 ], "y": [ 1, 22 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 1, 22 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 1, 22 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 1, 22 ], "density": 0.5 }
+        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 0, 5 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 36, 47 ], "y": [ 6, 23 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 32 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 98, 119 ], "y": [ 1, 22 ], "repeat": [ 8, 12 ] }
       ],
       "place_vehicles": [
         { "vehicle": "hippie_van", "x": 6, "y": 2, "chance": 35, "rotation": 0 },
@@ -1774,11 +1774,11 @@
         { "item": "cash_register_random", "x": [ 11, 13 ], "y": 20, "chance": 100 }
       ],
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 1, 22 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 48, 56 ], "y": [ 0, 5 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 58, 71 ], "y": [ 0, 23 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 23 ], "density": 0.3 }
+        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 1, 22 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 48, 56 ], "y": [ 0, 5 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 58, 71 ], "y": [ 0, 23 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 23 ], "repeat": [ 4, 8 ] }
       ],
       "place_vehicles": [
         { "vehicle": "pickup", "x": 68, "y": 2, "chance": 35, "rotation": 0 },
@@ -1913,15 +1913,15 @@
         "I": { "item": "cubical_office", "chance": 70, "repeat": [ 2, 4 ] }
       },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 24, 34 ], "y": [ 0, 12 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 8, 23 ], "y": [ 0, 12 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 24, 37 ], "y": [ 1, 22 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 48, 61 ], "y": [ 1, 12 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 48, 71 ], "y": [ 14, 23 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 87, 95 ], "y": [ 0, 12 ], "density": 0.3 },
-        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 17, 22 ], "density": 0.5 },
-        { "group": "GROUP_MALL", "x": [ 100, 115 ], "y": [ 0, 23 ], "density": 0.7 }
+        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 34 ], "y": [ 0, 12 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 8, 23 ], "y": [ 0, 12 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 37 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 48, 61 ], "y": [ 1, 12 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 48, 71 ], "y": [ 14, 23 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 87, 95 ], "y": [ 0, 12 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_MALL", "x": [ 74, 95 ], "y": [ 17, 22 ], "repeat": [ 8, 12 ] },
+        { "group": "GROUP_MALL", "x": [ 100, 115 ], "y": [ 0, 23 ], "repeat": [ 12, 15 ] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 5, "y": 6, "chance": 35, "rotation": 0 },
@@ -2031,14 +2031,14 @@
         "S": { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 13 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 17, 22 ], "density": 0.5 },
-        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 14, 22 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 0, 12 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 48, 57 ], "y": [ 1, 13 ], "density": 0.2 },
-        { "group": "GROUP_MALL", "x": [ 59, 71 ], "y": [ 1, 13 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 13, 23 ], "density": 0.4 },
-        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 23 ], "density": 0.2 }
+        { "group": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 13 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 17, 22 ], "repeat": [ 8, 12 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 14, 22 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 26, 47 ], "y": [ 0, 12 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 48, 57 ], "y": [ 1, 13 ], "repeat": [ 4, 6 ] },
+        { "group": "GROUP_MALL", "x": [ 59, 71 ], "y": [ 1, 13 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 50, 71 ], "y": [ 13, 23 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 7, "y": 20, "chance": 35, "rotation": 90 },
@@ -2094,15 +2094,15 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monster": [
-        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 48, 71 ], "y": [ 0, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 0, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 120, 143 ], "y": [ 0, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 144, 167 ], "y": [ 0, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 168, 191 ], "y": [ 0, 23 ], "density": 0.15 },
-        { "group": "GROUP_MALL", "x": [ 192, 215 ], "y": [ 0, 23 ], "density": 0.15 }
+        { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 48, 71 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 120, 143 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 144, 167 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 168, 191 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_MALL", "x": [ 192, 215 ], "y": [ 0, 23 ], "repeat": [ 2, 4 ] }
       ],
       "place_vehicles": [
         { "vehicle": "schoolbus", "x": 18, "y": 18, "chance": 35, "rotation": 0 },
