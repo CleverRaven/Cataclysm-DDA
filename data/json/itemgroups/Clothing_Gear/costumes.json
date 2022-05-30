@@ -178,6 +178,12 @@
       { "item": "santa_hat", "prob": 25 },
       { "item": "hat_sombrero", "prob": 20 },
       { "item": "cowboy_hat", "prob": 20 },
+      { "item": "hat_hard", "prob": 10 },
+      { "item": "hat_hard_hooded", "prob": 1 },
+      { "item": "hat_hard", "variant": "skull_hat_hard", "prob": 10 },
+      { "item": "hat_hard_hooded", "variant": "skull_hat_hard", "prob": 1 }
+      { "item": "hat_hard", "variant": "steampunk_hat_hard", "prob": 10 },
+      { "item": "hat_hard_hooded", "variant": "steampunk_hat_hard", "prob": 1 }
       { "item": "clown_wig", "prob": 15 },
       { "item": "tricorne", "prob": 5 },
       { "item": "wizard_hat_costume", "prob": 25 },
@@ -363,7 +369,9 @@
       { "item": "american_flag", "prob": 25 },
       { "group": "costume_independence_undergarments_women", "prob": 25 },
       { "item": "rashguard", "variant": "flag_rashguard_shirt", "prob": 15 },
-      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 }
+      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 },
+      { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 10 },
+      { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 1 }
     ]
   },
   {

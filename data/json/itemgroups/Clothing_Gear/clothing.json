@@ -544,7 +544,9 @@
       { "item": "hat_hard", "prob": 60 },
       { "item": "hat_hard_hooded", "prob": 15 },
       { "item": "miner_hat", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] }
+      { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
+      { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 70, "event": "independence_day" },
+      { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 20, "event": "independence_day" }
     ]
   },
   {
@@ -2770,10 +2772,10 @@
     "id": "fireman_head",
     "items": [
       [ "firehelmet", 60 ],
-      [ "hat_knit", 10 ],
+      [ "hat_knit", 5 ],
       [ "nomex_hood", 40 ],
-      [ "hat_hard", 5 ],
-      [ "hat_hard_hooded", 3 ],
+      { "item": "hat_hard", "variant": "red_hat_hard", "prob": 15 },
+      { "item": "hat_hard_hooded", "variant": "red_hat_hard", "prob": 6 }
       [ "hat_noise_cancelling", 5 ]
     ]
   },

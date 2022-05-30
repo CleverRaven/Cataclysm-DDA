@@ -3831,10 +3831,10 @@
           "tool_belt",
           "mbag",
           "briefcase",
-          "wristwatch",
-          "hat_hard"
+          "wristwatch"
         ],
         "entries": [
+          { "item": "hat_hard", "variant": "yellow_hat_hard" },
           { "group": "charged_matches" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "dynamite", "count": 8 },
