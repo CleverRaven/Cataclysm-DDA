@@ -57,7 +57,7 @@
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "vendingmachines": { "(": { "item_group": "vending_drink", "lootable": true }, ")": { "item_group": "vending_food", "lootable": true } },
-      "place_monster": [ { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 8, 23 ], "density": 0.4 } ]
+      "place_monster": [ { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 8, 23 ], "repeat": [ 8, 12 ] } ]
     }
   },
   {
