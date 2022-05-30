@@ -3822,17 +3822,7 @@
     "points": 3,
     "items": {
       "both": {
-        "items": [
-          "socks",
-          "boots_steel",
-          "gloves_work",
-          "jumpsuit",
-          "canteen",
-          "tool_belt",
-          "mbag",
-          "briefcase",
-          "wristwatch"
-        ],
+        "items": [ "socks", "boots_steel", "gloves_work", "jumpsuit", "canteen", "tool_belt", "mbag", "briefcase", "wristwatch" ],
         "entries": [
           { "item": "hat_hard", "variant": "yellow_hat_hard" },
           { "group": "charged_matches" },
