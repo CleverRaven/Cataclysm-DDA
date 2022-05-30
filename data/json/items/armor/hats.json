@@ -392,7 +392,7 @@
         "id": "orange_hat_hard",
         "name": { "str": "orange hard hat" },
         "description": "It's colored orange, commonly used by road construction workers and new hires or site visitors.",
-        "color": "orange",
+        "color": "light_red",
         "weight": 110,
         "append": true
       },
@@ -535,7 +535,7 @@
         "id": "orange_hat_hard",
         "name": { "str": "orange hooded hard hat" },
         "description": "It's colored orange, commonly used by road construction workers and new hires or site visitors.",
-        "color": "orange",
+        "color": "light_red",
         "weight": 110,
         "append": true
       },
