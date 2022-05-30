@@ -6131,6 +6131,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "charges": 1,
     "components": [ [ [ "cheese", 1 ], [ "can_cheese", 1 ], [ "cheese_hard", 1 ] ], [ [ "tortilla_corn", 1 ] ] ]
   },
   {
