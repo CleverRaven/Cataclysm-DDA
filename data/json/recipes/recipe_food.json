@@ -8730,6 +8730,7 @@
     "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
+    "charges": 1,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "cactus_pad", 1 ] ] ]
   },
