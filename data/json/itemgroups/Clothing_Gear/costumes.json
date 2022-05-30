@@ -181,9 +181,9 @@
       { "item": "hat_hard", "prob": 10 },
       { "item": "hat_hard_hooded", "prob": 1 },
       { "item": "hat_hard", "variant": "skull_hat_hard", "prob": 10 },
-      { "item": "hat_hard_hooded", "variant": "skull_hat_hard", "prob": 1 }
+      { "item": "hat_hard_hooded", "variant": "skull_hat_hard", "prob": 1 },
       { "item": "hat_hard", "variant": "steampunk_hat_hard", "prob": 10 },
-      { "item": "hat_hard_hooded", "variant": "steampunk_hat_hard", "prob": 1 }
+      { "item": "hat_hard_hooded", "variant": "steampunk_hat_hard", "prob": 1 },
       { "item": "clown_wig", "prob": 15 },
       { "item": "tricorne", "prob": 5 },
       { "item": "wizard_hat_costume", "prob": 25 },

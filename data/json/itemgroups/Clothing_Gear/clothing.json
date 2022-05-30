@@ -2775,7 +2775,7 @@
       [ "hat_knit", 5 ],
       [ "nomex_hood", 40 ],
       { "item": "hat_hard", "variant": "red_hat_hard", "prob": 15 },
-      { "item": "hat_hard_hooded", "variant": "red_hat_hard", "prob": 6 }
+      { "item": "hat_hard_hooded", "variant": "red_hat_hard", "prob": 6 },
       [ "hat_noise_cancelling", 5 ]
     ]
   },

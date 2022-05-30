@@ -385,7 +385,7 @@
         "id": "yellow_hat_hard",
         "name": { "str": "yellow hard hat" },
         "description": "It's colored yellow, commonly used by general, unspecialized workers like laborers and operators of heavy machinery.",
-        "weight": 60,
+        "weight": 110,
         "append": true
       },
       {
@@ -393,7 +393,7 @@
         "name": { "str": "orange hard hat" },
         "description": "It's colored orange, commonly used by road construction workers and new hires or site visitors.",
         "color": "orange",
-        "weight": 60,
+        "weight": 110,
         "append": true
       },
       {
@@ -528,7 +528,7 @@
         "id": "yellow_hat_hard",
         "name": { "str": "yellow hooded hard hat" },
         "description": "It's colored yellow, commonly used by general, unspecialized workers like laborers and operators of heavy machinery.",
-        "weight": 60,
+        "weight": 110,
         "append": true
       },
       {
@@ -536,7 +536,7 @@
         "name": { "str": "orange hooded hard hat" },
         "description": "It's colored orange, commonly used by road construction workers and new hires or site visitors.",
         "color": "orange",
-        "weight": 60,
+        "weight": 110,
         "append": true
       },
       {
