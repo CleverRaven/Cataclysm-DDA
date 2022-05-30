@@ -54,7 +54,7 @@
         "*": { "vehicle": "forklift", "chance": 100, "rotation": 90 },
         ")": { "vehicle": "forklift", "chance": 100, "rotation": 90 }
       },
-      "place_monster": [ { "monster": "GROUP_MALL", "x": [ 37, 47 ], "y": [ 14, 23 ], "repeat": [ 2, 4 ] } ]
+      "place_monster": [ { "group": "GROUP_MALL", "x": [ 37, 47 ], "y": [ 14, 23 ], "repeat": [ 2, 4 ] } ]
     }
   },
   {
@@ -327,9 +327,9 @@
         "2": "t_gutter_north"
       },
       "place_monster": [
-        { "monster": "GROUP_MALL", "x": [ 51, 71 ], "y": [ 1, 23 ], "repeat": [ 7, 9 ] },
-        { "monster": "GROUP_MALL", "x": [ 75, 95 ], "y": [ 1, 23 ], "repeat": [ 7, 9 ] },
-        { "monster": "GROUP_MALL", "x": [ 99, 119 ], "y": [ 1, 23 ], "repeat": [ 7, 9 ] }
+        { "group": "GROUP_MALL", "x": [ 51, 71 ], "y": [ 1, 23 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 75, 95 ], "y": [ 1, 23 ], "repeat": [ 7, 9 ] },
+        { "group": "GROUP_MALL", "x": [ 99, 119 ], "y": [ 1, 23 ], "repeat": [ 7, 9 ] }
       ],
       "items": {
         "z": [
