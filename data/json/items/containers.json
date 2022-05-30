@@ -2944,19 +2944,18 @@
     "id": "ammunition_box_9mm",
     "type": "GENERIC",
     "category": "container",
+    "copy-from": "ammunition_box_308",
     "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
     "description": "Lorem ipsum. 100x9mm",
     "weight": "17 g",
     "volume": "175 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "170 ml", "max_contains_weight": "450 g" } ],
-    "material": [ "paper" ],
-    "symbol": "□",
-    "color": "brown"
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "170 ml", "max_contains_weight": "450 g" } ]
   },
   {
     "id": "ammunition_box_223",
     "type": "GENERIC",
     "category": "container",
+    "copy-from": "ammunition_box_308",
     "name": { "str": "mini ammo box", "str_pl": "mini ammo boxes" },
     "description": "Lorem ipsum, 30x223 or 20x300 clips.",
     "weight": "14 g",
@@ -2969,22 +2968,17 @@
         "max_contains_weight": "800 g",
         "max_item_length": "100 mm"
       }
-    ],
-    "material": [ "paper" ],
-    "symbol": "□",
-    "color": "brown"
+    ]
   },
   {
     "id": "ammunition_box_50bmg",
     "type": "GENERIC",
     "category": "container",
+    "copy-from": "ammunition_box_308",
     "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
     "description": "Lorem ipsum. 10x50bmg, 20x12 gauge",
     "weight": "22 g",
     "volume": "480 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "470 ml", "max_contains_weight": "2000 g" } ],
-    "material": [ "paper" ],
-    "symbol": "□",
-    "color": "brown"
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "470 ml", "max_contains_weight": "2000 g" } ]
   }
 ]
