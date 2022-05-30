@@ -1775,5 +1775,10 @@
     "id": "rabbit_foot",
     "type": "MIGRATION",
     "replace": "rabbit_sample"
+  },
+  {
+    "id": "slug_garden",
+    "type": "MIGRATION",
+    "replace": "snail_garden"
   }
 ]

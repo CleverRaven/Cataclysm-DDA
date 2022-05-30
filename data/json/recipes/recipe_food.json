@@ -92,28 +92,30 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "chemistry",
-    "time": "1 h 30 m",
+    "time": "30 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
+    "charges": 10,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "salt_water", 10 ], [ "saline", 50 ] ] ]
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "salt_water", 1 ], [ "saline", 5 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "salt",
-    "byproducts": [ [ "water_clean", 8 ] ],
+    "byproducts": [ [ "water_clean", 4 ] ],
     "id_suffix": "distill_salt_water",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "chemistry",
-    "time": "1 h 30 m",
+    "time": "50 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
+    "charges": 50,
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "DISTILL", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "salt_water", 10 ] ] ]
+    "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "salt_water", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -443,14 +445,14 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
-    "time": "40 m",
-    "charges": 6,
+    "time": "20 m",
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "snail_garden", 6 ], [ "slug_garden", 6 ] ], [ [ "water", 3 ], [ "water_clean", 3 ], [ "salt_water", 3 ] ] ]
+    "components": [ [ [ "snail_garden", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -460,13 +462,13 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "time": "15 m",
-    "charges": 6,
+    "charges": 1,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "gastropod_purged", 6 ] ] ]
+    "components": [ [ [ "gastropod_purged", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1876,8 +1878,9 @@
     "skill_used": "cooking",
     "time": "5 m",
     "autolearn": true,
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "frozen_dinner", 2 ] ] ]
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "charges": 1,
+    "components": [ [ [ "frozen_dinner", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3231,7 +3234,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "soup_woods_egg",
-    "charges": 2,
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -3240,7 +3243,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "using": [ [ "woods_soup_ingredients_veggy", 1 ] ]
   },
   {
@@ -3489,13 +3492,13 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": "1 h 20 m",
-    "charges": 16,
+    "time": "40 m",
+    "charges": 4,
     "autolearn": true,
     "batch_time_factors": [ 60, 3 ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 12, "LIST" ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "maple_sap", 40 ] ] ]
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "components": [ [ [ "maple_sap", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -3505,11 +3508,12 @@
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
     "difficulty": 5,
-    "time": "30 m",
+    "time": "15 m",
+    "charges": 1,
     "book_learn": [ [ "family_cookbook", 5 ], [ "sweets_book", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
-    "components": [ [ [ "syrup", 2 ] ] ]
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
+    "components": [ [ [ "syrup", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3928,8 +3932,9 @@
     "time": "45 m",
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "oats", 2 ] ] ]
+    "charges": 1,
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "components": [ [ [ "oats", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3997,8 +4002,9 @@
     "time": "45 m",
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chili_pepper", 2 ] ] ]
+    "charges": 50,
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "components": [ [ [ "chili_pepper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4258,9 +4264,10 @@
     "time": "6 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 2 ],
+    "charges": 1,
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "eggs_any_shape", 2, "LIST" ] ] ]
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "eggs_any_shape", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4768,12 +4775,11 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 4,
-    "result_mult": 2,
-    "time": "8 m",
+    "time": "4 m",
     "book_learn": [ [ "cookbook_italian", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "salt", 20 ] ], [ [ "garlic_clove", 6 ] ], [ [ "thyme", 2 ] ], [ [ "wild_herbs", 200 ] ] ]
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "salt", 10 ] ], [ [ "garlic_clove", 3 ] ], [ [ "thyme", 1 ] ], [ [ "wild_herbs", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -6124,8 +6130,8 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "cheese", 2 ], [ "can_cheese", 2 ], [ "cheese_hard", 2 ] ], [ [ "tortilla_corn", 2 ] ] ]
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "cheese", 1 ], [ "can_cheese", 1 ], [ "cheese_hard", 1 ] ], [ [ "tortilla_corn", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8020,8 +8026,9 @@
     "time": "11 m 15 s",
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
-    "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "oats", 2 ] ] ]
+    "charges": 1,
+    "tools": [ [ [ "food_processor", 10 ] ] ],
+    "components": [ [ [ "oats", 1 ] ] ]
   },
   {
     "result": "cornmeal",
@@ -8261,9 +8268,10 @@
     "difficulty": 2,
     "time": "11 m 15 s",
     "autolearn": true,
+    "charges": 50,
     "batch_time_factors": [ 83, 3 ],
-    "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "chili_pepper", 2 ] ] ]
+    "tools": [ [ [ "food_processor", 10 ] ] ],
+    "components": [ [ [ "chili_pepper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8401,8 +8409,9 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "oats", 2 ] ] ]
+    "charges": 1,
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "oats", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8717,12 +8726,12 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "25 m",
+    "time": "15 m",
     "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "cactus_pad", 3 ] ] ]
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "cactus_pad", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8950,11 +8959,12 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "15 m",
+    "time": "10 m",
     "autolearn": true,
+    "charges": 25,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "seed_mustard", 4 ] ] ]
+    "components": [ [ [ "seed_mustard", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8965,11 +8975,12 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "5 m 30 s",
+    "time": "3 m",
     "autolearn": true,
+    "charges": 25,
     "batch_time_factors": [ 83, 3 ],
-    "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "seed_mustard", 4 ] ] ]
+    "tools": [ [ [ "food_processor", 5 ] ] ],
+    "components": [ [ [ "seed_mustard", 1 ] ] ]
   },
   {
     "type": "recipe",

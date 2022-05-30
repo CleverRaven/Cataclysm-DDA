@@ -246,13 +246,13 @@
     "type": "COMESTIBLE",
     "id": "quesadilla_cheese",
     "name": { "str": "quesadilla" },
-    "weight": "116 g",
+    "weight": "58 g",
     "color": "brown",
     "spoils_in": "20 days",
     "container": "wrapper",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 357,
+    "calories": 179,
     "description": "A tortilla filled with cheese and lightly grilled.",
     "price": 500,
     "price_postapoc": 300,
@@ -260,8 +260,9 @@
     "primary_material": "cheese",
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
+    "charges": 2,
     "fun": 6,
-    "vitamins": [ [ "calcium", 38 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
