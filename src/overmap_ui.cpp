@@ -1208,16 +1208,16 @@ static void draw(
     input_context *inp_ctxt, const draw_data_t &data )
 {
     draw_om_sidebar( g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
-    if( !use_tiles || !use_tiles_overmap ) {
-        draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
-    } else {
-#ifdef TILES
+#if defined( TILES )
+    if( use_tiles && use_tiles_overmap ) {
         redraw_info = tiles_redraw_info { center, blink };
         werase( g->w_overmap );
         // trigger the actual redraw code in sdltiles.cpp
         wnoutrefresh( g->w_overmap );
-#endif // TILES
+        return;
     }
+#endif // TILES
+    draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
 }
 
 static void create_note( const tripoint_abs_omt &curs )

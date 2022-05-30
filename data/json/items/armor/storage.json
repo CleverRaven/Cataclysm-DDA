@@ -1077,7 +1077,7 @@
     "type": "ARMOR",
     "name": { "str": "leather pouch", "str_pl": "leather pouches" },
     "description": "A bag stitched together from leather scraps.  Doesn't hold an awful lot but is easy to wear.",
-    "weight": "610 g",
+    "weight": "250 g",
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 150,
@@ -1151,10 +1151,131 @@
     ]
   },
   {
+    "id": "leg_bag",
+    "type": "ARMOR",
+    "repairs_like": "legrig",
+    "name": { "str": "drop leg bag" },
+    "//": "Based around https://www.amazon.com/HCoolfly-Waterproof-Motorcycle-Multi-Function-Fishing/dp/B07TVNBPZK/.",
+    "description": "A bag that can be worn on the thighs and hips using well adjusted buckled straps.  Provides some extra storage for outdoor activities.",
+    "weight": "258 g",
+    "volume": "1550 ml",
+    "price": 3000,
+    "price_postapoc": 250,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "legrig",
+    "color": "dark_gray",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "25 cm",
+        "moves": 120
+      }
+    ],
+    "material_thickness": 1,
+    "warmth": 2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": 3,
+        "volume_encumber_modifier": 0.22,
+        "coverage": 70,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "black_leg_bag",
+        "name": { "str": "drop leg bag" },
+        "description": "A black bag that can be worn on the thighs and hips using well adjusted buckled straps.  Commonly used by motorcycle riders.",
+        "weight": 50
+      },
+      {
+        "id": "brown_leg_bag",
+        "name": { "str": "drop leg bag" },
+        "description": "A khaki bag that can be worn on the thighs and hips using well adjusted buckled straps.  Combines nicely with a pair of khaki pants.",
+        "color": "brown",
+        "weight": 30
+      },
+      {
+        "id": "purple_leg_bag",
+        "name": { "str": "drop leg bag" },
+        "description": "A purple bag that can be worn on the thighs and hips using well adjusted buckled straps.  Perfect for the ladies that want a cooler way of carrying their personal items.",
+        "color": "magenta",
+        "weight": 10
+      },
+      {
+        "id": "camo_leg_bag",
+        "name": { "str": "camo drop leg bag" },
+        "description": "A green bag with camouflage dye that can be worn on the thighs and hips using well adjusted buckled straps.  For those that have a military heart.",
+        "color": "green",
+        "weight": 5
+      },
+      {
+        "id": "steampunk_leg_bag",
+        "name": { "str": "steampunk drop leg bag" },
+        "description": "A black and dark gold bag that can be worn on the thighs and hips using well adjusted buckled straps, with a steampunk design and chains all around it.  Perfect for a wide variety of costumes.",
+        "weight": 3
+      },
+      {
+        "id": "skull_leg_bag",
+        "name": { "str": "skull drop leg bag" },
+        "description": "A jet black bag that can be worn on the thighs and hips using well adjusted buckled straps, with skulls and spikes all around it.  Perfect for those riders of the apocalypse.",
+        "symbol": "S",
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "id": "leg_small_bag",
+    "type": "ARMOR",
+    "copy-from": "armrig",
+    "repairs_like": "armrig",
+    "name": { "str": "small leg purse" },
+    "description": "A small purse that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those who want to wear a dress without pockets while carrying their phones and money.  Use it to adjust it on your arm.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 100,
+        "//": "Less moves as the arm version since grabing things wrapped around your legs is easier."
+      }
+    ],
+    "armor": [
+      {
+        "encumbrance": 1,
+        "volume_encumber_modifier": 0.35,
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your %s to wear it on your arm.",
+      "target": "armrig",
+      "menu_text": "Adjust on the arm"
+    }
+  },
+  {
     "id": "armrig",
     "type": "ARMOR",
     "name": { "str": "armband pouch", "str_pl": "armband pouches" },
-    "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favoured item among sports & camping enthusiasts.",
+    "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favoured item among sports & camping enthusiasts.  Use it to adjust it on your leg.",
     "weight": "205 g",
     "volume": "550 ml",
     "price": 3000,
@@ -1173,7 +1294,7 @@
         "moves": 200
       }
     ],
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
@@ -1182,6 +1303,47 @@
         "coverage": 50,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_r", "arm_upper_l" ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your %s to wear it on your leg.",
+      "target": "leg_small_bag",
+      "menu_text": "Adjust on the leg"
+    }
+  },
+  {
+    "id": "ankle_wallet_pouch",
+    "type": "ARMOR",
+    "repairs_like": "armrig",
+    "name": { "str": "ankle wallet pouch", "str_pl": "ankle wallet pouches" },
+    "description": "A small concealed wallet pouch worn on the ankle.  If you strap it under your clothes it can help you to keep your wallet hidden and safe.",
+    "weight": "60 g",
+    "volume": "150 ml",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "legpouch",
+    "color": "light_gray",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "8 cm",
+        "moves": 150
+      }
+    ],
+    "material_thickness": 0.1,
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 25,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ]
       }
     ]
   },
@@ -2484,8 +2646,8 @@
     "type": "ARMOR",
     "copy-from": "rifle_case_soft_leather",
     "looks_like": "rifle_case_soft_leather",
-    "name": { "str": "long leather rifle case" },
-    "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
+    "name": { "str": "XS leather rifle case" },
+    "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.  The strap on this one has been shortened to fit someone of small stature.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE", "UNDERSIZE" ]
   },
@@ -2591,5 +2753,64 @@
     ],
     "material_thickness": 2,
     "armor": [ { "encumbrance": [ 3, 80 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "bigtrapper_pack",
+    "type": "ARMOR",
+    "name": { "str": "big trapper pack" },
+    "description": "A wooden frame with waterproofed cloth stretched around it, and a drawstring at the top to hold things in.  It has straps to wear it on your back.",
+    "weight": "10 kg",
+    "volume": "45 L",
+    "price": 800,
+    "price_postapoc": 750,
+    "material": [ "wood", "cotton" ],
+    "symbol": "[",
+    "looks_like": "golf_bag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "100 kg",
+        "moves": 300,
+        "rigid": true,
+        "max_item_length": "150 cm"
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "encumbrance": [ 30, 35 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
+  },
+  {
+    "id": "trapper_pack",
+    "type": "ARMOR",
+    "name": { "str": "trapper pack" },
+    "description": "A L-shaped wooden frame with a waterproofed cloth sack attached to it.  There's a drawstring to hold things in and straps to carry it on your back.",
+    "weight": "5 kg",
+    "volume": "10 L",
+    "price": 800,
+    "price_postapoc": 750,
+    "material": [ "wood", "cotton" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "50 kg",
+        "moves": 300,
+        "max_item_length": "60 cm"
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      { "encumbrance": [ 10, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   }
 ]

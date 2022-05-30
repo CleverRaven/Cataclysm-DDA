@@ -6,6 +6,31 @@
   },
   {
     "type": "item_group",
+    "id": "ranch_doctor_filing_cabinets",
+    "items": [ { "item": "book_binder", "prob": 1, "charges": [ 25, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ranch_bartender_shot_brandy",
+    "items": [ { "item": "brandy", "prob": 1, "container-item": "shot_glass" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ranch_bartender_shot_rum",
+    "items": [ { "item": "rum", "prob": 1, "container-item": "shot_glass" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ranch_bartender_shot_whiskey",
+    "items": [ { "item": "whiskey", "prob": 1, "container-item": "shot_glass" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ranch_bartender_glass_water",
+    "items": [ { "item": "water_clean", "prob": 1, "container-item": "glass" } ]
+  },
+  {
+    "type": "item_group",
     "//": "Subset of surgery item_group with only basic and non quest conflicting items",
     "id": "ranch_nurse_clinic_surgery",
     "items": [
@@ -66,9 +91,40 @@
         "B#",
         "  "
       ],
-      "terrain": { "#": "t_dirt" },
       "furniture": { "#": "f_makeshift_bed", "B": "f_makeshift_bed" },
-      "item": { "B": { "item": "blanket", "faction": "tacoma_commune" } }
+      "item": { "B": { "item": "blanket", "faction": "tacoma_commune" } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_bar_13",
+    "object": {
+      "mapgensize": [ 20, 20 ],
+      "rows": [
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "       ........     ",
+        "       ........     ",
+        "       ........     ",
+        "....................",
+        "....................",
+        "....................",
+        "....................",
+        "....................",
+        "...............     ",
+        "...............     ",
+        "...............     ",
+        "   ..........       ",
+        "   ..........       ",
+        "   ..........       "
+      ],
+      "terrain": { ".": "t_dirt" }
     }
   },
   {
@@ -115,22 +171,22 @@
         "                    ",
         "                    ",
         "                    ",
-        "       w..wwwww     ",
+        "       wffwwwww     ",
         "       w..w...w     ",
         "       w..w...w     ",
-        "www00www..ww.www..ww",
+        "www00wwwffwwfwwwffww",
         "w.............w....w",
-        "w..................w",
+        "w.............f....w",
         "0.............w....w",
         "0.............wwwwww",
         "w.............w     ",
         "w.............w     ",
         "wwww........www     ",
-        "   .........w       ",
-        "   .........w       ",
+        "   f........w       ",
+        "   f........w       ",
         "   wwww00wwww       "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirt", "0": "t_window_frame" }
+      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_empty", "f": "t_door_frame" }
     }
   },
   {
@@ -146,23 +202,22 @@
         "                    ",
         "                    ",
         "                    ",
-        "       w++wwwww     ",
-        "       w..wr..w     ",
-        "       w..wr..w     ",
-        "www]]www++ww+www++ww",
-        "w.............w....w",
-        "wCC..CtC...c..+....w",
-        "]tt........c.rwvvkkw",
-        "]tt........c.rwwwwww",
-        "wCC..CtC...c..w     ",
-        "w.............w     ",
-        "wwww..C..C..www     ",
-        "   +..t..t..w       ",
-        "   +..C..C..w       ",
-        "   wwww]]wwww       "
+        "        ++          ",
+        "        .. rrr      ",
+        "        .. r.r      ",
+        "   ]]   ++  +   ++  ",
+        " ............& .... ",
+        " CC..CtC...c..+.... ",
+        "]tt........c.r vvkk ",
+        "]tt.2....2.c.r      ",
+        " CC..CtC...c.u      ",
+        " ............s      ",
+        "    &.C..C..        ",
+        "   +..t..t..        ",
+        "   +..C..C..        ",
+        "       ]]           "
       ],
       "terrain": {
-        "w": "t_wall",
         ".": "t_floor",
         "]": "t_window_boarded_noglass",
         "c": "t_floor",
@@ -171,11 +226,49 @@
         "r": "t_floor",
         "k": "t_floor",
         "v": "t_floor",
-        "+": "t_door_c"
+        "u": "t_floor",
+        "s": "t_floor",
+        "&": "t_floor",
+        "+": "t_door_c",
+        "2": "t_floor_olight"
       },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" },
-      "//": "there used to be some logic to not place a bartender if there already was one, but it broke a lot and didn't place a bartender at all. Just place the bartender and sometimes the TC bar is so busy that they have two people on staff.",
-      "place_npcs": [ { "class": "ranch_bartender", "x": 12, "y": 12 }, { "class": "scavenger_merc", "x": 5, "y": 11 } ]
+      "furniture": {
+        "c": "f_counter",
+        "C": "f_chair",
+        "t": "f_table",
+        "r": "f_rack",
+        "k": "f_wood_keg",
+        "v": "f_fvat_empty",
+        "u": "f_cupboard",
+        "s": "f_sink",
+        "&": "f_trashcan"
+      },
+      "place_zones": [
+        { "type": "LOOT_DRINK", "faction": "tacoma_commune", "x": 13, "y": [ 12, 13 ] },
+        {
+          "type": "LOOT_CUSTOM",
+          "faction": "tacoma_commune",
+          "x": 13,
+          "y": 14,
+          "filter": "shot glass,drinking glass"
+        },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": 13, "y": [ 7, 8 ] },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": 12, "y": 7 }
+      ],
+      "place_npcs": [ { "class": "ranch_bartender", "x": 12, "y": 12 }, { "class": "scavenger_merc", "x": 5, "y": 11 } ],
+      "place_items": [
+        { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 2, 3 ], "faction": "tacoma_commune" },
+        { "item": "ranch_bartender_glass_water", "x": 6, "y": 11, "chance": 100, "faction": "tacoma_commune" }
+      ],
+      "place_item": [
+        { "item": "shot_glass", "x": 6, "y": 11, "faction": "tacoma_commune" },
+        { "item": "tacoma_drink_token", "x": 6, "y": 11, "faction": "tacoma_commune" },
+        { "item": "bucket_wood", "x": 13, "y": 15, "faction": "tacoma_commune" },
+        { "item": "sponge", "x": 13, "y": 15, "faction": "tacoma_commune" },
+        { "item": "rag", "x": 13, "y": 15, "faction": "tacoma_commune", "repeat": [ 2, 4 ] },
+        { "item": "glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [ 15, 30 ] },
+        { "item": "shot_glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [ 10, 20 ] }
+      ]
     }
   },
   {
@@ -183,44 +276,25 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_1",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [ 15, 15 ],
       "rows": [
-        "qqqqqqqqqqqqqqq     ",
-        ",,,,,,,,,,,,,,q     ",
-        ",,,,,,,,,,,,,,q     ",
-        "q,,,,,,,,,,,,,q     ",
-        "q,,,,,,,,,,,,,q     ",
-        "q,,,,,,,,,,,,,q     ",
-        "qqqqqqqw++wwwww     ",
-        "       w..wr..w     ",
-        "       w..wr..w     ",
-        "wwww]]ww++ww+www++ww",
-        "w.............w....w",
-        "wCC..CtC...c..+....w",
-        "]tt........c.rwvvkkw",
-        "]tt........c.rwwwwww",
-        "wCC..CtC...c..w     ",
-        "w.............w     ",
-        "wwww..C..C..www     ",
-        "   +..t..t..w       ",
-        "   +..C..C..w       ",
-        "   wwww]]wwww       "
+        "qqqqqqqqqqqqqqq",
+        "..............q",
+        "..............q",
+        "q.............q",
+        "q.............q",
+        "q.............q",
+        "qqqqqqq        ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               "
       ],
-      "terrain": {
-        "w": "t_wall",
-        ".": "t_floor",
-        "]": "t_window_boarded_noglass",
-        "c": "t_floor",
-        "C": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "k": "t_floor",
-        "v": "t_floor",
-        "+": "t_door_c",
-        ",": "t_dirt",
-        "q": "t_wall_half"
-      },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
+      "terrain": { "w": "t_wall", ".": "t_dirt", "q": "t_wall_half" }
     }
   },
   {
@@ -231,42 +305,28 @@
       "mapgensize": [ 20, 20 ],
       "rows": [
         "wwww00www00wwww     ",
-        "+,,,,,,,,,,,,,w     ",
-        "+,,,,,,,,,,,,,wqqqqq",
-        "w,,,,,,,,,,,,,w,,,,q",
-        "0,,,,,,,,,,,,,w,,,,q",
-        "w,,,,,,,,,,,,,w,,,,q",
-        "wwwwwwww++wwwww,,,,q",
-        "       w..wr..w,,,,q",
-        "       w..wr..w,,,,q",
-        "wwww]]ww++ww+www++ww",
-        "w.............w...kw",
-        "wCC..CtC...c..+....w",
-        "]tt........c.rwvvkkw",
-        "]tt........c.rwwwwww",
-        "wCC..CtC...c..w     ",
-        "w.............w     ",
-        "wwww..C..C..www     ",
-        "   +..t..t..w       ",
-        "   +..C..C..w       ",
-        "   wwww]]wwww       "
+        "f             w     ",
+        "f             wqqqqq",
+        "w             w....q",
+        "0             w....q",
+        "w             w....q",
+        "wwwwwww        ....q",
+        "               ....q",
+        "               ....q",
+        "                    ",
+        "                  k ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    "
       ],
-      "terrain": {
-        "w": "t_wall",
-        ".": "t_floor",
-        "]": "t_window_boarded_noglass",
-        "c": "t_floor",
-        "C": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "k": "t_floor",
-        "v": "t_floor",
-        "+": "t_door_c",
-        ",": "t_dirt",
-        "q": "t_wall_half",
-        "0": "t_window_frame"
-      },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
+      "terrain": { "w": "t_wall", "f": "t_door_frame", ".": "t_dirt", "q": "t_wall_half", "0": "t_window_empty" },
+      "furniture": { "k": "f_wood_keg" }
     }
   },
   {
@@ -276,43 +336,28 @@
     "object": {
       "mapgensize": [ 20, 20 ],
       "rows": [
-        "wwww]]www]]wwww     ",
-        "+.............w     ",
-        "+.............wwwwww",
-        "w.............w....w",
-        "].............w....]",
-        "w.............w....w",
-        "wwwwwwww++wwwww....w",
-        "       w..wr..w....w",
-        "       w..wr..w....w",
-        "wwww]]ww++ww+www++ww",
-        "w.............w....w",
-        "wCC..CtC...c..+....w",
-        "]tt........c.rwvvkkw",
-        "]tt........c.rwwwwww",
-        "wCC..CtC...c..w     ",
-        "w.............w     ",
-        "wwww..C..C..www     ",
-        "   +..t..t..w       ",
-        "   +..C..C..w       ",
-        "   wwww]]wwww       "
+        "    ]]   ]]         ",
+        "+.............      ",
+        "+............. wwwww",
+        " ...2.....2... ....w",
+        "]............. ....]",
+        " ............. ....w",
+        "               ....w",
+        "               ....w",
+        "               ....w",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    "
       ],
-      "terrain": {
-        "w": "t_wall",
-        ".": "t_floor",
-        "]": "t_window_boarded_noglass",
-        "c": "t_floor",
-        "C": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "k": "t_floor",
-        "v": "t_floor",
-        "+": "t_door_c",
-        ",": "t_dirt",
-        "q": "t_wall_half",
-        "0": "t_window_frame"
-      },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
+      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c", "2": "t_floor_olight" }
     }
   },
   {
@@ -320,54 +365,26 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_4",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [ 16, 16 ],
       "rows": [
-        "wwww]]www]]wwww     ",
-        "+.......CttC..w     ",
-        "+.......CttC..wwwwww",
-        "w..CtC........wk...w",
-        "].........CtC.wk...]",
-        "w..CtC........wk..sw",
-        "wwwwwwww++wwwwwv..sw",
-        "       w..wr..wv..sw",
-        "       w..wr..wv..sw",
-        "wwww]]ww++ww+www++ww",
-        "w.............w...kw",
-        "wCC..CtC...c..+....w",
-        "]tt........c.rwvvkkw",
-        "]tt........c.rwwwwww",
-        "wCC..CtC...c..w     ",
-        "w.............w     ",
-        "wwww..C..C..www     ",
-        "   +..t..t..w       ",
-        "   +..C..C..w       ",
-        "   wwww]]wwww       "
+        "     CttC       ",
+        "     CttC       ",
+        "CtC         k   ",
+        "            k   ",
+        "CtC    CtC  k  s",
+        "            v  s",
+        "            v  s",
+        "            v  s",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                "
       ],
-      "terrain": {
-        "w": "t_wall",
-        ".": "t_floor",
-        "]": "t_window_boarded_noglass",
-        "c": "t_floor",
-        "C": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "k": "t_floor",
-        "v": "t_floor",
-        "+": "t_door_c",
-        ",": "t_dirt",
-        "q": "t_wall_half",
-        "0": "t_window_frame",
-        "s": "t_floor"
-      },
-      "furniture": {
-        "c": "f_counter",
-        "C": "f_chair",
-        "t": "f_table",
-        "r": "f_rack",
-        "k": "f_wood_keg",
-        "v": "f_fvat_empty",
-        "s": "f_standing_tank"
-      }
+      "furniture": { "C": "f_chair", "t": "f_table", "k": "f_wood_keg", "v": "f_fvat_empty", "s": "f_standing_tank" }
     }
   },
   {
@@ -523,7 +540,8 @@
         "                   ",
         "                   "
       ],
-      "terrain": { "w": "t_wall_half" }
+      "terrain": { "w": "t_wall_half" },
+      "place_item": [ { "item": "hammer_sledge", "x": 12, "y": 18, "faction": "tacoma_commune" } ]
     }
   },
   {
@@ -598,7 +616,7 @@
         "                 ",
         "......     .cccc.",
         "......  +  ..s...",
-        "...... ... ......",
+        "..2... ... ...2..",
         "............tt...",
         "...... ... ......",
         "......     ......",
@@ -610,10 +628,11 @@
         "                 ",
         "                 "
       ],
-      "terrain": { "+": "t_door_c", ".": "t_floor", "c": "t_floor", "t": "t_floor", "s": "t_floor" },
+      "terrain": { "+": "t_door_c", ".": "t_floor", "c": "t_floor", "t": "t_floor", "s": "t_floor", "2": "t_floor_olight" },
       "furniture": { "c": "f_cupboard", "t": "f_table", "s": "f_stool" },
       "place_signs": [ { "signage": "Clinic", "x": 1, "y": 10 } ],
-      "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ]
+      "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ],
+      "place_item": [ { "item": "hoe", "x": 14, "y": 18, "faction": "tacoma_commune" } ]
     }
   },
   {
@@ -739,6 +758,32 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "tacoma_commune_greenhouse_bartender_beets",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "             ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " r           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        " b           ",
+        "             "
+      ],
+      "furniture": { "r": "f_rack", "b": "f_planter" },
+      "sealed_item": { "b": { "item": { "item": "seed_sugar_beet", "chance": 100 }, "furniture": "f_planter_seedling" } },
+      "item": { "r": { "item": "g_shovel", "chance": 100 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_12",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -800,7 +845,7 @@
         "                ",
         "         [[[    ",
         "[             r ",
-        "[             r ",
+        "[    =        r ",
         "        cc cc r[",
         "        cclcc r[",
         "        cc cc r ",
@@ -809,13 +854,26 @@
         "                ",
         "          l     ",
         "          c     ",
-        "       [  c  +  ",
-        "          c     ",
+        "       [C c  +  ",
+        "        Csc r   ",
         "                ",
         "                "
       ],
-      "terrain": { "[": "t_window_boarded_noglass", "+": "t_door_c", "l": "t_dirtfloor_olight" },
-      "furniture": { "c": "f_counter", "r": "f_rack" },
+      "terrain": { "[": "t_window_boarded_noglass", "+": "t_door_c", "l": "t_dirtfloor_olight", "=": "t_door_curtain_c" },
+      "furniture": { "c": "f_counter", "r": "f_rack", "s": "f_safe_o", "C": "f_clothing_rail" },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": [ 1, 4 ], "y": 1 },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": [ 1, 4 ], "y": 4 },
+        { "type": "LOOT_UNSORTED", "faction": "tacoma_commune", "x": 10, "y": [ 11, 13 ] },
+        { "type": "LOOT_MANUALS", "faction": "tacoma_commune", "x": 12, "y": 13 },
+        { "type": "LOOT_CURRENCY", "faction": "tacoma_commune", "x": 9, "y": 13 },
+        { "type": "LOOT_ARMOR", "faction": "tacoma_commune", "x": 8, "y": 12 },
+        { "type": "LOOT_CLOTHING", "faction": "tacoma_commune", "x": 8, "y": 13 }
+      ],
+      "place_signs": [
+        { "signage": "Extra Supplies.  Take what you need.", "x": 11, "y": 8 },
+        { "signage": "Scavenger Storage.  Stay out!", "x": 5, "y": 4 }
+      ],
       "place_npcs": [ { "class": "ranch_scavenger_1", "x": 9, "y": 12 } ]
     }
   },
@@ -973,13 +1031,13 @@
       "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor", "m": "t_dirtfloor", "M": "t_dirtfloor", "c": "t_conveyor" },
       "furniture": { "m": "f_machinery_old", "M": "f_machinery_heavy", "r": "f_rack" },
       "place_item": [
-        { "item": "log", "x": 3, "y": 0, "faction": "tacoma_commune" },
-        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
-        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
-        { "item": "log", "x": 0, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
-        { "item": "log", "x": 1, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
-        { "item": "2x4", "x": 3, "y": 9, "faction": "tacoma_commune", "amount": [ 1, 10 ] },
-        { "item": "log", "x": 3, "y": 2, "faction": "tacoma_commune" }
+        { "item": "log", "x": 3, "y": 0 },
+        { "item": "log", "x": 3, "y": 1 },
+        { "item": "log", "x": 3, "y": 1 },
+        { "item": "log", "x": 0, "y": 1, "amount": [ 1, 5 ] },
+        { "item": "log", "x": 1, "y": 1, "amount": [ 1, 5 ] },
+        { "item": "2x4", "x": 3, "y": 9, "amount": [ 1, 10 ] },
+        { "item": "log", "x": 3, "y": 2 }
       ],
       "place_npcs": [ { "class": "ranch_woodcutter_2", "x": 4, "y": 7 } ]
     }
@@ -1138,5 +1196,38 @@
         { "square": "terrain", "id": "t_fencegate_c", "x": 2, "y": 11, "x2": 2, "y2": 12 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_commune_shot_brandy",
+    "method": "json",
+    "object": {
+      "place_items": [ { "item": "ranch_bartender_shot_brandy", "x": 11, "y": 12, "chance": 100 } ],
+      "place_item": [ { "item": "tacoma_drink_token", "x": 11, "y": 12 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_commune_shot_rum",
+    "method": "json",
+    "object": {
+      "place_items": [ { "item": "ranch_bartender_shot_rum", "x": 11, "y": 12, "chance": 100 } ],
+      "place_item": [ { "item": "tacoma_drink_token", "x": 11, "y": 12 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_commune_shot_whiskey",
+    "method": "json",
+    "object": {
+      "place_items": [ { "item": "ranch_bartender_shot_whiskey", "x": 11, "y": 12, "chance": 100 } ],
+      "place_item": [ { "item": "tacoma_drink_token", "x": 11, "y": 12 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_commune_glass_water",
+    "method": "json",
+    "object": { "place_items": [ { "item": "ranch_bartender_glass_water", "x": 11, "y": 12, "chance": 100 } ] }
   }
 ]

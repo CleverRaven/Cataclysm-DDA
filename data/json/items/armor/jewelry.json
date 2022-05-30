@@ -967,7 +967,7 @@
     "color": "yellow",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_watch",
@@ -1193,7 +1193,7 @@
     "material": [ "platinum", "silver" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "SKINTIGHT" ],
+    "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
     "armor": [ { "covers": [ "mouth" ] } ]
   },
   {

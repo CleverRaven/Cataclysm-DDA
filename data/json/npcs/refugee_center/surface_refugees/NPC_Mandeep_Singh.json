@@ -89,7 +89,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mandeep_1",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         "*is a middle-aged man with a crisp turban and a large blade at his side.  He meets your gaze as you approach, his expression stony.  \"Hello\u00A0",
         { "u_male": true, "yes": "sir", "no": "ma'am" },
         ".  I am Mandeep Singh.\""

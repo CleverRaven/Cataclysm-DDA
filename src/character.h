@@ -1321,10 +1321,10 @@ class Character : public Creature, public visitable
         void mutate_category( const mutation_category_id &mut_cat, const bool use_vitamins );
         void mutate_category( const mutation_category_id &mut_cat );
         /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
-        bool mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit,
+        bool mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
                              int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const trait_id &mut, const vitamin_id &mut_vit );
+        bool mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat );
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
@@ -1571,7 +1571,8 @@ class Character : public Creature, public visitable
                                          bool empty = true ) const;
 
         /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts,
+                                         const std::string name_override = std::string() ) const;
 
         void process_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
@@ -1723,7 +1724,7 @@ class Character : public Creature, public visitable
         // returns a list of all item_location the character has, including items contained in other items.
         // only for CONTAINER pocket type; does not look for magazines
         std::vector<item_location> all_items_loc();
-        // Returns list of all the top level item_lodation the character has. Includes worn items but excludes items held on hand.
+        // Returns list of all the top level item_location the character has. Includes worn items but excludes items held on hand.
         std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
@@ -2148,7 +2149,7 @@ class Character : public Creature, public visitable
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
         //returns true if the warning is now beyond final and results in hostility.
-        bool add_faction_warning( const faction_id &id );
+        bool add_faction_warning( const faction_id &id ) const;
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
 
@@ -3332,7 +3333,7 @@ class Character : public Creature, public visitable
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
         /** warnings from a faction about bad behavior */
-        std::map<faction_id, std::pair<int, time_point>> warning_record;
+        mutable std::map<faction_id, std::pair<int, time_point>> warning_record;
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
          * key into @ref mutation_data), the value describes the status of the mutation.

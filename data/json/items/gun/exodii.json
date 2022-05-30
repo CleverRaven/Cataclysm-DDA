@@ -40,7 +40,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "Exodii zombie hunting rifle" },
-    "description": "This extremely popular Romanian assault rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii to serve as a sniper weapon.  It is well suited to precision shots against high-priority targets.  This modified design fires an extremely rapid 5-shot burst, with the goal of shredding the target and preventing revivification.",
+    "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire an extremely rapid 2-shot burst, with the goal of shredding the target and preventing revivification.",
     "weight": "3910 g",
     "volume": "3 L",
     "//": "around the length of other long 30-06 rifles and heavier AR's",
@@ -51,8 +51,8 @@
     "variants": [
       {
         "id": "pamd71z",
-        "name": { "str": "PA md. 71z" },
-        "description": "This extremely popular Romanian assault rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii to serve as a sniper weapon.  It is well suited to precision shots against high-priority targets.  This modified design fires an extremely rapid 5-shot burst, with the goal of shredding the target and preventing revivification.",
+        "name": { "str": "PS md. 71z" },
+        "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire an extremely rapid 2-shot burst, with the goal of shredding the target and preventing revivification.",
         "weight": 1
       }
     ],
@@ -63,7 +63,7 @@
     "ammo": [ "123ln" ],
     "dispersion": 100,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 2 ] ],
     "barrel_volume": "250 ml",
     "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ]

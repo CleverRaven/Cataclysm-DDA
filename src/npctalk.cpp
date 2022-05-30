@@ -2610,14 +2610,20 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
 
 void talk_effect_fun_t::set_remove_npc( const JsonObject &jo, const std::string &member )
 {
-    std::string npc_id;
-    mandatory( jo, false, member, npc_id );
-    function = [npc_id]( const dialogue & ) {
-        std::vector<npc *> npc_list = g->get_npcs_if( [npc_id]( const npc & npc ) -> bool {
-            return npc.idz == npc_id;
-        } );
-        for( npc *npc : npc_list ) {
-            overmap_buffer.remove_npc( npc->getID() );
+    std::string nclass;
+    std::string chatbin;
+    std::string unique_id;
+    JsonObject const jot = jo.get_object( member );
+    optional( jot, false, "class", nclass );
+    optional( jot, false, "chat", chatbin );
+    optional( jot, false, "unique_id", unique_id );
+    function = [nclass, chatbin, unique_id]( const dialogue & ) {
+        for( auto const &npc : overmap_buffer.get_overmap_npcs() ) {
+            if( ( nclass.empty() or npc->myclass == npc_class_id( nclass ) ) and
+                ( chatbin.empty() or npc->chatbin.first_topic == chatbin ) and
+                ( unique_id.empty() or unique_id == npc->get_unique_id() ) ) {
+                overmap_buffer.remove_npc( npc->getID() );
+            }
         }
     };
 }
@@ -3729,34 +3735,54 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
 
-    std::vector<std::string> names = jo.get_string_array( "npcs_to_affect" );
+    std::vector<std::string> unique_ids = jo.get_string_array( "unique_ids" );
+
+    bool local = jo.get_bool( "local", false );
     cata::optional<int> npc_range;
     if( jo.has_int( "npc_range" ) ) {
         npc_range = jo.get_int( "npc_range" );
     }
     bool npc_must_see = jo.get_bool( "npc_must_see", false );
-    function = [eocs, names, npc_must_see, npc_range, is_npc]( const dialogue & d ) {
-        tripoint actor_pos = d.actor( is_npc )->pos();
-        const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, actor_pos,
-                      names]( const npc & guy ) {
-            bool name_valid = names.empty();
-            for( const std::string &name : names ) {
-                if( name == guy.name ) {
-                    name_valid = true;
-                    break;
+    if( local ) {
+        function = [eocs, unique_ids, npc_must_see, npc_range, is_npc]( const dialogue & d ) {
+            tripoint actor_pos = d.actor( is_npc )->pos();
+            const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, actor_pos,
+                          unique_ids]( const npc & guy ) {
+                bool id_valid = unique_ids.empty();
+                for( const std::string &id : unique_ids ) {
+                    if( id == guy.get_unique_id() ) {
+                        id_valid = true;
+                        break;
+                    }
+                }
+                return id_valid && ( !npc_range.has_value() || actor_pos.z == guy.posz() ) && ( !npc_must_see ||
+                        guy.sees( actor_pos ) ) &&
+                       ( !npc_range.has_value() || rl_dist( actor_pos, guy.pos() ) <= npc_range.value() );
+            } );
+            for( npc *target : available ) {
+                for( const effect_on_condition_id &eoc : eocs ) {
+                    dialogue newDialog( get_talker_for( target ), nullptr );
+                    eoc->activate( newDialog );
                 }
             }
-            return name_valid && ( !npc_range.has_value() || actor_pos.z == guy.posz() ) && ( !npc_must_see ||
-                    guy.sees( actor_pos ) ) &&
-                   ( !npc_range.has_value() || rl_dist( actor_pos, guy.pos() ) <= npc_range.value() );
-        } );
-        for( npc *target : available ) {
-            for( const effect_on_condition_id &eoc : eocs ) {
-                dialogue newDialog( get_talker_for( target ), nullptr );
-                eoc->activate( newDialog );
+        };
+    } else {
+        function = [eocs, unique_ids]( const dialogue & ) {
+            for( const std::string &target : unique_ids ) {
+                if( g->unique_npc_exists( target ) ) {
+                    for( const effect_on_condition_id &eoc : eocs ) {
+                        npc *npc = g->find_npc_by_unique_id( target );
+                        if( npc ) {
+                            dialogue newDialog( get_talker_for( npc ), nullptr );
+                            eoc->activate( newDialog );
+                        } else {
+                            debugmsg( "Tried to use invalid npc: %s", target );
+                        }
+                    }
+                }
             }
-        }
-    };
+        };
+    }
 }
 
 void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string &member )
@@ -4325,7 +4351,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else if( jo.has_member( "remove_npc" ) ) {
-        subeffect_fun.set_mapgen_update( jo, "remove_npc" );
+        subeffect_fun.set_remove_npc( jo, "remove_npc" );
     } else if( jo.has_member( "revert_location" ) ) {
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {
@@ -4815,9 +4841,9 @@ dynamic_line_t::dynamic_line_t( const translation &line )
 
 dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
-    if( jo.has_member( "and" ) ) {
+    if( jo.has_member( "concatenate" ) ) {
         std::vector<dynamic_line_t> lines;
-        for( const JsonValue entry : jo.get_array( "and" ) ) {
+        for( const JsonValue entry : jo.get_array( "concatenate" ) ) {
             if( entry.test_string() ) {
                 translation line;
                 entry.read( line );

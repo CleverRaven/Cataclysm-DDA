@@ -49,6 +49,10 @@
   - data/json/construction_group.json
   - data/json/deconstruction.json
 
+"EOC: Effects On Condition":
+  - "**/**effect_on_condition**"
+  - "**/**eocs**"
+
 "Fields / Furniture / Terrain / Traps":
   - "**/furniture**"
 
@@ -57,11 +61,14 @@
   - "**/comestibles**"
 
 "NPC / Factions":
-  - "**/npc**"
+  - "**/**npc**/**/*"
 
 "Melee":
   - "**/melee**"
   - "**/**techniques**"
+
+"Missions":
+  - "**/**mission**"
 
 "Info / User Interface":
   - "**/ui/**/*"
@@ -70,8 +77,15 @@
   - "src/list_view.*"
   - "src/surroundings_menu.*"
 
+"Items: Archery":
+  - "**/**archery**"
+  - "**/**crossbows**"
+
 "Items: Armor / Clothing":
   - "**/armor/**/*"
+
+"Items: Battery / UPS":
+  - "**/battery**"
 
 "Items: Containers":
   - "**/**containers**"
@@ -80,6 +94,12 @@
   - "**/**holster**"
   - "**/**ammo_pouch**"
   - "**/**bandolier**"
+  - "src/item_pocket.*"
+  - "src/item_contents.*"
+  - "tests/item_pocket_test.*"
+
+"Items: Magazines":
+  - "**/magazine/**/*"
 
 "Appliance/Power Grid":
   - "**/appliance**"
@@ -128,12 +148,17 @@
   - "**/gun/**/*"
   - "**/ammo/**/*"
 
+"Items: Gunmod / Toolmod":
+  - "**/gunmod**"
+  - "**/toolmod**"
+
 "SDL: Tiles / Sound":
   - gfx/**/*
   - sound/**/*
 
 "Scenarios":
   - "**/scenario**"
+  - "**/**start_location**"
 
 "Translation":
   - lang/**/*
@@ -172,7 +197,7 @@
 
 "Mods: TropiCataclysm 🌴":
   - data/mods/TropiCataclysm/**/*
-  
+
 "Mods: Tamable Wildlife":
   - data/mods/Tamable_Wildlife/**/*
 

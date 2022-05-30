@@ -33,7 +33,7 @@
     "description": "A large, heavy sledge hammer converted for use as a weapon.  It features a notable safety on the side, and the back of the head has a firing mechanism that can be loaded with rifle blanks.  When the head impacts and the safety is off, the blanks are engaged, sending the moving piston forward and causing massive damage.  Etched into the head are the words 'she's lost control'.",
     "proportional": { "weight": 1.2 },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "powder_blank": 1 } } ],
-    "extend": { "flags": [ "RELOAD_EJECT" ] },
+    "extend": { "flags": [ "RELOAD_EJECT", "DURABLE_MELEE" ] },
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP", "SWEETSPOT" ]
   },
   {

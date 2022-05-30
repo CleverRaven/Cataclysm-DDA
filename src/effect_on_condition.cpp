@@ -301,6 +301,16 @@ bool effect_on_condition::check_deactivate( dialogue &d ) const
     return deactivate_condition( d );
 }
 
+bool effect_on_condition::test_condition( dialogue &d ) const
+{
+    return !has_condition || condition( d );
+}
+
+void effect_on_condition::apply_true_effects( dialogue &d )  const
+{
+    true_effect.apply( d );
+}
+
 void effect_on_conditions::clear( Character &you )
 {
     while( !you.queued_effect_on_conditions.empty() ) {

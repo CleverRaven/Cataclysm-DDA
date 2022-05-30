@@ -1,4 +1,5 @@
 #include "avatar.h"
+#include "bodygraph.h"
 #include "character.h"
 #include "display.h"
 #include "game.h"
@@ -36,11 +37,51 @@ static const itype_id fuel_type_muscle( "muscle" );
 
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
+// Cache for the bodygraph widget string
+static disp_bodygraph_cache disp_bg_cache;
 
 disp_overmap_cache::disp_overmap_cache()
 {
     _center = overmap::invalid_tripoint;
     _mission = overmap::invalid_tripoint;
+}
+
+disp_bodygraph_cache::disp_bodygraph_cache()
+{
+    _bp_cur_max.clear();
+}
+
+bool disp_bodygraph_cache::is_valid_for( const Character &u ) const
+{
+    std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::only_main );
+    for( const auto &bp : _bp_cur_max ) {
+        if( std::find( cur_parts.begin(), cur_parts.end(), bp.first ) == cur_parts.end() ) {
+            // cached bodypart no longer on character
+            return false;
+        }
+    }
+    for( const bodypart_id &bp : cur_parts ) {
+        auto iter = _bp_cur_max.find( bp );
+        if( iter == _bp_cur_max.end() ) {
+            // uncached bodypart
+            return false;
+        }
+        if( iter->second.first != u.get_part_hp_cur( bp ) ||
+            iter->second.second != u.get_part_hp_max( bp ) ) {
+            // values differ
+            return false;
+        }
+    }
+    return true;
+}
+
+void disp_bodygraph_cache::rebuild( const Character &u, const std::string &bg_wgt_str )
+{
+    _bp_cur_max.clear();
+    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        _bp_cur_max.emplace( bp, std::pair<int, int> { u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) } );
+    }
+    _graph_wgt_str = bg_wgt_str;
 }
 
 // Get remotely controlled vehicle, or vehicle character is inside of
@@ -326,11 +367,12 @@ std::pair<std::string, nc_color> display::temp_delta_arrows( const Character &u 
     return std::make_pair( temp_message, temp_color );
 }
 
-std::pair<std::string, nc_color> display::temp_text_color( const Character &u )
+std::pair<std::string, nc_color> display::temp_text_color( const Character &u,
+        const bodypart_str_id &bp )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    const bodypart_id current_bp_extreme = temp_delta( u ).first;
+    const bodypart_id current_bp_extreme = bp.is_null() ? temp_delta( u ).first : bp;
 
     // printCur the hottest/coldest bodypart
     std::string temp_string;
@@ -1310,6 +1352,66 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
         names.emplace_back( name );
     }
     return format_widget_multiline( names, max_height, width, height );
+}
+
+static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Character &u,
+        const bodygraph_part &bgp )
+{
+    const bodypart_id &bid = bgp.sub_bodyparts.empty() ?
+                             bgp.bodyparts.front() : bgp.sub_bodyparts.front()->parent.id();
+    if( !u.has_part( bid ) ) {
+        return { " ", c_black }; // character is missing this part
+    }
+    const int cur_hp = u.get_part_hp_cur( bid );
+    const int max_hp = u.get_part_hp_max( bid );
+    const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
+    if( cur_hp_pcnt < 0.25f ) {
+        return { bgp.sym, c_red };
+    } else if( cur_hp_pcnt < 0.5f ) {
+        return { bgp.sym, c_light_red };
+    } else if( cur_hp_pcnt < 0.75f ) {
+        return { bgp.sym, c_yellow };
+    }
+    return { bgp.sym, c_light_green };
+}
+
+std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
+        int width, int max_height, int &height )
+{
+    if( disp_bg_cache.is_valid_for( u ) ) {
+        // Nothing changed, just retrieve from cache
+        return disp_bg_cache.get_val();
+    }
+
+    bodygraph_id graph( graph_id );
+    if( graph.is_null() || !graph.is_valid() || graph->rows.empty() ) {
+        height = 1;
+        return "";
+    }
+
+    auto process_sym = [&u]( const bodygraph_part * bgp, const std::string & sym ) {
+        if( !bgp ) {
+            return sym;
+        }
+        std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp );
+        return colorize( sym_col.first, sym_col.second );
+    };
+
+    std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height );
+    height = rows.size();
+
+    std::string ret;
+    std::string sep;
+    for( const std::string &row : rows ) {
+        ret.append( sep );
+        ret.append( row );
+        sep = "\n";
+    }
+
+    // Rebuild bodygraph text cache
+    disp_bg_cache.rebuild( u, ret );
+
+    return ret;
 }
 
 // Print monster info to the given window

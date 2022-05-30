@@ -51,7 +51,6 @@
     "copy-from": "rare",
     "extend": {
       "items": [
-        [ "afs_bag_of_holding", 1 ],
         [ "afs_atomic_smartphone", 5 ],
         [ "iv_mutagen_mastodon", 5 ],
         [ "mutagen_mastodon", 10 ],
@@ -72,9 +71,7 @@
     "id": "spider",
     "type": "item_group",
     "copy-from": "spider",
-    "extend": {
-      "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ], [ "alien_battery", 1 ] ]
-    }
+    "extend": { "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_hydraulic_gauntlet", 1 ], [ "alien_battery", 1 ] ] }
   },
   {
     "id": "camping",

@@ -22,7 +22,7 @@
     "common": false,
     "bonus_int": { "rng": [ 20, 25 ] },
     "bonus_per": { "rng": [ 20, 25 ] },
-    "shopkeeper_item_group": "NC_FORGE_LORD_STORE",
+    "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_SHOP", "rigid": true } ],
     "worn_override": "NC_FORGE_LORD_clothes",
     "skills": [
       {
@@ -64,6 +64,12 @@
       { "group": "enchanted_belts", "prob": 2 },
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_FORGE_LORD_SHOP",
+    "items": [ { "group": "NC_FORGE_LORD_STORE", "count": [ 20, 32 ], "prob": 100 } ]
   },
   {
     "id": "TALK_FORGE_LORD",

@@ -1090,8 +1090,10 @@ void map::unboard_vehicle( const vpart_reference &vp, Character *passenger, bool
         return;
     }
     passenger->in_vehicle = false;
-    // Only make vehicle go out of control if the driver is the one unboarding.
     if( passenger->controlling_vehicle ) {
+        // If the driver left, stop autodriving.
+        vp.vehicle().stop_autodriving( false );
+        // Only make vehicle go out of control if the driver is the one unboarding.
         vp.vehicle().skidding = true;
     }
     passenger->controlling_vehicle = false;
@@ -4009,12 +4011,11 @@ bool map::hit_with_fire( const tripoint &p )
     }
     return true;
 }
-
-bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
+bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
+                     const bool check_only )
 {
     const auto &ter = this->ter( p ).obj();
     const auto &furn = this->furn( p ).obj();
-    avatar &player_character = get_avatar();
     if( ter.open ) {
         if( has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) && !inside ) {
             return false;
@@ -4025,9 +4026,9 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( player_character.has_trait( trait_SCHIZOPHRENIC ) &&
+            if( u.has_trait( trait_SCHIZOPHRENIC ) &&
                 one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
-                tripoint mp = p + -2 * player_character.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
+                tripoint mp = p + -2 * u.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
             }
         }
@@ -4049,7 +4050,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
             if( !check_only ) {
-                if( !vp->vehicle().handle_potential_theft( player_character ) ) {
+                if( ( u.is_npc() or u.is_avatar() ) and
+                    !vp->vehicle().handle_potential_theft( *u.as_character() ) ) {
                     return false;
                 }
                 vp->vehicle().open_all_at( openable );
@@ -4566,7 +4568,7 @@ item &map::add_item( const tripoint &p, item new_item )
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
     if( new_item.has_temperature() && !new_item.is_corpse() ) {
-        new_item.process( nullptr, p );
+        new_item.process( *this, nullptr, p );
     }
 
     if( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
@@ -4740,11 +4742,11 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
+static bool process_map_items( map &here, item_stack &items, safe_reference<item> &item_ref,
                                const tripoint &location, const float insulation, const temperature_flag flag,
                                const float spoil_multiplier )
 {
-    if( item_ref->process( nullptr, location, insulation, flag, spoil_multiplier ) ) {
+    if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -4954,7 +4956,8 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 
         map_stack items = i_at( map_location );
 
-        process_map_items( items, active_item_ref.item_ref, map_location, 1, flag, spoil_multiplier );
+        process_map_items( *this, items, active_item_ref.item_ref, map_location, 1, flag,
+                           spoil_multiplier );
     }
 }
 
@@ -4983,7 +4986,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        vp.part().process_contents( vp.pos(), engine_heater_is_on );
+        vp.part().process_contents( *this, vp.pos(), engine_heater_is_on );
     }
 
     auto cargo_parts = cur_veh.get_parts_including_carried( VPFLAG_CARGO );
@@ -5032,7 +5035,8 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
                 flag = temperature_flag::HEATER;
             }
         }
-        if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag, 1.0f ) ) {
+        if( !process_map_items( *this, items, active_item_ref.item_ref, item_loc, it_insulation, flag,
+                                1.0f ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -5239,10 +5243,15 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
+        const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
         map_stack stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
-        [ammo]( const item & i ) {
-            return i.typeId() == ammo;
+        [ammo, using_ammotype]( const item & i ) {
+            if( using_ammotype && i.type->ammo && ammo->ammo ) {
+                return i.type->ammo->type == ammo->ammo->type;
+            } else {
+                return i.typeId() == ammo;
+            }
         } );
         if( iter != stack.end() ) {
             item furn_item( itt, calendar::turn_zero );
@@ -7580,13 +7589,6 @@ void map::actualize( const tripoint &grid )
         }
     }
 
-    tripoint_abs_sm const sm = abs_sub + grid;
-    for( auto const &guy : overmap_buffer.get_npcs_near( sm, 0 ) ) {
-        if( guy->get_location().z() == sm.z() ) {
-            guy->shop_restock();
-        }
-    }
-
     // the last time we touched the submap, is right now.
     tmpsub->last_touched = calendar::turn;
 }
@@ -8273,7 +8275,8 @@ bool map::build_floor_cache( const int zlev )
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                     if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
+                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
+                        terrain.has_flag( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR ) ) {
                         if( below_submap &&
                             below_submap->get_furn( sp ).obj().has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) ) {
                             continue;
@@ -8358,31 +8361,44 @@ void map::do_vehicle_caching( int z )
     }
 }
 
-void map::build_map_cache( const int zlev )
+void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    bool seen_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
+        // trigger FOV recalculation only when there is a change on the player's level or if fov_3d is enabled
+        const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
+        seen_cache_dirty |= ( floor_cache_was_dirty && affects_seen_cache );
         if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
             get_cache( z - 1 ).r_up_cache->invalidate();
         }
+        seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
     // otherwise such changes might be overwritten by main cache-building logic
     for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
-}
 
-void map::build_lightmap( const int zlev, const tripoint p )
-{
-    build_vision_transparency_cache( zlev );
-    skew_vision_cache.clear();
-    build_seen_cache( p, zlev );
-    generate_lightmap( zlev );
+    seen_cache_dirty |= build_vision_transparency_cache( zlev );
+
+    if( seen_cache_dirty ) {
+        skew_vision_cache.clear();
+    }
+    // Initial value is illegal player position.
+    const tripoint p = get_player_character().pos();
+    static tripoint player_prev_pos;
+    if( seen_cache_dirty || player_prev_pos != p ) {
+        build_seen_cache( p, zlev );
+        player_prev_pos = p;
+    }
+    if( !skip_lightmap ) {
+        generate_lightmap( zlev );
+    }
 }
 
 //////////
@@ -8643,8 +8659,8 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
         return;
     }
 
-    if( !tr.is_always_invisible() ) {
-        c.add_msg_player_or_npc( m_bad, _( "You trigger a %s!" ), _( "<npcname> triggers a %s!" ),
+    if( !tr.is_always_invisible() && tr.has_trigger_msg() ) {
+        c.add_msg_player_or_npc( m_bad, tr.get_trigger_message_u(), tr.get_trigger_message_npc(),
                                  tr.name() );
     }
     tr.trigger( c.pos(), c );

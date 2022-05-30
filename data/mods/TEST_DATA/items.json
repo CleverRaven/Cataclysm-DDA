@@ -2178,7 +2178,7 @@
     "weight": "1 kg",
     "volume": "1 L",
     "symbol": ";",
-    "qualities": [ [ "SAW_M", 10 ] ]
+    "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
     "type": "TOOL",
@@ -2454,7 +2454,7 @@
     "id": "test_meower_armor",
     "type": "PET_ARMOR",
     "name": { "str": "meower armor" },
-    "description": "Sleek and lightweight kevlar cat harness with a protective hood and chestplate.  Includes a very small, inconvenient velcro pocket on the back.",
+    "description": "Sleek and lightweight Kevlar cat harness with a protective hood and chestplate.  Includes a very small, inconvenient velcro pocket on the back.",
     "weight": "300 g",
     "volume": "1 L",
     "price": 30000,

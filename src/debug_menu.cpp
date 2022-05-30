@@ -518,7 +518,7 @@ static void spell_description(
     // Difficulty: 0 ( 0.0 % Failure Chance)
     description << string_format(
                     //~ %1$d - difficulty, %2$s - failure chance
-                    _( "Difficulty: %1$d ( %2$s )" ),
+                    _( "Difficulty: %1$d (%2$s)" ),
                     spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
 
 
@@ -527,7 +527,7 @@ static void spell_description(
     // Casting Cost: 0 (impeded) ( 0 current )
     description << string_format(
                     //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
-                    _( "Casting Cost: %1$s %2$s ( %3$s current ) " ),
+                    _( "Casting Cost: %1$s %2$s (%3$s current) " ),
                     spl.energy_cost_string( chrc ),
                     spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
                     spl.energy_cur_string( chrc ) ) << '\n';
@@ -535,7 +535,7 @@ static void spell_description(
     // Casting Time: 0 (impeded)
     description << string_format(
                     //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
-                    _( "Casting Time: %1$s %2$s ( %3$s base time ) " ),
+                    _( "Casting Time: %1$s %2$s (%3$s base time) " ),
                     to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
                     spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
                     to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time ) ) ) << '\n';
@@ -1621,6 +1621,9 @@ static void character_edit_menu()
         std::stringstream data;
         data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
              np->myclass->get_name() << std::endl;
+        if( !np->get_unique_id().empty() ) {
+            data << string_format( _( "Unique Id: %s" ), np->get_unique_id() ) << std::endl;
+        }
         data << string_format( _( "Faction: %s (api v%d)" ), np->get_faction()->id.str(),
                                np->get_faction_ver() ) << "; "
              << string_format( _( "Attitude: %s" ), npc_attitude_name( np->get_attitude() ) ) << std::endl;
@@ -1689,7 +1692,7 @@ static void character_edit_menu()
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attack" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
-    nmenu.addentry( D_WRITE_EOCS, true, 'w', "%s",
+    nmenu.addentry( D_WRITE_EOCS, true, 'W', "%s",
                     _( "Write effect_on_condition(s) to eocs.output" ) );
     nmenu.addentry( D_EDIT_VARS, true, 'v', "%s", _( "Edit vars" ) );
 

@@ -539,6 +539,11 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     if( !is_adjacent( &t, fov_3d ) ) {
         return false;
     }
+
+    // Max out recoil & reset aim point
+    recoil = MAX_RECOIL;
+    last_target_pos = cata::nullopt;
+
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
 }
 
@@ -1178,7 +1183,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
                                   const item &weap, std::string attack_vector, float crit_mod ) const
 {
     float bash_dam = 0.0f;
-    bool unarmed = attack_vector == "WEAPON";
+    bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
@@ -1340,7 +1345,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 {
     float cut_dam = mabuff_damage_bonus( damage_type::CUT ) + weap.damage_melee( damage_type::CUT );
     float cut_mul = 1.0f;
-    bool unarmed = attack_vector == "WEAPON";
+    bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_cutting );
@@ -1447,7 +1452,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
                                   const item &weap, std::string attack_vector, float crit_mod ) const
 {
     float stab_dam = mabuff_damage_bonus( damage_type::STAB ) + weap.damage_melee( damage_type::STAB );
-    bool unarmed = attack_vector == "WEAPON";
+    bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_stabbing );
@@ -1560,7 +1565,7 @@ void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*av
                                    const item &weap, std::string attack_vector, float /*crit_mod*/ ) const
 {
     std::map<std::string, damage_type> dt_map = get_dt_map();
-    bool unarmed = attack_vector == "WEAPON";
+    bool unarmed = attack_vector != "WEAPON";
 
     for( const std::pair<const std::string, damage_type> &dt : dt_map ) {
         damage_type type_name = dt.second;
