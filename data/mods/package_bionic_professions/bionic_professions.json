@@ -652,8 +652,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "jeans", "leather_belt", "boots_steel", "gloves_work", "glasses_safety", "hat_hard", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "items": [ "socks", "jeans", "leather_belt", "boots_steel", "gloves_work", "glasses_safety", "wristwatch" ],
+        "entries": [
+          { "item": "hat_hard", "variant": "yellow_hat_hard" },
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
