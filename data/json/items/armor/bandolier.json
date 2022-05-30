@@ -363,8 +363,8 @@
   {
     "id": "cheap_ammo_pouch_belt223",
     "type": "ARMOR",
-    "name": "cheap ammo bandolier",
-    "description": "lorem ipsum",
+    "name": "5.56x45 belt pouch",
+    "description": "Big pouch, designed to store a bulky ammo belt",
     "weight": "60 g",
     "volume": "40 ml",
     "price": 600,
@@ -390,8 +390,8 @@
   {
     "id": "cheap_ammo_pouch_belt308",
     "type": "ARMOR",
-    "name": "cheap ammo bandolier",
-    "description": "Small bandolier with pouches, designed to store a bunch of ammo clips or hold a whole mag.  This has 4 ",
+    "name": "7.62x51 belt pouch",
+    "description": "Big pouch, designed to store a bulky ammo belt.",
     "weight": "60 g",
     "volume": "40 ml",
     "price": 600,
