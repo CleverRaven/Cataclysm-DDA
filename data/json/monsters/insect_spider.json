@@ -1666,7 +1666,7 @@
     "speed": 100,
     "material": [ "iflesh" ],
     "symbol": "a",
-    "color": "dark_gray",
+    "color": "yellow",
     "aggression": -10,
     "melee_skill": 5,
     "melee_dice": 2,
@@ -1742,7 +1742,7 @@
     "attack_cost": 150,
     "material": [ "iflesh" ],
     "symbol": "a",
-    "color": "dark_gray",
+    "color": "yellow",
     "aggression": -5,
     "morale": 15,
     "melee_skill": 7,
@@ -1842,7 +1842,7 @@
     "dissect": "dissect_insect_sample_huge",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 4, "baby_timer": 5 },
     "extend": { "flags": [ "PUSH_MON" ] },
-    "delete": { "flags": [ "HARDTOSHOOT" ] }
+    "delete": { "flags": [ "HARDTOSHOOT", "FLIES" ] }
   },
   {
     "id": "mon_dermatik_larva",
