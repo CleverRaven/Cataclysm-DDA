@@ -36,8 +36,7 @@
   {
     "type": "item_group",
     "id": "gunmod_collection",
-    "container-item": "ammunition_can_30",
-    "items": [ { "item": "gunmod_rare" }, { "group": "gunmod_milspec" } ]
+    "items": [ { "group": "gunmod_rare" }, { "group": "gunmod_milspec" } ]
   },
   {
     "type": "item_group",
