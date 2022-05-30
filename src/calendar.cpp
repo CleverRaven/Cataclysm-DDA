@@ -333,7 +333,7 @@ time_point daylight_time( const time_point &p )
 
 bool is_night( const time_point &p )
 {
-    return sun_altitude( p ) <= nautical_dawn;
+    return sun_altitude( p ) <= civil_dawn;
 }
 
 bool is_day( const time_point &p )
@@ -344,7 +344,7 @@ bool is_day( const time_point &p )
 static bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
-    return altitude >= astronomical_dawn && altitude <= sunrise_angle;
+    return altitude >= civil_dawn && altitude <= sunrise_angle;
 }
 
 bool is_dusk( const time_point &p )
