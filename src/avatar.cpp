@@ -16,6 +16,7 @@
 #include "action.h"
 #include "activity_type.h"
 #include "activity_actor_definitions.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -106,38 +107,6 @@ static const itype_id itype_guidebook( "guidebook" );
 static const itype_id itype_mut_longpull( "mut_longpull" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
-
-static const matype_id style_aikido("style_aikido");
-static const matype_id style_barbaran("style_barbaran");
-static const matype_id style_biojutsu("style_biojutsu");
-static const matype_id style_bojutsu("style_bojutsu");
-static const matype_id style_boxing("style_boxing");
-static const matype_id style_capoeira("style_capoeira");
-static const matype_id style_centipede("style_centipede");
-static const matype_id style_crane("style_crane");
-static const matype_id style_dragon("style_dragon");
-static const matype_id style_eskrima("style_eskrima");
-static const matype_id style_fencing("style_fencing");
-static const matype_id style_judo("style_judo");
-static const matype_id style_karate("style_karate");
-static const matype_id style_krav_maga("style_krav_maga");
-static const matype_id style_leopard("style_leopard");
-static const matype_id style_lizard("style_lizard");
-static const matype_id style_muay_thai("style_muay_thai");
-static const matype_id style_ninjutsu("style_ninjutsu");
-static const matype_id style_niten("style_niten");
-static const matype_id style_pankration("style_pankration");
-static const matype_id style_scorpion("style_scorpion");
-static const matype_id style_silat("style_silat");
-static const matype_id style_snake("style_snake");
-static const matype_id style_sojutsu("style_sojutsu");
-static const matype_id style_taekwondo("style_taekwondo");
-static const matype_id style_tai_chi("style_tai_chi");
-static const matype_id style_tiger("style_tiger");
-static const matype_id style_toad("style_toad");
-static const matype_id style_venom_snake("style_venom_snake");
-static const matype_id style_wingchun("style_wingchun");
-static const matype_id style_zui_quan("style_zui_quan");
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
@@ -1794,41 +1763,6 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
     }
 }
 
-// ids of martial art styles that are available with the bio_cqb bionic.
-static const std::vector<matype_id> bio_cqb_styles{ {
-        style_aikido,
-        style_barbaran,
-        style_biojutsu,
-        style_bojutsu,
-        style_boxing,
-        style_capoeira,
-        style_centipede,
-        style_crane,
-        style_dragon,
-        style_eskrima,
-        style_fencing,
-        style_judo,
-        style_karate,
-        style_krav_maga,
-        style_leopard,
-        style_lizard,
-        style_muay_thai,
-        style_ninjutsu,
-        style_niten,
-        style_pankration,
-        style_scorpion,
-        style_silat,
-        style_snake,
-        style_sojutsu,
-        style_taekwondo,
-        style_tai_chi,
-        style_tiger,
-        style_toad,
-        style_venom_snake,
-        style_wingchun,
-        style_zui_quan
-    }};
-
 bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
 {
     enum style_selection {
@@ -1836,14 +1770,25 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
         STYLE_OFFSET
     };
 
+    // Check for martial art styles known from active bionics
+    std::set<matype_id> bio_styles;
+    for( const bionic &bio : *you.my_bionics ) {
+        const std::vector<matype_id> &bio_ma_list = bio.id->ma_styles;
+        if( !bio_ma_list.empty() && you.has_active_bionic( bio.id ) ) {
+            bio_styles.insert( bio_ma_list.begin(), bio_ma_list.end() );
+        }
+    }
+    std::vector<matype_id> selectable_styles;
+    if( bio_styles.empty() ) {
+        selectable_styles = ma_styles;
+    } else {
+        selectable_styles.insert( selectable_styles.begin(), bio_styles.begin(), bio_styles.end() );
+    }
+
     // If there are style already, cursor starts there
     // if no selected styles, cursor starts from no-style
 
     // Any other keys quit the menu
-    const std::vector<matype_id> &selectable_styles = you.has_active_bionic(
-                bio_cqb ) ? bio_cqb_styles :
-            ma_styles;
-
     input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
@@ -1883,9 +1828,6 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
 
     if( selection >= STYLE_OFFSET ) {
         // If the currect style is selected, do not change styles
-        if( style_selected == selectable_styles[selection - STYLE_OFFSET] ) {
-            return false;
-        }
 
         avatar &u = const_cast<avatar &>( you );
         style_selected->remove_all_buffs( u );
