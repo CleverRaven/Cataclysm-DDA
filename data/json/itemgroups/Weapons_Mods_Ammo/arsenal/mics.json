@@ -31,14 +31,20 @@
     "container-item": "ammunition_can_30",
     "subtype": "collection",
     "on_overflow": "spill",
-    "items": [ { "item": "bubblewrap", "count": 2 }, { "group": "gunmod_milspec", "count": 2 } ]
+    "items": [ { "item": "bubblewrap", "count": 2 }, { "group": "gunmod_collection", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunmod_collection",
+    "container-item": "ammunition_can_30",
+    "items": [ { "item": "gunmod_rare" }, { "group": "gunmod_milspec" } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_30_empty",
     "items": [ { "item": "ammunition_can_30" } ]
   },
-    {
+  {
     "type": "item_group",
     "id": "ammo_can_50_empty",
     "items": [ { "item": "ammunition_can_50" } ]
