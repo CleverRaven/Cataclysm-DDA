@@ -741,12 +741,12 @@
   {
     "id": "box_compact_wood",
     "type": "GENERIC",
-    "name": { "str": "compact wooden box", "str_pl": "compact wooden boxes" },
-    "copy-from": "ammunition_can_30",
-    "material": [ "wood" ],
-    "description": "Small wooden box with handle.",
+    "name": { "str": "tiny wooden box", "str_pl": "tiny wooden boxes" },
+    "copy-from": "box_small_wood",
+    "description": "A small wooden box with cap and small handles.",
     "weight": "200 g",
     "volume": "6000 ml",
+    "longest_side": "22 cm",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "4000 ml", "max_contains_weight": "80 kg" } ]
   },
   {
