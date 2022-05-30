@@ -752,7 +752,7 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     clear_avatar();
 
     item test_armguard( "test_armguard" );
-    item second_test_armguard( "test_armguard" );
+
 
     // check if you can swap a rigid armor
     REQUIRE( guy.wear( item_location( *guy.as_character(), &test_armguard ) ) );
@@ -766,9 +766,13 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     // check if you can't wear 3 rigid armors
     clear_avatar();
 
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &test_armguard ) ) );
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &test_armguard ) ) );
-    REQUIRE( !guy.wear( item_location( *guy.as_character(), &test_armguard ) ) );
+    item first_test_armguard( "test_armguard" );
+    item second_test_armguard( "test_armguard" );
+    item third_test_armguard( "test_armguard" );
+
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &first_test_armguard ) ) );
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &second_test_armguard ) ) );
+    REQUIRE( !guy.wear( item_location( *guy.as_character(), &third_test_armguard ) ) );
 }
 
 TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
@@ -779,6 +783,8 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
     item test_armguard( "test_armguard" );
     item second_test_armguard( "test_armguard" );
     item splint( "arm_splint" );
+    item second_splint( "arm_splint" );
+    item third_splint( "arm_splint" );
 
     // check if you can wear a splint
     clear_avatar();
@@ -797,17 +803,17 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
     // swap side to the broken arm side
     guy.change_side( *guy.worn.top_items_loc( guy ).front().get_item() );
     // should fail to wear
-    REQUIRE( !guy.wear( item_location( *guy.as_character(), &splint ) ) );
+    REQUIRE( !guy.wear( item_location( *guy.as_character(), &second_splint ) ) );
 
     // check if you can wear a splint if nothing rigid is on that arm
     clear_avatar();
 
     guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
 
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &test_armguard ) ) );
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &second_test_armguard ) ) );
 
     CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
 
     // should be able to wear the arm is open
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &splint ) ) );
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &third_splint ) ) );
 }
