@@ -1319,7 +1319,7 @@
     "type": "profession",
     "id": "seal",
     "name": "Navy SEAL",
-    "description": "Before the cataclysm you used to be a member of the SEALs: a key component of the US Navy’s special forces contingent, a highly trained soldier in all respects, and a proficient combatant in both maritime and ground operations.  Called upon to eliminate high-value targets and conduct specialised marine missions, the greatest test of your capabilities now rests before you.  'The only easy day was yesterday', and now its time to square your shoulders and embark on your last and hardest mission to date.",
+    "description": "Before the cataclysm you used to be a member of the SEALs: a key component of the US Navy’s special forces contingent, a highly trained soldier in all respects, and a proficient combatant in both maritime and ground operations.  Called upon to eliminate high-value targets and conduct specialized marine missions, the greatest test of your capabilities now rests before you.  'The only easy day was yesterday', and now it's time to square your shoulders and embark on your last and hardest mission to date.",
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "skills": [
