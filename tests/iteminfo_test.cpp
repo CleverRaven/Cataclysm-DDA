@@ -620,6 +620,74 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
                "  Vs. Agile: <color_c_yellow>2.46</color>"
                "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
+
+    SECTION( "stamina per swing" ) {
+        // Stamina cost per swing is dynamically calculated based on many different 
+        // factors, all outside the scope of these tests. Here we just hope they
+        // have the expected values in the item info summary.
+
+        std::vector<iteminfo_parts> stam = { iteminfo_parts::BASE_STAMINA };
+
+        CHECK( item_info_str( rock, stam ) ==
+            "--\n"
+            "<color_c_white>Stamina use</color>:"
+            " Costs about <color_c_yellow>1.00</color>%"
+            " stamina to swing.\n" );
+
+        CHECK( item_info_str( halligan, stam ) ==
+            "--\n"
+            "<color_c_white>Stamina use</color>:"
+            " Costs about <color_c_yellow>3.10</color>%"
+            " stamina to swing.\n" );
+
+        CHECK( item_info_str( mr_pointy, stam ) ==
+            "--\n"
+            "<color_c_white>Stamina use</color>:"
+            " Costs about <color_c_yellow>1.20</color>%"
+            " stamina to swing.\n" );
+
+        CHECK( item_info_str( arrow, stam ) ==
+            "--\n"
+            "<color_c_white>Stamina use</color>:"
+            " Costs about <color_c_yellow>0.50</color>%"
+            " stamina to swing.\n" );
+    }
+
+    SECTION( "base damage per stamina" ) {
+        // Damage per stamina is dynamically calculated based on many different factors, 
+        // all outside the scope of these tests. Here we just hope they
+        // have the expected values in the item info summary.
+
+        std::vector<iteminfo_parts> dpstam = { iteminfo_parts::BASE_DPSTAM };
+
+        CHECK( item_info_str( rock, dpstam ) ==
+            "--\n"
+            "Typical damage per stamina:\n"
+            "Best: <color_c_yellow>5.41</color>"
+            "  Vs. Agile: <color_c_yellow>2.25</color>"
+            "  Vs. Armored: <color_c_yellow>0.16</color>\n" );
+
+        CHECK( item_info_str( halligan, dpstam ) ==
+            "--\n"
+            "Typical damage per stamina:\n"
+            "Best: <color_c_yellow>3.12</color>"
+            "  Vs. Agile: <color_c_yellow>2.09</color>"
+            "  Vs. Armored: <color_c_yellow>0.93</color>\n" );
+            
+        CHECK(item_info_str( mr_pointy, dpstam ) ==
+            "--\n"
+            "Typical damage per stamina:\n"
+            "Best: <color_c_yellow>5.58</color>"
+            "  Vs. Agile: <color_c_yellow>3.02</color>"
+            "  Vs. Armored: <color_c_yellow>0.11</color>\n" );
+
+        CHECK(item_info_str(arrow, dpstam) ==
+            "--\n"
+            "Typical damage per stamina:\n"
+            "Best: <color_c_yellow>8.43</color>"
+            "  Vs. Agile: <color_c_yellow>4.82</color>"
+            "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
+    }
 }
 
 // Related JSON fields:
