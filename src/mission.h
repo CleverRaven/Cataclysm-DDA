@@ -182,6 +182,8 @@ struct mission_goal_condition_context {
     mission_goal_condition_context() = default;
     std::unique_ptr<talker> alpha;
     std::unique_ptr<talker> beta;
+    bool has_alpha = false;
+    bool has_beta = false;
     std::vector<mission *> missions_assigned;
     mutable std::string reason;
     bool by_radio = false;
