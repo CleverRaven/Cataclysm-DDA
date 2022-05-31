@@ -9,9 +9,10 @@ The first bit of content for Xedra Evolved revolves around a dimension that's re
 
 
 ### Shipping manifest
-15 Monsters
+14 Monsters
 2 professions
-2 Map Specials
-1 Map Extra
+3 Map Specials
+3 Map Extra
 A dozen or so items
+2 NPC classes
 And a plethora of other effects, furniture/terrain, missions, lore and other things necessary to support the above.
