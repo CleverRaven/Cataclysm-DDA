@@ -4811,6 +4811,9 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
     int dmg_bash = damage_melee( damage_type::BASH );
     int dmg_cut  = damage_melee( damage_type::CUT );
     int dmg_stab = damage_melee( damage_type::STAB );
+
+    Character &player_character = get_player_character();
+
     if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
         insert_separation_line( info );
         std::string sep;
@@ -4835,26 +4838,27 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         float stam_pct;
         std::map<std::string, double> dps_data;
 
+        bool base_tohit = parts->test( iteminfo_parts::BASE_TOHIT );
+        bool base_moves = parts->test( iteminfo_parts::BASE_MOVES );
         bool base_dps = parts->test( iteminfo_parts::BASE_DPS );
         bool base_stamina = parts->test( iteminfo_parts::BASE_STAMINA );
         bool base_dpstam = parts->test( iteminfo_parts::BASE_DPSTAM );
 
         if( base_stamina || base_dpstam ) {
-            avatar &c = get_avatar();
-            stam = c.get_total_melee_stamina_cost( this ) * -1;
-            stam_pct = truncf( ( float )stam * 1000.0 / c.get_stamina_max() ) / 10;
+            stam = player_character.get_total_melee_stamina_cost( this ) * -1;
+            stam_pct = truncf( stam * 1000.0 / player_character.get_stamina_max() ) / 10;
         }
 
         if( base_dps || base_dpstam ) {
             dps_data = dps( true, false );
         }
 
-        if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
+        if( base_tohit ) {
             info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
                                iteminfo::show_plus, type->m_to_hit );
         }
 
-        if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
+        if( base_moves ) {
             info.emplace_back( "BASE", _( "Base moves per attack: " ), "",
                                iteminfo::lower_is_better, attack_time() );
         }
@@ -4907,7 +4911,6 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         }
     }
 
-    Character &player_character = get_player_character();
     // display which martial arts styles character can use with this weapon
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
         const std::string valid_styles = player_character.martial_arts_data->enumerate_known_styles(
