@@ -927,7 +927,7 @@
     "type": "profession",
     "id": "marine",
     "name": { "male": "Marine Infantrymen", "female": "Marine Infantrywoman" },
-    "description": "Some call you a 'Jarhead', other’s a 'Devil Dog', and still others have dubbed you a 'Leatherneck'.  Before the cataclysm, you were a soldier of the US Marine Corps, a military professional forming the backbone to any amphibious  assault.  Whether it had been paratrooping out of helicopters or storming enemy strongholds, the name of the Marines had become renowned all across the world.  Now that that world has come to an end and military command has collapsed in on itself as far as you can tell, you suppose that its up to you to carry the memory of the Marines forwards into the cataclysm.",
+    "description": "Some call you a 'Jarhead', other’s a 'Devil Dog', and still others have dubbed you a 'Leatherneck'.  Before the cataclysm, you were a soldier of the US Marine Corps, a military professional forming the backbone to any amphibious assault.  Whether it had been paratrooping out of helicopters or storming enemy strongholds, the name of the Marines had become renowned all across the world.  Now that that world has come to an end and military command has collapsed in on itself as far as you can tell, you suppose that it's up to you to carry the memory of the Marines forwards into the cataclysm.",
     "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
