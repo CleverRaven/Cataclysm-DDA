@@ -6,7 +6,7 @@
     "name": { "str": "ammo belt linkage" },
     "description": "A small metal linkage from a disintegrating ammo belt.",
     "weight": "2 g",
-    "volume": "2ml",
+    "volume": "2 ml",
     "stackable": true,
     "material": [ "steel" ],
     "symbol": "=",

@@ -192,7 +192,7 @@
     "description": "A thick slab of salty cured bacon.  Shelf stable, precooked and ready-to-eat, it tastes better when reheated.",
     "price": 1900,
     "volume": "100 ml",
-    "//": "I am not sure how much a 'charge' is meant to be, but a slice is around 10mL displacement volume, with a weight of 8g and about 40kcal.  Based this on that.",
+    "//": "I am not sure how much a 'charge' is meant to be, but a slice is around 10 mL displacement volume, with a weight of 8g and about 40kcal.  Based this on that.",
     "price_postapoc": 500,
     "material": [ "flesh" ],
     "charges": 2,
@@ -1640,7 +1640,7 @@
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "raw murderball" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
-    "weight": "85g",
+    "weight": "85 g",
     "color": "pink",
     "spoils_in": "1 day",
     "comestible_type": "FOOD",

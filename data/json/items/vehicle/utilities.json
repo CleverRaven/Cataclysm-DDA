@@ -199,7 +199,7 @@
     "copy-from": "washing_machine",
     "id": "fridgetank",
     "name": { "str": "refrigerated tank" },
-    "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
+    "description": "A 60 L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
     "insulation": 10,
     "volume": "72 L",
     "weight": "48 kg",
@@ -218,7 +218,7 @@
     "copy-from": "fridgetank",
     "id": "heattank",
     "name": { "str": "heated tank" },
-    "description": "A 60L heated tank for keeping liquids from freezing.  Provides some insulation from outside weather."
+    "description": "A 60 L heated tank for keeping liquids from freezing.  Provides some insulation from outside weather."
   },
   {
     "type": "GENERIC",

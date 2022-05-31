@@ -76,7 +76,7 @@
     "price_postapoc": 450,
     "material": [ "wheat", "flesh" ],
     "primary_material": "processed_food",
-    "volume": "750ml",
+    "volume": "750 ml",
     "weight": "249 g",
     "charges": 3,
     "flags": [ "EATEN_HOT" ],

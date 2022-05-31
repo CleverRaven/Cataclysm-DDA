@@ -942,7 +942,7 @@
     "name": { "str": "PF-9 7-round magazine" },
     "description": "A standard 7-round steel box magazine for the Kel-Tec PF-9.",
     "weight": "60 g",
-    "volume": "65ml",
+    "volume": "65 ml",
     "price": 1900,
     "price_postapoc": 100,
     "material": [ "steel" ],

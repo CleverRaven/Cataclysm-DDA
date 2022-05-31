@@ -73,7 +73,7 @@
     "id": "digging_soil_loam_50L",
     "type": "item_group",
     "subtype": "collection",
-    "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
+    "//": "~50 L of loamy soil, sand, clay, and rocks from digging in generic dirt",
     "items": [
       { "item": "material_soil", "count": [ 8, 12 ] },
       { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },

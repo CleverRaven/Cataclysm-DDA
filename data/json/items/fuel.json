@@ -74,7 +74,7 @@
     "description": "A kerosene-based fuel used mainly by US military vehicles as a replacement for diesel and jet fuel, to simplify logistics.",
     "category": "fuel",
     "weight": "800 mg",
-    "volume": "200ml",
+    "volume": "200 ml",
     "price": 50,
     "price_postapoc": 1000,
     "looks_like": "diesel",

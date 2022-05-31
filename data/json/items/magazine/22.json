@@ -199,7 +199,7 @@
     "name": { "str": "J-22 6-round magazine" },
     "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
     "weight": "55 g",
-    "volume": "27ml",
+    "volume": "27 ml",
     "price": 2800,
     "price_postapoc": 100,
     "material": [ "steel" ],

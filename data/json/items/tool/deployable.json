@@ -41,7 +41,7 @@
   {
     "id": "55gal_firebarrel",
     "type": "TOOL",
-    "name": { "str": "fire barrel (200L)", "str_pl": "fire barrels (200L)" },
+    "name": { "str": "fire barrel (200 L)", "str_pl": "fire barrels (200 L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "20000 g",
     "volume": "200 L",
@@ -60,7 +60,7 @@
   {
     "id": "30gal_firebarrel",
     "type": "TOOL",
-    "name": { "str": "fire barrel (100L)", "str_pl": "fire barrels (100L)" },
+    "name": { "str": "fire barrel (100 L)", "str_pl": "fire barrels (100 L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "15000 g",
     "volume": "100 L",

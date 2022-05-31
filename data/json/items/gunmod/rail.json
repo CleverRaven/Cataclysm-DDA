@@ -62,7 +62,7 @@
     "name": { "str": "offset sight rail" },
     "description": "An additional rail set at 45° for attaching a secondary optic.",
     "weight": "40 g",
-    "volume": "125ml",
+    "volume": "125 ml",
     "price": 6000,
     "price_postapoc": 500,
     "install_time": "2 m",

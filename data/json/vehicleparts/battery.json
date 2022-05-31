@@ -179,7 +179,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
     },
     "durability": 20,
-    "folded_volume": "25ml",
+    "folded_volume": "25 ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
     "flags": [ "FOLDABLE", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
@@ -195,7 +195,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
     },
     "durability": 20,
-    "folded_volume": "35ml",
+    "folded_volume": "35 ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
     "flags": [ "FOLDABLE", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },

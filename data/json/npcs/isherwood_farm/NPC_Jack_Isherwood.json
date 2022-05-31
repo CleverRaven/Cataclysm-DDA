@@ -307,7 +307,7 @@
   {
     "id": "MISSION_ISHERWOOD_JACK_1",
     "type": "mission_definition",
-    "name": { "str": "Find 10 3L jars" },
+    "name": { "str": "Find 10 3 L jars" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,

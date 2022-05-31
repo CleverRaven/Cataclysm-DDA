@@ -310,7 +310,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Ethanol Burner CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500ml and accepts ethanol, methanol and denatured alcohol as fuel.",
+    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500 ml and accepts ethanol, methanol and denatured alcohol as fuel.",
     "price": 120000,
     "difficulty": 4
   },
@@ -1224,7 +1224,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Oil Generator CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A CBM that generates power out of lamp oil or motor oil.  It is fairly efficient and can store up to 750ml of fuel but works somewhat slowly.",
+    "description": "A CBM that generates power out of lamp oil or motor oil.  It is fairly efficient and can store up to 750 ml of fuel but works somewhat slowly.",
     "price": 120000,
     "difficulty": 4
   },

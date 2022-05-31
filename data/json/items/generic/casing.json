@@ -92,7 +92,7 @@
     "name": { "str": "7.62x51mm casing" },
     "description": "An empty casing from a 7.62x51mm M80 round.",
     "weight": "6 g",
-    "volume": "9ml"
+    "volume": "9 ml"
   },
   {
     "id": "32_casing",

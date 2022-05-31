@@ -563,7 +563,7 @@
     "name": { "str": "composite bow (heavy)", "str_pl": "composite bows (heavy)" },
     "description": "A traditionally-constructed bow made from wood, bone, and sinew.  It has a rather high draw weight.",
     "price": 32000,
-    "//": "90 lb draw weight, 28in draw, 70J, 0.464 slugs of momentum with a 0.066lb arrow.",
+    "//": "90 lb draw weight, 28in draw, 70J, 0.464 slugs of momentum with a 0.066 lb arrow.",
     "material": [ "wood", "bone" ],
     "flags": [
       "FIRE_TWOHAND",
@@ -672,7 +672,7 @@
     "name": { "str": "modern recurve bow" },
     "description": "A modern fiberglass bow that can be used effectively by those of somewhat above-average strength.",
     "price": 38000,
-    "//": "60in Fiberglass recurved bow at 26in draw, 80lb draw, 54J, 0.403 slugs with 30g arrow.",
+    "//": "60in Fiberglass recurved bow at 26in draw, 80 lb draw, 54J, 0.403 slugs with 30g arrow.",
     "material": [ "steel", "plastic" ],
     "flags": [
       "FIRE_TWOHAND",
@@ -934,7 +934,7 @@
     "name": { "str": "Olympic style target bow" },
     "description": "A highly refined, modern bow, but not all that useful, as the draw weight is very low.",
     "price": 72000,
-    "//": "60in, fiberglass limbs, aluminum riser, 28in draw, 50lb draw, 52J, 0.4 slugs",
+    "//": "60in, fiberglass limbs, aluminum riser, 28in draw, 50 lb draw, 52J, 0.4 slugs",
     "material": [ "wood" ],
     "flags": [
       "FIRE_TWOHAND",

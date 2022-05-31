@@ -272,7 +272,7 @@
       { "id": "bottle_glass", "description": " Craft: Bottle, Glass" },
       { "id": "flask_glass", "description": " Craft: Flask, Glass" },
       { "id": "glass_sheet", "description": " Craft: Sheet, Glass" },
-      { "id": "jar_3l_glass_sealed", "description": " Craft: 3L Jar, Glass" },
+      { "id": "jar_3l_glass_sealed", "description": " Craft: 3 L Jar, Glass" },
       { "id": "jar_glass_sealed", "description": " Craft: Jar, Glass" },
       { "id": "tempered_glass_sheet", "description": " Craft: Tempered Sheet, Glass" }
     ]

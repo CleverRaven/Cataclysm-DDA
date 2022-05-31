@@ -38,7 +38,7 @@
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
-    "//": "1 g of protein powder is 0.959 ml, 1 serving is 28g and 27ml",
+    "//": "1 g of protein powder is 0.959 ml, 1 serving is 28 g and 27 ml",
     "weight": "28 g",
     "volume": "243 ml",
     "price": 1100,
