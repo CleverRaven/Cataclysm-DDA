@@ -2223,7 +2223,10 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
                 wear_modifier = 0.0f;
             }
 
-            handle_melee_wear( shield, wear_modifier );
+            for( damage_unit &du : dam.damage_units ) {
+                shield.damage_armor_durability( du, bp_hit );
+            }
+
             block_score += block_bonus;
 
         } else {
