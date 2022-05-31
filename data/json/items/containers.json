@@ -97,7 +97,7 @@
     "type": "GENERIC",
     "category": "container",
     "looks_like": "30gal_drum",
-    "name": { "str": "steel drum (200L)", "str_pl": "steel drums (200L)" },
+    "name": { "str": "steel drum (200 L)", "str_pl": "steel drums (200 L)" },
     "description": "A massive steel barrel with a watertight lid.",
     "weight": "20000 g",
     "volume": "210 L",
