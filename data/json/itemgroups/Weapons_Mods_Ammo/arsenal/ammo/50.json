@@ -11,7 +11,6 @@
     "container-item": "ammunition_can_50",
     "items": [ { "group": "ammo_box_50bmg", "count": [ 1, 6 ] } ]
   },
-
   {
     "type": "item_group",
     "id": "ammo_box_50bmg",
