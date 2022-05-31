@@ -131,9 +131,10 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
         WHEN( "totally naked and exposed" ) {
             dummy.worn.clear();
 
-            THEN( "they lose about 118 focus per hour" ) {
+            // 60 times * 11 bodyparts * 0.25 chance for medium effect
+            THEN( "they lose about 165 focus per hour" ) {
                 focus_lost = test_suffer_focus_lost( dummy, 1_hours );
-                CHECK( focus_lost == Approx( 118 ).margin( 60 ) );
+                CHECK( focus_lost == Approx( 165 ).margin( 55 ) );
             }
 
             THEN( "they suffer about 2 pain per hour" ) {
@@ -167,14 +168,15 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
             WHEN( "not wearing sunglasses" ) {
                 REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
-                THEN( "they suffer about 1 pain per hour" ) {
+                // 60 times * 1 bodyparts * 0.1 chance for severe effect
+                THEN( "they suffer about 6 pain per hour" ) {
                     test_suffer( dummy, 1_hours );
-                    // This will pass if pain is between 0 and 6 in an hour
-                    CHECK( dummy.get_pain() == Approx( 1 ).margin( 5 ) );
+                    CHECK( dummy.get_pain() == Approx( 6 ).margin( 4 ) );
                 }
-                THEN( "they lose about 59 focus per hour" ) {
+                // 60 times * 1 bodyparts * 0.25 chance for medium effect
+                THEN( "they lose about 15 focus per hour" ) {
                     focus_lost = test_suffer_focus_lost( dummy, 1_hours );
-                    CHECK( focus_lost == Approx( 59 ).margin( 40 ) );
+                    CHECK( focus_lost == Approx( 15 ).margin( 10 ) );
                 }
             }
 
@@ -233,18 +235,18 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             THEN( "they suffer injuries on every body part" ) {
                 // Should lose an average of 1 HP per minute from each body part with hit points
                 // (head, torso, both arms, both legs)
-                // 1/minute * 0.5 * 2 (as two body parts contribute to each part with HP, e.g. l. arm + l. hand both damage l. arm)
+                // 60 * 0.1 * 2 (as two body parts contribute to each part with HP, e.g. l. arm + l. hand both damage l. arm)
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 1_hours );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
-                    CHECK( bp_hp_lost[bp] == Approx( 60 ).margin( 40 ) );
+                    CHECK( bp_hp_lost[bp] == Approx( 12 ).margin( 8 ) );
                 }
             }
 
             THEN( "they suffer pain several times a minute" ) {
-                // 1/minute * 0.5 * 11 (num body parts, excluding eyes)
+                // 60 * 0.25 * 11 (num body parts, excluding eyes)
                 pain_felt = test_suffer_pain_felt( dummy, 1_hours );
-                CHECK( pain_felt == Approx( 30 * 11 ).margin( 20 * 11 ) );
+                CHECK( pain_felt == Approx( 15 * 11 ).margin( 10 * 11 ) );
             }
         }
 
@@ -278,17 +280,18 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 1_hours );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
-                    if( bp == bodypart_id( "head" )) {
-                        CHECK( bp_hp_lost[bp] == Approx( 30 ).margin( 20 ) );
+                    if( bp == bodypart_id( "head" ) ) {
+                        // 60 * 0.1
+                        CHECK( bp_hp_lost[bp] == Approx( 6 ).margin( 4 ) );
                     } else {
                         CHECK( bp_hp_lost[bp] == 0 );
                     }
                 }
             }
             THEN( "they suffer pain" ) {
-                // 1/minute * 0.5
+                // 60 * 0.25
                 pain_felt = test_suffer_pain_felt( dummy, 1_hours );
-                CHECK( pain_felt == Approx( 30 ).margin( 20 ) );
+                CHECK( pain_felt == Approx( 15 ).margin( 10 ) );
             }
         }
 
@@ -305,12 +308,13 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                     if( bp.id().str() == "torso" ) {
                         CHECK( bp_hp_lost[bp] == 0 );
                     } else if( bp.id().str() == "arm_l" || bp.id().str() == "arm_r" ) {
-                        // Hands are exposed, and still lose 0.5 HP per minute
-                        CHECK( bp_hp_lost[bp] == Approx( 30 ).margin( 20 ) );
+                        // Hands are exposed
+                        // 60 * 0.1 * 1
+                        CHECK( bp_hp_lost[bp] == Approx( 6 ).margin( 4 ) );
                     } else {
-                        // All other parts lose 1 HP per minute
-                        // but legs+feet combine, and head+mouth combine (doubled damage)
-                        CHECK( bp_hp_lost[bp] == Approx( 60 ).margin( 40 ) );
+                        // legs+feet combine, and head+mouth combine (doubled damage)
+                        // 60 * 0.1 * 2
+                        CHECK( bp_hp_lost[bp] == Approx( 12 ).margin( 8 ) );
                     }
                 }
             }
@@ -329,10 +333,10 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                     // CHECK( focus_lost == Approx( 59 ).margin( 40 ) );
                 }
                 THEN( "they suffer pain" ) {
-                    // Only about 3 pain per hour from exposed eyes
-                    // This assertion will pass when pain is between 0 and 13 in an hour
+                    // 60 * 0.25
+                    // from exposed eyes as they count as a fully exposed body part
                     pain_felt = test_suffer_pain_felt( dummy, 1_hours );
-                    CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
+                    CHECK( pain_felt == Approx( 15 ).margin( 10 ) );
                 }
             }
 

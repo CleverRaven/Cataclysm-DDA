@@ -824,7 +824,6 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( you.has_trait( trait_SUNBURN ) ) {
-        debugmsg( "Starting severe sunburn" );
         suffer::from_sunburn( you, true );
     }
 
@@ -884,8 +883,8 @@ static float linear_interpolation( float x_start, float y_start, float x_end, fl
         return y_end;
     }
     float interval = x_end - x_start;
-    float percentage = ( x - x_start ) / interval;
-    return percentage * y_start + ( 1 - percentage ) * y_end;
+    float perc_to_end = ( x - x_start ) / interval;
+    return ( 1 - perc_to_end ) * y_start + perc_to_end * y_end;
 }
 
 static float light_eff_chance( float exp )
@@ -897,19 +896,19 @@ static float light_eff_chance( float exp )
 static float medium_eff_chance( float exp )
 {
     // Starts at 5%, peaks at 30%
-    return linear_interpolation( 0.05, 0.0, 0.3, 1.0, exp );
+    return linear_interpolation( 0.05, 0.0, 0.55, 0.25, exp );
 }
 
 static float heavy_eff_chance( float exp )
 {
-    // Starts at 15%, increases to 0.5 at 100%
-    return linear_interpolation( 0.15, 0.0, 1.0, 0.5, exp );
+    // Starts at 15%, increases to 0.1 at 100%
+    return linear_interpolation( 0.15, 0.0, 1.0, 0.1, exp );
 }
 
 void suffer::from_sunburn( Character &you, const bool severe )
 {
+    // Sunburn effects and albinism/datura occur about once per minute
     if( !one_turn_in( 1_minutes ) ) {
-        // Sunburn effects and albinism/datura occur about once per minute
         return;
     }
 
@@ -1018,6 +1017,7 @@ void suffer::from_sunburn( Character &you, const bool severe )
     }
 
     Sunburn worst_effect = None;
+    bool contains_eyes = false;
 
     for( const std::pair<const bodypart_id, Sunburn> &exp_bp : affected_bodyparts ) {
         const bodypart_id &bp = exp_bp.first;
@@ -1027,6 +1027,7 @@ void suffer::from_sunburn( Character &you, const bool severe )
         }
         if( effect > worst_effect ) {
             worst_effect = effect;
+            contains_eyes = false;
             excluded_other_parts.clear();
             affected_part_names.clear();
         }
@@ -1036,6 +1037,9 @@ void suffer::from_sunburn( Character &you, const bool severe )
         // If same, it's a central body part with no opposite, like head or torso.
         // Used to generate a simpler message when both arms or both legs are affected.
         int count_limbs = 1;
+        if( bp == bodypart_id( "eyes" ) ) {
+            contains_eyes = true;
+        }
         if( bp != opposite_bp ) {
             const auto found = affected_bodyparts.find( opposite_bp );
             // Is opposite part exposed to the same level?
@@ -1057,9 +1061,13 @@ void suffer::from_sunburn( Character &you, const bool severe )
 
     const std::string all_parts_list = enumerate_as_string( affected_part_names );
 
-    std::string message;
+    // s is a list of body parts.  The plurality integer is the total
+    // number of body parts plus a correction if the eyes are included
+    const int plurality = affected_part_names.size() + contains_eyes;
 
-    auto warn_and_wake_up = [ &you, &message, all_parts_list]( game_message_type type ) {
+    auto warn_and_wake_up = [ &you, &all_parts_list, &plurality]( std::string singular, std::string plural, game_message_type type ) {
+        std::string message = n_gettext( singular, plural, plurality );
+
         you.add_msg_if_player( type, message, all_parts_list );
         // Wake up from skin irritation/burning
         if( you.has_effect( effect_sleep ) ) {
@@ -1067,26 +1075,21 @@ void suffer::from_sunburn( Character &you, const bool severe )
         }
     };
 
-    //~ %s is a list of body parts.  The plurality integer is the total
-    //~ number of body parts
     switch( worst_effect ) {
         case Damage:
-            message = n_gettext( "Your %s is bathed in sunlight. It feels like it is burning up.",
-                                 "Your %s are bathed in sunlight. They feel like they are burning up.",
-                                 affected_part_names.size() );
-            warn_and_wake_up( m_bad );
+            warn_and_wake_up( "Your %s is bathed in sunlight. It feels like it is burning up.",
+                              "Your %s are bathed in sunlight. They feel like they are burning up.",
+                              m_bad );
             break;
         case Pain:
-            message = n_gettext( "The sunlight burns on your %s.",
-                                 "The sunlight burns on your %s.",
-                                 affected_part_names.size() );
-            warn_and_wake_up( m_bad );
+            warn_and_wake_up( "The sunlight burns on your %s.",
+                              "The sunlight burns on your %s.",
+                              m_bad );
             break;
         case Focus_Loss:
-            message = n_gettext( "The sunlight on your %s irritates you.",
-                                 "The sunlight on your %s irritates you.",
-                                 affected_part_names.size() );
-            warn_and_wake_up( m_bad );
+            warn_and_wake_up( "The sunlight on your %s irritates you.",
+                              "The sunlight on your %s irritates you.",
+                               m_bad );
             break;
         case None:
             break;
