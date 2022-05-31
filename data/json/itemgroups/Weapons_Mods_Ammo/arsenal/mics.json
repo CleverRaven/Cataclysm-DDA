@@ -37,15 +37,5 @@
     "type": "item_group",
     "id": "gunmod_collection",
     "items": [ { "group": "gunmod_rare" }, { "group": "gunmod_milspec" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_30_empty",
-    "items": [ { "item": "ammunition_can_30" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_50_empty",
-    "items": [ { "item": "ammunition_can_50" } ]
   }
 ]

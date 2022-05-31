@@ -9,7 +9,7 @@
       { "group": "nested_m107a1_no_ammo", "count": [ 1, 2 ], "prob": 10 },
       { "group": "ammo_can_50bmg_full", "prob": 30 },
       { "group": "ammo_can_50bmg_part", "prob": 80, "count": [ 1, 2 ] },
-      { "group": "ammo_can_50_empty", "count": [ 1, 2 ] },
+      { "item": "ammunition_can_50", "count": [ 1, 2 ] },
       { "group": "arsenal_mics_collection", "prob": 70 },
       { "group": "grenade_can_pa120_grenades", "prob": 5 },
       { "group": "c4_box", "prob": 5 }

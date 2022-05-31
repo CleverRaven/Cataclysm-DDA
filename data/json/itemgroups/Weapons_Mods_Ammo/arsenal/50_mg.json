@@ -6,7 +6,8 @@
     "items": [
       { "item": "m2browning", "count": 1, "prob": 70 },
       { "item": "m2browning", "count": 1, "prob": 15 },
-      { "group": "ammo_can_belt50_full", "prob": 50, "count": [ 1, 3 ] },
+      { "group": "ammo_can_belt50_full", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "ammunition_can_50", "count": [ 1, 3 ] },
       { "group": "arsenal_mics_collection", "prob": 70 },
       { "group": "grenade_can_pa120_grenades", "prob": 5 },
       { "group": "c4_box", "prob": 5 }

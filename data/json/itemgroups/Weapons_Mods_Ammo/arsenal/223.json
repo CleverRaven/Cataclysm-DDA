@@ -10,7 +10,7 @@
       { "group": "milspec_arsenal_223", "count": [ 1, 2 ], "prob": 10 },
       { "group": "ammo_can_ammo_pouch_223_full", "prob": 30 },
       { "group": "ammo_can_ammo_pouch_223_part", "prob": 80, "count": [ 1, 2 ] },
-      { "group": "ammo_can_30_empty", "count": [ 2, 4 ] },
+      { "item": "ammunition_can_30", "count": [ 2, 4 ] },
       { "group": "arsenal_mics_collection", "prob": 70 },
       { "group": "grenade_can_pa120_grenades", "prob": 5 },
       { "group": "c4_box", "prob": 5 }
