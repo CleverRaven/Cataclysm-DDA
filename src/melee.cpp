@@ -907,14 +907,14 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     return true;
 }
 
-int Character::get_base_melee_stamina_cost( const item& weap ) const
+int Character::get_base_melee_stamina_cost(const item* weap ) const
 {
-    return std::min( -50, get_standard_stamina_cost( &weap ) );
+    return std::min( -50, get_standard_stamina_cost( weap ) );
 }
 
-int Character::get_total_melee_stamina_cost( const item& weap ) const
+int Character::get_total_melee_stamina_cost( const item* weap ) const
 {
-    const int mod_sta = get_standard_stamina_cost( &weap );
+    const int mod_sta = get_standard_stamina_cost( weap );
     const int melee = get_skill_level( skill_melee );
     const int stance_malus = is_on_ground() ? 50 : ( is_crouching() ? 20 : 0 );
 
