@@ -355,7 +355,7 @@ float Character::hit_roll() const
 
     // Farsightedness makes us hit worse
     if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-            !has_effect( effect_contacts ) ) {
+        !has_effect( effect_contacts ) ) {
         hit -= 2.0f;
     }
 
@@ -473,28 +473,28 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 
     auto dt_to_ench_dt = []( damage_type dt ) {
         switch( dt ) {
-        case damage_type::ACID:
-            return enchant_vals::mod::ITEM_DAMAGE_ACID;
-        case damage_type::BASH:
-            return enchant_vals::mod::ITEM_DAMAGE_BASH;
-        case damage_type::BIOLOGICAL:
-            return enchant_vals::mod::ITEM_DAMAGE_BIO;
-        case damage_type::BULLET:
-            return enchant_vals::mod::ITEM_DAMAGE_BULLET;
-        case damage_type::COLD:
-            return enchant_vals::mod::ITEM_DAMAGE_COLD;
-        case damage_type::CUT:
-            return enchant_vals::mod::ITEM_DAMAGE_CUT;
-        case damage_type::ELECTRIC:
-            return enchant_vals::mod::ITEM_DAMAGE_ELEC;
-        case damage_type::HEAT:
-            return enchant_vals::mod::ITEM_DAMAGE_HEAT;
-        case damage_type::STAB:
-            return enchant_vals::mod::ITEM_DAMAGE_STAB;
-        case damage_type::PURE:
-            return enchant_vals::mod::ITEM_DAMAGE_PURE;
-        default:
-            return enchant_vals::mod::NUM_MOD;
+            case damage_type::ACID:
+                return enchant_vals::mod::ITEM_DAMAGE_ACID;
+            case damage_type::BASH:
+                return enchant_vals::mod::ITEM_DAMAGE_BASH;
+            case damage_type::BIOLOGICAL:
+                return enchant_vals::mod::ITEM_DAMAGE_BIO;
+            case damage_type::BULLET:
+                return enchant_vals::mod::ITEM_DAMAGE_BULLET;
+            case damage_type::COLD:
+                return enchant_vals::mod::ITEM_DAMAGE_COLD;
+            case damage_type::CUT:
+                return enchant_vals::mod::ITEM_DAMAGE_CUT;
+            case damage_type::ELECTRIC:
+                return enchant_vals::mod::ITEM_DAMAGE_ELEC;
+            case damage_type::HEAT:
+                return enchant_vals::mod::ITEM_DAMAGE_HEAT;
+            case damage_type::STAB:
+                return enchant_vals::mod::ITEM_DAMAGE_STAB;
+            case damage_type::PURE:
+                return enchant_vals::mod::ITEM_DAMAGE_PURE;
+            default:
+                return enchant_vals::mod::NUM_MOD;
         }
     };
 
@@ -743,7 +743,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // In the case of a pike, the mass of the pole behind the wielder
         // should they choose to employ it up close will unbalance them.
         if( cur_weapon->reach_range( *this ) > 1 && !reach_attacking &&
-                cur_weapon->has_flag( flag_POLEARM ) ) {
+            cur_weapon->has_flag( flag_POLEARM ) ) {
             d.mult_damage( 0.7 );
         }
         // being prone affects how much leverage you can use to deal damage
@@ -793,9 +793,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             attack.weapon = cur_weapon;
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam, attack, &target_bp );
             if( dealt_special_dam.type_damage( damage_type::CUT ) > 0 ||
-                    dealt_special_dam.type_damage( damage_type::STAB ) > 0 ||
-                    ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
-                            dealt_dam.type_damage( damage_type::STAB ) > 0 ) ) ) {
+                dealt_special_dam.type_damage( damage_type::STAB ) > 0 ||
+                ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
+                        dealt_dam.type_damage( damage_type::STAB ) > 0 ) ) ) {
                 if( has_trait( trait_POISONOUS ) ) {
                     if( t.is_monster() ) {
                         t.add_effect( effect_venom_player1, 1_minutes );
@@ -891,7 +891,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     const int total_stam = get_total_melee_stamina_cost();
 
     mod_stamina( std::min( -50, total_stam + deft_bonus ) );
-    add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam, total_stam + deft_bonus );
+    add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
+                   total_stam + deft_bonus );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
     mod_moves( -move_cost * ( 1 / weary_mult ) );
@@ -907,14 +908,14 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     return true;
 }
 
-int Character::get_base_melee_stamina_cost( const item& weap ) const
+int Character::get_base_melee_stamina_cost( const item *weap ) const
 {
-    return std::min( -50, get_standard_stamina_cost( &weap ) );
+    return std::min( -50, get_standard_stamina_cost( weap ) );
 }
 
-int Character::get_total_melee_stamina_cost( const item& weap ) const
+int Character::get_total_melee_stamina_cost( const item *weap ) const
 {
-    const int mod_sta = get_standard_stamina_cost( &weap );
+    const int mod_sta = get_standard_stamina_cost( weap );
     const int melee = get_skill_level( skill_melee );
     const int stance_malus = is_on_ground() ? 50 : ( is_crouching() ? 20 : 0 );
 
@@ -955,8 +956,8 @@ void Character::reach_attack( const tripoint &p )
         Creature *inter = creatures.creature_at( path_point );
         /** @EFFECT_STABBING decreases chance of hitting intervening target on reach attack */
         if( inter != nullptr &&
-                !x_in_y( ( target_size * target_size + 1 ) * skill,
-                         ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
+            !x_in_y( ( target_size * target_size + 1 ) * skill,
+                     ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
             // Even if we miss here, low roll means weapon is pushed away or something like that
             critter = inter;
             break;
@@ -1111,14 +1112,14 @@ float Character::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-            has_effect( effect_winded ) || is_driving() ) {
+        has_effect( effect_winded ) || is_driving() ) {
         return 0.0f;
     }
 
     float ret = Creature::get_dodge();
     // Chop in half if we are unable to move
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) ||
-            has_effect( effect_heavysnare ) ) {
+        has_effect( effect_heavysnare ) ) {
         ret /= 2;
     }
 
@@ -1137,8 +1138,8 @@ float Character::get_dodge() const
     }
 
     if( worn_with_flag( flag_ROLLER_INLINE ) ||
-            worn_with_flag( flag_ROLLER_QUAD ) ||
-            worn_with_flag( flag_ROLLER_ONE ) ) {
+        worn_with_flag( flag_ROLLER_QUAD ) ||
+        worn_with_flag( flag_ROLLER_ONE ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
 
@@ -1583,7 +1584,7 @@ void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*av
         damage_type type_name = dt.second;
 
         if( type_name == damage_type::BASH || type_name == damage_type::CUT ||
-                type_name == damage_type::STAB ) {
+            type_name == damage_type::STAB ) {
             continue;
         }
 
@@ -1722,7 +1723,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
         std::vector<std::string> shuffled_attack_vectors = tec.attack_vectors_random;
         std::shuffle( shuffled_attack_vectors.begin(), shuffled_attack_vectors.end(), rng_get_engine() );
         if( martial_arts_data->get_valid_attack_vector( *this, tec.attack_vectors ) == "NONE" &&
-                martial_arts_data->get_valid_attack_vector( *this, shuffled_attack_vectors ) == "NONE" ) {
+            martial_arts_data->get_valid_attack_vector( *this, shuffled_attack_vectors ) == "NONE" ) {
             continue;
         }
 
@@ -2132,7 +2133,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // Shouldn't block if player is asleep or winded
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-            has_effect( effect_winded ) || is_driving() ) {
+        has_effect( effect_winded ) || is_driving() ) {
         return false;
     }
 
@@ -2263,7 +2264,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         // block physical damage "normally"
         if( elem.type == damage_type::BASH || elem.type == damage_type::CUT ||
-                elem.type == damage_type::STAB ) {
+            elem.type == damage_type::STAB ) {
             // use up our flat block bonus first
             float block_amount = std::min( total_phys_block, elem.amount );
             total_phys_block -= block_amount;
@@ -2390,7 +2391,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     std::string target = t.disp_name();
 
     if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
-            ( weap.is_null() || weapon.conductive() ) ) {
+        ( weap.is_null() || weapon.conductive() ) ) {
         mod_power_level( -bio_shock->power_trigger );
         d.add_damage( damage_type::ELECTRIC, rng( 2, 10 ) );
 
@@ -2441,8 +2442,8 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     // only consider portion of weapon made of glass
     const int vol = weap.volume() * glass_fraction / 250_ml;
     if( glass_portion &&
-            /** @ARM_STR increases chance of breaking glass weapons (NEGATIVE) */
-            rng_float( 0.0f, vol + 8 ) < vol + get_arm_str() ) {
+        /** @ARM_STR increases chance of breaking glass weapons (NEGATIVE) */
+        rng_float( 0.0f, vol + 8 ) < vol + get_arm_str() ) {
         if( is_avatar() ) {
             dump += string_format( _( "Your %s shatters!" ), weap.tname() ) + "\n";
         } else {
@@ -2496,7 +2497,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
         if( u.get_wielded_item().is_two_handed( u ) || !u.has_two_arms_lifting() ||
-                u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
+            u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
             num_attacks--;
         }
 
