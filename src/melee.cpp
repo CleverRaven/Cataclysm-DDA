@@ -1967,7 +1967,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
 
-    if( technique.side_switch ) {
+    if( technique.side_switch && !t.has_flag( MF_IMMOBILE ) ) {
         const tripoint b = t.pos();
         point new_;
 
@@ -1993,7 +1993,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
     map &here = get_map();
-    if( technique.knockback_dist ) {
+    if( technique.knockback_dist && !t.has_flag( MF_IMMOBILE ) ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
