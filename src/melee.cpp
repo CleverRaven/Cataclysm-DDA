@@ -2002,7 +2002,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             t.knock_back_from( kb_point );
         }
 
-        if( t.as_character()->in_vehicle ) {
+        Character *passenger = t.as_character();
+        if( passenger && passenger->in_vehicle ) {
             here.unboard_vehicle( prev_pos );
         }
 
