@@ -2001,6 +2001,11 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
+
+        if( t.as_character()->in_vehicle ) {
+            here.unboard_vehicle( prev_pos );
+        }
+
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow ) {
             const optional_vpart_position vp0 = here.veh_at( pos() );
