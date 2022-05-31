@@ -154,7 +154,15 @@
     "food_supply": 115200,
     "wealth": 75000000,
     "currency": "FMCNote",
-    "price_rules": [ { "item": "money_strap_FMCNote", "fixed_adj": 0 }, { "item": "money_bundle_FMCNote", "fixed_adj": 0 } ],
+    "price_rules": [
+      { "item": "money_strap_FMCNote", "fixed_adj": 0 },
+      { "item": "money_bundle_FMCNote", "fixed_adj": 0 },
+      {
+        "item": "RobofacCoin",
+        "fixed_adj": 0.15,
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 2 } ] }
+      }
+    ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,
