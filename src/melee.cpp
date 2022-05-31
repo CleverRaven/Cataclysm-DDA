@@ -2021,7 +2021,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
                 ( veh0 != nullptr && veh0->player_in_control( get_avatar() ) ) || // Player is driving
-                has_effect( effect_amigara );
+                has_effect( effect_amigara ) ||
+                has_effect( effect_grabbed );
 
             if( !move_issue ) {
                 if( t.pos() != prev_pos ) {
