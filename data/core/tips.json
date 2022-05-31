@@ -622,7 +622,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Everything from thirst to pain can slow you down in combat. Check your speed in the @ menu." ]
+    "text": [ "Pain can slow you down tremendously and reduces your stats. Check your speed in the @ menu." ]
   },
   {
     "type": "snippet",
@@ -647,7 +647,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Your character can keep a diary.  Use it to roleplay, take notes, or keep score." ]
+    "text": [ "You can keep a diary if you set the keybinding.  Use it to roleplay, take notes, and keep score." ]
   },
   {
     "type": "snippet",
@@ -668,5 +668,15 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Feral humans are smarter than zombies.  They throw rocks and can even open doors.  Watch out!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "If you want something to stop existing, setting it on fire is a tried and true method." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The higher up you are, the farther you can see on the overmap." ]
   }
 ]
