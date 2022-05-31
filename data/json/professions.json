@@ -983,7 +983,7 @@
     "type": "profession",
     "id": "sailor",
     "name": "Naval Sailor",
-    "description": "You’re a grizzled sailor of the US Navy, having spent the last few years working shipside abord an aircraft carrier.  Maintaining your vessel had been your primary duty: conducting needed repairs, and generally being one of hundreds of people who’s job it was to insure that things were shipshape and running smoothly.  Now that your ship has become a floating graveyard, you’re not too sure that all the monkey wrenches and mugs of coffee in the world can patch up this particular problem.",
+    "description": "You’re a grizzled sailor of the US Navy, having spent the last few years working shipside aboard an aircraft carrier.  Maintaining your vessel had been your primary duty: conducting needed repairs, and generally being one of hundreds of people whose job it was to insure that things were shipshape and running smoothly.  Now that your ship has become a floating graveyard, you’re not too sure that all the monkey wrenches and mugs of coffee in the world can patch up this particular problem.",
     "points": 4,
     "proficiencies": [ "prof_pneumatics", "prof_basic_engines", "prof_metalworking", "prof_welding_basic", "prof_welding" ],
     "skills": [
