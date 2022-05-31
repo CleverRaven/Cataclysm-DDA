@@ -674,19 +674,19 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
                "  Vs. Agile: <color_c_yellow>2.09</color>"
                "  Vs. Armored: <color_c_yellow>0.93</color>\n" );
 
-        CHECK(item_info_str( mr_pointy, dpstam ) ==
-              "--\n"
-              "Typical damage per stamina:\n"
-              "Best: <color_c_yellow>5.58</color>"
-              "  Vs. Agile: <color_c_yellow>3.02</color>"
-              "  Vs. Armored: <color_c_yellow>0.11</color>\n" );
+        CHECK( item_info_str( mr_pointy, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>5.58</color>"
+               "  Vs. Agile: <color_c_yellow>3.02</color>"
+               "  Vs. Armored: <color_c_yellow>0.11</color>\n" );
 
-        CHECK(item_info_str(arrow, dpstam) ==
-              "--\n"
-              "Typical damage per stamina:\n"
-              "Best: <color_c_yellow>8.43</color>"
-              "  Vs. Agile: <color_c_yellow>4.82</color>"
-              "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
+        CHECK( item_info_str( arrow, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>8.43</color>"
+               "  Vs. Agile: <color_c_yellow>4.82</color>"
+               "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 }
 
