@@ -2217,14 +2217,11 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         add_msg_debug( debugmode::DF_MELEE, "Block score after multiplier %d", block_score );
         if( worn_shield && shield.covers( bp_hit ) ) {
             thing_blocked_with = shield.tname();
-            // TODO: Change this depending on damage blocked
-            float wear_modifier = 1.0f;
-            if( source != nullptr && source->is_hallucination() ) {
-                wear_modifier = 0.0f;
-            }
 
-            for( damage_unit &du : dam.damage_units ) {
-                shield.damage_armor_durability( du, bp_hit );
+            if( source != nullptr && !source->is_hallucination() ) {
+                for( damage_unit &du : dam.damage_units ) {
+                    shield.damage_armor_durability( du, bp_hit );
+                }
             }
 
             block_score += block_bonus;
