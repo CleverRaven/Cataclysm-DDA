@@ -975,6 +975,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
 | available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
 | encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
+| known_ma_styles             | (_optional_) A list of martial art styles that are known to the wearer when the bionic is activated
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations          | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
