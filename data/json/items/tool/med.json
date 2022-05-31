@@ -106,7 +106,7 @@
     "name": { "str": "syringe" },
     "description": "A medical syringe.  Used for administering intravenous drugs.",
     "weight": "4240 mg",
-    "volume": "10ml",
+    "volume": "10 ml",
     "longest_side": "10 cm",
     "price": 2500,
     "price_postapoc": 10,

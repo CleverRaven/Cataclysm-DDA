@@ -74,7 +74,7 @@
   {
     "id": "cvd_diamond",
     "type": "requirement",
-    "//": "Materials required to apply diamond coating (per 250ml volume)",
+    "//": "Materials required to apply diamond coating (per 250 mL volume)",
     "components": [ [ [ "plasma", 5 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
   },
   {
@@ -92,7 +92,7 @@
   {
     "id": "nanofabricator",
     "type": "requirement",
-    "//": "Materials required by the nanofabricator to create an item (per 250ml volume)",
+    "//": "Materials required by the nanofabricator to create an item (per 250 mL volume)",
     "components": [ [ [ "nanomaterial", 5 ] ] ]
   },
   {

@@ -33,7 +33,7 @@
     "type": "GENERIC",
     "name": { "str": "40mm grenade belt linkage" },
     "weight": "10 g",
-    "volume": "10ml",
+    "volume": "10 ml",
     "use_action": { "type": "ammobelt", "belt": "belt40mm" }
   },
   {

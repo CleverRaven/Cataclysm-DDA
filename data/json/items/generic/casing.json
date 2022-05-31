@@ -17,7 +17,7 @@
     "name": { "str": ".223 casing" },
     "description": "An empty casing from a .223 round.",
     "weight": "5 g",
-    "volume": "5ml"
+    "volume": "5 ml"
   },
   {
     "id": "22_casing",
@@ -52,7 +52,7 @@
     "name": { "str": ".30-06 casing" },
     "description": "An empty casing from a .30-06 round.",
     "weight": "7 g",
-    "volume": "10ml"
+    "volume": "10 ml"
   },
   {
     "id": "270win_casing",
@@ -62,7 +62,7 @@
     "name": { "str": ".270 Winchester casing" },
     "description": "An empty casing from a .270 Winchester round.",
     "weight": "7 g",
-    "volume": "10ml"
+    "volume": "10 ml"
   },
   {
     "id": "300_casing",
@@ -72,7 +72,7 @@
     "name": { "str": ".300 Win Mag casing" },
     "description": "An empty casing from a .300 Winchester Magnum round.",
     "weight": "7 g",
-    "volume": "10ml"
+    "volume": "10 ml"
   },
   {
     "id": "308_casing",
@@ -82,7 +82,7 @@
     "name": { "str": ".308 casing" },
     "description": "An empty casing from a .308 round.",
     "weight": "6 g",
-    "volume": "9ml"
+    "volume": "9 ml"
   },
   {
     "id": "762_51_casing",
@@ -102,7 +102,7 @@
     "name": { "str": ".32 ACP casing" },
     "description": "An empty casing from a .32 ACP round.",
     "weight": "2 g",
-    "volume": "3ml"
+    "volume": "3 ml"
   },
   {
     "id": "38_casing",
@@ -112,7 +112,7 @@
     "name": { "str": ".38 Special casing" },
     "description": "An empty casing from a .38 Special round.",
     "weight": "3 g",
-    "volume": "4ml"
+    "volume": "4 ml"
   },
   {
     "id": "38super_casing",
@@ -122,7 +122,7 @@
     "name": { "str": ".38 Super casing" },
     "description": "An empty casing from a .38 Super round.",
     "weight": "3 g",
-    "volume": "4ml"
+    "volume": "4 ml"
   },
   {
     "id": "40_casing",
@@ -132,7 +132,7 @@
     "name": { "str": ".40 S&W casing" },
     "description": "An empty casing from a .40 S&W round.",
     "weight": "3 g",
-    "volume": "5ml"
+    "volume": "5 ml"
   },
   {
     "id": "10mm_casing",
@@ -142,7 +142,7 @@
     "name": { "str": "10mm Auto casing" },
     "description": "An empty casing from a 10mm Auto round.",
     "weight": "3 g",
-    "volume": "5ml"
+    "volume": "5 ml"
   },
   {
     "id": "40x46mm_m212_casing",
@@ -151,7 +151,7 @@
     "name": { "str": "40x46mm M212 casing" },
     "description": "A large casing from a spent 40x46mm cartridge, which used to hold a less-lethal projectile.",
     "weight": "50 g",
-    "volume": "55ml",
+    "volume": "55 ml",
     "material": [ "steel" ],
     "stackable": true,
     "symbol": "=",
@@ -164,7 +164,7 @@
     "name": { "str": "40x46mm M118 casing" },
     "description": "A large casing from a spent 40x46mm cartridge, which used to hold a HEDP grenade.  Suitable for reloading with buckshot, slug or flechette loads.",
     "weight": "50 g",
-    "volume": "58ml",
+    "volume": "58 ml",
     "material": [ "steel" ],
     "stackable": true,
     "symbol": "=",
@@ -177,7 +177,7 @@
     "name": { "str": "40x46mm M199 casing" },
     "description": "A large casing from a spent 40x46mm cartridge, which used to hold a buckshot load.  Suitable for reloading with buckshot, slug or flechette loads.",
     "weight": "50 g",
-    "volume": "59ml",
+    "volume": "59 ml",
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
@@ -190,7 +190,7 @@
     "name": { "str": "40x46mm M195 casing" },
     "description": "A large casing from a spent 40x46mm cartridge, which used to hold a tear gas canister.",
     "weight": "50 g",
-    "volume": "45ml",
+    "volume": "45 ml",
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
@@ -203,7 +203,7 @@
     "name": { "str": "40x46mm .22 LR hornet's nest casing" },
     "description": "An empty 40x46mm hornet's nest casing, able to be reloaded with ten .22 LR bullets and fire them simultaneously.",
     "weight": "50 g",
-    "volume": "59ml",
+    "volume": "59 ml",
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
@@ -216,7 +216,7 @@
     "name": { "str": "40x46mm .410 hornet's nest casing" },
     "description": "An empty 40x46mm hornet's nest casing, able to be reloaded with four .410 shells and fire them simultaneously.",
     "weight": "50 g",
-    "volume": "59ml",
+    "volume": "59 ml",
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
@@ -229,7 +229,7 @@
     "name": { "str": "40x53mm M169 casing" },
     "description": "A large casing from a spent 40x53mm cartridge.  Suitable for reloading with buckshot, slug or flechette loads.",
     "weight": "50 g",
-    "volume": "64ml",
+    "volume": "64 ml",
     "material": [ "steel" ],
     "symbol": "=",
     "stackable": true,
@@ -243,7 +243,7 @@
     "name": { "str": ".44 Magnum casing" },
     "description": "An empty casing from a .44 Magnum round.",
     "weight": "4 g",
-    "volume": "6ml"
+    "volume": "6 ml"
   },
   {
     "id": "454_casing",
@@ -253,7 +253,7 @@
     "name": { "str": ".454 Casull casing" },
     "description": "An empty casing from a .454 Casull round.",
     "weight": "7 g",
-    "volume": "10ml"
+    "volume": "10 ml"
   },
   {
     "id": "45_casing",
@@ -263,7 +263,7 @@
     "name": { "str": ".45 ACP casing" },
     "description": "An empty casing from a .45 ACP round.",
     "weight": "4 g",
-    "volume": "6ml"
+    "volume": "6 ml"
   },
   {
     "id": "45colt_casing",
@@ -273,7 +273,7 @@
     "name": { "str": ".45 Colt casing" },
     "description": "An empty casing from a .45 Colt round.",
     "weight": "4 g",
-    "volume": "6ml"
+    "volume": "6 ml"
   },
   {
     "id": "4570_casing",
@@ -283,7 +283,7 @@
     "name": { "str": ".45-70 casing" },
     "description": "An empty casing from a .45-70 Government round.",
     "weight": "4 g",
-    "volume": "10ml"
+    "volume": "10 ml"
   },
   {
     "id": "46mm_casing",
@@ -293,7 +293,7 @@
     "name": { "str": "4.6x30mm casing" },
     "description": "An empty casing from a 4.6x30mm round.",
     "weight": "2 g",
-    "volume": "3ml"
+    "volume": "3 ml"
   },
   {
     "id": "460_casing",
@@ -303,7 +303,7 @@
     "name": { "str": ".460 Rowland casing" },
     "description": "An empty casing from a .460 Rowland round.  It looks deceptively like a .45ACP casing.",
     "weight": "4 g",
-    "volume": "6ml"
+    "volume": "6 ml"
   },
   {
     "id": "5x50_hull",
@@ -313,7 +313,7 @@
     "name": { "str": "5x50mm hull" },
     "description": "An empty plastic hull from a 5x50mm flechette round.",
     "weight": "1 g",
-    "volume": "5ml",
+    "volume": "5 ml",
     "material": [ "plastic" ],
     "color": "light_green"
   },
@@ -325,7 +325,7 @@
     "name": { "str": ".500 S&W Magnum casing" },
     "description": "An empty casing from a .500 S&W Magnum round.",
     "weight": "7 g",
-    "volume": "10ml"
+    "volume": "10 ml"
   },
   {
     "id": "50_casing",
@@ -335,7 +335,7 @@
     "name": { "str": ".50 BMG casing" },
     "description": "An empty casing from a .50 BMG round.  These are rare, so you might want to hold onto these.",
     "weight": "18 g",
-    "volume": "12ml"
+    "volume": "12 ml"
   },
   {
     "id": "545_casing",
@@ -345,7 +345,7 @@
     "name": { "str": "5.45x39mm casing" },
     "description": "An empty casing from a 5.45x39mm round.",
     "weight": "4 g",
-    "volume": "7ml"
+    "volume": "7 ml"
   },
   {
     "id": "57mm_casing",
@@ -355,7 +355,7 @@
     "name": { "str": "5.7x28mm casing" },
     "description": "An empty casing from a 5.7x28mm round.",
     "weight": "2 g",
-    "volume": "3ml"
+    "volume": "3 ml"
   },
   {
     "id": "700nx_casing",
@@ -365,7 +365,7 @@
     "name": { "str": ".700 NX casing" },
     "description": "An empty casing from a .700 NX round.  These are rare, so you might want to hold onto these.",
     "weight": "18 g",
-    "volume": "12ml"
+    "volume": "12 ml"
   },
   {
     "id": "762R_casing",
@@ -375,7 +375,7 @@
     "name": { "str": "7.62x54mmR casing" },
     "description": "An empty casing from a 7.62x54mmR round.",
     "weight": "7 g",
-    "volume": "10ml"
+    "volume": "10 ml"
   },
   {
     "id": "762_casing",
@@ -385,7 +385,7 @@
     "name": { "str": "7.62x39mm casing" },
     "description": "An empty casing from a 7.62x39mm round.",
     "weight": "6 g",
-    "volume": "9ml"
+    "volume": "9 ml"
   },
   {
     "id": "762_25_casing",
@@ -395,7 +395,7 @@
     "name": { "str": "7.62x25mm casing" },
     "description": "An empty casing from a 7.62x25mm round.",
     "weight": "4 g",
-    "volume": "7ml"
+    "volume": "7 ml"
   },
   {
     "id": "9mm_casing",
@@ -404,7 +404,7 @@
     "name": { "str": "9x19mm casing" },
     "description": "An empty casing from a 9x19mm round.",
     "weight": "3 g",
-    "volume": "5ml"
+    "volume": "5 ml"
   },
   {
     "id": "357sig_casing",
@@ -414,7 +414,7 @@
     "name": { "str": ".357 SIG casing" },
     "description": "An empty casing from a .357 SIG round.",
     "weight": "3 g",
-    "volume": "5ml"
+    "volume": "5 ml"
   },
   {
     "id": "357mag_casing",
@@ -424,7 +424,7 @@
     "name": { "str": ".357 magnum casing" },
     "description": "An empty casing from a .357 magnum round.",
     "weight": "3 g",
-    "volume": "5ml"
+    "volume": "5 ml"
   },
   {
     "id": "9x18mm_casing",
@@ -434,7 +434,7 @@
     "name": { "str": "9x18mm casing" },
     "description": "An empty casing from a 9x18mm round.",
     "weight": "3 g",
-    "volume": "5ml"
+    "volume": "5 ml"
   },
   {
     "id": "380_casing",
@@ -444,7 +444,7 @@
     "name": { "str": ".380 ACP casing" },
     "description": "An empty casing from a .380 ACP round.",
     "weight": "3 g",
-    "volume": "5ml"
+    "volume": "5 ml"
   },
   {
     "id": "atgm_spent",
@@ -464,7 +464,7 @@
     "name": { "str": "shotgun hull" },
     "description": "An empty hull from a shotgun shell.",
     "weight": "8 g",
-    "volume": "12ml",
+    "volume": "12 ml",
     "stackable": true,
     "material": [ "plastic" ],
     "symbol": "=",
@@ -478,7 +478,7 @@
     "name": { "str": ".410 hull" },
     "description": "An empty hull from a .410 shotgun shell.",
     "weight": "8 g",
-    "volume": "12ml",
+    "volume": "12 ml",
     "stackable": true,
     "material": [ "plastic" ],
     "symbol": "=",
@@ -494,6 +494,6 @@
     "name": { "str": ".300BLK casing" },
     "description": "An empty casing from a .300 AAC Blackout round.",
     "weight": "6 g",
-    "volume": "9ml"
+    "volume": "9 ml"
   }
 ]

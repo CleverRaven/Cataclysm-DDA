@@ -16,7 +16,7 @@
     "skill": "rifle",
     "ammo": [ "plasma" ],
     "weight": "10500 g",
-    "volume": "4L",
+    "volume": "4 L",
     "price_postapoc": 10000,
     "bashing": 12,
     "to_hit": -2,

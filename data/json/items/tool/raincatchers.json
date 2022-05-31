@@ -5,7 +5,7 @@
     "name": { "str": "birchbark funnel" },
     "description": "This is a small birchbark funnel.  Place it above an outdoor container to collect rainwater.",
     "weight": "30 g",
-    "volume": "250ml",
+    "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,

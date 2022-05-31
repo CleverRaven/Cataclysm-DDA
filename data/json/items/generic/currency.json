@@ -25,7 +25,7 @@
     "price_postapoc": 5000,
     "//": "Low carat gold alloy for hardness, but it's still the best part of an ounce of gold.  Yes, the weight is correct for the volume.",
     "weight": "28 g",
-    "volume": "2ml",
+    "volume": "2 ml",
     "to_hit": -3,
     "color": "yellow",
     "symbol": "$",

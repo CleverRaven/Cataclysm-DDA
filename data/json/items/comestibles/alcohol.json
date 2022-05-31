@@ -672,7 +672,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "//": "Includes cola, so presumed to be a 250mL cocktail like the others.",
+    "//": "Includes cola, so presumed to be a 250 mL cocktail like the others.",
     "flags": [ "EATEN_COLD" ],
     "fun": 20,
     "vitamins": [ [ "vitC", 1 ] ]

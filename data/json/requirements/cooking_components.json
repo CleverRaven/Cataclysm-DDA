@@ -211,7 +211,7 @@
   {
     "id": "hard_liquor",
     "type": "requirement",
-    "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality. 7 portions per 250ml",
+    "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality. 7 portions per 250 mL",
     "components": [ [ [ "hard_liquor_unmixed", 1, "LIST" ], [ "mixed_alcohol_strong", 1 ] ] ]
   },
   {
@@ -285,7 +285,7 @@
   {
     "id": "meat_red_raw",
     "type": "requirement",
-    "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
+    "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250 mL of meat.",
     "components": [
       [
         [ "meat_raw_steak", 1, "LIST" ],
@@ -300,13 +300,13 @@
   {
     "id": "meat_red",
     "type": "requirement",
-    "//": "Anything you might consider raw 'red' meat.  About 250mL of meat.",
+    "//": "Anything you might consider raw 'red' meat.  About 250 mL of meat.",
     "components": [ [ [ "meat_red_raw", 1, "LIST" ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
   },
   {
     "id": "meat_lung",
     "type": "requirement",
-    "//": "Anything you might consider raw lung.  About 250mL of lungs.",
+    "//": "Anything you might consider raw lung.  About 250 mL of lungs.",
     "components": [ [ [ "lung", 1 ], [ "human_lung", 1 ], [ "demihuman_lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
   },
   {
@@ -1109,7 +1109,7 @@
   {
     "id": "weak_liquor",
     "type": "requirement",
-    "//": "Weak liquor - necessarily comestible and low proof, not necessarily high quality. 250ml",
+    "//": "Weak liquor - necessarily comestible and low proof, not necessarily high quality. 250 mL",
     "components": [ [ [ "weak_liquor_unmixed", 1, "LIST" ], [ "mixed_alcohol_weak", 1 ] ] ]
   },
   {
@@ -1148,7 +1148,7 @@
   {
     "id": "small_cans",
     "type": "requirement",
-    "//": "Small can, 250ml.",
+    "//": "Small can, 250 ml.",
     "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
   },
   {
