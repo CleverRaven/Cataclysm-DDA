@@ -2943,7 +2943,6 @@
   {
     "id": "ammunition_box_9mm",
     "type": "GENERIC",
-    "category": "container",
     "copy-from": "ammunition_box_308",
     "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
     "description": "Lorem ipsum. 100x9mm",
@@ -2954,7 +2953,6 @@
   {
     "id": "ammunition_box_223",
     "type": "GENERIC",
-    "category": "container",
     "copy-from": "ammunition_box_308",
     "name": { "str": "mini ammo box", "str_pl": "mini ammo boxes" },
     "description": "Lorem ipsum, 30x223 or 20x300 clips.",
@@ -2973,7 +2971,6 @@
   {
     "id": "ammunition_box_50bmg",
     "type": "GENERIC",
-    "category": "container",
     "copy-from": "ammunition_box_308",
     "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
     "description": "Lorem ipsum. 10x50bmg, 20x12 gauge",
