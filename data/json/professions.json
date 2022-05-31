@@ -1026,7 +1026,7 @@
     "type": "profession",
     "id": "diver_navy",
     "name": "Navy Diver",
-    "description": "Before the cataclysm, you used to be part of a Naval Special Warfare diving group, a skilled soldier adept at underwater infiltration and marine combat.  You were just finishing suiting up for a practice dive before the screams interrupted your preparations. Now, you’ve got nothing to ward off your former crew-mates except for your wetsuit, equipment, and training.",
+    "description": "Before the cataclysm, you used to be part of a Naval Special Warfare diving group, a skilled soldier adept at underwater infiltration and marine combat.  You were just finishing suiting up for a practice dive before the screams interrupted your preparations.  Now, you’ve got nothing to ward off your former crew-mates except for your wetsuit, equipment, and training.",
     "points": 3,
     "proficiencies": [ "prof_spotting", "prof_gunsmithing_basic" ],
     "skills": [
