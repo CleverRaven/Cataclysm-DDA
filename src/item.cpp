@@ -4829,27 +4829,62 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
         }
     }
-
+    
     if( dmg_bash || dmg_cut || dmg_stab ) {
+        int stam;
+        float stam_pct;
+        std::map<std::string, double> dps_data;
+
+        bool base_dps = parts->test( iteminfo_parts::BASE_DPS );
+        bool base_stamina = parts->test( iteminfo_parts::BASE_STAMINA );
+        bool base_dpstam = parts->test( iteminfo_parts::BASE_DPSTAM );
+
+        if ( base_stamina || base_dpstam ) {
+            avatar& c = get_avatar();
+            stam = c.get_total_melee_stamina_cost( *this ) * -1;
+            stam_pct = truncf( (float)stam * 1000.0 / c.get_stamina_max() ) / 10;
+        }
+
+        if ( base_dps || base_dpstam ) {
+            dps_data = dps( true, false );
+        }
+
         if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
             info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
-                               iteminfo::show_plus, type->m_to_hit );
+                iteminfo::show_plus, type->m_to_hit );
         }
 
         if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
-            info.emplace_back( "BASE", _( "Base moves per attack: " ), "",
-                               iteminfo::lower_is_better, attack_time() );
-
+            info.emplace_back ("BASE", _( "Base moves per attack: " ), "",
+                iteminfo::lower_is_better, attack_time() );
         }
 
-        if( parts->test( iteminfo_parts::BASE_DPS ) ) {
+        if( base_dps ) {
             info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
-            const std::map<std::string, double> &dps_data = dps( true, false );
             std::string sep;
-            for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
+            for ( const std::pair<const std::string, double>& dps_entry : dps_data ) {
                 info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
-                                   iteminfo::no_newline | iteminfo::is_decimal,
-                                   dps_entry.second );
+                    iteminfo::no_newline | iteminfo::is_decimal,
+                    dps_entry.second );
+                sep = space;
+            }
+            info.emplace_back( "BASE", "" );
+        }
+
+        if( base_stamina ) {
+            info.emplace_back( "BASE", _( "<bold>Stamina use</bold>: Costs " ), "", iteminfo::no_newline );
+            info.emplace_back( "BASE", ( stam_pct ? _( "about " ) : _( "less than " ) ), "",
+                iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, ( stam_pct > 0.1 ? stam_pct : 0.1 ) );
+            info.emplace_back( "BASE", _( "% stamina to swing." ), "" );
+        }
+
+        if( base_dpstam ) {
+            info.emplace_back( "BASE", _( "Typical damage per stamina:" ), "" );
+            std::string sep;
+            for ( const std::pair<const std::string, double>& dps_entry : dps_data ) {
+                info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
+                    iteminfo::no_newline | iteminfo::is_decimal,
+                    100 * dps_entry.second / stam );
                 sep = space;
             }
             info.emplace_back( "BASE", "" );
