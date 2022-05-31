@@ -836,13 +836,7 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
         return z( *it );
     }
     if( ztype == zone_type_LOOT_ITEM_GROUP ) {
-        std::set<itype const *> const &gr =
-            item_group::every_possible_item_from( item_group_id( filter_string ) );
-
-        return std::any_of( gr.begin(), gr.end(),
-        [it]( itype const * type ) {
-            return type->get_id() == it->typeId();
-        } );
+        return item_group::group_contains_item( item_group_id( filter_string ), it->typeId() );
     }
 
     return false;
@@ -858,7 +852,7 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
         if( point.z() == where.z() ) {
             if( square_dist( point, where ) <= range ) {
                 if( ( type != zone_type_LOOT_CUSTOM and type != zone_type_LOOT_ITEM_GROUP ) or
-                    ( it != nullptr and custom_loot_has( point, it, type ) ) ) {
+                    ( it != nullptr and custom_loot_has( point, it, type, fac ) ) ) {
                     near_point_set.insert( point );
                 }
             }
@@ -870,7 +864,7 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
         if( point.z() == where.z() ) {
             if( square_dist( point, where ) <= range ) {
                 if( ( type != zone_type_LOOT_CUSTOM and type != zone_type_LOOT_ITEM_GROUP ) or
-                    ( it != nullptr and custom_loot_has( point, it, type ) ) ) {
+                    ( it != nullptr and custom_loot_has( point, it, type, fac ) ) ) {
                     near_point_set.insert( point );
                 }
             }

@@ -593,7 +593,7 @@
     "id": "k_gambeson_sleeve",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of kevlar gambeson sleeves", "str_pl": "pairs of kevlar gambeson sleeves" },
+    "name": { "str": "pair of Kevlar gambeson sleeves", "str_pl": "pairs of Kevlar gambeson sleeves" },
     "description": "A pair sleeves made from aramid with strips of soft body armor sewn on top to simulate quilting.",
     "weight": "920 g",
     "volume": "840 ml",
@@ -635,8 +635,8 @@
   {
     "id": "xl_k_gambeson_sleeve",
     "type": "ARMOR",
-    "name": { "str": "pair of XL kevlar gambeson sleeves", "str_pl": "pairs of XL kevlar gambeson sleeves" },
-    "description": "A pair of extra large sleeves made from layers of kevlar.",
+    "name": { "str": "pair of XL Kevlar gambeson sleeves", "str_pl": "pairs of XL Kevlar gambeson sleeves" },
+    "description": "A pair of extra large sleeves made from layers of Kevlar.",
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -644,8 +644,8 @@
   {
     "id": "xs_k_gambeson_sleeve",
     "type": "ARMOR",
-    "name": { "str": "pair of XS kevlar gambeson sleeves", "str_pl": "pairs of XS kevlar gambeson sleeves" },
-    "description": "A pair of extra small sleeves made from heavy quilted fabric and kevlar.",
+    "name": { "str": "pair of XS Kevlar gambeson sleeves", "str_pl": "pairs of XS Kevlar gambeson sleeves" },
+    "description": "A pair of extra small sleeves made from heavy quilted fabric and Kevlar.",
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

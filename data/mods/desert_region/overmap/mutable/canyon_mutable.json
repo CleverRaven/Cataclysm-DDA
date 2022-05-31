@@ -1,0 +1,99 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "canyon_mutable",
+    "subtype": "mutable",
+    "locations": [ "land", "subterranean_empty" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 10 ],
+    "flags": [ "CLASSIC" ],
+    "check_for_locations_area": [
+      { "type": [ "land" ], "from": [ -12, -12, 0 ], "to": [ 12, 12, 0 ] },
+      { "type": [ "subterranean_empty" ], "from": [ -12, -12, -1 ], "to": [ 12, 12, -2 ] }
+    ],
+    "joins": [
+      "canyon_to_canyon",
+      "canyon_to_edge",
+      "start_to_mid",
+      "start_to_sub",
+      { "id": "canyon_to_mid", "into_locations": [ "subterranean_empty" ] },
+      { "id": "mid_to_top", "into_locations": [ "land" ] },
+      { "id": "edge_canyon_to_mid", "into_locations": [ "subterranean_empty" ] },
+      { "id": "edge_mid_to_top", "into_locations": [ "land" ] }
+    ],
+    "overmaps": {
+      "canyon_start": { "overmap": "open_air", "below": { "id": "start_to_mid" } },
+      "start_mid": { "overmap": "open_air", "below": { "id": "start_to_sub" }, "above": { "id": "start_to_mid" } },
+      "start_sub": {
+        "overmap": "canyon",
+        "above": { "id": "start_to_sub" },
+        "north": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "south": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "west": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_core": {
+        "overmap": "canyon",
+        "above": { "id": "canyon_to_mid" },
+        "north": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "south": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "west": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_edge": {
+        "overmap": "canyon_edge_north",
+        "above": { "id": "edge_canyon_to_mid" },
+        "north": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_corner": {
+        "overmap": "canyon_corner_north",
+        "above": { "id": "edge_canyon_to_mid" },
+        "north": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_filler": {
+        "overmap": "canyon",
+        "above": { "id": "canyon_to_mid" },
+        "north": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "south": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "west": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_2way": {
+        "overmap": "canyon_2way_east",
+        "above": { "id": "edge_canyon_to_mid" },
+        "north": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "south": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_3way": {
+        "overmap": "canyon_3way_north",
+        "above": { "id": "edge_canyon_to_mid" },
+        "north": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "west": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_mid": { "overmap": "open_air", "above": { "id": "mid_to_top" }, "below": { "id": "canyon_to_mid" } },
+      "canyon_sub": { "overmap": "open_air", "below": { "id": "mid_to_top" } },
+      "edge_canyon_mid": { "overmap": "canyon_air", "above": { "id": "edge_mid_to_top" }, "below": { "id": "edge_canyon_to_mid" } },
+      "edge_canyon_sub": { "overmap": "canyon_air_surface", "below": { "id": "edge_mid_to_top" } }
+    },
+    "root": "canyon_start",
+    "phases": [
+      [ { "name": "canyon_start", "chunk": [ { "overmap": "canyon_start", "pos": [ 0, 0, 0 ] } ], "max": 1 } ],
+      [ { "name": "canyon_start_1", "chunk": [ { "overmap": "canyon_start", "pos": [ 0, 5, 0 ] } ], "max": 1 } ],
+      [ { "overmap": "start_mid", "max": 1 } ],
+      [ { "overmap": "start_sub", "max": 1 } ],
+      [ { "overmap": "canyon_core", "weight": 1, "max": { "poisson": 50 } } ],
+      [ { "overmap": "canyon_edge", "weight": 5 } ],
+      [ { "overmap": "canyon_corner", "weight": 1 } ],
+      [ { "overmap": "canyon_2way", "weight": 1 } ],
+      [ { "overmap": "canyon_3way", "weight": 1 } ],
+      [ { "overmap": "canyon_filler", "weight": 1 } ],
+      [ { "overmap": "canyon_mid", "weight": 1 } ],
+      [ { "overmap": "canyon_sub", "weight": 1 } ],
+      [ { "overmap": "edge_canyon_mid", "weight": 1 } ],
+      [ { "overmap": "edge_canyon_sub", "weight": 1 } ]
+    ]
+  }
+]

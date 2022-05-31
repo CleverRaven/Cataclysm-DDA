@@ -2234,7 +2234,7 @@
     "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "Hub 01 environmental suit" },
-    "description": "A lightweight environmental suit incorporating kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
+    "description": "A lightweight environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
     "weight": "4000 g",
     "volume": "14 L",
     "price": 117500,
@@ -2243,7 +2243,7 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "brown",
-    "//": "2mm nomex across the entire suit to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
+    "//": "2mm Nomex across the entire suit to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
     "armor": [
       {
         "material": [
@@ -2284,7 +2284,7 @@
             "type": "kevlar",
             "covered_by_mat": 25,
             "thickness": 1,
-            "//": "A bit of kevlar between the third and second knuckles, the part of the fingers where flexibility is least important."
+            "//": "A bit of Kevlar between the third and second knuckles, the part of the fingers where flexibility is least important."
           },
           {
             "type": "lycra",
@@ -2313,7 +2313,7 @@
             "type": "kevlar",
             "covered_by_mat": 90,
             "thickness": 1,
-            "//": "The kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
+            "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
           }
         ],
         "covers": [ "foot_l", "foot_r" ],

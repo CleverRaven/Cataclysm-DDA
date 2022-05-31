@@ -38,7 +38,7 @@
   {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "verb": "constructing",
     "based_on": "neither",
     "suspendable": false,
@@ -304,7 +304,7 @@
   {
     "id": "ACT_BUILD",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "based_on": "neither",
     "refuel_fires": true,
     "auto_needs": true,
