@@ -99,13 +99,7 @@ struct quality_query {
     }
 
     bool operator<( const quality_query &other ) const {
-        if( qual == other.qual ) {
-            if( level == other.level ) {
-                return count < other.count;
-            }
-            return level < other.level;
-        }
-        return qual < other.qual;
+        return std::tie( qual, level, count ) < std::tie( other.qual, other.level, other.count );
     }
 };
 
