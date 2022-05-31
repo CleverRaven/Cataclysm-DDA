@@ -927,11 +927,7 @@
     "type": "profession",
     "id": "marine",
     "name": { "male": "Marine Infantrymen", "female": "Marine Infantrywoman" },
-<<<<<<< HEAD
     "description": "Some call you a 'Jarhead', other’s a 'Devil Dog', and still others have dubbed you a 'Leatherneck'.  Before the Cataclysm, you were a soldier of the US Marine Corps, a military professional forming the backbone to any amphibious  assault.  Whether it had been paratrooping out of helicopters or storming enemy strongholds, the name of the Marines had become renowned all across the world.  Now that that world has come to an end and military command has collapsed in on itself as far as you can tell, you suppose that its up to you to carry the memory of the Marines forwards into the Cataclysm.",
-=======
-    "description": "Some call you a 'Jarhead', other’s a 'Devil Dog', and still others have dubbed you a 'Leatherneck'.  Before the cataclysm, you were a soldier of the US Marine Corps, a military professional forming the backbone to any amphibious assault.  Whether it had been paratrooping out of helicopters or storming enemy strongholds, the name of the Marines had become renowned all across the world.  Now that that world has come to an end and military command has collapsed in on itself as far as you can tell, you suppose that it's up to you to carry the memory of the Marines forwards into the cataclysm.",
->>>>>>> e8ae2ec14fca54f9bd080f1e2be7e6f091bdaa99
     "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
@@ -1030,11 +1026,7 @@
     "type": "profession",
     "id": "diver_navy",
     "name": "Navy Diver",
-<<<<<<< HEAD
     "description": "Before the Cataclysm, you used to be part of a Naval Special Warfare diving group, a skilled soldier adept at underwater infiltration and marine combat.  You were just finishing suiting up for a practice dive before the screams interrupted your preparations. Now, you’ve got nothing to ward off your former crew-mates except for your wetsuit, equipment, and training.",
-=======
-    "description": "Before the cataclysm, you used to be part of a Naval Special Warfare diving group, a skilled soldier adept at underwater infiltration and marine combat.  You were just finishing suiting up for a practice dive before the screams interrupted your preparations.  Now, you’ve got nothing to ward off your former crew-mates except for your wetsuit, equipment, and training.",
->>>>>>> e8ae2ec14fca54f9bd080f1e2be7e6f091bdaa99
     "points": 3,
     "proficiencies": [ "prof_spotting", "prof_gunsmithing_basic" ],
     "skills": [
@@ -1327,11 +1319,7 @@
     "type": "profession",
     "id": "seal",
     "name": "Navy SEAL",
-<<<<<<< HEAD
     "description": "Before the Cataclysm you used to be a member of the SEALs: a key component of the US Navy’s special forces contingent, a highly trained soldier in all respects, and a proficient combatant in both maritime and ground operations.  Called upon to eliminate high-value targets and conduct specialised marine missions, the greatest test of your capabilities now rests before you.  'The only easy day was yesterday', and now its time to square your shoulders and embark on your last and hardest mission to date.",
-=======
-    "description": "Before the cataclysm you used to be a member of the SEALs: a key component of the US Navy’s special forces contingent, a highly trained soldier in all respects, and a proficient combatant in both maritime and ground operations.  Called upon to eliminate high-value targets and conduct specialized marine missions, the greatest test of your capabilities now rests before you.  'The only easy day was yesterday', and now it's time to square your shoulders and embark on your last and hardest mission to date.",
->>>>>>> e8ae2ec14fca54f9bd080f1e2be7e6f091bdaa99
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care" ],
     "skills": [
