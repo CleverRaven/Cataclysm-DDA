@@ -1,0 +1,64 @@
+[
+  {
+    "type": "trait_group",
+    "id": "trait_group_spider_victim_eggsac",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FEYHEARING", "prob": 50 },
+      { "trait": "FLEET", "prob": 50 },
+      { "trait": "NIGHTVISION", "prob": 50 },
+      { "trait": "CHITIN", "prob": 20 },
+      { "trait": "POISONOUS", "prob": 20 },
+      { "trait": "MANDIBLES", "prob": 15 },
+      { "trait": "DEX_UP_2", "prob": 50 },
+      { "trait": "PER_UP_2", "prob": 50 },
+      { "distribution": [ { "trait": "EGGSAC_SURVIVABLE" }, { "trait": "EGGSAC_FATAL" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_spider_victim_transformation",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FEYHEARING", "prob": 50 },
+      { "trait": "FLEET", "prob": 50 },
+      { "trait": "NIGHTVISION", "prob": 50 },
+      { "trait": "CHITIN", "prob": 20 },
+      { "trait": "POISONOUS", "prob": 25 },
+      { "trait": "MANDIBLES", "prob": 15 },
+      { "trait": "DEX_UP_2", "prob": 65 },
+      { "trait": "PER_UP_2", "prob": 50 },
+      { "distribution": [ { "trait": "MANIFEST_DESTINY_GOBLIN" }, { "trait": "MANIFEST_DESTINY_SPIDER" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_dreamer_danger",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FEYHEARING", "prob": 50 },
+      { "trait": "FASTREADER", "prob": 50 },
+      { "trait": "FASTLEARNER", "prob": 50 },
+      { "trait": "GOODMEMORY", "prob": 50 },
+      { "trait": "SPIRITUAL", "prob": 50 },
+      { "trait": "LOVES_BOOKS" },
+      { "trait": "BADCARDIO", "prob": 50 },
+      { "trait": "SLOWHEALER", "prob": 50 },
+      { "trait": "ASTHMA", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_dreamer_hero",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "MANA_ADD_MANATOUCHED", "prob": 50 },
+      { "trait": "MANA_REGEN_MANATOUCHED", "prob": 50 },
+      { "trait": "MANA_LUM", "prob": 50 },
+      { "trait": "WEAK", "prob": 50 },
+      { "trait": "ROT2", "prob": 25 },
+      { "trait": "BIOLUM0", "prob": 65 },
+      { "distribution": [ { "trait": "MANA_MULT3" }, { "trait": "MANA_MULT_MANATOUCHED" } ] }
+    ]
+  }
+]
