@@ -336,6 +336,19 @@
     "death_drops": "mon_zombie_milbase_personnel_death_drops"
   },
   {
+  {
+    "id": "mon_zombie_sailor",
+    "type": "MONSTER",
+    "name": { "str": "zombie mariner" },
+    "description": "still dressed in the ragged remains of deep blue naval fatigues, it’s clear that this walking corpse was once a sailor of some description.  The US Navy’s insignia is embroidered on the shredded sleave and shoulder of its bloodied jacket, the dead crewmen’s battered cap is beaten into the remains of its fractured skull and its inky black eyes are scanning the area around it as dark ooze drips from its limply hanging maw.",
+    "copy-from": "mon_zombie_milbase_personnel",
+    "looks_like": "mon_zombie_soldier",
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+      "//": "no provision for body armour or helmets in either the weak point set or dissection set, as Navy sailors aren’t normally dressed in military combat gear whilst shipside."
+    "upgrades": { "half_life": 18, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "death_drops": "mon_zombie_sailor_death_drops"
+  },
     "id": "mon_zombie_flamer",
     "type": "MONSTER",
     "name": { "str": "zombie burner" },

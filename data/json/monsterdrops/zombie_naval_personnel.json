@@ -1,0 +1,22 @@
+[
+  {
+    "id": "mon_zombie_sailor_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      { "group": "clothing_navy", "damage": [ 0, 4 ] },
+      { "group": "gear_soldier_sidearm", "prob": 10 },
+      { "group": "tools_common", "prob": 20 },
+      { "item": "two_way_radio", "charges": [ 0, 300 ], "prob": 25 },
+      { "group": "wallets_military", "prob": 5 },
+      { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
+      { "item": "tool_belt", "damage": [ 0, 4 ], "prob": 40 },
+      { "item": "hat_navy", "damage": [ 0, 4 ], "prob": 100 },
+      { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
+      { "group": "pocket_cigar", "prob": 5 },
+      { "group": "misc_smoking_legal", "prob": 10 }
+    ]
+  }
+]
