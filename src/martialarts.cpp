@@ -1311,7 +1311,7 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item &we
     std::vector<matec_id> tecs;
     const auto &style = style_selected.obj();
 
-    // Grab individual item techniques if the style allows them 
+    // Grab individual item techniques if the style allows them
     if( !style.force_unarmed ) {
         const auto &weapon_techs = weap.get_techniques();
         tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
