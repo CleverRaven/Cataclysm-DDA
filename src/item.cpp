@@ -4834,8 +4834,8 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
     }
 
     if( dmg_bash || dmg_cut || dmg_stab ) {
-        int stam;
-        float stam_pct;
+        int stam = 0;
+        float stam_pct = 0.0f;
         std::map<std::string, double> dps_data;
 
         bool base_tohit = parts->test( iteminfo_parts::BASE_TOHIT );
