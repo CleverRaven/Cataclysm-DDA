@@ -178,7 +178,6 @@ static const string_id<class npc_template> npc_template_bandit( "bandit" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
-static const ter_str_id ter_t_region_soil( "t_region_soil" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
@@ -1484,7 +1483,7 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
             if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
                 m.destroy( tripoint( i,  j, abs_sub.z ), true );
                 if( abs_sub.z == 0 ) {
-                    m.ter_set( tripoint( i, j, abs_sub.z ), ter_t_region_soil );
+                    m.ter_set( tripoint( i, j, abs_sub.z ), t_dirt );
                 }
             }
         }
