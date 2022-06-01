@@ -456,7 +456,7 @@
     "name": { "str": "compound crossbow" },
     "reload_noise_volume": 4,
     "description": "A high-power crossbow with shaped cams and extra cables for high-power shots.  Takes less time to reload due to a modern string-pulling system.",
-    "//": "27in Carbon fiber compound crossbow at 17in draw with 20in, 197J, 175 lbs draw, 0.636 Slugs with 300grain quarrels.",
+    "//": "27in Carbon fiber compound crossbow at 17in draw with 20in, 197J, 175 lbs draw, 0.636 Slugs with 300 grain quarrels.",
     "price": 200000,
     "material": [ "steel", "plastic" ],
     "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
