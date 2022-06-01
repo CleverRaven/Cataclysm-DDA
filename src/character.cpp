@@ -10008,6 +10008,8 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         loc.remove_item();
     }
 
+    get_player_character().recoil = MAX_RECOIL;
+
     return true;
 }
 
