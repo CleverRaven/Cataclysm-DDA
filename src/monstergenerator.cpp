@@ -956,12 +956,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    int bonus_cut = 0;
-    if( jo.has_int( "melee_cut" ) ) {
-        bonus_cut = jo.get_int( "melee_cut" );
-        melee_damage.add_damage( damage_type::CUT, bonus_cut );
-    }
-
     if( jo.has_member( "death_drops" ) ) {
         death_drops =
             item_group::load_item_group( jo.get_member( "death_drops" ), "distribution",
