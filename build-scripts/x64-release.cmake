@@ -95,6 +95,8 @@ if("$ENV{VSCMD_VER}" STREQUAL "")
 endif() # VSCMD_VER
 
 # It's fine to keep @_MSVC_DEVENV@ undefined
+set(BUILD_PRESET_NAME "windows-tiles-sounds-x64-msvc")
+set(CONFIGURE_PRESET "windows-tiles-sounds-x64-msvc")
 configure_file(
     ${CMAKE_SOURCE_DIR}/build-scripts/CMakeUserPresets.json.in
     ${CMAKE_SOURCE_DIR}/CMakeUserPresets.json
