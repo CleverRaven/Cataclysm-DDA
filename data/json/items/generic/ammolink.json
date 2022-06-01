@@ -31,7 +31,7 @@
     "id": "ammolink40mm",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": { "str": "40mm grenade belt linkage" },
+    "name": { "str": "40 mm grenade belt linkage" },
     "weight": "10 g",
     "volume": "10 ml",
     "use_action": { "type": "ammobelt", "belt": "belt40mm" }

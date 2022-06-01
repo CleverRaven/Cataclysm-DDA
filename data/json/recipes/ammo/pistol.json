@@ -1153,7 +1153,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "//": "Arbitrary powder amount as +p+ is not a real standard but an informal one which has about 20% higher pressure than standard 9mm, while +p is a standard that has 10% higher pressure. 580 mg gunpowder rounded to 6 100 mg 'pieces'",
+    "//": "Arbitrary powder amount as +p+ is not a real standard but an informal one which has about 20% higher pressure than standard 9 mm, while +p is a standard that has 10% higher pressure. 580 mg gunpowder rounded to 6 100 mg 'pieces'",
     "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -1239,7 +1239,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "//": "Arbitrary powder amount as +p+ is not a real standard but an informal one which has about 20% higher pressure than standard 9mm, while +p is a standard that has 10% higher pressure. 481 mg gunpowder rounded to 5 100 mg 'pieces'",
+    "//": "Arbitrary powder amount as +p+ is not a real standard but an informal one which has about 20% higher pressure than standard 9 mm, while +p is a standard that has 10% higher pressure. 481 mg gunpowder rounded to 5 100 mg 'pieces'",
     "components": [
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],

@@ -2243,7 +2243,7 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "brown",
-    "//": "2mm Nomex across the entire suit to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
+    "//": "2 mm Nomex across the entire suit to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
     "armor": [
       {
         "material": [
@@ -2313,7 +2313,7 @@
             "type": "kevlar",
             "covered_by_mat": 90,
             "thickness": 1,
-            "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
+            "//": "The Kevlar is 2 mm thick over most of the boots, and 1 mm thick for flexible joints."
           }
         ],
         "covers": [ "foot_l", "foot_r" ],

@@ -29,7 +29,7 @@
     "id": "camera_pro",
     "type": "TOOL",
     "name": { "str": "professional camera" },
-    "description": "A 35mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
+    "description": "A 35 mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
     "weight": "2268 g",
     "volume": "1250 ml",
     "price": 800000,

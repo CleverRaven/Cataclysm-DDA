@@ -129,7 +129,7 @@
       },
       {
         "id": "LESSON_RECOIL",
-        "text": "Firing your gun will increase your recoil level.  You can see its level in the <color_light_cyan>Aiming and firing</color> menu (by pressing <keybind:fire>).  Generally speaking, the more damaging the ammo, the worse the recoil.  Recoil severely reduces your chance to hit, but you can eliminate recoil by pausing (<keybind:pause>) for a turn.  High strength reduces recoil, so weak characters might want to stick to .22 or 9x19mm guns."
+        "text": "Firing your gun will increase your recoil level.  You can see its level in the <color_light_cyan>Aiming and firing</color> menu (by pressing <keybind:fire>).  Generally speaking, the more damaging the ammo, the worse the recoil.  Recoil severely reduces your chance to hit, but you can eliminate recoil by pausing (<keybind:pause>) for a turn.  High strength reduces recoil, so weak characters might want to stick to .22 or 9x19 mm guns."
       },
       {
         "id": "LESSON_STAIRS",

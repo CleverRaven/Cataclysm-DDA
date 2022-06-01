@@ -3,7 +3,7 @@
     "id": "mon_turret",
     "type": "MONSTER",
     "name": { "str": "improvised MP5 turret" },
-    "description": "A 9mm MP5 attached to a motorized chassis with basic autonomous software control.  There is no mechanism to reload the weapon when its magazine is empty, and the fire control system is only designed for semi-automatic fire.",
+    "description": "A 9 mm MP5 attached to a motorized chassis with basic autonomous software control.  There is no mechanism to reload the weapon when its magazine is empty, and the fire control system is only designed for semi-automatic fire.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 20,

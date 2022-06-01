@@ -4,7 +4,7 @@
     "copy-from": "magazine_belt",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "5.56x45mm ammo belt" },
+    "name": { "str": "5.56x45 mm ammo belt" },
     "ammo_type": [ "223" ],
     "capacity": 500,
     "count": 100,

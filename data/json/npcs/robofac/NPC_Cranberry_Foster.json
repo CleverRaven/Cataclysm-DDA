@@ -467,7 +467,7 @@
   {
     "id": [ "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION", "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION_WHERE" ],
     "type": "talk_topic",
-    "dynamic_line": "It's from our employers.  Apparently, it's a custom platform they make for field agents.  It's got quick swap barrels for 9mm, the standard NATO cartridges, and shotgun shells too.  It's great for if you're on a long field mission and run out of ammo.  A lot of dudes bit the dust on their way home from the gun store with a box of nine-mil.  I guess it's better them than us; they don't need it now.",
+    "dynamic_line": "It's from our employers.  Apparently, it's a custom platform they make for field agents.  It's got quick swap barrels for 9 mm, the standard NATO cartridges, and shotgun shells too.  It's great for if you're on a long field mission and run out of ammo.  A lot of dudes bit the dust on their way home from the gun store with a box of nine-mil.  I guess it's better them than us; they don't need it now.",
     "speaker_effect": {
       "effect": { "u_add_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
       "sentinel": "robofac_merc_1_HWP"

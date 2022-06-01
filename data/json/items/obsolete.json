@@ -433,7 +433,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
-    "description": "An assault rifle used by a NATO member state.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "description": "An assault rifle used by a NATO member state.  As per NATO's STANAG agreement, it is chambered in 5.56x45 mm.",
     "//": "Weight, description, length modeled off of m4a1, price and gun stats average of some nato guns",
     "weight": "2880 g",
     "volume": "3310 ml",

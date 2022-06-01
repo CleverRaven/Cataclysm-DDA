@@ -307,7 +307,7 @@
     "id": "m203",
     "type": "GUNMOD",
     "name": { "str_sp": "M203" },
-    "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
+    "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40 mm grenade to be loaded and fired.",
     "weight": "1360 g",
     "volume": "500 ml",
     "price": 65000,
@@ -336,7 +336,7 @@
     "copy-from": "m203",
     "type": "GUNMOD",
     "name": { "str": "modified M203" },
-    "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
+    "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40 mm grenade to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
@@ -467,8 +467,8 @@
   {
     "id": "pipe_launcher40mm",
     "type": "GUNMOD",
-    "name": { "str": "40mm pipe launcher" },
-    "description": "This is a home built launcher tube that can be attached to almost any weapon except handguns.  It allows a single 40mm grenade to be loaded and fired.",
+    "name": { "str": "40 mm pipe launcher" },
+    "description": "This is a home built launcher tube that can be attached to almost any weapon except handguns.  It allows a single 40 mm grenade to be loaded and fired.",
     "weight": "2080 g",
     "volume": "750 ml",
     "price": 25000,

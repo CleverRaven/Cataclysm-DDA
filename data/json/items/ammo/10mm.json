@@ -2,8 +2,8 @@
   {
     "id": "10mm_fmj",
     "type": "AMMO",
-    "name": { "str_sp": "10mm Auto FMJ" },
-    "description": "Jacketed 10mm Auto ammunition with 180gr bullets.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
+    "name": { "str_sp": "10 mm Auto FMJ" },
+    "description": "Jacketed 10 mm Auto ammunition with 180gr bullets.  The 10 mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
     "weight": "9 g",
     "volume": "117 ml",
     "price": 400,
@@ -26,7 +26,7 @@
     "id": "bp_10mm_fmj",
     "copy-from": "10mm_fmj",
     "type": "AMMO",
-    "name": { "str_sp": "10mm Auto FMJ, black powder" },
+    "name": { "str_sp": "10 mm Auto FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -40,7 +40,7 @@
     "id": "reloaded_10mm_fmj",
     "copy-from": "10mm_fmj",
     "type": "AMMO",
-    "name": { "str_sp": "10mm Auto FMJ, reloaded" },
+    "name": { "str_sp": "10 mm Auto FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

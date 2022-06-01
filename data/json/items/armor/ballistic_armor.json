@@ -1026,7 +1026,7 @@
     "warmth": 12,
     "flags": [ "STURDY", "OUTER", "NO_REPAIR" ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
-    "//2": "Ceramic disks in real-life dragon skin are 6.4mm thick; the actual fabric itself wasn't intended to provide high-grade protection, and so it's quite thin here.",
+    "//2": "Ceramic disks in real-life dragon skin are 6.4 mm thick; the actual fabric itself wasn't intended to provide high-grade protection, and so it's quite thin here.",
     "//3": "The double instance of ceramic here represents possible hits on parts where the disks themselves are overlapping, providing enhanced protection.",
     "armor": [
       {

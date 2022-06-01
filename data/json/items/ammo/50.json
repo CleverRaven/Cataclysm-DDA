@@ -62,7 +62,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "description": "This variant of the .50 BMG round makes the most of the caliber's potential payload delivery: the tip is loaded with an incendiary mix, which ignites on impact, detonating the RDX or PETN charge.  This also ignites a secondary zirconium powder incendiary charge that surrounds a tungsten carbide penetrator, both encased by a mild steel cup.  Fragments from the cup and burning metallic powder follow the penetrator through armored targets, increasing lethality.  These rare, complicated, and expensive rounds are not likely to be manufactured again; use them wisely.",
     "effects": [ "INCENDIARY", "EXPLOSIVE_RAUFOSS" ],
-    "//": "mk 211 is estimated to be as effective as 20mm, which would have 65kJ energy, or 255 damage. ~181 damage is fair.",
+    "//": "mk 211 is estimated to be as effective as 20 mm, which would have 65kJ energy, or 255 damage. ~181 damage is fair.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 50, "armor_penetration": 20 } },
     "dispersion": 100
   },

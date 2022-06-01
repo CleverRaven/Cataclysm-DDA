@@ -26,9 +26,9 @@
     "id": "762_51",
     "copy-from": "308",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x51mm M80" },
+    "name": { "str_sp": "7.62x51 mm M80" },
     "casing": "762_51_casing",
-    "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
+    "description": "A 7.62x51 mm NATO round with a 147 gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 4 }, "dispersion": -10 },
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
@@ -37,7 +37,7 @@
     "id": "762_51_incendiary",
     "copy-from": "762_51",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x51mm NATO tracer" },
+    "name": { "str_sp": "7.62x51 mm NATO tracer" },
     "description": "This ammunition is a one-in-five mix of M80 and M62 tracer rounds to help keep the weapon they are fired from on target.",
     "extend": { "effects": [ "INCENDIARY" ] }
   },
@@ -59,7 +59,7 @@
     "id": "bp_762_51",
     "copy-from": "762_51",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x51mm, black powder" },
+    "name": { "str_sp": "7.62x51 mm, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -73,7 +73,7 @@
     "id": "bp_762_51_incendiary",
     "copy-from": "762_51_incendiary",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x51mm tracer, black powder" },
+    "name": { "str_sp": "7.62x51 mm tracer, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -96,7 +96,7 @@
     "id": "reloaded_762_51",
     "copy-from": "762_51",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x51mm, reloaded" },
+    "name": { "str_sp": "7.62x51 mm, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -105,7 +105,7 @@
     "id": "reloaded_762_51_incendiary",
     "copy-from": "762_51_incendiary",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x51mm incendiary, reloaded" },
+    "name": { "str_sp": "7.62x51 mm incendiary, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

@@ -1456,7 +1456,7 @@
     "type": "TOOL",
     "name": { "str": "small adjustable wrench", "str_pl": "small adjustable wrenches" },
     "description": "This adjustable crescent wrench is compact, with a short handle that fits in the palm of the hand.  It could be used for turning small hex-head nuts or bolts.",
-    "//": "Measured weight of 6-inch Craftsman wrench with 150mm jaws, assume 8g/ml steel density plus some margin for mechanism and empty space.",
+    "//": "Measured weight of 6-inch Craftsman wrench with 150 mm jaws, assume 8g/ml steel density plus some margin for mechanism and empty space.",
     "looks_like": "wrench",
     "weight": "110 g",
     "volume": "20 ml",

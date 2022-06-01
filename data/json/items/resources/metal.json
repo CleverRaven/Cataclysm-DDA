@@ -460,7 +460,7 @@
     "color": "light_gray",
     "description": "A thin copper rod, ready to be made into copper wire.",
     "material": [ "copper" ],
-    "//": "9mm in diameter and 1.572m long.",
+    "//": "9 mm in diameter and 1.572 m long.",
     "volume": "100 ml",
     "weight": "863 g",
     "longest_side": "1572 mm",

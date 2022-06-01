@@ -71,7 +71,7 @@
     "id": "glocksear",
     "type": "GUNMOD",
     "name": { "str": "Glock auto sear plate" },
-    "description": "This is a relatively simple switch or button mechanism that replaces the back plate of a Glock slide, allowing it to function as a select-fire machine pistol.  A highly illegal modification, but the feds are zombie food anyway.  This will fit any standard Glock pistol in 9mm, .40, .45, 10mm, or .357 caliber.",
+    "description": "This is a relatively simple switch or button mechanism that replaces the back plate of a Glock slide, allowing it to function as a select-fire machine pistol.  A highly illegal modification, but the feds are zombie food anyway.  This will fit any standard Glock pistol in 9 mm, .40, .45, 10 mm, or .357 caliber.",
     "weight": "55 g",
     "volume": "20 ml",
     "price": 9500,

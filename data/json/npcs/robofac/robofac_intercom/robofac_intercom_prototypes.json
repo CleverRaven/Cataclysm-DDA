@@ -306,7 +306,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_RIFLE_REQUEST",
     "//": "buying an HWP",
     "type": "talk_topic",
-    "dynamic_line": "Very well the Hybrid Weapons Platform will be printed with a 5.56 NATO, 7.62 NATO, 9mm, and shot-shell barrel with additional adaptors, two magazines for each caliber and a convenient tool bag.  Materials will require you to provide 8 coins up front and it will take 7 days to manufacture.",
+    "dynamic_line": "Very well the Hybrid Weapons Platform will be printed with a 5.56 NATO, 7.62 NATO, 9 mm, and shot-shell barrel with additional adaptors, two magazines for each caliber and a convenient tool bag.  Materials will require you to provide 8 coins up front and it will take 7 days to manufacture.",
     "responses": [
       {
         "text": "[8 HGC] A week is fine.",
@@ -543,7 +543,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_MAG_BUY",
     "//": "Buying HWP Magazines",
     "type": "talk_topic",
-    "dynamic_line": "Certainly, we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9mm Parabellum, or 2 shotgun magazines for 1 coin.  We also offer drum magazines for 3 coins, since some of our operatives have found a sustained high-caliber firepower quite necessary lately.",
+    "dynamic_line": "Certainly, we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9 mm Parabellum, or 2 shotgun magazines for 1 coin.  We also offer drum magazines for 3 coins, since some of our operatives have found a sustained high-caliber firepower quite necessary lately.",
     "responses": [
       {
         "text": "[1 HGC] I'll take a 5.56 NATO mag.",
@@ -558,7 +558,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       {
-        "text": "[1 HGC] I'll take a 9mm Parabellum mag.",
+        "text": "[1 HGC] I'll take a 9 mm Parabellum mag.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac60", "count": 1 } ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
