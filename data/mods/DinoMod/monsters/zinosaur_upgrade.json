@@ -2412,7 +2412,7 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ]
   },
@@ -2426,7 +2426,7 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ]
   },
@@ -2440,7 +2440,7 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ]
   },
@@ -2454,7 +2454,7 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ]
   },

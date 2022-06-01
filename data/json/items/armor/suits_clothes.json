@@ -470,7 +470,7 @@
     ],
     "warmth": 15,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SOFT" ]
   },
   {
     "id": "union_suit",
