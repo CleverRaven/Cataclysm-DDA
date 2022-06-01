@@ -649,7 +649,7 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( arrow, stam ) ==
                "--\n"
                "<color_c_white>Stamina use</color>:"
-               " Costs about <color_c_yellow>0.50</color>%"
+               " Costs about <color_c_yellow>0.70</color>%"
                " stamina to swing.\n" );
     }
 
@@ -670,22 +670,22 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( halligan, dpstam ) ==
                "--\n"
                "Typical damage per stamina:\n"
-               "Best: <color_c_yellow>3.12</color>"
+               "Best: <color_c_yellow>3.41</color>"
                "  Vs. Agile: <color_c_yellow>2.09</color>"
-               "  Vs. Armored: <color_c_yellow>0.93</color>\n" );
+               "  Vs. Armored: <color_c_yellow>1.03</color>\n" );
 
         CHECK( item_info_str( mr_pointy, dpstam ) ==
                "--\n"
                "Typical damage per stamina:\n"
-               "Best: <color_c_yellow>5.58</color>"
+               "Best: <color_c_yellow>6.48</color>"
                "  Vs. Agile: <color_c_yellow>3.02</color>"
                "  Vs. Armored: <color_c_yellow>0.11</color>\n" );
 
         CHECK( item_info_str( arrow, dpstam ) ==
                "--\n"
                "Typical damage per stamina:\n"
-               "Best: <color_c_yellow>8.43</color>"
-               "  Vs. Agile: <color_c_yellow>4.82</color>"
+               "Best: <color_c_yellow>7.21</color>"
+               "  Vs. Agile: <color_c_yellow>3.62</color>"
                "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 }
