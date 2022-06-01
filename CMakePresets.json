@@ -23,6 +23,26 @@
       "hidden": true
     },
     {
+      "name": "linux",
+      "description": "Linux Build Configuration",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "hidden": true
+    },
+    {
+      "name": "msys",
+      "description": "MinGW/MSYS/MSYS2 Build Configuration",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "MSYS"
+      },
+      "hidden": true
+    },
+    {
       "name": "visual-c++",
       "inherits": [ "windows" ],
       "description": "Visual C++ Configuration",
