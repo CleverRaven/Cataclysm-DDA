@@ -25,7 +25,7 @@
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "welding rod" },
-    "description": "A length of coated welding electrode - a 3mm thick steel rod coated in a special flux.  During the welding process, the hot metal of the electrode fills the seam, jointing parts together while  theflux protects the surface of the seam from atmospheric gases and rapid cooling.  Required for arc welding.",
+    "description": "A length of coated welding electrode - a 3mm thick steel rod coated in a special flux.  During the welding process, the hot metal of the electrode fills the seam, jointing parts together while the flux protects the surface of the seam from atmospheric gases and rapid cooling.  Required for arc welding.",
     "weight": "2777 mg",
     "volume": "12 ml",
     "price": 42,
