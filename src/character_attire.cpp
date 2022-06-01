@@ -2366,15 +2366,17 @@ void add_pockets( const item &i, uilist &pocket_selector,
         // pad list with empty entries for the items themselves
         contents.push_back( item_pocket() );
     }
+    int pocket_num = 1;
     for( const item_pocket *it_pocket : i.get_all_standard_pockets() ) {
-        std::string temp = "-";
+        std::string temp = string_format( "%d -", pocket_num );
 
-        pocket_selector.addentry( 0, true, '\0', colorize( string_format( "%s%s %s/%s",
+        pocket_selector.addentry( 0, true, '\0', string_format( "%s%s %s/%s",
                                   depth,
                                   temp,
                                   vol_to_info( "", "", it_pocket->contains_volume() ).sValue,
-                                  vol_to_info( "", "", it_pocket->max_contains_volume() ).sValue ), c_cyan ) );
+                                  vol_to_info( "", "", it_pocket->max_contains_volume() ).sValue ) );
         contents.push_back( *it_pocket );
+        pocket_num++;
 
         // display the items
         for( const item *it : it_pocket->all_items_top() ) {
@@ -2407,6 +2409,17 @@ void outfit::organize_items_menu()
     pocket_selector.w_height_setup = []() {
         return TERMY;
     };
+    pocket_selector.input_category = "INVENTORY";
+    pocket_selector.additional_actions = { { "FAV_PRIORITY", translation() },
+        { "FAV_AUTO_PICKUP", translation() },
+        { "FAV_AUTO_UNLOAD", translation() },
+        { "FAV_ITEM", translation() },
+        { "FAV_CATEGORY", translation() },
+        { "FAV_WHITELIST", translation() },
+        { "FAV_BLACKLIST", translation() },
+        { "FAV_CLEAR", translation() }
+    };
+    pocket_selector.allow_additional = true;
 
     pocket_selector.query();
 }
