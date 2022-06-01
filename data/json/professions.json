@@ -3822,19 +3822,9 @@
     "points": 3,
     "items": {
       "both": {
-        "items": [
-          "socks",
-          "boots_steel",
-          "gloves_work",
-          "jumpsuit",
-          "canteen",
-          "tool_belt",
-          "mbag",
-          "briefcase",
-          "wristwatch",
-          "hat_hard"
-        ],
+        "items": [ "socks", "boots_steel", "gloves_work", "jumpsuit", "canteen", "tool_belt", "mbag", "briefcase", "wristwatch" ],
         "entries": [
+          { "item": "hat_hard", "variant": "yellow_hat_hard" },
           { "group": "charged_matches" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "dynamite", "count": 8 },

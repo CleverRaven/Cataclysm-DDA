@@ -236,6 +236,7 @@ void inventory::clear()
     items.clear();
     max_empty_liq_cont.clear();
     binned = false;
+    qualities_cache.clear();
 }
 
 void inventory::push_back( const std::list<item> &newits )

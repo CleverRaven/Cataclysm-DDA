@@ -294,7 +294,7 @@
       "ammo": "shotpaper",
       "skill": "shotgun",
       "range": -2,
-      "ranged_damage": { "damage_type": "stab", "amount": -12 },
+      "ranged_damage": { "damage_type": "bullet", "amount": -6 },
       "dispersion": 600,
       "durability": 10,
       "reload": 150,
@@ -435,6 +435,33 @@
     "type": "GUNMOD",
     "name": { "str": "modified masterkey shotgun" },
     "description": "A minimalist pump-action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+  },
+  {
+    "id": "m26_mass",
+    "type": "GUNMOD",
+    "name": { "str": "M26-MASS shotgun" },
+    "description": "Modular Accessory Shotgun System, an underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  It can be mounted under the barrel of different rifles, or used as standalone weapon by attachment to a pistol grip or collapsible buttstock module.  It feeds from three or five shot detachable magazines.",
+    "weight": "2360 g",
+    "volume": "1068 ml",
+    "price": 95000,
+    "price_postapoc": 2041,
+    "install_time": "5 m",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "white",
+    "location": "underbarrel",
+    "mod_targets": [ "rifle" ],
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 310, "durability": 10, "clip_size": 5 },
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ]
+  },
+  {
+    "id": "m26_mass_mod",
+    "copy-from": "m26_mass",
+    "type": "GUNMOD",
+    "name": { "str": "M26-MASS", "str_pl": "M26-MASSes" },
+    "description": "An underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {

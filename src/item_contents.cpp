@@ -579,7 +579,8 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         }
         if( !pocket.rigid() && (
                 !pocket.settings.get_item_whitelist().empty() ||
-                !pocket.settings.get_category_whitelist().empty() ) ) {
+                !pocket.settings.get_category_whitelist().empty() ||
+                pocket.settings.priority() > 0 ) ) {
             ignore_rigidity = true;
         }
         if( !pocket.can_contain( it ).success() || ( !ignore_rigidity && nested && !pocket.rigid() ) ) {
@@ -600,8 +601,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             continue;
         }
         if( parent_pkt_selected ) {
-            if( !nested_content_pocket->settings.get_category_whitelist().empty() ||
-                !nested_content_pocket->settings.get_item_whitelist().empty() ) {
+            if( ret.second->better_pocket( *nested_content_pocket, it, true ) ) {
                 // item is whitelisted in nested pocket, prefer that over parent pocket
                 ret.second = nested_content_pocket;
             }

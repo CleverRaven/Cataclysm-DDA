@@ -5720,7 +5720,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "60 s",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "string_6", 6 ] ] ]
   },
   {
