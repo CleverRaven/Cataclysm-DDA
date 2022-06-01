@@ -17,3 +17,5 @@ Follow these conventions when adding or editing in-game text. Theses conventions
 10. Brand names do not need to be avoided as we are covered under fair use.  However, as CDDA-Earth is a parallel universe, nonexistent brands are also allowed.
 11. Don't avoid using Unicode letters, which includes proper names and alphabets when needed, or symbols as ® or ™.
 12. Always make sure that all descriptions follow a sentence case, i.e. they start with a big letter and end with a full stop, even if they are just for testing purposes (they can still appear by mistake and can be seen in debug menus).
+13. When it comes to using unit notation, try to use best practices listed [here](https://physics.nist.gov/cuu/Units/checklist.html).
+  1. Include a space before units. For example: `9 mm` and not `9mm`
