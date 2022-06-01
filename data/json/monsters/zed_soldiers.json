@@ -349,6 +349,23 @@
     "upgrades": { "half_life": 18, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_sailor_death_drops"
   },
+  {
+    "id": "mon_zombie_marine",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_soldier",
+    "name": { "str": "Devil Dog" },
+    "description": "This lurching corpse would have been an intimidating sight even when it was still a living human.  Dressed head to toe in naval combat equipment and with Marine insignia embroidered on its gear, this former Marine still retains its physical fitness in death.  From underneath its helmet, its inky black eyes predatorily scan the area around it, and its rotting hands look perfectly capable of strangling the life out of you.",
+    "melee_skill": 6,
+    "melee_dice": 3,
+    "melee_dice_sides": 4,
+    "harvest": "zombie",
+    "death_drops": "mon_zombie_soldier_death_drops",
+    "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
+    "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+  },
+  {
     "id": "mon_zombie_flamer",
     "type": "MONSTER",
     "name": { "str": "zombie burner" },
