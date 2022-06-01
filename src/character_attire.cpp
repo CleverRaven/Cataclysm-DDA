@@ -314,6 +314,8 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
         guy.calc_discomfort();
     }
 
+    guy.recoil = MAX_RECOIL;
+
     return new_item_it;
 }
 
@@ -409,6 +411,7 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
         recalc_sight_limits();
         calc_encumbrance();
         calc_discomfort();
+        recoil = MAX_RECOIL;
         return true;
     } else {
         return false;
