@@ -355,8 +355,7 @@
     "coverage": 60,
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oven" },
-    "//": "TODO: Replace FIRE_CONTAINER with some flag choking out small files",
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "oven", "count": 1 } ] },
     "max_volume": "120 L",
     "bash": {
