@@ -1,7 +1,7 @@
 #[=======================================================================[
 
-x64-release
------------
+windows-tiles-sounds-x64-msvc
+-----------------------------
 
 Pre-load script for Microsoft Visual Studio builds.
 
