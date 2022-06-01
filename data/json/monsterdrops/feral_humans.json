@@ -738,12 +738,9 @@
     "magazine": 100,
     "ammo": 60,
     "entries": [
-      {
-        "distribution": [
-          { "group": "clothing_soldier_set", "prob": 65, "damage": [ 0, 4 ] },
-          { "group": "clothing_soldier_winter_set", "prob": 35, "damage": [ 0, 4 ] }
-        ]
-      },
+      { "group": "clothing_navy", "damage": [ 0, 4 ] },
+      { "item": "pants_army", "variant": "apants_MARPAT", "damage": [ 0, 4 ] },
+      { "item": "boots_combat", "damage": [ 0, 4 ] },
       {
         "distribution": [
           {
@@ -771,13 +768,23 @@
         "prob": 100
       },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
+      { "group": "military_ballistic_vest" },
       { "group": "military_patrol_food" },
       { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+      { "item": "webbing_belt", "damage": [ 0, 4 ], "prob": 60 },
       { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+      { "item": "sheath", "prob": 80 },
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
-      { "group": "wallets", "prob": 10 },
+      { "group": "wallets_military", "prob": 5 },
       { "group": "pocket_cigar", "prob": 15 },
-      { "group": "misc_smoking_legal", "prob": 30 }
+      { "group": "misc_smoking_legal", "prob": 30 },
+      { "item": "elbow_pads", "damage": [ 0, 4 ], "prob": 10 },
+      { "item": "knee_pads", "damage": [ 0, 4 ], "prob": 85 },
+      { "item": "helmet_army", "damage": [ 0, 4 ], "prob": 80 },
+      { "item": "gloves_tactical", "damage": [ 0, 4 ], "prob": 60 },
+      { "group": "military_ballistic_vest", "damage": [ 0, 4 ] },
+      { "group": "molle_backpacks_and_accessories", "damage": [ 0, 4 ], "prob": 85 },
+      { "group": "clothing_tactical_leg", "damage": [ 0, 4 ], "prob": 15 }
     ]
   }
 ]

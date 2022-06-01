@@ -908,7 +908,7 @@
     "vision_night": 4,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "mon_feral_marine_death_drops",
-    "zombify_into": "mon_zombie_survivor",
+    "zombify_into": "mon_zombie_marine",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [
       "SEES",

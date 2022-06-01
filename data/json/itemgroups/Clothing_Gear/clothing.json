@@ -127,6 +127,23 @@
     ]
   },
   {
+    "id": "clothing_navy",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Base clothing entries for Navy personnel like sailors, Marines, SEALs, etc. Leaving out entries for boots and pants in order to define them in the individual drops for the monsters themselves, so as to give the appropriate type of boots and army pants pattern to the appropriate types of personnel.",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
     "id": "clothing_military",
     "type": "item_group",
     "subtype": "collection",
