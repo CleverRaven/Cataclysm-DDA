@@ -498,7 +498,7 @@
     "dynamic_line": "Yes the 'EXODII' we have yet to make contact but are monitoring them.  If you provide us with 5 rounds, a magazine and the rifle we should be able to easily fabricate the parts.  Should take 3 days.",
     "responses": [
       {
-        "text": "[5 12.3ln, PA md. 68 magazine, PA md. 68] See you in 3 days.",
+        "text": "[5 12.3 ln, PA md. 68 magazine, PA md. 68] See you in 3 days.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "pamd68", "count": 1 } },
