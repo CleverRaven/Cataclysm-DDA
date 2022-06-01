@@ -1484,7 +1484,7 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
             if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
                 m.destroy( tripoint( i,  j, abs_sub.z ), true );
                 if( abs_sub.z == 0 ) {
-                    m.ter_set( tripoint( i, j, abs_sub.z ), t_region_soil );
+                    m.ter_set( tripoint( i, j, abs_sub.z ), ter_t_region_soil );
                 }
             }
         }
