@@ -184,7 +184,7 @@ static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
 static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
 static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
-//static const ter_str_id ter_t_region_soil( "t_region_soil" ); Do I need this here?
+static const ter_str_id ter_t_region_soil( "t_region_soil" ); Do I need this here?
 
 static const trap_str_id tr_caltrops( "tr_caltrops" );
 static const trap_str_id tr_engine( "tr_engine" );
