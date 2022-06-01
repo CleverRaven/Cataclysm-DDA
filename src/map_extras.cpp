@@ -184,6 +184,7 @@ static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
 static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
 static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
+//static const ter_str_id ter_t_region_soil( "t_region_soil" ); Do I need this here?
 
 static const trap_str_id tr_caltrops( "tr_caltrops" );
 static const trap_str_id tr_engine( "tr_engine" );
@@ -1483,7 +1484,7 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
             if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
                 m.destroy( tripoint( i,  j, abs_sub.z ), true );
                 if( abs_sub.z == 0 ) {
-                    m.ter_set( tripoint( i, j, abs_sub.z ), t_dirt );
+                    m.ter_set( tripoint( i, j, abs_sub.z ), t_region_soil );
                 }
             }
         }
