@@ -35,7 +35,7 @@
     "copy-from": "45_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".45 ACP +P" },
-    "description": "Overpressure .45 ACP ammunition with a 185gr JHP bullet.  This +P ammunition has higher muzzle energy than typical loads, leading to greater damage, accuracy and recoil.",
+    "description": "Overpressure .45 ACP ammunition with a 185gr JHP bullet.  This cartridge has higher muzzle energy than typical loads, leading to greater damage, accuracy and recoil.",
     "price": 210,
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
