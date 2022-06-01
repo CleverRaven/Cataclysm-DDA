@@ -1387,6 +1387,8 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         }
     }
 
+    recoil = MAX_RECOIL;
+
     inv->restack( *this );
 }
 
