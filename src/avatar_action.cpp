@@ -1164,6 +1164,9 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             parent_pocket->handle_liquid_or_spill( you );
         }
     }
+
+    you.recoil = MAX_RECOIL;
+
     you.invalidate_crafting_inventory();
 }
 

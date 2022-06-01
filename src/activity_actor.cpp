@@ -2856,6 +2856,8 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
         target.remove_item();
     }
+
+    who.recoil = MAX_RECOIL;
 }
 
 void unload_activity_actor::serialize( JsonOut &jsout ) const
@@ -3972,7 +3974,6 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( reloadable.is_gun() ) {
-        who.recoil = MAX_RECOIL;
         if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
             add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
         }
@@ -3983,9 +3984,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
 
-    // Volume change should only affect container that cantains the "base" item
+    who.recoil = MAX_RECOIL;
+
+    // Volume change should only affect container that contains the "base" item
     // For example a reloaded gun mod never "spills" from the gun
-    // It just affect the container that cantains the gun
+    // It just affects the container that contains the gun
     if( !reload_targets[0].has_parent() ) {
         debugmsg( "item_location of item to be reloaded is not available" );
         return;
