@@ -341,29 +341,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "cordless_impact_wrench",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 3 ],
-    "difficulty": 5,
-    "time": "8 h",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 3 ], [ "soldering_standard", 10 ], [ "plastic_molding", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" },
-      { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
-      { "proficiency": "prof_elec_soldering" },
-      { "proficiency": "prof_elec_circuits" }
-    ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "motor_tiny", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "cable", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "trimmer_off",
     "category": "CC_ELECTRONIC",
