@@ -5894,9 +5894,9 @@ void vehicle::refresh( const bool remove_fakes )
             int fake_index = parts.size();
             part_real.fake_part_at = fake_index;
             fake_parts.push_back( fake_index );
-            parts.push_back( part_fake );
             relative_parts[ part_fake.mount ].push_back( fake_index );
             edges.emplace( real_mount, edge_info );
+            parts.push_back( part_fake );
         }
     };
     // re-install fake parts - this could be done in a separate function, but we want to
