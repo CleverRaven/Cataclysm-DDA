@@ -25,12 +25,14 @@
       "!": "t_linoleum_white",
       "_": "t_sidewalk",
       "^": "t_linoleum_gray",
+      "?": "t_linoleum_gray",
       ",": "t_open_air",
       "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
       "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ]
     },
     "furniture": {
       "^": "f_counter",
+      "?": "f_counter",
       "g": "f_stool",
       "W": "f_workbench",
       "t": "f_table",
@@ -46,16 +48,22 @@
       "d": "f_desk",
       "i": "f_indoor_plant_y",
       "7": "f_filing_cabinet",
+      "S": "f_utility_shelf",
+      "x": "f_utility_shelf",
       "l": "f_locker"
     },
     "items": {
       "l": { "item": "clothing_work_set", "chance": 25 },
       "d": { "item": "office", "chance": 30 },
       "W": { "item": "SUS_tailoring_tool_drawer", "chance": 25 },
+      "Y": { "item": "clothing_biker", "chance": 25 },
       "t": { "item": "SUS_tailoring_materials", "chance": 25 },
       "C": { "item": "SUS_tailoring_tool_drawer", "chance": 25 },
+      "?": { "item": "cash_register_random", "chance": 100 },
       "c": { "item": "SUS_tailoring_materials", "chance": 25 },
-      "7": { "item": "office_paper", "chance": 30 }
+      "7": { "item": "office_paper", "chance": 30 },
+      "S": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
+      "x": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] }
     },
     "toilets": { "t": {  } },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } }
