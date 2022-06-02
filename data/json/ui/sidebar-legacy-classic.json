@@ -1,0 +1,12 @@
+[
+  {
+    "id": "legacy_classic_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "(W)classic",
+    "width": 44,
+    "widgets": [
+
+    ]
+  }
+]

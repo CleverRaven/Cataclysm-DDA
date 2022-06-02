@@ -1,0 +1,11 @@
+[
+  {
+    "id": "legacy_compact_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "(W)labels narrow",
+    "width": 32,
+    "widgets": [
+    ]
+  }
+]
