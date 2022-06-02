@@ -804,5 +804,26 @@
       { "group": "molle_backpacks_and_accessories", "damage": [ 0, 4 ], "prob": 85 },
       { "group": "clothing_tactical_leg", "damage": [ 0, 4 ], "prob": 15 }
     ]
+  },
+  {
+    "id": "mon_feral_officer_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      { "group": "clothing_navy_officer", "damage": [ 0, 4 ] },
+      { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
+      { "item": "two_way_radio", "charges": [ 0, 300 ], "prob": 25 },
+      { "item": "militarymap", "prob": 10 },
+      { "group": "wallets_military", "prob": 5 },
+      { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
+      { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
+      { "group": "pocket_cigar", "prob": 5 },
+      { "group": "misc_smoking_legal", "prob": 10 },
+      { "item": "m18", "prob": 100, "damage": [ 0, 4 ] },
+      { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 14 ] },
+      { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 17 ] }
+    ]
   }
 ]

@@ -133,7 +133,7 @@
     "monsters": [
       { "monster": "mon_zombie_technician", "weight": 15 },
       { "monster": "mon_feral_sailor_lug_wrench", "weight": 15 },
-      { "monster": "mon_zombie_tough", "weight": 6 },
+      { "monster": "mon_zombie_officer", "weight": 6 },
       { "monster": "mon_zombie_sailor", "weight": 10 },
       { "monster": "mon_zombie_fireman", "weight": 6 },
       { "monster": "mon_zombie_medical", "weight": 6 },
@@ -148,7 +148,7 @@
       { "monster": "mon_zombie_military_pilot", "weight": 6 },
       { "monster": "mon_zombie_marine", "weight": 15, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
       { "monster": "mon_feral_marine_mutated", "weight": 2, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_bio_op2", "weight": 2, "cost_multiplier": 10, "starts": "60 days" },
+      { "monster": "mon_feral_officer", "weight": 2, "cost_multiplier": 10, "starts": "15 days" },
       { "monster": "mon_feral_sailor_wrench", "weight": 6 },
       { "monster": "mon_feral_sailor_mop", "weight": 6 },
       { "monster": "mon_feral_sailor_axe", "weight": 6 },
@@ -165,6 +165,7 @@
       { "monster": "mon_feral_sailor_lug_wrench", "weight": 67 },
       { "monster": "mon_zombie_sailor", "weight": 12 },
       { "monster": "mon_zombie_fireman", "weight": 6 },
+      { "monster": "mon_zombie_officer", "weight": 6 },
       { "monster": "mon_zombie_medical", "weight": 6 },
       { "monster": "mon_zombie_fat", "weight": 6 },
       { "monster": "mon_feral_sailor_wrench", "weight": 6 },
@@ -172,7 +173,7 @@
       { "monster": "mon_feral_sailor_axe", "weight": 6 },
       { "monster": "mon_feral_marine_bayonet", "weight": 6 },
       { "monster": "mon_feral_sailor_wrench", "weight": 6 },
-      { "monster": "mon_feral_soldier", "weight": 6 }
+      { "monster": "mon_ferral_officer", "weight": 3 }
     ]
   },
   {

@@ -82,5 +82,24 @@
       { "group": "molle_backpacks_and_accessories", "damage": [ 0, 4 ], "prob": 85 },
       { "group": "clothing_tactical_leg", "damage": [ 0, 4 ], "prob": 15 }
     ]
+  },
+  {
+    "id": "mon_zombie_officer_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      { "group": "clothing_navy_officer", "damage": [ 0, 4 ] },
+      { "group": "infantry_officer_gear" },
+      { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
+      { "item": "two_way_radio", "charges": [ 0, 300 ], "prob": 25 },
+      { "item": "militarymap", "prob": 10 },
+      { "group": "wallets_military", "prob": 5 },
+      { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
+      { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
+      { "group": "pocket_cigar", "prob": 5 },
+      { "group": "misc_smoking_legal", "prob": 10 }
+    ]
   }
 ]

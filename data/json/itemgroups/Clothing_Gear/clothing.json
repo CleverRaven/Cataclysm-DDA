@@ -144,6 +144,24 @@
     ]
   },
   {
+    "id": "clothing_navy_officer",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Base clothing entries for Navy officers.",
+    "items": [
+      { "item": "boots", "damage": [ 0, 4 ] },
+      { "item": "hat_navy", "damage": [ 0, 4 ] },
+      { "item": "officer_uniform", "damage": [ 0, 4 ] },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
     "id": "clothing_military",
     "type": "item_group",
     "subtype": "collection",
