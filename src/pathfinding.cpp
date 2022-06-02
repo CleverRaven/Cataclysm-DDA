@@ -422,7 +422,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         bool rope_ladder = false;
         const maptile &parent_tile = maptile_at_internal( cur );
         const auto &parent_terrain = parent_tile.get_ter_t();
-        auto &mymap = get_map();
         if( settings.allow_climb_stairs && cur.z > min.z &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
             cata::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
