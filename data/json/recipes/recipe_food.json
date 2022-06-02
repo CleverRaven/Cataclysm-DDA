@@ -8004,13 +8004,23 @@
     "result": "rehydration_drink",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
-    "book_learn": [ [ "textbook_firstaid", 1 ], [ "manual_survival", 1 ], [ "manual_first_aid", 1 ] ],
+    "book_learn": [
+      [ "textbook_firstaid", 1 ],
+      [ "manual_survival", 1 ],
+      [ "manual_first_aid", 1 ]
+    ],
     "skill_used": "cooking",
     "time": "3 m",
     "charges": 8,
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "sugar", 10 ] ], [ [ "salt", 1 ] ], [ [ "water_clean", 8 ] ] ],
-    "//": "For later: this should also include baking soda / sodium bicarbonate.  Other electrolytes are debatable."
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 }
+    ],
+    "components": [
+      [ [ "sugar", 10 ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "water_clean", 8 ] ],
+      [ [ "chem_baking_soda", 1 ] ]
+    ]
   },
   {
     "result": "oatmeal",
