@@ -183,7 +183,8 @@
     "description": "An electric forge for metalworking.  When plugged in and powered you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "veh_forge"
+    "copy-from": "veh_forge",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -440,7 +441,8 @@
     "location": "structure",
     "item": "large_space_heater",
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "APPLIANCE" ],
-    "copy-from": "mountable_heater"
+    "copy-from": "mountable_heater",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -450,7 +452,9 @@
     "item": "small_space_heater",
     "folded_volume": "0 L",
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "APPLIANCE" ],
-    "copy-from": "mountable_heater_small"
+    "copy-from": "mountable_heater_small",
+    "requirements": { "removal": { "time": "6 m" } }
+    
   },
   {
     "type": "vehicle_part",
@@ -491,7 +495,8 @@
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ]
+    "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "id": "ap_standing_floodlight",
@@ -502,7 +507,8 @@
     "description": "A very bright, circular light that illuminates the area around it when switched on.",
     "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "folded_volume": "0 L",
-    "copy-from": "floodlight"
+    "copy-from": "floodlight",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "id": "ap_wall_wiring",
@@ -576,7 +582,8 @@
     "color": "white",
     "flags": [ "APPLIANCE" ],
     "description": "A small battery to store electrical power in a static power grid.",
-    "copy-from": "small_storage_battery"
+    "copy-from": "small_storage_battery",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -587,7 +594,8 @@
     "color": "yellow",
     "flags": [ "APPLIANCE" ],
     "description": "A medium battery to store electrical power in a static power grid.",
-    "copy-from": "medium_storage_battery"
+    "copy-from": "medium_storage_battery",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -598,7 +606,8 @@
     "color": "light_red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "description": "A large battery to store electrical power in a static power grid.",
-    "copy-from": "storage_battery"
+    "copy-from": "storage_battery",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -609,7 +618,8 @@
     "color": "red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "description": "A very large battery to store electrical power in a static power grid.",
-    "copy-from": "large_storage_battery"
+    "copy-from": "large_storage_battery",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -628,7 +638,8 @@
       { "item": "steel_chunk", "count": [ 6, 9 ] },
       { "item": "scrap", "count": [ 6, 9 ] }
     ],
-    "durability": 120
+    "durability": 120,
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -642,7 +653,8 @@
     "description": "An appliance used to do laundry, plugged into a power supply and using internal tanks.",
     "size": 540,
     "copy-from": "washing_machine",
-    "item": "household_washing_machine"
+    "item": "household_washing_machine",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -656,7 +668,8 @@
     "description": "An appliance used to clean dishes, plugged into a power supply and using internal tanks.",
     "size": 480,
     "copy-from": "dishwasher",
-    "item": "household_dishwasher"
+    "item": "household_dishwasher",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -670,7 +683,8 @@
     "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks",
     "size": 200,
     "copy-from": "autoclave",
-    "item": "autoclave"
+    "item": "autoclave",
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -695,7 +709,8 @@
       { "item": "steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 5, 7 ] }
     ],
-    "damage_reduction": { "all": 10 }
+    "damage_reduction": { "all": 10 },
+    "requirements": { "removal": { "time": "6 m" } }
   },
   {
     "type": "vehicle_part",
@@ -721,6 +736,7 @@
       { "item": "e_scrap", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
-    "damage_reduction": { "all": 5 }
+    "damage_reduction": { "all": 5 },
+    "requirements": { "removal": { "time": "6 m" } }
   }
 ]
