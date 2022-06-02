@@ -454,7 +454,6 @@
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "APPLIANCE" ],
     "copy-from": "mountable_heater_small",
     "requirements": { "removal": { "time": "6 m" } }
-    
   },
   {
     "type": "vehicle_part",
