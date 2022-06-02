@@ -10,7 +10,7 @@
     "count": 100,
     "default_ammo": "rifle_ball",
     "linkage": "ammolinkrifle",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 500 }, "rigid": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 500 }, "rigid": false } ]
   },
   {
     "id": "rifle_mag",

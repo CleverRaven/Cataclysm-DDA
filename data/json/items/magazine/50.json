@@ -9,7 +9,7 @@
     "capacity": 100,
     "count": 100,
     "linkage": "ammolink50",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "50": 100 } } ]
   },
   {
     "id": "m107a1mag",
