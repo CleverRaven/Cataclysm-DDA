@@ -273,9 +273,11 @@ class game
          */
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint &pos );
-        /** Returns the other end of the stairs (if any). May query, affect u etc.  */
+        /** Returns the other end of the stairs (if any). May query, affect u etc.
+        * @param pos Disable queries and msgs if not the same position as player.
+        */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
-                bool peeking );
+                bool peeking, const tripoint pos );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc.
          *  Returns true if the z-level changed.
          */
