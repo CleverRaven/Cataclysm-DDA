@@ -101,6 +101,28 @@
     ]
   },
   {
+    "id": "ketene_lamp",
+    "type": "TOOL",
+    "name": { "str": "ketene lamp" },
+    "description": "This is a section of glass pipe with a bulb in the middle, which contains an electrical heating element.  It is used for producing ketene via pyrolysis of acetone or 1,3-butadiene from cyclohexane, for use in other chemical reactions.  Due to the instability of ketene, it can't be stored and must be used immediately.",
+    "weight": "3 kg",
+    "volume": "2 L",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "material": [ "glass", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "engineering_makerspace_kit",
     "type": "TOOL",
     "name": { "str": "makerspace kit for STEM", "str_pl": "makerspace kits for STEM" },
