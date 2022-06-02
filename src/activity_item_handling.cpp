@@ -407,6 +407,8 @@ void drop_on_map( Character &you, item_drop_reason reason, const std::list<item>
         here.add_item_or_charges( where, it );
         item( it ).handle_pickup_ownership( you );
     }
+
+    you.recoil = MAX_RECOIL;
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
