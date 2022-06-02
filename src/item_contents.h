@@ -369,11 +369,12 @@ class item_contents
 class pocket_favorite_callback : public uilist_callback
 {
     private:
-        std::list<item_pocket> *pockets = nullptr;
+        std::list<std::pair<item_pocket *, int>> *pockets = nullptr;
         // whitelist or blacklist, for interactions
         bool whitelist = true;
     public:
-        explicit pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {}
+        explicit pocket_favorite_callback( std::list<std::pair<item_pocket *, int>> *pockets ) : pockets(
+                pockets ) {}
         void refresh( uilist *menu ) override;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 };
