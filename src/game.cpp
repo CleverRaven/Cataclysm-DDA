@@ -11220,7 +11220,7 @@ void game::start_hauling( const tripoint &pos )
 cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
         bool peeking, const tripoint pos )
 {
-    const bool is_avatar = u.pos() == pos ? true : false;
+    const bool is_avatar = u.pos() == pos;
     const int omtilesz = SEEX * 2;
     real_coords rc( mp.getabs( point( pos.x, pos.y ) ) );
     tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
