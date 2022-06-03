@@ -2290,7 +2290,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
         new_disassembly = item( orig_item );
     } else {
         const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
-        new_disassembly = item( &r, orig_item );
+        new_disassembly = item( &r, activity.position, orig_item );
 
         // Remove any batteries, ammo, contents and mods first
         remove_ammo( orig_item, *this );
@@ -2301,8 +2301,6 @@ item_location Character::create_in_progress_disassembly( item_location target )
         if( orig_item.count_by_charges() ) {
             //subtract selected number of rounds to disassemble
             orig_item.charges -= activity.position;
-            new_disassembly.charges = activity.position;
-
         }
     }
     // remove the item, except when it's counted by charges and still has some
@@ -2419,7 +2417,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             }
         } else {
             new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * std::max( obj.charges, 1 ) ) );
+                                       recipe_time_flag::ignore_proficiencies ) * std::max( obj.get_making_batch_size(), 1 ) ) );
         }
         new_act.targets.emplace_back( std::move( target ) );
 
