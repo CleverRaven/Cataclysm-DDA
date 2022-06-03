@@ -173,7 +173,7 @@
       { "monster": "mon_feral_sailor_axe", "weight": 6 },
       { "monster": "mon_feral_marine_bayonet", "weight": 6 },
       { "monster": "mon_feral_sailor_wrench", "weight": 6 },
-      { "monster": "mon_ferral_officer", "weight": 3 }
+      { "monster": "mon_feral_officer", "weight": 3 }
     ]
   },
   {

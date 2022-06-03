@@ -353,11 +353,6 @@
     "copy-from": "mon_zombie_sailor",
     "name": { "str": "zombie officer" },
     "description": "Dressed in the shredded blue dress uniform of a naval officer, this undead corpse was evidently a higher ranking crewmen in life.  Having more than likely not been clad in body armour, the result now staggers before you: horrific wounds exposed to the air and large portions of flesh and muscle ripped from its glistening skeleton.",
-    "hp": 80,
-    "speed": 80,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
     "death_drops": "mon_zombie_officer_death_drops"
   },
   {
@@ -366,8 +361,6 @@
     "copy-from": "mon_zombie_soldier",
     "name": { "str": "Devil Dog" },
     "description": "This lurching corpse would have been an intimidating sight even when it was still a living human.  Dressed head to toe in naval combat equipment and with Marine insignia embroidered on its gear, this former Marine still retains its physical fitness in death.  From underneath its helmet, its inky black eyes predatorily scan the area around it, and its rotting hands still look perfectly capable of strangling the life out of you.",
-    "hp": 120,
-    "speed": 90,
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 4,

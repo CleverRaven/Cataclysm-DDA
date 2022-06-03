@@ -63,7 +63,6 @@
       { "item": "boots_combat", "damage": [ 0, 4 ] },
       { "item": "sheath", "contents-item": "knife_combat", "prob": 80 },
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
-      { "group": "military_ballistic_vest" },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       { "item": "two_way_radio", "charges": [ 0, 300 ], "prob": 25 },
       { "group": "wallets_military", "prob": 5 },
