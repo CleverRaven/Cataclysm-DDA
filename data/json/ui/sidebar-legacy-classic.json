@@ -10,36 +10,38 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-    "id": "lc_health_left_layout",
+    "id": "lcla_health_left_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "widgets": [ "hp_head_graph", "hp_torso_graph", "hp_left_arm_graph", "hp_right_arm_graph", "hp_left_leg_graph", "hp_right_leg_graph", "power_desc" ]
   },
   {
-    "id": "lc_health_mid_layout",
+    "id": "lcla_health_mid_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
     "widgets": [ "needs_desc_layout", "move_speed_layout", "focus_num" ]
   },
   {
-    "id": "lc_health_right_layout",
+    "id": "lcla_health_right_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
     "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_text", "stamina_graph_classic" ]
   },
   {
-    "id": "lc_health_layout",
+    "id": "lcla_health_layout",
     "type": "widget",
     "style": "layout",
     "label": "Health",
     "arrange": "columns",
-    "widgets": [ "overmap_full_height" ,"lc_health_left_layout", "lc_health_mid_layout", "lc_health_right_layout" ] 
+    "widgets": [ "overmap_full_height" ,"lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ] 
   },
   {
-    "id": "lc_weather_layout",
+    "id": "lcla_weather_layout",
     "type": "widget",
     "style": "layout",
     "label": "Weather",
@@ -47,7 +49,7 @@
     "widgets": [ "weather_desc", "moon_phase_desc" ] 
   },
   {
-    "id": "lc_lighting_layout",
+    "id": "lcla_lighting_layout",
     "type": "widget",
     "style": "layout",
     "label": "Lighting",
@@ -55,7 +57,7 @@
     "widgets": [ "lighting_desc", "sound_num" ] 
   },
   {
-    "id": "lc_weapon_layout",
+    "id": "lcla_weapon_layout",
     "type": "widget",
     "style": "layout",
     "label": "Weapon/Style",
@@ -69,13 +71,13 @@
     "label": "(W)classic",
     "width": 44,
     "widgets": [
-      "lc_health_layout",
+      "lcla_health_layout",
       "vehicle_azimuth_cruise_fuel_layout",
       "all_weariness_layout",
       "overmap_location_desc",
-      "lc_weather_layout",
-      "lc_lighting_layout",
-      "lc_weapon_layout",
+      "lcla_weather_layout",
+      "lcla_lighting_layout",
+      "lcla_weapon_layout",
       "time_desc",
       "wind_desc",
       "bodypart_armor_outer_layout",

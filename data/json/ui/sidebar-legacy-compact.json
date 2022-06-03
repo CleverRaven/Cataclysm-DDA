@@ -1,11 +1,48 @@
-[
+[  
+{
+  "id": "lcom_limbs_left_layout",
+  "type": "widget",
+  "style": "layout",
+  "arrange": "rows",
+  "widgets": [ "hp_head_graph", "hp_left_arm_graph", "hp_left_leg_graph" ]
+},
+{
+  "id": "lcom_limbs_mid_layout",
+  "type": "widget",
+  "style": "layout",
+  "arrange": "rows",
+  "widgets": [ "hp_torso_graph", "hp_right_arm_graph", "hp_right_leg_graph" ]
+},
+{
+  "id": "lcom_safe_mood_layout",
+  "type": "widget",
+  "style": "layout",
+  "arrange": "columns",
+  "widgets": [ "safe_mode_text", "mood_text" ]
+},
+{
+  "id": "lcom_limbs_right_layout",
+  "type": "widget",
+  "style": "layout",
+  "arrange": "rows",
+  "widgets": [ "stamina_graph_classic", "power_desc", "lcom_safe_mood_layout" ]
+},
+{
+  "id": "lcom_limbs_layout",
+  "type": "widget",
+  "style": "layout",
+  "label": "Limbs",
+  "arrange": "columns",
+  "widgets": [ "lcom_limbs_left_layout", "lcom_limbs_mid_layout", "lcom_limbs_right_layout" ] 
+},
   {
     "id": "legacy_compact_sidebar",
     "type": "widget",
     "style": "sidebar",
-    "label": "(W)labels narrow",
+    "label": "(W)compact",
     "width": 32,
     "widgets": [
+      "lcom_limbs_layout",
     ]
   }
 ]
