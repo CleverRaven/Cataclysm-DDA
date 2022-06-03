@@ -1,5 +1,15 @@
 [
   {
+    "id": "overmap_full_height",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 7,
+    "height": 0,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
     "id": "lc_health_left_layout",
     "type": "widget",
     "style": "layout",
@@ -26,7 +36,7 @@
     "style": "layout",
     "label": "Health",
     "arrange": "columns",
-    "widgets": [ "lc_health_left_layout", "lc_health_mid_layout", "lc_health_right_layout" ] 
+    "widgets": [ "overmap_full_height" ,"lc_health_left_layout", "lc_health_mid_layout", "lc_health_right_layout" ] 
   },
   {
     "id": "lc_weather_layout",
@@ -60,6 +70,7 @@
     "width": 44,
     "widgets": [
       "lc_health_layout",
+      "vehicle_azimuth_cruise_fuel_layout",
       "all_weariness_layout",
       "overmap_location_desc",
       "lc_weather_layout",
