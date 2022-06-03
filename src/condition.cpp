@@ -1319,7 +1319,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             }
         }
         return [given_unit]( const T & ) {
-            return to_turn<int>( calendar::turn ) / to_turns<int>( given_unit );
+            return ( to_turn<int>( calendar::turn ) - to_turn<int> (calendar :: start_of_cataclysm) ) / to_turns<int>( given_unit );
         };
     } else if( jo.has_member( "rand" ) ) {
         int max_value = jo.get_int( "rand" );
