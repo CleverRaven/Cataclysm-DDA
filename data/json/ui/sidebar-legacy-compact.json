@@ -59,6 +59,54 @@
   "arrange": "columns",
   "widgets": [ "time_desc", "moon_phase_desc" ] 
 },
+{
+  "id": "lcom_needs_left_layout",
+  "type": "widget",
+  "style": "layout",
+  "arrange": "rows",
+  "widgets": [ "hunger_desc", "thirst_desc", "fatigue_desc" ] 
+},
+{
+  "id": "lcom_needs_right_layout",
+  "type": "widget",
+  "style": "layout",
+  "arrange": "rows",
+  "//": "TODO Make the temperature look like it used to.",
+  "widgets": [ "pain_desc", "body_temp_desc", "focus_desc" ] 
+},
+{
+  "id": "lcom_needs_layout",
+  "type": "widget",
+  "style": "layout",
+  "label": "Needs",
+  "arrange": "columns",
+  "widgets": [ "lcom_needs_left_layout", "lcom_needs_right_layout" ] 
+},
+{
+  "id": "lcom_env_overmap",
+  "type": "widget",
+  "label": "Overmap",
+  "var": "overmap_text",
+  "style": "text",
+  "width": 7,
+  "height": 0,
+  "flags": [ "W_LABEL_NONE" ]
+},
+{
+  "id": "lcom_env_right_layout",
+  "type": "widget",
+  "style": "layout",
+  "arrange": "rows",
+  "widgets": [ "wielding_desc", "style_desc", "place_desc", "weather_desc", "lighting_desc", "wind_desc" ] 
+},
+{
+  "id": "lcom_env_layout",
+  "type": "widget",
+  "style": "layout",
+  "label": "Env",
+  "arrange": "columns",
+  "widgets": [ "lcom_env_overmap", "lcom_env_right_layout" ] 
+},
   {
     "id": "legacy_compact_sidebar",
     "type": "widget",
@@ -70,7 +118,9 @@
       "lcom_sound_layout",
       "lcom_stats_layout",
       "all_weariness_layout",
-      "lcom_time_layout"
+      "lcom_time_layout",
+      "lcom_needs_layout",
+      "lcom_env_layout"
     ]
   }
 ]
