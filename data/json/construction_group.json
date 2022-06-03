@@ -1016,6 +1016,11 @@
   },
   {
     "type": "construction_group",
+    "id": "fill_recess_with_dirt",
+    "name": "Fill Recess With Dirt"
+  },
+  {
+    "type": "construction_group",
     "id": "glass_pit",
     "name": "Glass Pit"
   },
