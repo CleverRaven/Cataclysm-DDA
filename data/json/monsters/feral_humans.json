@@ -867,7 +867,7 @@
     "id": "mon_feral_sailor_axe",
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
-    "description": "Spattered from head to toe in large swaths of dried viscera, the deep blue of this person’s tattered naval uniform has been stained the colour of rust.  Having seemingly had enough presence of mind to consider arming itself, this former crewmen carries a crash axe in its shaking hands.  The vanes on the back of their neck are visibly bulging, their eyes bloodshot, and a mass of crisscrossing blackened vanes stand out against the pale skin of their face as they regard the area around them for perceived threats.",
+    "description": "Spattered from head to toe in large swaths of dried viscera, the deep blue of this person’s tattered naval uniform has been stained the color of rust.  Having seemingly had enough presence of mind to consider arming itself, this former crewmen carries a crash axe in its shaking hands.  The veins on the back of their neck are visibly bulging, their eyes bloodshot, and a mass of crisscrossing blackened veins stand out against the pale skin of their face as they regard the area around them for perceived threats.",
     "melee_dice_sides": 6,
     "death_drops": "mon_feral_sailor_axe_death_drops"
   },
