@@ -7659,7 +7659,11 @@
     "time": "3 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "whiskey_any", 3, "LIST" ] ] ]
+    "components": [
+      [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ],
+      [ [ "whiskey_any", 3, "LIST" ], [ "gin", 3 ] ],
+      [ [ "sugar_standard_half", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -7672,7 +7676,7 @@
     "time": "5 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
-    "components": [ [ [ "gin", 6 ], [ "tequila", 6 ] ], [ [ "wine_vermouth", 1 ] ] ]
+    "components": [ [ [ "gin", 6 ], [ "tequila", 6 ], [ "vodka", 6 ] ], [ [ "wine_vermouth", 1 ] ] ]
   },
   {
     "type": "recipe",

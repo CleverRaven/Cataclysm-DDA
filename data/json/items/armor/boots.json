@@ -2115,77 +2115,6 @@
     ]
   },
   {
-    "id": "wetsuit_booties",
-    "type": "ARMOR",
-    "name": { "str": "pair of swimming booties", "str_pl": "pairs of swimming booties" },
-    "description": "A pair of neoprene swimming booties, with individual toes.",
-    "weight": "130 g",
-    "volume": "1 L",
-    "price": 6800,
-    "price_postapoc": 250,
-    "material": [ "neoprene" ],
-    "symbol": "[",
-    "looks_like": "boots_rubber",
-    "color": "dark_gray",
-    "warmth": 30,
-    "material_thickness": 3,
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_toes_r",
-          "foot_toes_l",
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l",
-          "foot_sole_r",
-          "foot_sole_l"
-        ],
-        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.0 } ],
-        "encumbrance": 15,
-        "coverage": 100
-      }
-    ]
-  },
-  {
-    "id": "wetsuit_booties_thick",
-    "type": "ARMOR",
-    "copy-from": "wetsuit_booties",
-    "repairs_like": "wetsuit_booties",
-    "name": { "str": "pair of thick swimming booties", "str_pl": "pairs of thick swimming booties" },
-    "description": "A pair of thick neoprene swimming booties, with individual toes.",
-    "weight": "160 g",
-    "warmth": 50,
-    "material_thickness": 5,
-    "environmental_protection": 4,
-    "extend": { "flags": [ "NORMAL" ] },
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_toes_r",
-          "foot_toes_l",
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l",
-          "foot_sole_r",
-          "foot_sole_l"
-        ],
-        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 } ],
-        "encumbrance": 24,
-        "coverage": 100
-      }
-    ]
-  },
-  {
     "id": "roller_shoes_off",
     "repairs_like": "boots",
     "type": "ARMOR",
@@ -2907,7 +2836,7 @@
     "id": "lc_sabaton",
     "type": "ARMOR",
     "name": { "str": "mild steel sabaton" },
-    "description": "A leather boot with jointed plates for protection.",
+    "description": "A flexible set of jointed lames that can be worn over footwear for additional protection, traditionally worn by mounted knights.",
     "weight": "750 g",
     "volume": "750 ml",
     "price": 40000,
@@ -2924,13 +2853,11 @@
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.25 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
-        "encumbrance": 20,
+        "encumbrance": 10,
         "layers": [ "OUTER" ]
       }
     ]
@@ -2951,13 +2878,11 @@
     "name": { "str": "medium steel sabaton" },
     "armor": [
       {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 1.25 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
-        "encumbrance": 20,
+        "encumbrance": 10,
         "layers": [ "OUTER" ]
       }
     ]
@@ -2978,13 +2903,11 @@
     "name": { "str": "high steel sabaton" },
     "armor": [
       {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 90, "thickness": 1.25 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
-        "encumbrance": 20,
+        "encumbrance": 10,
         "layers": [ "OUTER" ]
       }
     ]
@@ -3005,13 +2928,11 @@
     "name": { "str": "hardened steel sabaton" },
     "armor": [
       {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 1.25 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
-        "encumbrance": 20,
+        "encumbrance": 10,
         "layers": [ "OUTER" ]
       }
     ]
@@ -3032,13 +2953,11 @@
     "name": { "str": "tempered steel sabaton" },
     "armor": [
       {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 1.25 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
-        "encumbrance": 20,
+        "encumbrance": 10,
         "layers": [ "OUTER" ]
       }
     ]

@@ -365,5 +365,27 @@
     },
     "handling_modifier": -10,
     "flags": [ "FOLDED_STOCK" ]
+  },
+  {
+    "id": "m26_mass_stock",
+    "type": "GUNMOD",
+    "name": { "str": "MASS compatible stock" },
+    "description": "Special designed adjustable stock with grip to convert the M26-MASS to a standalone configuration.",
+    "weight": "960 g",
+    "volume": "500 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "0 g",
+    "price": 400,
+    "price_postapoc": 500,
+    "install_time": "5 m",
+    "to_hit": 1,
+    "bashing": 6,
+    "material": [ "plastic", "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "stock",
+    "mod_targets": [ "m26_mass_standalone" ],
+    "handling_modifier": 4,
+    "min_skills": [ [ "shotgun", 2 ] ]
   }
 ]

@@ -335,7 +335,9 @@
       "USAS10mag",
       "USAS20mag",
       "shotbelt_20",
-      "robofac10"
+      "robofac10",
+      "m26_mass_mag_3",
+      "m26_mass_mag_5"
     ],
     "type": "MIGRATION",
     "replace": "shot_mag"

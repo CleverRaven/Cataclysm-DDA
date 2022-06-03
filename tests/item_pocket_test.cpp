@@ -2130,6 +2130,78 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             }
         }
     }
+
+    WHEN( "nested container high priority" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 10 );
+                REQUIRE( pkts->settings.priority() == 10 );
+            }
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c, 1, 1, 2 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
+            item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 10 );
+                REQUIRE( pkts->settings.priority() == 10 );
+            }
+            THEN( ( soft_nested ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
+                if( soft_nested ) {
+                    test_pickup_autoinsert_results( u, wear, c, 3, 60, 0 );
+                } else {
+                    test_pickup_autoinsert_results( u, wear, c, 1, 45, 2 );
+                }
+            }
+        }
+    }
+
+    WHEN( "nested container same priority as top container" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            THEN( "pickup all, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c, 1, 3, 0 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
+            item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            THEN( ( soft_nested ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
+                if( soft_nested ) {
+                    test_pickup_autoinsert_results( u, wear, c, 3, 60, 0 );
+                } else {
+                    test_pickup_autoinsert_results( u, wear, c, 1, 45, 2 );
+                }
+            }
+        }
+    }
 }
 
 static void test_pickup_autoinsert_sub( bool autopickup, bool wear )

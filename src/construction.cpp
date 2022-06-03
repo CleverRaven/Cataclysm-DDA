@@ -158,6 +158,7 @@ void done_wiring( const tripoint &, Character & );
 void done_deconstruct( const tripoint &, Character & );
 void done_digormine_stair( const tripoint &, bool, Character & );
 void done_dig_grave( const tripoint &p, Character & );
+void done_dig_grave_nospawn( const tripoint &p, Character & );
 void done_dig_stair( const tripoint &, Character & );
 void done_mine_downstair( const tripoint &, Character & );
 void done_mine_upstair( const tripoint &, Character & );
@@ -1172,6 +1173,7 @@ void complete_construction( Character *you )
              built.group->name() );
     // clear the activity
     you->activity.set_to_null();
+    you->recoil = MAX_RECOIL;
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
@@ -1655,6 +1657,12 @@ void construct::done_dig_grave( const tripoint &p, Character &who )
     get_event_bus().send<event_type::exhumes_grave>( who.getID() );
 }
 
+void construct::done_dig_grave_nospawn( const tripoint &p, Character &who )
+{
+    get_map().furn_set( p, f_coffin_c );
+    get_event_bus().send<event_type::exhumes_grave>( who.getID() );
+}
+
 void construct::done_dig_stair( const tripoint &p, Character &who )
 {
     done_digormine_stair( p, true, who );
@@ -1950,6 +1958,7 @@ void load_construction( const JsonObject &jo )
             { "done_wiring", construct::done_wiring },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_grave", construct::done_dig_grave },
+            { "done_dig_grave_nospawn", construct::done_dig_grave_nospawn },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },

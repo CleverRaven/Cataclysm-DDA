@@ -407,6 +407,8 @@ void drop_on_map( Character &you, item_drop_reason reason, const std::list<item>
         here.add_item_or_charges( where, it );
         item( it ).handle_pickup_ownership( you );
     }
+
+    you.recoil = MAX_RECOIL;
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
@@ -1061,7 +1063,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         act == ACT_VEHICLE_REPAIR ) {
         std::vector<int> already_working_indexes;
         vehicle *veh = veh_pointer_or_null( here.veh_at( src_loc ) );
-        if( !veh ) {
+        if( !veh || veh->has_tag( "APPLIANCE" ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
