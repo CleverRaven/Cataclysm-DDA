@@ -28,7 +28,7 @@
     "style": "layout",
     "arrange": "rows",
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
-    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_text", "stamina_graph_classic" ]
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_desc", "stamina_graph_classic" ]
   },
   {
     "id": "lcla_health_overmap",

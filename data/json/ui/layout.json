@@ -162,14 +162,6 @@
     "widgets": [ "sound_num", "fatigue_graph", "focus_num" ]
   },
   {
-    "id": "stamina_speed_move_layout",
-    "type": "widget",
-    "style": "layout",
-    "label": "Stamina/Speed/Move",
-    "arrange": "columns",
-    "widgets": [ "stamina_graph_classic", "speed_num", "move_num" ]
-  },
-  {
     "id": "sound_focus_layout",
     "type": "widget",
     "style": "layout",
