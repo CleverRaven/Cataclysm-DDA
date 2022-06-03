@@ -124,9 +124,9 @@
       { "item": "filter_paper_qualitative", "prob": 10 },
       { "item": "filter_paper_quantitative", "prob": 10 },
       { "item": "gasket_plastic", "prob": 10 },
-      { "item": "butane_tank", "prob": 15 },
+      { "item": "butane_tank", "prob": 15, "charges_min": 1 },
       { "item": "vac_oven_small", "prob": 5 },
-      { "item": "butane_can", "prob": 2 },
+      { "item": "butane_can", "prob": 2, "charges_min": 1 },
       { "item": "chem_citric_acid", "prob": 16 }
     ]
   },
