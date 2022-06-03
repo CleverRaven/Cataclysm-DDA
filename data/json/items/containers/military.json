@@ -120,24 +120,26 @@
     "type": "GENERIC",
     "category": "container",
     "name": "double 84mm container",
-    "description": ".",
-    "//": "84mm heat551 transport box, 780X400X290mm",
+    "description": "Heavy and bulky container, that can hold 2 84mm rocket inside.",
+    "//": "84mm heat 551 container, 265x700x124mm",
     "weight": "1400 g",
-    "volume": "90480 ml",
+    "volume": "23000 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "9900 g"
+        "max_contains_weight": "5000 g",
+        "max_item_length": "246mm"
       },
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "9900 g"
+        "max_contains_weight": "5000 g",
+        "max_item_length": "246mm"
       }
     ],
     "material": [ "steel" ],
@@ -148,22 +150,22 @@
     "id": "ammunition_box_carlgustav",
     "type": "GENERIC",
     "category": "container",
-    "name": "double 84mm container",
-    "description": "Heavy and bulky container, that hold 2 84mm .",
-    "//": "84mm heat 551 container, 265x700x124mm, ",
+    "name": "huge 84mm crate",
+    "description": "Big crate, designed to store the explosive 84x246mm rockets.",
+    "//": "84mm heat551 transport box, 780X400X290mm",
     "weight": "1400 g",
-    "volume": "23000 ml",
+    "volume": "70000 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "4500 ml",
-        "max_contains_weight": "29700 kg"
+        "max_contains_volume": "69000 ml",
+        "max_contains_weight": "35000 g"
       }
     ],
     "material": [ "steel" ],
-    "symbol": "8",
+    "symbol": "□",
     "color": "black"
   },
   {
