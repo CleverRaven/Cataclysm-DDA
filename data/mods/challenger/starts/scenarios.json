@@ -1,0 +1,13 @@
+[
+  {
+    "type": "scenario",
+    "id": "challenger",
+    "name": "Challenger",
+    "points": 1,
+    "description": "You wake up in a dimly lit room, whatever you remember from a past life no longer matters.  Something has brought you here your going to have to do your best to understand why.",
+    "allowed_locs": [ "sloc_compound", "sloc_field" ],
+    "professions": [ "new_challenger" ],
+    "flags": [ "LONE_START" ],
+    "start_name": "Challenger"
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_compound",
+    "name": "The Compound",
+    "terrain": [ "compound_room" ]
+  },
+  {
+     "type": "overmap_special",
+     "id": "the_compound",
+     "overmaps": [
+       { "point": [ 0, 0, -5 ], "overmap": "compound_room" }
+     ],
+     "locations": [ "field" ],
+     "occurrences": [ 90, 100 ],
+ 	   "rotate": false,
+     "flags": [ "SAFE_AT_WORLDGEN" ]
+   },
+   {
+   "type": "overmap_terrain",
+   "id": [ "compound_room" ],
+   "name": "your room",
+   "sym": "v",
+   "color": "red",
+   "flags": [ "NO_ROTATE" ],
+   "see_cost": 5
+ }
+]

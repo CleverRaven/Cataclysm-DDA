@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "challenger",
+    "name": "Challenger",
+    "authors": [ "bombasticSlacks" ],
+    "maintainers": [ "bombasticSlacks" ],
+    "description": "The voice in the speakers demands you fight for it's entertainment, will you survive or die? Standalone, recommended you don't include additional mods.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ],
+    "obsolete": false
+  }
+]

@@ -1,0 +1,17 @@
+[
+{
+  "type": "profession",
+  "id": "new_challenger",
+  "name": "New Challenger",
+  "description": "Whatever you were, you became it on your own.  No title, mythos or accomplishment preceeds you.",
+  "points": 0,
+  "flags": [ "SCEN_ONLY" ],
+  "items": {
+    "both": {
+      "items": [ "subsuit_xl", "socks", "sneakers" ]
+    },
+    "male": [ "briefs" ],
+    "female": [ "sports_bra", "boy_shorts" ]
+  }
+}
+]
