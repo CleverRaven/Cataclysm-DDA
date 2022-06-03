@@ -7321,7 +7321,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "flatbread", 2 ], [ "bread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
+      [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cucumber", 1 ], [ "irradiated_cucumber", 1 ] ],
       [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "seasoning_salt", 1 ] ]
     ]
@@ -7337,7 +7337,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "cornbread", 2 ] ],
+      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [ [ "cucumber", 1 ], [ "irradiated_cucumber", 1 ] ],
       [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "seasoning_salt", 1 ] ]
     ]
