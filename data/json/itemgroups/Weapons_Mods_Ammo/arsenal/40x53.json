@@ -4,14 +4,22 @@
     "id": "milspec_arsenal_40x53_collection",
     "subtype": "collection",
     "items": [
-      { "item": "mark19", "count": 1, "prob": 80 },
-      { "item": "mark19", "count": 1, "prob": 30 },
-      { "group": "ammo_can_belt40mm_full", "prob": 60 },
-      { "group": "ammo_can_belt40mm_full", "prob": 20 },
+      { "group": "milspec_arsenal_40x53_gun&ammo" },
       { "item": "ammunition_can_pa120", "count": [ 3, 6 ] },
       { "group": "arsenal_mics_collection", "prob": 70 },
       { "group": "grenade_can_pa120_grenades", "prob": 5 },
       { "group": "c4_box", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_40x53_gun&ammo",
+    "subtype": "collection",
+    "items": [
+      { "item": "mark19", "count": 1, "prob": 80 },
+      { "item": "mark19", "count": 1, "prob": 30 },
+      { "group": "ammo_can_belt40mm_full", "prob": 60 },
+      { "group": "ammo_can_belt40mm_full", "prob": 20 }
     ]
   },
   {

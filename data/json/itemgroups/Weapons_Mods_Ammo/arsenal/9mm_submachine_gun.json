@@ -4,15 +4,23 @@
     "id": "milspec_arsenal_9mm_sub_collection",
     "subtype": "collection",
     "items": [
-      { "group": "milspec_arsenal_9mm_sub", "count": [ 1, 2 ] },
-      { "group": "milspec_arsenal_9mm_sub", "count": [ 1, 2 ], "prob": 40 },
-      { "group": "milspec_arsenal_9mm_sub", "count": [ 1, 2 ], "prob": 10 },
-      { "group": "ammo_can_9mm_any_full", "prob": 30 },
-      { "group": "ammo_can_9mm_any_part", "prob": 80, "count": [ 1, 2 ] },
+      { "group": "milspec_arsenal_9mm_sub_gun&ammo" },
       { "item": "ammunition_can_30", "count": [ 2, 4 ] },
       { "group": "arsenal_mics_collection", "prob": 70 },
       { "group": "grenade_can_pa120_grenades", "prob": 5 },
       { "group": "c4_box", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_9mm_sub_gun&ammo",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_9mm_sub", "count": [ 1, 2 ] },
+      { "group": "milspec_arsenal_9mm_sub", "count": [ 1, 2 ], "prob": 40 },
+      { "group": "milspec_arsenal_9mm_sub", "count": [ 1, 2 ], "prob": 10 },
+      { "group": "ammo_can_9mm_any_full", "prob": 30 },
+      { "group": "ammo_can_9mm_any_part", "prob": 80, "count": [ 1, 2 ] }
     ]
   },
   {
