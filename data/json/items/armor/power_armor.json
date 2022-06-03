@@ -304,7 +304,7 @@
         "max_contains_weight": "100 kg",
         "moves": 300
       },
-	  { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "diesel": 10000 } }
+      { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "diesel": 10000 } }
     ],
     "power_armor": true,
     "material_thickness": 10,
