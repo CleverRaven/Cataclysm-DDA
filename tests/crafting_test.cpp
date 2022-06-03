@@ -82,11 +82,13 @@ static const recipe_id recipe_blanket( "blanket" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
 static const recipe_id recipe_carver_off( "carver_off" );
+static const recipe_id recipe_dehydrated_meat( "dry_meat" );
 static const recipe_id recipe_fishing_hook_basic( "fishing_hook_basic" );
 static const recipe_id recipe_helmet_kabuto( "helmet_kabuto" );
 static const recipe_id recipe_helmet_scavenger( "helmet_scavenger" );
 static const recipe_id recipe_leather_belt( "leather_belt" );
 static const recipe_id recipe_longbow( "longbow" );
+static const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
 static const recipe_id recipe_magazine_battery_light_mod( "magazine_battery_light_mod" );
 static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
@@ -1826,13 +1828,13 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 {
     Character &player_character = get_player_character();
     std::vector<item> tools;
-    tools.push_back( tool_with_ammo( "hotplate", 30 ) );
-    tools.push_back( tool_with_ammo( "dehydrator", 500 ) );
+    tools.emplace_back( tool_with_ammo( "hotplate", 30 ) );
+    tools.emplace_back( tool_with_ammo( "dehydrator", 500 ) );
     tools.push_back( item( "pot_canning" ) );
     tools.push_back( item( "knife_butcher" ) );
 
     GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
-        const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
+
         item macaroni( "macaroni_raw" );
         item cheese( "cheese" );
         item water( "water" );
@@ -1859,7 +1861,6 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
     }
 
     GIVEN( "fresh macaroni and fresh cheese" ) {
-        const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
         item macaroni( "macaroni_raw" );
         item cheese( "cheese" );
         item water( "water" );
@@ -1886,7 +1887,6 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
     }
 
     GIVEN( "meat with 1 percent of its shelf life left" ) {
-        const recipe_id recipe_dehydrated_meat( "dry_meat" );
         item meat( "meat" );
 
         meat.set_relative_rot( 0.01 );

@@ -389,7 +389,7 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
-static const time_duration get_shortest_lifespan_from_components( const item &craft )
+static time_duration get_shortest_lifespan_from_components( const item &craft )
 {
     const item *shortest_lifespan_component = nullptr;
     time_duration shortest_lifespan = 0_turns;
@@ -406,7 +406,7 @@ static const time_duration get_shortest_lifespan_from_components( const item &cr
     return shortest_lifespan;
 }
 
-bool shelf_life_less_than_each_component( const item &craft )
+static bool shelf_life_less_than_each_component( const item &craft )
 {
     for( const item &it : craft.components ) {
         if( it.goes_bad() && it.is_comestible() && it.get_shelf_life() < craft.get_shelf_life() ) {
@@ -427,7 +427,7 @@ bool shelf_life_less_than_each_component( const item &craft )
 // Method 2 is used when any component has a longer maximum shelf life than the result does.
 // Inheriting the lowest remaining lifespan can not be used in this case because it would break
 // food preservation recipes.
-void inherit_rot_from_components( item &it )
+static void inherit_rot_from_components( item &it )
 {
     if( shelf_life_less_than_each_component( it ) ) {
         const time_duration shortest_lifespan = get_shortest_lifespan_from_components( it );
