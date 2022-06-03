@@ -82,7 +82,7 @@ static const recipe_id recipe_blanket( "blanket" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
 static const recipe_id recipe_carver_off( "carver_off" );
-static const recipe_id recipe_dehydrated_meat( "dry_meat" );
+static const recipe_id recipe_dry_meat( "dry_meat" );
 static const recipe_id recipe_fishing_hook_basic( "fishing_hook_basic" );
 static const recipe_id recipe_helmet_kabuto( "helmet_kabuto" );
 static const recipe_id recipe_helmet_scavenger( "helmet_scavenger" );
@@ -1830,8 +1830,8 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
     std::vector<item> tools;
     tools.emplace_back( tool_with_ammo( "hotplate", 30 ) );
     tools.emplace_back( tool_with_ammo( "dehydrator", 500 ) );
-    tools.push_back( item( "pot_canning" ) );
-    tools.push_back( item( "knife_butcher" ) );
+    tools.emplace_back( item( "pot_canning" ) );
+    tools.emplace_back( item( "knife_butcher" ) );
 
     GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
 
@@ -1894,13 +1894,13 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
         tools.insert( tools.end(), 1, meat );
 
         WHEN( "crafting dehydrated meat" ) {
-            prep_craft( recipe_dehydrated_meat, tools, true );
-            actually_test_craft( recipe_dehydrated_meat, INT_MAX, 10 );
+            prep_craft( recipe_dry_meat, tools, true );
+            actually_test_craft( recipe_dry_meat, INT_MAX, 10 );
 
             THEN( "it should have 1 percent of its shelf life left" ) {
                 item dehydrated_meat = player_character.get_wielded_item();
 
-                REQUIRE( dehydrated_meat.type->get_id() == recipe_dehydrated_meat->result() );
+                REQUIRE( dehydrated_meat.type->get_id() == recipe_dry_meat->result() );
 
                 CHECK( dehydrated_meat.get_relative_rot() == 0.01 );
             }
