@@ -1,12 +1,40 @@
 [
   {
+    "id": "legacy_classic_health_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "hp_head_graph", "hp_torso_graph", "hp_left_arm_graph", "hp_right_arm_graph", "hp_left_leg_graph", "hp_right_leg_graph", "power_desc" ]
+  },
+  {
+    "id": "legacy_classic_health_mid_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "needs_desc_layout", "move_speed_layout", "focus_num" ]
+  },
+  {
+    "id": "legacy_classic_health_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_text", "stamina_graph_classic" ]
+  },
+  {
+    "id": "legacy_classic_health_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "legacy_classic_health_left_layout", "legacy_classic_health_mid_layout", "legacy_classic_health_right_layout" ] 
+  },
+  {
     "id": "legacy_classic_sidebar",
     "type": "widget",
     "style": "sidebar",
     "label": "(W)classic",
     "width": 44,
     "widgets": [
-
+      "legacy_classic_health_layout"
     ]
   }
 ]
