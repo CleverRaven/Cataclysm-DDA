@@ -3789,6 +3789,13 @@
   },
   {
     "type": "keybinding",
+    "id": "FAV_MOVE_ITEM",
+    "category": "INVENTORY",
+    "name": "move item",
+    "bindings": [  { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CHANGE_PROFESSION_NAME",
     "name": "Change profession name",
     "bindings": [

@@ -2418,7 +2418,8 @@ void outfit::organize_items_menu()
         { "FAV_CATEGORY", translation() },
         { "FAV_WHITELIST", translation() },
         { "FAV_BLACKLIST", translation() },
-        { "FAV_CLEAR", translation() }
+        { "FAV_CLEAR", translation() },
+        { "FAV_MOVE_ITEM", translation() }
     };
     pocket_selector.allow_additional = true;
 

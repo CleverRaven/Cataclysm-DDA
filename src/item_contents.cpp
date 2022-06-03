@@ -146,6 +146,54 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
 
     const std::string remove_prefix = "<color_light_red>-</color> ";
     const std::string add_prefix = "<color_green>+</color> ";
+    if( action == "FAV_MOVE_ITEM" ) {
+        selector_menu.title = _( "Select an item from the pocket" );
+        std::vector<item *> item_list;
+        for( item *it_in : selected_pocket->all_items_top() ) {
+            item_list.emplace_back( it_in );
+        }
+
+        std::sort( item_list.begin(), item_list.end() );
+
+        for( const item *it : item_list ) {
+            selector_menu.addentry( it->display_name() );
+        }
+
+        if( selector_menu.entries.empty() ) {
+            popup( std::string( _( "No items in the pocket." ) ), PF_GET_KEY );
+        } else {
+            selector_menu.query();
+        }
+
+        /**
+        const int selected = selector_menu.ret;
+        itype_id selected_id = itype_id::NULL_ID();
+        if( selected >= 0 ) {
+            size_t idx = selected;
+            const std::vector<std::pair<itype_id, std::string>> *names = nullptr;
+            if( idx < listed_names.size() ) {
+                names = &listed_names;
+            } else {
+                idx -= listed_names.size();
+            }
+            if( !names && idx < nearby_names.size() ) {
+                names = &nearby_names;
+            }
+            if( names ) {
+                selected_id = ( *names )[idx].first;
+            }
+        }
+
+        if( !selected_id.is_null() ) {
+            if( whitelist ) {
+                selected_pocket->settings.whitelist_item( selected_id );
+            } else {
+                selected_pocket->settings.blacklist_item( selected_id );
+            }
+        }
+        */
+        return true;
+    }
 
     if( action == "FAV_ITEM" ) {
         const cata::flat_set<itype_id> &listed_itypes = whitelist
@@ -2117,7 +2165,8 @@ void item_contents::favorite_settings_menu( const std::string &item_name )
         { "FAV_CATEGORY", translation() },
         { "FAV_WHITELIST", translation() },
         { "FAV_BLACKLIST", translation() },
-        { "FAV_CLEAR", translation() }
+        { "FAV_CLEAR", translation() },
+        { "FAV_MOVE_ITEM", translation() }
     };
     for( int i = 1; i <= num_container_pockets; i++ ) {
         pocket_selector.addentry( 0, true, '\0', string_format( "%d - %s", i, pocket_name[i - 1] ) );
