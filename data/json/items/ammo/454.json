@@ -27,7 +27,7 @@
     "copy-from": "454_Casull",
     "type": "AMMO",
     "name": { "str_sp": ".454 Casull, reloaded" },
-    "description": ".454 Casull ammunition with a 300gr jacketed soft point bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.", 
+    "description": ".454 Casull ammunition with a 300gr jacketed soft point bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
