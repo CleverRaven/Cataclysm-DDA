@@ -232,11 +232,7 @@
       { "item": "denat_alcohol", "prob": 6 },
       { "item": "methed_alcohol", "prob": 4 },
       { "item": "textbook_extraction", "prob": 5 },
-      {
-        "item": "butane_can",
-        "prob": 10,
-        "charges": [ 1 , 30 ]
-      },
+      { "item": "butane_can", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "gasket_plastic", "prob": 10 },
       { "item": "vac_pump", "prob": 3 },
       { "item": "recovery_pump", "prob": 3 },
