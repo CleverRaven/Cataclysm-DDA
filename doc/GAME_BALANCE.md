@@ -1,11 +1,21 @@
 # Stat system scaling:
-Minimum stat: 0 (should only happen due to penalties, instant failure in most scenarios)
+Ranges below will be using strength as the example since it's the easiest to itemize, but what the numbers mean is equivalent between all stats.
 
-Nominal stat: 8 ("average" person)
+Minimal stat: 0 (Should only happen due to penalties, instant failure in most scenarios.  Basically actively dying, almost unable to even carry themselves.)
 
-Very high stat: 14 (realistic world class human, maximum cost-effective in chargen)
+Very low stat: 4 (Lowest in chargen.  Either an average person who's injured or someone who's naturally very dainty and sedentary.)
 
-Maximal stat: 20 (higher may be achievable, but we're not worried about balancing at that point.)
+Moderately low stat: 6 (Below average.  Sedentary job, not very active.)
+
+Nominal stat: 8 ("Average" human.  Mostly sedentary job, somewhat active but not particularly a gym-goer, etc.)
+
+Moderately high stat: 10 (Has a decent bit of strength.  Active job and/or works out consistently.)
+
+Very high stat: 14 (Very strong.  Job is either based around fitness or they're dedicated to building a lot of muscle.  Should require a lot of effort to maintain.)
+
+Maximal human stat: 20 (Extremely strong.  People who spend their whole lives dedicated to being as strong as possible, and with good genetics too.  Olympic powerlifters, record-setting strongmen, etc.)
+
+Superhuman: >20 (Anything beyond this should require bionics or mutations.)
 
 
 # Skill system scaling:
