@@ -35,6 +35,30 @@
   "arrange": "columns",
   "widgets": [ "lcom_limbs_left_layout", "lcom_limbs_mid_layout", "lcom_limbs_right_layout" ] 
 },
+{
+  "id": "lcom_sound_layout",
+  "type": "widget",
+  "style": "layout",
+  "label": "Sound",
+  "arrange": "columns",
+  "widgets": [ "speed_num", "move_mode_letter", "sound_num" ] 
+},
+{
+  "id": "lcom_stats_layout",
+  "type": "widget",
+  "style": "layout",
+  "label": "Stats",
+  "arrange": "columns",
+  "widgets": [ "str_num", "dex_num", "int_num", "per_num" ] 
+},
+{
+  "id": "lcom_time_layout",
+  "type": "widget",
+  "style": "layout",
+  "label": "Time",
+  "arrange": "columns",
+  "widgets": [ "time_desc", "moon_phase_desc" ] 
+},
   {
     "id": "legacy_compact_sidebar",
     "type": "widget",
@@ -43,6 +67,10 @@
     "width": 32,
     "widgets": [
       "lcom_limbs_layout",
+      "lcom_sound_layout",
+      "lcom_stats_layout",
+      "all_weariness_layout",
+      "lcom_time_layout"
     ]
   }
 ]
