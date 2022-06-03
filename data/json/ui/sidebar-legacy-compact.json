@@ -120,7 +120,11 @@
       "all_weariness_layout",
       "lcom_time_layout",
       "lcom_needs_layout",
-      "lcom_env_layout"
+      "lcom_env_layout",
+      "vehicle_azimuth_cruise_fuel_layout",
+      "compass_all_layout",
+      "bodypart_armor_outer_layout",
+      "body_graph"
     ]
   }
 ]
