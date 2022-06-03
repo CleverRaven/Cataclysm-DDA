@@ -279,6 +279,38 @@
     "//2": "If this item covers anything, it becomes impossible to wear it with power armor because power armor is hardcoded."
   },
   {
+    "id": "power_armor_generator",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "power armor generator frame" },
+    "description": "A heavy-duty hauling frame designed to interface with military exoskeletons. This version exchanges capacity for an ICE generator that powers the armor.",
+    "weight": "1640 g",
+    "volume": "45 L",
+    "price": 1000000,
+    "price_postapoc": 10000,
+    "to_hit": 1,
+    "bashing": 1,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "backpack_tactical_large",
+    "color": "light_gray",
+    "ammo": [ "jp8" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_item_length": "70 cm",
+        "max_contains_weight": "100 kg",
+        "moves": 300
+      },
+	  { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "jp8": 10000 } }
+    ],
+    "power_armor": true,
+    "material_thickness": 10,
+    "flags": [ "WATERPROOF", "STURDY", "BELTED", "IS_UPS" ]
+  },
+  {
     "id": "power_armor_heavy",
     "type": "TOOL_ARMOR",
     "category": "armor",
