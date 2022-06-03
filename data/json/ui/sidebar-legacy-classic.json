@@ -53,7 +53,7 @@
     "widgets": [ "wielding_desc", "style_desc" ]
   },
   {
-    "id": "lc_sidebar",
+    "id": "legacy_classic_sidebar",
     "type": "widget",
     "style": "sidebar",
     "label": "(W)classic",
