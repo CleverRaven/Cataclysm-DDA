@@ -72,6 +72,8 @@ std::string get_moon();
 std::string get_moon_graphic();
 // Current date, in terms of day within season, ex. "Summer, day 17"
 std::string date_string();
+// Approximate time of day on the given turn, ex. "Early morning", "Around dusk"
+std::string time_approx( const time_point &turn );
 // Current approximate time of day, ex. "Early morning", "Around dusk"
 std::string time_approx();
 // Exact time if character has a watch, approx time if aboveground, "???" if unknown/underground

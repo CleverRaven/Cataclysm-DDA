@@ -880,7 +880,7 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
             //~ $4 = approximate time of day
             return string_format( _( "Year %1$d, %2$s, day %3$d, %4$s" ), year,
                                   calendar::name_season( season_of_year( turn ) ),
-                                  day, display::time_approx() );
+                                  day, display::time_approx( turn ) );
         default:
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
                     << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
