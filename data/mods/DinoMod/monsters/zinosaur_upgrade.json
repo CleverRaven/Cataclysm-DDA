@@ -356,7 +356,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -504,7 +504,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -528,7 +528,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -552,7 +552,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -576,7 +576,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -600,7 +600,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -624,7 +624,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -648,7 +648,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -672,7 +672,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -696,7 +696,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -720,7 +720,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -744,7 +744,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -768,7 +768,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -792,7 +792,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -816,7 +816,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -840,7 +840,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -864,7 +864,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -888,7 +888,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -912,7 +912,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -936,7 +936,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -960,7 +960,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -984,7 +984,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -1008,7 +1008,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -1032,7 +1032,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -1056,7 +1056,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
       "armor_bash": 4,
       "armor_cut": 6,
       "armor_bullet": 5,
@@ -1619,7 +1619,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 7,
-    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
     "upgrades": { "half_life": 15, "into": "mon_sallimimus_brute" }
   },
   {
@@ -1723,7 +1723,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1750,7 +1750,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1785,7 +1785,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1828,7 +1828,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1855,7 +1855,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1882,7 +1882,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1910,7 +1910,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1937,7 +1937,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1964,7 +1964,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -1991,7 +1991,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2018,7 +2018,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2045,7 +2045,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2072,7 +2072,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2099,7 +2099,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2126,7 +2126,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2153,7 +2153,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2180,7 +2180,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2207,7 +2207,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2234,7 +2234,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2261,7 +2261,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2288,7 +2288,7 @@
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -2701,7 +2701,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+      "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
       "armor_bash": 12,
       "armor_cut": 15,
       "armor_bullet": 6,
@@ -2725,7 +2725,7 @@
     "proportional": { "hp": 2.5 },
     "relative": {
       "melee_dice": 1,
-      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "melee_damage": [ { "damage_type": "stab", "amount": 5 } ],
       "armor_bash": 8,
       "armor_cut": 15,
       "armor_bullet": 6
