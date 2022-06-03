@@ -6,7 +6,7 @@
       "+": "t_door_c",
       "|": "t_wall",
       ".": "t_pavement",
-      "#": "t_fence_metal",
+      "K": "t_pavement",
       "1": "t_window",
       "|": "t_wall_w",
       "<": "t_wood_stairs_up",
@@ -26,7 +26,11 @@
       "_": "t_sidewalk",
       "^": "t_linoleum_gray",
       "?": "t_linoleum_gray",
+      "w": "t_ladder_up",
+      "v": "t_ladder_down",
+      "e": "t_metal_floor",
       ",": "t_open_air",
+      "4": "t_gutter_downspout"
       "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
       "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ]
     },
@@ -46,7 +50,6 @@
       "V": "f_vending_c",
       "y": "f_trashcan",
       "d": "f_desk",
-      "i": "f_indoor_plant_y",
       "7": "f_filing_cabinet",
       "S": "f_utility_shelf",
       "x": "f_utility_shelf",
