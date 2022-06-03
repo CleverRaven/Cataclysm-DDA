@@ -210,7 +210,6 @@
       [ "suv_electric", 120 ],
       [ "suv_electric_rack", 120 ],
       [ "pickup", 300 ],
-      [ "extended_pickup", 75 ],
       [ "portable_generator", 50 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
