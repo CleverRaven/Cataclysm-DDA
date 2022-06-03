@@ -6,6 +6,7 @@
 #include <string>
 #include <type_traits>
 
+#include "avatar.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -54,6 +55,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
         }
         ++i;
     }
+
 
     if( selected_pocket != nullptr && selected_pocket->is_allowed() ) {
         std::vector<iteminfo> info;
@@ -146,7 +148,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
 
     const std::string remove_prefix = "<color_light_red>-</color> ";
     const std::string add_prefix = "<color_green>+</color> ";
-    if( action == "FAV_MOVE_ITEM" ) {
+    if( action == "FAV_MOVE_ITEM" && item_to_move.second == nullptr ) {
         selector_menu.title = _( "Select an item from the pocket" );
         std::vector<item *> item_list;
         for( item *it_in : selected_pocket->all_items_top() ) {
@@ -165,33 +167,32 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             selector_menu.query();
         }
 
-        /**
-        const int selected = selector_menu.ret;
-        itype_id selected_id = itype_id::NULL_ID();
-        if( selected >= 0 ) {
-            size_t idx = selected;
-            const std::vector<std::pair<itype_id, std::string>> *names = nullptr;
-            if( idx < listed_names.size() ) {
-                names = &listed_names;
-            } else {
-                idx -= listed_names.size();
-            }
-            if( !names && idx < nearby_names.size() ) {
-                names = &nearby_names;
-            }
-            if( names ) {
-                selected_id = ( *names )[idx].first;
-            }
+        if( selector_menu.ret >= 0 ) {
+            item_to_move = { item_list[selector_menu.ret], selected_pocket };
         }
 
-        if( !selected_id.is_null() ) {
-            if( whitelist ) {
-                selected_pocket->settings.whitelist_item( selected_id );
-            } else {
-                selected_pocket->settings.blacklist_item( selected_id );
+        if( item_to_move.first != nullptr ) {
+            // if we have an item already selected for moving update some info
+            auto itt = pockets->begin();
+            for( uilist_entry &entry : menu->entries ) {
+                if( entry.enabled && !itt->first->can_contain( *item_to_move.first ).success() ) {
+                    entry.enabled = false;
+                }
+                // move through the pockets as you process entries
+                ++itt;
             }
+
+            menu->text = string_format( "%s: %s", _( "Moving" ), item_to_move.first->display_name() );
         }
-        */
+
+        return true;
+    } else if( action == "FAV_MOVE_ITEM" && item_to_move.second != nullptr ) {
+        // storage should mimick character inserting
+        get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
+
+        // reset the moved item
+        item_to_move = { nullptr, nullptr };
+
         return true;
     }
 

@@ -372,6 +372,7 @@ class pocket_favorite_callback : public uilist_callback
         std::list<std::pair<item_pocket *, int>> *pockets = nullptr;
         // whitelist or blacklist, for interactions
         bool whitelist = true;
+        std::pair<item *, item_pocket *> item_to_move = { nullptr, nullptr };
     public:
         explicit pocket_favorite_callback( std::list<std::pair<item_pocket *, int>> *pockets ) : pockets(
                 pockets ) {}

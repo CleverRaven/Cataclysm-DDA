@@ -2346,8 +2346,6 @@ void inventory_selector::on_input( const inventory_input &input )
         set_filter( "" );
     } else if( input.action == "TOGGLE_SKIP_UNSELECTABLE" ) {
         toggle_skip_unselectable();
-    } else if( input.action == "ORGANIZE_MENU" ) {
-        u.worn.organize_items_menu();
     } else {
         for( inventory_column *elem : columns ) {
             elem->on_input( input );
@@ -2583,6 +2581,9 @@ item_location inventory_pick_selector::execute()
                 ui_manager::redraw();
             }
             return input.entry->any_item();
+        } else if( input.action == "ORGANIZE_MENU" ) {
+            u.worn.organize_items_menu();
+            return item_location();
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {

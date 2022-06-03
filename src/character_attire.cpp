@@ -2348,14 +2348,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
 static std::string keys_text()
 {
     return
-        colorize( "p", c_light_green ) + _( " priority, " ) +
-        colorize( "d", c_light_green ) + _( " toggle auto pickup, " ) +
-        colorize( "u", c_light_green ) + _( " toggle auto unload, " ) +
-        colorize( "i", c_light_green ) + _( " item, " ) +
-        colorize( "c", c_light_green ) + _( " category, " ) +
-        colorize( "w", c_light_green ) + _( " whitelist, " ) +
-        colorize( "b", c_light_green ) + _( " blacklist, " ) +
-        colorize( "x", c_light_green ) + _( " clear" );
+        _( "Modify pocket settings and move items between pockets." );
 }
 
 void add_pockets( item &i, uilist &pocket_selector,
@@ -2396,7 +2389,7 @@ void outfit::organize_items_menu()
     }
     pocket_favorite_callback cb( &contents );
 
-    pocket_selector.title = "organize this asshole";
+    pocket_selector.title = "Inventory Organization";
     pocket_selector.text = keys_text() + "\n ";
     pocket_selector.callback = &cb;
     pocket_selector.w_x_setup = 0;
