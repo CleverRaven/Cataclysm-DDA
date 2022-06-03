@@ -953,7 +953,7 @@
     "id": "mon_feral_marine_mutated",
     "type": "MONSTER",
     "name": { "str": "twisted leatherneck" },
-    "description": "Hideously disfigured, this former soldier has been mutated into a horrific, barely human monster.  Having visibly increased in muscle mass and strength, their fingernails have extended into jagged claws and their teeth have grown out into unnaturally long spikes of bone, webs of bulging black vanes visible under their skin.  Acting more like an animal than a living human, they stalk about, bloodshot eyes roving over their surroundings and looking for their next victim.  This abomination still breathes, but they’re far from human anymore.",
+    "description": "Hideously disfigured, this former soldier has been mutated into a horrific, barely human monster.  Having visibly increased in muscle mass and strength, their fingernails have extended into jagged claws and their teeth have grown out into unnaturally long spikes of bone, webs of bulging black veins visible under their skin.  Acting more like an animal than a living human, they stalk about, bloodshot eyes roving over their surroundings and looking for their next victim.  This abomination still breathes, but they’re far from human anymore.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
