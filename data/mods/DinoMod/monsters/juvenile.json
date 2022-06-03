@@ -189,7 +189,7 @@
     "name": "greenish yellow two-legged juvenile",
     "description": "A small two-legged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "herbivore_young",
-    "categories": [ "DINOSAUR","WILDLIFE" ],
+    "categories": [ "DINOSAUR", "WILDLIFE" ],
     "species": [ "DINOSAUR" ],
     "volume": "10 L",
     "weight": "10 kg",
