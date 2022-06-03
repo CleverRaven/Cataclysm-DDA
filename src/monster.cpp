@@ -180,7 +180,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
-    {monster_attitude::MATT_UNKNOWN, {translate_marker( "Unknown" ), def_c_yellow}}, //Should only be used for UI.
+    {monster_attitude::MATT_UNKNOWN, {translate_marker( "Unknown." ), def_c_yellow}}, //Should only be used for UI.
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -775,8 +775,22 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 std::string monster::extended_description() const
 {
     std::string ss;
+    Character &pc = get_player_character();
+    const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
     const std::pair<std::string, nc_color> att = get_attitude();
-    std::string att_colored = colorize( att.first, att.second );
+
+    std::string attitude_label;
+    nc_color attitude_color;
+
+    if( player_knows ) {
+        attitude_label = att.first;
+        attitude_color = att.second;
+    } else {
+        attitude_label = attitude_names.at( MATT_UNKNOWN ).first;
+        attitude_color = all_colors.get( attitude_names.at( MATT_UNKNOWN ).second );
+    }
+
+    std::string att_colored = colorize( attitude_label, attitude_color );
     std::string difficulty_str;
     if( debug_mode ) {
         difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
