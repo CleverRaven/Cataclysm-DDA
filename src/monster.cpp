@@ -180,7 +180,6 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
-    {monster_attitude::MATT_UNKNOWN, {translate_marker( "Unknown." ), def_c_yellow}}, //Should only be used for UI.
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -712,19 +711,17 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     std::pair<std::string, nc_color> att = get_attitude();
     if( player_knows ) {
         mvwprintz( w, point( column, vStart++ ), att.second, att.first );
-    } else {
-        mvwprintz( w, point( column, vStart++ ), all_colors.get( attitude_names.at( MATT_UNKNOWN ).second ),
-                   attitude_names.at( MATT_UNKNOWN ).first );
     }
 
     // Awareness indicator in the third line.
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
-    senses_str = !player_knows ? _( "You have no idea what is it doing" ) :
-                 senses_str;
-    vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows &&
-                              sees_player ? c_red : c_green,
-                              senses_str );
+
+    if( player_knows ) {
+        vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows &&
+                                  sees_player ? c_red : c_green,
+                                  senses_str );
+    }
 
     const std::string speed_desc = speed_description(
                                        speed_rating(),
@@ -779,18 +776,7 @@ std::string monster::extended_description() const
     const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
     const std::pair<std::string, nc_color> att = get_attitude();
 
-    std::string attitude_label;
-    nc_color attitude_color;
-
-    if( player_knows ) {
-        attitude_label = att.first;
-        attitude_color = att.second;
-    } else {
-        attitude_label = attitude_names.at( MATT_UNKNOWN ).first;
-        attitude_color = all_colors.get( attitude_names.at( MATT_UNKNOWN ).second );
-    }
-
-    std::string att_colored = colorize( attitude_label, attitude_color );
+    std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
         difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
@@ -823,7 +809,8 @@ std::string monster::extended_description() const
         ss += "\n";
     }
 
-    ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
+    ss += string_format( _( "This is a %s. %s%s" ), name(),
+                         player_knows ? att_colored + " " : std::string(),
                          difficulty_str ) + "\n";
     if( !get_effect_status().empty() ) {
         ss += string_format( _( "<stat>It is %s.</stat>" ), get_effect_status() ) + "\n";
@@ -1227,7 +1214,6 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::HOSTILE;
             case MATT_NULL:
-            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
