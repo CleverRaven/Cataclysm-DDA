@@ -109,6 +109,9 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // mouse input
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
 
     catacurses::window w_view;
     scrolling_text_view view( w_view );
@@ -177,9 +180,9 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
                 tab = static_cast<tab_mode>( static_cast<int>( tab_mode::num_tabs ) - 1 );
             }
             new_tab = true;
-        } else if( action == "DOWN" ) {
+        } else if( action == "DOWN" || action == "SCROLL_DOWN") {
             view.scroll_down();
-        } else if( action == "UP" ) {
+        } else if( action == "UP" || action == "SCROLL_UP") {
             view.scroll_up();
         } else if( action == "PAGE_DOWN" ) {
             view.page_down();
