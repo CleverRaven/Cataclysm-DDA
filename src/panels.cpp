@@ -149,7 +149,7 @@ int window_panel::get_height() const
             return 0;
         }
     }
-    if( wgt.is_valid() && wgt->_arrange != "columns" ) {
+    if( wgt.is_valid() ) {
         return get_wgt_height( wgt );
     }
     return height;
