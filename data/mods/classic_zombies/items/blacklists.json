@@ -262,6 +262,7 @@
       "plut_cell",
       "power_armor_basic",
       "power_armor_frame",
+	  "item": "power_armor_generator"
       "power_armor_heavy",
       "power_armor_helmet_basic",
       "power_armor_helmet_heavy",
