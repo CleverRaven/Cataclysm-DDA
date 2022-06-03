@@ -4,7 +4,15 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "hp_head_graph", "hp_torso_graph", "hp_left_arm_graph", "hp_right_arm_graph", "hp_left_leg_graph", "hp_right_leg_graph", "power_desc" ]
+    "widgets": [
+      "hp_head_graph",
+      "hp_torso_graph",
+      "hp_left_arm_graph",
+      "hp_right_arm_graph",
+      "hp_left_leg_graph",
+      "hp_right_leg_graph",
+      "power_desc"
+    ]
   },
   {
     "id": "lcla_health_mid_layout",
@@ -23,7 +31,7 @@
     "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_text", "stamina_graph_classic" ]
   },
   {
-    "id": "overmap_full_height",
+    "id": "lcla_health_overmap",
     "type": "widget",
     "label": "Overmap",
     "var": "overmap_text",
@@ -38,7 +46,7 @@
     "style": "layout",
     "label": "Health",
     "arrange": "columns",
-    "widgets": [ "overmap_full_height" ,"lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ] 
+    "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
   {
     "id": "lcla_weather_layout",
@@ -46,7 +54,7 @@
     "style": "layout",
     "label": "Weather",
     "arrange": "columns",
-    "widgets": [ "weather_desc", "moon_phase_desc" ] 
+    "widgets": [ "weather_desc", "moon_phase_desc" ]
   },
   {
     "id": "lcla_lighting_layout",
@@ -54,7 +62,7 @@
     "style": "layout",
     "label": "Lighting",
     "arrange": "columns",
-    "widgets": [ "lighting_desc", "sound_num" ] 
+    "widgets": [ "lighting_desc", "sound_num" ]
   },
   {
     "id": "lcla_weapon_layout",
