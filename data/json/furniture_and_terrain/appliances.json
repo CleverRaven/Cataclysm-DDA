@@ -687,6 +687,19 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_minireactor",
+    "name": { "str": "minireactor" },
+    "looks_like": "minireactor",
+    "symbol": "O",
+    "location": "structure",
+    "color": "light_green",
+    "flags": [ "OBSTACLE", "APPLIANCE", "COVERED", "REACTOR" ],
+    "size": 200,
+    "copy-from": "minireactor",
+    "item": "minireactor"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_foot_locker_recharge_station",
     "name": { "str": "foot locker recharging station" },
     "symbol": "o",

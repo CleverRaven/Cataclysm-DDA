@@ -3552,6 +3552,18 @@
   },
   {
     "type": "construction",
+    "id": "app_minireactor",
+    "group": "place_minireactor",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "minireactor", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_autoclave",
     "group": "place_autoclave",
     "category": "APPLIANCE",

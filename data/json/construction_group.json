@@ -1276,6 +1276,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_minireactor",
+    "name": "Place Minireactor"
+  },
+  {
+    "type": "construction_group",
     "id": "place_autoclave",
     "name": "Place Autoclave"
   },
