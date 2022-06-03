@@ -830,7 +830,7 @@
     "id": "mon_feral_sailor_wrench",
     "type": "MONSTER",
     "name": { "str": "feral crewmen" },
-    "description": "clad in a grimy and tattered naval uniform, this former sailor clutches a massive wrench as some form of makeshift weapon.  At a distance, you could mistake them as being another survivor.  However, upon closer inspection you make note of how their veins are visibly bulging, their wide open eyes have a primal, animalistic quality to their gaze, and their breaths come in ragged, wheezing pants.  Whatever the Cataclysm has done to the military crewmen that this twitching shell of their former self once was, you’re certain that their not fully human anymore.",
+    "description": "Clad in a grimy and tattered naval uniform, this former sailor clutches a massive wrench as some form of makeshift weapon.  At a distance, you could mistake them as being another survivor.  However, upon closer inspection you make note of how their veins are visibly bulging, their wide open eyes have a primal, animalistic quality to their gaze, and their breaths come in ragged, wheezing pants.  Whatever the Cataclysm has done to the military crewmen that this twitching shell of their former self once was, you’re certain that they're not fully human anymore.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
