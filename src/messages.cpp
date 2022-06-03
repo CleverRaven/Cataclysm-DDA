@@ -509,6 +509,8 @@ void Messages::dialog::init( ui_adaptor &ui )
         ctxt.register_action( "RESET_FILTER" );
         ctxt.register_action( "QUIT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
+        ctxt.register_action("SCROLL_UP");
+        ctxt.register_action("SCROLL_DOWN");
 
         // Calculate time string display width. The translated strings are expected to
         // be aligned, so we choose an arbitrary duration here to calculate the width.
@@ -720,9 +722,9 @@ void Messages::dialog::input()
         }
     } else {
         const std::string &action = ctxt.handle_input();
-        if( action == "DOWN" && offset + max_lines < folded_filtered.size() ) {
+        if( (action == "DOWN" || action == "SCROLL_DOWN") && offset + max_lines < folded_filtered.size() ) {
             ++offset;
-        } else if( action == "UP" && offset > 0 ) {
+        } else if( (action == "UP" || action == "SCROLL_UP") && offset > 0 ) {
             --offset;
         } else if( action == "PAGE_DOWN" ) {
             if( offset + max_lines * 2 <= folded_filtered.size() ) {
