@@ -306,21 +306,6 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
 // panels code
 // ===============================
 
-static void render_wind( const draw_args &args, const std::string &formatstr )
-{
-    const avatar &u = args._ava;
-    const catacurses::window &w = args._win;
-
-    werase( w );
-    mvwprintz( w, point_zero, c_light_gray,
-               //~ translation should not exceed 5 console cells
-               string_format( formatstr, left_justify( _( "Wind" ), 5 ) ) );
-
-    std::pair<std::string, nc_color> wind_pair = display::wind_text_color( u );
-    mvwprintz( w, point( 8, 0 ), wind_pair.second, wind_pair.first );
-    wnoutrefresh( w );
-}
-
 static void draw_messages( const draw_args &args )
 {
     const catacurses::window &w = args._win;
