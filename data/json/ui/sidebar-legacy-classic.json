@@ -76,7 +76,7 @@
     "id": "legacy_classic_sidebar",
     "type": "widget",
     "style": "sidebar",
-    "label": "(W)classic",
+    "label": "Classic",
     "width": 44,
     "widgets": [
       "lcla_health_layout",

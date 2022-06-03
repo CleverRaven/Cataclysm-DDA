@@ -80,7 +80,7 @@
     "id": "legacy_labels_sidebar",
     "type": "widget",
     "style": "sidebar",
-    "label": "(W)labels",
+    "label": "Labels",
     "width": 44,
     "widgets": [
       "ll_limbs_layout",

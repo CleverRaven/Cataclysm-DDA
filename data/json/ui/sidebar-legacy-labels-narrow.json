@@ -51,7 +51,7 @@
     "id": "legacy_labels_narrow_sidebar",
     "type": "widget",
     "style": "sidebar",
-    "label": "(W)labels narrow",
+    "label": "Labels Narrow",
     "width": 32,
     "widgets": [
       "ln_limbs_layout",

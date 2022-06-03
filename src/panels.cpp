@@ -1982,15 +1982,6 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
 {
     std::map<std::string, panel_layout> ret;
 
-    ret.emplace( "classic", panel_layout( to_translation( "classic" ),
-                                          initialize_default_classic_panels() ) );
-    ret.emplace( "compact", panel_layout( to_translation( "compact" ),
-                                          initialize_default_compact_panels() ) );
-    ret.emplace( "labels-narrow", panel_layout( to_translation( "labels narrow" ),
-                 initialize_default_label_narrow_panels() ) );
-    ret.emplace( "labels", panel_layout( to_translation( "labels" ),
-                                         initialize_default_label_panels() ) );
-
     // Add panel layout for each "sidebar" widget
     for( const widget &wgt : widget::get_all() ) {
         if( wgt._style == "sidebar" ) {
@@ -2016,7 +2007,7 @@ panel_layout &panel_manager::get_current_layout()
         return kv->second;
     }
     debugmsg( "Invalid current panel layout, defaulting to classic" );
-    current_layout_id = "classic";
+    current_layout_id = "legacy_classic_sidebar";
     return get_current_layout();
 }
 
