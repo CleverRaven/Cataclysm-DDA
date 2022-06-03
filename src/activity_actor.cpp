@@ -4323,7 +4323,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         return;
     }
     if( act.targets.back()->typeId() == itype_disassembly ) {
-        act.position = act.targets.back()->charges;
+        act.position = act.targets.back()->get_making_batch_size();
     }
     target = who.create_in_progress_disassembly( act.targets.back() );
     act.targets.pop_back();
