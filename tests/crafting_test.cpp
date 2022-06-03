@@ -1819,3 +1819,91 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
         }
     }
 }
+
+// This test makes sure that rot is inherited properly when crafting. See the comments on
+// inherit_rot_from_components for a description of what "inheritied properly" means
+TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
+{
+    Character &player_character = get_player_character();
+    std::vector<item> tools;
+    tools.push_back( tool_with_ammo( "hotplate", 30 ) );
+    tools.push_back( tool_with_ammo( "dehydrator", 500 ) );
+    tools.push_back( item( "pot_canning" ) );
+    tools.push_back( item( "knife_butcher" ) );
+
+    GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
+        const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
+        item macaroni( "macaroni_raw" );
+        item cheese( "cheese" );
+        item water( "water" );
+
+        macaroni.set_rot( macaroni.get_shelf_life() - 1_hours );
+        REQUIRE( cheese.get_shelf_life() - cheese.get_rot() > 1_hours );
+
+        tools.insert( tools.end(), 1, macaroni );
+        tools.insert( tools.end(), 1, cheese );
+        tools.insert( tools.end(), 1, water );
+
+        WHEN( "crafting the mac and cheese" ) {
+            prep_craft( recipe_macaroni_cooked, tools, true );
+            actually_test_craft( recipe_macaroni_cooked, INT_MAX, 10 );
+
+            THEN( "it should have exactly 1 hour until it spoils" ) {
+                item mac_and_cheese = player_character.get_wielded_item();
+
+                REQUIRE( mac_and_cheese.type->get_id() == recipe_macaroni_cooked->result() );
+
+                CHECK( mac_and_cheese.get_shelf_life() - mac_and_cheese.get_rot() == 1_hours );
+            }
+        }
+    }
+
+    GIVEN( "fresh macaroni and fresh cheese" ) {
+        const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
+        item macaroni( "macaroni_raw" );
+        item cheese( "cheese" );
+        item water( "water" );
+
+        REQUIRE( macaroni.get_rot() == 0_turns );
+        REQUIRE( cheese.get_rot() == 0_turns );
+
+        tools.insert( tools.end(), 1, macaroni );
+        tools.insert( tools.end(), 1, cheese );
+        tools.insert( tools.end(), 1, water );
+
+        WHEN( "crafting the mac and cheese" ) {
+            prep_craft( recipe_macaroni_cooked, tools, true );
+            actually_test_craft( recipe_macaroni_cooked, INT_MAX, 10 );
+
+            THEN( "it should have no rot" ) {
+                item mac_and_cheese = player_character.get_wielded_item();
+
+                REQUIRE( mac_and_cheese.type->get_id() == recipe_macaroni_cooked->result() );
+
+                CHECK( mac_and_cheese.get_rot() == 0_turns );
+            }
+        }
+    }
+
+    GIVEN( "meat with 1 percent of its shelf life left" ) {
+        const recipe_id recipe_dehydrated_meat( "dry_meat" );
+        item meat( "meat" );
+
+        meat.set_relative_rot( 0.01 );
+
+        tools.insert( tools.end(), 1, meat );
+
+        WHEN( "crafting dehydrated meat" ) {
+            prep_craft( recipe_dehydrated_meat, tools, true );
+            actually_test_craft( recipe_dehydrated_meat, INT_MAX, 10 );
+
+            THEN( "it should have 1 percent of its shelf life left" ) {
+                item dehydrated_meat = player_character.get_wielded_item();
+
+                REQUIRE( dehydrated_meat.type->get_id() == recipe_dehydrated_meat->result() );
+
+                CHECK( dehydrated_meat.get_relative_rot() == 0.01 );
+            }
+        }
+    }
+}
