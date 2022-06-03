@@ -66,6 +66,7 @@
       [ "food_truck_taco", 50 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 100 ],
+      [ "extended_pickup", 65 ],
       [ "4x4_car", 500 ],
       [ "underlift_tow_truck", 250 ]
     ]
@@ -117,6 +118,7 @@
       [ "van_mini", 300 ],
       [ "van_cargo", 400 ],
       [ "4x4_car", 500 ],
+      [ "extended_pickup", 65 ],
       [ "car_hybrid", 500 ],
       [ "underlift_tow_truck", 250 ]
     ]
@@ -174,6 +176,7 @@
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
       [ "4x4_car", 400 ],
+      [ "extended_pickup", 65 ],
       [ "underlift_tow_truck", 250 ]
     ]
   },
@@ -207,6 +210,7 @@
       [ "suv_electric", 120 ],
       [ "suv_electric_rack", 120 ],
       [ "pickup", 300 ],
+      [ "extended_pickup", 75 ],
       [ "portable_generator", 50 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
@@ -290,6 +294,7 @@
       [ "car_luxury", 200 ],
       [ "electric_car", 750 ],
       [ "car_hybrid", 500 ],
+      [ "extended_pickup", 95 ],
       [ "hippie_van", 750 ],
       [ "van_full-size", 600 ],
       [ "van_mini", 400 ],
@@ -402,6 +407,7 @@
       [ "car_sports", 400 ],
       [ "car_sports_electric", 100 ],
       [ "car_racing_electric", 5 ],
+      [ "extended_pickup", 25 ],
       [ "suv", 500 ],
       [ "suv_electric", 120 ],
       [ "car_mini", 300 ],
@@ -452,6 +458,7 @@
       [ "bicycle_dirt", 50 ],
       [ "motorcycle_cross", 75 ],
       [ "motorcycle_enduro", 150 ],
+      [ "extended_pickup", 15 ],
       [ "car_mini", 100 ],
       [ "beetle", 200 ],
       [ "pickup", 700 ],
@@ -495,6 +502,7 @@
       [ "electric_car", 750 ],
       [ "car_hybrid", 500 ],
       [ "hippie_van", 750 ],
+      [ "pickup", 25 ],
       [ "van_full-size", 400 ],
       [ "van_mini", 300 ],
       [ "motorcycle", 500 ],
@@ -702,6 +710,7 @@
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
       [ "pickup", 50 ],
+      [ "extended_pickup", 15 ],
       [ "car_anmlcmpt", 150 ],
       [ "electric_car", 750 ],
       [ "hippie_van", 750 ],
@@ -829,6 +838,7 @@
       [ "scooter", 100 ],
       [ "scooter_electric", 150 ],
       [ "pickup", 800 ],
+      [ "extended_pickup", 85 ],
       [ "hippie_van", 200 ],
       [ "van_full-size", 100 ],
       [ "van_full-size_hybrid", 50 ],
