@@ -3041,6 +3041,31 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         }
 };
 
+class jmapgen_remove_npcs : public jmapgen_piece
+{
+    public:
+        std::string npc_class;
+        std::string unique_id;
+        jmapgen_remove_npcs( const JsonObject &jsi, const std::string & /*context*/ ) {
+            optional( jsi, false, "class", npc_class );
+            optional( jsi, false, "unique_id", unique_id );
+        }
+        void apply( const mapgendata &dat, const jmapgen_int & /*x*/, const jmapgen_int & /*y*/,
+                    const std::string & /*context*/ ) const override {
+            for( auto const &npc : overmap_buffer.get_npcs_near_omt(
+                     project_to<coords::omt>( dat.m.get_abs_sub() ), 0 ) ) {
+                if( !npc->is_dead() and
+                    ( npc_class.empty() or npc->idz == npc_class_id( npc_class ) ) and
+                    ( unique_id.empty() or unique_id == npc->get_unique_id() ) ) {
+                    overmap_buffer.remove_npc( npc->getID() );
+                    if( !unique_id.empty() ) {
+                        g->unique_npc_despawn( unique_id );
+                    }
+                }
+            }
+        }
+};
+
 // Removes furniture, traps, vehicles, items, fields, graffiti
 class jmapgen_remove_all : public jmapgen_piece
 {
@@ -4068,6 +4093,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_monster_group>( jo, "place_monsters", context_ );
     objects.load_objects<jmapgen_vehicle>( jo, "place_vehicles", context_ );
     objects.load_objects<jmapgen_remove_vehicles>( jo, "remove_vehicles", context_ );
+    objects.load_objects<jmapgen_remove_npcs>( jo, "remove_npcs", context_ );
     objects.load_objects<jmapgen_trap>( jo, "place_traps", context_ );
     objects.load_objects<jmapgen_furniture>( jo, "place_furniture", context_ );
     objects.load_objects<jmapgen_terrain>( jo, "place_terrain", context_ );

@@ -2932,6 +2932,11 @@ bool game::unique_npc_exists( std::string id )
     return unique_npcs.count( id ) > 0;
 }
 
+void game::unique_npc_despawn( std::string id )
+{
+    unique_npcs.erase( id );
+}
+
 spell_events &game::spell_events_subscriber()
 {
     return *spell_events_ptr;
