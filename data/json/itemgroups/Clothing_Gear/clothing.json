@@ -2556,7 +2556,7 @@
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
       [ "power_armor_frame", 4 ],
-	  { "power_armor_generator", 4],
+	  { "power_armor_generator", 4 ],
       [ "elbow_pads", 40 ],
       [ "knee_pads", 40 ],
       [ "mask_bal", 5 ],
