@@ -24,8 +24,33 @@
     "id": "legacy_classic_health_layout",
     "type": "widget",
     "style": "layout",
+    "label": "Health",
     "arrange": "columns",
     "widgets": [ "legacy_classic_health_left_layout", "legacy_classic_health_mid_layout", "legacy_classic_health_right_layout" ] 
+  },
+  {
+    "id": "legacy_classic_weather_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weather",
+    "arrange": "columns",
+    "widgets": [ "weather_desc", "moon_phase_desc" ] 
+  },
+  {
+    "id": "legacy_classic_lighting_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Lighting",
+    "arrange": "columns",
+    "widgets": [ "lighting_desc", "sound_num" ] 
+  },
+  {
+    "id": "legacy_classic_weapon_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weapon/Style",
+    "arrange": "columns",
+    "widgets": [ "wielding_desc", "style_desc" ]
   },
   {
     "id": "legacy_classic_sidebar",
@@ -34,7 +59,17 @@
     "label": "(W)classic",
     "width": 44,
     "widgets": [
-      "legacy_classic_health_layout"
+      "legacy_classic_health_layout",
+      "all_weariness_layout",
+      "overmap_location_desc",
+      "legacy_classic_weather_layout",
+      "legacy_classic_lighting_layout",
+      "legacy_classic_weapon_layout",
+      "time_desc",
+      "wind_desc",
+      "bodypart_armor_outer_layout",
+      "compass_all_layout_alt",
+      "body_graph"
     ]
   }
 ]
