@@ -148,10 +148,13 @@ class query_popup
         query_popup &option( const std::string &opt,
                              const std::function<bool( const input_event & )> &filter );
         /**
-         * Specify whether non-option actions can be returned. Mouse movement
-         * is always ignored regardless of this setting.
+         * Specify whether non-option actions can be returned.
          **/
         query_popup &allow_anykey( bool allow );
+        /**
+         * Whether options can be highlighted and selected with mouse events.
+         */
+        query_popup &allow_mouse_ctrl( bool allow );
         /**
          * Specify whether an implicit cancel option is allowed. This call does
          * not list the cancel option in the UI. Use `option( "QUIT" )` instead
@@ -220,6 +223,7 @@ class query_popup
         size_t cur;
         nc_color default_text_color;
         bool anykey;
+        bool mouse_ctrl;
         bool cancel;
         bool ontop;
         bool fullscr;
@@ -227,9 +231,11 @@ class query_popup
 
         struct button {
             button( const std::string &text, const point & );
+            bool contains( const point &p ) const;
 
             std::string text;
             point pos;
+            int width;
         };
 
         std::weak_ptr<ui_adaptor> adaptor;

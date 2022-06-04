@@ -11,8 +11,8 @@
 #include "ui_manager.h"
 
 query_popup::query_popup()
-    : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ), ontop( false ),
-      fullscr( false ), pref_kbd_mode( keyboard_mode::keycode )
+    : cur( 0 ), default_text_color( c_white ), anykey( false ), mouse_ctrl( true ), cancel( false ),
+      ontop( false ), fullscr( false ), pref_kbd_mode( keyboard_mode::keycode )
 {
 }
 
@@ -44,6 +44,13 @@ query_popup &query_popup::allow_anykey( bool allow )
 {
     // Change does not affect cache, do not invalidate the window
     anykey = allow;
+    return *this;
+}
+
+query_popup &query_popup::allow_mouse_ctrl( bool allow )
+{
+    // Change does not affect cache, do not invalidate the window
+    mouse_ctrl = allow;
     return *this;
 }
 
@@ -289,8 +296,11 @@ query_popup::result query_popup::query_once()
     }
     if( anykey ) {
         ctxt.register_action( "ANY_INPUT" );
-        // Mouse movement, button, and wheel
-        ctxt.register_action( "COORDINATE" );
+    }
+    if( mouse_ctrl ) {
+        // Mouse movement and button
+        ctxt.register_action( "SELECT" );
+        ctxt.register_action( "MOUSE_MOVE" );
     }
     if( cancel ) {
         ctxt.register_action( "QUIT" );
@@ -302,6 +312,24 @@ query_popup::result query_popup::query_once()
     do {
         res.action = ctxt.handle_input();
         res.evt = ctxt.get_raw_input();
+
+        // If we're tracking mouse movement (mouse_ctrl == true)
+        if( mouse_ctrl && ( res.action == "MOUSE_MOVE" || res.action == "SELECT" ) ) {
+            cata::optional<point> coord = ctxt.get_coordinates_text( win );
+            for( size_t i = 0; i < buttons.size(); i++ ) {
+                if( coord.has_value() && buttons[i].contains( coord.value() ) ) {
+                    if( i != cur ) {
+                        // Mouse-over new button, switch selection
+                        cur = i;
+                        ui_manager::redraw();
+                    }
+                    if( res.action == "SELECT" ) {
+                        // Left-click to confirm selection
+                        res.action = "CONFIRM";
+                    }
+                }
+            }
+        }
     } while(
         // Always ignore mouse movement
         ( res.evt.type == input_event_t::mouse && res.evt.get_first_input() == MOUSE_MOVE ) ||
@@ -398,6 +426,14 @@ query_popup::query_option::query_option(
 query_popup::button::button( const std::string &text, const point &p )
     : text( text ), pos( p )
 {
+    width = utf8_width( text, true );
+}
+
+bool query_popup::button::contains( const point &p ) const
+{
+    return p.x >= pos.x + border_width &&
+           p.x < pos.x + width + border_width &&
+           p.y == pos.y + border_width;
 }
 
 static_popup::static_popup()
