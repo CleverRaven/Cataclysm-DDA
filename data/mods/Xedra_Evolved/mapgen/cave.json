@@ -49,19 +49,13 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_monster": [ { "monster": "mon_redcap_aspirant", "x": [ 0 ], "y": [ 0 ] } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_redcap_aspirant", "x": [ 0 ], "y": [ 0 ] } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_monster": [ { "monster": "mon_pooka_aspirant", "x": [ 0 ], "y": [ 0 ] } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_pooka_aspirant", "x": [ 0 ], "y": [ 0 ] } ] }
   },
   {
     "type": "mapgen",

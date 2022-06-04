@@ -50,9 +50,7 @@
       { "group": "Appearance_demographics" },
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
-      {
-        "distribution": [ { "group": "trait_group_dreamer_danger" }, { "group": "trait_group_dreamer_hero" } ]
-      }
+      { "distribution": [ { "group": "trait_group_dreamer_danger" }, { "group": "trait_group_dreamer_hero" } ] }
     ]
   }
 ]

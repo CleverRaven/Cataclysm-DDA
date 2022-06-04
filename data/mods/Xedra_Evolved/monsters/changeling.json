@@ -471,7 +471,7 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2} ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "grab_strength": 5,
     "dodge": 5,
     "luminance": 0,

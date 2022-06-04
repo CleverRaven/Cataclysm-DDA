@@ -185,10 +185,7 @@
     "type": "item_group",
     "id": "redcap_headgear",
     "subtype": "distribution",
-    "entries": [
-      { "item": "xl_mt_chainmail_hood", "prob": 20 },
-      { "item": "theredcap", "prob": 20 }
-    ]
+    "entries": [ { "item": "xl_mt_chainmail_hood", "prob": 20 }, { "item": "theredcap", "prob": 20 } ]
   },
   {
     "type": "item_group",
