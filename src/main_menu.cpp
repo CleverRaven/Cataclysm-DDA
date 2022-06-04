@@ -750,9 +750,8 @@ bool main_menu::opening_screen()
                         }
                     } else if( action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
                         int effective_height = sel_line + FULL_SCREEN_HEIGHT - 2;
-                        if( opt == main_menu_opts::CREDITS && effective_height < mmenu_credits_len ) {
-                            sel_line++;
-                        } else if ( opt == main_menu_opts::MOTD && effective_height < mmenu_motd_len ) {
+                        if( ( opt == main_menu_opts::CREDITS && effective_height < mmenu_credits_len ) ||
+                            ( opt == main_menu_opts::MOTD && effective_height < mmenu_motd_len ) ) {
                             sel_line++;
                         }
                     }
