@@ -29,7 +29,7 @@
     "color": "yellow",
     "flags": [ "EDIBLE_FROZEN", "NO_INGEST" ],
     "use_action": [ "FUNGICIDE" ],
-	"comestible_type": "MED",
+    "comestible_type": "MED",
     "description": "A handful of pure sulfur.  Primarily used to make battery acid, sulfur is sometimes used as fuel for explosives.  Can be burned to produce acidic smoke that is deadly to bacteria and humans alike, or oxidized to make paper-bleaching agents.  It is also a fungicide, and could be rubbed on your skin to treat fungal infection.",
     "material": [ "powder" ],
     "volume": "16 ml",
