@@ -11,7 +11,7 @@
 #include "ui_manager.h"
 
 query_popup::query_popup()
-    : cur( 0 ), default_text_color( c_white ), anykey( false ), mouse_ctrl( true ), cancel( false ),
+    : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ),
       ontop( false ), fullscr( false ), pref_kbd_mode( keyboard_mode::keycode )
 {
 }
@@ -44,13 +44,6 @@ query_popup &query_popup::allow_anykey( bool allow )
 {
     // Change does not affect cache, do not invalidate the window
     anykey = allow;
-    return *this;
-}
-
-query_popup &query_popup::allow_mouse_ctrl( bool allow )
-{
-    // Change does not affect cache, do not invalidate the window
-    mouse_ctrl = allow;
     return *this;
 }
 
@@ -293,14 +286,14 @@ query_popup::result query_popup::query_once()
         for( const auto &opt : options ) {
             ctxt.register_action( opt.action );
         }
-    }
-    if( anykey ) {
-        ctxt.register_action( "ANY_INPUT" );
-    }
-    if( mouse_ctrl ) {
         // Mouse movement and button
         ctxt.register_action( "SELECT" );
         ctxt.register_action( "MOUSE_MOVE" );
+    }
+    if( anykey ) {
+        ctxt.register_action( "ANY_INPUT" );
+        // Mouse movement, button, and wheel
+        ctxt.register_action( "COORDINATE" );
     }
     if( cancel ) {
         ctxt.register_action( "QUIT" );
@@ -313,8 +306,8 @@ query_popup::result query_popup::query_once()
         res.action = ctxt.handle_input();
         res.evt = ctxt.get_raw_input();
 
-        // If we're tracking mouse movement (mouse_ctrl == true)
-        if( mouse_ctrl && ( res.action == "MOUSE_MOVE" || res.action == "SELECT" ) ) {
+        // If we're tracking mouse movement
+        if( !options.empty() && ( res.action == "MOUSE_MOVE" || res.action == "SELECT" ) ) {
             cata::optional<point> coord = ctxt.get_coordinates_text( win );
             for( size_t i = 0; i < buttons.size(); i++ ) {
                 if( coord.has_value() && buttons[i].contains( coord.value() ) ) {
