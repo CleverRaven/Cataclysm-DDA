@@ -60,6 +60,29 @@
       "D": { "item": "bugout_bag", "chance": 100 },
       "C": { "item": "oven", "chance": 100 },
       "G": { "item": "generator", "chance": 100 }
+    },
+    "nested": { "6": { "chunks": [ "gaoler_computer" ] } }
+  },
+  {
+    "type": "palette",
+    "id": "arena",
+    "terrain": {
+      "*": "t_chaingate_c",
+      "+": "t_door_metal_c",
+      "-": "t_scrap_wall",
+      "_": "t_metal_floor",
+      ",": "t_carpet_metal_purple",
+      "B": "t_carpet_metal_purple",
+      "d": "t_carpet_metal_purple",
+      "1": "t_column",
+      "=": "t_chainfence",
+      "|": "t_wall_metal",
+      ":": "t_secretdoor_metal_c",
+      ";": "t_secretdoor_metal_o",
+      "O": "t_metal_floor_olight"
+    },
+    "furniture": {
+      "r": "f_rack"
     }
   }
 ]
