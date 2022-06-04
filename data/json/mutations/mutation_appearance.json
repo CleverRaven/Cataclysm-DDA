@@ -922,5 +922,155 @@
     "player_display": false,
     "vanity": true,
     "types": [ "facial_hair" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_CALICO",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: calico" },
+    "description": "Your sleek fur is white on your belly and lower legs, with the rest of your body covered in large brown and black patches.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_MALTESE",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: maltese" },
+    "description": "Your sleek fur is gray with a slight blue tint.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_TUXEDO",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: tuxedo" },
+    "description": "Your sleek fur is black, except for white markings on your face, chest, belly, neck, hands, and feet.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_COW",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: cow" },
+    "description": "Though you are decidedly not a Bovine, your sleek fur is white with large black spots, much like that of a cow.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_TORTOISESHELL",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: tortoiseshell" },
+    "description": "Your sleek fur is a chaotic mix of dark, medium, and light brown patches.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_BLACK",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: black" },
+    "description": "Your sleek fur is pitch-black. Hopefully it means you will being bad luck to your foes.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_WHITE",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: white" },
+    "description": "Your sleek fur is as white as fresh snow.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_TABBY",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: tabby" },
+    "description": "Your sleek fur is medium brown with short dark stripes.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_TIGER",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: tiger" },
+    "description": "Your sleek fur is a striking orange with long black stripes.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_COUGAR",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: cougar" },
+    "description": "Your sleek fur is light brown, and even lighter on your belly, chest, and neck.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_LEOPARD",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: leopard" },
+    "description": "Your sleek fur is yellow with small black spots.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_LUPINE_WHITE",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: white" },
+    "description": "Your lupine fur is off-white, like that of an arctic wolf.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_lupine" ]
+  },
+  {
+    "id": "FUR_COLORATION_LUPINE_GRAY",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: gray" },
+    "description": "Your lupine fur is gray, like that of a North American wolf.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_lupine" ]
+  },
+  {
+    "id": "FUR_COLORATION_LUPINE_BROWNISH_GRAY",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: brownish gray" },
+    "description": "Your lupine fur is brownish-gray with lighter brown markings on your limbs, like that of an Eurasian wolf.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_lupine" ]
+  },
+  {
+    "id": "FUR_COLORATION_LUPINE_BLACK",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: black" },
+    "description": "Your lupine fur is pitch-black, like that of a rare black wolf.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_lupine" ]
   }
 ]
