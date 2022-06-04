@@ -75,7 +75,7 @@
     { "x": -3, "y": 5, "parts": [ "wheel_mount_heavy", "wheel_armor" ] }
   ],
   "items": [
-    { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
+    { "x": 0, "y": 0, "chance": 5, "items": [ "badge_zebra" ] },
     { "x": -2, "y": 2, "chance": 15, "item_groups": [ "fuel_jp8" ] },
     { "x": -2, "y": 1, "chance": 7, "item_groups": [ "military_standard_sniper_rifles" ] }
   ]
