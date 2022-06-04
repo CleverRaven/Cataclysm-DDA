@@ -81,8 +81,8 @@
     { "x": -5, "y": 1, "part": "plating_military" },
     { "x": -5, "y": 2, "parts": [ "hdframe_horizontal_rear", "hddoor_trunk" ] },
     { "x": -5, "y": 2, "part": "plating_military" },
-    { "x": -5, "y": 5, "parts": [ "hdframe_se", "hdhalfboard_se", "plating_military" ] },
-    { "x": -5, "y": 5, "parts": [ "wheel_mount_heavy", "wheel_armor" ] }
+    { "x": -5, "y": 3, "parts": [ "hdframe_se", "hdhalfboard_se", "plating_military" ] },
+    { "x": -5, "y": 3, "parts": [ "wheel_mount_heavy", "wheel_armor" ] }
   ],
   "items": [
     { "x": 0, "y": 0, "chance": 5, "items": [ "badge_zebra" ] },
