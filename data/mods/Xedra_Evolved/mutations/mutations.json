@@ -1,0 +1,46 @@
+[
+  {
+    "type": "mutation",
+    "id": "EGGSAC_SURVIVABLE",
+    "name": { "str": "Spider egg host" },
+    "points": 0,
+    "player_display": false,
+    "description": "You don't feel very well.  On an existential level.",
+    "triggers": [
+      [
+        {
+          "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
+          "msg_on": { "text": "Spiders erupt from your body!", "rating": "bad" }
+        },
+        {
+          "npc_cast_spell": "spider_emergence_weak"
+        },
+        {
+          "u_lose_trait": "EGGSAC_SURVIVABLE"
+        }
+      ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "EGGSAC_FATAL",
+    "name": { "str": "Spider egg host" },
+    "points": 0,
+    "player_display": false,
+    "description": "You don't feel very well.  On an existential level.",
+    "triggers": [
+      [
+        {
+          "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
+          "msg_on": { "text": "Spiders erupt from your body!", "rating": "bad" }
+        },
+        {
+          "npc_cast_spell": "spider_emergence_strong"
+        },
+        {
+          "u_lose_trait": "EGGSAC_FATAL"
+        }
+      ]
+    ]
+  }
+]
