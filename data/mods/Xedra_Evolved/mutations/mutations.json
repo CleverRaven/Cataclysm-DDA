@@ -12,12 +12,8 @@
           "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] },
           "msg_on": { "text": "Spiders erupt from your body!", "rating": "bad" }
         },
-        {
-          "npc_cast_spell": "spider_emergence_weak"
-        },
-        {
-          "u_lose_trait": "EGGSAC_SURVIVABLE"
-        }
+        { "npc_cast_spell": "spider_emergence_weak" },
+        { "u_lose_trait": "EGGSAC_SURVIVABLE" }
       ]
     ]
   },
@@ -34,12 +30,8 @@
           "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] },
           "msg_on": { "text": "Spiders erupt from your body!", "rating": "bad" }
         },
-        {
-          "npc_cast_spell": "spider_emergence_strong"
-        },
-        {
-          "u_lose_trait": "EGGSAC_FATAL"
-        }
+        { "npc_cast_spell": "spider_emergence_strong" },
+        { "u_lose_trait": "EGGSAC_FATAL" }
       ]
     ]
   }
