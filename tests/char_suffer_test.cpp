@@ -300,7 +300,8 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             dummy.wear_item( longshirt, false );
 
             THEN( "damage to torso is 0 and halved for arms" ) {
-                time_duration t = 1_hours;
+                // The values are low, therefore extended duration
+                time_duration t = 2_hours;
 
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, t );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
@@ -309,12 +310,12 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                         CHECK( bp_hp_lost[bp] == 0 );
                     } else if( bp.id().str() == "arm_l" || bp.id().str() == "arm_r" ) {
                         // Hands are exposed
-                        // 60 * 0.1 * 1
-                        CHECK( bp_hp_lost[bp] == Approx( 6 ).margin( 4 ) );
+                        // 120 * 0.1 * 1
+                        CHECK( bp_hp_lost[bp] == Approx( 12 ).margin( 11 ) );
                     } else {
                         // legs+feet combine, and head+mouth combine (doubled damage)
-                        // 60 * 0.1 * 2
-                        CHECK( bp_hp_lost[bp] == Approx( 12 ).margin( 8 ) );
+                        // 120 * 0.1 * 2
+                        CHECK( bp_hp_lost[bp] == Approx( 24 ).margin( 18 ) );
                     }
                 }
             }
