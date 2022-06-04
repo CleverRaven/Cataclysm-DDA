@@ -47,13 +47,6 @@
         {
           "type": "LOOT_ITEM_GROUP",
           "faction": "isolated_artisans",
-          "x": [ 2, 2 ],
-          "y": [ 7, 7 ],
-          "filter": "guns_rifle_milspec"
-        },
-        {
-          "type": "LOOT_ITEM_GROUP",
-          "faction": "isolated_artisans",
           "x": [ 3, 3 ],
           "y": [ 10, 10 ],
           "filter": "gunsmith_basic_ammo"
