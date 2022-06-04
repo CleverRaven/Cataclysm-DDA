@@ -332,7 +332,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                     // Although the chance for focus loss is written as 1.0 it is in reality 0.65 at 100% exposure
                     // 0.65 = 1.0 - 0.1 - 0.25
                     // 39 = 0.65 * 1 * 60
-                    focus_lost = test_suffer_focus_lost( dummy, 20_minutes );
+                    focus_lost = test_suffer_focus_lost( dummy, 1_hours );
                     CHECK( focus_lost == Approx( 39 ).margin( 20 ) );
                 }
                 THEN( "they suffer pain" ) {
