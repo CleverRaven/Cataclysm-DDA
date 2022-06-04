@@ -790,37 +790,36 @@ void suffer::from_asthma( Character &you, const int current_stim )
 
 void suffer::in_sunlight( Character &you )
 {
-    int sunlight_nutrition = 0;
     const tripoint position = you.pos();
-    if( get_map().is_outside( position ) && ( g->light_level( position.z ) >= 40 ) ) {
-        const bool leafy = you.has_trait( trait_LEAVES ) ||
-                           you.has_trait( trait_LEAVES2 ) ||
-                           you.has_trait( trait_LEAVES3 );
-        if( leafy ) {
-            const bool leafier = you.has_trait( trait_LEAVES2 );
-            const bool leafiest = you.has_trait( trait_LEAVES3 );
-            const double sleeve_factor = you.armwear_factor();
-            const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
-            const float weather_factor = ( get_weather().weather_id->sun_intensity >=
-                                           sun_intensity_type::normal ) ? 1.0 : 0.5;
-            const int player_local_temp = get_weather().get_temperature( position );
-            const int flux = ( player_local_temp - 65 ) / 2;
-            if( !has_hat ) {
-                sunlight_nutrition += ( 100 + flux ) * weather_factor;
-            }
-            if( leafier || leafiest ) {
-                const int rate = ( 100 * sleeve_factor + flux ) * 2;
-                sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
-            }
+
+    if( !g->is_in_sunlight( position ) ) {
+        return;
+    }
+
+    const bool leafy = you.has_trait( trait_LEAVES ) ||
+                       you.has_trait( trait_LEAVES2 ) ||
+                       you.has_trait( trait_LEAVES3 );
+    int sunlight_nutrition = 0;
+    if( leafy ) {
+        const bool leafier = you.has_trait( trait_LEAVES2 );
+        const bool leafiest = you.has_trait( trait_LEAVES3 );
+        const double sleeve_factor = you.armwear_factor();
+        const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
+        const float weather_factor = ( get_weather().weather_id->sun_intensity >=
+                                       sun_intensity_type::normal ) ? 1.0 : 0.5;
+        const int player_local_temp = get_weather().get_temperature( position );
+        const int flux = ( player_local_temp - 65 ) / 2;
+        if( !has_hat ) {
+            sunlight_nutrition += ( 100 + flux ) * weather_factor;
+        }
+        if( leafier || leafiest ) {
+            const int rate = ( 100 * sleeve_factor + flux ) * 2;
+            sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
         }
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
         you.vitamin_mod( vitamin_vitC, 1 );
-    }
-
-    if( !g->is_in_sunlight( position ) || g->is_sheltered( position ) ) {
-        return;
     }
 
     if( you.has_trait( trait_SUNBURN ) ) {
