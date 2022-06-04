@@ -1054,7 +1054,7 @@
     "type": "COMESTIBLE",
     "id": "slug_garden",
     "category": "other",
-    "name": { "str": "snail" },
+    "name": { "str": "slug" },
     "weight": "15 g",
     "color": "brown",
     "use_action": [ "POISON" ],
