@@ -421,7 +421,7 @@ void main_menu::init_strings()
     if( mmenu_credits.empty() ) {
         mmenu_credits = _( "No credits information found." );
     }
-    mmenu_credits_len = foldstring( mmenu_credits, FULL_SCREEN_WIDTH - 2 ).size();;
+    mmenu_credits_len = foldstring( mmenu_credits, FULL_SCREEN_WIDTH - 2 ).size();
 
     // fill menu with translated menu items
     vMenuItems.clear();
