@@ -1,0 +1,15 @@
+[
+  {
+    "type": "mutation",
+    "id": "MARKED",
+    "name": { "str": "Implanted" },
+    "points": 0,
+    "visibility": 3,
+    "ugliness": 2,
+    "description": "A mark engraved with your name and the word CHALLENGER has been stitched into your skin.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Equipment" ],
+    "integrated_armor": [ "mark_challenger" ]
+  }
+]

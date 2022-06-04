@@ -15,5 +15,24 @@
   "weight": "3 g",
   "volume": "1 ml",
   "flags": [ "TRADER_AVOID" ]
+},
+{
+  "id": "mark_challenger",
+  "type": "TOOL_ARMOR",
+  "category": "clothing",
+  "symbol": ";",
+  "color": "dark_gray",
+  "name": { "str": "mark of a challenger", "str_pl": "marks of a challenger" },
+  "description": "A small piece of medal marking you as a challenger.",
+  "price": 0,
+  "price_postapoc": 1000,
+  "material": [ "unobtanium" ],
+  "flags": [ "INTEGRATED", "UNBREAKABLE", "BELTED", "WATER_FRIENDLY" ],
+  "weight": "100 g",
+  "volume": "50 ml",
+  "bashing": 4,
+  "to_hit": -1,
+  "material_thickness": 2,
+  "armor": [ { "encumbrance": 0, "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
 }
 ]

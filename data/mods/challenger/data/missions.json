@@ -7,7 +7,38 @@
   "difficulty": 5,
   "value": 0,
   "start": {
-    "assign_mission_target": { "om_terrain": "compound_arena", "om_special": "the_compound", "reveal_radius": 1, "search_range": 20 }
+    "assign_mission_target": { "om_terrain": "compound_arena", "om_special": "the_compound", "reveal_radius": 1, "search_range": 20 },
+    "update_mapgen": {
+      "rows": [
+        "X                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+       "X": { "chunks": [ "arena_1v1_open" ] }
+    }
+    }
   },
   "goal_condition": { "u_has_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" },
   "origins": [ "ORIGIN_SECONDARY" ],

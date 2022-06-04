@@ -60,15 +60,9 @@
       "D": { "item": "bugout_bag", "chance": 100 },
       "C": { "item": "oven", "chance": 100 },
       "G": { "item": "generator", "chance": 100 }
-        },
-    "item": {
-      "X": { "item": "welcome_note", "chance": 100}
     },
-    "nested": { "6": { "chunks": [ "gaoler_computer" ] },
-     "7": { "chunks": [ "exit_computer" ] } 
-
-
-  }
+    "item": { "X": { "item": "welcome_note", "chance": 100 } },
+    "nested": { "6": { "chunks": [ "gaoler_computer" ] }, "7": { "chunks": [ "exit_computer" ] } }
   },
   {
     "type": "palette",
@@ -88,8 +82,7 @@
       ";": "t_secretdoor_metal_o",
       "O": "t_metal_floor_olight"
     },
-    "furniture": {
-      "r": "f_rack"
-    }
+    "furniture": { "r": "f_rack" },
+    "nested": { "7": { "chunks": [ "exit_computer" ] } }
   }
 ]

@@ -11,8 +11,11 @@
     "responses": [
       {
         "text": "> RETURN HOME",
-        "condition": { "u_has_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" },
-        "topic": "EXIT_RETURN"
+        "topic": "TALK_DONE",
+        "effect": [
+           { "u_teleport": { "global_val": "original_loc" }, "fail_message": "your body doesn't move", "success_message": "All at once your body feels like it's beeing pulled in 1000 different directions." },
+           { "finish_mission": "Fighting", "success": true}
+        ]
       },
       { "text": "> LOG OFF", "topic": "TALK_DONE" }
     ]
