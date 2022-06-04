@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 
+#include "cuboid_rectangle.h"
 #include "options.h"
 #include "pimpl.h"
 #include "type_id.h"
@@ -145,9 +146,10 @@ class worldfactory
                                        const std::function<bool()> &on_quit );
 
         void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
-        void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
-                            const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
-                            const catacurses::window &w_shift );
+        std::map<int, inclusive_rectangle<point>> draw_mod_list( const catacurses::window &w, int &start,
+                                               size_t cursor, const std::vector<mod_id> &mods,
+                                               bool is_active_list, const std::string &text_if_empty,
+                                               const catacurses::window &w_shift );
 
         WORLDPTR add_world( std::unique_ptr<WORLD> retworld );
 

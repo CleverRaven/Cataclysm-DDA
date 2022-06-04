@@ -26,6 +26,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -417,7 +418,10 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
     mapLines[3] = true;
 
     std::map<int, std::vector<std::string> > world_pages;
-    size_t sel = 0;
+    std::vector<std::pair<inclusive_rectangle<point>, int>> button_map;
+    point world_list_top_left;
+    int world_list_width = 0;
+    int sel = 0;
     size_t selpage = 0;
 
     catacurses::window w_worlds_border;
@@ -426,6 +430,10 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
     catacurses::window w_worlds;
 
     ui_adaptor ui;
+
+    const auto on_move = []( bool is_error ) {
+        sfx::play_variant_sound( is_error ? "menu_error" : "menu_move", "default", 100 );
+    };
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - 3 - iTooltipHeight;
@@ -449,6 +457,9 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
                                                point( 1 + iOffsetX, 1 + iTooltipHeight ) );
         w_worlds         = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
                                                point( 1 + iOffsetX, iTooltipHeight + 2 ) );
+
+        world_list_top_left = point( getbegx( w_worlds ), getbegy( w_worlds ) );
+        world_list_width = iMinScreenWidth - 2;
 
         ui.position_from_window( w_worlds_border );
     };
@@ -496,19 +507,29 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
+            const bool sel_this = static_cast<int>( i ) == sel;
+            inclusive_rectangle<point> btn( world_list_top_left + point( 4, i ),
+                                            world_list_top_left + point( world_list_width - 1, i ) );
+            button_map.emplace_back( btn, i );
+
             mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, "%d", i + 1 );
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
 
             std::string world_name = ( world_pages[selpage] )[i];
             size_t saves_num = get_world( world_name )->world_saves.size();
 
-            if( i == sel ) {
-                wprintz( w_worlds, c_yellow, ">> " );
+            if( sel_this ) {
+                wprintz( w_worlds, hilite( c_yellow ), "» " );
             } else {
-                wprintz( w_worlds, c_yellow, "   " );
+                wprintz( w_worlds, c_yellow, "  " );
             }
 
-            wprintz( w_worlds, c_white, "%s (%lu)", world_name, saves_num );
+            const std::string txt = string_format( "%s (%lu)", world_name, saves_num );
+            const int remaining = world_list_width - ( utf8_width( txt, true ) + 6 );
+            wprintz( w_worlds, sel_this ? hilite( c_white ) : c_white, txt );
+            if( sel_this && remaining > 0 ) {
+                wprintz( w_worlds, hilite( c_white ), std::string( remaining, ' ' ) );
+            }
         }
 
         //Draw Tabs
@@ -542,43 +563,70 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
+    // for mouse selection
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
 
     while( true ) {
         ui_manager::redraw();
 
-        const std::string action = ctxt.handle_input();
+        std::string action = ctxt.handle_input();
         const size_t recmax = world_pages[selpage].size();
         const size_t scroll_rate = recmax > 20 ? 10 : 3;
 
+        // handle mouse click
+        if( action == "SELECT" || action == "MOUSE_MOVE" ) {
+            cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+            for( const auto &it : button_map ) {
+                if( coord.has_value() && it.first.contains( coord.value() ) ) {
+                    if( sel != it.second ) {
+                        on_move( false );
+                        sel = it.second;
+                    }
+                    if( action == "SELECT" ) {
+                        action = "CONFIRM";
+                    }
+                    ui_manager::redraw();
+                    break;
+                }
+            }
+        }
+
         if( action == "QUIT" ) {
             break;
-        } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
+        } else if( !world_pages[selpage].empty() && ( action == "DOWN" || action == "SCROLL_DOWN" ) ) {
             sel++;
-            if( sel >= recmax ) {
+            if( sel >= static_cast<int>( recmax ) ) {
                 sel = 0;
             }
-        } else if( !world_pages[selpage].empty() && action == "UP" ) {
+            on_move( recmax < 2 );
+        } else if( !world_pages[selpage].empty() && ( action == "UP" || action == "SCROLL_UP" ) ) {
             if( sel == 0 ) {
                 sel = recmax - 1;
             } else {
                 sel--;
             }
+            on_move( recmax < 2 );
         } else if( action == "PAGE_DOWN" ) {
-            if( sel == recmax - 1 ) {
+            if( sel == static_cast<int>( recmax ) - 1 ) {
                 sel = 0;
             } else if( sel + scroll_rate >= recmax ) {
                 sel = recmax - 1;
             } else {
                 sel += +scroll_rate;
             }
+            on_move( recmax < 2 );
         } else if( action == "PAGE_UP" ) {
             if( sel == 0 ) {
                 sel = recmax - 1;
-            } else if( sel <= scroll_rate ) {
+            } else if( sel <= static_cast<int>( scroll_rate ) ) {
                 sel = 0;
             } else {
                 sel += -scroll_rate;
             }
+            on_move( recmax < 2 );
         } else if( action == "NEXT_TAB" ) {
             sel = 0;
 
@@ -670,12 +718,15 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDPT
     return 0;
 }
 
-void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
-                                  const std::vector<mod_id> &mods, bool is_active_list,
-                                  const std::string &text_if_empty, const catacurses::window &w_shift )
+std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const catacurses::window &w,
+                                       int &start, size_t cursor, const std::vector<mod_id> &mods,
+                                       bool is_active_list, const std::string &text_if_empty,
+                                       const catacurses::window &w_shift )
 {
     werase( w );
     werase( w_shift );
+
+    std::map<int, inclusive_rectangle<point>> ent_map;
 
     const int iMaxRows = getmaxy( w );
     size_t iModNum = mods.size();
@@ -760,6 +811,8 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                     }
                     mod_entry_name += string_format( _( " [%s]" ), mod_entry_id.str() );
                     trim_and_print( w, point( 4, iNum - start ), wwidth, mod_entry_color, mod_entry_name );
+                    ent_map.emplace( std::distance( mods.begin(), iter ),
+                                     inclusive_rectangle<point>( point( 1, iNum - start ), point( 3 + wwidth, iNum - start ) ) );
 
                     if( w_shift ) {
                         // get shift information for the active item
@@ -802,6 +855,8 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
     wnoutrefresh( w );
     wnoutrefresh( w_shift );
+
+    return ent_map;
 }
 
 void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods )
@@ -809,6 +864,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     ui_adaptor ui;
     catacurses::window w_border;
     catacurses::window w_mods;
+    std::map<int, inclusive_rectangle<point>> ent_map;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
@@ -836,12 +892,19 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
+    // for mouse selection
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "SEC_SELECT" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_border, BORDER_COLOR, _( "Active world mods" ) );
         wnoutrefresh( w_border );
 
-        draw_mod_list( w_mods, start, static_cast<size_t>( cursor ), world_mods,
-                       true, _( "--NO ACTIVE MODS--" ), catacurses::window() );
+        ent_map = draw_mod_list( w_mods, start, static_cast<size_t>( cursor ), world_mods,
+                                 true, _( "--NO ACTIVE MODS--" ), catacurses::window() );
         wnoutrefresh( w_mods );
     } );
 
@@ -852,13 +915,22 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         const int recmax = static_cast<int>( num_mods );
         const int scroll_rate = recmax > 20 ? 10 : 3;
 
-        if( action == "UP" ) {
+        if( !world_mods.empty() && action == "MOUSE_MOVE" ) {
+            cata::optional<point> coord = ctxt.get_coordinates_text( w_mods );
+            for( const auto &ent : ent_map ) {
+                if( coord.has_value() && ent.second.contains( coord.value() ) ) {
+                    cursor = ent.first;
+                }
+            }
+        }
+
+        if( action == "UP" || action == "SCROLL_UP" ) {
             cursor--;
             // If it went under 0, loop back to the end of the list.
             if( cursor < 0 ) {
                 cursor = recmax - 1;
             }
-        } else if( action == "DOWN" ) {
+        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             cursor++;
             // If it went over the end of the list, loop back to the start of the list.
             if( cursor > recmax - 1 ) {
@@ -880,7 +952,8 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             } else {
                 cursor += -scroll_rate;
             }
-        } else if( action == "QUIT" || action == "CONFIRM" ) {
+        } else if( action == "QUIT" || action == "CONFIRM" ||
+                   action == "SELECT" || action == "SEC_SELECT" ) {
             break;
         }
     }
