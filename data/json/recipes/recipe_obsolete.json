@@ -743,5 +743,31 @@
     "type": "recipe",
     "result": "sourdough_split",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "thorazine",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "antiparasitic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bfipowder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "disinfectant",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_black_powder",
+    "id_suffix": "generic",
+    "obsolete": true
   }
 ]

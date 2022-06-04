@@ -603,7 +603,7 @@
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
       [ [ "zinc_metal", 2 ] ],
-      [ [ "chem_potassium_hydroxide", 7 ] ],
+      [ [ "chem_potassium_hydroxide", 7 ], [ "lye_powder", 2 ] ],
       [ [ "duct_tape", 1 ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ]
@@ -625,7 +625,7 @@
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
       [ [ "zinc_metal", 6 ] ],
-      [ [ "chem_potassium_hydroxide", 20 ] ],
+      [ [ "chem_potassium_hydroxide", 20 ], [ "lye_powder", 4 ] ],
       [ [ "duct_tape", 5 ] ],
       [ [ "water_clean", 3 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
@@ -668,7 +668,7 @@
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
       [ [ "zinc_metal", 24 ] ],
-      [ [ "chem_potassium_hydroxide", 82 ] ],
+      [ [ "chem_potassium_hydroxide", 82 ], [ "lye_powder", 22 ] ],
       [ [ "duct_tape", 20 ] ],
       [ [ "water_clean", 12 ] ],
       [ [ "steel_chunk", 12 ], [ "scrap", 24 ] ]
@@ -711,7 +711,7 @@
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
       [ [ "zinc_metal", 50 ] ],
-      [ [ "chem_potassium_hydroxide", 170 ] ],
+      [ [ "chem_potassium_hydroxide", 170 ], [ "lye_powder", 34 ] ],
       [ [ "duct_tape", 40 ] ],
       [ [ "water_clean", 25 ] ],
       [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]

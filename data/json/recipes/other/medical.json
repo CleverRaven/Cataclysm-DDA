@@ -109,25 +109,6 @@
     ]
   },
   {
-    "result": "disinfectant",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MEDICAL",
-    "skill_used": "chemistry",
-    "difficulty": 3,
-    "skills_required": [ "firstaid", 2 ],
-    "time": "24 m",
-    "book_learn": [ [ "textbook_firstaid", 2 ], [ "manual_first_aid", 2 ], [ "emergency_book", 2 ], [ "pocket_firstaid", 2 ] ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [
-      [ [ "water_clean", 1 ] ],
-      [ [ "oxy_powder", 10 ] ],
-      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "methed_alcohol", 250 ] ]
-    ]
-  },
-  {
     "result": "disinfectant_makeshift",
     "type": "recipe",
     "activity_level": "fake",
@@ -248,21 +229,6 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "alder_bark", 6 ] ], [ [ "lye", 5 ] ], [ [ "water_clean", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "bfipowder",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MEDICAL",
-    "skill_used": "chemistry",
-    "skills_required": [ "firstaid", 1 ],
-    "difficulty": 5,
-    "time": "1 m 12 s",
-    "book_learn": [ [ "textbook_firstaid", 7 ], [ "textbook_chemistry", 5 ], [ "adv_chemistry", 5 ], [ "emergency_book", 7 ] ],
-    "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "iodine", 2 ] ], [ [ "aspirin", 4 ] ], [ [ "oxy_powder", 50 ] ], [ [ "salt_water", 1 ], [ "saline", 5 ] ] ]
   },
   {
     "type": "recipe",

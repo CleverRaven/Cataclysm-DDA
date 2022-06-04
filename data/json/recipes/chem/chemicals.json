@@ -53,7 +53,26 @@
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "chem_acetic_acid", 3 ] ], [ [ "material_limestone", 54 ], [ "material_quicklime", 24 ] ] ]
+    "components": [
+      [ [ "chem_acetic_acid", 3 ] ],
+      [ [ "material_limestone", 54 ], [ "material_quicklime", 24 ], [ "chem_slaked_lime", 240 ] ]
+    ]
+  },
+  {
+    "result": "chem_toluene",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "20 m",
+    "batch_time_factors": [ 99, 1 ],
+    "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "charges": 105,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "chem_citric_acid", -1 ] ] ],
+    "components": [ [ [ "chem_benzene", 90 ] ], [ [ "chem_methanol", 32 ] ] ]
   },
   {
     "type": "recipe",
@@ -105,6 +124,21 @@
       [ [ "chem_calcium_chloride", 14 ] ],
       [ [ "water_clean", 16 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_ferric_chloride",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "1 h",
+    "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "charges": 49,
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "electrolysis_kit", 50 ] ] ],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "salt_water", 4 ] ] ]
   },
   {
     "type": "recipe",

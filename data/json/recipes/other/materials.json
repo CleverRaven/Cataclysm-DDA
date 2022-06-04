@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "material_quicklime",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -13,7 +13,22 @@
     "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_limestone", 50 ] ] ]
+    "components": [ [ [ "material_limestone", 50 ], [ "chem_slaked_lime", 500 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "chem_slaked_lime",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "10 m",
+    "batch_time_factors": [ 99, 2 ],
+    "autolearn": true,
+    "charges": 468,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "material_quicklime", 53 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -176,8 +191,8 @@
     "result_mult": 15,
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "//": "This recipe needs to include formaldehyde",
-    "components": [ [ [ "milk_standard_raw", 15, "LIST" ] ], [ [ "bleach", 1 ], [ "vinegar", 4 ] ] ]
+    "//": "This recipe makes galalith plastic, which isn't actually moldable.  The realistic way to make use of this process is to produce a large enough block or sheet of plastic, and then carve the item you need out of it.",
+    "components": [ [ [ "milk_standard_raw", 15, "LIST" ] ], [ [ "vinegar", 4 ] ], [ [ "chem_formaldehyde", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -776,7 +791,7 @@
     "components": [
       [ [ "material_sand", 10 ] ],
       [ [ "chem_washing_soda", 41 ] ],
-      [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ]
+      [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ], [ "chem_slaked_lime", 20 ] ]
     ]
   },
   {
