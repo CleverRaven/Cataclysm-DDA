@@ -7596,9 +7596,8 @@
     "type": "overmap_special",
     "id": "o_karting_l",
     "overmaps": [
-      { "point": [ -1, 0, 0 ], "overmap": "s_lot_east" },
-      { "point": [ -1, 1, 0 ], "overmap": "s_lot_east" },
-      { "point": [ -1, 2, 0 ], "overmap": "s_lot_east" },
+      { "point": [ -1, 1, 0 ], "overmap": "s_lot_south" },
+      { "point": [ -1, 2, 0 ], "overmap": "s_lot_south" },
       { "point": [ 0, 0, 0 ], "overmap": "karting_0_0_0_north" },
       { "point": [ 1, 0, 0 ], "overmap": "karting_0_1_0_north" },
       { "point": [ 2, 0, 0 ], "overmap": "karting_0_2_0_north" },
@@ -7627,12 +7626,12 @@
       { "point": [ 1, 2, 2 ], "overmap": "karting_2_1_2_north" },
       { "point": [ 2, 2, 2 ], "overmap": "karting_2_2_2_north" }
     ],
-    "connections": [ { "point": [ -2, 2, 0 ], "terrain": "road", "from": [ -1, 2, 0 ] } ],
+    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ -1, 1, 0 ] } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 1, 40 ],
-    "city_sizes": [ 4, -1 ],
-    "occurrences": [ 75, 100 ],
-    "flags": [ "CLASSIC" ]
+    "city_sizes": [ 6, -1 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
