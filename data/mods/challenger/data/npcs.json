@@ -9,18 +9,40 @@
     "id": "GAOLER_MAIN",
     "dynamic_line": "Challenger, input command.",
     "responses": [
-      { "text": "Where am I?", "topic": "GAOLER_WHERE" },
-      { "text": "I want to fight.", "topic": "GAOLER_FIGHT" },
-      { "text": "Log off.", "topic": "TALK_DONE" }
+      {
+        "text": "> WHERE",
+        "condition": { "u_has_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" },
+        "topic": "GAOLER_WHERE"
+      },
+      {
+        "text": "> WHY",
+        "condition": { "u_has_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" },
+        "topic": "GAOLER_WHY"
+      },
+      {
+        "text": "> I WANT TO FIGHT",
+        "condition": { "u_has_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" },
+        "topic": "GAOLER_FIGHT"
+      },
+      { "text": "> LOG OFF", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "GAOLER_WHERE",
     "dynamic_line": "You are at the end.  I have been instructed to congratulate you on making it here, so many have not.  I have been directed to provide you what you need, for a price.  As they say nothing in life is free.",
-    "responses": [
-      { "text": "I don't understand.", "topic": "TALK_DONE" }
-      { "text": "Log off.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "> BACK", "topic": "GAOLER_MAIN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "GAOLER_WHY",
+    "dynamic_line": "Insuficient specificity.  Please use more percice command.",
+    "responses": [ { "text": "> BACK", "topic": "GAOLER_MAIN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "GAOLER_FIGHT",
+    "dynamic_line": "Very good challenger, let us find you a challenge.",
+    "responses": [ { "text": "> BACK", "topic": "GAOLER_MAIN" } ]
   }
 ]

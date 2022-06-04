@@ -1,0 +1,19 @@
+[
+{
+  "type": "GENERIC",
+  "id": "welcome_note",
+  "category": "books",
+  "symbol": ",",
+  "color": "white",
+  "looks_like": "paper",
+  "name": { "str_sp": "scrawled note" },
+  "snippet_category": "welcome_snip",
+  "description": "Unhinged ramblings.",
+  "price": 0,
+  "price_postapoc": 0,
+  "material": [ "paper" ],
+  "weight": "3 g",
+  "volume": "1 ml",
+  "flags": [ "TRADER_AVOID" ]
+}
+]
