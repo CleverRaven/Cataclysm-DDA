@@ -977,7 +977,7 @@
     "id": "FUR_COLORATION_FELINE_BLACK",
     "type": "mutation",
     "name": { "str": "Fur coloration: black" },
-    "description": "Your sleek fur is pitch-black. Hopefully it means you will being bad luck to your foes.",
+    "description": "Your sleek fur is pitch-black.  Hopefully it means you will being bad luck to your foes.",
     "points": 0,
     "valid": false,
     "vanity": true,
