@@ -8,15 +8,30 @@
       {
         "distribution": [
           {
-            "collection": [ { "item": "power_armor_frame" }, { "item": "power_armor_generator" }, { "item": "power_armor_basic" }, { "item": "power_armor_helmet_basic" } ],
+            "collection": [
+              { "item": "power_armor_frame" },
+              { "item": "power_armor_generator" },
+              { "item": "power_armor_basic" },
+              { "item": "power_armor_helmet_basic" }
+            ],
             "prob": 30
           },
           {
-            "collection": [ { "item": "power_armor_frame" }, { "item": "power_armor_generator" }, { "item": "power_armor_heavy" }, { "item": "power_armor_helmet_heavy" } ],
+            "collection": [
+              { "item": "power_armor_frame" },
+              { "item": "power_armor_generator" },
+              { "item": "power_armor_heavy" },
+              { "item": "power_armor_helmet_heavy" }
+            ],
             "prob": 10
           },
           {
-            "collection": [ { "item": "power_armor_frame" }, { "item": "power_armor_generator" }, { "item": "power_armor_helmet_light" }, { "item": "power_armor_light" } ],
+            "collection": [
+              { "item": "power_armor_frame" },
+              { "item": "power_armor_generator" },
+              { "item": "power_armor_helmet_light" },
+              { "item": "power_armor_light" }
+            ],
             "prob": 55
           },
           {
