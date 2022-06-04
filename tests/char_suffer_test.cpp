@@ -131,10 +131,10 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
         WHEN( "totally naked and exposed" ) {
             dummy.worn.clear();
 
-            // 60 times * 11 bodyparts * 0.25 chance for medium effect
+            // 60 times * 12 bodyparts * 0.25 chance for medium effect
             THEN( "they lose about 165 focus per hour" ) {
                 focus_lost = test_suffer_focus_lost( dummy, 1_hours );
-                CHECK( focus_lost == Approx( 165 ).margin( 55 ) );
+                CHECK( focus_lost == Approx( 180 ).margin( 60 ) );
             }
 
             THEN( "they suffer about 2 pain per hour" ) {
@@ -220,7 +220,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
     item longshirt( "test_longshirt" );
 
     GIVEN( "avatar is in sunlight with the solar sensitivity trait" ) {
-        calendar::turn = calendar::turn_zero + 10_hours;
+        calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
         dummy.toggle_trait( trait_SUNBURN );
@@ -328,9 +328,12 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                 REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
                 THEN( "they suffer loss of focus" ) {
-                    // Lose focus about 3x the rate of Albino, about 59 focus every 20 minutes
-                    // focus_lost = test_suffer_focus_lost( dummy, 20_minutes );
-                    // CHECK( focus_lost == Approx( 59 ).margin( 40 ) );
+                    // Heavy and medium effects take priority.
+                    // Although the chance for focus loss is written as 1.0 it is in reality 0.65 at 100% exposure
+                    // 0.65 = 1.0 - 0.1 - 0.25
+                    // 39 = 0.65 * 1 * 60
+                    focus_lost = test_suffer_focus_lost( dummy, 20_minutes );
+                    CHECK( focus_lost == Approx( 39 ).margin( 20 ) );
                 }
                 THEN( "they suffer pain" ) {
                     // 60 * 0.25

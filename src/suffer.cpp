@@ -1065,8 +1065,9 @@ void suffer::from_sunburn( Character &you, const bool severe )
     // number of body parts plus a correction if the eyes are included
     const int plurality = affected_part_names.size() + contains_eyes;
 
-    auto warn_and_wake_up = [ &you, &all_parts_list, &plurality]( std::string singular, std::string plural, game_message_type type ) {
-        std::string message = n_gettext( singular, plural, plurality );
+    auto warn_and_wake_up = [ &you, &all_parts_list, &plurality]
+    ( std::string singular, std::string plural, game_message_type type ) {
+        std::string message = n_gettext( singular.c_str(), plural.c_str(), plurality );
 
         you.add_msg_if_player( type, message, all_parts_list );
         // Wake up from skin irritation/burning
@@ -1089,7 +1090,7 @@ void suffer::from_sunburn( Character &you, const bool severe )
         case Focus_Loss:
             warn_and_wake_up( "The sunlight on your %s irritates you.",
                               "The sunlight on your %s irritates you.",
-                               m_bad );
+                              m_bad );
             break;
         case None:
             break;
