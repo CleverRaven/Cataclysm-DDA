@@ -1,0 +1,28 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_wall_metal",
+    "name": "sleek obsidian wall",
+    "description": "An impossibly smooth wall made of a dark metal that seems to resonate a small amount of heat.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "looks_like": "t_wall_metal",
+    "roof": "t_metal_flat_roof",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND", "WIRED_WALL" ],
+    "bash": {
+      "str_min": 200,
+      "str_max": 200,
+      "sound": "mind rending crash!",
+      "sound_fail": "vooooom.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  }
+]

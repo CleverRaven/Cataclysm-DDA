@@ -1,0 +1,20 @@
+[
+  {
+    "id": "EOC_EXIT_COMPUTER",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "EXIT_MAIN",
+    "dynamic_line": "Challenger, input command.",
+    "responses": [
+      {
+        "text": "> RETURN HOME",
+        "condition": { "u_has_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" },
+        "topic": "EXIT_RETURN"
+      },
+      { "text": "> LOG OFF", "topic": "TALK_DONE" }
+    ]
+  }
+]

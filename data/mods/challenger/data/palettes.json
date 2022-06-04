@@ -64,7 +64,11 @@
     "item": {
       "X": { "item": "welcome_note", "chance": 100}
     },
-    "nested": { "6": { "chunks": [ "gaoler_computer" ] } }
+    "nested": { "6": { "chunks": [ "gaoler_computer" ] },
+     "7": { "chunks": [ "exit_computer" ] } 
+
+
+  }
   },
   {
     "type": "palette",

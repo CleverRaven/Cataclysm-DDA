@@ -22,6 +22,10 @@
       {
         "text": "> I WANT TO FIGHT",
         "condition": { "u_has_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" },
+        "effect": [
+          { "u_location_variable": { "global_val": "teleport_loc"}, "target_params": { "om_special": "the_compound", "om_terrain": "compound_arena", "reveal_radius": 0, "search_range": 20 } },
+          { "u_location_variable": { "global_val": "original_loc" } }
+                ],
         "topic": "GAOLER_FIGHT"
       },
       { "text": "> LOG OFF", "topic": "TALK_DONE" }
@@ -43,6 +47,11 @@
     "type": "talk_topic",
     "id": "GAOLER_FIGHT",
     "dynamic_line": "Very good challenger, let us find you a challenge.",
-    "responses": [ { "text": "> BACK", "topic": "GAOLER_MAIN" } ]
+    "responses": [ { "text": "> FIND FIGHT",
+      "effect": [
+         { "u_teleport": { "global_val": "teleport_loc" }, "fail_message": "your body doesn't move", "success_message": "All at once your body feels like it's beeing pulled in 1000 different directions." },
+         { "assign_mission": "Fighting"}
+      ],
+      "topic": "TALK_DONE" } ]
   }
 ]
