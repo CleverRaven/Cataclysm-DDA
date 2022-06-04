@@ -2587,8 +2587,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
                     CHECK( item_info_str( iodine, crafting ) ==
                            "--\n"
                            "You could use it to craft: "
-                           "<color_c_dark_gray>antiseptic powder</color>"
-                           " and <color_c_dark_gray>water purification tablet</color>\n" );
+                           "<color_c_dark_gray>water purification tablet</color>\n" );
                 }
             }
         }
