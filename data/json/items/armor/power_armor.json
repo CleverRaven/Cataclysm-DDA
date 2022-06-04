@@ -283,7 +283,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "power armor generator frame" },
-    "description": "A heavy-duty hauling frame designed to interface with military exoskeletons. This version exchanges capacity for a diesel ICE generator that powers the armor.",
+    "description": "A heavy-duty hauling frame designed to interface with military exoskeletons.  This version exchanges capacity for a diesel ICE generator that powers the armor.",
     "weight": "1640 g",
     "volume": "45 L",
     "price": 1000000,
