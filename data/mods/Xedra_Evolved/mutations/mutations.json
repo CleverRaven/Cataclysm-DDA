@@ -9,7 +9,7 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
+          "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] },
           "msg_on": { "text": "Spiders erupt from your body!", "rating": "bad" }
         },
         {
@@ -31,7 +31,7 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
+          "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] },
           "msg_on": { "text": "Spiders erupt from your body!", "rating": "bad" }
         },
         {
