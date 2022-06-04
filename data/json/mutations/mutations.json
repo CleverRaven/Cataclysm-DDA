@@ -2059,8 +2059,6 @@
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
-    "healing_awake": 0.2,
-    "healing_resting": 0.5,
     "mending_modifier": 20.0,
     "flags": [ "MEND_ALL" ]
   },
