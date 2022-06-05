@@ -172,7 +172,6 @@
         "4": "t_region_tree_shade",
         "S": "t_concrete",
         "_": "t_concrete",
-        "รก": "t_concrete",
         "n": "t_thconc_floor",
         "|": "t_concrete_wall",
         "X": "t_grave"
