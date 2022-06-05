@@ -118,6 +118,7 @@
       "items": [
         [ "mana_potion_lesser", 50 ],
         [ "magi_staff_minor", 5 ],
+        [ "bleed_staff_minor", 1 ],
         [ "wizard_hat", 5 ],
         [ "cauldron_demon_chitin", 3 ],
         [ "manatouched_serum", 3 ],
@@ -409,7 +410,9 @@
       { "item": "fridge_holding_1", "prob": 12 },
       { "item": "bag_holding_1", "prob": 8 },
       { "item": "bag_holding_2", "prob": 1 },
-      { "item": "cauldron_orichalcum", "prob": 100 }
+      { "item": "cauldron_orichalcum", "prob": 100 },
+      { "item": "bleed_staff_minor", "prob": 8, "charges-min": 1, "charges-max": 5 },
+      { "item": "grim_reaper_scythe", "prob": 2, "charges-min": 1, "charges-max": 3 }
     ]
   },
   {
@@ -913,6 +916,13 @@
           { "item": "animist_doll_decayed_pouncer", "prob": 3 }
         ],
         "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "bleed_staff_minor", "prob": 90, "charges-min": 1, "charges-max": 5 },
+          { "item": "grim_reaper_scythe", "prob": 10, "charges-min": 1, "charges-max": 3 }
+        ],
+        "prob": 10
       }
     ]
   },
