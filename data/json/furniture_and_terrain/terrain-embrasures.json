@@ -8,7 +8,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_brick_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -40,7 +40,7 @@
     "looks_like": "t_embrasure_brick",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_brick_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -71,7 +71,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_rock_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -102,7 +102,7 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -139,7 +139,7 @@
     "color": "light_red",
     "move_cost": 4,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -175,7 +175,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -207,7 +207,7 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -268,7 +268,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -299,7 +299,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
