@@ -977,7 +977,7 @@
     "id": "FUR_COLORATION_FELINE_BLACK",
     "type": "mutation",
     "name": { "str": "Fur coloration: black" },
-    "description": "Your sleek fur is pitch-black.  Hopefully it means you will being bad luck to your foes.",
+    "description": "Your sleek fur is pitch-black. Hopefully it means you will being bad luck to your foes.",
     "points": 0,
     "valid": false,
     "vanity": true,
@@ -1034,6 +1034,16 @@
     "types": [ "fur_coloration_feline" ]
   },
   {
+    "id": "FUR_COLORATION_FELINE_IRIDESCENT",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: iridescent" },
+    "description": "Your sleek fur is mottled with random colors and seems to shift its hue constantly.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
     "id": "FUR_COLORATION_LUPINE_WHITE",
     "type": "mutation",
     "name": { "str": "Fur coloration: white" },
@@ -1072,5 +1082,125 @@
     "valid": false,
     "vanity": true,
     "types": [ "fur_coloration_lupine" ]
+  },
+  {
+    "id": "FUR_COLORATION_GENERIC_BLACK",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: black" },
+    "description": "Your fur is pitch-black.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_generic" ]
+  },
+  {
+    "id": "FUR_COLORATION_GENERIC_BROWN",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: brown" },
+    "description": "Your fur is a deep brown color.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_generic" ]
+  },
+  {
+    "id": "FUR_COLORATION_GENERIC_COW",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: cow" },
+    "description": "Your fur is white with large black patches, like that of a cow.  Moo.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_generic" ]
+  },
+  {
+    "id": "FUR_COLORATION_GENERIC_WHITE",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: white" },
+    "description": "Your fur is a bright white color.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_generic" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_GREEN_DULL",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: dull green" },
+    "description": "Your scales are a dull green color, like that of many lizards.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_GREEN_BRIGHT",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: bright green" },
+    "description": "Your scales are a bright green color, like that of some chameleons.  Pity that you can't make it change color at will.  Or can you...?",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_RED_DULL",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: dull red" },
+    "description": "Your scales are a dull red color.  Perhaps you will blend in against a bloody background?",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_RED_BRIGHT",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: bright red" },
+    "description": "Your scales are a bright red color.  Aggressive-looking!",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_BRONZE",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: bronze" },
+    "description": "Your scales are a shiny bronze color.  Unfortunately, they aren't made of actual bronze.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_GREEN_WHITE",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: green and white" },
+    "description": "Your scales are a bright green color with white markings on your belly and neck, like that of some lizards.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_GREEN_BLACK",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: green and black" },
+    "description": "Your scales are a dull green color with black stripes, like that of some lizards.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_BROWN_BLACK",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: brown and black" },
+    "description": "Your scales are a dull brown color with black stripes, like that of some lizards.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
   }
 ]
