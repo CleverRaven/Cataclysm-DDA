@@ -48,6 +48,10 @@ inline const T &translation_argument_identity( const T &t )
 }
 
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
+// Note that _ triggers reserved identifier warnings, but we suppress all
+// three because it's a common use of _ and thus not likely to be a problem in
+// practice.
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 #define _( msg ) \
     ( ( []( const auto & arg ) { \
         static auto cache = detail::get_local_translation_cache( arg ); \
