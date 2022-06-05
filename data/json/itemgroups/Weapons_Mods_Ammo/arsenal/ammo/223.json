@@ -4,7 +4,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_pouch_223", "count": [ 1, 7 ] } ]
+    "items": [ { "group": "ammo_pouch_223", "count": 7 } ]
   },
   {
     "id": "ammo_can_ammo_pouch_223_part",
