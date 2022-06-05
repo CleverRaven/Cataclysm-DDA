@@ -89,6 +89,20 @@ class invlet_favorites
         std::array<itype_id, 256> ids_by_invlet;
 };
 
+struct quality_query {
+    quality_id qual;
+    int level;
+    int count;
+
+    bool operator==( const quality_query &other ) const {
+        return qual == other.qual && level == other.level && count == other.count;
+    }
+
+    bool operator<( const quality_query &other ) const {
+        return std::tie( qual, level, count ) < std::tie( other.qual, other.level, other.count );
+    }
+};
+
 class inventory : public visitable
 {
     public:
@@ -274,6 +288,8 @@ class inventory : public visitable
          * `mutable` because this is a pure cache that doesn't affect the contained items.
          */
         mutable itype_bin binned_items;
+
+        mutable std::map<quality_query, bool> qualities_cache;
 };
 
 #endif // CATA_SRC_INVENTORY_H

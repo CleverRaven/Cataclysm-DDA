@@ -728,7 +728,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ]
   },
@@ -747,7 +747,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ]
   },
@@ -766,7 +766,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ]
   },
@@ -3570,5 +3570,40 @@
     "non_functional": "destroyed_large_ceramic_plate",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "test_armguard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild test arm guard" },
+    "description": "An armguard, 1.75mm at the thickest.  This one has been made with mild steel.",
+    "weight": "3333 g",
+    "volume": "2916 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "material": [ "lc_steel", "lc_steel_chain" ],
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "sided": true,
+    "material_thickness": 4,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "BLOCK_WHILE_WORN" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   }
 ]

@@ -27,7 +27,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
-    "recurrence": [ { "global_val": "ps_min_woc", "default": "5 days" }, { "global_val": "ps_max_woc", "default": "9 days" } ],
+    "recurrence": [ { "global_val": "ps_min_woc", "default": "5 days" }, { "global_val": "ps_max_woc", "default": "18 days" } ],
     "global": true,
     "effect": { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" }
   },
@@ -192,7 +192,10 @@
       },
       {
         "queue_eocs": "EOC_CANCEL_PORTAL_STORM",
-        "time_in_future": [ { "global_val": "ps_min_length", "default": "2 hours" }, { "global_val": "ps_max_length", "default": "4 hours" } ]
+        "time_in_future": [
+          { "global_val": "ps_min_length", "default": "15 minutes" },
+          { "global_val": "ps_max_length", "default": "30 minutes" }
+        ]
       },
       { "u_message": "Reality is breaking!", "type": "bad" }
     ]
@@ -391,19 +394,9 @@
     "id": "EOC_PORTAL_SHIFTING_MASS",
     "effect": [
       {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_count" },
-          "=",
-          { "global_val": "var", "var_name": "ps_str" },
-          "/",
-          { "const": 2 }
-        ],
-        "min": 1
-      },
-      {
         "u_spawn_monster": "mon_shifting_mass",
-        "real_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
-        "hallucination_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
+        "real_count": { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "/", { "const": 2 } ], "min": 1 },
+        "hallucination_count": { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "/", { "const": 2 } ], "min": 1 },
         "outdoor_only": true,
         "min_radius": 3,
         "max_radius": 20,
@@ -535,21 +528,18 @@
     "//": "If its night make it bright, if its day make it dark.",
     "effect": [
       {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "ps_light_str" },
-          "=",
-          { "global_val": "var", "var_name": "ps_str" },
-          "*",
-          { "time": "1 minutes" }
-        ]
-      },
-      {
         "run_eocs": [
           {
             "id": "portal_storm_dark_light",
             "condition": "is_day",
-            "effect": { "custom_light_level": 0, "length": [ "1 minutes", { "global_val": "ps_light_str", "default": "1 minutes" } ] },
-            "false_effect": { "custom_light_level": 125, "length": [ "1 minutes", { "global_val": "ps_light_str", "default": "1 minutes" } ] }
+            "effect": {
+              "custom_light_level": 0,
+              "length": [ "1 minutes", { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "*", { "time": "1 minutes" } ] } ]
+            },
+            "false_effect": {
+              "custom_light_level": 125,
+              "length": [ "1 minutes", { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "*", { "time": "1 minutes" } ] } ]
+            }
           },
           {
             "id": "portal_storm_outside_message",
@@ -573,20 +563,14 @@
     "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
     "effect": [
       {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "ps_incorporeal_str" },
-          "=",
-          { "global_val": "var", "var_name": "ps_str" },
-          "*",
-          { "time": "1 seconds" }
-        ]
-      },
-      {
         "u_message": "You feel stretched, as if part of you was elsewhere.  You are not solid enough to affect matter, and your equipment falls through you.",
         "type": "bad",
         "popup": true
       },
-      { "u_add_effect": "incorporeal", "duration": { "global_val": "ps_incorporeal_str", "default": "1 seconds" } }
+      {
+        "u_add_effect": "incorporeal",
+        "duration": { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "*", { "time": "1 seconds" } ] }
+      }
     ]
   },
   {

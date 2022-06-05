@@ -945,6 +945,10 @@ class Character : public Creature, public visitable
         bool scored_crit( float target_dodge, const item &weap ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
         int attack_speed( const item &weap ) const;
+        /** Returns cost (in stamina) of attacking with given item, or wielded item if nullptr (no modifiers, worst possible is -50) */
+        int get_base_melee_stamina_cost( const item *weap = nullptr ) const;
+        /** Returns total cost (in stamina) of attacking with given item, or wielded item if nullptr (modified by skill and walk/crouch/prone, worst possible is -50) */
+        int get_total_melee_stamina_cost( const item *weap = nullptr ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
         /** Check if we can attack upper limbs **/
@@ -1506,7 +1510,8 @@ class Character : public Creature, public visitable
         trinary consume( item &target, bool force = false, bool refuel = false );
 
         /**
-         * Stores an item inside another consuming moves proportional to weapon skill and volume
+         * Stores an item inside another consuming moves proportional to weapon skill and volume.
+         * Note: This method bypasses pocket settings.
          * @param container Container in which to store the item
          * @param put Item to add to the container
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.

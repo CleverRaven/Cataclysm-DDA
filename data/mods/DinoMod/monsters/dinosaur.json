@@ -68,7 +68,7 @@
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -107,7 +107,7 @@
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -144,7 +144,7 @@
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -183,7 +183,7 @@
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -219,7 +219,7 @@
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -339,7 +339,7 @@
     "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "LONGSWIPE", 25 ] ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -379,7 +379,7 @@
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWARMS", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -433,7 +433,7 @@
     "harvest": "dino_large_feather_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -481,7 +481,7 @@
     "harvest": "mammal_leather",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -526,7 +526,7 @@
     ],
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -589,7 +589,7 @@
     "vision_night": 5,
     "harvest": "bird_small",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -630,7 +630,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -670,7 +670,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -710,7 +710,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -763,7 +763,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -805,7 +805,7 @@
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK", "SOUND" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -861,7 +861,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -896,7 +896,7 @@
     "harvest": "mammal_tiny",
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -949,7 +949,7 @@
     "harvest": "dino_sauropod",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1030,7 +1030,7 @@
     "speed": 80,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "dodge": 6,
     "armor_cut": 5,
     "families": [ "prof_intro_biology", "prof_wp_dino", "prof_wp_nat_armored" ],
@@ -1040,6 +1040,7 @@
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "harvest": "mammal_tiny"
   },
   {
@@ -1060,7 +1061,7 @@
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "dodge": 4,
     "armor_bash": 3,
     "armor_cut": 10,
@@ -1081,7 +1082,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1118,7 +1119,7 @@
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
+    "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
     "dodge": 4,
     "armor_bash": 15,
     "armor_cut": 18,
@@ -1140,7 +1141,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "PET_MOUNTABLE" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1163,7 +1164,7 @@
     "copy-from": "mon_ankylosaurus",
     "hp": 365,
     "zombify_into": "mon_zedmontonia",
-    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "armor_bash": 20,
     "armor_cut": 20,
     "armor_bullet": 10,
@@ -1191,7 +1192,7 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "dodge": 4,
     "armor_bash": 4,
     "armor_cut": 2,
@@ -1222,7 +1223,7 @@
     "harvest": "mammal_large_leather",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1235,7 +1236,7 @@
     "speed": 80,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 3,
@@ -1352,7 +1353,7 @@
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1432,7 +1433,7 @@
     "melee_skill": 8,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 15 } ],
+    "melee_damage": [ { "damage_type": "stab", "amount": 15 } ],
     "dodge": 4,
     "armor_bash": 4,
     "armor_cut": 4,
@@ -1451,7 +1452,7 @@
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1485,7 +1486,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY" ],
     "harvest": "bird_small",
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1565,6 +1566,6 @@
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   }
 ]

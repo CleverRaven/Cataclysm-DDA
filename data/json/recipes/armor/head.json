@@ -1043,7 +1043,7 @@
     "components": [
       [ [ "rag", 8 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
@@ -1062,7 +1062,7 @@
     "components": [
       [ [ "rag", 6 ] ],
       [ [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
   },
@@ -1076,7 +1076,7 @@
     "components": [
       [ [ "rag", 10 ] ],
       [ [ "sheet_kevlar_layered", 6 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ]
   },
@@ -1097,7 +1097,7 @@
       [ [ "faux_fur", 8 ] ],
       [ [ "rag", 2 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
@@ -1118,7 +1118,7 @@
       [ [ "faux_fur", 6 ] ],
       [ [ "rag", 2 ] ],
       [ [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
   },
@@ -1133,7 +1133,7 @@
       [ [ "faux_fur", 10 ] ],
       [ [ "rag", 4 ] ],
       [ [ "sheet_kevlar_layered", 6 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ]
   },
@@ -1148,7 +1148,8 @@
     "time": "20 m",
     "autolearn": true,
     "tools": [  ],
-    "components": [ [ [ "duct_tape", 20 ] ], [ [ "bag_plastic", 2 ] ], [ [ "rag", 2 ] ] ],
+    "using": [ [ "waterproofing_plastic_sheets", 2 ] ],
+    "components": [ [ [ "rag", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1168,7 +1169,7 @@
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "rag", 2 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
@@ -1189,7 +1190,7 @@
       [ [ "leather", 5 ], [ "tanned_hide", 1 ] ],
       [ [ "rag", 2 ] ],
       [ [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
   },
@@ -1210,7 +1211,7 @@
       [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
       [ [ "rag", 2 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
@@ -1232,7 +1233,7 @@
       [ [ "fur", 6 ], [ "tanned_pelt", 2 ] ],
       [ [ "rag", 2 ] ],
       [ [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
   },
@@ -1247,7 +1248,7 @@
       [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ],
       [ [ "rag", 4 ] ],
       [ [ "sheet_kevlar_layered", 6 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ]
   },
@@ -1269,7 +1270,7 @@
       [ [ "rag", 4 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "sheet_kevlar_layered", 6 ] ],
-      [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ], [ "hood_gut", 2 ] ],
+      [ [ "hood_rain", 2 ], [ "plastic_sheet_small", 4 ], [ "hood_gut", 2 ] ],
       [ [ "duct_tape", 200 ] ]
     ],
     "proficiencies": [
@@ -1398,7 +1399,7 @@
       [ "textbook_gaswarfare", 3 ]
     ],
     "components": [
-      [ [ "bag_plastic", 2 ], [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "bottle_plastic_small", 2 ] ],
+      [ [ "plastic_sheet_small", 2 ], [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "bottle_plastic_small", 2 ] ],
       [ [ "rag", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
       [ [ "charcoal", 10 ] ]
     ],

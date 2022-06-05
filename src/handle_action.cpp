@@ -876,6 +876,9 @@ static void smash()
                 add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.tername( smashp ) );
             }
         }
+
+        player_character.recoil = MAX_RECOIL;
+
     } else {
         add_msg( _( "There's nothing there to smash!" ) );
     }

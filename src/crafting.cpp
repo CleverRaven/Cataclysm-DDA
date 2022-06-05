@@ -1387,6 +1387,8 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         }
     }
 
+    recoil = MAX_RECOIL;
+
     inv->restack( *this );
 }
 
@@ -2288,7 +2290,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
         new_disassembly = item( orig_item );
     } else {
         const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
-        new_disassembly = item( &r, orig_item );
+        new_disassembly = item( &r, activity.position, orig_item );
 
         // Remove any batteries, ammo, contents and mods first
         remove_ammo( orig_item, *this );
@@ -2299,8 +2301,6 @@ item_location Character::create_in_progress_disassembly( item_location target )
         if( orig_item.count_by_charges() ) {
             //subtract selected number of rounds to disassemble
             orig_item.charges -= activity.position;
-            new_disassembly.charges = activity.position;
-
         }
     }
     // remove the item, except when it's counted by charges and still has some
@@ -2392,7 +2392,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     if( activity.id() != ACT_DISASSEMBLE ) {
         player_activity new_act;
         // When disassembling items with charges, prompt the player to specify amount
-        int num_dis = 0;
+        int num_dis = 1;
         if( obj.count_by_charges() ) {
             if( !disassemble_all && obj.charges > 1 ) {
                 string_input_popup popup_input;
@@ -2408,23 +2408,17 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             }
         }
         if( obj.typeId() != itype_disassembly ) {
-            if( num_dis != 0 ) {
-                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
-            } else {
-                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                           recipe_time_flag::ignore_proficiencies ) ) );
-            }
+            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                       recipe_time_flag::ignore_proficiencies ) * num_dis ) );
         } else {
             new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * std::max( obj.charges, 1 ) ) );
+                                       recipe_time_flag::ignore_proficiencies ) * obj.get_making_batch_size() ) );
         }
         new_act.targets.emplace_back( std::move( target ) );
 
         // index is used as a bool that indicates if we want recursive uncraft.
         new_act.index = false;
-        // Unused position attribute used to store ammo to disassemble
-        new_act.position = std::min( num_dis, obj.charges );
+        new_act.position = num_dis;
         new_act.values.push_back( disassemble_all );
         assign_activity( new_act );
     } else {

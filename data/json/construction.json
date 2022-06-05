@@ -231,6 +231,30 @@
   },
   {
     "type": "construction",
+    "id": "constr_fill_water_murky",
+    "group": "fill_shallow_water_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 50 ], [ "material_sand", 500 ] ] ],
+    "pre_terrain": "t_water_murky",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_recess",
+    "group": "fill_recess_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 10 ] ] ],
+    "pre_terrain": "t_puddle",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_fill_swater_sh",
     "group": "fill_salt_water_with_dirt",
     "category": "CONSTRUCT",

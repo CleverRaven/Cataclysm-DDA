@@ -1300,9 +1300,11 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             break;
     }
 
+    you->recoil = MAX_RECOIL;
+
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
-    // if its mutli-tile butchering,then restart the backlog.
+    // if it's mutli-tile butchering, then restart the backlog.
     resume_for_multi_activities( *you );
 }
 

@@ -3540,6 +3540,39 @@
   },
   {
     "type": "keybinding",
+    "id": "LOAD",
+    "category": "LOAD_DELETE_CANCEL",
+    "name": "Load",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "L" },
+      { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "l" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE",
+    "category": "LOAD_DELETE_CANCEL",
+    "name": "Delete",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "D" },
+      { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "d" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CANCEL",
+    "category": "LOAD_DELETE_CANCEL",
+    "name": "Cancel",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "c" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "YES",
     "category": "YESNOQUIT",
     "name": "Yes",
