@@ -1077,8 +1077,8 @@ void suffer::from_sunburn( Character &you, const bool severe )
 
     switch( worst_effect ) {
         case Damage:
-            warn_and_wake_up( "Your %s is bathed in sunlight. It feels like it is burning up.",
-                              "Your %s are bathed in sunlight. They feel like they are burning up.",
+            warn_and_wake_up( "Your %s is bathed in sunlight.  It feels like it is burning up.",
+                              "Your %s are bathed in sunlight.  They feel like they are burning up.",
                               m_bad );
             break;
         case Pain:
