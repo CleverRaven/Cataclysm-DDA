@@ -9,6 +9,7 @@
 #include <string>
 #include <utility>
 
+#include "avatar.h"
 #include "condition.h"
 #include "debug.h"
 #include "generic_factory.h"
@@ -229,6 +230,20 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
     }
 
     jo.throw_error( "Invalid distribution type", name );
+}
+
+bool shopkeeper_item_group::can_sell( npc const &guy ) const
+{
+    dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
+    faction *const fac = guy.get_faction();
+
+    return ( fac == nullptr or trust <= guy.get_faction()->trusts_u ) and
+           ( !condition or condition( temp ) );
+}
+
+bool shopkeeper_item_group::can_restock( npc const &guy ) const
+{
+    return !strict or can_sell( guy );
 }
 
 void shopkeeper_item_group::deserialize( const JsonObject &jo )

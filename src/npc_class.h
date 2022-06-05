@@ -11,6 +11,7 @@
 #include "translations.h"
 #include "type_id.h"
 
+class npc;
 class JsonObject;
 class Trait_group;
 
@@ -45,7 +46,6 @@ class distribution
         static distribution dice_roll( int sides, int size );
         static distribution one_in( float in );
 };
-
 struct shopkeeper_item_group {
     item_group_id id = item_group_id( "EMPTY_GROUP" );
     int trust = 0;
@@ -58,6 +58,9 @@ struct shopkeeper_item_group {
     shopkeeper_item_group() = default;
     shopkeeper_item_group( const std::string &id, int trust, bool strict, bool rigid = false ) :
         id( item_group_id( id ) ), trust( trust ), strict( strict ), rigid( rigid ) {}
+
+    bool can_sell( npc const &guy ) const;
+    bool can_restock( npc const &guy ) const;
 
     void deserialize( const JsonObject &jo );
 };
