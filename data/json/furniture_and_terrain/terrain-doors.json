@@ -227,7 +227,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_o",
     "deconstruct": {
@@ -267,7 +267,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_lab_o",
     "deconstruct": {
@@ -306,7 +306,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_white_o",
     "deconstruct": {
@@ -345,7 +345,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_gray_o",
     "deconstruct": {
@@ -384,7 +384,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_red_o",
     "deconstruct": {
@@ -423,7 +423,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_green_o",
     "deconstruct": {
@@ -461,7 +461,7 @@
     "looks_like": "t_door_o",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_white_frame",
@@ -498,7 +498,7 @@
     "looks_like": "t_door_o",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_gray_frame",
@@ -535,7 +535,7 @@
     "looks_like": "t_door_o",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_red_frame",
@@ -572,7 +572,7 @@
     "looks_like": "t_door_o",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_green_frame",
@@ -610,7 +610,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -647,7 +647,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -684,7 +684,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -721,7 +721,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -757,7 +757,6 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "bash": {
       "str_min": 6,
@@ -782,7 +781,6 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "bash": {
       "str_min": 6,
@@ -807,7 +805,6 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "bash": {
       "str_min": 6,
@@ -832,7 +829,6 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "bash": {
       "str_min": 6,
@@ -1055,7 +1051,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "door_peephole",
     "open": "t_door_o_peep",
@@ -1096,7 +1092,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -1133,7 +1129,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -1171,7 +1167,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -1207,7 +1203,7 @@
     "symbol": "'",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_frame",
@@ -1244,7 +1240,7 @@
     "looks_like": "t_door_o",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_lab_frame",
@@ -1280,7 +1276,7 @@
     "looks_like": "t_door_o",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_frame",
@@ -1320,7 +1316,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_rdoor_o",
     "deconstruct": {
@@ -1358,7 +1354,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 75,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -1394,7 +1390,7 @@
     "looks_like": "t_door_o",
     "color": "red",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_c",
@@ -1434,7 +1430,7 @@
     "coverage": 95,
     "lockpick_result": "t_door_c",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE_ASH",
       "NOITEM",
@@ -1480,7 +1476,7 @@
     "coverage": 95,
     "lockpick_result": "t_door_c",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE_ASH",
       "NOITEM",
@@ -1528,7 +1524,7 @@
     "coverage": 95,
     "lockpick_result": "t_door_c_peep",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE_ASH",
       "NOITEM",
@@ -1576,7 +1572,7 @@
     "coverage": 95,
     "lockpick_result": "t_door_c",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE_ASH",
       "ALARMED",
@@ -1621,7 +1617,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL", "EASY_DECONSTRUCT" ],
     "open": "t_door_curtain_o",
     "deconstruct": {
@@ -1654,7 +1650,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL", "EASY_DECONSTRUCT", "BLOCK_WIND" ],
     "open": "t_door_makeshift_o",
     "deconstruct": { "ter_set": "t_door_frame", "items": [ { "item": "2x4", "count": 6 }, { "item": "rope_makeshift_6", "count": 2 } ] },
@@ -1683,7 +1679,7 @@
     "looks_like": "t_door_frame",
     "color": "dark_gray",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "ter_set": "t_dirt",
@@ -1716,7 +1712,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL", "EASY_DECONSTRUCT" ],
     "open": "t_door_grass_curtain_o",
     "deconstruct": {
@@ -1748,7 +1744,7 @@
     "looks_like": "t_door_curtain_o",
     "color": "dark_gray",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "ter_set": "t_dirt",
@@ -1780,7 +1776,7 @@
     "looks_like": "t_door_o",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "EASY_DECONSTRUCT" ],
     "deconstruct": { "ter_set": "t_door_frame", "items": [ { "item": "2x4", "count": 6 }, { "item": "rope_makeshift_6", "count": 2 } ] },
     "close": "t_door_makeshift_c",
@@ -1809,7 +1805,6 @@
     "looks_like": "t_floor",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "bash": {
       "str_min": 6,
@@ -1834,7 +1829,6 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "bash": {
       "str_min": 6,
@@ -1859,7 +1853,6 @@
     "looks_like": "t_door_frame",
     "color": "dark_gray",
     "move_cost": 2,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "bash": {
       "str_min": 18,
@@ -1879,7 +1872,6 @@
     "looks_like": "t_mdoor_frame",
     "color": "dark_gray",
     "move_cost": 2,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "bash": {
       "str_min": 18,
@@ -1899,7 +1891,7 @@
     "looks_like": "t_mdoor_frame",
     "color": "dark_gray",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "bash": {
       "str_min": 18,
@@ -1920,7 +1912,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT", "BLOCK_WIND" ],
     "bash": {
       "str_min": 15,
@@ -1956,7 +1948,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 10,
@@ -1992,7 +1984,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "examine_action": "door_peephole",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT", "BLOCK_WIND" ],
     "bash": {
@@ -2028,7 +2020,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "BLOCK_WIND" ],
     "bash": {
       "str_min": 25,
@@ -2064,7 +2056,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 20,
@@ -2100,7 +2092,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "examine_action": "door_peephole",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
     "bash": {
@@ -2138,7 +2130,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
     "oxytorch": {
@@ -2292,7 +2284,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_metal_lab_o",
     "bash": {
@@ -2317,7 +2309,7 @@
     "looks_like": "t_door_o",
     "color": "cyan",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "close": "t_door_metal_c",
     "bash": {
@@ -2367,7 +2359,7 @@
     "looks_like": "t_door_metal_o",
     "color": "cyan",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "close": "t_door_metal_lab_c",
     "bash": {
@@ -2393,7 +2385,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_metal_o_peep",
     "examine_action": "door_peephole",
@@ -2420,7 +2412,7 @@
     "looks_like": "t_door_metal_o",
     "color": "cyan",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "close": "t_door_metal_c_peep",
     "bash": {
@@ -2448,7 +2440,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND" ],
     "oxytorch": {
       "result": "t_mdoor_frame",
@@ -2497,7 +2489,7 @@
     "coverage": 95,
     "lockpick_result": "t_door_metal_c",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ],
     "open": "t_door_metal_o",
     "prying": {
@@ -2534,7 +2526,7 @@
     "looks_like": "t_door_metal_c",
     "color": "cyan",
     "move_cost": 0,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "hacksaw": {
       "result": "t_mdoor_frame",
@@ -2572,7 +2564,7 @@
     "looks_like": "t_door_metal_o",
     "color": "cyan",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "close": "t_door_bar_c",
     "bash": {
@@ -2600,7 +2592,7 @@
     "looks_like": "t_door_metal_locked",
     "color": "cyan",
     "move_cost": 0,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "lockpick_result": "t_door_bar_o",
     "lockpick_message": "The door swings open…",
     "hacksaw": {
