@@ -612,6 +612,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     if( result_uses_charges ) {
         dummy_result.charges = 1;
     }
+    dummy_result.set_var( "recipe_exemplar", rec->ident().str() );
     item dummy_container;
 
     //Several terms are used repeatedly in headers/descriptions, list them here for a single entry/translation point
