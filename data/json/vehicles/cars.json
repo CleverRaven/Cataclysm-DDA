@@ -1193,23 +1193,5 @@
       { "x": -2, "y": 1, "chance": 100, "items": [ "jack", "lug_wrench" ] },
       { "x": -2, "y": 1, "chance": 75, "items": [ "wheel_wide_or" ] }
     ]
-  },
-  {
-    "id": "go_kart",
-    "type": "vehicle",
-    "name": "Go-kart",
-    "blueprint": [ "o>o" ],
-    "parts": [
-      {
-        "x": 0,
-        "y": 0,
-        "parts": [ "frame_handle", "seat", "seatbelt", "controls", "controls_electronic" ]
-      },
-      { "x": 0, "y": 0, "parts": [ "engine_1cyl", "alternator_motorbike" ] },
-      { "x": 0, "y": 0, "parts": [ "battery_motorbike", { "part": "tank_small", "fuel": "gasoline" } ] },
-      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_slick" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_slick" ] },
-      { "x": -1, "y": 0, "part": "muffler" }
-    ]
   }
 ]
