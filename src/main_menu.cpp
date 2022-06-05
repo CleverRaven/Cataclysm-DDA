@@ -515,12 +515,6 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     const auto vFolded = foldstring( text, width );
     int iLines = vFolded.size();
 
-    if( selected < 0 || iLines < height ) {
-        selected = 0;
-    } else if( selected >= iLines - height ) {
-        selected = iLines - height;
-    }
-
     fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
 
     draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
