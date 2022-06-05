@@ -10,21 +10,12 @@
       "furniture": {
         "#": "f_bench",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
         "O": "f_dive_block",
         "S": "f_shower",
         "P": "f_sign",
         "T": "f_toilet",
-        "_": "f_null",
         "a": "f_trashcan",
-        "d": "f_null",
-        "s": "f_null",
-        "t": "f_null",
-        "w": "f_null",
-        "{": "f_locker",
-        "|": "f_null"
+        "{": "f_locker"
       },
       "place_item": [ { "chance": 10, "repeat": 3, "item": "goggles_swim", "x": [ 15, 19 ], "y": 2 } ],
       "place_items": [
