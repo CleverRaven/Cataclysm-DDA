@@ -19,10 +19,10 @@
       { "item": "m249", "count": 1 },
       { "item": "m249", "count": 1, "prob": 40 },
       { "item": "m249", "count": 1, "prob": 10 },
-      { "group": "ammo_can_belt223_full", "prob": 30 },
-      { "group": "ammo_can_belt223_full", "prob": 80, "count": [ 0, 1 ] },
-      { "group": "ammo_can_belt223_part", "count": [ 1, 2 ] },
-      { "group": "ammo_can_belt223_part", "count": [ 1, 2 ], "prob": 50 }
+      { "group": "ammo_can_belt223_any_full", "prob": 30 },
+      { "group": "ammo_can_belt223_any_full", "prob": 80, "count": [ 0, 1 ] },
+      { "group": "ammo_can_belt223_any_part", "count": [ 1, 2 ] },
+      { "group": "ammo_can_belt223_any_part", "count": [ 1, 2 ], "prob": 50 }
     ]
   }
 ]

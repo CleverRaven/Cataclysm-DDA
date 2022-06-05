@@ -1,6 +1,28 @@
 [
   {
     "type": "item_group",
+    "id": "ammo_can_belt223_any_full",
+    "items": [ { "group": "ammo_can_belt223_full" }, { "group": "ammo_can_belt223_fat_full", "prob": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt223_any_part",
+    "items": [ { "group": "ammo_can_belt223_part" }, { "group": "ammo_can_belt223_fat_part", "prob": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt223_fat_full",
+    "container-item": "ammunition_can_fat_50",
+    "items": [ { "group": "ammo_can_belt223_pouch", "count": 2, "charges-min": 400, "charges-max": 400 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt223_fat_part",
+    "container-item": "ammunition_can_fat_50",
+    "items": [ { "item": "belt223", "count": [ 0, 1 ], "charges-min": 400, "charges-max": 400 } ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_can_belt223_full",
     "//": "ammo belts are awfully broken due #57981, looks like this group will require the fix after resolving the bug",
     "container-item": "ammunition_can_50",
