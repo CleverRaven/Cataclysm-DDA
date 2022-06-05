@@ -2351,43 +2351,14 @@ static std::string keys_text()
         _( "Modify pocket settings and move items between pockets." );
 }
 
-void add_pockets( item &i, uilist &pocket_selector,
-                  std::list<std::pair<item_pocket *, int>> &contents, std::string depth )
-{
-    if( i.get_all_standard_pockets().size() > 0 ) {
-        pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
-        // pad list with empty entries for the items themselves
-        contents.push_back( { nullptr, 0 } );
-    }
-    int pocket_num = 1;
-    for( item_pocket *it_pocket : i.get_all_standard_pockets() ) {
-        std::string temp = string_format( "%d -", pocket_num );
-
-        pocket_selector.addentry( 0, true, '\0', string_format( "%s%s %s/%s",
-                                  depth,
-                                  temp,
-                                  vol_to_info( "", "", it_pocket->contains_volume() ).sValue,
-                                  vol_to_info( "", "", it_pocket->max_contains_volume() ).sValue ) );
-        // pocket number is displayed from 1 stored from 0
-        contents.push_back( { it_pocket, pocket_num - 1 } );
-        pocket_num++;
-
-        // display the items
-        for( item *it : it_pocket->all_items_top() ) {
-            // check for pockets in that pocket
-            add_pockets( *it, pocket_selector, contents, depth + "  " );
-        }
-    }
-}
-
 void outfit::organize_items_menu()
 {
-    std::list<std::pair<item_pocket *, int>> contents;
+    std::vector<item *> to_organize;
     uilist pocket_selector;
     for( item &i : worn ) {
-        add_pockets( i, pocket_selector, contents, "" );
+        to_organize.push_back( &i );
     }
-    pocket_favorite_callback cb( &contents );
+    pocket_favorite_callback cb( to_organize, pocket_selector );
 
     pocket_selector.title = "Inventory Organization";
     pocket_selector.text = keys_text() + "\n ";

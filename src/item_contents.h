@@ -253,7 +253,7 @@ class item_contents
         /**
          * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
-        void favorite_settings_menu( const std::string &item_name );
+        void favorite_settings_menu( item *i );
 
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy );
@@ -369,13 +369,17 @@ class item_contents
 class pocket_favorite_callback : public uilist_callback
 {
     private:
-        std::list<std::pair<item_pocket *, int>> *pockets = nullptr;
+        std::vector<std::pair<item_pocket *, int>> saved_pockets;
         // whitelist or blacklist, for interactions
         bool whitelist = true;
         std::pair<item *, item_pocket *> item_to_move = { nullptr, nullptr };
+
+        // items to create pockets for
+        std::vector<item *> to_organize;
+
+        void add_pockets( item &i, uilist &pocket_selector, std::string depth );
     public:
-        explicit pocket_favorite_callback( std::list<std::pair<item_pocket *, int>> *pockets ) : pockets(
-                pockets ) {}
+        explicit pocket_favorite_callback( std::vector<item *> to_organize, uilist &pocket_selector );
         void refresh( uilist *menu ) override;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 };
