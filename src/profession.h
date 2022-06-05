@@ -10,11 +10,11 @@
 #include <utility>
 #include <vector>
 
-#include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+class addiction;
 class avatar;
 class item;
 class Character;
@@ -40,9 +40,11 @@ class profession
         using itypedecvec = std::vector<itypedec>;
         friend class string_id<profession>;
         friend class generic_factory<profession>;
+        friend struct mod_tracker;
 
     private:
         string_id<profession> id;
+        std::vector<std::pair<string_id<profession>, mod_id>> src;
         bool was_loaded = false;
 
         translation _name_male;
@@ -71,6 +73,7 @@ class profession
         std::map<spell_id, int> _starting_spells;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
+        std::vector<mission_type_id> _missions; // starting missions for profession
 
         std::string _subtype;
 
@@ -109,6 +112,7 @@ class profession
         std::vector<bionic_id> CBMs() const;
         std::vector<proficiency_id> proficiencies() const;
         StartingSkillList skills() const;
+        const std::vector<mission_type_id> &missions() const;
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;

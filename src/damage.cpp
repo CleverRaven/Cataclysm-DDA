@@ -276,6 +276,9 @@ resistances::resistances( monster &monster ) : resistances()
     set_resist( damage_type::BULLET, monster.type->armor_bullet );
     set_resist( damage_type::ACID, monster.type->armor_acid );
     set_resist( damage_type::HEAT, monster.type->armor_fire );
+    set_resist( damage_type::COLD, monster.type->armor_cold );
+    set_resist( damage_type::PURE, monster.type->armor_pure );
+    set_resist( damage_type::BIOLOGICAL, monster.type->armor_biological );
     set_resist( damage_type::ELECTRIC, monster.type->armor_elec );
 }
 void resistances::set_resist( damage_type dt, float amount )
@@ -299,6 +302,35 @@ resistances &resistances::operator+=( const resistances &other )
     }
 
     return *this;
+}
+
+bool resistances::operator==( const resistances &other )
+{
+    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
+        if( resist_vals[i] != other.resist_vals[i] ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+resistances resistances::operator*( float mod ) const
+{
+    resistances ret;
+    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
+        ret.resist_vals[ i ] = this->resist_vals[ i ] * mod;
+    }
+    return ret;
+}
+
+resistances resistances::operator/( float mod ) const
+{
+    resistances ret;
+    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
+        ret.resist_vals[i] = this->resist_vals[i] / mod;
+    }
+    return ret;
 }
 
 static const std::map<std::string, damage_type> dt_map = {

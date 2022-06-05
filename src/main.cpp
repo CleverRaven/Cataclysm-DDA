@@ -32,6 +32,7 @@
 #include "do_turn.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "get_version.h"
 #include "input.h"
@@ -41,6 +42,7 @@
 #include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
 #include "system_language.h"
@@ -264,6 +266,7 @@ struct cli_opts {
     dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
+    bool disable_ascii_art = false;
 };
 
 cli_opts parse_commandline( int argc, const char **argv )
@@ -273,7 +276,8 @@ cli_opts parse_commandline( int argc, const char **argv )
     const char *section_default = nullptr;
     const char *section_map_sharing = "Map sharing";
     const char *section_user_directory = "User directories";
-    const std::array<arg_handler, 12> first_pass_arguments = {{
+    const char *section_accessibility = "Accessibility";
+    const std::array<arg_handler, 13> first_pass_arguments = {{
             {
                 "--seed", "<string of letters and or numbers>",
                 "Sets the random number generator's seed value",
@@ -423,6 +427,16 @@ cli_opts parse_commandline( int argc, const char **argv )
                     PATH_INFO::set_standard_filenames();
                     return 1;
                 }
+            },
+            {
+                "--disable-ascii-art", nullptr,
+                "Disable aesthetic ascii art in menus and descriptions.",
+                section_accessibility,
+                0,
+                [&result]( int, const char ** ) -> int {
+                    result.disable_ascii_art = true;
+                    return 0;
+                }
             }
         }
     };
@@ -557,6 +571,7 @@ extern "C" int SDL_main( int argc, char **argv ) {
 int main( int argc, const char *argv[] )
 {
 #endif
+    ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
 
@@ -665,8 +680,8 @@ int main( int argc, const char *argv[] )
     if( !test_mode ) {
         try {
             // set minimum FULL_SCREEN sizes
-            FULL_SCREEN_WIDTH = 80;
-            FULL_SCREEN_HEIGHT = 24;
+            FULL_SCREEN_WIDTH = EVEN_MINIMUM_TERM_WIDTH;
+            FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT;
             catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized
@@ -703,6 +718,12 @@ int main( int argc, const char *argv[] )
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
         exit_handler( -999 );
+    }
+
+    // Override existing settings from cli  options
+    if( cli.disable_ascii_art ) {
+        get_options().get_option( "ENABLE_ASCII_ART" ).setValue( "false" );
+        get_options().get_option( "ENABLE_ASCII_TITLE" ).setValue( "false" );
     }
 
     // Now we do the actual game.

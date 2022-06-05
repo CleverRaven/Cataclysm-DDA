@@ -147,7 +147,8 @@
     "description": "A thin foil made of aluminum.  Sometimes called 'tin foil' due to being made of tin in the past.",
     "material": [ "aluminum" ],
     "volume": "10 ml",
-    "weight": "4 g",
+    "weight": "135 mg",
+    "//": "Density of 2.7 g/cm3",
     "ammo_type": "components",
     "count": 200
   },
@@ -155,6 +156,7 @@
     "type": "AMMO",
     "id": "money",
     "price": 1,
+    "price_postapoc": 0,
     "//": "= one cent, gives correct prices for cash cards",
     "name": { "str": "cent" },
     "symbol": "=",
@@ -251,6 +253,86 @@
     "ammo_type": "soap",
     "count": 10,
     "stack_size": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "moisturizer",
+    "category": "chems",
+    "price": 300,
+    "price_postapoc": 100,
+    "name": { "str_sp": "moisturizer" },
+    "symbol": "m",
+    "color": "white",
+    "description": "A cosmetic preparation used for protecting, moisturizing, and lubricating the skin.",
+    "volume": "250 ml",
+    "weight": "25 g",
+    "phase": "liquid",
+    "container": "bottle_plastic_small",
+    "ammo_type": "soap",
+    "count": 10,
+    "stack_size": 10,
+    "variants": [
+      {
+        "id": "facecream_moisturizer",
+        "name": { "str_sp": "face cream moisturizer" },
+        "description": "This moisturizer works for all skin types and is really affordable!",
+        "weight": 5
+      },
+      {
+        "id": "lightcream_moisturizer",
+        "name": { "str_sp": "light cream moisturizer" },
+        "description": "This moisturizer is smooth like milk, just like your skin after applying this wonderful product.",
+        "weight": 5
+      },
+      {
+        "id": "simple_moisturizer",
+        "name": { "str_sp": "simple moisturizer" },
+        "description": "This is a simple moisturizer with all-organic ingredients.",
+        "weight": 40
+      },
+      {
+        "id": "sensitive_moisturizer",
+        "name": { "str_sp": "sensitive moisturizer" },
+        "description": "A favorite among customers with sensitive skin.",
+        "weight": 5
+      },
+      {
+        "id": "oilfree_moisturizer",
+        "name": { "str_sp": "oil free moisturizer" },
+        "description": "If you have an oily skin, this moisturizer is for you!",
+        "weight": 5
+      },
+      {
+        "id": "hydro_moisturizer",
+        "name": { "str_sp": "hydro moisturizer" },
+        "description": "After applying this moisturizer your skin will feel hydrated and smooth.",
+        "weight": 5
+      },
+      {
+        "id": "healthy_moisturizer",
+        "name": { "str_sp": "healthy moisturizer" },
+        "description": "Using various plants as ingredients, this moisturizer will give your skin all the vitamins for the day.",
+        "weight": 5
+      },
+      {
+        "id": "mushroom_moisturizer",
+        "name": { "str_sp": "mushroom moisturizer" },
+        "description": "This moisturizer contains mushroom extract to help improve the wellbeing of your skin.",
+        "weight": 5
+      },
+      {
+        "id": "antiaging_moisturizer",
+        "name": { "str_sp": "anti-aging moisturizer" },
+        "description": "A favorite among the mature customers.  This moisturizer will smooth out the wrinkles on your face and make you appear younger.",
+        "weight": 5
+      },
+      {
+        "id": "daynight_moisturizer",
+        "name": { "str_sp": "day and night moisturizer" },
+        "description": "This moisturizer will work day and night.  A perfect fit for those that decide their own sleep schedule.",
+        "weight": 5
+      }
+    ]
   },
   {
     "type": "AMMO",
@@ -886,7 +968,7 @@
     "type": "AMMO",
     "id": "carbon_electrode",
     "category": "spare_parts",
-    "name": { "str": "Carbon electrode rod" },
+    "name": { "str": "carbon electrode rod" },
     "description": "This carbon electrode is basically made from wood and sugar, and it actually works.",
     "price_postapoc": 50,
     "material": [ "charcoal" ],
@@ -928,7 +1010,8 @@
     "material": [ "coal" ],
     "phase": "solid",
     "volume": "250 ml",
-    "weight": "44 g",
+    "weight": "1500 mg",
+    "//": "Density somewhere around 1.5 g/cm3 (solid anthracite)",
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10
@@ -1179,6 +1262,50 @@
   },
   {
     "type": "AMMO",
+    "id": "lc_chain_link",
+    "category": "spare_parts",
+    "price": 150,
+    "price_postapoc": 50,
+    "name": { "str": "mild steel chain link" },
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "Small metal rings, suitable for constructing chainmail.",
+    "material": [ "lc_steel" ],
+    "volume": "250 ml",
+    "weight": "1 g",
+    "ammo_type": "components",
+    "count": 750
+  },
+  {
+    "type": "AMMO",
+    "id": "mc_chain_link",
+    "copy-from": "lc_chain_link",
+    "name": { "str": "medium steel chain link" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "hc_chain_link",
+    "copy-from": "lc_chain_link",
+    "name": { "str": "high steel chain link" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "ch_chain_link",
+    "copy-from": "lc_chain_link",
+    "name": { "str": "hardened steel chain link" },
+    "material": [ "ch_steel" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "qt_chain_link",
+    "copy-from": "lc_chain_link",
+    "name": { "str": "tempered steel chain link" },
+    "material": [ "qt_steel" ]
+  },
+  {
+    "type": "AMMO",
     "id": "nitrox",
     "category": "chems",
     "price": 500,
@@ -1309,7 +1436,7 @@
     "id": "graphite",
     "name": { "str_sp": "graphite" },
     "symbol": "!",
-    "description": "Graphite powder mixed with a clay binder.  Produces grey or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation and natural aging.",
+    "description": "Graphite powder mixed with a clay binder.  Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation and natural aging.",
     "volume": "1 ml",
     "weight": "1 mg",
     "color": "dark_gray",

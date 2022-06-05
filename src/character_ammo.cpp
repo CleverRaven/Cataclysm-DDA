@@ -109,17 +109,18 @@ bool Character::list_ammo( const item &base, std::vector<item::reload_option> &a
 }
 
 item::reload_option Character::select_ammo( const item &base,
-        std::vector<item::reload_option> opts ) const
+        std::vector<item::reload_option> opts, const std::string name_override ) const
 {
     if( opts.empty() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
         return item::reload_option();
     }
 
+    std::string name = name_override.empty() ? base.tname() : name_override;
     uilist menu;
     menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
                                base.has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
-                               base.tname() );
+                               name );
 
     // Construct item names
     std::vector<std::string> names;
@@ -164,10 +165,12 @@ item::reload_option Character::select_ammo( const item &base,
     std::vector<std::string> destination;
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( destination ), [&]( const item::reload_option & e ) {
+        name = name_override.empty() ? e.target->tname( 1, false, 0, false ) :
+               name_override;
         if( e.target == e.getParent() ) {
-            return e.target->tname( 1, false, 0, false );
+            return name;
         } else {
-            return e.target->tname( 1, false, 0, false ) + " in " + e.getParent()->tname( 1, false, 0, false );
+            return name + " in " + e.getParent()->tname( 1, false, 0, false );
         }
     } );
     // Pads elements to match longest member and return length
@@ -203,7 +206,7 @@ item::reload_option Character::select_ammo( const item &base,
     menu.text += _( "| Moves   " );
 
     // We only show ammo statistics for guns and magazines
-    if( base.is_gun() || base.is_magazine() ) {
+    if( ( base.is_gun() || base.is_magazine() ) && !base.is_tool() ) {
         menu.text += _( "| Damage  | Pierce  " );
     }
 
@@ -214,7 +217,7 @@ item::reload_option Character::select_ammo( const item &base,
                                 sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );
         row += string_format( " %-7d ", sel.moves() );
 
-        if( base.is_gun() || base.is_magazine() ) {
+        if( ( base.is_gun() || base.is_magazine() ) && !base.is_tool() ) {
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->first_ammo().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
@@ -490,24 +493,8 @@ std::vector<item_location> Character::find_reloadables()
 
 hint_rating Character::rate_action_reload( const item &it ) const
 {
-    hint_rating res = hint_rating::cant;
-
-    // Guns may contain additional reloadable mods so check these first
-    for( const item *mod : it.gunmods() ) {
-        switch( rate_action_reload( *mod ) ) {
-            case hint_rating::good:
-                return hint_rating::good;
-
-            case hint_rating::cant:
-                continue;
-
-            case hint_rating::iffy:
-                res = hint_rating::iffy;
-        }
-    }
-
     if( !it.is_reloadable() ) {
-        return res;
+        return hint_rating::cant;
     }
 
     return can_reload( it ) ? hint_rating::good : hint_rating::iffy;

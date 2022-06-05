@@ -72,23 +72,23 @@ static void show_mutations_titlebar( const catacurses::window &window,
     }
     if( menu_mode == mutation_menu_mode::activating ) {
         desc += colorize( _( "Activating" ),
-                          c_green ) + "  " + shortcut_desc( _( "%s to examine mutation, " ),
+                          c_green ) + "  " + shortcut_desc( _( "%s Examine, " ),
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == mutation_menu_mode::examining ) {
         desc += colorize( _( "Examining" ),
-                          c_light_blue ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
+                          c_light_blue ) + "  " + shortcut_desc( _( "%s Activate, " ),
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == mutation_menu_mode::hiding ) {
-        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
+        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s Activate, " ),
                 ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != mutation_menu_mode::reassigning ) {
-        desc += shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
+        desc += shortcut_desc( _( "%s Reassign, " ), ctxt.get_desc( "REASSIGN" ) );
     }
-    desc += shortcut_desc( _( "%s to toggle sprite visibility, " ), ctxt.get_desc( "TOGGLE_SPRITE" ) );
-    desc += shortcut_desc( _( "%s to change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+    desc += shortcut_desc( _( "%s Toggle sprite visibility, " ), ctxt.get_desc( "TOGGLE_SPRITE" ) );
+    desc += shortcut_desc( _( "%s Change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
     wnoutrefresh( window );
@@ -227,7 +227,7 @@ void avatar::power_mutations()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( wBio );
-        draw_border( wBio, BORDER_COLOR, _( " MUTATIONS " ) );
+        draw_border( wBio, BORDER_COLOR, _( "Mutations" ) );
         // Draw line under title
         mvwhline( wBio, point( 1, HEADER_LINE_Y ), LINE_OXOX, WIDTH - 2 );
         // Draw symbols to connect additional lines to border
@@ -293,14 +293,33 @@ void avatar::power_mutations()
                 mvwputch( wBio, point( second_column, list_start_y + i - scroll_position ),
                           type, td.key );
                 std::string mut_desc;
+                std::string resource_unit;
+                int number_of_resource = 0;
+                if( md.hunger ) {
+                    resource_unit += _( " kcal" );
+                    number_of_resource++;
+                }
+                if( md.thirst ) {
+                    if( number_of_resource > 0 ) {
+                        //~ Resources consumed by a mutation: "kcal & thirst & fatigue"
+                        resource_unit += _( " &" );
+                    }
+                    resource_unit += _( " thirst" );
+                    number_of_resource++;
+                }
+                if( md.fatigue ) {
+                    if( number_of_resource > 0 ) {
+                        //~ Resources consumed by a mutation: "kcal & thirst & fatigue"
+                        resource_unit += _( " &" );
+                    }
+                    resource_unit += _( " fatigue" );
+                }
                 mut_desc += md.name();
                 if( md.cost > 0 && md.cooldown > 0 ) {
-                    //~ RU means Resource Units
-                    mut_desc += string_format( _( " - %d RU / %d turns" ),
-                                               md.cost, md.cooldown );
+                    mut_desc += string_format( _( " - %d%s / %d turns" ),
+                                               md.cost, resource_unit, md.cooldown );
                 } else if( md.cost > 0 ) {
-                    //~ RU means Resource Units
-                    mut_desc += string_format( _( " - %d RU" ), md.cost );
+                    mut_desc += string_format( _( " - %d%s" ), md.cost, resource_unit );
                 } else if( md.cooldown > 0 ) {
                     mut_desc += string_format( _( " - %d turns" ), md.cooldown );
                 }
@@ -386,7 +405,8 @@ void avatar::power_mutations()
                         if( mut_data.activated ) {
                             if( my_mutations[mut_id].powered ) {
                                 add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
-
+                                // Reset menu in advance
+                                ui.reset();
                                 deactivate_mutation( mut_id );
                                 // Action done, leave screen
                                 exit = true;
@@ -394,7 +414,8 @@ void avatar::power_mutations()
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                        ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
                                 add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
-
+                                // Reset menu in advance
+                                ui.reset();
                                 activate_mutation( mut_id );
                                 // Action done, leave screen
                                 exit = true;
@@ -552,7 +573,8 @@ void avatar::power_mutations()
                             if( mut_data.activated ) {
                                 if( my_mutations[mut_id].powered ) {
                                     add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
-
+                                    // Reset menu in advance
+                                    ui.reset();
                                     deactivate_mutation( mut_id );
                                     // Action done, leave screen
                                     exit = true;
@@ -560,7 +582,8 @@ void avatar::power_mutations()
                                            ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                            ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
                                     add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
-
+                                    // Reset menu in advance
+                                    ui.reset();
                                     activate_mutation( mut_id );
                                     // Action done, leave screen
                                     exit = true;

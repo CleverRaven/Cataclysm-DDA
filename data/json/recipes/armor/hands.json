@@ -881,6 +881,20 @@
     "flags": [ "BLIND_EASY", "NO_RESIZE" ]
   },
   {
+    "result": "wool_sockmitts",
+    "type": "recipe",
+    "copy-from": "sockmitts",
+    "activity_level": "LIGHT_EXERCISE",
+    "components": [ [ [ "socks_wool", 1 ] ] ]
+  },
+  {
+    "result": "nomex_sockmitts",
+    "type": "recipe",
+    "copy-from": "sockmitts",
+    "activity_level": "LIGHT_EXERCISE",
+    "components": [ [ [ "nomex_socks", 1 ] ] ]
+  },
+  {
     "result": "thermal_gloves",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -905,11 +919,12 @@
     "difficulty": 4,
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "tailoring_neoprene_patchwork", 2 ], [ "adhesive", 2 ] ],
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "sewing_standard", 15 ], [ "adhesive", 2 ] ],
+    "//": "Should use fabric_neoprene when the tailoring recipe audit is done.",
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
-    "result": "chainmail_hands",
+    "result": "lc_chainmail_hands",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -919,21 +934,129 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
-    "using": [ [ "armor_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_lc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
-    "result": "xs_chainmail_hands",
+    "result": "xs_lc_chainmail_hands",
     "type": "recipe",
-    "copy-from": "chainmail_hands",
+    "copy-from": "lc_chainmail_hands",
     "time": "2 h",
-    "using": [ [ "armor_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+    "using": [ [ "armor_lc_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
   },
   {
-    "result": "xl_chainmail_hands",
+    "result": "xl_lc_chainmail_hands",
     "type": "recipe",
-    "copy-from": "chainmail_hands",
+    "copy-from": "lc_chainmail_hands",
     "time": "2 h 15 m",
-    "using": [ [ "armor_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_lc_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "mc_chainmail_hands",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "2 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_mc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_mc_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_hands",
+    "time": "2 h",
+    "using": [ [ "armor_mc_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_mc_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_hands",
+    "time": "2 h 15 m",
+    "using": [ [ "armor_mc_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "hc_chainmail_hands",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "2 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_hc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_hc_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_hands",
+    "time": "2 h",
+    "using": [ [ "armor_hc_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_hc_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_hands",
+    "time": "2 h 15 m",
+    "using": [ [ "armor_hc_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "ch_chainmail_hands",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "2 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_ch_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_ch_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_hands",
+    "time": "2 h",
+    "using": [ [ "armor_ch_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_ch_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_hands",
+    "time": "2 h 15 m",
+    "using": [ [ "armor_ch_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "qt_chainmail_hands",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "2 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_qt_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_qt_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_hands",
+    "time": "2 h",
+    "using": [ [ "armor_qt_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_qt_chainmail_hands",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_hands",
+    "time": "2 h 15 m",
+    "using": [ [ "armor_qt_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "gloves_studded",
@@ -947,8 +1070,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ], [ [ "gloves_leather", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {

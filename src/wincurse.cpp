@@ -15,7 +15,6 @@
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
-#include "get_version.h"
 #include "init.h"
 #include "input.h"
 #include "path_info.h"
@@ -87,7 +86,6 @@ static bool WinCreate()
 {
     // Get current process handle
     WindowINST = GetModuleHandle( nullptr );
-    std::string title = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
     // Register window class
     WNDCLASSEXW WindowClassType   = WNDCLASSEXW();
@@ -120,7 +118,7 @@ static bool WinCreate()
     int WindowY = WorkArea.bottom / 2 - ( WndRect.bottom - WndRect.top ) / 2;
 
     // Magic
-    WindowHandle = CreateWindowExW( 0, szWindowClass, widen( title ).c_str(), WndStyle,
+    WindowHandle = CreateWindowExW( 0, szWindowClass, L"", WndStyle,
                                     WindowX, WindowY,
                                     WndRect.right - WndRect.left,
                                     WndRect.bottom - WndRect.top,
@@ -800,6 +798,13 @@ HWND getWindowHandle()
 void refresh_display()
 {
     RedrawWindow( WindowHandle, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
+}
+
+void set_title( const std::string &title )
+{
+    if( WindowHandle != nullptr ) {
+        SetWindowTextW( WindowHandle, widen( title ).c_str() );
+    }
 }
 
 #endif

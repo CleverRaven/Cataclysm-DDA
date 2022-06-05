@@ -264,8 +264,8 @@ units::volume vehicle_stack::max_volume() const
 
 // Vehicle class methods.
 
-vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
-                  int init_veh_status ): type( type_id )
+vehicle::vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel,
+                  int init_veh_status, bool may_spawn_locked ): type( type_id )
 {
     turn_dir = 0_degrees;
     face.init( 0_degrees );
@@ -280,13 +280,13 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         // The game language may have changed after the blueprint was created,
         // so translated the prototype name again.
         name = proto.name.translated();
-        init_state( init_veh_fuel, init_veh_status );
+        init_state( placed_on, init_veh_fuel, init_veh_status, may_spawn_locked );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     refresh();
 }
 
-vehicle::vehicle() : vehicle( vproto_id() )
+vehicle::vehicle() : vehicle( get_map(), vproto_id() )
 {
     sm_pos = tripoint_zero;
 }
@@ -332,7 +332,8 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( int init_veh_fuel, int init_veh_status )
+void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
+                          bool may_spawn_locked )
 {
     // vehicle parts excluding engines are by default turned off
     for( vehicle_part &pt : parts ) {
@@ -352,6 +353,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // More realistically it should be -5 days old
     last_update = calendar::turn_zero;
 
+    if( get_option<bool>( "OVERRIDE_VEHICLE_INIT_STATE" ) ) {
+        init_veh_status = get_option<int>( "VEHICLE_STATUS_AT_SPAWN" );
+        init_veh_fuel = get_option<int>( "VEHICLE_FUEL_AT_SPAWN" );
+    }
+
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
     int veh_fuel_mult = init_veh_fuel;
@@ -365,42 +371,40 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
     //  0 = undamaged
-    //  1 = disabled, destroyed tires OR engine
+    //  1 = disabled: destroyed seats, controls, tanks, tires, OR engine
     int veh_status = -1;
     if( init_veh_status == 0 ) {
         veh_status = 0;
     }
     if( init_veh_status == 1 ) {
-        int rand = rng( 1, 100 );
         veh_status = 1;
 
-        if( rand <= 5 ) {          //  seats are destroyed 5%
-            destroySeats = true;
-        } else if( rand <= 15 ) {  // controls are destroyed 10%
-            destroyControls = true;
-            veh_fuel_mult += rng( 0, 7 );   // add 0-7% more fuel if controls are destroyed
-        } else if( rand <= 23 ) {  // battery, minireactor or gasoline tank are destroyed 8%
-            destroyTank = true;
-        } else if( rand <= 29 ) {  // engine are destroyed 6%
-            destroyEngine = true;
-            veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
-        } else if( rand <= 66 ) {  // tires are destroyed 37%
-            destroyTires = true;
-            veh_fuel_mult += rng( 0, 18 );  // add 0-18% more fuel if tires are destroyed
-        } else {                   // vehicle locked 34%
-            has_no_key = true;
+        const int rand = rng( 1, 5 );
+        switch( rand ) {
+            case 1:
+                destroySeats = true;
+                break;
+            case 2:
+                destroyControls = true;
+                break;
+            case 3:
+                destroyTank = true;
+                break;
+            case 4:
+                destroyEngine = true;
+                break;
+            case 5:
+                destroyTires = true;
+                break;
         }
     }
-    // if locked, 16% chance something damaged
-    if( one_in( 6 ) && has_no_key ) {
-        if( one_in( 3 ) ) {
-            destroyTank = true;
-        } else if( one_in( 2 ) ) {
-            destroyEngine = true;
-        } else {
-            destroyTires = true;
-        }
-    } else if( !one_in( 3 ) ) {
+
+    if( one_in( 3 ) && may_spawn_locked ) {
+        //33% chance for a locked vehicle
+        has_no_key = true;
+    }
+
+    if( !one_in( 3 ) ) {
         //most cars should have a destroyed alarm
         destroyAlarm = true;
     }
@@ -621,6 +625,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             set_hp( parts[random_entry( wheelcache )], 0, false );
             tries++;
         }
+    }
+
+    // Additional 50% chance for heavy damage to disabled vehicles
+    if( veh_status == 1 && one_in( 2 ) ) {
+        smash( placed_on, 0.5 );
     }
 
     for( size_t i = 0; i < engines.size(); i++ ) {
@@ -1800,6 +1809,24 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         add_msg( m_bad, _( "You can't get the %1$s on the rack." ), carry_veh->name );
     }
     return found_all_parts;
+}
+
+bool vehicle::merge_vehicle_parts( vehicle *veh )
+{
+    for( const vehicle_part &part : veh->parts ) {
+        point part_loc = veh->mount_to_tripoint( part.mount ).xy();
+
+        parts.push_back( part );
+        vehicle_part &copied_part = parts.back();
+        copied_part.mount = part_loc - global_pos3().xy();
+
+        refresh();
+    }
+
+    map &here = get_map();
+    here.destroy_vehicle( veh );
+
+    return true;
 }
 
 /**
@@ -4397,7 +4424,7 @@ void vehicle::set_owner( const Character &c )
     owner = c.get_faction()->id;
 }
 
-bool vehicle::handle_potential_theft( Character &you, bool check_only, bool prompt )
+bool vehicle::handle_potential_theft( Character const &you, bool check_only, bool prompt )
 {
     const bool is_owned_by_player = is_owned_by( you );
     std::vector<npc *> witnesses;
@@ -4993,8 +5020,10 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
     }
 
     // Nope. Load up its submap...
-    tripoint veh_in_sm = where;
-    tripoint veh_sm = ms_to_sm_remain( veh_in_sm );
+    point_sm_ms veh_in_sm;
+    tripoint_abs_sm veh_sm;
+    // TODO: fix point types
+    std::tie( veh_sm, veh_in_sm ) = project_remain<coords::sm>( tripoint_abs_ms( where ) );
 
     const submap *sm = MAPBUFFER.lookup_submap( veh_sm );
     if( sm == nullptr ) {
@@ -5003,7 +5032,8 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
 
     for( const auto &elem : sm->vehicles ) {
         vehicle *found_veh = elem.get();
-        if( veh_in_sm.xy() == found_veh->pos ) {
+        // TODO: fix point types
+        if( veh_in_sm.raw() == found_veh->pos ) {
             return found_veh;
         }
     }
@@ -5505,9 +5535,26 @@ void vehicle::place_spawn_items()
                         e.ammo_set( e.ammo_default() );
                     }
                 }
+
+                // Copy vehicle owner for items within
+                if( has_owner() ) {
+                    e.set_owner( get_owner() );
+                }
+
                 add_item( part, e );
             }
         }
+    }
+}
+
+void vehicle::place_zones( map &pmap ) const
+{
+    if( !type.is_valid() || !has_owner() ) {
+        return;
+    }
+    for( vehicle_prototype::zone_def const &d : type->zone_defs ) {
+        tripoint const pt = pmap.getabs( tripoint( pos + d.pt, pmap.get_abs_sub().z() ) );
+        mapgen_place_zone( pt, pt, d.zone_type, get_owner(), d.name, d.filter, &pmap );
     }
 }
 
@@ -6822,8 +6869,7 @@ const std::set<tripoint> &vehicle::get_points( const bool force_refresh ) const
 }
 
 std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &type,
-                                      int &quantity,
-                                      const std::function<bool( const item & )> &filter )
+                                      int &quantity, const std::function<bool( const item & )> &filter, bool in_tools )
 {
     std::list<item> ret;
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
@@ -6858,7 +6904,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
 
     if( cargo_vp ) {
         vehicle_stack veh_stack = get_items( cargo_vp->part_index() );
-        std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter );
+        std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter, in_tools );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
             return ret;
@@ -6906,42 +6952,46 @@ bool vpart_reference::has_feature( const vpart_bitflags f ) const
 
 static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
-
-    const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
+    tripoint_abs_sm smp;
+    point_sm_ms p;
+    // TODO: fix point types
+    std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
-        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
+        debugmsg( "is_sm_tile_over_water(): couldn't find submap %s", smp.to_string() );
         return false;
     }
 
-    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
-        debugmsg( "err %d,%d", p.x, p.y );
+    if( p.x() < 0 || p.x() >= SEEX || p.y() < 0 || p.y() >= SEEY ) {
+        debugmsg( "err %s", p.to_string() );
         return false;
     }
 
-    return ( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
-             sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
+    // TODO: fix point types
+    return ( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
+             sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
-
-    const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
+    tripoint_abs_sm smp;
+    point_sm_ms p;
+    // TODO: fix point types
+    std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
-        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
+        debugmsg( "is_sm_tile_outside(): couldn't find submap %s", smp.to_string() );
         return false;
     }
 
-    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
-        debugmsg( "err %d,%d", p.x, p.y );
+    if( p.x() < 0 || p.x() >= SEEX || p.y() < 0 || p.y() >= SEEY ) {
+        debugmsg( "err %s", p.to_string() );
         return false;
     }
 
-    return !( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
-              sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
+    // TODO: fix point types
+    return !( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
+              sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )
@@ -6975,7 +7025,7 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     const time_point update_from = last_update;
-    if( update_to < update_from ) {
+    if( update_to < update_from || update_from == time_point( 0 ) ) {
         // Special case going backwards in time - that happens
         last_update = update_to;
         return;
@@ -7148,7 +7198,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     }
 }
 
-bounding_box vehicle::get_bounding_box()
+bounding_box vehicle::get_bounding_box( bool use_precalc )
 {
     int min_x = INT_MAX;
     int max_x = INT_MIN;
@@ -7159,9 +7209,18 @@ bounding_box vehicle::get_bounding_box()
 
     precalc_mounts( 0, turn_dir, point() );
 
-    int i_use = 0;
     for( const tripoint &p : get_points( true ) ) {
-        const point pt = parts[part_at( p.xy() )].precalc[i_use].xy();
+        point pt;
+        if( use_precalc ) {
+            const int i_use = 0;
+            int part_idx = part_at( p.xy() );
+            if( part_idx < 0 ) {
+                continue;
+            }
+            pt = parts[part_idx].precalc[i_use].xy();
+        } else {
+            pt = p.xy();
+        }
         if( pt.x < min_x ) {
             min_x = pt.x;
         }

@@ -266,7 +266,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         mvwputch( window, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // -
     }
     mvwputch( window, point( pwr_str_pos - 1, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
-    center_print( window, 0, c_light_red, _( " BIONICS " ) );
+    center_print( window, 0, c_light_red, _( "Bionics" ) );
 
     std::string desc_append = string_format(
                                   _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
@@ -906,6 +906,10 @@ void avatar::power_bionics()
                     ui.mark_resize();
                     if( tmp->powered ) {
                         deactivate_bionic( bio );
+                        if( bio_data.deactivated_close_ui ) {
+                            ui.reset();
+                            break;
+                        }
                     } else {
                         bool activate = true;
 
@@ -966,10 +970,16 @@ void avatar::power_bionics()
 
                         if( activate ) {
                             bool close_ui = false;
-                            activate_bionic( bio, false, &close_ui );
-                            // Exit this ui if we are firing a complex bionic
-                            if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
+                            if( bio_data.activated_close_ui ) {
+                                ui.reset();
+                                activate_bionic( bio, false, &close_ui );
                                 break;
+                            } else {
+                                activate_bionic( bio, false, &close_ui );
+                                // Exit this ui if we are firing a complex bionic
+                                if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
+                                    break;
+                                }
                             }
                         }
                     }

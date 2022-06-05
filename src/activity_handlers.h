@@ -60,11 +60,7 @@ enum class butcher_type : int {
 enum class do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
-    CAN_DO_PREREQ,          // for constructions - can't build the main construction, but can build the pre-req
-    CAN_DO_PREREQ_2,        // Can do the second pre-req deep below the desired one.
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
-    NO_COMPONENTS_PREREQ,   // need components to build the pre-requisite for the actual desired construction
-    NO_COMPONENTS_PREREQ_2, // need components to the second pre-req deep.
     DONT_HAVE_SKILL,        // don't have the required skill
     NO_ZONE,                // There is no required zone anymore
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
@@ -164,29 +160,21 @@ void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
 void build_do_turn( player_activity *act, Character *you );
 void butcher_do_turn( player_activity *act, Character *you );
-void chop_logs_do_turn( player_activity *act, Character *you );
-void chop_planks_do_turn( player_activity *act, Character *you );
-void chop_tree_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
-void churn_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );
 void consume_food_menu_do_turn( player_activity *act, Character *you );
 void consume_fuel_menu_do_turn( player_activity *act, Character *you );
 void consume_meds_menu_do_turn( player_activity *act, Character *you );
-void cracking_do_turn( player_activity *act, Character *you );
-void drop_do_turn( player_activity *act, Character *you );
 void eat_menu_do_turn( player_activity *act, Character *you );
 void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
-void fill_pit_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
 void fish_do_turn( player_activity *act, Character *you );
 void game_do_turn( player_activity *act, Character *you );
 void generic_game_do_turn( player_activity *act, Character *you );
 void hand_crank_do_turn( player_activity *act, Character *you );
 void jackhammer_do_turn( player_activity *act, Character *you );
-void move_items_do_turn( player_activity *act, Character *you );
 void move_loot_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
@@ -201,9 +189,7 @@ void pickaxe_do_turn( player_activity *act, Character *you );
 void pulp_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void robot_control_do_turn( player_activity *act, Character *you );
-void spellcasting_do_turn( player_activity *act, Character *you );
 void start_fire_do_turn( player_activity *act, Character *you );
-void stash_do_turn( player_activity *act, Character *you );
 void study_spell_do_turn( player_activity *act, Character *you );
 void tidy_up_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
@@ -213,7 +199,6 @@ void vehicle_repair_do_turn( player_activity *act, Character *you );
 void vibe_do_turn( player_activity *act, Character *you );
 void view_recipe_do_turn( player_activity *act, Character *you );
 void wait_stamina_do_turn( player_activity *act, Character *you );
-void wear_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -222,22 +207,13 @@ do_turn_functions;
 /** activity_finish functions: */
 void atm_finish( player_activity *act, Character *you );
 void butcher_finish( player_activity *act, Character *you );
-void chop_logs_finish( player_activity *act, Character *you );
-void chop_planks_finish( player_activity *act, Character *you );
-void chop_tree_finish( player_activity *act, Character *you );
-void churn_finish( player_activity *act, Character *you );
-void clear_rubble_finish( player_activity *act, Character *you );
-void cracking_finish( player_activity *act, Character *guy );
 void eat_menu_finish( player_activity *act, Character *you );
-void fill_pit_finish( player_activity *act, Character *you );
 void fish_finish( player_activity *act, Character *you );
 void generic_game_finish( player_activity *act, Character *you );
 void gunmod_add_finish( player_activity *act, Character *you );
-void hand_crank_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void jackhammer_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
-void mind_splicer_finish( player_activity *act, Character *you );
 void operation_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void plant_seed_finish( player_activity *act, Character *you );
@@ -245,7 +221,6 @@ void pull_creature_finish( player_activity *act, Character *you );
 void pulp_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );
 void robot_control_finish( player_activity *act, Character *you );
-void shear_finish( player_activity *act, Character *you );
 void socialize_finish( player_activity *act, Character *you );
 void spellcasting_finish( player_activity *act, Character *you );
 void start_engines_finish( player_activity *act, Character *you );

@@ -20,7 +20,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_elec": 2,
     "vision_night": 3,
     "harvest": "exempt",
@@ -67,7 +67,7 @@
     "melee_skill": 1,
     "melee_dice": 3,
     "melee_dice_sides": 3,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
@@ -121,7 +121,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_elec": 1,
     "vision_night": 3,
     "luminance": 8,
@@ -165,7 +165,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_elec": 1,
     "vision_night": 3,
     "harvest": "exempt",
@@ -197,7 +197,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_elec": 1,
     "vision_night": 3,
     "harvest": "exempt",
@@ -251,7 +251,7 @@
       }
     ],
     "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -296,7 +296,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "boomer_claymore_initial", "min_level": 0 },
-        "monster_message": "A %s explode"
+        "monster_message": "A bombardier boomer explodes!"
       }
     ],
     "death_drops": "default_zombie_items",

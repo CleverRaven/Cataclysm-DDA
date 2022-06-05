@@ -12,6 +12,7 @@
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "holster",
+    "repairs_like": "tool_belt",
     "color": "yellow",
     "pocket_data": [
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
@@ -25,8 +26,19 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      }
+    ]
   },
   {
     "abstract": "judo_belt_abstract",
@@ -42,8 +54,8 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "material_thickness": 2,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "judo_belt_black",
@@ -126,8 +138,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "obi_gi",
@@ -156,6 +168,7 @@
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "fireman_belt",
+    "repairs_like": "tool_belt",
     "color": "brown",
     "pocket_data": [
       { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
@@ -172,8 +185,19 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to holder?", "holster_msg": "You attach your %s to your %s." },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "santa_belt",
@@ -187,6 +211,8 @@
     "bashing": 5,
     "material": [ "leather", "steel" ],
     "symbol": "[",
+    "looks_like": "leather_belt",
+    "repairs_like": "leather_belt",
     "color": "dark_gray",
     "material_thickness": 1.5,
     "pocket_data": [
@@ -200,8 +226,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "tool_belt",
@@ -267,14 +293,14 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 20, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "webbing_belt",
     "type": "ARMOR",
-    "name": { "str": "webbing belt" },
-    "description": "A 2-inch nylon webbing belt commonly used by military forces.",
+    "name": { "str": "MOLLE webbing belt" },
+    "description": "A 2-inch nylon webbing belt commonly used by military forces.  MOLLE-compatible pouches can be attached to the webbing for extra storage.",
     "weight": "210 g",
     "volume": "500 ml",
     "price": 1000,
@@ -282,6 +308,7 @@
     "material": [ "nylon", "steel" ],
     "symbol": "[",
     "looks_like": "leather_belt",
+    "repairs_like": "tool_belt",
     "color": "yellow",
     "material_thickness": 1.5,
     "pocket_data": [
@@ -291,11 +318,72 @@
         "max_contains_weight": "1000 g",
         "max_item_length": "70 cm",
         "moves": 60,
+        "description": "Clipped directly to belt.",
         "flag_restriction": [ "BELT_CLIP" ]
       }
     ],
+    "use_action": [
+      { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+      { "type": "attach_molle", "size": 4 },
+      { "type": "detach_molle" }
+    ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
+  },
+  {
+    "id": "suspenders_cloth",
+    "type": "ARMOR",
+    "name": { "str": "suspenders", "str_pl": "pairs of suspenders" },
+    "description": "A pair of black suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
+    "weight": "250g",
+    "volume": "500 ml",
+    "price": 1000,
+    "price_postapoc": 25,
+    "material": [ "cotton", "steel" ],
+    "symbol": "#",
+    "looks_like": "leather_belt",
+    "color": "black",
+    "material_thickness": 1.5,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "suspenders_leather",
+    "type": "ARMOR",
+    "name": { "str": "leather suspenders", "str_pl": "pairs of leather suspenders" },
+    "description": "A pair of leather suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
+    "material": [ "leather", "steel" ],
+    "color": "brown",
+    "copy-from": "suspenders_cloth"
+  },
+  {
+    "id": "suspenders_holster",
+    "type": "ARMOR",
+    "name": { "str": "holster suspenders", "str_pl": "pairs of holster suspenders" },
+    "description": "A pair of leather suspenders with a holster placed near the stomach.",
+    "copy-from": "suspenders_leather",
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "NO_QUICKDRAW" ],
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      }
+    ],
+    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]

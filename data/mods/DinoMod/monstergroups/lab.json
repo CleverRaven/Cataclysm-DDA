@@ -1,30 +1,8 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_CENTRAL_LAB",
-    "monsters": [
-      { "group": "GROUP_BIO_DINO_HERB", "weight": 200 },
-      { "group": "GROUP_BIO_DINO_PRED", "weight": 200 },
-      { "monster": "mon_dimorphodon_bio_op", "weight": 50, "cost_multiplier": 10, "ends": "28 days" }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_LAB",
-    "monsters": [
-      { "group": "GROUP_BIO_DINO_HERB", "weight": 200 },
-      { "group": "GROUP_BIO_DINO_PRED", "weight": 200 },
-      { "monster": "mon_dimorphodon_bio_op", "weight": 50, "cost_multiplier": 10, "ends": "28 days" }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_MICROLAB",
-    "monsters": [
-      { "group": "GROUP_BIO_DINO_HERB", "weight": 200 },
-      { "group": "GROUP_BIO_DINO_PRED", "weight": 200 },
-      { "monster": "mon_dimorphodon_bio_op", "weight": 50, "cost_multiplier": 10, "ends": "28 days" }
-    ]
+    "name": "GROUP_Exodii_Stowaway",
+    "monsters": [ { "group": "GROUP_BIO_DINO_HERB", "weight": 200 }, { "group": "GROUP_BIO_DINO_PRED", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
@@ -32,7 +10,6 @@
     "monsters": [
       { "group": "GROUP_BIO_DINO_HERB", "weight": 300 },
       { "group": "GROUP_BIO_DINO_PRED", "weight": 300 },
-      { "monster": "mon_dimorphodon_bio_op", "weight": 100, "cost_multiplier": 10, "ends": "28 days" },
       { "group": "GROUP_DINOSAUR_PREDATOR_WILDERNESS", "weight": 300 }
     ]
   },
@@ -45,6 +22,17 @@
     "type": "monstergroup",
     "name": "GROUP_BIO_DINO_PRED",
     "monsters": [
+      { "monster": "mon_spinosaurus", "weight": 100, "cost_multiplier": 20, "starts": "3 days", "ends": "28 days" },
+      { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "3 days" },
+      { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "7 days" },
+      { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "28 days" },
+      { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "90 days" },
+      { "monster": "mon_qianzhousaurus", "weight": 100, "cost_multiplier": 0, "ends": "28 days" },
+      { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "3 days" },
+      { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "7 days" },
+      { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "28 days" },
+      { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "90 days" },
+      { "monster": "mon_albertonykus_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       { "monster": "mon_velociraptor_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       {
         "monster": "mon_deino_bio_op",
@@ -81,17 +69,15 @@
         "starts": "90 days",
         "pack_size": [ 2, 3 ]
       },
-      { "monster": "mon_qianzhousaurus", "weight": 100, "cost_multiplier": 0, "ends": "28 days" },
-      { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "7 days" },
-      { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "28 days" },
-      { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "90 days" },
-      { "monster": "mon_dimorphodon_bio_op", "weight": 100, "cost_multiplier": 10, "ends": "28 days" },
-      { "monster": "mon_spinosaurus", "weight": 100, "cost_multiplier": 20, "starts": "3 days", "ends": "28 days" },
-      { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "3 days" },
-      { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "7 days" },
-      { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "28 days" },
-      { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "90 days" }
+      { "monster": "mon_dromaeosaurus_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_stenonychosaurus_bio_op",
+        "weight": 100,
+        "cost_multiplier": 20,
+        "pack_size": [ 1, 2 ],
+        "ends": "28 days"
+      },
+      { "monster": "mon_dimorphodon_bio_op", "weight": 100, "cost_multiplier": 10, "ends": "28 days" }
     ]
   },
   {

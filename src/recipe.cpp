@@ -20,6 +20,7 @@
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "mapgen_functions.h"
@@ -332,6 +333,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
+        if( jo.has_member( "byproduct_group" ) ) {
+            if( this->reversible ) {
+                jo.throw_error( "Recipe cannot be reversible and have byproducts" );
+            }
+            byproduct_group = item_group::load_item_group( jo.get_member( "byproduct_group" ),
+                              "collection", "byproducts of recipe " + ident_.str() );
+        }
         assign( jo, "construction_blueprint", blueprint );
         if( !blueprint.is_empty() ) {
             assign( jo, "blueprint_name", bp_name );
@@ -396,6 +404,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 itype_id byproduct( arr.get_string( 0 ) );
                 byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
+        }
+        if( jo.has_member( "byproduct_group" ) ) {
+            if( this->reversible ) {
+                jo.throw_error( "Recipe cannot be reversible and have byproducts" );
+            }
+            byproduct_group = item_group::load_item_group( jo.get_member( "byproduct_group" ),
+                              "collection", "byproducts of recipe " + ident_.str() );
         }
     } else if( type == "uncraft" ) {
         reversible = true;
@@ -593,34 +608,87 @@ std::vector<item> recipe::create_results( int batch ) const
     return items;
 }
 
-std::vector<item> recipe::create_byproducts( int batch ) const
+static void create_byproducts_legacy( const std::map<itype_id, int> &bplist,
+                                      std::vector<item> &bps_out, int batch )
 {
-    std::vector<item> bps;
-    for( const auto &e : byproducts ) {
+    for( const auto &e : bplist ) {
         item obj( e.first, calendar::turn, item::default_charges_tag{} );
         if( obj.has_flag( flag_VARSIZE ) ) {
             obj.set_flag( flag_FIT );
         }
-
         if( obj.count_by_charges() ) {
             obj.charges *= e.second * batch;
-            bps.push_back( obj );
-
+            bps_out.push_back( obj );
         } else {
             if( !obj.craft_has_charges() ) {
                 obj.charges = 0;
             }
             for( int i = 0; i < e.second * batch; ++i ) {
-                bps.push_back( obj );
+                bps_out.push_back( obj );
             }
         }
+    }
+}
+
+static void create_byproducts_group( const item_group_id &bplist, std::vector<item> &bps_out,
+                                     int batch )
+{
+    std::vector<item> ret = item_group::items_from( bplist, calendar::turn );
+    for( item &it : ret ) {
+        if( it.count_by_charges() ) {
+            it.charges *= batch;
+        } else {
+            if( !it.craft_has_charges() ) {
+                it.charges = 0;
+            }
+            for( int i = 0; i < batch; ++i ) {
+                bps_out.push_back( it );
+            }
+        }
+    }
+    bps_out.insert( bps_out.end(), ret.begin(), ret.end() );
+}
+
+std::vector<item> recipe::create_byproducts( int batch ) const
+{
+    std::vector<item> bps;
+    if( !byproducts.empty() ) {
+        create_byproducts_legacy( byproducts, bps, batch );
+    }
+    if( !!byproduct_group ) {
+        create_byproducts_group( *byproduct_group, bps, batch );
     }
     return bps;
 }
 
+std::map<itype_id, int> recipe::get_byproducts() const
+{
+    std::map<itype_id, int> ret;
+    if( !byproducts.empty() ) {
+        ret.insert( byproducts.begin(), byproducts.end() );
+    }
+    if( !!byproduct_group ) {
+        std::vector<item> tmp = item_group::items_from( *byproduct_group );
+        for( const item &i : tmp ) {
+            if( i.count_by_charges() ) {
+                ret.emplace( i.typeId(), i.charges );
+            } else {
+                ret.emplace( i.typeId(), 1 );
+            }
+        }
+    }
+    return ret;
+}
+
 bool recipe::has_byproducts() const
 {
-    return !byproducts.empty();
+    return !byproducts.empty() || !!byproduct_group;
+}
+
+bool recipe::in_byproducts( const itype_id &it ) const
+{
+    return ( !byproducts.empty() && byproducts.find( it ) != byproducts.end() ) ||
+           ( !!byproduct_group && item_group::group_contains_item( *byproduct_group, it ) );
 }
 
 std::string recipe::required_proficiencies_string( const Character *c ) const

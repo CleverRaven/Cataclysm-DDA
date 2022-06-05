@@ -14,33 +14,27 @@ class JsonObject;
 struct tripoint;
 
 // this is a small class that contains the "results" of a terrain transform.
-// T can be either ter_str_id or furn_str_id
+// T can be either ter_str_id, furn_str_id, trap_str_id, or field_type_id
 template<class T>
 class ter_furn_data
 {
-    private:
+    public:
         weighted_int_list<T> list;
         std::string message;
         bool message_good = false;
-    public:
         ter_furn_data() = default;
         ter_furn_data( const weighted_int_list<T> &list, const std::string &message,
                        const bool message_good ) :
             list( list ), message( message ), message_good( message_good ) {}
 
         bool has_msg() const;
-        void add_msg( const Creature &critter ) const;
         cata::optional<T> pick() const;
         void load( const JsonObject &jo );
 };
 
 class ter_furn_transform
 {
-
     private:
-
-        std::string fail_message;
-
         std::map<ter_str_id, ter_furn_data<ter_str_id>> ter_transform;
         std::map<std::string, ter_furn_data<ter_str_id>> ter_flag_transform;
 
@@ -52,37 +46,41 @@ class ter_furn_transform
 
         std::map<field_type_id, ter_furn_data<field_type_id>> field_transform;
 
-        cata::optional<ter_str_id> next_ter( const ter_str_id &ter ) const;
-        cata::optional<ter_str_id> next_ter( const std::string &flag ) const;
-        cata::optional<furn_str_id> next_furn( const furn_str_id &furn ) const;
-        cata::optional<furn_str_id> next_furn( const std::string &flag ) const;
-        cata::optional<trap_str_id> next_trap( const trap_str_id &trap ) const;
-        cata::optional<trap_str_id> next_trap( const std::string &flag ) const;
-        cata::optional<field_type_id> next_field( const field_type_id &field ) const;
+        cata::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> next_ter(
+            const ter_str_id &ter ) const;
+        cata::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> next_ter(
+            const std::string &flag ) const;
+        cata::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> next_furn(
+            const furn_str_id &furn ) const;
+        cata::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> next_furn(
+            const std::string &flag ) const;
+        cata::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> next_trap(
+            const trap_str_id &trap ) const;
+        cata::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> next_trap(
+            const std::string &flag ) const;
+        cata::optional<std::pair<field_type_id, std::pair<std::string, bool>>> next_field(
+            const field_type_id &field )
+        const;
 
         template<class T, class K>
         cata::optional<ter_furn_data<T>> find_transform( const std::map<K, ter_furn_data<T>> &list,
                                       const K &key ) const;
 
         template <class T, class K>
-        cata::optional<T> next( const std::map<K, ter_furn_data<T>> &list, const K &key ) const;
-
-        // return value is success of message found
-        template <class T, class K>
-        bool add_message( const std::map<K, ter_furn_data<T>> &list, const K &key, const Creature &critter,
-                          const tripoint &location ) const;
+        cata::optional<std::pair<T, std::pair<std::string, bool>>> next( const std::map<K, ter_furn_data<T>>
+                &list,
+                const K &key ) const;
 
     public:
 
         ter_furn_transform_id id;
+        std::vector<std::pair<ter_furn_transform_id, mod_id>> src;
         bool was_loaded = false;
 
-        void add_all_messages( const Creature &critter, const tripoint &location ) const;
-        void add_all_messages( const map &m, const Creature &critter, const tripoint &location ) const;
+        void transform( const tripoint &location, bool shifted = false ) const;
+        void transform( map &m, const tripoint &location, bool shifted = false ) const;
 
-        void transform( const tripoint &location ) const;
-        void transform( map &m, const tripoint &location ) const;
-
+        static void reset();
         static void load_transform( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
 

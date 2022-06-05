@@ -158,8 +158,10 @@
       },
       {
         "distribution": [
-          { "item": "camera", "prob": 70, "charges-min": 0, "charges-max": 50 },
-          { "item": "camera_pro", "prob": 30, "charges-min": 0, "charges-max": 50 }
+          { "item": "camera", "prob": 40, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera", "container-item": "camera_bag", "prob": 30, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera_pro", "prob": 10, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera_pro", "container-item": "camera_bag", "prob": 20, "charges-min": 0, "charges-max": 50 }
         ],
         "prob": 10
       }
@@ -247,7 +249,7 @@
       { "group": "ammo_pistol_common", "prob": 2 },
       { "group": "ammo_shotgun_common", "prob": 1 },
       { "group": "guns_pistol_common", "prob": 2 },
-      { "group": "guns_shotgun_common", "prob": 1, "contents-item": "shoulder_strap" },
+      { "group": "guns_shotgun_common_worn", "prob": 1, "contents-item": "shoulder_strap" },
       { "group": "postman_gear", "prob": 5 },
       { "group": "hardware_plumbing", "prob": 5 }
     ]
@@ -255,7 +257,7 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "//": "contains cloth (always), a wallet (30% chance), and a random item (50% chance)",
+    "//": "contains cloth (always), a wallet (30% chance), and a random item (50% chance), normal zombies have a small chance of carrying a bugout bag",
     "id": "default_zombie_death_drops",
     "entries": [
       {
@@ -265,7 +267,8 @@
         ]
       },
       { "group": "default_zombie_items", "prob": 50 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 }
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "bugout_bag", "prob": 1 }
     ]
   }
 ]

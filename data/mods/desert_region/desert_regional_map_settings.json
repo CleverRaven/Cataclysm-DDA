@@ -505,33 +505,33 @@
       "field": {
         "chance": 90,
         "extras": {
-          "mx_helicopter": 40,
-          "mx_military": 8,
-          "mx_science": 20,
-          "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
-          "mx_portal": 3,
-          "mx_minefield": 50,
-          "mx_crater": 10,
-          "mx_portal_in": 1
+          "mx_helicopter": 400,
+          "mx_military": 4,
+          "mx_science": 200,
+          "mx_collegekids": 250,
+          "mx_drugdeal": 200,
+          "mx_supplydrop": 100,
+          "mx_portal": 30,
+          "mx_minefield": 500,
+          "mx_crater": 100,
+          "mx_portal_in": 10
         }
       },
       "road": {
         "chance": 75,
         "extras": {
-          "mx_helicopter": 40,
-          "mx_military": 25,
-          "mx_science": 40,
-          "mx_collegekids": 50,
-          "mx_roadblock": 100,
-          "mx_bandits_block": 80,
-          "mx_drugdeal": 30,
-          "mx_supplydrop": 10,
-          "mx_portal": 5,
-          "mx_minefield": 80,
-          "mx_crater": 10,
-          "mx_portal_in": 2
+          "mx_helicopter": 400,
+          "mx_military": 50,
+          "mx_science": 400,
+          "mx_collegekids": 500,
+          "mx_roadblock": 1000,
+          "mx_bandits_block": 800,
+          "mx_drugdeal": 300,
+          "mx_supplydrop": 100,
+          "mx_portal": 50,
+          "mx_minefield": 800,
+          "mx_crater": 100,
+          "mx_portal_in": 20
         }
       },
       "build": {

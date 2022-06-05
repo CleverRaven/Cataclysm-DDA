@@ -243,7 +243,7 @@ class inventory : public visitable
                                            int count = INT_MAX ) override;
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
-                        const std::function<void( int )> &visitor = nullptr ) const override;
+                        const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const override;
         int amount_of( const itype_id &what, bool pseudo = true,
                        int limit = INT_MAX,
                        const std::function<bool( const item & )> &filter = return_true<item> ) const override;

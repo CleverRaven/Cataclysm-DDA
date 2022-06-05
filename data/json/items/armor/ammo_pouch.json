@@ -66,8 +66,8 @@
         "moves": 35
       }
     ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "ammo_satchel",
@@ -91,12 +91,12 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "chestpouch",
@@ -120,7 +120,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
@@ -149,7 +149,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -158,7 +158,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -167,7 +167,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -176,7 +176,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
@@ -190,7 +190,7 @@
     "name": { "str": "XL chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits larger-than-human forms.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_chestrig",
@@ -200,7 +200,7 @@
     "name": { "str": "XS chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits small forms.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "javelin_bag",
@@ -319,7 +319,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -328,7 +328,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
@@ -359,8 +359,15 @@
     "sided": true,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 3, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "quiver_birchbark",
@@ -379,8 +386,15 @@
     "sided": true,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
-    "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "quiver_large",
@@ -419,6 +433,54 @@
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 14, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "quiver_takedown_bow",
+    "type": "ARMOR",
+    "//": "Based on: https://www.amazon.com/XTACER-Multi-Function-4-Tubes-Training-Takedown/dp/B072K4537K",
+    "name": { "str": "multi-function quiver" },
+    "description": "A large cotton quiver capable of easily storing 16 arrows.  It includes a bag and straps to store a takedown bow, as well as a small pouch for archery accessories.  Use insert to store arrows or bolts and activate to holster/draw your bow.",
+    "weight": "720 g",
+    "volume": "1500 ml",
+    "price": 8800,
+    "price_postapoc": 1500,
+    "bashing": 4,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "quiver",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "pocket_data": [
+      { "ammo_restriction": { "arrow": 16, "bolt": 16 }, "moves": 20 },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "75 cm",
+        "moves": 80,
+        "item_restriction": [ "takedown_recurbow_folded" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 250
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "use_action": { "type": "holster" },
+    "armor": [
+      {
+        "encumbrance": 3,
+        "volume_encumber_modifier": 0.2,
+        "coverage": 30,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "tacvest",
@@ -503,7 +565,7 @@
     "name": { "str": "XL tac vest" },
     "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Oversized and easy to don, this vest can hold four magazines close at hand in its many pouches.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_tacvest",
@@ -513,7 +575,7 @@
     "name": { "str": "XS tac vest" },
     "description": "This light vest is meant to carry your magazines, shells and pistols.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "light_load_bearing_vest",
@@ -530,7 +592,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 1.5,
-    "use_action": [ { "type": "attach_molle", "size": 3 }, { "type": "detach_molle" } ],
+    "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
@@ -538,7 +600,7 @@
         "coverage": 55,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ]
   },
@@ -557,7 +619,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 1.5,
-    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "use_action": [ { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
@@ -565,7 +627,40 @@
         "coverage": 85,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "volume_encumber_modifier": 0.4
+        "volume_encumber_modifier": 0.25
+      }
+    ]
+  },
+  {
+    "id": "load_bearing_vest_sling",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "copy-from": "load_bearing_vest",
+    "name": { "str": "load bearing vest with sling", "str_pl": "load bearing vests with slings" },
+    "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure.",
+    "weight": "1500 g",
+    "use_action": [ { "type": "holster" }, { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_hanging_front" ],
+        "volume_encumber_modifier": 0.25
+      }
+    ],
+    "pocket_data": [
+      {
+        "description": "Rifle sling.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1000 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
+        "//": "volume encumber set high since the whole vest is already scaled. This equals .4 overall",
+        "volume_encumber_modifier": 1.6,
+        "moves": 30
       }
     ]
   },
@@ -584,15 +679,94 @@
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 1.5,
-    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
+    "use_action": [ { "type": "attach_molle", "size": 14 }, { "type": "detach_molle" } ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
         "encumbrance": 4,
         "coverage": 85,
         "covers": [ "torso" ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ],
-        "volume_encumber_modifier": 0.3
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_waist" ],
+        "volume_encumber_modifier": 0.2
+      }
+    ]
+  },
+  {
+    "id": "heavy_load_bearing_vest_sling",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "copy-from": "heavy_load_bearing_vest",
+    "name": { "str": "heavy load bearing vest with sling", "str_pl": "heavy load bearing vests with slings" },
+    "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure.",
+    "use_action": [ { "type": "holster" }, { "type": "attach_molle", "size": 14 }, { "type": "detach_molle" } ],
+    "weight": "2300 g",
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_front", "torso_waist" ],
+        "volume_encumber_modifier": 0.2
+      }
+    ],
+    "pocket_data": [
+      {
+        "description": "Rifle sling.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1000 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
+        "//": "volume encumber set high since the whole vest is already scaled. This equals .4 overall",
+        "volume_encumber_modifier": 2,
+        "moves": 30
+      }
+    ]
+  },
+  {
+    "id": "heavy_load_bearing_vest_breacher",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "copy-from": "heavy_load_bearing_vest",
+    "name": { "str": "breacher load bearing vest" },
+    "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure as well as a set of strong magnets already attached to the torso and waist MOLLE webbing designed to keep an additional weapon, traditionally a breaching shotgun secure.",
+    "use_action": [ { "type": "holster" }, { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
+    "weight": "2900 g",
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_front", "torso_waist" ],
+        "volume_encumber_modifier": 0.2
+      }
+    ],
+    "pocket_data": [
+      {
+        "description": "Rifle sling.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1000 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
+        "//": "volume encumber set high since the whole vest is already scaled. This equals .4 overall",
+        "volume_encumber_modifier": 2,
+        "moves": 30
+      },
+      {
+        "description": "Breaching shotgun magnets.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1 L",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "8200 g",
+        "min_item_length": "45 cm",
+        "max_item_length": "60 cm",
+        "//": "volume encumber set high since the whole vest is already scaled. This equals .4 overall",
+        "volume_encumber_modifier": 2,
+        "moves": 60
       }
     ]
   },
@@ -618,12 +792,12 @@
         "max_contains_weight": "500 g",
         "max_item_length": "13 cm",
         "moves": 40,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "gadget_pouch",
@@ -647,12 +821,12 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "15 cm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "h2o_pouch",
@@ -676,7 +850,7 @@
         "max_contains_weight": "5 kg",
         "max_item_length": "254 mm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -684,12 +858,41 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "165 mm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "canteen_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "name": { "str": "canteen pouch", "str_pl": "canteen pouches" },
+    "description": "A pouch designed to keep your canteen accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "190 g",
+    "volume": "500 ml",
+    "price": 2000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1751 ml",
+        "max_contains_weight": "1800 g",
+        "max_item_length": "13 cm",
+        "moves": 40,
+        "volume_encumber_modifier": 0.2
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "tool_pouch",
@@ -713,7 +916,7 @@
         "max_contains_weight": "8 kg",
         "max_item_length": "305 mm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
@@ -743,12 +946,12 @@
         "max_contains_weight": "500 g",
         "max_item_length": "37 cm",
         "moves": 40,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "tactical_holster",
@@ -814,7 +1017,7 @@
         "//": "gas masks don't seem to have lengths currently",
         "max_item_length": "30 cm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -823,12 +1026,12 @@
         "max_contains_weight": "500 g",
         "max_item_length": "8 cm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "tactical_grenade_pouch",
@@ -852,12 +1055,12 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "triple_stacker_pouch",
@@ -882,7 +1085,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -891,7 +1094,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -900,7 +1103,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -909,7 +1112,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -918,7 +1121,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -927,7 +1130,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
@@ -940,7 +1143,7 @@
     "type": "ARMOR",
     "//": " stats taken from: https://condoroutdoor.com/ma12-shotgun-ammo-pouch.html",
     "name": { "str": "tactical shotshell pouch", "str_pl": "tactical shotshell pouches" },
-    "description": "A pouch designed to hold shotgun shells or 308 rounds keeping them accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "description": "A pouch designed to hold shotgun shells or .308 rounds keeping them accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
     "weight": "300 g",
     "volume": "250 ml",
     "price": 2000,
@@ -951,8 +1154,8 @@
     "color": "dark_gray",
     "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "20x66mm": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "xlkevlar",
@@ -971,7 +1174,7 @@
     "symbol": "[",
     "color": "light_gray",
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 4.4,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

@@ -256,12 +256,16 @@ enum action_id : int {
     ACTION_FACTIONS,
     /** Display morale effects screen */
     ACTION_MORALE,
+    /** Displays medical menu */
+    ACTION_MEDICAL,
     /** Display messages screen */
     ACTION_MESSAGES,
     /** Display help screen */
     ACTION_HELP,
     /** Display Diary window*/
     ACTION_DIARY,
+    /** Open body status menu **/
+    ACTION_BODYSTATUS,
     /** Display main menu */
     ACTION_MAIN_MENU,
     /** Display keybindings list */

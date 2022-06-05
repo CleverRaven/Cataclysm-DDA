@@ -10,7 +10,7 @@
     "price_postapoc": 100,
     "bashing": 2,
     "cutting": 6,
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "battery" ],
@@ -19,7 +19,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "steel", "hardsteel", "titanium" ],
+        "materials": [ "steel", "lc_steel", "mc_steel", "hc_steel", "ch_steel", "qt_steel", "titanium" ],
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500

@@ -480,7 +480,14 @@
         { "item": "tac_helmet", "x": 42, "y": 65, "chance": 75, "repeat": [ 25, 50 ] },
         { "item": "gloves_tactical", "x": 41, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "kevlar", "x": 40, "y": 65, "chance": 75, "repeat": [ 50, 100 ] },
-        { "item": "ballistic_vest_esapi", "x": [ 38, 39 ], "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
+        {
+          "item": "ballistic_vest_esapi",
+          "variant": "us_ballistic_vest",
+          "x": [ 38, 39 ],
+          "y": 65,
+          "chance": 75,
+          "repeat": [ 50, 150 ]
+        },
         { "item": "elbow_pads", "x": 37, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "knee_pads", "x": 36, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "light_disposable_cell", "x": 46, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
@@ -791,6 +798,7 @@
         { "item": "m240", "x": 20, "y": 9, "chance": 75, "repeat": 4 },
         { "item": "mossberg_930", "variant": "m1014", "x": 20, "y": 10, "chance": 75, "repeat": 10 },
         { "item": "mossberg_590", "x": 20, "y": 10, "chance": 75, "repeat": 8 },
+        { "item": "m26_mass_standalone", "x": 20, "y": 10, "chance": 10, "repeat": 4 },
         { "item": "m2010", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 2 },
         { "item": "m110a1", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 8 },
         { "item": "m2010mag", "x": 20, "y": 12, "chance": 75, "repeat": 10 },
@@ -1125,10 +1133,7 @@
         "$": [ { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 5 ] } ],
         "O": [ { "item": "mil_base_books", "chance": 30, "repeat": [ 1, 5 ] } ],
         "Y": [ { "item": "mil_base_coats", "chance": 25, "repeat": [ 1, 2 ] } ],
-        "E": [
-          { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] },
-          { "item": "bionics_mil", "chance": 50, "repeat": [ 1, 3 ] }
-        ],
+        "E": [ { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] } ],
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },

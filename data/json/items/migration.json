@@ -1564,6 +1564,101 @@
     "replace": "full_barrel_bomb"
   },
   {
+    "id": "lo_q_crude_oil",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "hi_q_crude_oil",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "lo_q_crude_oil_filtered",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "hi_q_crude_oil_filtered",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "lo_q_crude_oil_ethanol",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "hi_q_crude_oil_ethanol",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "lo_q_crude_oil_ethanol_filtered",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "hi_q_crude_oil_ethanol_filtered",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "hi_q_distillate_heads",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "hi_q_distillate_tails",
+    "type": "MIGRATION",
+    "replace": "hi_q_distillate"
+  },
+  {
+    "id": "hi_q_distillate_cart",
+    "type": "MIGRATION",
+    "replace": "hi_q_shatter"
+  },
+  {
+    "id": "vac_oven_small_done",
+    "type": "MIGRATION",
+    "replace": "vac_oven_small"
+  },
+  {
+    "id": "vac_oven_small_full",
+    "type": "MIGRATION",
+    "replace": "vac_oven_small"
+  },
+  {
+    "id": "vac_oven_small_on",
+    "type": "MIGRATION",
+    "replace": "vac_oven_small"
+  },
+  {
+    "id": "vac_pump_on",
+    "type": "MIGRATION",
+    "replace": "vac_pump"
+  },
+  {
+    "id": "closed_loop_extractor_small_on",
+    "type": "MIGRATION",
+    "replace": "closed_loop_extractor_small"
+  },
+  {
+    "id": "closed_loop_extractor_large_on",
+    "type": "MIGRATION",
+    "replace": "closed_loop_extractor_large"
+  },
+  {
+    "id": "dab_pen",
+    "type": "MIGRATION",
+    "replace": "advanced_ecig"
+  },
+  {
+    "id": "dab_pen_on",
+    "type": "MIGRATION",
+    "replace": "advanced_ecig"
+  },
+  {
     "id": "manual_computers",
     "type": "MIGRATION",
     "replace": "manual_computer"
@@ -1607,5 +1702,78 @@
     "id": "hickory_nut_unshelled",
     "type": "MIGRATION",
     "replace": "hickory_nut_shelled"
+  },
+  {
+    "id": "bthk_stock",
+    "type": "MIGRATION",
+    "replace": "adjustable_stock"
+  },
+  {
+    "id": "folding_bthk_stock",
+    "type": "MIGRATION",
+    "replace": "high_end_folding_stock"
+  },
+  {
+    "id": "sourdough_young",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ { "id": "sourdough_young_uncovered", "count": 1 } ]
+  },
+  {
+    "id": "sourdough_split",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ { "id": "sourdough_split_uncovered", "count": 1 } ]
+  },
+  {
+    "id": "sourdough_starter",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ { "id": "sourdough_starter_uncovered", "count": 1 } ]
+  },
+  {
+    "id": "folding_poncho_on",
+    "type": "MIGRATION",
+    "replace": "folding_poncho"
+  },
+  {
+    "id": "emer_blanket_on",
+    "type": "MIGRATION",
+    "replace": "emer_blanket"
+  },
+  {
+    "id": "tire_iron",
+    "type": "MIGRATION",
+    "replace": "lug_wrench"
+  },
+  {
+    "id": "reptile_sample",
+    "type": "MIGRATION",
+    "replace": "lizard_sample"
+  },
+  {
+    "id": "molerat_sample",
+    "type": "MIGRATION",
+    "replace": "troglobite_sample"
+  },
+  {
+    "id": "bovine_sample",
+    "type": "MIGRATION",
+    "replace": "cattle_sample"
+  },
+  {
+    "id": "snail_sample",
+    "type": "MIGRATION",
+    "replace": "gastropod_sample"
+  },
+  {
+    "id": "frog_sample",
+    "type": "MIGRATION",
+    "replace": "batrachian_sample"
+  },
+  {
+    "id": "rabbit_foot",
+    "type": "MIGRATION",
+    "replace": "rabbit_sample"
   }
 ]

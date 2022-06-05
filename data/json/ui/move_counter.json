@@ -1,9 +1,0 @@
-[
-  {
-    "id": "move_num",
-    "type": "widget",
-    "label": "Move count",
-    "var": "move",
-    "style": "number"
-  }
-]

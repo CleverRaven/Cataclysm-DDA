@@ -12,6 +12,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "item_group.h"
+#include "itype.h"
 #include "json.h"
 #include "mutation.h"
 #include "rng.h"
@@ -234,6 +235,7 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     mandatory( jo, false, "group", id );
     optional( jo, false, "trust", trust, 0 );
     optional( jo, false, "strict", strict, false );
+    optional( jo, false, "rigid", rigid, false );
 }
 
 void npc_class::load( const JsonObject &jo, const std::string & )
@@ -258,6 +260,8 @@ void npc_class::load( const JsonObject &jo, const std::string & )
             jo.throw_error( string_format( "invalid format for shopkeeper_item_group in npc class %s", name ) );
         }
     }
+    optional( jo, was_loaded, SHOPKEEPER_CONSUMPTION_RATES, shop_cons_rates_id,
+              shopkeeper_cons_rates_id::NULL_ID() );
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
@@ -275,6 +279,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
+    optional( jo, was_loaded, "sells_belongings", sells_belongings );
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },
@@ -373,6 +378,15 @@ std::string npc_class::get_job_description() const
 const std::vector<shopkeeper_item_group> &npc_class::get_shopkeeper_items() const
 {
     return shop_item_groups;
+}
+
+const shopkeeper_cons_rates &npc_class::get_shopkeeper_cons_rates() const
+{
+    if( shop_cons_rates_id.is_null() ) {
+        shopkeeper_cons_rates static const null_rates;
+        return null_rates;
+    }
+    return shop_cons_rates_id.obj();
 }
 
 int npc_class::roll_strength() const

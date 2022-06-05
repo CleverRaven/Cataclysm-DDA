@@ -1,5 +1,6 @@
 name: Feature Request ✨
-description: Suggest an idea or this project
+description: Suggest an idea for this project
+labels: ["<Suggestion / Discussion>"]
 
 body:
   - type: markdown

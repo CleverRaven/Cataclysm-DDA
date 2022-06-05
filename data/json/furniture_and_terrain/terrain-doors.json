@@ -1708,6 +1708,71 @@
   },
   {
     "type": "terrain",
+    "id": "t_door_grass_curtain_c",
+    "name": "closed grass curtain",
+    "description": "Grass yarn sheets acting as a door.  Could be easily taken down for supplies or placed somewhere else.",
+    "symbol": "+",
+    "looks_like": "t_door_curtain_c",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL", "EASY_DECONSTRUCT" ],
+    "open": "t_door_grass_curtain_o",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick", "count": 1 }, { "item": "grass_sheet", "count": 2 }, { "item": "cordage_6", "count": 6 } ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 4,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 6,
+      "sound_fail_vol": 3,
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "grass_sheet", "count": [ 0, 1 ] },
+        { "item": "grass_yarn", "count": [ 2, 5 ] },
+        { "item": "stick", "count": 1 },
+        { "item": "cordage_6", "count": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_grass_curtain_o",
+    "name": "open grass curtain",
+    "description": "Grass yarn sheets acting as a door.  Could be easily taken down for supplies or placed somewhere else.  These curtains are open, bundled and tied next to the doorway.",
+    "symbol": "'",
+    "looks_like": "t_door_curtain_o",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick", "count": 1 }, { "item": "grass_sheet", "count": 2 }, { "item": "cordage_6", "count": 6 } ]
+    },
+    "close": "t_door_grass_curtain_c",
+    "bash": {
+      "str_min": 1,
+      "str_max": 4,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 5,
+      "sound_fail_vol": 2,
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "grass_sheet", "count": [ 0, 1 ] },
+        { "item": "grass_yarn", "count": [ 2, 5 ] },
+        { "item": "stick", "count": 1 },
+        { "item": "cordage_6", "count": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_door_makeshift_o",
     "name": "open makeshift door",
     "description": "A makeshift screen consisting of planks bound together with rope hanging from the top of the doorway.  Could be easily taken down and re-purposed.  The planks have been rolled up and attached to the top of the doorway, allowing free movement through.",
@@ -2402,6 +2467,22 @@
         { "item": "hinge", "count": [ 1, 3 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_interior_locked",
+    "copy-from": "t_door_metal_locked",
+    "looks_like": "t_door_metal_pickable",
+    "//": "Same as t_door_metal_pickable, but without OPENCLOSE_INSIDE. Due the inheritance issues cannot copy from the t_door_metal_pickable, delete doesn't work with flags",
+    "lockpick_result": "t_door_metal_c",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
+    "symbol": "+",
+    "color": "cyan",
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ]
   },
   {
     "type": "terrain",

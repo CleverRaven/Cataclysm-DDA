@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "item.h"
@@ -30,6 +31,7 @@ struct bionic_data {
     bionic_data();
 
     bionic_id id;
+    std::vector<std::pair<bionic_id, mod_id>> src;
 
     translation name;
     translation description;
@@ -43,6 +45,8 @@ struct bionic_data {
     units::energy power_over_time = 0_kJ;
     /** Power cost when the bionic's special effect is triggered */
     units::energy power_trigger = 0_kJ;
+    /** Amount of free energy the bionic generates each turn regardless of activation state*/
+    units::energy power_trickle = 0_kJ;
     /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
@@ -93,7 +97,16 @@ struct bionic_data {
 
     // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
     social_modifiers social_mods;
-
+    /** whether to immediately close ui when activating - used for targeted bionics */
+    bool activated_close_ui;
+    /** whether to immediately close ui when deactivating - used for targeted bionics */
+    bool deactivated_close_ui;
+    /** effect_on_conditions triggered when this bionic is activated */
+    std::vector<effect_on_condition_id> activated_eocs;
+    /** effect_on_conditions triggered while this bionic is active */
+    std::vector<effect_on_condition_id> processed_eocs;
+    /** effect_on_conditions triggered when this bionic is deactivated */
+    std::vector<effect_on_condition_id> deactivated_eocs;
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
 

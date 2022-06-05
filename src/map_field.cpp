@@ -84,9 +84,6 @@ static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
 
-static const mutation_category_id mutation_category_INSECT( "INSECT" );
-static const mutation_category_id mutation_category_SPIDER( "SPIDER" );
-
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -95,8 +92,10 @@ static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 
 using namespace map_field_processing;
 
@@ -1507,14 +1506,14 @@ void map::player_in_field( Character &you )
 
                 if( on_ground && total_damage > 0 ) {
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your body!" ),
-                                               _( "The acid burns <npcname>s body!" ) );
+                                               _( "The acid burns <npcname>'s body!" ) );
                 } else if( total_damage > 0 ) {
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your legs and feet!" ),
-                                               _( "The acid burns <npcname>s legs and feet!" ) );
+                                               _( "The acid burns <npcname>'s legs and feet!" ) );
                 } else if( on_ground ) {
-                    you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid" ) );
-                } else {
-                    you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid" ) );
+                    you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
+                } else if( !you.is_immune_field( fd_acid ) ) {
+                    you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid!" ) );
                 }
 
                 you.check_dead_state();
@@ -1725,12 +1724,7 @@ void map::player_in_field( Character &you )
                 // Bees will try to sting you in random body parts, up to 8 times.
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
                     bodypart_id bp = you.get_random_body_part();
-                    int sum_cover = 0;
-                    for( const item &i : you.worn ) {
-                        if( i.covers( bp ) ) {
-                            sum_cover += i.get_coverage( bp );
-                        }
-                    }
+                    int sum_cover = you.worn.get_coverage( bp );
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
                     // AND clothing on affected body part has low environmental protection value
                     if( ( you.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
@@ -1769,8 +1763,8 @@ void map::player_in_field( Character &you )
                                                        intensity * 1_minutes );
                     if( you.has_trait( trait_THRESH_MYCUS ) || you.has_trait( trait_THRESH_MARLOSS ) ||
                         ( ft == fd_insecticidal_gas &&
-                          ( you.get_highest_category() == mutation_category_INSECT ||
-                            you.get_highest_category() == mutation_category_SPIDER ) ) ) {
+                          ( you.has_trait( trait_THRESH_INSECT ) ||
+                            you.has_trait( trait_THRESH_SPIDER ) ) ) ) {
                         inhaled |= you.add_env_effect( effect_badpoison, bodypart_id( "mouth" ), 5, intensity * 1_minutes );
                         you.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         you.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );

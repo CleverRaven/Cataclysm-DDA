@@ -19,9 +19,9 @@ At the time of writing:
   [clang 6.0](https://packages.ubuntu.com/bionic/clang).
 * Debian stable is Buster, and [defaults to g++
   8.3](https://packages.debian.org/buster/g++).
-* Oldest [supported Fedora](https://fedoraproject.org/wiki/Releases) is 33,
+* Oldest [supported Fedora](https://fedoraproject.org/wiki/Releases) is 34,
   which uses [gcc
-  10.2](https://fedora.pkgs.org/33/fedora-x86_64/gcc-10.2.1-3.fc33.x86_64.rpm.html).
+  11.0](https://fedora.pkgs.org/34/fedora-x86_64/gcc-11.0.1-0.3.fc34.x86_64.rpm.html).
 * MSYS [offers gcc 10.2](https://packages.msys2.org/base).
 * Code::Blocks [offers g++
   8.1](https://www.codeblocks.org/downloads/binaries/).

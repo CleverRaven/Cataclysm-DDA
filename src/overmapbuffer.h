@@ -191,6 +191,8 @@ class overmapbuffer
         bool has_horde( const tripoint_abs_omt &p );
         int get_horde_size( const tripoint_abs_omt &p );
         std::vector<om_vehicle> get_vehicle( const tripoint_abs_omt &p );
+        std::string get_vehicle_ter_sym( const tripoint_abs_omt &omt );
+        std::string get_vehicle_tile_id( const tripoint_abs_omt &omt );
         const regional_settings &get_settings( const tripoint_abs_omt &p );
         /**
          * Accessors for horde introspection into overmaps.
@@ -281,6 +283,7 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        shared_ptr_fast<npc> find_npc_by_unique_id( std::string unique_id );
         /**
          * Get all NPCs active on the overmap
          */

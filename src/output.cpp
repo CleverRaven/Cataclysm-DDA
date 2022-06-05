@@ -23,6 +23,7 @@
 #include "color.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
+#include "game_constants.h"
 #include "input.h"
 #include "item.h"
 #include "line.h"
@@ -35,6 +36,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
+#include "unicode.h"
 #include "units_utility.h"
 #include "wcwidth.h"
 
@@ -390,7 +392,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ui.on_screen_resize( screen_resize_cb );
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_border( w, BORDER_COLOR, title, c_black_white );
+        draw_border( w, BORDER_COLOR, title );
         for( int line = beg_line, pos_y = text2.y; line < std::min<int>( beg_line + text_h, lines.size() );
              ++line, ++pos_y ) {
             nc_color dummy = c_white;
@@ -1207,17 +1209,10 @@ std::string trim_trailing_punctuations( const std::string &s )
 using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wstr = utf8_to_wstr( s );
-        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
-        return wstr_to_utf8( wstr );
-    }
-    std::string res;
-    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
-        return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
-    } );
-    return res;
+    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    std::wstring wstr = utf8_to_wstr( s );
+    f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+    return wstr_to_utf8( wstr );
 }
 
 // find the position of each non-printing tag in a string
@@ -1284,7 +1279,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
 
         x += mk_wcwidth( uc );
 
-        if( uc == split || uc >= 0x2E80 ) { // param split (default ' ') or CJK characters
+        if( uc == split || is_cjk_or_emoji( uc ) ) {
             if( x <= width ) {
                 lastwb = j; // break after character
             } else {
@@ -1320,14 +1315,20 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
 
 void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected )
 {
-    int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
+    int iOffsetXRight = iOffsetX + utf8_width( sText, true ) + 1;
 
     mvwputch( w, point( iOffsetX, 0 ),      c_light_gray, LINE_OXXO ); // |^
     mvwputch( w, point( iOffsetXRight, 0 ), c_light_gray, LINE_OOXX ); // ^|
     mvwputch( w, point( iOffsetX, 1 ),      c_light_gray, LINE_XOXO ); // |
     mvwputch( w, point( iOffsetXRight, 1 ), c_light_gray, LINE_XOXO ); // |
 
-    mvwprintz( w, point( iOffsetX + 1, 1 ), bSelected ? h_white : c_light_gray, sText );
+    nc_color selected = h_white;
+    nc_color not_selected = c_light_gray;
+    if( bSelected ) {
+        print_colored_text( w, point( iOffsetX + 1, 1 ), selected, selected, sText );
+    } else {
+        print_colored_text( w, point( iOffsetX + 1, 1 ), not_selected, not_selected, sText );
+    }
 
     for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
         mvwputch( w, point( i, 0 ), c_light_gray, LINE_OXOX );  // -
@@ -1393,7 +1394,7 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
     for( size_t i = 0; i < tab_texts.size(); ++i ) {
         const std::string &tab_text = tab_texts[i];
         draw_tab( w, x, tab_text, i == current_tab );
-        x += utf8_width( tab_text ) + tab_step;
+        x += utf8_width( tab_text, true ) + tab_step;
     }
 }
 
@@ -1403,6 +1404,114 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
     auto it = std::find( tab_texts.begin(), tab_texts.end(), current_tab );
     cata_assert( it != tab_texts.end() );
     draw_tabs( w, tab_texts, it - tab_texts.begin() );
+}
+
+best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, const int &selected,
+                                const int &allowed_size, const int &spacer_size, const int &continuation_marker_size )
+{
+    int best_fit_length = 0;
+    best_fit returnVal;
+    returnVal.start = 0;
+    returnVal.length = 0;
+    int adjusted_allowed_size = allowed_size;
+    for( int num_fitting = static_cast<int>( size_of_items_to_fit.size() ); num_fitting > 0;
+         --num_fitting ) {
+        //Iterate through all possible places the list can start
+        for( int start_index = 0;
+             start_index <= static_cast<int>( size_of_items_to_fit.size() ) - num_fitting; ++start_index ) {
+            int space_required = 0;
+            int cont_marker_allowance = 0;
+            bool selected_response_included = false;
+            for( int i = start_index; i < ( num_fitting + start_index ); ++i ) {
+                space_required += size_of_items_to_fit[i] + spacer_size;
+                if( i == selected ) {
+                    selected_response_included = true;
+                }
+            }
+            //Check if this selection fits, accounting for an indicator that the list continues at the front if necessary
+            if( start_index != 0 &&
+                start_index + num_fitting != static_cast<int>( size_of_items_to_fit.size() ) ) {
+                cont_marker_allowance = spacer_size + continuation_marker_size;
+            }
+            if( space_required < ( adjusted_allowed_size - cont_marker_allowance ) &&
+                selected_response_included ) {
+                if( space_required > best_fit_length ) {
+                    returnVal.start = start_index;
+                    returnVal.length = num_fitting;
+                    best_fit_length = space_required;
+                }
+            }
+        }
+        //If a fitting option has been found, don't move to fewer entries in the list
+        if( best_fit_length > 0 ) {
+            break;
+            //If not everything fits, need at least one continuation indicator
+        } else if( num_fitting == static_cast<int>( size_of_items_to_fit.size() ) ) {
+            adjusted_allowed_size -= spacer_size + continuation_marker_size;
+        }
+    }
+    return returnVal;
+}
+
+std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab,
+        const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list, bool translate )
+{
+    std::pair<std::vector<std::string>, size_t> placeholder_result;
+    placeholder_result = fit_tabs_to_width( max_width, current_tab, tab_names,
+                                            original_tab_list, translate );
+    return placeholder_result.first;
+}
+
+std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list,  bool translate )
+{
+    const int tab_step = 3; // Step between tabs, two for tab border
+    size_t available_width = max_width - 1;
+    std::pair<std::vector<std::string>, size_t> tab_list_and_index;
+    std::vector<int> tab_width;
+    tab_width.resize( original_tab_list.size() );
+
+    for( size_t i = 0; i < original_tab_list.size(); ++i ) {
+        auto tab_name_it = tab_names.find( original_tab_list[i] );
+        cata_assert( tab_name_it != tab_names.end() );
+        tab_width[i] = utf8_width( ( *tab_name_it ).second, true );
+        if( original_tab_list[i] == current_tab ) {
+            tab_list_and_index.second = i;
+        }
+    }
+
+    best_fit tabs_to_print = find_best_fit_in_size( tab_width, tab_list_and_index.second,
+                             available_width, tab_step, 1 );
+
+    //Assemble list to return
+    if( tabs_to_print.start != 0 ) { //Signify that the list continues left
+        tab_list_and_index.first.emplace_back( "<" );
+    }
+    for( int i = tabs_to_print.start; i < static_cast<int>( original_tab_list.size() ); ++i ) {
+        if( i < tabs_to_print.start + tabs_to_print.length ) {
+            //Update tab_list_and_index to suit new list:
+            if( i == static_cast<int>( tab_list_and_index.second ) ) {
+                tab_list_and_index.second = tab_list_and_index.first.size();
+            }
+            //Assemble the string vector
+            if( translate ) {
+                auto tab_name_it = tab_names.find( original_tab_list[i] );
+                cata_assert( tab_name_it != tab_names.end() );
+                tab_list_and_index.first.push_back( ( *tab_name_it ).second );
+            } else {
+                tab_list_and_index.first.push_back( original_tab_list[i] );
+            }
+        }
+    }
+    if( tabs_to_print.start + tabs_to_print.length != static_cast<int>( original_tab_list.size() ) ) {
+        //Signify that the list continues right
+        tab_list_and_index.first.emplace_back( ">" );
+    }
+
+    return tab_list_and_index;
 }
 
 /**
@@ -1846,17 +1955,66 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
+void replace_keybind_tag( std::string &input )
+{
+    std::string keybind_tag_start = "<keybind:";
+    size_t keybind_length = keybind_tag_start.length();
+    std::string keybind_tag_end = ">";
+
+    size_t pos = input.find( keybind_tag_start );
+    while( pos != std::string::npos ) {
+        size_t pos_end = input.find( keybind_tag_end, pos );
+        if( pos_end == std::string::npos ) {
+            debugmsg( "Mismatched keybind tag in string: '%s'", input );
+            break;
+        }
+        size_t pos_keybind = pos + keybind_length;
+        std::string keybind_full = input.substr( pos_keybind, pos_end - pos_keybind );
+        std::string keybind = keybind_full;
+
+        size_t pos_category_split = keybind_full.find( ':' );
+
+        std::string category = "DEFAULTMODE";
+        if( pos_category_split != std::string::npos ) {
+            category = keybind_full.substr( 0, pos_category_split );
+            keybind = keybind_full.substr( pos_category_split + 1 );
+        }
+        input_context ctxt( category );
+
+        std::string keybind_desc;
+        std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
+        if( keys.empty() ) { // Display description for unbound keys
+            keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
+
+            if( !ctxt.is_registered_action( keybind ) ) {
+                debugmsg( "Invalid/Missing <keybind>: '%s'", keybind_full );
+            }
+        } else {
+            keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
+                return colorize( '\'' + k.long_description() + '\'', c_yellow );
+            }, enumeration_conjunction::or_ );
+        }
+        std::string to_replace = string_format( "%s%s%s", keybind_tag_start, keybind_full,
+                                                keybind_tag_end );
+        replace_substring( input, to_replace, keybind_desc, true );
+
+        pos = input.find( keybind_tag_start );
+    }
+}
+
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all )
 {
-    if( all ) {
-        while( input.find( substring ) != std::string::npos ) {
-            replace_substring( input, substring, replacement, false );
+    std::size_t find_after = 0;
+    std::size_t pos = 0;
+    const std::size_t pattern_length = substring.length();
+    const std::size_t replacement_length = replacement.length();
+    while( ( pos = input.find( substring, find_after ) ) != std::string::npos ) {
+        input.replace( pos, pattern_length, replacement );
+        find_after = pos + replacement_length;
+        if( !all ) {
+            break;
         }
-    } else {
-        size_t len = substring.length();
-        size_t offset = input.find( substring );
-        input.replace( offset, len, replacement );
     }
 }
 
@@ -2544,7 +2702,7 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
-    return width < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : width;
+    return width < EVEN_MINIMUM_TERM_WIDTH ? EVEN_MINIMUM_TERM_WIDTH : width;
 }
 
 int get_terminal_height()

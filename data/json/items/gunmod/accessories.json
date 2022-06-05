@@ -41,12 +41,12 @@
     "id": "bow_stabilizer_set",
     "type": "GUNMOD",
     "name": { "str": "bow stabilizer system" },
-    "description": "A set of three stabilizing, dampened rods with a spring-loaded bracket to mount on modern bows.  Takes extra time to set up when wielding, but doesn't take much extra space.",
+    "description": "A set of stabilizing rods with dampeners and an adjustable mount.  This system will significantly reduce shaking at full draw.",
     "weight": "300 g",
     "volume": "500 ml",
     "price": 15000,
     "price_postapoc": 750,
-    "install_time": "20 m",
+    "install_time": "2 m",
     "material": [ "aluminum", "plastic" ],
     "symbol": ":",
     "color": "brown",
@@ -54,8 +54,7 @@
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -200,
     "handling_modifier": 6,
-    "min_skills": [ [ "archery", 2 ] ],
-    "flags": [ "NEEDS_UNFOLD" ]
+    "min_skills": [ [ "archery", 2 ] ]
   },
   {
     "id": "bow_silencer",

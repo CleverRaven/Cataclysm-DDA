@@ -91,7 +91,7 @@ struct map_shoot_info {
     int reduce_dmg_max_laser = 0;
     // Damage required to have a chance to destroy
     int destroy_dmg_min = 0;
-    // Damage required to guarentee destruction
+    // Damage required to guarantee destruction
     int destroy_dmg_max = 0;
     // Are lasers incapable of destroying the object (defaults to false)
     bool no_laser_destroy = false;
@@ -283,6 +283,7 @@ enum class ter_furn_flag : int {
     TFLAG_NO_PICKUP_ON_EXAMINE,
     TFLAG_RUBBLE,
     TFLAG_DIGGABLE_CAN_DEEPEN,
+    TFLAG_PIT_FILLABLE,
     TFLAG_DIFFICULT_Z,
     TFLAG_ALIGN_WORKBENCH,
     TFLAG_NO_SPOIL,
@@ -296,6 +297,8 @@ enum class ter_furn_flag : int {
     TFLAG_NO_SELF_CONNECT,
     TFLAG_BURROWABLE,
     TFLAG_MURKY,
+    TFLAG_AMMOTYPE_RELOAD,
+    TFLAG_TRANSPARENT_FLOOR,
 
     NUM_TFLAG_FLAGS
 };

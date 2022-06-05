@@ -57,6 +57,56 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_mastodon",
+    "name": [ "Mastodon Mutation", "Mastodon Transformation", "Mastodon Metamorphosis" ],
+    "desc": [
+      "You consumed mastodon mutagen.",
+      "You consumed a large amount of mastodon mutagen.",
+      "You consumed a life-changing amount of mastodon mutagen."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Mastodon Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_migo",
+    "name": [ "Mi-go Mutation", "Mi-go Transformation", "Mi-go Metamorphosis" ],
+    "desc": [
+      "You consumed mi-go mutagen.",
+      "You consumed a large amount of mi-go mutagen.",
+      "You consumed a life-changing amount of mi-go mutagen."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Mi-go Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "foamcrete_slow",
     "name": [
       "Slowed",
@@ -91,6 +141,23 @@
     "int_decay_tick": 500,
     "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
     "scaling_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "synth_blood_perf",
+    "name": [ "Synthblood Comedown", "Synthblood" ],
+    "desc": [
+      "As the synthetic blood decays and is purged throughout your bloodstream, you begin to feel minor symptoms of altitude sickness, making you sluggish and short of breath.",
+      "Your breaths instinctively grows more shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
+    ],
+    "rating": "good",
+    "int_dur_factor": "8 h",
+    "max_intensity": 2,
+    "max_duration": "24 h",
+    "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ 15 ], "stamina_min": [ 35 ], "str_mod": [ 1 ], "dex_mod": [ 1 ] },
+    "blood_analysis_description": "Synthetic blood",
     "show_in_info": true
   },
   {

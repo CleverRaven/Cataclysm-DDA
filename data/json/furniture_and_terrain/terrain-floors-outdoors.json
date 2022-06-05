@@ -61,9 +61,9 @@
     "bash": {
       "str_min": 2,
       "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "ter_set": "t_clay",
       "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
     }
   },
@@ -81,9 +81,9 @@
     "bash": {
       "str_min": 2,
       "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "ter_set": "t_sand",
       "items": [ { "item": "material_sand", "charges": [ 300, 600 ] } ]
     }
   },
@@ -287,6 +287,30 @@
   },
   {
     "type": "terrain",
+    "id": "t_strconc_floor_no_roof",
+    "name": "reinforced concrete floor",
+    "description": "Extremely resilient floor made from carefully placed rebar and poured concrete, capable of providing protection from the elements.  As for the matching roof, it still requires supporting walls, otherwise it may very well cave in.",
+    "looks_like": "t_strconc_floor",
+    "symbol": ".",
+    "color": "cyan",
+    "connects_to": "CONCRETE",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 150,
+      "str_max": 400,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "scrap", "count": [ 10, 12 ] },
+        { "item": "rebar", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_concrete",
     "name": "concrete",
     "description": "A newer segment of poured concrete with surface finishes for aesthetics and resistance to freeze-thaw cycles.",
@@ -441,5 +465,71 @@
     "move_cost": 0,
     "roof": "t_rock_floor",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_elevator_no_roof",
+    "roof": "t_null",
+    "symbol": ".",
+    "color": "dark_gray",
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "copy-from": "t_elevator"
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof",
+    "name": "deck coating",
+    "description": "Thick metal coating of a hull, covered with a military grade epoxy mix.  Used for runways, and can't be melted by jet engine nozzles.",
+    "symbol": ".",
+    "looks_like": "t_pavement",
+    "color": "dark_gray",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 500,
+      "str_max": 1000,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof_y",
+    "name": "yellow deck coating",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in yellow color.",
+    "copy-from": "t_deck_coating_no_roof",
+    "looks_like": "t_pavement_y",
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "symbol": ".",
+    "color": "yellow"
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof_r",
+    "name": "red deck coating",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in red color.",
+    "copy-from": "t_deck_coating_no_roof",
+    "looks_like": " ",
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "symbol": ".",
+    "color": "red"
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof_w",
+    "name": "white deck coating",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in white color.",
+    "copy-from": "t_deck_coating_no_roof",
+    "looks_like": " ",
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "symbol": ".",
+    "color": "white"
   }
 ]

@@ -71,6 +71,11 @@
   },
   {
     "type": "weapon_category",
+    "id": "SPEARS",
+    "name": "SPEARS"
+  },
+  {
+    "type": "weapon_category",
     "id": "POLEARMS",
     "name": "POLEARMS"
   },
@@ -118,5 +123,10 @@
     "type": "weapon_category",
     "id": "GREAT_AXES",
     "name": "GREAT AXES"
+  },
+  {
+    "type": "weapon_category",
+    "id": "HAND_AXES",
+    "name": "HAND AXES"
   }
 ]

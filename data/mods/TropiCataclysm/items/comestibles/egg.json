@@ -15,7 +15,7 @@
     "calories": 266,
     "volume": "125 ml",
     "weight": "144 g",
-    "vitamins": [ [ "vitA", 30 ], [ "calcium", 9 ], [ "iron", 29 ], [ "vitB", 306 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE"
   },
   {
@@ -26,7 +26,7 @@
     "calories": 300,
     "volume": "125 ml",
     "weight": "144 g",
-    "vitamins": [ [ "vitA", 30 ], [ "calcium", 9 ], [ "iron", 29 ], [ "vitB", 306 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE"
   },
   {
@@ -45,6 +45,142 @@
     "weight": "600 g",
     "calories": 1000,
     "rot_spawn": "GROUP_EGG_RHEA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_hummingbird",
+    "name": "hummingbird egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_HUMMINGBIRD",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_woodpecker",
+    "name": "woodpecker egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_WOODPECKER",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_toucan",
+    "name": "toucan egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_TOUCAN",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_parrot",
+    "name": "parrot egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_PARROT",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_budgerigar",
+    "name": "budgerigar egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_BUDGERIGAR",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cockatoo",
+    "name": "cockatoo egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_COCKATOO",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_macaw",
+    "name": "macaw egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_MACAW",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tinamou",
+    "name": "tinamou egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_TINAMOU",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_seriema",
+    "name": "seriema egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_SERIEMA",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chachalaca",
+    "name": "chachalaca egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_CHACHALACA",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_guan",
+    "name": "guan egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_GUAN",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_curassow",
+    "name": "curassow egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_CURASSOW",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_flamingo",
+    "name": "flamingo egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_FLAMINGO",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_coot",
+    "name": "coot egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_COOT",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cormorant",
+    "name": "cormorant egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_CORMORANT",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moorhen",
+    "name": "moorhen egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_MOORHEN",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_grebe",
+    "name": "grebe egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_GREBE",
+    "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
@@ -132,7 +268,7 @@
     "type": "COMESTIBLE",
     "id": "egg_termite",
     "name": "termite egg",
-    "copy-from": "egg_insect",
+    "copy-from": "ant_egg",
     "description": "The small translucent egg of a termite.  It will grow quickly into a nymph if allowed.",
     "rot_spawn": "GROUP_EGG_TERMITE"
   },
@@ -143,6 +279,14 @@
     "copy-from": "egg_insect",
     "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
     "rot_spawn": "GROUP_EGG_BUTTERFLY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cicada",
+    "name": "cicada egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a cicada.  They are usually found near trees.",
+    "rot_spawn": "GROUP_EGG_CICADA"
   },
   {
     "type": "COMESTIBLE",
@@ -157,7 +301,7 @@
     "quench": 18,
     "healthy": -1,
     "calories": 35,
-    "description": "A strange green pod produced by a triffid.  Based on observation it may be the closest thing to triffid seeds( or eggs?).",
+    "description": "A strange green pod produced by a triffid.  Based on observation it may be the closest thing to triffid seeds (or eggs?).",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "veggy" ],
@@ -165,5 +309,34 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "rot_spawn": "GROUP_EGG_TRIFFID"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fungal_pod",
+    "name": { "str": "fungal pod" },
+    "weight": "278 g",
+    "color": "light_gray",
+    "spoils_in": "3 days 8 hours",
+    "//": "Copied from Fungal Fluid Sac which is also based on Wild Vegetables.",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "quench": 18,
+    "healthy": -1,
+    "calories": 35,
+    "description": "A strange gray pod that was dropped by one of the giant fungus.  It may be the closest thing to a fungal egg.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
+    "rot_spawn": "GROUP_EGG_FUNGUS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_fish_alien",
+    "name": "alien roe",
+    "copy-from": "egg_fish",
+    "description": "Common roe from an unknown alien creature."
   }
 ]

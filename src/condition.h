@@ -33,7 +33,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_flag", "npc_has_flag", "npc_has_class", "u_has_mission",
         "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
         "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
-        "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item",
+        "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item", "u_has_move_mode", "npc_has_move_mode",
         "u_has_items", "npc_has_items", "u_has_item_category", "npc_has_item_category",
         "u_has_bionics", "npc_has_bionics", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
         "u_at_om_location", "u_near_om_location", "npc_at_om_location", "npc_near_om_location", "npc_role_nearby", "npc_allies", "npc_service",
@@ -46,14 +46,22 @@ const std::unordered_set<std::string> complex_conds = { {
         "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
-        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int"
+        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int", "compare_string"
     }
 };
 } // namespace dialogue_data
+
+str_or_var get_str_or_var( const JsonValue &jv, std::string member, bool required = true,
+                           std::string default_val = "" );
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                            int default_val = 0 );
-duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+int_or_var_part get_int_or_var_part( const JsonValue &jv, std::string member, bool required = true,
+                                     int default_val = 0 );
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required = true,
                                      time_duration default_val = 0_seconds );
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, std::string member,
+        bool required = true,
+        time_duration default_val = 0_seconds );
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
                                 var_type type, talker *var_source );
 var_info read_var_info( JsonObject jo, bool require_default );
@@ -118,6 +126,7 @@ struct conditional_t {
         void set_need( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_at_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_near_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_move_mode( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_role_nearby( const JsonObject &jo );
         void set_npc_allies( const JsonObject &jo );
         void set_u_has_cash( const JsonObject &jo );
@@ -165,6 +174,7 @@ struct conditional_t {
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
+        void set_compare_string( const JsonObject &jo, const std::string &member );
         void set_compare_int( const JsonObject &jo, const std::string &member );
         static std::function<int( const T & )> get_get_int( const JsonObject &jo );
         static std::function<int( const T & )> get_get_int( std::string value, const JsonObject &jo );

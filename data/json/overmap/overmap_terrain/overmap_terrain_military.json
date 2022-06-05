@@ -59,6 +59,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "shelter_1b", "shelter_1b_vandal" ],
+    "name": "evac shelter B-19",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "shelter_2", "shelter_2_vandal" ],
     "name": "evac shelter C-41",
     "sym": "+",
@@ -84,6 +93,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "shelter_roof_1b" ],
+    "name": "evac shelter roof B-19",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "shelter_roof_2" ],
     "name": "evac shelter roof C-41",
     "sym": "+",
@@ -92,8 +109,35 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "shelter_under",
-    "name": "evac shelter",
+    "id": [ "shelter_under", "shelter_under_vandal" ],
+    "name": "evac shelter basement A-23",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_under_1b", "shelter_under_1b_vandal" ],
+    "name": "evac shelter basement B-19",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_under_2", "shelter_under_2_vandal" ],
+    "name": "evac shelter basement C-41",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_under_1", "shelter_under_1_vandal" ],
+    "name": "evac shelter basement B-05",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
@@ -208,6 +252,15 @@
     "see_cost": 2,
     "extras": "build",
     "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "outpost_roof", "outpost_cross_roof" ],
+    "name": "military outpost roof",
+    "sym": "M",
+    "color": "red",
+    "see_cost": 2,
+    "extras": "build"
   },
   {
     "type": "overmap_terrain",

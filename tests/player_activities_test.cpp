@@ -831,7 +831,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
         dummy.wield( it_hacksaw );
         REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw );
-        REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
+        REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
         return item_location{dummy, &dummy.get_wielded_item()};
     };
@@ -958,7 +958,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
             dummy.wield( it_hacksaw_elec );
             REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw_elec );
-            REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
+            REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
             item_location hacksaw_elec{ dummy, &dummy.get_wielded_item() };
 
@@ -1696,13 +1696,11 @@ static std::vector<player_activity> get_test_activities( avatar &dummy, map &m )
         player_activity( bookbinder_copy_activity_actor( bookbinder, recipe_water_clean ) ),
         player_activity( consume_activity_actor( item( itype_water_clean ) ) ),
         //player_activity( craft_activity_actor() ),
-        player_activity( dig_activity_actor( 1, p, "", north, 0, "" ) ),
-        player_activity( dig_channel_activity_actor( 1, p, "", north, 0, "" ) ),
         //player_activity( disable_activity_actor() ),
         //player_activity( disassemble_activity_actor( 1 ) ),
         player_activity( drop_activity_actor() ),
         //player_activity( ebooksave_activity_actor( loc, loc ) ),
-        player_activity( firstaid_activity_actor( 1, std::string() ) ),
+        player_activity( firstaid_activity_actor( 1, std::string(), dummy.getID() ) ),
         player_activity( forage_activity_actor( 1 ) ),
         player_activity( gunmod_remove_activity_actor( 1, loc, 0 ) ),
         player_activity( hacking_activity_actor() ),
@@ -1721,7 +1719,7 @@ static std::vector<player_activity> get_test_activities( avatar &dummy, map &m )
         player_activity( move_items_activity_actor( {}, {}, false, north ) ),
         player_activity( open_gate_activity_actor( 1, p ) ),
         //player_activity( oxytorch_activity_actor( p, loc ) ),
-        player_activity( pickup_activity_actor( {}, {}, cata::nullopt ) ),
+        player_activity( pickup_activity_actor( {}, {}, cata::nullopt, false ) ),
         player_activity( play_with_pet_activity_actor() ),
         //player_activity( prying_activity_actor( p, loc ) ),
         //player_activity( read_activity_actor() ),

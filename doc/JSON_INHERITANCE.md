@@ -101,12 +101,12 @@ To find out if a type supports copy-from, you need to know if it has implemented
 * Use this in [the search bar on github](https://github.com/CleverRaven/Cataclysm-DDA/search?q=%22gates%3A%3Aload%22&unscoped_q=%22gates%3A%3Aload%22&type=Code) to find the file that contains *gates::load* (Note, you cannot search for ":" in file finder.  The search will simply ignore this symbol.)
 * In the search results you find [gates.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/gates.cpp). open it.
 * In gates.cpp, find the generic_factory line, it looks like this: `generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );`
-* Since the generic_factory line is present, you can now conclude that it supports copy-from. 
+* Since the generic_factory line is present, you can now conclude that it supports copy-from.
 * If you don't find generic_factory present, it does not support copy-from, as is the case for type vitamin (repeat the above steps and find that [vitamin.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/vitamin.cpp) does not contain generic_factory)
 
 ## Guidelines
 
-Contributors are encouraged to not overuse copy-from, as it can decrease the human readability of the JSON.  Chained inheritance is especially likely to become unwieldy, essentially recreating the level of redundancy we'd like to eliminate. 
+Contributors are encouraged to not overuse copy-from, as it can decrease the human readability of the JSON.  Chained inheritance is especially likely to become unwieldy, essentially recreating the level of redundancy we'd like to eliminate.
 
 In general, there are two situations where copy-from should be used in the core game:
 

@@ -200,7 +200,13 @@
     "components": [
       [ [ "fur", 4 ] ],
       [ [ "cordage", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
+      [
+        [ "plastic_chunk", 10 ],
+        [ "bottle_plastic", 5 ],
+        [ "bottle_bathroom", 5 ],
+        [ "bottle_plastic_small", 10 ],
+        [ "jug_plastic", 1 ]
+      ]
     ]
   },
   {
@@ -219,7 +225,13 @@
     "components": [
       [ [ "faux_fur", 4 ] ],
       [ [ "cordage", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
+      [
+        [ "plastic_chunk", 10 ],
+        [ "bottle_plastic", 5 ],
+        [ "bottle_bathroom", 5 ],
+        [ "bottle_plastic_small", 10 ],
+        [ "jug_plastic", 1 ]
+      ]
     ]
   },
   {
@@ -284,7 +296,13 @@
     "components": [
       [ [ "leather", 4 ] ],
       [ [ "cordage", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
+      [
+        [ "plastic_chunk", 10 ],
+        [ "bottle_plastic", 5 ],
+        [ "bottle_bathroom", 5 ],
+        [ "bottle_plastic_small", 10 ],
+        [ "jug_plastic", 1 ]
+      ]
     ]
   },
   {
@@ -411,7 +429,7 @@
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "fur", 20 ], [ "tanned_pelt", 3 ] ] ]
+    "components": [ [ [ "rag", 10 ] ], [ [ "fur", 18 ], [ "tanned_pelt", 3 ], [ "wool_staple", 9 ] ] ]
   },
   {
     "result": "survivor_belt_notools",

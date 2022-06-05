@@ -20,6 +20,7 @@
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "json.h"
 #include "make_static.h"
 #include "options.h"
@@ -329,7 +330,20 @@ void Single_item_creator::replace_items( const std::unordered_map<itype_id, ityp
 
 bool Single_item_creator::has_item( const itype_id &itemid ) const
 {
-    return type == S_ITEM && itemid.str() == id;
+    switch( type ) {
+        case S_ITEM:
+            return itemid.str() == id;
+        case S_ITEM_GROUP: {
+            Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
+            if( isd != nullptr ) {
+                return isd->has_item( itemid );
+            }
+            return false;
+        }
+        case S_NONE:
+            return false;
+    }
+    return false;
 }
 
 std::set<const itype *> Single_item_creator::every_item() const
@@ -539,8 +553,23 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         Item_spawn_data::ItemList contentitems;
         contents->create( contentitems, new_item.birthday() );
         for( const item &it : contentitems ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( new_item, it );
-            new_item.put_in( it, pk_type );
+            // custom code for directly attaching pockets to MOLLE vests
+            const use_function *action = new_item.get_use( "attach_molle" );
+            if( action && it.can_attach_as_pocket() ) {
+                const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
+                                                  ( action->get_actor_ptr() );
+                const int vacancies = actor->size - new_item.get_contents().get_additional_space_used();
+                // intentionally might lose items here if they don't fit this is because it's
+                // impossible to know in a spawn group how much stuff could end up in it
+                // if you roll 3, 3 size items in a 3 slot vest you shouldn't get an error
+                // but you should get a vest with at least the first one
+                if( it.get_pocket_size() <= vacancies ) {
+                    new_item.get_contents().add_pocket( it );
+                }
+            } else {
+                const item_pocket::pocket_type pk_type = guess_pocket_for( new_item, it );
+                new_item.put_in( it, pk_type );
+            }
         }
         if( sealed ) {
             new_item.seal();

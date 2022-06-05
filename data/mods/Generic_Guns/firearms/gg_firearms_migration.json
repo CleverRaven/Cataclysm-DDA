@@ -112,7 +112,9 @@
       "usp_45",
       "fn57",
       "glock_17",
+      "ruger_57",
       "kpf9",
+      "p50",
       "walther_ppq_9mm",
       "hptc9",
       "cz75",
@@ -171,6 +173,7 @@
       "TDI",
       "hk_ump45",
       "fn_p90",
+      "fn_ps90",
       "needlegun",
       "rm2000_smg",
       "sten",
@@ -188,7 +191,7 @@
     "replace": "pistol_tiny_rifle"
   },
   {
-    "id": [ "marlin_9a", "kp32", "ruger_lcr_22", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk" ],
+    "id": [ "marlin_9a", "kp32", "ruger_lcr_22", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk", "pressin" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
   },
@@ -291,7 +294,9 @@
       "famas",
       "aksemi",
       "fs2000",
-      "robofac_gun"
+      "robofac_gun",
+      "obrez",
+      "mk47"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
@@ -345,11 +350,20 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_breacher",
       "remington_870_express",
       "streetsweeper"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"
+  },
+  {
+    "id": [ "remington_870_breacher" ],
+    "type": "MIGRATION",
+    "replace": "shot_short_pump"
+  },
+  {
+    "id": [ "m26_mass_standalone" ],
+    "type": "MIGRATION",
+    "replace": "small_shotgun"
   }
 ]

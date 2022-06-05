@@ -158,19 +158,25 @@
           "f_sunflower": 1
         },
         "f_region_weed": {
-          "f_dandelion": 6,
-          "f_flower_spurge": 4,
-          "f_chamomile": 4,
-          "f_datura": 3,
-          "f_bluebell": 2,
-          "f_burdock": 1,
-          "f_dahlia": 1,
-          "f_black_eyed_susan": 1,
-          "f_lily": 1,
-          "f_flower_tulip": 1,
-          "f_mutpoppy": 1,
-          "f_sunflower": 1,
-          "f_mustard": 1
+          "f_dandelion": 50,
+          "f_flower_spurge": 46,
+          "f_chamomile": 46,
+          "f_datura": 40,
+          "f_bluebell": 40,
+          "f_burdock": 34,
+          "f_dahlia": 34,
+          "f_black_eyed_susan": 34,
+          "f_lily": 34,
+          "f_flower_tulip": 34,
+          "f_mutpoppy": 34,
+          "f_sunflower": 34,
+          "f_mustard": 34,
+          "f_wildcotton": 1,
+          "f_wildsbeet": 1,
+          "f_wildweed": 1,
+          "f_wildpumpkin": 1,
+          "f_wildcorn": 1,
+          "f_wildbeans": 1
         },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
@@ -539,6 +545,11 @@
         "portal_storm"
       ]
     },
-    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [ "LAB" ], "clear_whitelist": false, "whitelist": [  ] }
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": false,
+      "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ],
+      "clear_whitelist": false,
+      "whitelist": [  ]
+    }
   }
 ]

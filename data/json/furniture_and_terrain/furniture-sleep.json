@@ -60,6 +60,41 @@
   },
   {
     "type": "furniture",
+    "id": "f_triple_bunkbed",
+    "name": "triple berth",
+    "symbol": "#",
+    "description": "This bunk bed can hold 3 person at once - perfect solution for places with lack of free space.",
+    "looks_like": "f_bed",
+    "color": "magenta",
+    "move_cost_mod": 8,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "mattress", "count": 3 },
+        { "item": "pipe", "count": 28 },
+        { "item": "sheet_metal", "count": 3 },
+        { "item": "sheet_metal_small", "count": 12 }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CAN_SIT" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "pipe", "count": [ 8, 15 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "rag", "count": [ 120, 160 ] },
+        { "item": "scrap", "count": [ 60, 100 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_bed_frame",
     "name": "bed frame",
     "symbol": "#",
@@ -128,6 +163,54 @@
       "sound": "rrrrip!",
       "sound_fail": "whump.",
       "items": [ { "item": "rag", "count": [ 40, 55 ] }, { "item": "down_feather", "count": [ 900, 1100 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hammock",
+    "name": "hammock",
+    "looks_like": "t_leanto",
+    "symbol": "#",
+    "description": "A large sheet of cloth with ropes on two sides tied to nearby objects.  It's quite comfortable to sleep in, but provides no warmth.",
+    "color": "white",
+    "move_cost_mod": 3,
+    "comfort": 4,
+    "floor_bedding_warmth": -1400,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "hammock", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 14,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 6,
+      "sound_fail_vol": 3,
+      "items": [ { "item": "rag", "count": [ 20, 30 ] }, { "item": "rope_makeshift_6", "count": [ 2, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hammock_net",
+    "name": "net hammock",
+    "looks_like": "f_hammock",
+    "symbol": "#",
+    "description": "A large net with ropes on two sides tied to nearby objects.  It's quite comfortable to sleep in, but provides no warmth.",
+    "color": "white",
+    "move_cost_mod": 3,
+    "comfort": 4,
+    "floor_bedding_warmth": -1500,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "hammock_net", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 6,
+      "sound_fail_vol": 3,
+      "items": [ { "item": "string_36", "count": [ 12, 16 ] }, { "item": "rope_makeshift_6", "count": [ 2, 3 ] } ]
     }
   },
   {

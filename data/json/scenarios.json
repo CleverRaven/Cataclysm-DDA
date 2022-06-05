@@ -47,7 +47,7 @@
     "type": "scenario",
     "id": "largebuilding",
     "name": "Large Building",
-    "points": -2,
+    "points": -1,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
     "allowed_locs": [
       "sloc_mall_loading_area",
@@ -55,10 +55,12 @@
       "sloc_apartments_rooftop",
       "sloc_apartments_rooftop2",
       "sloc_hospital",
-      "sloc_school"
+      "sloc_school",
+      "sloc_hotel_rooftop",
+      "sloc_office_tower_rooftop",
+      "sloc_cathedral_rooftop"
     ],
     "start_name": "In Large Building",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -225,7 +227,7 @@
   {
     "type": "scenario",
     "name": "(un)living History",
-    "description": "",
+    "description": "After doing historical reenactment you and your friend are taking break inside the fort, and then you heard a scream and gunshot noises.",
     "id": "BastionFortStart",
     "points": -2,
     "start_name": "Bastion Fort",
@@ -258,7 +260,19 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "professions": [ "svictim", "tweaker" ],
+    "professions": [
+      "svictim",
+      "naked",
+      "unemployed",
+      "homeless",
+      "hitchhiker",
+      "patriot",
+      "clown",
+      "lost_sub",
+      "spouse",
+      "musician",
+      "true_foodperson"
+    ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
     "flags": [ "FIRE_START", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -438,12 +452,13 @@
     "id": "prisonbreak",
     "name": "Prison",
     "points": -4,
-    "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight… you might need to expedite your escape plans.",
+    "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the police officers joined hands with them… you might need to expedite your escape plans.",
     "allowed_locs": [ "sloc_prison" ],
     "start_name": "Prison",
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_assassin",
       "convict_embezzler",
       "convict_drugs",
       "convict_political",
@@ -464,6 +479,7 @@
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_assassin",
       "convict_embezzler",
       "convict_drugs",
       "convict_political",
@@ -597,6 +613,8 @@
       "specops",
       "national_guard",
       "politician",
+      "hitman",
+      "assassin",
       "mili_pilot",
       "mili_medic",
       "mili_burner",
@@ -670,9 +688,9 @@
   {
     "type": "scenario",
     "id": "strong_portal_storm",
-    "name": "Outside In Strong Portal Storm",
+    "name": "Splintering Reality",
     "points": -3,
-    "description": "A powerful portal storm is happening and you need to find shelter.",
+    "description": "You found yourself alone in an open field when reality begun to heave and crack all around you.  You need to find shelter, and fast.",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
     "allowed_locs": [ "sloc_field" ],
@@ -683,7 +701,7 @@
     "id": "strong_portal_storm_base",
     "name": "Stronger Portal Storms",
     "points": -4,
-    "description": "You've managed to get to a shelter, but reality has grown weaker than normal and portal storms will be quite strong.",
+    "description": "You've managed to get to a shelter, but reality has grown weaker than normal, and portal storms will be quite strong.",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
@@ -694,7 +712,7 @@
     "id": "quick_portal_storm_base",
     "name": "Frequent Portal Storms",
     "points": -4,
-    "description": "You've managed to get to a shelter, but reality has grown weaker than normal, portal storms will be more frequent.",
+    "description": "You've managed to get to a shelter, but reality has grown weaker than normal, and portal storms will be more frequent.",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
@@ -705,7 +723,7 @@
     "id": "portal_dependent",
     "name": "Challenge - Portal Dependent",
     "points": -8,
-    "description": "You were caught on a huge and unstable portal storm.  You feel… different.",
+    "description": "You were caught in a huge and unstable portal storm, and were utterly unprotected from the full force of its effects.  You're on the tail end of the storm now, and while you've survived, you feel… different.",
     "forced_traits": [ "PORTAL_DEPENDENT" ],
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
@@ -731,14 +749,41 @@
       "lawyer",
       "politician",
       "dancer",
+      "cheerleader",
       "spouse",
       "musician",
       "chef",
       "groundskeeper",
       "homemaker",
+      "ninja",
       "mafia_boss",
       "major-general"
     ],
     "missions": [ "MISSION_MANSION_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "aircraft_carrier_start",
+    "name": "CVN Sailor",
+    "points": 4,
+    "description": "For some reason your mission off the coast of North Korea was ended in the middle of a lake, in unknown location.  You have no idea what's happened, but now you have more important things to do.",
+    "start_name": "Aircraft Carrier",
+    "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
+    "professions": [
+      "unemployed",
+      "electrician",
+      "chef",
+      "recruit",
+      "rifleman",
+      "specops",
+      "medic",
+      "mili_pilot",
+      "mili_medic",
+      "major-general",
+      "nco",
+      "combat-mechanic",
+      "combat-engineer"
+    ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]

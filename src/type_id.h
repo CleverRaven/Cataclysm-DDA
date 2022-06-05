@@ -13,6 +13,9 @@ using achievement_id = string_id<achievement>;
 class activity_type;
 using activity_id = string_id<activity_type>;
 
+struct add_type;
+using addiction_id = string_id<add_type>;
+
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 
@@ -31,11 +34,17 @@ struct sub_body_part_type;
 using sub_bodypart_id = int_id<sub_body_part_type>;
 using sub_bodypart_str_id = string_id<sub_body_part_type>;
 
+struct bodygraph;
+using bodygraph_id = string_id<bodygraph>;
+
 struct character_modifier;
 using character_modifier_id = string_id<character_modifier>;
 
 struct limb_score;
 using limb_score_id = string_id<limb_score>;
+
+struct city;
+using city_id = string_id<city>;
 
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
@@ -184,6 +193,9 @@ using requirement_id = string_id<requirement_data>;
 class score;
 using score_id = string_id<score>;
 
+struct shopkeeper_cons_rates;
+using shopkeeper_cons_rates_id = string_id<shopkeeper_cons_rates>;
+
 class Skill;
 using skill_id = string_id<Skill>;
 
@@ -210,6 +222,9 @@ using move_mode_id = string_id<move_mode>;
 
 struct mutation_category_trait;
 using mutation_category_id = string_id<mutation_category_trait>;
+
+struct proficiency_category;
+using proficiency_category_id = string_id<proficiency_category>;
 
 class proficiency;
 using proficiency_id = string_id<proficiency>;

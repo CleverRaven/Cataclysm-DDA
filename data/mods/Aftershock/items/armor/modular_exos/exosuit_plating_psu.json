@@ -1,0 +1,140 @@
+[
+  {
+    "id": "exo_psu_steel",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "name": { "str": "steel PSU plate (exosuit)", "str_pl": "steel PSU plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's power supply unit, this is a sturdy plate of steel.",
+    "weight": "42933 g",
+    "volume": "10 L",
+    "material": [ "qt_steel" ],
+    "symbol": "[",
+    "looks_like": "backpack_tactical_large",
+    "color": "light_gray",
+    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_PSU_PLATE" ],
+    "non_functional": "damaged_exo_psu_steel",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_psu_steel",
+    "type": "ARMOR",
+    "copy-from": "exo_psu_steel",
+    "name": { "str": "steel PSU plate (exosuit)", "str_pl": "steel PSU plates (exosuit)" },
+    "description": "The remains of a steel PSU plate after taking a strong impact.  Can be repaired in the field.",
+    "non_functional": "destroyed_exo_psu_steel",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "torso" ],
+        "coverage": 40,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_psu_steel_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_psu_steel",
+    "name": { "str": "destroyed steel PSU plate (exosuit)", "str_pl": "destroyed steel PSU plates (exosuit)" },
+    "description": "The remains of a steel PSU plate after taking a strong impact.  Can be recycled at a nanofabricator.",
+    "looks_like": "exo_psu_steel",
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "exo_psu_plastic",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "copy-from": "exo_psu_steel",
+    "name": { "str": "plastic PSU plate (exosuit)", "str_pl": "plastic PSU plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's power supply unit, this is a plate of plastic.",
+    "weight": "4290 g",
+    "volume": "10 L",
+    "material": [ "plastic" ],
+    "non_functional": "destroyed_exo_psu_plastic_plate",
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_psu_plastic",
+    "type": "ARMOR",
+    "copy-from": "exo_psu_plastic",
+    "name": { "str": "plastic PSU plate (exosuit)", "str_pl": "plastic PSU plates (exosuit)" },
+    "description": "The remains of a plastic PSU plate after taking a strong impact.  Can be repaired in the field.",
+    "non_functional": "destroyed_exo_psu_plastic",
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
+        "covers": [ "torso" ],
+        "coverage": 40,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_psu_plastic_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_psu_plastic",
+    "name": { "str": "destroyed plastic PSU plate (exosuit)", "str_pl": "destroyed plastic PSU plates (exosuit)" },
+    "description": "The remains of a plastic PSU plate after taking a strong impact.  Can be recycled at a nanofabricator.",
+    "looks_like": "exo_psu_plastic",
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "exo_psu_vcc",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "copy-from": "exo_psu_steel",
+    "name": { "str": "carbide PSU plate (exosuit)", "str_pl": "carbide PSU plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's power supply unit, this is a plate of carbide.",
+    "weight": "4290 g",
+    "volume": "10 L",
+    "material": [ "vacuum_carbide" ],
+    "non_functional": "destroyed_exo_psu_vcc_plate",
+    "armor": [
+      {
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "encumbrance": 25
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_psu_vcc",
+    "type": "ARMOR",
+    "copy-from": "exo_psu_vcc",
+    "name": { "str": "carbide PSU plate (exosuit)", "str_pl": "carbide PSU plates (exosuit)" },
+    "description": "The remains of a carbide PSU plate after taking a strong impact.  Can be repaired in the field.",
+    "non_functional": "destroyed_exo_psu_vcc",
+    "armor": [
+      {
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "torso" ],
+        "coverage": 40,
+        "encumbrance": 25
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_psu_vcc_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_psu_vcc",
+    "name": { "str": "destroyed carbide PSU plate (exosuit)", "str_pl": "destroyed carbide PSU plates (exosuit)" },
+    "description": "The remains of a carbide PSU plate after taking a strong impact.  Can be recycled at a nanofabricator.",
+    "looks_like": "exo_psu_vcc",
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  }
+]

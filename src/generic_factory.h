@@ -268,7 +268,7 @@ class generic_factory
             }
             if( jo.has_string( id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
-                assign_src( def, src );
+                mod_tracker::assign_src( def, src );
                 def.load( jo, src );
                 insert( def );
 
@@ -289,7 +289,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
-                    assign_src( def, src );
+                    mod_tracker::assign_src( def, src );
                     def.load( jo, src );
                     insert( def );
                 }
@@ -300,7 +300,7 @@ class generic_factory
 
             } else if( jo.has_string( legacy_id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( legacy_id_member_name ) );
-                assign_src( def, src );
+                mod_tracker::assign_src( def, src );
                 def.load( jo, src );
                 insert( def );
 
@@ -321,7 +321,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
-                    assign_src( def, src );
+                    mod_tracker::assign_src( def, src );
                     def.load( jo, src );
                     insert( def );
                 }
@@ -349,6 +349,7 @@ class generic_factory
             inc_version();
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
+                mod_tracker::check_duplicate_entries( obj, list[iter->second.to_i()] );
                 T &result = list[iter->second.to_i()];
                 result = obj;
                 result.id.set_cid_version( iter->second.to_i(), version );
@@ -1204,6 +1205,22 @@ class mass_reader : public generic_typed_reader<units::mass>
         }
         units::mass get_next( JsonValue &jv ) const {
             return read_from_json_string<units::mass>( jv, units::mass_units );
+        }
+};
+
+class money_reader : public generic_typed_reader<units::money>
+{
+    public:
+        bool operator()( const JsonObject &jo, const std::string &member_name,
+                         units::money &member, bool /* was_loaded */ ) const {
+            if( !jo.has_member( member_name ) ) {
+                return false;
+            }
+            member = read_from_json_string<units::money>( jo.get_member( member_name ), units::money_units );
+            return true;
+        }
+        static units::money get_next( JsonValue &jv ) {
+            return read_from_json_string<units::money>( jv, units::money_units );
         }
 };
 

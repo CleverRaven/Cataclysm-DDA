@@ -39,7 +39,7 @@ An NPC faction looks like this:
       "hells_raiders": {
         "kill on sight": true
       }
-    },    
+    },
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },
 ```

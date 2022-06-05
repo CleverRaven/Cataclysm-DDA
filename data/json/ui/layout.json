@@ -143,7 +143,7 @@
     "//": "Shows numerical values for attributes normally hidden or obfuscated. Disabled by default.",
     "arrange": "rows",
     "widgets": [ "hitpoint_nums_top_layout", "hitpoint_nums_bottom_layout", "pain_health_num_layout", "stamina_cardio_num_layout" ],
-    "flags": [ "W_DISABLED" ]
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
     "id": "sound_fatigue_focus_layout",

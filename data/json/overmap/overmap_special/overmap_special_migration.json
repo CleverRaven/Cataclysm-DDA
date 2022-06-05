@@ -28,5 +28,10 @@
     "type": "overmap_special_migration",
     "id": "FakeSpecial_s_bike_shop_1",
     "new_id": "s_bike_shop_1"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Mine Entrance",
+    "//": "Removed - no new id"
   }
 ]

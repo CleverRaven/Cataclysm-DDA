@@ -103,37 +103,31 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Pablo_Nunez",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Hello, nice to see you again.", "It's good to see you're still around." ],
-      "no": "Hi there.  I'm Pablo, nice to see a new face."
+    "dynamic_line": "*looks up at you with a young faced lined prematurely with concern.  \"Hi there.  I'm Pablo, nice to see a new face.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Pablo_1a" }
+      ]
     },
     "responses": [
-      {
-        "text": "Pablo, hey?  Nice to meet you.",
-        "effect": { "u_add_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Pablo_1_firstmeet"
-      },
-      {
-        "text": "Hi, Pablo.  What's up?",
-        "topic": "TALK_REFUGEE_Pablo_2",
-        "condition": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
-        "text": "Hi Pablo, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "Hi Pablo, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "Pablo, hey?  Nice to meet you.", "topic": "TALK_REFUGEE_Pablo_1_firstmeet" },
+      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Pablo_1a",
+    "dynamic_line": {
+      "concatenate": [
+        "*dusts off his jacket and makes eye contact with you.  \"",
+        [ "Hello, nice to see you again.", "It's good to see you're still around." ],
+        "\""
+      ]
+    },
+    "responses": [
+      { "text": "Hi, Pablo.  What's up?", "topic": "TALK_REFUGEE_Pablo_2" },
+      { "text": "Hi Pablo, nice to see you too.  I gotta go though.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -177,7 +171,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background2_survivors",
-    "dynamic_line": "From the bus?  A few of us made it in the end; the Singh family were on that bus with us.  We were some of the last refugees to arrive.  They put us into a room for processing, where a bunch of the wounded were being handled as best as they could manage.  They were short staffed though, and they missed one.  We all thought he was just having a nap, but he wasn't, and when he got back up as a zombie, there was a huge panic.  Gunshots in a small, crowded room, and trampling… it was really ugly.  We were close to the door and managed to get out right away, but then a couple panicking people closed the place off and left innocent people in there for what seemed like ages, calling it an 'outbreak'.  By the time leveler heads prevailed, there weren't many people left in there to recover.",
+    "dynamic_line": "\"From the bus?  A few of us made it in the end; the Singh family were on that bus with us.  We were some of the last refugees to arrive.\"  He gestures to three people gathered together a short distance away.  \"They put us into a room for processing, where a bunch of the wounded were being handled as best as they could manage.  They were short staffed though, and they missed one.  We all thought he was just having a nap, but he wasn't,\" Pablo wipes his face with his hand and pauses for a moment.  \"When he got back up as a zombie, there was a huge panic.  Gunshots in a small, crowded room, and trampling… it was really ugly.  We were close to the door and managed to get out right away, but then a couple panicking people closed the place off and left innocent people in there for what seemed like ages, calling it an 'outbreak'.  By the time leveler heads prevailed, there weren't many people left in there to recover.\"",
     "responses": [
       {
         "text": "I've been back to the quarantined area, cleared it out.  It was ugly back there.",
@@ -194,7 +188,15 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Situation",
-    "dynamic_line": "It's pretty tough here.  We're packed into too small a location with too many people.  Everyone is dealing with their own trauma.  Rhy is trying to help out, but she can't be a proper counselor in these circumstances.  I don't know how we're going to survive for long.  As for me, I wish I could be anywhere but here.  I need to see the sky again, or I'm going to go insane.",
+    "dynamic_line": {
+      "u_compare_var": "refugee_happiness",
+      "type": "counter",
+      "context": "refugee_center",
+      "op": ">=",
+      "value": 5,
+      "yes": "It's pretty tough here.  People have made so much effort to make things better, and the group is kind of coming together, but I just don't feel like I could ever belong, you know?  I need somewhere with a sky, and a little privacy.",
+      "no": "It's pretty tough here.  We're packed into too small a location with too many people.  Everyone is dealing with their own trauma.  Rhy is trying to help out, but she can't be a proper counselor in these circumstances.  I don't know how we're going to survive for long.  As for me, I wish I could be anywhere but here.  I need to see the sky again, or I'm going to go insane."
+    },
     "responses": [
       {
         "text": "Why not move to the Tacoma Commune?",
