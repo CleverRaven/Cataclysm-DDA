@@ -1416,6 +1416,17 @@ int outfit::sum_filthy_cover( bool ranged, bool melee, bodypart_id bp ) const
     return sum_cover;
 }
 
+float outfit::sum_filth_mod() const
+{
+    float filth_mod = 1;
+    for( const item &i : worn ) {
+        if( i.is_filthy() ) {
+            filth_mod = filth_mod * 0.9;
+        }
+    }
+    return filth_mod;
+}
+
 void outfit::inv_dump( std::vector<item *> &ret )
 {
     for( item &i : worn ) {

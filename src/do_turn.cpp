@@ -758,8 +758,9 @@ bool do_turn()
     scent_map &scent = get_scent();
     // No-scent debug mutation has to be processed here or else it takes time to start working
     if( !u.has_flag( STATIC( json_character_flag( "NO_SCENT" ) ) ) ) {
-        scent.set( u.pos(), u.scent, u.get_type_of_scent() );
-        overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
+        float scent_sum = u.scent * u.worn.sum_filth_mod();
+        scent.set( u.pos(), scent_sum, u.get_type_of_scent() );
+        overmap_buffer.set_scent( u.global_omt_location(),  scent_sum );
     }
     scent.update( u.pos(), m );
 
