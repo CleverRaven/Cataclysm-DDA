@@ -411,7 +411,6 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
           "stanag30",
-          "stanag30",
           "stanag5",
           "stanag5ranger",
           "stanag10",
