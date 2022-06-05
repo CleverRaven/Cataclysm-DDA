@@ -70,7 +70,8 @@
       { "weight": "1300 g", "encumbrance": 20 },
       { "weight": "1600 g", "encumbrance": 30 },
       { "weight": "2200 g", "encumbrance": 50 },
-      { "weight": "5600 g", "encumbrance": 80 }
+      { "weight": "5600 g", "encumbrance": 80 },
+      { "weight": "10000 g", "encumbrance": 160 }
     ]
   },
   {
@@ -126,7 +127,7 @@
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks" ]
+    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ]
   },
   {
     "id": "arm_l",
@@ -349,7 +350,7 @@
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "sub_parts": [ "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
+    "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -380,7 +381,7 @@
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "sub_parts": [ "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
+    "sub_parts": [ "foot_sole_r", "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -679,7 +680,7 @@
     "parent": "hand_r",
     "side": 2,
     "opposite": "hand_fingers_l",
-    "name_multiple": "wrists",
+    "name_multiple": "fingers",
     "name": "right fingers"
   },
   {
@@ -745,7 +746,7 @@
   {
     "id": "mouth_lips",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 15,
     "parent": "mouth",
     "opposite": "sub_limb_debug",
     "side": 0,
@@ -754,7 +755,7 @@
   {
     "id": "mouth_nose",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 15,
     "parent": "mouth",
     "opposite": "sub_limb_debug",
     "side": 0,
@@ -763,16 +764,35 @@
   {
     "id": "mouth_cheeks",
     "type": "sub_body_part",
-    "max_coverage": 40,
+    "max_coverage": 30,
     "parent": "mouth",
     "opposite": "sub_limb_debug",
     "side": 0,
     "name": "cheeks"
   },
   {
+    "id": "mouth_chin",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "mouth",
+    "opposite": "sub_limb_debug",
+    "side": 0,
+    "name": "chin"
+  },
+  {
+    "id": "foot_sole_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_l",
+    "side": 1,
+    "opposite": "foot_sole_r",
+    "name_multiple": "foot bottoms",
+    "name": "left foot bottom"
+  },
+  {
     "id": "foot_arch_l",
     "type": "sub_body_part",
-    "max_coverage": 50,
+    "max_coverage": 25,
     "parent": "foot_l",
     "side": 1,
     "opposite": "foot_arch_r",
@@ -810,9 +830,19 @@
     "name": "left heel"
   },
   {
+    "id": "foot_sole_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_r",
+    "side": 2,
+    "opposite": "foot_sole_l",
+    "name_multiple": "foot bottoms",
+    "name": "right foot bottom"
+  },
+  {
     "id": "foot_arch_r",
     "type": "sub_body_part",
-    "max_coverage": 50,
+    "max_coverage": 25,
     "parent": "foot_r",
     "side": 2,
     "opposite": "foot_arch_l",

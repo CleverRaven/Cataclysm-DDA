@@ -554,7 +554,7 @@
     "using": [
       [ "tailoring_felt_patchwork", 4 ],
       [ "plastic_molding", 4 ],
-      [ "waterproofing_plastic_bags", 2 ],
+      [ "waterproofing_plastic_sheets", 2 ],
       [ "fastener_shoes", 2 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]
@@ -573,7 +573,7 @@
     "using": [
       [ "tailoring_felt_patchwork", 3 ],
       [ "plastic_molding", 3 ],
-      [ "waterproofing_plastic_bags", 1 ],
+      [ "waterproofing_plastic_sheets", 1 ],
       [ "fastener_shoes", 1 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]
@@ -587,7 +587,7 @@
     "using": [
       [ "tailoring_felt_patchwork", 6 ],
       [ "plastic_molding", 5 ],
-      [ "waterproofing_plastic_bags", 2 ],
+      [ "waterproofing_plastic_sheets", 2 ],
       [ "fastener_shoes", 3 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]
@@ -978,10 +978,11 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "2 h",
+    "time": "3 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_elastics" } ],
-    "using": [ [ "tailoring_neoprene", 1 ] ]
+    "//": "Should use fabric_neoprene when the tailoring recipe audit is done.",
+    "using": [ [ "tailoring_neoprene_patchwork", 2 ], [ "sewing_standard", 15 ] ]
   },
   {
     "result": "lc_chainmail_feet",

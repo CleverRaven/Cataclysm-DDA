@@ -13,7 +13,6 @@ adze
 aerarium
 aerially
 aeterna
-afemode
 afterbirth
 afterimage
 afterlife
@@ -484,6 +483,8 @@ dragonfire
 dragonhide
 dragonlike
 dragonscale
+draugr
+draugrs
 drawknife
 driers
 drivetrain
@@ -507,6 +508,7 @@ editable
 edmontonia
 edmontosaurus
 eeds
+efault
 eidolon
 elderberries
 electrochemistry
@@ -516,6 +518,7 @@ electroreceptors
 elete
 elopements
 elytra
+emode
 emove
 emplate
 encumbering
@@ -567,6 +570,7 @@ eyespots
 eyestalks
 f
 faceplates
+faewild
 fakkin
 falcata
 fallfish
@@ -658,6 +662,7 @@ frigger
 frostburn
 frostburnt
 frostnipped
+frostrimed
 froths
 ft
 fuckit
@@ -696,6 +701,8 @@ generalist
 gesticulates
 ghast
 github
+gladii
+glasknife
 glassblowing
 glassteel
 glassworking
@@ -759,6 +766,7 @@ harmonically
 harries
 harvestable
 hauberk
+hauberks
 hbhbh
 hdd
 heartlike
@@ -849,6 +857,7 @@ interjects
 interlayer
 intolerances
 intoxications
+intradimensional
 invlet
 invlets
 ironshod
@@ -858,7 +867,6 @@ isassembled
 issions
 itemname
 iterating
-ixed
 j
 jabberwock
 jabberwocks
@@ -940,6 +948,7 @@ latticed
 lavrae
 lawd
 layin
+lb
 lbs
 leache
 leatherbacked
@@ -964,6 +973,7 @@ lightstrip
 lilypad
 lilypads
 listlessly
+lithely
 litheness
 livingrooms
 lizardfolk
@@ -1071,6 +1081,7 @@ mmm
 moar
 mobbings
 moder
+modularity
 molebots
 molerat
 molluscicide
@@ -1150,6 +1161,7 @@ neutrite
 nevah
 newsbots
 newsweekly
+ngs
 nibblin
 nibelung
 nichrome
@@ -1201,7 +1213,6 @@ openable
 openair
 opengl
 openingly
-opy
 orichalcum
 ornithomimid
 ornithomimus
@@ -1317,6 +1328,7 @@ posteriori
 posthuman
 potboiler
 potentiates
+poufs
 pouncer
 powerplants
 powertool
@@ -1387,6 +1399,7 @@ rainsuit
 rale
 randomize
 rangehands
+rashguard
 raptorial
 ratlike
 rayed
@@ -1411,6 +1424,7 @@ reckonin
 recolherem
 recrafted
 recursively
+redcaps
 redear
 redits
 reenabled
@@ -1754,6 +1768,7 @@ toolmod
 toolset
 toolshelf
 topazes
+topickup
 toque
 toques
 toroids
@@ -1839,6 +1854,7 @@ unselectable
 unsettlingly
 unsiatable
 unskillfully
+unspecialized
 unstocked
 untampered
 untargeted
@@ -1857,7 +1873,6 @@ usselves
 ustom
 utahraptor
 utilibot
-utopickup
 uttarasanga
 v
 vajra
@@ -1928,6 +1943,7 @@ wibble
 wibbles
 wibbling
 wicking
+wieldable
 willin
 willowbark
 windowframe

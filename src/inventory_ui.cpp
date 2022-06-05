@@ -35,6 +35,7 @@
 #include "trade_ui.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -223,6 +224,48 @@ class selection_column_preset : public inventory_selector_preset
             return inventory_selector_preset::get_color( entry );
         }
 };
+
+struct inventory_selector_save_state {
+    public:
+        inventory_selector::uimode uimode = inventory_selector::uimode::categories;
+
+        void serialize( JsonOut &json ) const {
+            json.start_object();
+            json.member( "uimode", uimode );
+            json.end_object();
+        }
+        void deserialize( JsonObject const &jo ) {
+            jo.read( "uimode", uimode );
+        }
+};
+
+namespace io
+{
+template <>
+std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimode mode )
+{
+    switch( mode ) {
+        case inventory_selector::uimode::hierarchy:
+            return "hierarchy";
+        case inventory_selector::uimode::last:
+        case inventory_selector::uimode::categories:
+            break;
+    }
+    return "categories";
+}
+} // namespace io
+
+static inventory_selector_save_state inventory_ui_default_state;
+
+void save_inv_state( JsonOut &json )
+{
+    json.member( "inventory_ui_state", inventory_ui_default_state );
+}
+
+void load_inv_state( const JsonObject &jo )
+{
+    jo.read( "inventory_ui_state", inventory_ui_default_state );
+}
 
 static const selection_column_preset selection_preset{};
 
@@ -911,12 +954,9 @@ void inventory_column::on_input( const inventory_input &input )
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             inventory_entry &selected = get_highlighted();
             set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
-        } else if( input.action == "HIDE_CONTENTS" ) {
+        } else if( input.action == "SHOW_HIDE_CONTENTS" ) {
             inventory_entry &selected = get_highlighted();
-            set_collapsed( selected, true );
-        } else if( input.action == "SHOW_CONTENTS" ) {
-            inventory_entry &selected = get_highlighted();
-            set_collapsed( selected, false );
+            selected.collapsed ? set_collapsed( selected, false ) : set_collapsed( selected, true );
         }
     }
 
@@ -1065,9 +1105,9 @@ void inventory_column::prepare_paging( const std::string &filter )
         return !is_visible( it );
     };
 
-    // restore entries revealed by SHOW_CONTENTS or filter
+    // restore entries revealed by SHOW_HIDE_CONTENTS or filter
     move_if( entries_hidden, entries, is_visible );
-    // remove entries hidden by HIDE_CONTENTS
+    // remove entries hidden by SHOW_HIDE_CONTENTS
     move_if( entries, entries_hidden, is_not_visible );
 
     // Then sort them with respect to categories
@@ -1535,12 +1575,17 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 void inventory_selector::add_character_items( Character &character )
 {
     item &weapon = character.get_wielded_item();
+    bool const hierarchy = _uimode == uimode::hierarchy;
     if( !weapon.is_null() ) {
         item_location loc( character, &weapon );
-        add_entry_rec( own_gear_column, own_inv_column, loc, &item_category_WEAPON_HELD.obj() );
+        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, loc,
+                       &item_category_WEAPON_HELD.obj(),
+                       hierarchy ? &item_category_WEAPON_HELD.obj() : nullptr );
     }
     for( item_location &worn_item : character.top_items_loc() ) {
-        add_entry_rec( own_gear_column, own_inv_column, worn_item, &item_category_ITEMS_WORN.obj() );
+        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, worn_item,
+                       &item_category_ITEMS_WORN.obj(),
+                       hierarchy ? &item_category_ITEMS_WORN.obj() : nullptr );
     }
     own_inv_column.set_indent_entries_override( false );
 }
@@ -2179,6 +2224,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     , own_inv_column( preset )
     , own_gear_column( preset )
     , map_column( preset )
+    , _uimode( inventory_ui_default_state.uimode )
 {
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
@@ -2199,8 +2245,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "INVENTORY_FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
-    ctxt.register_action( "HIDE_CONTENTS", to_translation( "Hide contents" ) );
-    ctxt.register_action( "SHOW_CONTENTS", to_translation( "Show contents" ) );
+    ctxt.register_action( "SHOW_HIDE_CONTENTS", to_translation( "Show/hide contents" ) );
     ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "TOGGLE_SKIP_UNSELECTABLE" );
 
@@ -2213,7 +2258,10 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     }
 }
 
-inventory_selector::~inventory_selector() = default;
+inventory_selector::~inventory_selector()
+{
+    inventory_ui_default_state.uimode = _uimode;
+}
 
 bool inventory_selector::empty() const
 {
@@ -2309,7 +2357,7 @@ void inventory_selector::on_input( const inventory_input &input )
                 current_ui->mark_resize();
             }
         }
-        if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
+        if( input.action == "SHOW_HIDE_CONTENTS" ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
             for( auto const &col : columns ) {
                 col->invalidate_paging();
@@ -2403,7 +2451,7 @@ void inventory_selector::toggle_categorize_contained()
     if( get_highlighted().is_item() ) {
         highlighted = get_highlighted().locations;
     }
-    if( _mode == uimode::hierarchy ) {
+    if( _uimode == uimode::hierarchy ) {
         inventory_column replacement_column;
         for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
             item_location const loc = entry->locations.front();
@@ -2430,7 +2478,7 @@ void inventory_selector::toggle_categorize_contained()
         own_gear_column.clear();
         replacement_column.move_entries_to( own_gear_column );
         own_inv_column.set_indent_entries_override( false );
-        _mode = uimode::categories;
+        _uimode = uimode::categories;
     } else {
         for( inventory_entry *entry : own_inv_column.get_entries( return_item, true ) ) {
             item_location ancestor = entry->any_item();
@@ -2452,7 +2500,7 @@ void inventory_selector::toggle_categorize_contained()
             ret->generation = entry->generation;
         }
         own_inv_column.clear();
-        _mode = uimode::hierarchy;
+        _uimode = uimode::hierarchy;
     }
     if( !highlighted.empty() ) {
         highlight_one_of( highlighted );
@@ -3287,7 +3335,7 @@ int inventory_examiner::execute()
             examine_window_scroll += scroll_item_info_lines;
         } else {
             ui->invalidate_ui(); //The player is probably doing something that requires updating the base window
-            if( input.action == "SHOW_CONTENTS" || input.action == "HIDE_CONTENTS" ) {
+            if( input.action == "SHOW_HIDE_CONTENTS" ) {
                 changes_made = true;
             }
             on_input( input );

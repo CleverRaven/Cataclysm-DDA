@@ -702,6 +702,38 @@
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
+    "result": "bikini_bottom",
+    "type": "uncraft",
+    "time": "1 m",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "sheet_lycra", 10 ] ], [ [ "thread_nomex", 1 ] ], [ [ "thread", 3 ] ] ]
+  },
+  {
+    "result": "bikini_top",
+    "type": "uncraft",
+    "time": "2 m",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "sheet_lycra", 10 ] ], [ [ "thread_nomex", 1 ] ], [ [ "thread", 6 ] ] ]
+  },
+  {
+    "result": "bikini_top_fur",
+    "type": "uncraft",
+    "time": "20 s",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "fur", 1 ] ] ]
+  },
+  {
+    "result": "bikini_top_leather",
+    "type": "uncraft",
+    "time": "20 s",
+    "activity_level": "NO_EXERCISE",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ] ] ]
+  },
+  {
     "result": "blade",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -5688,7 +5720,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "60 s",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "string_6", 6 ] ] ]
   },
   {
@@ -5777,7 +5809,7 @@
     "time": "10 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
   },
   {
     "result": "largebroketent",
@@ -5787,7 +5819,7 @@
     "time": "30 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "bag_plastic", 3 ] ] ]
+    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "plastic_sheet_small", 3 ] ] ]
   },
   {
     "result": "knife_butter",
@@ -6099,7 +6131,16 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
-    "components": [ [ [ "plastic_sheet", 1 ] ] ]
+    "components": [ [ [ "plastic_sheet", 1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "plastic_sheet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "plastic_sheet_small", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
     "result": "cash_register",

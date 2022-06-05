@@ -995,7 +995,7 @@ vehicle *game::place_vehicle_nearby(
 {
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
-        vehicle veh( id );
+        vehicle veh( m, id );
         if( veh.max_ground_velocity() == 0 && veh.can_float() ) {
             search_types.emplace_back( "river" );
             search_types.emplace_back( "lake" );
@@ -1022,7 +1022,7 @@ vehicle *game::place_vehicle_nearby(
                 }
             };
             vehicle *veh = target_map.add_vehicle(
-                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
+                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false, "", false );
             if( veh ) {
                 tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
@@ -2951,6 +2951,7 @@ bool game::save()
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save( true ) ||
             !get_safemode().save_character() ||
+            !zone_manager::get_manager().save_zones() ||
         !write_to_file( PATH_INFO::world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
             uistate.serialize( jsout );
@@ -6039,6 +6040,17 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
+static void add_visible_items_recursive( std::map<std::string, std::pair<int, nc_color>>
+        &item_names, const item &it )
+{
+    ++item_names[it.tname()].first;
+    item_names[it.tname()].second = it.color_in_inventory();
+
+    for( const item *content : it.all_known_contents() ) {
+        add_visible_items_recursive( item_names, *content );
+    }
+}
+
 void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                              int &line,
                              const int last_line )
@@ -6053,9 +6065,8 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         return;
     } else {
         std::map<std::string, std::pair<int, nc_color>> item_names;
-        for( item &item : m.i_at( lp ) ) {
-            ++item_names[item.tname()].first;
-            item_names[item.tname()].second = item.color_in_inventory();
+        for( const item &it : m.i_at( lp ) ) {
+            add_visible_items_recursive( item_names, it );
         }
 
         const int max_width = getmaxx( w_look ) - column - 1;
@@ -6460,6 +6471,7 @@ void game::zones_manager()
 
     const int scroll_rate = zone_cnt > 20 ? 10 : 3;
     zones_manager_open = true;
+    zone_manager::get_manager().save_zones( "zmgr-temp" );
     do {
         if( action == "ADD_ZONE" ) {
             do { // not a loop, just for quick bailing out if canceled
@@ -6781,10 +6793,8 @@ void game::zones_manager()
 
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
-        if( query_yn( _( "Save changes?" ) ) ) {
-            zones.save_zones();
-        } else {
-            zones.load_zones();
+        if( !query_yn( _( "Save changes?" ) ) ) {
+            zones.load_zones( "zmgr-temp" );
         }
 
         zones.cache_data();
@@ -7181,6 +7191,24 @@ look_around_result game::look_around( look_around_params looka_params )
                         looka_params.select_zone, looka_params.peeking );
 }
 
+
+static void add_item_recursive( std::vector<std::string> &item_order,
+                                std::map<std::string, map_item_stack> &temp_items, const item *it, const tripoint &relative_pos )
+{
+    const std::string name = it->tname();
+
+    if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
+        item_order.push_back( name );
+        temp_items[name] = map_item_stack( it, relative_pos );
+    } else {
+        temp_items[name].add_at_pos( it, relative_pos );
+    }
+
+    for( const item *content : it->all_known_contents() ) {
+        add_item_recursive( item_order, temp_items, content, relative_pos );
+    }
+}
+
 std::vector<map_item_stack> game::find_nearby_items( int iRadius )
 {
     std::map<std::string, map_item_stack> temp_items;
@@ -7200,12 +7228,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
                 const std::string name = elem.tname();
                 const tripoint relative_pos = points_p_it - u.pos();
 
-                if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
-                    item_order.push_back( name );
-                    temp_items[name] = map_item_stack( &elem, relative_pos );
-                } else {
-                    temp_items[name].add_at_pos( &elem, relative_pos );
-                }
+                add_item_recursive( item_order, temp_items, &elem, relative_pos );
             }
         }
     }
@@ -11161,6 +11184,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( !wall_cling )  {
         here.creature_on_trap( u, !force );
     }
+
+    u.recoil = MAX_RECOIL;
+
     cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
 }
 
@@ -11307,7 +11333,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
                     u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
-                    u.mod_stored_kcal( 87 );
+                    u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                 } else {
                     add_msg( _( "You gingerly descend using your vines." ) );
@@ -11315,7 +11341,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             } else {
                 add_msg( _( "You effortlessly lower yourself and leave a vine rooted for future use." ) );
                 rope_ladder = true;
-                u.mod_stored_kcal( 87 );
+                u.mod_stored_kcal( -87 );
                 u.mod_thirst( 10 );
             }
         } else {

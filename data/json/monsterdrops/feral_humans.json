@@ -3,7 +3,18 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_axe",
-    "entries": [ { "item": "fire_ax", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_zombie_clothes", "prob": 100 } ]
+    "entries": [
+      {
+        "distribution": [
+          { "item": "ax", "prob": 50, "damage": [ 1, 3 ] },
+          { "item": "hatchet", "prob": 25, "damage": [ 1, 3 ] },
+          { "item": "fire_ax", "prob": 15, "damage": [ 2, 4 ] },
+          { "item": "iceaxe", "prob": 5, "damage": [ 1, 3 ] },
+          { "item": "crash_axe", "prob": 5, "damage": [ 1, 3 ] }
+        ]
+      },
+      { "group": "default_zombie_clothes", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
@@ -15,7 +26,16 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_crowbar",
-    "entries": [ { "item": "crowbar", "prob": 100, "damage": [ 1, 3 ] }, { "group": "default_zombie_clothes", "prob": 100 } ]
+    "entries": [
+      {
+        "distribution": [
+          { "item": "crowbar", "prob": 40, "damage": [ 1, 3 ] },
+          { "item": "makeshift_crowbar", "prob": 40, "damage": [ 1, 3 ] },
+          { "item": "heavy_crowbar", "prob": 10, "damage": [ 2, 4 ] }
+        ]
+      },
+      { "group": "default_zombie_clothes", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
@@ -499,7 +519,17 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "starer_death_drops_axe",
-    "entries": [ { "item": "fire_ax", "prob": 100, "damage": [ 2, 4 ] } ]
+    "entries": [
+      {
+        "distribution": [
+          { "item": "ax", "prob": 50, "damage": [ 1, 3 ] },
+          { "item": "hatchet", "prob": 25, "damage": [ 1, 3 ] },
+          { "item": "fire_ax", "prob": 15, "damage": [ 2, 4 ] },
+          { "item": "iceaxe", "prob": 5, "damage": [ 1, 3 ] },
+          { "item": "crash_axe", "prob": 5, "damage": [ 1, 3 ] }
+        ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -511,7 +541,15 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "starer_death_drops_crowbar",
-    "entries": [ { "item": "crowbar", "prob": 100, "damage": [ 1, 3 ] } ]
+    "entries": [
+      {
+        "distribution": [
+          { "item": "crowbar", "prob": 40, "damage": [ 1, 3 ] },
+          { "item": "makeshift_crowbar", "prob": 40, "damage": [ 1, 3 ] },
+          { "item": "heavy_crowbar", "prob": 10, "damage": [ 2, 4 ] }
+        ]
+      }
+    ]
   },
   {
     "id": "mon_feral_prepper_death_drops",
@@ -613,6 +651,18 @@
     "items": [ [ "glockmag", 350 ], [ "glock17_17", 350 ], [ "uzimag", 350 ] ]
   },
   {
+    "type": "item_group",
+    "id": "feral_jackboot_shotgun",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mossberg_500", "prob": 33, "charges": [ 0, 6 ] },
+      { "item": "mossberg_590", "prob": 3, "charges": [ 0, 9 ] },
+      { "item": "remington_870", "prob": 35, "charges": [ 0, 5 ] },
+      { "item": "remington_870_express", "prob": 18, "charges": [ 0, 6 ] },
+      { "item": "mossberg_930", "prob": 15, "charges": [ 0, 6 ] }
+    ]
+  },
+  {
     "id": "mon_feral_soldier_death_drops",
     "type": "item_group",
     "subtype": "collection",
@@ -671,6 +721,43 @@
       { "group": "diving_masks", "damage": [ 1, 4 ], "prob": 100 },
       { "group": "diving_glasses", "damage": [ 0, 4 ], "prob": 65 },
       { "group": "diving_accessories", "damage": [ 1, 4 ], "prob": 40 }
+    ]
+  },
+  {
+    "id": "mon_feral_jackboot_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 20,
+    "entries": [
+      {
+        "distribution": [
+          { "item": "jacket_leather", "prob": 65, "damage": [ 1, 4 ] },
+          { "item": "trenchcoat_leather", "prob": 65, "damage": [ 1, 4 ] },
+          { "item": "duster_leather", "prob": 35, "damage": [ 1, 4 ] }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "longshirt", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "polo_shirt", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "tshirt", "prob": 80, "damage": [ 1, 4 ] },
+          { "item": "linuxtshirt", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "tshirt_tour", "prob": 50, "damage": [ 1, 4 ] }
+        ]
+      },
+      { "group": "feral_jackboot_shotgun", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "clothing_outdoor_shoes", "damage": [ 1, 4 ] },
+      { "group": "clothing_outdoor_pants", "damage": [ 1, 4 ] },
+      { "group": "socks_unisex", "damage": [ 1, 4 ] },
+      { "group": "clothing_watch", "prob": 5, "damage": [ 1, 4 ] },
+      { "item": "sunglasses", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "item": "gloves_leather", "prob": 80, "damage": [ 1, 4 ] },
+      { "group": "salty_snacks", "count": [ 1, 3 ], "prob": 50 },
+      { "group": "snacks", "count": [ 1, 3 ], "prob": 60 },
+      { "item": "meth", "prob": 20, "charges": [ 1, 6 ] },
+      { "group": "meth_ingredients", "prob": 5 }
     ]
   }
 ]

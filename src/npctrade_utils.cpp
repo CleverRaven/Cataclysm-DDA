@@ -6,6 +6,7 @@
 #include "calendar.h"
 #include "clzones.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "rng.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -19,7 +20,7 @@ using consume_queue = std::vector<item_location>;
 using dest_t = std::vector<tripoint_abs_ms>;
 
 void _consume_item( item_location elem, consume_queue &consumed, consume_cache &cache, npc &guy,
-                    int amount )
+                    time_duration const &elapsed )
 {
     if( !elem->is_owned_by( guy ) ) {
         return;
@@ -28,7 +29,9 @@ void _consume_item( item_location elem, consume_queue &consumed, consume_cache &
     if( contents.empty() ) {
         auto it = cache.find( elem->typeId() );
         if( it == cache.end() ) {
-            it = cache.emplace( elem->typeId(), amount ).first;
+            int const rate = guy.myclass->get_shopkeeper_cons_rates().get_rate( *elem );
+            int const rate_init = rate >= 0 ? rate * to_days<int>( elapsed ) : -1;
+            it = cache.emplace( elem->typeId(), rate_init ).first;
         }
         if( it->second != 0 ) {
             consumed.push_back( elem );
@@ -36,7 +39,7 @@ void _consume_item( item_location elem, consume_queue &consumed, consume_cache &
         }
     } else {
         for( item *it : contents ) {
-            _consume_item( item_location( elem, it ), consumed, cache, guy, amount );
+            _consume_item( item_location( elem, it ), consumed, cache, guy, elapsed );
         }
     }
 }
@@ -49,27 +52,25 @@ dest_t _get_shuffled_point_set( std::unordered_set<tripoint_abs_ms> const &set )
     return ret;
 }
 
+// returns true if item wasn't placed
 bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
 {
-    bool leftover = true;
     if( here.can_put_items_ter_furn( dpoint_here ) and
         here.free_volume( dpoint_here ) >= it.volume() ) {
-        here.add_item_or_charges( dpoint_here, it, false );
-        leftover = false;
+        item const &ret = here.add_item_or_charges( dpoint_here, it, false );
+        return ret.is_null();
     }
-
-    return leftover;
+    return true;
 }
 
 bool _to_veh( item const &it, cata::optional<vpart_reference> const vp )
 {
-    bool leftover = true;
     int const part = static_cast<int>( vp->part_index() );
     if( vp->vehicle().free_volume( part ) >= it.volume() ) {
-        vp->vehicle().add_item( part, it );
-        leftover = false;
+        cata::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( part, it );
+        return !ret.has_value();
     }
-    return leftover;
+    return true;
 }
 
 } // namespace
@@ -136,7 +137,6 @@ void consume_items_in_zones( npc &guy, time_duration const &elapsed )
 
     consume_cache cache;
     map &here = get_map();
-    int constexpr rate = 5; // FIXME: jsonize
 
     for( tripoint const &pt : src ) {
         consume_queue consumed;
@@ -145,7 +145,7 @@ void consume_items_in_zones( npc &guy, time_duration const &elapsed )
             return it.is_owned_by( guy );
         } );
         for( item_location &elem : stack ) {
-            _consume_item( elem, consumed, cache, guy, rate * to_days<int>( elapsed ) );
+            _consume_item( elem, consumed, cache, guy, elapsed );
         }
         for( item_location &it : consumed ) {
             it.remove_item();

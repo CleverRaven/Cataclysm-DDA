@@ -138,7 +138,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "21 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
@@ -149,7 +150,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "21 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
@@ -160,7 +162,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "28 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
@@ -171,7 +174,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "28 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
@@ -182,7 +186,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "35 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
@@ -193,7 +198,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "35 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"

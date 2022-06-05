@@ -1050,21 +1050,6 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
-        // now that layering is resolved hard code rules for footwear always being rigid
-        // anything that covers the feet is rigid
-        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
-            auto is_normal = std::find( armor_data.layers.begin(), armor_data.layers.end(),
-                                        layer_level::NORMAL );
-            auto is_legs = std::find_if( armor_data.sub_coverage.begin(),
-            armor_data.sub_coverage.end(), []( const sub_bodypart_id sbp ) {
-                return sbp->parent == body_part_foot_l || sbp->parent == body_part_foot_r;
-            } );
-
-            if( is_normal != armor_data.layers.end() && is_legs != armor_data.sub_coverage.end() ) {
-                armor_data.rigid = true;
-            }
-        }
-
         // anything on a non traditional clothing layer can't be "rigid" as well since it's storage pouches and stuff
         for( armor_portion_data &armor_data : obj.armor->sub_data ) {
             auto clothing_layer = std::find_if( armor_data.layers.begin(),
@@ -2529,6 +2514,10 @@ void itype_variant_data::load( const JsonObject &jo )
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", alt_name );
     mandatory( jo, false, "description", alt_description );
+    optional( jo, false, "symbol", alt_sym, cata::nullopt );
+    if( jo.has_string( "color" ) ) {
+        alt_color = color_from_string( jo.get_string( "color" ) );
+    }
     optional( jo, false, "ascii_picture", art );
     optional( jo, false, "weight", weight );
     optional( jo, false, "append", append );
@@ -2801,8 +2790,7 @@ void islot_armor::load( const JsonObject &jo )
 
     optional( jo, was_loaded, "warmth", warmth, 0 );
     optional( jo, false, "non_functional", non_functional, itype_id() );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_bonus,
-              mass_reader{}, 0_gram );
+    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
     optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "valid_mods", valid_mods );

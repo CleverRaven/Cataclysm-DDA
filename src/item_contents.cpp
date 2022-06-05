@@ -579,7 +579,8 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         }
         if( !pocket.rigid() && (
                 !pocket.settings.get_item_whitelist().empty() ||
-                !pocket.settings.get_category_whitelist().empty() ) ) {
+                !pocket.settings.get_category_whitelist().empty() ||
+                pocket.settings.priority() > 0 ) ) {
             ignore_rigidity = true;
         }
         if( !pocket.can_contain( it ).success() || ( !ignore_rigidity && nested && !pocket.rigid() ) ) {
@@ -600,8 +601,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             continue;
         }
         if( parent_pkt_selected ) {
-            if( !nested_content_pocket->settings.get_category_whitelist().empty() ||
-                !nested_content_pocket->settings.get_item_whitelist().empty() ) {
+            if( ret.second->better_pocket( *nested_content_pocket, it, true ) ) {
                 // item is whitelisted in nested pocket, prefer that over parent pocket
                 ret.second = nested_content_pocket;
             }
@@ -1270,6 +1270,20 @@ std::list<const item *> item_contents::all_items_top() const
     } );
 }
 
+std::list<item *> item_contents::all_known_contents()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type() && pocket.transparent();
+    } );
+}
+
+std::list<const item *> item_contents::all_known_contents() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type() && pocket.transparent();
+    } );
+}
+
 item &item_contents::legacy_front()
 {
     if( empty() ) {
@@ -1880,12 +1894,12 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
     }
 }
 
-void item_contents::process( Character *carrier, const tripoint &pos, float insulation,
+void item_contents::process( map &here, Character *carrier, const tripoint &pos, float insulation,
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            pocket.process( carrier, pos, insulation, flag, spoil_multiplier_parent );
+            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
         }
     }
 }

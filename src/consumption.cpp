@@ -1083,6 +1083,8 @@ static bool eat( item &food, Character &you, bool force )
         you.consumption_history.pop_front();
     }
 
+    you.recoil = MAX_RECOIL;
+
     return true;
 }
 

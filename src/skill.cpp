@@ -585,23 +585,7 @@ bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
 // Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
 double price_adjustment( int barter_skill )
 {
-    if( barter_skill <= 0 ) {
-        return 1.0;
-    }
-    if( barter_skill >= 5 ) {
-        return 2.0;
-    }
-    switch( barter_skill ) {
-        case 1:
-            return 1.05;
-        case 2:
-            return 1.15;
-        case 3:
-            return 1.30;
-        case 4:
-            return 1.65;
-        default:
-            // Should never occur
-            return 1.0;
-    }
+    int const skill = std::min( 5, std::abs( barter_skill ) );
+    double const val = 0.045 * std::pow( skill, 2 ) - 0.025 * skill + 1;
+    return barter_skill >= 0 ? val : 1 / val;
 }

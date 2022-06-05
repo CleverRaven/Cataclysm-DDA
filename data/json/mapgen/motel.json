@@ -36,7 +36,7 @@
         ".#SS0SSSSSS#.SS.#g     B   E  HHHH |#._________#",
         ".#SSSSSSSSS#.SS.#||||gg||MM|gg||||||#._________#",
         ".#SSSS||||||.SS.#########SS##########._________#",
-        ".#SSSS|9~9~|.SS.........#SS#.........._________#",
+        ".#SSSS|<99~|.SS.........#SS#.........._________#",
         ".#SSSS|~~~~3SSSSSSSSSSSSSSSSSSSSSSSSSS_________#",
         ".|||||||||||SSSSSSSSSSSSSSSSSSSSSSSSSS_________#",
         ".|'A|::  BC|SS__y____y____y____y____y__________#",
@@ -73,6 +73,7 @@
         "................................................"
       ],
       "terrain": {
+        "<": "t_ladder_up",
         "0": "t_sidewalk",
         ".": "t_region_groundcover_urban",
         "_": "t_pavement",
@@ -128,8 +129,8 @@
       "place_items": [
         { "item": "traveler", "chance": 90, "x": 30, "y": [ 6, 6 ] },
         { "item": "cash_register_random", "x": 32, "y": [ 5, 8 ], "chance": 100 },
-        { "item": "cleaning", "chance": 80, "x": [ 7, 7 ], "y": [ 13, 13 ] },
-        { "item": "home_hw", "chance": 80, "x": [ 9, 9 ], "y": [ 13, 13 ] },
+        { "item": "SUS_janitors_closet", "chance": 80, "x": [ 8, 8 ], "y": [ 13, 13 ] },
+        { "item": "tools_toolbox", "chance": 80, "x": [ 9, 9 ], "y": [ 13, 13 ] },
         { "item": "book_motel", "x": 10, "y": 16, "chance": 100 },
         { "item": "book_motel", "x": 10, "y": 22, "chance": 100 },
         { "item": "traveler", "chance": 45, "x": [ 5, 6 ], "y": [ 16, 16 ] },
@@ -488,8 +489,8 @@
       "place_items": [
         { "item": "traveler", "chance": 90, "x": 30, "y": [ 6, 6 ] },
         { "item": "cash_register_random", "x": 32, "y": [ 5, 8 ], "chance": 100 },
-        { "item": "cleaning", "chance": 80, "x": [ 7, 7 ], "y": [ 13, 13 ] },
-        { "item": "home_hw", "chance": 80, "x": [ 9, 9 ], "y": [ 13, 13 ] },
+        { "item": "SUS_janitors_closet", "chance": 80, "x": [ 7, 7 ], "y": [ 13, 13 ] },
+        { "item": "tools_toolbox", "chance": 80, "x": [ 9, 9 ], "y": [ 13, 13 ] },
         { "item": "book_motel", "x": 10, "y": 16, "chance": 100 },
         { "item": "book_motel", "x": 10, "y": 22, "chance": 100 },
         { "item": "traveler", "chance": 45, "x": [ 5, 6 ], "y": [ 16, 16 ] },
@@ -910,7 +911,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "motel_twd_second_floor" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -940,6 +940,7 @@
         "                        "
       ],
       "terrain": {
+        " ": "t_open_air",
         ".": "t_floor",
         "<": "t_stairs_down",
         "-": "t_wall",

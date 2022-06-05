@@ -67,7 +67,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "use_action": [ "CROWBAR" ],

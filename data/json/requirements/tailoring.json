@@ -71,7 +71,7 @@
   {
     "id": "armor_kevlar_layered",
     "type": "requirement",
-    "//": "Joining kevlar panels together into something like a kevlar vest or other armor per 80 g of Kevlar.  Time needed is 90 minutes per unit.",
+    "//": "Joining Kevlar panels together into something like a Kevlar vest or other armor per 80 g of Kevlar.  Time needed is 90 minutes per unit.",
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "sheet_kevlar_layered", 1 ] ], [ [ "filament", 4, "LIST" ] ] ]
   },
@@ -425,11 +425,11 @@
     ]
   },
   {
-    "id": "waterproofing_plastic_bags",
+    "id": "waterproofing_plastic_sheets",
     "type": "requirement",
-    "//": "Making a waterproof layer from plastic bags duct taped together, per 25 g of such waterproofing.  Takes 15 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "bag_plastic", 1 ] ], [ [ "duct_tape", 5 ] ] ]
+    "//": "Making a waterproof layer from plastic sheets duct taped together, per 0.2 m2.",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_sheet_small", 1 ] ], [ [ "duct_tape", 5 ] ] ]
   },
   {
     "id": "tanning_agent",

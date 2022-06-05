@@ -964,6 +964,7 @@ bool mattack::pull_metal_weapon( monster *z )
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
+                foe->recoil = MAX_RECOIL;
             } else {
                 target->add_msg_player_or_npc( m_type,
                                                _( "The %s unsuccessfully attempts to pull your weapon away." ),
@@ -5734,7 +5735,7 @@ bool mattack::kamikaze( monster *z )
             // Timer is out, detonate
             item i_explodes( act_bomb_type, calendar::turn, 0 );
             i_explodes.active = true;
-            i_explodes.process( nullptr, z->pos() );
+            i_explodes.process( get_map(), nullptr, z->pos() );
             return false;
         }
         return false;

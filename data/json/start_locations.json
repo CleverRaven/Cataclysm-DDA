@@ -114,7 +114,7 @@
     "name": "House",
     "terrain": [
       "house_w_1",
-      "house_two_story_basement",
+      "house_2story_basement",
       "house_crack1",
       "house_crack2",
       "house_crack3",
@@ -545,6 +545,18 @@
     "id": "sloc_military_base_warehouse",
     "name": "Military Base Warehouse",
     "terrain": [ "mil_base_2g" ]
+  },
+  {
+    "type": "start_location",
+    "id": "aircraft_carrier_berth",
+    "name": "Aircraft Carrier Berth",
+    "terrain": [ "aircraft_carrier_1b" ]
+  },
+  {
+    "type": "start_location",
+    "id": "aircraft_carrier_bridge",
+    "name": "Aircraft Carrier Captain's Bridge",
+    "terrain": [ "aircraft_carrier_1b" ]
   },
   {
     "type": "start_location",

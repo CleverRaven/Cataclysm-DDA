@@ -49,7 +49,6 @@
   - data/json/construction_group.json
   - data/json/deconstruction.json
 
-
 "EOC: Effects On Condition":
   - "**/**effect_on_condition**"
   - "**/**eocs**"
@@ -62,7 +61,7 @@
   - "**/comestibles**"
 
 "NPC / Factions":
-  - "**/npc**"
+  - "**/**npc**/**/*"
 
 "Melee":
   - "**/melee**"
@@ -95,6 +94,9 @@
   - "**/**holster**"
   - "**/**ammo_pouch**"
   - "**/**bandolier**"
+  - "src/item_pocket.*"
+  - "src/item_contents.*"
+  - "tests/item_pocket_test.*"
 
 "Items: Magazines":
   - "**/magazine/**/*"
@@ -195,7 +197,7 @@
 
 "Mods: TropiCataclysm 🌴":
   - data/mods/TropiCataclysm/**/*
-  
+
 "Mods: Tamable Wildlife":
   - data/mods/Tamable_Wildlife/**/*
 

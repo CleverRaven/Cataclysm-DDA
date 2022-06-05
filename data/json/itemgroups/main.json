@@ -47,6 +47,7 @@
       { "item": "portal", "prob": 20 },
       { "item": "power_armor_basic", "prob": 50 },
       { "item": "power_armor_frame", "prob": 40 },
+      { "item": "power_armor_generator", "prob": 40 },
       { "item": "power_armor_heavy", "prob": 30 },
       { "item": "power_armor_helmet_basic", "prob": 60 },
       { "item": "power_armor_helmet_heavy", "prob": 30 },

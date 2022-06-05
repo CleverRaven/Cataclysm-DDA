@@ -436,6 +436,15 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_elec < 0 ) {
             mon.armor_elec = 0;
         }
+        if( mon.armor_cold < 0 ) {
+            mon.armor_cold = 0;
+        }
+        if( mon.armor_pure < 0 ) {
+            mon.armor_pure = 0;
+        }
+        if( mon.armor_biological < 0 ) {
+            mon.armor_biological = 0;
+        }
         if( mon.status_chance_multiplier < 0 ) {
             mon.status_chance_multiplier = 0;
         }
@@ -740,6 +749,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
     assign( jo, "armor_elec", armor_elec, strict, 0 );
+    assign( jo, "armor_cold", armor_cold, strict, 0 );
+    assign( jo, "armor_pure", armor_pure, strict, 0 );
+    assign( jo, "armor_biological", armor_biological, strict, 0 );
 
     if( !was_loaded || jo.has_array( "weakpoint_sets" ) || jo.has_array( "weakpoints" ) ) {
         weakpoints_deferred.clear();
@@ -890,7 +902,46 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );
     } else if( jo.has_object( "melee_damage" ) ) {
-        melee_damage = load_damage_instance( jo );
+        melee_damage = load_damage_instance( jo.get_object( "melee_damage" ) );
+    } else if( jo.has_object( "relative" ) ) {
+        cata::optional<damage_instance> tmp_dmg;
+        JsonObject rel = jo.get_object( "relative" );
+        rel.allow_omitted_members();
+        if( rel.has_array( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( rel.get_array( "melee_damage" ) );
+        } else if( rel.has_object( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( rel.get_object( "melee_damage" ) );
+        } else if( rel.has_int( "melee_damage" ) ) {
+            const int rel_amt = rel.get_int( "melee_damage" );
+            for( damage_unit &du : melee_damage ) {
+                du.amount += rel_amt;
+            }
+        }
+        if( !!tmp_dmg ) {
+            melee_damage.add( tmp_dmg.value() );
+        }
+    } else if( jo.has_object( "proportional" ) ) {
+        cata::optional<damage_instance> tmp_dmg;
+        JsonObject prop = jo.get_object( "proportional" );
+        prop.allow_omitted_members();
+        if( prop.has_array( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( prop.get_array( "melee_damage" ) );
+        } else if( prop.has_object( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( prop.get_object( "melee_damage" ) );
+        } else if( prop.has_float( "melee_damage" ) ) {
+            melee_damage.mult_damage( prop.get_float( "melee_damage" ), true );
+        }
+        if( !!tmp_dmg ) {
+            for( const damage_unit &du : tmp_dmg.value() ) {
+                auto iter = std::find_if( melee_damage.begin(),
+                melee_damage.end(), [&du]( const damage_unit & mdu ) {
+                    return mdu.type == du.type;
+                } );
+                if( iter != melee_damage.end() ) {
+                    iter->amount *= du.amount;
+                }
+            }
+        }
     }
 
     if( jo.has_array( "scents_tracked" ) ) {
@@ -903,12 +954,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         for( const std::string line : jo.get_array( "scents_ignored" ) ) {
             scents_ignored.emplace( line );
         }
-    }
-
-    int bonus_cut = 0;
-    if( jo.has_int( "melee_cut" ) ) {
-        bonus_cut = jo.get_int( "melee_cut" );
-        melee_damage.add_damage( damage_type::CUT, bonus_cut );
     }
 
     if( jo.has_member( "death_drops" ) ) {
@@ -1061,7 +1106,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
-    difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
+    float melee_dmg_total = melee_damage.total_damage();
+    difficulty = ( melee_skill + 1 ) * melee_dice * ( melee_dmg_total + melee_sides ) * 0.04 +
                  ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
                  ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
     difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +

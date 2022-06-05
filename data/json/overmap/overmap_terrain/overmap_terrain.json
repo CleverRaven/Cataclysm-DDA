@@ -86,7 +86,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "boat_rental",
+    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2", "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
     "name": "boat rental",
     "sym": "#",
     "color": "white",

@@ -291,6 +291,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "outpost_roof", "outpost_cross_roof" ],
+    "name": "military outpost roof",
+    "sym": "M",
+    "color": "red",
+    "see_cost": 2,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "silo", "silo_1", "silo_2", "silo_3", "silo_4", "silo_finale" ],
     "name": "missile silo",
     "sym": "0",

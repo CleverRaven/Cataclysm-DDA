@@ -527,6 +527,25 @@
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
+    "id": "cooked_marrow",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "roasted bone marrow" },
+    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "marvin marrow" } } ],
+    "description": "Marrow extracted from bones that's been cooked.  Tasty!",
+    "symbol": "%",
+    "color": "red",
+    "weight": "60 g",
+    "volume": "50 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "material": [ "flesh" ],
+    "spoils_in": "1 day",
+    "calories": 471,
+    "fun": 5,
+    "vitamins": [ [ "iron", 17 ] ]
+  },
+  {
     "id": "offal",
     "copy-from": "meat",
     "type": "COMESTIBLE",
@@ -556,6 +575,7 @@
     "snippet_category": "bug_organs_desc",
     "description": "These organs came from a giant mutant bug.",
     "looks_like": "offal",
+    "cooks_like": "mutant_bug_organs_cooked",
     "proportional": { "price": 0.1, "calories": 0.65 },
     "vitamins": [ [ "mutant_toxin", 25 ] ],
     "extend": { "flags": [ "BAD_TASTE" ] }
@@ -569,7 +589,7 @@
     "description": "Cooked mutant bug organs.  It looks awful, but if you really eat it, you'll find -- it's worse than it looks.",
     "looks_like": "offal_cooked",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "NUTRIENT_OVERRIDE" ] }
   },
   {
     "id": "offal_pickled",
@@ -878,6 +898,56 @@
     "name": { "str": "cooked mutant liver" },
     "snippet_category": "cooked_mutant_liver_desc",
     "fun": -5
+  },
+  {
+    "id": "bone_marrow",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "bone marrow" },
+    "description": "A soft, spongy substance found in bones that is rich in fat.  Chock-full of good stuff and doesn't taste too bad even raw, but beware of parasites.",
+    "weight": "60 g",
+    "volume": "50 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "1 day",
+    "calories": 471,
+    "fun": -3,
+    "vitamins": [ [ "iron", 17 ] ],
+    "flags": [ "RAW", "PREDATOR_FUN" ]
+  },
+  {
+    "id": "human_marrow",
+    "type": "COMESTIBLE",
+    "copy-from": "bone_marrow",
+    "name": { "str_sp": "human bone marrow" },
+    "description": "Soft, spongy marrow tissue from a human bone.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_marrow",
+    "type": "COMESTIBLE",
+    "copy-from": "bone_marrow",
+    "name": { "str_sp": "demihuman bone marrow" },
+    "description": "Soft, spongy marrow tissue from a demihuman bone.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
+    "id": "mutant_marrow",
+    "type": "COMESTIBLE",
+    "copy-from": "bone_marrow",
+    "name": { "str_sp": "mutant bone marrow" },
+    "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated animal.",
+    "proportional": { "price": 0.2, "calories": 0.5 },
+    "vitamins": [ [ "iron", 7 ], [ "mutant_toxin", 25 ] ],
+    "flags": [ "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
+  },
+  {
+    "id": "mutant_human_marrow",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_marrow",
+    "name": { "str_sp": "mutant human bone marrow" },
+    "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated creature that was unsettlingly humanoid in appearance.",
+    "material": [ "hflesh" ]
   },
   {
     "id": "brain",
@@ -1233,6 +1303,26 @@
     "volume": "250 ml",
     "fun": -10,
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tainted_marrow",
+    "category": "other",
+    "name": { "str_sp": "tainted bone marrow" },
+    "weight": "60 g",
+    "color": "red",
+    "spoils_in": "4 hours",
+    "use_action": [ "POISON" ],
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 235,
+    "description": "A wet, green chunk of spongy goop extracted from a rotten bone.  You could eat it, but it will poison you.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "volume": "50 ml",
+    "fun": -10,
+    "flags": [ "TRADER_AVOID", "RAW" ]
   },
   {
     "type": "GENERIC",

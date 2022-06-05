@@ -110,9 +110,9 @@
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_NW",
-    "name": "swamp",
+    "name": "swamp?",
     "sym": "F",
-    "color": "cyan",
+    "color": "c_light_cyan",
     "looks_like": "forest_water",
     "see_cost": 5,
     "flags": [ "SOURCE_FORAGE", "RISK_HIGH" ]
@@ -279,9 +279,9 @@
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_ground",
-    "name": "forest",
+    "name": "forest?",
     "sym": "F",
-    "color": "green",
+    "color": "c_light_green",
     "looks_like": "forest",
     "see_cost": 5
   },

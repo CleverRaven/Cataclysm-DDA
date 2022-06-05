@@ -392,7 +392,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ui.on_screen_resize( screen_resize_cb );
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_border( w, BORDER_COLOR, title, c_black_white );
+        draw_border( w, BORDER_COLOR, title );
         for( int line = beg_line, pos_y = text2.y; line < std::min<int>( beg_line + text_h, lines.size() );
              ++line, ++pos_y ) {
             nc_color dummy = c_white;
@@ -1209,17 +1209,10 @@ std::string trim_trailing_punctuations( const std::string &s )
 using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wstr = utf8_to_wstr( s );
-        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
-        return wstr_to_utf8( wstr );
-    }
-    std::string res;
-    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
-        return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
-    } );
-    return res;
+    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    std::wstring wstr = utf8_to_wstr( s );
+    f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+    return wstr_to_utf8( wstr );
 }
 
 // find the position of each non-printing tag in a string
