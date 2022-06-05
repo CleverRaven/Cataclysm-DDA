@@ -1,11 +1,5 @@
 [
   {
-    "id": "button",
-    "type": "requirement",
-    "//": "All kinds of clothing buttons.",
-    "components": [ [ [ "button_plastic", 1 ], [ "button_wood", 1 ], [ "button_steel", 1 ], [ "button_bronze", 1 ] ] ]
-  },
-  {
     "id": "plastic_molding",
     "type": "requirement",
     "//": "Melting and reshaping plastic items through the use of vacuum forming molds, per 70 g of plastic. Usually takes 30 minutes per unit.",

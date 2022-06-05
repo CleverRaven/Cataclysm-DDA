@@ -42,6 +42,17 @@
     "material": [ "steel" ]
   },
   {
+    "id": "button_bronze",
+    "copy-from": "button_steel",
+    "type": "AMMO",
+    "name": { "str": "bronze button" },
+    "description": "A bronze button, found on ancient clothing.",
+    "weight": "10 g",
+    "price": 300,
+    "price_postapoc": 0,
+    "material": [ "bronze" ]
+  },
+  {
     "id": "button_wood",
     "copy-from": "button_plastic",
     "type": "AMMO",

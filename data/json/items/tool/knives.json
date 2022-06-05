@@ -20,6 +20,27 @@
     "weapon_category": [ "KNIVES" ]
   },
   {
+    "id": "bronze_knife",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "bronze knife", "str_pl": "bronze knives" },
+    "description": "Cast bronze knife with a full tang, with a handle wrapped in cord and leather, lovingly work-hardened and sharpened to a fine edge.",
+    "weight": "450 g",
+    "volume": "250 ml",
+    "longest_side": "20 cm",
+    "price": 4000,
+    "price_postapoc": 500,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "cutting": 14,
+    "material": [ "bronze", "leather" ],
+    "symbol": "/",
+    "color": "yellow",
+    "looks_like": "copper_knife",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
+  },
+  {
     "id": "diveknife",
     "type": "TOOL",
     "category": "weapons",

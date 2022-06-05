@@ -1072,7 +1072,13 @@
       [ "pointy_stick", 50 ],
       [ "throwing_stick", 50 ],
       [ "copper_knife", 10 ],
+      [ "bronze_knife", 10 ],
+      [ "bronze_shears", 3 ],
       [ "copper_ax", 10 ],
+      [ "bronze_axe", 10 ],
+      [ "bronze_hoe", 5 ],
+      [ "bronze_sickle", 3 ],
+      [ "bronze_pickaxe", 2 ],
       [ "bone_flute", 10 ],
       [ "spear_stone", 50 ],
       [ "hand_axe", 50 ]

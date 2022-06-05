@@ -816,6 +816,27 @@
     "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
+    "id": "bronze_pickaxe",
+    "type": "TOOL",
+    "name": { "str": "bronze pickaxe" },
+    "description": "A heavy-headed cast and worked tool with a pointed wedge on one side for breaking stone and flat wedge on the other for prying it out.  You could mine with this.",
+    "weight": "6 kg",
+    "volume": "3 L",
+    "longest_side": "91 cm",
+    "price": 16000,
+    "price_postapoc": 1250,
+    "to_hit": -2,
+    "bashing": 30,
+    "cutting": 12,
+    "material": [ "wood", "bronze" ],
+    "symbol": "/",
+    "color": "yellow",
+    "use_action": [ "PICKAXE" ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
+  },
+  {
     "id": "pin_reamer",
     "type": "TOOL",
     "name": { "str": "pin reamer" },

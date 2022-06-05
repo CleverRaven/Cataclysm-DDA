@@ -143,6 +143,28 @@
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ]
   },
   {
+    "id": "bronze_axe",
+    "type": "TOOL",
+    "name": { "str": "bronze axe" },
+    "description": "This is a socketed bronze axe with a work-hardened edge, tightly bound to the shaft with cords as your ancestors did.",
+    "weight": "3600 g",
+    "volume": "2500 ml",
+    "longest_side": "96 cm",
+    "price": 5500,
+    "price_postapoc": 250,
+    "bashing": 20,
+    "cutting": 25,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
+    "material": [ "wood", "bronze" ],
+    "symbol": "/",
+    "color": "yellow",
+    "looks_like": "copper_ax",
+    "qualities": [ [ "CUT", 1 ], [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ]
+  },
+  {
     "type": "GENERIC",
     "id": "hatchet",
     "symbol": ";",

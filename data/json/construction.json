@@ -1828,7 +1828,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
     "pre_terrain": "t_brick_wall",
     "post_terrain": "t_embrasure_brick"
   },
@@ -1857,7 +1857,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
     "pre_terrain": "t_adobe_brick_wall",
     "post_terrain": "t_embrasure_adobe_brick"
   },
@@ -3037,7 +3037,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 8 ], [ "log", 8 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "byproducts": [ { "group": "digging_soil_loam_50L", "count": 40 } ],
     "activity_level": "EXTRA_EXERCISE",
@@ -3058,7 +3058,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "byproducts": [ { "group": "mining_rock" } ],
     "activity_level": "EXTRA_EXERCISE",
@@ -3122,7 +3122,7 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ],
+      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ],
       [
         "miner_hat",
         "hat_hard",
@@ -4735,7 +4735,7 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 3 ] ],
     "time": "300 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
     "byproducts": [ { "group": "mining_rock" } ],
     "pre_terrain": "t_rock_floor",
     "post_terrain": "t_pit",
@@ -5377,7 +5377,7 @@
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_rock_roof",
     "post_terrain": "t_skylight_frame",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ]
   },
   {
     "type": "construction",
