@@ -1,7 +1,5 @@
 [
   {
-    "//": "This file provide some milspec loot groups for using in military armament rooms - part is deployed and ready to use (or already used), and part is store the ammo. This was maded to make some consistency and order in arsenals",
-    "//2": "the list of armament picked from <https://en.wikipedia.org/wiki/List_of_equipment_of_the_United_States_Army#Small_arms>. If you have a better source youre welcome",
     "type": "item_group",
     "id": "grenade_can_full",
     "container-item": "ammunition_box_grenade",

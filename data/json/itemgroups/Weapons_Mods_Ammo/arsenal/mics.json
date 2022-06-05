@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "arsenal_mics_collection",
+    "id": "arsenal_mics_group",
     "items": [
       { "group": "arsenal_mics_carrying", "prob": 80, "count": [ 1, 4 ] },
       { "group": "arsenal_mics_rare", "prob": 10 },
