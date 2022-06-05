@@ -173,7 +173,7 @@
     "connects_to": "METALFLOOR",
     "move_cost": 2,
     "light_emitted": 120,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "thump",
@@ -199,7 +199,7 @@
     "connects_to": "CONCRETE",
     "move_cost": 2,
     "light_emitted": 120,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "looks_like": "t_thconc_floor_olight",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -314,7 +314,7 @@
     "connects_to": "CONCRETE",
     "emissions": [ "emit_plasma_continuously" ],
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "trap": "tr_glimmer_floor",
     "bash": {
