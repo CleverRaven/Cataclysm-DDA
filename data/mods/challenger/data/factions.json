@@ -1,0 +1,40 @@
+[
+  {
+    "type": "faction",
+    "id": "challengers",
+    "name": "Challengers",
+    "likes_u": -25,
+    "respects_u": -25,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "food_supply": 230400,
+    "wealth": 45000000,
+    "relations": {
+      "challengers": {
+        "kill on sight": true,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "your_followers": { "kill on sight": true }
+    },
+    "epilogues": [
+      { "power_min": 0, "id": "epilogue_faction_challenger_0" }
+    ],
+    "description": "You are all here, at the end, suffering together."
+  },
+  {
+    "type": "snippet",
+    "category": "epilogue_factions",
+    "text": [
+  {
+    "id": "epilogue_faction_challenger_0",
+    "text": "    As it all goes dark you think you hear one last metalic voice \"D I S A P O I N T I N G\"."
+  }
+]
+}
+]

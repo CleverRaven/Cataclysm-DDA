@@ -141,7 +141,7 @@
             ],
             "palettes": [ "arena" ],
             "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-            "place_npcs": [ { "class": "bandit", "x": 17, "y": 11 } ]
+            "place_npcs": [ { "class": "neophyte", "x": 17, "y": 11 } ]
       }
   }
 ]
