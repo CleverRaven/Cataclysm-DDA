@@ -8,7 +8,7 @@
     "color": "cyan",
     "connects_to": "CONCRETE",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -33,7 +33,7 @@
     "looks_like": "t_pavement_y",
     "connects_to": "CONCRETE",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -59,7 +59,7 @@
     "looks_like": "t_floor_red",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "copy-from": "t_thconc_floor"
   },
   {
@@ -74,7 +74,7 @@
     "connects_to": "CONCRETE",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "copy-from": "t_thconc_floor",
     "bash": {
       "str_min": 4,
@@ -97,7 +97,7 @@
     "connects_to": "CONCRETE",
     "move_cost": 2,
     "light_emitted": 120,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 4,
@@ -121,7 +121,7 @@
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
     "light_emitted": 120,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "looks_like": "t_floor",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -269,7 +269,6 @@
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 4,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES" ],
     "bash": {
       "sound": "SCRRRASH!",
@@ -289,7 +288,7 @@
     "color": "cyan",
     "connects_to": "CONCRETE",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -405,7 +404,7 @@
     "color": "light_cyan",
     "connects_to": "METALFLOOR",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "thump",
@@ -428,7 +427,7 @@
     "symbol": ".",
     "color": "light_cyan",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "INDOORS" ],
     "bash": {
       "sound": "thump",
@@ -453,7 +452,7 @@
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
     "comfort": 1,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_treated_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -472,7 +471,7 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_log_sod_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
     "bash": {
       "sound": "SMASH!",
@@ -495,7 +494,7 @@
     "symbol": ".",
     "color": "cyan",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_metal_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 50,
@@ -516,7 +515,7 @@
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
     "comfort": 1,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_treated_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
