@@ -21,7 +21,14 @@
     "description": "A 30 round standard capacity magazine for service rifles, cheaper than the cost of a meal due to its adoption by nearly every other common rifle.  They're made of aluminum and were originally meant to be disposable, so they're not the most durable; don't let them get damaged.",
     "volume": "500 ml",
     "ammo_type": [ "ammo_rifle" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 30 }, "rigid": true } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "ammo_rifle": 30 },
+        "allowed_speedloaders": [ "rifle_clip" ],
+        "rigid": true
+      }
+    ]
   },
   {
     "id": "rifle_sniper_mag",
@@ -58,5 +65,12 @@
     "description": "A railgun rifle magazine which can hold up to 20 ferromagnetic projectiles.",
     "ammo_type": [ "ammo_railgun" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_railgun": 20 } } ]
+  },
+  {
+    "id": "rifle_clip",
+    "copy-from": "clip223_10rd",
+    "type": "MAGAZINE",
+    "name": { "str": "rifle clip" },
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load ten rifle rounds into a magazine."
   }
 ]
