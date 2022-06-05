@@ -875,6 +875,34 @@
   },
   {
     "type": "keybinding",
+    "id": "QUIT",
+    "category": "DISPLAY_HELP",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "SCROLLABLE_TEXT",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ZOOM_OUT",
     "category": "OVERMAP",
     "name": "Zoom out",
