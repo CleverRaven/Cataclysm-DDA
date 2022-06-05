@@ -396,7 +396,7 @@ template<typename value_type>
 inline constexpr value_type to_joule_per_gram( const
         quantity<value_type, specific_energy_in_milli_joule_per_gram_tag> &v )
 {
-    return v.value() * 1000;
+    return v.value() / 1000.f;
 }
 
 // Temperature
@@ -424,14 +424,14 @@ template<typename value_type>
 inline constexpr value_type to_kelvin( const
                                        quantity<value_type, temperature_in_milli_kelvin_tag> &v )
 {
-    return v.value() * 1000.f;
+    return v.value() / 1000.f;
 }
 
 template<typename value_type>
 inline constexpr quantity<value_type, temperature_in_milli_kelvin_tag> from_kelvin(
     const value_type v )
 {
-    return v.value() / 1000.f;
+    return v.value() * 1000.f;
 }
 
 constexpr temperature freezing_point = from_milli_kelvin( 273150 );
@@ -448,7 +448,7 @@ template<typename value_type>
 inline constexpr quantity<value_type, temperature_in_milli_kelvin_tag> from_fahrenheit(
     const value_type v )
 {
-    return ( from_kelvin( v ) + 459.67 ) / 1.8;
+    return ( from_kelvin( v ) + 459.67f ) / 1.8f;
 }
 
 template<typename value_type>

@@ -297,3 +297,13 @@ TEST_CASE( "rounding" )
     CHECK( round_to_multiple_of( -15_degrees, 15_degrees ) == -15_degrees );
     CHECK( round_to_multiple_of( -360_degrees, 15_degrees ) == -360_degrees );
 }
+
+
+TEST_CASE( "test test please ignore" )
+{
+	units::temperature freeze_point = units::from_milli_kelvin( 273150 );
+	float k_temp = units::to_kelvin( freeze_point );
+	float k_temp2 = units::to_milli_kelvin( freeze_point ) / 1000.f;
+    CHECK( k_temp == 273.15 );
+	CHECK( k_temp2 == 273.15 );
+}
