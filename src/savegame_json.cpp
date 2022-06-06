@@ -2856,14 +2856,13 @@ void item::io( Archive &archive )
         std::swap( irradiation, poison );
     }
 
-    // TODO Fix this
     // Tempreature used to be saved as 0.00001 K integer.
     // specific_energy used to be saved as 0.00001 J/g integer.
     // Needed for 0.F saves
-    //if( temperature > 100000 ) {
-    //    temperature /= 100000;
-    //    specific_energy /= 100000;
-    //}
+    if( temperature > 100000_K ) {
+        temperature /= 100000;
+        specific_energy /= 100000;
+    }
 
 
     // erase all invalid flags (not defined in flags.json)

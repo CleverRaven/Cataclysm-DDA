@@ -41,6 +41,10 @@ void temperature::serialize( JsonOut &jsout ) const
 template<>
 void temperature::deserialize( const JsonValue &jv )
 {
+    if( jv.test_int() ) {
+        *this = from_kelvin( jv.get_int() );
+        return;
+    }
     *this = read_from_json_string( jv, units::temperature_units );
 }
 
