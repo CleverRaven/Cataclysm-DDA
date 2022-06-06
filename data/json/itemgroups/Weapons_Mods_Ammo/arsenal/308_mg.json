@@ -13,5 +13,24 @@
       { "group": "ammo_can_belt308_part", "count": [ 1, 2 ], "prob": 50 },
       { "item": "ammunition_can_50", "count": [ 1, 4 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_full",
+    "//": "ammo belts are awfully broken due #57981, looks like this group will require the fix after resolving the bug",
+    "container-item": "ammunition_can_50",
+    "items": [ { "group": "ammo_can_belt308_pouch", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_part",
+    "container-item": "ammunition_can_50",
+    "items": [ { "group": "ammo_can_belt308_pouch", "count": [ 0, 1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_pouch",
+    "container-item": "cheap_ammo_pouch_belt308",
+    "items": [ { "item": "belt308", "count": 1 } ]
   }
 ]
