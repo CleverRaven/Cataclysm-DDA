@@ -1,0 +1,54 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_eggsac_host",
+    "//": "Detonates the eggs every once in a while.",
+    "recurrence": [ "5 m", "120 m" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ "moon", "==", { "const": 3 } ] },
+        { "or": [ { "u_has_trait": "EGGSAC_SURVIVABLE" }, { "u_has_trait": "EGGSAC_FATAL" } ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "or": [ { "u_has_trait": "EGGSAC_SURVIVABLE" }, { "u_has_trait": "EGGSAC_FATAL" } ] } },
+    "effect": {
+      "run_eocs": { "id": "eoc_eggsac_mantain_or_remove_switch", "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" } },
+      "effect": { "weighted_list_eocs": [ [ "eggsac_mantain", { "const": 10 } ], [ "eggsac_remove", { "u_val": "strength" } ] ] },
+      "false_effect": { "weighted_list_eocs": [ [ "eggsac_mantain", { "const": 25 } ], [ "eggsac_remove", { "u_val": "strength" } ] ] }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eggsac_mantain",
+    "//": "Spiders erupt from your body! It seems like there are still some eggs in you.",
+    "effect": {
+      "run_eocs": { "id": "eoc_eggsac_survivable_or_fatal", "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" } },
+      "effect": [
+        { "npc_cast_spell": { "id": "spider_emergence_weak" } },
+        { "u_message": "Spiders erupt from your body!", "type": "bad" }
+      ],
+      "false_effect": [
+        { "npc_cast_spell": { "id": "spider_emergence_strong" } },
+        { "u_message": "Spiders erupt from your body!", "type": "bad" }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eggsac_remove",
+    "//": "Spiders erupt from your body! It seems like those were the last eggs.",
+    "effect": {
+      "run_eocs": { "id": "eoc_eggsac_survivable_or_fatal", "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" } },
+      "effect": [
+        { "npc_cast_spell": { "id": "spider_emergence_weak" } },
+        { "u_lose_trait": "EGGSAC_SURVIVABLE" },
+        { "u_message": "Spiders erupt from your body!", "type": "bad" }
+      ],
+      "false_effect": [
+        { "npc_cast_spell": { "id": "spider_emergence_strong" } },
+        { "u_lose_trait": "EGGSAC_FATAL" },
+        { "u_message": "Spiders erupt from your body!", "type": "bad" }
+      ]
+    }
+  }
+]
