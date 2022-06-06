@@ -2102,6 +2102,11 @@ void npc::load( const JsonObject &data )
         data.read( "myclass", classid );
         myclass = npc_class_id( classid );
     }
+    if( data.has_string( "idz" ) ) {
+        data.read( "idz", idz );
+    } else {
+        idz = myclass;
+    }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
 
@@ -2258,6 +2263,7 @@ void npc::store( JsonOut &json ) const
     json.member( "dead", dead );
     json.member( "patience", patience );
     json.member( "myclass", myclass.str() );
+    json.member( "idz", idz.str() );
     json.member( "known_to_u", known_to_u );
     json.member( "personality", personality );
 

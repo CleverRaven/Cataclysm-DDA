@@ -1297,8 +1297,7 @@ class npc : public Character
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
         npc_class_id myclass; // What's our archetype?
-        // A temp variable used to inform the game which npc json to use as a template
-        std::string idz;
+        npc_class_id idz; // actual npc template used
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
