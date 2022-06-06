@@ -8,7 +8,8 @@
       { "group": "nested_m2010_no_ammo", "count": [ 1, 2 ], "prob": 40 },
       { "group": "nested_m2010_no_ammo", "count": [ 1, 2 ], "prob": 10 },
       { "group": "ammo_can_300_full", "prob": 30 },
-      { "group": "ammo_can_300_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_300_part", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "ammunition_can_30", "count": [ 1, 4 ] }
     ]
   },
   {

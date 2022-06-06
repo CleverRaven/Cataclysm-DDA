@@ -8,7 +8,8 @@
       { "group": "milspec_arsenal_84x246", "prob": 20 },
       { "group": "ammo_box_84x246mm_any_full", "prob": 30 },
       { "group": "ammo_box_84x246mm_any_full", "prob": 80, "count": [ 0, 1 ] },
-      { "group": "ammo_box_84x246mm_any_full", "count": [ 1, 2 ] }
+      { "group": "ammo_box_84x246mm_any_full", "count": [ 1, 2 ] },
+      { "item": "ammunition_box_carlgustav", "count": [ 1, 4 ] }
     ]
   },
   {

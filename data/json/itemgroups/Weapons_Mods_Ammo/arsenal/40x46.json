@@ -8,7 +8,8 @@
       { "group": "milspec_arsenal_40x46", "count": [ 1, 2 ], "prob": 40 },
       { "group": "milspec_arsenal_40x46", "count": [ 1, 2 ], "prob": 10 },
       { "group": "ammo_can_40x46mm_m433_full", "prob": 30 },
-      { "group": "ammo_can_40x46mm_m433_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_40x46mm_m433_part", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "ammunition_can_pa120", "count": [ 1, 4 ] }
     ]
   },
   {

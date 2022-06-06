@@ -9,7 +9,8 @@
       { "group": "milspec_arsenal_300blk", "count": [ 1, 2 ], "prob": 10 },
       { "item": "retool_ar15_300blk" },
       { "group": "ammo_can_300blk_full", "prob": 30 },
-      { "group": "ammo_can_300blk_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_300blk_part", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "ammunition_can_30", "count": [ 1, 4 ] }
     ]
   },
   {

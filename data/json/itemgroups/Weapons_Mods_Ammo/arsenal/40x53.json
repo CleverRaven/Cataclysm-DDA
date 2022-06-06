@@ -7,7 +7,8 @@
       { "item": "mark19", "count": 1, "prob": 80 },
       { "item": "mark19", "count": 1, "prob": 30 },
       { "group": "ammo_can_belt40mm_full", "prob": 60 },
-      { "group": "ammo_can_belt40mm_full", "prob": 20 }
+      { "group": "ammo_can_belt40mm_full", "prob": 20 },
+      { "item": "ammunition_can_pa120", "count": [ 1, 4 ] }
     ]
   },
   {

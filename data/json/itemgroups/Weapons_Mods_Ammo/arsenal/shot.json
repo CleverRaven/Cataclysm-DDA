@@ -8,7 +8,8 @@
       { "group": "milspec_arsenal_shot", "count": [ 1, 2 ], "prob": 40 },
       { "group": "milspec_arsenal_shot", "count": [ 1, 2 ], "prob": 10 },
       { "group": "ammo_can_shot_full", "prob": 30 },
-      { "group": "ammo_can_shot_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_shot_part", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "ammunition_can_50", "count": [ 1, 4 ] }
     ]
   },
   {

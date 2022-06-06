@@ -9,7 +9,8 @@
       { "group": "milspec_arsenal_223", "count": [ 1, 2 ], "prob": 40 },
       { "group": "milspec_arsenal_223", "count": [ 1, 2 ], "prob": 10 },
       { "group": "ammo_can_ammo_pouch_223_full", "prob": 30 },
-      { "group": "ammo_can_ammo_pouch_223_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_ammo_pouch_223_part", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "ammunition_can_50", "count": [ 1, 4 ] }
     ]
   },
   {
