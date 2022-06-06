@@ -694,7 +694,7 @@ void outfit::sort_armor( Character &guy )
             item_penalties const penalties =
                 get_item_penalties( tmp_worn[itemindex], guy, bp );
 
-            const int offset_x = ( itemindex == selected ) ? 3 : 2;
+            const int offset_x = ( itemindex == selected ) ? 4 : 3;
             // Show armor name and storage capacity (if any)
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
@@ -706,7 +706,7 @@ void outfit::sort_armor( Character &guy )
 
             if( tmp_worn[itemindex]->has_flag( json_flag_HIDDEN ) ) {
                 //~ Hint: Letter to show which piece of armor is Hidden in the layering menu
-                wprintz( w_sort_left, c_cyan, _( " H" ) );
+	      mvwprintz( w_sort_left, point( offset_x - 1, drawindex + 1 ), c_cyan, _( "H" ) );
             }
         }
 
