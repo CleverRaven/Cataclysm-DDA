@@ -1090,8 +1090,7 @@
         [ "leather", 1 ],
         [ "fur", 1 ],
         [ "duct_tape", 50 ],
-        [ "cordage_short", 2, "LIST" ],
-        [ "filament", 100, "LIST" ]
+        [ "cordage_short", 2, "LIST" ]
       ],
       [ [ "scrap_bronze", 10 ] ],
       [ [ "stick_long", 1 ] ]
