@@ -170,8 +170,8 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 
                 // 60 times * 1 bodyparts * 0.1 chance for severe effect
                 THEN( "they suffer about 6 pain per hour" ) {
-                    test_suffer( dummy, 1_hours );
-                    CHECK( dummy.get_pain() == Approx( 6 ).margin( 4 ) );
+                    test_suffer( dummy, 3_hours );
+                    CHECK( dummy.get_pain() == Approx( 18 ).margin( 12 ) );
                 }
                 // 60 times * 1 bodyparts * 0.25 chance for medium effect
                 THEN( "they lose about 15 focus per hour" ) {
