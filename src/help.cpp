@@ -194,17 +194,17 @@ void help::display_help() const
         // Mouse selection
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
             cata::optional<point> coord = ctxt.get_coordinates_text( w_help );
-            for( const auto &opt : opt_map ) {
-                if( coord.has_value() && opt.second.contains( coord.value() ) ) {
-                    sel = opt.first;
-                    if( action == "SELECT" ) {
-                        auto iter = hotkeys.find( sel );
-                        if( iter != hotkeys.end() && !iter->second.empty() ) {
-                            sInput = iter->second.front();
-                            action = "CONFIRM";
-                        }
+            if( !!coord ) {
+                int cnt = run_for_point_in<int, point>( opt_map, *coord,
+                [&sel]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    sel = p.first;
+                } );
+                if( cnt > 0 && action == "SELECT" ) {
+                    auto iter = hotkeys.find( sel );
+                    if( iter != hotkeys.end() && !iter->second.empty() ) {
+                        sInput = iter->second.front();
+                        action = "CONFIRM";
                     }
-                    break;
                 }
             }
         }

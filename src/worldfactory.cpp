@@ -418,7 +418,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
     mapLines[3] = true;
 
     std::map<int, std::vector<std::string> > world_pages;
-    std::vector<std::pair<inclusive_rectangle<point>, int>> button_map;
+    std::map<int, inclusive_rectangle<point>> button_map;
     point world_list_top_left;
     int world_list_width = 0;
     int sel = 0;
@@ -511,7 +511,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
             const bool sel_this = static_cast<int>( i ) == sel;
             inclusive_rectangle<point> btn( world_list_top_left + point( 4, i ),
                                             world_list_top_left + point( world_list_width - 1, i ) );
-            button_map.emplace_back( btn, i );
+            button_map.emplace( i, btn );
 
             mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, "%d", i + 1 );
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
@@ -580,17 +580,19 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
         // handle mouse click
         if( action == "SELECT" || action == "MOUSE_MOVE" ) {
             cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
-            for( const auto &it : button_map ) {
-                if( coord.has_value() && it.first.contains( coord.value() ) ) {
-                    if( sel != it.second ) {
+            if( !!coord ) {
+                int cnt = run_for_point_in<int, point>( button_map, *coord,
+                [&sel, &on_move]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    if( sel != p.first ) {
                         on_move( false );
-                        sel = it.second;
+                        sel = p.first;
                     }
+                } );
+                if( cnt > 0 ) {
                     if( action == "SELECT" ) {
                         action = "CONFIRM";
                     }
                     ui_manager::redraw();
-                    break;
                 }
             }
         }
@@ -922,10 +924,11 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
 
         if( !world_mods.empty() && action == "MOUSE_MOVE" ) {
             cata::optional<point> coord = ctxt.get_coordinates_text( w_mods );
-            for( const auto &ent : ent_map ) {
-                if( coord.has_value() && ent.second.contains( coord.value() ) ) {
-                    cursor = ent.first;
-                }
+            if( !!coord ) {
+                run_for_point_in<int, point>( ent_map, *coord,
+                [&cursor]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    cursor = p.first;
+                } );
             }
         }
 
@@ -1303,61 +1306,65 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
             bool found_opt = false;
             sel_top_tab = 0;
-            // Mod tabs
             cata::optional<point> coord = ctxt.get_coordinates_text( win );
-            for( const auto &ent : mod_tab_map ) {
-                if( coord.has_value() && ent.second.contains( coord.value() ) ) {
-                    found_opt = true;
-                    if( static_cast<int>( iCurrentTab ) != ent.first ) {
-                        active_header = 0;
-                        startsel[0] = 0;
-                        cursel[0] = 0;
-                        recalc_start = true;
-                        iCurrentTab = clamp<int>( ent.first, 0, get_mod_list_tabs().size() - 1 );
+            if( !!coord ) {
+                // Mod tabs
+                bool new_val = false;
+                found_opt = run_for_point_in<int, point>( mod_tab_map, *coord,
+                [&iCurrentTab, &new_val]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    if( static_cast<int>( iCurrentTab ) != p.first ) {
+                        new_val = true;
+                        iCurrentTab = clamp<int>( p.first, 0, get_mod_list_tabs().size() - 1 );
                     }
-                    break;
+                } ) > 0;
+                if( new_val ) {
+                    active_header = 0;
+                    startsel[0] = 0;
+                    cursel[0] = 0;
+                    recalc_start = true;
                 }
             }
-            if( !found_opt ) {
+            if( !found_opt && !!coord ) {
                 // Top tabs
-                coord = ctxt.get_coordinates_text( win );
-                for( const auto &ent : top_tab_map ) {
-                    if( coord.has_value() && ent.second.contains( coord.value() ) ) {
-                        found_opt = true;
-                        sel_top_tab = ent.first;
-                        if( action == "SELECT" ) {
-                            tab_output = sel_top_tab;
-                        }
-                        break;
+                found_opt = run_for_point_in<size_t, point>( top_tab_map, *coord,
+                [&sel_top_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
+                    sel_top_tab = p.first;
+                } ) > 0;
+                if( found_opt ) {
+                    if( action == "SELECT" ) {
+                        tab_output = sel_top_tab;
                     }
                 }
             }
             if( !found_opt ) {
                 // Inactive mod list
                 coord = ctxt.get_coordinates_text( w_list );
-                for( const auto &ent : inact_mod_map ) {
-                    if( coord.has_value() && ent.second.contains( coord.value() ) ) {
-                        found_opt = true;
-                        cursel[0] = ent.first;
-                        active_header = 0;
-                        if( action == "SELECT" ) {
-                            action = "CONFIRM";
-                        }
-                        break;
+                if( !!coord ) {
+                    found_opt = run_for_point_in<int, point>( inact_mod_map, *coord,
+                    [&cursel]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                        cursel[0] = p.first;
+                    } );
+                }
+                if( found_opt ) {
+                    active_header = 0;
+                    if( action == "SELECT" ) {
+                        action = "CONFIRM";
                     }
                 }
             }
             if( !found_opt ) {
                 // Active mod list
                 coord = ctxt.get_coordinates_text( w_active );
-                for( const auto &ent : act_mod_map ) {
-                    if( coord.has_value() && ent.second.contains( coord.value() ) ) {
-                        cursel[1] = ent.first;
-                        active_header = 1;
-                        if( action == "SELECT" ) {
-                            action = "CONFIRM";
-                        }
-                        break;
+                if( !!coord ) {
+                    found_opt = run_for_point_in<int, point>( act_mod_map, *coord,
+                    [&cursel]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                        cursel[1] = p.first;
+                    } );
+                }
+                if( found_opt ) {
+                    active_header = 1;
+                    if( action == "SELECT" ) {
+                        action = "CONFIRM";
                     }
                 }
             }
@@ -1407,7 +1414,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                     active_header = 0;
                 }
             }
-            recalc_start = true;
         } else if( action == "ADD_MOD" ) {
             if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift( '+', cursel[1], active_mod_order );
@@ -1583,13 +1589,13 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
             sel_top_tab = 2;
             cata::optional<point> coord = ctxt.get_coordinates_text( win );
-            for( const auto &ent : tab_map ) {
-                if( coord.has_value() && ent.second.contains( coord.value() ) ) {
-                    sel_top_tab = ent.first;
-                    if( action == "SELECT" && sel_top_tab != 2 ) {
-                        return sel_top_tab - 2;
-                    }
-                    break;
+            if( !!coord ) {
+                int cnt = run_for_point_in<size_t, point>( tab_map, *coord,
+                [&sel_top_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
+                    sel_top_tab = p.first;
+                } );
+                if( cnt > 0 && action == "SELECT" && sel_top_tab != 2 ) {
+                    return sel_top_tab - 2;
                 }
             }
         } else if( action == "NEXT_TAB" ) {

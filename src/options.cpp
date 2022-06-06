@@ -2985,48 +2985,45 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
             bool found_opt = false;
             sel_worldgen_tab = 1;
-            if( world_options_only ) {
+            cata::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
+            if( world_options_only && !!coord ) {
                 // worldgen tabs
-                cata::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
-                for( const auto &ent : worldgen_tab_map ) {
-                    if( coord.has_value() && ent.second.contains( coord.value() ) ) {
-                        found_opt = true;
-                        sel_worldgen_tab = ent.first;
-                        if( action == "SELECT" && sel_worldgen_tab != 1 ) {
-                            return sel_worldgen_tab == 0 ? "PREV_TAB" : "NEXT_TAB";
-                        }
-                        break;
-                    }
+                found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
+                [&sel_worldgen_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
+                    sel_worldgen_tab = p.first;
+                } ) > 0;
+                if( found_opt && action == "SELECT" && sel_worldgen_tab != 1 ) {
+                    return sel_worldgen_tab == 0 ? "PREV_TAB" : "NEXT_TAB";
                 }
             }
-            if( !found_opt ) {
+            if( !found_opt && !!coord ) {
                 // option category tabs
-                cata::optional<point> coord = ctxt.get_coordinates_text( w_options_header );
-                for( const auto &ent : opt_tab_map ) {
-                    if( coord.has_value() && ent.second.contains( coord.value() ) ) {
-                        found_opt = true;
-                        if( iCurrentPage != ent.first ) {
-                            iCurrentLine = 0;
-                            iStartPos = 0;
-                            recalc_startpos = true;
-                            iCurrentPage = clamp<int>( ent.first, 0, pages_.size() - 1 );
-                            sfx::play_variant_sound( "menu_move", "default", 100 );
-                        }
-                        break;
-                    }
+                coord = ctxt.get_coordinates_text( w_options_header );
+                bool new_val = false;
+                const int psize = pages_.size();
+                found_opt = run_for_point_in<int, point>( opt_tab_map, *coord,
+                [&iCurrentPage, &new_val, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    new_val = true;
+                    iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                } ) > 0;
+                if( new_val ) {
+                    iCurrentLine = 0;
+                    iStartPos = 0;
+                    recalc_startpos = true;
+                    sfx::play_variant_sound( "menu_move", "default", 100 );
                 }
             }
             if( !found_opt ) {
                 // option lines
-                cata::optional<point> coord = ctxt.get_coordinates_text( w_options );
-                for( const auto &ent : opt_line_map ) {
-                    if( coord.has_value() && ent.second.contains( coord.value() ) ) {
-                        found_opt = true;
-                        iCurrentLine = clamp<int>( ent.first, 0, page_items.size() - 1 );
-                        if( action == "SELECT" ) {
-                            action = "CONFIRM";
-                        }
-                        break;
+                coord = ctxt.get_coordinates_text( w_options );
+                if( !!coord ) {
+                    const int psize = page_items.size();
+                    found_opt = run_for_point_in<int, point>( opt_line_map, *coord,
+                    [&iCurrentLine, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                        iCurrentLine = clamp<int>( p.first, 0, psize - 1 );
+                    } ) > 0;
+                    if( found_opt && action == "SELECT" ) {
+                        action = "CONFIRM";
                     }
                 }
             }
