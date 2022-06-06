@@ -4836,7 +4836,7 @@ bool game::is_sheltered( const tripoint &p )
 
     return !m.is_outside( p ) ||
            p.z < 0 ||
-           !is_inside;
+           is_inside;
 }
 
 bool game::revive_corpse( const tripoint &p, item &it )
