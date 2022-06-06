@@ -99,7 +99,7 @@ constexpr units::temperature normal = units::from_fahrenheit( 70 ); // ~ 21 Cels
 constexpr units::temperature fridge = units::from_fahrenheit( 37 ); // ~ 2.7 Celsius
 
 // Temperature at which things are considered "cold".
-constexpr int cold = 40; // ~4.4 C
+constexpr units::temperature cold = units::from_fahrenheit( 40 ); // ~4.4 C
 
 // Temperature inside an active freezer in Fahrenheit.
 constexpr units::temperature freezer = units::from_celcius( -5 ); // -5 Celsius
@@ -147,7 +147,7 @@ static constexpr int HORDE_VISIBILITY_SIZE = 3;
  * Average annual temperature in F used for climate, weather and temperature calculation.
  * Average New England temperature = 43F/6C rounded to int.
 */
-static constexpr int AVERAGE_ANNUAL_TEMPERATURE = 43;
+static constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fahrenheit( 43 );
 
 /**
  * Base starting spring temperature in F used for climate, weather and temperature calculation.

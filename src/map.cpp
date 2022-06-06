@@ -4630,23 +4630,23 @@ item map::water_from( const tripoint &p )
     weather_manager &weather = get_weather();
     if( has_flag( ter_furn_flag::TFLAG_SALT_WATER, p ) ) {
         item ret( "salt_water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( units::from_fahrenheit( std::max( weather.get_temperature( p ),
-                                  temperatures::cold ) ) );
+        ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                            temperatures::cold ) );
         return ret;
     }
 
     if( has_flag( ter_furn_flag::TFLAG_CHOCOLATE, p ) ) {
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( units::from_fahrenheit( std::max( weather.get_temperature( p ),
-                                  temperatures::cold ) ) );
+        ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                            temperatures::cold ) );
         return ret;
     }
 
     if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
         for( item &ret : get_map().i_at( p ) ) {
             if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( units::from_fahrenheit( std::max( weather.get_temperature( p ),
-                                          temperatures::cold ) ) );
+                ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                                    temperatures::cold ) );
                 ret.poison = rng( 1, 6 );
                 ret.get_comestible()->parasites = 5;
                 ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
@@ -4658,15 +4658,15 @@ item map::water_from( const tripoint &p )
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( units::from_fahrenheit( std::max( weather.get_temperature( p ),
-                                  temperatures::cold ) ) );
+        ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                            temperatures::cold ) );
         ret.poison = rng( 1, 7 );
         return ret;
     }
 
     item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-    ret.set_item_temperature( units::from_fahrenheit( std::max( weather.get_temperature( p ),
-                              temperatures::cold ) ) );
+    ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                        temperatures::cold ) );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id->has_examine( iexamine::water_source ) ) {
         int poison_chance = 0;

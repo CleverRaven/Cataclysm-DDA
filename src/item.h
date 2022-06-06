@@ -960,7 +960,7 @@ class item : public visitable
 
 
         /**
-         * Returns rate of rot (rot/s) at the given temperature
+         * Returns rate of rot (rot/h) at the given temperature
          */
         float calc_hourly_rotpoints_at_temp( const units::temperature temp );
 

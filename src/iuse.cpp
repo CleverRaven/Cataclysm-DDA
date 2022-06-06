@@ -8046,8 +8046,8 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
             if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
                 meal.heat_up();
             } else {
-                meal.set_item_temperature( units::from_fahrenheit( std::max( temperatures::cold,
-                                           get_weather().get_temperature( pos ) ) ) );
+                meal.set_item_temperature( std::max( temperatures::cold,
+                                                     units::from_fahrenheit( get_weather().get_temperature( pos ) ) ) );
             }
 
             it->active = false;

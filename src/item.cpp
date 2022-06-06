@@ -12234,7 +12234,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             temp = std::max( temp, temperatures::normal );
             break;
         case temperature_flag::ROOT_CELLAR:
-            temp = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE );
+            temp = AVERAGE_ANNUAL_TEMPERATURE;
             break;
         default:
             debugmsg( "Temperature flag enum not valid.  Using current temperature." );
@@ -12284,7 +12284,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
                 double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
                 env_temperature = units::from_fahrenheit( weather_temperature + enviroment_mod + local_mod );
             } else {
-                env_temperature = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod );
+                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + units::from_fahrenheit( enviroment_mod + local_mod );
             }
 
             switch( flag ) {
@@ -12301,7 +12301,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
                     env_temperature = std::max( env_temperature, temperatures::normal );
                     break;
                 case temperature_flag::ROOT_CELLAR:
-                    env_temperature = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE );
+                    env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
                     break;
                 default:
                     debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
@@ -12517,7 +12517,7 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
         if( is_food() && new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
             set_flag( flag_NO_PARASITES );
         }
-    } else if( new_temperature < units::from_fahrenheit( temperatures::cold ) ) {
+    } else if( new_temperature < temperatures::cold ) {
         set_flag( flag_COLD );
     }
 

@@ -115,15 +115,15 @@ TEST_CASE( "Hourly rotpoints", "[rot]" )
 
     // 3200 point/h at 65F/18C
     CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 65 ) ) == Approx(
-               3600 ) ); // TODO fix
+               3600 ) );
 
     // Doubles after +16F
     CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 65 + 16 ) ) == Approx(
-               3600.0 * 2 ) ); // TODO fix
+               3600.0 * 2 ) );
 
     // Halves after -16F
     CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 65 - 16 ) ) == Approx(
-               3600.0 / 2 ) ); // TODO fix
+               3600.0 / 2 ) );
 
     // Test the linear area. Halfway between 32F/9C (0 point/hour) and 38F/3C (1117.672 point/hour)
     CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 35 ) ) == Approx(
