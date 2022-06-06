@@ -1548,7 +1548,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "m27_assault_rifle", "variant": "scar_l", "charges-min": 0, "charges-max": 30 },
-      { "item": "stanag30" },
+      { "group": "stanag_30_random" },
       { "group": "stanag_30_random", "prob": 50 },
       { "group": "on_hand_223" }
     ]
