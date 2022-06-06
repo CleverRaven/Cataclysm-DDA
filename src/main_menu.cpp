@@ -405,6 +405,7 @@ void main_menu::init_strings()
         mmenu_motd += ( line.empty() ? " " : line ) + "\n";
     }
     mmenu_motd = colorize( mmenu_motd, c_light_red );
+    mmenu_motd_len = foldstring( mmenu_motd, FULL_SCREEN_WIDTH - 2 ).size();
 
     // Credits
     mmenu_credits.clear();
@@ -420,6 +421,7 @@ void main_menu::init_strings()
     if( mmenu_credits.empty() ) {
         mmenu_credits = _( "No credits information found." );
     }
+    mmenu_credits_len = foldstring( mmenu_credits, FULL_SCREEN_WIDTH - 2 ).size();
 
     // fill menu with translated menu items
     vMenuItems.clear();
@@ -512,12 +514,6 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     int height = b_height - 2;
     const auto vFolded = foldstring( text, width );
     int iLines = vFolded.size();
-
-    if( selected < 0 || iLines < height ) {
-        selected = 0;
-    } else if( selected >= iLines - height ) {
-        selected = iLines - height;
-    }
 
     fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
 
@@ -738,16 +734,20 @@ bool main_menu::opening_screen()
                    action == "SCROLL_UP" || action == "SCROLL_DOWN" ) {
             int max_item_count = 0;
             int min_item_val = 0;
-            switch( static_cast<main_menu_opts>( sel1 ) ) {
+            main_menu_opts opt = static_cast<main_menu_opts>( sel1 );
+            switch( opt ) {
                 case main_menu_opts::MOTD:
                 case main_menu_opts::CREDITS:
                     if( action == "UP" || action == "PAGE_UP" || action == "SCROLL_UP" ) {
-                        sel_line--;
-                        if( sel_line < 0 ) {
-                            sel_line = 0;
+                        if( sel_line > 0 ) {
+                            sel_line--;
                         }
                     } else if( action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
-                        sel_line++;
+                        int effective_height = sel_line + FULL_SCREEN_HEIGHT - 2;
+                        if( ( opt == main_menu_opts::CREDITS && effective_height < mmenu_credits_len ) ||
+                            ( opt == main_menu_opts::MOTD && effective_height < mmenu_motd_len ) ) {
+                            sel_line++;
+                        }
                     }
                     break;
                 case main_menu_opts::LOADCHAR:
