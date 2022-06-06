@@ -123,7 +123,7 @@ Condition | Type | Description
 `"is_weather"` | int or variable_object | `true` if current weather is `"is_weather"`.
 
 
-#### Compare itergers & arithmetics
+#### Compare integers & arithmetics
 `"compare_int"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
 ```
 {
