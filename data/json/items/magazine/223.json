@@ -233,7 +233,7 @@
     "type": "MAGAZINE",
     "name": { "str": "STANAG 30-round magazine with ranger plate" },
     "//": "Tileset whitelist for rifle magazines",
-    "description": "A standard capacity 30-round box magazine for use with STANAG compatible rifles. The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
+    "description": "A standard capacity 30-round box magazine for use with STANAG compatible rifles.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
     "weight": "355 g",
     "volume": "388 ml",
     "longest_side": "215 mm",
