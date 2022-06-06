@@ -7330,7 +7330,7 @@ void item::calc_rot( units::temperature temp, const float spoil_modifier,
     }
 
     if( has_own_flag( flag_COLD ) ) {
-        temp = std::min( units::from_fahrenheit( temperatures::fridge ), temp );
+        temp = std::min( temperatures::fridge, temp );
     }
 
     // simulation of different age of food at the start of the game and good/bad storage
@@ -12225,13 +12225,13 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             // Just use the temperature normally
             break;
         case temperature_flag::FRIDGE:
-            temp = std::min( temp, units::from_fahrenheit( temperatures::fridge ) );
+            temp = std::min( temp, temperatures::fridge );
             break;
         case temperature_flag::FREEZER:
-            temp = std::min( temp, units::from_fahrenheit( temperatures::freezer ) );
+            temp = std::min( temp, temperatures::freezer );
             break;
         case temperature_flag::HEATER:
-            temp = std::max( temp, units::from_fahrenheit( temperatures::normal ) );
+            temp = std::max( temp, temperatures::normal );
             break;
         case temperature_flag::ROOT_CELLAR:
             temp = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE );
@@ -12292,13 +12292,13 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
                     // Just use the temperature normally
                     break;
                 case temperature_flag::FRIDGE:
-                    env_temperature = std::min( env_temperature, units::from_fahrenheit( temperatures::fridge ) );
+                    env_temperature = std::min( env_temperature, temperatures::fridge );
                     break;
                 case temperature_flag::FREEZER:
-                    env_temperature = std::min( env_temperature, units::from_fahrenheit( temperatures::freezer ) );
+                    env_temperature = std::min( env_temperature, temperatures::freezer );
                     break;
                 case temperature_flag::HEATER:
-                    env_temperature = std::max( env_temperature, units::from_fahrenheit( temperatures::normal ) );
+                    env_temperature = std::max( env_temperature, temperatures::normal );
                     break;
                 case temperature_flag::ROOT_CELLAR:
                     env_temperature = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE );
@@ -12508,7 +12508,7 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
     } else if( has_own_flag( flag_HOT ) ) {
         unset_flag( flag_HOT );
     }
-    if( new_temperature > units::from_fahrenheit( temperatures::hot ) ) {
+    if( new_temperature > temperatures::hot ) {
         set_flag( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
         set_flag( flag_FROZEN );
@@ -12522,7 +12522,7 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
     }
 
     // Convert water into clean water if it starts boiling
-    if( typeId() == itype_water && new_temperature > units::from_fahrenheit( temperatures::boiling ) ) {
+    if( typeId() == itype_water && new_temperature > temperatures::boiling ) {
         convert( itype_water_clean ).poison = 0;
     }
 }

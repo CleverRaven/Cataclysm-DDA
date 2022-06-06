@@ -90,25 +90,25 @@ static constexpr int PLUTONIUM_CHARGES = 500;
 namespace temperatures
 {
 // temperature at which something starts is considered HOT.
-constexpr int hot = 100; // ~ 38 Celsius
+constexpr units::temperature hot = units::from_fahrenheit( 100 ); // ~ 38 Celsius
 
 // the "normal" temperature midpoint between cold and hot.
-constexpr int normal = 70; // ~ 21 Celsius
+constexpr units::temperature normal = units::from_fahrenheit( 70 ); // ~ 21 Celsius
 
 // Temperature inside an active fridge in Fahrenheit.
-constexpr int fridge = 37; // ~ 2.7 Celsius
+constexpr units::temperature fridge = units::from_fahrenheit( 37 ); // ~ 2.7 Celsius
 
 // Temperature at which things are considered "cold".
 constexpr int cold = 40; // ~4.4 C
 
 // Temperature inside an active freezer in Fahrenheit.
-constexpr int freezer = 23; // -5 Celsius
+constexpr units::temperature freezer = units::from_fahrenheit( -5 ); // -5 Celsius
 
 // Temperature in which water freezes.
 constexpr units::temperature freezing = 0_C; // 0 Celsius
 
-// Temperature in which water boils in Fahrenheit.
-constexpr int boiling = 212; // 100 Celsius
+// Temperature in which water boils.
+constexpr units::temperature boiling = 100_C; // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.
