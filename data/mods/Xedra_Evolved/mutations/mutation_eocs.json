@@ -59,16 +59,12 @@
     "deactivate_condition": { "not": { "u_has_trait": "MANIFEST_DESTINY_GOBLIN" } },
     "effect": [
       {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "mutagen_troglobite" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] }
-        ]
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_troglobite" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
       },
       {
         "run_eocs": {
-          "id": "test_eoc_2",
-          "condition": { "compare_int": [ { "u_has_trait": "THRESH_TROGLOBITE" } ] },
+          "id": "manifest_destiny_goblin_complete",
+          "condition": [ { "u_has_trait": "THRESH_TROGLOBITE" } ] },
           "effect": [ { "u_lose_trait": "MANIFEST_DESTINY_GOBLIN" }, { "u_add_trait": "MANIFESTED_DESTINY_GOBLIN" } ]
         }
       }
@@ -82,11 +78,7 @@
     "deactivate_condition": { "not": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" } },
     "effect": [
       {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "mutagen_troglobite" },
-          "+=",
-          { "arithmetic": [ { "rand": 1000 }, "+", { "const": 1750 } ] }
-        ]
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_troglobite" }, "+=", { "arithmetic": [ { "rand": 1000 }, "+", { "const": 1750 } ] } ]
       },
       {
         "run_eocs": {
