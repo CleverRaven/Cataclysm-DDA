@@ -17,11 +17,11 @@
   {
     "type": "item_group",
     "id": "milspec_arsenal_group_armament",
-    "items": [ { "group": "milspec_arsenal_group_guns" }, { "group": "milspec_arsenal_group_heavy" } ]
+    "items": [ { "group": "milspec_arsenal_group_guns&mags" }, { "group": "milspec_arsenal_group_heavy_guns&mags" } ]
   },
   {
     "type": "item_group",
-    "id": "milspec_arsenal_group_guns",
+    "id": "milspec_arsenal_group_guns&mags",
     "items": [
       { "group": "milspec_arsenal_9mm_gun&mags&cans" },
       { "group": "milspec_arsenal_9mm_sub_gun&mags&cans" },
@@ -39,7 +39,7 @@
   },
   {
     "type": "item_group",
-    "id": "milspec_arsenal_group_heavy",
+    "id": "milspec_arsenal_group_heavy_guns&mags",
     "items": [
       { "group": "milspec_arsenal_40x53_gun&mags&cans" },
       { "group": "milspec_arsenal_66_gun&mags" },
@@ -74,6 +74,34 @@
       { "group": "ammo_box_84x246mm_any_full", "count": [ 3, 6 ] },
       { "item": "LAW_Packed", "count": [ 2, 6 ] },
       { "item": "atgm_heat", "count": [ 2, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_guns",
+    "items": [
+      { "group": "milspec_arsenal_9mm_gun&mags" },
+      { "group": "milspec_arsenal_9mm_sub_gun&mags" },
+      { "group": "milspec_arsenal_shot_gun&mags" },
+      { "group": "milspec_arsenal_223_pouch_gun&mags" },
+      { "group": "milspec_arsenal_223_mg_gun&mags" },
+      { "group": "milspec_arsenal_300blk_gun&mags" },
+      { "group": "milspec_arsenal_300_sniper_gun&mags" },
+      { "group": "milspec_arsenal_308_sniper_gun&mags" },
+      { "group": "milspec_arsenal_308_mg_gun&mags" },
+      { "group": "milspec_arsenal_50bmg_sniper_gun&mags" },
+      { "group": "milspec_arsenal_50_mg_gun&mags" },
+      { "group": "milspec_arsenal_40x46_gun&mags" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_heavy",
+    "items": [
+      { "group": "milspec_arsenal_40x53_gun&mags" },
+      { "group": "milspec_arsenal_66_gun&mags" },
+      { "group": "milspec_arsenal_84x246_gun&mags" },
+      { "group": "milspec_arsenal_atgm_gun&mags" }
     ]
   }
 ]
