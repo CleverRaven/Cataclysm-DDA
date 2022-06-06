@@ -2202,7 +2202,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                    "", iteminfo::lower_is_better,
                                    to_turn<int>( last_temp_check ) );
                 info.emplace_back( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better | iteminfo::is_decimal,
-                                   temperature );
+                                   units::to_kelvin(temperature) );
                 info.emplace_back( "BASE", _( "Spec ener: " ), "",
                                    iteminfo::lower_is_better | iteminfo::is_decimal,
                                    specific_energy );
@@ -2217,7 +2217,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                    get_latent_heat() );
                 info.emplace_back( "BASE", _( "Freeze point: " ), "",
                                    iteminfo::lower_is_better | iteminfo::is_decimal,
-                                   get_freeze_point() );
+                                   units::to_kelvin( get_freeze_point() ) );
             }
         }
     }
@@ -12340,7 +12340,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
     // Just now created items will get here.
     if( specific_energy < 0 ) {
-        set_item_temperature( units::from_fahrenheit( temp ) );
+        set_item_temperature(  temp );
     }
     return false;
 }
