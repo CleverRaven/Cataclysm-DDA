@@ -222,7 +222,8 @@
         "type": "good"
       },
       { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
-      { "run_eocs": "EOC_WORSEN_PORTAL_STORM" }
+      { "run_eocs": "EOC_WORSEN_PORTAL_STORM" },
+      { "finish_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON", "success": false }
     ]
   },
   {
@@ -1069,7 +1070,12 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
-      { "u_location_variable": { "global_val": "portal_dungeon" } },
+      {
+        "u_location_variable": { "global_val": "portal_dungeon" },
+        "target_params": { "om_terrain": "field", "search_range": 20, "min_distance": 3, "z": 0 }
+      },
+      { "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words." },
+      { "assign_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       { "revert_location": { "global_val": "portal_dungeon" }, "time_in_future": [ "5 minutes", "5 minutes" ] },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
     ]

@@ -295,7 +295,7 @@ void timed_event::actualize()
 
         case timed_event_type::TRANSFORM_RADIUS:
             get_map().transform_radius( ter_furn_transform_id( string_id ), strength,
-                                        tripoint( map_point.x(), map_point.y(), map_point.z() ) );
+                                        tripoint_abs_ms( map_point.x(), map_point.y(), map_point.z() ) );
             get_map().invalidate_map_cache( map_point.z() );
             break;
 

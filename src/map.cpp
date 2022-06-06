@@ -4161,7 +4161,8 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
     }
 }
 
-void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
+void map::transform_radius( const ter_furn_transform_id transform, float radi,
+                            const tripoint_abs_ms &p )
 {
     tripoint_abs_ms avatar_pos = get_avatar().get_location();
     bool shifted = false;
@@ -4171,7 +4172,7 @@ void map::transform_radius( const ter_furn_transform_id transform, float radi, c
         shifted = true;
     }
     for( const tripoint &t : points_on_zlevel() ) {
-        const float radiX = trig_dist( p, getabs( t ) );
+        const float radiX = trig_dist( p, getglobal( t ) );
         // within distance, and either no submap limitation or same overmap coords.
         if( radiX <= radi ) {
             transform->transform( t, shifted );

@@ -2518,28 +2518,24 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
                                             0_seconds );
 
-    cata::optional<std::string> target_var;
-    var_type type = var_type::u;
+    cata::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
-        var_info var = read_var_info( jo.get_object( "target_var" ), false );
-        type = var.type;
-        target_var = var.name;
+        target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
-    function = [iov, transform, target_var, type, is_npc, dov_time_in_future]( const T & d ) {
-        talker *target = d.actor( is_npc );
-        tripoint target_pos = get_tripoint_from_var<T>( target, target_var, type,
-                              d );
+    function = [iov, transform, target_var, is_npc, dov_time_in_future]( const T & d ) {
+        tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
 
         int radius = iov.evaluate( d );
         time_duration future = dov_time_in_future.evaluate( d );
         if( future > 0_seconds ) {
+            tripoint_abs_sm pos = project_to<coords::sm>( target_pos );
             get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
                                     calendar::turn + future + 1_seconds,
                                     //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
-                                    -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
+                                    -1, pos, radius, transform.str() );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
-            get_map().invalidate_map_cache( target_pos.z );
+            get_map().invalidate_map_cache( target_pos.z() );
         }
     };
 }
@@ -2572,19 +2568,14 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
             update_ids.emplace_back( line );
         }
     }
-    cata::optional<std::string> target_var;
-    var_type type = var_type::u;
+    cata::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
-        var_info var = read_var_info( jo.get_object( "target_var" ), false );
-        type = var.type;
-        target_var = var.name;
+        target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
-    function = [target_params, update_ids, target_var, type, dov_time_in_future]( const T & d ) {
+    function = [target_params, update_ids, target_var, dov_time_in_future]( const T & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
-            const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( d.actor( type == var_type::npc ),
-                                          target_var,
-                                          type, d ) );
+            const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
             omt_pos = project_to<coords::omt>( abs_ms );
         } else {
             mission_target_params update_params = target_params;
@@ -2616,14 +2607,9 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
 {
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", true );
 
-    cata::optional<std::string> target_var;
-    var_info var = read_var_info( jo.get_object( member ), false );
-    var_type type = var.type;
-    target_var = var.name;
-    function = [target_var, type, dov_time_in_future]( const T & d ) {
-        const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( d.actor( type == var_type::npc ),
-                                      target_var,
-                                      type, d ) );
+    cata::optional<var_info> target_var = read_var_info( jo.get_object( member ), false );;
+    function = [target_var, dov_time_in_future]( const T & d ) {
+        const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
         //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
@@ -2632,7 +2618,11 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
             for( int y = 0; y < 2; y++ ) {
                 tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
                 revert_sm += point( x, y );
-                const submap *sm = MAPBUFFER.lookup_submap( revert_sm );
+                submap *sm = MAPBUFFER.lookup_submap( revert_sm );
+                if( sm == nullptr ) {
+                    get_map().load( revert_sm, true );
+                    sm = MAPBUFFER.lookup_submap( revert_sm );
+                }
                 get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
                                         sm->get_revert_submap() );
             }
@@ -3198,17 +3188,13 @@ void talk_effect_fun_t<T>::set_make_sound( const JsonObject &jo, const std::stri
     } else {
         jo.throw_error( "Invalid message type." );
     }
-    cata::optional<std::string> target_var;
-    var_type vtype = var_type::u;
+    cata::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
-        var_info var = read_var_info( jo.get_object( "target_var" ), false );
-        vtype = var.type;
-        target_var = var.name;
+        target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
-    function = [is_npc, message, volume, type, target_var, vtype, snippet,
+    function = [is_npc, message, volume, type, target_var, snippet,
             same_snippet]( const T & d ) {
-        tripoint target_pos = get_tripoint_from_var<T>( d.actor( is_npc ), target_var, vtype,
-                              d );
+        tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
         std::string translated_message;
         if( snippet ) {
             if( same_snippet ) {
@@ -3471,19 +3457,16 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
 
     duration_or_var<T> dov_lifespan = get_duration_or_var<T>( jo, "lifespan", false, 0_seconds );
-    cata::optional<std::string> target_var;
-    var_type type = var_type::u;
+    cata::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
-        var_info var = read_var_info( jo.get_object( "target_var" ), false );
-        type = var.type;
-        target_var = var.name;
+        target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
     std::string spawn_message = jo.get_string( "spawn_message", "" );
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
-                        iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var, type,
+                        iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
             spawn_message, spawn_message_plural, true_eocs, false_eocs]( const T & d ) {
         monster target_monster;
 
@@ -3511,8 +3494,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         int real_count = iov_real_count.evaluate( d );
         int hallucination_count = iov_hallucination_count.evaluate( d );
         cata::optional<time_duration> lifespan;
-        tripoint target_pos = get_map().getlocal( get_tripoint_from_var<T>( d.actor( is_npc ),
-                              target_var, type, d ) );
+        tripoint target_pos = get_map().getlocal( get_tripoint_from_var<T>( target_var, d ) );
         int visible_spawns = 0;
         int spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
@@ -3573,20 +3555,16 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool hit_player = jo.get_bool( "hit_player", true );
 
-    cata::optional<std::string> target_var;
-    var_type type = var_type::u;
+    cata::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
-        var_info var = read_var_info( jo.get_object( "target_var" ), false );
-        type = var.type;
-        target_var = var.name;
+        target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
     function = [is_npc, new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
-            hit_player, target_var, type]( const T & d ) {
+            hit_player, target_var]( const T & d ) {
         int radius = iov_radius.evaluate( d );
         int intensity = iov_intensity.evaluate( d );
 
-        tripoint target_pos = get_tripoint_from_var<T>( d.actor( is_npc ), target_var, type,
-                              d );
+        tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
         for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
                 radius ) ) {
             if( !outdoor_only || get_map().is_outside( dest ) ) {
@@ -3601,14 +3579,11 @@ template<class T>
 void talk_effect_fun_t<T>::set_teleport( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    var_info var = read_var_info( jo.get_object( member ), false );
-    var_type type = var.type;
-    cata::optional<std::string> target_var = var.name;
+    cata::optional<var_info> target_var = read_var_info( jo.get_object( member ), false );
     std::string fail_message = jo.get_string( "fail_message", "" );
     std::string success_message = jo.get_string( "success_message", "" );
-    function = [is_npc, target_var, type, fail_message, success_message]( const T & d ) {
-        tripoint target_pos = get_tripoint_from_var<T>( d.actor( is_npc ), target_var, type,
-                              d );
+    function = [is_npc, target_var, fail_message, success_message]( const T & d ) {
+        tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
