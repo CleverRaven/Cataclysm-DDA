@@ -147,6 +147,26 @@
     ]
   },
   {
+    "id": "clothing_military_distribution",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
+      { "item": "pants_army" },
+      { "item": "webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
     "id": "clothing_military_winter",
     "type": "item_group",
     "subtype": "collection",
@@ -278,6 +298,30 @@
     "type": "item_group",
     "subtype": "collection",
     "//": "Standard set of clothes worn by a military helicopter pilot.",
+    "items": [
+      { "item": "chestrig", "prob": 40 },
+      { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 80 },
+      { "item": "nomex_gloves" },
+      { "item": "webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
+      { "group": "clothing_watch", "prob": 85 },
+      { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "id": "clothing_military_pilot_distribution",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
     "items": [
       { "item": "chestrig", "prob": 40 },
       { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
@@ -500,7 +544,9 @@
       { "item": "hat_hard", "prob": 60 },
       { "item": "hat_hard_hooded", "prob": 15 },
       { "item": "miner_hat", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] }
+      { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
+      { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 70, "event": "independence_day" },
+      { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 20, "event": "independence_day" }
     ]
   },
   {
@@ -2009,6 +2055,7 @@
       { "item": "wetsuit_booties_thick", "prob": 1 },
       { "item": "wetsuit_hood", "prob": 5 },
       { "item": "wetsuit_hood_thick", "prob": 5 },
+      { "item": "swim_cap", "prob": 15 },
       { "item": "dive_bag", "prob": 5 },
       { "item": "jedi_cloak", "prob": 1 },
       { "item": "apron_cotton", "prob": 30 },
@@ -2185,7 +2232,8 @@
     "type": "item_group",
     "id": "swimmer_head",
     "items": [
-      [ "wetsuit_hood", 40 ],
+      [ "swim_cap", 50 ],
+      [ "wetsuit_hood", 20 ],
       [ "wetsuit_hood_thick", 5 ],
       [ "rebreather", 5 ],
       [ "straw_hat", 45 ],
@@ -2285,14 +2333,16 @@
       [ "sports_drink", 5 ],
       [ "water_clean", 5 ],
       [ "fish_sandwich", 2 ],
-      [ "mango", 1 ]
+      [ "mango", 1 ],
+      [ "hand_pump", 5 ],
+      [ "inflatable_boat", 1 ]
     ]
   },
   {
     "type": "item_group",
     "id": "diving_head",
     "//": "Only diving appropriate headgear, not including masks or glasses.",
-    "items": [ [ "wetsuit_hood", 50 ], [ "wetsuit_hood_thick", 50 ] ]
+    "items": [ [ "wetsuit_hood", 45 ], [ "wetsuit_hood_thick", 45 ], [ "swim_cap", 10 ] ]
   },
   {
     "type": "item_group",
@@ -2506,6 +2556,7 @@
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
       [ "power_armor_frame", 4 ],
+      [ "power_armor_generator", 4 ],
       [ "elbow_pads", 40 ],
       [ "knee_pads", 40 ],
       [ "mask_bal", 5 ],
@@ -2722,10 +2773,10 @@
     "id": "fireman_head",
     "items": [
       [ "firehelmet", 60 ],
-      [ "hat_knit", 10 ],
+      [ "hat_knit", 5 ],
       [ "nomex_hood", 40 ],
-      [ "hat_hard", 5 ],
-      [ "hat_hard_hooded", 3 ],
+      { "item": "hat_hard", "variant": "red_hat_hard", "prob": 15 },
+      { "item": "hat_hard_hooded", "variant": "red_hat_hard", "prob": 6 },
       [ "hat_noise_cancelling", 5 ]
     ]
   },
@@ -3354,6 +3405,7 @@
           { "item": "helmet_bike", "prob": 50 },
           { "item": "headgear", "prob": 10 },
           { "item": "helmet_ball", "prob": 15 },
+          { "item": "swim_cap", "prob": 10 },
           { "item": "wetsuit_hood", "prob": 5 },
           { "item": "wetsuit_hood_thick", "prob": 1 }
         ],

@@ -2054,11 +2054,13 @@
     "name": { "str": "Reptilian Healing" },
     "points": 5,
     "purifiable": false,
-    "description": "Your broken limbs mend themselves without significant difficulty.  You do not require splints and broken limbs heal 20 times faster than usual.",
+    "description": "Your broken limbs mend themselves without significant difficulty in addition to your already-quick healing.  You do not require splints and broken limbs heal 20 times faster than usual.",
     "cancels": [ "ROT1", "ROT2", "ROT3" ],
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
+    "healing_awake": 0.2,
+    "healing_resting": 0.5,
     "mending_modifier": 20.0,
     "flags": [ "MEND_ALL" ]
   },
@@ -2560,7 +2562,7 @@
     "visibility": 10,
     "ugliness": 12,
     "bodytemp_sleep": 125,
-    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, bone, and even something close to kevlar.",
+    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, bone, and even something close to Kevlar.",
     "movecost_swim_modifier": 0.85,
     "wet_protection": [
       { "part": "head", "ignored": 3 },
@@ -4899,7 +4901,7 @@
     "prereqs": [ "STR_UP_2" ],
     "changes_to": [ "STR_UP_4" ],
     "category": [ "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE", "CATTLE" ],
-    "threshreq": [ "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_TROGLOBITE", "THRESH_BEAST", "THRESH_URSINE" ],
+    "threshreq": [ "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_TROGLOBITE", "THRESH_BEAST", "THRESH_URSINE", "THRESH_CATTLE" ],
     "passive_mods": { "str_mod": 4 }
   },
   {

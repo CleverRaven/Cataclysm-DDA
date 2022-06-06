@@ -582,8 +582,9 @@
     "material": [ "veggy" ],
     "volume": "750 ml",
     "fun": -2,
-    "flags": [ "EATEN_HOT", "RAW" ],
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ]
+    "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "smoking_result": "kernels"
   },
   {
     "type": "COMESTIBLE",

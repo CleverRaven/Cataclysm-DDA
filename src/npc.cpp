@@ -54,6 +54,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "npctrade.h"
 #include "npctrade_utils.h"
 #include "npctalk.h"
 #include "options.h"
@@ -148,6 +149,7 @@ static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 class monfaction;
@@ -1952,12 +1954,13 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
         return true;
     }
 
-    if( it.has_flag( flag_TRADER_AVOID ) ) {
+    if( it.has_flag( flag_TRADER_AVOID ) or it.has_var( VAR_TRADE_IGNORE ) or
+        ( my_fac == nullptr and has_trait( trait_SQUEAMISH ) and it.is_filthy() ) ) {
         return false;
     }
 
     // TODO: Base on inventory
-    return at_price > 0;
+    return at_price >= 0;
 }
 
 // Will the NPC freely exchange items with the player?
@@ -2044,9 +2047,6 @@ void npc::shop_restock()
         return;
     }
 
-    add_fallback_zone( *this );
-    consume_items_in_zones( *this, elapsed );
-
     std::list<item> ret;
     int shop_value = 75000;
     if( my_fac ) {
@@ -2105,6 +2105,8 @@ void npc::shop_restock()
     }
 
     if( mission == NPC_MISSION_SHOPKEEP ) {
+        add_fallback_zone( *this );
+        consume_items_in_zones( *this, elapsed );
         distribute_items_to_npc_zones( ret, *this );
     } else {
         for( const item &i : ret ) {
@@ -2521,7 +2523,6 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_ATTACK:
             return Attitude::HOSTILE;
         case MATT_NULL:
-        case MATT_UNKNOWN:
         case NUM_MONSTER_ATTITUDES:
             break;
     }
@@ -3357,7 +3358,7 @@ std::set<tripoint> npc::get_path_avoid() const
     map &here = get_map();
     if( rules.has_flag( ally_rule::avoid_doors ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
-            if( here.open_door( p, true, true ) ) {
+            if( here.open_door( *this, p, true, true ) ) {
                 ret.insert( p );
             }
         }

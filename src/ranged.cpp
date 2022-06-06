@@ -3771,7 +3771,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         // Workaround for guns that use ups and normal ammo at same time.
         // Remove once guns can support use of multiple ammo at once
         if( !gmode->ammo_default().is_null() &&
-            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() ) {
+            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() &&
+            !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
             result = false;
             messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }

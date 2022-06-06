@@ -76,7 +76,7 @@
   {
     "type": "effect_type",
     "id": "foxfire_imbibed",
-    "name": [ "Foxfire", "Balefire", "St, Elmo's Fire" ],
+    "name": [ "Foxfire", "Balefire", "St. Elmo's Fire" ],
     "desc": [
       "Your body is dimly covered in ephemeral flames.",
       "The flames sometimes obstruct your vision, yet you feel no pain from them.",

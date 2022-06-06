@@ -917,7 +917,7 @@
   {
     "type": "overmap_special",
     "id": "military_outpost",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" }, { "point": [ 0, 0, 1 ], "overmap": "outpost_roof_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 25, 100 ],
@@ -926,7 +926,10 @@
   {
     "type": "overmap_special",
     "id": "military_outpost_cross",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_cross_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "outpost_cross_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "outpost_cross_roof_north" }
+    ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 25, 100 ],
@@ -6979,7 +6982,7 @@
       { "point": [ 28, 29, 0 ], "overmap": "special_forest" },
       { "point": [ 29, 29, 0 ], "overmap": "special_forest_thick" }
     ],
-    "locations": [ "land", "lake_shore", "lake_surface", "road" ],
+    "locations": [ "land", "road" ],
     "occurrences": [ 35, 100 ],
     "//": "Inflated chance, effective rate ~19% (n=726)",
     "connections": [ { "point": [ -1, 15, 0 ], "terrain": "road" } ],

@@ -240,6 +240,8 @@
     "name": { "str_sp": "buttered toast" },
     "copy-from": "toast",
     "description": "Toast with butter spread on top to make it taste better.",
+    "material": [ "milk", "wheat" ],
+    "primary_material": "wheat",
     "relative": { "calories": 101, "fun": 4 }
   },
   {
@@ -248,6 +250,8 @@
     "name": { "str_sp": "wheat-free buttered toast" },
     "copy-from": "toast_wheat_free",
     "description": "Wheat-free toast with butter spread on top to make it taste better.",
+    "material": [ "milk", "veggy" ],
+    "primary_material": "veggy",
     "relative": { "calories": 101, "fun": 4 }
   },
   {
@@ -256,6 +260,8 @@
     "name": { "str_sp": "jam toast" },
     "copy-from": "toast",
     "description": "A bit of jam on toast to make it less dry and to add more flavor to this breakfast staple.",
+    "material": [ "fruit", "wheat" ],
+    "primary_material": "wheat",
     "spoils_in": "7 days",
     "relative": { "calories": 35, "fun": 3, "quench": 2, "vitamins": [ [ "vitC", 20 ] ] }
   },
@@ -265,6 +271,8 @@
     "name": { "str_sp": "wheat-free jam toast" },
     "copy-from": "toast_wheat_free",
     "description": "A bit of jam on wheat-free toast to make it less dry and to add more flavor to this breakfast staple.",
+    "material": [ "fruit", "veggy" ],
+    "primary_material": "veggy",
     "spoils_in": "7 days",
     "relative": { "calories": 35, "fun": 3, "quench": 2, "vitamins": [ [ "vitC", 20 ] ] }
   },
@@ -289,23 +297,29 @@
     "id": "toad_in_a_hole",
     "name": { "str_sp": "toad in a hole" },
     "copy-from": "toast",
-    "description": "A cooked egg served inside a piece of toast.",
-    "relative": { "calories": 80, "fun": 4, "flags": [ "FREEZERBURN" ], "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
+    "description": "A cooked egg served inside a piece of toast, not to be confused with the english recipe of the same name.",
+    "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
+    "material": [ "wheat", "egg" ],
+    "relative": { "calories": 207, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "toad_in_a_hole_wheat_free",
     "name": { "str_sp": "wheat-free toad in a hole" },
     "copy-from": "toast_wheat_free",
-    "description": "A cooked egg served inside a piece of wheat-free toast.",
-    "relative": { "calories": 80, "fun": 4, "flags": [ "FREEZERBURN" ], "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
+    "description": "A cooked egg served inside a piece of wheat-free toast, not to be confused with the English recipe of the same name.",
+    "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
+    "material": [ "veggy", "egg" ],
+    "relative": { "calories": 207, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "PBJ_Toast",
     "name": { "str_sp": "PBJ Toast" },
-    "copy-from": "toast_wheat_free",
+    "copy-from": "toast",
     "description": "A slice of toast with peanut butter and jelly on top of it with added butter for flavor.",
+    "material": [ "fruit", "milk", "wheat" ],
+    "primary_material": "wheat",
     "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
   },
   {
@@ -314,6 +328,8 @@
     "name": { "str_sp": "wheat-free PBJ Toast" },
     "copy-from": "toast_wheat_free",
     "description": "A slice of wheat-free toast with peanut butter and jelly on top of it with added butter for flavor.",
+    "material": [ "fruit", "milk", "veggy" ],
+    "primary_material": "veggy",
     "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
   },
   {

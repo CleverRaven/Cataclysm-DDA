@@ -941,18 +941,18 @@
   },
   {
     "type": "construction_group",
-    "id": "dig_a_deep_pit",
-    "name": "Dig a Deep Pit"
-  },
-  {
-    "type": "construction_group",
-    "id": "underground_pit",
-    "name": "Dig a Deep Pit Underground"
-  },
-  {
-    "type": "construction_group",
     "id": "dig_a_shallow_pit",
     "name": "Dig a Shallow Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "dig_a_pit",
+    "name": "Dig a Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "dig_a_water_channel",
+    "name": "Dig a Water Channel"
   },
   {
     "type": "construction_group",
@@ -1013,6 +1013,11 @@
     "type": "construction_group",
     "id": "fill_shallow_water_with_dirt",
     "name": "Fill Shallow Water With Dirt"
+  },
+  {
+    "type": "construction_group",
+    "id": "fill_recess_with_dirt",
+    "name": "Fill Recess With Dirt"
   },
   {
     "type": "construction_group",
@@ -1548,6 +1553,16 @@
     "type": "construction_group",
     "id": "build_training_dummy_heavy",
     "name": "Install Armored Training Dummy"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_archery_target_box",
+    "name": "Set Up Box Archery Target"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_archery_target_bale",
+    "name": "Mark Hay Bale For Archery"
   },
   {
     "type": "construction_group",

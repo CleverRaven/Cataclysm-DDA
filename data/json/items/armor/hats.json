@@ -17,7 +17,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 20, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "bandana_head",
@@ -42,7 +42,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ]
   },
   {
     "id": "beret",
@@ -61,7 +61,7 @@
     "warmth": 3,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "beret_wool",
@@ -79,7 +79,7 @@
     "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "bowhat",
@@ -99,7 +99,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ],
-    "armor": [ { "encumbrance": 15, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "chaplet",
@@ -116,7 +116,7 @@
     "color": "dark_gray",
     "material_thickness": 0.1,
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
-    "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "cowboy_hat",
@@ -135,7 +135,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "drinking_hat",
@@ -153,7 +153,7 @@
     "material_thickness": 0.2,
     "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 5, "coverage": 15, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 15, "covers": [ "head" ] } ]
   },
   {
     "id": "eboshi",
@@ -172,7 +172,7 @@
     "warmth": 4,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_boonie",
@@ -191,7 +191,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_ball",
@@ -212,7 +212,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -252,7 +252,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -266,6 +266,7 @@
         "id": "black_hat_chef",
         "name": { "str": "black toque" },
         "description": "It's colored black.",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -273,6 +274,7 @@
         "id": "blue_hat_chef",
         "name": { "str": "blue toque" },
         "description": "It's a royal blue color.",
+        "color": "blue",
         "weight": 10,
         "append": true
       },
@@ -280,6 +282,7 @@
         "id": "red_hat_chef",
         "name": { "str": "red toque" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -287,6 +290,7 @@
         "id": "pink_hat_chef",
         "name": { "str": "pink toque" },
         "description": "It's colored pink.",
+        "color": "pink",
         "weight": 10,
         "append": true
       },
@@ -294,6 +298,7 @@
         "id": "yellow_hat_chef",
         "name": { "str": "yellow toque" },
         "description": "It's colored yellow.",
+        "color": "yellow",
         "weight": 5,
         "append": true
       },
@@ -301,6 +306,7 @@
         "id": "camo_hat_chef",
         "name": { "str": "camo chef's jacket" },
         "description": "It has camouflage dye.",
+        "color": "green",
         "weight": 2,
         "append": true
       }
@@ -323,7 +329,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_fur",
@@ -341,7 +347,7 @@
     "warmth": 60,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_faux_fur",
@@ -357,8 +363,8 @@
     "id": "hat_hard",
     "type": "ARMOR",
     "name": { "str": "hard hat" },
-    "description": "A hard plastic hat worn in construction sites.  Excellent protection from cuts and percussion.",
-    "weight": "796 g",
+    "description": "A hard plastic hat worn in construction or industrial sites.  Excellent protection from cuts and percussion.",
+    "weight": "430 g",
     "volume": "2500 ml",
     "price": 1200,
     "price_postapoc": 250,
@@ -372,15 +378,136 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "PADDED" ],
-    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "yellow_hat_hard",
+        "name": { "str": "yellow hard hat" },
+        "description": "It's colored yellow, commonly used by general, unspecialized workers like laborers and operators of heavy machinery.",
+        "weight": 110,
+        "append": true
+      },
+      {
+        "id": "orange_hat_hard",
+        "name": { "str": "orange hard hat" },
+        "description": "It's colored orange, commonly used by road construction workers and new hires or site visitors.",
+        "color": "light_red",
+        "weight": 110,
+        "append": true
+      },
+      {
+        "id": "white_hat_hard",
+        "name": { "str": "white hard hat" },
+        "description": "It's colored white, commonly used by anyone in a supervisory position, including managers, architects, engineers and foremen.",
+        "color": "white",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "brown_hat_hard",
+        "name": { "str": "brown hard hat" },
+        "description": "It's colored brown, commonly used by workers using applications involving high heat such as welders.",
+        "color": "brown",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "blue_hat_hard",
+        "name": { "str": "blue hard hat" },
+        "description": "It's colored blue, commonly used by medical workers and electricians, as well as employees in a technical advisory role.",
+        "color": "blue",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "green_hat_hard",
+        "name": { "str": "green hard hat" },
+        "description": "It's colored green, commonly used by safety officers or inspectors.",
+        "color": "green",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_hat_hard",
+        "name": { "str": "red hard hat" },
+        "description": "It's colored red, commonly used by emergency workers and firefighters.",
+        "color": "red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_hat_hard",
+        "name": { "str": "pink hard hat" },
+        "description": "It's colored pink, commonly used by female workers or issued as punishment to regular workers that forgot or lost their hard hat.",
+        "color": "pink",
+        "weight": 8,
+        "append": true
+      },
+      {
+        "id": "grey_hat_hard",
+        "name": { "str": "grey hard hat" },
+        "description": "It's colored grey, commonly used by visitors to any worksite.",
+        "color": "light_gray",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "black_hat_hard",
+        "name": { "str": "black hard hat" },
+        "description": "It's colored black like the first real hard hats in history.",
+        "color": "dark_gray",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "cartoon_hat_hard",
+        "name": { "str": "cartoon hard hat" },
+        "description": "It has cartoon characters stickers all over it.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_hat_hard",
+        "name": { "str": "camo hard hat" },
+        "description": "It's painted in camouflage dye.",
+        "color": "green",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_hat_hard",
+        "name": { "str": "skull hard hat" },
+        "description": "It's colored white and has skull decorations.",
+        "color": "white",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "flag_hat_hard",
+        "name": { "str": "flag hard hat" },
+        "description": "It's embroidered with the pattern of an American flag.  Protects your head with the power of freedom.",
+        "color": "light_red",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "steampunk_hat_hard",
+        "name": { "str": "steampunk hard hat" },
+        "description": "It's colored black, with industrial gears decorations and a steampunk design.",
+        "color": "dark_gray",
+        "weight": 1,
+        "append": true
+      }
+    ]
   },
   {
     "id": "hat_hard_hooded",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "hooded hard hat" },
-    "description": "A hard plastic hat worn in construction sites, with a cloth tucked in under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
-    "weight": "876 g",
+    "description": "A hard plastic hat worn in construction or industrial sites, with a cloth tucked in under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
+    "weight": "470 g",
     "volume": "2750 ml",
     "price": 1200,
     "price_postapoc": 300,
@@ -394,7 +521,128 @@
     "techniques": [ "WBLOCK_1" ],
     "environmental_protection": 2,
     "flags": [ "WATERPROOF", "PADDED" ],
-    "armor": [ { "encumbrance": 13, "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "yellow_hat_hard",
+        "name": { "str": "yellow hooded hard hat" },
+        "description": "It's colored yellow, commonly used by general, unspecialized workers like laborers and operators of heavy machinery.",
+        "weight": 110,
+        "append": true
+      },
+      {
+        "id": "orange_hat_hard",
+        "name": { "str": "orange hooded hard hat" },
+        "description": "It's colored orange, commonly used by road construction workers and new hires or site visitors.",
+        "color": "light_red",
+        "weight": 110,
+        "append": true
+      },
+      {
+        "id": "white_hat_hard",
+        "name": { "str": "white hooded hard hat" },
+        "description": "It's colored white, commonly used by anyone in a supervisory position, including managers, architects, engineers and foremen.",
+        "color": "white",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "brown_hat_hard",
+        "name": { "str": "brown hooded hard hat" },
+        "description": "It's colored brown, commonly used by workers using applications involving high heat such as welders.",
+        "color": "brown",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "blue_hat_hard",
+        "name": { "str": "blue hooded hard hat" },
+        "description": "It's colored blue, commonly used by medical workers and electricians, as well as employees in a technical advisory role.",
+        "color": "blue",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "green_hat_hard",
+        "name": { "str": "green hooded hard hat" },
+        "description": "It's colored green, commonly used by safety officers or inspectors.",
+        "color": "green",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_hat_hard",
+        "name": { "str": "red hooded hard hat" },
+        "description": "It's colored red, commonly used by emergency workers and firefighters.",
+        "color": "red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_hat_hard",
+        "name": { "str": "pink hooded hard hat" },
+        "description": "It's colored pink, commonly used by female workers or issued as punishment to regular workers that forgot or lost their hard hat.",
+        "color": "pink",
+        "weight": 8,
+        "append": true
+      },
+      {
+        "id": "grey_hat_hard",
+        "name": { "str": "grey hooded hard hat" },
+        "description": "It's colored grey, commonly used by visitors to any worksite.",
+        "color": "light_gray",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "black_hat_hard",
+        "name": { "str": "black hooded hard hat" },
+        "description": "It's colored black like the first real hard hats in history.",
+        "color": "dark_gray",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "cartoon_hat_hard",
+        "name": { "str": "cartoon hooded hard hat" },
+        "description": "It has cartoon characters stickers all over it.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_hat_hard",
+        "name": { "str": "camo hooded hard hat" },
+        "description": "It's painted in camouflage dye.",
+        "color": "green",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_hat_hard",
+        "name": { "str": "skull hooded hard hat" },
+        "description": "It's colored white and has skull decorations.",
+        "color": "white",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "flag_hat_hard",
+        "name": { "str": "flag hooded hard hat" },
+        "description": "It's embroidered with the pattern of an American flag.  Protects your head with the power of freedom.",
+        "color": "light_red",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "steampunk_hat_hard",
+        "name": { "str": "steampunk hooded hard hat" },
+        "description": "It's colored black, with industrial gears decorations and a steampunk design.",
+        "color": "dark_gray",
+        "weight": 1,
+        "append": true
+      }
+    ]
   },
   {
     "id": "hat_hunting",
@@ -413,7 +661,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_knit",
@@ -432,7 +680,7 @@
     "material_thickness": 0.5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_newsboy",
@@ -452,7 +700,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 70, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 70, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_noise_cancelling",
@@ -470,7 +718,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "DEAF", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 17, "coverage": 5, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 5, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_sombrero",
@@ -492,7 +740,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "OUTER", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 20, "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "kippah",
@@ -511,7 +759,7 @@
     "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 30, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "id": "kufi",
@@ -530,7 +778,7 @@
     "warmth": 6,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "maid_hat",
@@ -549,7 +797,7 @@
     "warmth": 2,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 25, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 25, "covers": [ "head" ] } ]
   },
   {
     "id": "porkpie",
@@ -569,7 +817,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ],
-    "armor": [ { "encumbrance": 15, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "postman_hat",
@@ -589,7 +837,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "santa_hat",
@@ -608,7 +856,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ]
   },
   {
     "id": "straw_hat",
@@ -627,7 +875,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "tinfoil_hat",
@@ -645,7 +893,7 @@
     "warmth": 5,
     "color": "yellow",
     "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "SOFT" ],
-    "armor": [ { "coverage": 90, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "tophat",
@@ -666,7 +914,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "tricorne",
@@ -685,7 +933,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "FANCY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "turban",
@@ -706,7 +954,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_golf",
@@ -727,7 +975,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "wizard_hat_costume",
@@ -745,7 +993,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "pointed_hat",
@@ -763,6 +1011,6 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   }
 ]

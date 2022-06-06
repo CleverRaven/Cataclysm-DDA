@@ -109,6 +109,7 @@ void run_test_case( Character &u )
     u.i_add( item( "test_multitool" ) );
     u.i_add( item( "hammer" ) );
     u.i_add( item( "bow_saw" ) );
+    u.i_add( item( "e_tool" ) );
 
     SECTION( "1-step construction activity with pre_terrain" ) {
         u.setpos( tripoint_zero );
@@ -220,6 +221,29 @@ void run_test_case( Character &u )
         construction const build =
             setup_testcase( u, "constr_door_peep", tri_door, { 0, PICKUP_RANGE * 2 + 1, 0 } );
         run_activities( u, build.time * 100 );
+        REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
+    }
+
+    SECTION( "multiple-step construction activity with prereq from a different group" ) {
+        u.setpos( tripoint_zero );
+        here.build_map_cache( u.pos().z );
+        tripoint const tri_door = tripoint_south;
+        construction const build =
+            setup_testcase( u, "constr_palisade_gate", tri_door, tripoint_south_east );
+        run_activities( u, build.time * 200 );
+        REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
+    }
+
+    SECTION( "multiple-step construction activity with partial of a recursive prerequisite" ) {
+        u.setpos( tripoint_zero );
+        here.build_map_cache( u.pos().z );
+        tripoint const tri_door = tripoint_south;
+        partial_con pc;
+        pc.id = get_construction( "constr_pit_shallow" ).id;
+        here.partial_con_set( tri_door, pc );
+        construction const build =
+            setup_testcase( u, "constr_palisade_gate", tri_door, tripoint_south_east );
+        run_activities( u, build.time * 200 );
         REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
     }
 }

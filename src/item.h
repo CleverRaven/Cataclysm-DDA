@@ -207,7 +207,7 @@ class item : public visitable
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
         /** For constructing in-progress disassemblies */
-        item( const recipe *rec, item &component );
+        item( const recipe *rec, int qty, item &component );
 
         // Legacy constructor for constructing from string rather than itype_id
         // TODO: remove this and migrate code using it.
@@ -342,7 +342,7 @@ class item : public visitable
          * the return value can differ on successive calls.
          * @param pos The location of the item (see REVIVE_SPECIAL flag).
          */
-        bool ready_to_revive( const tripoint &pos ) const;
+        bool ready_to_revive( map &here, const tripoint &pos ) const;
 
         bool is_money() const;
         bool is_software() const;
@@ -990,7 +990,7 @@ class item : public visitable
          * @param flag to specify special temperature situations
          * @return true if the item is fully rotten and is ready to be removed
          */
-        bool process_temperature_rot( float insulation, const tripoint &pos, Character *carrier,
+        bool process_temperature_rot( float insulation, const tripoint &pos, map &here, Character *carrier,
                                       temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
 
         /** Set the item to HOT and resets last_temp_check */
@@ -1409,7 +1409,7 @@ class item : public visitable
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( Character *carrier, const tripoint &pos, float insulation = 1,
+        bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         /**
@@ -2717,7 +2717,7 @@ class item : public visitable
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
-        bool process_internal( Character *carrier, const tripoint &pos, float insulation = 1,
+        bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         void iterate_covered_body_parts_internal( side s,
                 std::function<void( const bodypart_str_id & )> cb ) const;
@@ -2763,14 +2763,14 @@ class item : public visitable
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_corpse( Character *carrier, const tripoint &pos );
+        bool process_corpse( map &here, Character *carrier, const tripoint &pos );
         bool process_wet( Character *carrier, const tripoint &pos );
-        bool process_litcig( Character *carrier, const tripoint &pos );
-        bool process_extinguish( Character *carrier, const tripoint &pos );
+        bool process_litcig( map &here, Character *carrier, const tripoint &pos );
+        bool process_extinguish( map &here, Character *carrier, const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
-        bool process_fake_smoke( Character *carrier, const tripoint &pos );
-        bool process_fake_mill( Character *carrier, const tripoint &pos );
-        bool process_cable( Character *carrier, const tripoint &pos );
+        bool process_fake_smoke( map &here, Character *carrier, const tripoint &pos );
+        bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
+        bool process_cable( map &here, Character *carrier, const tripoint &pos );
         bool process_UPS( Character *carrier, const tripoint &pos );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );

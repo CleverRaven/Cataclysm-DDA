@@ -175,68 +175,86 @@ static bool cannot_gain_skill_or_prof( const Character &player, const recipe &re
 namespace
 {
 struct availability {
-    explicit availability( const recipe *r, int batch_size = 1 ) {
-        Character &player = get_player_character();
-        const inventory &inv = player.crafting_inventory();
-        auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
-        auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
-        auto no_favorite_filter = r->get_component_filter( recipe_filter_flags::no_favorite );
-        const deduped_requirement_data &req = r->deduped_requirements();
-        has_all_skills = r->skill_used.is_null() ||
-                         player.get_skill_level( r->skill_used ) >= r->get_difficulty( player );
-        has_proficiencies = r->character_has_required_proficiencies( player );
-        can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
-                    req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
-        would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
-                           craft_flags::start_only );
-        would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
-                             craft_flags::start_only );
-        would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( player, *r );
-        const requirement_data &simple_req = r->simple_requirements();
-        apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
-                               simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
-        proficiency_time_maluses = r->proficiency_time_maluses( player );
-        proficiency_failure_maluses = r->proficiency_failure_maluses( player );
-        for( const std::pair<const skill_id, int> &e : r->required_skills ) {
-            if( player.get_skill_level( e.first ) < e.second ) {
-                has_all_skills = false;
-                break;
+        explicit availability( const recipe *r, int batch_size = 1 ) {
+            rec = r;
+            Character &player = get_player_character();
+            const inventory &inv = player.crafting_inventory();
+            auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
+            auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
+            auto no_favorite_filter = r->get_component_filter( recipe_filter_flags::no_favorite );
+            const deduped_requirement_data &req = r->deduped_requirements();
+            has_all_skills = r->skill_used.is_null() ||
+                             player.get_skill_level( r->skill_used ) >= r->get_difficulty( player );
+            has_proficiencies = r->character_has_required_proficiencies( player );
+            can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
+                        req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
+            would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
+                               craft_flags::start_only );
+            would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
+                                 craft_flags::start_only );
+            would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( player, *r );
+            const requirement_data &simple_req = r->simple_requirements();
+            apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
+                                   simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
+            for( const std::pair<const skill_id, int> &e : r->required_skills ) {
+                if( player.get_skill_level( e.first ) < e.second ) {
+                    has_all_skills = false;
+                    break;
+                }
             }
         }
-    }
-    bool can_craft;
-    bool would_use_rotten;
-    bool would_use_favorite;
-    bool would_not_benefit;
-    bool apparently_craftable;
-    bool has_proficiencies;
-    bool has_all_skills;
-    float proficiency_time_maluses;
-    float proficiency_failure_maluses;
+        bool can_craft;
+        bool would_use_rotten;
+        bool would_use_favorite;
+        bool would_not_benefit;
+        bool apparently_craftable;
+        bool has_proficiencies;
+        bool has_all_skills;
+    private:
+        const recipe *rec;
+        mutable float proficiency_time_maluses = -1.0f;
+        mutable float proficiency_failure_maluses = -1.0f;
+    public:
+        float get_proficiency_time_maluses() const {
+            if( proficiency_time_maluses < 0 ) {
+                Character &player = get_player_character();
+                proficiency_time_maluses = rec->proficiency_time_maluses( player );
+            }
 
-    nc_color selected_color() const {
-        if( !can_craft ) {
-            return h_dark_gray;
-        } else if( would_use_rotten || would_not_benefit ) {
-            return has_all_skills ? h_brown : h_red;
-        } else if( would_use_favorite ) {
-            return has_all_skills ? h_pink : h_red;
-        } else {
-            return has_all_skills ? h_white : h_yellow;
+            return proficiency_time_maluses;
         }
-    }
+        float get_proficiency_failure_maluses() const {
+            if( proficiency_failure_maluses < 0 ) {
+                Character &player = get_player_character();
+                proficiency_failure_maluses = rec->proficiency_failure_maluses( player );
+            }
 
-    nc_color color( bool ignore_missing_skills = false ) const {
-        if( !can_craft ) {
-            return c_dark_gray;
-        } else if( would_use_rotten || would_not_benefit ) {
-            return has_all_skills || ignore_missing_skills ? c_brown : c_red;
-        } else if( would_use_favorite ) {
-            return has_all_skills ? c_pink : c_red;
-        } else {
-            return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
+            return proficiency_failure_maluses;
         }
-    }
+
+        nc_color selected_color() const {
+            if( !can_craft ) {
+                return h_dark_gray;
+            } else if( would_use_rotten || would_not_benefit ) {
+                return has_all_skills ? h_brown : h_red;
+            } else if( would_use_favorite ) {
+                return has_all_skills ? h_pink : h_red;
+            } else {
+                return has_all_skills ? h_white : h_yellow;
+            }
+        }
+
+        nc_color color( bool ignore_missing_skills = false ) const {
+            if( !can_craft ) {
+                return c_dark_gray;
+            } else if( would_use_rotten || would_not_benefit ) {
+                return has_all_skills || ignore_missing_skills ? c_brown : c_red;
+            } else if( would_use_favorite ) {
+                return has_all_skills ? c_pink : c_red;
+            } else {
+                return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
+            }
+        }
 };
 } // namespace
 
@@ -325,8 +343,8 @@ static std::vector<std::string> recipe_info(
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components</color>\n" );
     }
-    const float time_maluses = avail.proficiency_time_maluses;
-    const float fail_maluses = avail.proficiency_failure_maluses;
+    const float time_maluses = avail.get_proficiency_time_maluses();
+    const float fail_maluses = avail.get_proficiency_failure_maluses();
     if( time_maluses != 1.0 && fail_maluses != 1.0 ) {
         oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
                                  "and be %.1fx more likely to incur failures, because you "

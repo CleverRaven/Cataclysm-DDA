@@ -16,6 +16,7 @@
         "id": "black_bikini_bottom",
         "name": { "str": "black bikini bottom" },
         "description": "It's colored black.",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -23,6 +24,7 @@
         "id": "white_bikini_bottom",
         "name": { "str": "white bikini bottom" },
         "description": "It's colored white.",
+        "color": "white",
         "weight": 10,
         "append": true
       },
@@ -30,6 +32,7 @@
         "id": "red_bikini_bottom",
         "name": { "str": "red bikini bottom" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -37,6 +40,7 @@
         "id": "blue_bikini_bottom",
         "name": { "str": "blue bikini bottom" },
         "description": "It's colored blue.",
+        "color": "blue",
         "weight": 10,
         "append": true
       },
@@ -51,6 +55,7 @@
         "id": "pink_bikini_bottom",
         "name": { "str": "pink bikini bottom" },
         "description": "It's colored neon pink.  Pretty flashy.",
+        "color": "pink",
         "weight": 6,
         "append": true
       },
@@ -58,6 +63,7 @@
         "id": "tropical_bikini_bottom",
         "name": { "str": "tropical bikini bottom" },
         "description": "It's green and has a tropical design.",
+        "color": "light_green",
         "weight": 5,
         "append": true
       },
@@ -65,6 +71,7 @@
         "id": "floral_bikini_bottom",
         "name": { "str": "floral bikini bottom" },
         "description": "It's colored yellow and has a floral design.",
+        "color": "yellow",
         "weight": 5,
         "append": true
       },
@@ -72,6 +79,7 @@
         "id": "camo_bikini_bottom",
         "name": { "str": "camo bikini bottom" },
         "description": "It has camouflage dye, perfect for those soldiers on a beach leave.",
+        "color": "green",
         "weight": 4,
         "append": true
       },
@@ -79,6 +87,8 @@
         "id": "skull_bikini_bottom",
         "name": { "str": "skull bikini bottom" },
         "description": "It's colored black and with a skull pattern.  Works wonders to communicate your happiness on the beach.",
+        "symbol": "S",
+        "color": "dark_gray",
         "weight": 2,
         "append": true
       },
@@ -86,6 +96,7 @@
         "id": "maid_bikini_bottom",
         "name": { "str": "maid bikini bottom" },
         "description": "It's colored black and with white frilly decorations.  You are not sure that this is a common attire for the beach.",
+        "color": "dark_gray",
         "weight": 1,
         "append": true
       }
@@ -121,6 +132,133 @@
     "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
+    "id": "bikini_top",
+    "type": "ARMOR",
+    "name": { "str": "bikini top" },
+    "description": "A simple bikini top.",
+    "variant_type": "generic",
+    "variants": [
+      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 30 },
+      {
+        "id": "black_bikini_top",
+        "name": { "str": "black bikini top" },
+        "description": "It's colored black.",
+        "color": "dark_gray",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "white_bikini_top",
+        "name": { "str": "white bikini top" },
+        "description": "It's colored white.",
+        "color": "white",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_bikini_top",
+        "name": { "str": "red bikini top" },
+        "description": "It's colored red.",
+        "color": "red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "blue_bikini_top",
+        "name": { "str": "blue bikini top" },
+        "description": "It's colored blue.",
+        "color": "blue",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "flag_bikini_top",
+        "name": { "str": "flag bikini top" },
+        "description": "It's embroidered with the pattern of an American flag.",
+        "weight": 7,
+        "append": true
+      },
+      {
+        "id": "pink_bikini_top",
+        "name": { "str": "pink bikini top" },
+        "description": "It's colored neon pink.  Pretty flashy.",
+        "color": "pink",
+        "weight": 6,
+        "append": true
+      },
+      {
+        "id": "tropical_bikini_top",
+        "name": { "str": "tropical bikini top" },
+        "description": "It's green and has a tropical design.",
+        "color": "light_green",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "floral_bikini_top",
+        "name": { "str": "floral bikini top" },
+        "description": "It's colored yellow and has a floral design.",
+        "color": "yellow",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "camo_bikini_top",
+        "name": { "str": "camo bikini top" },
+        "description": "It has camouflage dye, perfect for those soldiers on a beach leave.",
+        "color": "green",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "skull_bikini_top",
+        "name": { "str": "skull bikini top" },
+        "description": "It's colored black and with a skull pattern.  Works wonders to communicate your happiness on the beach.",
+        "symbol": "S",
+        "color": "dark_gray",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "maid_bikini_top",
+        "name": { "str": "maid bikini top" },
+        "description": "It's colored black and with white frilly decorations.  You are not sure that this is a common attire for the beach.",
+        "color": "dark_gray",
+        "weight": 1,
+        "append": true
+      }
+    ],
+    "weight": "32 g",
+    "volume": "250 ml",
+    "price": 1800,
+    "price_postapoc": 50,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "bra",
+    "color": "light_red",
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "bikini_top_short",
+    "repairs_like": "bikini_top",
+    "type": "ARMOR",
+    "name": { "str": "short bikini top" },
+    "description": "A very short bikini top.  It doesn't cover much but was in fashion before the world ended.",
+    "weight": "15 g",
+    "volume": "150 ml",
+    "price": 1800,
+    "price_postapoc": 10,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "bikini_top",
+    "color": "red",
+    "material_thickness": 0.01,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
     "id": "flag_swimsuit",
     "//": "the flag_swimsuit was first, so that's why this ID is used for all swimsuits",
     "repairs_like": "leotard",
@@ -148,6 +286,7 @@
         "id": "black_swimsuit",
         "name": { "str": "black swimsuit" },
         "description": "It's colored black.",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -155,6 +294,7 @@
         "id": "white_swimsuit",
         "name": { "str": "white swimsuit" },
         "description": "It's colored white.",
+        "color": "white",
         "weight": 10,
         "append": true
       },
@@ -162,6 +302,7 @@
         "id": "red_swimsuit",
         "name": { "str": "red swimsuit" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -169,6 +310,7 @@
         "id": "blue_swimsuit",
         "name": { "str": "blue swimsuit" },
         "description": "It's colored blue.",
+        "color": "blue",
         "weight": 10,
         "append": true
       },
@@ -183,6 +325,7 @@
         "id": "pink_swimsuit",
         "name": { "str": "pink swimsuit" },
         "description": "It's colored neon pink.  Pretty flashy.",
+        "color": "pink",
         "weight": 6,
         "append": true
       },
@@ -190,6 +333,7 @@
         "id": "tropical_swimsuit",
         "name": { "str": "tropical swimsuit" },
         "description": "It's green and has a tropical design.",
+        "color": "light_green",
         "weight": 5,
         "append": true
       },
@@ -197,6 +341,7 @@
         "id": "floral_swimsuit",
         "name": { "str": "floral swimsuit" },
         "description": "It's colored yellow and has a floral design.",
+        "color": "yellow",
         "weight": 5,
         "append": true
       },
@@ -204,6 +349,7 @@
         "id": "striped_swimsuit",
         "name": { "str": "striped swimsuit" },
         "description": "It has horizontal black and white stripes.",
+        "color": "light_gray",
         "weight": 5,
         "append": true
       },
@@ -211,6 +357,7 @@
         "id": "camo_swimsuit",
         "name": { "str": "camo swimsuit" },
         "description": "It has camouflage dye, perfect for those soldiers on a beach leave.",
+        "color": "green",
         "weight": 4,
         "append": true
       },
@@ -218,6 +365,8 @@
         "id": "lifeguard_swimsuit",
         "name": { "str": "lifeguard swimsuit" },
         "description": "It's bright red and has a white cross with the words \"Lifeguard\" on the front.",
+        "symbol": "+",
+        "color": "red",
         "weight": 4,
         "append": true
       }
@@ -252,6 +401,7 @@
         "id": "black_rashguard_shirt",
         "name": { "str": "black rashguard shirt" },
         "description": "It's colored black.",
+        "color": "dark_gray",
         "weight": 20,
         "append": true
       },
@@ -259,6 +409,7 @@
         "id": "white_rashguard_shirt",
         "name": { "str": "white rashguard shirt" },
         "description": "It's colored white.",
+        "color": "white",
         "weight": 20,
         "append": true
       },
@@ -266,6 +417,7 @@
         "id": "red_rashguard_shirt",
         "name": { "str": "red rashguard shirt" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 20,
         "append": true
       },
@@ -273,6 +425,7 @@
         "id": "blue_rashguard_shirt",
         "name": { "str": "blue rashguard shirt" },
         "description": "It's colored blue.",
+        "color": "blue",
         "weight": 20,
         "append": true
       },
@@ -287,6 +440,7 @@
         "id": "pink_rashguard_shirt",
         "name": { "str": "pink rashguard shirt" },
         "description": "It's colored neon pink.  Pretty flashy.",
+        "color": "pink",
         "weight": 5,
         "append": true
       },
@@ -294,6 +448,7 @@
         "id": "tropical_rashguard_shirt",
         "name": { "str": "tropical rashguard shirt" },
         "description": "It's green and has a tropical design.",
+        "color": "light_green",
         "weight": 5,
         "append": true
       },
@@ -301,6 +456,7 @@
         "id": "floral_rashguard_shirt",
         "name": { "str": "floral rashguard shirt" },
         "description": "It's colored yellow and has a floral design.",
+        "color": "yellow",
         "weight": 5,
         "append": true
       },
@@ -308,6 +464,7 @@
         "id": "jungle_rashguard_shirt",
         "name": { "str": "jungle rashguard shirt" },
         "description": "It has jungle decorations and motifs of animals fighting between themselves.",
+        "color": "light_green",
         "weight": 5,
         "append": true
       },
@@ -315,6 +472,7 @@
         "id": "camo_rashguard_shirt",
         "name": { "str": "camo rashguard shirt" },
         "description": "It has camouflage dye and outlines your muscles.",
+        "color": "green",
         "weight": 4,
         "append": true
       },
@@ -322,6 +480,8 @@
         "id": "lifeguard_rashguard_shirt",
         "name": { "str": "lifeguard rashguard shirt" },
         "description": "It's bright red and has a white cross with the words \"Lifeguard\" on the front.",
+        "symbol": "+",
+        "color": "red",
         "weight": 4,
         "append": true
       },
@@ -329,6 +489,8 @@
         "id": "skull_rashguard_shirt",
         "name": { "str": "skull rashguard shirt" },
         "description": "It's colored black and has a big skull on the front and back.  It makes you look tough.",
+        "symbol": "S",
+        "color": "dark_gray",
         "weight": 2,
         "append": true
       },
@@ -379,6 +541,33 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
+    "id": "swim_cap",
+    "repairs_like": "wetsuit_hood",
+    "type": "ARMOR",
+    "name": { "str": "swim cap" },
+    "description": "A tightly fitted, skin-tight head garment made of lycra.  Commonly used by recreational and competitive swimmers.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": 2500,
+    "price_postapoc": 10,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "hood_rain",
+    "color": "blue",
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead", "head_crown", "head_ear_r", "head_ear_l" ]
+      }
+    ]
+  },
+  {
     "id": "trunks",
     "repairs_like": "shorts",
     "type": "ARMOR",
@@ -398,6 +587,77 @@
     "armor": [
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
       { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "wetsuit_booties",
+    "type": "ARMOR",
+    "name": { "str": "pair of swimming booties", "str_pl": "pairs of swimming booties" },
+    "description": "A pair of neoprene swimming booties, with individual toes.",
+    "weight": "130 g",
+    "volume": "1 L",
+    "price": 6800,
+    "price_postapoc": 250,
+    "material": [ "neoprene" ],
+    "symbol": "[",
+    "looks_like": "boots_rubber",
+    "color": "dark_gray",
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l",
+          "foot_sole_r",
+          "foot_sole_l"
+        ],
+        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 15,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "wetsuit_booties_thick",
+    "type": "ARMOR",
+    "copy-from": "wetsuit_booties",
+    "repairs_like": "wetsuit_booties",
+    "name": { "str": "pair of thick swimming booties", "str_pl": "pairs of thick swimming booties" },
+    "description": "A pair of thick neoprene swimming booties, with individual toes.",
+    "weight": "160 g",
+    "warmth": 50,
+    "material_thickness": 5,
+    "environmental_protection": 4,
+    "extend": { "flags": [ "NORMAL" ] },
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l",
+          "foot_sole_r",
+          "foot_sole_l"
+        ],
+        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 } ],
+        "encumbrance": 24,
+        "coverage": 100
+      }
     ]
   },
   {

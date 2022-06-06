@@ -1427,9 +1427,8 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
     }
 
     if( p.y != 0 ) {
-        int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
         if( cruise_on ) {
-            cruise_thrust( -p.y * thr_amount );
+            cruise_thrust( -p.y * 400 );
         } else {
             thrust( -p.y );
             driver.moves = std::min( driver.moves, 0 );

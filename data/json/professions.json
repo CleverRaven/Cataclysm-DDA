@@ -226,6 +226,18 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "dog_lover_bag",
+    "entries": [
+      { "item": "rubber_harness_dog" },
+      { "item": "rubber_harness_dog" },
+      { "item": "dog_whistle" },
+      { "item": "dogfood_dry" },
+      { "item": "dogfood_dry" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "ninja_grenade_pouch",
     "entries": [ { "item": "flashbang" }, { "item": "flashbang" }, { "item": "smokebomb" }, { "item": "smokebomb" } ]
   },
@@ -896,7 +908,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -1527,6 +1540,25 @@
   },
   {
     "type": "profession",
+    "id": "dog_lover",
+    "name": "Dog Lover",
+    "description": "You spent your days running around with your faithful dogs by your side.  When the world ended, you grabbed your companions along with some of their things to protect them.  The zombies could be nearby, but at least your canine friends shouldn't have to worry about the rain.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "traits": [ "ANIMALEMPATH" ],
+    "pets": [ { "name": "mon_dog", "amount": 2 } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "water_clean", "wristwatch", "petpack", "pet_carrier" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "mbag", "contents-group": "dog_lover_bag" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "missions": [ "MISSION_DOG_LOVER" ]
+  },
+  {
+    "type": "profession",
     "id": "crazy_cat_lady",
     "name": { "male": "Crazy Cat Dude", "female": "Crazy Cat Lady" },
     "description": "Everyone is dead?  Oh well, it doesn't matter; it's not like you got along with people much anyway.  Your beloved cats are all the friends you need!",
@@ -1848,7 +1880,7 @@
     "skills": [ { "level": 4, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "wristwatch", "gold_watch", "money_strap_fifty" ],
+        "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "gold_watch", "money_strap_fifty" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs", "citrine_gold_cufflinks" ],
@@ -1886,7 +1918,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -1924,7 +1957,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -1962,7 +1996,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -2000,7 +2035,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
@@ -2466,7 +2502,8 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_PATIENT" ]
   },
   {
     "type": "profession",
@@ -2489,7 +2526,8 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
   },
   {
     "type": "profession",
@@ -2566,7 +2604,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_CLOWN" ]
   },
   {
     "type": "profession",
@@ -2582,7 +2621,8 @@
         "items": [ "bondage_suit", "bondage_mask", "boots", "gloves_leather", "leather_belt" ],
         "entries": [ { "group": "charged_matches" } ]
       }
-    }
+    },
+    "missions": [ "MISSION_LOST_SUB" ]
   },
   {
     "type": "profession",
@@ -2628,7 +2668,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_OTAKU" ]
   },
   {
     "type": "profession",
@@ -3038,7 +3079,8 @@
       "both": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   },
   {
     "type": "profession",
@@ -3057,7 +3099,8 @@
       "both": [ "karate_gi", "judo_belt_orange", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
-    }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   },
   {
     "type": "profession",
@@ -3779,19 +3822,9 @@
     "points": 3,
     "items": {
       "both": {
-        "items": [
-          "socks",
-          "boots_steel",
-          "gloves_work",
-          "jumpsuit",
-          "canteen",
-          "tool_belt",
-          "mbag",
-          "briefcase",
-          "wristwatch",
-          "hat_hard"
-        ],
+        "items": [ "socks", "boots_steel", "gloves_work", "jumpsuit", "canteen", "tool_belt", "mbag", "briefcase", "wristwatch" ],
         "entries": [
+          { "item": "hat_hard", "variant": "yellow_hat_hard" },
           { "group": "charged_matches" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "dynamite", "count": 8 },
@@ -3898,7 +3931,8 @@
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
-    }
+    },
+    "missions": [ "MISSION_URBAN_SAMURAI" ]
   },
   {
     "type": "profession",
@@ -3941,7 +3975,8 @@
       },
       "male": [ "boxer_shorts", "opal_platinum_cufflinks" ],
       "female": [ "bra", "panties", "opal_platinum_earring" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -4457,7 +4492,8 @@
       "male": [ "boxer_shorts", "diamond_gold_cufflinks" ],
       "female": [ "bra", "panties", "diamond_gold_earring" ]
     },
-    "traits": [ "LIAR" ]
+    "traits": [ "LIAR" ],
+    "missions": [ "MISSION_MAFIA_BOSS", "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -4532,7 +4568,8 @@
         ]
       }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_PORTAL_TRAVELER" ]
   },
   {
     "type": "profession",
@@ -4557,7 +4594,8 @@
       "male": [ "boxer_shorts" ],
       "female": [ "chestwrap", "panties" ]
     },
-    "traits": [ "LIGHTSTEP" ]
+    "traits": [ "LIGHTSTEP" ],
+    "missions": [ "MISSION_NINJA" ]
   },
   {
     "type": "profession",
@@ -4570,7 +4608,8 @@
       "both": { "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
-    }
+    },
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -4587,6 +4626,122 @@
       "female": {
         "items": [ "flag_jumpsuit" ],
         "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "tourist_swimmer",
+    "name": "Tourist Swimmer",
+    "description": "You went to the beach to have a nice and relaxed vacation.  What you didn't know was that the people in there would become crazy and try to use your head to play beach volleyball, at least you managed to grab your bag with your things before running away.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "sunglasses", "straw_hat", "dive_bag", "beach_volleyball" ],
+        "entries": [
+          { "item": "waterproof_smart_phone_case", "variant": "black_smart_phone_case", "contents-group": "charged_smart_phone" },
+          { "item": "towel", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "flip_flops", "custom-flags": [ "no_auto_equip" ] }
+        ]
+      },
+      "male": { "items": [ "trunks", "swim_briefs" ], "entries": [ { "item": "tank_top", "custom-flags": [ "no_auto_equip" ] } ] },
+      "female": {
+        "entries": [
+          { "item": "bikini_top", "variant": "tropical_bikini_top" },
+          { "item": "bikini_bottom", "variant": "tropical_bikini_bottom" },
+          { "item": "halter_top", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "skirt", "custom-flags": [ "no_auto_equip" ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "professional_swimmer",
+    "name": "Professional Swimmer",
+    "description": "After much practice you were sure the next competition would be your big hit, but your rivals started killing each other and you had to escape with only your competition gear on you.  Could your years of training save you one more time?  Let's find out.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 4, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "items": {
+      "both": [ "goggles_swim", "swim_cap" ],
+      "male": [ "speedo" ],
+      "female": { "entries": [ { "item": "flag_swimsuit", "variant": "generic_swimsuit" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "surfer",
+    "name": "Surfer",
+    "description": "You went to ride the waves, but the waves ended up riding you instead when a putrid hand appeared from underwater and grabbed you by the ankle.  You could have lost your surfboard in favor of a kickboard, but that will not stop you from riding the next big wave, the wave of undead.",
+    "points": 2,
+    "flags": [ "NO_BONUS_ITEMS" ],
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "items": {
+      "both": [ "swimming_kickboard" ],
+      "male": [ "wetsuit_top", "wetsuit_shorts" ],
+      "female": [ "wetsuit_spring_sleeveless" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "lifeguard",
+    "name": "Lifeguard",
+    "description": "Your job was to safeguard the lives of everyone in the beach, but when the swimmers started drowning each other you knew the situation was out of your hands.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "firstaid" }, { "level": 3, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "proficiencies": [ "prof_wound_care" ],
+    "items": {
+      "both": [ "whistle", "sunglasses", "diving_watch" ],
+      "male": { "items": [ "trunks", "swim_briefs" ], "entries": [ { "item": "rashguard", "variant": "lifeguard_rashguard_shirt" } ] },
+      "female": { "entries": [ { "item": "flag_swimsuit", "variant": "lifeguard_swimsuit" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "diver",
+    "name": "Diver",
+    "description": "You were enjoying the company of submarine life when you noticed something weird on the nearby beach, you decided to swim away when you heard the screams.",
+    "points": 4,
+    "skills": [ { "level": 5, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "items": {
+      "both": {
+        "items": [ "wetsuit", "wetsuit_hood", "wetsuit_booties", "wetsuit_gloves", "diving_watch", "diveknife" ],
+        "entries": [ { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 20 } ]
+      }
+    }
+  },
+  {
+    "id": "captain_inflatable",
+    "type": "profession",
+    "name": "Captain",
+    "description": "You were the captain of your small ship, making a living by driving divers and tourists around the sea.  The last excursion went wrong after your passengers tried a mutiny, but you managed to escape with your precious ship intact.",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 3, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "items": {
+      "both": {
+        "items": [ "trunks", "bastsandals", "dive_bag", "wristwatch", "flotation_vest", "hand_pump", "inflatable_boat" ],
+        "entries": [
+          { "item": "rashguard", "variant": "tropical_rashguard_shirt" },
+          { "item": "hat_ball", "variant": "generic_hatball" },
+          {
+            "item": "waterproof_smart_phone_case",
+            "variant": "black_smart_phone_case",
+            "contents-group": "charged_smart_phone"
+          }
+        ]
+      },
+      "male": [ "swim_briefs" ],
+      "female": {
+        "entries": [
+          { "item": "bikini_top", "variant": "tropical_bikini_top" },
+          { "item": "bikini_bottom", "variant": "tropical_bikini_bottom" }
+        ]
       }
     }
   },
