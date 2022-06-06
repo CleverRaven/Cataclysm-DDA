@@ -1,0 +1,103 @@
+[
+  {
+    "id": "attachable_ear_muffs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "attachable ear muffs" },
+    "description": "A pair of ear muffs attachable to a hard hat or helmet to reduce noise exposures to safe levels.",
+    "weight": "290 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 80,
+    "material": [ "thermo_resin", "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "material_thickness": 1,
+    "flags": [ "HELMET_EAR_ATTACHMENT", "CANT_WEAR" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_r", "head_ear_l" ]
+      }
+    ]
+  },
+  {
+    "id": "ballistic_mandible_guard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ballistic mandible guard" },
+    "description": "A ballistic jaw guard designed to be attached on a military helmet, but easily adjustable to hard hats and normal helmets.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 6000,
+    "price_postapoc": 250,
+    "material": [ "thermo_resin" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "flags": [ "HELMET_MANDIBLE_GUARD", "CANT_WEAR" ],
+    "armor": [ { "encumbrance": 12, "coverage": 100, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "counterweight pouch",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "counterweight pouch" },
+    "description": "A counterweight pouch attachable to the back of a hard hat or helmet to balance the weight on your head.  You can store batteries or some other very small items in it.",
+    "weight": "150 g",
+    "volume": "150 ml",
+    "price": 400,
+    "price_postapoc": 10,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "green",
+    "material_thickness": 0.1,
+    "flags": [ "HELMET_BACK_POUCH", "CANT_WEAR" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 10, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "4 cm",
+        "moves": 250
+      }
+    ]
+  },
+  {
+    "id": "shield_visor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "shield visor" },
+    "description": "A common shield visor intended to be attached on a hard hat or helmet.",
+    "weight": "40 g",
+    "volume": "150 ml",
+    "price": 600,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "material_thickness": 1,
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR" ],
+    "armor": [ { "encumbrance": 2, "coverage": 90, "covers": [ "eyes" ] } ]
+  },
+  {
+    "id": "face_shield",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "face shield" },
+    "description": "A thermoplastic face shield with a mounting bracket intended to be attached over a hard hat or helmet.",
+    "weight": "170 g",
+    "volume": "250 ml",
+    "price": 800,
+    "price_postapoc": 100,
+    "material": [ "thermo_resin" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "material_thickness": 1.5,
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
+  }
+]
