@@ -22,17 +22,17 @@ class mass_in_milligram_tag
 
 using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
-class specific_energy_in_milli_joule_per_gram_tag
+class specific_energy_in_joule_per_gram_tag
 {
 };
 
-using specific_energy = quantity<float, specific_energy_in_milli_joule_per_gram_tag>;
+using specific_energy = quantity<float, specific_energy_in_joule_per_gram_tag>;
 
-class temperature_in_milli_kelvin_tag
+class temperature_in_kelvin_tag
 {
 };
 
-using temperature = quantity<float, temperature_in_milli_kelvin_tag>;
+using temperature = quantity<float, temperature_in_kelvin_tag>;
 
 
 class energy_in_millijoule_tag

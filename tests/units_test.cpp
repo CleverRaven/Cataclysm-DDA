@@ -299,11 +299,13 @@ TEST_CASE( "rounding" )
 }
 
 
-TEST_CASE( "test test please ignore" )
+TEST_CASE( "Temperatures" )
 {
-	units::temperature freeze_point = units::from_milli_kelvin( 273150 );
-	float k_temp = units::to_kelvin( freeze_point );
-	float k_temp2 = units::to_milli_kelvin( freeze_point ) / 1000.f;
-    CHECK( k_temp == 273.15 );
-	CHECK( k_temp2 == 273.15 );
+	CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ).margin( 0.001 ) );
+	CHECK( units::to_kelvin( units::from_celcius( 0.0 ) ) == Approx( 273.150 ).margin( 0.001 ) );
+	CHECK( units::to_kelvin( units::from_fahrenheit( 32.0 ) ) == Approx( 273.150 ).margin( 0.001 ) );
+	
+	CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ).margin( 0.001 ) );
+	CHECK( units::to_kelvin( units::from_celcius( 0 ) ) == Approx( 273.150 ).margin( 0.001 ) );
+	CHECK( units::to_kelvin( units::from_fahrenheit( 32 ) ) == Approx( 273.150 ).margin( 0.001 ) );
 }
