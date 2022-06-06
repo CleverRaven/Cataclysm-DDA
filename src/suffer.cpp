@@ -1063,10 +1063,8 @@ void suffer::from_sunburn( Character &you, const bool severe )
     // number of body parts plus a correction if the eyes are included
     const int plurality = affected_part_names.size() + contains_eyes;
 
-    auto warn_and_wake_up = [ &you, &all_parts_list, &plurality]
-    ( std::string singular, std::string plural, game_message_type type ) {
-        std::string message = n_gettext( singular.c_str(), plural.c_str(), plurality );
-
+    auto warn_and_wake_up = [ &you, &all_parts_list]
+    ( const char *message, game_message_type type ) {
         you.add_msg_if_player( type, message, all_parts_list );
         // Wake up from skin irritation/burning
         if( you.has_effect( effect_sleep ) ) {
@@ -1076,18 +1074,21 @@ void suffer::from_sunburn( Character &you, const bool severe )
 
     switch( worst_effect ) {
         case Damage:
-            warn_and_wake_up( "Your %s is bathed in sunlight.  It feels like it is burning up.",
-                              "Your %s are bathed in sunlight.  They feel like they are burning up.",
+            warn_and_wake_up( n_gettext( "Your %s is bathed in sunlight.  It feels like it is burning up.",
+                                         "Your %s are bathed in sunlight.  They feel like they are burning up.",
+                                         plurality ),
                               m_bad );
             break;
         case Pain:
-            warn_and_wake_up( "The sunlight burns on your %s.",
-                              "The sunlight burns on your %s.",
+            warn_and_wake_up( n_gettext( "The sunlight burns on your %s.",
+                                         "The sunlight burns on your %s.",
+                                         plurality ),
                               m_bad );
             break;
         case Focus_Loss:
-            warn_and_wake_up( "The sunlight on your %s irritates you.",
-                              "The sunlight on your %s irritates you.",
+            warn_and_wake_up( n_gettext( "The sunlight on your %s irritates you.",
+                                         "The sunlight on your %s irritates you.",
+                                         plurality ),
                               m_bad );
             break;
         case None:
