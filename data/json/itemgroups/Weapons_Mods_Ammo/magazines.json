@@ -115,6 +115,20 @@
     ]
   },
   {
+    "id": "stanag_30_random",
+    "type": "item_group",
+    "//": "one of the possible 30 round stanags",
+    "subtype": "distribution",
+    "entries": [ { "item": "stanag30", "prob": 80 }, { "item": "stanag30ranger", "prob": 20 } ]
+  },
+  {
+    "id": "stanag_10_random",
+    "type": "item_group",
+    "//": "one of the possible 10 round stanags",
+    "subtype": "distribution",
+    "entries": [ { "item": "stanag10", "prob": 80 }, { "item": "stanag10ranger", "prob": 20 } ]
+  },
+  {
     "type": "item_group",
     "id": "mags_pistol_common",
     "//": "Factory specification pistol magazines commonly owned by citizens.",
