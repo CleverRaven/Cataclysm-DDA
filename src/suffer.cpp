@@ -1059,8 +1059,6 @@ void suffer::from_sunburn( Character &you, const bool severe )
 
     const std::string all_parts_list = enumerate_as_string( affected_part_names );
 
-    // s is a list of body parts.  The plurality integer is the total
-    // number of body parts plus a correction if the eyes are included
     const int plurality = affected_part_names.size() + contains_eyes;
 
     auto warn_and_wake_up = [ &you, &all_parts_list]
@@ -1074,18 +1072,27 @@ void suffer::from_sunburn( Character &you, const bool severe )
 
     switch( worst_effect ) {
         case Damage:
+            //~ %s is a list of body parts.  The plurality integer is the total
+            //~ number of body parts (eyes count as 2 body parts)
+            //~ This message indicates damage to bodyparts through sunshine
             warn_and_wake_up( n_gettext( "Your %s is bathed in sunlight.  It feels like it is burning up.",
                                          "Your %s are bathed in sunlight.  They feel like they are burning up.",
                                          plurality ),
                               m_bad );
             break;
         case Pain:
+            //~ %s is a list of body parts.  The plurality integer is the total
+            //~ number of body parts (eyes count as 2 body parts)
+            //~ This message indicates pain through sunshine
             warn_and_wake_up( n_gettext( "The sunlight burns on your %s.",
                                          "The sunlight burns on your %s.",
                                          plurality ),
                               m_bad );
             break;
         case Focus_Loss:
+            //~ %s is a list of body parts.  The plurality integer is the total
+            //~ number of body parts (eyes count as 2 body parts)
+            //~ This message indicates focus loss through sunshine
             warn_and_wake_up( n_gettext( "The sunlight on your %s irritates you.",
                                          "The sunlight on your %s irritates you.",
                                          plurality ),
