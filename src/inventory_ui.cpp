@@ -1002,7 +1002,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
         if( entry_with_loc != entries.end() ) {
             std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
-            inventory_entry nentry( locations, entry.get_category_ptr(), true, 0,
+            inventory_entry nentry( locations, entry.get_category_ptr(), entry.is_selectable(), 0,
                                     entry_with_loc->generation, entry_with_loc->topmost_parent,
                                     entry_with_loc->chevron );
             nentry.collapsed = entry_with_loc->collapsed;
