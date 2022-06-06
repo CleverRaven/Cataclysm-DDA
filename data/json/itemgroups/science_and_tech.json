@@ -427,7 +427,7 @@
       { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
       [ "autoclave", 5 ],
       { "item": "bandages", "prob": 50, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 20, "charges": [ 1, 10 ] },
+      { "item": "adhesive_bandages", "prob": 20, "count": [ 1, 20 ] },
       { "item": "cotton_ball", "prob": 50, "charges": [ 1, 10 ] },
       [ "scalpel", 48 ],
       [ "syringe", 8 ],
