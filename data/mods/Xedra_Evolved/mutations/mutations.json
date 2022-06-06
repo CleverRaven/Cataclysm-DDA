@@ -14,5 +14,21 @@
     "points": 0,
     "player_display": false,
     "description": "You don't feel very well.  On an existential level."
+  },
+  {
+    "type": "mutation",
+    "id": "MANIFEST_DESTINY_GOBLIN",
+    "name": { "str": "Transforming into Goblin" },
+    "points": 0,
+    "player_display": false,
+    "description": "You don't feel very well.  On an existential level."
+  },
+  {
+    "type": "mutation",
+    "id": "MANIFESTED_DESTINY_GOBLIN",
+    "name": { "str": "Transformed into Goblin" },
+    "points": 0,
+    "player_display": false,
+    "description": "You don't feel very well.  On an existential level."
   }
 ]
