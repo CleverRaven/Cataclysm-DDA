@@ -400,7 +400,7 @@ const temperature temperature_max = units::temperature(
                                         std::numeric_limits<units::temperature::value_type>::max(), units::temperature::unit_type{} );
 
 template<typename value_type>
-inline constexpr quantity<value_type, temperature_in_kelvin_tag> from_kelvin(
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_kelvin(
     const value_type v )
 {
     return quantity<value_type, temperature_in_kelvin_tag>( v, temperature_in_kelvin_tag{} );
@@ -416,14 +416,15 @@ inline constexpr value_type to_kelvin( const
 constexpr temperature freezing_point = from_kelvin( 273.150f );
 
 template<typename value_type>
-inline constexpr quantity<value_type, temperature_in_kelvin_tag> from_celcius(
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_celcius(
     const value_type v )
 {
     return from_kelvin( v ) + freezing_point;
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, temperature_in_kelvin_tag> from_fahrenheit(
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag>
+from_fahrenheit(
     const value_type v )
 {
     return from_kelvin( ( v + 459.67f ) / 1.8f );
@@ -440,7 +441,7 @@ template<typename value_type>
 inline constexpr value_type to_fahrenheit( const
         quantity<value_type, temperature_in_kelvin_tag> &v )
 {
-    return from_kelvin( v * 1.8f - 459.67f );
+    return ( v * 1.8f - from_kelvin( 459.67f ) ).value();
 }
 
 
