@@ -249,6 +249,16 @@
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
   },
   {
+    "id": "mon_issi_hatchling",
+    "type": "MONSTER",
+    "name": "issi hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "weight": "4 kg",
+    "volume": "4 L",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 50, "into": "mon_issi_juvenile" }
+  },
+  {
     "id": "mon_amargasaurus_hatchling",
     "type": "MONSTER",
     "name": "amargasaurus hatchling",
