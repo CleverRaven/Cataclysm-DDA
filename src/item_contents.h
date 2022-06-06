@@ -377,6 +377,8 @@ class pocket_favorite_callback : public uilist_callback
         // items to create pockets for
         std::vector<item *> to_organize;
 
+        void refresh_columns( uilist *menu );
+
         void add_pockets( item &i, uilist &pocket_selector, std::string depth );
     public:
         explicit pocket_favorite_callback( std::vector<item *> to_organize, uilist &pocket_selector );

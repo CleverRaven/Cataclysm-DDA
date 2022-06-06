@@ -137,6 +137,20 @@ void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
     }
 }
 
+void pocket_favorite_callback::refresh_columns( uilist *menu )
+{
+    // rebuild the list of rows can't fully clear or the menu will close
+    // clear all but one entry repopulate then delete that initial
+    menu->selected = 1;
+    menu->entries.clear();
+    saved_pockets.clear();
+    for( item *i : to_organize ) {
+        add_pockets( *i, *menu, "" );
+    }
+    // there might be a better way to refresh this
+    menu->setup();
+}
+
 bool pocket_favorite_callback::key( const input_context &ctxt, const input_event &event, int,
                                     uilist *menu )
 {
@@ -217,6 +231,11 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
                 if( entry.enabled && !itt->first->can_contain( *item_to_move.first ).success() ) {
                     entry.enabled = false;
                 }
+
+                // make sure we dont try to put anything in itself
+                if( entry.enabled && !itt->first->can_contain( *item_to_move.first ).success() ) {
+                    entry.enabled = false;
+                }
                 // move through the pockets as you process entries
                 ++itt;
             }
@@ -232,7 +251,9 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         // reset the moved item
         item_to_move = { nullptr, nullptr };
 
-        return false;
+        refresh_columns( menu );
+
+        return true;
     }
 
     if( action == "FAV_ITEM" ) {
