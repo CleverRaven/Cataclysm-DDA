@@ -52,7 +52,6 @@ readability-*,\
 -bugprone-redundant-branch-condition,\
 -bugprone-reserved-identifier,\
 -bugprone-signed-char-misuse,\
--bugprone-sizeof-expression,\
 -bugprone-unhandled-self-assignment,\
 -cert-dcl37-c,\
 -cert-dcl51-cpp,\
