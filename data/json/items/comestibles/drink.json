@@ -100,7 +100,7 @@
     "price": 100,
     "price_postapoc": 25,
     "fun": 1,
-    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ]
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
