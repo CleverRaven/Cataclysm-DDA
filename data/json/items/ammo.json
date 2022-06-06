@@ -380,7 +380,7 @@
     "color": "dark_gray",
     "description": "Plastic jacketed copper cable of the type used in small electronics.",
     "material": [ "plastic", "copper" ],
-    "//": "Calculated off of copper wire with an extra 0.5 mm of diameter and 0.66g.",
+    "//": "Calculated off of copper wire with an extra 0.5 mm of diameter and 660 mg.",
     "volume": "155 ml",
     "weight": "5413 mg",
     "ammo_type": "components",
