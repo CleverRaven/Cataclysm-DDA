@@ -1011,7 +1011,6 @@ void suffer::from_sunburn( Character &you, const bool severe )
     std::unordered_set<bodypart_id> excluded_other_parts;
 
     if( affected_bodyparts.empty() ) {
-        debugmsg( "Your character has no bodyparts and can therefore not sunburn." );
         return;
     }
 
