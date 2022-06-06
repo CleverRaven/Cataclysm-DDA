@@ -30,6 +30,7 @@
 
 "Code: Tests":
   - tests/**/*
+  - data/mods/TEST_DATA/**/*
 
 "Character / World Generation":
   - src/newcharacter.cpp
@@ -208,7 +209,8 @@
   - data/mods/Xedra_Evolved/**/*
 
 "Mods":
-  - data/mods/**/*
+  - any: [ 'data/mods/**/*' ]
+    all: [ '!data/mods/TEST_DATA/**/*' ]
 
 "Mechanics: Enchantments / Spells":
   - "**/enchantments**"
