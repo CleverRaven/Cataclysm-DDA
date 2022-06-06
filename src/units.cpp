@@ -42,7 +42,7 @@ template<>
 void temperature::deserialize( const JsonValue &jv )
 {
     if( jv.test_int() ) {
-        // Compatibility with old saves
+        // Compatibility with old 0.F saves
         *this = from_kelvin( jv.get_int() );
         return;
     }

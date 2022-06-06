@@ -271,18 +271,21 @@ TEST_CASE( "Temperature controlled location", "[temperature]" )
         water1.process_temperature_rot( 1, tripoint_zero, here, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( units::to_kelvin( water1.temperature ) == Approx(units::to_kelvin(temperatures::normal) ) );
+        CHECK( units::to_kelvin( water1.temperature ) == Approx( units::to_kelvin(
+                    temperatures::normal ) ) );
 
         calendar::turn += 15_minutes;
         water1.process_temperature_rot( 1, tripoint_zero, here, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( units::to_kelvin( water1.temperature ) == Approx(units::to_kelvin(temperatures::normal) ) );
+        CHECK( units::to_kelvin( water1.temperature ) == Approx( units::to_kelvin(
+                    temperatures::normal ) ) );
 
         calendar::turn += 2_hours + 3_minutes;
         water1.process_temperature_rot( 1, tripoint_zero, here, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( units::to_kelvin( water1.temperature ) == Approx(units::to_kelvin(temperatures::normal) ) );
+        CHECK( units::to_kelvin( water1.temperature ) == Approx( units::to_kelvin(
+                    temperatures::normal ) ) );
     }
 }

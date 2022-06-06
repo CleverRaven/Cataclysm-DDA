@@ -2856,9 +2856,9 @@ void item::io( Archive &archive )
         std::swap( irradiation, poison );
     }
 
+    // Compatibility with old 0.F saves
     // Tempreature used to be saved as 0.00001 K integer.
     // specific_energy used to be saved as 0.00001 J/g integer.
-    // Needed for 0.F saves
     if( temperature > 100000_K ) {
         temperature /= 100000;
         specific_energy /= 100000;

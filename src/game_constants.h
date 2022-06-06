@@ -102,13 +102,13 @@ constexpr units::temperature fridge = units::from_fahrenheit( 37 ); // ~ 2.7 Cel
 constexpr int cold = 40; // ~4.4 C
 
 // Temperature inside an active freezer in Fahrenheit.
-constexpr units::temperature freezer = units::from_fahrenheit( -5 ); // -5 Celsius
+constexpr units::temperature freezer = units::from_celcius( -5 ); // -5 Celsius
 
 // Temperature in which water freezes.
-constexpr units::temperature freezing = 0_C; // 0 Celsius
+constexpr units::temperature freezing = units::from_celcius( 0 ); // 0 Celsius
 
 // Temperature in which water boils.
-constexpr units::temperature boiling = 100_C; // 100 Celsius
+constexpr units::temperature boiling = units::from_celcius( 100 ); // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.

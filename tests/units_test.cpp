@@ -310,9 +310,6 @@ TEST_CASE( "Temperatures", "[temperature]" )
         CHECK( units::to_kelvin( units::from_fahrenheit( 32 ) ) == Approx( 273.150 ) );
 
         CHECK( units::to_kelvin( 273.150_K ) == Approx( 273.150 ) );
-        CHECK( units::to_kelvin( 0_C ) == Approx( 273.150 ) );
-        CHECK( units::to_kelvin( 1.1_C ) == Approx( 274.250 ) );
-        //CHECK( units::to_kelvin( -5_C ) == Approx( 268.15 ) ); // This does not work.
 
         CHECK( units::to_fahrenheit( units::from_kelvin( 100 ) ) == Approx( -279.67 ) );
         CHECK( units::to_celcius( units::from_kelvin( 100 ) ) == Approx( -173.15 ) );

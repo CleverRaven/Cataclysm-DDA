@@ -777,17 +777,6 @@ inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> opera
     return units::from_kelvin( v );
 }
 
-inline constexpr units::temperature operator"" _C( const unsigned long long v )
-{
-    return units::from_celcius( v );
-}
-
-inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator"" _C(
-    const long double v )
-{
-    return units::from_celcius( v );
-}
-
 inline constexpr units::energy operator"" _mJ( const unsigned long long v )
 {
     return units::from_millijoule( v );
@@ -1013,8 +1002,7 @@ static const std::vector<std::pair<std::string, angle>> angle_units = { {
     }
 };
 static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
-        { "K", 1_K },
-        { "C", 1_C }
+        { "K", 1_K }
     }
 };
 } // namespace units
