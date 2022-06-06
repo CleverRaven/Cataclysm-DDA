@@ -4,6 +4,7 @@
 
 #include <map>
 #include <string>
+#include "units.h"
 
 // Fixed window sizes.
 static constexpr int EVEN_MINIMUM_TERM_WIDTH = 80;
@@ -103,8 +104,8 @@ constexpr int cold = 40; // ~4.4 C
 // Temperature inside an active freezer in Fahrenheit.
 constexpr int freezer = 23; // -5 Celsius
 
-// Temperature in which water freezes in Fahrenheit.
-constexpr int freezing = 32; // 0 Celsius
+// Temperature in which water freezes.
+constexpr units::temperature freezing = 0_C; // 0 Celsius
 
 // Temperature in which water boils in Fahrenheit.
 constexpr int boiling = 212; // 100 Celsius

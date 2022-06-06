@@ -7284,21 +7284,20 @@ int item::spoilage_sort_order() const
  */
 float item::calc_hourly_rotpoints_at_temp( const units::temperature temp )
 {
-    // TODO Rewrite the math to work with floats
-    const int temp_int = units::to_fahrenheit( temp );
-    const int dropoff = 38;
-    // ~3 C ditch our fancy equation and do a linear approach to 0 rot from 3 C -> 0 C
-    const int max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
-    const int safe_temp = 145; // ~63 C safe temperature above which food stops rotting
+    const units::temperature dropoff = units::from_fahrenheit( 38 ); // F, ~3 C
+    const float max_rot_temp = 105; // F, ~41 C, Maximum rotting rate is at this temperature
+    const float safe_temp = 145; // F, ~63 C, safe temperature above which food stops rotting
 
-    if( temp_int <= temperatures::freezing || temp_int > safe_temp ) {
+    if( temp <=  temperatures::freezing ||
+        temp > units::from_fahrenheit( safe_temp ) ) {
         return 0.f;
-    } else if( temp_int < dropoff ) {
-        // Linear progress from 32 F (0 C) to 38 F (3 C)
-        return 600.f * std::exp2( -27.f / 16.f ) * ( temp_int - temperatures::freezing );
-    } else if( temp_int < max_rot_temp ) {
+    } else if( temp < dropoff ) {
+        // ditch our fancy equation and do a linear approach to 0 rot from 38 F (3 C) -> 32 F (0 C)
+        return 600.f * std::exp2( -27.f / 16.f ) * ( units::to_fahrenheit( temp ) - units::to_fahrenheit(
+                    temperatures::freezing ) );
+    } else if( temp < units::from_fahrenheit( max_rot_temp ) ) {
         // Exponential progress from 38 F (3 C) to 105 F (41 C)
-        return 3600.f * std::exp2( ( temp_int - 65.f ) / 16.f );
+        return 3600.f * std::exp2( ( units::to_fahrenheit( temp ) - 65.f ) / 16.f );
     } else {
         // Constant rot from 105 F (41 C) to 145 F (63 C)
         // This is approximately 20364.67 rot/hour

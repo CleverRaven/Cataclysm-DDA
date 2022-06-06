@@ -107,10 +107,10 @@ TEST_CASE( "Hourly rotpoints", "[rot]" )
     CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 0 ) ) == 0 );
 
     // No rot above 145F/63C
-    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 64 ) ) == 0 );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 63 ) ) == 0 );
 
     // Make sure no off by one error at the border
-    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 63 ) ) == Approx(
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 62 ) ) == Approx(
                20364.67 ) );
 
     // 3200 point/h at 65F/18C
