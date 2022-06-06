@@ -68,7 +68,7 @@
       [ "tatra_truck", 100 ],
       [ "4x4_car", 500 ],
       [ "underlift_tow_truck", 250 ],
-      [ "garbage_truck", 400]
+      [ "garbage_truck", 400 ]
     ]
   },
   {
@@ -176,7 +176,7 @@
       [ "tatra_truck", 300 ],
       [ "4x4_car", 400 ],
       [ "underlift_tow_truck", 250 ],
-      [ "garbage_truck", 200]
+      [ "garbage_truck", 200 ]
     ]
   },
   {
@@ -312,7 +312,7 @@
       [ "portable_generator", 50 ],
       [ "4x4_car", 200 ],
       [ "underlift_tow_truck", 250 ],
-      [ "garbage_truck", 200]
+      [ "garbage_truck", 200 ]
     ]
   },
   {
@@ -414,7 +414,7 @@
       [ "van_full-size", 500 ],
       [ "van_mini", 300 ],
       [ "4x4_car", 500 ],
-      [ "garbage_truck", 500]
+      [ "garbage_truck", 500 ]
     ]
   },
   {
@@ -438,7 +438,7 @@
       [ "pickup", 500 ],
       [ "hippie_van", 350 ],
       [ "4x4_car", 500 ],
-      [ "garbage_truck", 500]
+      [ "garbage_truck", 500 ]
     ]
   },
   {
