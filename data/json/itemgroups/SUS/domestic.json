@@ -427,6 +427,7 @@
       { "item": "pan", "count": [ 1, 2 ] },
       { "item": "steel_pan", "prob": 80 },
       { "item": "copper_pan", "prob": 30 },
+      { "item": "dutch_oven", "prob": 5 },
       { "item": "kettle", "prob": 80 }
     ]
   },
@@ -611,7 +612,8 @@
         "collection": [
           { "item": "pan", "count": [ 1, 2 ], "prob": 60 },
           { "item": "steel_pan", "count": [ 1, 2 ], "prob": 50 },
-          { "item": "copper_pan", "count": [ 1, 2 ], "prob": 30 }
+          { "item": "copper_pan", "count": [ 1, 2 ], "prob": 30 },
+          { "item": "dutch_oven", "prob": 5 }
         ],
         "prob": 50
       }
