@@ -2404,7 +2404,7 @@
             "type": "kevlar",
             "covered_by_mat": 90,
             "thickness": 1,
-            "//": "The kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
+            "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
           }
         ],
         "covers": [ "foot_l", "foot_r" ],
@@ -2437,6 +2437,17 @@
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r" ],
         "coverage": 100,
         "//": "encumbrance accounted for above",
         "encumbrance": [ 0, 0 ]
