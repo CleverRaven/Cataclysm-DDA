@@ -267,7 +267,7 @@
     "id": "stanag40ranger",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "STANAG 40-round magazine with ranger plate" },
+    "name": { "str": "STANAG 40-round magazine with ranger plate", "str_pl": "STANAG 40-round magazines with ranger plates" },
     "description": "An increased-capacity 40-round box magazine for use with STANAG compatible rifles. The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
     "weight": "310 g",
     "volume": "488 ml",
