@@ -301,11 +301,11 @@ TEST_CASE( "rounding" )
 
 TEST_CASE( "Temperatures" )
 {
-	CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ).margin( 0.001 ) );
-	CHECK( units::to_kelvin( units::from_celcius( 0.0 ) ) == Approx( 273.150 ).margin( 0.001 ) );
-	CHECK( units::to_kelvin( units::from_fahrenheit( 32.0 ) ) == Approx( 273.150 ).margin( 0.001 ) );
+	CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ) );
+	CHECK( units::to_kelvin( units::from_celcius( 0.0 ) ) == Approx( 273.150 ) );
+	CHECK( units::to_kelvin( units::from_fahrenheit( 32.0 ) ) == Approx( 273.150 ) );
 	
-	CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ).margin( 0.001 ) );
-	CHECK( units::to_kelvin( units::from_celcius( 0 ) ) == Approx( 273.150 ).margin( 0.001 ) );
-	CHECK( units::to_kelvin( units::from_fahrenheit( 32 ) ) == Approx( 273.150 ).margin( 0.001 ) );
+	CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ) );
+	CHECK( units::to_kelvin( units::from_celcius( 0 ) ) == Approx( 273.150 ) );
+	CHECK( units::to_kelvin( units::from_fahrenheit( 32 ) ) == Approx( 273.150 ) );
 }
