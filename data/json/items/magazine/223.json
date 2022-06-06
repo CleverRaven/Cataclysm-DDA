@@ -198,7 +198,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "STANAG 20-round magazine with ranger plate", "str_pl": "STANAG 20-round magazines with ranger plates" },
-    "description": "A compact 20-round box magazine for use with STANAG compatible rifles. The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
+    "description": "A compact 20-round box magazine for use with STANAG compatible rifles.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
     "weight": "300 g",
     "volume": "328 ml",
     "longest_side": "154 mm",
