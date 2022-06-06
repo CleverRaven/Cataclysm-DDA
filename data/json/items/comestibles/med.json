@@ -547,6 +547,7 @@
     "description": "A powerful antiseptic commonly used for contaminated wounds.",
     "weight": "27 g",
     "volume": "250 ml",
+    "freezing_point": -19,
     "price": 1500,
     "price_postapoc": 500,
     "charges": 10,
