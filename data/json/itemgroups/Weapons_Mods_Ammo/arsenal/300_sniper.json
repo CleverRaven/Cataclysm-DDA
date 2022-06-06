@@ -1,7 +1,12 @@
 [
   {
     "type": "item_group",
-    "id": "milspec_arsenal_300_sniper_gun&ammo",
+    "id": "milspec_arsenal_300_sniper_gun&mags&cans",
+    "items": [ { "group": "milspec_arsenal_300_sniper_gun&mags" }, { "item": "ammunition_can_30", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_300_sniper_gun&mags",
     "subtype": "collection",
     "items": [
       { "group": "nested_m2010_no_ammo", "count": [ 1, 2 ] },

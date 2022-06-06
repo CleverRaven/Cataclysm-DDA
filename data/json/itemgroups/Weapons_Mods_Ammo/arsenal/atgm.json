@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "milspec_arsenal_atgm_gun&ammo",
+    "id": "milspec_arsenal_atgm_gun&mags",
     "subtype": "collection",
     "items": [
       { "item": "atgm_launcher", "prob": 80 },

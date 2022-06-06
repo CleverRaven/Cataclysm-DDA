@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "milspec_arsenal_66_gun&ammo",
+    "id": "milspec_arsenal_66_gun&mags",
     "//": "have no idea how they contained due the lack of documentation, so left them as it is",
     "subtype": "collection",
     "items": [
