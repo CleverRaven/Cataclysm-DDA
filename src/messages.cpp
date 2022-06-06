@@ -722,7 +722,8 @@ void Messages::dialog::input()
         }
     } else {
         const std::string &action = ctxt.handle_input();
-        if( ( action == "DOWN" || action == "SCROLL_DOWN" ) && offset + max_lines < folded_filtered.size() ) {
+        if( ( action == "DOWN" || action == "SCROLL_DOWN" ) &&
+            offset + max_lines < folded_filtered.size() ) {
             ++offset;
         } else if( ( action == "UP" || action == "SCROLL_UP" ) && offset > 0 ) {
             --offset;
