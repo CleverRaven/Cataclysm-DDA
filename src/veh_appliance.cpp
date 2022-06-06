@@ -30,6 +30,7 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_WIRING( "WIRING" );
+static const std::string flag_NO_TAKEDOWN( "NO_TAKEDOWN" );
 
 
 // Width of the entire set of windows. 60 is sufficient for
@@ -421,6 +422,12 @@ void veh_app_interact::remove()
     int const part = veh->part_at( a_point );
     vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
     const vpart_info &vpinfo = vp.info();
+
+    if( vpinfo.has_flag( flag_NO_TAKEDOWN ) ) {
+        popup( _( "This appliance cannot be taken down. It may be possible to deconstruct it instead." ) );
+        return;
+    }
+
     const requirement_data reqs = vpinfo.removal_requirements();
     Character &you = get_player_character();
     const inventory &inv = you.crafting_inventory();

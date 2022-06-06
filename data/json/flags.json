@@ -411,6 +411,11 @@
     "info": "This item is impossible to clean."
   },
   {
+    "id": "NO_TAKEDOWN",
+    "type": "json_flag",
+    "//": "Appliance that cannot be simply taken down as a whole item. It may or may not have a deconstruction recipe that can be used instead."
+  },
+  {
     "id": "NUTRIENT_OVERRIDE",
     "type": "json_flag",
     "//": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
