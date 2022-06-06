@@ -69,7 +69,7 @@ static const efftype_id effect_mending( "mending" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
-static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
+static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 
@@ -1453,7 +1453,7 @@ static void draw_ai_goal( const draw_args &args )
 
     werase( w );
     behavior::tree needs;
-    needs.add( &behavior__node_t_npc_needs.obj() );
+    needs.add( &behavior_node_t_npc_needs.obj() );
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)

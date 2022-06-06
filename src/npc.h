@@ -534,7 +534,7 @@ struct npc_follower_rules {
 
 struct dangerous_sound {
     tripoint abs_pos;
-    sounds::sound_t type = sounds::sound_t::_LAST;
+    sounds::sound_t type = sounds::sound_t::LAST;
     int volume = 0;
 };
 
