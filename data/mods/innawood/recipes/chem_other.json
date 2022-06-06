@@ -29,13 +29,14 @@
   },
   {
     "result": "rubber_cement",
+    "id_suffix": "by_hand", 
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",
     "difficulty": 3,
-    "time": "2 h",
+    "time": "6 h",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [
