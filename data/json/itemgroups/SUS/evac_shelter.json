@@ -159,7 +159,7 @@
               { "item": "bag_plastic", "prob": 5 },
               { "item": "bowl_plastic", "prob": 5 },
               { "item": "ammonia_hydroxide", "charges-min": 1, "prob": 15 },
-              { "item": "chem_washing_soda", "charges-min": 1, "prob": 10 },
+              { "item": "chem_washing_soda", "charges-min": 1, "prob": 10 }
             ],
             "prob": 15
           },
