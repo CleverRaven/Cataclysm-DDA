@@ -427,7 +427,7 @@ inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_
 from_fahrenheit(
     const value_type v )
 {
-    return from_kelvin(v) + freezing_point; //TODO fix return (from_kelvin( v ) + 459.67f ) / 1.8f;
+    return from_kelvin( ( v + 459.67f ) / 1.8f );
 }
 
 template<typename value_type>
@@ -765,6 +765,29 @@ inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"
     return units::from_kilogram( v );
 }
 
+
+inline constexpr units::temperature operator"" _K( const unsigned long long v )
+{
+    return units::from_kelvin( v );
+}
+
+inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator"" _K(
+    const long double v )
+{
+    return units::from_kelvin( v );
+}
+
+inline constexpr units::temperature operator"" _C( const unsigned long long v )
+{
+    return units::from_celcius( v );
+}
+
+inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator"" _C(
+    const long double v )
+{
+    return units::from_celcius( v );
+}
+
 inline constexpr units::energy operator"" _mJ( const unsigned long long v )
 {
     return units::from_millijoule( v );
@@ -987,6 +1010,11 @@ static const std::vector<std::pair<std::string, angle>> angle_units = { {
         { "arcmin", 1_arcmin },
         { "°", 1_degrees },
         { "rad", 1_radians },
+    }
+};
+static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
+        { "K", 1_K },
+        { "C", 1_C }
     }
 };
 } // namespace units

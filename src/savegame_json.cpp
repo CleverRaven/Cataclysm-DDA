@@ -2855,8 +2855,8 @@ void item::io( Archive &archive )
     if( poison != 0 && irradiation == 0 && typeId() == itype_rad_badge ) {
         std::swap( irradiation, poison );
     }
-	
-	// TODO Fix this
+
+    // TODO Fix this
     // Tempreature used to be saved as 0.00001 K integer.
     // specific_energy used to be saved as 0.00001 J/g integer.
     // Needed for 0.F saves

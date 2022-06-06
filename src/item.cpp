@@ -2202,7 +2202,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                    "", iteminfo::lower_is_better,
                                    to_turn<int>( last_temp_check ) );
                 info.emplace_back( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better | iteminfo::is_decimal,
-                                   units::to_kelvin(temperature) );
+                                   units::to_kelvin( temperature ) );
                 info.emplace_back( "BASE", _( "Spec ener: " ), "",
                                    iteminfo::lower_is_better | iteminfo::is_decimal,
                                    specific_energy );
@@ -7284,8 +7284,8 @@ int item::spoilage_sort_order() const
  */
 float item::calc_hourly_rotpoints_at_temp( const units::temperature temp )
 {
-	// TODO Rewrite the math to work with floats
-    const int temp_int = units::to_fahrenheit( temp ); 
+    // TODO Rewrite the math to work with floats
+    const int temp_int = units::to_fahrenheit( temp );
     const int dropoff = 38;
     // ~3 C ditch our fancy equation and do a linear approach to 0 rot from 3 C -> 0 C
     const int max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
@@ -12340,7 +12340,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
     // Just now created items will get here.
     if( specific_energy < 0 ) {
-        set_item_temperature(  temp );
+        set_item_temperature( temp );
     }
     return false;
 }

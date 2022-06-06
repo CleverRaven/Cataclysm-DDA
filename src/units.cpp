@@ -33,6 +33,18 @@ void length::deserialize( const JsonValue &jv )
 }
 
 template<>
+void temperature::serialize( JsonOut &jsout ) const
+{
+    jsout.write( string_format( "%f K", value_ ) );
+}
+
+template<>
+void temperature::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::temperature_units );
+}
+
+template<>
 void energy::serialize( JsonOut &jsout ) const
 {
     if( value_ % 1000000 == 0 ) {

@@ -15,7 +15,7 @@ static void set_map_temperature( int new_temperature )
     get_weather().clear_temp_cache();
 }
 
-TEST_CASE( "Item spawns with right thermal attributes" )
+TEST_CASE( "Item spawns with right thermal attributes", "[temperature]" )
 {
     item D( "meat_cooked" );
 
@@ -32,7 +32,7 @@ TEST_CASE( "Item spawns with right thermal attributes" )
     CHECK( units::to_kelvin( D.temperature ) == Approx( 323.15 ) );
 }
 
-TEST_CASE( "Rate of temperature change" )
+TEST_CASE( "Rate of temperature change", "[temperature]" )
 {
     // Fahrenheits and kelvins get used and converted around
     // So there are small rounding errors everywhere. Use margins.
@@ -256,7 +256,7 @@ TEST_CASE( "Rate of temperature change" )
     }
 }
 
-TEST_CASE( "Temperature controlled location" )
+TEST_CASE( "Temperature controlled location", "[temperature]" )
 {
     SECTION( "Heater test" ) {
         // Spawn water

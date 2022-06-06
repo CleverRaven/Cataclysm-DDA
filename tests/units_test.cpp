@@ -299,16 +299,19 @@ TEST_CASE( "rounding" )
 }
 
 
-TEST_CASE( "Temperatures" )
+TEST_CASE( "Temperatures", "[temperature]" )
 {
     SECTION( "Different units match" ) {
         CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ) );
         CHECK( units::to_kelvin( units::from_celcius( 0.0 ) ) == Approx( 273.150 ) );
         CHECK( units::to_kelvin( units::from_fahrenheit( 32.0 ) ) == Approx( 273.150 ) );
 
-        CHECK( units::to_kelvin( units::from_kelvin( 273 ) ) == Approx( 273.150 ) );
         CHECK( units::to_kelvin( units::from_celcius( 0 ) ) == Approx( 273.150 ) );
         CHECK( units::to_kelvin( units::from_fahrenheit( 32 ) ) == Approx( 273.150 ) );
+
+        CHECK( units::to_kelvin( 273.150_K ) == Approx( 273.150 ) );
+        CHECK( units::to_kelvin( 0_C ) == Approx( 273.150 ) );
+		CHECK( units::to_kelvin( 1.1_C ) == Approx( 274.250 ) );
 
         CHECK( units::to_fahrenheit( units::from_kelvin( 100 ) ) == Approx( -279.67 ) );
         CHECK( units::to_celcius( units::from_kelvin( 100 ) ) == Approx( -173.15 ) );
