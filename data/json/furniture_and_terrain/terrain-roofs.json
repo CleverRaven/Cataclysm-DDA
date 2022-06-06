@@ -490,13 +490,6 @@
     "color": "red",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
-    "bash": {
-      "str_min": 48,
-      "str_max": 80,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 48, "str_max": 80, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_open_air", "bash_below": true }
   }
 ]
