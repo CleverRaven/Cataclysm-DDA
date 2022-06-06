@@ -1362,7 +1362,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
         if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( temp_to_kelvin( std::max( get_weather().get_temperature( you->pos() ),
+            liquid.set_item_temperature( units::from_fahrenheit( std::max( get_weather().get_temperature(
+                                             you->pos() ),
                                          temperatures::cold ) ) );
         }
 

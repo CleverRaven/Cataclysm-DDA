@@ -104,27 +104,33 @@ TEST_CASE( "Hourly rotpoints", "[rot]" )
     item normal_item( "meat_cooked" );
 
     // No rot below 32F/0C
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 30 ) == 0 );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 0 ) ) == 0 );
 
     // No rot above 145F/63C
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 150 ) == 0 );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 64 ) ) == 0 );
 
     // Make sure no off by one error at the border
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 145 ) == Approx( 20364.67 ).margin( 0.1 ) );
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 146 ) == 0 );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 62 ) ) == Approx(
+               20364.67 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 63 ) ) == 0 );
 
     // 3200 point/h at 65F/18C
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 ) == Approx( 3600 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 65 ) ) == Approx(
+               3600 ) ); // TODO fix
 
     // Doubles after +16F
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 + 16 ) == Approx( 3600.0 * 2 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 65 + 16 ) ) == Approx(
+               3600.0 * 2 ) ); // TODO fix
 
     // Halves after -16F
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 - 16 ) == Approx( 3600.0 / 2 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 65 - 16 ) ) == Approx(
+               3600.0 / 2 ) ); // TODO fix
 
     // Test the linear area. Halfway between 32F/9C (0 point/hour) and 38F/3C (1117.672 point/hour)
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 35 ) == Approx( 1117.672 / 2 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 35 ) ) == Approx(
+               1117.672 / 2 ) );
 
     // Maximum rot at above 105 F
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 107 ) == Approx( 20364.67 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 107 ) ) == Approx(
+               20364.67 ) );
 }

@@ -2801,7 +2801,7 @@ void item::io( Archive &archive )
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
     archive.io( "specific_energy", specific_energy, -10.f );
-    archive.io( "temperature", temperature, 0.f );
+    archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );
     // Legacy: remove flag check/unset after 0.F
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
@@ -2859,10 +2859,10 @@ void item::io( Archive &archive )
     // Tempreature used to be saved as 0.00001 K integer.
     // specific_energy used to be saved as 0.00001 J/g integer.
     // Needed for 0.F saves
-    if( temperature > 100000 ) {
-        temperature /= 100000;
-        specific_energy /= 100000;
-    }
+    //if( temperature > 100000 ) {
+    //    temperature /= 100000;
+    //    specific_energy /= 100000;
+    //}
 
 
     // erase all invalid flags (not defined in flags.json)

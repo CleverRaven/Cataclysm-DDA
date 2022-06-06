@@ -7282,21 +7282,23 @@ int item::spoilage_sort_order() const
  * Rot maxes out at 105 F
  * Rot stops below 32 F (0C) and above 145 F (63 C)
  */
-static float calc_hourly_rotpoints_at_temp( const int temp )
+float item::calc_hourly_rotpoints_at_temp( const units::temperature temp )
 {
+	// TODO Rewrite the math to work with floats
+    const int temp_int = units::to_fahrenheit( temp ); 
     const int dropoff = 38;
     // ~3 C ditch our fancy equation and do a linear approach to 0 rot from 3 C -> 0 C
     const int max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
     const int safe_temp = 145; // ~63 C safe temperature above which food stops rotting
 
-    if( temp <= temperatures::freezing || temp > safe_temp ) {
+    if( temp_int <= temperatures::freezing || temp_int > safe_temp ) {
         return 0.f;
-    } else if( temp < dropoff ) {
+    } else if( temp_int < dropoff ) {
         // Linear progress from 32 F (0 C) to 38 F (3 C)
-        return 600.f * std::exp2( -27.f / 16.f ) * ( temp - temperatures::freezing );
-    } else if( temp < max_rot_temp ) {
+        return 600.f * std::exp2( -27.f / 16.f ) * ( temp_int - temperatures::freezing );
+    } else if( temp_int < max_rot_temp ) {
         // Exponential progress from 38 F (3 C) to 105 F (41 C)
-        return 3600.f * std::exp2( ( temp - 65.f ) / 16.f );
+        return 3600.f * std::exp2( ( temp_int - 65.f ) / 16.f );
     } else {
         // Constant rot from 105 F (41 C) to 145 F (63 C)
         // This is approximately 20364.67 rot/hour
@@ -7304,36 +7306,7 @@ static float calc_hourly_rotpoints_at_temp( const int temp )
     }
 }
 
-static std::vector<float> calc_rot_array()
-{
-    // Array with precalculated rot rates
-    // Includes temperatures from 0 F ( -18C) to 145 F (63 F)
-    std::vector<float> ret;
-    ret.reserve( 146 );
-    for( int i = 0; i < 146; ++i ) {
-        ret.push_back( calc_hourly_rotpoints_at_temp( i ) );
-    }
-    return ret;
-}
-
-/**
- * Get the hourly rot for a given temperature from the precomputed table.
- * @see rot_chart
- */
-float item::get_hourly_rotpoints_at_temp( const int temp ) const
-{
-    if( temp <= 32 || temp > 145 ) {
-        return 0.0;
-    }
-
-    /**
-     * Precomputed rot lookup table.
-     */
-    static const std::vector<float> rot_chart = calc_rot_array();
-    return rot_chart[temp];
-}
-
-void item::calc_rot( int temp, const float spoil_modifier,
+void item::calc_rot( units::temperature temp, const float spoil_modifier,
                      const time_duration &time_delta )
 {
     // Avoid needlessly calculating already rotten things.  Corpses should
@@ -7358,7 +7331,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
     }
 
     if( has_own_flag( flag_COLD ) ) {
-        temp = std::min( temperatures::fridge, temp );
+        temp = std::min( units::from_fahrenheit( temperatures::fridge ), temp );
     }
 
     // simulation of different age of food at the start of the game and good/bad storage
@@ -7370,7 +7343,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
         rot += rng( -spoil_variation, spoil_variation );
     }
 
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
+    rot += factor * time_delta / 1_hours * calc_hourly_rotpoints_at_temp( temp ) * 1_turns;
 }
 
 void item::calc_rot_while_processing( time_duration processing_duration )
@@ -9535,12 +9508,12 @@ float item::get_latent_heat() const
     return made_of_types()[0]->latent_heat();
 }
 
-float item::get_freeze_point() const
+units::temperature item::get_freeze_point() const
 {
     if( is_comestible() ) {
-        return get_comestible()->freeze_point;
+        return units::from_celcius( get_comestible()->freeze_point );
     }
-    return made_of_types()[0]->freeze_point();
+    return units::from_celcius( made_of_types()[0]->freeze_point() );
 }
 
 void item::set_mtype( const mtype *const m )
@@ -11700,12 +11673,12 @@ void item::set_item_specific_energy( const float new_specific_energy )
     const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
     const float specific_heat_solid = get_specific_heat_solid(); // J/g K
     const float latent_heat = get_latent_heat(); // J/kg
-    const float freezing_temperature = celsius_to_kelvin( get_freeze_point() );  // K
-    const float completely_frozen_specific_energy = specific_heat_solid *
-            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
-    const float completely_liquid_specific_energy = completely_frozen_specific_energy +
-            latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-    float new_item_temperature = 0.0f;
+    const float freezing_temperature = units::to_kelvin( get_freeze_point() );
+    // Energy that the item would have if it was completely solid at freezing temperature
+    const float completely_frozen_specific_energy = specific_heat_solid * freezing_temperature;
+    // Energy that the item would have if it was completely liquid at freezing temperature
+    const float completely_liquid_specific_energy = completely_frozen_specific_energy + latent_heat;
+    float new_item_temperature = 0.0f; // K
     float freeze_percentage = 1.0f;
 
     if( new_specific_energy > completely_liquid_specific_energy ) {
@@ -11724,36 +11697,36 @@ void item::set_item_specific_energy( const float new_specific_energy )
                             ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
 
-    temperature = new_item_temperature;
+    temperature = units::from_kelvin( new_item_temperature );
     specific_energy = new_specific_energy;
-    set_temp_flags( new_item_temperature, freeze_percentage );
+    set_temp_flags( temperature, freeze_percentage );
     reset_temp_check();
 }
 
-float item::get_specific_energy_from_temperature( const float new_temperature )
+float item::get_specific_energy_from_temperature( const units::temperature new_temperature )
 {
     const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
     const float specific_heat_solid = get_specific_heat_solid(); // J/g K
     const float latent_heat = get_latent_heat(); // J/kg
-    const float freezing_temperature = celsius_to_kelvin( get_freeze_point() );  // K
-    const float completely_frozen_energy = specific_heat_solid *
-                                           freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
-    const float completely_liquid_energy = completely_frozen_energy +
-                                           latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
+    const float freezing_temperature = units::to_kelvin( get_freeze_point() );
+    // Energy that the item would have if it was completely solid at freezing temperature
+    const float completely_frozen_energy = specific_heat_solid * freezing_temperature;
+    // Energy that the item would have if it was completely liquid at freezing temperature
+    const float completely_liquid_energy = completely_frozen_energy + latent_heat;
     float new_specific_energy;
 
-    if( new_temperature <= freezing_temperature ) {
-        new_specific_energy = specific_heat_solid * new_temperature;
+    if( units::to_kelvin( new_temperature ) <= freezing_temperature ) {
+        new_specific_energy = specific_heat_solid * units::to_kelvin( new_temperature );
     } else {
         new_specific_energy = completely_liquid_energy + specific_heat_liquid *
-                              ( new_temperature - freezing_temperature );
+                              ( units::to_kelvin( new_temperature ) - freezing_temperature );
     }
     return new_specific_energy;
 }
 
-void item::set_item_temperature( float new_temperature )
+void item::set_item_temperature( units::temperature new_temperature )
 {
-    const float freezing_temperature = celsius_to_kelvin( get_freeze_point() );  // K
+    const float freezing_temperature =  units::to_kelvin( get_freeze_point() );
     const float specific_heat_solid = get_specific_heat_solid(); // J/g K
     const float latent_heat = get_latent_heat(); // J/kg
 
@@ -11763,10 +11736,10 @@ void item::set_item_temperature( float new_temperature )
     temperature = new_temperature;
     specific_energy = new_specific_energy ;
 
-    const float completely_frozen_specific_energy = specific_heat_solid *
-            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
-    const float completely_liquid_specific_energy = completely_frozen_specific_energy +
-            latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
+    // Energy that the item would have if it was completely solid at freezing temperature
+    const float completely_frozen_specific_energy = specific_heat_solid * freezing_temperature;
+    // Energy that the item would have if it was completely liquid at freezing temperature
+    const float completely_liquid_specific_energy = completely_frozen_specific_energy + latent_heat;
 
     if( new_specific_energy < completely_frozen_specific_energy ) {
         // Item is solid
@@ -12246,23 +12219,23 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
         return false;
     }
 
-    int temp = get_weather().get_temperature( pos );
+    units::temperature temp = units::from_fahrenheit( get_weather().get_temperature( pos ) );
 
     switch( flag ) {
         case temperature_flag::NORMAL:
             // Just use the temperature normally
             break;
         case temperature_flag::FRIDGE:
-            temp = std::min( temp, temperatures::fridge );
+            temp = std::min( temp, units::from_fahrenheit( temperatures::fridge ) );
             break;
         case temperature_flag::FREEZER:
-            temp = std::min( temp, temperatures::freezer );
+            temp = std::min( temp, units::from_fahrenheit( temperatures::freezer ) );
             break;
         case temperature_flag::HEATER:
-            temp = std::max( temp, temperatures::normal );
+            temp = std::max( temp, units::from_fahrenheit( temperatures::normal ) );
             break;
         case temperature_flag::ROOT_CELLAR:
-            temp = AVERAGE_ANNUAL_TEMPERATURE;
+            temp = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE );
             break;
         default:
             debugmsg( "Temperature flag enum not valid.  Using current temperature." );
@@ -12272,7 +12245,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     // body heat increases inventory temperature by 5F and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
-        temp += 5;
+        temp += units::from_fahrenheit( 5 );
     }
 
     time_point time = last_temp_check;
@@ -12307,12 +12280,12 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
             // Get the environment temperature
             // Use weather if above ground, use map temp if below
-            double env_temperature = 0;
+            units::temperature env_temperature;
             if( pos.z >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
                 double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
-                env_temperature = weather_temperature + enviroment_mod + local_mod;
+                env_temperature = units::from_fahrenheit( weather_temperature + enviroment_mod + local_mod );
             } else {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod;
+                env_temperature = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod );
             }
 
             switch( flag ) {
@@ -12320,16 +12293,16 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
                     // Just use the temperature normally
                     break;
                 case temperature_flag::FRIDGE:
-                    env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
+                    env_temperature = std::min( env_temperature, units::from_fahrenheit( temperatures::fridge ) );
                     break;
                 case temperature_flag::FREEZER:
-                    env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
+                    env_temperature = std::min( env_temperature, units::from_fahrenheit( temperatures::freezer ) );
                     break;
                 case temperature_flag::HEATER:
-                    env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
+                    env_temperature = std::max( env_temperature, units::from_fahrenheit( temperatures::normal ) );
                     break;
                 case temperature_flag::ROOT_CELLAR:
-                    env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                    env_temperature = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE );
                     break;
                 default:
                     debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
@@ -12367,16 +12340,16 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
     // Just now created items will get here.
     if( specific_energy < 0 ) {
-        set_item_temperature( temp_to_kelvin( temp ) );
+        set_item_temperature( units::from_fahrenheit( temp ) );
     }
     return false;
 }
 
-void item::calc_temp( const int temp, const float insulation, const time_duration &time_delta )
+void item::calc_temp( const units::temperature temp, const float insulation,
+                      const time_duration &time_delta )
 {
-    // Limit calculations to max 4000 C (4273.15 K) to avoid specific energy from overflowing
-    const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
-    const float old_temperature = temperature;
+    const float env_temperature = units::to_kelvin( temp ); // K
+    const float old_temperature = units::to_kelvin( temperature ); // K
     const float temperature_difference = env_temperature - old_temperature;
 
     // If no or only small temperature difference then no need to do math.
@@ -12387,7 +12360,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 
     // If item has negative energy set to environment temperature (it not been processed ever)
     if( specific_energy < 0 ) {
-        set_item_temperature( env_temperature );
+        set_item_temperature( units::from_kelvin( env_temperature ) );
         return;
     }
 
@@ -12398,7 +12371,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     const float specific_heat_liquid = get_specific_heat_liquid();
     const float specific_heat_solid = get_specific_heat_solid();
     const float latent_heat = get_latent_heat();
-    const float freezing_temperature = celsius_to_kelvin( get_freeze_point() );  // K
+    const float freezing_temperature = units::to_kelvin( get_freeze_point() );
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +
@@ -12435,7 +12408,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                 // The item then also finished melting.
                 // This may happen rarely with very small items
                 // Just set the item to environment temperature
-                set_item_temperature( env_temperature );
+                set_item_temperature( units::from_kelvin( env_temperature ) );
                 return;
             }
         }
@@ -12463,7 +12436,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                 // The item then also finished freezing.
                 // This may happen rarely with very small items
                 // Just set the item to environment temperature
-                set_item_temperature( env_temperature );
+                set_item_temperature( units::from_kelvin( env_temperature ) );
                 return;
             }
         }
@@ -12511,14 +12484,14 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                             ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
 
-    temperature = new_item_temperature;
+    temperature = units::from_kelvin( new_item_temperature );
     specific_energy = new_specific_energy;
-    set_temp_flags( new_item_temperature, freeze_percentage );
+    set_temp_flags( temperature, freeze_percentage );
 }
 
-void item::set_temp_flags( float new_temperature, float freeze_percentage )
+void item::set_temp_flags( units::temperature new_temperature, float freeze_percentage )
 {
-    float freezing_temperature = celsius_to_kelvin( get_freeze_point() );
+    units::temperature freezing_temperature = get_freeze_point();
     // Apply temperature tags tags
     // Hot = over  temperatures::hot
     // Warm = over temperatures::warm
@@ -12536,7 +12509,7 @@ void item::set_temp_flags( float new_temperature, float freeze_percentage )
     } else if( has_own_flag( flag_HOT ) ) {
         unset_flag( flag_HOT );
     }
-    if( new_temperature > temp_to_kelvin( temperatures::hot ) ) {
+    if( new_temperature > units::from_fahrenheit( temperatures::hot ) ) {
         set_flag( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
         set_flag( flag_FROZEN );
@@ -12545,12 +12518,12 @@ void item::set_temp_flags( float new_temperature, float freeze_percentage )
         if( is_food() && new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
             set_flag( flag_NO_PARASITES );
         }
-    } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
+    } else if( new_temperature < units::from_fahrenheit( temperatures::cold ) ) {
         set_flag( flag_COLD );
     }
 
     // Convert water into clean water if it starts boiling
-    if( typeId() == itype_water && new_temperature > temp_to_kelvin( temperatures::boiling ) ) {
+    if( typeId() == itype_water && new_temperature > units::from_fahrenheit( temperatures::boiling ) ) {
         convert( itype_water_clean ).poison = 0;
     }
 }
@@ -12569,8 +12542,8 @@ void item::heat_up()
     current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
-    temperature = 333.15;
-    specific_energy = get_specific_energy_from_temperature( 333.15 );
+    temperature = units::from_celcius( 60 );
+    specific_energy = get_specific_energy_from_temperature( units::from_celcius( 60 ) );
 
     reset_temp_check();
 }
@@ -12583,8 +12556,8 @@ void item::cold_up()
     current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
-    temperature = 276.15;
-    specific_energy = get_specific_energy_from_temperature( 276.15 );
+    temperature = units::from_celcius( 3 );
+    specific_energy = get_specific_energy_from_temperature( units::from_celcius( 3 ) );
 
     reset_temp_check();
 }

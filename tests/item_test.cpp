@@ -196,8 +196,8 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_filthy.cold_up(); // 3 C (276.15 K)
     liquid_filthy.set_flag( json_flag_FILTHY );
 
-    REQUIRE( liquid_hot.temperature == Approx( 333.15 ).margin( 0.01 ) );
-    REQUIRE( liquid_cold.temperature == Approx( 276.15 ).margin( 0.01 ) );
+    REQUIRE( units::to_kelvin( liquid_hot.temperature ) == Approx( 333.15 ) );
+    REQUIRE( units::to_kelvin( liquid_cold.temperature ) == Approx( 276.15 ) );
     REQUIRE( liquid_hot.has_flag( json_flag_HOT ) );
     REQUIRE( liquid_cold.has_flag( json_flag_COLD ) );
 

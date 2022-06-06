@@ -427,7 +427,7 @@ inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_
 from_fahrenheit(
     const value_type v )
 {
-    return from_kelvin( ( v + 459.67f ) / 1.8f );
+    return from_kelvin(v) + freezing_point; //TODO fix return (from_kelvin( v ) + 459.67f ) / 1.8f;
 }
 
 template<typename value_type>
