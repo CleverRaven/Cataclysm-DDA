@@ -1265,15 +1265,13 @@ void vehicle_prototype::finalize()
             } else {
                 for( const auto &e : pt.ammo_types ) {
                     const itype *ammo = item::find_type( e );
-                    if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
+                    if( !ammo->ammo || !base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }
                 }
-                if( pt.ammo_types.empty() ) {
-                    if( !base->gun->ammo.empty() ) {
-                        pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
-                    }
+                if( pt.ammo_types.empty() && !base->gun->ammo.empty() ) {
+                    pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
                 }
             }
 
