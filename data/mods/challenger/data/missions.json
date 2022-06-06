@@ -36,7 +36,7 @@
         "                        "
       ],
       "nested": {
-       "X": { "chunks": [ "arena_1v1_open" ] }
+       "X": { "chunks": [ "arena_1v1_small", "arena_1v1_medium" ] }
     }
     }
   },
