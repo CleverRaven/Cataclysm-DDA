@@ -1512,7 +1512,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "iwi_tavor_x95_300blk", "charges-min": 0, "charges-max": 30 },
-      { "item": "stanag30" },
+      { "group": "stanag_30_random" },
       { "group": "stanag_30_random", "prob": 50 },
       { "item": "stanag30", "prob": 40 },
       { "group": "on_hand_300BLK" }
