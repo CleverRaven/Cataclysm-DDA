@@ -46,10 +46,21 @@
     { "x": 3, "y": 2, "parts": [ "hdframe_horizontal_front", "plating_military" ] },
     { "x": 3, "y": 3, "parts": [ "hdframe_ne", "plating_military" ] },
     { "x": -1, "y": -1, "parts": [ "hdframe_vertical_left", "hddoor_left" ] },
-    { "x": -1, "y": 0, "parts": [ "hdframe_cross", "seat", { "fuel": "gasoline", "part": "tank" }, "seatbelt", "hdroof" ] },
+    {
+      "x": -1,
+      "y": 0,
+      "parts": [ "hdframe_cross", "seat", { "fuel": "gasoline", "part": "tank" }, "seatbelt", "hdroof" ]
+    },
     { "x": -1, "y": 1, "parts": [ "hdframe_cross", "aisle_horizontal", "hdroof" ] },
     { "x": -1, "y": 1, "part": "turret_mount" },
-    { "x": -1, "y": 1, "ammo_types": [ "shot_slug", "shot_flechette" ], "part": "mounted_hammer_turret_system", "ammo": 64, "ammo_qty": [ 0, 64 ] },
+    {
+      "x": -1,
+      "y": 1,
+      "ammo_types": [ "shot_slug", "shot_flechette" ],
+      "part": "mounted_hammer_turret_system",
+      "ammo": 64,
+      "ammo_qty": [ 0, 64 ]
+    },
     { "x": -1, "y": 2, "parts": [ "hdframe_cross", "seat", "seatbelt", "hdroof" ] },
     { "x": -1, "y": 3, "parts": [ "hdframe_vertical_right", "hddoor_right" ] },
     { "x": -2, "y": -1, "parts": [ "hdframe_vertical_left", "hdboard_vertical_left" ] },
