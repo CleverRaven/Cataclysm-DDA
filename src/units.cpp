@@ -35,17 +35,18 @@ void length::deserialize( const JsonValue &jv )
 template<>
 void temperature::serialize( JsonOut &jsout ) const
 {
-    jsout.write( string_format( "%f K", value_ ) );
+    jsout.write( string_format( "%f", value_ ) );
 }
 
 template<>
 void temperature::deserialize( const JsonValue &jv )
 {
     if( jv.test_int() ) {
+		// Compatibility with old saves
         *this = from_kelvin( jv.get_int() );
         return;
     }
-    *this = read_from_json_string( jv, units::temperature_units );
+    *this = from_kelvin( std::stof( jv.get_string() ) );
 }
 
 template<>
