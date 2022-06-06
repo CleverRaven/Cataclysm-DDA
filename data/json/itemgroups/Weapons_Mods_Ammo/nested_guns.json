@@ -1339,7 +1339,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "fs2000", "charges-min": 0, "charges-max": 30 },
-      { "item": "stanag30" },
+      { "group": "stanag_30_random" },
       { "item": "stanag30ranger", "prob": 10 },
       { "item": "stanag30", "prob": 40 },
       { "group": "on_hand_223" }
