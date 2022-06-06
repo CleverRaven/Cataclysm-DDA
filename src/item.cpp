@@ -12352,14 +12352,14 @@ void item::calc_temp( const units::temperature temp, const float insulation,
     const float temperature_difference = env_temperature - old_temperature;
 
     // If no or only small temperature difference then no need to do math.
-    if( std::abs( temperature_difference ) < 0.9 ) {
+    if( std::abs( temperature_difference ) < 0.4 ) {
         return;
     }
     const float mass = to_gram( weight() ); // g
 
     // If item has negative energy set to environment temperature (it not been processed ever)
     if( specific_energy < 0 ) {
-        set_item_temperature( units::from_kelvin( env_temperature ) );
+        set_item_temperature( temp );
         return;
     }
 
