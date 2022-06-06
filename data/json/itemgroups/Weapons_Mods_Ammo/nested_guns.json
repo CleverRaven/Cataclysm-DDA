@@ -1806,7 +1806,6 @@
       { "item": "oa93", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag10" },
       { "group": "stanag_10_random", "prob": 50 },
-      { "item": "stanag10", "prob": 33 },
       { "group": "on_hand_223" }
     ]
   },
