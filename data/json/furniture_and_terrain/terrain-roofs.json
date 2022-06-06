@@ -447,7 +447,7 @@
     "type": "terrain",
     "id": "t_metal_roof",
     "name": "metal roof",
-    "description": "A high-quality and sturdy section of metalic rooftop.",
+    "description": "A high-quality and sturdy section of metallic rooftop.",
     "symbol": ".",
     "looks_like": "t_scrap_floor",
     "color": "dark_gray",
