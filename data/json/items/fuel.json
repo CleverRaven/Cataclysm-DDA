@@ -268,7 +268,7 @@
     "category": "chems",
     "phase": "liquid",
     "container": "ammonia_tank",
-    "material": "ammonia_liquid",
+    "material": "liquid_ammonia",
     "symbol": "~",
     "color": "yellow",
     "ammo_type": "ammonia_liquid"
