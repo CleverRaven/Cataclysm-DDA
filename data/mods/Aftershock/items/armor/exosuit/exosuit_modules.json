@@ -461,7 +461,7 @@
   {
     "id": "exo_forcefield_bash_cut",
     "type": "TOOL",
-    "name": { "str": "exosuit forcefield generator (bash & cut)", "str_pl": "exosuit forcefield generators (bash & cut) },
+    "name": { "str": "exosuit forcefield generator (bash & cut)", "str_pl": "exosuit forcefield generators (bash & cut)" },
     "description": "A set of powerful field generators intended for UICA marines in boarding actions.  It is currently active, drawing power, and protecting against 25 points of bash and cut damage.",
     "weight": "5 kg",
     "volume": "2500 ml",
