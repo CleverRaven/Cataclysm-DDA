@@ -82,7 +82,7 @@
   {
     "type": "faction",
     "id": "robofac_auxiliaries",
-    "name": "Hub 01 Ancillia",
+    "name": "Hub 01 Ancilla",
     "likes_u": 15,
     "respects_u": 15,
     "known_by_u": false,
