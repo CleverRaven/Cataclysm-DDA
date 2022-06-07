@@ -494,6 +494,30 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zissi_brute",
+    "name": { "str": "Frozen Fury" },
+    "copy-from": "mon_zissi",
+    "description": "Large, long-necked, two-legged dinosaur corpse with a long tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zamargasaurus_brute",
     "name": { "str": "Spiked Dreadnaught" },
     "copy-from": "mon_zamargasaurus",
@@ -1709,6 +1733,33 @@
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sissi",
+    "name": { "str_sp": "armored issi" },
+    "copy-from": "mon_zissi",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
   },
   {
     "type": "MONSTER",
