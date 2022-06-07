@@ -46,10 +46,10 @@ class folded_text
         std::vector<folded_line> lines;
 
     public:
-        folded_text( const std::string &str, const int line_width );
+        folded_text( const std::string &str, int line_width );
         const std::vector<folded_line> &get_lines() const;
         // get the display coordinates of the codepoint at index `cpt_idx`
-        point codepoint_coordinates( const int cpt_idx, const bool zero_x ) const;
+        point codepoint_coordinates( int cpt_idx, bool zero_x ) const;
 };
 
 struct ime_preview_range {

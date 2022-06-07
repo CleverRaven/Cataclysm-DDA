@@ -1212,7 +1212,7 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
     return cur_invlet;
 }
 
-int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pickup_chars )
+int inventory_column::reassign_custom_invlets( int cur_idx, const std::string &pickup_chars )
 {
     for( auto &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.

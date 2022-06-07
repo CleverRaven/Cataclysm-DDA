@@ -81,11 +81,11 @@ static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 static std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
-static int craft_info_width( const int window_width );
+static int craft_info_width( int window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
-                              TAB_MODE mode, const bool filtered_unread,
+                              TAB_MODE mode, bool filtered_unread,
                               std::map<std::string, bool> &unread );
 static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
                                  const std::string &subtab,
@@ -492,13 +492,13 @@ class recipe_result_info_cache
 
         void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
                                   std::vector<iteminfo> &details_info );
-        void get_item_details( item &dummy_item, const int quantity_per_batch,
-                               std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges );
-        void get_item_header( item &dummy_item, const int quantity_per_batch, std::vector<iteminfo> &info,
-                              const std::string &classification, const bool uses_charges );
-        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec, const std::string title );
+        void get_item_details( item &dummy_item, int quantity_per_batch,
+                               std::vector<iteminfo> &details_info, const std::string &classification, bool uses_charges );
+        void get_item_header( item &dummy_item, int quantity_per_batch, std::vector<iteminfo> &info,
+                              const std::string &classification, bool uses_charges );
+        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec, const std::string &title );
     public:
-        item_info_data get_result_data( const recipe *rec, const int batch_size, int &scroll_pos,
+        item_info_data get_result_data( const recipe *rec, int batch_size, int &scroll_pos,
                                         const catacurses::window &window );
 };
 
@@ -668,7 +668,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
 }
 
 void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
-        const std::string title )
+        const std::string &title )
 {
     info_vec.emplace_back( "DESCRIPTION", "--" );
     info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( title, 0,

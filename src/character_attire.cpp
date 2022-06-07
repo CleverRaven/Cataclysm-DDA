@@ -1587,7 +1587,7 @@ int outfit::collar_warmth() const
 }
 
 std::list<item> outfit::use_amount( const itype_id &it, int quantity,
-                                    std::list<item> &used, const std::function<bool( const item & )> filter,
+                                    std::list<item> &used, const std::function<bool( const item & )> &filter,
                                     Character &wearer )
 {
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {

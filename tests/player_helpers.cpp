@@ -56,8 +56,8 @@ bool player_has_item_of_type( const std::string &type )
 }
 
 // Return true if character has an item with get_var( var ) set to the given value
-bool character_has_item_with_var_val( const Character &they, const std::string var,
-                                      const std::string val )
+bool character_has_item_with_var_val( const Character &they, const std::string &var,
+                                      const std::string &val )
 {
     return they.has_item_with( [var, val]( const item & cand ) {
         return cand.get_var( var ) == val;

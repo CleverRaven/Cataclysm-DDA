@@ -63,8 +63,8 @@ class item_contents
          * @param it the item being put in
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
-        ret_val<bool> can_contain( const item &it, const bool ignore_pkt_settings = true ) const;
-        ret_val<bool> can_contain_rigid( const item &it, const bool ignore_pkt_settings = true ) const;
+        ret_val<bool> can_contain( const item &it, bool ignore_pkt_settings = true ) const;
+        ret_val<bool> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         /**
@@ -72,7 +72,7 @@ class item_contents
          * @param ammo item to be loaded in
          * @param now whether the currently contained ammo/magazine should be taken into account
          */
-        bool can_reload_with( const item &ammo, const bool now ) const;
+        bool can_reload_with( const item &ammo, bool now ) const;
 
         // Returns true if contents are empty (ignoring item mods, since they aren't contents)
         bool empty() const;

@@ -215,7 +215,7 @@ std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
  */
 color_tag_parse_result::tag_type update_color_stack(
     std::stack<nc_color> &color_stack, const std::string &seg,
-    const report_color_error color_error = report_color_error::yes );
+    report_color_error color_error = report_color_error::yes );
 
 /**
  * Removes the color tags from the input string. This might be required when the string is to
@@ -644,7 +644,7 @@ std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
 std::pair<std::string, nc_color> get_light_level( float light );
 
-std::pair<std::string, nc_color> rad_badge_color( const int rad );
+std::pair<std::string, nc_color> rad_badge_color( int rad );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
@@ -871,10 +871,10 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabK
  * current_tab.
  * @return Return 2 (optional): The index of the currently selected tab within return 1
  */
-std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
+std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( size_t max_width,
         const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
         const std::vector<std::string> &original_tab_list, bool translate = false );
-std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
+std::vector<std::string> simple_fit_tabs_to_width( size_t max_width,
         const std::string &current_tab,
         const std::map<std::string, std::string> &tab_names,
         const std::vector<std::string> &original_tab_list, bool translate = false );
