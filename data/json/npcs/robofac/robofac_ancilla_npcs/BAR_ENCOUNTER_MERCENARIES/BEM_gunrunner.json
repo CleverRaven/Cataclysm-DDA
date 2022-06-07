@@ -1,0 +1,42 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_BEM_GUNRUNNER",
+    "name": { "str": "Mercenary" },
+    "job_description": "Fighting for the name of Hub 01 and money, mostly money.",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_ANCILLA_GRUNT_worn",
+    "carry_override": "NC_ANCILLA_GRUNT_carry",
+    "weapon_override": "NC_ANCILLA_GRUNT_wield",
+    "shopkeeper_item_group": "BEM_GUNRUNNER_STOCK",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "BEM_GUNRUNNER_STOCK",
+    "subtype": "collection",
+    "entries": [
+      { "group": "SUS_rivtech_loot", "prob": 100, "count": [ 1, 4 ] },
+      { "group": "guns_energy", "prob": 100, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": [ "BEM_GUNRUNNER_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Their identity a pair of mirrored sunglasses .  \"Found this neat gizmo in a bank run a few days ago. <myprounoun> blurts while procuring a small cube of etched glass from <mypossesivepronoun> pocket.  \"Now, I have no use for such a thing, but perhaps you do.  What do you say? Its yours for 3 coins.",
+    "responses": [
+      { "text": "Sure, lest see what you offer", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES", "effect": "start_trade" },
+      { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
+    ]
+  }
+]
