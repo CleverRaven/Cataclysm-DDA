@@ -1003,7 +1003,7 @@ class item : public visitable
         void set_item_temperature( units::temperature new_temperature );
 
         /** Sets the item to new temperature and energy based new specific energy (J/g) and resets last_temp_check*/
-        void set_item_specific_energy( float specific_energy );
+        void set_item_specific_energy( units::specific_energy specific_energy );
 
         /**
          * Get the thermal energy of the item in Joules.
@@ -1494,9 +1494,14 @@ class item : public visitable
 
         /** Returns empty string if the book teach no skill */
         std::string get_book_skill() const;
+
+        //** Returns specific heat of the item (J/g K) */
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
+
+        /** Returns latent heat of the item (J/g) */
         float get_latent_heat() const;
+
         units::temperature get_freeze_point() const;
 
         void set_last_temp_check( const time_point &pt );
@@ -2732,7 +2737,7 @@ class item : public visitable
         void calc_temp( units::temperature temp, float insulation, const time_duration &time_delta );
 
         /** Calculates item specific energy (J/g) from temperature*/
-        float get_specific_energy_from_temperature( units::temperature new_temperature );
+        units::specific_energy get_specific_energy_from_temperature( units::temperature new_temperature );
 
         /** Update flags associated with temperature */
         void set_temp_flags( units::temperature new_temperature, float freeze_percentage );
@@ -2845,7 +2850,8 @@ class item : public visitable
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
-        float specific_energy = -10; // Specific energy J/g. Negative value for unprocessed.
+        units::specific_energy specific_energy = units::from_joule_per_gram(
+                    -10 ); // Specific energy J/g. Negative value for unprocessed.
         units::temperature temperature = units::from_kelvin( 0 );       // Temperature of the item .
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!

@@ -3358,7 +3358,7 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
     } );
 }
 
-float vehicle::fuel_specific_energy( const itype_id &ftype ) const
+units::specific_energy vehicle::fuel_specific_energy( const itype_id &ftype ) const
 {
     float total_energy = 0.0f; // J
     float total_mass = 0.0f;  // g
@@ -3369,7 +3369,7 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
             total_mass += to_gram( vp.base.only_item().weight() );
         }
     }
-    return total_energy / total_mass;
+    return units::from_joule_per_gram( total_energy / total_mass );
 }
 
 int vehicle::drain( const itype_id &ftype, int amount,

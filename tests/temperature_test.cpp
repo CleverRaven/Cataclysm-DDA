@@ -24,7 +24,7 @@ TEST_CASE( "Item spawns with right thermal attributes", "[temperature]" )
     CHECK( D.get_latent_heat() == 260 );
 
     CHECK( units::to_kelvin( D.temperature ) == 0 );
-    CHECK( D.specific_energy == -10 );
+    CHECK( units::to_joule_per_gram( D.specific_energy ) == -10 );
 
     set_map_temperature( 122 );
     D.process_temperature_rot( 1, tripoint_zero, get_map(), nullptr );
@@ -153,7 +153,8 @@ TEST_CASE( "Rate of temperature change", "[temperature]" )
         CHECK( units::to_kelvin( meat1.temperature ) == Approx( 273.15 ) );;
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat2.has_own_flag( flag_FROZEN ) );
-        CHECK( meat1.specific_energy == Approx( meat2.specific_energy ) );
+        CHECK( units::to_joule_per_gram( meat1.specific_energy ) == Approx( units::to_joule_per_gram(
+                    meat2.specific_energy ) ) );
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );

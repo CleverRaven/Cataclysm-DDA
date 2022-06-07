@@ -315,3 +315,11 @@ TEST_CASE( "Temperatures", "[temperature]" )
         CHECK( units::to_celcius( units::from_kelvin( 100 ) ) == Approx( -173.15 ) );
     }
 }
+
+TEST_CASE( "Specific energy", "[temperature]" )
+{
+    SECTION( "Different units match" ) {
+        CHECK( units::to_joule_per_gram( units::from_joule_per_gram( 100 ) ) == 100 );
+        CHECK( units::to_joule_per_gram( units::from_joule_per_gram( 100.1 ) ) == Approx( 100.1 ) );
+    }
+}
