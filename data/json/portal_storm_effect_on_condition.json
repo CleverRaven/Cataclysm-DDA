@@ -1068,6 +1068,50 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON",
+    "effect": [
+      { "u_location_variable": { "global_val": "original_loc" } },
+      { "u_location_variable": { "global_val": "dungeon_loc" }, "z_adjust": 6, "z_override": true },
+      { "u_location_variable": { "global_val": "dungeon_roof_loc" }, "z_adjust": 7, "z_override": true },
+      {
+        "arithmetic": [ { "u_val": "var", "var_name": "dungeon_time" }, "=", { "time": "30 seconds" }, "+", { "rand": 30 } ]
+      },
+      {
+        "revert_location": { "global_val": "dungeon_loc" },
+        "time_in_future": { "u_val": "dungeon_time", "default": "1 minutes" }
+      },
+      {
+        "mapgen_update": "portal_dungeon_cleanup",
+        "target_var": { "global_val": "dungeon_loc" },
+        "time_in_future": { "u_val": "dungeon_time", "default": "1 minutes" }
+      },
+      {
+        "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
+        "target_var": { "global_val": "place_name" }
+      },
+      {
+        "place_override": { "global_val": "place_name", "default": "1 minutes" },
+        "length": { "u_val": "dungeon_time", "default": "1 minutes" }
+      },
+      {
+        "revert_location": { "global_val": "dungeon_roof_loc" },
+        "time_in_future": { "u_val": "dungeon_time", "default": "1 minutes" }
+      },
+      { "mapgen_update": "portal_dungeon_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
+      { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "that sucks" },
+      {
+        "queue_eocs": {
+          "id": "EOC_PORTAL_STORM_DUNGEON_TELEPORT",
+          "effect": [ { "u_teleport": { "global_val": "original_loc" } }, { "u_message": "You came back.  This time." } ]
+        },
+        "time_in_future": { "u_val": "dungeon_time", "default": "1 minutes" }
+      },
+      { "u_message": "You are trapped in <global_val:place_name>!" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
       {
@@ -1077,7 +1121,7 @@
       { "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words." },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       { "revert_location": { "global_val": "portal_dungeon" }, "time_in_future": [ "5 minutes", "5 minutes" ] },
-      { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
+      { "mapgen_update": "portal_dungeon_entrance", "target_var": { "global_val": "portal_dungeon" } }
     ]
   },
   {

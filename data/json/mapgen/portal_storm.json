@@ -23,6 +23,23 @@
   {
     "type": "mapgen",
     "method": "json",
+    "update_mapgen_id": "portal_dungeon",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [
+        { "square": "terrain", "id": "t_floor_warped", "x": 1, "y": 1, "x2": 8, "y2": 8 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 0, "y2": 8 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 8, "y2": 0 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 8, "y": 0, "x2": 8, "y2": 8 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 8, "x2": 8, "y2": 8 },
+        { "point": "variable", "id": "dungeon_start", "x": 2, "y": 2 },
+        { "point": "trap", "id": "tr_portal_dungeon_exit", "x": 1, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "update_mapgen_id": "portal_cell_roof",
     "object": {
       "set": [ { "square": "terrain", "id": "t_warped_roof", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
@@ -32,8 +49,63 @@
   {
     "type": "mapgen",
     "method": "json",
+    "update_mapgen_id": "portal_dungeon_roof",
+    "object": {
+      "set": [ { "square": "terrain", "id": "t_warped_roof", "x": 0, "y": 0, "x2": 10, "y2": 10 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "update_mapgen_id": "portal_cell_cleanup",
     "object": { "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 5, "y2": 5 } ], "flags": [ "NO_UNDERLYING_ROTATE" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_dungeon_cleanup",
+    "object": { "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 10, "y2": 10 } ], "flags": [ "NO_UNDERLYING_ROTATE" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_dungeon_entrance",
+    "object": {
+      "rows": [
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaa001100aaaaaaaaa",
+        "aaaaaaaaa000000aaaaaaaaa",
+        "aaaaaaaaa100001aaaaaaaaa",
+        "aaaaaaaaa000000aaaaaaaaa",
+        "aaaaaaaaa001100aaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "palettes": [ "portal_storm_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [
+        { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "point": "trap", "id": "tr_portal_dungeon_entrance", "x": 11, "y": 11 },
+        { "point": "variable", "id": "portal_dungeon_exit", "x": 12, "y": 11 }
+      ]
+    }
   },
   {
     "type": "mapgen",
