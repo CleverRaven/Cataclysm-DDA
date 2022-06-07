@@ -1202,5 +1202,115 @@
     "valid": false,
     "vanity": true,
     "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_BLUE",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: blue" },
+    "description": "Your sleek scales are a medium blue color, like that of a shark.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_SILVER",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: silver" },
+    "description": "Your sleek scales are a shiny silvery color, like that of a salmon.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_BROWN_SPOTS",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: brown, dark spots" },
+    "description": "Your sleek scales are a light brown color with large dark brown spots, like that of a gar.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_OLIVE_GREEN_RED",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: olive green and red" },
+    "description": "Your sleek scales are a shiny olive green color with small black spots and two large red bands on your sides, like that of a rainbow trout.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_ORANGE_WHITE",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: orange and white" },
+    "description": "Your sleek scales are a bright orange color with large white patches, like that of a clownfish.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_ORANGE_GOLD",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: orange-gold" },
+    "description": "Your sleek scales are a bright orange color with gold undertones, like that of a goldfish.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_OLIVE_GREEN_BLACK",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: olive green and black" },
+    "description": "Your sleek scales are a dull olive green color with large black stripes, like that of a bass.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "FEATHER_COLORATION_PIGEON",
+    "type": "mutation",
+    "name": { "str": "Feather coloration: pigeon" },
+    "description": "Your feathers are a light gray color, with dark stripes near the tips of your wings as well as an iridescent green-purple neck, like that of a pigeon.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "FEATHER_COLORATION_BLACK",
+    "type": "mutation",
+    "name": { "str": "Feather coloration: black" },
+    "description": "Your feathers are pitch-black, like that of a crow or raven.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "FEATHER_COLORATION_BALD_EAGLE",
+    "type": "mutation",
+    "name": { "str": "Feather coloration: bald eagle" },
+    "description": "Your feathers are dark brown except for your head and neck being wholly white, like that of a bald eagle.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "FEATHER_COLORATION_WHITE",
+    "type": "mutation",
+    "name": { "str": "Feather coloration: white" },
+    "description": "Your feathers are bright white, like that of a dove.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
   }
 ]
