@@ -1367,5 +1367,40 @@
     "type": "widget",
     "style": "layout",
     "widgets": [ "test_text_widget", "test_pool_graph", "test_number_widget" ]
+  },
+  {
+    "id": "test_layout_rows1",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "test_move_num", "test_speed_num", "test_focus_num", "test_mana_num" ]
+  },
+  {
+    "id": "test_layout_rows2",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "test_str_num", "test_dex_num", "test_int_num", "test_per_num" ]
+  },
+  {
+    "id": "test_layout_rows3",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "test_text_widget", "test_pool_graph", "test_number_widget" ]
+  },
+  {
+    "id": "test_layout_rows_in_columns",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_overmap_3x3_text", "test_layout_rows1", "test_layout_rows2" ]
+  },
+  {
+    "id": "test_layout_cols_in_cols",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_layout_rows3", "test_layout_rows_in_columns" ]
   }
 ]
