@@ -379,7 +379,6 @@
       [ [ "electrolysis_kit", 500 ] ],
       [ [ "ketene_lamp", 50 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "platinum_grille", -1 ] ],
       [ [ "chem_ferric_chloride", -1 ] ]
     ],
     "components": [
@@ -390,13 +389,12 @@
       [ [ "chem_sodium", 33 ] ],
       [ [ "chem_nitric_acid", 1 ] ],
       [ [ "chem_muriatic_acid", 1 ] ],
-      [ [ "chem_sulphuric_acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 2 ] ],
       [ [ "chem_acetone", 1 ] ],
       [ [ "chem_methanol", 32 ] ],
       [ [ "lye_powder", 15 ] ],
       [ [ "chem_sulphur", 100 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "copper", 15 ] ],
       [ [ "chem_nickel_powder", 7 ] ],
       [ [ "chem_aluminium_powder", 16 ] ]
     ]
