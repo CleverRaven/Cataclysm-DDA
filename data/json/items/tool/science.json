@@ -346,7 +346,7 @@
     "id": "catalytic_cracking_reactor",
     "type": "TOOL",
     "name": { "str": "makeshift essential oil extractor" },
-    "description": "A makeshift extraction system.  It's pretty much just a 55gal drum, a pipe to stir the solution, and a faucet at the bottom to drain the extractor.  Not the most ideal piece of equipment but it will work.",
+    "description": "A makeshift extraction system.  It's pretty much just a 55gal drum, a pipe to stir the solution, and a faucet at the bottom to drain the extractor.  Not the most ideal piece of equipment, but it will work.",
     "symbol": "E",
     "color": "dark_gray",
     "looks_like": "household_water_heater",
