@@ -70,7 +70,7 @@
     "difficulty": 3,
     "time": "30 m",
     "result_mult": 10,
-    "byproducts": [ { "item": "diesel", "count": [ 40 ] } ],
+    "byproducts": [ [ "diesel", 40 ] ],
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "catalytic_cracking_handbook", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 }, { "id": "EXTRACT", "level": 3 } ],
