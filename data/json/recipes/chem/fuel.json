@@ -75,7 +75,7 @@
     "book_learn": [ [ "catalytic_cracking_handbook", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 }, { "id": "EXTRACT", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
-    "using": [ [ "water", 100 ], [ "water_clean", 100 ] ],
+    "tools": [ [ "water", 100 ], [ "water_clean", 100 ] ],
     "components": [
       [ [ "chem_washing_soda", 1 ] ],
       [
