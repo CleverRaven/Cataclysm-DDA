@@ -494,7 +494,10 @@
   {
     "id": "exo_forcefield_ballistic_pierce",
     "type": "TOOL",
-    "name": { "str": "exosuit forcefield generator (ballistic & pierce)", "str_pl": "exosuit forcefield generators (ballistic & pierce)" },
+    "name": {
+      "str": "exosuit forcefield generator (ballistic & pierce)",
+      "str_pl": "exosuit forcefield generators (ballistic & pierce)"
+    },
     "description": "A set of powerful field generators intended for UICA marines in boarding actions.  It is currently active, drawing power, and protecting against 40 points of ballistic and piercing damage.",
     "weight": "5 kg",
     "volume": "2500 ml",
