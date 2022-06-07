@@ -2,19 +2,29 @@
   {
     "type": "item_group",
     "id": "milspec_arsenal_223_pouch_gun&mags&cans",
-    "items": [ { "group": "milspec_arsenal_223_pouch_gun&mags" }, { "item": "ammunition_can_50", "count": [ 1, 4 ] } ]
+    "subtype": "collection",
+    "items": [ { "group": "milspec_arsenal_223_pouch_gun&ammo" }, { "item": "ammunition_can_50", "count": [ 1, 4 ] } ]
+  },
+    {
+    "type": "item_group",
+    "id": "milspec_arsenal_223_pouch_gun&ammo",
+    "//": "only default 223 because have no info about using another one in such pouches",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_223_gun&mags" },
+      { "group": "ammo_can_ammo_pouch_223_full", "prob": 30 },
+      { "group": "ammo_can_ammo_pouch_223_part", "prob": 80, "count": [ 1, 2 ] }
+    ]
   },
   {
     "type": "item_group",
-    "id": "milspec_arsenal_223_pouch_gun&mags",
+    "id": "milspec_arsenal_223_gun&mags",
     "//": "only default 223 because have no info about using another one in such pouches",
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_223", "count": [ 1, 2 ] },
       { "group": "milspec_arsenal_223", "count": [ 1, 2 ], "prob": 40 },
-      { "group": "milspec_arsenal_223", "count": [ 1, 2 ], "prob": 10 },
-      { "group": "ammo_can_ammo_pouch_223_full", "prob": 30 },
-      { "group": "ammo_can_ammo_pouch_223_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "milspec_arsenal_223", "count": [ 1, 2 ], "prob": 10 }
     ]
   },
   {
