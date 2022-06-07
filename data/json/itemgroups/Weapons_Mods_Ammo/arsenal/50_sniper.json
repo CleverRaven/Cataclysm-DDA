@@ -9,9 +9,9 @@
     "id": "milspec_arsenal_50bmg_sniper_gun&mags",
     "subtype": "collection",
     "items": [
-      { "group": "nested_m107a1_no_ammo", "count": [ 1, 2 ] },
-      { "group": "nested_m107a1_no_ammo", "count": [ 1, 2 ], "prob": 40 },
-      { "group": "nested_m107a1_no_ammo", "count": [ 1, 2 ], "prob": 10 },
+      { "group": "nested_m107a1_no_ammo", "count": 1 },
+      { "group": "nested_m107a1_no_ammo", "count": 1, "prob": 40 },
+      { "group": "nested_m107a1_no_ammo", "count": 1, "prob": 10 },
       { "group": "ammo_can_50bmg_full", "prob": 30 },
       { "group": "ammo_can_50bmg_part", "prob": 80, "count": [ 1, 2 ] }
     ]
