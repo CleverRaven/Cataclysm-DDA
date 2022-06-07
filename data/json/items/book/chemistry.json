@@ -348,6 +348,26 @@
     "fun": 2
   },
   {
+    "id": "catalytic_cracking_handbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Catalytic Cracking at Home for Solarpunks", "str_pl": "copies of Catalytic Cracking at Home for Solarpunks" },
+    "description": "A colorful textbook looking book that proclaims the ability to bootstrap kerosene and diesel production from waste products.",
+    "weight": "1200 g",
+    "volume": "2 L",
+    "price": 1500,
+    "price_postapoc": 2500,
+    "bashing": 4,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_cyan",
+    "skill": "chemistry",
+    "required_level": 5,
+    "max_level": 7,
+    "intelligence": 9,
+    "time": "30 m"
+  },
+  {
     "id": "textbook_biodiesel",
     "type": "BOOK",
     "category": "manuals",

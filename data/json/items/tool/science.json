@@ -343,6 +343,22 @@
     "qualities": [ [ "EXTRACT", 1 ] ]
   },
   {
+    "id": "catalytic_cracking_reactor",
+    "type": "TOOL",
+    "name": { "str": "makeshift essential oil extractor" },
+    "description": "A makeshift extraction system.  It's pretty much just a 55gal drum, a pipe to stir the solution, and a faucet at the bottom to drain the extractor.  Not the most ideal piece of equipment but it will work.",
+    "symbol": "E",
+    "color": "dark_gray",
+    "looks_like": "household_water_heater",
+    "weight": "22700 g",
+    "volume": "210 L",
+    "price": 20000,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "qualities": [ [ "EXTRACT", 3 ] ]
+  },
+  {
     "id": "filter_paper_qualitative",
     "type": "TOOL",
     "name": { "str_sp": "qualitative filter paper" },
