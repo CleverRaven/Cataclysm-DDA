@@ -52,7 +52,7 @@
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_Trailer3",
     "dynamic_line": "*sighs and nods.  \"Making do with what I've got, but yeah. I can only crank out a couple loaves a day, and can't do anything fun.  Pablo has been talking about setting me up a separate kitchen to really get going, but we've got so much critical work to do, and fresh bread is a luxury, even if it's great for morale.\"",
-	"speaker_effect": { "effect": { "u_add_var": "tacoma_bakery", "context": "knowledge", "value": "knows" } },
+	  "speaker_effect": { "effect": { "u_add_var": "tacoma_bakery", "context": "knowledge", "value": "knows" } },
     "responses": [
       { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
@@ -62,13 +62,22 @@
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_TrailerPropane",
     "dynamic_line": "You bet.  We've been collecting tanks and have enough for a while, but I'm burning through it faster than the scavengers can bring in more.  Pablo is working out some plans with the others to get me a real wood fired kitchen soon, and that'll also boost my capacity.  I'm sure he could give you some scavenging work if you ask.",
-	"speaker_effect": { "effect": { "u_add_var": "propane_scavenging", "context": "knowledge", "value": "knows" } },
+	  "speaker_effect": { "effect": { "u_add_var": "propane_scavenging", "context": "knowledge", "value": "knows" } },
     "responses": [
       { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]
   },
+  {
+-any luck with the pregnancy?
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_Pregnancy",
+    "dynamic_line": "*shrugs.  \"We got our hands on a few boxes of test strips so that's good.  Being stressed isn't good for conception and I've been pretty fuckin' stressed for a while.  I like our chances a lot better now, that's for sure.  And, well, we've got our own private space at least.\"  She smirks and then blushes slightly, hiding it by fiddling with her baking project.",
+	  "speaker_effect": { "effect": { "u_add_var": "propane_scavenging", "context": "knowledge", "value": "knows" } },
+    "responses": [
+      { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
+      { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
+    ]
+  }
 ]
 
--any luck with the pregnancy?
-*shrugs.  \"We got our hands on a few boxes of test strips so that's good.  Being stressed isn't good for conception and I've been pretty fuckin' stressed for a while.  I like our chances a lot better now, that's for sure.  And, well, we've got our own private space at least.\"  She smirks and then blushes slightly, hiding it by fiddling with her baking project. 
