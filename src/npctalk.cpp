@@ -1591,6 +1591,9 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
         } else if( tag == "<mypronoun>" ) {
             std::string npcstr = me.male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
             phrase.replace( fa, l, npcstr );
+        } else if( tag == "<mypossesivepronoun>" ) {
+            std::string npcstr = me.male ? pgettext( "npc", "his" ) : pgettext( "npc", "her" );
+            phrase.replace( fa, l, npcstr );
         } else if( tag == "<topic_item>" ) {
             phrase.replace( fa, l, item::nname( item_type, 2 ) );
         } else if( tag == "<topic_item_price>" ) {
