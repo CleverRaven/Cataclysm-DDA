@@ -12245,10 +12245,10 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     }
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
-    // body heat increases inventory temperature by 5F and insulation by 50%
+    // body heat increases inventory temperature by 5 F and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
-        temp += units::from_fahrenheit( 5 );
+        temp = units::from_fahrenheit( units::to_fahrenheit( temp ) + 5 );
     }
 
     time_point time = last_temp_check;
