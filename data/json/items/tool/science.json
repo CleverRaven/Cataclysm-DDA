@@ -617,7 +617,7 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "ammo_restriction": { "ammonia_liquid": 8 },
+        "item_restriction": { "ammonia_liquid": 8 },
         "watertight": true
       }
     ]
