@@ -486,6 +486,7 @@ JsonArray::JsonArray( const JsonArray &ja )
     final_separator = ja.final_separator;
 }
 
+// NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
 JsonArray &JsonArray::operator=( const JsonArray &ja )
 {
     jsin = ja.jsin;
