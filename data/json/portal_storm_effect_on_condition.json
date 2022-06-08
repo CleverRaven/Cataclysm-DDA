@@ -190,6 +190,7 @@
           { "const": 1 }
         ]
       },
+      { "run_eocs": "EOC_PORTAL_STORM_MAPGEN" },
       {
         "queue_eocs": "EOC_CANCEL_PORTAL_STORM",
         "time_in_future": [
@@ -223,7 +224,8 @@
       },
       { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
       { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
-      { "finish_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON", "success": false }
+      { "finish_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON", "success": false },
+      { "alter_timed_events": "portal_dungeon_entrance" }
     ]
   },
   {
@@ -1076,7 +1078,11 @@
       },
       { "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words." },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
-      { "revert_location": { "global_val": "portal_dungeon" }, "time_in_future": [ "5 minutes", "5 minutes" ] },
+      {
+        "revert_location": { "global_val": "portal_dungeon" },
+        "time_in_future": "infinite",
+        "key": "portal_dungeon_entrance"
+      },
       { "mapgen_update": "portal_dungeon_entrance", "target_var": { "global_val": "portal_dungeon" } }
     ]
   },
@@ -1087,18 +1093,11 @@
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "dungeon_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "dungeon_roof_loc" }, "z_adjust": 7, "z_override": true },
-      {
-        "arithmetic": [ { "u_val": "var", "var_name": "dungeon_time" }, "=", { "time": "30 seconds" }, "+", { "rand": 30 } ]
-      },
-      {
-        "revert_location": { "global_val": "dungeon_loc" },
-        "key": "portal_dungeon",
-        "time_in_future": { "u_val": "dungeon_time", "default": "1 minutes" }
-      },
+      { "revert_location": { "global_val": "dungeon_loc" }, "key": "portal_dungeon", "time_in_future": "infinite" },
       {
         "mapgen_update": "portal_dungeon_cleanup",
         "target_var": { "global_val": "dungeon_loc" },
-        "time_in_future": { "u_val": "dungeon_time", "default": "1 minutes" },
+        "time_in_future": "infinite",
         "key": "portal_dungeon"
       },
       {
@@ -1106,13 +1105,13 @@
         "target_var": { "global_val": "place_name" }
       },
       {
-        "place_override": { "global_val": "place_name", "default": "1 minutes" },
+        "place_override": { "global_val": "place_name", "default_str": "Error" },
         "key": "portal_dungeon",
-        "length": { "u_val": "dungeon_time", "default": "1 minutes" }
+        "length": "infinite"
       },
       {
         "revert_location": { "global_val": "dungeon_roof_loc" },
-        "time_in_future": { "u_val": "dungeon_time", "default": "1 minutes" },
+        "time_in_future": "infinite",
         "key": "portal_dungeon"
       },
       { "mapgen_update": "portal_dungeon_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
@@ -1130,7 +1129,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_EXIT",
-    "condition":{"compare_int": [ { "global_val": "var", "var_name": "in_portal_dungeon" }, "=", { "const": 1 } ] },
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "in_portal_dungeon" }, "=", { "const": 1 } ] },
     "effect": [
       {
         "u_teleport": { "global_val": "original_loc" },

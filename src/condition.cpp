@@ -127,7 +127,11 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, std::stri
 {
     duration_or_var_part<T> ret_val;
     if( jv.test_string() ) {
-        ret_val.dur_val = read_from_json_string<time_duration>( jv, time_duration::units );
+        if( jv.get_string() == "infinite" ) {
+            ret_val.dur_val = time_duration::from_turns( calendar::INDEFINITELY_LONG );
+        } else {
+            ret_val.dur_val = read_from_json_string<time_duration>( jv, time_duration::units );
+        }
     } else if( jv.test_int() ) {
         ret_val.dur_val = time_duration::from_turns( jv.get_int() );
     } else if( jv.test_object() ) {
