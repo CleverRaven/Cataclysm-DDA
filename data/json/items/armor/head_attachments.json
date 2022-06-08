@@ -1,6 +1,7 @@
 [
   {
     "id": "attachable_ear_muffs",
+    "repairs_like": "helmet_riot",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "attachable ear muffs" },
@@ -25,6 +26,7 @@
   },
   {
     "id": "ballistic_mandible_guard",
+    "repairs_like": "helmet_riot",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "ballistic mandible guard" },
@@ -42,6 +44,7 @@
   },
   {
     "id": "counterweight pouch",
+    "repairs_like": "ankle_wallet_pouch",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "counterweight pouch" },
@@ -68,6 +71,7 @@
   },
   {
     "id": "shield_visor",
+    "repairs_like": "glasses_safety",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "shield visor" },
@@ -85,6 +89,7 @@
   },
   {
     "id": "face_shield",
+    "repairs_like": "helmet_riot",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "face shield" },
