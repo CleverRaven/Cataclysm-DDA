@@ -345,7 +345,6 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "//": "no provision for body armour or helmets in either the weak point set or dissection set, as Navy sailors aren’t normally dressed in military combat gear whilst shipside.",
