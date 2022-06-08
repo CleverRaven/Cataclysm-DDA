@@ -181,10 +181,9 @@ static std::vector<construction> constructions;
 static std::map<construction_str_id, construction_id> construction_id_map;
 
 // Helper functions, nobody but us needs to call these.
-static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
-static std::vector<construction *> player_can_build_valid_constructions( Character& you,
-    const read_only_visitable& inv, const construction_group_str_id& group );
+static std::vector<construction *> player_can_build_valid_constructions( Character &you,
+        const read_only_visitable &inv, const construction_group_str_id &group );
 static bool player_can_build( Character &you, const read_only_visitable &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( Character &you, const construction_group_str_id &group );
@@ -307,7 +306,8 @@ static nc_color construction_color( const construction_group_str_id &group, bool
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         col = c_white;
     } else {
-        std::vector<construction *> cons = player_can_build_valid_constructions( player_character, player_character.crafting_inventory(), group );
+        std::vector<construction *> cons = player_can_build_valid_constructions( player_character,
+                                           player_character.crafting_inventory(), group );
         if( !cons.empty() ) {
             col = c_white;
             for( const auto &pr : cons.front()->required_skills ) {
@@ -880,15 +880,16 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
-static std::vector<construction *> player_can_build_valid_constructions( Character& you, const read_only_visitable& inv,
-    const construction_group_str_id& group )
+static std::vector<construction *> player_can_build_valid_constructions( Character &you,
+        const read_only_visitable &inv,
+        const construction_group_str_id &group )
 {
     std::vector<construction *> result;
 
     // check all with the same group to see if player can build any
     // if so, it will be added to the result
     std::vector<construction *> cons = constructions_by_group( group );
-    for( auto& con : cons ) {
+    for( auto &con : cons ) {
         if( player_can_build( you, inv, *con ) ) {
             result.push_back( con );
         }
@@ -922,7 +923,7 @@ bool player_can_build( Character &you, const read_only_visitable &inv, const con
 
     // check for construction spot can be skipped by using can_construct_skip
     return con.requirements->can_make_with_inventory( inv, is_crafting_component ) &&
-        ( can_construct_skip || can_construct( con ) );
+           ( can_construct_skip || can_construct( con ) );
 }
 
 bool player_can_see_to_build( Character &you, const construction_group_str_id &group )
@@ -933,18 +934,6 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
     std::vector<construction *> cons = constructions_by_group( group );
     for( auto &con : cons ) {
         if( con->dark_craftable ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool can_construct( const construction_group_str_id &group )
-{
-    // check all with the same group to see if player can build any
-    std::vector<construction *> cons = constructions_by_group( group );
-    for( auto &con : cons ) {
-        if( can_construct( *con ) ) {
             return true;
         }
     }
