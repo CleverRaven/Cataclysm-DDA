@@ -39,7 +39,7 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "Auto Assault-12" },
-    "description": "The Atchisson Assault Shotgun, is an automatic combat shotgun developed in 1972 by Maxwell Atchisson. The most prominent feature is reduced recoil.",
+    "description": "The Atchisson Assault Shotgun, is an automatic combat shotgun developed in 1972 by Maxwell Atchisson.  The most prominent feature is reduced recoil.",
     "weight": "5200 g",
     "volume": "3064 ml",
     "longest_side": "966 mm",

@@ -10,6 +10,6 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_changeling_kills",
-    "description": { "str": "changelings killed", "str_pl": "changelings killed" }
+    "description": { "str": "changeling killed", "str_pl": "changelings killed" }
   }
 ]
