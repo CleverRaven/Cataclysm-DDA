@@ -231,7 +231,7 @@
     "symbol": "X",
     "description": "A large box made of a brown paper-based material that was doubled up for extra strength.  Could contain a number of things, or even be hidden inside.  Considering it only has two small flaps for carrying, it's very hard to see out of, and won't do anything to protect you if you're found.",
     "color": "brown",
-	"looks_like": "f_cardboard_box",
+    "looks_like": "f_cardboard_box",
     "move_cost_mod": 7,
     "coverage": 90,
     "comfort": 1,
