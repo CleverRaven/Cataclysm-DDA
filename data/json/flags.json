@@ -277,8 +277,14 @@
   {
     "id": "HELMET_MANDIBLE_GUARD",
     "type": "json_flag",
-    "info": "This item is attachable in <info>hard hats and helmets</info>.",
+    "info": "This item is attachable in military <info>helmets</info> or headgear specifically adapted with rails for attachments.",
     "restriction": "Item must be some kind of mandible guard"
+  },
+  {
+    "id": "HELMET_MANDIBLE_GUARD_STRAPPED",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>hard hats and helmets</info>.",
+    "restriction": "Item must be some kind of strapped mandible guard"
   },
   {
     "id": "HELMET_BACK_POUCH",
