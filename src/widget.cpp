@@ -1377,37 +1377,76 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
 {
     std::string ret;
     if( _style == "layout" ) {
-        // Widgets with "rows" arrangement must be laid out from window_panel
         if( _arrange == "rows" ) {
-            debugmsg( "widget layout called with rows" );
-        }
-        const int num_widgets = _widgets.size();
-        if( num_widgets == 0 ) {
-            debugmsg( "widget layout has no widgets" );
-        }
-        // Number of spaces between columns
-        const int col_padding = 2;
-        // Subtract column padding to get space available for widgets
-        const int avail_width = max_width - col_padding * ( num_widgets - 1 );
-        // Divide available width equally among all widgets
-        const int child_width = avail_width / num_widgets;
-        // Keep remainder to distribute
-        int remainder = avail_width % num_widgets;
-        for( const widget_id &wid : _widgets ) {
-            widget cur_child = wid.obj();
-            int cur_width = child_width;
-            // Spread remainder over the first few columns
-            if( remainder > 0 ) {
-                cur_width += 1;
-                remainder -= 1;
+            std::string sep;
+            int h = 0;
+            // Stack rows vertically into a multiline widget
+            for( const widget_id &wid : _widgets ) {
+                widget cur_child = wid.obj();
+                ret += sep + cur_child.layout( ava, max_width, label_width );
+                sep = "\n";
+                h += wid->_height < 0 ? 0 : wid->_height;
             }
-            // Layout child in this column
-            const std::string txt = cur_child.layout( ava, cur_width, label_width );
-            ret += txt;
-            // Add column padding until we reach the last column
-            if( wid != _widgets.back() && !txt.empty() ) {
-                ret += std::string( col_padding, ' ' );
+            // Set height for the final layout
+            set_height_for_widget( id, h );
+        } else { // columns
+            const int num_widgets = _widgets.size();
+            if( num_widgets == 0 ) {
+                debugmsg( "widget layout has no widgets" );
             }
+            // Number of spaces between columns
+            const int col_padding = 2;
+            // Subtract column padding to get space available for widgets
+            const int avail_width = max_width - col_padding * ( num_widgets - 1 );
+            // Divide available width equally among all widgets
+            const int child_width = avail_width / num_widgets;
+            // Keep remainder to distribute
+            int remainder = avail_width % num_widgets;
+            // Store the (potentially) multi-row text for each column
+            std::vector<std::vector<std::string>> cols;
+            std::vector<int> widths;
+            for( const widget_id &wid : _widgets ) {
+                widget cur_child = wid.obj();
+                int cur_width = child_width;
+                // Spread remainder over the first few columns
+                if( remainder > 0 ) {
+                    cur_width += 1;
+                    remainder -= 1;
+                }
+                // Layout child in this column
+                const std::string txt = cur_child.layout( ava, cur_width, label_width );
+                // Store the resulting text for this column
+                cols.emplace_back( foldstring( txt, cur_width + 1 ) );
+                widths.emplace_back( cur_width );
+            }
+            int h_max = 0;
+            std::string sep;
+            // Line up each row of each column to form the whole multi-line layout
+            for( size_t r = 0; ; r++ ) {
+                bool any_val = false;
+                std::string line;
+                for( size_t c = 0; c < cols.size(); c++ ) {
+                    if( r >= cols[c].size() ) {
+                        // No row r for this column, pad with empty space
+                        line += std::string( widths[c], ' ' );
+                    } else {
+                        any_val = true;
+                        line += cols[c][r];
+                    }
+                    if( c + 1 < cols.size() ) {
+                        // Add padding between columns
+                        line += std::string( col_padding, ' ' );
+                    }
+                }
+                if( !any_val ) {
+                    break;
+                }
+                ret += sep + line;
+                sep = "\n";
+                h_max++;
+            }
+            // Set height for the final layout
+            set_height_for_widget( id, h_max );
         }
     } else {
         // Get displayed value (colorized)

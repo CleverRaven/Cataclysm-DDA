@@ -1726,6 +1726,11 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "ITEM_BODYGRAPH", "interface", to_translation( "Show armor coverage map" ),
+         to_translation( "If true, show a visual representation of armor coverage in the item info window." ),
+         true
+       );
+
     add_empty_line();
 
     add( "ENABLE_JOYSTICK", "interface", to_translation( "Enable joystick" ),
