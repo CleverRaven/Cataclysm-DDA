@@ -339,7 +339,7 @@
     "id": "mon_zombie_sailor",
     "type": "MONSTER",
     "name": { "str": "zombie mariner" },
-    "description": "still dressed in the ragged remains of deep blue naval fatigues, it’s clear that this walking corpse was once a sailor of some description.  The US Navy’s insignia is embroidered on the shredded sleave and shoulder of its bloodied jacket, the dead crewmen’s battered cap is beaten into the remains of its fractured skull and its inky black eyes are scanning the area around it as dark ooze drips from its limply hanging maw.",
+    "description": "Still dressed in the ragged remains of deep blue naval fatigues, it’s clear that this walking corpse was once a sailor of some description.  The US Navy’s insignia is embroidered on the shredded sleave and shoulder of its bloodied jacket, the dead crewmen’s battered cap is beaten into the remains of its fractured skull and its inky black eyes are scanning the area around it as dark ooze drips from its limply hanging maw.",
     "copy-from": "mon_zombie_milbase_personnel",
     "looks_like": "mon_zombie_soldier",
     "weakpoint_sets": [ "wps_humanoid_body" ],
@@ -352,7 +352,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie_sailor",
     "name": { "str": "zombie officer" },
-    "description": "Dressed in the shredded blue dress uniform of a naval officer, this undead corpse was evidently a higher ranking crewmen in life.  Having more than likely not been clad in body armour, the result now staggers before you: horrific wounds exposed to the air and large portions of flesh and muscle ripped from its glistening skeleton.",
+    "description": "Dressed in the shredded blue dress uniform of a naval officer, this undead corpse was evidently a higher ranking crewmen in life.  Having more than likely not been clad in body armor, the result now staggers before you: horrific wounds exposed to the air and large portions of flesh and muscle ripped from its glistening skeleton.",
     "death_drops": "mon_zombie_officer_death_drops"
   },
   {

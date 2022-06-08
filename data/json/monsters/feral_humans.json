@@ -829,8 +829,8 @@
   {
     "id": "mon_feral_sailor_wrench",
     "type": "MONSTER",
-    "name": { "str": "feral crewmen" },
-    "description": "clad in a grimy and tattered naval uniform, this former sailor clutches a massive wrench as some form of makeshift weapon.  At a distance, you could mistake them as being another survivor.  However, upon closer inspection you make note of how their veins are visibly bulging, their wide open eyes have a primal, animalistic quality to their gaze, and their breaths come in ragged, wheezing pants.  Whatever the Cataclysm has done to the military crewmen that this twitching shell of their former self once was, you’re certain that their not fully human anymore.",
+    "name": { "str": "feral crewman", "str_pl": "feral crewmen" },
+    "description": "Clad in a grimy and tattered naval uniform, this former sailor clutches a massive wrench as some form of makeshift weapon.  At a distance, you could mistake them as being another survivor.  However, upon closer inspection you make note of how their veins are visibly bulging, their wide open eyes have a primal, animalistic quality to their gaze, and their breaths come in ragged, wheezing pants.  Whatever the Cataclysm has done to the military crewmen that this twitching shell of their former self once was, you’re certain that they're not fully human anymore.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -867,7 +867,7 @@
     "id": "mon_feral_sailor_axe",
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
-    "description": "Spattered from head to toe in large swaths of dried viscera, the deep blue of this person’s tattered naval uniform has been stained the colour of rust.  Having seemingly had enough presence of mind to consider arming itself, this former crewmen carries a crash axe in its shaking hands.  The vanes on the back of their neck are visibly bulging, their eyes bloodshot, and a mass of crisscrossing blackened vanes stand out against the pale skin of their face as they regard the area around them for perceived threats.",
+    "description": "Spattered from head to toe in large swaths of dried viscera, the deep blue of this person’s tattered naval uniform has been stained the color of rust.  Having seemingly had enough presence of mind to consider arming itself, this former crewmen carries a crash axe in its shaking hands.  The veins on the back of their neck are visibly bulging, their eyes bloodshot, and a mass of crisscrossing blackened veins stand out against the pale skin of their face as they regard the area around them for perceived threats.",
     "melee_dice_sides": 6,
     "death_drops": "mon_feral_sailor_axe_death_drops"
   },
@@ -875,7 +875,7 @@
     "id": "mon_feral_sailor_mop",
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
-    "description": "Clutching a stout mop in their quivering hands, this crewmen was presumably assigned to basic deck sweeping in their final moments, before the Cataclysm struck and stripped them of their humanity.  Dressed in basic naval fatigues, you’d be forgiven for believing them to be another survivor.  However, their bloodshot eyes, blackened vanes, and spastic twitching tell a far different story.",
+    "description": "Clutching a stout mop in their quivering hands, this crewmen was presumably assigned to basic deck sweeping in their final moments, before the Cataclysm struck and stripped them of their humanity.  Dressed in basic naval fatigues, you’d be forgiven for believing them to be another survivor.  However, their bloodshot eyes, blackened veins, and spastic twitching tell a far different story.",
     "melee_dice": 2,
     "death_drops": "mon_feral_sailor_mop_death_drops"
   },
@@ -953,7 +953,7 @@
     "id": "mon_feral_marine_mutated",
     "type": "MONSTER",
     "name": { "str": "twisted leatherneck" },
-    "description": "Hideously disfigured, this former soldier has been mutated into a horrific, barely human monster.  Having visibly increased in muscle mass and strength, their fingernails have extended into jagged claws and their teeth have grown out into unnaturally long spikes of bone, webs of bulging black vanes visible under their skin.  Acting more like an animal than a living human, they stalk about, bloodshot eyes roving over their surroundings and looking for their next victim.  This abomination still breathes, but they’re far from human anymore.",
+    "description": "Hideously disfigured, this former soldier has been mutated into a horrific, barely human monster.  Having visibly increased in muscle mass and strength, their fingernails have extended into jagged claws and their teeth have grown out into unnaturally long spikes of bone, webs of bulging black veins visible under their skin.  Acting more like an animal than a living human, they stalk about, bloodshot eyes roving over their surroundings and looking for their next victim.  This abomination still breathes, but they’re far from human anymore.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
