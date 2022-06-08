@@ -271,10 +271,10 @@
   {
     "id": "robot_disabler",
     "type": "SPELL",
-    "name": "Surge mod_moves",
-    "description": "Substract some moves from targeted_monster_ids monsters.  Subspell; you aren't allowed to see it except in debug mode",
+    "name": "Surge mod moves",
+    "description": "Substract some moves from targeted_monster_ids monsters.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
-    "//": "the list of id's is way too big, so i made this as secondary spell instead",
+    "//": "the list of IDs is way too big, so I made this as secondary spell instead",
     "targeted_monster_ids": [
       "mon_broken_cyborg",
       "mon_prototype_cyborg",
@@ -328,7 +328,7 @@
     "id": "robot_disabler_explosion",
     "type": "SPELL",
     "name": "Surge",
-    "description": "Send a wave of high-frequency alternating pulse.  It can't hurt really much, but it works great against circuits, shutting them down for a small time.  Probably it will work against drones or robots.  No, its not EMP",
+    "description": "Send a wave of high-frequency alternating pulse.  It can't hurt really much, but it works great against circuits, shutting them down for a small time.  Probably it will work against drones or robots.  No, it's not EMP.",
     "flags": [ "NO_LEGS", "LOUD", "SOMATIC" ],
     "valid_targets": [ "hostile", "ground" ],
     "spell_class": "MAGNETISM_MAGE",
