@@ -188,7 +188,6 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
 
             // if we have an item already selected for moving update some info
             auto itt = saved_pockets.begin();
-            bool found_container = false;
             for( uilist_entry &entry : menu->entries ) {
                 if( entry.enabled && !itt->first->can_contain( *item_to_move.first ).success() ) {
                     entry.enabled = false;
