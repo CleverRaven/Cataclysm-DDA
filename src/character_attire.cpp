@@ -2345,12 +2345,6 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
     return pd;
 }
 
-static std::string keys_text()
-{
-    return
-        _( "Modify pocket settings and move items between pockets." );
-}
-
 void outfit::organize_items_menu()
 {
     std::vector<item *> to_organize;
@@ -2361,7 +2355,7 @@ void outfit::organize_items_menu()
     pocket_favorite_callback cb( to_organize, pocket_selector );
 
     pocket_selector.title = "Inventory Organization";
-    pocket_selector.text = keys_text() + "\n ";
+    pocket_selector.text = cb.title;
     pocket_selector.callback = &cb;
     pocket_selector.w_x_setup = 0;
     pocket_selector.w_width_setup = []() {
@@ -2385,6 +2379,8 @@ void outfit::organize_items_menu()
         { "FAV_CLEAR", translation() },
         { "FAV_MOVE_ITEM", translation() }
     };
+    // we override confirm
+    pocket_selector.allow_confirm = false;
     pocket_selector.allow_additional = true;
 
     pocket_selector.query();

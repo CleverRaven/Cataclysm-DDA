@@ -37,6 +37,11 @@ static const flag_id json_flag_CASING( "CASING" );
 
 void pocket_favorite_callback::refresh( uilist *menu )
 {
+    if( needs_to_refresh ) {
+        refresh_columns( menu );
+        needs_to_refresh = false;
+    }
+
     item_pocket *selected_pocket = nullptr;
     int i = 0;
     int pocket_num = 0;
@@ -141,7 +146,6 @@ void pocket_favorite_callback::refresh_columns( uilist *menu )
 {
     // rebuild the list of rows can't fully clear or the menu will close
     // clear all but one entry repopulate then delete that initial
-    menu->selected = 1;
     menu->entries.clear();
     saved_pockets.clear();
     for( item *i : to_organize ) {
@@ -149,6 +153,74 @@ void pocket_favorite_callback::refresh_columns( uilist *menu )
     }
     // there might be a better way to refresh this
     menu->setup();
+}
+
+void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_pocket )
+{
+    uilist selector_menu;
+
+    if( item_to_move.second == nullptr ) {
+        selector_menu.title = _( "Select an item from the pocket" );
+        std::vector<item *> item_list;
+        for( item *it_in : selected_pocket->all_items_top() ) {
+            item_list.emplace_back( it_in );
+        }
+
+        std::sort( item_list.begin(), item_list.end() );
+
+        for( const item *it : item_list ) {
+            selector_menu.addentry( it->display_name() );
+        }
+
+        if( selector_menu.entries.empty() ) {
+            popup( std::string( _( "No items in the pocket." ) ), PF_GET_KEY );
+        } else {
+            selector_menu.query();
+        }
+
+        if( selector_menu.ret >= 0 ) {
+            item_to_move = { item_list[selector_menu.ret], selected_pocket };
+        }
+
+        if( item_to_move.first != nullptr ) {
+            // if we have an item already selected for moving update some info
+            auto itt = saved_pockets.begin();
+            bool found_container = false;
+            for( uilist_entry &entry : menu->entries ) {
+                if( entry.enabled && !itt->first->can_contain( *item_to_move.first ).success() ) {
+                    entry.enabled = false;
+                }
+
+                // make sure we dont try to put anything in itself
+                if( entry.enabled ) {
+                    for( item_pocket *pocket : item_to_move.first->get_all_standard_pockets() ) {
+                        if( itt->first == pocket ) {
+                            entry.enabled = false;
+                        }
+                    }
+                }
+
+                // move through the pockets as you process entries
+                ++itt;
+            }
+
+
+
+
+            menu->settext( string_format( "%s: %s", _( "Moving" ), item_to_move.first->display_name() ) );
+            refresh_columns( menu );
+        }
+    } else {
+        // storage should mimick character inserting
+        get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
+
+        // reset the moved item
+        item_to_move = { nullptr, nullptr };
+
+        menu->settext( title );
+
+        refresh_columns( menu );
+    }
 }
 
 bool pocket_favorite_callback::key( const input_context &ctxt, const input_event &event, int,
@@ -201,57 +273,8 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
 
     const std::string remove_prefix = "<color_light_red>-</color> ";
     const std::string add_prefix = "<color_green>+</color> ";
-    if( action == "FAV_MOVE_ITEM" && item_to_move.second == nullptr ) {
-        selector_menu.title = _( "Select an item from the pocket" );
-        std::vector<item *> item_list;
-        for( item *it_in : selected_pocket->all_items_top() ) {
-            item_list.emplace_back( it_in );
-        }
-
-        std::sort( item_list.begin(), item_list.end() );
-
-        for( const item *it : item_list ) {
-            selector_menu.addentry( it->display_name() );
-        }
-
-        if( selector_menu.entries.empty() ) {
-            popup( std::string( _( "No items in the pocket." ) ), PF_GET_KEY );
-        } else {
-            selector_menu.query();
-        }
-
-        if( selector_menu.ret >= 0 ) {
-            item_to_move = { item_list[selector_menu.ret], selected_pocket };
-        }
-
-        if( item_to_move.first != nullptr ) {
-            // if we have an item already selected for moving update some info
-            auto itt = saved_pockets.begin();
-            for( uilist_entry &entry : menu->entries ) {
-                if( entry.enabled && !itt->first->can_contain( *item_to_move.first ).success() ) {
-                    entry.enabled = false;
-                }
-
-                // make sure we dont try to put anything in itself
-                if( entry.enabled && !itt->first->can_contain( *item_to_move.first ).success() ) {
-                    entry.enabled = false;
-                }
-                // move through the pockets as you process entries
-                ++itt;
-            }
-
-            menu->settext( string_format( "%s: %s", _( "Moving" ), item_to_move.first->display_name() ) );
-        }
-
-        return true;
-    } else if( action == "FAV_MOVE_ITEM" && item_to_move.second != nullptr ) {
-        // storage should mimick character inserting
-        get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
-
-        // reset the moved item
-        item_to_move = { nullptr, nullptr };
-
-        refresh_columns( menu );
+    if( action == "FAV_MOVE_ITEM" ) {
+        move_item( menu, selected_pocket );
 
         return true;
     }
@@ -2195,7 +2218,7 @@ void item_contents::favorite_settings_menu( item *i )
     to_organize.push_back( i );
     pocket_favorite_callback cb( to_organize, pocket_selector );
     pocket_selector.title = i->display_name();
-    pocket_selector.text = keys_text() + "\n ";
+    pocket_selector.text = cb.title;
     pocket_selector.callback = &cb;
     pocket_selector.w_x_setup = 0;
     pocket_selector.w_width_setup = []() {
@@ -2219,6 +2242,9 @@ void item_contents::favorite_settings_menu( item *i )
         { "FAV_CLEAR", translation() },
         { "FAV_MOVE_ITEM", translation() }
     };
+    // we override confirm
+    pocket_selector.allow_confirm = false;
+    pocket_selector.allow_additional = true;
 
     pocket_selector.query();
 }
