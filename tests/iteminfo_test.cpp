@@ -1918,7 +1918,7 @@ TEST_CASE( "food freshness and lifetime", "[iteminfo][food]" )
         REQUIRE( nuts.is_fresh() );
         CHECK( item_info_str( nuts, { iteminfo_parts::FOOD_ROT } ) ==
                "--\n"
-               "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
+               "* This item is <color_c_yellow>perishable</color>, and at room temperature has"
                " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
                "* This food looks as <color_c_green>fresh</color> as it can be.\n" );
     }
@@ -1928,7 +1928,7 @@ TEST_CASE( "food freshness and lifetime", "[iteminfo][food]" )
         REQUIRE( nuts.is_going_bad() );
         CHECK( item_info_str( nuts, { iteminfo_parts::FOOD_ROT } ) ==
                "--\n"
-               "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
+               "* This item is <color_c_yellow>perishable</color>, and at room temperature has"
                " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
                "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n" );
     }
