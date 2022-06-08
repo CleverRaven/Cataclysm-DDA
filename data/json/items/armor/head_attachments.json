@@ -30,7 +30,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "ballistic mandible guard" },
-    "description": "A ballistic jaw guard designed to be attached on a military helmet, but easily adjustable to hard hats and normal helmets.",
+    "description": "A ballistic jaw guard designed to be attached on a military helmet, but easily adjustable to helmets with any kind of rail system installed.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": 6000,
@@ -41,6 +41,24 @@
     "material_thickness": 1,
     "flags": [ "HELMET_MANDIBLE_GUARD", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 12, "coverage": 100, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "plastic_mandible_guard",
+    "repairs_like": "mouthpiece",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "plastic mandible guard" },
+    "description": "A plastic jaw guard designed to be strapped to any common hard hat or helmet, it was probably part of some costume before the world ended.",
+    "weight": "250 g",
+    "volume": "200 ml",
+    "price": 4000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "material_thickness": 1,
+    "flags": [ "HELMET_MANDIBLE_GUARD_STRAPPED", "CANT_WEAR" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "mouth" ] } ]
   },
   {
     "id": "counterweight pouch",
