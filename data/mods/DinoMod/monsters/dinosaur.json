@@ -901,7 +901,7 @@
   {
     "type": "MONSTER",
     "id": "mon_issi",
-    "name": { "str": "issi" },
+    "name": { "str_sp": "issi" },
     "species": [ "DINOSAUR" ],
     "default_faction": "herbivore_dino",
     "symbol": "D",
