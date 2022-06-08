@@ -776,13 +776,6 @@
             "prob": 10,
             "damage": [ 0, 4 ],
             "dirt": [ 0, 6000 ]
-          },
-          {
-            "group": "military_standard_shotguns",
-            "contents-item": "knife_combat",
-            "prob": 5,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
           }
         ],
         "prob": 100
