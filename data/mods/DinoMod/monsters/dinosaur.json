@@ -902,6 +902,7 @@
     "type": "MONSTER",
     "id": "mon_issi",
     "name": { "str_sp": "issi" },
+    "looks_like": "mon_apatosaurus",
     "species": [ "DINOSAUR" ],
     "default_faction": "herbivore_dino",
     "symbol": "D",
