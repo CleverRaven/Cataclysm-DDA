@@ -239,7 +239,7 @@
     "required_str": 3,
     "deconstruct": { "items": [ { "item": "box_large_reinforced", "count": 1 } ] },
     "max_volume": "324 L",
-    "deployed_item": "box_large",
+    "deployed_item": "box_large_reinforced",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
     "bash": {
