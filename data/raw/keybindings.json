@@ -1761,11 +1761,11 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
   },
   {
-  "type": "keybinding",
-  "id": "ORGANIZE_MENU",
-  "category": "INVENTORY",
-  "name": "Organize contents",
-  "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+    "type": "keybinding",
+    "id": "ORGANIZE_MENU",
+    "category": "INVENTORY",
+    "name": "Organize contents",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
   },
   {
     "type": "keybinding",
@@ -3792,7 +3792,7 @@
     "id": "FAV_MOVE_ITEM",
     "category": "INVENTORY",
     "name": "move item",
-    "bindings": [  { "input_method": "keyboard_any", "key": "m" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
   },
   {
     "type": "keybinding",
