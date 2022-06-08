@@ -495,7 +495,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zissi_brute",
-    "name": { "str": "Frozen Fury" },
+    "name": { "str": "Frozen Fury", "str_pl": "Frozen Furies" },
     "copy-from": "mon_zissi",
     "description": "Large, long-necked, two-legged dinosaur corpse with a long tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
