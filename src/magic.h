@@ -207,7 +207,7 @@ class spell_type
 
         requirement_id spell_components;
 
-        sounds::sound_t sound_type = sounds::sound_t::_LAST;
+        sounds::sound_t sound_type = sounds::sound_t::LAST;
         bool sound_ambient = false;
         std::string sound_id;
         std::string sound_variant;

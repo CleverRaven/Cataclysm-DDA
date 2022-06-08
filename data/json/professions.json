@@ -1297,7 +1297,7 @@
           "wristwatch",
           "water_clean",
           "bandages",
-          "adhesive_bandages",
+          { "item": "adhesive_bandages", "count": 10 },
           "aspirin",
           "stethoscope"
         ],
@@ -1408,7 +1408,7 @@
           "coat_lab",
           "water_clean",
           "bandages",
-          "adhesive_bandages",
+          { "item": "adhesive_bandages", "count": 10 },
           "aspirin",
           "stethoscope",
           "pudding"
@@ -4336,7 +4336,7 @@
           "socks",
           "sneakers",
           "mbag",
-          "adhesive_bandages",
+          { "item": "adhesive_bandages", "count": 10 },
           "bandages",
           "water_clean",
           "water_clean",

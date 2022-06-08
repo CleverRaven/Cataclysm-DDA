@@ -52,6 +52,8 @@ struct mtype;
 enum class pool_type;
 
 // Monster visible in different directions (safe mode & compass)
+// Suppressions due to a bug in clang-tidy 12
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct monster_visible_info {
     // New monsters visible from last update
     std::vector<shared_ptr_fast<monster>> new_seen_mon;

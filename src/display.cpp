@@ -210,18 +210,18 @@ std::string display::get_moon()
     }
 }
 
-std::string display::time_approx()
+std::string display::time_approx( const time_point &turn )
 {
-    const int iHour = hour_of_day<int>( calendar::turn );
+    const int iHour = hour_of_day<int>( turn );
     if( iHour >= 23 || iHour == 0 ) {
         return _( "Around midnight" );
-    } else if( is_dawn( calendar::turn ) ) {
+    } else if( is_dawn( turn ) ) {
         return _( "Around dawn" );
-    } else if( is_dusk( calendar::turn ) ) {
+    } else if( is_dusk( turn ) ) {
         return _( "Around dusk" );
-    } else if( iHour <= 3 && is_night( calendar::turn ) ) {
+    } else if( iHour <= 3 && is_night( turn ) ) {
         return _( "Dead of night" );
-    } else if( is_night( calendar::turn ) ) {
+    } else if( is_night( turn ) ) {
         return _( "Night" );
     } else if( iHour <= 7 ) {
         return _( "Early morning" );
@@ -237,6 +237,11 @@ std::string display::time_approx()
         return _( "Evening" );
     }
     return _( "Night" );
+}
+
+std::string display::time_approx()
+{
+    return time_approx( calendar::turn );
 }
 
 std::string display::date_string()

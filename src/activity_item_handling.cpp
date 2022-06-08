@@ -2908,11 +2908,13 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
                 if( elem.get_var( "activity_var" ) == you.name ) {
                     const auto &r = ( elem.typeId() == itype_disassembly ) ? elem.get_making() :
                                     recipe_dictionary::get_uncraft( elem.typeId() );
+                    int const qty = std::max( 1, elem.typeId() == itype_disassembly ? elem.get_making_batch_size() :
+                                              elem.charges );
                     player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
-                                                           recipe_time_flag::ignore_proficiencies ) * std::max( 1, elem.charges ) ) );
+                                                           recipe_time_flag::ignore_proficiencies ) * qty ) );
                     act.targets.emplace_back( map_cursor( src_loc ), &elem );
                     act.placement = here.getabs( src_loc );
-                    act.position = elem.charges;
+                    act.position = qty;
                     act.index = false;
                     you.assign_activity( act );
                     // Keep doing

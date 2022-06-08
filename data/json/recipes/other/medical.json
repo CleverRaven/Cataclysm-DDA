@@ -70,11 +70,11 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
     "difficulty": 1,
-    "time": "5 m",
+    "time": "1 m",
     "batch_time_factors": [ 50, 2 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "medical_gauze", 5 ] ], [ [ "duct_tape", 20 ], [ "medical_tape", 10 ] ] ]
+    "components": [ [ [ "medical_gauze", 1 ] ], [ [ "duct_tape", 1 ], [ "medical_tape", 1 ] ] ]
   },
   {
     "result": "tourniquet_upper",
