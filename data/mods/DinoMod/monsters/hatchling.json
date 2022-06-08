@@ -253,10 +253,10 @@
     "type": "MONSTER",
     "name": "issi hatchling",
     "copy-from": "mon_gallimimus_hatchling",
-    "weight": "4 kg",
-    "volume": "4 L",
+    "weight": "2 kg",
+    "volume": "2 L",
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 50, "into": "mon_issi_juvenile" }
+    "upgrades": { "age_grow": 20, "into": "mon_issi_juvenile" }
   },
   {
     "id": "mon_amargasaurus_hatchling",
