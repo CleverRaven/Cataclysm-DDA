@@ -245,7 +245,7 @@
         "max_contains_weight": "400 g",
         "moves": 250,
         "description": "Pocket for a strapped mandible guard.",
-        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPED" ]
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
       }
     ]
   },
