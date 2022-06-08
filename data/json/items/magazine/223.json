@@ -13,6 +13,13 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 500 } } ]
   },
   {
+    "id": "belt223_full",
+    "copy-from": "belt223",
+    "name": { "str": "5.56x45mm ammo belt" },
+    "type": "MAGAZINE",
+    "count": 500
+  },
+  {
     "id": "famasmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
