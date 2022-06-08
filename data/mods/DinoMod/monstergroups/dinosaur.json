@@ -338,13 +338,7 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
     "monsters": [
-      {
-        "monster": "mon_issi",
-        "weight": 10,
-        "cost_multiplier": 20,
-        "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
+      { "monster": "mon_issi", "weight": 10, "cost_multiplier": 10, "pack_size": [ 4, 12 ], "conditions": [ "DAY" ] },
       { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "3 days" },
       { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "7 days" },
       { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "14 days" },
