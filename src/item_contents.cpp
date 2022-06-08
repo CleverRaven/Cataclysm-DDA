@@ -183,6 +183,9 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
         }
 
         if( item_to_move.first != nullptr ) {
+            menu->settext( string_format( "%s: %s", _( "Moving" ), item_to_move.first->display_name() ) );
+            refresh_columns( menu );
+
             // if we have an item already selected for moving update some info
             auto itt = saved_pockets.begin();
             bool found_container = false;
@@ -207,8 +210,6 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
 
 
 
-            menu->settext( string_format( "%s: %s", _( "Moving" ), item_to_move.first->display_name() ) );
-            refresh_columns( menu );
         }
     } else {
         // storage should mimick character inserting
