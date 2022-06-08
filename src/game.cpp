@@ -5040,7 +5040,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( bash_dmg <= 0 ) {
             return false;
         }
-        vp->vehicle().damage( vp->part_index(), bash_dmg );
+        vp->vehicle().damage( m, vp->part_index(), bash_dmg );
         if( m.veh_at( p ) ) {
             // Check again in case all parts at the door tile
             // have been destroyed, if there is still a vehicle
