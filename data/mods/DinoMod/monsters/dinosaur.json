@@ -931,7 +931,7 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_CROP", 10 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
-    "harvest": "dino_sauropod",
+    "harvest": "mammal_large_leather",
     "vision_night": 5,
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
@@ -1080,7 +1080,7 @@
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "harvest": "mammal_tiny"
+    "harvest": "mammal_small_leather"
   },
   {
     "type": "MONSTER",
