@@ -2932,6 +2932,11 @@ bool game::unique_npc_exists( std::string id )
     return unique_npcs.count( id ) > 0;
 }
 
+void game::unique_npc_despawn( std::string id )
+{
+    unique_npcs.erase( id );
+}
+
 spell_events &game::spell_events_subscriber()
 {
     return *spell_events_ptr;
@@ -11184,6 +11189,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( !wall_cling )  {
         here.creature_on_trap( u, !force );
     }
+
+    u.recoil = MAX_RECOIL;
+
     cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
 }
 

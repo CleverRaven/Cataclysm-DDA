@@ -124,7 +124,7 @@
     "name": "greenish yellow hatchling",
     "description": "A tiny dinosaur hatchling with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "compsognathus_hatchling",
-    "categories": [ "DINOSAUR" ],
+    "categories": [ "DINOSAUR", "WILDLIFE" ],
     "species": [ "DINOSAUR" ],
     "volume": "50 ml",
     "weight": "57 g",

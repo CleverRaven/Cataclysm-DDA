@@ -183,7 +183,7 @@
     "price": 0,
     "price_postapoc": 100,
     "spoils_in": "5 days",
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ] ]
   },
   {
@@ -434,7 +434,7 @@
     "material": [ "powder", "egg" ],
     "primary_material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "charges": 16,
     "fun": -4,
     "freezing_point": -274

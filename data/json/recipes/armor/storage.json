@@ -1603,7 +1603,7 @@
     "time": "7 h 30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_nylon_patchwork", 5 ], [ "fastener_large", 1 ], [ "waterproofing_plastic_bags", 2 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 5 ], [ "fastener_large", 1 ], [ "waterproofing_plastic_sheets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
@@ -1618,7 +1618,7 @@
     "time": "6 h 40 m",
     "reversible": true,
     "book_learn": [ [ "plastics_book", 1 ] ],
-    "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_large", 1 ], [ "waterproofing_plastic_bags", 2 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_large", 1 ], [ "waterproofing_plastic_sheets", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1689,7 +1689,7 @@
     "time": "10 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 10 ], [ "fastener_large", 2 ], [ "waterproofing_plastic_bags", 4 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 10 ], [ "fastener_large", 2 ], [ "waterproofing_plastic_sheets", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1841,10 +1841,10 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "time": "2 m",
+    "time": "6 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "cordage_short", 1, "LIST" ] ] ]
+    "components": [ [ [ "rope_any_short", 1, "LIST" ] ] ]
   },
   {
     "result": "suspenders_holster",

@@ -56,12 +56,12 @@ enum class mon_trigger : int {
     PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
     MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
 
-    _LAST               // This item must always remain last.
+    LAST               // This item must always remain last.
 };
 
 template<>
 struct enum_traits<mon_trigger> {
-    static constexpr mon_trigger last = mon_trigger::_LAST;
+    static constexpr mon_trigger last = mon_trigger::LAST;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!

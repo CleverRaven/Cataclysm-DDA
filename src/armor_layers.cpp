@@ -897,7 +897,7 @@ void outfit::sort_armor( Character &guy )
             if( rightListOffset > 0 ) {
                 rightListOffset--;
             }
-        } else if( action == "MOVE_ARMOR" ) {
+        } else if( action == "MOVE_ARMOR" && leftListIndex < leftListSize ) {
             if( selected >= 0 ) {
                 selected = -1;
             } else {

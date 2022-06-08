@@ -16,7 +16,7 @@ std::string enum_to_string<music::music_id>( music::music_id data )
             return "sound";
         case music::music_id::title:
             return "title";
-        case music::music_id::_LAST:
+        case music::music_id::LAST:
             break;
     }
 

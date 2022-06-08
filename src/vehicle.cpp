@@ -5065,6 +5065,7 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
     std::queue< std::pair<Vehicle *, int> > connected_vehs;
     std::set<Vehicle *> visited_vehs;
+    std::set<tripoint> visted_targets;
     connected_vehs.push( std::make_pair( start_veh, 0 ) );
 
     while( amount > 0 && !connected_vehs.empty() ) {
@@ -5081,6 +5082,13 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
             if( !current_veh->part_info( p ).has_flag( "POWER_TRANSFER" ) ) {
                 continue; // ignore loose parts that aren't power transfer cables
             }
+
+            if( visted_targets.count( current_veh->parts[p].target.second ) > 0 ) {
+                // If we've already looked at the target location, don't bother the expensive vehicle lookup.
+                continue;
+            }
+
+            visted_targets.insert( current_veh->parts[p].target.second );
 
             vehicle *target_veh = vehicle::find_vehicle( current_veh->parts[p].target.second );
             if( target_veh == nullptr || visited_vehs.count( target_veh ) > 0 ) {
