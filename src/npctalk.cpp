@@ -2522,7 +2522,13 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
-    function = [iov, transform, target_var, is_npc, dov_time_in_future]( const T & d ) {
+    str_or_var<T> key;
+    if( jo.has_member( "key" ) ) {
+        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+    } else {
+        key.str_val = "";
+    }
+    function = [iov, transform, target_var, is_npc, dov_time_in_future, key]( const T & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
 
         int radius = iov.evaluate( d );
@@ -2532,7 +2538,7 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
             get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
                                     calendar::turn + future + 1_seconds,
                                     //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
-                                    -1, pos, radius, transform.str() );
+                                    -1, pos, radius, transform.str(), key.evaluate( d ) );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
             get_map().invalidate_map_cache( target_pos.z() );
@@ -2545,12 +2551,17 @@ void talk_effect_fun_t<T>::set_place_override( const JsonObject &jo, const std::
 {
     str_or_var<T> new_place = get_str_or_var<T>( jo.get_member( member ), member );
     duration_or_var<T> dov_length = get_duration_or_var<T>( jo, "length", true );
-
-    function = [new_place, dov_length]( const T & d ) {
+    str_or_var<T> key;
+    if( jo.has_member( "key" ) ) {
+        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+    } else {
+        key.str_val = "";
+    }
+    function = [new_place, dov_length, key]( const T & d ) {
         get_timed_events().add( timed_event_type::OVERRIDE_PLACE,
                                 calendar::turn + dov_length.evaluate( d ) + 1_seconds,
                                 //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
-                                -1, tripoint_abs_sm( tripoint_zero ), -1, new_place.evaluate( d ) );
+                                -1, tripoint_abs_sm( tripoint_zero ), -1, new_place.evaluate( d ), key.evaluate( d ) );
     };
 }
 
@@ -2572,7 +2583,13 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
-    function = [target_params, update_ids, target_var, dov_time_in_future]( const T & d ) {
+    str_or_var<T> key;
+    if( jo.has_member( "key" ) ) {
+        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+    } else {
+        key.str_val = "";
+    }
+    function = [target_params, update_ids, target_var, dov_time_in_future, key]( const T & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
             const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
@@ -2590,7 +2607,7 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
             //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
             for( const update_mapgen_id &mapgen_update_id : update_ids ) {
                 get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
-                                        0, mapgen_update_id.str() );
+                                        0, mapgen_update_id.str(), key.evaluate( d ) );
             }
 
         } else {
@@ -2603,12 +2620,52 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
 }
 
 template<class T>
+<<<<<<< HEAD
+=======
+void talk_effect_fun_t<T>::set_remove_npc( const JsonObject &jo, const std::string &member )
+{
+    std::string nclass;
+    std::string chatbin;
+    std::string unique_id;
+    JsonObject const jot = jo.get_object( member );
+    optional( jot, false, "class", nclass );
+    optional( jot, false, "chat", chatbin );
+    optional( jot, false, "unique_id", unique_id );
+    function = [nclass, chatbin, unique_id]( const T & ) {
+        for( auto const &npc : overmap_buffer.get_overmap_npcs() ) {
+            if( ( nclass.empty() or npc->myclass == npc_class_id( nclass ) ) and
+                ( chatbin.empty() or npc->chatbin.first_topic == chatbin ) and
+                ( unique_id.empty() or unique_id == npc->get_unique_id() ) ) {
+                overmap_buffer.remove_npc( npc->getID() );
+            }
+        }
+    };
+}
+
+template<class T>
+void talk_effect_fun_t<T>::set_alter_timed_events( const JsonObject &jo, const std::string &member )
+{
+    str_or_var<T> key = get_str_or_var<T>( jo.get_member( member ), member, true );
+    duration_or_var<T> time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
+                                        0_seconds );
+    function = [key, time_in_future]( const T & d ) {
+        get_timed_events().set_all( key.evaluate( d ), time_in_future.evaluate( d ) );
+    };
+}
+
+template<class T>
+>>>>>>> ffc942cc71 (Allow altering timed events time, more eocs for dungeon)
 void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std::string &member )
 {
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", true );
-
+    str_or_var<T> key;
+    if( jo.has_member( "key" ) ) {
+        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+    } else {
+        key.str_val = "";
+    }
     cata::optional<var_info> target_var = read_var_info( jo.get_object( member ), false );;
-    function = [target_var, dov_time_in_future]( const T & d ) {
+    function = [target_var, dov_time_in_future, key]( const T & d ) {
         const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
@@ -2624,7 +2681,7 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
                     sm = MAPBUFFER.lookup_submap( revert_sm );
                 }
                 get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
-                                        sm->get_revert_submap() );
+                                        sm->get_revert_submap(), key.evaluate( d ) );
             }
         }
     };
@@ -3397,11 +3454,17 @@ void talk_effect_fun_t<T>::set_custom_light_level( const JsonObject &jo,
 {
     int_or_var<T> iov = get_int_or_var<T>( jo, member, true );
     duration_or_var<T> dov_length = get_duration_or_var<T>( jo, "length", false, 0_seconds );
-    function = [dov_length, iov]( const T & d ) {
+    str_or_var<T> key;
+    if( jo.has_member( "key" ) ) {
+        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+    } else {
+        key.str_val = "";
+    }
+    function = [dov_length, iov, key]( const T & d ) {
         get_timed_events().add( timed_event_type::CUSTOM_LIGHT_LEVEL,
                                 calendar::turn + dov_length.evaluate( d ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
-                                -1, iov.evaluate( d ) );
+                                -1, iov.evaluate( d ), key.evaluate( d ) );
     };
 }
 
@@ -3859,6 +3922,13 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+<<<<<<< HEAD
+=======
+    } else if( jo.has_member( "remove_npc" ) ) {
+        subeffect_fun.set_remove_npc( jo, "remove_npc" );
+    } else if( jo.has_member( "alter_timed_events" ) ) {
+        subeffect_fun.set_alter_timed_events( jo, "alter_timed_events" );
+>>>>>>> ffc942cc71 (Allow altering timed events time, more eocs for dungeon)
     } else if( jo.has_member( "revert_location" ) ) {
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {

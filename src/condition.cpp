@@ -224,7 +224,8 @@ var_info read_var_info( const JsonObject &jo, bool require_default )
     if( jo.has_string( "var_name" ) ) {
         const std::string &type_var = jo.get_string( "type", "" );
         const std::string &var_context = jo.get_string( "context", "" );
-        name = type_var + ( type_var.empty() ? "" : "_" ) + var_context + ( var_context.empty() ? "" : "_" )
+        name = "npctalk_var_" + type_var + ( type_var.empty() ? "" : "_" ) + var_context +
+               ( var_context.empty() ? "" : "_" )
                + jo.get_string( "var_name" );
     }
     if( jo.has_member( "u_val" ) ) {

@@ -54,34 +54,37 @@ static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const spell_id spell_dks_summon_alrp( "dks_summon_alrp" );
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
-                          int s )
+                          int s, std::string key )
     : type( e_t )
     , when( w )
     , faction_id( f_id )
     , map_point( p )
     , strength( s )
+    , key( key )
 {
 }
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
-                          int s, std::string s_id )
+                          int s, std::string s_id, std::string key )
     : type( e_t )
     , when( w )
     , faction_id( f_id )
     , map_point( p )
     , strength( s )
     , string_id( s_id )
+    , key( key )
 {
 }
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
-                          int s, std::string s_id, submap_revert &sr )
+                          int s, std::string s_id, submap_revert &sr, std::string key )
     : type( e_t )
     , when( w )
     , faction_id( f_id )
     , map_point( p )
     , strength( s )
     , string_id( s_id )
+    , key( key )
 {
     revert = sr;
 }
@@ -400,33 +403,35 @@ void timed_event_manager::process()
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
-                               const int faction_id, int strength )
+                               const int faction_id, int strength, std::string key )
 {
-    add( type, when, faction_id, get_player_character().global_sm_location(), strength );
+    add( type, when, faction_id, get_player_character().global_sm_location(), strength, "", key );
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_sm &where,
-                               int strength )
+                               int strength, std::string key )
 {
-    events.emplace_back( type, when, faction_id, where, strength );
+    events.emplace_back( type, when, faction_id, where, strength, key );
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_sm &where,
-                               int strength, std::string string_id )
+                               int strength, std::string string_id,
+                               std::string key )
 {
-    events.emplace_back( type, when, faction_id, where, strength, string_id );
+    events.emplace_back( type, when, faction_id, where, strength, string_id, key );
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_sm &where,
-                               int strength, std::string string_id, submap_revert sr )
+                               int strength, std::string string_id, submap_revert sr,
+                               std::string key )
 {
-    events.emplace_back( type, when, faction_id, where, strength, string_id, sr );
+    events.emplace_back( type, when, faction_id, where, strength, string_id, sr, key );
 }
 
 bool timed_event_manager::queued( const timed_event_type type ) const
@@ -442,4 +447,28 @@ timed_event *timed_event_manager::get( const timed_event_type type )
         }
     }
     return nullptr;
+}
+
+timed_event *timed_event_manager::get( const timed_event_type type, std::string key )
+{
+    for( auto &e : events ) {
+        if( e.type == type && e.key == key ) {
+            return &e;
+        }
+    }
+    return nullptr;
+}
+
+std::list<timed_event> timed_event_manager::get_all() const
+{
+    return events;
+}
+
+void timed_event_manager::set_all( std::string key, time_duration time_in_future )
+{
+    for( auto &e : events ) {
+        if( e.key == key ) {
+            e.when = calendar::turn + time_in_future;
+        }
+    }
 }
