@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "eoc_eggsac_host",
     "//": "Detonates the eggs every once in a while.",
-    "recurrence": [ "5 m", "120 m" ],
+    "recurrence": [ "5 h", "120 h" ],
     "condition": {
       "and": [
         { "compare_int": [ "moon", "==", { "const": 3 } ] },
@@ -38,7 +38,7 @@
     "id": "eggsac_remove",
     "//": "Spiders erupt from your body! It seems like those were the last eggs.",
     "effect": {
-      "run_eocs": { "id": "eoc_eggsac_survivable_or_fatal", "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" } },
+      "run_eocs": { "id": "eoc_eggsac_remove_survivable_or_fatal", "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" } },
       "effect": [
         { "npc_cast_spell": { "id": "spider_emergence_weak" } },
         { "u_lose_trait": "EGGSAC_SURVIVABLE" },
