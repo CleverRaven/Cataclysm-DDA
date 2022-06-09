@@ -372,6 +372,66 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
             selected_pocket->settings.clear();
         }
+    } else if( action == "FAV_CONTEXT_MENU" ) {
+        uilist cmenu( string_format( "Action to take on this pocket" ), {} );
+        cmenu.addentry( 0, true, inp_mngr.get_first_char_for_action( "FAV_MOVE_ITEM", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_MOVE_ITEM" ) );
+        cmenu.addentry( 1, true, inp_mngr.get_first_char_for_action( "FAV_ITEM", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_ITEM" ) );
+        cmenu.addentry( 2, true, inp_mngr.get_first_char_for_action( "FAV_CATEGORY", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_CATEGORY" ) );
+        cmenu.addentry( 3, true, inp_mngr.get_first_char_for_action( "FAV_WHITELIST", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_WHITELIST" ) );
+        cmenu.addentry( 4, true, inp_mngr.get_first_char_for_action( "FAV_BLACKLIST", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_BLACKLIST" ) );
+        cmenu.addentry( 5, true, inp_mngr.get_first_char_for_action( "FAV_PRIORITY", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_PRIORITY" ) );
+        cmenu.addentry( 6, true, inp_mngr.get_first_char_for_action( "FAV_AUTO_PICKUP", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_AUTO_PICKUP" ) );
+        cmenu.addentry( 7, true, inp_mngr.get_first_char_for_action( "FAV_AUTO_UNLOAD", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_AUTO_UNLOAD" ) );
+        cmenu.addentry( 8, true, inp_mngr.get_first_char_for_action( "FAV_CLEAR", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_CLEAR" ) );
+        cmenu.query();
+
+        std::string ev;
+        switch( cmenu.ret ) {
+            case 0:
+                ev = "FAV_MOVE_ITEM";
+                break;
+            case 1:
+                ev = "FAV_ITEM";
+                break;
+            case 2:
+                ev = "FAV_CATEGORY";
+                break;
+            case 3:
+                ev = "FAV_WHITELIST";
+                break;
+            case 4:
+                ev = "FAV_BLACKLIST";
+                break;
+            case 5:
+                ev = "FAV_PRIORITY";
+                break;
+            case 6:
+                ev = "FAV_AUTO_PICKUP";
+                break;
+            case 7:
+                ev = "FAV_AUTO_UNLOAD";
+                break;
+            case 8:
+                ev = "FAV_CLEAR";
+                break;
+            default:
+                break;
+
+        }
+        const std::vector<input_event> evlist = inp_mngr.get_input_for_action( ev, "INVENTORY" );
+        if( cmenu.ret >= 0 && cmenu.ret <= 8 && !evlist.empty() ) {
+            return key( ctxt, evlist.front(), -1, menu );
+
+        }
     }
 
     return false;
@@ -2204,7 +2264,7 @@ void item_contents::favorite_settings_menu( item *i )
     uilist pocket_selector;
     to_organize.push_back( i );
     pocket_favorite_callback cb( to_organize, pocket_selector );
-    pocket_selector.title = i->display_name();
+    pocket_selector.title = remove_color_tags( i->display_name() );
     pocket_selector.text = cb.title;
     pocket_selector.callback = &cb;
     pocket_selector.w_x_setup = 0;
@@ -2227,7 +2287,8 @@ void item_contents::favorite_settings_menu( item *i )
         { "FAV_WHITELIST", translation() },
         { "FAV_BLACKLIST", translation() },
         { "FAV_CLEAR", translation() },
-        { "FAV_MOVE_ITEM", translation() }
+        { "FAV_MOVE_ITEM", translation() },
+        { "FAV_CONTEXT_MENU", translation() }
     };
     // we override confirm
     pocket_selector.allow_confirm = false;
