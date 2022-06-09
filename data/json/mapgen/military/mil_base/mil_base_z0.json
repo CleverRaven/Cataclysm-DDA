@@ -674,10 +674,7 @@
           { "item": "mags_obscure", "chance": 50, "repeat": [ 2, 3 ] }
         ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ],
-        "α": [
-          { "item": "belts223", "chance": 75, "repeat": [ 3,4 ] },
-          { "item": "belts308", "chance": 75, "repeat": [ 2,3 ] }
-        ]
+        "α": [ { "item": "belts223", "chance": 75, "repeat": [ 3, 4 ] }, { "item": "belts308", "chance": 75, "repeat": [ 2, 3 ] } ]
       },
       "monster": { "i": { "monster": "mon_zombie_soldier", "chance": 30 } },
       "place_loot": [

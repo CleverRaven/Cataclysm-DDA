@@ -972,15 +972,11 @@
   {
     "id": "belts223",
     "type": "item_group",
-    "items": [
-      { "item": "belt223", "charges": 500 }
-    ]
+    "items": [ { "item": "belt223", "charges": 500 } ]
   },
   {
     "id": "belts308",
     "type": "item_group",
-    "items": [
-      { "item": "belt308", "charges": 500 }
-    ]
+    "items": [ { "item": "belt308", "charges": 500 } ]
   }
 ]
