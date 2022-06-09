@@ -1098,20 +1098,35 @@ void Character::mutate_category( const mutation_category_id &cat )
     mutate_category( cat, false );
 }
 
-static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
+// Should not be called directly. Use get_all_mutation_prereqs instead.
+static std::vector<trait_id> get_all_unique_mutation_prereqs( std::vector<trait_id> &included,
+        const trait_id &id )
 {
-    std::vector<trait_id> ret;
     for( const trait_id &it : id->prereqs ) {
-        ret.push_back( it );
-        std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
-        ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
+        if( !contains_trait( included, it ) ) {
+            included.push_back( it );
+            std::vector<trait_id> these_prereqs = get_all_unique_mutation_prereqs( included, it );
+            included.insert( included.end(), these_prereqs.begin(), these_prereqs.end() );
+        }
     }
     for( const trait_id &it : id->prereqs2 ) {
-        ret.push_back( it );
-        std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
-        ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
+        if( !contains_trait( included, it ) ) {
+            included.push_back( it );
+            std::vector<trait_id> these_prereqs = get_all_unique_mutation_prereqs( included, it );
+            included.insert( included.end(), these_prereqs.begin(), these_prereqs.end() );
+        }
     }
-    return ret;
+    return included;
+}
+
+/**
+ * Get the vector containing all of the prerequisite mutations that the trait depends on.
+ * This function checks and removes all of the circular dependencies.
+ */
+static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
+{
+    std::vector<trait_id> already_included;
+    return get_all_unique_mutation_prereqs( already_included, id );
 }
 
 bool Character::mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
