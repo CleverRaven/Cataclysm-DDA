@@ -84,7 +84,7 @@
         [ "ghee", 16 ]
       ]
     ],
-    "//": "Making lamp oil from (tainted) fat directly is less efficient than using lard/tallow, but allows processing of spoilt fats. See #29770",
+    "//": "Making kerosene from (tainted) fat directly is less efficient than using lard/tallow, but allows processing of spoilt fats. See #29770",
     "flags": [ "ALLOW_ROTTEN" ]
   }
 ]

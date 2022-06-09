@@ -1020,7 +1020,7 @@
     "type": "material",
     "id": "lamp_oil",
     "density": 0.81,
-    "name": "Lamp Oil",
+    "name": "Kerosene",
     "copy-from": "hydrocarbons",
     "fuel_data": {
       "//": "Roughly equivalent to LPG",

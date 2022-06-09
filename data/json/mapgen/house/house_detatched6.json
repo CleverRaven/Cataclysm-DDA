@@ -43,7 +43,7 @@
         "/": "t_dirtmoundfloor",
         "~": "t_dirtmoundfloor",
         "&": "t_dirtmound",
-        "(": "t_dirt",
+        "(": "t_region_soil",
         "`": "t_concrete",
         "#": "t_adobe_brick_wall",
         "t": "t_linoleum_gray",
@@ -77,7 +77,7 @@
         { "chance": 50, "item": "stoner", "x": 4, "y": 5 }
       ],
       "sealed_item": {
-        "~": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" },
+        "~": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" },
         "&": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" }
       },
       "place_monsters": [

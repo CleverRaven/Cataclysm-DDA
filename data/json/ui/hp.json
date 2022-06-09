@@ -187,5 +187,27 @@
     "label": "Hit Points",
     "arrange": "rows",
     "widgets": [ "hitpoints_head_torso_layout", "hitpoints_arms_layout", "hitpoints_legs_layout" ]
+  },
+  {
+    "id": "hitpoint_graphs_vertical_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [
+      "hp_head_graph",
+      "hp_torso_graph",
+      "hp_left_arm_graph",
+      "hp_right_arm_graph",
+      "hp_left_leg_graph",
+      "hp_right_leg_graph"
+    ]
+  },
+  {
+    "id": "bodygraph_hp_layout",
+    "type": "widget",
+    "label": "Body Status",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "body_graph", "hitpoint_graphs_vertical_layout" ]
   }
 ]

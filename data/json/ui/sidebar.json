@@ -25,7 +25,8 @@
       "vital_numbers_layout",
       "bodypart_armor_outer_layout",
       "bodypart_status_layout",
-      "bodypart_status_sym_layout"
+      "bodypart_status_sym_layout",
+      "bodygraph_hp_layout"
     ]
   }
 ]
