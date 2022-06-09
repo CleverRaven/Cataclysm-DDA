@@ -89,7 +89,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
                  */
                 // include inactive fakes since the vehicle isn't rotated
                 bool tested_a_fake = false;
-                for( const vpart_reference vp : veh->get_all_parts_with_fakes( true ) ) {
+                for( const vpart_reference &vp : veh->get_all_parts_with_fakes( true ) ) {
                     tested_a_fake |= vp.part().is_fake;
                 }
                 validate_part_count( *veh, 0, angle, original_parts, fake_parts,
@@ -117,23 +117,23 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         /* since we want all the doors closed anyway, go ahead and test that opening
          * and closing the real part also changes the fake part
          */
-        for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
+        for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
             REQUIRE( !vp.part().is_fake );
             veh->open( vp.part_index() );
         }
         // include inactive fakes since the vehicle isn't rotated
         bool tested_a_fake = false;
-        for( const vpart_reference vp : veh->get_all_parts_with_fakes( true ) ) {
+        for( const vpart_reference &vp : veh->get_all_parts_with_fakes( true ) ) {
             if( vp.info().has_flag( "OPENABLE" ) ) {
                 tested_a_fake |= vp.part().is_fake;
                 CHECK( veh->is_open( vp.part_index() ) );
             }
         }
         REQUIRE( tested_a_fake );
-        for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
+        for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
             veh->close( vp.part_index() );
         }
-        for( const vpart_reference vp : veh->get_all_parts_with_fakes( true ) ) {
+        for( const vpart_reference &vp : veh->get_all_parts_with_fakes( true ) ) {
             if( vp.info().has_flag( "OPENABLE" ) ) {
                 CHECK( !veh->is_open( vp.part_index() ) );
             }
@@ -350,14 +350,14 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle],[vehicle_fake]" )
     REQUIRE( veh != nullptr );
 
     // First get the doors to a known good state.
-    for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
+    for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
         REQUIRE( !vp.part().is_fake );
         veh->close( vp.part_index() );
     }
 
     // Then scan through all the openables including fakes and assert that we can open them.
     int fakes_tested = 0;
-    for( const vpart_reference vp : veh->get_all_parts_with_fakes() ) {
+    for( const vpart_reference &vp : veh->get_all_parts_with_fakes() ) {
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             REQUIRE( !veh->is_open( vp.part_index() ) );
@@ -375,7 +375,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle],[vehicle_fake]" )
 
     tripoint prev_player_pos = you.pos();
     // Then open them all back up.
-    for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
+    for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
         REQUIRE( !vp.part().is_fake );
         veh->open( vp.part_index() );
         REQUIRE( veh->is_open( vp.part_index() ) );
@@ -402,7 +402,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle],[vehicle_fake]" )
 
     // Then scan through all the openables including fakes and assert that we can close them.
     fakes_tested = 0;
-    for( const vpart_reference vp : veh->get_all_parts_with_fakes() ) {
+    for( const vpart_reference &vp : veh->get_all_parts_with_fakes() ) {
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             CHECK( veh->is_open( vp.part_index() ) );
