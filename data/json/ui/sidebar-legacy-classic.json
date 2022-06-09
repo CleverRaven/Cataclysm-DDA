@@ -4,7 +4,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 11,
+	"width": 12,
     "widgets": [
       "hp_head_graph",
       "hp_torso_graph",
@@ -12,7 +12,7 @@
       "hp_right_arm_graph",
       "hp_left_leg_graph",
       "hp_right_leg_graph",
-      "power_desc"
+      "power_short_desc"
     ]
   },
   {
@@ -20,11 +20,11 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 20,
+	"width": 15,
 	"label_align": "right",
 	"text_align": "right",
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
-    "widgets": [ "needs_desc_layout_no_label", "move_speed_layout", "focus_num" ]
+    "widgets": [ "needs_desc_layout_no_label", "move_count_mode_desc" ]
   },
   {
     "id": "lcla_health_right_layout",
@@ -32,10 +32,10 @@
     "style": "layout",
     "arrange": "rows",
 	"label_align": "right",
-	"width": 5,
+	"width": 10,
 	"text_align": "right",
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
-    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_desc", "stamina_graph_classic" ]
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_desc", "stamina_graph_classic", "focus_num" ]
   },
   {
     "id": "lcla_health_overmap",
@@ -54,7 +54,7 @@
     "style": "layout",
     "label": "Health",
     "arrange": "columns",
-	"height": 7,
+	"height": 8,
     "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
   {
