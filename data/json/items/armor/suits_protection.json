@@ -2388,7 +2388,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_enviro_suit",
     "name": { "str": "Hub 01 environmental suit (casual)", "str_pl": "Hub 01 environmental suits (casual)" },
-    "description": "A lightweight environmental suit incorporating kevlar-lined boots, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the upper portion has been tied around the waist casually.",
+    "description": "A lightweight environmental suit incorporating Kevlar-lined boots, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the upper portion has been tied around the waist casually.",
     "armor": [
       {
         "material": [
