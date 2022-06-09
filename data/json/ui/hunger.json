@@ -39,7 +39,6 @@
   {
 	"id": "hunger_desc_no_label",
     "type": "widget",
-		"text_align": "right",
 	"copy-from": "hunger_desc_label",
 	"flags": [ "W_LABEL_NONE" ]
   }
