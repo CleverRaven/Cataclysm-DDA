@@ -2801,23 +2801,32 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_container() ) {
         contents_change_handler handler;
         bool changed = false;
-        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
-            int old_charges = contained->charges;
-            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
-            if( consumed || contained->charges != old_charges ) {
-                changed = true;
-                handler.unseal_pocket_containing( item_location( target, contained ) );
+
+        for( auto ptype : {
+                 item_pocket::pocket_type::CONTAINER,
+                 item_pocket::pocket_type::MAGAZINE_WELL,
+                 item_pocket::pocket_type::MAGAZINE
+             } ) {
+
+            for( item *contained : it.all_items_top( ptype, true ) ) {
+                int old_charges = contained->charges;
+                const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
+                if( consumed || contained->charges != old_charges ) {
+                    changed = true;
+                    handler.unseal_pocket_containing( item_location( target, contained ) );
+                }
+                if( consumed ) {
+                    it.remove_item( *contained );
+                }
             }
-            if( consumed ) {
-                it.remove_item( *contained );
+
+            if( changed ) {
+                it.on_contents_changed();
+                who.invalidate_weight_carried_cache();
+                handler.handle_by( who );
             }
         }
 
-        if( changed ) {
-            it.on_contents_changed();
-            who.invalidate_weight_carried_cache();
-            handler.handle_by( who );
-        }
         return;
     }
 
