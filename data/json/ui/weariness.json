@@ -33,6 +33,16 @@
     "var": "weariness_text",
     "//": "Uses display::weariness_text_color"
   },
+    {
+    "id": "weariness_transition_graph",
+    "type": "widget",
+    "label": "Weariness",
+    "style": "graph",
+	"symbols": ".\\|",
+	"width": 5,
+	"colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "var": "weary_transition_level"
+  },
   {
     "id": "weary_active_layout",
     "type": "widget",
@@ -45,8 +55,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "//": "FIXME: This graph is not the same as weariness transition graph; need new widget_var for that",
-    "widgets": [ "weariness_graph", "weary_malus_desc" ]
+    "widgets": [ "weariness_transition_graph", "weary_malus_desc" ]
   },
   {
     "id": "all_weariness_layout",

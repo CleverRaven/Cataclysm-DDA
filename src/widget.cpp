@@ -81,6 +81,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "health";
         case widget_var::weariness_level:
             return "weariness_level";
+        case widget_var::weary_transition_level:
+            return "weary_transition_level";
         case widget_var::mana:
             return "mana";
         case widget_var::max_mana:
@@ -541,6 +543,10 @@ void widget::set_default_var_range( const avatar &ava )
             _var_min = 0;
             _var_max = 10;
             break;
+        case widget_var::weary_transition_level:
+            _var_min = 0;
+            _var_max = ava.weary_threshold();
+            break;
 
         // Base stats
         // Normal is the base stat value only; min and max are -3 and +3 from base
@@ -650,6 +656,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::weariness_level:
             value = ava.weariness_level();
+            break;
+        case widget_var::weary_transition_level:
+            value = ava.weariness_transition_level();
             break;
         case widget_var::stat_str:
             value = ava.get_str();
