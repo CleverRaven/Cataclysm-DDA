@@ -1059,6 +1059,7 @@
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
+    "flags": [ "UNCONSUMED" ],
     "spell_data": { "id": "portal_dungeon_entrance" }
   },
   {
@@ -1088,6 +1089,7 @@
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
+    "flags": [ "UNCONSUMED" ],
     "spell_data": { "id": "portal_dungeon_exit" }
   },
   {
@@ -1105,5 +1107,35 @@
     "max_aoe": 2,
     "effect": "effect_on_condition",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_EXIT"
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_next_level",
+    "name": "Swirling vortex",
+    "color": "blue",
+    "symbol": "#",
+    "visibility": 5,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "action": "spell",
+    "flags": [ "UNCONSUMED" ],
+    "spell_data": { "id": "portal_dungeon_next_level" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_next_level",
+    "name": { "str": "Swirling Vortex" },
+    "description": "Advances the victim in the dungeon.",
+    "valid_targets": [ "self", "hostile", "ally" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "shape": "blast",
+    "min_range": 0,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
   }
 ]

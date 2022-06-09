@@ -1116,26 +1116,27 @@
       },
       { "mapgen_update": "portal_dungeon_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
-      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "that sucks" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "in_portal_dungeon" }, "=", { "const": 1 } ] },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!" },
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 1 } ] },
       { "u_message": "You are trapped in <global_val:place_name>!" }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_MAPGEN_TRAP_CHANGE",
-    "effect": { "mapgen_update": "portal_dungeon_trap_change", "target_var": { "global_val": "portal_dungeon" } }
+    "id": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL",
+    "effect": [
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!" },
+      { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "++" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_EXIT",
-    "condition": { "compare_int": [ { "global_val": "var", "var_name": "in_portal_dungeon" }, "=", { "const": 1 } ] },
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
     "effect": [
-      {
-        "u_teleport": { "global_val": "original_loc" },
-        "success_message": "You are safely back in the dying world you left."
-      },
-      { "arithmetic": [ { "global_val": "var", "var_name": "in_portal_dungeon" }, "=", { "const": 0 } ] },
+      { "u_teleport": { "global_val": "original_loc" }, "success_message": "You are safely back in the apocalypse." },
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] },
       { "alter_timed_events": "portal_dungeon" }
     ]
   }

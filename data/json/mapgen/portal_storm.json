@@ -27,13 +27,17 @@
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
       "set": [
-        { "square": "terrain", "id": "t_floor_warped", "x": 1, "y": 1, "x2": 8, "y2": 8 },
-        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 0, "y2": 8 },
-        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 8, "y2": 0 },
-        { "line": "terrain", "id": "t_wall_warped", "x": 8, "y": 0, "x2": 8, "y2": 8 },
-        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 8, "x2": 8, "y2": 8 },
-        { "point": "variable", "id": "dungeon_start", "x": 2, "y": 2 },
-        { "point": "trap", "id": "tr_portal_dungeon_exit", "x": 1, "y": 1 }
+        { "square": "item_remove", "x": 0, "y": 0, "x2": 12, "y2": 12 },
+        { "square": "trap_remove", "id": "tr_null", "x": 0, "y": 0, "x2": 12, "y2": 12 },
+        { "square": "terrain", "id": "t_floor_warped", "x": 1, "y": 1, "x2": 12, "y2": 12 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 0, "y2": 12 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 12, "y2": 0 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 12, "y": 0, "x2": 12, "y2": 12 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 12, "x2": 12, "y2": 12 },
+        { "point": "variable", "id": "dungeon_start", "x": [ 2, 3 ], "y": [ 2, 3 ] },
+        { "point": "trap", "id": "tr_portal_dungeon_exit", "x": 1, "y": 1 },
+        { "point": "trap", "id": "tr_portal_dungeon_next_level", "x": [ 10, 11 ], "y": [ 10, 11 ] },
+        { "point": "terrain", "id": "t_wall_warped", "x": [ 4, 9 ], "y": [ 4, 9 ], "repeat": [ 6, 8 ] }
       ]
     }
   },
@@ -51,7 +55,7 @@
     "method": "json",
     "update_mapgen_id": "portal_dungeon_roof",
     "object": {
-      "set": [ { "square": "terrain", "id": "t_warped_roof", "x": 0, "y": 0, "x2": 10, "y2": 10 } ],
+      "set": [ { "square": "terrain", "id": "t_warped_roof", "x": 0, "y": 0, "x2": 12, "y2": 12 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ]
     }
   },
@@ -65,7 +69,7 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "portal_dungeon_cleanup",
-    "object": { "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 10, "y2": 10 } ], "flags": [ "NO_UNDERLYING_ROTATE" ] }
+    "object": { "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 12, "y2": 12 } ], "flags": [ "NO_UNDERLYING_ROTATE" ] }
   },
   {
     "type": "mapgen",

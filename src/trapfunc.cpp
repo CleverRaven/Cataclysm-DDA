@@ -73,6 +73,8 @@ static const species_id species_ROBOT( "ROBOT" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
+static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
+
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
 {
@@ -1450,7 +1452,9 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     npc dummy;
     trap_spell.cast_all_effects( dummy, critter->pos() );
     trap_spell.make_sound( p );
-    here.remove_trap( p );
+    if( !here.tr_at( p ).has_flag( json_flag_UNCONSUMED ) ) {
+        here.remove_trap( p );
+    }
     return true;
 }
 
