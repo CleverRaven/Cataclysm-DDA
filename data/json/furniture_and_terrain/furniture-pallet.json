@@ -89,7 +89,7 @@
     "id": "f_stack_plank",
     "name": "stack of wooden planks",
     "looks_like": "bundle_plank",
-    "description": "Dozens of constructions planks tied together for easier transport.  Deconstruct to untie them.",
+    "description": "Dozens of construction planks tied together for easier transport.  Deconstruct to untie them.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost_mod": 5,
