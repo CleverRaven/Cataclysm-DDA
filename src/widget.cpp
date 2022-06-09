@@ -1397,39 +1397,35 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Number of spaces between columns
             const int col_padding = 1;
             // Subtract column padding to get space available for widgets
-            int avail_width = max_width - col_padding * ( num_widgets - 1 );
+            const int avail_width = max_width - col_padding * ( num_widgets - 1 );
             // Divide available width equally among all widgets
-            int child_width = avail_width / num_widgets;
+            const int child_width = avail_width / num_widgets;
             // Keep remainder to distribute
             int remainder = avail_width % num_widgets;
             // Store the (potentially) multi-row text for each column
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
             int total_width = 0;
-            int widgets_placed = 0;
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
                 if( cur_child._style == "layout" && cur_child._width > 1 ) {
                     cur_width = cur_child._width;
                 }
-                total_width += cur_width;
-                avail_width = max_width - total_width;
-                child_width = avail_width / ( num_widgets - widgets_placed );
-                if( avail_width < 1 ) {
-                    debugmsg( "widget layout is wider than sidebar allows." );
-                }
                 // Spread remainder over the first few columns
                 if( remainder > 0 ) {
                     cur_width += 1;
                     remainder -= 1;
+                }
+                total_width += cur_width;
+                if (total_width > avail_width) {
+                    debugmsg("widget layout is wider than sidebar allows.");
                 }
                 // Layout child in this column
                 const std::string txt = cur_child.layout( ava, cur_width, label_width );
                 // Store the resulting text for this column
                 cols.emplace_back( foldstring( txt, cur_width + 1 ) );
                 widths.emplace_back( cur_width );
-                widgets_placed++;
             }
             int h_max = 0;
             std::string sep;
