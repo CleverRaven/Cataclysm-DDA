@@ -1413,7 +1413,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                 if( cur_child._style == "layout" && cur_child._width > 1 ) {
                     cur_width = cur_child._width;
                 }
-                total_width += cur_width;
+                total_width += cur_width + col_padding;
                 avail_width = max_width - total_width;
                 child_width = avail_width / ( num_widgets - widgets_placed );
                 if( avail_width < 1 ) {
