@@ -1880,7 +1880,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     return shift_if_needed( handler.get_map_ref() );
 }
 
-bool vehicle::__part_removal_actual()
+bool vehicle::do_remove_part_actual()
 {
     bool changed = false;
     map &here = get_map();
@@ -1914,7 +1914,7 @@ void vehicle::part_removal_cleanup()
 {
     map &here = get_map();
     remove_fake_parts( false );
-    const bool changed =  __part_removal_actual();
+    const bool changed =  do_remove_part_actual();
     removed_part_count = 0;
     if( changed || parts.empty() ) {
         refresh();
@@ -6006,7 +6006,7 @@ void vehicle::remove_fake_parts( const bool cleanup )
     edges.clear();
     fake_parts.clear();
     if( cleanup ) {
-        __part_removal_actual();
+        do_remove_part_actual();
     }
 }
 

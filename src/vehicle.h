@@ -987,7 +987,7 @@ class vehicle
         void part_removal_cleanup();
         // inner look for part_removal_cleanup.  returns true if a part is removed
         // also called by remove_fake_parts
-        bool __part_removal_actual();
+        bool do_remove_part_actual();
 
         // remove the carried flag from a vehicle after it has been removed from a rack
         void remove_carried_flag();
