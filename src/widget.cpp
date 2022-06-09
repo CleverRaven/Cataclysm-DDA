@@ -1395,7 +1395,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                 debugmsg( "widget layout has no widgets" );
             }
             // Number of spaces between columns
-            const int col_padding = 2;
+            const int col_padding = 1;
             // Subtract column padding to get space available for widgets
             int avail_width = max_width - col_padding * ( num_widgets - 1 );
             // Divide available width equally among all widgets
