@@ -4748,7 +4748,7 @@ time_duration prying_activity_actor::prying_time( const activity_data_common &da
 
     int difficulty = pdata.difficulty;
     difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
-    return time_duration::from_moves(
+    return time_duration::from_seconds(
                /** @ARM_STR speeds up crowbar prying attempts */
                std::max( 20, 5 * ( 4 * difficulty - who.get_arm_str() ) ) );
 }
