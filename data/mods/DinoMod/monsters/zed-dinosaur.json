@@ -1066,6 +1066,7 @@
     "burn_into": "mon_zosmoceratops_scorched",
     "fungalize_into": "mon_zosmoceratops_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zosmoceratops_UPGRADE" },
+    "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 7 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -1079,7 +1080,7 @@
     "burn_into": "mon_zorosaurus_scorched",
     "fungalize_into": "mon_zorosaurus_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zorosaurus_UPGRADE" },
-    "special_attacks": [ { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ]
+    "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 5 ] ]
   },
   {
     "type": "MONSTER",
