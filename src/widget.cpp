@@ -1409,7 +1409,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
-                if( cur_child._style == "layout" && cur_child._width > 0 ) {
+                if( cur_child._style == "layout" && cur_child._width > 1 ) {
                     cur_width = cur_child._width;
                 }
                 total_width += cur_width;
