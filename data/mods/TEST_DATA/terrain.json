@@ -113,7 +113,7 @@
     "color": "blue",
     "move_cost": 1,
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
-    "prying": { "result": "t_dirt", "duration": "30 seconds", "prying_data": { "prying_level": 100 } }
+    "prying": { "result": "t_dirt", "duration": "30 seconds", "prying_data": { "difficulty": 8, "prying_level": 2 } }
   },
   {
     "type": "terrain",
