@@ -1,4 +1,8 @@
 [
+{"id": "lcla_health_head_graph",
+    "type": "widget",
+	"copy-from": "hp_head_graph",
+	"label": "HEAD "},
   {
     "id": "lcla_health_left_layout",
     "type": "widget",
@@ -6,7 +10,7 @@
     "arrange": "rows",
 	"width": 12,
     "widgets": [
-      "hp_head_graph",
+      "lcla_health_head_graph",
       "hp_torso_graph",
       "hp_left_arm_graph",
       "hp_right_arm_graph",
@@ -20,9 +24,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 15,
-	"label_align": "right",
-	"text_align": "right",
+	"width": 10,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
     "widgets": [ "needs_desc_layout_no_label", "move_count_mode_desc" ]
   },
@@ -31,9 +33,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"label_align": "right",
-	"width": 10,
-	"text_align": "right",
+	"width": 11,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
     "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_desc", "stamina_graph_classic", "focus_num" ]
   },
@@ -86,7 +86,7 @@
     "type": "widget",
     "style": "sidebar",
     "label": "Classic",
-    "width": 55,
+    "width": 44,
     "widgets": [
       "lcla_health_layout",
       "vehicle_azimuth_cruise_fuel_layout",

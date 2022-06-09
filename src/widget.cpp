@@ -1288,7 +1288,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     if( first_row && !label.empty() ) {
         lbl = label.translated();
         lbl_w = utf8_width( lbl, true );
-        lbl.append( ": " );
+        lbl.append( " " );
     }
     // Don't process label width if label_width = 0 for empty labels
     if( label_width > 0 || !label.empty() ) {
@@ -1395,7 +1395,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                 debugmsg( "widget layout has no widgets" );
             }
             // Number of spaces between columns
-            const int col_padding = 1;
+            const int col_padding = 2;
             // Subtract column padding to get space available for widgets
             const int avail_width = max_width - col_padding * ( num_widgets - 1 );
             // Divide available width equally among all widgets
@@ -1418,7 +1418,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                     remainder -= 1;
                 }
                 total_width += cur_width;
-                if( total_width > avail_width ) {
+                if( total_width > max_width ) {
                     debugmsg( "widget layout is wider than sidebar allows." );
                 }
                 // Layout child in this column
