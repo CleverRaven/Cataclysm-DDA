@@ -24,7 +24,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 14,
+	"width": 13,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
     "widgets": [ "pain_desc_no_label", "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label", "mood_desc", "stamina_graph_classic", "move_count_mode_desc" ]
   },
@@ -33,7 +33,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 7,
+	"width": 8,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
     "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc", "focus_num" ]
   },
@@ -66,6 +66,12 @@
     "widgets": [ "vehicle_azimuth_desc", "vehicle_cruise_desc", "vehicle_fuel_desc" ]
   },
   {
+    "id": "lcla_place_desc",
+    "type": "widget",
+    "copy-from": "place_desc",
+	"flags": [ "W_LABEL_NONE" ]
+  },
+  {
     "id": "lcla_weather_layout",
     "type": "widget",
     "style": "layout",
@@ -90,6 +96,15 @@
     "widgets": [ "wielding_desc", "style_desc" ]
   },
   {
+    "id": "lcla_time_layout",
+    "type": "widget",
+    "label": "Date/Time",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "date_desc", "time_desc" ],
+	"flags": [ "W_LABEL_NONE" ]
+  },
+  {
     "id": "legacy_classic_sidebar",
     "type": "widget",
     "style": "sidebar",
@@ -99,11 +114,11 @@
       "lcla_health_layout",
       "lcla_vehicle_layout",
       "all_weariness_layout",
-      "overmap_location_desc",
+      "lcla_place_desc",
+	  "lcla_time_layout",
       "lcla_weather_layout",
       "lcla_lighting_layout",
       "lcla_weapon_layout",
-      "time_desc",
       "wind_desc",
       "bodypart_armor_outer_layout",
       "compass_all_layout",
