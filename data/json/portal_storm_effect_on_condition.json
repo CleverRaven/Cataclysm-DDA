@@ -1095,12 +1095,6 @@
       { "u_location_variable": { "global_val": "dungeon_roof_loc" }, "z_adjust": 7, "z_override": true },
       { "revert_location": { "global_val": "dungeon_loc" }, "key": "portal_dungeon", "time_in_future": "infinite" },
       {
-        "mapgen_update": "portal_dungeon_cleanup",
-        "target_var": { "global_val": "dungeon_loc" },
-        "time_in_future": "infinite",
-        "key": "portal_dungeon"
-      },
-      {
         "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
         "target_var": { "global_val": "place_name" }
       },
@@ -1117,6 +1111,7 @@
       { "mapgen_update": "portal_dungeon_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!" },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN" },
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 1 } ] },
       { "u_message": "You are trapped in <global_val:place_name>!" }
     ]
@@ -1125,9 +1120,27 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL",
     "effect": [
+      { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!" },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN" },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "++" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN",
+    "effect": [
+      {
+        "u_spawn_monster": "mon_shifting_mass",
+        "real_count": { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "/", { "const": 2 } ], "min": 1 },
+        "hallucination_count": { "global_val": "portal_dungeon_level", "default": 1 },
+        "min_radius": 3,
+        "max_radius": 20,
+        "open_air_allowed": false,
+        "spawn_message": "A creature wanders in as if the walls weren't even there.",
+        "spawn_message_plural": "Creatures wander in as if the walls weren't even there."
+      }
     ]
   },
   {
@@ -1135,6 +1148,7 @@
     "id": "EOC_PORTAL_STORM_DUNGEON_EXIT",
     "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
     "effect": [
+      { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "original_loc" }, "success_message": "You are safely back in the apocalypse." },
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] },
       { "alter_timed_events": "portal_dungeon" }
