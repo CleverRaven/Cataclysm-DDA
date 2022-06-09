@@ -777,7 +777,7 @@
     "name": { "str_sp": "lye powder" },
     "symbol": "=",
     "color": "white",
-    "description": "Powdered caustic soda, also known as sodium hydroxide.",
+    "description": "Pellets of caustic soda, also known as sodium hydroxide.",
     "container": "bottle_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
