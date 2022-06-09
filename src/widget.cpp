@@ -1406,7 +1406,6 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
             int total_width = 0;
-            int widgets_placed = 0;
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
@@ -1427,7 +1426,6 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                 // Store the resulting text for this column
                 cols.emplace_back( foldstring( txt, cur_width + 1 ) );
                 widths.emplace_back( cur_width );
-                widgets_placed++;
             }
             int h_max = 0;
             std::string sep;
