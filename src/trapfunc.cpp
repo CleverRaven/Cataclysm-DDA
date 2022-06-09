@@ -1449,7 +1449,7 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     const spell trap_spell = here.tr_at( p ).spell_data.get_spell( 0 );
     npc dummy;
     trap_spell.cast_all_effects( dummy, critter->pos() );
-    trap_spell.make_sound( p, 20 );
+    trap_spell.make_sound( p );
     here.remove_trap( p );
     return true;
 }
