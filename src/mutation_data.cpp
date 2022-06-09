@@ -574,6 +574,11 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
         if( !m.is_valid() ) {
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
         }
+
+       if (mid == m) {
+            debugmsg("mutation %s refers to itself in %s context. Program will crash if player would gain this mutation",
+                mid.c_str(), what.c_str());
+        }
     }
 }
 
