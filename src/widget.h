@@ -56,6 +56,7 @@ enum class widget_var : int {
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
     safe_mode_text, // Safe mode text, color string
+    safe_mode_classic_text, // Safe mode text, classic mode color string.
     style_text,     // Active martial arts style name
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string

@@ -5,5 +5,13 @@
     "label": "Safe",
     "style": "text",
     "var": "safe_mode_text"
+  },
+    {
+    "id": "safe_mode_classic_desc",
+    "type": "widget",
+    "label": "",
+    "style": "text",
+    "var": "safe_mode_classic_text",
+	"flags": [ "W_LABEL_NONE" ]
   }
 ]
