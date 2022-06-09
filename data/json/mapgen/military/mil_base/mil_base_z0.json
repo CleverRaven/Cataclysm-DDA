@@ -591,7 +591,7 @@
         "  X  sssssssssssssssssssssssssssss  X            ss|6....|...|......|..77.|{sssXss     ,, b ,, x",
         "  X  sssssssssssssssssssssssssssss  X            ss|6....d...d......d..77.|{ss{Xss    ,,, b ,, x",
         "  X  ss/////////////////////////ss  X sssssssssssss|6...u|...|u.pp.u|u.77.|{ss{Xsss   ,,, b ,, x",
-        "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ssssssssssss~|u...u|...|l.pp.u|u....|{ss{Xsss   ,,, b,,, x",
+        "  X  ss/C.C]u.u]u.u]u.α]u.u]u.u/ss  X ssssssssssss~|u...u|...|l.pp.u|u....|{ss{Xsss   ,,, b,,, x",
         "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss--w---w---w------|...|-------------------ss    ,,,b,,,,x",
         "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss|$.OOt##t..`O|uuu|...|S...+T|c.??..??..?|ss   ,,,,b ,, x",
         "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss|$...h##h...O|u..z...|c...|-|c.??..??..?|ss    ,, b,,,,x",
@@ -673,7 +673,11 @@
           { "item": "ammo_obscure", "chance": 50, "repeat": [ 2, 4 ] },
           { "item": "mags_obscure", "chance": 50, "repeat": [ 2, 3 ] }
         ],
-        "^": [ { "item": "mil_base_iv", "chance": 70 } ]
+        "^": [ { "item": "mil_base_iv", "chance": 70 } ],
+        "α": [
+          { "item": "belts223", "chance": 75, "repeat": [ 3,4 ] },
+          { "item": "belts308", "chance": 75, "repeat": [ 2,3 ] }
+        ]
       },
       "monster": { "i": { "monster": "mon_zombie_soldier", "chance": 30 } },
       "place_loot": [
@@ -805,8 +809,6 @@
         { "item": "hk417mag_20rd", "x": 20, "y": 12, "chance": 75, "repeat": 16 },
         { "item": "hk417mag_10rd", "x": 20, "y": 12, "chance": 75, "repeat": 8 },
         { "item": "300_winmag", "x": 22, "y": 12, "chance": 75, "repeat": 10 },
-        { "item": "belt223_full", "x": 22, "y": 9, "chance": 75, "repeat": 3 },
-        { "item": "belt308_full", "x": 22, "y": 9, "chance": 75, "repeat": 2 },
         { "item": "shot_00", "x": 22, "y": 10, "chance": 75, "repeat": 10 },
         { "item": "shot_slug", "x": 22, "y": 10, "chance": 75, "repeat": 5 },
         { "item": "shot_beanbag", "x": 22, "y": 10, "chance": 75, "repeat": 3 },

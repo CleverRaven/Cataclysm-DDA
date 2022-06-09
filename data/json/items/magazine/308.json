@@ -12,13 +12,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 500 } } ]
   },
   {
-    "id": "belt308_full",
-    "copy-from": "belt308",
-    "name": { "str": "7.62x51mm ammo belt" },
-    "type": "MAGAZINE",
-    "count": 500
-  },
-  {
     "id": "falbigmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",

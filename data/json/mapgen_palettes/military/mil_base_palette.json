@@ -79,6 +79,7 @@
       "O": "f_bookcase",
       "A": "f_sofa",
       "u": "f_utility_shelf",
+      "α": "f_utility_shelf",
       "?": "f_warehouse_shelf",
       "r": "f_bed",
       "K": "f_bunkbed",
