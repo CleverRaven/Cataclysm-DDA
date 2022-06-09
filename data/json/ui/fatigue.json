@@ -53,10 +53,16 @@
     "colors": [ "c_green", "c_yellow", "c_red" ]
   },
   {
-    "id": "fatigue_desc",
+    "id": "fatigue_desc_label",
     "type": "widget",
     "label": "Rest",
     "style": "text",
     "copy-from": "fatigue_desc_template"
+  },
+      {
+    "id": "fatigue_desc_no_label",
+    "type": "widget",
+    "copy-from": "fatigue_desc_label",
+	"flags": [ "W_LABEL_NONE" ]
   }
 ]

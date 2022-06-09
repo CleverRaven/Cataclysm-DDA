@@ -1,6 +1,6 @@
 [
   {
-    "id": "hunger_desc",
+    "id": "hunger_desc_label",
     "type": "widget",
     "label": "Hunger",
     "style": "text",
@@ -35,5 +35,12 @@
         "condition": { "u_has_effect": "hunger_famished" }
       }
     ]
+  },
+  {
+	"id": "hunger_desc_no_label",
+    "type": "widget",
+		"text_align": "right",
+	"copy-from": "hunger_desc_label",
+	"flags": [ "W_LABEL_NONE" ]
   }
 ]

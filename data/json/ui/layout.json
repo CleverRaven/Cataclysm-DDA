@@ -32,12 +32,20 @@
     "widgets": [ "wielding_desc", "style_desc" ]
   },
   {
-    "id": "needs_desc_layout",
+    "id": "needs_desc_layout_label",
     "type": "widget",
     "style": "layout",
     "label": "Needs",
     "arrange": "rows",
-    "widgets": [ "hunger_desc", "thirst_desc", "weight_desc", "fatigue_desc", "pain_desc", "body_temp_desc" ]
+    "widgets": [ "hunger_desc_label", "thirst_desc_label", "weight_desc_label", "fatigue_desc_label", "pain_desc_label", "body_temp_desc_label" ]
+  },
+    {
+    "id": "needs_desc_layout_no_label",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs",
+    "arrange": "rows",
+    "widgets": [ "hunger_desc_no_label", "thirst_desc_no_label", "weight_desc_no_label", "fatigue_desc_no_label", "pain_desc_no_label", "body_temp_desc_no_label" ]
   },
   {
     "id": "stamina_speed_layout",

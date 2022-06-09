@@ -42,6 +42,7 @@
     "id": "hp_right_arm_graph",
     "type": "widget",
     "label": "R ARM",
+	"width": 80,
     "var": "bp_hp",
     "bodypart": "arm_r",
     "copy-from": "hitpoint_graph"

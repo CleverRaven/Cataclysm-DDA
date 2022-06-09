@@ -64,7 +64,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "hunger_desc", "thirst_desc", "fatigue_desc" ]
+    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label" ]
   },
   {
     "id": "lcom_needs_right_layout",
@@ -72,7 +72,7 @@
     "style": "layout",
     "arrange": "rows",
     "//": "TODO Make the temperature look like it used to.",
-    "widgets": [ "pain_desc", "body_temp_desc", "focus_desc" ]
+    "widgets": [ "pain_desc_label", "body_temp_desc_label", "focus_num" ]
   },
   {
     "id": "lcom_needs_layout",

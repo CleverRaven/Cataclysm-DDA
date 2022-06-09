@@ -45,7 +45,7 @@
     "style": "layout",
     "label": "Needs",
     "arrange": "rows",
-    "widgets": [ "hunger_desc", "thirst_desc", "fatigue_desc", "pain_desc", "body_temp_desc" ]
+    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "pain_desc_label", "body_temp_desc_label" ]
   },
   {
     "id": "legacy_labels_narrow_sidebar",

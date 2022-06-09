@@ -52,21 +52,21 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "pain_desc", "thirst_desc" ]
+    "widgets": [ "pain_desc_label", "thirst_desc_label" ]
   },
   {
     "id": "ll_rest_hunger_desc_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "fatigue_desc", "hunger_desc" ]
+    "widgets": [ "fatigue_desc_label", "hunger_desc_label" ]
   },
   {
     "id": "ll_heat_weight_desc_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "body_temp_desc", "weight_desc" ]
+    "widgets": [ "body_temp_desc_label", "weight_desc_label" ]
   },
   {
     "id": "ll_needs_layout",

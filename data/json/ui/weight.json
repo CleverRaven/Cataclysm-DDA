@@ -1,6 +1,6 @@
 [
   {
-    "id": "weight_desc",
+    "id": "weight_desc_label",
     "type": "widget",
     "label": "Weight",
     "style": "text",
@@ -85,5 +85,11 @@
         "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
       }
     ]
+  },
+    {
+    "id": "weight_desc_no_label",
+    "type": "widget",
+    "copy-from": "weight_desc_label",
+	"flags": [ "W_LABEL_NONE" ]
   }
 ]

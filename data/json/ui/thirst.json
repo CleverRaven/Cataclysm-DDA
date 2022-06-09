@@ -1,6 +1,6 @@
 [
   {
-    "id": "thirst_desc",
+    "id": "thirst_desc_label",
     "type": "widget",
     "label": "Thirst",
     "style": "text",
@@ -84,5 +84,11 @@
         "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
       }
     ]
+  },
+  {
+	"id": "thirst_desc_no_label",
+    "type": "widget",
+	"copy-from": "thirst_desc_label",
+	"flags": [ "W_LABEL_NONE" ]
   }
 ]
