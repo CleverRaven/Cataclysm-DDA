@@ -216,7 +216,6 @@
       { "group": "clothing_watch", "prob": 5 }
     ]
   },
-
   {
     "id": "clothing_soldier_set_pristine",
     "type": "item_group",
