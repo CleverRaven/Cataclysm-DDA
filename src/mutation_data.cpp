@@ -568,16 +568,21 @@ std::string mutation_branch::desc() const
 }
 
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
-                               const std::string &what )
+                               const std::string &what, bool check_circular_dependency = false )
 {
     for( const auto &m : mvec ) {
         if( !m.is_valid() ) {
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
         }
 
-       if (mid == m) {
-            debugmsg("mutation %s refers to itself in %s context. Program will crash if player would gain this mutation",
-                mid.c_str(), what.c_str());
+        if( mid == m ) {
+            debugmsg( "mutation %s refers to itself in %s context. Program will crash if player would gain this mutation",
+                      mid.c_str(), what.c_str() );
+        }
+
+        if( check_circular_dependency ) {
+            check_consistency( m->prereqs, mid, what );
+            check_consistency( m->prereqs2, mid, what );
         }
     }
 }
@@ -659,8 +664,8 @@ void mutation_branch::check_consistency()
             }
         }
 
-        ::check_consistency( mdata.prereqs, mid, "prereq" );
-        ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
+        ::check_consistency( mdata.prereqs, mid, "prereq", true );
+        ::check_consistency( mdata.prereqs2, mid, "prereqs2", true );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );
         ::check_consistency( mdata.cancels, mid, "cancels" );
         ::check_consistency( mdata.replacements, mid, "replacements" );
