@@ -31,6 +31,8 @@
       { "monster": "mon_dromaeosaurus", "weight": 15, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_stenonychosaurus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_issi", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_amargasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_apatosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_brontosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_diplodocus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
@@ -103,6 +105,8 @@
       { "monster": "mon_albertonykus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nothronychus_hatchling", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_issi_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_amargasaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_apatosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brontosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_diplodocus_hatchling", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -194,6 +198,8 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_MEGA_HERBIVORE",
     "monsters": [
+      { "monster": "mon_issi", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_amargasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_apatosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brontosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_diplodocus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -332,6 +338,11 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
     "monsters": [
+      { "monster": "mon_issi", "weight": 10, "cost_multiplier": 10, "pack_size": [ 4, 12 ], "conditions": [ "DAY" ] },
+      { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "3 days" },
+      { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "7 days" },
+      { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "14 days" },
+      { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "28 days" },
       {
         "monster": "mon_amargasaurus",
         "weight": 10,
