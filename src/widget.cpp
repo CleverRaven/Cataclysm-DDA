@@ -1418,8 +1418,8 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                     remainder -= 1;
                 }
                 total_width += cur_width;
-                if (total_width > avail_width) {
-                    debugmsg("widget layout is wider than sidebar allows.");
+                if( total_width > avail_width ) {
+                    debugmsg( "widget layout is wider than sidebar allows." );
                 }
                 // Layout child in this column
                 const std::string txt = cur_child.layout( ava, cur_width, label_width );
