@@ -333,7 +333,7 @@
         { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] }
       ],
       "∞": [
-        { "item": "clothing_soldier_set", "chance": 100 },
+        { "item": "clothing_soldier_set_pristine", "chance": 100 },
         { "item": "gear_soldier_sidearm", "chance": 33 },
         { "item": "book_military", "chance": 33 }
       ]
