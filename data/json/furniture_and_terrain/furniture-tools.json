@@ -956,21 +956,17 @@
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-      [ [ "element", 8 ] ],
-      [ [ "55gal_drum", 5 ] ],
-      [ [ "pipe", 5 ] ],
-      [ [ "thermometer", 4 ] ],
-      [ [ "well_pump", 1 ] ],
-      [ [ "laptop", 1 ] ],
-      [ [ "pump_complex", 3 ] ],
-      [ [ "cable", 8 ] ]
+        [ [ "element", 8 ] ],
+        [ [ "55gal_drum", 5 ] ],
+        [ [ "pipe", 5 ] ],
+        [ [ "thermometer", 4 ] ],
+        [ [ "well_pump", 1 ] ],
+        [ [ "laptop", 1 ] ],
+        [ [ "pump_complex", 3 ] ],
+        [ [ "cable", 8 ] ]
       ]
     },
-    "deconstruct": {
-      "items": [
-        { "item": "catalytic_cracking_reactor_in_pieces", "count": 1 }
-      ]
-    }
+    "deconstruct": { "items": [ { "item": "catalytic_cracking_reactor_in_pieces", "count": 1 } ] }
   },
   {
     "type": "furniture",

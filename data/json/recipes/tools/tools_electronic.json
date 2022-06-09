@@ -201,9 +201,7 @@
       { "proficiency": "prof_intro_chem_synth" },
       { "proficiency": "prof_plumbing" }
     ],
-    "components": [
-      [ [ "catalytic_cracking_reactor_in_pieces", 1 ] ]
-    ]
+    "components": [ [ [ "catalytic_cracking_reactor_in_pieces", 1 ] ] ]
   },
   {
     "type": "recipe",
