@@ -345,7 +345,7 @@
   {
     "id": "catalytic_cracking_reactor",
     "type": "TOOL",
-    "name": { "str": "catalytic_cracking_reactor" },
+    "name": { "str": "catalytic cracking reactor" },
     "description": "A makeshift extraction system.  As makeshift as you can consider something that was purpose built in a laboratory by a group of experts.  Meticulously disassembled and reassembled.",
     "symbol": "U",
     "color": "dark_gray",
