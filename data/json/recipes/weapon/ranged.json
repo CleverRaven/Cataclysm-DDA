@@ -1075,6 +1075,19 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "m26_mass_standalone",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "shotgun",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "decomp_learn": 0,
+    "components": [ [ [ "m26_mass", 1 ], [ "m26_mass_mod", 1 ] ], [ [ "m26_mass_stock", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "bigun",
     "category": "CC_WEAPON",

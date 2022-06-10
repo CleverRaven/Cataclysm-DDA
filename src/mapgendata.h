@@ -8,6 +8,7 @@
 #include "cube_direction.h"
 #include "enum_bitset.h"
 #include "jmapgen_flags.h"
+#include "mapgen.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -104,6 +105,8 @@ class mapgendata
 
         mapgendata( const tripoint_abs_omt &over, map &m, float density, const time_point &when,
                     ::mission *miss );
+
+        std::vector<mapgen_phase> skip;
 
         /**
          * Creates a copy of this mapgen data, but stores a different @ref terrain_type.

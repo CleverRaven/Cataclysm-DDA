@@ -117,5 +117,11 @@
       { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 },
       { "item": "fighter_sting", "prob": 60 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mon_dog_death_drops",
+    "subtype": "collection",
+    "entries": [ { "group": "dog_clothes", "damage": [ 1, 4 ], "prob": 20 } ]
   }
 ]

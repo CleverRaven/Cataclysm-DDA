@@ -52,7 +52,9 @@ Use the `Home` key to return to the top.
       - [`name`](#name)
       - [`points`](#points)
       - [`addictions`](#addictions)
+      - [`shopkeeper_consumption_rates`](#shopkeeper_consumption_rates)
       - [`skills`](#skills)
+      - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
       - [`items`](#items)
       - [`pets`](#pets)
@@ -219,7 +221,7 @@ Use the `Home` key to return to the top.
   - [`professions`](#professions)
   - [`map_special`](#map_special)
   - [`eocs`](#eocs)
-  - [`missions`](#missions)
+  - [`missions`](#missions-1)
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
@@ -973,6 +975,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
 | available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
 | encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
+| known_ma_styles             | (_optional_) A list of martial art styles that are known to the wearer when the bionic is activated
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations          | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
@@ -1148,7 +1151,9 @@ When you sort your inventory by category, these are the categories that are disp
 | `cut_resist`     | How well a material resists cutting damage.
 | `bullet_resist`  | How well a material resists bullet damage.
 | `acid_resist`    | Ability of a material to resist acid.
-| `elec_resist`    | Ability of a material to resist electricity.
+| `elec_resist`    | Ability of a material to resist electricity. Optional defaults to 0.0
+| `biologic_resist`    | Ability of a material to resist biological damage. Optional defaults to 0.0
+| `cold_resist`    | Ability of a material to resist cold damage. Optional defaults to 0.0
 | `fire_resist`    | Ability of a material to resist fire.
 | `chip_resist`    | Returns resistance to being damaged by attacks against the item itself.
 | `bash_dmg_verb`  | Verb used when material takes bashing damage.
@@ -1165,6 +1170,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `edible`   | Optional boolean. Default is false.
 | `rotting`   | Optional boolean. Default is false.
 | `soft`   | True for pliable materials, whose length doesn't prevent fitting into a container, or through the opening of a container. Default is false.
+| `conductive`     | True if the material conducts electricity, defaults to false
 | `reinforces`   | Optional boolean. Default is false.
 
 There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
@@ -1443,6 +1449,21 @@ Example:
 ]
 ```
 
+#### `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_consumption_rates",
+  "id": "basic_shop_rates",
+  "default_rate": 5, // defined as units/day since last restock
+  "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
+  "rates": [ // lower entries override higher ones
+      { "item": "hammer", "rate": 1 },
+      { "category": "ammo", "rate": 10 },
+      { "group": "EXODII_basic_trade", "rate": 100 }
+      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+  ]
+```
+
 #### `skills`
 
 (optional, array of skill levels)
@@ -1456,6 +1477,17 @@ Example:
 "skills": [
     { "name": "archery", "level": 2 }
 ]
+```
+
+#### `missions`
+
+(optional, array of mission ids)
+
+List of starting missions for this profession/hobby.
+
+Example:
+```JSON
+"missions": [ "MISSION_LAST_DELIVERY" ]
 ```
 
 #### `proficiencies`
@@ -2278,7 +2310,7 @@ Examples of various usages syntax:
 "usages": [ [ 1, [ "CHOP_TREE", "CHOP_LOGS" ] ], [ 2, [ "LUMBER" ] ] ]
 ```
 
-The usages line is only required for items that have qualities that allow 
+The usages line is only required for items that have qualities that allow
 special actions on activation. See [Use Actions](#use-actions) for specific
 actions and documentation.
 
@@ -2471,7 +2503,9 @@ at level `2` to the item.
       "sound_variant": "bear_trap",
       "remove_trap": true,
       "spawn_items": [ "beartrap" ]
-    }
+    },
+    "trigger_message_u": "A bear trap closes on your foot!",  // This message will be printed when player steps on a trap
+    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!"  // This message will be printed when NPC or monster step on a trap
 ```
 
 ### Vehicle Groups
@@ -2715,7 +2749,7 @@ It also has a hotplate that can be activated by examining it with `e` then `h` o
   "facing" : [90,270], // The facing of the vehicle. Can be a single value or an array of possible values. Not needed if placement is specified.
   "number" : 1, // The number of vehicles to spawn.
   "fuel" : -1, // The fuel of the new vehicles. Defined in percentage. 0 is empty, 100 is full tank, -1 is random from 7% to 35% (default).
-  "status" : 1  // The status of the new vehicles. -1 = light damage (default), 0 = undamaged, 1 = disabled, destroyed tires OR engine.
+  "status" : 1  // The status of the new vehicles. -1 = light damage (default), 0 = undamaged, 1 = disabled: destroyed seats, controls, tanks, tires, OR engine.
 } } ]
 ```
 
@@ -2838,6 +2872,8 @@ Weakpoints only match if they share the same id, so it's important to define the
     "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
     "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
     "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
+    "symbol": "/",                              // Valid unicode character to replace the item symbol. If not specified, no change will be made.
+    "color": "red",                             // Replacement color of item symbol. If not specified, no change will be made.
     "weight": 2,                                // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
     "append": true                              // If this description should just be appended to the base item description instead of completely overwriting it.
   }
@@ -3626,6 +3662,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type": "transform",  // The type of method, in this case one that transforms the item.
     "target": "gasoline_lantern_on", // The item to transform to.
     "active": true,       // Whether the item is active once transformed.
+    "ammo_scale": 0,    // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo.
     "msg": "You turn the lamp on.", // Message to display when activated.
     "need_fire": 1,                 // Whether fire is needed to activate.
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
@@ -3829,7 +3866,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.
-    "long_action" : true,   // Is using this item a long action. Setting this to true will divide move cost by (first aid skill + 1).
     "limb_scaling" : 1.2,   // How much extra limb hp should be healed per first aid level. Defaults to 0.25 * limb_power.
     "head_scaling" : 1.0,   // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * head_power.
     "torso_scaling" : 2.0,  // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * torso_power.

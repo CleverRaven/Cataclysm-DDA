@@ -32,6 +32,7 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true }
   ],
+  "shopkeeper_consumption_rates": "basic_shop_rates",
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
@@ -39,6 +40,7 @@ There are a couple of items in the above template that may not be self explanato
 * `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
 * `"sells_belongings": false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
 *`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+* `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 
 ##### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:
@@ -117,6 +119,26 @@ If `npc` has one of the following fields, the NPCs will speak the indicated mess
 
 All messages can be used with snippets.
 Any `%s` included is automatically replaced by the game, with words depending on the message.
+
+Case use example:
+
+```json
+{
+    "type":"npc",
+    "...": "rest of fields go here",
+    "<acknowledged>": "I gotcha fam",
+    "<camp_food_thanks>": "<food_thanks_custom>"
+},
+{
+    "type":"snippet",
+    "category":"<food_thanks_custom>",
+    "text": [
+        "thanks for the grub",
+        "thanks for the food!",
+        "itadakimasu!"
+    ]
+}
+```
 
 For further information on snippets, see [New Contributor Guide: Dialogue](https://github.com/CleverRaven/Cataclysm-DDA/wiki/New-Contributor-Guide-Dialogue)
 
@@ -310,7 +332,7 @@ In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional
 The dynamic line is a list of dynamic lines, all of which are displayed.  The dynamic lines in the list are processed normally.
 ```json
 {
-    "and": [
+    "concatenate": [
         {
             "npc_male": true,
             "yes": "I'm a man.",
@@ -524,6 +546,13 @@ The player will have one response text if a condition is true, and another if it
 ### text
 Will be shown to the user, no further meaning.
 
+Text boxes; dialogue in general is a convenient space to sprinkle in descriptive text, something that isn't necessarily being said by any interlocutor
+but something the player character, npc or speaking entity express, do or generally interact with given a context
+there are many ways to present this, ultimately is up to the writer, and their preferred style.
+
+Currently you may add a `&` as the first character in dialogue, this deletes quotation round the output text, denotes the descriptive nature of the displayed
+text, use `\"` escaped double quotes to indicate the start of actual dialogue.
+
 ### trial
 Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, `"PERSUADE"`, `"INTIMIDATE"`, or `"CONDITION"`. If `"NONE"` is used, the `failure` object is not read, otherwise it's mandatory.
 
@@ -602,14 +631,18 @@ One of `"for_item"` or `"for_category"`, and each can either be a single string 
 ## Dialogue Effects
 The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
-`variable_object`: This is either an object or array describing a variable name. It can either describe an int or a time duration. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum and the value will be randomly between the two. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
+`variable_object`: This is either an object, an `arithmetic` expression(see arithmetic below) or array describing a variable name. It can either describe an int or a time duration. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum and the value will be randomly between the two. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
 
 example json:
 ```
 "effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
-  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" } ]
+  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" },
+  {
+    "u_spawn_monster": "mon_absence",
+    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
+  } ]
 
 ```
 
@@ -754,7 +787,7 @@ Effect | Description
 `offer_mission" mission_type_id string or array`. Adds mission_type_id(s) to the npc's missions that they offer.
 `run_eocs : effect_on_condition_array or single effect_condition_object` | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: time_in_future_int or string or variable_object` | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` seconds or if it is a string the future values of them or if they are variable objects the variable they name.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
-`u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `npcs_to_affect: npcs_to_affect_string_array`, (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: npc_range_int`) | Will run all members of the `effect_on_condition_array` on nearby npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If any names are listed in `npcs_to_affect` then only they will be affected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
+`u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: unique_ids_string_array`), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: npc_range_int`), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
 `weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.
 Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.
 ``` json
@@ -889,7 +922,8 @@ Condition | Type | Description
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
 `"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
 `"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
-`"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` ( or the value of the variable described see `variable_object` above) number of NPC allies.
+`"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` (or the value of the variable described; see `variable_object` above) number of NPC allies _within the reality bubble_.
+`"npc_allies_global"` | int or variable_object | `true` if the player character has at least `npc_allies_global` (or the value of the variable as above) number of NPC allies _anywhere_.
 `"is_by_radio"` | simple string | `true` if the player is talking to the NPC over a radio.
 `"u_available" or "npc_available"` | simple string | `true` if u or the NPC does not have effect `"currently_busy"`.
 `"u_following" or "npc_following"` | simple string | `true` if u or the NPC is following the player character.
@@ -998,8 +1032,10 @@ Example | Description
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
 `"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
+`"arithmetic"` | An arithmetic expression with no result.   
 ```
 "condition": { "compare_int": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, ">", { "const": 5 } ] }
+"real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] },
 ```
 
 #### Sample responses with conditions and effects

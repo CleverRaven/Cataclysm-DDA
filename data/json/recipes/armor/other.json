@@ -358,7 +358,7 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
+    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
     "result": "gasfilter_m",
@@ -370,7 +370,7 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
+    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
     "result": "gasfilter_l",

@@ -330,7 +330,20 @@ void Single_item_creator::replace_items( const std::unordered_map<itype_id, ityp
 
 bool Single_item_creator::has_item( const itype_id &itemid ) const
 {
-    return type == S_ITEM && itemid.str() == id;
+    switch( type ) {
+        case S_ITEM:
+            return itemid.str() == id;
+        case S_ITEM_GROUP: {
+            Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
+            if( isd != nullptr ) {
+                return isd->has_item( itemid );
+            }
+            return false;
+        }
+        case S_NONE:
+            return false;
+    }
+    return false;
 }
 
 std::set<const itype *> Single_item_creator::every_item() const

@@ -46,5 +46,20 @@
     "no_dmg_msg_npc": "The %s swings its tail at <npcname>, but they appear unharmed.",
     "miss_msg_u": "The %s swings its tail at you, but you dodge it!",
     "miss_msg_npc": "The %s swings its tail at <npcname>, who dodges it!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "stretch_horn_DinoMod",
+    "cooldown": 20,
+    "move_cost": 200,
+    "range": 3,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
+    "hit_dmg_u": "The %1$s thrusts its long horns at you, piercing your %2$s!",
+    "hit_dmg_npc": "The %1$s thrusts its long horns at <npcname>!",
+    "no_dmg_msg_u": "The %1$s's horns hit your %2$s, but they glance off your armor!",
+    "no_dmg_msg_npc": "The %1$s's horns hit <npcname>, but they glance off their armor!",
+    "miss_msg_u": "The %s thrusts its long horns at you, but you evade!",
+    "miss_msg_npc": "The %s's thrusts its long horns at <npcname>, but they dodge!"
   }
 ]

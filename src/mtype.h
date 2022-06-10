@@ -56,12 +56,12 @@ enum class mon_trigger : int {
     PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
     MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
 
-    _LAST               // This item must always remain last.
+    LAST               // This item must always remain last.
 };
 
 template<>
 struct enum_traits<mon_trigger> {
-    static constexpr mon_trigger last = mon_trigger::_LAST;
+    static constexpr mon_trigger last = mon_trigger::LAST;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
@@ -343,6 +343,9 @@ struct mtype {
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
         int armor_elec = -1;    /** innate armor vs. electricity */
+        int armor_cold = -1;    /** innate armor vs. cold **/
+        int armor_pure = -1;    /** innate armor vs. pure **/
+        int armor_biological = -1; /** innate armor vs. biological **/
         ::weakpoints weakpoints;
         weakpoint_families families;
 

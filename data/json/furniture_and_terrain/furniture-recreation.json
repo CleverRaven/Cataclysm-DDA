@@ -639,5 +639,45 @@
         { "item": "scrap", "count": [ 15, 60 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_archery_target_box",
+    "name": "box archery target",
+    "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bullseye marked on the front.",
+    "symbol": "@",
+    "color": "brown",
+    "move_cost_mod": 9,
+    "required_str": 5,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
+    "crafting_pseudo_item": "pseudo_archery_target_box",
+    "deconstruct": { "items": [ { "item": "archery_target_box", "count": 1 } ] },
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "whish!",
+      "sound_fail": "whish.",
+      "items": [ { "item": "cardboard", "count": [ 20, 80 ] }, { "item": "rag", "count": [ 50, 175 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_archery_target_bale",
+    "name": "bale archery target",
+    "description": "A soft target for archery consisting of a bale of hay with a bullseye marked on the front.",
+    "symbol": "@",
+    "color": "yellow",
+    "move_cost_mod": 9,
+    "required_str": 6,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
+    "crafting_pseudo_item": "pseudo_archery_target_bale",
+    "deconstruct": { "items": [ { "item": "straw_pile", "count": 40 }, { "item": "rope_makeshift_30", "count": 1 } ] },
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "whish!",
+      "sound_fail": "whish.",
+      "items": [ { "item": "straw_pile", "count": [ 6, 10 ] }, { "item": "rope_makeshift_6", "count": [ 1, 3 ] } ]
+    }
   }
 ]

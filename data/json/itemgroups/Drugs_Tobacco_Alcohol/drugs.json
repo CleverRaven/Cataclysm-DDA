@@ -14,7 +14,7 @@
       [ "aspirin", 50 ],
       [ "alcohol_wipes", 40 ],
       [ "bandages", 30 ],
-      [ "adhesive_bandages", 30 ],
+      { "item": "adhesive_bandages", "count": 20 },
       [ "cotton_ball", 40 ],
       [ "disinfectant", 30 ],
       [ "eyedrops", 10 ],
@@ -142,7 +142,7 @@
     "id": "softdrugs",
     "items": [
       { "item": "bandages", "prob": 30, "charges": [ 1, 3 ] },
-      [ "adhesive_bandages", 30 ],
+      { "item": "adhesive_bandages", "prob": 30, "count": [ 1, 20 ] },
       { "item": "cotton_ball", "prob": 50, "charges": [ 1, 10 ] },
       { "group": "used_1st_aid", "prob": 35 },
       { "item": "saline", "prob": 25, "charges": [ 1, 5 ] },

@@ -202,7 +202,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 182 ], [ "jar_glass_sealed", 91 ], [ "flask_glass", 182 ], [ "test_tube", 364 ] ] ]
+    "components": [ [ [ "glass_shard", 88 ] ] ]
   },
   {
     "type": "recipe",
@@ -216,7 +216,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 400 ], [ "flask_glass", 126 ], [ "jar_glass_sealed", 42 ] ] ]
+    "components": [ [ [ "glass_shard", 227 ] ] ]
   },
   {
     "type": "recipe",

@@ -50,6 +50,11 @@
 #include "type_id.h"
 #include "ui_manager.h"
 
+#if defined(PREFIX)
+#   undef PREFIX
+#   include "prefix.h"
+#endif
+
 class ui_adaptor;
 
 #if defined(TILES)
@@ -590,9 +595,7 @@ int main( int argc, const char *argv[] )
 #else
     // Set default file paths
 #if defined(PREFIX)
-#define Q(STR) #STR
-#define QUOTE(STR) Q(STR)
-    PATH_INFO::init_base_path( std::string( QUOTE( PREFIX ) ) );
+    PATH_INFO::init_base_path( std::string( PREFIX ) );
 #else
     PATH_INFO::init_base_path( "" );
 #endif

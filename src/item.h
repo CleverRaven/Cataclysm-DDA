@@ -207,7 +207,7 @@ class item : public visitable
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
         /** For constructing in-progress disassemblies */
-        item( const recipe *rec, item &component );
+        item( const recipe *rec, int qty, item &component );
 
         // Legacy constructor for constructing from string rather than itype_id
         // TODO: remove this and migrate code using it.
@@ -342,7 +342,7 @@ class item : public visitable
          * the return value can differ on successive calls.
          * @param pos The location of the item (see REVIVE_SPECIAL flag).
          */
-        bool ready_to_revive( const tripoint &pos ) const;
+        bool ready_to_revive( map &here, const tripoint &pos ) const;
 
         bool is_money() const;
         bool is_software() const;
@@ -462,6 +462,10 @@ class item : public visitable
                           bool debug ) const;
         void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                                     bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void armor_material_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                  bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void armor_attribute_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                   bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
         void pet_armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
@@ -986,7 +990,7 @@ class item : public visitable
          * @param flag to specify special temperature situations
          * @return true if the item is fully rotten and is ready to be removed
          */
-        bool process_temperature_rot( float insulation, const tripoint &pos, Character *carrier,
+        bool process_temperature_rot( float insulation, const tripoint &pos, map &here, Character *carrier,
                                       temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
 
         /** Set the item to HOT and resets last_temp_check */
@@ -1207,6 +1211,12 @@ class item : public visitable
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
                              int roll = 0 ) const;
+        float biological_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                                 int roll = 0 ) const;
+        float electric_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                               int roll = 0 ) const;
+        float cold_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                           int roll = 0 ) const;
         /*@}*/
 
         // same as above but specific to the sublocation
@@ -1220,6 +1230,11 @@ class item : public visitable
         float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
         // for incoming direct attacks roll is the actual roll for that attack
         float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+        float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
+                                 int roll = 0 ) const;
+        float electric_resist( const sub_bodypart_id &bp, bool to_self = false,
+                               int roll = 0 ) const;
+        float cold_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
 
         /**
          * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
@@ -1394,7 +1409,7 @@ class item : public visitable
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( Character *carrier, const tripoint &pos, float insulation = 1,
+        bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         /**
@@ -1936,6 +1951,8 @@ class item : public visitable
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
          */
         int get_warmth() const;
+        /** Returns the warmth on the body part of the item on a specific bp. */
+        int get_warmth( const bodypart_id bp ) const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
@@ -2555,6 +2572,7 @@ class item : public visitable
          * @return the recipe in progress
          */
         const recipe &get_making() const;
+        int get_making_batch_size() const;
 
         /**
          * Get the failure point stored in this item.
@@ -2655,6 +2673,10 @@ class item : public visitable
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
 
+        /** returns a list of pointers to all visible or remembered top-level items */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
+
         void clear_items();
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
@@ -2695,7 +2717,7 @@ class item : public visitable
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
-        bool process_internal( Character *carrier, const tripoint &pos, float insulation = 1,
+        bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         void iterate_covered_body_parts_internal( side s,
                 std::function<void( const bodypart_str_id & )> cb ) const;
@@ -2741,14 +2763,14 @@ class item : public visitable
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_corpse( Character *carrier, const tripoint &pos );
+        bool process_corpse( map &here, Character *carrier, const tripoint &pos );
         bool process_wet( Character *carrier, const tripoint &pos );
-        bool process_litcig( Character *carrier, const tripoint &pos );
-        bool process_extinguish( Character *carrier, const tripoint &pos );
+        bool process_litcig( map &here, Character *carrier, const tripoint &pos );
+        bool process_extinguish( map &here, Character *carrier, const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
-        bool process_fake_smoke( Character *carrier, const tripoint &pos );
-        bool process_fake_mill( Character *carrier, const tripoint &pos );
-        bool process_cable( Character *carrier, const tripoint &pos );
+        bool process_fake_smoke( map &here, Character *carrier, const tripoint &pos );
+        bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
+        bool process_cable( map &here, Character *carrier, const tripoint &pos );
         bool process_UPS( Character *carrier, const tripoint &pos );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
@@ -2797,6 +2819,7 @@ class item : public visitable
                 std::vector<item_comp> comps_used;
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
+                int batch_size = -1;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
                 cata::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
                 cata::optional<units::volume> cached_volume; // NOLINT(cata-serialize)

@@ -273,7 +273,7 @@ void uilist::init()
     disabled_color = c_dark_gray; // disabled menu entry
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys
-    allow_cancel = true;     // allow canceling with "QUIT" action
+    allow_cancel = true;     // allow canceling with "UILIST.QUIT" action
     allow_additional = false; // do not return on unhandled additional actions
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
@@ -282,7 +282,7 @@ void uilist::init()
     callback = nullptr;         // * uilist_callback
     filter.clear();          // filter string. If "", show everything
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
-    fselected = 0;           // fentries[selected]
+    fselected = 0;           // selected = fentries[fselected]
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;
@@ -295,7 +295,8 @@ void uilist::init()
 input_context uilist::create_main_input_context() const
 {
     input_context ctxt( input_category, keyboard_mode::keycode );
-    ctxt.register_updown();
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
@@ -303,11 +304,12 @@ input_context uilist::create_main_input_context() const
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     if( allow_cancel ) {
-        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "UILIST.QUIT" );
     }
     ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "UILIST.FILTER" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     for( const auto &additional_action : additional_actions ) {
@@ -336,7 +338,8 @@ input_context uilist::create_filter_input_context() const
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
     // uilist actions
-    ctxt.register_updown();
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
@@ -735,6 +738,10 @@ void uilist::show()
     const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
     const std::string padspaces = std::string( pad_size, ' ' );
 
+    for( uilist_entry &entry : entries ) {
+        entry.drawn_rect = cata::nullopt;
+    }
+
     for( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
         if( fei < static_cast<int>( fentries.size() ) ) {
             int ei = fentries [ fei ];
@@ -759,8 +766,8 @@ void uilist::show()
                 const utf8_wrapper entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                            entries[ ei ].txt );
                 point p( pad_left + 4, estart + si );
-                entries[ei].drawn_rect.p_min = p;
-                entries[ei].drawn_rect.p_max = p + point( -1 + max_entry_len, 0 );
+                entries[ei].drawn_rect =
+                    inclusive_rectangle<point>( p + point( -3, 0 ), p + point( -4 + pad_size, 0 ) );
                 trim_and_print( window, p, max_entry_len,
                                 co, _color_error, "%s", entry.str() );
 
@@ -806,10 +813,12 @@ void uilist::show()
         }
     }
 
+    cata::optional<point> cursor_pos;
     if( filter_popup ) {
         mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
         mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
         filter_popup->query( /*loop=*/false, /*draw_only=*/true );
+        cursor_pos = point( getcurx( window ), getcury( window ) );
     } else {
         if( !filter.empty() ) {
             mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
@@ -822,12 +831,17 @@ void uilist::show()
     if( callback != nullptr ) {
         callback->refresh( this );
     }
+
+    if( cursor_pos ) {
+        wmove( window, cursor_pos.value() );
+        wnoutrefresh( window );
+    }
 }
 
 int uilist::scroll_amount_from_action( const std::string &action )
 {
     const int scroll_rate = vmax > 20 ? 10 : 3;
-    if( action == "UP" ) {
+    if( action == "UILIST.UP" ) {
         return -1;
     } else if( action == "PAGE_UP" ) {
         return -scroll_rate;
@@ -836,8 +850,8 @@ int uilist::scroll_amount_from_action( const std::string &action )
     } else if( action == "HOME" ) {
         return -fselected;
     } else if( action == "END" ) {
-        return entries.size() - fselected - 1;
-    } else if( action == "DOWN" ) {
+        return fentries.size() - fselected - 1;
+    } else if( action == "UILIST.DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
         return scroll_rate;
@@ -1025,27 +1039,44 @@ void uilist::query( bool loop, int timeout )
 
         if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
             /* nothing */
-        } else if( filtering && ret_act == "FILTER" ) {
+        } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
-        } else if( ret_act == "ANY_INPUT" && iter != keymap.end() ) {
-            // only handle "ANY_INPUT" since "HELP_KEYBINDINGS" is already
-            // handled by the input context and the caller might want to handle
-            // its custom actions
-            selected = iter->second;
-            if( entries[ selected ].enabled || allow_disabled ) {
-                ret = entries[selected].retval;
+        } else if( iter != keymap.end() ) {
+            const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
+            if( it != fentries.end() ) {
+                const bool enabled = entries[*it].enabled;
+                if( enabled || allow_disabled || hilight_disabled ) {
+                    // Change the selection to display correctly when this function
+                    // is called again.
+                    fselected = std::distance( fentries.begin(), it );
+                    selected = *it;
+                    if( enabled || allow_disabled ) {
+                        ret = entries[selected].retval;
+                    }
+                    if( callback != nullptr ) {
+                        callback->select( this );
+                    }
+                }
             }
-            if( callback != nullptr ) {
-                callback->select( this );
-            }
-        } else if( !fentries.empty() && ret_act == "SELECT" ) {
+            // Only check MOUSE_MOVE when looping internally
+        } else if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
             cata::optional<point> p = ctxt.get_coordinates_text( window );
-            if( p ) {
-                if( window_contains_point_relative( window, p.value() ) ) {
-                    uilist_entry *entry = find_entry_by_coordinate( p.value() );
-                    if( entry != nullptr ) {
-                        if( entry->enabled ) {
-                            ret = entry->retval;
+            if( p && window_contains_point_relative( window, p.value() ) ) {
+                const int new_fselected = find_entry_by_coordinate( p.value() );
+                if( new_fselected >= 0 && static_cast<size_t>( new_fselected ) < fentries.size() ) {
+                    const bool enabled = entries[fentries[new_fselected]].enabled;
+                    if( enabled || allow_disabled || hilight_disabled ) {
+                        // Change the selection to display correctly after this
+                        // function is called again.
+                        fselected = new_fselected;
+                        selected = fentries[fselected];
+                        if( ret_act == "SELECT" ) {
+                            if( enabled || allow_disabled ) {
+                                ret = entries[selected].retval;
+                            }
+                            if( callback != nullptr ) {
+                                callback->select( this );
+                            }
                         }
                     }
                 }
@@ -1054,7 +1085,7 @@ void uilist::query( bool loop, int timeout )
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }
-        } else if( allow_cancel && ret_act == "QUIT" ) {
+        } else if( allow_cancel && ret_act == "UILIST.QUIT" ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_TIMEOUT;
@@ -1077,15 +1108,15 @@ void uilist::query( bool loop, int timeout )
     } while( loop && ret == UILIST_WAIT_INPUT );
 }
 
-uilist_entry *uilist::find_entry_by_coordinate( const point &p )
+int uilist::find_entry_by_coordinate( const point &p ) const
 {
-    for( int i : fentries ) {
-        uilist_entry &entry = entries[i];
-        if( entry.drawn_rect.contains( p ) ) {
-            return &entry;
+    for( auto it = fentries.begin(); it != fentries.end(); ++it ) {
+        const uilist_entry &entry = entries[*it];
+        if( entry.drawn_rect && entry.drawn_rect.value().contains( p ) ) {
+            return std::distance( fentries.begin(), it );
         }
     }
-    return nullptr;
+    return -1;
 }
 
 ///@}

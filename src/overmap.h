@@ -369,7 +369,7 @@ class overmap
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
         shared_ptr_fast<npc> find_npc( const character_id &id ) const;
-
+        shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &id ) const;
         const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
             return npcs;
         }

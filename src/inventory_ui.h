@@ -778,6 +778,12 @@ class inventory_selector
         void set_active_column( size_t index );
         void toggle_skip_unselectable();
 
+        enum class uimode : int {
+            categories = 0,
+            hierarchy,
+            last,
+        };
+
     protected:
         size_t get_columns_width( const std::vector<inventory_column *> &columns ) const;
         /** @return Percentage of the window occupied by columns */
@@ -835,16 +841,16 @@ class inventory_selector
         size_t entry_generation_number = 0;
 
         static bool skip_unselectable;
-        enum class uimode {
-            categories = 0,
-            hierarchy,
-            last,
-        };
 
-        uimode _mode = uimode::categories;
+        uimode _uimode = uimode::categories;
 
     public:
         std::string action_bound_to_key( char key ) const;
+};
+
+template <>
+struct enum_traits<inventory_selector::uimode> {
+    static constexpr inventory_selector::uimode last = inventory_selector::uimode::last;
 };
 
 inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,

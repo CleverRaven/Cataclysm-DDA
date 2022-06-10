@@ -105,7 +105,7 @@ zone_manager::zone_manager()
                    zone_type( to_translation( "Mine Terrain" ),
                               to_translation( "Designate an area to mine." ) ) );
     types.emplace( zone_type_MOPPING,
-                   zone_type( to_translation( "Mop tile" ),
+                   zone_type( to_translation( "Mop Tile" ),
                               to_translation( "Designate an area to mop clean." ) ) );
     types.emplace( zone_type_VEHICLE_DECONSTRUCT,
                    zone_type( to_translation( "Vehicle Deconstruct Zone" ),
@@ -118,7 +118,7 @@ zone_manager::zone_manager()
                               to_translation( "Vehicles with an autopilot will patrol in this zone." ) ) );
     types.emplace( zone_type_CAMP_STORAGE,
                    zone_type( to_translation( "Basecamp: Storage" ),
-                              to_translation( "Items in this zone will be added to a basecamp's inventory for use by it's workers." ) ) );
+                              to_translation( "Items in this zone will be added to a basecamp's inventory for use by its workers." ) ) );
     types.emplace( zone_type_CAMP_FOOD,
                    zone_type( to_translation( "Basecamp: Food" ),
                               to_translation( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
@@ -804,17 +804,17 @@ bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
 }
 
 const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
-        const zone_type_id &type ) const
+        const zone_type_id &type, const faction_id &fac ) const
 {
     for( const zone_data &zone : zones ) {
-        if( zone.has_inside( where ) && zone.get_type() == type ) {
+        if( zone.has_inside( where ) && zone.get_type() == type && zone.get_faction() == fac ) {
             return &zone;
         }
     }
     map &here = get_map();
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( const zone_data *zone : vzones ) {
-        if( zone->has_inside( where ) && zone->get_type() == type ) {
+        if( zone->has_inside( where ) && zone->get_type() == type && zone->get_faction() == fac ) {
             return zone;
         }
     }
@@ -822,9 +822,9 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
 }
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                                    const zone_type_id &ztype ) const
+                                    const zone_type_id &ztype, const faction_id &fac ) const
 {
-    const zone_data *zone = get_zone_at( where, ztype );
+    const zone_data *zone = get_zone_at( where, ztype, fac );
     if( !zone || !it ) {
         return false;
     }
@@ -836,13 +836,7 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
         return z( *it );
     }
     if( ztype == zone_type_LOOT_ITEM_GROUP ) {
-        std::set<itype const *> const &gr =
-            item_group::every_possible_item_from( item_group_id( filter_string ) );
-
-        return std::any_of( gr.begin(), gr.end(),
-        [it]( itype const * type ) {
-            return type->get_id() == it->typeId();
-        } );
+        return item_group::group_contains_item( item_group_id( filter_string ), it->typeId() );
     }
 
     return false;
@@ -858,7 +852,7 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
         if( point.z() == where.z() ) {
             if( square_dist( point, where ) <= range ) {
                 if( ( type != zone_type_LOOT_CUSTOM and type != zone_type_LOOT_ITEM_GROUP ) or
-                    ( it != nullptr and custom_loot_has( point, it, type ) ) ) {
+                    ( it != nullptr and custom_loot_has( point, it, type, fac ) ) ) {
                     near_point_set.insert( point );
                 }
             }
@@ -870,7 +864,7 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
         if( point.z() == where.z() ) {
             if( square_dist( point, where ) <= range ) {
                 if( ( type != zone_type_LOOT_CUSTOM and type != zone_type_LOOT_ITEM_GROUP ) or
-                    ( it != nullptr and custom_loot_has( point, it, type ) ) ) {
+                    ( it != nullptr and custom_loot_has( point, it, type, fac ) ) ) {
                     near_point_set.insert( point );
                 }
             }
@@ -1118,11 +1112,6 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     //Create a regular zone
     zones.push_back( new_zone );
 
-    // personal/faction zones are saved when the zone manager exits,
-    // but other-faction zones are not, so save them here.
-    if( fac != faction_your_followers ) {
-        save_world_zones();
-    }
     if( personal ) {
         num_personal_zones++;
     }
@@ -1223,7 +1212,9 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
     }
 
     for( zone_data &zone : zones ) {
-        _rotate_zone( target_map, zone, turns );
+        if( !zone.get_is_personal() ) {
+            _rotate_zone( target_map, zone, turns );
+        }
     }
 
     for( zone_data *zone : target_map.get_vehicle_zones( target_map.get_abs_sub().z() ) ) {
@@ -1370,22 +1361,34 @@ void zone_data::deserialize( const JsonObject &data )
     options = new_options;
 }
 
-bool zone_manager::save_zones()
+namespace
 {
-    std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
+std::string _savefile( std::string const &suffix, bool player )
+{
+    return string_format( "%szones%s.json",
+                          player ? PATH_INFO::player_base_save_path() + "."
+                          : PATH_INFO::world_base_save_path() + "/",
+                          suffix );
+}
+} // namespace
+
+bool zone_manager::save_zones( std::string const &suffix )
+{
+    std::string const savefile = _savefile( suffix, true );
 
     added_vzones.clear();
     changed_vzones.clear();
     removed_vzones.clear();
+    save_world_zones( suffix );
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
     }, _( "zones date" ) );
 }
 
-void zone_manager::load_zones()
+void zone_manager::load_zones( std::string const &suffix )
 {
-    std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
+    std::string const savefile = _savefile( suffix, true );
 
     const auto reader = [this]( std::istream & fin ) {
         JsonIn jsin( fin );
@@ -1395,7 +1398,7 @@ void zone_manager::load_zones()
         // If no such file or failed to load, clear zones.
         zones.clear();
     }
-    load_world_zones();
+    load_world_zones( suffix );
     revert_vzones();
     added_vzones.clear();
     changed_vzones.clear();
@@ -1405,9 +1408,9 @@ void zone_manager::load_zones()
     cache_vzones();
 }
 
-bool zone_manager::save_world_zones()
+bool zone_manager::save_world_zones( std::string const &suffix )
 {
-    std::string savefile = PATH_INFO::world_base_save_path() + "/zones.json";
+    std::string const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
     std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( zone_data z ) {
         return z.get_faction() != faction_your_followers;
@@ -1418,9 +1421,9 @@ bool zone_manager::save_world_zones()
     }, _( "zones date" ) );
 }
 
-void zone_manager::load_world_zones()
+void zone_manager::load_world_zones( std::string const &suffix )
 {
-    std::string savefile = PATH_INFO::world_base_save_path() + "/zones.json";
+    std::string const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
     read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );

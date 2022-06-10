@@ -279,5 +279,22 @@
     "qualities": [ { "id": "ANVIL", "level": 1 } ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
     "components": [ [ [ "pistachio", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "acorns_blanching",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "charges": 20,
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
+    "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
+    "components": [ [ [ "acorns", 20 ] ], [ [ "water", 40 ], [ "water_clean", 40 ] ] ]
   }
 ]
