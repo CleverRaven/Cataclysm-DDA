@@ -1,4 +1,5 @@
 [
+
   {
     "type": "npc",
     "id": "xe_spider_victim",
@@ -41,7 +42,7 @@
   {
     "type": "npc",
     "id": "xe_captured_dreamer",
-    "//": "possibly crazy techno kid",
+    "//": "someone with dreaming powers",
     "name_suffix": "technologist",
     "class": "NC_NPC_XE_CAPTURED_DREAMER",
     "attitude": 0,
