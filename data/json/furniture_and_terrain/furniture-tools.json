@@ -941,6 +941,35 @@
   },
   {
     "type": "furniture",
+    "id": "f_catalytic_cracking_reactor",
+    "name": "catalytic cracking reactor",
+    "looks_like": "f_machinery_light",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  You can take this down and plug it into your own power grid to use it.",
+    "symbol": "Y",
+    "color": "light_cyan",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": 16,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "element", "charges": [ 4, 8 ] },
+        { "item": "55gal_drum", "count": [ 3, 5 ] },
+        { "item": "pipe", "count": [ 2, 5 ] },
+        { "item": "thermometer", "count": [ 1, 4 ] },
+        { "item": "well_pump", "count": [ 0, 1 ] },
+        { "item": "laptop", "count": [ 0, 1 ] },
+        { "item": "pump_complex", "count": [ 0, 3 ] },
+        { "item": "cable", "count": [ 3, 8 ] }
+      ]
+    },
+    "deconstruct": { "items": [ { "item": "catalytic_cracking_reactor", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
     "id": "f_hydraulic_press",
     "name": "hydraulic press",
     "looks_like": "f_machinery_light",

@@ -343,6 +343,23 @@
     "qualities": [ [ "EXTRACT", 1 ] ]
   },
   {
+    "id": "catalytic_cracking_reactor",
+    "type": "TOOL",
+    "name": { "str": "catalytic_cracking_reactor" },
+    "description": "A makeshift extraction system.  As makeshift as you can consider something that was purpose built in a laboratory by a group of experts.  Meticulously disassembled and reassembled.",
+    "symbol": "U",
+    "color": "dark_gray",
+    "looks_like": "household_water_heater",
+    "weight": "22700 g",
+    "volume": "500 L",
+    "price": 20000,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_catalytic_cracking_reactor" },
+    "qualities": [ [ "EXTRACT", 3 ] ]
+  },
+  {
     "id": "filter_paper_qualitative",
     "type": "TOOL",
     "name": { "str_sp": "qualitative filter paper" },
