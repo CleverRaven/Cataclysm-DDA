@@ -1513,7 +1513,7 @@
       [ [ "identification_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "power_supply", 20 ] ],
-      [ [ "storage_battery", 2 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "mil_plate", 15 ] ]
     ]
@@ -1535,7 +1535,7 @@
       [ [ "identification_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "power_supply", 20 ] ],
-      [ [ "storage_battery", 2 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "mil_plate", 6 ] ]
     ]
@@ -1558,7 +1558,7 @@
       [ [ "identification_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "power_supply", 20 ] ],
-      [ [ "storage_battery", 2 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "mil_plate", 20 ] ]
     ]
@@ -5720,7 +5720,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "60 s",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "string_6", 6 ] ] ]
   },
   {
@@ -5809,7 +5809,7 @@
     "time": "10 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
   },
   {
     "result": "largebroketent",
@@ -5819,7 +5819,7 @@
     "time": "30 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "bag_plastic", 3 ] ] ]
+    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "plastic_sheet_small", 3 ] ] ]
   },
   {
     "result": "knife_butter",
@@ -6131,7 +6131,16 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
-    "components": [ [ [ "plastic_sheet", 1 ] ] ]
+    "components": [ [ [ "plastic_sheet", 1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "plastic_sheet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "plastic_sheet_small", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
     "result": "cash_register",

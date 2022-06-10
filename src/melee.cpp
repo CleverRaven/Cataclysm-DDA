@@ -886,14 +886,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
 
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
-    const int mod_sta = get_standard_stamina_cost();
-
-    const int melee = get_skill_level( skill_melee );
     const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
-    const int stance_malus = is_on_ground() ? 50 : ( is_crouching() ? 20 : 0 );
+    const int base_stam = get_base_melee_stamina_cost();
+    const int total_stam = get_total_melee_stamina_cost();
 
-    mod_stamina( std::min( -50, mod_sta + melee + deft_bonus - stance_malus ) );
-    add_msg_debug( debugmode::DF_MELEE, "Stamina burn: %d", std::min( -50, mod_sta ) );
+    mod_stamina( std::min( -50, total_stam + deft_bonus ) );
+    add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
+                   total_stam + deft_bonus );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
     mod_moves( -move_cost * ( 1 / weary_mult ) );
@@ -907,6 +906,20 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         t.as_character()->on_hit( this, bodypart_id( "bp_null" ), 0.0f, &dp );
     }
     return true;
+}
+
+int Character::get_base_melee_stamina_cost( const item *weap ) const
+{
+    return std::min( -50, get_standard_stamina_cost( weap ) );
+}
+
+int Character::get_total_melee_stamina_cost( const item *weap ) const
+{
+    const int mod_sta = get_standard_stamina_cost( weap );
+    const int melee = get_skill_level( skill_melee );
+    const int stance_malus = is_on_ground() ? 50 : ( is_crouching() ? 20 : 0 );
+
+    return std::min( -50, mod_sta + melee - stance_malus );
 }
 
 void Character::reach_attack( const tripoint &p )
@@ -1967,7 +1980,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
 
-    if( technique.side_switch ) {
+    if( technique.side_switch && !t.has_flag( MF_IMMOBILE ) ) {
         const tripoint b = t.pos();
         point new_;
 
@@ -1993,7 +2006,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
     map &here = get_map();
-    if( technique.knockback_dist ) {
+    if( technique.knockback_dist && !t.has_flag( MF_IMMOBILE ) ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
@@ -2001,6 +2014,12 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
+
+        Character *passenger = t.as_character();
+        if( passenger && passenger->in_vehicle ) {
+            here.unboard_vehicle( prev_pos );
+        }
+
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow ) {
             const optional_vpart_position vp0 = here.veh_at( pos() );
@@ -2015,7 +2034,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
                 ( veh0 != nullptr && veh0->player_in_control( get_avatar() ) ) || // Player is driving
-                has_effect( effect_amigara );
+                has_effect( effect_amigara ) ||
+                has_effect( effect_grabbed );
 
             if( !move_issue ) {
                 if( t.pos() != prev_pos ) {
@@ -2217,13 +2237,13 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         add_msg_debug( debugmode::DF_MELEE, "Block score after multiplier %d", block_score );
         if( worn_shield && shield.covers( bp_hit ) ) {
             thing_blocked_with = shield.tname();
-            // TODO: Change this depending on damage blocked
-            float wear_modifier = 1.0f;
-            if( source != nullptr && source->is_hallucination() ) {
-                wear_modifier = 0.0f;
+
+            if( source != nullptr && !source->is_hallucination() ) {
+                for( damage_unit &du : dam.damage_units ) {
+                    shield.damage_armor_durability( du, bp_hit );
+                }
             }
 
-            handle_melee_wear( shield, wear_modifier );
             block_score += block_bonus;
 
         } else {

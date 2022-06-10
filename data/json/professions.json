@@ -945,7 +945,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -997,7 +997,7 @@
           "molle_pack"
         ],
         "entries": [
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
           { "item": "lug_wrench" },
@@ -1048,7 +1048,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "c4", "count": 3 }
@@ -1094,7 +1094,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -1146,7 +1146,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1297,7 +1297,7 @@
           "wristwatch",
           "water_clean",
           "bandages",
-          "adhesive_bandages",
+          { "item": "adhesive_bandages", "count": 10 },
           "aspirin",
           "stethoscope"
         ],
@@ -1408,7 +1408,7 @@
           "coat_lab",
           "water_clean",
           "bandages",
-          "adhesive_bandages",
+          { "item": "adhesive_bandages", "count": 10 },
           "aspirin",
           "stethoscope",
           "pudding"
@@ -3822,19 +3822,9 @@
     "points": 3,
     "items": {
       "both": {
-        "items": [
-          "socks",
-          "boots_steel",
-          "gloves_work",
-          "jumpsuit",
-          "canteen",
-          "tool_belt",
-          "mbag",
-          "briefcase",
-          "wristwatch",
-          "hat_hard"
-        ],
+        "items": [ "socks", "boots_steel", "gloves_work", "jumpsuit", "canteen", "tool_belt", "mbag", "briefcase", "wristwatch" ],
         "entries": [
+          { "item": "hat_hard", "variant": "yellow_hat_hard" },
           { "group": "charged_matches" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "dynamite", "count": 8 },
@@ -4310,7 +4300,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "us_ballistic_vest_pristine" },
           { "group": "full_ifak" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -4346,7 +4336,7 @@
           "socks",
           "sneakers",
           "mbag",
-          "adhesive_bandages",
+          { "item": "adhesive_bandages", "count": 10 },
           "bandages",
           "water_clean",
           "water_clean",

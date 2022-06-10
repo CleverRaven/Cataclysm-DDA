@@ -189,7 +189,7 @@
     "name": "greenish yellow two-legged juvenile",
     "description": "A small two-legged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "herbivore_young",
-    "categories": [ "DINOSAUR" ],
+    "categories": [ "DINOSAUR", "WILDLIFE" ],
     "species": [ "DINOSAUR" ],
     "volume": "10 L",
     "weight": "10 kg",
@@ -264,6 +264,22 @@
     "color": "dark_gray_white",
     "upgrades": { "age_grow": 80, "into": "mon_utahraptor" },
     "petfood": { "food": [ "DINOFOOD_B" ] }
+  },
+  {
+    "id": "mon_issi_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zissi_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_issi" },
+    "volume": "500 L",
+    "weight": "500 kg",
+    "bodytype": "ostrich",
+    "hp": 100,
+    "speed": 100,
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "EAT_CROP", 10 ]
+    ]
   },
   {
     "id": "mon_amargasaurus_juvenile",

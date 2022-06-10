@@ -51,7 +51,7 @@
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "rag", 1 ] ] ],
     "byproducts": [ [ "water", 2 ], [ "rag", 1 ] ],
-    "using": [ [ "waterproofing_plastic_bags", 4 ] ]
+    "using": [ [ "waterproofing_plastic_sheets", 4 ] ]
   },
   {
     "id": "prac_polymerworking",

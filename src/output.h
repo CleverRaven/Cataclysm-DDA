@@ -705,8 +705,8 @@ enum class enumeration_conjunction : int {
  * @param values A vector of strings
  * @param conj Choose how to separate the last elements.
  */
-template<typename _Container>
-std::string enumerate_as_string( const _Container &values,
+template<typename Container>
+std::string enumerate_as_string( const Container &values,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     const std::string final_separator = [&]() {
@@ -755,13 +755,13 @@ std::string enumerate_as_string( const _Container &values,
  * May return an empty string to omit the element.
  * @param conj Choose how to separate the last elements.
  */
-template<typename _FIter, typename F>
-std::string enumerate_as_string( _FIter first, _FIter last, F &&string_for,
+template<typename FIter, typename F>
+std::string enumerate_as_string( FIter first, FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
     values.reserve( static_cast<size_t>( std::distance( first, last ) ) );
-    for( _FIter iter = first; iter != last; ++iter ) {
+    for( FIter iter = first; iter != last; ++iter ) {
         const std::string str( string_for( *iter ) );
         if( !str.empty() ) {
             values.push_back( str );

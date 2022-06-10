@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <vector>
 
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
@@ -24,12 +25,17 @@ class main_menu
         std::vector<std::string> mmenu_title;
         std::string mmenu_motd;
         std::string mmenu_credits;
+        int mmenu_motd_len;
+        int mmenu_credits_len;
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
         std::vector<std::string> vWorldSubItems;
+        std::vector<std::string> vNewGameSubItems;
+        std::vector<std::string> vNewGameHints;
         std::vector< std::vector<std::string> > vWorldHotkeys;
         std::vector<std::string> vSettingsSubItems;
         std::vector< std::vector<std::string> > vSettingsHotkeys;
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
+        std::vector< std::vector<std::string> > vNewGameHotkeys;
         std::string vdaytip; //tip of the day
 
         /**
@@ -55,8 +61,8 @@ class main_menu
         // Tab functions. They return whether a game was started or not. The ones that can never
         // start a game have a void return type.
         bool new_character_tab();
-        bool load_character_tab( bool transfer = false );
-        void world_tab();
+        bool load_character_tab( const std::string &worldname );
+        void world_tab( const std::string &worldname );
 
         /*
          * Load character templates from template folder
@@ -68,15 +74,14 @@ class main_menu
         input_context ctxt;
         int sel1 = 1;
         int sel2 = 1;
-        int sel3 = 1;
-        int sel4 = 1;
-        int layer = 1;
         point LAST_TERM;
         catacurses::window w_open;
         point menu_offset;
         std::vector<std::string> templates;
         int extra_w = 0;
         std::vector<save_t> savegames;
+        std::vector<std::pair<inclusive_rectangle<point>, std::pair<int, int>>> main_menu_sub_button_map;
+        std::vector<std::pair<inclusive_rectangle<point>, int>> main_menu_button_map;
 
         /**
          * Prints a horizontal list of options
@@ -87,10 +92,11 @@ class main_menu
          * make it stand out from the other menu items.
          * @param offset Offset of menu items
          * @param spacing: How many spaces to print between each menu item
+         * @returns A list of horizontal offsets, one for each menu item
          */
-        void print_menu_items( const catacurses::window &w_in,
-                               const std::vector<std::string> &vItems, size_t iSel,
-                               point offset, int spacing = 1 );
+        std::vector<int> print_menu_items( const catacurses::window &w_in,
+                                           const std::vector<std::string> &vItems, size_t iSel,
+                                           point offset, int spacing = 1, bool main = false );
 
         /**
          * Called by @ref opening_screen, this prints all the text that you see on the main menu
@@ -99,9 +105,11 @@ class main_menu
          * @param iSel which index in vMenuItems is selected
          * @param offset Menu location in window
          */
-        void print_menu( const catacurses::window &w_open, int iSel, const point &offset );
+        void print_menu( const catacurses::window &w_open, int iSel, const point &offset, int sel_line );
 
         void display_text( const std::string &text, const std::string &title, int &selected );
+
+        void display_sub_menu( int sel, const point &bottom_left, int sel_line );
 
         void init_windows();
 

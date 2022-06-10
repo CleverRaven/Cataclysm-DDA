@@ -33,7 +33,7 @@
       { "group": "full_1st_aid", "prob": 30 },
       [ "airhorn", 5 ],
       [ "bandages", 10 ],
-      [ "adhesive_bandages", 10 ],
+      { "item": "adhesive_bandages", "prob": 10, "count": [ 1, 20 ] },
       [ "tacvest", 5 ],
       { "item": "heavy_flashlight", "prob": 35, "charges": [ 0, 300 ] },
       [ "holster", 25 ],
@@ -107,7 +107,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "broken_dimensional_anchor", "count": 1, "damage": [ 1, 4 ], "prob": 19 },
+          { "item": "broken_dimensional_anchor", "count": 1, "damage": [ 1, 4 ], "prob": 19, "charges": [ 0, 1500 ] },
           { "item": "dimensional_anchor", "count": 1, "prob": 1 }
         ]
       },

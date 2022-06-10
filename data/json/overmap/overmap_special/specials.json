@@ -5286,7 +5286,7 @@
       { "point": [ -1, 2, 1 ], "overmap": "hangar_roof_north" },
       { "point": [ 0, 2, 0 ], "overmap": "hangar_north" },
       { "point": [ 0, 2, 1 ], "overmap": "hangar_roof_north" },
-      { "point": [ -3, 1, 0 ], "overmap": "field" },
+      { "point": [ -3, 1, 0 ], "overmap": "special_field" },
       { "point": [ -2, 1, 0 ], "overmap": "runway_start_north" },
       { "point": [ -1, 1, 0 ], "overmap": "runway_hangar_north" },
       { "point": [ 0, 1, 0 ], "overmap": "runway_hangar2_north" },
@@ -5297,7 +5297,7 @@
       { "point": [ 5, 1, 0 ], "overmap": "runway_fuel_north" },
       { "point": [ 6, 1, 0 ], "overmap": "runway_fuel2_north" },
       { "point": [ 7, 1, 0 ], "overmap": "runway_end_north" },
-      { "point": [ 8, 1, 0 ], "overmap": "field" },
+      { "point": [ 8, 1, 0 ], "overmap": "special_field" },
       { "point": [ 5, 0, 0 ], "overmap": "fuel_station_north" },
       { "point": [ 5, 0, 1 ], "overmap": "fuel_station_roof_north" }
     ],
@@ -6982,7 +6982,7 @@
       { "point": [ 28, 29, 0 ], "overmap": "special_forest" },
       { "point": [ 29, 29, 0 ], "overmap": "special_forest_thick" }
     ],
-    "locations": [ "land", "lake_shore", "lake_surface", "road" ],
+    "locations": [ "land", "road" ],
     "occurrences": [ 35, 100 ],
     "//": "Inflated chance, effective rate ~19% (n=726)",
     "connections": [ { "point": [ -1, 15, 0 ], "terrain": "road" } ],
@@ -7547,6 +7547,7 @@
       { "point": [ -1, 0, 0 ], "overmap": "s_air_atc_south" },
       { "point": [ -1, 0, 1 ], "overmap": "s_air_atc_2_south" },
       { "point": [ -1, 0, 2 ], "overmap": "s_air_atc_3_south" },
+      { "point": [ -6, 1, 0 ], "overmap": "special_field" },
       { "point": [ -5, 1, 0 ], "overmap": "s_air_runway_r_south" },
       { "point": [ -4, 1, 0 ], "overmap": "s_air_runway_south" },
       { "point": [ -3, 1, 0 ], "overmap": "s_air_runway_south" },
@@ -7557,7 +7558,8 @@
       { "point": [ 2, 1, 0 ], "overmap": "s_air_runway_B_south" },
       { "point": [ 3, 1, 0 ], "overmap": "s_air_runway_B_south" },
       { "point": [ 4, 1, 0 ], "overmap": "s_air_runway_B_south" },
-      { "point": [ 5, 1, 0 ], "overmap": "s_air_runway_l_south" }
+      { "point": [ 5, 1, 0 ], "overmap": "s_air_runway_l_south" },
+      { "point": [ 6, 1, 0 ], "overmap": "special_field" }
     ],
     "connections": [
       { "point": [ -1, -1, 0 ], "terrain": "road" },

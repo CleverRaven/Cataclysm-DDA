@@ -67,7 +67,13 @@ int main( int argc, char *argv[] )
     JsonOut jsout( out, true );
     JsonIn jsin( in );
 
-    formatter::format( jsin, jsout );
+    try {
+        formatter::format( jsin, jsout );
+    } catch( const JsonError &e ) {
+        std::cout << "JSON error in " << ( filename.empty() ? "input" : filename ) << std::endl;
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
 
     out << std::endl;
 

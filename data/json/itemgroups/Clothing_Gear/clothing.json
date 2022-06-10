@@ -217,6 +217,32 @@
     ]
   },
   {
+    "id": "clothing_soldier_set_pristine",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes and combat gear worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "helmet_army", "prob": 80 },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "group": "military_ballistic_vest_pristine", "prob": 90 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 5, "charges": [ 50, 100 ] },
+          { "item": "goggles_ir", "prob": 5, "charges": [ 50, 100 ] }
+        ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
     "id": "clothing_soldier_broken_armor_set",
     "type": "item_group",
     "subtype": "collection",
@@ -544,7 +570,9 @@
       { "item": "hat_hard", "prob": 60 },
       { "item": "hat_hard_hooded", "prob": 15 },
       { "item": "miner_hat", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] }
+      { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
+      { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 70, "event": "independence_day" },
+      { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 20, "event": "independence_day" }
     ]
   },
   {
@@ -2554,6 +2582,7 @@
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
       [ "power_armor_frame", 4 ],
+      [ "power_armor_generator", 4 ],
       [ "elbow_pads", 40 ],
       [ "knee_pads", 40 ],
       [ "mask_bal", 5 ],
@@ -2770,10 +2799,10 @@
     "id": "fireman_head",
     "items": [
       [ "firehelmet", 60 ],
-      [ "hat_knit", 10 ],
+      [ "hat_knit", 5 ],
       [ "nomex_hood", 40 ],
-      [ "hat_hard", 5 ],
-      [ "hat_hard_hooded", 3 ],
+      { "item": "hat_hard", "variant": "red_hat_hard", "prob": 15 },
+      { "item": "hat_hard_hooded", "variant": "red_hat_hard", "prob": 6 },
       [ "hat_noise_cancelling", 5 ]
     ]
   },

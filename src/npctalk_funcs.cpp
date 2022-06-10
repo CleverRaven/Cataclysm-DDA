@@ -979,10 +979,10 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    mission *reach_safety__mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
-                                     character_id() );
-    reach_safety__mission->assign( get_avatar() );
-    p.goal = reach_safety__mission->get_target();
+    mission *reach_safety_mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
+                                    character_id() );
+    reach_safety_mission->assign( get_avatar() );
+    p.goal = reach_safety_mission->get_target();
     p.set_attitude( NPCATT_LEAD );
 }
 
