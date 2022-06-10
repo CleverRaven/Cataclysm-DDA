@@ -308,6 +308,7 @@ input_context uilist::create_main_input_context() const
         ctxt.register_action( "UILIST.QUIT" );
     }
     ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
     if( allow_confirm ) {
         ctxt.register_action( "CONFIRM" );
     }
@@ -768,7 +769,8 @@ void uilist::show()
                 const utf8_wrapper entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                            entries[ ei ].txt );
                 point p( pad_left + 4, estart + si );
-                entries[ei].drawn_rect = inclusive_rectangle<point>( p, p + point( -1 + max_entry_len, 0 ) );
+                entries[ei].drawn_rect =
+                    inclusive_rectangle<point>( p + point( -3, 0 ), p + point( -4 + pad_size, 0 ) );
                 trim_and_print( window, p, max_entry_len,
                                 co, _color_error, "%s", entry.str() );
 
@@ -1059,7 +1061,8 @@ void uilist::query( bool loop, int timeout )
                     }
                 }
             }
-        } else if( !fentries.empty() && ret_act == "SELECT" ) {
+            // Only check MOUSE_MOVE when looping internally
+        } else if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
             cata::optional<point> p = ctxt.get_coordinates_text( window );
             if( p && window_contains_point_relative( window, p.value() ) ) {
                 const int new_fselected = find_entry_by_coordinate( p.value() );
@@ -1070,11 +1073,13 @@ void uilist::query( bool loop, int timeout )
                         // function is called again.
                         fselected = new_fselected;
                         selected = fentries[fselected];
-                        if( enabled || allow_disabled ) {
-                            ret = entries[selected].retval;
-                        }
-                        if( callback != nullptr ) {
-                            callback->select( this );
+                        if( ret_act == "SELECT" ) {
+                            if( enabled || allow_disabled ) {
+                                ret = entries[selected].retval;
+                            }
+                            if( callback != nullptr ) {
+                                callback->select( this );
+                            }
                         }
                     }
                 }

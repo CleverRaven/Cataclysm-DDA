@@ -21,6 +21,7 @@
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "item.h"
@@ -799,11 +800,11 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
 //   ┌──────┐ ┌──────┐
 //   │ TAB1 │ │ TAB2 │
 // ┌─┴──────┴─┘      └───────────┐
-void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_texts,
-                size_t current_tab );
+std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
+        const std::vector<std::string> &tab_texts, size_t current_tab );
 // As above, but specify current tab by its label rather than position
-void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_texts,
-                const std::string &current_tab );
+std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
+        const std::vector<std::string> &tab_texts, const std::string &current_tab );
 
 // This overload of draw_tabs is intended for use when you track the current
 // tab via some other value (like an enum) linked to each tab.  Expected use
@@ -818,8 +819,8 @@ void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_
 template<typename TabList, typename CurrentTab, typename = std::enable_if_t<
              std::is_same<CurrentTab,
                           std::remove_const_t<typename TabList::value_type::first_type>>::value>>
-void draw_tabs( const catacurses::window &w, const TabList &tab_list,
-                const CurrentTab &current_tab )
+std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const TabList &tab_list, const CurrentTab &current_tab )
 {
     std::vector<std::string> tab_text;
     std::transform( tab_list.begin(), tab_list.end(), std::back_inserter( tab_text ),
@@ -831,7 +832,18 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list,
         return pair.first == current_tab;
     } );
     cata_assert( current_tab_it != tab_list.end() );
-    draw_tabs( w, tab_text, std::distance( tab_list.begin(), current_tab_it ) );
+    std::map<size_t, inclusive_rectangle<point>> tab_map =
+                draw_tabs( w, tab_text, std::distance( tab_list.begin(), current_tab_it ) );
+
+    std::map<CurrentTab, inclusive_rectangle<point>> ret_map;
+    size_t i = 0;
+    for( const typename TabList::value_type &pair : tab_list ) {
+        if( tab_map.count( i ) > 0 ) {
+            ret_map.emplace( pair.first, tab_map.at( i ) );
+        }
+        i++;
+    }
+    return ret_map;
 }
 
 // Similar to the above, but where the order of tabs is specified separately
@@ -839,8 +851,8 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list,
 template<typename TabList, typename TabKeys, typename CurrentTab, typename = std::enable_if_t<
              std::is_same<CurrentTab,
                           std::remove_const_t<typename TabList::value_type::first_type>>::value>>
-void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabKeys &keys,
-                const CurrentTab &current_tab )
+std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const TabList &tab_list, const TabKeys &keys, const CurrentTab &current_tab )
 {
     std::vector<typename TabList::value_type> ordered_tab_list;
     for( const auto &key : keys ) {
@@ -848,7 +860,7 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabK
         cata_assert( it != tab_list.end() );
         ordered_tab_list.push_back( *it );
     }
-    draw_tabs( w, ordered_tab_list, current_tab );
+    return draw_tabs( w, ordered_tab_list, current_tab );
 }
 
 /**

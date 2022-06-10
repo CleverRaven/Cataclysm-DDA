@@ -73,16 +73,7 @@ void main_menu::on_move() const
 
 void main_menu::on_error()
 {
-    if( errflag ) {
-        return;
-    }
     sfx::play_variant_sound( "menu_error", "default", 100 );
-    errflag = true;
-}
-
-void main_menu::clear_error()
-{
-    errflag = false;
 }
 
 //CJK characters have a width of 2, etc
@@ -683,6 +674,7 @@ bool main_menu::opening_screen()
                         sel1 = it.second;
                         sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
                         sel_line = 0;
+                        on_move();
                     }
                     if( action == "SELECT" &&
                         ( sel1 == getopt( main_menu_opts::HELP ) || sel1 == getopt( main_menu_opts::QUIT ) ) ) {
@@ -694,6 +686,9 @@ bool main_menu::opening_screen()
             }
             for( const auto &it : main_menu_sub_button_map ) {
                 if( coord.has_value() && it.first.contains( coord.value() ) ) {
+                    if( sel1 != it.second.first || sel2 != it.second.second ) {
+                        on_move();
+                    }
                     sel1 = it.second.first;
                     sel2 = it.second.second;
                     sel_line = 0;
@@ -796,7 +791,6 @@ bool main_menu::opening_screen()
                     if( MAP_SHARING::isSharing() ) {
                         on_error();
                         popup( _( "Special games don't work with shared maps." ) );
-                        clear_error();
                     } else if( sel2 >= 0 && sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1 ) {
                         on_out_of_scope cleanup( [&player_character]() {
                             g->gamemode.reset();
@@ -866,7 +860,6 @@ bool main_menu::new_character_tab()
         if( templates.empty() ) {
             on_error();
             popup( _( "No templates found!" ) );
-            clear_error();
             return false;
         }
         while( true ) {
@@ -876,6 +869,7 @@ bool main_menu::new_character_tab()
             for( const std::string &tmpl : templates ) {
                 mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, tmpl );
             }
+            mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to main menu" ), c_yellow, c_yellow );
             mmenu.query();
             opt_val = mmenu.ret;
             if( opt_val < 0 || static_cast<size_t>( opt_val ) >= templates.size() ) {
@@ -994,7 +988,6 @@ bool main_menu::load_character_tab( const std::string &worldname )
         on_error();
         //~ %s = world name
         popup( _( "%s has no characters to load!" ), worldname );
-        clear_error();
         return false;
     }
 
@@ -1004,6 +997,7 @@ bool main_menu::load_character_tab( const std::string &worldname )
     for( const save_t &s : savegames ) {
         mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, s.decoded_name() );
     }
+    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to main menu" ), c_yellow, c_yellow );
     mmenu.query();
     opt_val = mmenu.ret;
     if( opt_val < 0 || static_cast<size_t>( opt_val ) >= savegames.size() ) {
@@ -1053,6 +1047,7 @@ void main_menu::world_tab( const std::string &worldname )
         mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN,
                                     remove_color_tags( shortcut_text( c_white, it ) ) );
     }
+    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to main menu" ), c_yellow, c_yellow );
     mmenu.query();
     opt_val = mmenu.ret;
     if( opt_val < 0 || static_cast<size_t>( opt_val ) >= vWorldSubItems.size() ) {
