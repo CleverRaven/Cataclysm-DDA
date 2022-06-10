@@ -214,7 +214,7 @@
     "book_learn": [ [ "textbook_firstaid", 3 ], [ "adv_chemistry", 4 ], [ "emergency_book", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
+    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "lye_powder", 100 ], [ "lye", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -228,7 +228,8 @@
     "time": "1 m 12 s",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
-    "components": [ [ [ "alder_bark", 6 ] ], [ [ "lye", 5 ] ], [ [ "water_clean", 10 ] ] ]
+    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
+    "components": [ [ [ "alder_bark", 6 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",

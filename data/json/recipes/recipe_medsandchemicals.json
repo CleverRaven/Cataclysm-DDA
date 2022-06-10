@@ -308,8 +308,8 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "rag", -1 ] ] ],
     "components": [
       [
         [ "tobacco", 50 ],
@@ -319,7 +319,8 @@
         [ "tobacco_raw", 50 ],
         [ "nicotine_liquid", 50 ]
       ],
-      [ [ "lye", 2 ], [ "lye_powder", 50 ] ]
+      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ], [ "soapy_water", 1 ] ],
+      [ [ "water_clean", 1 ], [ "water", 1 ] ]  
     ]
   },
   {
@@ -692,6 +693,48 @@
     "components": [
       [ [ "edible_tallow_lard", 4, "LIST" ], [ "cooking_oil", 14 ], [ "cooking_oil2", 14 ] ],
       [ [ "lye", 1 ], [ "lye_powder", 11 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ] ]
+    ],
+    "flags": [ "ALLOW_ROTTEN" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "soap",
+    "id_suffix": "from_potassium_hydroxide",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "byproducts": [ [ "chem_glycerol", 1 ] ],
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "45 m",
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
+    "components": [
+      [ [ "edible_tallow_lard", 4, "LIST" ], [ "cooking_oil", 14 ], [ "cooking_oil2", 14 ] ],
+      [ [ "lye_potassium", 1 ], [ "chem_potassium_hydroxide", 55 ] ],
+      [ [ "salt_water", 2 ] ]
+    ],
+    "flags": [ "ALLOW_ROTTEN" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "liquid_soap",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "byproducts": [ [ "chem_glycerol", 1 ] ],
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "45 m",
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
+    "charges": 10,
+    "components": [
+      [ [ "edible_tallow_lard", 4, "LIST" ], [ "cooking_oil", 14 ], [ "cooking_oil2", 14 ] ],
+      [ [ "lye_potassium", 1 ], [ "chem_potassium_hydroxide", 55 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "flags": [ "ALLOW_ROTTEN" ]
