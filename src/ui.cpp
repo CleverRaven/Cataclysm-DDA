@@ -307,10 +307,10 @@ input_context uilist::create_main_input_context() const
     if( allow_cancel ) {
         ctxt.register_action( "UILIST.QUIT" );
     }
-    ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
     if( allow_confirm ) {
         ctxt.register_action( "CONFIRM" );
+        ctxt.register_action( "SELECT" );
     }
     ctxt.register_action( "UILIST.FILTER" );
     ctxt.register_action( "ANY_INPUT" );

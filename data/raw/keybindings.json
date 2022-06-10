@@ -3903,7 +3903,11 @@
     "id": "FAV_CONTEXT_MENU",
     "category": "INVENTORY",
     "name": "open context menu",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "RETURN" },
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" },
+      { "input_method": "mouse", "key": "MOUSE_LEFT" }
+    ]
   },
   {
     "type": "keybinding",
