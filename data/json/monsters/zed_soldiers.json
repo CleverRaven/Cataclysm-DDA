@@ -356,7 +356,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie_sailor",
     "name": { "str": "zombie officer" },
-    "description": "Dressed in the shredded blue dress uniform of a naval officer, this undead corpse was evidently a higher ranking crewmen in life.  Having more than likely not been clad in body armor, the result now staggers before you: horrific wounds exposed to the air and large portions of flesh and muscle ripped from its glistening skeleton.",
+    "description": "Dressed in the shredded blue dress uniform of a naval officer, this undead corpse was evidently a higher ranking crewman in life.  Having more than likely not been clad in body armor, the result now staggers before you: horrific wounds exposed to the air and large portions of flesh and muscle ripped from its glistening skeleton.",
     "death_drops": "mon_zombie_officer_death_drops"
   },
   {
@@ -368,7 +368,21 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 4,
+    "upgrades": { "half_life": 38, "into": "mon_zombie_marine_upgrade" },
     "death_drops": "mon_zombie_marine_death_drops"
+  },
+  {
+    "id": "mon_zombie_marine_upgrade",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_marine",
+    "name": { "str": "twisted leatherneck" },
+    "description": "Horrifically mutated and twisted beyond all recognition, you’d be hard pressed to tell that this swollen corpse had ever been human.  Lumbering about on all fours, the beast’s newly developed dagger-like claws clack against the ground as it predatorially moves: thick strands of exposed muscle tissue running across its rotting body.  The addition of its new bulk has caused the skin along its arms and back to split apart, and the beast’s teeth have extended into spikes of bone.  The US Marine insignias on the remains of the creature’s pulverized gear are the only testaments to the soldier that this hulking abomination used to be.",
+    "delete": { "categories": [ "CLASSIC" ] },
+    "volume": "140 L",
+    "weight": "120 kg",
+    "hp": 150,
+    "melee_dice_sides": 6,
+    "special_attacks": [ { "id": "smash", "throw_strength": 50, "cooldown": 30 }, [ "GRAB", 7 ] ]
   },
   {
     "id": "mon_zombie_flamer",
