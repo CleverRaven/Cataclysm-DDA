@@ -1248,6 +1248,20 @@ void vehicle_prototype::finalize()
                           blueprint.part_count(), pt.pos.x, pt.pos.y );
             }
 
+            std::vector<itype_id> migrated;
+            for( auto it = pt.ammo_types.begin(); it != pt.ammo_types.end(); ) {
+                if( item_controller->migrate_id( *it ) != *it ) {
+                    migrated.push_back( item_controller->migrate_id( *it ) );
+                    it = pt.ammo_types.erase( it );
+                } else {
+                    ++it;
+                }
+            }
+
+            for( const itype_id &migrant : migrated ) {
+                pt.ammo_types.insert( migrant );
+            }
+
             if( !base->gun ) {
                 if( pt.with_ammo ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(),
@@ -1273,20 +1287,6 @@ void vehicle_prototype::finalize()
                 if( pt.ammo_types.empty() && !base->gun->ammo.empty() ) {
                     pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
                 }
-            }
-
-            std::vector<itype_id> migrated;
-            for( auto it = pt.ammo_types.begin(); it != pt.ammo_types.end(); ) {
-                if( item_controller->migrate_id( *it ) != *it ) {
-                    migrated.push_back( item_controller->migrate_id( *it ) );
-                    it = pt.ammo_types.erase( it );
-                } else {
-                    ++it;
-                }
-            }
-
-            for( const itype_id &migrant : migrated ) {
-                pt.ammo_types.insert( migrant );
             }
 
             if( type_can_contain( *base, pt.fuel ) || base->magazine ) {
