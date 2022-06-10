@@ -250,7 +250,7 @@
   {
     "id": "fabric_neoprene",
     "type": "requirement",
-    "//": "Materials used for crafting fur clothing",
+    "//": "Materials used for crafting neoprene clothing",
     "components": [ [ [ "neoprene", 8 ], [ "sheet_neoprene_patchwork", 1 ], [ "sheet_neoprene", 1 ] ] ]
   },
   {
