@@ -869,7 +869,7 @@ bool main_menu::new_character_tab()
             for( const std::string &tmpl : templates ) {
                 mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, tmpl );
             }
-            mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to main menu" ), c_yellow, c_yellow );
+            mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
             mmenu.query();
             opt_val = mmenu.ret;
             if( opt_val < 0 || static_cast<size_t>( opt_val ) >= templates.size() ) {
@@ -997,7 +997,7 @@ bool main_menu::load_character_tab( const std::string &worldname )
     for( const save_t &s : savegames ) {
         mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, s.decoded_name() );
     }
-    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to main menu" ), c_yellow, c_yellow );
+    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
     mmenu.query();
     opt_val = mmenu.ret;
     if( opt_val < 0 || static_cast<size_t>( opt_val ) >= savegames.size() ) {
@@ -1047,7 +1047,7 @@ void main_menu::world_tab( const std::string &worldname )
         mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN,
                                     remove_color_tags( shortcut_text( c_white, it ) ) );
     }
-    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to main menu" ), c_yellow, c_yellow );
+    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
     mmenu.query();
     opt_val = mmenu.ret;
     if( opt_val < 0 || static_cast<size_t>( opt_val ) >= vWorldSubItems.size() ) {
