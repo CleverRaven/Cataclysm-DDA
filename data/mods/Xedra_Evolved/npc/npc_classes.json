@@ -1,9 +1,21 @@
 [
+
+  {
+    "type": "npc",
+    "id": "xe_spider_victim",
+    "//": "spider victims could be hosts could be transforming.",
+    "name_suffix": "spider victim",
+    "class": "NC_NPC_XE_SPIDER_VICTIM",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RESCUED_1",
+    "faction": "no_faction"
+  },
   {
     "type": "npc_class",
     "id": "NC_NPC_XE_SPIDER_VICTIM",
     "name": "Spider Victim",
-    "job_description": "I've been captured by these spider things. Please rescue me!",
+    "job_description": "I've been captured by these spider things.  Please rescue me!",
     "skills": [
       { "skill": "speech", "bonus": { "rng": [ -3, 3 ] } },
       { "skill": "chemistry", "bonus": { "rng": [ -3, 3 ] } },
@@ -26,6 +38,17 @@
         "distribution": [ { "group": "trait_group_spider_victim_eggsac" }, { "group": "trait_group_spider_victim_transformation" } ]
       }
     ]
+  },
+  {
+    "type": "npc",
+    "id": "xe_captured_dreamer",
+    "//": "possibly crazy techno kid",
+    "name_suffix": "technologist",
+    "class": "NC_NPC_XE_CAPTURED_DREAMER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_DREAMER_1",
+    "faction": "no_faction"
   },
   {
     "type": "npc_class",

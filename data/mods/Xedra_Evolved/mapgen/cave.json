@@ -43,7 +43,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "NC_NPC_XE_CAPTURED_DREAMER", "x": 0, "y": 0 } ] }
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "xe_captured_dreamer", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -61,7 +61,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "NC_NPC_XE_SPIDER_VICTIM", "x": 0, "y": 0 } ] }
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "xe_spider_victim", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
