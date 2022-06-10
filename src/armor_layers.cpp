@@ -768,6 +768,8 @@ void outfit::sort_armor( Character &guy )
         }
         int pos = 1;
         int curr = 0;
+        int encumbrance_char_allowance = 4; //Enough for " 99+", will increase if necessary
+        int item_name_offset = 2;
         for( const bodypart_id &cover : rl ) {
             if( cover == bodypart_id( "bp_null" ) ) {
                 continue;
@@ -781,11 +783,15 @@ void outfit::sort_armor( Character &guy )
             for( layering_item_info &elem : items_cover_bp( guy, cover ) ) {
                 if( curr >= rightListOffset && pos <= rightListLines ) {
                     nc_color color = elem.penalties.color_for_stacking_badness();
-                    trim_and_print( w_sort_right, point( 2, pos ), right_w - 5, color,
-                                    elem.name );
                     char plus = elem.penalties.badness() > 0 ? '+' : ' ';
-                    mvwprintz( w_sort_right, point( right_w - 4, pos ), c_light_gray, "%3d%c",
-                               elem.encumber, plus );
+                    std::string encumbrance_string = string_format( "%d%c", elem.encumber, plus );
+                    if( static_cast<int>( encumbrance_string.length() ) + 1 > encumbrance_char_allowance ) {
+                        encumbrance_char_allowance = static_cast<int>( encumbrance_string.length() ) + 1;
+                    }
+                    trim_and_print( w_sort_right, point( item_name_offset, pos ),
+                                    right_w - item_name_offset - encumbrance_char_allowance, color,
+                                    elem.name );
+                    right_print( w_sort_right, pos, 0, c_light_gray, encumbrance_string );
                     pos++;
                 }
                 curr++;
