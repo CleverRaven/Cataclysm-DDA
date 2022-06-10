@@ -1437,7 +1437,7 @@
     "zombify_into": "mon_zosmoceratops",
     "description": "A massive rhino-like dinosaur with an ornate spiked neck crest and two long horns curving up and to the sides from above its eyes.",
     "reproduction": { "baby_egg": "egg_kosmoceratops", "baby_count": 24, "baby_timer": 23 },
-    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "STRETCH_ATTACK", 7 ] ]
+    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 7 ] ]
   },
   {
     "type": "MONSTER",
@@ -1451,7 +1451,7 @@
     "zombify_into": "mon_zorosaurus",
     "description": "A massive rhino-like dinosaur with a tall bony crest from which two long wicked horns emerge.",
     "reproduction": { "baby_egg": "egg_torosaurus", "baby_count": 20, "baby_timer": 24 },
-    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ]
+    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 5 ] ]
   },
   {
     "type": "MONSTER",
