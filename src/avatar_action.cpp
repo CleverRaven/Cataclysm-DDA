@@ -456,7 +456,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( m.passable_ter_furn( dest_loc )
         && you.is_walking()
         && !veh_closed_door
-        && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
+        && m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         you.add_msg_if_player( _( "You open the %s." ), door_name );
         // if auto move is on, continue moving next turn
@@ -492,7 +492,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
 
-    if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
+    if( m.furn( dest_loc ) != f_safe_c && m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         if( veh1 != nullptr ) {
             //~ %1$s - vehicle name, %2$s - part name
@@ -1164,6 +1164,9 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             parent_pocket->handle_liquid_or_spill( you );
         }
     }
+
+    you.recoil = MAX_RECOIL;
+
     you.invalidate_crafting_inventory();
 }
 

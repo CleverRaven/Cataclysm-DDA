@@ -65,8 +65,9 @@
     "type": "GENERIC",
     "name": { "str_sp": "Kevlar scraps" },
     "description": "Oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it's disposed of, but since Kevlar would be very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
-    "price": 5,
     "volume": "2 ml",
+    "price": 1,
+    "price_postapoc": 10,
     "material": [ "kevlar" ]
   },
   {
@@ -117,6 +118,7 @@
     "description": "Oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it's disposed of, but since Nomex would be very difficult to make in a post-apocalyptic world, it might be worth recycling it.",
     "price": 5,
     "volume": "2 ml",
+    "price_postapoc": 8,
     "material": [ "nomex" ]
   },
   {
@@ -153,7 +155,7 @@
     "name": { "str": "leather patch", "str_pl": "leather patches" },
     "description": "A roughly 6 inch square patch of leather, could be used to repair clothing and make smaller leather crafts.",
     "price": 2000,
-    "price_postapoc": 10,
+    "price_postapoc": 25,
     "material": [ "leather", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "37 g",
@@ -198,7 +200,7 @@
     "name": { "str": "cured hide" },
     "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable leather.",
     "price": 200,
-    "price_postapoc": 0,
+    "price_postapoc": 150,
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "40 g",
@@ -242,7 +244,7 @@
     "name": { "str": "cured pelt" },
     "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable fur.",
     "price": 200,
-    "price_postapoc": 0,
+    "price_postapoc": 150,
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "372 g",
@@ -288,7 +290,7 @@
     "volume": "47 ml",
     "//": "Medium weight cotton fabric with a GSM of 203",
     "price": 1000,
-    "price_postapoc": 100,
+    "price_postapoc": 10,
     "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -301,7 +303,7 @@
     "description": "A selection of various clothing parts, sewn together from cotton patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "//density": ".80 grams per mL, 203 GSM",
     "price": 200,
-    "price_postapoc": 50
+    "price_postapoc": 20
   },
   {
     "id": "sheet_faux_fur",
@@ -313,7 +315,7 @@
     "volume": "465 ml",
     "//": "Based on 2000gsm faux fur",
     "price": 5000,
-    "price_postapoc": 100,
+    "price_postapoc": 20,
     "material": [ "faux_fur" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -338,7 +340,7 @@
     "volume": "145 ml",
     "//": "based on 150GSM felt",
     "price": 2500,
-    "price_postapoc": 250,
+    "price_postapoc": 20,
     "material": [ "wool" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -351,7 +353,7 @@
     "description": "A patchwork felt sheet, sewn together in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "//": "150GSM felt",
     "price": 500,
-    "price_postapoc": 100
+    "price_postapoc": 50
   },
   {
     "id": "sheet_kevlar",
@@ -363,7 +365,7 @@
     "volume": "51 ml",
     "//": "values taken from Duponts chemical reference. 144 GSM",
     "price": 900,
-    "price_postapoc": 500,
+    "price_postapoc": 50,
     "material": [ "kevlar" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -378,7 +380,7 @@
     "volume": "117 ml",
     "//": "180 GSM fabric",
     "price": 5000,
-    "price_postapoc": 100,
+    "price_postapoc": 25,
     "material": [ "lycra" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -393,6 +395,7 @@
     "volume": "818 ml",
     "//": "12 inch by 24 inch sheets, 16 layers thick. Values actually nearly identically matched panels available for purchase. ",
     "price": 15000,
+    "price_postapoc": 150,
     "material": [ "kevlar_layered" ],
     "flags": [ "NO_SALVAGE" ],
     "symbol": ",",
@@ -408,6 +411,7 @@
     "volume": "818 ml",
     "//": "same as above but adding superglue. IRL this is how they are made, though using 2 part resin instead.",
     "price": 1000,
+    "price_postapoc": 250,
     "material": [ "kevlar_rigid" ],
     "flags": [ "NO_SALVAGE" ],
     "symbol": ",",
@@ -433,7 +437,7 @@
     "volume": "186 ml",
     "//": "110GSM, 1mm thick neoprene",
     "price": 5000,
-    "price_postapoc": 100,
+    "price_postapoc": 35,
     "material": [ "neoprene" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -446,7 +450,7 @@
     "description": "A sheet of fabric, sewn together from neoprene patches in a patchwork fashion, with waterproofed seams.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "//": "Density of 1.23 grams per mL",
     "price": 1000,
-    "price_postapoc": 50
+    "price_postapoc": 60
   },
   {
     "id": "sheet_nomex",
@@ -458,7 +462,7 @@
     "volume": "75 ml",
     "//": "Taken from duponts chemical reference sheets. 170GSM",
     "price": 15000,
-    "price_postapoc": 250,
+    "price_postapoc": 40,
     "material": [ "nomex" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -471,7 +475,7 @@
     "description": "A sheet of fabric, sewn together with Nomex thread from Nomex patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "//": "Taken from duponts chemical reference sheets. 170GSM",
     "price": 3000,
-    "price_postapoc": 50
+    "price_postapoc": 80
   },
   {
     "id": "sheet_nylon",
@@ -483,7 +487,7 @@
     "volume": "93 ml",
     "//": ".5mm thick, 250 GSM",
     "price": 5000,
-    "price_postapoc": 100,
+    "price_postapoc": 20,
     "material": [ "nylon" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -496,7 +500,7 @@
     "description": "A sheet of fabric, sewn together from synthetic fabric patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "//": ".5mm thick, 250gsm",
     "price": 1000,
-    "price_postapoc": 50
+    "price_postapoc": 40
   },
   {
     "type": "AMMO",

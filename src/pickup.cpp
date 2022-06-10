@@ -280,6 +280,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
     }
 
     if( picked_up ) {
+        contents_change_handler handler;
+        handler.unseal_pocket_containing( loc );
         item &orig_it = *loc.get_item();
         // Subtract moved charges instead of assigning leftover charges,
         // since the total charges of the original item may have changed
@@ -335,6 +337,8 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     if( weight_is_okay && player_character.weight_carried() > player_character.weight_capacity() ) {
         add_msg( m_bad, _( "You're overburdened!" ) );
     }
+
+    player_character.recoil = MAX_RECOIL;
 
     return !problem;
 }

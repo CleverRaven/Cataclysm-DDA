@@ -1867,7 +1867,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "7 h 30 m",
+    "time": "6 h 30 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "tailoring_neoprene_patchwork", 22 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],

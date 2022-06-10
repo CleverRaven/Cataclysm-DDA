@@ -65,6 +65,7 @@
 #include "viewer.h"
 #include "weakpoint.h"
 #include "weather.h"
+#include "harvest.h"
 
 static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
 
@@ -179,7 +180,6 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
-    {monster_attitude::MATT_UNKNOWN, {translate_marker( "Unknown" ), def_c_yellow}}, //Should only be used for UI.
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -271,6 +271,9 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
 void monster::poly( const mtype_id &id )
 {
     double hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );
+    if( !no_extra_death_drops ) {
+        generate_inventory();
+    }
     type = &id.obj();
     moves = 0;
     Creature::set_speed_base( type->speed );
@@ -708,19 +711,17 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     std::pair<std::string, nc_color> att = get_attitude();
     if( player_knows ) {
         mvwprintz( w, point( column, vStart++ ), att.second, att.first );
-    } else {
-        mvwprintz( w, point( column, vStart++ ), all_colors.get( attitude_names.at( MATT_UNKNOWN ).second ),
-                   attitude_names.at( MATT_UNKNOWN ).first );
     }
 
     // Awareness indicator in the third line.
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
-    senses_str = !player_knows ? _( "You have no idea what is it doing" ) :
-                 senses_str;
-    vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows &&
-                              sees_player ? c_red : c_green,
-                              senses_str );
+
+    if( player_knows ) {
+        vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows &&
+                                  sees_player ? c_red : c_green,
+                                  senses_str );
+    }
 
     const std::string speed_desc = speed_description(
                                        speed_rating(),
@@ -771,7 +772,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 std::string monster::extended_description() const
 {
     std::string ss;
+    Character &pc = get_player_character();
+    const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
     const std::pair<std::string, nc_color> att = get_attitude();
+
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
@@ -805,7 +809,8 @@ std::string monster::extended_description() const
         ss += "\n";
     }
 
-    ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
+    ss += string_format( _( "This is a %s. %s%s" ), name(),
+                         player_knows ? att_colored + " " : std::string(),
                          difficulty_str ) + "\n";
     if( !get_effect_status().empty() ) {
         ss += string_format( _( "<stat>It is %s.</stat>" ), get_effect_status() ) + "\n";
@@ -1209,7 +1214,6 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::HOSTILE;
             case MATT_NULL:
-            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
@@ -2112,8 +2116,9 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
 
     switch( dt ) {
         case damage_type::PURE:
+            return worn_armor + static_cast<int>( type->armor_pure );
         case damage_type::BIOLOGICAL:
-            return 0;
+            return worn_armor + static_cast<int>( type->armor_biological );
         case damage_type::BASH:
             return get_armor_bash( bp );
         case damage_type::CUT:
@@ -2127,7 +2132,7 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case damage_type::COLD:
-            return worn_armor;
+            return worn_armor + static_cast<int>( type->armor_cold );
         case damage_type::ELECTRIC:
             return worn_armor + static_cast<int>( type->armor_elec );
         case damage_type::NONE:
@@ -2660,6 +2665,31 @@ bool monster::check_mech_powered() const
                  get_name() );
     }
     return true;
+}
+
+void monster::generate_inventory( bool disableDrops )
+{
+    if( is_hallucination() ) {
+        return;
+    }
+    if( type->death_drops.is_empty() ) {
+        return;
+    }
+
+    std::vector<item> new_items = item_group::items_from( type->death_drops,
+                                  calendar::start_of_cataclysm,
+                                  spawn_flags::use_spawn_rate );
+
+    for( item &it : new_items ) {
+        if( has_flag( MF_FILTHY ) ) {
+            if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
+                // handle wearable guns as a special case
+                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+            }
+        }
+        inv.push_back( it );
+    }
+    no_extra_death_drops = disableDrops;
 }
 
 void monster::drop_items_on_death( item *corpse )

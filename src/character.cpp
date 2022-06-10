@@ -6138,6 +6138,24 @@ void Character::mod_stamina( int mod )
     if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
         return;
     }
+
+    float quarter_thresh = 0.25 * get_stamina_max();
+    float half_thresh = 0.5 * get_stamina_max();
+
+    std::string quarter_stam_counter_str = get_value( "quarter_stam_counter" );
+    int quarter_stam_counter = quarter_stam_counter_str.empty() ? 0 : std::stoi(
+                                   quarter_stam_counter_str );
+
+    if( stamina > half_thresh && stamina + mod < half_thresh ) {
+        set_value( "got_to_half_stam", "true" );
+    }
+
+    if( stamina > quarter_thresh && stamina + mod < quarter_thresh && quarter_stam_counter < 5 ) {
+        quarter_stam_counter++;
+        set_value( "quarter_stam_counter", std::to_string( quarter_stam_counter ) );
+        mod_healthy_mod( 1, 5 );
+    }
+
     stamina += mod;
     if( stamina < 0 ) {
         add_effect( effect_winded, 10_turns );
@@ -9625,7 +9643,6 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::HOSTILE;
             case MATT_NULL:
-            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
@@ -10008,6 +10025,8 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         loc.remove_item();
     }
 
+    get_player_character().recoil = MAX_RECOIL;
+
     return true;
 }
 
@@ -10167,7 +10186,7 @@ bool Character::avoid_trap( const tripoint &pos, const trap &tr ) const
     return myroll >= traproll;
 }
 
-bool Character::add_faction_warning( const faction_id &id )
+bool Character::add_faction_warning( const faction_id &id ) const
 {
     const auto it = warning_record.find( id );
     if( it != warning_record.end() ) {
@@ -10873,7 +10892,7 @@ void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 
 void Character::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( this, pos() ) ) {
+    if( weapon.needs_processing() && weapon.process( get_map(), this, pos() ) ) {
         weapon.spill_contents( pos() );
         remove_weapon();
     }
@@ -10884,7 +10903,7 @@ void Character::process_items()
             continue;
         }
         if( it->needs_processing() ) {
-            if( it->process( this, pos() ) ) {
+            if( it->process( get_map(), this, pos() ) ) {
                 it->spill_contents( pos() );
                 removed_items.push_back( it );
             }
@@ -11037,7 +11056,8 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
     moves -= item_store_cost( put, container, penalties, base_cost );
     if( check_best_pkt && pk_type == item_pocket::pocket_type::CONTAINER &&
         container.get_all_contained_pockets().size() > 1 ) {
-        container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1 );
+        // Bypass pocket settings (assuming the item is manually stored)
+        container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1, false, false, true );
     } else {
         container.put_in( i_rem( &put ), pk_type );
     }

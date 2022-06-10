@@ -1,0 +1,14 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_GENERIC_ANESTHETIC_FOR_DOCTOR",
+    "dynamic_line": [
+      "Unfortunately, I don't have anything that can help.",
+      "I don't know what I could offer.",
+      "Afraid not.  Maybe somebody else could help.",
+      "Have you asked the scavenger boss if they'd have anything?",
+      "Maybe the scrapper would have some spare parts?"
+    ],
+    "responses": [ { "text": "OK.", "topic": "TALK_NONE" }, { "text": "I've got to go…", "topic": "TALK_DONE" } ]
+  }
+]

@@ -142,33 +142,6 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
-    "id": "bikini_top",
-    "type": "ARMOR",
-    "name": { "str": "bikini top" },
-    "description": "A simple bikini top.",
-    "variant_type": "generic",
-    "variants": [
-      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 90 },
-      {
-        "id": "flag_bikini_top",
-        "name": { "str": "flag bikini top" },
-        "description": "A simple bikini top embroidered with the pattern of an American flag",
-        "weight": 10
-      }
-    ],
-    "weight": "32 g",
-    "volume": "250 ml",
-    "price": 1800,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "bra",
-    "color": "light_red",
-    "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
-  },
-  {
     "id": "bikini_top_fur",
     "type": "ARMOR",
     "name": { "str": "fur bikini top" },

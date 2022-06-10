@@ -84,9 +84,12 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "bash_resist", _bash_resist );
     mandatory( jsobj, was_loaded, "cut_resist", _cut_resist );
     mandatory( jsobj, was_loaded, "acid_resist", _acid_resist );
-    mandatory( jsobj, was_loaded, "elec_resist", _elec_resist );
     mandatory( jsobj, was_loaded, "fire_resist", _fire_resist );
     mandatory( jsobj, was_loaded, "bullet_resist", _bullet_resist );
+    optional( jsobj, was_loaded, "conductive", _conductive );
+    optional( jsobj, was_loaded, "elec_resist", _elec_resist );
+    optional( jsobj, was_loaded, "biologic_resist", _biologic_resist );
+    optional( jsobj, was_loaded, "cold_resist", _cold_resist );
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
@@ -227,6 +230,15 @@ float material_type::fire_resist() const
     return _fire_resist;
 }
 
+float material_type::biological_resist() const
+{
+    return _biologic_resist;
+}
+float material_type::cold_resist() const
+{
+    return _cold_resist;
+}
+
 int material_type::chip_resist() const
 {
     return _chip_resist;
@@ -255,6 +267,11 @@ float material_type::freeze_point() const
 float material_type::density() const
 {
     return _density;
+}
+
+bool material_type::is_conductive() const
+{
+    return _conductive;
 }
 
 bool material_type::is_valid_thickness( float thickness ) const

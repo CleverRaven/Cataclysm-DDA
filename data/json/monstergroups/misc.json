@@ -32,6 +32,8 @@
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fireman", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 5 },
+      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
@@ -42,6 +44,13 @@
       { "monster": "mon_feral_human_pipe", "weight": 4, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 4, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 2, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      {
+        "monster": "mon_feral_jackboot",
+        "weight": 1,
+        "cost_multiplier": 25,
+        "pack_size": [ 1, 3 ],
+        "starts": "60 days"
+      },
       { "monster": "mon_zombie_brainless", "weight": 65 }
     ]
   },

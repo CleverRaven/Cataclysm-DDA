@@ -36,6 +36,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
+#include "unicode.h"
 #include "units_utility.h"
 #include "wcwidth.h"
 
@@ -363,6 +364,9 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // mouse
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
 
     catacurses::window w;
     int width = 0;
@@ -391,7 +395,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ui.on_screen_resize( screen_resize_cb );
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_border( w, BORDER_COLOR, title, c_black_white );
+        draw_border( w, BORDER_COLOR, title );
         for( int line = beg_line, pos_y = text2.y; line < std::min<int>( beg_line + text_h, lines.size() );
              ++line, ++pos_y ) {
             nc_color dummy = c_white;
@@ -407,11 +411,11 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
         ui_manager::redraw();
 
         action = ctxt.handle_input();
-        if( action == "UP" ) {
+        if( action == "UP" || action == "SCROLL_UP" ) {
             if( beg_line > 0 ) {
                 --beg_line;
             }
-        } else if( action == "DOWN" ) {
+        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             if( beg_line < max_beg_line ) {
                 ++beg_line;
             }
@@ -1208,17 +1212,10 @@ std::string trim_trailing_punctuations( const std::string &s )
 using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wstr = utf8_to_wstr( s );
-        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
-        return wstr_to_utf8( wstr );
-    }
-    std::string res;
-    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
-        return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
-    } );
-    return res;
+    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    std::wstring wstr = utf8_to_wstr( s );
+    f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+    return wstr_to_utf8( wstr );
 }
 
 // find the position of each non-printing tag in a string
@@ -1285,7 +1282,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
 
         x += mk_wcwidth( uc );
 
-        if( uc == split || uc >= 0x2E80 ) { // param split (default ' ') or CJK characters
+        if( uc == split || is_cjk_or_emoji( uc ) ) {
             if( x <= width ) {
                 lastwb = j; // break after character
             } else {
@@ -1384,9 +1381,11 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
     }
 }
 
-void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab_texts,
-                size_t current_tab )
+std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const std::vector<std::string> &tab_texts, size_t current_tab )
 {
+    std::map<size_t, inclusive_rectangle<point>> tab_map;
+
     int width = getmaxx( w );
     for( int i = 0; i < width; i++ ) {
         mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
@@ -1400,16 +1399,28 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
     for( size_t i = 0; i < tab_texts.size(); ++i ) {
         const std::string &tab_text = tab_texts[i];
         draw_tab( w, x, tab_text, i == current_tab );
-        x += utf8_width( tab_text, true ) + tab_step;
+        const int txt_width = utf8_width( tab_text, true );
+        tab_map.emplace( i, inclusive_rectangle<point>( point( x, 1 ), point( x + txt_width, 1 ) ) );
+        x += txt_width + tab_step;
     }
+
+    return tab_map;
 }
 
-void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab_texts,
-                const std::string &current_tab )
+std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const std::vector<std::string> &tab_texts, const std::string &current_tab )
 {
     auto it = std::find( tab_texts.begin(), tab_texts.end(), current_tab );
     cata_assert( it != tab_texts.end() );
-    draw_tabs( w, tab_texts, it - tab_texts.begin() );
+    std::map<size_t, inclusive_rectangle<point>> tab_map =
+                draw_tabs( w, tab_texts, it - tab_texts.begin() );
+    std::map<std::string, inclusive_rectangle<point>> ret_map;
+    for( size_t i = 0; i < tab_texts.size(); i++ ) {
+        if( tab_map.count( i ) > 0 ) {
+            ret_map.emplace( tab_texts.at( i ), tab_map.at( i ) );
+        }
+    }
+    return ret_map;
 }
 
 best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, const int &selected,

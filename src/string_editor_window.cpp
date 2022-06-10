@@ -10,6 +10,7 @@
 #include "options.h"
 #endif
 
+#include "unicode.h"
 #include "wcwidth.h"
 
 static bool is_linebreak( const uint32_t uc )
@@ -19,12 +20,12 @@ static bool is_linebreak( const uint32_t uc )
 
 static bool break_before( const uint32_t uc )
 {
-    return uc >= 0x2E80;
+    return is_cjk_or_emoji( uc );
 }
 
 static bool break_after( const uint32_t uc )
 {
-    return uc == ' ' || uc >= 0x2E80;
+    return uc == ' ' || is_cjk_or_emoji( uc );
 }
 
 static bool is_word( const uint32_t uc )
@@ -234,6 +235,7 @@ void string_editor_window::print_editor()
         }
     }
 
+    cata::optional<point> cursor_pos;
     for( int i = topoflist; i < bottomoflist; i++ ) {
         const int y = i - topoflist;
         const folded_line &line = _folded->get_lines()[i];
@@ -254,7 +256,8 @@ void string_editor_window::print_editor()
                 || is_linebreak( c_cursor ) || mk_wcwidth( c_cursor ) < 1 ) {
                 c_cursor = ' ';
             }
-            mvwprintz( _win, point( _cursor_display.x + 1, y ), h_white, "%s", utf32_to_utf8( c_cursor ) );
+            cursor_pos = point( _cursor_display.x + 1, y );
+            mvwprintz( _win, cursor_pos.value(), h_white, "%s", utf32_to_utf8( c_cursor ) );
         }
         if( _ime_preview_range && i >= _ime_preview_range->display_first.y
             && i <= _ime_preview_range->display_last.y ) {
@@ -267,6 +270,9 @@ void string_editor_window::print_editor()
             mvwprintz( _win, disp, c_dark_gray_white, "%s", preview.str() );
         }
     }
+    if( _ime_preview_range ) {
+        cursor_pos = _ime_preview_range->display_last + point( 1, -topoflist );
+    }
 
     if( ftsize > _max.y ) {
         scrollbar()
@@ -274,6 +280,11 @@ void string_editor_window::print_editor()
         .viewport_pos( topoflist )
         .viewport_size( _max.y )
         .apply( _win );
+    }
+
+    if( cursor_pos ) {
+        wmove( _win, cursor_pos.value() );
+        wnoutrefresh( _win );
     }
 }
 

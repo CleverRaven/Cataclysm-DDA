@@ -177,8 +177,8 @@
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
     "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
-    "weight": "21 g",
-    "volume": "23 ml",
+    "weight": "40 g",
+    "volume": "42 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
@@ -2765,5 +2765,31 @@
     ],
     "charges_per_use": 1,
     "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "shot_glass",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "shot glass", "str_pl": "shot glasses" },
+    "description": "A standard 1.5 ounce shot glass.",
+    "weight": "100 g",
+    "volume": "116 ml",
+    "longest_side": "58 mm",
+    "price": 300,
+    "price_postapoc": 5,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": "v",
+    "color": "cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "44 ml",
+        "max_contains_weight": "500 g"
+      }
+    ]
   }
 ]

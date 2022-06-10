@@ -79,6 +79,8 @@
       { "monster": "mon_zombie_dog", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 5, "cost_multiplier": 2 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
@@ -110,6 +112,8 @@
       { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 2 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
@@ -120,6 +124,55 @@
       { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
       { "monster": "mon_zombie_scientist", "weight": 100 },
       { "monster": "mon_feral_soldier", "weight": 75 }
+    ]
+  },
+  {
+    "name": "GROUP_AIRCRAFT_CARRIER",
+    "type": "monstergroup",
+    "//": "no children, 40% tech personel 20% civilian personel (med, fire, cook, clercs etc), 20% uniformed zombie, 10% army pilots, and 10% military zeds",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "weight": 15 },
+      { "monster": "mon_feral_human_tool", "weight": 15 },
+      { "monster": "mon_zombie_tough", "weight": 6 },
+      { "monster": "mon_zombie_static", "weight": 10 },
+      { "monster": "mon_zombie_fireman", "weight": 6 },
+      { "monster": "mon_zombie_medical", "weight": 6 },
+      { "monster": "mon_zombie_fat", "weight": 6 },
+      { "monster": "mon_zombie_rot", "weight": 6 },
+      { "monster": "mon_zombie_crawler", "weight": 6 },
+      { "monster": "mon_zombie_brainless", "weight": 6 },
+      { "monster": "mon_zombie_milbase_personnel", "weight": 18 },
+      { "monster": "mon_zombie_military_pilot", "weight": 18 },
+      { "monster": "mon_zombie_soldier", "weight": 6 },
+      { "monster": "mon_zombie_flamer", "weight": 12, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_military_pilot", "weight": 6 },
+      { "monster": "mon_zombie_soldier", "weight": 15, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_zombie_bio_op", "weight": 2, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_bio_op2", "weight": 2, "cost_multiplier": 10, "starts": "60 days" },
+      { "monster": "mon_feral_human_pipe", "weight": 6 },
+      { "monster": "mon_feral_human_crowbar", "weight": 6 },
+      { "monster": "mon_feral_human_axe", "weight": 6 },
+      { "monster": "mon_feral_sapien_spear", "weight": 6 },
+      { "monster": "mon_feral_human_pipe", "weight": 6 },
+      { "monster": "mon_feral_soldier", "weight": 6 }
+    ]
+  },
+  {
+    "name": "GROUP_AIRCRAFT_CARRIER_TECHNICIANS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "weight": 67 },
+      { "monster": "mon_feral_human_tool", "weight": 67 },
+      { "monster": "mon_zombie_static", "weight": 12 },
+      { "monster": "mon_zombie_fireman", "weight": 6 },
+      { "monster": "mon_zombie_medical", "weight": 6 },
+      { "monster": "mon_zombie_fat", "weight": 6 },
+      { "monster": "mon_feral_human_pipe", "weight": 6 },
+      { "monster": "mon_feral_human_crowbar", "weight": 6 },
+      { "monster": "mon_feral_human_axe", "weight": 6 },
+      { "monster": "mon_feral_sapien_spear", "weight": 6 },
+      { "monster": "mon_feral_human_pipe", "weight": 6 },
+      { "monster": "mon_feral_soldier", "weight": 6 }
     ]
   },
   {

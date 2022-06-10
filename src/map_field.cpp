@@ -1057,7 +1057,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // Get the part of the vehicle in the fire (_internal skips the boundary check)
     vehicle *veh = here.veh_at_internal( p, part );
     if( veh != nullptr ) {
-        veh->damage( part, cur.get_field_intensity() * 10, damage_type::HEAT, true );
+        veh->damage( here, part, cur.get_field_intensity() * 10, damage_type::HEAT, true );
         // Damage the vehicle in the fire.
     }
     if( can_burn ) {
@@ -1506,14 +1506,14 @@ void map::player_in_field( Character &you )
 
                 if( on_ground && total_damage > 0 ) {
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your body!" ),
-                                               _( "The acid burns <npcname>s body!" ) );
+                                               _( "The acid burns <npcname>'s body!" ) );
                 } else if( total_damage > 0 ) {
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your legs and feet!" ),
-                                               _( "The acid burns <npcname>s legs and feet!" ) );
+                                               _( "The acid burns <npcname>'s legs and feet!" ) );
                 } else if( on_ground ) {
-                    you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid" ) );
-                } else {
-                    you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid" ) );
+                    you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
+                } else if( !you.is_immune_field( fd_acid ) ) {
+                    you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid!" ) );
                 }
 
                 you.check_dead_state();

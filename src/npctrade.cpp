@@ -143,10 +143,12 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
-                    price_adjustment( seller.get_skill_level( skill_speech ) -
-                                      buyer.get_skill_level( skill_speech ) );
-    return std::max( adjust, 1.0 );
+    int const int_diff = seller.int_cur - buyer.int_cur;
+    double const int_adj = 1 + 0.05 * std::min( 19, std::abs( int_diff ) );
+    double const soc_adj = price_adjustment( seller.get_skill_level( skill_speech ) -
+                           buyer.get_skill_level( skill_speech ) );
+    double const adjust = int_diff >= 0 ? int_adj * soc_adj : soc_adj / int_adj;
+    return seller.is_npc() ? adjust : -1 / adjust;
 }
 
 int npc_trading::bionic_install_price( Character &installer, Character &patient,
@@ -166,8 +168,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
 
     int price = it->price_no_contents( true );
     if( it->count_by_charges() and amount >= 0 ) {
-        price /= it->charges;
-        price *= amount;
+        price *= static_cast<double>( amount ) / it->charges;
     }
     if( buyer.is_npc() ) {
         price = buyer.as_npc()->value( *it, price );
@@ -176,7 +177,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     }
 
     if( fac == nullptr || fac->currency != it->typeId() ) {
-        return static_cast<int>( price * adjust );
+        return static_cast<int>( price * ( 1 + 0.25 * adjust ) );
     }
 
     return price;

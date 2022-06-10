@@ -534,7 +534,7 @@ struct npc_follower_rules {
 
 struct dangerous_sound {
     tripoint abs_pos;
-    sounds::sound_t type = sounds::sound_t::_LAST;
+    sounds::sound_t type = sounds::sound_t::LAST;
     int volume = 0;
 };
 
@@ -1297,8 +1297,7 @@ class npc : public Character
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
         npc_class_id myclass; // What's our archetype?
-        // A temp variable used to inform the game which npc json to use as a template
-        std::string idz;
+        npc_class_id idz; // actual npc template used
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
@@ -1405,7 +1404,8 @@ class npc : public Character
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
-
+        void set_unique_id( std::string id );
+        std::string get_unique_id() const;
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -1425,6 +1425,8 @@ class npc : public Character
         std::vector<sphere> find_dangerous_explosives() const;
 
         npc_companion_mission comp_mission;
+
+        std::string unique_id;
 };
 
 /** An NPC with standard stats */

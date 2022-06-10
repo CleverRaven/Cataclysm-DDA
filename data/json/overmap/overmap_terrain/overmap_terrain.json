@@ -86,7 +86,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "boat_rental",
+    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2", "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
     "name": "boat rental",
     "sym": "#",
     "color": "white",
@@ -483,6 +483,24 @@
     "//": "Pseudo terrain used for Tacoma companion raids",
     "id": "looted_house_basement",
     "name": "looted house basement",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital",
+    "name": "looted hospital",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital_roof",
+    "name": "looted hospital roof",
     "sym": "%",
     "color": "white",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]

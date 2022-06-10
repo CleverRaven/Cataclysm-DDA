@@ -243,12 +243,36 @@ void Character::update_body( const time_point &from, const time_point &to )
         enforce_minimum_healing();
     }
 
-    const int thirty_mins = ticks_between( from, to, 30_minutes );
-    if( thirty_mins > 0 ) {
-        // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
-        get_sick();
+    // Cardio related health stuff
+    if( calendar::once_every( 1_days ) ) {
+        // not getting below half stamina even once in a whole day is not healthy
+        if( get_value( "got_to_half_stam" ).empty() ) {
+            mod_healthy_mod( -4, -200 );
+        } else {
+            remove_value( "got_to_half_stam" );
+        }
+        // reset counter for number of time going below quarter stamina
+        set_value( "quarter_stam_counter", "0" );
+
+        int cardio_accumultor = get_cardio_acc();
+        if( cardio_accumultor > 0 ) {
+            mod_healthy_mod( 1, 200 );
+            if( cardio_accumultor >= 10 ) {
+                mod_healthy_mod( 1, 200 );
+            }
+        }
+        if( cardio_accumultor < 0 ) {
+            mod_healthy_mod( -1, -200 );
+            if( cardio_accumultor <= -10 ) {
+                mod_healthy_mod( -1, -200 );
+            }
+        }
+        if( cardio_accumultor >= get_bmr() / 2 ) {
+            mod_healthy_mod( 2, 200 );
+        }
     }
+
+
 
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
@@ -271,6 +295,23 @@ void Character::update_body( const time_point &from, const time_point &to )
                 vitamin_mod( v.first, qty );
             }
         }
+        if( calendar::once_every( 12_hours ) && v.first->type() == vitamin_type::VITAMIN ) {
+            const double rda = 1_days / rate;
+            const int &vit_quantity = vitamin_get( v.first );
+            if( vit_quantity > 0.5 * rda ) {
+                mod_healthy_mod( 1, 200 );
+            }
+            if( vit_quantity > 0.90 * rda ) {
+                mod_healthy_mod( 1, 200 );
+            }
+        }
+    }
+
+    const int thirty_mins = ticks_between( from, to, 30_minutes );
+    if( thirty_mins > 0 ) {
+        // Radiation kills health even at low doses
+        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
+        get_sick();
     }
 
     if( calendar::once_every( 10_minutes ) ) {

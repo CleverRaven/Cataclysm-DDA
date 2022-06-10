@@ -8,6 +8,7 @@
 #include "type_id.h"
 #include "damage.h"
 
+class effect;
 class JsonObject;
 
 struct bodygraph_part {
@@ -26,11 +27,18 @@ struct bodygraph_part {
 // info that needs to be passed around
 struct bodygraph_info {
     std::vector<std::string> worn_names;
-    int avg_coverage = 0;
-    int total_encumbrance = 0;
     resistances worst_case;
     resistances median_case;
     resistances best_case;
+    std::string parent_bp_name;
+    std::vector<effect> effects;
+    std::pair<int, nc_color> temperature;
+    std::string temp_approx;
+    int avg_coverage = 0;
+    int total_encumbrance = 0;
+    int part_hp_cur = 0;
+    int part_hp_max = 0;
+    float wetness = 0;
     bool specific_sublimb = false;
 };
 
@@ -54,6 +62,23 @@ struct bodygraph {
     void check() const;
 };
 
-void display_bodygraph( const bodygraph_id &id = bodygraph_id::NULL_ID() );
+// Draws the bodygraph UI for the given character and bodygraph (defaults to Full Body graph)
+void display_bodygraph( const Character &u, const bodygraph_id &id = bodygraph_id::NULL_ID() );
+
+using bodygraph_callback =
+    std::function<std::string( const bodygraph_part *, std::string )>;
+
+/**
+ * @brief Returns a prepared bodygraph ready to be rendered line-by-line.
+ *
+ * The callback function is for processing a bodygraph symbol. The args are as follows:
+ *
+ * @param bodygraph_part points to the graph part represented in the symbol (or nullptr if none)
+ * @param string the default symbol to use if no other processing is done
+ * @returns the final colorized symbol
+ */
+std::vector<std::string> get_bodygraph_lines( const Character &u,
+        const bodygraph_callback &fragment_cb, const bodygraph_id &id = bodygraph_id::NULL_ID(),
+        int width = 0, int height = 0 );
 
 #endif // CATA_SRC_BODYGRAPH_H

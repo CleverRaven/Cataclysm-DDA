@@ -64,11 +64,10 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "2 h",
+    "time": "30 m",
     "autolearn": true,
-    "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1.25, "fail_multiplier": 1.15 } ],
     "using": [ [ "tailoring_lycra_patchwork", 1 ] ]
   },
   {
@@ -667,7 +666,7 @@
     "autolearn": true,
     "using": [
       [ "tailoring_cotton_patchwork", 2 ],
-      [ "waterproofing_plastic_bags", 8 ],
+      [ "waterproofing_plastic_sheets", 8 ],
       [ "tailoring_kevlar_fabric", 4 ],
       [ "fastener_small", 1 ]
     ],
@@ -695,7 +694,7 @@
     "time": "12 h",
     "using": [
       [ "tailoring_cotton_patchwork", 1 ],
-      [ "waterproofing_plastic_bags", 6 ],
+      [ "waterproofing_plastic_sheets", 6 ],
       [ "tailoring_kevlar_fabric", 3 ],
       [ "fastener_small", 1 ]
     ],
@@ -718,7 +717,7 @@
     "time": "13 h 30 m",
     "using": [
       [ "tailoring_cotton_patchwork", 4 ],
-      [ "waterproofing_plastic_bags", 10 ],
+      [ "waterproofing_plastic_sheets", 10 ],
       [ "tailoring_kevlar_fabric", 6 ],
       [ "fastener_small", 1 ]
     ],
@@ -854,7 +853,7 @@
     "using": [
       [ "tailoring_kevlar_fabric", 4 ],
       [ "tailoring_cotton", 5 ],
-      [ "waterproofing_plastic_bags", 8 ],
+      [ "waterproofing_plastic_sheets", 8 ],
       [ "fastener_small", 1 ]
     ],
     "proficiencies": [
@@ -885,7 +884,7 @@
     "using": [
       [ "tailoring_kevlar_fabric", 3 ],
       [ "tailoring_cotton", 3 ],
-      [ "waterproofing_plastic_bags", 6 ],
+      [ "waterproofing_plastic_sheets", 6 ],
       [ "fastener_small", 1 ]
     ],
     "components": [
@@ -911,7 +910,7 @@
     "using": [
       [ "tailoring_kevlar_fabric", 6 ],
       [ "tailoring_cotton", 7 ],
-      [ "waterproofing_plastic_bags", 10 ],
+      [ "waterproofing_plastic_sheets", 10 ],
       [ "fastener_small", 1 ]
     ],
     "components": [
@@ -1364,7 +1363,8 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 },
+      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ]
   },
   {
@@ -1514,7 +1514,8 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 },
+      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ]
   },
   {
@@ -1664,7 +1665,8 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 },
+      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ]
   },
   {

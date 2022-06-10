@@ -1,17 +1,35 @@
 # Stat system scaling:
-Minimum stat: 0 (should only happen due to penalties, instant failure in most scenarios)
+Ranges below will be using strength as the example since it's the easiest to itemize, but what the numbers mean is equivalent between all stats.
 
-Nominal stat: 8 ("average" person)
+Minimal stat: 0 (Should only happen due to penalties, instant failure in most scenarios.  Basically actively dying, almost unable to even carry themselves.)
 
-Very high stat: 14 (realistic world class human, maximum cost-effective in chargen)
+Very low stat: 4 (Lowest in chargen.  Either an average person who's injured or someone who's naturally very dainty and sedentary.)
 
-Maximal stat: 20 (higher may be achievable, but we're not worried about balancing at that point.)
+Moderately low stat: 6 (Below average.  Sedentary job, not very active.)
+
+Nominal stat: 8 ("Average" human.  Mostly sedentary job, somewhat active but not particularly a gym-goer, etc.)
+
+Moderately high stat: 10 (Has a decent bit of strength.  Active job and/or works out consistently.)
+
+Very high stat: 14 (Very strong.  Job is either based around fitness or they're dedicated to building a lot of muscle.  Should require a lot of effort to maintain.)
+
+Maximal human stat: 20 (Extremely strong.  People who spend their whole lives dedicated to being as strong as possible, and with good genetics too.  Olympic powerlifters, record-setting strongmen, etc.)
+
+Superhuman: >20 (Anything beyond this should require bionics or mutations.)
 
 
 # Skill system scaling:
-Minimum skill: 0 (no training)
+Minimum skill: 0 (You have no idea where to even start.  Even following clearly written directions is a challenge because you don't know basic terms and procedures.)
 
-Maximum skill: 10 (requires regular training to maintain, "professional" level)
+Beginning hobbyist level: 1-2 (You've done this enough that you understand how to do basic things, know the tools that are used, and follow the language.)
+
+Proficient hobbyist level: 3-4 (You've used the tools for a while and they don't feel unfamiliar to you.  Given enough directions you can do most things.)
+
+Early professional level: 5-6 (You've been using these tools a while and know not just how to use them, but how to do some impressive stuff, and some of the more efficient shortcuts and common pitfalls.)
+
+Expert professional level: 7-8 (There's not much you don't know about this stuff and you'd be genuinely impressed if someone knew tricks you don't.)
+
+Master level: 9-10 (While there may be very specific tricks you don't know yet, overall you pretty much have no room for major improvement in this skill.  Sure, you'll continue to get better, but only in subtle ways noticeable to you, not anything major.)
 
 
 # Monster melee skill scaling:
