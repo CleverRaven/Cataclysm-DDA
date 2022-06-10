@@ -356,37 +356,28 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
-    // if we've gotten here but the item doesn't actually cover just apply ablative armor
-    if( armor.get_coverage( sbp, ctype ) == 0 && armor.is_ablative() ) {
+    // if the armor location has ablative armor apply that first
+    if( armor.is_ablative() ) {
         ablative_armor_absorb( du, armor, sbp, roll );
-    } else {
-        if( roll > armor.get_coverage( sbp, ctype ) ) {
-            return false;
-        }
-
-        // if the armor location has ablative armor apply that first
-        if( armor.is_ablative() ) {
-            ablative_armor_absorb( du, armor, sbp, roll );
-        }
-
-        // if we hit the specific location then we should continue with absorption as normal
-
-
-        // reduce the damage
-        // -1 is passed as roll so that each material is rolled individually
-        armor.mitigate_damage( du, sbp, -1 );
-
-        // check if the armor was damaged
-        item::armor_status damaged = armor.damage_armor_durability( du, bp );
-
-        // describe what happened if the armor took damage
-        if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
-            describe_damage( du, armor );
-        }
-        return damaged == item::armor_status::DESTROYED;
     }
 
-    return false;
+    // if the core armor is missed then exit
+    if( roll > armor.get_coverage( sbp, ctype ) ) {
+        return false;
+    }
+
+    // reduce the damage
+    // -1 is passed as roll so that each material is rolled individually
+    armor.mitigate_damage( du, sbp, -1 );
+
+    // check if the armor was damaged
+    item::armor_status damaged = armor.damage_armor_durability( du, bp );
+
+    // describe what happened if the armor took damage
+    if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
+        describe_damage( du, armor );
+    }
+    return damaged == item::armor_status::DESTROYED;
 }
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )

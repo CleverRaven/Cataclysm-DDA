@@ -3611,7 +3611,8 @@
         "description": "Pocket for left side plate",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
     "id": "test_plate",

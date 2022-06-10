@@ -221,14 +221,17 @@ TEST_CASE( "Ghost ablative vest", "[coverage]" )
 {
     SECTION( "Ablative not covered" ) {
         item full = item( "test_ghost_vest" );
-        item esapi1 = item( "test_plate" );
-        item esapi2 = item( "test_plate" );
-        full.put_in( esapi1, item_pocket::pocket_type::CONTAINER );
-        full.put_in( esapi2, item_pocket::pocket_type::CONTAINER );
+        full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
+        full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
         item empty = item( "test_ghost_vest" );
+
+        // make sure vest only covers torso_upper when it has armor in it
+        REQUIRE( full.covers( sub_bodypart_id( "torso_upper" ) ) );
+        REQUIRE( !empty.covers( sub_bodypart_id( "torso_upper" ) ) );
         const float dmg_full = get_avg_melee_dmg( full );
         const float dmg_empty = get_avg_melee_dmg( empty );
-        check_near( "Average damage", dmg_full, dmg_empty, 0.2f );
+        // make sure the armor is counting even if the base vest doesn't do anything
+        check_not_near( "Average damage", dmg_full, dmg_empty, 0.5f );
     }
 }
 

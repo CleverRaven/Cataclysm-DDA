@@ -876,7 +876,7 @@ bool item::covers( const sub_bodypart_id &bp ) const
         }
     }
 
-    return does_cover;
+    return does_cover || subpart_cover;
 }
 
 bool item::covers( const bodypart_id &bp ) const
@@ -898,7 +898,7 @@ bool item::covers( const bodypart_id &bp ) const
         }
     }
 
-    return does_cover;
+    return does_cover || subpart_cover;
 }
 
 cata::optional<side> item::covers_overlaps( const item &rhs ) const
