@@ -20,7 +20,7 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "catalytic_cracking_reactor_item",
+    "result": "catalytic_cracking_reactor",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "60 m",

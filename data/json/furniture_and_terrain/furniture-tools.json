@@ -966,7 +966,7 @@
         { "item": "cable", "count": [ 3, 8 ] }
       ]
     },
-    "deconstruct": { "items": [ { "item": "catalytic_cracking_reactor_in_pieces", "count": 1 } ] }
+    "deconstruct": { "items": [ { "item": "catalytic_cracking_reactor", "count": 1 } ] }
   },
   {
     "type": "furniture",
