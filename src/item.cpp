@@ -859,18 +859,45 @@ bool item::covers( const sub_bodypart_id &bp ) const
     }
 
     bool does_cover = false;
+    bool subpart_cover = false;
+
     iterate_covered_sub_body_parts_internal( get_side(), [&]( const sub_bodypart_str_id & covered ) {
         does_cover = does_cover || bp == covered;
     } );
+
+    // check if a piece of ablative armor covers the location
+    for( const item_pocket *pocket : get_all_contained_pockets() ) {
+        // if the pocket is ablative and not empty we should check it
+        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+            // get the contained plate
+            const item &ablative_armor = pocket->front();
+
+            subpart_cover = subpart_cover || ablative_armor.covers( bp );
+        }
+    }
+
     return does_cover;
 }
 
 bool item::covers( const bodypart_id &bp ) const
 {
     bool does_cover = false;
+    bool subpart_cover = false;
     iterate_covered_body_parts_internal( get_side(), [&]( const bodypart_str_id & covered ) {
         does_cover = does_cover || bp == covered;
     } );
+
+    // check if a piece of ablative armor covers the location
+    for( const item_pocket *pocket : get_all_contained_pockets() ) {
+        // if the pocket is ablative and not empty we should check it
+        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+            // get the contained plate
+            const item &ablative_armor = pocket->front();
+
+            subpart_cover = subpart_cover || ablative_armor.covers( bp );
+        }
+    }
+
     return does_cover;
 }
 
