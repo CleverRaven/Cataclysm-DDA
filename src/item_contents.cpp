@@ -373,7 +373,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             selected_pocket->settings.clear();
         }
     } else if( action == "FAV_CONTEXT_MENU" ) {
-        uilist cmenu( string_format( "Action to take on this pocket" ), {} );
+        uilist cmenu( _( "Action to take on this pocket" ), {} );
         cmenu.addentry( 0, true, inp_mngr.get_first_char_for_action( "FAV_MOVE_ITEM", "INVENTORY" ),
                         ctxt.get_action_name( "FAV_MOVE_ITEM" ) );
         cmenu.addentry( 1, true, inp_mngr.get_first_char_for_action( "FAV_ITEM", "INVENTORY" ),
