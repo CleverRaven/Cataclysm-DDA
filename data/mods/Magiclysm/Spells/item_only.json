@@ -318,7 +318,7 @@
     "id": "gorgon_spell",
     "type": "SPELL",
     "name": "Petrification",
-    "description": "Freeze!.",
+    "description": "Freeze!",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "NO_PROJECTILE", "IGNORE_WALLS" ],
     "effect": "mod_moves",
