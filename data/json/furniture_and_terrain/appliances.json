@@ -188,6 +188,36 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_foodco",
+    "name": { "str": "FOODCO kitchen buddy" },
+    "location": "structure",
+    "description": "Assembled from a set of instructions you found in an old book of DIY projects, the *FOODCO kitchen buddy* claims to be *the perfect solution to all your home-cooking needs!*.  While it is surprisingly handy for vacuum-sealing as well as dehydrating food, the cheery sales pitch neglected to mention A - how awkward the damn thing is, B - That you still need a normal kitchen and C - how it doesn't take batteries.  You're going to have to weld it to a vehicle, or something else with a supply of electricity, if you want to use it.  In addition to the food preservation features, it also has a food processor, a water-purification system, a drawer for holding extra tools, and for some insane reason, a press and die set for hand-loading ammunition.",
+    "item": "craftrig",
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
+    "copy-from": "craft_rig"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_chemlab",
+    "name": { "str": "chemistry lab" },
+    "location": "structure",
+    "description": "A small chemistry station, including a hotplate and electrolysis setup powered by the vehicle's batteries.",
+    "item": "chemlab",
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
+    "copy-from": "chemlab"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_weldrig",
+    "name": { "str": "welding rig" },
+    "location": "structure",
+    "description": "A welding rig mounted in the vehicle, that draws power from the vehicle's batteries. You still need glare protection. 'e'xamine the tile with the rig to use it to repair items in your inventory. If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
+    "item": "chemlab",
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
+    "copy-from": "chemlab"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_kiln",
     "location": "structure",
     "description": "An electric kiln for baking brick or clay.  When plugged in and powered you could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
