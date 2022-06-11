@@ -6076,6 +6076,13 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
             } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
                 here.furn_set( examp, f_wind_mill );
             }
+            for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
+                if( it->typeId() == itype_fake_milling_item ) {
+                    it = items_here.erase( it );
+                } else {
+                    ++it;
+                }
+            }
             add_msg( m_info, _( "You stop the milling process." ) );
             break;
     }
