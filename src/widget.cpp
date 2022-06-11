@@ -460,10 +460,14 @@ void widget::finalize_label_separator_recursive( const widget_id &id,
             w->_separator = label_separator;
             return;
         }
+        else {
+            return;
+        }
     }
     // If we get here, we have a layout that contains nested widgets.
     for( const widget_id &wid : w->_widgets ) {
         if( wid->_separator == "DEFAULT" ) {
+            w->_separator = label_separator;
             widget::finalize_label_separator_recursive( wid, label_separator );
         }
     }
@@ -805,6 +809,7 @@ static int custom_draw_func( const draw_args &args )
             // Layout widgets in columns
             // For now, this is the default when calling layout()
             // So, just layout self on a single line
+
             const std::string txt = wgt->layout( u, wgt->_separator, widt );
             if( disable_empty && txt.empty() ) {
                 // reclaim the skipped height in the sidebar
@@ -1417,7 +1422,12 @@ std::string widget::layout( const avatar &ava, std::string &_separator,
             // Stack rows vertically into a multiline widget
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
-                ret += sep + cur_child.layout( ava, _separator, max_width, label_width );
+                if (cur_child._separator != "DEFAULT" && cur_child._separator != _separator) {
+                    ret += sep + cur_child.layout(ava, cur_child._separator, max_width, label_width);
+                }
+                else {
+                    ret += sep + cur_child.layout(ava, _separator, max_width, label_width);
+                }
                 sep = "\n";
                 h += wid->_height < 0 ? 0 : wid->_height;
             }
@@ -1456,7 +1466,13 @@ std::string widget::layout( const avatar &ava, std::string &_separator,
                     debugmsg( "widget layout is wider than sidebar allows." );
                 }
                 // Layout child in this column
-                const std::string txt = cur_child.layout( ava, _separator, cur_width, label_width );
+                std::string txt;
+                if (cur_child._separator != "DEFAULT" && cur_child._separator != _separator) {
+                    txt = cur_child.layout(ava, cur_child._separator, max_width, label_width);
+                }
+                else {
+                    txt = cur_child.layout(ava, _separator, max_width, label_width);
+                }
                 // Store the resulting text for this column
                 cols.emplace_back( foldstring( txt, cur_width + 1 ) );
                 widths.emplace_back( cur_width );
