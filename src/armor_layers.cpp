@@ -720,9 +720,7 @@ void outfit::sort_armor( Character &guy )
         // Left footer
         mvwprintz( w_sort_left, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
         if( leftListSize == 0 ) {
-            // TODO: replace it by right_print()
-            mvwprintz( w_sort_left, point( left_w - utf8_width( _( "<empty>" ) ), cont_h - 1 ),
-                       c_light_blue, _( "<empty>" ) );
+            trim_and_print( w_sort_left, point( 0, 1 ), left_w, c_light_blue, _( "<empty>" ) );
         }
         //Left list scrollbar
         scrollbar()
