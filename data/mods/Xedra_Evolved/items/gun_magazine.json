@@ -38,7 +38,7 @@
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
     "name": { "str": "AA-12 32 round drum magazine" },
-    "description": "A removable plastic 32-round drum magazine, for use with the AA-12 shotgun.",
+    "description": "A removable plastic 32-round drum magazine, for use with the HAMMER dual AA-12 turret system.",
     "weight": "1210 g",
     "volume": "900 ml",
     "price": 4500,
