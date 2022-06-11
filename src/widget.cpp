@@ -1443,8 +1443,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Subtract column padding to get space available for widgets
             const int avail_width = max_width - col_padding * ( num_widgets - 1 );
             // Divide available width equally among all widgets
-            // TODO: This - 1 is making me nervous. It's here because it makes sidebars behave better, but I don't know why it's necessary. It shouldn't be necessary, and it scares me.
-            const int child_width = ( avail_width / num_widgets ) - 1;
+            const int child_width = avail_width / num_widgets;
             // Keep remainder to distribute
             int remainder = avail_width % num_widgets;
             // Store the (potentially) multi-row text for each column
@@ -1474,7 +1473,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                     txt = cur_child.layout( ava, max_width, label_width );
                 }
                 // Store the resulting text for this column
-                cols.emplace_back( foldstring( txt, cur_width + 1 ) );
+                cols.emplace_back( foldstring( txt, cur_width ) );
                 widths.emplace_back( cur_width );
             }
             int h_max = 0;
