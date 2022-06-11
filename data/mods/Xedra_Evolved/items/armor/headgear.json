@@ -35,7 +35,7 @@
     "warmth": 3,
     "material_thickness": 0.3,
     "flags": [ "OVERSIZE", "WATER_FRIENDLY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fae_blood": 8 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "fae_blood": 8 } } ],
     "use_action": { "type": "cast_spell", "spell_id": "bleeding_cap", "no_fail": true, "level": 1, "need_worn": true },
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
