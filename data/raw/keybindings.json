@@ -1833,6 +1833,13 @@
   },
   {
     "type": "keybinding",
+    "id": "ORGANIZE_MENU",
+    "category": "INVENTORY",
+    "name": "Organize contents",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_FAVORITE",
     "category": "INVENTORY",
     "name": "Toggle item as favorite",
@@ -3827,6 +3834,80 @@
     "category": "INVENTORY",
     "name": "Switch lists",
     "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_PRIORITY",
+    "category": "INVENTORY",
+    "name": "priority",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_AUTO_PICKUP",
+    "category": "INVENTORY",
+    "name": "toggle auto pickup",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_AUTO_UNLOAD",
+    "category": "INVENTORY",
+    "name": "toggle auto unload",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_ITEM",
+    "category": "INVENTORY",
+    "name": "item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_CATEGORY",
+    "category": "INVENTORY",
+    "name": "category",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_WHITELIST",
+    "category": "INVENTORY",
+    "name": "whitelist",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_BLACKLIST",
+    "category": "INVENTORY",
+    "name": "blacklist",
+    "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_CLEAR",
+    "category": "INVENTORY",
+    "name": "clear",
+    "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_MOVE_ITEM",
+    "category": "INVENTORY",
+    "name": "move item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_CONTEXT_MENU",
+    "category": "INVENTORY",
+    "name": "open context menu",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "RETURN" },
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" },
+      { "input_method": "mouse", "key": "MOUSE_LEFT" }
+    ]
   },
   {
     "type": "keybinding",

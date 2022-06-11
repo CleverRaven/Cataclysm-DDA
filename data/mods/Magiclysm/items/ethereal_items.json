@@ -474,7 +474,7 @@
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ],
+    "flags": [ "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "TRADER_AVOID", "PERSONAL", "STURDY", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "armor": [
       {
         "encumbrance": 10,
