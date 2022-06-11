@@ -1,18 +1,35 @@
 [
   {
+    "id": "safe_sound_layout_magic",
+    "type": "widget",
+    "style": "layout",
+	"separator": " BBB ",
+    "label": "Safe/Sound",
+    "arrange": "columns",
+    "widgets": [ "safe_mode_desc_magic", "sound_num" ]
+  },
+    {
+    "id": "safe_mode_desc_magic",
+    "type": "widget",
+    "label": "Safe",
+	"separator": " CCC ",
+    "style": "text",
+    "var": "safe_mode_text"
+  },
+  {
     "id": "custom_sidebar",
     "type": "widget",
     "style": "sidebar",
     "label": { "str": "custom", "ctxt": "UI sidebar" },
     "width": 36,
-	"separator": ": ",
+	"separator": " AAA ",
     "widgets": [
       "hitpoints_all_narrow_graphs_layout",
       "stats_narrow_layout",
       "movement_layout",
       "stamina_activity_weary_layout",
       "needs_desc_layout",
-      "safe_sound_layout",
+      "safe_sound_layout_magic",
       "power_desc",
       "rad_badge_desc",
       "compass_all_layout",
