@@ -717,14 +717,14 @@ void outfit::sort_armor( Character &guy )
                 mvwprintz( w_sort_left, point( offset_x - 1, drawindex + 1 ), c_cyan, _( "H" ) );
             }
         }
-
-        // Left footer
-        mvwprintz( w_sort_left, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
         if( leftListSize == 0 ) {
             trim_and_print( w_sort_left, point( 0, 1 ), left_w, c_light_blue, _( "<empty>" ) );
         }
-        //Left list scrollbar
-        scrollbar()
+
+        // Left footer
+        mvwprintz( w_sort_left, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
+
+        scrollbar() //Left list scrollbar at far left
         .offset_x( 0 )
         .offset_y( 4 ) //Header allowance
         .content_size( leftListSize )
@@ -745,8 +745,9 @@ void outfit::sort_armor( Character &guy )
         guy.print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
-	std::string encumbrance_header = _( "Encumbrance");
-	trim_and_print( w_sort_right, point_zero, right_w - utf8_width( encumbrance_header ) - 1, c_light_gray,
+        std::string encumbrance_header = _( "Encumbrance" );
+        trim_and_print( w_sort_right, point_zero, right_w - utf8_width( encumbrance_header ) - 1,
+                        c_light_gray,
                         _( "(Innermost)" ) );
         right_print( w_sort_right, 0, 0, c_light_gray, encumbrance_header );
 
@@ -804,8 +805,7 @@ void outfit::sort_armor( Character &guy )
                 curr++;
             }
         }
-        //Right list scrollbar (on left side of right list)
-        scrollbar()
+        scrollbar() //Right list scrollbar (on left side of right list)
         .offset_x( 2 + left_w + middle_w )
         .offset_y( 4 ) //Header allowance
         .content_size( rightListSize )
@@ -817,7 +817,7 @@ void outfit::sort_armor( Character &guy )
         mvwprintz( w_sort_right, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
 
         // F5
-        wnoutrefresh( w_sort_armor );
+        wnoutrefresh( w_sort_armor ); // Required to show scrollbars
         wnoutrefresh( w_sort_cat );
         wnoutrefresh( w_sort_left );
         wnoutrefresh( w_sort_middle );
