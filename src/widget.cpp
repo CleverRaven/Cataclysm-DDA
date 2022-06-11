@@ -798,7 +798,7 @@ static int custom_draw_func( const draw_args &args )
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
 
-                const std::string txt = row_widget.layout( u, row_widget._separator, widt, wgt->_label_width );
+                const std::string txt = row_widget.layout( u, widt, wgt->_label_width );
                 if( row_wid->has_flag( json_flag_W_DISABLED_WHEN_EMPTY ) && txt.empty() ) {
                     // reclaim the skipped height in the sidebar
                     height_diff -= row_widget._height;
@@ -812,7 +812,7 @@ static int custom_draw_func( const draw_args &args )
             // For now, this is the default when calling layout()
             // So, just layout self on a single line
 
-            const std::string txt = wgt->layout( u, wgt->_separator, widt );
+            const std::string txt = wgt->layout( u, widt );
             if( disable_empty && txt.empty() ) {
                 // reclaim the skipped height in the sidebar
                 height_diff -= wgt->_height;
@@ -823,7 +823,7 @@ static int custom_draw_func( const draw_args &args )
         }
     } else {
         // No layout, just a widget
-        const std::string txt = wgt->layout( u, wgt->_separator, widt );
+        const std::string txt = wgt->layout( u, widt );
         if( disable_empty && txt.empty() ) {
             // reclaim the skipped height in the sidebar
             height_diff -= wgt->_height;
@@ -1413,8 +1413,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     return ret;
 }
 
-std::string widget::layout( const avatar &ava, std::string &_separator,
-                            const unsigned int max_width, int label_width )
+std::string widget::layout( const avatar &ava, const unsigned int max_width, int label_width )
 {
     std::string ret;
     if( _style == "layout" ) {
@@ -1425,9 +1424,9 @@ std::string widget::layout( const avatar &ava, std::string &_separator,
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 if( cur_child._separator != default_separator && cur_child._separator != _separator ) {
-                    ret += sep + cur_child.layout( ava, cur_child._separator, max_width, label_width );
+                    ret += sep + cur_child.layout( ava, max_width, label_width );
                 } else {
-                    ret += sep + cur_child.layout( ava, _separator, max_width, label_width );
+                    ret += sep + cur_child.layout( ava, max_width, label_width );
                 }
                 sep = "\n";
                 h += wid->_height < 0 ? 0 : wid->_height;
@@ -1468,10 +1467,10 @@ std::string widget::layout( const avatar &ava, std::string &_separator,
                 }
                 // Layout child in this column
                 std::string txt;
-                if( cur_child._separator != widget::DEFAULT_SEPARATOR && cur_child._separator != _separator ) {
-                    txt = cur_child.layout( ava, cur_child._separator, max_width, label_width );
+                if( cur_child._separator != default_separator && cur_child._separator != _separator ) {
+                    txt = cur_child.layout( ava, max_width, label_width );
                 } else {
-                    txt = cur_child.layout( ava, _separator, max_width, label_width );
+                    txt = cur_child.layout( ava, max_width, label_width );
                 }
                 // Store the resulting text for this column
                 cols.emplace_back( foldstring( txt, cur_width + 1 ) );
