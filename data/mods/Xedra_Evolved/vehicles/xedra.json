@@ -56,8 +56,8 @@
     {
       "x": -1,
       "y": 1,
-      "ammo_types": [ "shot_slug", "shot_flechette" ],
       "part": "mounted_hammer_turret_system",
+      "ammo_type": [ "shot" ],
       "ammo": 64,
       "ammo_qty": [ 0, 64 ]
     },
