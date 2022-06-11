@@ -1423,11 +1423,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Stack rows vertically into a multiline widget
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
-                if( cur_child._separator != default_separator && cur_child._separator != _separator ) {
-                    ret += sep + cur_child.layout( ava, max_width, label_width );
-                } else {
-                    ret += sep + cur_child.layout( ava, max_width, label_width );
-                }
+                ret += sep + cur_child.layout( ava, max_width, label_width );
                 sep = "\n";
                 h += wid->_height < 0 ? 0 : wid->_height;
             }
@@ -1466,12 +1462,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                     debugmsg( "widget layout is wider than sidebar allows." );
                 }
                 // Layout child in this column
-                std::string txt;
-                if( cur_child._separator != default_separator && cur_child._separator != _separator ) {
-                    txt = cur_child.layout( ava, max_width, label_width );
-                } else {
-                    txt = cur_child.layout( ava, max_width, label_width );
-                }
+                const std::string txt = cur_child.layout( ava, cur_width, label_width );
                 // Store the resulting text for this column
                 cols.emplace_back( foldstring( txt, cur_width ) );
                 widths.emplace_back( cur_width );
