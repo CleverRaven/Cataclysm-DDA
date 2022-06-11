@@ -2,11 +2,13 @@
   {
     "type": "item_group",
     "id": "arsenal_armor_collection",
+    "subtype": "collection",
     "items": [ { "group": "arsenal_armor_armor", "count": [ 1, 2 ] }, { "group": "arsenal_armor_plates", "count": [ 1, 3 ] } ]
   },
   {
     "type": "item_group",
     "id": "arsenal_armor_armor",
+    "subtype": "collection",
     "items": [
       { "item": "ballistic_vest_esapi", "prob": 100, "count": [ 1, 2 ] },
       { "item": "ballistic_vest_heavy", "prob": 25, "count": [ 1, 2 ] },
@@ -19,6 +21,7 @@
   {
     "type": "item_group",
     "id": "arsenal_armor_plates",
+    "subtype": "collection",
     "items": [
       { "item": "esapi_plate", "count": 2 },
       { "item": "esbi_plate", "count": 2 },
