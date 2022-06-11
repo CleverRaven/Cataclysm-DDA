@@ -679,6 +679,7 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]

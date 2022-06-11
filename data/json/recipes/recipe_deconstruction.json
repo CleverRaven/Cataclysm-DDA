@@ -6223,5 +6223,157 @@
       [ [ "e_scrap", 3 ] ],
       [ [ "lock", 1 ] ]
     ]
+  },
+  {
+    "result": "boots_combat",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "leather", 4 ], [ "scrap_kevlar", 4 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "motorbike_boots",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "leather", 16 ], [ "scrap_kevlar", 16 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "motor_police_boots",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "leather", 16 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "boots_bunker",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "nomex", 24 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "boots_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "fur", 8 ], [ "leather", 10 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "xs_boots_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "fur", 6 ], [ "leather", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "xl_boots_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "fur", 10 ], [ "leather", 12 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "sneakers",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "cotton_patchwork", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "hat_boonie",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "cotton_patchwork", 16 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "hat_cotton",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "cotton_patchwork", 12 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "hat_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "fur", 3 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "hat_faux_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "faux_fur", 3 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "hat_hunting",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "felt_patch", 32 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "breeches",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "60 s",
+    "components": [ [ [ "cotton_patchwork", 32 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "pants_cargo",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "components": [ [ [ "cotton_patchwork", 80 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "pants_leather",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "24 s",
+    "components": [ [ [ "leather", 12 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "sleeping_bag_fur_roll",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "components": [ [ [ "cotton_patchwork", 60 ], [ "fur", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "backpack",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "components": [ [ [ "nylon", 64 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "blazer",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "components": [ [ [ "felt_patch", 150 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
   }
 ]

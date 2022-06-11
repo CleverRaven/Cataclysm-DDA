@@ -174,7 +174,7 @@
     "using": [
       [ "sewing_standard", 13 ],
       [ "tailoring_leather_patchwork", 3 ],
-      [ "tailoring_fur_patchwork", 4 ],
+      [ "tailoring_fur_patchwork", 2 ],
       [ "fastener_shoes", 2 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]
