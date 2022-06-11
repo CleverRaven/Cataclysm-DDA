@@ -363,7 +363,7 @@
   {
     "id": "cheap_ammo_pouch_belt223",
     "type": "ARMOR",
-    "name": "5.56x45 belt pouch",
+    "name": { "str": "5.56x45 belt pouch", "str_pl": "5.56x45 belt pouches" },
     "description": "Big pouch, designed to store a bulky ammo belt",
     "weight": "60 g",
     "volume": "40 ml",
@@ -390,7 +390,7 @@
   {
     "id": "cheap_ammo_pouch_belt308",
     "type": "ARMOR",
-    "name": "7.62x51 belt pouch",
+    "name": { "str": "7.62x51 belt pouch", "str_pl": "7.62x51 belt pouches" },
     "description": "Big pouch, designed to store a bulky ammo belt.",
     "weight": "60 g",
     "volume": "40 ml",
