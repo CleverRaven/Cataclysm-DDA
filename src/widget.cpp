@@ -359,6 +359,11 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
 
+    if (_style == "sidebar" && _separator == default_separator) {
+        std::string error_msg = "Sidebar " + id.str() + " does not have a separator field!";
+        cata_fatal(error_msg);
+    }
+
     _height = _height_max;
     _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
 
