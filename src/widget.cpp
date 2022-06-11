@@ -360,8 +360,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", _flags );
 
     if (_style == "sidebar" && _separator == default_separator) {
-        std::string error_msg = "Sidebar " + id.str() + " does not have a separator field!";
-        cata_fatal(error_msg);
+        jo.throw_error("Sidebar " + id.str() + " does not have a separator field!");
     }
 
     _height = _height_max;
