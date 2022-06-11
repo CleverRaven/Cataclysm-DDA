@@ -14,6 +14,9 @@ const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 const static flag_id json_flag_W_DYNAMIC_HEIGHT( "W_DYNAMIC_HEIGHT" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
 
+// Default label separator for widgets.
+const static std::string default_separator = "DEFAULT";
+
 // Use generic factory wrappers for widgets to use standardized JSON loading methods
 namespace
 {

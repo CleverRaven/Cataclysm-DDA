@@ -134,9 +134,6 @@ template<typename T>
 class generic_factory;
 class widget;
 
-// Default label separator for widgets.
-static const std::string default_separator = "DEFAULT";
-
 // Forward declaration, due to codependency on panels.h
 class window_panel;
 
