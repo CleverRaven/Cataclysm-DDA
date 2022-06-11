@@ -347,6 +347,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
+    optional( jo, was_loaded, "separator", label_separator, ": " );
     optional( jo, was_loaded, "label", _label, translation() );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
@@ -760,7 +761,7 @@ static int custom_draw_func( const draw_args &args )
             int row_num = 0;
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
-                const std::string txt = row_widget.layout( u, widt, wgt->_label_width );
+                const std::string txt = row_widget.layout( u, wgt->label_separator, widt, wgt->_label_width );
                 if( row_wid->has_flag( json_flag_W_DISABLED_WHEN_EMPTY ) && txt.empty() ) {
                     // reclaim the skipped height in the sidebar
                     height_diff -= row_widget._height;
@@ -773,7 +774,7 @@ static int custom_draw_func( const draw_args &args )
             // Layout widgets in columns
             // For now, this is the default when calling layout()
             // So, just layout self on a single line
-            const std::string txt = wgt->layout( u, widt );
+            const std::string txt = wgt->layout( u, wgt->label_separator, widt );
             if( disable_empty && txt.empty() ) {
                 // reclaim the skipped height in the sidebar
                 height_diff -= wgt->_height;
@@ -784,7 +785,7 @@ static int custom_draw_func( const draw_args &args )
         }
     } else {
         // No layout, just a widget
-        const std::string txt = wgt->layout( u, widt );
+        const std::string txt = wgt->layout( u, wgt->label_separator, widt );
         if( disable_empty && txt.empty() ) {
             // reclaim the skipped height in the sidebar
             height_diff -= wgt->_height;
@@ -1276,7 +1277,7 @@ std::string widget::graph( int value ) const
 
 // For widget::layout, process each row to append to the layout string
 static std::string append_line( const std::string &line, bool first_row, int max_width,
-                                const translation &label, int label_width, widget_alignment text_align,
+                                const translation &label, int label_width, const std::string &label_separator, widget_alignment text_align,
                                 widget_alignment label_align )
 {
     // utf8_width subtracts 1 for each newline; add it back for multiline widgets
@@ -1288,7 +1289,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     if( first_row && !label.empty() ) {
         lbl = label.translated();
         lbl_w = utf8_width( lbl, true );
-        lbl.append( ": " );
+        lbl.append( label_separator );
     }
     // Don't process label width if label_width = 0 for empty labels
     if( label_width > 0 || !label.empty() ) {
@@ -1373,7 +1374,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     return ret;
 }
 
-std::string widget::layout( const avatar &ava, const unsigned int max_width, int label_width )
+std::string widget::layout( const avatar &ava, const std::string &label_separator, const unsigned int max_width, int label_width )
 {
     std::string ret;
     if( _style == "layout" ) {
@@ -1383,7 +1384,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Stack rows vertically into a multiline widget
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
-                ret += sep + cur_child.layout( ava, max_width, label_width );
+                ret += sep + cur_child.layout( ava, label_separator, max_width, label_width );
                 sep = "\n";
                 h += wid->_height < 0 ? 0 : wid->_height;
             }
@@ -1422,7 +1423,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                     debugmsg( "widget layout is wider than sidebar allows." );
                 }
                 // Layout child in this column
-                const std::string txt = cur_child.layout( ava, cur_width, label_width );
+                const std::string txt = cur_child.layout( ava, label_separator, cur_width, label_width );
                 // Store the resulting text for this column
                 cols.emplace_back( foldstring( txt, cur_width + 1 ) );
                 widths.emplace_back( cur_width );
@@ -1475,7 +1476,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Process line, including '\n'
             ret += append_line( shown.substr( 0, strpos + 1 ), row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
-                                0, _text_align, _label_align );
+                                0, label_separator, _text_align, _label_align );
             // Delete used token
             shown.erase( 0, strpos + 1 );
             row_num++;
@@ -1484,7 +1485,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
-                                row_num == 0 ? label_width : 0, _text_align, _label_align );
+                                row_num == 0 ? label_width : 0, label_separator, _text_align, _label_align );
         }
     }
     return ret.find( '\n' ) != std::string::npos || max_width == 0 ?

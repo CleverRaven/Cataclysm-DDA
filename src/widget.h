@@ -213,6 +213,8 @@ class widget
         translation _label;
         // Width of the longest label within this layout's widgets (for "rows")
         int _label_width = 0;
+        // Separator used to separate the label from the text. This is inherited from any parent widgets if none is found.
+        std::string label_separator;
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var = widget_var::last;
         // Minimum meaningful var value, set by set_default_var_range
@@ -271,7 +273,7 @@ class widget
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
         // label area, so the returned string is equal to max_width.
-        std::string layout( const avatar &ava, unsigned int max_width = 0, int label_width = 0 );
+        std::string layout( const avatar &ava, const std::string& label_separator, unsigned int max_width = 0, int label_width = 0);
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava, unsigned int max_width );
         // Return a window_panel for rendering this widget at given width (and possibly height)
