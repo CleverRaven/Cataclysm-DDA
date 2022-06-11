@@ -5645,25 +5645,34 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         return;
     }
 
-    for( item &it : items ) {
+    for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+        item &it = *iter;
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
-            item result( mdata.into_, start_time + milling_time,
-                         ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
-            result.components.push_back( it );
-            // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const flag_id &f : it.type->get_flags() ) {
-                if( f->craft_inherit() ) {
-                    result.set_flag( f );
+            const int charges = ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_;
+            if( charges <= 0 ) {
+                // not enough material, just remove the item
+                iter = items.erase( iter );
+            } else {
+                item result( mdata.into_, start_time + milling_time, charges );
+                result.components.push_back( it );
+                // copied from item::inherit_flags, which can not be called here because it requires a recipe.
+                for( const flag_id &f : it.type->get_flags() ) {
+                    if( f->craft_inherit() ) {
+                        result.set_flag( f );
+                    }
                 }
+                result.recipe_charges = result.charges;
+                // Set flag to tell set_relative_rot() to calc from bday not now
+                result.set_flag( flag_PROCESSING_RESULT );
+                result.set_relative_rot( it.get_relative_rot() );
+                result.unset_flag( flag_PROCESSING_RESULT );
+                it = result;
+                ++iter;
             }
-            result.recipe_charges = result.charges;
-            // Set flag to tell set_relative_rot() to calc from bday not now
-            result.set_flag( flag_PROCESSING_RESULT );
-            result.set_relative_rot( it.get_relative_rot() );
-            result.unset_flag( flag_PROCESSING_RESULT );
-            it = result;
+        } else {
+            ++iter;
         }
     }
     here.furn_set( examp, next_mill_type );
