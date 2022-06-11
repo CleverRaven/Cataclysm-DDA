@@ -674,9 +674,10 @@ void outfit::sort_armor( Character &guy )
         }
 
         // Left header
-        mvwprintz( w_sort_left, point_zero, c_light_gray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, 0, c_light_gray, string_format( _( "Storage (%s)" ),
-                     volume_units_abbr() ) );
+        std:: string storage_header = string_format( _( "Storage (%s)" ), volume_units_abbr() );
+        trim_and_print( w_sort_left, point_zero, left_w - utf8_width( storage_header ) - 1, c_light_gray,
+                        _( "(Innermost)" ) );
+        right_print( w_sort_left, 0, 0, c_light_gray, storage_header );
         // Left list
         const int max_drawindex = std::min( leftListSize - leftListOffset, leftListLines );
         int storage_character_allowance = 5; //Sufficient for " x.yz", will increase if necessary
@@ -692,7 +693,7 @@ void outfit::sort_armor( Character &guy )
             units::volume worn_armor_capacity = tmp_worn[itemindex]->get_total_capacity();
             double worn_armor_storage = convert_volume( units::to_milliliter( worn_armor_capacity ) );
             std::string storage_string = string_format( "%.2f", worn_armor_storage );
-            const int current_character_allowance = worn_armor_storage > 0 ? storage_string.length() : 0;
+            const int current_character_allowance = worn_armor_storage > 0 ? utf8_width( storage_string ) : 0;
             storage_character_allowance = std::max( current_character_allowance + 1,
                                                     storage_character_allowance );
 
@@ -744,8 +745,10 @@ void outfit::sort_armor( Character &guy )
         guy.print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
-        mvwprintz( w_sort_right, point_zero, c_light_gray, _( "(Innermost)" ) );
-        right_print( w_sort_right, 0, 0, c_light_gray, _( "Encumbrance" ) );
+	std::string encumbrance_header = _( "Encumbrance");
+	trim_and_print( w_sort_right, point_zero, right_w - utf8_width( encumbrance_header ) - 1, c_light_gray,
+                        _( "(Innermost)" ) );
+        right_print( w_sort_right, 0, 0, c_light_gray, encumbrance_header );
 
         const auto &combine_bp = [&guy]( const bodypart_id & cover ) -> bool {
             const bodypart_id opposite = cover.obj().opposite_part;
@@ -789,8 +792,8 @@ void outfit::sort_armor( Character &guy )
                     nc_color color = elem.penalties.color_for_stacking_badness();
                     char plus = elem.penalties.badness() > 0 ? '+' : ' ';
                     std::string encumbrance_string = string_format( "%d%c", elem.encumber, plus );
-                    if( static_cast<int>( encumbrance_string.length() ) + 1 > encumbrance_char_allowance ) {
-                        encumbrance_char_allowance = static_cast<int>( encumbrance_string.length() ) + 1;
+                    if( utf8_width( encumbrance_string ) + 1 > encumbrance_char_allowance ) {
+                        encumbrance_char_allowance = utf8_width( encumbrance_string ) + 1;
                     }
                     trim_and_print( w_sort_right, point( item_name_offset, pos ),
                                     right_w - item_name_offset - encumbrance_char_allowance, color,
