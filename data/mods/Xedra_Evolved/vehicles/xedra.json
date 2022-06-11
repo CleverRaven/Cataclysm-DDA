@@ -57,9 +57,9 @@
       "x": -1,
       "y": 1,
       "part": "mounted_hammer_turret_system",
-      "ammo_types": [ "shot_00" ],
+      "ammo_types": [ "shot_00", "shot_slug" ],
       "ammo": 64,
-      "ammo_qty": [ 0, 64 ]
+      "ammo_qty": [ 1, 64 ]
     },
     { "x": -1, "y": 2, "parts": [ "hdframe_cross", "seat", "seatbelt", "hdroof" ] },
     { "x": -1, "y": 3, "parts": [ "hdframe_vertical_right", "hddoor_right" ] },
