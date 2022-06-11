@@ -73,7 +73,7 @@
     "type": "requirement",
     "//": "Joining Kevlar panels together into something like a Kevlar vest or other armor per 428 g of Kevlar.  Time needed is 45 minutes per unit.",
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_kevlar_layered", 1 ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 1 ] ], [ [ "filament_durable", 5, "LIST" ] ] ]
   },
   {
     "id": "armor_steel_plate",
@@ -365,7 +365,7 @@
     "type": "requirement",
     "//": "Crafting Kevlar items, per 26 g of Kevlar; 6 g + excessive weight of material is wasted, producing Kevlar scraps as byproducts.  Time needed is usually 40 minutes per unit if hand-stitching.",
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_kevlar", 1 ] ], [ [ "filament", 6, "LIST" ] ] ]
+    "components": [ [ [ "sheet_kevlar", 1 ] ], [ [ "filament_durable", 6, "LIST" ] ] ]
   },
   {
     "id": "tailoring_leather",
