@@ -2704,7 +2704,7 @@ class item : public visitable
         /**
          * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
-        void favorite_settings_menu( const std::string &item_name );
+        void favorite_settings_menu();
 
         void combine( const item_contents &read_input, bool convert = false );
 
