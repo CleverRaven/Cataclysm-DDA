@@ -12,7 +12,8 @@
       { "item": "ballistic_vest_heavy", "prob": 25, "count": [ 1, 2 ] },
       { "item": "helmet_army", "prob": 100, "count": [ 1, 2 ] },
       { "item": "tac_helmet", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "tac_fullhelmet", "prob": 25, "count": [ 1, 2 ] }
+      { "item": "tac_fullhelmet", "prob": 25, "count": [ 1, 2 ] },
+      { "item": "glasses_bal", "prob": 25, "count": [ 1, 2 ] }
     ]
   },
   {
