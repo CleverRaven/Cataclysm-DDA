@@ -2528,7 +2528,7 @@ void Character::complete_disassemble( item_location target )
                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
     new_act.targets = activity.targets;
     new_act.index = activity.index;
-    new_act.position = std::min( num_dis, obj.charges );
+    new_act.position = num_dis;
     assign_activity( new_act );
 }
 

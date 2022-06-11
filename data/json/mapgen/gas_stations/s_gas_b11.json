@@ -75,7 +75,10 @@
         ],
         "n": { "item": "SUS_bathroom_sink", "chance": 90 }
       },
-      "monster": { "q": { "monster": "mon_turret_rifle" }, "r": { "monster": "mon_zombie_soldier" } }
+      "monster": {
+        "q": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
+        "r": { "monster": "mon_zombie_soldier" }
+      }
     }
   }
 ]

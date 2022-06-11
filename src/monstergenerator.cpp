@@ -66,7 +66,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::PLAYER_NEAR_BABY: return "PLAYER_NEAR_BABY";
         case mon_trigger::MATING_SEASON: return "MATING_SEASON";
         // *INDENT-ON*
-        case mon_trigger::_LAST:
+        case mon_trigger::LAST:
             break;
     }
     cata_fatal( "Invalid mon_trigger" );

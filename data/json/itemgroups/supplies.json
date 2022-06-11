@@ -354,6 +354,18 @@
   },
   {
     "type": "item_group",
+    "id": "supplies_fluid_catalytic_lab",
+    "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
+    "items": [
+      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "cooking_oil", "prob": 100, "count": 4, "charges-min": 10 },
+      { "item": "chem_washing_soda", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "cooking_oil2", "prob": 100, "count": 4, "charges-min": 10 },
+      { "item": "lamp_oil", "prob": 100, "count": 4, "charges-min": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "supplies_samples_lab",
     "//": "non-secret laboratory biological samples.",
     "items": [
@@ -381,6 +393,8 @@
       { "item": "lupine_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "feline_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "plant_sample", "prob": 10, "count": [ 3, 6 ] },
+      { "item": "slime_sample", "prob": 10, "count": [ 3, 6 ] },
+      { "item": "bird_sample", "prob": 10, "count": [ 3, 6 ] },
       { "item": "sweetbread", "prob": 10, "count": [ 1, 3 ] }
     ]
   },

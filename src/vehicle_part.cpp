@@ -608,7 +608,13 @@ bool vehicle_part::is_seat() const
 const vpart_info &vehicle_part::info() const
 {
     if( !info_cache ) {
-        info_cache = &id.obj();
+        // segmentation fault occurs here during severe vehicle crash
+        // probably this part is removed/destroyed?
+        if( !id.is_null() && id.is_valid() ) {
+            info_cache = &id.obj();
+        } else {
+            info_cache = nullptr;
+        }
     }
     return *info_cache;
 }

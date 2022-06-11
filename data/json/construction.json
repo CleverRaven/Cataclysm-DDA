@@ -1141,7 +1141,6 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "material_soil", 25 ] ] ],
     "dark_craftable": true,
     "pre_terrain": "t_dirtmound",
     "post_terrain": "t_dirt",

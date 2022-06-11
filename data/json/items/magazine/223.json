@@ -65,6 +65,27 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 10, "300blk": 10 } } ]
   },
   {
+    "looks_like": "stanag30",
+    "id": "stanag10ranger",
+    "type": "MAGAZINE",
+    "name": {
+      "str": "STANAG 10-round magazine with attached ranger plate",
+      "str_pl": "STANAG 10-round magazines with attached ranger plates"
+    },
+    "description": "A compact 10-round box magazine for use with STANAG compatible rifles.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
+    "weight": "235 g",
+    "volume": "258 ml",
+    "longest_side": "132 mm",
+    "price": 5100,
+    "price_postapoc": 110,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223", "300blk" ],
+    "flags": [ "MAG_COMPACT", "BELT_CLIP" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 10, "300blk": 10 } } ]
+  },
+  {
     "id": "ruger10",
     "copy-from": "stanag10",
     "looks_like": "stanag30",
@@ -139,6 +160,23 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 5, "300blk": 5 } } ]
   },
   {
+    "id": "stanag5ranger",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "STANAG 5-round magazine with ranger plate", "str_pl": "STANAG 5-round magazines with ranger plates" },
+    "description": "A very compact 5-round box magazine for use with STANAG compatible rifles.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
+    "weight": "210 g",
+    "volume": "228 ml",
+    "longest_side": "101 mm",
+    "price": 4100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223", "300blk" ],
+    "flags": [ "MAG_COMPACT", "BELT_CLIP" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 5, "300blk": 5 } } ]
+  },
+  {
     "id": "stanag20",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
@@ -153,6 +191,23 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 20, "300blk": 20 } } ]
+  },
+  {
+    "id": "stanag20ranger",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "STANAG 20-round magazine with ranger plate", "str_pl": "STANAG 20-round magazines with ranger plates" },
+    "description": "A compact 20-round box magazine for use with STANAG compatible rifles.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
+    "weight": "300 g",
+    "volume": "328 ml",
+    "longest_side": "154 mm",
+    "price": 4100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223", "300blk" ],
+    "flags": [ "MAG_COMPACT", "BELT_CLIP" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 20, "300blk": 20 } } ]
   },
   {
@@ -174,6 +229,24 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 30, "300blk": 30 } } ]
   },
   {
+    "id": "stanag30ranger",
+    "type": "MAGAZINE",
+    "name": { "str": "STANAG 30-round magazine with ranger plate", "str_pl": "STANAG 30-round magazines with ranger plates" },
+    "//": "Tileset whitelist for rifle magazines",
+    "description": "A standard capacity 30-round box magazine for use with STANAG compatible rifles.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
+    "weight": "355 g",
+    "volume": "388 ml",
+    "longest_side": "215 mm",
+    "price": 8100,
+    "price_postapoc": 255,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223", "300blk" ],
+    "flags": [ "MAG_COMPACT", "BELT_CLIP" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 30, "300blk": 30 } } ]
+  },
+  {
     "id": "stanag40",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
@@ -188,6 +261,23 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40, "300blk": 40 } } ]
+  },
+  {
+    "id": "stanag40ranger",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "STANAG 40-round magazine with ranger plate", "str_pl": "STANAG 40-round magazines with ranger plates" },
+    "description": "An increased-capacity 40-round box magazine for use with STANAG compatible rifles.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
+    "weight": "310 g",
+    "volume": "488 ml",
+    "longest_side": "261 mm",
+    "price": 8600,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223", "300blk" ],
+    "flags": [ "MAG_COMPACT", "BELT_CLIP" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40, "300blk": 40 } } ]
   },
   {

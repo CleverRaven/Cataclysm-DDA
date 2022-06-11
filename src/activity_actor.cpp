@@ -5658,9 +5658,11 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         }
     }
     // Clear the backlog of any activities that will not auto resume.
-    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
+    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ) {
         if( !iter->auto_resume ) {
             iter = who.backlog.erase( iter );
+        } else {
+            ++iter;
         }
     }
 }
