@@ -706,6 +706,7 @@ which provides text and color definitions for different bodypart status conditio
 | `id`        | An optional identifier for this clause
 | `text`      | Translated text that may be interpreted and displayed in the widget.
 | `sym`       | A shortened symbol representing the text.
+| `separator` | The string used to separate the label from the widget data. This definition is recursive - Parents will pass their separator to its children unless those children have their own explicitly defined `separator`
 | `color`     | Defines the color for the text derived from this "clause".
 | `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
 | `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
