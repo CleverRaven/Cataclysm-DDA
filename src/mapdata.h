@@ -531,11 +531,11 @@ struct map_data_common_t {
             return bitflags[flag];
         }
 
-        void extraprocess_flags( const ter_furn_flag flag );
+        void extraprocess_flags( ter_furn_flag flag );
 
         void set_flag( const std::string &flag );
 
-        void set_flag( const ter_furn_flag flag );
+        void set_flag( ter_furn_flag flag );
 
         int connect_group = 0;
 

@@ -101,6 +101,28 @@
     ]
   },
   {
+    "id": "ketene_lamp",
+    "type": "TOOL",
+    "name": { "str": "ketene lamp" },
+    "description": "This is a section of glass pipe with a bulb in the middle, which contains an electrical heating element.  It is used for producing ketene via pyrolysis of acetone or 1,3-butadiene from cyclohexane, for use in other chemical reactions.  Due to the instability of ketene, it can't be stored and must be used immediately.",
+    "weight": "3 kg",
+    "volume": "2 L",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "material": [ "glass", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "engineering_makerspace_kit",
     "type": "TOOL",
     "name": { "str": "makerspace kit for STEM", "str_pl": "makerspace kits for STEM" },
@@ -319,6 +341,23 @@
     "bashing": 8,
     "material": [ "steel" ],
     "qualities": [ [ "EXTRACT", 1 ] ]
+  },
+  {
+    "id": "catalytic_cracking_reactor",
+    "type": "TOOL",
+    "name": { "str": "catalytic cracking reactor" },
+    "description": "A makeshift extraction system.  As makeshift as you can consider something that was purpose built in a laboratory by a group of experts.  Meticulously disassembled and reassembled.",
+    "symbol": "U",
+    "color": "dark_gray",
+    "looks_like": "household_water_heater",
+    "weight": "22700 g",
+    "volume": "500 L",
+    "price": 20000,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_catalytic_cracking_reactor" },
+    "qualities": [ [ "EXTRACT", 3 ] ]
   },
   {
     "id": "filter_paper_qualitative",

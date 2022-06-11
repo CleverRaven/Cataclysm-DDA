@@ -1002,7 +1002,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
         if( entry_with_loc != entries.end() ) {
             std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
-            inventory_entry nentry( locations, entry.get_category_ptr(), true, 0,
+            inventory_entry nentry( locations, entry.get_category_ptr(), entry.is_selectable(), 0,
                                     entry_with_loc->generation, entry_with_loc->topmost_parent,
                                     entry_with_loc->chevron );
             nentry.collapsed = entry_with_loc->collapsed;
@@ -1212,7 +1212,7 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
     return cur_invlet;
 }
 
-int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pickup_chars )
+int inventory_column::reassign_custom_invlets( int cur_idx, const std::string &pickup_chars )
 {
     for( auto &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
@@ -2248,6 +2248,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "SHOW_HIDE_CONTENTS", to_translation( "Show/hide contents" ) );
     ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "TOGGLE_SKIP_UNSELECTABLE" );
+    ctxt.register_action( "ORGANIZE_MENU" );
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -2580,6 +2581,9 @@ item_location inventory_pick_selector::execute()
                 ui_manager::redraw();
             }
             return input.entry->any_item();
+        } else if( input.action == "ORGANIZE_MENU" ) {
+            u.worn.organize_items_menu();
+            return item_location();
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {

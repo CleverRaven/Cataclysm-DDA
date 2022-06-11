@@ -720,7 +720,13 @@
     "id": "bath_linens",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "sheet", 40 ], [ "towel", 30 ], [ "rag", 20 ], [ "bandages", 5 ], [ "adhesive_bandages", 5 ] ]
+    "items": [
+      [ "sheet", 40 ],
+      [ "towel", 30 ],
+      [ "rag", 20 ],
+      [ "bandages", 5 ],
+      { "item": "adhesive_bandages", "prob": 5, "count": [ 1, 20 ] }
+    ]
   },
   {
     "id": "creepy",
@@ -1131,7 +1137,7 @@
       [ "protein_shake", 8 ],
       { "item": "coke", "prob": 3, "charges": [ 1, 8 ] },
       { "item": "bandages", "prob": 5, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "adhesive_bandages", "prob": 5, "count": [ 1, 20 ] },
       [ "heatpack", 10 ],
       [ "gum", 12 ],
       [ "yoghurt", 12 ],
@@ -1212,7 +1218,7 @@
       [ "shorts", 60 ],
       [ "longshirt", 60 ],
       { "item": "bandages", "prob": 5, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "adhesive_bandages", "prob": 5, "count": [ 1, 20 ] },
       [ "heatpack", 10 ],
       { "item": "gum", "prob": 12, "charges": [ 1, 10 ] },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
@@ -1259,6 +1265,7 @@
       [ "mop", 25 ],
       [ "mop_folded", 15 ],
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
+      { "item": "chem_washing_soda", "prob": 5, "charges-min": 1 },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
       { "item": "bleach", "prob": 20, "charges-min": 1 },

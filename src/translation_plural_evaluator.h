@@ -107,7 +107,7 @@ class TranslationPluralRulesEvaluator
         static void DisposeExprNodeRecursive( ExprNode *node );
         void DisposeExprTree();
 
-        std::size_t Evaluate( const std::size_t n ) const;
+        std::size_t Evaluate( std::size_t n ) const;
         void ParsePluralRules( const std::string &plural_forms );
         explicit TranslationPluralRulesEvaluator( const std::string &plural_forms );
         ~TranslationPluralRulesEvaluator();

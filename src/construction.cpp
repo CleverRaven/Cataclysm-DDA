@@ -158,6 +158,7 @@ void done_wiring( const tripoint &, Character & );
 void done_deconstruct( const tripoint &, Character & );
 void done_digormine_stair( const tripoint &, bool, Character & );
 void done_dig_grave( const tripoint &p, Character & );
+void done_dig_grave_nospawn( const tripoint &p, Character & );
 void done_dig_stair( const tripoint &, Character & );
 void done_mine_downstair( const tripoint &, Character & );
 void done_mine_upstair( const tripoint &, Character & );
@@ -180,8 +181,9 @@ static std::vector<construction> constructions;
 static std::map<construction_str_id, construction_id> construction_id_map;
 
 // Helper functions, nobody but us needs to call these.
-static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
+static std::vector<construction *> player_can_build_valid_constructions( Character &you,
+        const read_only_visitable &inv, const construction_group_str_id &group );
 static bool player_can_build( Character &you, const read_only_visitable &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( Character &you, const construction_group_str_id &group );
@@ -265,8 +267,7 @@ static void load_available_constructions( std::vector<construction_group_str_id>
     avatar &player_character = get_avatar();
     for( auto &it : constructions ) {
         if( it.on_display && ( !hide_unconstructable ||
-                               ( can_construct( it ) &&
-                                 player_can_build( player_character, player_character.crafting_inventory(), it ) ) ) ) {
+                               player_can_build( player_character, player_character.crafting_inventory(), it ) ) ) {
             bool already_have_it = false;
             for( auto &avail_it : available ) {
                 if( avail_it == it.group ) {
@@ -304,19 +305,12 @@ static nc_color construction_color( const construction_group_str_id &group, bool
     Character &player_character = get_player_character();
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         col = c_white;
-    } else if( can_construct( group ) ) {
-        construction *con_first = nullptr;
-        std::vector<construction *> cons = constructions_by_group( group );
-        const inventory &total_inv = player_character.crafting_inventory();
-        for( auto &con : cons ) {
-            if( con->requirements->can_make_with_inventory( total_inv, is_crafting_component ) ) {
-                con_first = con;
-                break;
-            }
-        }
-        if( con_first != nullptr ) {
+    } else {
+        std::vector<construction *> cons = player_can_build_valid_constructions( player_character,
+                                           player_character.crafting_inventory(), group );
+        if( !cons.empty() ) {
             col = c_white;
-            for( const auto &pr : con_first->required_skills ) {
+            for( const auto &pr : cons.front()->required_skills ) {
                 int s_lvl = player_character.get_skill_level( pr.first );
                 if( s_lvl < pr.second ) {
                     col = c_red;
@@ -886,6 +880,23 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
+static std::vector<construction *> player_can_build_valid_constructions( Character &you,
+        const read_only_visitable &inv,
+        const construction_group_str_id &group )
+{
+    std::vector<construction *> result;
+
+    // check all with the same group to see if player can build any
+    // if so, it will be added to the result
+    std::vector<construction *> cons = constructions_by_group( group );
+    for( auto &con : cons ) {
+        if( player_can_build( you, inv, *con ) ) {
+            result.push_back( con );
+        }
+    }
+    return result;
+}
+
 bool player_can_build( Character &you, const read_only_visitable &inv,
                        const construction_group_str_id &group )
 {
@@ -899,7 +910,8 @@ bool player_can_build( Character &you, const read_only_visitable &inv,
     return false;
 }
 
-bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con )
+bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
+                       const bool can_construct_skip )
 {
     if( you.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -909,7 +921,9 @@ bool player_can_build( Character &you, const read_only_visitable &inv, const con
         return false;
     }
 
-    return con.requirements->can_make_with_inventory( inv, is_crafting_component );
+    // check for construction spot can be skipped by using can_construct_skip
+    return con.requirements->can_make_with_inventory( inv, is_crafting_component ) &&
+           ( can_construct_skip || can_construct( con ) );
 }
 
 bool player_can_see_to_build( Character &you, const construction_group_str_id &group )
@@ -918,20 +932,8 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
         return true;
     }
     std::vector<construction *> cons = constructions_by_group( group );
-    for( construction *&con : cons ) {
-        if( con->dark_craftable ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool can_construct( const construction_group_str_id &group )
-{
-    // check all with the same group to see if player can build any
-    std::vector<construction *> cons = constructions_by_group( group );
     for( auto &con : cons ) {
-        if( can_construct( *con ) ) {
+        if( con->dark_craftable ) {
             return true;
         }
     }
@@ -993,7 +995,7 @@ void place_construction( const construction_group_str_id &group )
     for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
         for( const auto *con : cons ) {
             if( p != player_character.pos() && can_construct( *con, p ) &&
-                player_can_build( player_character, total_inv, *con ) ) {
+                player_can_build( player_character, total_inv, *con, true ) ) {
                 valid[ p ] = con;
             }
         }
@@ -1172,6 +1174,7 @@ void complete_construction( Character *you )
              built.group->name() );
     // clear the activity
     you->activity.set_to_null();
+    you->recoil = MAX_RECOIL;
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
@@ -1655,6 +1658,12 @@ void construct::done_dig_grave( const tripoint &p, Character &who )
     get_event_bus().send<event_type::exhumes_grave>( who.getID() );
 }
 
+void construct::done_dig_grave_nospawn( const tripoint &p, Character &who )
+{
+    get_map().furn_set( p, f_coffin_c );
+    get_event_bus().send<event_type::exhumes_grave>( who.getID() );
+}
+
 void construct::done_dig_stair( const tripoint &p, Character &who )
 {
     done_digormine_stair( p, true, who );
@@ -1950,6 +1959,7 @@ void load_construction( const JsonObject &jo )
             { "done_wiring", construct::done_wiring },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_grave", construct::done_dig_grave },
+            { "done_dig_grave_nospawn", construct::done_dig_grave_nospawn },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },

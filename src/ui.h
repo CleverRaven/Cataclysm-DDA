@@ -426,6 +426,8 @@ class uilist // NOLINT(cata-xy)
         bool allow_anykey = false;
         // return UILIST_CANCEL on "QUIT" action, default true
         bool allow_cancel = true;
+        // return retval on "CONFIRM" action, default true
+        bool allow_confirm = true;
         // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
         // and unhandled by callback, default false.
         bool allow_additional = false;

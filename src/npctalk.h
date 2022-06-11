@@ -131,7 +131,7 @@ int calc_ma_style_training_cost( const Character &teacher, const Character &stud
                                  const matype_id &id );
 time_duration calc_spell_training_time( const Character &teacher, const Character &student,
                                         const spell_id &id );
-int calc_spell_training_cost_gen( const bool knows, int difficulty, int level );
+int calc_spell_training_cost_gen( bool knows, int difficulty, int level );
 int calc_spell_training_cost( const Character &teacher, const Character &student,
                               const spell_id &id );
 

@@ -575,6 +575,7 @@
     "snippet_category": "bug_organs_desc",
     "description": "These organs came from a giant mutant bug.",
     "looks_like": "offal",
+    "cooks_like": "mutant_bug_organs_cooked",
     "proportional": { "price": 0.1, "calories": 0.65 },
     "vitamins": [ [ "mutant_toxin", 25 ] ],
     "extend": { "flags": [ "BAD_TASTE" ] }
@@ -588,7 +589,7 @@
     "description": "Cooked mutant bug organs.  It looks awful, but if you really eat it, you'll find -- it's worse than it looks.",
     "looks_like": "offal_cooked",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "NUTRIENT_OVERRIDE" ] }
   },
   {
     "id": "offal_pickled",

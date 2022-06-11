@@ -115,7 +115,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 3,
-      "melee_cut": 4,
+      "melee_damage": 4,
       "armor_cut": 22,
       "armor_bullet": 30,
       "armor_stab": 30,
@@ -136,7 +136,7 @@
     "material": [ "bone" ],
     "description": "Fungi bloom from the crevices in the twisted bone growths that cover this creature.  Spores linger in the air around it.",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "armor_bash": 4, "melee_cut": 2, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "armor_bash": 4, "melee_damage": 2, "armor_cut": 6, "armor_bullet": 5 },
     "special_attacks": [ [ "SMASH", 30 ], [ "FUNGUS", 200 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "HARDTOSHOOT" ] },
     "harvest": "mr_bones",

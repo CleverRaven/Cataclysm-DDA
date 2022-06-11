@@ -391,7 +391,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
 
             werase( w_parts );
             veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, highlight_part,
-                                  true );
+                                  true, false );
             wnoutrefresh( w_parts );
 
             werase( w_msg );
@@ -2502,8 +2502,8 @@ void veh_interact::display_veh()
     std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
     for( auto &structural_part : structural_parts ) {
         const int p = structural_part;
-        int sym = veh->part_sym( p );
-        nc_color col = veh->part_color( p );
+        int sym = veh->part_sym( p, false, false );
+        nc_color col = veh->part_color( p, false, false );
 
         const point q = ( veh->part( p ).mount + dd ).rotate( 3 );
 
@@ -2525,8 +2525,8 @@ void veh_interact::display_veh()
     if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
-    nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
-    int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
+    nc_color col = cpart >= 0 ? veh->part_color( cpart, false, false ) : c_black;
+    int sym = cpart >= 0 ? veh->part_sym( cpart, false, false ) : ' ';
     mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
               special_symbol( sym ) );
     wnoutrefresh( w_disp );

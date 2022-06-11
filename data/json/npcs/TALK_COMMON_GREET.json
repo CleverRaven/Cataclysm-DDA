@@ -21,14 +21,14 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "&Put away weapon.",
+        "text": "Put away weapon.",
         "topic": "TALK_STRANGER_NEUTRAL",
         "effect": "player_weapon_away",
         "opinion": { "trust": 2, "fear": -2 },
         "condition": "u_can_stow_weapon"
       },
       {
-        "text": "&Drop weapon.",
+        "text": "Drop weapon.",
         "topic": "TALK_STRANGER_NEUTRAL",
         "effect": "player_weapon_drop",
         "opinion": { "trust": 4, "fear": -3 },
@@ -96,7 +96,7 @@
     "type": "talk_topic",
     "dynamic_line": { "u_has_weapon": "<drop_it>", "no": "This is my territory, <name_b>." },
     "responses": [
-      { "text": "&Drop weapon.", "topic": "TALK_DEMAND_LEAVE", "condition": "u_has_weapon", "effect": "player_weapon_drop" },
+      { "text": "Drop weapon.", "topic": "TALK_DEMAND_LEAVE", "condition": "u_has_weapon", "effect": "player_weapon_drop" },
       {
         "text": "Calm down.  I'm not going to hurt you.",
         "trial": {
@@ -144,9 +144,9 @@
         "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }
       },
-      { "text": "&Drop weapon.", "topic": "TALK_MUG", "condition": "u_has_weapon", "effect": "player_weapon_drop" },
+      { "text": "Drop weapon.", "topic": "TALK_MUG", "condition": "u_has_weapon", "effect": "player_weapon_drop" },
       {
-        "text": "&Put hands up.",
+        "text": "Put hands up.",
         "topic": "TALK_DONE",
         "condition": { "not": "u_has_weapon" },
         "effect": "start_mugging"

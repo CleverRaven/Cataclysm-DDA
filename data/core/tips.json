@@ -618,5 +618,65 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Hope for the best but prepare for the worst.  A backup stash of necessities can save the day." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Pain can drastically slow you down and reduces your stats.  Check your speed in the character menu." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Winners don't do drugs.  They're too valuable.  Winners trade drugs for more bullets." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can set priority levels for pockets in your inventory, letting you decide where your loot goes." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Face masks protect you from smoke and even disease, but make it harder to breathe, affecting stamina." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The burglar alarm for a store won't go off if you break through the wall." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can keep a diary if you set the keybinding.  Use it to roleplay, take notes, and keep score." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Some weapons have techniques that let you do things like hit faster, block attacks, or stun opponents." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "If brute force isn't working, you're not using enough of it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Sweat is simulated in Cataclysm.  Excessive sweating will dehydrate you quickly but keep you cool." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Feral humans are smarter than zombies.  They throw rocks and can even open doors.  Watch out!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "If you want something to stop existing, setting it on fire is a tried and true method." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The higher up you are, the farther you can see on the overmap." ]
   }
 ]
