@@ -29,7 +29,7 @@
   {
     "type": "item_group",
     "id": "milspec_arsenal_group_armament",
-    "items": [ { "group": "milspec_arsenal_group_guns&mags&cans" }, { "group": "milspec_arsenal_group_heavy_guns&mags&cans" } ]
+    "items": [ { "group": "milspec_arsenal_group_guns&mags&cans", "prob": 100 }, { "group": "milspec_arsenal_group_heavy_guns&mags&cans", "prob": 10 } ]
   },
   {
     "type": "item_group",
@@ -63,7 +63,7 @@
   {
     "type": "item_group",
     "id": "milspec_arsenal_group_only_ammo",
-    "items": [ { "group": "milspec_arsenal_group_ammo_full" }, { "group": "milspec_arsenal_group_ammo_heavy_full" } ]
+    "items": [ { "group": "milspec_arsenal_group_ammo_full", "prob": 100 }, { "group": "milspec_arsenal_group_ammo_heavy_full", "prob": 10 } ]
   },
   {
     "type": "item_group",
@@ -97,39 +97,39 @@
   {
     "type": "item_group",
     "id": "milspec_arsenal_group_only_guns",
-    "items": [ { "group": "milspec_arsenal_group_guns" }, { "group": "milspec_arsenal_group_heavy" } ]
+    "items": [ { "group": "milspec_arsenal_group_guns", "prob": 100 }, { "group": "milspec_arsenal_group_heavy", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "id": "milspec_arsenal_group_guns",
     "items": [
-      { "group": "milspec_arsenal_9mm_gun&mags", "count": [ 3, 6 ], "prob": 96 },
-      { "group": "milspec_arsenal_9mm_sub_gun&mags", "count": [ 3, 6 ], "prob": 100 },
-      { "group": "milspec_arsenal_shot_gun&mags", "count": [ 3, 6 ], "prob": 150 },
-      { "group": "milspec_arsenal_223_gun&mags", "count": [ 3, 6 ], "prob": 1000 },
-      { "group": "milspec_arsenal_223_mg_gun&mags", "count": [ 3, 6 ], "prob": 260 },
-      { "group": "milspec_arsenal_300blk_gun&mags", "count": [ 3, 6 ], "prob": 100 },
-      { "group": "milspec_arsenal_300_sniper_gun&mags", "count": [ 3, 6 ], "prob": 95 },
-      { "group": "milspec_arsenal_308_sniper_gun&mags", "count": [ 3, 6 ], "prob": 95 },
-      { "group": "milspec_arsenal_308_mg_gun&mags", "count": [ 3, 6 ], "prob": 192 },
-      { "group": "milspec_arsenal_50bmg_sniper_gun&mags", "count": [ 3, 6 ], "prob": 30 },
-      { "group": "milspec_arsenal_50_mg_gun&mags", "count": [ 3, 6 ], "prob": 90 },
-      { "group": "milspec_arsenal_40x46_gun&mags", "count": [ 3, 6 ], "prob": 192 }
+      { "group": "milspec_arsenal_9mm_gun&mags", "count": [ 1, 2 ], "prob": 96 },
+      { "group": "milspec_arsenal_9mm_sub_gun&mags", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "milspec_arsenal_shot_gun&mags", "count": [ 1, 2 ], "prob": 150 },
+      { "group": "milspec_arsenal_223_gun&mags", "count": [ 1, 2 ], "prob": 1000 },
+      { "group": "milspec_arsenal_223_mg_gun&mags", "count": [ 1, 2 ], "prob": 260 },
+      { "group": "milspec_arsenal_300blk_gun&mags", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "milspec_arsenal_300_sniper_gun&mags", "count": [ 1, 2 ], "prob": 95 },
+      { "group": "milspec_arsenal_308_sniper_gun&mags", "count": [ 1, 2 ], "prob": 95 },
+      { "group": "milspec_arsenal_308_mg_gun&mags", "count": [ 1, 2 ], "prob": 192 },
+      { "group": "milspec_arsenal_50bmg_sniper_gun&mags", "count": [ 1, 2 ], "prob": 30 },
+      { "group": "milspec_arsenal_50_mg_gun&mags", "count": [ 1, 2 ], "prob": 90 },
+      { "group": "milspec_arsenal_40x46_gun&mags", "count": [ 1, 2 ], "prob": 192 }
     ]
   },
   {
     "type": "item_group",
     "id": "milspec_arsenal_group_heavy",
     "items": [
-      { "group": "milspec_arsenal_40x53_gun&mags", "count": [ 3, 6 ], "prob": 50 },
-      { "group": "milspec_arsenal_66_gun&mags", "count": [ 3, 6 ], "prob": 30 },
-      { "group": "milspec_arsenal_84x246_gun&mags", "count": [ 3, 6 ], "prob": 192 },
-      { "group": "milspec_arsenal_atgm_gun", "count": [ 3, 6 ], "prob": 10 }
+      { "group": "milspec_arsenal_40x53_gun&mags", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "milspec_arsenal_66_gun&mags", "count": [ 1, 2 ], "prob": 30 },
+      { "group": "milspec_arsenal_84x246_gun&mags", "count": [ 1, 2 ], "prob": 192 },
+      { "group": "milspec_arsenal_atgm_gun", "count": [ 1, 2 ], "prob": 10 }
     ]
   },
   {
     "type": "item_group",
     "id": "milspec_arsenal_only_guns_or_ammo",
-    "items": [ { "group": "milspec_arsenal_group_only_guns" }, { "group": "milspec_arsenal_group_only_ammo" } ]
+    "items": [ { "group": "milspec_arsenal_group_only_guns", "prob": 100 }, { "group": "milspec_arsenal_group_only_ammo" }, "prob": 10 ]
   }
 ]
