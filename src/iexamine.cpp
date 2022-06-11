@@ -5495,6 +5495,23 @@ static void mill_activate( Character &you, const tripoint &examp )
         return;
     }
 
+    std::set<std::string, localized_comparator> no_final_product;
+    for( const item &it : here.i_at( examp ) ) {
+        const cata::value_ptr<islot_milling> mdata = it.type->milling_data;
+        if( mdata ) {
+            const int charges = it.count() * mdata->conversion_rate_;
+            if( charges <= 0 ) {
+                no_final_product.emplace( it.tname() );
+            }
+        }
+    }
+    if( !no_final_product.empty()
+        && !query_yn( _( "The following items have insufficient charges and will "
+                         "not produce anything.  Continue?\n<color_white>%s</color>" ),
+                      enumerate_as_string( no_final_product ) ) ) {
+        return;
+    }
+
     for( item &it : here.i_at( examp ) ) {
         if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
@@ -5650,9 +5667,11 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
-            const int charges = ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_;
+            const int charges = it.count() * mdata.conversion_rate_;
             if( charges <= 0 ) {
                 // not enough material, just remove the item
+                // (may happen if the player did not add enough charges to the mill
+                // or if the conversion rate is changed between versions)
                 iter = items.erase( iter );
             } else {
                 item result( mdata.into_, start_time + milling_time, charges );
