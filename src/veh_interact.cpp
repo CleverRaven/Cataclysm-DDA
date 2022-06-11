@@ -1448,11 +1448,8 @@ void veh_interact::calc_overview()
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["4_REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+    overview_headers["4_REACTOR"] = [this]( const catacurses::window & w, int y ) {
         int reactor_epower_w = veh->max_reactor_epower_w();
-        if( reactor_epower_w > 0 && epower_w < 0 ) {
-            reactor_epower_w += epower_w;
-        }
         std::string reactor;
         if( reactor_epower_w == 0 ) {
             reactor = _( "Reactors" );
