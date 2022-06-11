@@ -356,6 +356,20 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "oxycodone",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "45 m",
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "book_learn": [ [ "textbook_chemistry", 6 ], [ "adv_chemistry", 6 ], [ "atomic_survival", 5 ], [ "recipe_labchem", 5 ] ],
+    "tools": [ [ [ "electrolysis_kit", 50, "LIST" ] ], [ [ "lye", -1 ], [ "lye_potassium", -1 ] ] ],
+    "components": [ [ [ "codeine", 10 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "diazepam",
     "category": "CC_CHEM",
