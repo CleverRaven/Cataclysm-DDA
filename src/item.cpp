@@ -14045,9 +14045,9 @@ const item &item::legacy_front() const
     return contents.legacy_front();
 }
 
-void item::favorite_settings_menu( const std::string &item_name )
+void item::favorite_settings_menu()
 {
-    contents.favorite_settings_menu( item_name );
+    contents.favorite_settings_menu( this );
 }
 
 void item::combine( const item_contents &read_input, bool convert )
