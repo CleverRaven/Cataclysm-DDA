@@ -122,5 +122,23 @@
     "material_thickness": 1.5,
     "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
+  },
+  {
+    "id": "face_shield_plastic",
+    "repairs_like": "glasses_safety",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "plastic face shield" },
+    "description": "A plastic face shield with a mounting bracket intended to be attached over a hard hat or helmet.  It doesn't protects you as much as one made from thermoplastic, but it's cheaper and more common.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": 650,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "material_thickness": 1,
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   }
 ]
