@@ -1441,9 +1441,9 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Number of spaces between columns
             const int col_padding = 2;
             // Subtract column padding to get space available for widgets
-            // TODO: This - 1 is making me nervous. It's here because it makes sidebars behave better, but I don't know why it's necessary. It shouldn't be necessary, and it scares me.
             const int avail_width = max_width - col_padding * ( num_widgets - 1 );
             // Divide available width equally among all widgets
+            // TODO: This - 1 is making me nervous. It's here because it makes sidebars behave better, but I don't know why it's necessary. It shouldn't be necessary, and it scares me.
             const int child_width = ( avail_width / num_widgets ) - 1;
             // Keep remainder to distribute
             int remainder = avail_width % num_widgets;
