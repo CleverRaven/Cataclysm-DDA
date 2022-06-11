@@ -1332,8 +1332,8 @@ static std::string append_line( const std::string &line, bool first_row, int max
     }
     // Don't process label width if label_width = 0 for empty labels
     if( label_width > 0 || !label.empty() ) {
-        lbl_w += 2;
-        label_width += 2;
+        lbl_w += _separator.length();
+        label_width += _separator.length();
         // Use empty spaces in place of label if none exist
         if( label.empty() ) {
             lbl.append( label_width, ' ' );
