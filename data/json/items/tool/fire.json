@@ -176,6 +176,7 @@
     "type": "TOOL",
     "name": { "str": "matchbox", "str_pl": "matchboxes" },
     "description": "This is a small box of matches with a coarse strike surface on the side.  Matches may be carried to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
+    "looks_like": "matches",
     "weight": "10 g",
     "volume": "25 ml",
     "price_postapoc": 50,

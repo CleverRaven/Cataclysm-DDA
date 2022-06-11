@@ -65,6 +65,7 @@
     "comestible_type": "MED",
     "name": { "str": "epinephrine autoinjector" },
     "description": "A syringe filled with a shot of epinephrine, also called adrenalin.  It serves as a powerful stimulant when you inject yourself with it.  Asthmatics can use it in an emergency to clear their asthma.",
+    "looks_like": "flu_shot",
     "weight": "12 g",
     "volume": "10ml",
     "price": 3400,
