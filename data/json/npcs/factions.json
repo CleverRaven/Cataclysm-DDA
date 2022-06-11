@@ -63,6 +63,7 @@
     "food_supply": 115200,
     "wealth": 100000000,
     "currency": "RobofacCoin",
+    "price_rules": [ { "group": "NC_ROBOFAC_gear", "markup": 2 } ],
     "relations": {
       "robofac": {
         "kill on sight": false,
@@ -161,7 +162,8 @@
         "item": "RobofacCoin",
         "fixed_adj": 0.15,
         "condition": { "compare_int": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 2 } ] }
-      }
+      },
+      { "group": "NC_ROBOFAC_gear", "markup": 2.5 }
     ],
     "relations": {
       "free_merchants": {
