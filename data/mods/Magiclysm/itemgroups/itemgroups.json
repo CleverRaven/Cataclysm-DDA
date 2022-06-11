@@ -386,6 +386,7 @@
       { "group": "enchanted_bracers_lesser", "prob": 20 },
       { "group": "enchanted_bracers_greater", "prob": 10 },
       { "group": "enchanted_boots", "prob": 15 },
+      { "group": "enchanted_bracelets", "prob": 15 },
       { "group": "enchanted_belts", "prob": 15 },
       { "group": "spellbook_loot_2", "prob": 20 },
       { "group": "enchanted_misc", "prob": 5 },
@@ -565,6 +566,18 @@
     "//": "greater enchanted bracers",
     "subtype": "collection",
     "items": [ { "item": "mbracer_defense_greater", "prob": 10 }, { "item": "mbracer_lightning_greater", "prob": 10 } ]
+  },
+  {
+    "id": "enchanted_bracelets",
+    "type": "item_group",
+    "//": "all enchanted bracelets",
+    "subtype": "collection",
+    "items": [
+      { "item": "missile_volley_bracelet", "prob": 5 },
+      { "item": "gorgon_bracelet", "prob": 5 },
+      { "item": "disorientation_bracelet", "prob": 5 },
+      { "item": "super_hot_bracelet", "prob": 5 }
+    ]
   },
   {
     "id": "enchanted_boots",
@@ -750,6 +763,7 @@
     "subtype": "distribution",
     "items": [
       { "group": "enchanted_bracers_lesser", "prob": 25 },
+      { "group": "enchanted_bracelets", "prob": 25 },
       { "group": "enchanted_boots", "prob": 7 },
       { "group": "enchanted_belts", "prob": 7 },
       { "item": "wolfshead_cufflinks", "prob": 1 },
