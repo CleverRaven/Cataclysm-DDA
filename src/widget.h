@@ -263,7 +263,8 @@ class widget
         // Recursively derive _label_width for nested layouts in this widget
         static int finalize_label_width_recursive( const widget_id &id );
         // Recursively derive _separator for nested layouts in this widget
-        static void finalize_label_separator_recursive( const widget_id& id, const std::string& label_separator = "DEFAULT");
+        static void finalize_label_separator_recursive( const widget_id &id,
+                const std::string &label_separator = "DEFAULT" );
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
@@ -274,7 +275,8 @@ class widget
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
         // label area, so the returned string is equal to max_width.
-        std::string layout( const avatar &ava, std::string& _label_separator, unsigned int max_width = 0, int label_width = 0);
+        std::string layout( const avatar &ava, std::string &_label_separator, unsigned int max_width = 0,
+                            int label_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava, unsigned int max_width );
         // Return a window_panel for rendering this widget at given width (and possibly height)

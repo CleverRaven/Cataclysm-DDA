@@ -436,10 +436,10 @@ TEST_CASE( "widgets showing avatar stats with color for normal value", "[widget]
         ava.int_max = 8;
         ava.per_max = 8;
 
-        CHECK( str_w.layout( ava, default_label_separator) == "STR: <color_c_white>8</color>" );
-        CHECK( dex_w.layout( ava, default_label_separator) == "DEX: <color_c_white>8</color>" );
-        CHECK( int_w.layout( ava, default_label_separator) == "INT: <color_c_white>8</color>" );
-        CHECK( per_w.layout( ava, default_label_separator) == "PER: <color_c_white>8</color>" );
+        CHECK( str_w.layout( ava, default_label_separator ) == "STR: <color_c_white>8</color>" );
+        CHECK( dex_w.layout( ava, default_label_separator ) == "DEX: <color_c_white>8</color>" );
+        CHECK( int_w.layout( ava, default_label_separator ) == "INT: <color_c_white>8</color>" );
+        CHECK( per_w.layout( ava, default_label_separator ) == "PER: <color_c_white>8</color>" );
     }
 
     SECTION( "stats above or below their normal level" ) {
@@ -480,7 +480,8 @@ TEST_CASE( "widget showing character fatigue status", "[widget]" )
     ava.set_fatigue( 192 );
     CHECK( fatigue_w.layout( ava, default_label_separator ) == "Rest: <color_c_yellow>Tired</color>" );
     ava.set_fatigue( 384 );
-    CHECK( fatigue_w.layout( ava, default_label_separator ) == "Rest: <color_c_light_red>Dead Tired</color>" );
+    CHECK( fatigue_w.layout( ava, default_label_separator ) ==
+           "Rest: <color_c_light_red>Dead Tired</color>" );
     ava.set_fatigue( 576 );
     CHECK( fatigue_w.layout( ava, default_label_separator ) == "Rest: <color_c_red>Exhausted</color>" );
 }
@@ -495,25 +496,36 @@ TEST_CASE( "widgets showing avatar health with color for normal value", "[widget
 
     ava.set_healthy( -200 );
     CHECK( health_w.layout( ava, default_label_separator ) == "Health: <color_c_red>-200</color>" );
-    CHECK( health_clause_w.layout( ava, default_label_separator ) == "Health: <color_c_red>Horrible</color>" );
+    CHECK( health_clause_w.layout( ava,
+                                   default_label_separator ) == "Health: <color_c_red>Horrible</color>" );
     ava.set_healthy( -99 );
-    CHECK( health_w.layout( ava, default_label_separator ) == "Health: <color_c_light_red>-99</color>" );
-    CHECK( health_clause_w.layout( ava, default_label_separator ) == "Health: <color_c_light_red>Very bad</color>" );
+    CHECK( health_w.layout( ava, default_label_separator ) ==
+           "Health: <color_c_light_red>-99</color>" );
+    CHECK( health_clause_w.layout( ava,
+                                   default_label_separator ) == "Health: <color_c_light_red>Very bad</color>" );
     ava.set_healthy( -49 );
-    CHECK( health_w.layout( ava, default_label_separator ) == "Health: <color_c_light_red>-49</color>" );
-    CHECK( health_clause_w.layout( ava, default_label_separator ) == "Health: <color_c_yellow>Bad</color>" );
+    CHECK( health_w.layout( ava, default_label_separator ) ==
+           "Health: <color_c_light_red>-49</color>" );
+    CHECK( health_clause_w.layout( ava,
+                                   default_label_separator ) == "Health: <color_c_yellow>Bad</color>" );
     ava.set_healthy( 0 );
     CHECK( health_w.layout( ava, default_label_separator ) == "Health: <color_c_white>0</color>" );
-    CHECK( health_clause_w.layout( ava, default_label_separator ) == "Health: <color_c_light_gray>OK</color>" );
+    CHECK( health_clause_w.layout( ava,
+                                   default_label_separator ) == "Health: <color_c_light_gray>OK</color>" );
     ava.set_healthy( 49 );
-    CHECK( health_w.layout( ava, default_label_separator ) == "Health: <color_c_light_green>49</color>" );
-    CHECK( health_clause_w.layout( ava, default_label_separator ) == "Health: <color_c_white>Good</color>" );
+    CHECK( health_w.layout( ava, default_label_separator ) ==
+           "Health: <color_c_light_green>49</color>" );
+    CHECK( health_clause_w.layout( ava,
+                                   default_label_separator ) == "Health: <color_c_white>Good</color>" );
     ava.set_healthy( 99 );
-    CHECK( health_w.layout( ava, default_label_separator ) == "Health: <color_c_light_green>99</color>" );
-    CHECK( health_clause_w.layout( ava, default_label_separator ) == "Health: <color_c_green>Very good</color>" );
+    CHECK( health_w.layout( ava, default_label_separator ) ==
+           "Health: <color_c_light_green>99</color>" );
+    CHECK( health_clause_w.layout( ava,
+                                   default_label_separator ) == "Health: <color_c_green>Very good</color>" );
     ava.set_healthy( 200 );
     CHECK( health_w.layout( ava, default_label_separator ) == "Health: <color_c_green>200</color>" );
-    CHECK( health_clause_w.layout( ava, default_label_separator ) == "Health: <color_c_light_green>Excellent</color>" );
+    CHECK( health_clause_w.layout( ava,
+                                   default_label_separator ) == "Health: <color_c_light_green>Excellent</color>" );
 }
 
 TEST_CASE( "widgets showing body temperature and delta", "[widget]" )
@@ -528,44 +540,59 @@ TEST_CASE( "widgets showing body temperature and delta", "[widget]" )
     ava.set_all_parts_temp_cur( 499 );
     ava.set_all_parts_temp_conv( 5000 );
     CHECK( w_temp.layout( ava, default_label_separator ) == "Heat: <color_c_blue>Freezing!</color>" );
-    CHECK( w_dtxt.layout( ava, default_label_separator ) == "Temp change: <color_c_red>(Rising!!)</color>" );
-    CHECK( w_dsym.layout( ava, default_label_separator ) == "Temp change: <color_c_red>↑↑↑</color>" );
+    CHECK( w_dtxt.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_red>(Rising!!)</color>" );
+    CHECK( w_dsym.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_red>↑↑↑</color>" );
 
     ava.set_all_parts_temp_cur( 1999 );
     ava.set_all_parts_temp_conv( 5000 );
     CHECK( w_temp.layout( ava, default_label_separator ) == "Heat: <color_c_cyan>Very cold!</color>" );
-    CHECK( w_dtxt.layout( ava, default_label_separator ) == "Temp change: <color_c_light_red>(Rising!)</color>" );
-    CHECK( w_dsym.layout( ava, default_label_separator ) == "Temp change: <color_c_light_red>↑↑</color>" );
+    CHECK( w_dtxt.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_light_red>(Rising!)</color>" );
+    CHECK( w_dsym.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_light_red>↑↑</color>" );
 
     ava.set_all_parts_temp_cur( 3499 );
     ava.set_all_parts_temp_conv( 5000 );
-    CHECK( w_temp.layout( ava, default_label_separator ) == "Heat: <color_c_light_blue>Chilly</color>" );
-    CHECK( w_dtxt.layout( ava, default_label_separator ) == "Temp change: <color_c_yellow>(Rising)</color>" );
-    CHECK( w_dsym.layout( ava, default_label_separator ) == "Temp change: <color_c_yellow>↑</color>" );
+    CHECK( w_temp.layout( ava, default_label_separator ) ==
+           "Heat: <color_c_light_blue>Chilly</color>" );
+    CHECK( w_dtxt.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_yellow>(Rising)</color>" );
+    CHECK( w_dsym.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_yellow>↑</color>" );
 
     ava.set_all_parts_temp_cur( 5000 );
     ava.set_all_parts_temp_conv( 5000 );
-    CHECK( w_temp.layout( ava, default_label_separator ) == "Heat: <color_c_green>Comfortable</color>" );
+    CHECK( w_temp.layout( ava, default_label_separator ) ==
+           "Heat: <color_c_green>Comfortable</color>" );
     CHECK( w_dtxt.layout( ava, default_label_separator ) == "Temp change: " );
     CHECK( w_dsym.layout( ava, default_label_separator ) == "Temp change: <color_c_green>-</color>" );
 
     ava.set_all_parts_temp_cur( 6501 );
     ava.set_all_parts_temp_conv( 5000 );
     CHECK( w_temp.layout( ava, default_label_separator ) == "Heat: <color_c_yellow>warm</color>" );
-    CHECK( w_dtxt.layout( ava, default_label_separator ) == "Temp change: <color_c_light_blue>(Falling)</color>" );
-    CHECK( w_dsym.layout( ava, default_label_separator ) == "Temp change: <color_c_light_blue>↓</color>" );
+    CHECK( w_dtxt.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_light_blue>(Falling)</color>" );
+    CHECK( w_dsym.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_light_blue>↓</color>" );
 
     ava.set_all_parts_temp_cur( 8001 );
     ava.set_all_parts_temp_conv( 5000 );
-    CHECK( w_temp.layout( ava, default_label_separator ) == "Heat: <color_c_light_red>Very hot!</color>" );
-    CHECK( w_dtxt.layout( ava, default_label_separator ) == "Temp change: <color_c_cyan>(Falling!)</color>" );
-    CHECK( w_dsym.layout( ava, default_label_separator ) == "Temp change: <color_c_cyan>↓↓</color>" );
+    CHECK( w_temp.layout( ava, default_label_separator ) ==
+           "Heat: <color_c_light_red>Very hot!</color>" );
+    CHECK( w_dtxt.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_cyan>(Falling!)</color>" );
+    CHECK( w_dsym.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_cyan>↓↓</color>" );
 
     ava.set_all_parts_temp_cur( 9501 );
     ava.set_all_parts_temp_conv( 5000 );
     CHECK( w_temp.layout( ava, default_label_separator ) == "Heat: <color_c_red>Scorching!</color>" );
-    CHECK( w_dtxt.layout( ava, default_label_separator ) == "Temp change: <color_c_blue>(Falling!!)</color>" );
-    CHECK( w_dsym.layout( ava, default_label_separator ) == "Temp change: <color_c_blue>↓↓↓</color>" );
+    CHECK( w_dtxt.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_blue>(Falling!!)</color>" );
+    CHECK( w_dsym.layout( ava, default_label_separator ) ==
+           "Temp change: <color_c_blue>↓↓↓</color>" );
 }
 
 TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
@@ -592,19 +619,23 @@ TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
     CHECK( stamina_graph_w.layout( ava, default_label_separator ) == "STAMINA: ----------" );
 
     ava.set_stamina( stamina_25 );
-    CHECK( stamina_num_w.layout( ava, default_label_separator ) == string_format( "STAMINA: %d", stamina_25 ) );
+    CHECK( stamina_num_w.layout( ava, default_label_separator ) == string_format( "STAMINA: %d",
+            stamina_25 ) );
     CHECK( stamina_graph_w.layout( ava, default_label_separator ) == "STAMINA: =====-----" );
 
     ava.set_stamina( stamina_50 );
-    CHECK( stamina_num_w.layout( ava, default_label_separator ) == string_format( "STAMINA: %d", stamina_50 ) );
+    CHECK( stamina_num_w.layout( ava, default_label_separator ) == string_format( "STAMINA: %d",
+            stamina_50 ) );
     CHECK( stamina_graph_w.layout( ava, default_label_separator ) == "STAMINA: ==========" );
 
     ava.set_stamina( stamina_75 );
-    CHECK( stamina_num_w.layout( ava, default_label_separator ) == string_format( "STAMINA: %d", stamina_75 ) );
+    CHECK( stamina_num_w.layout( ava, default_label_separator ) == string_format( "STAMINA: %d",
+            stamina_75 ) );
     CHECK( stamina_graph_w.layout( ava, default_label_separator ) == "STAMINA: #####=====" );
 
     ava.set_stamina( stamina_max );
-    CHECK( stamina_num_w.layout( ava, default_label_separator ) == string_format( "STAMINA: %d", stamina_max ) );
+    CHECK( stamina_num_w.layout( ava, default_label_separator ) == string_format( "STAMINA: %d",
+            stamina_max ) );
     CHECK( stamina_graph_w.layout( ava, default_label_separator ) == "STAMINA: ##########" );
 }
 
@@ -625,57 +656,77 @@ TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
     widget weight_clause_w = widget_test_weight_clauses_normal.obj();
 
     set_avatar_bmi( ava, 12.0 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_red>Skeletal</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_red>Skeletal</color>" );
     set_avatar_bmi( ava, 14.0 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_red>Skeletal</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_red>Skeletal</color>" );
 
     set_avatar_bmi( ava, 14.1 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_light_red>Emaciated</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_light_red>Emaciated</color>" );
     set_avatar_bmi( ava, 16.0 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_light_red>Emaciated</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_light_red>Emaciated</color>" );
 
     set_avatar_bmi( ava, 16.1 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_yellow>Underweight</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_yellow>Underweight</color>" );
     set_avatar_bmi( ava, 18.5 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_yellow>Underweight</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_yellow>Underweight</color>" );
 
     set_avatar_bmi( ava, 18.6 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_light_gray>Normal</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_light_gray>Normal</color>" );
     set_avatar_bmi( ava, 25.0 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_light_gray>Normal</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_light_gray>Normal</color>" );
 
     set_avatar_bmi( ava, 25.1 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_yellow>Overweight</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_yellow>Overweight</color>" );
     set_avatar_bmi( ava, 30.0 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_yellow>Overweight</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_yellow>Overweight</color>" );
 
     set_avatar_bmi( ava, 30.1 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_light_red>Obese</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_light_red>Obese</color>" );
     set_avatar_bmi( ava, 35.0 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_light_red>Obese</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_light_red>Obese</color>" );
 
     set_avatar_bmi( ava, 35.1 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_red>Very Obese</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_red>Very Obese</color>" );
     set_avatar_bmi( ava, 40.0 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_red>Very Obese</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_red>Very Obese</color>" );
 
     set_avatar_bmi( ava, 40.1 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_red>Morbidly Obese</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_red>Morbidly Obese</color>" );
     set_avatar_bmi( ava, 50.0 );
-    CHECK( weight_clause_w.layout( ava, default_label_separator ) == "Weight: <color_c_red>Morbidly Obese</color>" );
+    CHECK( weight_clause_w.layout( ava,
+                                   default_label_separator ) == "Weight: <color_c_red>Morbidly Obese</color>" );
 
 
     // "Fun" version with customized thresholds, text, and color
     widget weight_clause_fun_w = widget_test_weight_clauses_fun.obj();
 
     set_avatar_bmi( ava, 18.0 );
-    CHECK( weight_clause_fun_w.layout( ava, default_label_separator ) == "Thiccness: <color_c_yellow>Skin and Bones</color>" );
+    CHECK( weight_clause_fun_w.layout( ava,
+                                       default_label_separator ) == "Thiccness: <color_c_yellow>Skin and Bones</color>" );
     set_avatar_bmi( ava, 18.1 );
-    CHECK( weight_clause_fun_w.layout( ava, default_label_separator ) == "Thiccness: <color_c_white>Boring</color>" );
+    CHECK( weight_clause_fun_w.layout( ava,
+                                       default_label_separator ) == "Thiccness: <color_c_white>Boring</color>" );
     set_avatar_bmi( ava, 30.0 );
-    CHECK( weight_clause_fun_w.layout( ava, default_label_separator ) == "Thiccness: <color_c_white>Boring</color>" );
+    CHECK( weight_clause_fun_w.layout( ava,
+                                       default_label_separator ) == "Thiccness: <color_c_white>Boring</color>" );
     set_avatar_bmi( ava, 30.1 );
-    CHECK( weight_clause_fun_w.layout( ava, default_label_separator ) == "Thiccness: <color_c_pink>C H O N K</color>" );
+    CHECK( weight_clause_fun_w.layout( ava,
+                                       default_label_separator ) == "Thiccness: <color_c_pink>C H O N K</color>" );
 
 }
 
@@ -777,27 +828,33 @@ TEST_CASE( "widgets showing activity level", "[widget][activity]" )
 
     tracker.new_turn();
     tracker.log_activity( NO_EXERCISE );
-    CHECK( activity_w.layout( ava, default_label_separator ) == "Activity: <color_c_light_gray>None</color>" );
+    CHECK( activity_w.layout( ava,
+                              default_label_separator ) == "Activity: <color_c_light_gray>None</color>" );
 
     tracker.new_turn();
     tracker.log_activity( LIGHT_EXERCISE );
-    CHECK( activity_w.layout( ava, default_label_separator ) == "Activity: <color_c_yellow>Light</color>" );
+    CHECK( activity_w.layout( ava,
+                              default_label_separator ) == "Activity: <color_c_yellow>Light</color>" );
 
     tracker.new_turn();
     tracker.log_activity( MODERATE_EXERCISE );
-    CHECK( activity_w.layout( ava, default_label_separator ) == "Activity: <color_c_yellow>Moderate</color>" );
+    CHECK( activity_w.layout( ava,
+                              default_label_separator ) == "Activity: <color_c_yellow>Moderate</color>" );
 
     tracker.new_turn();
     tracker.log_activity( BRISK_EXERCISE );
-    CHECK( activity_w.layout( ava, default_label_separator ) == "Activity: <color_c_light_red>Brisk</color>" );
+    CHECK( activity_w.layout( ava,
+                              default_label_separator ) == "Activity: <color_c_light_red>Brisk</color>" );
 
     tracker.new_turn();
     tracker.log_activity( ACTIVE_EXERCISE );
-    CHECK( activity_w.layout( ava, default_label_separator ) == "Activity: <color_c_light_red>Active</color>" );
+    CHECK( activity_w.layout( ava,
+                              default_label_separator ) == "Activity: <color_c_light_red>Active</color>" );
 
     tracker.new_turn();
     tracker.log_activity( EXTRA_EXERCISE );
-    CHECK( activity_w.layout( ava, default_label_separator ) == "Activity: <color_c_red>Extreme</color>" );
+    CHECK( activity_w.layout( ava,
+                              default_label_separator ) == "Activity: <color_c_red>Extreme</color>" );
 }
 
 TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )
@@ -819,13 +876,17 @@ TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )
 
         ava.movecounter = 90;
         ava.set_movement_mode( move_mode_walk );
-        CHECK( move_count_mode_w.layout( ava, default_label_separator ) == "MOVE/MODE: <color_c_white>90(W)</color>" );
+        CHECK( move_count_mode_w.layout( ava,
+                                         default_label_separator ) == "MOVE/MODE: <color_c_white>90(W)</color>" );
         ava.set_movement_mode( move_mode_run );
-        CHECK( move_count_mode_w.layout( ava, default_label_separator ) == "MOVE/MODE: <color_c_red>90(R)</color>" );
+        CHECK( move_count_mode_w.layout( ava,
+                                         default_label_separator ) == "MOVE/MODE: <color_c_red>90(R)</color>" );
         ava.set_movement_mode( move_mode_crouch );
-        CHECK( move_count_mode_w.layout( ava, default_label_separator ) == "MOVE/MODE: <color_c_light_blue>90(C)</color>" );
+        CHECK( move_count_mode_w.layout( ava,
+                                         default_label_separator ) == "MOVE/MODE: <color_c_light_blue>90(C)</color>" );
         ava.set_movement_mode( move_mode_prone );
-        CHECK( move_count_mode_w.layout( ava, default_label_separator ) == "MOVE/MODE: <color_c_green>90(P)</color>" );
+        CHECK( move_count_mode_w.layout( ava,
+                                         default_label_separator ) == "MOVE/MODE: <color_c_green>90(P)</color>" );
     }
 
     SECTION( "movement mode text and letter" ) {
@@ -834,13 +895,16 @@ TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )
 
         ava.set_movement_mode( move_mode_walk );
         CHECK( mode_letter_w.layout( ava, default_label_separator ) == "MODE: <color_c_white>W</color>" );
-        CHECK( mode_text_w.layout( ava, default_label_separator ) == "MODE: <color_c_white>walking</color>" );
+        CHECK( mode_text_w.layout( ava,
+                                   default_label_separator ) == "MODE: <color_c_white>walking</color>" );
         ava.set_movement_mode( move_mode_run );
         CHECK( mode_letter_w.layout( ava, default_label_separator ) == "MODE: <color_c_red>R</color>" );
         CHECK( mode_text_w.layout( ava, default_label_separator ) == "MODE: <color_c_red>running</color>" );
         ava.set_movement_mode( move_mode_crouch );
-        CHECK( mode_letter_w.layout( ava, default_label_separator ) == "MODE: <color_c_light_blue>C</color>" );
-        CHECK( mode_text_w.layout( ava, default_label_separator ) == "MODE: <color_c_light_blue>crouching</color>" );
+        CHECK( mode_letter_w.layout( ava,
+                                     default_label_separator ) == "MODE: <color_c_light_blue>C</color>" );
+        CHECK( mode_text_w.layout( ava,
+                                   default_label_separator ) == "MODE: <color_c_light_blue>crouching</color>" );
         ava.set_movement_mode( move_mode_prone );
         CHECK( mode_letter_w.layout( ava, default_label_separator ) == "MODE: <color_c_green>P</color>" );
         CHECK( mode_text_w.layout( ava, default_label_separator ) == "MODE: <color_c_green>prone</color>" );
@@ -888,13 +952,15 @@ TEST_CASE( "thirst and hunger widgets", "[widget]" )
     ava.clear_effects();
     ava.add_effect( effect_hunger_blank, 1_minutes );
     ava.set_thirst( 81 );
-    CHECK( wt.layout( ava, default_label_separator ) == "THIRST: <color_c_yellow>Very thirsty</color>" );
+    CHECK( wt.layout( ava, default_label_separator ) ==
+           "THIRST: <color_c_yellow>Very thirsty</color>" );
     CHECK( wh.layout( ava, default_label_separator ) == "HUNGER: <color_c_white></color>" );
 
     ava.clear_effects();
     ava.add_effect( effect_hunger_satisfied, 1_minutes );
     ava.set_thirst( 241 );
-    CHECK( wt.layout( ava, default_label_separator ) == "THIRST: <color_c_light_red>Dehydrated</color>" );
+    CHECK( wt.layout( ava, default_label_separator ) ==
+           "THIRST: <color_c_light_red>Dehydrated</color>" );
     CHECK( wh.layout( ava, default_label_separator ) == "HUNGER: <color_c_green>Satisfied</color>" );
 
     ava.clear_effects();
@@ -967,7 +1033,8 @@ TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
 
     WHEN( "bitten" ) {
         ava.add_effect( effect_bite, 1_minutes, arm );
-        CHECK( arm_status_w.layout( ava, default_label_separator ) == "LEFT ARM STATUS: <color_c_yellow>bitten</color>" );
+        CHECK( arm_status_w.layout( ava,
+                                    default_label_separator ) == "LEFT ARM STATUS: <color_c_yellow>bitten</color>" );
         CHECK( torso_status_w.layout( ava, default_label_separator ) == "TORSO STATUS: --" );
     }
 
@@ -975,27 +1042,32 @@ TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
         // low-intensity
         ava.add_effect( effect_bleed, 1_minutes, arm );
         ava.get_effect( effect_bleed, arm ).set_intensity( 5 );
-        CHECK( arm_status_w.layout( ava, default_label_separator ) == "LEFT ARM STATUS: <color_c_light_red>bleeding</color>" );
+        CHECK( arm_status_w.layout( ava,
+                                    default_label_separator ) == "LEFT ARM STATUS: <color_c_light_red>bleeding</color>" );
         // medium-intensity
         ava.get_effect( effect_bleed, arm ).set_intensity( 15 );
-        CHECK( arm_status_w.layout( ava, default_label_separator ) == "LEFT ARM STATUS: <color_c_red>bleeding</color>" );
+        CHECK( arm_status_w.layout( ava,
+                                    default_label_separator ) == "LEFT ARM STATUS: <color_c_red>bleeding</color>" );
         // high-intensity
         ava.get_effect( effect_bleed, arm ).set_intensity( 25 );
-        CHECK( arm_status_w.layout( ava, default_label_separator ) == "LEFT ARM STATUS: <color_c_red_red>bleeding</color>" );
+        CHECK( arm_status_w.layout( ava,
+                                    default_label_separator ) == "LEFT ARM STATUS: <color_c_red_red>bleeding</color>" );
         // torso still fine
         CHECK( torso_status_w.layout( ava, default_label_separator ) == "TORSO STATUS: --" );
     }
 
     WHEN( "bandaged" ) {
         ava.add_effect( effect_bandaged, 1_minutes, arm );
-        CHECK( arm_status_w.layout( ava, default_label_separator ) == "LEFT ARM STATUS: <color_c_white>bandaged</color>" );
+        CHECK( arm_status_w.layout( ava,
+                                    default_label_separator ) == "LEFT ARM STATUS: <color_c_white>bandaged</color>" );
         CHECK( torso_status_w.layout( ava, default_label_separator ) == "TORSO STATUS: --" );
     }
 
     WHEN( "broken" ) {
         ava.set_part_hp_cur( arm, 0 );
         REQUIRE( ava.is_limb_broken( arm ) );
-        CHECK( arm_status_w.layout( ava, default_label_separator ) == "LEFT ARM STATUS: <color_c_magenta>broken</color>" );
+        CHECK( arm_status_w.layout( ava,
+                                    default_label_separator ) == "LEFT ARM STATUS: <color_c_magenta>broken</color>" );
         CHECK( torso_status_w.layout( ava, default_label_separator ) == "TORSO STATUS: --" );
     }
 
@@ -1011,13 +1083,15 @@ TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
 
     WHEN( "infected" ) {
         ava.add_effect( effect_infected, 1_minutes, arm );
-        CHECK( arm_status_w.layout( ava, default_label_separator ) == "LEFT ARM STATUS: <color_c_pink>infected</color>" );
+        CHECK( arm_status_w.layout( ava,
+                                    default_label_separator ) == "LEFT ARM STATUS: <color_c_pink>infected</color>" );
         CHECK( torso_status_w.layout( ava, default_label_separator ) == "TORSO STATUS: --" );
     }
 
     WHEN( "disinfected" ) {
         ava.add_effect( effect_disinfected, 1_minutes, arm );
-        CHECK( arm_status_w.layout( ava, default_label_separator ) == "LEFT ARM STATUS: <color_c_light_green>disinfected</color>" );
+        CHECK( arm_status_w.layout( ava,
+                                    default_label_separator ) == "LEFT ARM STATUS: <color_c_light_green>disinfected</color>" );
         CHECK( torso_status_w.layout( ava, default_label_separator ) == "TORSO STATUS: --" );
     }
 
@@ -1067,16 +1141,20 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
     widget arm_stat = widget_test_status_sym_left_arm_text.obj();
     widget torso_stat = widget_test_status_sym_torso_text.obj();
 
-    CHECK( arm_stat.layout( ava, default_label_separator, sidebar_width ) == "L ARM:                              " );
-    CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
+    CHECK( arm_stat.layout( ava, default_label_separator,
+                            sidebar_width ) == "L ARM:                              " );
+    CHECK( torso_stat.layout( ava, default_label_separator,
+                              sidebar_width ) == "TORSO:                              " );
     CHECK( bp_legend.layout( ava, default_label_separator, sidebar_width ).empty() );
 
     WHEN( "bitten" ) {
         ava.add_effect( effect_bite, 1_minutes, arm );
         CHECK( arm_stat.layout( ava, default_label_separator, sidebar_width ) ==
                "L ARM: <color_c_yellow>B</color>                            " );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, default_label_separator, sidebar_width ) == "<color_c_yellow>B</color> bitten\n" );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, default_label_separator,
+                                 sidebar_width ) == "<color_c_yellow>B</color> bitten\n" );
     }
 
     WHEN( "bleeding" ) {
@@ -1085,28 +1163,36 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         ava.get_effect( effect_bleed, arm ).set_intensity( 5 );
         CHECK( arm_stat.layout( ava, default_label_separator, sidebar_width ) ==
                "L ARM: <color_c_light_red>b</color>                            " );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, default_label_separator, sidebar_width ) == "<color_c_light_red>b</color> bleeding\n" );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, default_label_separator,
+                                 sidebar_width ) == "<color_c_light_red>b</color> bleeding\n" );
         // medium-intensity
         ava.get_effect( effect_bleed, arm ).set_intensity( 15 );
         CHECK( arm_stat.layout( ava, default_label_separator, sidebar_width ) ==
                "L ARM: <color_c_red>b</color>                            " );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, default_label_separator, sidebar_width ) == "<color_c_red>b</color> bleeding\n" );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, default_label_separator,
+                                 sidebar_width ) == "<color_c_red>b</color> bleeding\n" );
         // high-intensity
         ava.get_effect( effect_bleed, arm ).set_intensity( 25 );
         CHECK( arm_stat.layout( ava, default_label_separator, sidebar_width ) ==
                "L ARM: <color_c_red_red>b</color>                            " );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, default_label_separator, sidebar_width ) == "<color_c_red_red>b</color> bleeding\n" );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, default_label_separator,
+                                 sidebar_width ) == "<color_c_red_red>b</color> bleeding\n" );
     }
 
     WHEN( "bandaged" ) {
         ava.add_effect( effect_bandaged, 1_minutes, arm );
         CHECK( arm_stat.layout( ava, default_label_separator, sidebar_width ) ==
                "L ARM: <color_c_white>+</color>                            " );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, default_label_separator, sidebar_width ) == "<color_c_white>+</color> bandaged\n" );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, default_label_separator,
+                                 sidebar_width ) == "<color_c_white>+</color> bandaged\n" );
     }
 
     WHEN( "broken" ) {
@@ -1114,8 +1200,10 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         REQUIRE( ava.is_limb_broken( arm ) );
         CHECK( arm_stat.layout( ava, default_label_separator, sidebar_width ) ==
                "L ARM: <color_c_magenta>%</color>                            " );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, default_label_separator, sidebar_width ) == "<color_c_magenta>%</color> broken\n" );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, default_label_separator,
+                                 sidebar_width ) == "<color_c_magenta>%</color> broken\n" );
     }
 
     WHEN( "broken and splinted" ) {
@@ -1125,7 +1213,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
         check_bp_has_status( arm_stat.layout( ava, default_label_separator, sidebar_width ),
         { "L ARM:", "<color_c_magenta>%</color>", "<color_c_light_gray>=</color>" } );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
         check_bp_has_status( bp_legend.layout( ava, default_label_separator, sidebar_width ),
         { "<color_c_magenta>%</color> broken", "<color_c_light_gray>=</color> splinted" } );
     }
@@ -1134,16 +1223,20 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         ava.add_effect( effect_infected, 1_minutes, arm );
         CHECK( arm_stat.layout( ava, default_label_separator, sidebar_width ) ==
                "L ARM: <color_c_pink>I</color>                            " );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, default_label_separator, sidebar_width ) == "<color_c_pink>I</color> infected\n" );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, default_label_separator,
+                                 sidebar_width ) == "<color_c_pink>I</color> infected\n" );
     }
 
     WHEN( "disinfected" ) {
         ava.add_effect( effect_disinfected, 1_minutes, arm );
         CHECK( arm_stat.layout( ava, default_label_separator, sidebar_width ) ==
                "L ARM: <color_c_light_green>$</color>                            " );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, default_label_separator, sidebar_width ) == "<color_c_light_green>$</color> disinfected\n" );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, default_label_separator,
+                                 sidebar_width ) == "<color_c_light_green>$</color> disinfected\n" );
     }
 
     WHEN( "bitten and bleeding" ) {
@@ -1151,7 +1244,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         ava.add_effect( effect_bleed, 1_minutes, arm );
         check_bp_has_status( arm_stat.layout( ava, default_label_separator, sidebar_width ),
         { "L ARM:", "<color_c_yellow>B</color>", "<color_c_light_red>b</color>" } );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
         check_bp_has_status( bp_legend.layout( ava, default_label_separator, sidebar_width ),
         { "<color_c_yellow>B</color> bitten", "<color_c_light_red>b</color> bleeding" } );
     }
@@ -1161,7 +1255,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         ava.add_effect( effect_infected, 1_minutes, arm );
         check_bp_has_status( arm_stat.layout( ava, default_label_separator, sidebar_width ),
         { "L ARM:", "<color_c_yellow>B</color>", "<color_c_pink>I</color>" } );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
         check_bp_has_status( bp_legend.layout( ava, default_label_separator, sidebar_width ),
         { "<color_c_yellow>B</color> bitten", "<color_c_pink>I</color> infected" } );
     }
@@ -1171,7 +1266,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         ava.add_effect( effect_infected, 1_minutes, arm );
         check_bp_has_status( arm_stat.layout( ava, default_label_separator, sidebar_width ),
         { "L ARM:", "<color_c_pink>I</color>", "<color_c_light_red>b</color>" } );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
         check_bp_has_status( bp_legend.layout( ava, default_label_separator, sidebar_width ),
         { "<color_c_pink>I</color> infected", "<color_c_light_red>b</color> bleeding" } );
     }
@@ -1182,7 +1278,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         ava.add_effect( effect_infected, 1_minutes, arm );
         check_bp_has_status( arm_stat.layout( ava, default_label_separator, sidebar_width ),
         { "L ARM:", "<color_c_yellow>B</color>", "<color_c_pink>I</color>", "<color_c_light_red>b</color>" } );
-        CHECK( torso_stat.layout( ava, default_label_separator, sidebar_width ) == "TORSO:                              " );
+        CHECK( torso_stat.layout( ava, default_label_separator,
+                                  sidebar_width ) == "TORSO:                              " );
         check_bp_has_status( bp_legend.layout( ava, default_label_separator, sidebar_width ),
         { "<color_c_yellow>B</color> bitten", "<color_c_pink>I</color> infected", "<color_c_light_red>b</color> bleeding" } );
     }
@@ -1222,7 +1319,8 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     clear_avatar();
 
     // No indicator when character has no radiation badge
-    CHECK( rads_w.layout( ava, default_label_separator ) == "RADIATION: <color_c_light_gray>Unknown</color>" );
+    CHECK( rads_w.layout( ava, default_label_separator ) ==
+           "RADIATION: <color_c_light_gray>Unknown</color>" );
 
     // Acquire and wear a radiation badge
     item &rad_badge = ava.i_add( item( itype_rad_badge ) );
@@ -1230,20 +1328,27 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 
     // Color indicator is shown when character has radiation badge
     ava.set_rad( 0 );
-    CHECK( rads_w.layout( ava, default_label_separator ) == "RADIATION: <color_c_white_green> green </color>" );
+    CHECK( rads_w.layout( ava, default_label_separator ) ==
+           "RADIATION: <color_c_white_green> green </color>" );
     // Any positive value turns it blue
     ava.set_rad( 1 );
-    CHECK( rads_w.layout( ava, default_label_separator ) == "RADIATION: <color_h_white> blue </color>" );
+    CHECK( rads_w.layout( ava, default_label_separator ) ==
+           "RADIATION: <color_h_white> blue </color>" );
     ava.set_rad( 29 );
-    CHECK( rads_w.layout( ava, default_label_separator ) == "RADIATION: <color_h_white> blue </color>" );
+    CHECK( rads_w.layout( ava, default_label_separator ) ==
+           "RADIATION: <color_h_white> blue </color>" );
     ava.set_rad( 31 );
-    CHECK( rads_w.layout( ava, default_label_separator ) == "RADIATION: <color_i_yellow> yellow </color>" );
+    CHECK( rads_w.layout( ava, default_label_separator ) ==
+           "RADIATION: <color_i_yellow> yellow </color>" );
     ava.set_rad( 61 );
-    CHECK( rads_w.layout( ava, default_label_separator ) == "RADIATION: <color_c_red_yellow> orange </color>" );
+    CHECK( rads_w.layout( ava, default_label_separator ) ==
+           "RADIATION: <color_c_red_yellow> orange </color>" );
     ava.set_rad( 121 );
-    CHECK( rads_w.layout( ava, default_label_separator ) == "RADIATION: <color_c_red_red> red </color>" );
+    CHECK( rads_w.layout( ava, default_label_separator ) ==
+           "RADIATION: <color_c_red_red> red </color>" );
     ava.set_rad( 241 );
-    CHECK( rads_w.layout( ava, default_label_separator ) == "RADIATION: <color_c_pink> black </color>" );
+    CHECK( rads_w.layout( ava, default_label_separator ) ==
+           "RADIATION: <color_c_pink> black </color>" );
 }
 
 TEST_CASE( "moon and lighting widgets", "[widget]" )
@@ -1259,26 +1364,32 @@ TEST_CASE( "moon and lighting widgets", "[widget]" )
     clear_map();
 
     set_time( calendar::turn_zero );
-    CHECK( w_light.layout( ava, default_label_separator ) == "LIGHTING: <color_c_black_white>very dark</color>" );
+    CHECK( w_light.layout( ava, default_label_separator ) ==
+           "LIGHTING: <color_c_black_white>very dark</color>" );
     CHECK( w_moon.layout( ava, default_label_separator ) == "MOON: <color_c_white>New moon</color>" );
     set_time( calendar::turn_zero + 3_days );
-    CHECK( w_moon.layout( ava, default_label_separator ) == "MOON: <color_c_white>Waxing crescent</color>" );
+    CHECK( w_moon.layout( ava, default_label_separator ) ==
+           "MOON: <color_c_white>Waxing crescent</color>" );
     set_time( calendar::turn_zero + 7_days );
     CHECK( w_moon.layout( ava, default_label_separator ) == "MOON: <color_c_white>Half moon</color>" );
     set_time( calendar::turn_zero + 10_days );
-    CHECK( w_moon.layout( ava, default_label_separator ) == "MOON: <color_c_white>Waxing gibbous</color>" );
+    CHECK( w_moon.layout( ava, default_label_separator ) ==
+           "MOON: <color_c_white>Waxing gibbous</color>" );
     set_time( calendar::turn_zero + 15_days );
     CHECK( w_moon.layout( ava, default_label_separator ) == "MOON: <color_c_white>Full moon</color>" );
     set_time( calendar::turn_zero + 18_days );
-    CHECK( w_moon.layout( ava, default_label_separator ) == "MOON: <color_c_white>Waning gibbous</color>" );
+    CHECK( w_moon.layout( ava, default_label_separator ) ==
+           "MOON: <color_c_white>Waning gibbous</color>" );
     set_time( calendar::turn_zero + 21_days );
     CHECK( w_moon.layout( ava, default_label_separator ) == "MOON: <color_c_white>Half moon</color>" );
     set_time( calendar::turn_zero + 24_days );
-    CHECK( w_moon.layout( ava, default_label_separator ) == "MOON: <color_c_white>Waning crescent</color>" );
+    CHECK( w_moon.layout( ava, default_label_separator ) ==
+           "MOON: <color_c_white>Waning crescent</color>" );
     set_time( calendar::turn_zero + 28_days );
     CHECK( w_moon.layout( ava, default_label_separator ) == "MOON: <color_c_white>New moon</color>" );
     set_time( calendar::turn + 12_hours );
-    CHECK( w_light.layout( ava, default_label_separator ) == "LIGHTING: <color_c_yellow>bright</color>" );
+    CHECK( w_light.layout( ava, default_label_separator ) ==
+           "LIGHTING: <color_c_yellow>bright</color>" );
 }
 
 TEST_CASE( "compass widget", "[widget][compass]" )
@@ -1474,17 +1585,28 @@ TEST_CASE( "layout widgets in columns", "[widget][layout][columns]" )
 
     // Three columns
     // string ruler:                     1234567890123456789012345678901234567890
-    CHECK( three_w.layout( ava, default_label_separator, 36 ) == "MOVE: 50     SPEED: 100   FOCUS: 120" );
-    CHECK( three_w.layout( ava, default_label_separator, 37 ) == "MOVE: 50     SPEED: 100   FOCUS: 120 " );
-    CHECK( three_w.layout( ava, default_label_separator, 38 ) == "MOVE: 50      SPEED: 100   FOCUS: 120 " );
-    CHECK( three_w.layout( ava, default_label_separator, 39 ) == "MOVE: 50      SPEED: 100    FOCUS: 120 " );
-    CHECK( three_w.layout( ava, default_label_separator, 40 ) == "MOVE: 50      SPEED: 100    FOCUS: 120  " );
-    CHECK( three_w.layout( ava, default_label_separator, 41 ) == "MOVE: 50       SPEED: 100    FOCUS: 120  " );
-    CHECK( three_w.layout( ava, default_label_separator, 42 ) == "MOVE: 50       SPEED: 100     FOCUS: 120  " );
-    CHECK( three_w.layout( ava, default_label_separator, 43 ) == "MOVE: 50       SPEED: 100     FOCUS: 120   " );
-    CHECK( three_w.layout( ava, default_label_separator, 44 ) == "MOVE: 50        SPEED: 100     FOCUS: 120   " );
-    CHECK( three_w.layout( ava, default_label_separator, 45 ) == "MOVE: 50        SPEED: 100      FOCUS: 120   " );
-    CHECK( three_w.layout( ava, default_label_separator, 46 ) == "MOVE: 50        SPEED: 100      FOCUS: 120    " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           36 ) == "MOVE: 50     SPEED: 100   FOCUS: 120" );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           37 ) == "MOVE: 50     SPEED: 100   FOCUS: 120 " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           38 ) == "MOVE: 50      SPEED: 100   FOCUS: 120 " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           39 ) == "MOVE: 50      SPEED: 100    FOCUS: 120 " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           40 ) == "MOVE: 50      SPEED: 100    FOCUS: 120  " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           41 ) == "MOVE: 50       SPEED: 100    FOCUS: 120  " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           42 ) == "MOVE: 50       SPEED: 100     FOCUS: 120  " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           43 ) == "MOVE: 50       SPEED: 100     FOCUS: 120   " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           44 ) == "MOVE: 50        SPEED: 100     FOCUS: 120   " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           45 ) == "MOVE: 50        SPEED: 100      FOCUS: 120   " );
+    CHECK( three_w.layout( ava, default_label_separator,
+                           46 ) == "MOVE: 50        SPEED: 100      FOCUS: 120    " );
     // string ruler:                     1234567890123456789012345678901234567890123456
 
     // Four columns
@@ -1493,36 +1615,55 @@ TEST_CASE( "layout widgets in columns", "[widget][layout][columns]" )
     CHECK( stat_w.layout( ava, default_label_separator, 33 ) == "STR: 8   DEX: 8   INT: 8   PER: 8" );
     CHECK( stat_w.layout( ava, default_label_separator, 34 ) == "STR: 8   DEX: 8   INT: 8   PER: 8 " );
     CHECK( stat_w.layout( ava, default_label_separator, 35 ) == "STR: 8    DEX: 8   INT: 8   PER: 8 " );
-    CHECK( stat_w.layout( ava, default_label_separator, 36 ) == "STR: 8    DEX: 8    INT: 8   PER: 8 " );
-    CHECK( stat_w.layout( ava, default_label_separator, 37 ) == "STR: 8    DEX: 8    INT: 8    PER: 8 " );
-    CHECK( stat_w.layout( ava, default_label_separator, 38 ) == "STR: 8    DEX: 8    INT: 8    PER: 8  " );
-    CHECK( stat_w.layout( ava, default_label_separator, 39 ) == "STR: 8     DEX: 8    INT: 8    PER: 8  " );
-    CHECK( stat_w.layout( ava, default_label_separator, 40 ) == "STR: 8     DEX: 8     INT: 8    PER: 8  " );
-    CHECK( stat_w.layout( ava, default_label_separator, 41 ) == "STR: 8     DEX: 8     INT: 8     PER: 8  " );
-    CHECK( stat_w.layout( ava, default_label_separator, 42 ) == "STR: 8     DEX: 8     INT: 8     PER: 8   " );
-    CHECK( stat_w.layout( ava, default_label_separator, 43 ) == "STR: 8      DEX: 8     INT: 8     PER: 8   " );
-    CHECK( stat_w.layout( ava, default_label_separator, 44 ) == "STR: 8      DEX: 8      INT: 8     PER: 8   " );
-    CHECK( stat_w.layout( ava, default_label_separator, 45 ) == "STR: 8      DEX: 8      INT: 8      PER: 8   " );
-    CHECK( stat_w.layout( ava, default_label_separator, 46 ) == "STR: 8      DEX: 8      INT: 8      PER: 8    " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          36 ) == "STR: 8    DEX: 8    INT: 8   PER: 8 " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          37 ) == "STR: 8    DEX: 8    INT: 8    PER: 8 " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          38 ) == "STR: 8    DEX: 8    INT: 8    PER: 8  " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          39 ) == "STR: 8     DEX: 8    INT: 8    PER: 8  " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          40 ) == "STR: 8     DEX: 8     INT: 8    PER: 8  " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          41 ) == "STR: 8     DEX: 8     INT: 8     PER: 8  " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          42 ) == "STR: 8     DEX: 8     INT: 8     PER: 8   " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          43 ) == "STR: 8      DEX: 8     INT: 8     PER: 8   " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          44 ) == "STR: 8      DEX: 8      INT: 8     PER: 8   " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          45 ) == "STR: 8      DEX: 8      INT: 8      PER: 8   " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          46 ) == "STR: 8      DEX: 8      INT: 8      PER: 8    " );
     // string ruler:                    1234567890123456789012345678901234567890123456
 
     // Column alignment
     // Layout keeps labels vertically aligned for layouts with the same number of widgets
     // string ruler:                    123456789012345678901234567890123456789012345678
-    CHECK( stat_w.layout( ava, default_label_separator, 48 ) == "STR: 8       DEX: 8       INT: 8      PER: 8    " );
-    CHECK( four_w.layout( ava, default_label_separator, 48 ) == "MOVE: 50     SPEED: 100   FOCUS: 120  MANA: 1000" );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          48 ) == "STR: 8       DEX: 8       INT: 8      PER: 8    " );
+    CHECK( four_w.layout( ava, default_label_separator,
+                          48 ) == "MOVE: 50     SPEED: 100   FOCUS: 120  MANA: 1000" );
 
     // string ruler:                    1234567890123456789012345678901234567890123456789012
-    CHECK( stat_w.layout( ava, default_label_separator, 52 ) == "STR: 8        DEX: 8        INT: 8       PER: 8     " );
-    CHECK( four_w.layout( ava, default_label_separator, 52 ) == "MOVE: 50      SPEED: 100    FOCUS: 120   MANA: 1000 " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          52 ) == "STR: 8        DEX: 8        INT: 8       PER: 8     " );
+    CHECK( four_w.layout( ava, default_label_separator,
+                          52 ) == "MOVE: 50      SPEED: 100    FOCUS: 120   MANA: 1000 " );
 
     // string ruler:                    12345678901234567890123456789012345678901234567890123456
-    CHECK( stat_w.layout( ava, default_label_separator, 56 ) == "STR: 8         DEX: 8         INT: 8        PER: 8      " );
-    CHECK( four_w.layout( ava, default_label_separator, 56 ) == "MOVE: 50       SPEED: 100     FOCUS: 120    MANA: 1000  " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          56 ) == "STR: 8         DEX: 8         INT: 8        PER: 8      " );
+    CHECK( four_w.layout( ava, default_label_separator,
+                          56 ) == "MOVE: 50       SPEED: 100     FOCUS: 120    MANA: 1000  " );
 
     // string ruler:                    123456789012345678901234567890123456789012345678901234567890
-    CHECK( stat_w.layout( ava, default_label_separator, 60 ) == "STR: 8          DEX: 8          INT: 8         PER: 8       " );
-    CHECK( four_w.layout( ava, default_label_separator, 60 ) == "MOVE: 50        SPEED: 100      FOCUS: 120     MANA: 1000   " );
+    CHECK( stat_w.layout( ava, default_label_separator,
+                          60 ) == "STR: 8          DEX: 8          INT: 8         PER: 8       " );
+    CHECK( four_w.layout( ava, default_label_separator,
+                          60 ) == "MOVE: 50        SPEED: 100      FOCUS: 120     MANA: 1000   " );
 }
 
 TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
@@ -1536,37 +1677,44 @@ TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
         SECTION( "sunny" ) {
             scoped_weather_override forecast( weather_sunny );
             REQUIRE( get_weather().weather_id->name.translated() == "Sunny" );
-            CHECK( weather_w.layout( ava, default_label_separator ) == "Weather: <color_c_light_cyan>Sunny</color>" );
+            CHECK( weather_w.layout( ava, default_label_separator ) ==
+                   "Weather: <color_c_light_cyan>Sunny</color>" );
         }
 
         SECTION( "cloudy" ) {
             scoped_weather_override forecast( weather_cloudy );
-            CHECK( weather_w.layout( ava, default_label_separator ) == "Weather: <color_c_light_gray>Cloudy</color>" );
+            CHECK( weather_w.layout( ava, default_label_separator ) ==
+                   "Weather: <color_c_light_gray>Cloudy</color>" );
         }
 
         SECTION( "drizzle" ) {
             scoped_weather_override forecast( weather_drizzle );
-            CHECK( weather_w.layout( ava, default_label_separator ) == "Weather: <color_c_light_blue>Drizzle</color>" );
+            CHECK( weather_w.layout( ava, default_label_separator ) ==
+                   "Weather: <color_c_light_blue>Drizzle</color>" );
         }
 
         SECTION( "snowing" ) {
             scoped_weather_override forecast( weather_snowing );
-            CHECK( weather_w.layout( ava, default_label_separator ) == "Weather: <color_c_white>Snowing</color>" );
+            CHECK( weather_w.layout( ava, default_label_separator ) ==
+                   "Weather: <color_c_white>Snowing</color>" );
         }
 
         SECTION( "acid rain" ) {
             scoped_weather_override forecast( weather_acid_rain );
-            CHECK( weather_w.layout( ava, default_label_separator ) == "Weather: <color_c_green>Acid Rain</color>" );
+            CHECK( weather_w.layout( ava, default_label_separator ) ==
+                   "Weather: <color_c_green>Acid Rain</color>" );
         }
 
         SECTION( "portal storm" ) {
             scoped_weather_override forecast( weather_portal_storm );
-            CHECK( weather_w.layout( ava, default_label_separator ) == "Weather: <color_c_red>Portal Storm</color>" );
+            CHECK( weather_w.layout( ava, default_label_separator ) ==
+                   "Weather: <color_c_red>Portal Storm</color>" );
         }
 
         SECTION( "cannot see weather when underground" ) {
             ava.setpos( tripoint_below );
-            CHECK( weather_w.layout( ava, default_label_separator ) == "Weather: <color_c_light_gray>Underground</color>" );
+            CHECK( weather_w.layout( ava, default_label_separator ) ==
+                   "Weather: <color_c_light_gray>Underground</color>" );
         }
     }
 }
@@ -2181,25 +2329,34 @@ TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]
 
     SECTION( "Default values" ) {
         CHECK( w_num.layout( ava, default_label_separator ) == "Num Values: <color_c_dark_gray>1</color>" );
-        CHECK( w_txt.layout( ava, default_label_separator ) == "Text Values: <color_c_dark_gray>None</color>" );
-        CHECK( w_sym.layout( ava, default_label_separator ) == "Symbol Values: <color_c_dark_gray>.</color>" );
-        CHECK( w_lgd.layout( ava, default_label_separator, sidebar_width ) == "<color_c_dark_gray>. None</color>              " );
+        CHECK( w_txt.layout( ava, default_label_separator ) ==
+               "Text Values: <color_c_dark_gray>None</color>" );
+        CHECK( w_sym.layout( ava, default_label_separator ) ==
+               "Symbol Values: <color_c_dark_gray>.</color>" );
+        CHECK( w_lgd.layout( ava, default_label_separator,
+                             sidebar_width ) == "<color_c_dark_gray>. None</color>              " );
     }
 
     SECTION( "GOODHEARING" ) {
         ava.toggle_trait( trait_GOODHEARING );
-        CHECK( w_num.layout( ava, default_label_separator ) == "Num Values: <color_c_white_green>10</color>" );
-        CHECK( w_txt.layout( ava, default_label_separator ) == "Text Values: <color_c_white_green>good hearing</color>" );
-        CHECK( w_sym.layout( ava, default_label_separator ) == "Symbol Values: <color_c_white_green>+</color>" );
-        CHECK( w_lgd.layout( ava, default_label_separator, sidebar_width ) == "<color_c_white_green>+</color> good hearing\n" );
+        CHECK( w_num.layout( ava, default_label_separator ) ==
+               "Num Values: <color_c_white_green>10</color>" );
+        CHECK( w_txt.layout( ava, default_label_separator ) ==
+               "Text Values: <color_c_white_green>good hearing</color>" );
+        CHECK( w_sym.layout( ava, default_label_separator ) ==
+               "Symbol Values: <color_c_white_green>+</color>" );
+        CHECK( w_lgd.layout( ava, default_label_separator,
+                             sidebar_width ) == "<color_c_white_green>+</color> good hearing\n" );
     }
 
     SECTION( "Daylight" ) {
         set_time( midday );
         CHECK( w_num.layout( ava, default_label_separator ) == "Num Values: <color_c_yellow>0</color>" );
-        CHECK( w_txt.layout( ava, default_label_separator ) == "Text Values: <color_c_yellow>daylight</color>" );
+        CHECK( w_txt.layout( ava, default_label_separator ) ==
+               "Text Values: <color_c_yellow>daylight</color>" );
         CHECK( w_sym.layout( ava, default_label_separator ) == "Symbol Values: <color_c_yellow>=</color>" );
-        CHECK( w_lgd.layout( ava, default_label_separator, sidebar_width ) == "<color_c_yellow>=</color> daylight\n" );
+        CHECK( w_lgd.layout( ava, default_label_separator,
+                             sidebar_width ) == "<color_c_yellow>=</color> daylight\n" );
     }
 
     SECTION( "Daylight / Blind" ) {
@@ -2244,7 +2401,8 @@ TEST_CASE( "widget disabled when empty", "[widget]" )
     SECTION( "test layout results" ) {
         // Show widget text when character is not blind
         REQUIRE( !ava.is_blind() );
-        CHECK( wgt.layout( ava, default_label_separator ) == "NOT EMPTY: <color_c_yellow>Text exists</color>" );
+        CHECK( wgt.layout( ava, default_label_separator ) ==
+               "NOT EMPTY: <color_c_yellow>Text exists</color>" );
 
         // Hide the widget when character is blind.
         // The empty string indicates to the calling function
@@ -2273,7 +2431,8 @@ TEST_CASE( "widget disabled when empty", "[widget]" )
             SECTION( "Not empty" ) {
                 // Show widget text when character is not blind
                 REQUIRE( !ava.is_blind() );
-                CHECK( widget::custom_draw_multiline( wgt.layout( ava, default_label_separator ), w, 1, 30, 0 ) == 1 );
+                CHECK( widget::custom_draw_multiline( wgt.layout( ava, default_label_separator ), w, 1, 30,
+                                                      0 ) == 1 );
                 std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
                 CHECK( lines[0] == " NOT EMPTY: Text exists         " );
                 CHECK( lines[1] == "                                " );
@@ -2288,7 +2447,8 @@ TEST_CASE( "widget disabled when empty", "[widget]" )
                 ava.wear_item( blindfold );
                 REQUIRE( ava.is_blind() );
                 // Shouldn't be called (height should be decremented), but check it just in case
-                CHECK( widget::custom_draw_multiline( wgt.layout( ava, default_label_separator ), w, 1, 30, 0 ) == 1 );
+                CHECK( widget::custom_draw_multiline( wgt.layout( ava, default_label_separator ), w, 1, 30,
+                                                      0 ) == 1 );
                 std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
                 CHECK( lines[0] == "                                " );
                 CHECK( lines[1] == "                                " );
