@@ -719,16 +719,19 @@ void outfit::sort_armor( Character &guy )
 
         // Left footer
         mvwprintz( w_sort_left, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
-        if( leftListOffset + leftListLines < leftListSize ) {
-            // TODO: replace it by right_print()
-            mvwprintz( w_sort_left, point( left_w - utf8_width( _( "<more>" ) ), cont_h - 1 ),
-                       c_light_blue, _( "<more>" ) );
-        }
         if( leftListSize == 0 ) {
             // TODO: replace it by right_print()
             mvwprintz( w_sort_left, point( left_w - utf8_width( _( "<empty>" ) ), cont_h - 1 ),
                        c_light_blue, _( "<empty>" ) );
         }
+        //Left list scrollbar
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 4 ) //Header allowance
+        .content_size( leftListSize )
+        .viewport_pos( leftListOffset )
+        .viewport_size( cont_h - 2 )
+        .apply( w_sort_armor );
 
         // Items stats
         if( leftListSize > 0 ) {
@@ -756,6 +759,9 @@ void outfit::sort_armor( Character &guy )
         // Right list
         rightListSize = 0;
         for( const bodypart_id &cover : armor_cat ) {
+            if( cover == bodypart_id( "bp_null" ) ) {
+                continue;
+            }
             if( !combine_bp( cover ) || rl.count( cover.obj().opposite_part ) == 0 ) {
                 rightListSize += items_cover_bp( guy, cover ).size() + 1;
                 rl.insert( cover );
@@ -797,15 +803,20 @@ void outfit::sort_armor( Character &guy )
                 curr++;
             }
         }
+        //Right list scrollbar (on left side of right list)
+        scrollbar()
+        .offset_x( 2 + left_w + middle_w )
+        .offset_y( 4 ) //Header allowance
+        .content_size( rightListSize )
+        .viewport_pos( rightListOffset )
+        .viewport_size( cont_h - 2 )
+        .apply( w_sort_armor );
 
         // Right footer
         mvwprintz( w_sort_right, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
-        if( rightListOffset + rightListLines < rightListSize ) {
-            // TODO: replace it by right_print()
-            mvwprintz( w_sort_right, point( right_w - utf8_width( _( "<more>" ) ), cont_h - 1 ), c_light_blue,
-                       _( "<more>" ) );
-        }
+
         // F5
+        wnoutrefresh( w_sort_armor );
         wnoutrefresh( w_sort_cat );
         wnoutrefresh( w_sort_left );
         wnoutrefresh( w_sort_middle );
