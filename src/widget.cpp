@@ -347,7 +347,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
-    optional( jo, was_loaded, "separator", _separator, "DEFAULT" );
+    optional( jo, was_loaded, "separator", _separator, default_separator );
     optional( jo, was_loaded, "label", _label, translation() );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
@@ -456,17 +456,16 @@ void widget::finalize_label_separator_recursive( const widget_id &id,
     if( w == nullptr ) {
         return;
     } else if( w->_widgets.empty() ) {
-        if( w->_separator == "DEFAULT" ) {
+        if( w->_separator == default_separator ) {
             w->_separator = label_separator;
             return;
-        }
-        else {
+        } else {
             return;
         }
     }
     // If we get here, we have a layout that contains nested widgets.
     for( const widget_id &wid : w->_widgets ) {
-        if( wid->_separator == "DEFAULT" ) {
+        if( wid->_separator == default_separator ) {
             w->_separator = label_separator;
             widget::finalize_label_separator_recursive( wid, label_separator );
         }
@@ -476,7 +475,7 @@ void widget::finalize_label_separator_recursive( const widget_id &id,
 void widget::finalize()
 {
     for( const widget &wgt : widget::get_all() ) {
-        if( wgt._separator != "DEFAULT" ) {
+        if( wgt._separator != default_separator ) {
             widget::finalize_label_separator_recursive( wgt.getId(), wgt._separator );
         }
         widget::finalize_label_width_recursive( wgt.getId() );
@@ -1422,11 +1421,10 @@ std::string widget::layout( const avatar &ava, std::string &_separator,
             // Stack rows vertically into a multiline widget
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
-                if (cur_child._separator != "DEFAULT" && cur_child._separator != _separator) {
-                    ret += sep + cur_child.layout(ava, cur_child._separator, max_width, label_width);
-                }
-                else {
-                    ret += sep + cur_child.layout(ava, _separator, max_width, label_width);
+                if( cur_child._separator != default_separator && cur_child._separator != _separator ) {
+                    ret += sep + cur_child.layout( ava, cur_child._separator, max_width, label_width );
+                } else {
+                    ret += sep + cur_child.layout( ava, _separator, max_width, label_width );
                 }
                 sep = "\n";
                 h += wid->_height < 0 ? 0 : wid->_height;
@@ -1467,11 +1465,10 @@ std::string widget::layout( const avatar &ava, std::string &_separator,
                 }
                 // Layout child in this column
                 std::string txt;
-                if (cur_child._separator != "DEFAULT" && cur_child._separator != _separator) {
-                    txt = cur_child.layout(ava, cur_child._separator, max_width, label_width);
-                }
-                else {
-                    txt = cur_child.layout(ava, _separator, max_width, label_width);
+                if( cur_child._separator != widget::DEFAULT_SEPARATOR && cur_child._separator != _separator ) {
+                    txt = cur_child.layout( ava, cur_child._separator, max_width, label_width );
+                } else {
+                    txt = cur_child.layout( ava, _separator, max_width, label_width );
                 }
                 // Store the resulting text for this column
                 cols.emplace_back( foldstring( txt, cur_width + 1 ) );

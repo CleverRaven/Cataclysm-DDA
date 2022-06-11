@@ -134,6 +134,9 @@ template<typename T>
 class generic_factory;
 class widget;
 
+// Default label separator for widgets.
+static const std::string default_separator = "DEFAULT";
+
 // Forward declaration, due to codependency on panels.h
 class window_panel;
 
@@ -156,6 +159,7 @@ struct widget_clause {
                 int thresh_val = INT_MIN, bool skip_condition = false );
 
     public:
+
         void load( const JsonObject &jo );
 
         /**
@@ -175,7 +179,6 @@ struct widget_clause {
          * If a clause also has a "condition" field, that condition must also return true in order
          * for that clause to be usable.
          */
-
         static int get_val_for_id( const std::string &clause_id,
                                    const widget_id &wgt, bool skip_condition = false );
         static const translation &get_text_for_id( const std::string &clause_id,
@@ -212,6 +215,7 @@ class widget
         translation _label;
         // Width of the longest label within this layout's widgets (for "rows")
         int _label_width = 0;
+        // Default separator for labels.
         // Separator used to separate the label from the text. This is inherited from any parent widgets if none is found.
         std::string _separator;
         // Binding variable enum like stamina, bp_hp or stat_dex
@@ -220,6 +224,7 @@ class widget
         int _var_min = INT_MIN;
         // Maximum meaningful var value, set by set_default_var_range
         int _var_max = INT_MAX;
+
         // Normal var range (low, high), set by set_default_var_range
         std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
         // Body part variable is linked to
@@ -262,9 +267,10 @@ class widget
         static void finalize();
         // Recursively derive _label_width for nested layouts in this widget
         static int finalize_label_width_recursive( const widget_id &id );
+
         // Recursively derive _separator for nested layouts in this widget
         static void finalize_label_separator_recursive( const widget_id &id,
-                const std::string &label_separator = "DEFAULT" );
+                const std::string &label_separator );
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
