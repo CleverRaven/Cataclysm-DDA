@@ -5,7 +5,7 @@
     "subtype": "collection",
     "items": [ { "group": "milspec_arsenal_300blk_gun&ammo" }, { "item": "ammunition_can_30", "count": [ 1, 4 ] } ]
   },
-    {
+  {
     "type": "item_group",
     "id": "milspec_arsenal_300blk_gun&ammo",
     "subtype": "collection",
