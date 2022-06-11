@@ -159,7 +159,6 @@ struct widget_clause {
                 int thresh_val = INT_MIN, bool skip_condition = false );
 
     public:
-
         void load( const JsonObject &jo );
 
         /**
@@ -215,7 +214,6 @@ class widget
         translation _label;
         // Width of the longest label within this layout's widgets (for "rows")
         int _label_width = 0;
-        // Default separator for labels.
         // Separator used to separate the label from the text. This is inherited from any parent widgets if none is found.
         std::string _separator;
         // Binding variable enum like stamina, bp_hp or stat_dex
@@ -267,7 +265,6 @@ class widget
         static void finalize();
         // Recursively derive _label_width for nested layouts in this widget
         static int finalize_label_width_recursive( const widget_id &id );
-
         // Recursively derive _separator for nested layouts in this widget
         static void finalize_label_separator_recursive( const widget_id &id,
                 const std::string &label_separator );
