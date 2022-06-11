@@ -2198,15 +2198,15 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
             get_map().add_item_or_charges( loc, std::move( it ) );
         }
-        void set_transparency_cache_dirty( const int z ) override {
+        void set_transparency_cache_dirty( int z ) override {
             map &here = get_map();
             here.set_transparency_cache_dirty( z );
             here.set_seen_cache_dirty( tripoint_zero );
         }
-        void set_floor_cache_dirty( const int z ) override {
+        void set_floor_cache_dirty( int z ) override {
             get_map().set_floor_cache_dirty( z );
         }
-        void removed( vehicle &veh, const int part ) override;
+        void removed( vehicle &veh, int part ) override;
         void spawn_animal_from_part( item &base, const tripoint &loc ) override {
             base.release_monster( loc, 1 );
         }

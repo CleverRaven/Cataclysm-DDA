@@ -911,7 +911,7 @@ bool player_can_build( Character &you, const read_only_visitable &inv,
 }
 
 bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
-                       const bool can_construct_skip )
+                       bool can_construct_skip )
 {
     if( you.has_trait( trait_DEBUG_HS ) ) {
         return true;

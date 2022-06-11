@@ -128,7 +128,7 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 // 1 kJ per battery charge
 static const int bat_energy_j = 1000;
 
-void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
+void DefaultRemovePartHandler::removed( vehicle &veh, int part )
 {
     avatar &player_character = get_avatar();
     // If the player is currently working on the removed part, stop them as it's futile now.
