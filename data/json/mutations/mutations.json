@@ -1141,7 +1141,7 @@
     "purifiable": false,
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "XS", "GOODCARDIO", "BADCARDIO", "STRONGKNEES", "BADKNEES", "QUICK", "FLEET", "SLOWRUNNER", "FAST_REFLEXES" ]
+    "cancels": [ "XS", "GOODCARDIO", "STRONGKNEES", "QUICK", "FLEET", "FAST_REFLEXES" ]
   },
   {
     "type": "mutation",
