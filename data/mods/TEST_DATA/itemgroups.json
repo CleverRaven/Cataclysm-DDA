@@ -29,5 +29,17 @@
       { "item": "test_rag", "prob": 100, "event": "halloween" },
       { "item": "test_rock", "prob": 100 }
     ]
+  },
+  {
+    "id": "test_tools_group",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "hammer", "prob": 100 }, { "item": "bow_saw", "prob": 100 } ]
+  },
+  {
+    "id": "test_multitool_group",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "test_multitool", "prob": 100 } ]
   }
 ]

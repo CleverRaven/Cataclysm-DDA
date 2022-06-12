@@ -1405,13 +1405,21 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Store the (potentially) multi-row text for each column
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
+            int total_width = 0;
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
+                if( cur_child._style == "layout" && cur_child._width > 1 ) {
+                    cur_width = cur_child._width;
+                }
                 // Spread remainder over the first few columns
                 if( remainder > 0 ) {
                     cur_width += 1;
                     remainder -= 1;
+                }
+                total_width += cur_width;
+                if( total_width > avail_width ) {
+                    debugmsg( "widget layout is wider than sidebar allows." );
                 }
                 // Layout child in this column
                 const std::string txt = cur_child.layout( ava, cur_width, label_width );

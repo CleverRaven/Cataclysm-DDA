@@ -51,8 +51,6 @@ readability-*,\
 -bugprone-narrowing-conversions,\
 -bugprone-redundant-branch-condition,\
 -bugprone-signed-char-misuse,\
--bugprone-unhandled-self-assignment,\
--cert-oop54-cpp,\
 -cert-str34-c,\
 -clang-analyzer-core.CallAndMessage,\
 -clang-analyzer-deadcode.DeadStores,\
@@ -70,7 +68,6 @@ readability-*,\
 -performance-no-automatic-move,\
 -performance-trivially-destructible,\
 -performance-unnecessary-value-param,\
--readability-avoid-const-params-in-decls,\
 -readability-convert-member-functions-to-static,\
 -readability-else-after-return,\
 -readability-function-cognitive-complexity,\
@@ -86,9 +83,11 @@ WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle:     none
 CheckOptions:
-  - key: readability-uppercase-literal-suffix.NewSuffixes
-    value: 'L;UL;LL;ULL'
   - key: cata-text-style.EscapeUnicode
     value: 0
+  - key: cert-oop54-cpp.WarnOnlyIfThisHasSuspiciousField
+    value: true
+  - key: readability-uppercase-literal-suffix.NewSuffixes
+    value: 'L;UL;LL;ULL'
 
 # vim:tw=0

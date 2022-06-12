@@ -22,6 +22,7 @@
       { "monster": "mon_zanzu_fungus", "starts": "3 days" },
       { "monster": "mon_zeinonychus_fungus", "starts": "3 days" },
       { "monster": "mon_zutahraptor_fungus", "starts": "6 days" },
+      { "monster": "mon_zissi_fungus", "starts": "3 days" },
       { "monster": "mon_zamargasaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zapatosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zrontosaurus_fungus", "starts": "3 days" },

@@ -11,8 +11,9 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "scrap_bronze", 1 ] ] ]
   }
 ]

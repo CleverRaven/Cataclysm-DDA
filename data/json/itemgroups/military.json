@@ -225,6 +225,35 @@
     "type": "item_group",
     "//": "ESAPI vest plus plates",
     "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "kitted_medium_vest", "prob": 100 },
+          {
+            "collection": [
+              { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "pristine_esapi_plates" },
+              { "group": "loaded_lbv" }
+            ],
+            "prob": 50
+          }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "level_3_vest", "variant": "national_guard_armor_vest", "contents-group": "pristine_esapi_front_plates" },
+          { "group": "loaded_lbv" }
+        ],
+        "prob": 50
+      },
+      { "group": "military_ballistic_vest_light", "prob": 10 }
+    ]
+  },
+  {
+    "id": "us_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "collection",
     "entries": [ { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "kitted_medium_vest" } ]
   },
   {
@@ -278,6 +307,50 @@
         "item": "ballistic_vest_light_operator",
         "variant": "ballistic_vest_light_olive",
         "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "military_ballistic_vest_light_pristine",
+    "type": "item_group",
+    "//": "light ballistic vests you could get away with in the army",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
         "prob": 50
       }
     ]

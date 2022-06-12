@@ -985,7 +985,7 @@ std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const 
     return std::make_pair( count_and_mode, mode_pair.second );
 }
 
-std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string note_text )
+std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string &note_text )
 {
     std::string ter_sym = "N";
     nc_color ter_color = c_yellow;
