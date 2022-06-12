@@ -112,6 +112,7 @@
     "type": "widget",
     "style": "sidebar",
     "label": "Compact",
+	"separator": " ",
     "width": 32,
     "widgets": [
       "lcom_limbs_layout",

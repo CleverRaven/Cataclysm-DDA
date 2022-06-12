@@ -52,6 +52,7 @@
     "type": "widget",
     "style": "sidebar",
     "label": "Labels Narrow",
+	"separator": ": ",
     "width": 32,
     "widgets": [
       "ln_limbs_layout",
