@@ -293,6 +293,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_issi",
+    "name": "issi egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_issi"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_amargasaurus",
     "name": "amargasaurus egg",
     "copy-from": "egg_dino_large",

@@ -2102,6 +2102,11 @@ void npc::load( const JsonObject &data )
         data.read( "myclass", classid );
         myclass = npc_class_id( classid );
     }
+    if( data.has_string( "idz" ) ) {
+        data.read( "idz", idz );
+    } else {
+        idz = myclass;
+    }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
 
@@ -2258,6 +2263,7 @@ void npc::store( JsonOut &json ) const
     json.member( "dead", dead );
     json.member( "patience", patience );
     json.member( "myclass", myclass.str() );
+    json.member( "idz", idz.str() );
     json.member( "known_to_u", known_to_u );
     json.member( "personality", personality );
 
@@ -3016,7 +3022,7 @@ void item::deserialize( const JsonObject &data )
     }
 
     // FIXME: batch_size migration from charges - remove after 0.G
-    if( is_craft() and craft_data_->batch_size == -1 ) {
+    if( is_craft() and craft_data_->batch_size <= 0 ) {
         craft_data_->batch_size = clamp( charges, 1, charges );
         charges = 0;
     }
@@ -3471,7 +3477,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "owner", owner );
     json.member( "old_owner", old_owner );
     json.member( "theft_time", theft_time );
-    json.member( "parts", parts );
+    json.member( "parts", real_parts() );
     json.member( "tags", tags );
     json.member( "fuel_remainder", fuel_remainder );
     json.member( "fuel_used_last_turn", fuel_used_last_turn );

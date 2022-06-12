@@ -10,7 +10,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "bandages", "prob": 25 },
-      { "item": "adhesive_bandages", "prob": 25 },
+      { "item": "adhesive_bandages", "prob": 25, "count": [ 1, 20 ] },
       { "item": "saline", "prob": 20 },
       { "item": "vitamins", "prob": 15 },
       { "item": "calcium_tablet", "prob": 15 },

@@ -319,7 +319,7 @@
     "id": "xedra_seismograph",
     "type": "ARMOR",
     "name": { "str": "portable seismograph" },
-    "description": "A sturdy steel briefcase, containing what appears to be an old-fashioned drum seismograph.  The stencilled acronyms of its outer case imply it was used by XEDRA as some sort of recording device.\n\nThin parallel lines cover both ends of the drum, but as they approach the middle their vibrations intensify, until the ink fuses into thick red stain.",
+    "description": "A sturdy steel briefcase, containing what appears to be an old-fashioned drum seismograph.  The stenciled acronyms of its outer case imply it was used by XEDRA as some sort of recording device.\n\nThin parallel lines cover both ends of the drum, but as they approach the middle their vibrations intensify, until the ink fuses into thick red stain.",
     "weight": "5000 g",
     "volume": "15750 ml",
     "price": 24000,

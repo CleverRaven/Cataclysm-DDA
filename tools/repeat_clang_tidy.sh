@@ -39,6 +39,7 @@ fi
 
 list_of_files=$(grep '"file": "' build/compile_commands.json | \
     sed "s+.*$PWD/++;s+\"$++" | \
+    sort -u | \
     egrep "$file_regex")
 
 plugin_lib="$top_dir/build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so"

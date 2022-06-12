@@ -442,7 +442,7 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * @param align none, right, or compact.
  */
 std::string to_string_clipped( const time_duration &d,
-                               const clipped_align align = clipped_align::none );
+                               clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.

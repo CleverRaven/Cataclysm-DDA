@@ -1112,7 +1112,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     sound_type_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     sound_type_box.show();
     QStringList sound_types;
-    for( int i = 0; i < static_cast<int>( sounds::sound_t::_LAST ); i++ ) {
+    for( int i = 0; i < static_cast<int>( sounds::sound_t::LAST ); i++ ) {
         sound_types.append( QString( io::enum_to_string( static_cast<sounds::sound_t>( i ) ).c_str() ) );
     }
     sound_type_box.addItems( sound_types );

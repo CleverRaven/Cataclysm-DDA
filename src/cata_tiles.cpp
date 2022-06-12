@@ -485,6 +485,8 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
 
 void tileset_cache::loader::load_tileset( const std::string &img_path, const bool pump_events )
 {
+    cata_assert( sprite_width > 0 );
+    cata_assert( sprite_height > 0 );
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
     cata_assert( tile_atlas );
     tile_atlas_width = tile_atlas->w;

@@ -61,6 +61,7 @@
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "group": "enchanted_bracelets", "prob": 4 },
       { "group": "enchanted_belts", "prob": 2 },
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] }
     ]

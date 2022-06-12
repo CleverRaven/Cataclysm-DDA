@@ -232,7 +232,7 @@ void npc_template::load( const JsonObject &jsobj )
 {
     npc_template tem;
     npc &guy = tem.guy;
-    guy.idz = jsobj.get_string( "id" );
+    guy.idz = npc_class_id( jsobj.get_string( "id" ) );
     guy.name.clear();
     jsobj.read( "name_unique", tem.name_unique );
     jsobj.read( "name_suffix", tem.name_suffix );
@@ -524,7 +524,7 @@ void npc_template::load( const JsonObject &jsobj )
         guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
 
-    npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
+    npc_templates.emplace( string_id<npc_template>( guy.idz.str() ), std::move( tem ) );
 }
 
 void npc_template::reset()
@@ -1930,7 +1930,7 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
     }
 
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
-        if( !ig.strict || ig.trust <= get_faction()->trusts_u ) {
+        if( ig.can_sell( *this ) ) {
             continue;
         }
         if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
@@ -2034,8 +2034,7 @@ void npc::shop_restock()
     std::vector<item_group_id> rigid_groups;
     std::vector<item_group_id> value_groups;
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
-        const faction *fac = get_faction();
-        if( !fac || ig.trust <= fac->trusts_u ) {
+        if( ig.can_restock( *this ) ) {
             if( ig.rigid ) {
                 rigid_groups.emplace_back( ig.id );
             } else {
