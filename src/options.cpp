@@ -1288,6 +1288,64 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
+    add( "DISTRACTION_NOISE", "general", to_translation( "Distraction: noise" ),
+         to_translation( "If true, this distraction will interrupt your activity when you hear a noise." ),
+         true
+       );
+
+    add( "DISTRACTION_PAIN", "general", to_translation( "Distraction: pain" ),
+         to_translation( "If true, this distraction will interrupt your activity when you feel pain." ),
+         true
+       );
+
+    add( "DISTRACTION_ATTACKED", "general", to_translation( "Distraction: attack" ),
+         to_translation( "If true, this distraction will interrupt your activity when you're attacked." ),
+         true
+       );
+
+    add( "DISTRACTION_HOSTILE_SPOTTED", "general", to_translation( "Distraction: hostile spotted" ),
+         to_translation( "If true, this distraction will interrupt your activity when you spot a hostile." ),
+         true
+       );
+
+    add( "DISTRACTION_HOSTILE_NEAR", "general",
+         to_translation( "Distraction: hostile is dangerously close" ),
+         to_translation( "If true, this distraction will interrupt your activity when a hostile comes within 5 tiles from you." ),
+         true
+       );
+
+    add( "DISTRACTION_TALKED_TO", "general", to_translation( "Distraction: conversation" ),
+         to_translation( "If true, this distraction will interrupt your activity when someone starts a conversation with you." ),
+         true
+       );
+
+    add( "DISTRACTION_ASTHMA", "general", to_translation( "Distraction: asthma" ),
+         to_translation( "If true, this distraction will interrupt your activity when you suffer an asthma attack." ),
+         true
+       );
+
+    add( "DISTRACTION_WEATHER_CHANGE", "general", to_translation( "Distraction: weather change" ),
+         to_translation( "If true, this distraction will interrupt your activity when weather changes to dangerous." ),
+         true
+       );
+
+    add( "DISTRACTION_DANGEROUS_FIELD", "general", to_translation( "Distraction: dangerous field" ),
+         to_translation( "If true, this distraction will interrupt your activity when you're standing in a dangerous field." ),
+         true
+       );
+
+    add( "DISTRACTION_HUNGER", "general", to_translation( "Distraction: hunger" ),
+         to_translation( "If true, this distraction will interrupt your activity when you're at risk of starving." ),
+         true
+       );
+
+    add( "DISTRACTION_THIRST", "general", to_translation( "Distraction: thirst" ),
+         to_translation( "If true, this distraction will interrupt your activity when you're dangerously dehydrated." ),
+         true
+       );
+
+    add_empty_line();
+
     add( "TURN_DURATION", "general", to_translation( "Realtime turn progression" ),
          to_translation( "If higher than 0, monsters will take periodic gameplay turns.  This value is the delay between each turn, in seconds.  Works best with Safe Mode disabled.  0 = disabled." ),
          0.0, 10.0, 0.0, 0.05
