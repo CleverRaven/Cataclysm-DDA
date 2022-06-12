@@ -53,7 +53,7 @@
       [ "armor_riot", 20 ],
       [ "airhorn", 5 ],
       [ "bandages", 10 ],
-      [ "adhesive_bandages", 10 ],
+      { "item": "adhesive_bandages", "prob": 10, "count": [ 1, 20 ] },
       [ "tacvest", 5 ],
       { "item": "heavy_flashlight", "prob": 35, "charges": [ 0, 300 ] },
       [ "kevlar", 35 ],
@@ -144,7 +144,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "adhesive_bandages", "prob": 30 },
+          { "item": "adhesive_bandages", "prob": 30, "count": [ 1, 20 ] },
           { "item": "bandages", "prob": 30 },
           { "group": "full_1st_aid", "prob": 20 }
         ],

@@ -148,7 +148,7 @@
   {
     "id": "lamp_oil",
     "type": "AMMO",
-    "name": { "str_sp": "lamp oil" },
+    "name": { "str_sp": "kerosene" },
     "description": "A thin and clean-burning oil made for use in oil lamps.",
     "category": "fuel",
     "weight": "1 g",

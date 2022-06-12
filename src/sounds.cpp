@@ -224,7 +224,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     case sounds::sound_t::combat: return "combat";
     case sounds::sound_t::alert: return "alert";
     case sounds::sound_t::order: return "order";
-    case sounds::sound_t::_LAST: break;
+    case sounds::sound_t::LAST: break;
     }
     cata_fatal( "Invalid valid_target" );
 }
@@ -296,7 +296,7 @@ static bool is_provocative( sounds::sound_t category )
         case sounds::sound_t::alert:
         case sounds::sound_t::order:
             return true;
-        case sounds::sound_t::_LAST:
+        case sounds::sound_t::LAST:
             break;
     }
     cata_fatal( "Invalid sound_t category" );
@@ -487,7 +487,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
 {
     if( from_player_position ) {
         switch( category ) {
-            case sounds::sound_t::_LAST:
+            case sounds::sound_t::LAST:
                 debugmsg( "ERROR: Incorrect sound category" );
                 return false;
             case sounds::sound_t::background:
@@ -522,7 +522,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
                 return true;
-            case sounds::sound_t::_LAST:
+            case sounds::sound_t::LAST:
                 debugmsg( "ERROR: Incorrect sound category" );
                 return false;
         }

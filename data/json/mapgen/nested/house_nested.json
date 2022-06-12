@@ -1035,6 +1035,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1068,6 +1069,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1101,6 +1103,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1134,6 +1137,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1167,6 +1171,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1200,6 +1205,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1232,6 +1238,7 @@
         "  AAA",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1265,6 +1272,7 @@
         "  AAA",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1298,6 +1306,7 @@
         "    ~",
         "3j1 j"
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 4 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1331,6 +1340,7 @@
         "     ",
         "1~ 23"
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 4 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },

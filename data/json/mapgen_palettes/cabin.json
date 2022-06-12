@@ -56,7 +56,7 @@
     "terrain": {
       ".": [ [ "t_region_groundcover", 4 ], [ "t_region_groundcover_forest", 3 ], "t_region_shrub" ],
       "~": [ [ "t_region_groundcover_barren", 3 ], [ "t_region_groundcover", 3 ], "t_region_shrub" ],
-      "*": [ "t_region_groundcover", "t_region_shrub" ],
+      "*": [ "t_region_shrub", [ "t_region_groundcover_forest", 2 ], [ "t_region_groundcover", 5 ] ],
       "-": [ [ "t_fence", 15 ], "t_region_groundcover" ],
       "w": [ [ { "param": "cabin_window_type", "fallback": "t_window_boarded" }, 6 ], "t_window_frame" ],
       "W": [ [ "t_window_boarded", 3 ], "t_window", "t_window_frame" ],

@@ -314,6 +314,8 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
         guy.calc_discomfort();
     }
 
+    guy.recoil = MAX_RECOIL;
+
     return new_item_it;
 }
 
@@ -409,6 +411,7 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
         recalc_sight_limits();
         calc_encumbrance();
         calc_discomfort();
+        recoil = MAX_RECOIL;
         return true;
     } else {
         return false;
@@ -1584,7 +1587,7 @@ int outfit::collar_warmth() const
 }
 
 std::list<item> outfit::use_amount( const itype_id &it, int quantity,
-                                    std::list<item> &used, const std::function<bool( const item & )> filter,
+                                    std::list<item> &used, const std::function<bool( const item & )> &filter,
                                     Character &wearer )
 {
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
@@ -2027,8 +2030,10 @@ item *outfit::best_shield()
     return ret;
 }
 
-item *outfit::current_unarmed_weapon( const std::string &attack_vector, item *cur_weapon )
+item *outfit::current_unarmed_weapon( const std::string &attack_vector )
 {
+    item *cur_weapon = &null_item_reference();
+
     for( item &worn_item : worn ) {
         bool covers = false;
 
@@ -2352,4 +2357,46 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
         }
     }
     return pd;
+}
+
+void outfit::organize_items_menu()
+{
+    std::vector<item *> to_organize;
+    uilist pocket_selector;
+    for( item &i : worn ) {
+        to_organize.push_back( &i );
+    }
+    pocket_favorite_callback cb( to_organize, pocket_selector );
+
+    pocket_selector.title = _( "Inventory Organization" );
+    pocket_selector.text = cb.title;
+    pocket_selector.callback = &cb;
+    pocket_selector.w_x_setup = 0;
+    pocket_selector.w_width_setup = []() {
+        return TERMX;
+    };
+    pocket_selector.pad_right_setup = []() {
+        return std::max( TERMX / 2, TERMX - 50 );
+    };
+    pocket_selector.w_y_setup = 0;
+    pocket_selector.w_height_setup = []() {
+        return TERMY;
+    };
+    pocket_selector.input_category = "INVENTORY";
+    pocket_selector.additional_actions = { { "FAV_PRIORITY", translation() },
+        { "FAV_AUTO_PICKUP", translation() },
+        { "FAV_AUTO_UNLOAD", translation() },
+        { "FAV_ITEM", translation() },
+        { "FAV_CATEGORY", translation() },
+        { "FAV_WHITELIST", translation() },
+        { "FAV_BLACKLIST", translation() },
+        { "FAV_CLEAR", translation() },
+        { "FAV_MOVE_ITEM", translation() },
+        { "FAV_CONTEXT_MENU", translation() }
+    };
+    // we override confirm
+    pocket_selector.allow_confirm = false;
+    pocket_selector.allow_additional = true;
+
+    pocket_selector.query();
 }

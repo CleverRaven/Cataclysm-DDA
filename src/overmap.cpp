@@ -4082,7 +4082,7 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
     }
 }
 
-void overmap::signal_nemesis( const tripoint_abs_sm p_abs_sm )
+void overmap::signal_nemesis( const tripoint_abs_sm &p_abs_sm )
 {
     //CONVERT ABS SM TO OM_SM
     point_abs_om omp;
@@ -6260,7 +6260,7 @@ void overmap::place_mongroups()
     }
 }
 
-void overmap::place_nemesis( const tripoint_abs_omt p )
+void overmap::place_nemesis( const tripoint_abs_omt &p )
 {
     tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
     point_abs_om omp;

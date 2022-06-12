@@ -35,6 +35,13 @@
         "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_issi",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN" ]
+      },
+      {
         "monster": "mon_amargasaurus_juvenile",
         "weight": 1,
         "cost_multiplier": 10,

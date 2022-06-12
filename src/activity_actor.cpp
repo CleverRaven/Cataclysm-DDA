@@ -2856,6 +2856,8 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
         target.remove_item();
     }
+
+    who.recoil = MAX_RECOIL;
 }
 
 void unload_activity_actor::serialize( JsonOut &jsout ) const
@@ -3972,7 +3974,6 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( reloadable.is_gun() ) {
-        who.recoil = MAX_RECOIL;
         if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
             add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
         }
@@ -3983,9 +3984,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
 
-    // Volume change should only affect container that cantains the "base" item
+    who.recoil = MAX_RECOIL;
+
+    // Volume change should only affect container that contains the "base" item
     // For example a reloaded gun mod never "spills" from the gun
-    // It just affect the container that cantains the gun
+    // It just affects the container that contains the gun
     if( !reload_targets[0].has_parent() ) {
         debugmsg( "item_location of item to be reloaded is not available" );
         return;
@@ -4320,7 +4323,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         return;
     }
     if( act.targets.back()->typeId() == itype_disassembly ) {
-        act.position = act.targets.back()->charges;
+        act.position = act.targets.back()->get_making_batch_size();
     }
     target = who.create_in_progress_disassembly( act.targets.back() );
     act.targets.pop_back();
@@ -5655,9 +5658,11 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         }
     }
     // Clear the backlog of any activities that will not auto resume.
-    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
+    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ) {
         if( !iter->auto_resume ) {
             iter = who.backlog.erase( iter );
+        } else {
+            ++iter;
         }
     }
 }
