@@ -127,6 +127,90 @@
     "components": [ [ [ "copper", 50 ] ] ]
   },
   {
+    "result": "copper",
+    "id_suffix": "medium_batch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 90, 1 ],
+    "autolearn": true,
+    "charges": 50,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [
+        [ "scrap_copper", 1 ],
+        [ "copper_ear", 2],
+        [ "cable", 50],
+        [ "coin_dime", 25],
+        [ "coin_nickel", 10]
+      ]
+    ]
+  },
+  {
+    "result": "copper",
+    "id_suffix": "small_batch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 90, 1 ],
+    "autolearn": true,
+    "charges": 24,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [
+        [ "copper_hairpin", 8 ],
+        [ "copper_locket", 6],
+        [ "copper_necklace", 6],
+        [ "copper_ring", 8],      
+        [ "cable", 24],
+        [ "coin_dime", 12],
+        [ "coin_dollar", 3],
+        [ "coin_half_dollar", 2],
+        [ "coin_penny", 8],
+        [ "coin_quarter", 4]
+      ]
+    ]
+  },
+  {
+    "result": "copper",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 90, 1 ],
+    "autolearn": true,
+    "charges": 200,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [
+        [ "scrap_copper", 4],
+        [ "copper_ear", 8],        
+        [ "cu_pipe", 1 ],     
+        [ "cable", 200],
+        [ "coin_dime", 100],
+        [ "coin_nickel", 40],
+        [ "coin_half_dollar", 18],
+        [ "coin_dollar", 25],
+        [ "copper_necklace", 50],
+        [ "copper_locket", 50]                        
+      ]
+    ]
+  },
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "plastic_chunk",
