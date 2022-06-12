@@ -128,6 +128,7 @@
     "width": 44,
     "widgets": [
       "lcla_health_layout",
+      "bodypart_status_sym_layout",
       "ll_movement_layout",
       "lcla_vehicle_layout",
       "all_weariness_layout",

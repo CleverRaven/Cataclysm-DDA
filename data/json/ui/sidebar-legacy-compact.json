@@ -124,6 +124,7 @@
     "width": 36,
     "widgets": [
       "lcom_limbs_layout",
+      "bodypart_status_sym_layout",
       "lcom_sound_layout",
       "lcom_stats_layout",
       "all_weariness_layout",
