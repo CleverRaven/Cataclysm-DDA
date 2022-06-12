@@ -57,7 +57,7 @@
     "style": "layout",
     "label": "Time",
     "arrange": "columns",
-    "widgets": [ "date_desc_no_label", "time_desc_no_label", "moon_phase_desc" ]
+    "widgets": [ "date_desc_no_label", "time_desc_no_label" ]
   },
   {
     "id": "lcom_needs_left_layout",
