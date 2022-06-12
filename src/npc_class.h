@@ -11,8 +11,11 @@
 #include "translations.h"
 #include "type_id.h"
 
+class npc;
 class JsonObject;
 class Trait_group;
+
+struct dialogue;
 
 namespace trait_group
 {
@@ -43,11 +46,11 @@ class distribution
         static distribution dice_roll( int sides, int size );
         static distribution one_in( float in );
 };
-
 struct shopkeeper_item_group {
     item_group_id id = item_group_id( "EMPTY_GROUP" );
     int trust = 0;
     bool strict = false;
+    std::function<bool( const dialogue & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
     bool rigid = false;
@@ -55,6 +58,9 @@ struct shopkeeper_item_group {
     shopkeeper_item_group() = default;
     shopkeeper_item_group( const std::string &id, int trust, bool strict, bool rigid = false ) :
         id( item_group_id( id ) ), trust( trust ), strict( strict ), rigid( rigid ) {}
+
+    bool can_sell( npc const &guy ) const;
+    bool can_restock( npc const &guy ) const;
 
     void deserialize( const JsonObject &jo );
 };
