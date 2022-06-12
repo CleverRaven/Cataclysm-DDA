@@ -55,7 +55,7 @@
     "label": "Health",
     "arrange": "columns",
 	"height": 8,
-    "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
+    "widgets": [ "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
     {
     "id": "lcla_vehicle_layout",

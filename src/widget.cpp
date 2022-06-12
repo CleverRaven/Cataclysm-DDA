@@ -144,6 +144,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "power_text";
         case widget_var::safe_mode_text:
             return "safe_mode_text";
+        case widget_var::safe_mode_classic_text:
+            return "safe_mode_classic_text";
         case widget_var::style_text:
             return "style_text";
         case widget_var::time_text:
@@ -156,6 +158,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "veh_fuel_text";
         case widget_var::weariness_text:
             return "weariness_text";
+        case widget_var::weary_transition_level:
+            return "weary_transition_level";
         case widget_var::weary_malus_text:
             return "weary_malus_text";
         case widget_var::weather_text:
@@ -581,6 +585,10 @@ void widget::set_default_var_range( const avatar &ava )
             _var_min = 0;
             _var_max = 10;
             break;
+        case widget_var::weary_transition_level:
+            _var_min = 0;
+            _var_max = ava.weary_threshold();
+            break;
 
         // Base stats
         // Normal is the base stat value only; min and max are -3 and +3 from base
@@ -690,6 +698,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::weariness_level:
             value = ava.weariness_level();
+            break;
+        case widget_var::weary_transition_level:
+            value = ava.weariness_transition_level();
             break;
         case widget_var::stat_str:
             value = ava.get_str();
@@ -802,7 +813,6 @@ static int custom_draw_func( const draw_args &args )
             int row_num = 0;
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
-
                 const std::string txt = row_widget.layout( u, widt, wgt->_label_width );
                 if( row_wid->has_flag( json_flag_W_DISABLED_WHEN_EMPTY ) && txt.empty() ) {
                     // reclaim the skipped height in the sidebar
@@ -816,7 +826,6 @@ static int custom_draw_func( const draw_args &args )
             // Layout widgets in columns
             // For now, this is the default when calling layout()
             // So, just layout self on a single line
-
             const std::string txt = wgt->layout( u, widt );
             if( disable_empty && txt.empty() ) {
                 // reclaim the skipped height in the sidebar
@@ -885,6 +894,7 @@ bool widget::uses_text_function()
         case widget_var::place_text:
         case widget_var::power_text:
         case widget_var::safe_mode_text:
+        case widget_var::safe_mode_classic_text:
         case widget_var::style_text:
         case widget_var::time_text:
         case widget_var::veh_azimuth_text:
@@ -972,6 +982,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::safe_mode_text:
             desc = display::safe_mode_text_color( false );
+            break;
+        case widget_var::safe_mode_classic_text:
+            desc = display::safe_mode_text_color(true);
             break;
         case widget_var::style_text:
             desc.first = ava.martial_arts_data->selected_style_name( ava );
