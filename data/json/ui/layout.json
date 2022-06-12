@@ -149,7 +149,7 @@
     "style": "layout",
     "label": "Stamina/Cardio",
     "arrange": "columns",
-    "widgets": [ "stamina_num", "cardio_fit_num" ]
+    "widgets": [ "stamina_num_label", "cardio_fit_num" ]
   },
   {
     "id": "vital_numbers_layout",

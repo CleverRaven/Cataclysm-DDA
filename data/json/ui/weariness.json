@@ -36,7 +36,7 @@
     {
     "id": "weariness_transition_graph",
     "type": "widget",
-    "label": "Weariness",
+    "label": "Transition",
     "style": "graph",
 	"symbols": ".\\|",
 	"width": 5,
