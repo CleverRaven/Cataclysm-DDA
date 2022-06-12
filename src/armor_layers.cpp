@@ -718,6 +718,7 @@ void outfit::sort_armor( Character &guy )
             }
         }
         if( leftListSize == 0 ) {
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
             trim_and_print( w_sort_left, point( 0, 1 ), left_w, c_light_blue, _( "<empty>" ) );
         }
 
