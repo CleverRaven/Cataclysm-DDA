@@ -2058,9 +2058,11 @@ void panel_manager::init()
 {
     layouts = initialize_default_panel_layouts();
     load();
-    update_offsets( get_current_layout().panels().begin()->get_width() );
-    widget::finalize_label_separator_recursive( get_current_sidebar()->getId(),
-            get_current_sidebar()->_separator );
+    update_offsets(get_current_layout().panels().begin()->get_width());
+    if (get_current_sidebar() != nullptr) {
+        widget::finalize_label_separator_recursive(get_current_sidebar()->getId(),
+            get_current_sidebar()->_separator);
+    }
 }
 
 void panel_manager::update_offsets( int x )
@@ -2324,8 +2326,10 @@ void panel_manager::show_adm()
         if( recalc ) {
             recalc = false;
             row_indices.clear();
-            widget::finalize_label_separator_recursive( get_current_sidebar()->getId(),
-                    get_current_sidebar()->_separator );
+            if (get_current_sidebar() != nullptr) {
+                widget::finalize_label_separator_recursive(get_current_sidebar()->getId(),
+                    get_current_sidebar()->_separator);
+            }
             for( size_t i = 0, row = 0; i < panels.size(); i++ ) {
                 if( panels[i].render() ) {
                     row_indices.emplace( row, i );
