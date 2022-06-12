@@ -16,7 +16,7 @@ static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
     calendar::turn = calendar::turn_zero;
     dude.update_body();
 
-    for( size_t i = 0; i < numb_stam_burn; i++ ) {
+    for( int i = 0; i < numb_stam_burn; i++ ) {
         //Cardio: burn more than half stamina
         dude.mod_stamina( -dude.get_stamina_max() );
         dude.set_stamina( dude.get_stamina_max() );
@@ -45,7 +45,7 @@ TEST_CASE( "healthy_lifestyle", "[health]" )
 
     int init_lifestyle = dude.get_lifestyle();
     int init_daily_health = dude.get_daily_health();
-    for( size_t i = 0; i < 7; i++ ) {
+    for( int i = 0; i < 7; i++ ) {
         daily_routine( dude, 5, 2000, false );
     }
 
@@ -63,7 +63,7 @@ TEST_CASE( "unhealthy_lifestyle", "[health]" )
 
     int init_lifestyle = dude.get_lifestyle();
     int init_daily_health = dude.get_daily_health();
-    for( size_t i = 0; i < 7; i++ ) {
+    for( int i = 0; i < 7; i++ ) {
         daily_routine( dude, 0, 0, true );
     }
 
