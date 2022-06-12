@@ -2020,6 +2020,19 @@ panel_layout &panel_manager::get_current_layout()
     return get_current_layout();
 }
 
+widget *panel_manager::get_current_sidebar()
+{
+    panel_layout layout = get_current_layout();
+    widget *w = nullptr;
+    for( const widget &wgt : widget::get_all() ) {
+        if( wgt._style == "sidebar" && wgt._label.translated() == layout.name() ) {
+            w = const_cast<widget *>( &wgt );
+            break;
+        }
+    }
+    return w;
+}
+
 std::string panel_manager::get_current_layout_id() const
 {
     return current_layout_id;
@@ -2046,6 +2059,8 @@ void panel_manager::init()
     layouts = initialize_default_panel_layouts();
     load();
     update_offsets( get_current_layout().panels().begin()->get_width() );
+    widget::finalize_label_separator_recursive( get_current_sidebar()->getId(),
+            get_current_sidebar()->_separator );
 }
 
 void panel_manager::update_offsets( int x )
@@ -2308,8 +2323,9 @@ void panel_manager::show_adm()
 
         if( recalc ) {
             recalc = false;
-
             row_indices.clear();
+            widget::finalize_label_separator_recursive( get_current_sidebar()->getId(),
+                    get_current_sidebar()->_separator );
             for( size_t i = 0, row = 0; i < panels.size(); i++ ) {
                 if( panels[i].render() ) {
                     row_indices.emplace( row, i );

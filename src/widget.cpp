@@ -364,10 +364,15 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( _style == "sidebar" ) {
         mandatory( jo, was_loaded, "separator", _separator );
+        explicit_separator = true;
     } else {
         optional( jo, was_loaded, "separator", _separator, default_separator );
+        explicit_separator = ( _separator != default_separator );
     }
 
+    if( explicit_separator == true ) {
+        int debug = 42;
+    }
     _height = _height_max;
     _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
 
@@ -468,7 +473,7 @@ void widget::finalize_label_separator_recursive( const widget_id &id,
     if( w == nullptr ) {
         return;
     } else if( w->_widgets.empty() ) {
-        if( w->_separator == default_separator ) {
+        if( !w->explicit_separator ) {
             w->_separator = label_separator;
             return;
         } else {
@@ -477,17 +482,17 @@ void widget::finalize_label_separator_recursive( const widget_id &id,
     }
     // If we get here, we have a layout that contains nested widgets.
     for( const widget_id &wid : w->_widgets ) {
-        if( wid->_separator == default_separator ) {
+        if( !w->explicit_separator ) {
             w->_separator = label_separator;
-            widget::finalize_label_separator_recursive( wid, label_separator );
         }
+        widget::finalize_label_separator_recursive( wid, w->_separator );
     }
 }
 
 void widget::finalize()
 {
     for( const widget &wgt : widget::get_all() ) {
-        if( wgt._separator != default_separator ) {
+        if( wgt.explicit_separator ) {
             widget::finalize_label_separator_recursive( wgt.getId(), wgt._separator );
         }
         widget::finalize_label_width_recursive( wgt.getId() );
