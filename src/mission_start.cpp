@@ -143,12 +143,13 @@ void mission_start::kill_nemesis( mission * )
 
     int attempt = 0;
     do {
-        if (++attempt > ARRAYSIZE(attempts_multipliers)) {
-            debugmsg("Failed adding a nemesis mission");
+        int range = rng( 40, 80 ) * attempts_multipliers[attempt];
+        if( ++attempt >= ARRAYSIZE( attempts_multipliers ) ) {
+            debugmsg( "Failed adding a nemesis mission" );
             return;
         }
-        site = overmap_buffer.find_random(center, "field", rng(40, 80) * attempts_multipliers[attempt - 1], false);
-    } while ( site == overmap::invalid_tripoint );
+        site = overmap_buffer.find_random( center, "field", range, false );
+    } while( site == overmap::invalid_tripoint );
     overmap_buffer.add_nemesis( site );
 }
 
