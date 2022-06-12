@@ -8,6 +8,8 @@
 #include <utility>
 #include <vector>
 
+#include "cuboid_rectangle.h"
+
 class JsonIn;
 class translation;
 namespace catacurses
@@ -23,7 +25,8 @@ class help
 
     private:
         void deserialize( JsonIn &jsin );
-        void draw_menu( const catacurses::window &win ) const;
+        std::map<int, inclusive_rectangle<point>> draw_menu( const catacurses::window &win,
+                                               int selected ) const;
         static std::string get_note_colors();
         static std::string get_dir_grid();
 

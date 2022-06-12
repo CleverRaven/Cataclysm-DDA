@@ -489,7 +489,7 @@
     "reversible": true,
     "using": [ [ "sewing_kevlar", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "sheet_kevlar", 16 ], [ "thread", 30 ] ] ]
+    "components": [ [ [ "sheet_kevlar", 16 ] ], [ [ "thread", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -502,7 +502,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_nylon", 4 ], [ "thread", 10 ] ] ]
+    "components": [ [ [ "sheet_nylon", 4 ] ], [ [ "thread", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -515,7 +515,7 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_nomex", 8 ], [ "thread", 20 ] ] ]
+    "components": [ [ [ "sheet_nomex", 8 ] ], [ [ "thread", 20 ] ] ]
   },
   {
     "type": "recipe",

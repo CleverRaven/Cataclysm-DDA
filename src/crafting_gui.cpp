@@ -612,6 +612,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     if( result_uses_charges ) {
         dummy_result.charges = 1;
     }
+    dummy_result.set_var( "recipe_exemplar", rec->ident().str() );
     item dummy_container;
 
     //Several terms are used repeatedly in headers/descriptions, list them here for a single entry/translation point
@@ -638,7 +639,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
             dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
             //Put together the summary in info:
             get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
-            get_item_header( dummy_container, makes_amount, info, in_container_string,
+            get_item_header( dummy_container, 1, info, in_container_string,
                              false ); //Seems reasonable to assume a container won't use charges
             //Put together the details in details_info:
             insert_iteminfo_block_separator( details_info, recipe_result_string );
@@ -646,7 +647,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
                               result_uses_charges );
 
             insert_iteminfo_block_separator( details_info, container_info_string );
-            get_item_details( dummy_container, makes_amount, details_info, container_string, false );
+            get_item_details( dummy_container, 1, details_info, container_string, false );
         } else { //If it's not in a container, just tell us about the item
             //Add a line to the summary:
             get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
