@@ -1372,6 +1372,18 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
         return;
     }
 
+    if( you.get_working_arm_count() < 1 ) {
+        add_msg( m_info, _( "You can't climb because your arms are too damaged or encumbered." ) );
+        return;
+    }
+
+    const item &weapon = you.get_wielded_item();
+    if( weapon.is_two_handed( you ) ) {
+        add_msg( m_info, _( "You can't climb because you have to wield %s with both hands." ),
+                 weapon.tname() );
+        return;
+    }
+
     // We're not going to do anything if we're already on that point.
     // Also prompt the player before taking an action.
     if( you.pos() == examp || !query_yn( _( "Climb obstacle?" ) ) ) {
