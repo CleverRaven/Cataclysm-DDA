@@ -375,12 +375,12 @@
     "looks_like": "leather_pouch",
     "color": "brown",
     "material_thickness": 1,
-    "//": "max_item_length must be 58mm, and max weight ~1400. probably need some tweak. #57981",
+    "//": "max_item_length must be 58mm, and max weight ~1400. probably need some tweak. #57981.  Also generic guns has even bigger weight, so 3 kg.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "620 ml",
-        "max_contains_weight": "2400 g",
+        "max_contains_weight": "3000 g",
         "max_item_length": "60 mm"
       }
     ],
