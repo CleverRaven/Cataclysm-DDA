@@ -425,6 +425,16 @@
         "ablative": true,
         "volume_encumber_modifier": 0,
         "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
         "max_contains_weight": "400 g",
         "moves": 250,
         "description": "Pocket for a mandible guard.",
