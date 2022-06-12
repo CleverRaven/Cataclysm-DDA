@@ -1141,11 +1141,7 @@
     "purifiable": false,
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "XS", "GOODCARDIO", "BADCARDIO", "STRONGKNEES", "BADKNEES", "QUICK", "FLEET", "SLOWRUNNER", "FAST_REFLEXES" ],
-    "cardio_multiplier": 0.5,
-    "movecost_flatground_modifier": 1.25,
-    "movecost_swim_modifier": 1.25,
-    "movecost_obstacle_modifier": 1.5
+    "cancels": [ "XS", "GOODCARDIO", "BADCARDIO", "STRONGKNEES", "BADKNEES", "QUICK", "FLEET", "SLOWRUNNER", "FAST_REFLEXES" ]
   },
   {
     "type": "mutation",
