@@ -363,10 +363,10 @@ void widget::load( const JsonObject &jo, const std::string & )
         explicit_separator = true;
     } else {
         optional( jo, was_loaded, "separator", _separator, default_separator );
-        explicit_separator = (_separator != default_separator);
+        explicit_separator = ( _separator != default_separator );
     }
 
-    if (explicit_separator == true) {
+    if( explicit_separator == true ) {
         int debug = 42;
     }
     _height = _height_max;
@@ -481,7 +481,7 @@ void widget::finalize_label_separator_recursive( const widget_id &id,
         if( !w->explicit_separator ) {
             w->_separator = label_separator;
         }
-        widget::finalize_label_separator_recursive(wid, w->_separator);
+        widget::finalize_label_separator_recursive( wid, w->_separator );
     }
 }
 
