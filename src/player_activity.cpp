@@ -15,6 +15,7 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "options.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -486,7 +487,8 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
     std::map < distraction_type, std::string > res;
     activity_id act_id = id();
     if( act_id != ACT_AIM && moves_left > 0 ) {
-        if( !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+        if( get_option<bool>( "DISTRACTION_HOSTILE_NEAR" ) &&
+            !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
             Creature *hostile_critter = g->is_hostile_very_close( true );
             if( hostile_critter != nullptr ) {
                 res.emplace( distraction_type::hostile_spotted_near,
@@ -494,7 +496,8 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
                                             g->is_hostile_very_close( true )->get_name() ) );
             }
         }
-        if( !is_distraction_ignored( distraction_type::dangerous_field ) ) {
+        if( get_option<bool>( "DISTRACTION_DANGEROUS_FIELD" ) &&
+            !is_distraction_ignored( distraction_type::dangerous_field ) ) {
             field_entry *field = g->is_in_dangerous_field();
             if( field != nullptr ) {
                 res.emplace( distraction_type::dangerous_field, string_format( _( "You stand in %s!" ),
@@ -505,14 +508,16 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
         // If this is too bothersome, maybe a list of just ACT_CRAFT, ACT_DIG etc
         if( std::find( consuming.begin(), consuming.end(), act_id ) == consuming.end() ) {
             avatar &player_character = get_avatar();
-            if( !is_distraction_ignored( distraction_type::hunger ) ) {
+            if( get_option<bool>( "DISTRACTION_HUNGER" ) &&
+                !is_distraction_ignored( distraction_type::hunger ) ) {
                 // Starvation value of 5300 equates to about 5kCal.
                 if( calendar::once_every( 2_hours ) && player_character.get_hunger() >= 300 &&
                     player_character.get_starvation() > 5300 ) {
                     res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
                 }
             }
-            if( !is_distraction_ignored( distraction_type::thirst ) ) {
+            if( get_option<bool>( "DISTRACTION_THIRST" ) &&
+                !is_distraction_ignored( distraction_type::thirst ) ) {
                 if( player_character.get_thirst() > 520 ) {
                     res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
                 }
