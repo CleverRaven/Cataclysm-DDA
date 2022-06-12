@@ -352,7 +352,7 @@
     "id": "super_hot_spell",
     "type": "SPELL",
     "name": "Propulsion",
-    "description": "Yep, you are fast",
+    "description": "Yep, you are fast.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_LEGS", "LOUD", "SOMATIC" ],
     "effect": "mod_moves",

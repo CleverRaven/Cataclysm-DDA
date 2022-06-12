@@ -723,9 +723,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         }
 
-        // If no weapon is selected, use highest layer of gloves instead.
+        // If no weapon is selected, use highest layer of clothing for attack vector instead.
         if( attack_vector != "WEAPON" ) {
-            worn.current_unarmed_weapon( attack_vector, cur_weapon );
+            cur_weapon = worn.current_unarmed_weapon( attack_vector );
         }
 
         damage_instance d;

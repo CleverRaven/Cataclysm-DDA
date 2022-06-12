@@ -74,9 +74,9 @@ class timed_event_manager
          */
         void add( timed_event_type type, const time_point &when, int faction_id,
                   const tripoint_abs_sm &where, int strength = -1 );
-        void add( const timed_event_type type, const time_point &when, const int faction_id,
+        void add( timed_event_type type, const time_point &when, int faction_id,
                   const tripoint_abs_sm &where, int strength, std::string string_id );
-        void add( const timed_event_type type, const time_point &when, const int faction_id,
+        void add( timed_event_type type, const time_point &when, int faction_id,
                   const tripoint_abs_sm &where, int strength, std::string string_id, submap_revert sr );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
