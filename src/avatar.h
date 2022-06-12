@@ -220,7 +220,7 @@ class avatar : public Character
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
-        void longpull( const std::string name );
+        void longpull( std::string name );
 
         void wake_up() override;
         // Grab furniture / vehicle

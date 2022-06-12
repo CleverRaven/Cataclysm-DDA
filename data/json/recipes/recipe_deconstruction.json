@@ -1513,7 +1513,7 @@
       [ [ "identification_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "power_supply", 20 ] ],
-      [ [ "storage_battery", 2 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "mil_plate", 15 ] ]
     ]
@@ -1535,7 +1535,7 @@
       [ [ "identification_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "power_supply", 20 ] ],
-      [ [ "storage_battery", 2 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "mil_plate", 6 ] ]
     ]
@@ -1558,7 +1558,7 @@
       [ [ "identification_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "power_supply", 20 ] ],
-      [ [ "storage_battery", 2 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "mil_plate", 20 ] ]
     ]
