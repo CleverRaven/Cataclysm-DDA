@@ -1464,7 +1464,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Store the (potentially) multi-row text for each column
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
-            int total_width = 0;
+            const unsigned int total_width = 0;
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
