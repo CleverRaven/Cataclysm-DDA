@@ -22,7 +22,19 @@
     "id": "test_npc_trader_class",
     "name": "test_npc_trader",
     "job_description": "I am testing bugs",
-    "shopkeeper_consumption_rates": "test_shop_rates"
+    "shopkeeper_consumption_rates": "test_shop_rates",
+    "shopkeeper_item_group": [
+      { "group": "test_event_item_spawn" },
+      {
+        "group": "test_tools_group",
+        "condition": { "u_has_var": "tools_access", "type": "bool", "context": "test", "value": "yes" }
+      },
+      {
+        "group": "test_multitool_group",
+        "strict": true,
+        "condition": { "u_has_var": "multitool_access", "type": "bool", "context": "test", "value": "yes" }
+      }
+    ]
   },
   {
     "type": "npc",
