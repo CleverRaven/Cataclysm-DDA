@@ -8,7 +8,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 12,
+	"width": 11,
     "widgets": [
       "lcla_health_head_graph",
       "hp_torso_graph",
@@ -24,18 +24,31 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 13,
+	"width": 14,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
-    "widgets": [ "pain_desc_no_label", "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label", "mood_desc", "stamina_graph_classic", "move_count_mode_desc" ]
+    "widgets": [ "pain_desc_no_label", "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label", "stamina_graph_classic", "move_count_mode_desc", "focus_num" ]
+  },
+  {
+    "id": "lcla_mood_desc",
+    "type": "widget",
+    "copy-from": "mood_desc_no_label",
+	"text_align": "center",
+	"flags": [ "W_LABEL_NONE" ]
+  },
+      {
+    "id": "lcla_safe_mode",
+    "type": "widget",
+    "copy-from": "safe_mode_classic_desc",
+	"text_align": "right"
   },
   {
     "id": "lcla_health_right_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 8,
+	"width": 6,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
-    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc", "focus_num" ]
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "lcla_safe_mode", "lcla_mood_desc", "body_temp_desc_no_label" ]
   },
   {
     "id": "lcla_health_overmap",
@@ -43,7 +56,7 @@
     "label": "Overmap",
     "var": "overmap_text",
     "style": "text",
-    "width": 5,
+    "width": 7,
     "height": 7,
 	"text_align": "left",
     "flags": [ "W_LABEL_NONE" ]
@@ -55,7 +68,7 @@
     "label": "Health",
     "arrange": "columns",
 	"height": 8,
-    "widgets": [ "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
+    "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
     {
     "id": "lcla_vehicle_layout",
@@ -105,6 +118,12 @@
 	"flags": [ "W_LABEL_NONE" ]
   },
   {
+    "id": "lcla_compass",
+    "type": "widget",
+    "copy-from": "compass_all_layout",
+	"separator": ": "
+  },
+  {
     "id": "legacy_classic_sidebar",
     "type": "widget",
     "style": "sidebar",
@@ -122,7 +141,7 @@
       "lcla_weapon_layout",
       "wind_desc",
       "bodypart_armor_outer_layout",
-      "compass_all_layout",
+      "lcla_compass",
       "body_graph"
     ]
   }

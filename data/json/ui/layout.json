@@ -77,7 +77,7 @@
     "style": "layout",
     "label": "Mood/Focus",
     "arrange": "columns",
-    "widgets": [ "mood_desc", "focus_num" ]
+    "widgets": [ "mood_desc_label", "focus_num" ]
   },
   {
     "id": "stamina_fatigue_focus_layout",
@@ -183,7 +183,7 @@
     "style": "layout",
     "label": "Sound/Mood",
     "arrange": "columns",
-    "widgets": [ "sound_num", "mood_desc" ]
+    "widgets": [ "sound_num", "mood_desc_label" ]
   },
   {
     "id": "sound_mood_focus_layout",
@@ -191,7 +191,7 @@
     "style": "layout",
     "label": "Sound/Mood/Focus",
     "arrange": "columns",
-    "widgets": [ "sound_num", "mood_desc", "focus_num" ]
+    "widgets": [ "sound_num", "mood_desc_label", "focus_num" ]
   },
   {
     "id": "wind_temp_layout",

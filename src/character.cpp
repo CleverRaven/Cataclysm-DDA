@@ -4377,15 +4377,15 @@ int Character::weariness_transition_level() const
 {
     int amount = weariness();
     int threshold = weary_threshold();
-    amount -= threshold * get_option<float>("WEARY_INITIAL_STEP");
-    while (amount >= 0) {
+    amount -= threshold * get_option<float>( "WEARY_INITIAL_STEP" );
+    while( amount >= 0 ) {
         amount -= threshold;
-        if (threshold > 20) {
-            threshold *= get_option<float>("WEARY_THRESH_SCALING");
+        if( threshold > 20 ) {
+            threshold *= get_option<float>( "WEARY_THRESH_SCALING" );
         }
     }
 
-    return std::abs(amount);
+    return std::abs( amount );
 }
 
 float Character::maximum_exertion_level() const

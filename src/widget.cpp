@@ -984,7 +984,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::safe_mode_text_color( false );
             break;
         case widget_var::safe_mode_classic_text:
-            desc = display::safe_mode_text_color(true);
+            desc = display::safe_mode_text_color( true );
             break;
         case widget_var::style_text:
             desc.first = ava.martial_arts_data->selected_style_name( ava );
@@ -1476,7 +1476,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                     remainder -= 1;
                 }
                 total_width += cur_width;
-                if( total_width > avail_width ) {
+                if( total_width > max_width ) {
                     debugmsg( "widget layout is wider than sidebar allows." );
                 }
                 // Layout child in this column

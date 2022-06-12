@@ -18,7 +18,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "safe_mode_desc", "mood_desc" ]
+    "widgets": [ "safe_mode_desc", "mood_desc_label" ]
   },
   {
     "id": "lcom_limbs_right_layout",
