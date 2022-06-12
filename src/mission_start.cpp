@@ -139,12 +139,12 @@ void mission_start::kill_nemesis( mission * )
     const tripoint_abs_omt center = get_player_character().global_omt_location();
     tripoint_abs_omt site = overmap::invalid_tripoint;
 
-    static const float attempts_multipliers[] = {1.0f, 1.5f, 2.f};
+    static const std::array<float, 3> attempts_multipliers {1.0f, 1.5f, 2.f};
 
     int attempt = 0;
     do {
         int range = rng( 40, 80 ) * attempts_multipliers[attempt];
-        if( ++attempt >= ARRAYSIZE( attempts_multipliers ) ) {
+        if( ++attempt >= attempts_multipliers.size() ) {
             debugmsg( "Failed adding a nemesis mission" );
             return;
         }
