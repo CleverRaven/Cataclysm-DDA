@@ -22,7 +22,7 @@
       "overmap_full_width",
       "overmap_location_desc",
       "light_moon_wind_temp_layout",
-      "vehicle_azimuth_cruise_fuel_layout",
+      "vehicle_acf_label_layout",
       "vital_numbers_layout",
       "bodypart_armor_outer_layout",
       "bodypart_status_layout",

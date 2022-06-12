@@ -70,7 +70,7 @@
     "label": "Vehicle",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "vehicle_azimuth_desc", "vehicle_cruise_desc", "vehicle_fuel_desc" ]
+    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label", "vehicle_fuel_desc_label" ]
   },
   {
     "id": "lcla_place_desc",
@@ -108,14 +108,14 @@
     "label": "Date/Time",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "date_desc", "time_desc" ],
+    "widgets": [ "date_desc_label", "time_desc_label" ],
 	"flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "legacy_classic_sidebar",
     "type": "widget",
     "style": "sidebar",
-    "label": "Classic",
+    "label": "classic",
 	"separator": ": ",
     "width": 44,
     "widgets": [

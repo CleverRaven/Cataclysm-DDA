@@ -1,9 +1,15 @@
 [
   {
-    "id": "time_desc",
+    "id": "time_desc_label",
     "type": "widget",
     "label": "Time",
     "style": "text",
     "var": "time_text"
+  },
+  {
+    "id": "time_desc_no_label",
+    "type": "widget",
+    "copy-from": "time_desc_label",
+	"flags": [ "W_LABEL_NONE" ]
   }
 ]

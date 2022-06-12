@@ -51,7 +51,7 @@
     "id": "legacy_labels_narrow_sidebar",
     "type": "widget",
     "style": "sidebar",
-    "label": "Labels Narrow",
+    "label": "labels narrow",
 	"separator": ": ",
     "width": 32,
     "widgets": [
@@ -64,7 +64,7 @@
       "wind_temp_layout",
       "bodypart_status_layout",
       "weapon_style_layout",
-      "vehicle_azimuth_cruise_fuel_layout",
+      "vehicle_acf_label_layout",
       "compass_all_layout",
       "rad_badge_desc"
     ]

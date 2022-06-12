@@ -18,14 +18,14 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "safe_mode_desc", "mood_desc_label" ]
+    "widgets": [ "safe_mode_classic_desc", "mood_desc_no_label" ]
   },
   {
     "id": "lcom_limbs_right_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "stamina_graph_classic", "power_desc", "lcom_safe_mood_layout" ]
+    "widgets": [ "stamina_graph_classic", "power_short_desc", "lcom_safe_mood_layout" ]
   },
   {
     "id": "lcom_limbs_layout",
@@ -57,14 +57,14 @@
     "style": "layout",
     "label": "Time",
     "arrange": "columns",
-    "widgets": [ "time_desc", "moon_phase_desc" ]
+    "widgets": [ "date_desc_no_label", "time_desc_no_label", "moon_phase_desc" ]
   },
   {
     "id": "lcom_needs_left_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label" ]
+    "widgets": [ "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label" ]
   },
   {
     "id": "lcom_needs_right_layout",
@@ -72,7 +72,7 @@
     "style": "layout",
     "arrange": "rows",
     "//": "TODO Make the temperature look like it used to.",
-    "widgets": [ "pain_desc_label", "body_temp_desc_label", "focus_num" ]
+    "widgets": [ "pain_desc_no_label", "body_temp_desc_no_label", "focus_num" ]
   },
   {
     "id": "lcom_needs_layout",
@@ -88,8 +88,8 @@
     "label": "Overmap",
     "var": "overmap_text",
     "style": "text",
-    "width": 7,
-    "height": 0,
+    "width": 9,
+    "height": 7,
     "flags": [ "W_LABEL_NONE" ]
   },
   {
@@ -108,12 +108,20 @@
     "widgets": [ "lcom_env_overmap", "lcom_env_right_layout" ]
   },
   {
+    "id": "lcom_vehicle_layout",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "vehicle_fuel_desc_no_label", "vehicle_azimuth_desc_no_label", "vehicle_cruise_desc_no_label"  ]
+  },
+  {
     "id": "legacy_compact_sidebar",
     "type": "widget",
     "style": "sidebar",
-    "label": "Compact",
+    "label": "compact",
 	"separator": " ",
-    "width": 32,
+    "width": 36,
     "widgets": [
       "lcom_limbs_layout",
       "lcom_sound_layout",
@@ -122,7 +130,7 @@
       "lcom_time_layout",
       "lcom_needs_layout",
       "lcom_env_layout",
-      "vehicle_azimuth_cruise_fuel_layout",
+      "lcom_vehicle_layout",
       "compass_all_layout",
       "bodypart_armor_outer_layout",
       "body_graph"

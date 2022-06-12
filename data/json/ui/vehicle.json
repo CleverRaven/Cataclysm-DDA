@@ -1,6 +1,6 @@
 [
   {
-    "id": "vehicle_azimuth_desc",
+    "id": "vehicle_azimuth_desc_label",
     "type": "widget",
     "label": "Azimuth",
     "style": "text",
@@ -8,7 +8,7 @@
     "//": "Uses display::vehicle_azimuth_text"
   },
   {
-    "id": "vehicle_cruise_desc",
+    "id": "vehicle_cruise_desc_label",
     "type": "widget",
     "label": "Speed",
     "style": "text",
@@ -16,7 +16,7 @@
     "//": "Current/target vehicle cruising speed from display::vehicle_cruise_text_color"
   },
   {
-    "id": "vehicle_fuel_desc",
+    "id": "vehicle_fuel_desc_label",
     "type": "widget",
     "label": "Fuel",
     "style": "text",
@@ -24,11 +24,37 @@
     "//": "Current/max fuel for active vehicle engine from display::vehicle_fuel_text_color"
   },
   {
-    "id": "vehicle_azimuth_cruise_fuel_layout",
+    "id": "vehicle_azimuth_desc_no_label",
+    "type": "widget",
+	"copy-from": "vehicle_azimuth_desc_label",
+	"flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "vehicle_cruise_desc_no_label",
+    "type": "widget",
+	"copy-from": "vehicle_cruise_desc_label",
+	"flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "vehicle_fuel_desc_no_label",
+    "type": "widget",
+	"copy-from": "vehicle_fuel_desc_label",
+	"flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "vehicle_acf_label_layout",
     "type": "widget",
     "label": "Vehicle",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "vehicle_azimuth_desc", "vehicle_cruise_desc", "vehicle_fuel_desc" ]
+    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label", "vehicle_fuel_desc_label" ]
+  },
+  {
+    "id": "vehicle_acf_no_label_layout",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "vehicle_azimuth_desc_no_label", "vehicle_cruise_desc_no_label", "vehicle_fuel_desc_no_label" ]
   }
 ]
