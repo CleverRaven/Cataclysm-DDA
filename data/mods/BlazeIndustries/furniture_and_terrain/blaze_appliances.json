@@ -123,5 +123,5 @@
       { "item": "food_processor", "charges": 0, "prob": 50 },
       { "item": "press", "prob": 50 }
     ]
-  },
+  }
 ]
