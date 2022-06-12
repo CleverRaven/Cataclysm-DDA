@@ -42,11 +42,11 @@
     "type": "npc",
     "id": "xe_captured_dreamer",
     "//": "someone with dreaming powers",
-    "name_suffix": "technologist",
+    "name_suffix": "rescued dreamer",
     "class": "NC_NPC_XE_CAPTURED_DREAMER",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_DREAMER_1",
+    "chat": "TALK_RESCUED_1",
     "faction": "no_faction"
   },
   {
