@@ -37,9 +37,9 @@
     ]
   },
   {
-	"id": "hunger_desc_no_label",
+    "id": "hunger_desc_no_label",
     "type": "widget",
-	"copy-from": "hunger_desc_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "copy-from": "hunger_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

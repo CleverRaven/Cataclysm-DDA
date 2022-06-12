@@ -26,20 +26,20 @@
   {
     "id": "vehicle_azimuth_desc_no_label",
     "type": "widget",
-	"copy-from": "vehicle_azimuth_desc_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "copy-from": "vehicle_azimuth_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "vehicle_cruise_desc_no_label",
     "type": "widget",
-	"copy-from": "vehicle_cruise_desc_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "copy-from": "vehicle_cruise_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "vehicle_fuel_desc_no_label",
     "type": "widget",
-	"copy-from": "vehicle_fuel_desc_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "copy-from": "vehicle_fuel_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "vehicle_acf_label_layout",

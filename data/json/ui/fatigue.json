@@ -59,10 +59,10 @@
     "style": "text",
     "copy-from": "fatigue_desc_template"
   },
-      {
+  {
     "id": "fatigue_desc_no_label",
     "type": "widget",
     "copy-from": "fatigue_desc_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

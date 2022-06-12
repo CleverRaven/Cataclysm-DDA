@@ -81,7 +81,7 @@
     "type": "widget",
     "style": "sidebar",
     "label": "labels",
-	"separator": ": ",
+    "separator": ": ",
     "width": 44,
     "widgets": [
       "ll_limbs_layout",

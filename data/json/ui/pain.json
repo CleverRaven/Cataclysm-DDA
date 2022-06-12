@@ -16,9 +16,9 @@
     "//": "Uses display::pain_text_color"
   },
   {
-	"id": "pain_desc_no_label",
+    "id": "pain_desc_no_label",
     "type": "widget",
-	"copy-from": "pain_desc_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "copy-from": "pain_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

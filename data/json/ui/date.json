@@ -9,7 +9,7 @@
   {
     "id": "date_desc_no_label",
     "type": "widget",
-	"copy-from": "date_desc_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "copy-from": "date_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

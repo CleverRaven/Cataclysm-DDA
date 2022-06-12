@@ -113,14 +113,14 @@
     "label": "Vehicle",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "vehicle_fuel_desc_no_label", "vehicle_azimuth_desc_no_label", "vehicle_cruise_desc_no_label"  ]
+    "widgets": [ "vehicle_fuel_desc_no_label", "vehicle_azimuth_desc_no_label", "vehicle_cruise_desc_no_label" ]
   },
   {
     "id": "legacy_compact_sidebar",
     "type": "widget",
     "style": "sidebar",
     "label": "compact",
-	"separator": " ",
+    "separator": " ",
     "width": 36,
     "widgets": [
       "lcom_limbs_layout",

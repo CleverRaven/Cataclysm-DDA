@@ -1,14 +1,16 @@
 [
-{"id": "lcla_health_head_graph",
+  {
+    "id": "lcla_health_head_graph",
     "type": "widget",
-	"copy-from": "hp_head_graph",
-	"label": "HEAD "},
+    "copy-from": "hp_head_graph",
+    "label": "HEAD "
+  },
   {
     "id": "lcla_health_left_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 11,
+    "width": 11,
     "widgets": [
       "lcla_health_head_graph",
       "hp_torso_graph",
@@ -24,22 +26,28 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 12,
+    "width": 12,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
-    "widgets": [ "pain_desc_no_label", "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label", "body_temp_desc_no_label" ]
+    "widgets": [
+      "pain_desc_no_label",
+      "hunger_desc_no_label",
+      "thirst_desc_no_label",
+      "fatigue_desc_no_label",
+      "body_temp_desc_no_label"
+    ]
   },
   {
     "id": "lcla_mood_desc",
     "type": "widget",
     "copy-from": "mood_desc_no_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "lcla_health_right_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-	"width": 6,
+    "width": 6,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
     "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc" ]
   },
@@ -51,7 +59,7 @@
     "style": "text",
     "width": 7,
     "height": 7,
-	"text_align": "left",
+    "text_align": "left",
     "flags": [ "W_LABEL_NONE" ]
   },
   {
@@ -60,11 +68,11 @@
     "style": "layout",
     "label": "Health",
     "arrange": "columns",
-	"separator": " ",
-	"height": 7,
+    "separator": " ",
+    "height": 7,
     "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
-    {
+  {
     "id": "lcla_vehicle_layout",
     "type": "widget",
     "label": "Vehicle",
@@ -76,7 +84,7 @@
     "id": "lcla_place_desc",
     "type": "widget",
     "copy-from": "place_desc",
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "lcla_weather_layout",
@@ -109,22 +117,22 @@
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "date_desc_label", "time_desc_label" ],
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "legacy_classic_sidebar",
     "type": "widget",
     "style": "sidebar",
     "label": "classic",
-	"separator": ": ",
+    "separator": ": ",
     "width": 44,
     "widgets": [
       "lcla_health_layout",
-	  "ll_movement_layout",
+      "ll_movement_layout",
       "lcla_vehicle_layout",
       "all_weariness_layout",
       "lcla_place_desc",
-	  "lcla_time_layout",
+      "lcla_time_layout",
       "lcla_weather_layout",
       "lcla_lighting_layout",
       "lcla_weapon_layout",
