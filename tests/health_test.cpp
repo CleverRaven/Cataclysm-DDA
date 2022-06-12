@@ -9,11 +9,16 @@
 #include "enums.h"
 #include "npc.h"
 
-static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount )
+static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
+                           bool sleep_deprivation )
 {
+    // set to midnight
+    calendar::turn = calendar::turn_zero;
+    dude.update_body();
+
     for( size_t i = 0; i < numb_stam_burn; i++ ) {
         //Cardio: burn more than half stamina
-        dude.mod_stamina( -0.6 * dude.get_stamina_max() );
+        dude.mod_stamina( -dude.get_stamina_max() );
         dude.set_stamina( dude.get_stamina_max() );
     }
 
@@ -22,9 +27,15 @@ static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount )
     dude.vitamin_mod( vitamin_id( "vitC" ), vitamin_amount );
     dude.vitamin_mod( vitamin_id( "calcium" ), vitamin_amount );
 
-    // set to midnight
-    calendar::turn = calendar::turn_zero;
+    if( sleep_deprivation ) {
+        dude.set_sleep_deprivation( static_cast<int>( SLEEP_DEPRIVATION_MASSIVE ) - 160 );
+    }
+
+
+    // set to next day
+    calendar::turn = calendar::turn_zero + 24_hours;
     dude.update_body();
+    dude.update_health();
 }
 
 // Healthy lifetyle makes health go up
@@ -35,13 +46,13 @@ TEST_CASE( "healthy_lifestyle", "[health]" )
     int init_lifestyle = dude.get_lifestyle();
     int init_daily_health = dude.get_daily_health();
     for( size_t i = 0; i < 7; i++ ) {
-        daily_routine( dude, 5, 2000 );
+        daily_routine( dude, 5, 2000, false );
     }
 
     INFO( "Lifestyle value: " << dude.get_lifestyle() );
     CHECK( dude.get_lifestyle() > init_lifestyle );
 
-    INFO( "Health tally: " << dude.get_daily_health() );
+    INFO( "Daily Health: " << dude.get_daily_health() );
     CHECK( dude.get_daily_health() > init_daily_health );
 }
 
@@ -53,13 +64,13 @@ TEST_CASE( "unhealthy_lifestyle", "[health]" )
     int init_lifestyle = dude.get_lifestyle();
     int init_daily_health = dude.get_daily_health();
     for( size_t i = 0; i < 7; i++ ) {
-        daily_routine( dude, 0, 0 );
+        daily_routine( dude, 0, 0, true );
     }
 
     INFO( "Lifestyle value: " << dude.get_lifestyle() );
     CHECK( dude.get_lifestyle() < init_lifestyle );
 
-    INFO( "Health tally: " << dude.get_daily_health() );
+    INFO( "Daily Health: " << dude.get_daily_health() );
     CHECK( dude.get_daily_health() < init_daily_health );
 }
 
