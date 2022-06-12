@@ -44,6 +44,31 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     spell_json.resize( QSize( 800, 600 ) );
     spell_json.setReadOnly( true );
 
+
+
+
+    // =========================================================================================
+    // first column of boxes
+    spell_items_box.setParent(this);
+    spell_items_box.resize(QSize(default_text_box_width * 2, default_text_box_height * 25));
+    spell_items_box.move(QPoint(col * default_text_box_width, row * default_text_box_height));
+    spell_items_box.setToolTip(QString(
+        _("Various spell flags.  Please see MAGIC.md, flags.json, and JSON_INFO.md for details.")));
+    spell_items_box.show();
+    for (const spell_type& sp_t : spell_type::get_all()) {
+        QListWidgetItem* new_item = new QListWidgetItem(
+            QString(sp_t.id.c_str()));
+        spell_items_box.addItem(new_item);
+    }
+
+
+
+    // =========================================================================================
+    // second column of boxes
+    max_row = std::max(row, max_row);
+    row = 0;
+    col = 2;
+
     id_label.setParent( this );
     id_label.setText( QString( "id" ) );
     id_label.resize( default_text_box_size );
@@ -156,10 +181,10 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     row += 6;
 
     // =========================================================================================
-    // second column of boxes
-    max_row = std::max( row, max_row );
+    // third column of boxes
+    max_row = std::max(max_row, row);
     row = 0;
-    col = 1;
+    col++;
 
     id_box.setParent( this );
     id_box.resize( default_text_box_size );
@@ -271,9 +296,10 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     // spell flags
 
     row += 10;
+
     // =========================================================================================
-    // third column of boxes
-    max_row = std::max( max_row, row );
+    // fourth column of boxes
+    max_row = std::max(max_row, row);
     row = 0;
     col++;
 
@@ -429,8 +455,8 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     row += 6;
 
     // =========================================================================================
-    // fourth column of boxes
-    max_row = std::max( max_row, row );
+    // fifth column of boxes
+    max_row = std::max(max_row, row);
     row = 0;
     col++;
 
@@ -782,8 +808,8 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     } );
 
     // =========================================================================================
-    // fifth column of boxes
-    max_row = std::max( max_row, row );
+    // sixth column of boxes
+    max_row = std::max(max_row, row);
     row = 0;
     col++;
 
@@ -941,7 +967,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     sound_ambient_label.show();
 
     // =========================================================================================
-    // sixth column of boxes
+    // seventh column of boxes
     max_row = std::max( max_row, row );
     row = 0;
     col++;

@@ -87,6 +87,9 @@ class spell_window : public QMainWindow
         QLabel spell_flags_label;
         QListWidget spell_flags_box;
 
+        QLabel spell_items_label;
+        QListWidget spell_items_box;
+
         QLabel energy_source_label;
         QComboBox energy_source_box;
 
