@@ -4150,7 +4150,7 @@ void game::mon_info_update( )
         }
     }
 
-    if( newseen > mostseen ) {
+    if( get_option<bool>( "DISTRACTION_HOSTILE_SPOTTED" ) && newseen > mostseen ) {
         if( newseen - mostseen == 1 ) {
             if( !new_seen_mon.empty() ) {
                 monster &critter = *new_seen_mon.back();
