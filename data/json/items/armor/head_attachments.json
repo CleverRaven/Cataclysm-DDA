@@ -102,7 +102,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "CANT_WEAR" ],
+    "flags": [ "CANT_WEAR" ]
   },
   {
     "id": "shield_visor",
@@ -182,6 +182,7 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_nape", "head_ear_r", "head_ear_l" ]
       }
+    ]
   },
   {
     "id": "mesh_nape_protector",
@@ -206,6 +207,7 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_nape", "head_ear_r", "head_ear_l" ]
       }
+    ]
   },
   {
     "id": "kevlar_nape_protector",
@@ -233,5 +235,6 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_nape", "head_ear_r", "head_ear_l" ]
       }
+    ]
   }
 ]
