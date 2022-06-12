@@ -51,8 +51,8 @@ static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_kevlar_shears( "kevlar_shears" );
 static const itype_id itype_pockknife( "pockknife" );
-static const itype_id itype_rag( "rag" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
+static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_thread( "thread" );
@@ -1714,14 +1714,14 @@ TEST_CASE( "recipe byproducts and byproduct groups", "[recipes][crafting]" )
 
 TEST_CASE( "tools with charges as components", "[crafting]" )
 {
-    const int rags_in_recipe = 4;
-    const int threads_in_recipe = 3;
+    const int cotton_sheets_in_recipe = 2;
+    const int threads_in_recipe = 10;
     map &m = get_map();
     Character &c = get_player_character();
     item pocketknife( itype_pockknife );
     item sew_kit( itype_sewing_kit );
     item thread( "thread" );
-    item rag( "rag" );
+    item sheet_cotton( "sheet_cotton" );
     thread.charges = 100;
     sew_kit.put_in( thread, item_pocket::pocket_type::MAGAZINE );
     REQUIRE( sew_kit.ammo_remaining() == 100 );
@@ -1733,7 +1733,7 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
         REQUIRE( m.i_at( c.pos() ).empty() );
         c.i_add_or_drop( sew_kit );
         c.i_add_or_drop( thread );
-        c.i_add_or_drop( rag, rags_in_recipe );
+        c.i_add_or_drop( sheet_cotton, cotton_sheets_in_recipe );
         WHEN( "crafting a balaclava" ) {
             craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos() );
             cmd.execute( true );
@@ -1741,32 +1741,32 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
                 CHECK( !res.is_null() );
                 CHECK( res.is_craft() );
-                int rags = 0;
+                int cotton_sheets = 0;
                 int threads = 0;
                 for( const item &comp : res.components ) {
-                    if( comp.typeId() == itype_rag ) {
-                        rags += comp.count_by_charges() ? comp.charges : 1;
+                    if( comp.typeId() == itype_sheet_cotton ) {
+                        cotton_sheets += comp.count_by_charges() ? comp.charges : 1;
                     } else if( comp.typeId() == itype_thread ) {
                         threads += comp.count_by_charges() ? comp.charges : 1;
                     } else {
                         FAIL( "found unexpected component " << comp.typeId().str() );
                     }
                 }
-                CHECK( rags == rags_in_recipe );
+                CHECK( cotton_sheets == cotton_sheets_in_recipe );
                 CHECK( threads == threads_in_recipe );
-                rags = 0;
+                cotton_sheets = 0;
                 threads = 0;
                 int threads_in_tool = 0;
                 for( const item &i : m.i_at( c.pos() ) ) {
-                    if( i.typeId() == itype_rag ) {
-                        rags += i.count_by_charges() ? i.charges : 1;
+                    if( i.typeId() == itype_sheet_cotton ) {
+                        cotton_sheets += i.count_by_charges() ? i.charges : 1;
                     } else if( i.typeId() == itype_thread ) {
                         threads += i.count_by_charges() ? i.charges : 1;
                     } else if( i.typeId() == itype_sewing_kit ) {
                         threads_in_tool += i.ammo_remaining();
                     }
                 }
-                CHECK( rags == 0 );
+                CHECK( cotton_sheets == 0 );
                 CHECK( threads == 100 - threads_in_recipe );
                 CHECK( threads_in_tool == 100 );
             }
@@ -1780,7 +1780,7 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
         REQUIRE( pack_loc->is_container_empty() );
         c.i_add_or_drop( sew_kit );
         c.i_add_or_drop( thread );
-        c.i_add_or_drop( rag, rags_in_recipe );
+        c.i_add_or_drop( sheet_cotton, cotton_sheets_in_recipe );
         WHEN( "crafting a balaclava" ) {
             craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos() );
             cmd.execute( true );
@@ -1788,32 +1788,32 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
                 CHECK( !res.is_null() );
                 CHECK( res.is_craft() );
-                int rags = 0;
+                int cotton_sheets = 0;
                 int threads = 0;
                 for( const item &comp : res.components ) {
-                    if( comp.typeId() == itype_rag ) {
-                        rags += comp.count_by_charges() ? comp.charges : 1;
+                    if( comp.typeId() == itype_sheet_cotton ) {
+                        cotton_sheets += comp.count_by_charges() ? comp.charges : 1;
                     } else if( comp.typeId() == itype_thread ) {
                         threads += comp.count_by_charges() ? comp.charges : 1;
                     } else {
                         FAIL( "found unexpected component " << comp.typeId().str() );
                     }
                 }
-                CHECK( rags == rags_in_recipe );
+                CHECK( cotton_sheets == cotton_sheets_in_recipe );
                 CHECK( threads == threads_in_recipe );
-                rags = 0;
+                cotton_sheets = 0;
                 threads = 0;
                 int threads_in_tool = 0;
                 for( const item *i : pack_loc->all_items_top() ) {
-                    if( i->typeId() == itype_rag ) {
-                        rags += i->count_by_charges() ? i->charges : 1;
+                    if( i->typeId() == itype_sheet_cotton ) {
+                        cotton_sheets += i->count_by_charges() ? i->charges : 1;
                     } else if( i->typeId() == itype_thread ) {
                         threads += i->count_by_charges() ? i->charges : 1;
                     } else if( i->typeId() == itype_sewing_kit ) {
                         threads_in_tool += i->ammo_remaining();
                     }
                 }
-                CHECK( rags == 0 );
+                CHECK( cotton_sheets == 0 );
                 CHECK( threads == 100 - threads_in_recipe );
                 CHECK( threads_in_tool == 100 );
             }

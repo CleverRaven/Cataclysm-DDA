@@ -6229,7 +6229,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "leather", 4 ], [ "scrap_kevlar", 4 ] ] ],
+    "components": [ [ [ "sole_rubber", 1 ], [ "leather", 4 ], [ "scrap_kevlar", 4 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6237,7 +6237,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "leather", 16 ], [ "scrap_kevlar", 16 ] ] ],
+    "components": [ [ [ "sole_rubber", 1 ], [ "leather", 16 ], [ "scrap_kevlar", 16 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6245,7 +6245,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "leather", 16 ] ] ],
+    "components": [ [ [ "sole_rubber", 1 ], [ "leather", 16 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6253,7 +6253,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "nomex", 24 ] ] ],
+    "components": [ [ [ "sole_rubber", 1 ], [ "nomex", 24 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6261,7 +6261,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "fur", 8 ], [ "leather", 10 ] ] ],
+    "components": [ [ [ "sole_rubber", 1 ], [ "fur", 8 ], [ "leather", 10 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6269,7 +6269,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "fur", 6 ], [ "leather", 8 ] ] ],
+    "components": [ [ [ "sole_rubber", 1 ], [ "fur", 6 ], [ "leather", 8 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6277,7 +6277,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "fur", 10 ], [ "leather", 12 ] ] ],
+    "components": [ [ [ "sole_rubber", 1 ], [ "fur", 10 ], [ "leather", 12 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6285,7 +6285,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "shoe_rubber", 1 ], [ "fastener_shoes", 2 ], [ "cotton_patchwork", 8 ] ] ],
+    "components": [ [ [ "sole_rubber", 1 ], [ "cotton_patchwork", 8 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
