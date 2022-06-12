@@ -1136,12 +1136,16 @@
     "type": "mutation",
     "id": "XXXL",
     "name": { "str": "Weight: XXXL" },
-    "points": -1,
-    "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
+    "points": -4,
+    "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  Your total amount of stamina is halved, moving over flat ground and swimming is 25% slower, and moving over rough terrain is 50% slower.",
     "purifiable": false,
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "XS" ]
+    "cancels": [ "XS", "GOODCARDIO", "BADCARDIO", "STRONGKNEES", "BADKNEES", "QUICK", "FLEET", "SLOWRUNNER", "FAST_REFLEXES" ],
+    "cardio_multiplier": 0.5,
+    "movecost_flatground_modifier": 1.25,
+    "movecost_swim_modifier": 1.25,
+    "movecost_obstacle_modifier": 1.5
   },
   {
     "type": "mutation",
