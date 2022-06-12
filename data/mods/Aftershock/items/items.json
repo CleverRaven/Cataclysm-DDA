@@ -43,7 +43,7 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "rag",
+    "looks_like": "cotton_patchwork",
     "color": "brown"
   },
   {

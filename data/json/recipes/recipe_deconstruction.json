@@ -3680,7 +3680,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "scrap_cotton", 4 ] ] ]
+    "components": [ [ [ "scrap_cotton", 4 ] ] ],
+    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed."
   },
   {
     "result": "stick_fiber",

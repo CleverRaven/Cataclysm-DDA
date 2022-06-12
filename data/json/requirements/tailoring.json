@@ -113,7 +113,7 @@
     "type": "requirement",
     "//": "A small piece of fabric or leather to strap something firmly to the body.  Stronger than a bit of string.",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "rag", 1 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
     "id": "strap_large",

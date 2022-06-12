@@ -101,7 +101,6 @@
     "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
     "components": [
       [
-        [ "rag", 1 ],
         [ "cotton_patchwork", 8 ],
         [ "sheet_cotton_patchwork", 1 ],
         [ "sheet_cotton", 1 ],
@@ -126,15 +125,7 @@
     "type": "requirement",
     "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
     "components": [
-      [
-        [ "rag", 1 ],
-        [ "cotton_patchwork", 1 ],
-        [ "lycra_patch", 1 ],
-        [ "nylon", 1 ],
-        [ "leather", 1 ],
-        [ "nomex", 1 ],
-        [ "neoprene", 1 ]
-      ]
+      [ [ "cotton_patchwork", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ]
     ]
   },
   {
@@ -143,7 +134,6 @@
     "//": "Materials used for crafting or repairing woven fabrics",
     "components": [
       [
-        [ "rag", 1 ],
         [ "cotton_patchwork", 8 ],
         [ "sheet_cotton_patchwork", 1 ],
         [ "sheet_cotton", 1 ],
@@ -163,7 +153,7 @@
     "id": "fabric_standard_permeable_small",
     "type": "requirement",
     "//": "Materials used for crafting or repairing woven fabrics",
-    "components": [ [ [ "rag", 1 ], [ "cotton_patchwork", 1 ], [ "lycra_patch", 8 ], [ "nylon", 8 ], [ "nomex", 8 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 1 ], [ "lycra_patch", 8 ], [ "nylon", 8 ], [ "nomex", 8 ] ] ]
   },
   {
     "id": "fabric_standard_nostretch",
@@ -171,7 +161,6 @@
     "//": "Materials used for crafting or repairing non-form fitting clothing",
     "components": [
       [
-        [ "rag", 1 ],
         [ "cotton_patchwork", 8 ],
         [ "sheet_cotton_patchwork", 1 ],
         [ "sheet_cotton", 1 ],
@@ -188,7 +177,7 @@
     "id": "fabric_standard_nostretch_small",
     "type": "requirement",
     "//": "Materials used for crafting or repairing non-form fitting clothing",
-    "components": [ [ [ "rag", 1 ], [ "cotton_patchwork", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
   },
   {
     "id": "fabric_felt",

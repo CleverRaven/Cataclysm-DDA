@@ -713,7 +713,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "tailoring_cotton_small", 6 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -752,7 +752,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "felt_patch", 4 ] ] ],
+    "components": [ [ [ "felt_patch", 6 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

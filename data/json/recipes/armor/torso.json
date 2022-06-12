@@ -731,7 +731,7 @@
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "tailor_japanese", 5 ] ],
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 20 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 24 ] ]
   },
   {
     "result": "hoodie",
@@ -744,7 +744,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 14 ], [ "fabric_standard_nostretch", 12 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 40 ] ]
   },
   {
     "result": "house_coat",
@@ -757,7 +757,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 15 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 36 ] ]
   },
   {
     "result": "jacket_leather",
@@ -851,7 +851,7 @@
     "time": "1 h 45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 10 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 16 ] ]
   },
   {
     "result": "long_undertop_sleeveless",
@@ -864,7 +864,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 13 ], [ "fabric_standard_nostretch", 8 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
     "result": "long_undertop_sleeveless",
@@ -876,7 +876,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "cotton_patchwork", 2 ] ],
+    "byproducts": [ [ "cotton_patchwork", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "long_undertop", 1 ] ] ]
@@ -892,7 +892,7 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 8 ], [ "fabric_standard_nostretch", 7 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
     "result": "lsurvivor_armor",
@@ -1765,7 +1765,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "10 h 30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ], [ "tailoring_cotton_patchwork", 16 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 16 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army_modern", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
@@ -2679,7 +2679,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "clasps", 3 ], [ "fabric_standard_nostretch", 5 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "clasps", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
