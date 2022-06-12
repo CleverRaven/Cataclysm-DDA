@@ -116,7 +116,7 @@
     "type": "widget",
     "style": "sidebar",
     "label": "Classic",
-	"separator": " ",
+	"separator": ": ",
     "width": 44,
     "widgets": [
       "lcla_health_layout",
