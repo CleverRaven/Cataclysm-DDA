@@ -219,6 +219,8 @@ class widget
         int _var_min = INT_MIN;
         // Maximum meaningful var value, set by set_default_var_range
         int _var_max = INT_MAX;
+        // True if this widget has an explicitly defined separator. False if it is inherited.
+        bool explicit_separator;
 
         // Normal var range (low, high), set by set_default_var_range
         std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
