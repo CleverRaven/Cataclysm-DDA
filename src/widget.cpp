@@ -350,7 +350,6 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
-    optional( jo, was_loaded, "separator", _separator, default_separator );
     optional( jo, was_loaded, "label", _label, translation() );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
@@ -359,8 +358,10 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
 
-    if (_style == "sidebar" && _separator == default_separator) {
-        jo.throw_error("Sidebar " + id.str() + " does not have a separator field!");
+    if( _style == "sidebar" ) {
+        mandatory( jo, was_loaded, "separator", _separator );
+    } else {
+        optional( jo, was_loaded, "separator", _separator, default_separator );
     }
 
     _height = _height_max;
