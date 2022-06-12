@@ -438,7 +438,7 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false,
+                  const shared_ptr_fast<zone_options> &options = nullptr, bool personal = false,
                   bool silent = false, map *pmap = nullptr );
         const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
                                       const faction_id &fac = your_fac ) const;

@@ -1930,7 +1930,7 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
     }
 
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
-        if( !ig.strict || ig.trust <= get_faction()->trusts_u ) {
+        if( ig.can_sell( *this ) ) {
             continue;
         }
         if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
@@ -2034,8 +2034,7 @@ void npc::shop_restock()
     std::vector<item_group_id> rigid_groups;
     std::vector<item_group_id> value_groups;
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
-        const faction *fac = get_faction();
-        if( !fac || ig.trust <= fac->trusts_u ) {
+        if( ig.can_restock( *this ) ) {
             if( ig.rigid ) {
                 rigid_groups.emplace_back( ig.id );
             } else {
