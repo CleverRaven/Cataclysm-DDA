@@ -211,7 +211,7 @@
     "id": "ap_weldrig",
     "name": { "str": "welding rig" },
     "location": "structure",
-    "description": "A welding rig mounted in the vehicle, that draws power from the vehicle's batteries. You still need glare protection. 'e'xamine the tile with the rig to use it to repair items in your inventory. If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
+    "description": "A welding rig mounted in the vehicle, that draws power from the vehicle's batteries.  You still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",    
     "item": "weldrig",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "copy-from": "welding_rig"
