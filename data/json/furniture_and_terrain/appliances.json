@@ -574,6 +574,30 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_wind_turbine",
+    "name": { "str": "wind turbine" },
+    "symbol": "T",
+    "location": "structure",
+    "color": "yellow",
+    "flags": [ "WIND_TURBINE", "OBSTACLE", "APPLIANCE" ],
+    "description": "A mounted wind turbine, ready to power other appliances.",
+    "copy-from": "wind_turbine",
+    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_xl_wind_turbine",
+    "name": { "str": "large wind turbine" },
+    "symbol": "Y",
+    "location": "structure",
+    "color": "yellow",
+    "flags": [ "WIND_TURBINE", "OBSTACLE", "APPLIANCE" ],
+    "description": "A mounted large wind turbine, ready to power other appliances.",
+    "copy-from": "xl_wind_turbine",
+    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_battery_small",
     "name": { "str": "small grid battery" },
     "symbol": "b",

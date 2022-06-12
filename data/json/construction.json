@@ -3467,6 +3467,32 @@
   },
   {
     "type": "construction",
+    "id": "app_wind_turbine",
+    "group": "place_wind_turbine",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "wind_turbine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "MEDIUM_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_xl_wind_turbine",
+    "group": "place_xl_wind_turbine",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "xl_wind_turbine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "MEDIUM_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_heater_large",
     "group": "place_heater_large",
     "category": "APPLIANCE",
