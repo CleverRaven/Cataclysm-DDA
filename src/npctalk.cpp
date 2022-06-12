@@ -3021,7 +3021,7 @@ void talk_effect_fun_t<T>::set_mod_healthy( const JsonObject &jo, const std::str
 
     function = [is_npc, iov_amount, iov_cap]( const T & d ) {
         d.actor( is_npc )->mod_daily_health( iov_amount.evaluate( d ),
-                                            iov_cap.evaluate( d ) );
+                                             iov_cap.evaluate( d ) );
     };
 }
 
