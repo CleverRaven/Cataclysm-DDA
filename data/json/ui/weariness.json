@@ -33,14 +33,14 @@
     "var": "weariness_text",
     "//": "Uses display::weariness_text_color"
   },
-    {
+  {
     "id": "weariness_transition_graph",
     "type": "widget",
     "label": "Transition",
     "style": "graph",
-	"symbols": ".\\|",
-	"width": 5,
-	"colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "symbols": ".\\|",
+    "width": 5,
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
     "var": "weary_transition_level"
   },
   {

@@ -150,11 +150,11 @@
     "style": "text",
     "copy-from": "body_temp_template"
   },
-    {
+  {
     "id": "body_temp_desc_no_label",
     "type": "widget",
     "copy-from": "body_temp_desc_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "body_temp_delta_desc",

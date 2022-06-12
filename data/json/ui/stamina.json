@@ -35,6 +35,6 @@
     "id": "stamina_num_no_label",
     "type": "widget",
     "copy-from": "stamina_num_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

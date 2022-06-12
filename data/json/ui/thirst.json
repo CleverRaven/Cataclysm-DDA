@@ -86,9 +86,9 @@
     ]
   },
   {
-	"id": "thirst_desc_no_label",
+    "id": "thirst_desc_no_label",
     "type": "widget",
-	"copy-from": "thirst_desc_label",
-	"flags": [ "W_LABEL_NONE" ]
+    "copy-from": "thirst_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]
