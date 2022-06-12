@@ -365,10 +365,6 @@ void widget::load( const JsonObject &jo, const std::string & )
         optional( jo, was_loaded, "separator", _separator, default_separator );
         explicit_separator = ( _separator != default_separator );
     }
-
-    if( explicit_separator == true ) {
-        int debug = 42;
-    }
     _height = _height_max;
     _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
 
