@@ -281,7 +281,7 @@ class widget
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava, unsigned int max_width );
         // Return a window_panel for rendering this widget at given width (and possibly height)
-        window_panel get_window_panel( const int width, const int req_height = 1 );
+        window_panel get_window_panel( int width, int req_height = 1 );
         // Return a colorized string for a _var associated with a description function
         std::string color_text_function_string( const avatar &ava, unsigned int max_width );
         // Return true if the current _var is one which uses a description function
@@ -329,7 +329,7 @@ class widget
         // Returns the new row index after drawing.
         // Note: Not intended to be called directly, only public for unit testing.
         static int custom_draw_multiline( const std::string &widget_string, const catacurses::window &w,
-                                          const int margin, const int width, int row_num );
+                                          int margin, int width, int row_num );
 };
 
 /************************************ Widget-adjacent functions ************************************/

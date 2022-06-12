@@ -575,7 +575,7 @@ void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_
     }
 }
 
-void overmapbuffer::signal_nemesis( const tripoint_abs_sm p )
+void overmapbuffer::signal_nemesis( const tripoint_abs_sm &p )
 {
 
     for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {

@@ -1587,7 +1587,7 @@ int outfit::collar_warmth() const
 }
 
 std::list<item> outfit::use_amount( const itype_id &it, int quantity,
-                                    std::list<item> &used, const std::function<bool( const item & )> filter,
+                                    std::list<item> &used, const std::function<bool( const item & )> &filter,
                                     Character &wearer )
 {
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
@@ -2030,8 +2030,10 @@ item *outfit::best_shield()
     return ret;
 }
 
-item *outfit::current_unarmed_weapon( const std::string &attack_vector, item *cur_weapon )
+item *outfit::current_unarmed_weapon( const std::string &attack_vector )
 {
+    item *cur_weapon = &null_item_reference();
+
     for( item &worn_item : worn ) {
         bool covers = false;
 
