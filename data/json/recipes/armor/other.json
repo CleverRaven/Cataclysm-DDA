@@ -166,8 +166,8 @@
     "time": "85 m",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 33 ] ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 160 ] ] ],
-    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
+    "components": [ [ [ "cotton_patchwork", 54 ] ], [ [ "down_feather", 160 ] ] ],
+    "byproducts": [ [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "fur_blanket",

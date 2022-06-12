@@ -943,7 +943,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 4 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 4 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 } ]
   },
@@ -953,7 +953,7 @@
     "copy-from": "helmet_scrap",
     "time": "1 h 30 m",
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 2 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
     "result": "xl_helmet_scrap",
@@ -961,7 +961,7 @@
     "copy-from": "helmet_scrap",
     "time": "1 h 40 m",
     "using": [ [ "cordage", 2 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 6 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "hood_fsurvivor",
@@ -2259,7 +2259,7 @@
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_neoprene_patchwork", 3 ] ],
     "qualities": [ { "id": "SEW_CURVED", "level": 1 } ],
-    "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ],
+    "components": [ [ [ "neoprene", 2 ] ], [ [ "cotton_patchwork", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {

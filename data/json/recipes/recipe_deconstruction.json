@@ -606,7 +606,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 s",
-    "components": [ [ [ "rag", 4 ] ], [ [ "stick", 1 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "stick", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -2295,14 +2295,14 @@
     "type": "uncraft",
     "time": "5 m",
     "activity_level": "LIGHT_EXERCISE",
-    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "char_purifier_clay",
     "type": "uncraft",
     "time": "5 m",
     "activity_level": "LIGHT_EXERCISE",
-    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "clock",
@@ -2342,7 +2342,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "rag", 2 ] ], [ [ "RAM", 1 ] ], [ [ "e_scrap", 2 ] ] ]
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "cotton_patchwork", 2 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "e_scrap", 2 ] ]
+    ]
   },
   {
     "result": "crown_golden",
@@ -3471,7 +3477,13 @@
     "difficulty": 2,
     "time": "5 m",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "scrap", 5 ] ], [ [ "cu_pipe", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "rag", 5 ] ], [ [ "metal_tank_little", 2 ] ] ]
+    "components": [
+      [ [ "scrap", 5 ] ],
+      [ [ "cu_pipe", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "cotton_patchwork", 5 ] ],
+      [ [ "metal_tank_little", 2 ] ]
+    ]
   },
   {
     "result": "oxygen_tank",
@@ -3513,7 +3525,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
   },
   {
     "result": "makeshift_pillow",
@@ -3521,7 +3533,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "withered", 12 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "withered", 12 ] ] ]
   },
   {
     "result": "pipe",
@@ -4304,7 +4316,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "rag", 2 ] ], [ [ "RAM", 1 ] ], [ [ "e_scrap", 2 ] ] ]
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "cotton_patchwork", 2 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "e_scrap", 2 ] ]
+    ]
   },
   {
     "result": "tank_top",
@@ -4312,7 +4330,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "rag", 4 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 4 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4497,7 +4515,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "rag", 5 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4506,7 +4524,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "rag", 5 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4514,7 +4532,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 s",
-    "components": [ [ [ "rag", 1 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4943,7 +4961,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 10 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -5206,7 +5224,7 @@
     "time": "30 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "rag", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "result": "wearable_light",
@@ -6049,7 +6067,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
-    "components": [ [ [ "string_6", 1 ] ], [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "string_6", 1 ] ], [ [ "cotton_patchwork", 1 ] ] ]
   },
   {
     "result": "horn_bicycle",
@@ -6129,7 +6147,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "thread", 7 ] ], [ [ "rag", 5 ] ] ]
+    "components": [ [ [ "thread", 7 ] ], [ [ "cotton_patchwork", 5 ] ] ]
   },
   {
     "result": "heavy_crowbar",

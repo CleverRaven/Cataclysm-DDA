@@ -35,7 +35,7 @@
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 1 ],
         [ "felt_patch", 1 ],
         [ "leather", 1 ],
         [ "fur", 1 ],
@@ -73,7 +73,7 @@
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 1 ],
         [ "felt_patch", 1 ],
         [ "leather", 1 ],
         [ "fur", 1 ],
@@ -99,7 +99,7 @@
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 1 ],
         [ "felt_patch", 1 ],
         [ "leather", 1 ],
         [ "fur", 1 ],
@@ -125,7 +125,7 @@
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 1 ],
         [ "felt_patch", 1 ],
         [ "leather", 1 ],
         [ "fur", 1 ],
@@ -376,7 +376,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "glass_shard", 1 ] ], [ [ "rag", 1 ], [ "duct_tape", 10 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ], [ [ "cotton_patchwork", 1 ], [ "duct_tape", 10 ] ] ]
   },
   {
     "type": "recipe",

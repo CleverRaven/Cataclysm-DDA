@@ -439,7 +439,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 6 ], [ "mixed_steel", 5 ] ],
-    "components": [ [ [ "rag", 28 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 28 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ]
   },

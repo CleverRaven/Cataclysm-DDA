@@ -876,7 +876,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 2 ] ],
+    "byproducts": [ [ "cotton_patchwork", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "long_undertop", 1 ] ] ]

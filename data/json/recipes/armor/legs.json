@@ -535,7 +535,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 6 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 6 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ]
   },
@@ -545,7 +545,7 @@
     "copy-from": "legguard_scrap",
     "time": "40 m",
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "xl_legguard_scrap",
@@ -553,7 +553,7 @@
     "copy-from": "legguard_scrap",
     "time": "45 m",
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 8 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 8 ] ] ]
   },
   {
     "result": "legguard_tire",
