@@ -3292,17 +3292,6 @@
   },
   {
     "type": "construction",
-    "id": "app_kitchen_unit",
-    "group": "place_kitchenunit",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "kitchen_unit", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
     "id": "app_water_purifier",
     "group": "place_water_purifier",
     "category": "APPLIANCE",

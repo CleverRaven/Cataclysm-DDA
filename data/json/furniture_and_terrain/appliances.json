@@ -218,16 +218,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "ap_kitchen_unit",
-    "name": { "str": "kitchen unit" },
-    "location": "structure",
-    "description": "A small but complete kitchen unit, powered from the vehicle's batteries.",
-    "item": "kitchen_unit",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "kitchen_unit"
-  },
-  {
-    "type": "vehicle_part",
     "id": "ap_kiln",
     "location": "structure",
     "description": "An electric kiln for baking brick or clay.  When plugged in and powered you could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",

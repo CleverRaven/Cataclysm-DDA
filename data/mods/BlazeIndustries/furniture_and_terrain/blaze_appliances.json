@@ -6,7 +6,7 @@
     "description": "A welding and metalworking station, powered by the vehicle's battery.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
     "item": "afs_metal_rig",
     "location": "structure",
-    "flags": [ "CARGO", "OBSTACLE", "COVERED" ],
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "copy_from": "afs_metal_rig"
   },
   {
