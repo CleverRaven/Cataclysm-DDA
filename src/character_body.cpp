@@ -246,7 +246,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     if( calendar::once_every( 1_days ) ) {
         // not getting below half stamina even once in a whole day is not healthy
         if( get_value( "got_to_half_stam" ).empty() ) {
-            mod_healthy_mod( -4, -200 );
+            mod_daily_health( -4, -200 );
         } else {
             remove_value( "got_to_half_stam" );
         }
@@ -255,19 +255,19 @@ void Character::update_body( const time_point &from, const time_point &to )
 
         int cardio_accumultor = get_cardio_acc();
         if( cardio_accumultor > 0 ) {
-            mod_healthy_mod( 1, 200 );
+            mod_daily_health( 1, 200 );
             if( cardio_accumultor >= 10 ) {
-                mod_healthy_mod( 1, 200 );
+                mod_daily_health( 1, 200 );
             }
         }
         if( cardio_accumultor < 0 ) {
-            mod_healthy_mod( -1, -200 );
+            mod_daily_health( -1, -200 );
             if( cardio_accumultor <= -10 ) {
-                mod_healthy_mod( -1, -200 );
+                mod_daily_health( -1, -200 );
             }
         }
         if( cardio_accumultor >= get_bmr() / 2 ) {
-            mod_healthy_mod( 2, 200 );
+            mod_daily_health( 2, 200 );
         }
     }
 

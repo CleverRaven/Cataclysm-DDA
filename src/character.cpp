@@ -6167,7 +6167,7 @@ void Character::mod_stamina( int mod )
     if( stamina > quarter_thresh && stamina + mod < quarter_thresh && quarter_stam_counter < 5 ) {
         quarter_stam_counter++;
         set_value( "quarter_stam_counter", std::to_string( quarter_stam_counter ) );
-        mod_healthy_mod( 1, 5 );
+        mod_daily_health( 1, 5 );
     }
 
     stamina += mod;
