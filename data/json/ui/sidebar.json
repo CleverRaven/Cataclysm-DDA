@@ -5,6 +5,7 @@
     "style": "sidebar",
     "label": { "str": "custom", "ctxt": "UI sidebar" },
     "width": 36,
+    "separator": ": ",
     "widgets": [
       "hitpoints_all_narrow_graphs_layout",
       "stats_narrow_layout",
