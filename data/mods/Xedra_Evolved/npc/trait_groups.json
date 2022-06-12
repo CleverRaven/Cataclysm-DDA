@@ -38,13 +38,14 @@
     "traits": [
       { "trait": "FEYHEARING", "prob": 50 },
       { "trait": "FASTREADER", "prob": 50 },
-      { "trait": "FASTLEARNER", "prob": 50 },
+      { "trait": "MOODSWINGS", "prob": 50 },
+      { "trait": "ELFAEYES", "prob": 50 },
       { "trait": "GOODMEMORY", "prob": 50 },
       { "trait": "SPIRITUAL", "prob": 50 },
-      { "trait": "LOVES_BOOKS" },
-      { "trait": "BADCARDIO", "prob": 50 },
+      { "trait": "LOVES_BOOKS", "prob": 50 },
+      { "distribution": [ { "trait": "BADCARDIO" }, { "trait": "CARDIO" } ] },
       { "trait": "SLOWHEALER", "prob": 50 },
-      { "trait": "ASTHMA", "prob": 50 }
+      { "trait": "NIGHTMARE_CHIMERAS", "prob": 100 }
     ]
   },
   {
@@ -52,13 +53,15 @@
     "id": "trait_group_dreamer_hero",
     "subtype": "collection",
     "traits": [
-      { "trait": "MANA_ADD_MANATOUCHED", "prob": 50 },
-      { "trait": "MANA_REGEN_MANATOUCHED", "prob": 50 },
-      { "trait": "MANA_LUM", "prob": 50 },
-      { "trait": "WEAK", "prob": 50 },
-      { "trait": "ROT2", "prob": 25 },
-      { "trait": "BIOLUM0", "prob": 65 },
-      { "distribution": [ { "trait": "MANA_MULT3" }, { "trait": "MANA_MULT_MANATOUCHED" } ] }
+      { "trait": "FEYHEARING", "prob": 50 },
+      { "trait": "FASTREADER", "prob": 50 },
+      { "trait": "ELFAEYES", "prob": 50 },
+      { "trait": "MOODSWINGS", "prob": 50 },
+      { "trait": "GOODMEMORY", "prob": 50 },
+      { "trait": "SPIRITUAL", "prob": 50 },
+      { "trait": "LOVES_BOOKS" },
+      { "distribution": [ { "trait": "BADCARDIO" }, { "trait": "CARDIO" } ] },
+      { "trait": "FRIENDLY_CHIMERAS", "prob": 100 }
     ]
   }
 ]
