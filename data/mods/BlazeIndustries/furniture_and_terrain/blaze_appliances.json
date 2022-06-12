@@ -1,7 +1,7 @@
 [
   {
     "type": "vehicle_part",
-    "id": "afs_metal_rig",
+    "id": "ap_afs_metal_rig",
     "name": { "str": "MetalMaster forge buddy" },
     "symbol": "&",
     "categories": [ "utility" ],
@@ -33,7 +33,7 @@
   },
   {
     "type": "vehicle_part",
-    "id": "afs_cooking_rig",
+    "id": "ap_afs_cooking_rig",
     "name": { "str": "cooking rig" },
     "symbol": "&",
     "categories": [ "utility" ],
@@ -74,7 +74,7 @@
   },
   {
     "type": "vehicle_part",
-    "id": "afs_kitchen_rig",
+    "id": "ap_afs_kitchen_rig",
     "name": { "str": "KitchenMaster cooking buddy" },
     "symbol": "&",
     "categories": [ "utility" ],
