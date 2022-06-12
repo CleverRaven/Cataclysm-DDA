@@ -1258,9 +1258,23 @@ int Character::swim_speed() const
     float hand_bonus_mult = ( usable.test( body_part_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( body_part_hand_r ) ? 0.5f : 0.0f );
 
+    const float bmi = get_bmi();
+    float player_weight_modifier = 1.0f;
+    // TODO: add values for underweight characters
+    if( bmi > character_weight_category::morbidly_obese ) {
+        player_weight_modifier *= 1.25f;
+    } else if( bmi > character_weight_category::very_obese ) {
+        player_weight_modifier *= 1.20f;
+    } else if( bmi > character_weight_category::obese ) {
+        player_weight_modifier *= 1.15f;
+    } else if( bmi > character_weight_category::overweight ) {
+        player_weight_modifier *= 1.1f;
+    }
+
     // base swim speed.
-    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
-          ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) - 50 * get_skill_level( skill_swimming );
+    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) * player_weight_modifier ) +
+          weight_carried() / ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) -
+          50 * get_skill_level( skill_swimming );
     /** @EFFECT_STR increases swim speed bonus from PAWS */
     if( has_trait( trait_PAWS ) ) {
         ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
@@ -6290,9 +6304,22 @@ int Character::get_cardiofit() const
     // Base formula for cardio fitness
     int base_cardio_fitness = bmr / 2 + athletics_mod + health_effect + prof_mod + cardio_acc_mod;
 
+    const float bmi = get_bmi();
+    float player_weight_modifier = 1.0f;
+    // TODO: add values for underweight characters
+    if( bmi > character_weight_category::morbidly_obese ) {
+        player_weight_modifier *= 0.5f;
+    } else if( bmi > character_weight_category::very_obese ) {
+        player_weight_modifier *= 0.7f;
+    } else if( bmi > character_weight_category::obese ) {
+        player_weight_modifier *= 0.8f;
+    } else if( bmi > character_weight_category::overweight ) {
+        player_weight_modifier *= 0.9f;
+    }
+
     // Apply trait modifier as a scaling factor to total cardio
     // FIXME: Do this additively as a trait_mod using the original formula, somehow
-    const float scale = mutation_value( "cardio_multiplier" );
+    const float scale = mutation_value( "cardio_multiplier" ) * player_weight_modifier;
     const float scaled_fitness = base_cardio_fitness * scale;
 
     // Set a large sane upper limit to cardio fitness. This could be done asymptotically instead of
@@ -8859,9 +8886,22 @@ int Character::run_cost( int base_cost, bool diag ) const
     const bool on_road = flatground && here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() );
     const bool on_fungus = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() );
 
+    const float bmi = get_bmi();
+
     if( !is_mounted() ) {
         if( movecost > 105 ) {
             movecost *= mutation_value( "movecost_obstacle_modifier" );
+
+            // TODO: add values for underweight characters
+            if( bmi > character_weight_category::morbidly_obese ) {
+                movecost *= 1.5f;
+            } else if( bmi > character_weight_category::very_obese ) {
+                movecost *= 1.35f;
+            } else if( bmi > character_weight_category::obese ) {
+                movecost *= 1.25f;
+            } else if( bmi > character_weight_category::overweight ) {
+                movecost *= 1.20f;
+            }
 
             if( has_proficiency( proficiency_prof_parkour ) ) {
                 movecost *= .5;
@@ -8884,6 +8924,18 @@ int Character::run_cost( int base_cost, bool diag ) const
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {
             movecost *= mutation_value( "movecost_flatground_modifier" );
+
+            // TODO: add values for underweight characters
+            if( bmi > character_weight_category::morbidly_obese ) {
+                movecost *= 1.25f;
+            } else if( bmi > character_weight_category::very_obese ) {
+                movecost *= 1.20f;
+            } else if( bmi > character_weight_category::obese ) {
+                movecost *= 1.15f;
+            } else if( bmi > character_weight_category::overweight ) {
+                movecost *= 1.1f;
+            }
+
         }
         if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
             movecost *= .9f;
