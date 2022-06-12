@@ -22,6 +22,7 @@
         "MMM......CS!"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         ".": "t_carpet_purple",
         "e": "t_carpet_purple",
@@ -83,6 +84,7 @@
         "!": "t_carpet_yellow",
         "0": "t_carpet_yellow"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "!": "f_utility_shelf", "$": "f_utility_shelf", "0": "f_sleep_pod" },
       "items": {
         "!": { "item": "guns_ganger", "chance": 80, "repeat": [ 1, 3 ] },
@@ -131,6 +133,7 @@
         "u": "t_linoleum_white",
         "X": "t_linoleum_white"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "!": "f_fridge", "$": "f_rack_wood", "0": "f_crispr", "u": "f_cryo_pod" },
       "items": { "!": { "item": "tools_medical", "chance": 80, "repeat": [ 2, 8 ] }, "$": { "item": "a_television", "chance": 100 } }
     }
@@ -163,6 +166,7 @@
         "F": "t_thconc_floor",
         "G": "t_thconc_floor"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": {
         "A": [ "f_neuralnet_inserter" ],
         "B": [ "f_server" ],
@@ -215,6 +219,7 @@
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "items": { "item": "exoticplants", "chance": 100 }, "furniture": "f_planter_harvest" } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": {
         "T": "f_workbench",
         "h": "f_chair",
@@ -257,6 +262,7 @@
         "|HWX XCA|",
         "||||+||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
@@ -316,6 +322,7 @@
         "|HWX XCA|",
         "|||||||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
@@ -375,6 +382,7 @@
         "|HWX XCA|",
         "|||||||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
