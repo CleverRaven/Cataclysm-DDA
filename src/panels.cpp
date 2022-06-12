@@ -109,23 +109,6 @@ static std::string trunc_ellipse( const std::string &input, unsigned int trunc )
     return input;
 }
 
-static nc_color focus_color( int focus )
-{
-    if( focus < 25 ) {
-        return c_red;
-    } else if( focus < 50 ) {
-        return c_light_red;
-    } else if( focus < 75 ) {
-        return c_yellow;
-    } else if( focus < 100 ) {
-        return c_light_gray;
-    } else if( focus < 125 ) {
-        return c_white;
-    } else {
-        return c_green;
-    }
-}
-
 static int get_wgt_height( const widget_id &wgt )
 {
     if( wgt->_widgets.empty() || wgt->_arrange == "columns" ) {
@@ -319,22 +302,6 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
     wprintz( w, c_white, title_suffix );
 }
 
-static nc_color value_color( int stat )
-{
-    nc_color valuecolor = c_light_gray;
-
-    if( stat >= 75 ) {
-        valuecolor = c_green;
-    } else if( stat >= 50 ) {
-        valuecolor = c_yellow;
-    } else if( stat >= 25 ) {
-        valuecolor = c_red;
-    } else {
-        valuecolor = c_magenta;
-    }
-    return valuecolor;
-}
-
 static void draw_messages( const draw_args &args )
 {
     const catacurses::window &w = args._win;
@@ -357,27 +324,9 @@ static void draw_mminimap( const draw_args &args )
 }
 #endif
 
-static void draw_hint( const draw_args &args )
-{
-    const catacurses::window &w = args._win;
-
-    werase( w );
-    std::string press = press_x( ACTION_TOGGLE_PANEL_ADM );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_green, press );
-    mvwprintz( w, point( 2 + utf8_width( press ), 0 ), c_white, _( "to open sidebar options" ) );
-
-    wnoutrefresh( w );
-}
-
 // ============
 // INITIALIZERS
 // ============
-
-static bool spell_panel()
-{
-    return get_avatar().magic->knows_spell();
-}
 
 bool default_render()
 {
