@@ -566,8 +566,8 @@
     "id": "hat_hard_hooded",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "hooded hard hat" },
-    "description": "A hard plastic hat worn in construction or industrial sites, with a cloth tucked in under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
+    "name": { "str": "summer hard hat" },
+    "description": "A hard plastic hat worn in construction or industrial sites, with a sun shield around it to serve as sun protection.  Cover your eyes of sun glare, and better protects you from the heat of a summer day.",
     "weight": "470 g",
     "volume": "2750 ml",
     "price": 1200,
@@ -577,24 +577,24 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "yellow",
-    "warmth": 6,
+    "warmth": 4,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "environmental_protection": 2,
-    "flags": [ "WATERPROOF", "PADDED" ],
+    "environmental_protection": 1,
+    "flags": [ "WATERPROOF", "PADDED", "SUN_GLASSES" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
     "variant_type": "generic",
     "variants": [
       {
         "id": "yellow_hat_hard",
-        "name": { "str": "yellow hooded hard hat" },
+        "name": { "str": "yellow summer hard hat" },
         "description": "It's colored yellow, commonly used by general, unspecialized workers like laborers and operators of heavy machinery.",
         "weight": 110,
         "append": true
       },
       {
         "id": "orange_hat_hard",
-        "name": { "str": "orange hooded hard hat" },
+        "name": { "str": "orange summer hard hat" },
         "description": "It's colored orange, commonly used by road construction workers and new hires or site visitors.",
         "color": "light_red",
         "weight": 110,
@@ -602,7 +602,7 @@
       },
       {
         "id": "white_hat_hard",
-        "name": { "str": "white hooded hard hat" },
+        "name": { "str": "white summer hard hat" },
         "description": "It's colored white, commonly used by anyone in a supervisory position, including managers, architects, engineers and foremen.",
         "color": "white",
         "weight": 25,
@@ -610,7 +610,7 @@
       },
       {
         "id": "brown_hat_hard",
-        "name": { "str": "brown hooded hard hat" },
+        "name": { "str": "brown summer hard hat" },
         "description": "It's colored brown, commonly used by workers using applications involving high heat such as welders.",
         "color": "brown",
         "weight": 15,
@@ -618,7 +618,7 @@
       },
       {
         "id": "blue_hat_hard",
-        "name": { "str": "blue hooded hard hat" },
+        "name": { "str": "blue summer hard hat" },
         "description": "It's colored blue, commonly used by medical workers and electricians, as well as employees in a technical advisory role.",
         "color": "blue",
         "weight": 15,
@@ -626,7 +626,7 @@
       },
       {
         "id": "green_hat_hard",
-        "name": { "str": "green hooded hard hat" },
+        "name": { "str": "green summer hard hat" },
         "description": "It's colored green, commonly used by safety officers or inspectors.",
         "color": "green",
         "weight": 10,
@@ -634,7 +634,7 @@
       },
       {
         "id": "red_hat_hard",
-        "name": { "str": "red hooded hard hat" },
+        "name": { "str": "red summer hard hat" },
         "description": "It's colored red, commonly used by emergency workers and firefighters.",
         "color": "red",
         "weight": 10,
@@ -642,7 +642,7 @@
       },
       {
         "id": "pink_hat_hard",
-        "name": { "str": "pink hooded hard hat" },
+        "name": { "str": "pink summer hard hat" },
         "description": "It's colored pink, commonly used by female workers or issued as punishment to regular workers that forgot or lost their hard hat.",
         "color": "pink",
         "weight": 8,
@@ -650,7 +650,7 @@
       },
       {
         "id": "grey_hat_hard",
-        "name": { "str": "grey hooded hard hat" },
+        "name": { "str": "grey summer hard hat" },
         "description": "It's colored grey, commonly used by visitors to any worksite.",
         "color": "light_gray",
         "weight": 5,
@@ -658,7 +658,7 @@
       },
       {
         "id": "black_hat_hard",
-        "name": { "str": "black hooded hard hat" },
+        "name": { "str": "black summer hard hat" },
         "description": "It's colored black like the first real hard hats in history.",
         "color": "dark_gray",
         "weight": 4,
@@ -666,14 +666,14 @@
       },
       {
         "id": "cartoon_hat_hard",
-        "name": { "str": "cartoon hooded hard hat" },
+        "name": { "str": "cartoon summer hard hat" },
         "description": "It has cartoon characters stickers all over it.",
         "weight": 2,
         "append": true
       },
       {
         "id": "camo_hat_hard",
-        "name": { "str": "camo hooded hard hat" },
+        "name": { "str": "camo summer hard hat" },
         "description": "It's painted in camouflage dye.",
         "color": "green",
         "weight": 2,
@@ -681,7 +681,7 @@
       },
       {
         "id": "skull_hat_hard",
-        "name": { "str": "skull hooded hard hat" },
+        "name": { "str": "skull summer hard hat" },
         "description": "It's colored white and has skull decorations.",
         "color": "white",
         "weight": 2,
@@ -689,7 +689,7 @@
       },
       {
         "id": "flag_hat_hard",
-        "name": { "str": "flag hooded hard hat" },
+        "name": { "str": "flag summer hard hat" },
         "description": "It's embroidered with the pattern of an American flag.  Protects your head with the power of freedom.",
         "color": "light_red",
         "weight": 2,
@@ -697,7 +697,7 @@
       },
       {
         "id": "steampunk_hat_hard",
-        "name": { "str": "steampunk hooded hard hat" },
+        "name": { "str": "steampunk summer hard hat" },
         "description": "It's colored black, with industrial gears decorations and a steampunk design.",
         "color": "dark_gray",
         "weight": 1,

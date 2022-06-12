@@ -265,31 +265,37 @@
   {
     "id": "HELMET_FACE_SHIELD",
     "type": "json_flag",
-    "info": "This item is attachable in the front of <info>hard hats and helmets</info>.",
+    "info": "This item is attachable in the front of <info>hard hats and helmets</info> to protect your eyes or face.",
     "restriction": "Item must be some kind of face shield"
   },
   {
     "id": "HELMET_EAR_ATTACHMENT",
     "type": "json_flag",
-    "info": "This item is attachable in <info>hard hats and helmets</info>.",
+    "info": "This item is attachable in <info>hard hats and helmets</info> to cover the ears.",
     "restriction": "Item must be some kind of ear attachment"
+  },
+  {
+    "id": "HELMET_NAPE_PROTECTOR",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>hard hats and helmets</info> as a nape protector.",
+    "restriction": "Item must be some kind of nape protector"
   },
   {
     "id": "HELMET_MANDIBLE_GUARD",
     "type": "json_flag",
-    "info": "This item is attachable in military <info>helmets</info> or headgear specifically adapted with rails for attachments.",
+    "info": "This item is attachable as a mandible guard in military <info>helmets</info> or headgear specifically adapted with rails for attachments.",
     "restriction": "Item must be some kind of mandible guard"
   },
   {
     "id": "HELMET_MANDIBLE_GUARD_STRAPPED",
     "type": "json_flag",
-    "info": "This item is attachable in <info>hard hats and helmets</info>.",
+    "info": "This item is attachable as a mandible guard in <info>hard hats and helmets</info>.",
     "restriction": "Item must be some kind of strapped mandible guard"
   },
   {
     "id": "HELMET_BACK_POUCH",
     "type": "json_flag",
-    "info": "This item is attachable in the back of <info>hard hats and helmets</info>.",
+    "info": "This item is attachable in the back of <info>hard hats and helmets</info> as a counterweight pouch.",
     "restriction": "Item must be some kind of back pouch"
   },
   {

@@ -14,6 +14,7 @@
     "symbol": "[",
     "color": "yellow",
     "material_thickness": 1,
+    "warmth": 8,
     "flags": [ "HELMET_EAR_ATTACHMENT", "CANT_WEAR" ],
     "armor": [
       {
@@ -88,6 +89,22 @@
     ]
   },
   {
+    "id": "sun_shield",
+    "repairs_like": "glasses_safety",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sun shield" },
+    "description": "A common sun shield intended to be put over a hard hat to protect the user from the sun.",
+    "weight": "98 g",
+    "volume": "250 ml",
+    "price": 200,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [ "CANT_WEAR" ],
+  },
+  {
     "id": "shield_visor",
     "repairs_like": "glasses_safety",
     "type": "ARMOR",
@@ -140,5 +157,81 @@
     "material_thickness": 1,
     "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
+  },
+  {
+    "id": "nape_protector",
+    "repairs_like": "bandana",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "nape protector" },
+    "description": "A common nape protector intended to be attached on a hard hat or helmet to protect against the sun and dust.",
+    "weight": "15 g",
+    "volume": "150 ml",
+    "price": 50,
+    "price_postapoc": 10,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "cyan",
+    "material_thickness": 0.4,
+    "warmth": 4,
+    "flags": [ "HELMET_NAPE_PROTECTOR", "CANT_WEAR", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_ear_r", "head_ear_l" ]
+      }
+  },
+  {
+    "id": "mesh_nape_protector",
+    "repairs_like": "bandana",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mesh nape protector" },
+    "description": "A common mesh nape protector intended to be attached on a hard hat or helmet to protect against the sun while letting the cold wind refresh your nape.",
+    "weight": "10 g",
+    "volume": "100 ml",
+    "price": 50,
+    "price_postapoc": 10,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "material_thickness": 0.1,
+    "flags": [ "HELMET_NAPE_PROTECTOR", "CANT_WEAR", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 95,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_ear_r", "head_ear_l" ]
+      }
+  },
+  {
+    "id": "kevlar_nape_protector",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "Kevlar nape protector" },
+    "description": "A custom made Kevlar strengthened nape protector intended to be attached on a hard hat or helmet to protect your nape against cuts and slashing attacks.",
+    "weight": "40 g",
+    "volume": "500 ml",
+    "price": 6500,
+    "price_postapoc": 100,
+    "material": [ "cotton", "kevlar" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 8,
+    "flags": [ "HELMET_NAPE_PROTECTOR", "CANT_WEAR", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.5 }
+        ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_ear_r", "head_ear_l" ]
+      }
   }
 ]
