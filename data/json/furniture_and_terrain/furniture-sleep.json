@@ -226,7 +226,11 @@
     "floor_bedding_warmth": 500,
     "required_str": 10,
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "cotton_patchwork", "count": [ 30, 35 ] }, { "item": "nail", "charges": [ 4, 6 ] } ]
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "cotton_patchwork", "count": [ 30, 35 ] },
+        { "item": "nail", "charges": [ 4, 6 ] }
+      ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "bash": {

@@ -372,7 +372,12 @@
     "symbol": "!",
     "color": "red",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "consume_drug", "moves": 100, "effects": [ { "id": "sleep", "duration": 1000 } ], "used_up_item": "cotton_patchwork" }
+    "use_action": {
+      "type": "consume_drug",
+      "moves": 100,
+      "effects": [ { "id": "sleep", "duration": 1000 } ],
+      "used_up_item": "cotton_patchwork"
+    }
   },
   {
     "id": "codeine",

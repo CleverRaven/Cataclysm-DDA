@@ -13,7 +13,9 @@
     "comfort": 3,
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
-    "deconstruct": { "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ] },
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
+    },
     "required_str": 20
   },
   {

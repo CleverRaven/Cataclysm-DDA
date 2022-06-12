@@ -36,7 +36,11 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
+      "items": [
+        { "item": "2x4", "count": 10 },
+        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
+        { "item": "nail", "charges": [ 6, 8 ] }
+      ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "bash": {
