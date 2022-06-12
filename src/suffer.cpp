@@ -743,7 +743,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
                     you.wake_up();
                 }
             } else {
-                if( !you.is_npc() ) {
+                if( get_option<bool>( "DISTRACTION_ASTHMA" ) && !you.is_npc() ) {
                     g->cancel_activity_or_ignore_query( distraction_type::asthma,
                                                         _( "You can't focus while choking!" ) );
                 }
@@ -781,7 +781,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
         }
     } else {
         you.add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
-        if( !you.is_npc() ) {
+        if( get_option<bool>( "DISTRACTION_ASTHMA" ) && !you.is_npc() ) {
             g->cancel_activity_or_ignore_query( distraction_type::asthma,
                                                 _( "You can't focus while choking!" ) );
         }
