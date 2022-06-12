@@ -544,7 +544,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "antiseptic" },
-    "description": "A powerful antiseptic commonly used for contaminated wounds.",
+    "description": "A powerful antiseptic commonly used for contaminated wounds. Freezing/melting point assumes that the antiseptic is based on isopropyl or ethanol.",
     "weight": "27 g",
     "volume": "250 ml",
     "freezing_point": -19,
