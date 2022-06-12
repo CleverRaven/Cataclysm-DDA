@@ -408,7 +408,7 @@ panel_layout &panel_manager::get_current_layout()
         return kv->second;
     }
     debugmsg( "Invalid current panel layout, defaulting to classic" );
-    current_layout_id = "classic";
+    current_layout_id = "legacy_classic_sidebar";
     return get_current_layout();
 }
 
