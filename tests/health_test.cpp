@@ -9,6 +9,10 @@
 #include "enums.h"
 #include "npc.h"
 
+static const vitamin_id iron( "iron" );
+static const vitamin_id vitC( "vitC" );
+static const vitamin_id calcium( "calcium" );
+
 static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
                            bool sleep_deprivation )
 {
@@ -23,9 +27,9 @@ static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
     }
 
     //RDA: get some vitamins
-    dude.vitamin_mod( vitamin_id( "iron" ), vitamin_amount );
-    dude.vitamin_mod( vitamin_id( "vitC" ), vitamin_amount );
-    dude.vitamin_mod( vitamin_id( "calcium" ), vitamin_amount );
+    dude.vitamin_mod( iron, vitamin_amount );
+    dude.vitamin_mod( vitC, vitamin_amount );
+    dude.vitamin_mod( calcium, vitamin_amount );
 
     if( sleep_deprivation ) {
         dude.set_sleep_deprivation( static_cast<int>( SLEEP_DEPRIVATION_MASSIVE ) - 160 );
