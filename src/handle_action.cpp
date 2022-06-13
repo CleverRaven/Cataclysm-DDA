@@ -702,7 +702,6 @@ static void smash()
     const int move_cost = !player_character.is_armed() ? 80 :
                           player_character.get_wielded_item().attack_time() *
                           0.8;
-    bool didit = false;
     bool mech_smash = false;
     int smashskill;
     ///\EFFECT_STR increases smashing capability
@@ -825,11 +824,11 @@ static void smash()
         const int max_smashskill = smashskill * ( 1.0f + best_part_to_smash.first->smash_efficiency );
         smashskill = std::min( best_part_to_smash.second + min_smashskill, max_smashskill );
     }
-    didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
+    const auto bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
     // Weariness scaling
     float weary_mult = 1.0f;
     item &weapon = player_character.get_wielded_item();
-    if( didit ) {
+    if( bash_result.did_bash ) {
         if( !mech_smash ) {
             player_character.set_activity_level( MODERATE_EXERCISE );
             player_character.handle_melee_wear( weapon );
@@ -866,18 +865,19 @@ static void smash()
             }
         }
         player_character.moves -= move_cost * weary_mult;
+        player_character.recoil = MAX_RECOIL;
 
-        if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
-            if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
-                // %s is the smashed furniture
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
-            } else {
-                // %s is the smashed terrain
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.tername( smashp ) );
+        if( !bash_result.success ) {
+            if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
+                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
+                    // %s is the smashed furniture
+                    add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
+                } else {
+                    // %s is the smashed terrain
+                    add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.tername( smashp ) );
+                }
             }
         }
-
-        player_character.recoil = MAX_RECOIL;
 
     } else {
         add_msg( _( "There's nothing there to smash!" ) );
