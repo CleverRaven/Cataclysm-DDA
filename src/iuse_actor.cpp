@@ -1547,7 +1547,6 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
 // cut gets cut
 int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
 {
-    const std::map<material_id, int> cut_material_components = cut.get_item()->made_of();
     const bool filthy = cut.get_item()->is_filthy();
     float remaining_weight = 1;
 
@@ -1595,6 +1594,11 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
     std::vector<item> stack{ *cut.get_item() }; /* working stack */
     std::map<itype_id, int> salvage_to; /* outcome */
     std::map<material_id, units::mass> mat_to_weight;
+    std::set<material_id> mat_set;
+    for( std::pair<material_id, int> mat : cut.get_item()->made_of() ) {
+        mat_set.insert( mat.first );
+    }
+
     // Decompose the item into irreducible parts
     while( !stack.empty() ) {
         item temp = stack.back();
@@ -1606,10 +1610,6 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             continue;
         }
         // Discard invalid component
-        std::set<material_id> mat_set;
-        for( std::pair<material_id, int> mat : cut_material_components ) {
-            mat_set.insert( mat.first );
-        }
         if( !temp.made_of_any( mat_set ) ) {
             continue;
         }
@@ -1643,15 +1643,17 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             units::mass weight = 0_gram;
             for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
                 if( !altercomps.empty() && altercomps.front().type ) {
-                    weight += ( altercomps.front().type->weight ) * altercomps.front().count;
+                    weight += altercomps.front().type->weight * altercomps.front().count;
                 }
             }
             return weight <= temp.weight();
         } );
-        // No crafting recipe available
-        if( iter == recipe_dict.end() ) {
-            // Check disassemble recipe too
-            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
+        // A crafting recipe is available -> use it
+        if( iter != recipe_dict.end() ) {
+            un_craft = iter->second;
+        } else {
+        // No crafting recipe is available
+        // Check disassemble recipe too
             un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
             if( un_craft.is_null() ) {
                 // No recipes found, count weight and go next
@@ -1674,9 +1676,6 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
                 }
                 continue;
             }
-        } else {
-            //take the chosen crafting recipe
-            un_craft = iter->second;
         }
         // If we get here it means we found a recipe
         const requirement_data requirements = un_craft.simple_requirements();
