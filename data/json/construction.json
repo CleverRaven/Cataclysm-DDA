@@ -3292,7 +3292,7 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
-  
+  {
     "type": "construction",
     "id": "app_gaspump",
     "group": "place_gaspump",
