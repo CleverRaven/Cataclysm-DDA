@@ -1008,6 +1008,32 @@
     }
   },
   {
+    "id": "wintergreen_oil",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "wintergreen oil" },
+    "description": "An ointment infused with wintergreen oil.  Has mild antiseptic properties and can ease the pain caused by wounds.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 50,
+    "material": [ "oil" ],
+    "symbol": "~",
+    "color": "yellow",
+    "phase": "liquid",
+    "fun": -5,
+    "spoils_in": "60 days",
+    "use_action": {
+      "type": "heal",
+      "disinfectant_power": 1,
+      "bleed": 0,
+      "bite": 0.85,
+      "move_cost": 2500,
+      "effects": [ { "id": "pkill2", "duration": "1 h" } ]
+    },
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ]
+  },
+  {
     "id": "mugwort_oil",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
