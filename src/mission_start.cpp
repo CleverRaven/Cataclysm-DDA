@@ -141,7 +141,7 @@ void mission_start::kill_nemesis( mission * )
 
     static const std::array<float, 3> attempts_multipliers {1.0f, 1.5f, 2.f};
 
-    int attempt = 0;
+    size_t attempt = 0;
     do {
         int range = rng( 40, 80 ) * attempts_multipliers[attempt];
         if( ++attempt >= attempts_multipliers.size() ) {
