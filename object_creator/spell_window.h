@@ -36,6 +36,7 @@ class spell_window : public QMainWindow
         QTextEdit spell_json;
 
         void write_json();
+        void populate_fields();
 
         QLabel id_label;
         QLineEdit id_box;

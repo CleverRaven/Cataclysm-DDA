@@ -62,36 +62,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         spell_items_box.addItem(new_item);
     }
     QObject::connect(&spell_items_box, &QListWidget::itemSelectionChanged,
-        [&]() {
-            QListWidgetItem* editItem = spell_items_box.currentItem();
-            const QString& s = editItem->text();
-
-            for (const spell_type& sp_t : spell_type::get_all()) {
-                if (sp_t.id.c_str() == s) {
-                    id_box.setText(QString(sp_t.id.c_str()));
-                    name_box.setText(QString(sp_t.name.translated().c_str()));
-                    description_box.setPlainText(QString(sp_t.description.translated().c_str()));
-                    int index = effect_box.findText(sp_t.effect_name.c_str());
-                    if (index != -1) { // -1 for not found
-                        effect_box.setCurrentIndex(index);
-                    }
-                    effect_str_box.setText(QString(sp_t.effect_str.c_str()));
-                    const spell_shape cur_shape = sp_t.spell_area;
-                    index = shape_box.findText(QString(io::enum_to_string<spell_shape>(cur_shape).c_str()));
-                    if (index != -1) { // -1 for not found
-                        shape_box.setCurrentIndex(index);
-                    }
-
-                    for (int i = 0; i < static_cast<int>(spell_target::num_spell_targets); i++) {
-                        if (sp_t.valid_targets.test(static_cast<spell_target>(i))) {
-                            valid_targets_box.item(i)->setCheckState(Qt::Checked);
-                        } else {
-                            valid_targets_box.item(i)->setCheckState(Qt::Unchecked);
-                        }
-                    }
-                }
-            }
-        });
 
 
     // =========================================================================================
@@ -1277,4 +1247,37 @@ void creator::spell_window::write_json()
     QString output_json{ window_out.str().c_str() };
 
     spell_json.setText( output_json );
+}
+
+void creator::spell_window::populate_fields()
+{
+    QListWidgetItem* editItem = spell_items_box.currentItem();
+    const QString& s = editItem->text();
+
+    for ( const spell_type& sp_t : spell_type::get_all() ) {
+        if (sp_t.id.c_str() == s) {
+            id_box.setText (QString( sp_t.id.c_str() ) );
+            name_box.setText( QString( sp_t.name.translated().c_str() ) );
+            description_box.setPlainText( QString( sp_t.description.translated().c_str() ) );
+            int index = effect_box.findText( sp_t.effect_name.c_str() );
+            if (index != -1) { // -1 for not found
+                effect_box.setCurrentIndex(index);
+            }
+            effect_str_box.setText( QString( sp_t.effect_str.c_str() ) );
+            const spell_shape cur_shape = sp_t.spell_area;
+            index = shape_box.findText(QString(io::enum_to_string<spell_shape>(cur_shape).c_str()));
+            if ( index != -1 ) { // -1 for not found
+                shape_box.setCurrentIndex(index);
+            }
+
+            for ( int i = 0; i < static_cast<int>(spell_target::num_spell_targets); i++ ) {
+                if ( sp_t.valid_targets.test(static_cast<spell_target>(i)) ) {
+                    valid_targets_box.item(i)->setCheckState(Qt::Checked);
+                }
+                else {
+                    valid_targets_box.item(i)->setCheckState(Qt::Unchecked);
+                }
+            }
+        }
+    }
 }
