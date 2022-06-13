@@ -64,7 +64,13 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         [&]() {
             QListWidgetItem* editItem = spell_items_box.currentItem();
             const QString& s = editItem->text();
-            id_box.setText(s);
+
+            for (const spell_type& sp_t : spell_type::get_all()) {
+                if (sp_t.id.c_str() == s) {
+                    id_box.setText(sp_t.id.c_str());
+                    name_box.setText(sp_t.name.translated().c_str());
+                }
+            }
         });
 
 
