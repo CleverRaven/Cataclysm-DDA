@@ -62,6 +62,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         spell_items_box.addItem(new_item);
     }
     QObject::connect(&spell_items_box, &QListWidget::itemSelectionChanged,
+        [&]() { spell_window::populate_fields(); });
 
 
     // =========================================================================================
