@@ -396,7 +396,7 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
 
 panel_manager::panel_manager()
 {
-    current_layout_id = "labels";
+    current_layout_id = "legacy_labels_sidebar";
     // Set empty layouts; these will be populated by load()
     layouts = std::map<std::string, panel_layout>();
 }
