@@ -438,8 +438,14 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
 std::string name_and_value( const std::string &name, const std::string &value, int field_width )
 {
     const int text_width = utf8_width( name ) + utf8_width( value );
-    const int spacing = std::max( field_width, text_width ) - text_width;
-    return name + std::string( spacing, ' ' ) + value;
+    if( text_width >= field_width ) {
+        //Since it's easier to abbreviate a string than a number, try to preserve the value
+        std::string trimmed_name = trim_by_length( name, field_width - utf8_width( value ) - 1 );
+        return trimmed_name + " " + value;
+    } else {
+        const int spacing = field_width - text_width;
+        return name + std::string( spacing, ' ' ) + value;
+    }
 }
 
 std::string name_and_value( const std::string &name, int value, int field_width )

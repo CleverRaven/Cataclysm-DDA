@@ -91,19 +91,19 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     const int win_width = getmaxx( w_sort_middle );
     const size_t win_height = static_cast<size_t>( getmaxy( w_sort_middle ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    size_t i = fold_and_print( w_sort_middle, point( 1, 0 ), win_width - 1, c_white,
+    size_t i = fold_and_print( w_sort_middle, point( 0, 0 ), win_width - 1, c_white,
                                worn_item_it->type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3, c,
+    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width, c,
                                      bp );
     nc_color color = c_light_gray;
     for( std::string &iter : props ) {
-        print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
+        print_colored_text( w_sort_middle, point( 0, ++i ), color, c_light_gray, iter );
     }
 
-    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3, bp );
+    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width, bp );
     if( i + prot.size() < win_height ) {
         for( std::string &iter : prot ) {
-            print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
+            print_colored_text( w_sort_middle, point( 0, ++i ), color, c_light_gray, iter );
         }
     } else {
         return;
