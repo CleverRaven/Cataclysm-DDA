@@ -1538,17 +1538,52 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
             return false;
         }
     }
-
     return true;
 }
 
+cata::optional<recipe> find_recipe( item x );
+cata::optional<recipe> find_recipe( item x )
+{
+    auto iter = std::find_if( recipe_dict.begin(), recipe_dict.end(),
+    [&]( const std::pair<const recipe_id, recipe> &curr ) {
+        if( curr.second.obsolete || curr.second.result() != x.typeId() || curr.second.makes_amount() > 1 ) {
+            return false;
+        }
+        units::mass weight = 0_gram;
+        for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
+            if( !altercomps.empty() && altercomps.front().type ) {
+                weight += altercomps.front().type->weight * altercomps.front().count;
+            }
+        }
+        return weight <= x.weight();
+    } );
+    if( iter != recipe_dict.end() ) {
+        return iter->second;
+    }
+
+    // No crafting recipe is available
+    // Check disassemble recipe too
+    recipe uncraft = recipe_dictionary::get_uncraft( x.typeId() );
+    if( uncraft.is_null() ) {
+        return cata::nullopt;
+    }
+    // Found disassemble recipe, check if it is valid
+    units::mass weight = 0_gram;
+    for( const auto &altercomps : uncraft.simple_requirements().get_components() ) {
+        weight += ( altercomps.front().type->weight ) * altercomps.front().count;
+    }
+    if( weight > x.weight() ) {
+        // Bad disassemble recipe.  Count weight and go next
+        return cata::nullopt;
+    }
+    return uncraft;
+}
+
 // function returns charges from it during the cutting process of the *cut.
-// it cuts
-// cut gets cut
+// it is the item used for cutting
+// cut is the item being cut up
 int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
 {
-    const bool filthy = cut.get_item()->is_filthy();
-
     // What materials do we salvage (ids and counts).
     std::map<itype_id, int> materials_salvaged;
 
@@ -1563,165 +1598,128 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         return 0;
     }
 
-    // Not much practice, and you won't get very far ripping things up.
-    p.practice( skill_fabrication, rng( 0, 5 ), 1 );
-
-    auto calculate_efficiency = []( Character & p, item_location & cut ) -> float {
-        float efficiency = 1.0;
-
-        // Higher fabrication, less chance of entropy, but still a chance.
-        /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-        int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
-        if( rng( 1, 10 ) <= entropy_threshold )
-        {
-            efficiency *= 0.99;
-        }
-
-        // Fail dex roll, potentially lose more parts.
-        /** @EFFECT_DEX randomly reduces component loss when cutting items up */
-        if( dice( 3, 4 ) > p.dex_cur )
-        {
-            efficiency *= 0.95;
-        }
-
-        // If more than 1 material component can still be salvaged,
-        // chance of losing more components if the item is damaged.
-        // If the item being cut is not damaged, no additional losses will be incurred.
-        if( cut.get_item()->damage() > 0 )
-        {
-            efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
-        }
-        return efficiency;
-    };
-    const float efficiency = calculate_efficiency( p, cut );
-
-    std::vector<item> stack{ *cut.get_item() }; /* working stack */
-    std::map<itype_id, int> salvage_to; /* outcome */
+    std::map<itype_id, int> salvage;
     std::map<material_id, units::mass> mat_to_weight;
     std::set<material_id> mat_set;
     for( std::pair<material_id, int> mat : cut.get_item()->made_of() ) {
         mat_set.insert( mat.first );
     }
 
+    auto distribute_uniformly = [&mat_to_weight]( item x ) -> void {
+        const float mat_total = std::max( x.type->mat_portion_total, 1 );
+        for( const auto &type : x.made_of() )
+        {
+            mat_to_weight[type.first] += x.weight() * ( static_cast<float>( type.second ) / mat_total );
+        }
+    };
+
     // Decompose the item into irreducible parts
-    while( !stack.empty() ) {
-        item temp = stack.back();
-        stack.pop_back();
-
-        auto distribute_uniformly = [&mat_to_weight, &efficiency]( item x ) -> void {
-            const float mat_total = std::max( x.type->mat_portion_total, 1 );
-            for( const auto &type : x.made_of() )
-            {
-                mat_to_weight[type.first] += ( x.weight() * efficiency ) *
-                ( static_cast<float>( type.second ) / mat_total );
-            }
-        };
-
+    std::function<void( item )> cut_up_component =
+        [&salvage, &mat_set, &distribute_uniformly, &cut_up_component]
+    ( item curr ) -> void {
         // If it is one of the basic components, add it into the list
-        if( temp.type->is_basic_component() ) {
-            salvage_to[temp.typeId()] ++;
-            continue;
+        if( curr.type->is_basic_component() )
+        {
+            salvage[curr.typeId()] ++;
+            return;
         }
+
         // Discard invalid component
-        if( !temp.made_of_any( mat_set ) ) {
-            continue;
+        if( !curr.made_of_any( mat_set ) )
+        {
+            return;
         }
+
         //items count by charges should be even smaller than base materials
-        if( !temp.is_salvageable() || temp.count_by_charges() ) {
+        if( !curr.is_salvageable() || curr.count_by_charges() )
+        {
             // non-salvageable items but made of appropriate material, distribute uniformly to all materials
-            distribute_uniformly( temp );
-            continue;
+            distribute_uniformly( curr );
+            return;
         }
+
         //check if there are components defined
-        if( !temp.components.empty() ) {
+        if( !curr.components.empty() )
+        {
             // push components into stack
-            for( const item &iter : temp.components ) {
-                stack.push_back( iter );
+            for( const item &iter : curr.components ) {
+                cut_up_component( iter );
             }
-            continue;
+            return;
         }
-        // No available components
+
         // Try to find an available recipe and "restore" its components
-
-        auto find_recipe = []( item x ) -> cata::optional<recipe> {
-            auto iter = std::find_if( recipe_dict.begin(), recipe_dict.end(),
-                                      [&]( const std::pair<const recipe_id, recipe> &curr )
-            {
-                if( curr.second.obsolete || curr.second.result() != x.typeId() || curr.second.makes_amount() > 1 ) {
-                    return false;
-                }
-                units::mass weight = 0_gram;
-                for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
-                    if( !altercomps.empty() && altercomps.front().type ) {
-                        weight += altercomps.front().type->weight * altercomps.front().count;
-                    }
-                }
-                return weight <= x.weight();
-            } );
-            if( iter != recipe_dict.end() )
-            {
-                return iter->second;
-            }
-
-            // No crafting recipe is available
-            // Check disassemble recipe too
-            recipe uncraft = recipe_dictionary::get_uncraft( x.typeId() );
-            if( uncraft.is_null() )
-            {
-                // No recipes found, count weight and go to next
-                return cata::nullopt;
-            }
-            // Found disassemble recipe, check if it is valid
-            units::mass weight = 0_gram;
-            for( const auto &altercomps : uncraft.simple_requirements().get_components() )
-            {
-                weight += ( altercomps.front().type->weight ) * altercomps.front().count;
-            }
-            if( weight > x.weight() )
-            {
-                // Bad disassemble recipe.  Count weight and go next
-                return cata::nullopt;
-            }
-            return uncraft;
-        };
-
-        cata::optional<recipe> uncraft = find_recipe( temp );
-        if( uncraft ) {
+        cata::optional<recipe> uncraft = find_recipe( curr );
+        if( uncraft )
+        {
             const requirement_data requirements = uncraft->simple_requirements();
             // find default components set from recipe, push them into stack
             for( const auto &altercomps : requirements.get_components() ) {
                 const item_comp &comp = altercomps.front();
                 // if count by charges
                 if( comp.type->count_by_charges() ) {
-                    stack.emplace_back( comp.type, calendar::turn, comp.count );
+                    item next = item( comp.type, calendar::turn, comp.count );
+                    cut_up_component( next );
                 } else {
                     for( int i = 0; i < comp.count; i++ ) {
-                        stack.emplace_back( comp.type, calendar::turn );
+                        item next = item( comp.type, calendar::turn );
+                        cut_up_component( next );
                     }
                 }
             }
-        } else {
-            distribute_uniformly( temp );
-            continue;
+        } else
+        {
+            distribute_uniformly( curr );
+            return;
         }
+    };
+
+    // Decompose the item into irreducible parts
+    cut_up_component( *cut.get_item() );
+
+
+    // Not much practice, and you won't get very far ripping things up.
+    p.practice( skill_fabrication, rng( 0, 5 ), 1 );
+
+    float efficiency = 1.0;
+
+    // Higher fabrication, less chance of entropy, but still a chance.
+    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
+    int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
+    if( rng( 1, 10 ) <= entropy_threshold ) {
+        efficiency *= 0.99;
+    }
+
+    // Fail dex roll, potentially lose more parts.
+    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
+    if( dice( 3, 4 ) > p.dex_cur ) {
+        efficiency *= 0.95;
+    }
+
+    // If more than 1 material component can still be salvaged,
+    // chance of losing more components if the item is damaged.
+    // If the item being cut is not damaged, no additional losses will be incurred.
+    if( cut.get_item()->damage() > 0 ) {
+        efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
     }
 
     // Apply proportional item loss.
-    for( auto &iter : salvage_to ) {
+    for( auto &iter : salvage ) {
         iter.second *= efficiency;
     }
     // Item loss for weight was applied before(only round once).
     for( const auto &iter : mat_to_weight ) {
         if( const cata::optional<itype_id> id = iter.first->salvaged_into() ) {
-            salvage_to[*id] += ( iter.second / id->obj().weight );
+            salvage[*id] += ( iter.second / id->obj().weight );
         }
     }
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ),
              cut.get_item()->tname() );
 
-    item_location::type cut_type = cut.where();
-    tripoint pos = cut.position();
+    const item_location::type cut_type = cut.where();
+    const tripoint pos = cut.position();
+    const bool filthy = cut.get_item()->is_filthy();
 
     // Clean up before removing the item.
     remove_ammo( *cut.get_item(), p );
@@ -1731,10 +1729,9 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
     p.calc_encumbrance();
 
     map &here = get_map();
-    for( const auto &salvaged : salvage_to ) {
-        itype_id mat_name = salvaged.first;
-        int amount = salvaged.second;
-        item result( mat_name, calendar::turn );
+    for( const auto &salvaged_mat : salvage ) {
+        item result( salvaged_mat.first, calendar::turn );
+        int amount = salvaged_mat.second;
         if( amount > 0 ) {
             // Time based on number of components.
             p.moves -= moves_per_part;
