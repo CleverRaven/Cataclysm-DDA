@@ -1604,6 +1604,14 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         item temp = stack.back();
         stack.pop_back();
 
+        auto distribute_uniformly = [&mat_to_weight, remaining_weight] (item x) -> void {
+            const float mat_total = std::max(x.type->mat_portion_total, 1);
+            for( const auto &type : x.made_of() ) {
+                mat_to_weight[type.first] += ( x.weight() * remaining_weight ) *
+                                             ( static_cast<float>( type.second ) / mat_total );
+            }
+        }
+
         // If it is one of the basic components, add it into the list
         if( temp.type->is_basic_component() ) {
             salvage_to[temp.typeId()] ++;
@@ -1615,12 +1623,8 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         }
         //items count by charges should be even smaller than base materials
         if( !temp.is_salvageable() || temp.count_by_charges() ) {
-            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
-            // non-salvageable items but made of appropriate material, disrtibute uniformly in to all materials
-            for( const auto &type : temp.made_of() ) {
-                mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
-                                             ( static_cast<float>( type.second ) / mat_total );
-            }
+            // non-salvageable items but made of appropriate material, distribute uniformly to all materials
+            distribute_uniformly(temp);
             continue;
         }
         //check if there are components defined
@@ -1656,11 +1660,8 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         // Check disassemble recipe too
             un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
             if( un_craft.is_null() ) {
-                // No recipes found, count weight and go next
-                for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
-                                                 ( static_cast<float>( type.second ) / mat_total );
-                }
+                // No recipes found, count weight and go to next
+                distribute_uniformly(temp);
                 continue;
             }
             // Found disassemble recipe, check if it is valid
@@ -1670,10 +1671,7 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             }
             if( weight > temp.weight() ) {
                 // Bad disassemble recipe.  Count weight and go next
-                for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
-                                                 ( static_cast<float>( type.second ) / mat_total );
-                }
+                distribute_uniformly(temp);
                 continue;
             }
         }
