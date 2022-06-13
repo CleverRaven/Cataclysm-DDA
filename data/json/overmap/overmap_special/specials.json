@@ -6016,7 +6016,7 @@
     "city_sizes": [ 4, 20 ],
     "occurrences": [ 0, 1 ],
     "connections": [ { "point": [ 2, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 3, 0 ] } ],
-    "flags": [ "LAKE" ]
+    "flags": [ "CLASSIC", "LAKE" ]
   },
   {
     "type": "overmap_special",
