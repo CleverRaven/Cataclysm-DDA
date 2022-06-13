@@ -93,17 +93,17 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     size_t i = fold_and_print( w_sort_middle, point( 0, 0 ), win_width - 1, c_white,
                                worn_item_it->type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width, c,
+    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 1, c,
                                      bp );
     nc_color color = c_light_gray;
     for( std::string &iter : props ) {
-        print_colored_text( w_sort_middle, point( 0, ++i ), color, c_light_gray, iter );
+        print_colored_text( w_sort_middle, point( 1, ++i ), color, c_light_gray, iter );
     }
 
-    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width, bp );
+    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 1, bp );
     if( i + prot.size() < win_height ) {
         for( std::string &iter : prot ) {
-            print_colored_text( w_sort_middle, point( 0, ++i ), color, c_light_gray, iter );
+            print_colored_text( w_sort_middle, point( 1, ++i ), color, c_light_gray, iter );
         }
     } else {
         return;
@@ -231,37 +231,34 @@ std::vector<std::string> clothing_properties(
     std::vector<std::string> props;
     props.reserve( 5 );
 
-    const std::string space = "  ";
-
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
 
     int coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage() :
                    worn_item.get_coverage( bp );
-    props.push_back( name_and_value( space + _( "Coverage:" ),
-                                     string_format( "%3d", coverage ), width ) );
+    add_folded_name_and_value( props, _( "Coverage:" ), string_format( "%3d", coverage ),
+                               width );
     coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
                    item::cover_type::COVER_MELEE ) :
                worn_item.get_coverage( bp, item::cover_type::COVER_MELEE );
-    props.push_back( name_and_value( space + _( "Coverage (Melee):" ),
-                                     string_format( "%3d", coverage ), width ) );
+    add_folded_name_and_value( props, _( "Coverage (Melee):" ), string_format( "%3d",
+                               coverage ), width );
     coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
                    item::cover_type::COVER_RANGED ) :
                worn_item.get_coverage( bp, item::cover_type::COVER_RANGED );
-    props.push_back( name_and_value( space + _( "Coverage (Ranged):" ),
-                                     string_format( "%3d", coverage ), width ) );
+    add_folded_name_and_value( props, _( "Coverage (Ranged):" ), string_format( "%3d",
+                               coverage ), width );
     coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
                    item::cover_type::COVER_VITALS ) :
                worn_item.get_coverage( bp, item::cover_type::COVER_VITALS );
-    props.push_back( name_and_value( space + _( "Coverage (Vitals):" ),
-                                     string_format( "%3d", coverage ), width ) );
+    add_folded_name_and_value( props, _( "Coverage (Vitals):" ), string_format( "%3d",
+                               coverage ), width );
 
     const int encumbrance = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_encumber(
                                 c ) : worn_item.get_encumber( c, bp );
-    props.push_back( name_and_value( space + _( "Encumbrance:" ),
-                                     string_format( "%3d", encumbrance ), width ) );
-
-    props.push_back( name_and_value( space + _( "Warmth:" ),
-                                     string_format( "%3d", worn_item.get_warmth() ), width ) );
+    add_folded_name_and_value( props, _( "Encumbrance:" ), string_format( "%3d", encumbrance ),
+                               width );
+    add_folded_name_and_value( props, _( "Warmth:" ), string_format( "%3d",
+                               worn_item.get_warmth() ), width );
     return props;
 }
 
@@ -289,58 +286,55 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
 
     bool display_median = percent_best < 50 && percent_worst < 50;
 
-
-    const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
     // bash ballistic and cut can have more involved info based on armor complexity
-    if( display_median ) {
-        prot.push_back( name_and_value( space + _( "Bash:" ),
-                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
-                                                worst_res.type_resist( damage_type::BASH ), median_res.type_resist( damage_type::BASH ),
-                                                best_res.type_resist( damage_type::BASH ) ),
-                                        width ) );
-        prot.push_back( name_and_value( space + _( "Cut:" ),
-                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
-                                                worst_res.type_resist( damage_type::CUT ), median_res.type_resist( damage_type::CUT ),
-                                                best_res.type_resist( damage_type::CUT ) ),
-                                        width ) );
-        prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
-                                                worst_res.type_resist( damage_type::BULLET ), median_res.type_resist( damage_type::BULLET ),
-                                                best_res.type_resist( damage_type::BULLET ) ),
-                                        width ) );
-    } else if( percent_worst > 0 ) {
-        prot.push_back( name_and_value( space + _( "Bash:" ),
-                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
-                                                worst_res.type_resist( damage_type::BASH ),
-                                                best_res.type_resist( damage_type::BASH ) ),
-                                        width ) );
-        prot.push_back( name_and_value( space + _( "Cut:" ),
-                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
-                                                worst_res.type_resist( damage_type::CUT ),
-                                                best_res.type_resist( damage_type::CUT ) ),
-                                        width ) );
-        prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
-                                                worst_res.type_resist( damage_type::BULLET ),
-                                                best_res.type_resist( damage_type::BULLET ) ),
-                                        width ) );
+    if( percent_worst > 0 ) {
+        std::string subpoint_offset = " ";
+        prot.emplace_back( _( "Bash:" ) );
+        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Worst:" ), string_format( "%.2f",
+                           worst_res.type_resist( damage_type::BASH ) ), width ) );
+        if( display_median ) {
+            prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Median:" ), string_format( "%.2f",
+                               median_res.type_resist( damage_type::BASH ) ), width ) );
+        }
+        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Best:" ), string_format( "%.2f",
+                           best_res.type_resist( damage_type::BASH ) ), width ) );
+
+        prot.emplace_back( _( "Cut:" ) );
+        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Worst:" ), string_format( "%.2f",
+                           worst_res.type_resist( damage_type::CUT ) ), width ) );
+        if( display_median ) {
+            prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Median:" ), string_format( "%.2f",
+                               median_res.type_resist( damage_type::CUT ) ), width ) );
+        }
+        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Best:" ), string_format( "%.2f",
+                           best_res.type_resist( damage_type::CUT ) ), width ) );
+
+        prot.emplace_back( _( "Ballistic:" ) );
+        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Worst:" ), string_format( "%.2f",
+                           worst_res.type_resist( damage_type::BULLET ) ), width ) );
+        if( display_median ) {
+            prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Median:" ), string_format( "%.2f",
+                               median_res.type_resist( damage_type::BULLET ) ), width ) );
+        }
+        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Best:" ), string_format( "%.2f",
+                           best_res.type_resist( damage_type::BULLET ) ), width ) );
     } else {
-        prot.push_back( name_and_value( space + _( "Bash:" ),
-                                        string_format( "%.2f", best_res.type_resist( damage_type::BASH ) ), width ) );
-        prot.push_back( name_and_value( space + _( "Cut:" ),
-                                        string_format( "%.2f", best_res.type_resist( damage_type::CUT ) ), width ) );
-        prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                        string_format( "%.2f", best_res.type_resist( damage_type::BULLET ) ), width ) );
+        add_folded_name_and_value( prot, _( "Bash:" ),
+                                   string_format( "%.2f", best_res.type_resist( damage_type::BASH ) ), width );
+        add_folded_name_and_value( prot, _( "Cut:" ),
+                                   string_format( "%.2f", best_res.type_resist( damage_type::CUT ) ), width );
+        add_folded_name_and_value( prot, _( "Ballistic:" ),
+                                   string_format( "%.2f", best_res.type_resist( damage_type::BULLET ) ), width );
     }
-    prot.push_back( name_and_value( space + _( "Acid:" ),
-                                    string_format( "%.2f", best_res.type_resist( damage_type::ACID ) ), width ) );
-    prot.push_back( name_and_value( space + _( "Fire:" ),
-                                    string_format( "%.2f", best_res.type_resist( damage_type::HEAT ) ), width ) );
-    prot.push_back( name_and_value( space + _( "Environmental:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
-    prot.push_back( name_and_value( space + _( "Breathability:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.breathability( bp ) ) ), width ) );
+    add_folded_name_and_value( prot, _( "Acid:" ),
+                               string_format( "%.2f", best_res.type_resist( damage_type::ACID ) ), width );
+    add_folded_name_and_value( prot, _( "Fire:" ),
+                               string_format( "%.2f", best_res.type_resist( damage_type::HEAT ) ), width );
+    add_folded_name_and_value( prot, _( "Environmental:" ),
+                               string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width );
+    add_folded_name_and_value( prot, _( "Breathability:" ),
+                               string_format( "%3d", static_cast<int>( worn_item.breathability( bp ) ) ), width );
     return prot;
 }
 
