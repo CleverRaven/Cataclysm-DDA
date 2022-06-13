@@ -50,7 +50,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     // =========================================================================================
     // first column of boxes
     spell_items_box.setParent(this);
-    spell_items_box.resize(QSize(default_text_box_width * 2, default_text_box_height * 25));
+    spell_items_box.resize(QSize(default_text_box_width * 2, default_text_box_height * 27));
     spell_items_box.move(QPoint(col * default_text_box_width, row * default_text_box_height));
     spell_items_box.setToolTip(QString(
         _("Various spell flags.  Please see MAGIC.md, flags.json, and JSON_INFO.md for details.")));
@@ -60,7 +60,12 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
             QString(sp_t.id.c_str()));
         spell_items_box.addItem(new_item);
     }
-
+    QObject::connect(&spell_items_box, &QListWidget::itemSelectionChanged,
+        [&]() {
+            QListWidgetItem* editItem = spell_items_box.currentItem();
+            const QString& s = editItem->text();
+            id_box.setText(s);
+        });
 
 
     // =========================================================================================
