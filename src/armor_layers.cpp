@@ -54,15 +54,30 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
 
     std::vector<std::string> names;
     names.reserve( parts.size() );
-    for( size_t i = 0; i < parts.size(); ++i ) {
-        const bodypart_id &part = parts[i];
-        if( i + 1 < parts.size() &&
-            parts[i + 1] == part->opposite_part ) {
-            // Can combine two body parts (e.g. arms)
-            names.push_back( body_part_name_accusative( part, 2 ) );
-            ++i;
+    for( bodypart_id part : parts ) {
+        bool duplicate = false;
+        bool can_be_consolidated = false;
+        std::string current_part = body_part_name_accusative( part );
+        std::string opposite_part = body_part_name_accusative( part->opposite_part );
+        std::string part_group = body_part_name_accusative( part, 2 );
+        for( std::string already_listed : names ) {
+            if( already_listed == current_part ) {
+                duplicate = true;
+                break;
+            } else if( already_listed == part_group ) {
+                duplicate = true;
+                break;
+            } else if( already_listed == opposite_part ) {
+                can_be_consolidated = true;
+                break;
+            }
+        }
+        if( duplicate ) {
+            //Do nothing
+        } else if( can_be_consolidated ) {
+            std::replace( names.begin(), names.end(), opposite_part, part_group );
         } else {
-            names.push_back( body_part_name_accusative( part ) );
+            names.push_back( current_part );
         }
     }
 
