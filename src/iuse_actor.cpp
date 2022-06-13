@@ -1548,13 +1548,6 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
 int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
 {
     const bool filthy = cut.get_item()->is_filthy();
-    float remaining_weight = 1;
-
-    // Keep the codes below, use it to calculate component loss
-
-    // Chance of us losing a material component to entropy.
-    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
 
     // What materials do we salvage (ids and counts).
     std::map<itype_id, int> materials_salvaged;
@@ -1573,23 +1566,34 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
 
-    // Higher fabrication, less chance of entropy, but still a chance.
-    if( rng( 1, 10 ) <= entropy_threshold ) {
-        remaining_weight *= 0.99;
-    }
-    // Fail dex roll, potentially lose more parts.
-    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
-    if( dice( 3, 4 ) > p.dex_cur ) {
-        remaining_weight *= 0.95;
-    }
-    // If more than 1 material component can still be salvaged,
-    // chance of losing more components if the item is damaged.
-    // If the item being cut is not damaged, no additional losses will be incurred.
-    if( cut.get_item()->damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level() ),
-                                         1.0 );
-        remaining_weight *= component_success_chance;
-    }
+    auto calculate_efficiency = []( Character & p, item_location & cut ) -> float {
+        float efficiency = 1.0;
+
+        // Higher fabrication, less chance of entropy, but still a chance.
+        /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
+        int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
+        if( rng( 1, 10 ) <= entropy_threshold )
+        {
+            efficiency *= 0.99;
+        }
+
+        // Fail dex roll, potentially lose more parts.
+        /** @EFFECT_DEX randomly reduces component loss when cutting items up */
+        if( dice( 3, 4 ) > p.dex_cur )
+        {
+            efficiency *= 0.95;
+        }
+
+        // If more than 1 material component can still be salvaged,
+        // chance of losing more components if the item is damaged.
+        // If the item being cut is not damaged, no additional losses will be incurred.
+        if( cut.get_item()->damage() > 0 )
+        {
+            efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
+        }
+        return efficiency;
+    };
+    const float efficiency = calculate_efficiency( p, cut );
 
     std::vector<item> stack{ *cut.get_item() }; /* working stack */
     std::map<itype_id, int> salvage_to; /* outcome */
@@ -1604,13 +1608,14 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         item temp = stack.back();
         stack.pop_back();
 
-        auto distribute_uniformly = [&mat_to_weight, remaining_weight] (item x) -> void {
-            const float mat_total = std::max(x.type->mat_portion_total, 1);
-            for( const auto &type : x.made_of() ) {
-                mat_to_weight[type.first] += ( x.weight() * remaining_weight ) *
-                                             ( static_cast<float>( type.second ) / mat_total );
+        auto distribute_uniformly = [&mat_to_weight, &efficiency]( item x ) -> void {
+            const float mat_total = std::max( x.type->mat_portion_total, 1 );
+            for( const auto &type : x.made_of() )
+            {
+                mat_to_weight[type.first] += ( x.weight() * efficiency ) *
+                ( static_cast<float>( type.second ) / mat_total );
             }
-        }
+        };
 
         // If it is one of the basic components, add it into the list
         if( temp.type->is_basic_component() ) {
@@ -1624,7 +1629,7 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         //items count by charges should be even smaller than base materials
         if( !temp.is_salvageable() || temp.count_by_charges() ) {
             // non-salvageable items but made of appropriate material, distribute uniformly to all materials
-            distribute_uniformly(temp);
+            distribute_uniformly( temp );
             continue;
         }
         //check if there are components defined
@@ -1637,63 +1642,73 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         }
         // No available components
         // Try to find an available recipe and "restore" its components
-        recipe un_craft;
-        auto iter = std::find_if( recipe_dict.begin(),
-        recipe_dict.end(), [&]( const std::pair<const recipe_id, recipe> &curr ) {
-            if( curr.second.obsolete || curr.second.result() != temp.typeId() ||
-                curr.second.makes_amount() > 1 ) {
-                return false;
-            }
-            units::mass weight = 0_gram;
-            for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
-                if( !altercomps.empty() && altercomps.front().type ) {
-                    weight += altercomps.front().type->weight * altercomps.front().count;
+
+        auto find_recipe = []( item x ) -> cata::optional<recipe> {
+            auto iter = std::find_if( recipe_dict.begin(), recipe_dict.end(),
+                                      [&]( const std::pair<const recipe_id, recipe> &curr )
+            {
+                if( curr.second.obsolete || curr.second.result() != x.typeId() || curr.second.makes_amount() > 1 ) {
+                    return false;
                 }
+                units::mass weight = 0_gram;
+                for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
+                    if( !altercomps.empty() && altercomps.front().type ) {
+                        weight += altercomps.front().type->weight * altercomps.front().count;
+                    }
+                }
+                return weight <= x.weight();
+            } );
+            if( iter != recipe_dict.end() )
+            {
+                return iter->second;
             }
-            return weight <= temp.weight();
-        } );
-        // A crafting recipe is available -> use it
-        if( iter != recipe_dict.end() ) {
-            un_craft = iter->second;
-        } else {
-        // No crafting recipe is available
-        // Check disassemble recipe too
-            un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
-            if( un_craft.is_null() ) {
+
+            // No crafting recipe is available
+            // Check disassemble recipe too
+            recipe uncraft = recipe_dictionary::get_uncraft( x.typeId() );
+            if( uncraft.is_null() )
+            {
                 // No recipes found, count weight and go to next
-                distribute_uniformly(temp);
-                continue;
+                return cata::nullopt;
             }
             // Found disassemble recipe, check if it is valid
             units::mass weight = 0_gram;
-            for( const auto &altercomps : un_craft.simple_requirements().get_components() ) {
+            for( const auto &altercomps : uncraft.simple_requirements().get_components() )
+            {
                 weight += ( altercomps.front().type->weight ) * altercomps.front().count;
             }
-            if( weight > temp.weight() ) {
+            if( weight > x.weight() )
+            {
                 // Bad disassemble recipe.  Count weight and go next
-                distribute_uniformly(temp);
-                continue;
+                return cata::nullopt;
             }
-        }
-        // If we get here it means we found a recipe
-        const requirement_data requirements = un_craft.simple_requirements();
-        // find default components set from recipe, push them into stack
-        for( const auto &altercomps : requirements.get_components() ) {
-            const item_comp &comp = altercomps.front();
-            // if count by charges
-            if( comp.type->count_by_charges() ) {
-                stack.emplace_back( comp.type, calendar::turn, comp.count );
-            } else {
-                for( int i = 0; i < comp.count; i++ ) {
-                    stack.emplace_back( comp.type, calendar::turn );
+            return uncraft;
+        };
+
+        cata::optional<recipe> uncraft = find_recipe( temp );
+        if( uncraft ) {
+            const requirement_data requirements = uncraft->simple_requirements();
+            // find default components set from recipe, push them into stack
+            for( const auto &altercomps : requirements.get_components() ) {
+                const item_comp &comp = altercomps.front();
+                // if count by charges
+                if( comp.type->count_by_charges() ) {
+                    stack.emplace_back( comp.type, calendar::turn, comp.count );
+                } else {
+                    for( int i = 0; i < comp.count; i++ ) {
+                        stack.emplace_back( comp.type, calendar::turn );
+                    }
                 }
             }
+        } else {
+            distribute_uniformly( temp );
+            continue;
         }
     }
 
-    // Apply propotional item loss.
+    // Apply proportional item loss.
     for( auto &iter : salvage_to ) {
-        iter.second *= remaining_weight;
+        iter.second *= efficiency;
     }
     // Item loss for weight was applied before(only round once).
     for( const auto &iter : mat_to_weight ) {
