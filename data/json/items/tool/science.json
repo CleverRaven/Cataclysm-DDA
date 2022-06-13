@@ -546,6 +546,27 @@
     ]
   },
   {
+    "id": "gaspump",
+    "type": "TOOL",
+    "name": { "str": "gas pump" },
+    "description": "An appliance which is designed to refill all kinds of gas tanks with pressurized gas, with the option of mixing multiple gases as well.",
+    "weight": "40 kg",
+    "volume": "15 L",
+    "longest_side": "60 cm",
+    "price": 8000,
+    "price_postapoc": 1200,
+    "to_hit": -4,
+    "bashing": 20,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "battery_car", "storage_battery", "large_storage_battery" ] }
+    ]
+  },
+  {
     "id": "butane_tank",
     "type": "TOOL",
     "name": { "str": "butane tank", "str_pl": "tanks of butane" },
@@ -635,7 +656,7 @@
   },
   {
     "id": "oxygen_cylinder",
-    "type": "TOOL",
+    "type": "MAGAZINE",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "19050 g",
@@ -645,13 +666,14 @@
     "price_postapoc": 500,
     "to_hit": -4,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "blue",
-    "initial_charges": 300,
-    "max_charges": 300,
-    "charges_per_use": 10,
-    "use_action": [ "OXYGEN_BOTTLE" ]
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "oxygen" ],
+    "capacity": 300,
+    "count": 300,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "oxygen": 300 }, "watertight": true, "airtight": true } ]
   },
   {
     "id": "platinum_grille",

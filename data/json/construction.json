@@ -3292,6 +3292,17 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
+  
+    "type": "construction",
+    "id": "app_gaspump",
+    "group": "place_gaspump",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "gaspump", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
   {
     "type": "construction",
     "id": "app_ammonia_machine_reactor",

@@ -1316,6 +1316,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_gaspump",
+    "name": "Place Gas Pump"
+  },
+  {
+    "type": "construction_group",
     "id": "place_nitrogen_generator",
     "name": "Place Makeshift Nitrogen Generator"
   },

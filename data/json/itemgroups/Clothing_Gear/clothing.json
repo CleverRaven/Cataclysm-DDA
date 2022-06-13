@@ -2244,6 +2244,7 @@
       [ "wristwatch", 5 ],
       [ "small_scuba_tank", 5 ],
       [ "scuba_tank", 5 ],
+      [ "scuba_harness", 5 ],
       [ "whistle", 3 ],
       { "item": "camera", "container-item": "camera_bag", "prob": 2, "charges": [ 0, 150 ] },
       [ "camera_bag", 5 ]

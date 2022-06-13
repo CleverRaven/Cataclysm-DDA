@@ -128,6 +128,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "tool_belt", 5 ],
       { "item": "oxygen_tank", "prob": 15, "charges-min": 4 },
+      [ "oxygen_mask", 15 ],
       [ "fireman_belt", 15 ],
       [ "jack", 5 ],
       [ "throw_extinguisher", 10 ],
@@ -150,6 +151,7 @@
       { "item": "rad_monitor", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "oxygen_tank", "prob": 10, "charges-min": 4 },
       { "item": "smoxygen_tank", "prob": 15, "charges-min": 2 },
+      [ "oxygen_mask", 15 ],
       [ "UPS_off", 2 ],
       { "item": "prussian_blue", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "iodine", "prob": 50, "charges": [ 1, 10 ] }

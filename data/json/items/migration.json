@@ -1742,6 +1742,16 @@
     "replace": "emer_blanket"
   },
   {
+    "id": "scuba_tank_on",
+    "type": "MIGRATION",
+    "replace": "scuba_tank"
+  },
+  {
+    "id": "small_scuba_tank_on",
+    "type": "MIGRATION",
+    "replace": "small_scuba_tank"
+  },
+  {
     "id": "tire_iron",
     "type": "MIGRATION",
     "replace": "lug_wrench"

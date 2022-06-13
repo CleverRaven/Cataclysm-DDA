@@ -843,6 +843,7 @@
       { "item": "rx11_stimpack", "prob": 8, "charges": [ 0, 5 ] },
       { "item": "oxygen_tank", "prob": 10, "charges": [ 0, 24 ] },
       { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
+      { "item": "oxygen_mask", "prob": 20 },
       { "item": "bfipowder", "prob": 15, "charges": [ 1, 4 ] },
       { "item": "quikclot", "prob": 10, "charges": [ 1, 6 ] },
       { "item": "weak_antibiotic", "prob": 40, "charges": [ 1, 5 ] },

@@ -17,6 +17,23 @@
     "pocket_data": [ { "watertight": true, "rigid": true, "pocket_type": "MAGAZINE", "ammo_restriction": { "anesthetic": 6000 } } ]
   },
   {
+    "id": "oxygen_mask",
+    "type": "TOOL",
+    "name": { "str": "oxygen mask" },
+    "description": "A transparent plastic medical mask with a hose, designed to provide immediate relief for asthma attacks or smoke inhalation in emergency situations when connected to an oxygen tank.  It can also provide a brief burst of energy.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "oxygen" ],
+    "use_action": [ "OXYGEN_BOTTLE" ],
+    "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smoxygen_tank", "oxygen_tank", "oxygen_cylinder" ] } ]
+  },
+  {
     "id": "inhaler",
     "type": "TOOL",
     "category": "drugs",
@@ -80,9 +97,9 @@
   },
   {
     "id": "smoxygen_tank",
-    "type": "TOOL",
+    "type": "MAGAZINE",
     "name": { "str": "emergency oxygen pack" },
-    "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
+    "description": "This is a small tank of compressed medical oxygen with a folding regulator.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.  It needs to be connected to an oxygen mask to be used.",
     "weight": "800 g",
     "volume": "1100 ml",
     "longest_side": "22 cm",
@@ -90,15 +107,14 @@
     "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
+    "material": [ "aluminum" ],
+    "symbol": "#",
     "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 12 } }
-    ],
-    "charges_per_use": 1,
+    "ammo_type": [ "oxygen" ],
+    "capacity": 12,
+    "count": 12,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "use_action": [ "OXYGEN_BOTTLE" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "oxygen": 12 }, "watertight": true, "airtight": true } ]
   },
   {
     "id": "syringe",
@@ -134,9 +150,9 @@
   },
   {
     "id": "oxygen_tank",
-    "type": "TOOL",
+    "type": "MAGAZINE",
     "name": { "str": "oxygen tank" },
-    "description": "This is tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
+    "description": "This is a tank of compressed medical oxygen with a folding regulator.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.  It needs to be connected to an oxygen mask to be used.",
     "weight": "2721 g",
     "volume": "3750 ml",
     "longest_side": "42 cm",
@@ -144,15 +160,14 @@
     "price_postapoc": 500,
     "to_hit": -4,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
+    "material": [ "steel" ],
+    "symbol": "#",
     "color": "light_gray",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 24 } }
-    ],
-    "charges_per_use": 1,
+    "ammo_type": [ "oxygen" ],
+    "capacity": 24,
+    "count": 24,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "use_action": [ "OXYGEN_BOTTLE" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "oxygen": 24 }, "watertight": true, "airtight": true } ]
   },
   {
     "id": "vacutainer",

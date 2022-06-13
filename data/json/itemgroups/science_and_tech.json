@@ -446,6 +446,7 @@
       [ "jar_3l_glass_sealed", 15 ],
       { "item": "oxygen_tank", "prob": 50, "charges": [ 0, 24 ] },
       { "item": "smoxygen_tank", "prob": 25, "charges": [ 0, 12 ] },
+      [ "oxygen_mask", 50 ],
       [ "bfipowder", 15 ],
       { "item": "quikclot", "prob": 10, "charges": [ 1, 6 ] },
       [ "anesthetic", 20 ],
