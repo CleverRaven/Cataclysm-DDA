@@ -6,7 +6,7 @@
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
-    "components": [ [ [ "afs_metal_rig", 1 ] ] ],
+    "components": [ [ [ "craftrig", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -17,7 +17,7 @@
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
-    "components": [ [ [ "afs_cooking_rig", 1 ] ] ],
+    "components": [ [ [ "craftrig", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -28,7 +28,7 @@
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
-    "components": [ [ [ "afs_kitchen_rig", 1 ] ] ],
+    "components": [ [ [ "craftrig", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
