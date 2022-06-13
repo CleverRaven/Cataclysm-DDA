@@ -1,5 +1,6 @@
 #include "spell_window.h"
 
+#include <algorithm>
 #include "bodypart.h"
 #include "field_type.h"
 #include "format.h"
@@ -50,10 +51,10 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     // =========================================================================================
     // first column of boxes
     spell_items_box.setParent(this);
-    spell_items_box.resize(QSize(default_text_box_width * 2, default_text_box_height * 27));
+    spell_items_box.resize(QSize(default_text_box_width * 2, default_text_box_height * 30));
     spell_items_box.move(QPoint(col * default_text_box_width, row * default_text_box_height));
     spell_items_box.setToolTip(QString(
-        _("Various spell flags.  Please see MAGIC.md, flags.json, and JSON_INFO.md for details.")));
+        _("Various spells select one to see the details")));
     spell_items_box.show();
     for (const spell_type& sp_t : spell_type::get_all()) {
         QListWidgetItem* new_item = new QListWidgetItem(
@@ -67,8 +68,27 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
             for (const spell_type& sp_t : spell_type::get_all()) {
                 if (sp_t.id.c_str() == s) {
-                    id_box.setText(sp_t.id.c_str());
-                    name_box.setText(sp_t.name.translated().c_str());
+                    id_box.setText(QString(sp_t.id.c_str()));
+                    name_box.setText(QString(sp_t.name.translated().c_str()));
+                    description_box.setPlainText(QString(sp_t.description.translated().c_str()));
+                    int index = effect_box.findText(sp_t.effect_name.c_str());
+                    if (index != -1) { // -1 for not found
+                        effect_box.setCurrentIndex(index);
+                    }
+                    effect_str_box.setText(QString(sp_t.effect_str.c_str()));
+                    const spell_shape cur_shape = sp_t.spell_area;
+                    index = shape_box.findText(QString(io::enum_to_string<spell_shape>(cur_shape).c_str()));
+                    if (index != -1) { // -1 for not found
+                        shape_box.setCurrentIndex(index);
+                    }
+
+                    for (int i = 0; i < static_cast<int>(spell_target::num_spell_targets); i++) {
+                        if (sp_t.valid_targets.test(static_cast<spell_target>(i))) {
+                            valid_targets_box.item(i)->setCheckState(Qt::Checked);
+                        } else {
+                            valid_targets_box.item(i)->setCheckState(Qt::Unchecked);
+                        }
+                    }
                 }
             }
         });
