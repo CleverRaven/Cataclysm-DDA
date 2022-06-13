@@ -74,7 +74,14 @@ enum mission_kind : int {
     Camp_Chop_Shop,  //  Obsolete removed during 0.E
     Camp_Plow,
     Camp_Plant,
-    Camp_Harvest
+    Camp_Harvest,
+
+    last_mission_kind
+};
+
+template<>
+struct enum_traits<mission_kind> {
+    static constexpr mission_kind last = mission_kind::last_mission_kind;
 };
 
 //  Operation to get translated UI strings for the corresponding misison
@@ -95,12 +102,13 @@ struct mission_id {
     std::string parameters;
     mapgen_arguments mapgen_args;
     cata::optional<point> dir;
+
+    void serialize( JsonOut & ) const;
+    void deserialize( const JsonValue & );
 };
 
 bool is_equal( const mission_id &first, const mission_id &second );
 void reset_miss_id( mission_id &miss_id );
-std::string string_of( mission_id miss_id );
-mission_id mission_id_of( const std::string &str );
 
 //  ret determines whether the mission is for the start of a mission or the return of the companion(s).
 //  Used in the UI mission generation process to distinguish active missions from available ones.
