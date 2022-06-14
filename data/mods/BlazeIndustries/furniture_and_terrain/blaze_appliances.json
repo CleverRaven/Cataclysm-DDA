@@ -137,6 +137,6 @@
     "description": "A medium-sized household washing machine, converted to utilize vehicle power.  When turned on, filthy items will be laundered.",
     "epower": -400,
     "size": 540,
-    "item": "afs_washing_machine"
+    "item": "household_washing_machine"
   }
 ]
