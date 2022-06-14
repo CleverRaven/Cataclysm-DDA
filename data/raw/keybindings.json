@@ -3839,70 +3839,70 @@
     "type": "keybinding",
     "id": "FAV_PRIORITY",
     "category": "INVENTORY",
-    "name": "priority",
+    "name": "Priority",
     "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_AUTO_PICKUP",
     "category": "INVENTORY",
-    "name": "toggle auto pickup",
+    "name": "Toggle auto pickup",
     "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_AUTO_UNLOAD",
     "category": "INVENTORY",
-    "name": "toggle auto unload",
+    "name": "Toggle auto unload",
     "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_ITEM",
     "category": "INVENTORY",
-    "name": "item",
+    "name": "Item",
     "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_CATEGORY",
     "category": "INVENTORY",
-    "name": "category",
+    "name": "Category",
     "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_WHITELIST",
     "category": "INVENTORY",
-    "name": "whitelist",
+    "name": "Whitelist",
     "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_BLACKLIST",
     "category": "INVENTORY",
-    "name": "blacklist",
+    "name": "Blacklist",
     "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_CLEAR",
     "category": "INVENTORY",
-    "name": "clear",
+    "name": "Clear",
     "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_MOVE_ITEM",
     "category": "INVENTORY",
-    "name": "move item",
+    "name": "Move item",
     "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_CONTEXT_MENU",
     "category": "INVENTORY",
-    "name": "open context menu",
+    "name": "Open context menu",
     "bindings": [
       { "input_method": "keyboard_any", "key": "RETURN" },
       { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" },
