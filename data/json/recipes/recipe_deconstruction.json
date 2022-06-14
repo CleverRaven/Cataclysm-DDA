@@ -4883,16 +4883,16 @@
     "time": "120 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "scrap", 4 ] ],
-      [ [ "steel_chunk", 2 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
-      [ [ "cable", 8 ] ],
-      [ [ "hose", 4 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "hose", 5 ] ],
       [ [ "motor", 1 ] ],
       [ [ "metal_tank", 1 ] ],
-      [ [ "plastic_chunk", 4 ] ],
+      [ [ "plastic_chunk", 5 ] ],
       [ [ "pipe_fittings", 4 ] ],
-      [ [ "solder_wire", 8 ] ]
+      [ [ "solder_wire", 15 ] ]
     ]
   },
   {
