@@ -1418,7 +1418,7 @@ std::unique_ptr<iuse_actor> salvage_actor::clone() const
     return std::make_unique<salvage_actor>( *this );
 }
 
-cata::optional<int> salvage_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+cata::optional<int> salvage_actor::use( Character &p, item &cutter, bool t, const tripoint & ) const
 {
     if( t ) {
         return cata::nullopt;
@@ -1430,7 +1430,7 @@ cata::optional<int> salvage_actor::use( Character &p, item &it, bool t, const tr
         return cata::nullopt;
     }
 
-    return salvage_actor::try_to_cut_up( p, it, item_loc );
+    return salvage_actor::try_to_cut_up( p, cutter, item_loc );
 }
 
 cata::optional<int> salvage_actor::try_to_cut_up
@@ -1443,10 +1443,12 @@ cata::optional<int> salvage_actor::try_to_cut_up
 
     if( &cutter == cut.get_item() ) {
         add_msg( m_info, _( "You can not cut the %s with itself." ), cutter.tname() );
-        return false;
+        return cata::nullopt;
     }
 
-    return salvage_actor::cut_up( p, cutter, cut );
+    salvage_actor::cut_up( p, cut );
+    // Return used charges from cutter
+    return cost >= 0 ? cost : cutter.ammo_required();
 }
 
 // Helper to visit instances of all the sub-materials of an item.
@@ -1576,10 +1578,7 @@ static cata::optional<recipe> find_uncraft_recipe( item x )
     return uncraft;
 }
 
-// function returns charges from it during the cutting process of the *cut.
-// it is the item used for cutting
-// cut is the item being cut up
-int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
+void salvage_actor::cut_up( Character &p, item_location &cut ) const
 {
     // What materials do we salvage (ids and counts).
     std::map<itype_id, int> materials_salvaged;
@@ -1738,8 +1737,6 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             add_msg( m_bad, _( "Could not salvage a %s." ), result.display_name() );
         }
     }
-    // No matter what, cutting has been done by the time we get here.
-    return cost >= 0 ? cost : it.ammo_required();
 }
 
 void inscribe_actor::load( const JsonObject &obj )

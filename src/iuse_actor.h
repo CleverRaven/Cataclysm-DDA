@@ -524,7 +524,7 @@ class salvage_actor : public iuse_actor
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
     private:
-        int cut_up( Character &p, item &it, item_location &cut ) const;
+        void cut_up( Character &p, item_location &cut ) const;
 };
 
 /**
