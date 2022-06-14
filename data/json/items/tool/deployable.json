@@ -331,5 +331,41 @@
     "symbol": "T",
     "color": "red",
     "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "beverly_shear",
+    "type": "TOOL",
+    "name": { "str": "Beverly shear", "str_pl": "Beverly shears" },
+    "description": "A massive bench-mounted device with a short guillotine blade mounted to a long lever.  Designed for making straight or curved cuts through sheet metal up to 3 millimeters thick.",
+	"//": "Based on the Beverly B-2 Throatless Shear, 10 gauge capacity - as was furniture - values based on real world Beverly B-2 Throatless Shear",
+    "weight": "15875 g",
+    "volume": "50 L",
+    "longest_side": "100 cm",
+    "price": 10000,
+    "price_postapoc": 1500,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": "7",
+    "color": "yellow_red",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_beverly_shear" }
+  },
+  {
+    "id": "manual_tire_changer",
+    "type": "TOOL",
+    "name": { "str": "manual tire changer", "str_pl": "manual tire changers" },
+    "description": "This floor mounted machine contains all the levers, clamps and mounts required to remove or fit a tire, plus an integrated foot pump to inflate it.",
+	"//": "Based on the Redline TC500M Manual Tire Changer",
+    "weight": "162000 g",
+    "volume": "500 L",
+    "longest_side": "110 cm",
+    "price": 10000,
+    "price_postapoc": 1500,
+    "to_hit": -10,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": "7",
+    "color": "yellow_red",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_manual_tire_changer" }
   }
 ]
