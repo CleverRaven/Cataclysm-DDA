@@ -225,7 +225,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
     item oxygen( "oxygen_mask" );
-    item oxygentank( "oxygen_tank");
+    item oxygentank( "oxygen_tank" );
     itype_id o2_ammo( "oxygen" );
     oxygentank.ammo_set( o2_ammo );
     oxygen.put_in( oxygentank, item_pocket::pocket_type::MAGAZINE_WELL );
