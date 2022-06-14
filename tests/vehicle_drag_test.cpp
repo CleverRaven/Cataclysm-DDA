@@ -77,7 +77,6 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
         const size_t door = vp.part_index();
         veh_ptr->close( door );
     }
-    
     veh_ptr->refresh_insides();
     return veh_ptr;
 }
