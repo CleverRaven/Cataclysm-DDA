@@ -224,9 +224,11 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
-    item oxygen( "oxygen_tank" );
+    item oxygen( "oxygen_mask" );
+	item oxygentank( "oxygen_tank");
     itype_id o2_ammo( "oxygen" );
-    oxygen.ammo_set( o2_ammo );
+    oxygentank.ammo_set( o2_ammo );
+    oxygen.put_in( oxygentank, item_pocket::pocket_type::MAGAZINE_WELL );
 
     int charges_before = oxygen.ammo_remaining();
     REQUIRE( charges_before > 0 );
