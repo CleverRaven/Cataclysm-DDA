@@ -26,7 +26,6 @@ static void clear_game_drag( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = calendar::turn_zero;
-    // The code then clears all of the creatures and NPCs on the map.
     clear_creatures();
     clear_npcs();
 
@@ -39,7 +38,6 @@ static void clear_game_drag( const ter_id &terrain )
     // Make sure the ST is 8 so that muscle powered results are consistent
     player_character.str_cur = 8;
      
-    //Builds a test map for terrain terrain using build_test_map().
     build_test_map( terrain );
 
     map &here = get_map();
@@ -57,12 +55,12 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
     // Clearing all vehicles from the map.    
     clear_vehicles();
-    // Creates a point on the map that is 60 x 60 units.
+  
     const tripoint map_starting_point( 60, 60, 0 );
-    // Adding a vehicle to the map.
+   
     vehicle *veh_ptr = get_map().add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
-    // The code checks if it has found a vehicle or not by checking for nullptr.   
+    // Ensure we have placed the vehicle   
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
         return nullptr;
@@ -79,16 +77,16 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
         const size_t door = vp.part_index();
         veh_ptr->close( door );
     }
-    // Refreshing the vehicle’s insides.
+    
     veh_ptr->refresh_insides();
     return veh_ptr;
 }
 
 /* Algorithm goes as follows:
-// Clear map
-// Spawn a vehicle
-// calculate c_air_drag and c_rolling_resistance
-// return whether they're within 5% of expected values/*/
+ Clear map
+ Spawn a vehicle
+ Calculate c_air_drag and c_rolling_resistance
+ Return whether they're within 5% of expected values*/
 static bool test_drag(
     const vproto_id &veh_id,
     const double expected_c_air = 0, const double expected_c_rr = 0,
@@ -137,29 +135,12 @@ static bool test_drag(
     return valid;
 }
 
-/*The function print_drag_test_strings() takes a string as an argument and
-calls the function test_drag() with the corresponding vproto_id as an
-argument. Args:
-type: the type of item to be tested.
-Returns:
-Nothing.*/
 static void print_drag_test_strings( const std::string &type )
 {
     test_drag( vproto_id( type ) );
     fflush( stdout );
 }
 
-/* The test_vehicle_drag function takes a vehicle type and a set of expected drag values.
-It then calls test_drag with the vehicle type and the expected drag values. Args:
-type: The vehicle type to test.
-expected_c_air: drag coefficient for air
-expected_c_rr: The expected rolling resistance coefficient.
-expected_c_water: The drag coefficient of the vehicle when in water.
-expected_safe: The vehicle's safe speed in mph.
-expected_max: The maximum safe speed in km/h.
-true: vehicle
-Returns:
-A vehicle object.*/
 static void test_vehicle_drag(
     const std::string &type, const double expected_c_air, const double expected_c_rr,
     const double expected_c_water, const int expected_safe, const int expected_max )
