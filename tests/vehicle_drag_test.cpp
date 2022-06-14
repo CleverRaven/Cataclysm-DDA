@@ -86,7 +86,7 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
  Clear map
  Spawn a vehicle
  Calculate c_air_drag and c_rolling_resistance
- Return whether they're within 5% of expected values*/
+ Return whether they're within 5% of expected values
 static bool test_drag(
     const vproto_id &veh_id,
     const double expected_c_air = 0, const double expected_c_rr = 0,
