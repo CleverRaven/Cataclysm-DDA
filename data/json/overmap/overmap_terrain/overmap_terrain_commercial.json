@@ -1691,30 +1691,30 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_gas_g1", "s_gas_g0" ],
-    "name": "gas station",
+    "copy-from": "s_gas",
     "sym": "g",
-    "color": "light_blue",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
     "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_gas_g1_roof", "s_gas_g0_roof" ],
+    "name": "gas station roof",
+    "copy-from": "s_gas_g1"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_gas_b11",
-    "name": "reception",
+    "name": "bunker reception",
+    "copy-from": "generic_city_building_no_sidewalk",
     "sym": "R",
-    "color": "red",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "s_gas_b20", "s_gas_b21" ],
     "name": "bunker",
+    "copy-from": "generic_city_building_no_sidewalk",
     "sym": "B",
-    "color": "red",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "red"
   }
 ]
