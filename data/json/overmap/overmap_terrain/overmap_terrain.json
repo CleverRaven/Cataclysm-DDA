@@ -183,7 +183,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "riverside_dwelling",
+    "id": [
+      "riverside_dwelling",
+      "riverside_dwelling1",
+      "riverside_dwelling2",
+      "riverside_dwelling3",
+      "riverside_dwelling_roof",
+      "riverside_dwelling1_roof",
+      "riverside_dwelling2_roof",
+      "riverside_dwelling3_roof"
+    ],
     "name": "riverside dwelling",
     "sym": "+",
     "color": "i_yellow",
@@ -275,6 +284,25 @@
     "color": "i_green",
     "see_cost": 5,
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
+    "name": "lakeside cabin",
+    "copy-from": "cabin"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cabin_lakeside_roof",
+      "cabin_lakeside1_roof",
+      "cabin_lakeside2_roof",
+      "cabin_lakeside3_roof",
+      "cabin_lakeside4_roof",
+      "cabin_lakeside5_roof"
+    ],
+    "name": "lakeside cabin roof",
+    "copy-from": "cabin_roof"
   },
   {
     "type": "overmap_terrain",
