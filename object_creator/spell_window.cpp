@@ -54,6 +54,8 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     spell_items_box.setToolTip( QString(
         _("Various spells, select one to see the details")) );
     spell_items_box.show();
+
+    //TODO when we get_all() spells, make sure the spells from the magiclysm mod are included
     for( const spell_type& sp_t : spell_type::get_all() ) {
         QListWidgetItem* new_item = new QListWidgetItem(
             QString( sp_t.id.c_str()) );
@@ -1264,29 +1266,56 @@ void creator::spell_window::populate_fields()
                 effect_box.setCurrentIndex( index );
             }
             effect_str_box.setText( QString( sp_t.effect_str.c_str() ) );
-            const spell_shape cur_shape = sp_t.spell_area;
-            index = shape_box.findText( QString( io::enum_to_string<spell_shape>( cur_shape ).c_str() ) );
+            index = shape_box.findText( QString( io::enum_to_string<spell_shape>( sp_t.spell_area ).c_str() ) );
             if ( index != -1 ) { // -1 for not found
                 shape_box.setCurrentIndex( index );
             }
 
-            for( int i = 0; i < static_cast<int>(spell_target::num_spell_targets); i++ ) {
-                if( sp_t.valid_targets.test( static_cast<spell_target>(i)) ) {
-                    valid_targets_box.item(i)->setCheckState(Qt::Checked);
+            for( int i = 0; i < static_cast<int>( spell_target::num_spell_targets ); i++ ) {
+                if( sp_t.valid_targets.test( static_cast<spell_target>( i ) ) ) {
+                    valid_targets_box.item( i )->setCheckState( Qt::Checked );
                 }
                 else {
-                    valid_targets_box.item(i)->setCheckState(Qt::Unchecked);
+                    valid_targets_box.item( i )->setCheckState( Qt::Unchecked );
                 }
             }
 
             for( int i = 0; i < static_cast<int>(spell_flag::LAST); i++ ) {
-                if ( sp_t.spell_tags.test(static_cast<spell_flag>(i)) ) {
-                    spell_flags_box.item(i)->setCheckState(Qt::Checked);
+                if ( sp_t.spell_tags.test(static_cast<spell_flag>( i ) ) ) {
+                    spell_flags_box.item( i )->setCheckState( Qt::Checked );
                 }
                 else {
-                    spell_flags_box.item(i)->setCheckState(Qt::Unchecked);
+                    spell_flags_box.item( i )->setCheckState( Qt::Unchecked );
                 }
             }
+
+            //TODO add read support for learn_spells in the learn_spells_box widget as soon as the magiclysm mod spells are included (since none of the base spells have that property)
+
+            
+
+            min_range_box.setValue( sp_t.min_range );
+            max_range_box.setValue( sp_t.max_range );
+            min_damage_box.setValue( sp_t.min_damage );
+            max_damage_box.setValue( sp_t.max_damage );
+            min_aoe_box.setValue( sp_t.min_aoe );
+            max_aoe_box.setValue( sp_t.max_aoe );
+            base_casting_time_box.setValue( sp_t.base_casting_time );
+
+
+
+            index = dmg_type_box.findText( QString( io::enum_to_string<damage_type>( sp_t.dmg_type ).c_str() ) );
+            if ( index != -1 ) { // -1 for not found
+                dmg_type_box.setCurrentIndex( index );
+            }
+
+            spell_message_box.setText( QString( sp_t.message.translated().c_str() ) );
+
+            QStringList mon_ids;
+            for( const mtype_id& mon_id : sp_t.targeted_monster_ids ) {
+                mon_ids.append( mon_id->id.c_str() );
+            }
+            targeted_monster_ids_box.set_included( mon_ids );
+
             break;
         }
     }
