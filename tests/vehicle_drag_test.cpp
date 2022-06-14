@@ -82,7 +82,7 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
     return veh_ptr;
 }
 
-/* Algorithm goes as follows:
+// Algorithm goes as follows:
  Clear map
  Spawn a vehicle
  Calculate c_air_drag and c_rolling_resistance
