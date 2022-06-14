@@ -66,25 +66,27 @@ int mps_to_vmiph( double mps )
 {
     return mps * mps_to_miph * mi_to_vmi;
 }
-
 // convert vehicle 100ths of a mile per hour to m/s
 double vmiph_to_mps( int vmiph )
 {
     return vmiph / mps_to_miph / mi_to_vmi;
 }
-
+// convert of centimeters per second to vehicle miles per hour.
 int cmps_to_vmiph( int cmps )
 {
     return cmps * mps_to_miph;
 }
-
+// convert vehicle miles per hour to vehicle centimeters per second.
 int vmiph_to_cmps( int vmiph )
 {
     return vmiph / mps_to_miph;
 }
 
+/*Calculate the total drag force on a vehicle. Using two different formulas for air and water resistance, 
+which are calculated by coeff_air_drag() and coeff_water_drag().*/
 int vehicle::slowdown( int at_velocity ) const
 {
+    // Calculates the acceleration due to gravity:
     double mps = vmiph_to_mps( std::abs( at_velocity ) );
 
     // slowdown due to air resistance is proportional to square of speed
@@ -122,20 +124,23 @@ int vehicle::slowdown( int at_velocity ) const
     return std::max( 1, slowdown );
 }
 
+// Trying to determine if the smart controller is on or not.
 void vehicle::smart_controller_handle_turn( bool thrusting,
         const cata::optional<float> &k_traction_cache )
 {
-
+    // If it's off, then there is no need for the code to run.
     if( !engine_on || !has_enabled_smart_controller ) {
         smart_controller_state = cata::nullopt;
         return;
     }
-
+    /* If it's on, then the code will analyze whether or not this has been created by a 
+     smart controller before and if so, then there is no need for anything else in this function to happen.*/
     if( smart_controller_state && smart_controller_state->created == calendar::turn ) {
         return;
     }
 
-    // controlled engines
+    // Controlled engines
+    // Iterates over the list of engines, and checks if the engine is a combustion engine or battery-powered.
     // note: contains indices of of elements in `engines` array, not the part ids
     std::vector<int> c_engines;
     for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
@@ -145,7 +150,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             c_engines.push_back( i );
         }
     }
-
+    // Checking if the player is flying or is a rotorcraft.
     bool rotorcraft = is_flying && is_rotorcraft();
 
     Character &player_character = get_player_character();
@@ -154,9 +159,11 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             vp.part().enabled = false;
         }
 
+        // Messages according to the type of vehicle and engine size.
         if( player_in_control( player_character ) ) {
             if( rotorcraft ) {
                 add_msg( _( "Smart controller does not support flying vehicles." ) );
+              
             } else if( c_engines.size() <= 1 ) {
                 add_msg( _( "Smart controller detects only a single controllable engine." ) );
                 add_msg( _( "Smart controller is designed to control more than one engine." ) );
@@ -169,7 +176,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         smart_controller_state = cata::nullopt;
         return;
     }
-
+    
+    // calculates the battery level in percentage by dividing the current battery level with the maximum battery level.
     int cur_battery_level;
     int max_battery_level;
     std::tie( cur_battery_level, max_battery_level ) = battery_power_level();
@@ -192,6 +200,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     //      ( max_battery_level * battery_hi / 100 - cur_battery_level )  * (1000 / (60 * 30))   // originally
     //                                ^ battery_hi%                  bat to W ^         ^ 30 minutes
 
+    /*It sets the acceleration demand to the maximum of the absolute difference between the cruise velocity and the current 
+    velocity and the absolute difference between the cruise velocity and the average velocity.*/
     int accel_demand = cruise_on
                        ? // using avg_velocity reduces unnecessary oscillations when traction is low
                        std::max( std::abs( cruise_velocity - velocity ), std::abs( cruise_velocity - avg_velocity ) ) :
@@ -211,6 +221,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
     smart_controller_cache cur_state;
 
+    // It sets the traction to 1.0f if the vehicle is stationary, otherwise it calls the k_traction function to get the traction.
     float traction = is_stationary ? 1.0f :
                      ( k_traction_cache ? *k_traction_cache : k_traction( get_map().vehicle_wheel_traction( *this ) ) );
 
@@ -220,12 +231,25 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     // total engine fuel energy usage (J)
     int opt_fuel_usage = 0;
 
+    //calculate this load based on acceleration and traction.
+    /*calculate the current speed of the vehicle, which it then uses to determine if it should be accelerating or decelerating.
+            -If it's not moving, then it will use 1 as its acceleration value (which means no acceleration).
+            -If there is movement, then it will use whatever traction value is available at that time (which could be either 0 or 1).*/
     int opt_accel = is_stationary ? 1 : current_acceleration() * traction;
     int opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( true );
     float cur_load_approx = static_cast<float>( std::min( accel_demand,
                             opt_accel ) )  / std::max( opt_accel, 1 );
+    // calculate the current load on the alternator.
     float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
+    /* ** The for loop iterates over all the engines in the vehicle.
+          - If the engine is on, it adds the engine’s ID to the prev_mask.
+          - If the engine is electric, it subtracts the fuel usage from the net electric charge rate.
+       * The fuel usage is calculated by multiplying the engine’s fuel usage by the load.
+       * The load is the current load plus the alternator load.
+       * The alternator load is 0 if the engine is not electric.
+       * The fuel usage is added to the total fuel usage.
+       * The total fuel usage is the sum of the fuel usage for all the engines.*/
     for( size_t i = 0; i < c_engines.size(); ++i ) {
         if( is_engine_on( c_engines[i] ) ) {
             prev_mask |= 1 << i;
@@ -238,14 +262,20 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             }
         }
     }
+    
+    /* The code starts by declaring a variable called cur_state (current state).
+    It is used to store the state of the smart controller and its variables. Then the code declares variables*/
     cur_state.created = calendar::turn;
     cur_state.battery_percent = battery_level_percent;
     cur_state.battery_net_charge_rate = opt_net_echarge_rate;
     cur_state.velocity = avg_velocity;
+    // load is declared as an approximate value for current load plus what's coming from the alternator.
     cur_state.load = cur_load_approx + cur_load_alternator;
+    // The next line starts with if(smart-controller-state) because if there was a previous mask set before this one, opt
     if( smart_controller_state ) {
         cur_state.gas_engine_last_turned_on = smart_controller_state->gas_engine_last_turned_on;
     }
+    //create a new state object
     cur_state.gas_engine_shutdown_forbidden = gas_engine_shutdown_forbidden;
 
     int opt_mask = prev_mask; // save current engine state, because it will be temporarily modified
@@ -285,6 +315,10 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             continue; // skip checking this state
         }
 
+        /*The fuel usage of a vehicle is calculated by taking the fuel usage of each engine multiplied by the 
+        load factor (the ratio of the vehicle's acceleration to its maximum acceleration).
+        Args: None
+        Returns: The fuel usage of the vehicle.*/
         int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
         int accel = is_stationary ? 1 : current_acceleration() * traction;
         int fuel_usage = 0;
@@ -293,6 +327,16 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         update_alternator_load();
         float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
+        
+        /* This calculate the fuel usage for each engine type.
+            - The code starts by declaring a variable called c_engines that is an array of all the engine types in the game.
+            - Next, it declares a boolean variable called is_electric which will be true if the current engine type is battery-powered and false otherwise.
+            - Next, it declares a variable called fu with value 0 and initialize it to load_approx + (is_electric ? 0 : load_approx).
+                * It then calculates how much fuel has been used so far based on load approximations (load approx) and alternator usage (alternator).
+            - Then, it adds fu to fuel usage.
+            - If is electric, net echarge rate will be subtracted from fuel usage.
+                * net_echarge_rate gets reduced by fu as long as there was any fuel used at all during this iteration of the loop.
+            - Then iterates through each element in the array, which is declared as int e : c_engines.*/
         for( int e : c_engines ) {
             bool is_electric = is_engine_type( e, fuel_type_battery );
             int fu = engine_fuel_usage( e ) * ( load_approx + ( is_electric ? 0 : load_approx_alternator ) );
@@ -301,7 +345,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
                 net_echarge_rate -= fu;
             }
         }
-
+        /*If the combination of engine state, battery state, proposed acceleration, proposed velocity, and fuel usage is better than the current best combination,
+        Set the current best combination to the combination of engine state, battery state, proposed acceleration */
         if( std::forward_as_tuple(
                 !discharge_forbidden_hard || ( net_echarge_rate > 0 ),
                 accel >= accel_demand,
@@ -333,6 +378,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         }
     }
 
+    /*This is an array of engines that are being checked for their state, and the code will 
+    toggle each engine on or off depending on its current state.*/
     for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
         toggle_specific_engine( c_engines[i], static_cast<bool>( prev_mask & ( 1 << i ) ) );
     }
