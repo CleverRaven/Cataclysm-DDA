@@ -11,16 +11,15 @@
       ]
     },
     "effect": [
-      { "u_message": "You prepare the drop as instructed", "popup": true },
       {
         "mapgen_update": "nest_ancilla_bar_remove_BEMs",
         "om_terrain": "robofachq_subcc_a2",
-        "target_var": { "global_val": "ancilla_barn_loc" }
+        "target_var": { "global_val": "ancilla_bar_loc" }
       },
       {
         "mapgen_update": "nest_ancilla_bar_place_BEMs",
         "om_terrain": "robofachq_subcc_a2",
-        "target_var": { "global_val": "ancilla_barn_loc" }
+        "target_var": { "global_val": "ancilla_bar_loc" }
       }
     ]
   }

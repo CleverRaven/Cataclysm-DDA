@@ -53,7 +53,7 @@
           "effect": [
             { "mapgen_update": "robofachq_ancilla_bar_basic", "om_terrain": "robofachq_subcc_a2" },
             {
-              "u_location_variable": { "global_val": "ancilla_barn_loc" },
+              "u_location_variable": { "global_val": "ancilla_bar_loc" },
               "target_params": { "om_terrain": "robofachq_subcc_a2" }
             },
             { "arithmetic": [ { "global_val": "var", "var_name": "ancilla_bar_exists" }, "=", { "const": 1 } ] },
