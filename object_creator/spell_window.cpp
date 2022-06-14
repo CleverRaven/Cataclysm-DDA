@@ -51,23 +51,24 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     // =========================================================================================
     // first column of boxes
     spell_items_box.setParent(this);
-    spell_items_box.resize(QSize(default_text_box_width * 2, default_text_box_height * 30));
-    spell_items_box.move(QPoint(col * default_text_box_width, row * default_text_box_height));
-    spell_items_box.setToolTip(QString(
-        _("Various spells select one to see the details")));
+    spell_items_box.resize( QSize( default_text_box_width * 2, default_text_box_height * 30 ) );
+    spell_items_box.move( QPoint( col * default_text_box_width, row * default_text_box_height) );
+    spell_items_box.setToolTip( QString(
+        _("Various spells select one to see the details")) );
     spell_items_box.show();
-    for (const spell_type& sp_t : spell_type::get_all()) {
+    for( const spell_type& sp_t : spell_type::get_all() ) {
         QListWidgetItem* new_item = new QListWidgetItem(
-            QString(sp_t.id.c_str()));
+            QString( sp_t.id.c_str()) );
         spell_items_box.addItem(new_item);
     }
+    //When the user selects a spell from the spell list, populate the fields in the form.
     QObject::connect(&spell_items_box, &QListWidget::itemSelectionChanged,
         [&]() { spell_window::populate_fields(); });
 
 
     // =========================================================================================
     // second column of boxes
-    max_row = std::max(row, max_row);
+    max_row = std::max( row, max_row );
     row = 0;
     col = 2;
 
@@ -184,7 +185,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     // =========================================================================================
     // third column of boxes
-    max_row = std::max(max_row, row);
+    max_row = std::max( max_row, row );
     row = 0;
     col++;
 
@@ -301,7 +302,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     // =========================================================================================
     // fourth column of boxes
-    max_row = std::max(max_row, row);
+    max_row = std::max( max_row, row );
     row = 0;
     col++;
 
@@ -458,7 +459,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     // =========================================================================================
     // fifth column of boxes
-    max_row = std::max(max_row, row);
+    max_row = std::max( max_row, row );
     row = 0;
     col++;
 
@@ -811,7 +812,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     // =========================================================================================
     // sixth column of boxes
-    max_row = std::max(max_row, row);
+    max_row = std::max( max_row, row );
     row = 0;
     col++;
 
