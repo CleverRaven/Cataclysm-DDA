@@ -43,6 +43,22 @@
     "color": "light_blue"
   },
   {
+    "id": "afs_washing_machine",
+    "category": "veh_parts",
+    "type": "GENERIC",
+    "name": { "str": "vehicle washing machine" },
+    "copy-from": "washing_machine",
+    "description": "This refurbished washing machine has been stripped of much of its internal components and converted to run within vehicles.",
+    "symbol": "W",
+    "color": "light_blue",
+    "weight": "66 kg",
+    "volume": "500 L",
+    "longest_side": "116cm",
+    "price": 0,
+    "price_postapoc": 10,
+    "degradation_multiplier": 0
+  },
+  {
     "type": "GENERIC",
     "id": "afs_metal_rig",
     "copy-from": "vehicle_rig",
