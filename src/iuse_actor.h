@@ -515,7 +515,7 @@ class salvage_actor : public iuse_actor
 
         cata::optional<int> try_to_cut_up( Character &p, item &cutter, item_location &cut ) const;
         int time_to_cut_up( const item &it ) const;
-        bool valid_to_cut_up( const Character *const p, const item &it ) const;
+        bool valid_to_cut_up( const Character *p, const item &it ) const;
 
         explicit salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
 
