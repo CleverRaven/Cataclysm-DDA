@@ -1060,7 +1060,7 @@
     "looks_like": "f_machinery_light",
     "description": "This floor mounted machine contains all the levers, clamps and mounts required to remove or fit a tire, plus an integrated foot pump to inflate it.",
     "//": "Based on the Redline TC500M Manual Tire Changer",
-	"symbol": "7",
+    "symbol": "7",
     "color": "black_yellow",
     "move_cost_mod": -1,
     "coverage": 30,
