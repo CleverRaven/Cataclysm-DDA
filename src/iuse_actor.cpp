@@ -1541,8 +1541,8 @@ bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
     return true;
 }
 
-cata::optional<recipe> find_recipe( item x );
-cata::optional<recipe> find_recipe( item x )
+cata::optional<recipe> find_uncraft_recipe( item x );
+cata::optional<recipe> find_uncraft_recipe( item x )
 {
     auto iter = std::find_if( recipe_dict.begin(), recipe_dict.end(),
     [&]( const std::pair<const recipe_id, recipe> &curr ) {
@@ -1630,18 +1630,17 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             return;
         }
 
-        //items count by charges should be even smaller than base materials
+        // Non-salvageable items but made of appropriate material
+        // Items count by charges should be even smaller than base materials
         if( !curr.is_salvageable() || curr.count_by_charges() )
         {
-            // non-salvageable items but made of appropriate material, distribute uniformly to all materials
             distribute_uniformly( curr );
             return;
         }
 
-        //check if there are components defined
+        // Repeat for any components defined
         if( !curr.components.empty() )
         {
-            // push components into stack
             for( const item &iter : curr.components ) {
                 cut_up_component( iter );
             }
@@ -1649,20 +1648,19 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         }
 
         // Try to find an available recipe and "restore" its components
-        cata::optional<recipe> uncraft = find_recipe( curr );
+        cata::optional<recipe> uncraft = find_uncraft_recipe( curr );
         if( uncraft )
         {
             const requirement_data requirements = uncraft->simple_requirements();
-            // find default components set from recipe, push them into stack
+            // Find default components set from recipe
             for( const auto &altercomps : requirements.get_components() ) {
                 const item_comp &comp = altercomps.front();
-                // if count by charges
                 if( comp.type->count_by_charges() ) {
                     item next = item( comp.type, calendar::turn, comp.count );
                     cut_up_component( next );
                 } else {
+                    item next = item( comp.type, calendar::turn );
                     for( int i = 0; i < comp.count; i++ ) {
-                        item next = item( comp.type, calendar::turn );
                         cut_up_component( next );
                     }
                 }
