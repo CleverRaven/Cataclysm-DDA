@@ -2,8 +2,6 @@
   {
     "type": "npc",
     "id": "ancilla_barkeep",
-    "name_unique": "Jonah ",
-    "gender": "male",
     "name_suffix": "Bartender",
     "class": "NC_ANCILLA_BARTENDER",
     "attitude": 0,
@@ -87,7 +85,7 @@
     ]
   },
   {
-    "id": "TALK_ANCILLA_BARKEEP",
+    "id": [ "TALK_ANCILLA_BARKEEP", "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD" ],
     "type": "talk_topic",
     "dynamic_line": {
       "u_has_faction_trust": 10,
@@ -106,10 +104,18 @@
         "no": "Welcome to the Terminal, scavenger, longest standing underground bar in the state.  Feel free to ask if you need something."
       }
     },
+    "speaker_effect": {
+      "effect": [ { "u_add_var": "first_meet", "type": "dialogue", "context": "ancilla_barkeep", "value": "yes" } ],
+      "sentinel": "bar_meet"
+    },
     "responses": [
       { "text": "Let me see what you keep behind the counter.", "topic": "TALK_ANCILLA_BARKEEP", "effect": "start_trade" },
       { "text": "What do you have on tap?", "topic": "TALK_ANCILLA_BARKEEP_TAP" },
-      { "text": "There should be a package for me here.", "topic": "TALK_ANCILLA_BEM_SAMPLE_REWARD" },
+      {
+        "text": "There should be a package for me here.",
+        "condition": { "u_compare_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "op": ">=", "value": 1 },
+        "topic": "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD"
+      },
       { "text": "Any good rumours?", "topic": "TALK_ANCILLA_BARKEEP_INFORMATION" },
       { "text": "I'll be going…", "topic": "TALK_DONE" }
     ]
@@ -157,8 +163,13 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ANCILLA_BARKEEP_INFORMATION",
+    "id": "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD",
     "dynamic_line": "Oh yes of course, think this should be all, well thats all there is anyhow.",
-    "responses": [ { "text": "I'll ask around, thank you.", "topic": "TALK_ANCILLA_BARKEEP" } ]
+    "speaker_effect": {
+      "effect": [
+        { "u_adjust_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "adjustment": -1 },
+        { "u_spawn_item": "RobofacCoin", "count": 2 }
+      ]
+    }
   }
 ]

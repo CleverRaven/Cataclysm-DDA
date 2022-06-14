@@ -9,7 +9,7 @@
     "difficulty": 1,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true, "search_range": 40 },
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true, "search_range": 40, "z": 0 },
       "update_mapgen": {
         "place_terrain": [ { "ter": "t_pit_BEM_human_sample", "x": 9, "y": 3 } ],
         "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -31,7 +31,7 @@
     }
   },
   {
-    "id": "BEM_HUMAN_SAMPLE1",
+    "id": "BEM_HUMAN_SAMPLE_1",
     "type": "talk_topic",
     "dynamic_line": {
       "u_has_mission": "BEM_human_sample_mission",
@@ -109,7 +109,7 @@
   {
     "id": "BEM_HUMAN_SAMPLE_FINISH",
     "type": "talk_topic",
-    "dynamic_line": "&<mypronouns> quickly removes the offending piece of meat from your hand and places two golden coins in the table.  Apparently unshaken by the prospect of meeting someone who casually visits bars while carrying cuts of human flesh.  \"Now if you please, I have a meal to ger rid off.\" <mypronoun> says, between poorly masked bouts nausea.",
+    "dynamic_line": "&<mypronoun> quickly removes the offending piece of meat from your hand and places two golden coins in the table.  Apparently unshaken by the prospect of meeting someone who casually visits bars while carrying cuts of human flesh.  \"Now if you please, I have a meal to ger rid off.\" <mypronoun> says, between poorly masked bouts nausea.",
     "speaker_effect": { "effect": { "u_spawn_item": "RobofacCoin", "count": 2 } },
     "responses": [ { "text": "Leave.", "topic": "TALK_DONE", "effect": "end_conversation" } ]
   },
@@ -122,6 +122,12 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "EOC_BEM_HUMAN_SAMPLE_BUY_MAP",
-    "object": { "place_loot": [ { "item": "human_sample", "x": 13, "y": 4, "repeat": [ 1, 3 ] } ] }
+    "object": { "place_loot": [ { "group": "BEM_human_sample_drop", "x": 13, "y": 4, "repeat": [ 1, 3 ] } ] }
+  },
+  {
+    "id": "BEM_human_sample_drop",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "human_sample", "container-item": "flask_glass", "count": 3 } ]
   }
 ]

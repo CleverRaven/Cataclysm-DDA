@@ -10,7 +10,7 @@
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
     "bonus_per": { "rng": [ 0, 2 ] },
-    "worn_override": "NC_ANCILLA_GRUNT_worn",
+    "worn_override": "BEM_GUNRUNNER_worn",
     "carry_override": "NC_ANCILLA_GRUNT_carry",
     "weapon_override": "NC_ANCILLA_GRUNT_wield",
     "shopkeeper_item_group": "BEM_GUNRUNNER_STOCK",
@@ -19,6 +19,25 @@
       { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "BEM_GUNRUNNER_worn",
+    "subtype": "collection",
+    "items": [
+      { "group": "military_ballistic_vest_pristine" },
+      { "item": "legpouch_large", "contents-group": "army_mags_m4" },
+      { "group": "NC_BOUNTY_HUNTER_pants" },
+      { "item": "pants_army" },
+      { "group": "NC_BOUNTY_HUNTER_coat" },
+      { "item": "boots_combat" },
+      { "item": "duffelbag" },
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "holster" },
+      { "item": "survivor_machete", "container-item": "scabbard" },
+      { "item": "fancy_sunglasses" }
     ]
   },
   {
@@ -33,9 +52,9 @@
   {
     "id": [ "BEM_GUNRUNNER_1" ],
     "type": "talk_topic",
-    "dynamic_line": "&Their identity a pair of mirrored sunglasses .  \"Found this neat gizmo in a bank run a few days ago. <myprounoun> blurts while procuring a small cube of etched glass from <mypossesivepronoun> pocket.  \"Now, I have no use for such a thing, but perhaps you do.  What do you say? Its yours for 3 coins.",
+    "dynamic_line": "&You find the gun runner intently assessing the swirling smoke of a now stale cigarette.  <mypronoun> barely acknowledges your approach. \"Lets cut it short, I have come to an excess supply of exotic weaponry that needs expedient disappearing, and you look like just the kind.\" .\n\n<mypronoun> hands you an inventory list, roughly annotated in a piece of graph paper.\n\n\"No harm in looking right?.",
     "responses": [
-      { "text": "Sure, lest see what you offer", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES", "effect": "start_trade" },
+      { "text": "Sure, let see what you offer", "topic": "TALK_DONE", "effect": "start_trade" },
       { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
     ]
   }
