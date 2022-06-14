@@ -114,7 +114,9 @@
     "capacity": 12,
     "count": 12,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "oxygen": 12 }, "watertight": true, "airtight": true } ]
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "oxygen": 12 }, "watertight": true, "airtight": true }
+    ]
   },
   {
     "id": "syringe",
@@ -167,7 +169,9 @@
     "capacity": 24,
     "count": 24,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "oxygen": 24 }, "watertight": true, "airtight": true } ]
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "oxygen": 24 }, "watertight": true, "airtight": true }
+    ]
   },
   {
     "id": "vacutainer",

@@ -2892,7 +2892,7 @@
     "id": "scuba_harness",
     "type": "TOOL_ARMOR",
     "category": "other",
-    "name": { "str": "scuba harness" },
+    "name": { "str": "scuba harness", "str_pl": "scuba harnesses" },
     "description": "A harness worn on back designed to hold a gas tank, combined with a plastic mouthpiece designed to provide breathable air while underwater, if connected to a scuba tank.",
     "weight": "500 g",
     "volume": "1 L",
@@ -2914,7 +2914,7 @@
     "id": "scuba_harness_on",
     "type": "TOOL_ARMOR",
     "category": "other",
-    "name": { "str": "scuba harness (on)" },
+    "name": { "str": "scuba harness (on)", "str_pl": "scuba harnesses (on)" },
     "description": "A harness worn on back designed to hold a gas tank, combined with a plastic mouthpiece designed to provide breathable air while underwater, if connected to a scuba tank.",
     "weight": "500 g",
     "volume": "1 L",
@@ -2954,7 +2954,9 @@
     "capacity": 60,
     "count": 60,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 60 }, "watertight": true, "airtight": true } ]
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 60 }, "watertight": true, "airtight": true }
+    ]
   },
   {
     "id": "small_scuba_tank",
@@ -2974,7 +2976,9 @@
     "capacity": 20,
     "count": 20,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 20 }, "watertight": true, "airtight": true } ]
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 20 }, "watertight": true, "airtight": true }
+    ]
   },
   {
     "id": "electric_blanket",
