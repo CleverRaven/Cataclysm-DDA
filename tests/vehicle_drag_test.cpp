@@ -56,7 +56,6 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
     clear_vehicles();
   
     const tripoint map_starting_point( 60, 60, 0 );
-   
     vehicle *veh_ptr = get_map().add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
     // Ensure we have placed the vehicle   
