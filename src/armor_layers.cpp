@@ -84,48 +84,28 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
     return enumerate_as_string( names );
 }
 
-void draw_mid_pane( const catacurses::window &w_sort_middle,
-                    std::list<item>::const_iterator const worn_item_it,
-                    Character &c, const bodypart_id &bp )
+struct mid_pane_status {
+    size_t size;
+    int offset;
+};
+
+mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
+                               std::list<item>::const_iterator const worn_item_it,
+                               Character &c, const bodypart_id &bp,
+                               mid_pane_status &status )
 {
     const int win_width = getmaxx( w_sort_middle );
     const size_t win_height = static_cast<size_t>( getmaxy( w_sort_middle ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    size_t i = fold_and_print( w_sort_middle, point( 0, 0 ), win_width - 1, c_white,
-                               worn_item_it->type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 1, c,
-                                     bp );
-    nc_color color = c_light_gray;
-    for( std::string &iter : props ) {
-        print_colored_text( w_sort_middle, point( 1, ++i ), color, c_light_gray, iter );
-    }
-
-    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 1, bp );
-    if( i + prot.size() < win_height ) {
-        for( std::string &iter : prot ) {
-            print_colored_text( w_sort_middle, point( 1, ++i ), color, c_light_gray, iter );
-        }
-    } else {
-        return;
-    }
-
-    i++;
-    std::vector<std::string> layer_desc = foldstring( clothing_layer( *worn_item_it ), win_width );
-    if( i + layer_desc.size() < win_height && !clothing_layer( *worn_item_it ).empty() ) {
-        for( std::string &iter : layer_desc ) {
-            mvwprintz( w_sort_middle, point( 0, ++i ), c_light_blue, iter );
-        }
-    }
-
-    i++;
-    std::vector<std::string> desc = clothing_flags_description( *worn_item_it );
-    if( !desc.empty() ) {
-        for( size_t j = 0; j < desc.size() && i + j < win_height; ++j ) {
-            i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_blue, desc[j] );
-        }
-    }
-
+    size_t y_pos = fold_and_print( w_sort_middle, point( 0, 0 ), win_width - 1, c_white,
+                                   worn_item_it->type_name( 1 ) ) - 1;
+    ++y_pos;
     const item_penalties penalties = c.worn.get_item_penalties( worn_item_it, c, bp );
+    std::vector<std::string> mid_pane_text;
+    mid_pane_text.reserve(
+        40 ); //Assume 10 for properties, 15 for protection, 5 for layering, 10 for encumbrance
+    std::vector<std::string> temp_text;
+    temp_text.reserve( 40 );
 
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
         std::string layer_description = [&]() -> std::string {
@@ -172,7 +152,8 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                            penalties.body_parts_with_stacking_penalty.size() ),
                 layer_description, body_parts
             );
-        i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_gray, message );
+        temp_text = foldstring( message, win_width );
+        mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     }
 
     if( !penalties.body_parts_with_out_of_order_penalty.empty() ) {
@@ -200,8 +181,33 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                           bad_item_name, body_parts
                       );
         }
-        fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_gray, message );
+        temp_text = foldstring( message, win_width );
+        mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     }
+    mid_pane_text.emplace_back( "" );
+    temp_text = foldstring( clothing_layer( *worn_item_it ), win_width );
+    mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
+    temp_text = clothing_flags_description( *worn_item_it );
+    mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
+    mid_pane_text.emplace_back( "" );
+    temp_text = clothing_properties( *worn_item_it, win_width - 1, c, bp );
+    mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
+    mid_pane_text.emplace_back( "" );
+    temp_text = clothing_protection( *worn_item_it, win_width - 1, bp );
+    mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
+
+    status.size = mid_pane_text.size();
+
+    nc_color color = c_light_gray;
+    for( int line = status.offset; line < static_cast<int>( mid_pane_text.size() ); ++line ) {
+        if( y_pos + ( line - status.offset ) >= win_height ) {
+            return status;
+        } else {
+            print_colored_text( w_sort_middle, point( 0, y_pos + ( line - status.offset ) ), color,
+                                c_light_gray,  mid_pane_text[line] );
+        }
+    }
+    return status;
 }
 
 std::string clothing_layer( const item &worn_item )
@@ -615,6 +621,8 @@ void outfit::sort_armor( Character &guy )
     ctxt.register_action( "REMOVE_ARMOR" );
     ctxt.register_action( "USAGE_HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
 
     Character &player_character = get_player_character();
     auto do_return_entry = [&player_character]() {
@@ -625,6 +633,9 @@ void outfit::sort_armor( Character &guy )
 
     int leftListSize = 0;
     int rightListSize = 0;
+    mid_pane_status mid_pane;
+    mid_pane.size = 0;
+    mid_pane.offset = 0;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Create ptr list of items to display
@@ -744,7 +755,14 @@ void outfit::sort_armor( Character &guy )
 
         // Items stats
         if( leftListSize > 0 ) {
-            draw_mid_pane( w_sort_middle, tmp_worn[leftListIndex], guy, bp );
+            draw_mid_pane( w_sort_middle, tmp_worn[leftListIndex], guy, bp, mid_pane );
+            scrollbar() //Mid pane scrollbar
+            .offset_x( left_w + 1 ) //On left of mid pane
+            .offset_y( 4 ) //Header allowance
+            .content_size( mid_pane.size )
+            .viewport_pos( mid_pane.offset )
+            .viewport_size( cont_h - num_of_parts - 2 )
+            .apply( w_sort_armor );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             fold_and_print( w_sort_middle, point( 1, 0 ), middle_w - 1, c_white,
@@ -876,6 +894,7 @@ void outfit::sort_armor( Character &guy )
         };
 
         if( action == "UP" && leftListSize > 0 ) {
+            mid_pane.offset = 0;
             if( leftListIndex > 0 ) {
                 item &item_to_check = *tmp_worn[leftListIndex - 1];
                 if( selected < 0 || !item_to_check.has_flag( flag_INTEGRATED ) ) {
@@ -897,6 +916,7 @@ void outfit::sort_armor( Character &guy )
                 shift_selected_item();
             }
         } else if( action == "DOWN" && leftListSize > 0 ) {
+            mid_pane.offset = 0;
             if( leftListIndex + 1 < leftListSize ) {
                 leftListIndex++;
                 if( leftListIndex >= leftListOffset + leftListLines ) {
@@ -914,6 +934,7 @@ void outfit::sort_armor( Character &guy )
                 }
             }
         } else if( action == "LEFT" ) {
+            mid_pane.offset = 0;
             tabindex--;
             if( tabindex < 0 ) {
                 tabindex = tabcount - 1;
@@ -921,6 +942,7 @@ void outfit::sort_armor( Character &guy )
             leftListIndex = leftListOffset = 0;
             selected = -1;
         } else if( action == "RIGHT" ) {
+            mid_pane.offset = 0;
             tabindex = ( tabindex + 1 ) % tabcount;
             leftListIndex = leftListOffset = 0;
             selected = -1;
@@ -944,6 +966,7 @@ void outfit::sort_armor( Character &guy )
                 }
             }
         } else if( action == "CHANGE_SIDE" ) {
+            mid_pane.offset = 0;
             if( leftListIndex < leftListSize && tmp_worn[leftListIndex]->is_sided() ) {
                 if( player_character.query_yn( _( "Swap side for %s?" ),
                                                colorize( tmp_worn[leftListIndex]->tname(),
@@ -960,6 +983,7 @@ void outfit::sort_armor( Character &guy )
                 }
             }
         } else if( action == "SORT_ARMOR" ) {
+            mid_pane.offset = 0;
             // Copy to a vector because stable_sort requires random-access
             // iterators
             std::vector<item> worn_copy( worn.begin(), worn.end() );
@@ -975,6 +999,7 @@ void outfit::sort_armor( Character &guy )
             std::copy( worn_copy.begin(), worn_copy.end(), worn.begin() );
             guy.calc_encumbrance();
         } else if( action == "EQUIP_ARMOR" ) {
+            mid_pane.offset = 0;
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( guy );
             // only equip if something valid selected!
@@ -1008,6 +1033,7 @@ void outfit::sort_armor( Character &guy )
                 }
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
+            mid_pane.offset = 0;
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( guy, armor_cat[tabindex] );
             // only equip if something valid selected!
@@ -1039,6 +1065,7 @@ void outfit::sort_armor( Character &guy )
                 }
             }
         } else if( action == "REMOVE_ARMOR" ) {
+            mid_pane.offset = 0;
             // query (for now)
             if( leftListIndex < leftListSize ) {
                 if( player_character.query_yn( _( "Remove selected armor?" ) ) ) {
@@ -1079,6 +1106,15 @@ void outfit::sort_armor( Character &guy )
                         ++iiter;
                     }
                 }
+            }
+        } else if( action == "SCROLL_ITEM_INFO_UP" ) {
+            if( mid_pane.offset > 0 ) {
+                --mid_pane.offset;
+            }
+        } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
+            const int mid_pane_height = cont_h - num_of_parts - 2;
+            if( mid_pane.offset + mid_pane_height <= static_cast<int>( mid_pane.size ) ) {
+                ++mid_pane.offset;
             }
         } else if( action == "USAGE_HELP" ) {
             popup_getkey(
