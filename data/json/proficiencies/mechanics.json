@@ -12,6 +12,30 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_high_pressure_systems",
+    "category": "prof_mechanic",
+    "name": { "str": "High Pressure Systems" },
+    "description": "You know how to safely and efficiently build, repair, maintain and use various appliances that make use of high pressure.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_plumbing", "prof_basic_engines", "prof_appliance_repair", "prof_pneumatics" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_chemical_engineering",
+    "category": "prof_mechanic",
+    "name": { "str": "Chemical Engineering" },
+    "description": "You know how to safely and efficiently build, repair, maintain and use various complex machinery that makes use of chemical processes.",
+    "can_learn": true,
+    "default_time_multiplier": 2.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "20 h",
+    "required_proficiencies": [ "prof_high_pressure_systems", "prof_chem_synth" ]
+  },
+  {
+    "type": "proficiency",
     "id": "prof_pneumatics",
     "category": "prof_mechanic",
     "name": { "str": "Pneumatics" },

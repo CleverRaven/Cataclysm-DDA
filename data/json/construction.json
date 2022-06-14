@@ -3316,6 +3316,50 @@
   },
   {
     "type": "construction",
+    "id": "app_nitrogen_generator",
+    "group": "place_nitrogen_generator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "nitrogen_generator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_ammonia_machine_reactor",
+    "group": "place_ammonia_machine_reactor",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "ammonia_machine_reactor", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_ammonia_machine_pipework",
+    "group": "place_ammonia_machine_pipework",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "ammonia_machine_pipework", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_electrolyzer_makeshift",
+    "group": "place_electrolyzer_makeshift",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "electrolyzer_makeshift", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_forge",
     "group": "place_electric_forge",
     "category": "APPLIANCE",
