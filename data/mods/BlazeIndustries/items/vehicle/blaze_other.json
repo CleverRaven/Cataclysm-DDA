@@ -55,8 +55,7 @@
     "volume": "500 L",
     "longest_side": "116cm",
     "price": 0,
-    "price_postapoc": 10,
-    "degradation_multiplier": 0
+    "price_postapoc": 10
   },
   {
     "type": "GENERIC",
