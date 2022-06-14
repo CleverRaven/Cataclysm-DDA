@@ -141,9 +141,9 @@
         "________________________",
         "___R___,,,,,,_,,,,,,,,,,",
         "_______,,,,,,_,,,,,,,,,,",
-        ",,,,,,,,,,,,|_          ",
+        ",,,,,,,,,,,,|WWWWWWWWWWW",
         ",,,,,,,,,,,,|[==|====|==",
-        ",,,|        |A.A=ll 6h B",
+        ",,,|WWWWWWWW|A.A=ll 6h B",
         "||||========|A.A=  Ydd 7",
         "h ...AA...  +A.A[  Y   ^",
         "  6A.A@@..  |||||==[=|||",
@@ -151,7 +151,7 @@
         " ddA.A@@..  |||S|    +  ",
         "   A......  +...   Y |||",
         "||||========|...       ^",
-        ",,,|        |      Y t ?",
+        ",,,|WWWWWWWW|      Y t ?",
         "ssssssssssAA|AA ...  t ?",
         "_y______ssA.[.. ...  t ?",
         "_y______ssA.[AA ...Ya a^",
@@ -169,7 +169,7 @@
         "S": "t_secretdoor_concrete_o",
         "Y": "t_strconc_floor_olight"
       },
-      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", ":": "f_small_satelitte_dish" },
+      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", "W": "f_sandbag_wall", ":": "f_small_satelitte_dish" },
       "items": {
         "l": [
           { "item": "NC_ANCILLA_GRUNT_worn", "chance": 50 },

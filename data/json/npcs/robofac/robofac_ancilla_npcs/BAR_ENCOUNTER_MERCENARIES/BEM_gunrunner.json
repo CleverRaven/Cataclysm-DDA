@@ -52,7 +52,7 @@
   {
     "id": [ "BEM_GUNRUNNER_1" ],
     "type": "talk_topic",
-    "dynamic_line": "&You find the gun runner intently assessing the swirling smoke of a now stale cigarette.  <mypronoun> barely acknowledges your approach. \"Lets cut it short, I have come to an excess supply of exotic weaponry that needs expedient disappearing, and you look like just the kind.\" .\n\n<mypronoun> hands you an inventory list, roughly annotated in a piece of graph paper.\n\n\"No harm in looking right?.",
+    "dynamic_line": "&You find the gun runner intently assessing the swirling smoke of a now stale cigarette.  <mypronoun> barely acknowledges your approach.  \"Lets cut it short, I have come to an excess supply of exotic weaponry that needs expedient disappearing, and you look like just the kind.\" .\n\n<mypronoun> hands you an inventory list, roughly annotated in a piece of graph paper.\n\n\"No harm in looking right?.",
     "responses": [
       { "text": "Sure, let see what you offer", "topic": "TALK_DONE", "effect": "start_trade" },
       { "text": "Sorry, not interested.", "topic": "TALK_DONE" }

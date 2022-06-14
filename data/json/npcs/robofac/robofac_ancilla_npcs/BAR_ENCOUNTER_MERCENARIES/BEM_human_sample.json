@@ -87,7 +87,7 @@
   {
     "id": "BEM_HUMAN_SAMPLE_BUY",
     "type": "talk_topic",
-    "dynamic_line": "&The mercenary gives you a quick appraisal.  \"Five coins for three, special price just for you.  Pay in advance, and I'll arrange a drop in the subway rails here for you to pick within two days.  Deal or not? \"",
+    "dynamic_line": "&The mercenary gives you a quick appraisal.  \"Five coins for three, special price just for you.  Pay in advance, and I'll arrange a drop in the subway rails here for you to pick within two days.  Deal or not?",
     "responses": [
       {
         "text": "[5 HGC] Its a deal",
