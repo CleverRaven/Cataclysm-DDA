@@ -137,14 +137,14 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
                 CHECK( focus_lost == Approx( 180 ).margin( 90 ) );
             }
 
-            THEN( "they suffer about 2 pain per hour" ) {
+            // THEN( "they suffer about 2 pain per hour" ) {
                 // 1 pain per hour for unshaded eyes
                 // 1 pain per hour for exposed skin
                 // Without running a long test, chance of pain is too low to measure effectively
                 // This assertion will pass when pain is between 0 and 12 in an hour
                 //pain_felt = test_suffer_pain_felt( dummy, 1_hours );
                 //CHECK( pain_felt == Approx( 2 ).margin( 10 ) );
-            }
+            // }
         }
 
         WHEN( "wielding an umbrella and wearing sunglasses" ) {
@@ -165,8 +165,8 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
             dummy.worn.clear();
             dummy.wear_item( zentai, false );
 
-            WHEN( "not wearing sunglasses" ) {
-                REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
+            // WHEN( "not wearing sunglasses" ) {
+            //     REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
                 // 60 times * 1 bodyparts * 0.1 chance for severe effect
                 // THEN( "they suffer about 6 pain per hour" ) {
@@ -178,9 +178,9 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
                 //     focus_lost = test_suffer_focus_lost( dummy, 1_hours );
                 //     CHECK( focus_lost == Approx( 15 ).margin( 14 ) );
                 // }
-            }
+            // }
 
-            AND_WHEN( "wearing sunglasses" ) {
+            WHEN( "wearing sunglasses" ) {
                 dummy.wear_item( shades, false );
                 REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
@@ -232,7 +232,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             dummy.wear_item( shades, false );
             REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
-            THEN( "they suffer injuries on every body part" ) {
+            // THEN( "they suffer injuries on every body part" ) {
                 // Should lose an average of 1 HP per minute from each body part with hit points
                 // (head, torso, both arms, both legs)
                 // 60 * 0.1 * 2 (as two body parts contribute to each part with HP, e.g. l. arm + l. hand both damage l. arm)
@@ -241,7 +241,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                 //     CAPTURE( bp.id().str() );
                 //     CHECK( bp_hp_lost[bp] == Approx( 12 ).margin( 11 ) );
                 // }
-            }
+            // }
 
             THEN( "they suffer pain several times a minute" ) {
                 // 60 * 0.25 * 11 (num body parts, excluding eyes)
@@ -280,19 +280,20 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 1_hours );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
-                    if( bp == bodypart_id( "head" ) ) {
+                    // if( bp == bodypart_id( "head" ) ) {
                         // 60 * 0.1
                         // CHECK( bp_hp_lost[bp] == Approx( 6 ).margin( 4 ) );
-                    } else {
+                    // } else
+                    if( bp != bodypart_id( "head" ) ) {
                         CHECK( bp_hp_lost[bp] == 0 );
                     }
                 }
             }
-            THEN( "they suffer pain" ) {
+            // THEN( "they suffer pain" ) {
                 // 60 * 0.25
                 // pain_felt = test_suffer_pain_felt( dummy, 1_hours );
                 // CHECK( pain_felt == Approx( 15 ).margin( 14 ) );
-            }
+            // }
         }
 
         WHEN( "torso and arms are 90% covered" ) {
@@ -307,15 +308,16 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                     CAPTURE( bp.id().str() );
                     if( bp.id().str() == "torso" ) {
                         CHECK( bp_hp_lost[bp] == 0 );
-                    } else if( bp.id().str() == "arm_l" || bp.id().str() == "arm_r" ) {
+                    }
+                    // else if( bp.id().str() == "arm_l" || bp.id().str() == "arm_r" ) {
                         // Hands are exposed
                         // 120 * 0.1 * 1
                         // CHECK( bp_hp_lost[bp] == Approx( 12 ).margin( 11 ) );
-                    } else {
+                    // } else {
                         // legs+feet combine, and head+mouth combine (doubled damage)
                         // 120 * 0.1 * 2
                         // CHECK( bp_hp_lost[bp] == Approx( 24 ).margin( 23 ) );
-                    }
+                    // }
                 }
             }
         }
@@ -335,12 +337,12 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                     focus_lost = test_suffer_focus_lost( dummy, 1_hours );
                     CHECK( focus_lost == Approx( 39 ).margin( 30 ) );
                 }
-                THEN( "they suffer pain" ) {
+                // THEN( "they suffer pain" ) {
                     // 60 * 0.25
                     // from exposed eyes as they count as a fully exposed body part
                     // pain_felt = test_suffer_pain_felt( dummy, 1_hours );
                     // CHECK( pain_felt == Approx( 15 ).margin( 14 ) );
-                }
+                // }
             }
 
             WHEN( "wearing sunglasses" ) {
