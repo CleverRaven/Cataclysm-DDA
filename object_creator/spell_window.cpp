@@ -46,15 +46,13 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     spell_json.setReadOnly( true );
 
 
-
-
     // =========================================================================================
-    // first column of boxes
+    // first column of boxes (just the spell list)
     spell_items_box.setParent(this);
     spell_items_box.resize( QSize( default_text_box_width * 2, default_text_box_height * 30 ) );
     spell_items_box.move( QPoint( col * default_text_box_width, row * default_text_box_height) );
     spell_items_box.setToolTip( QString(
-        _("Various spells select one to see the details")) );
+        _("Various spells, select one to see the details")) );
     spell_items_box.show();
     for( const spell_type& sp_t : spell_type::get_all() ) {
         QListWidgetItem* new_item = new QListWidgetItem(
@@ -1263,21 +1261,30 @@ void creator::spell_window::populate_fields()
             description_box.setPlainText( QString( sp_t.description.translated().c_str() ) );
             int index = effect_box.findText( sp_t.effect_name.c_str() );
             if (index != -1) { // -1 for not found
-                effect_box.setCurrentIndex(index);
+                effect_box.setCurrentIndex( index );
             }
             effect_str_box.setText( QString( sp_t.effect_str.c_str() ) );
             const spell_shape cur_shape = sp_t.spell_area;
             index = shape_box.findText( QString( io::enum_to_string<spell_shape>( cur_shape ).c_str() ) );
             if ( index != -1 ) { // -1 for not found
-                shape_box.setCurrentIndex(index);
+                shape_box.setCurrentIndex( index );
             }
 
-            for ( int i = 0; i < static_cast<int>(spell_target::num_spell_targets); i++ ) {
-                if ( sp_t.valid_targets.test( static_cast<spell_target>( i ) ) ) {
-                    valid_targets_box.item( i )->setCheckState( Qt::Checked );
+            for( int i = 0; i < static_cast<int>(spell_target::num_spell_targets); i++ ) {
+                if( sp_t.valid_targets.test( static_cast<spell_target>(i)) ) {
+                    valid_targets_box.item(i)->setCheckState(Qt::Checked);
                 }
                 else {
-                    valid_targets_box.item( i )->setCheckState( Qt::Unchecked );
+                    valid_targets_box.item(i)->setCheckState(Qt::Unchecked);
+                }
+            }
+
+            for( int i = 0; i < static_cast<int>(spell_flag::LAST); i++ ) {
+                if ( sp_t.spell_tags.test(static_cast<spell_flag>(i)) ) {
+                    spell_flags_box.item(i)->setCheckState(Qt::Checked);
+                }
+                else {
+                    spell_flags_box.item(i)->setCheckState(Qt::Unchecked);
                 }
             }
             break;
