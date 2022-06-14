@@ -1430,12 +1430,23 @@ cata::optional<int> salvage_actor::use( Character &p, item &it, bool t, const tr
         return cata::nullopt;
     }
 
-    if( !try_to_cut_up( p, *item_loc.get_item() ) ) {
+    return salvage_actor::try_to_cut_up( p, it, item_loc );
+}
+
+cata::optional<int> salvage_actor::try_to_cut_up
+( Character &p, item &cutter, item_location &cut ) const
+{
+    if( !valid_to_cut_up( &p, *cut.get_item() ) ) {
         // Messages should have already been displayed.
         return cata::nullopt;
     }
 
-    return cut_up( p, it, item_loc );
+    if( &cutter == cut.get_item() ) {
+        add_msg( m_info, _( "You can not cut the %s with itself." ), cutter.tname() );
+        return false;
+    }
+
+    return salvage_actor::cut_up( p, cutter, cut );
 }
 
 // Helper to visit instances of all the sub-materials of an item.
@@ -1475,74 +1486,60 @@ int salvage_actor::time_to_cut_up( const item &it ) const
     return moves_per_part * count;
 }
 
-bool salvage_actor::valid_to_cut_up( const item &it ) const
+// If p is a nullptr, it does not print messages or query for confirmation
+// it here is the item that is a candidate for being cut up.
+bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) const
 {
-    if( it.is_null() ) {
-        return false;
-    }
     // There must be some historical significance to these items.
     if( !it.is_salvageable() ) {
-        return false;
-    }
-    if( !it.only_made_of( material_whitelist ) ) {
-        return false;
-    }
-    if( !it.empty() ) {
-        return false;
-    }
-    if( it.weight() < minimal_weight_to_cut( it ) ) {
-        return false;
-    }
-
-    return true;
-}
-
-// it here is the item that is a candidate for being chopped up.
-// This is the former valid_to_cut_up with all the messages and queries
-bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
-{
-    bool isWearing = p.is_worn( it );
-
-    if( it.is_null() ) {
-        add_msg( m_info, _( "You do not have that item." ) );
-        return false;
-    }
-    // There must be some historical significance to these items.
-    if( !it.is_salvageable() ) {
-        add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
+        if( p ) {
+            add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
+        }
         if( it.is_disassemblable() ) {
-            add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
+            if( p ) {
+                add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
+            }
         }
         return false;
     }
 
     if( !it.only_made_of( material_whitelist ) ) {
-        add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
+        if( p ) {
+            add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
+        }
         return false;
     }
     if( !it.empty() ) {
-        add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
+        if( p ) {
+            add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
+        }
         return false;
     }
     if( it.weight() < minimal_weight_to_cut( it ) ) {
-        add_msg( m_info, _( "The %s is too small to salvage material from." ), it.tname() );
+        if( p ) {
+            add_msg( m_info, _( "The %s is too small to salvage material from." ), it.tname() );
+        }
         return false;
     }
-    // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &p.get_wielded_item() ) {
-        if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
-            return false;
-        }
-    } else if( isWearing ) {
-        if( !query_yn( _( "You're wearing that, are you sure?" ) ) ) {
-            return false;
+    if( p ) {
+        // Softer warnings at the end so we don't ask permission and then tell them no.
+        if( &it == &p->get_wielded_item() ) {
+            if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
+                return false;
+            }
+        } else if( p->is_worn( it ) ) {
+            if( !query_yn( _( "You're wearing that, are you sure?" ) ) ) {
+                return false;
+            }
         }
     }
+
     return true;
 }
 
-cata::optional<recipe> find_uncraft_recipe( item x );
-cata::optional<recipe> find_uncraft_recipe( item x )
+// Find a recipe that can be used to craft item x. Searches craft and uncraft recipes
+// Used only by salvage_actor::cut_up
+static cata::optional<recipe> find_uncraft_recipe( item x )
 {
     auto iter = std::find_if( recipe_dict.begin(), recipe_dict.end(),
     [&]( const std::pair<const recipe_id, recipe> &curr ) {
@@ -1586,18 +1583,6 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
 {
     // What materials do we salvage (ids and counts).
     std::map<itype_id, int> materials_salvaged;
-
-    // Final just in case check (that perhaps was not done elsewhere);
-    if( cut.get_item() == &it ) {
-        add_msg( m_info, _( "You can not cut the %s with itself." ), it.tname() );
-        return 0;
-    }
-    if( !cut.get_item()->empty() ) {
-        // Should have been ensured by try_to_cut_up
-        debugmsg( "tried to cut a non-empty item %s", cut.get_item()->tname() );
-        return 0;
-    }
-
     std::map<itype_id, int> salvage;
     std::map<material_id, units::mass> mat_to_weight;
     std::set<material_id> mat_set;

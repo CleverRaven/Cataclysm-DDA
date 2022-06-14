@@ -1878,7 +1878,7 @@ class salvage_inventory_preset: public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return actor->valid_to_cut_up( *loc.get_item() );
+            return actor->valid_to_cut_up( nullptr, *loc.get_item() );
         }
 
     private:

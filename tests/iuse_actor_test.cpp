@@ -155,7 +155,7 @@ static void cut_up_yields( const std::string &target )
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 
-    test_actor.cut_up( guy, tool, item_loc );
+    test_actor.try_to_cut_up( guy, tool, item_loc );
 
     map_stack salvaged_items = here.i_at( guy.pos() );
     units::mass salvaged_mass = 0_gram;
