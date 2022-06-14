@@ -179,7 +179,7 @@ static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
 {
-void from_sunburn( Character &you, const bool severe );
+void from_sunburn( Character &you, bool severe );
 void in_sunlight( Character &you );
 void water_damage( Character &you, const trait_id &mut_id );
 void mutation_power( Character &you, const trait_id &mut_id );
@@ -904,7 +904,7 @@ static float heavy_eff_chance( float exp )
     return linear_interpolation( 0.15, 0.0, 1.0, 0.1, exp );
 }
 
-void suffer::from_sunburn( Character &you, const bool severe )
+void suffer::from_sunburn( Character &you, bool severe )
 {
     // Sunburn effects and albinism/datura occur about once per minute
     if( !one_turn_in( 1_minutes ) ) {
