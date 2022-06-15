@@ -11222,7 +11222,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 {
     const bool is_avatar = u.pos() == pos;
     const int omtilesz = SEEX * 2;
-    real_coords rc( mp.getabs( point( pos.x, pos.y ) ) );
+    real_coords rc( mp.getabs( pos.xy() ) );
     tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
     tripoint omtile_align_end( omtile_align_start + point( -1 + omtilesz, -1 + omtilesz ) );
 
