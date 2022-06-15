@@ -1258,6 +1258,8 @@ void creator::spell_window::populate_fields()
 
     for ( const spell_type& sp_t : spell_type::get_all() ) {
         if ( sp_t.id.c_str() == s ) {
+            editable_spell.targeted_monster_ids = sp_t.targeted_monster_ids; //Need to set this first to output the right json later
+            
             id_box.setText ( QString( sp_t.id.c_str() ) );
             name_box.setText( QString( sp_t.name.translated().c_str() ) );
             description_box.setPlainText( QString( sp_t.description.translated().c_str() ) );
