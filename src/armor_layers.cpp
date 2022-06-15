@@ -86,6 +86,7 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
 
 struct mid_pane_status {
     size_t size;
+    size_t header_lines;
     int offset;
 };
 
@@ -97,9 +98,8 @@ mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
     const int win_width = getmaxx( w_sort_middle );
     const size_t win_height = static_cast<size_t>( getmaxy( w_sort_middle ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    size_t y_pos = fold_and_print( w_sort_middle, point( 0, 0 ), win_width - 1, c_white,
-                                   worn_item_it->type_name( 1 ) ) - 1;
-    ++y_pos;
+    status.header_lines = fold_and_print( w_sort_middle, point( 0, 0 ), win_width - 1, c_white,
+                                          worn_item_it->type_name( 1 ) ) - 1;
     const item_penalties penalties = c.worn.get_item_penalties( worn_item_it, c, bp );
     std::vector<std::string> mid_pane_text;
     mid_pane_text.reserve(
@@ -200,10 +200,11 @@ mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
 
     nc_color color = c_light_gray;
     for( int line = status.offset; line < static_cast<int>( mid_pane_text.size() ); ++line ) {
-        if( y_pos + ( line - status.offset ) >= win_height ) {
+        size_t current_line = status.header_lines + 1 + line - status.offset;
+        if( current_line >= win_height ) {
             return status;
         } else {
-            print_colored_text( w_sort_middle, point( 0, y_pos + ( line - status.offset ) ), color,
+            print_colored_text( w_sort_middle, point( 0, current_line ), color,
                                 c_light_gray,  mid_pane_text[line] );
         }
     }
@@ -637,6 +638,7 @@ void outfit::sort_armor( Character &guy )
     mid_pane_status mid_pane;
     mid_pane.size = 0;
     mid_pane.offset = 0;
+    mid_pane.header_lines = 1;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Create ptr list of items to display
@@ -759,10 +761,10 @@ void outfit::sort_armor( Character &guy )
             draw_mid_pane( w_sort_middle, tmp_worn[leftListIndex], guy, bp, mid_pane );
             scrollbar() //Mid pane scrollbar
             .offset_x( left_w + 1 ) //On left of mid pane
-            .offset_y( 4 ) //Header allowance
+            .offset_y( 4 + mid_pane.header_lines )
             .content_size( mid_pane.size )
             .viewport_pos( mid_pane.offset )
-            .viewport_size( cont_h - num_of_parts - 3 )
+            .viewport_size( cont_h - num_of_parts - 3 - mid_pane.header_lines )
             .apply( w_sort_armor );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
