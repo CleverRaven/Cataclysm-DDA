@@ -3795,6 +3795,7 @@
       { "point": [ 1, 0, 0 ], "overmap": "cemetery_4square_10_north" },
       { "point": [ 0, 1, 0 ], "overmap": "cemetery_4square_01_north" },
       { "point": [ 1, 1, 0 ], "overmap": "cemetery_4square_11_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "cemetery_4square_11_roof_north" },
       { "point": [ 0, 2, 0 ], "overmap": "road_end_south" }
     ],
     "connections": [ { "point": [ 0, 2, 0 ] } ],
@@ -4193,7 +4194,11 @@
   {
     "type": "overmap_special",
     "id": "cemetery",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "Cemetery_1a_north" }, { "point": [ 1, 0, 0 ], "overmap": "Cemetery_1b_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "Cemetery_1a_roof_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "Cemetery_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "Cemetery_1b_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 2, 5 ],
@@ -7777,6 +7782,8 @@
     "type": "overmap_special",
     "id": "gas station bunker",
     "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "s_gas_g0_roof_south" },
+      { "point": [ 0, 1, 1 ], "overmap": "s_gas_g1_roof_south" },
       { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_south" },
       { "point": [ 0, 1, 0 ], "overmap": "s_gas_g1_south" },
       { "point": [ 0, 1, -1 ], "overmap": "s_gas_b11_south" },

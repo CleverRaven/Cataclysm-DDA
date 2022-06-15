@@ -617,7 +617,7 @@
     "color": "magenta",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "INDOORS", "TRANSPARENT", "FLAT" ]
+    "flags": [ "INDOORS", "TRANSPARENT", "FLAT", "ELEVATOR" ]
   },
   {
     "type": "terrain",
