@@ -16,7 +16,7 @@
     "name": "Passed Out",
     "points": 1,
     "description": "// todo..",
-    "allowed_locs": [ "sloc_sewer" ],
+    "allowed_locs": [ "sloc_grotto" ],
     "professions": [ "homeless" ],
     "flags": [ "LONE_START" ],
     "start_name": "Unfamiliar Surroundings"
