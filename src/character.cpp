@@ -6100,18 +6100,18 @@ void Character::mod_rad( int mod )
 int Character::leak_level()
 {
     int ret = 0;
-	
-	for( const item_location &item_loc : all_items_loc() ){
-		const item *it = item_loc.get_item();
-		if( it->has_flag( flag_RADIOACTIVE ) ) {
-			if( it->has_flag( flag_LEAK_ALWAYS ) ) {
-				ret += 100 * it->volume() / units::legacy_volume_factor;
-			} else if( it->has_flag( flag_LEAK_DAM ) && it->damage() > 0 ) {
-				ret += it->damage_level();
-			}
-		}
-	}
-	
+
+    for( const item_location &item_loc : all_items_loc() ) {
+        const item *it = item_loc.get_item();
+        if( it->has_flag( flag_RADIOACTIVE ) ) {
+            if( it->has_flag( flag_LEAK_ALWAYS ) ) {
+                ret += 100 * it->volume() / units::legacy_volume_factor;
+            } else if( it->has_flag( flag_LEAK_DAM ) && it->damage() > 0 ) {
+                ret += it->damage_level();
+            }
+        }
+    }
+
     return ret;
 }
 
