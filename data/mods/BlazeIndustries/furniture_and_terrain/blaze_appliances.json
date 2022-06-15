@@ -126,7 +126,7 @@
   },
   {
     "type": "vehicle_part",
-    "id": "afs_washing_machine",
+    "id": "blaze_washing_machine",
     "copy-from": "washing_machine",
     "name": { "str": "full-size washing machine" },
     "symbol": "W",

@@ -43,7 +43,7 @@
     "color": "light_blue"
   },
   {
-    "id": "afs_washing_machine",
+    "id": "blaze_washing_machine",
     "category": "veh_parts",
     "type": "GENERIC",
     "name": { "str": "vehicle washing machine" },
