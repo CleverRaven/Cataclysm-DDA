@@ -58,7 +58,7 @@
     "type": "proficiency",
     "id": "prof_wp_basic_bug",
     "category": "prof_weakpoint",
-    "name": { "str": "Invertibrate Biology" },
+    "name": { "str": "Invertebrate Biology" },
     "description": "Basic familiarity with various types of insects, arachnids, and worms.",
     "can_learn": true,
     "time_to_learn": "8 h",
