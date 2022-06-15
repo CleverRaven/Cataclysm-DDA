@@ -8,7 +8,7 @@
   {
     "id": "mon_orc_warrior",
     "type": "MONSTER",
-    "name": { "str": "Orc Warrior" },
+    "name": { "str": "orc warrior" },
     "description": "This green brute is a orc warrior.  It stares at you menacingly, sword in hand.",
     "default_faction": "orcs",
     "bodytype": "human",
@@ -91,11 +91,12 @@
     "id": "mon_orc_blood_warrior",
     "type": "MONSTER",
     "copy-from": "mon_orc_warrior",
-    "name": { "str": "Blood Orc" },
+    "name": { "str": "blood orc" },
     "description": "This bloody red brute is a orc warrior.  He stares at you menacingly, weapon in hand; this one seems to have bathed himself in the blood of his enemies.",
     "hp": 97,
     "dodge": 3,
     "aggression": 100,
+    "color": "red",
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "death_drops": {
