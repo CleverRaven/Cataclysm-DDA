@@ -517,23 +517,28 @@ std::vector<layering_item_info> outfit::items_cover_bp( const Character &c, cons
     return s;
 }
 
-static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pane_w )
+static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pane_w,
+                       int encumb_top )
 {
     const int win_w = getmaxx( w );
     const int win_h = getmaxy( w );
 
     draw_border( w );
     mvwhline( w, point( 1, 2 ), 0, win_w - 2 );
+    mvwhline( w, point( left_pane_w + 2, encumb_top - 1 ), 0, mid_pane_w );
     mvwvline( w, point( left_pane_w + 1, 3 ), 0, win_h - 4 );
     mvwvline( w, point( left_pane_w + mid_pane_w + 2, 3 ), 0, win_h - 4 );
 
     // intersections
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_XXXO );
-    mvwputch( w, point( win_w - 1, 2 ), BORDER_COLOR, LINE_XOXX );
-    mvwputch( w, point( left_pane_w + 1, 2 ), BORDER_COLOR, LINE_OXXX );
-    mvwputch( w, point( left_pane_w + 1, win_h - 1 ), BORDER_COLOR, LINE_XXOX );
-    mvwputch( w, point( left_pane_w + mid_pane_w + 2, 2 ), BORDER_COLOR, LINE_OXXX );
-    mvwputch( w, point( left_pane_w + mid_pane_w + 2, win_h - 1 ), BORDER_COLOR, LINE_XXOX );
+    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_XXXO ); // '|-'
+    mvwputch( w, point( win_w - 1, 2 ), BORDER_COLOR, LINE_XOXX ); // '-|'
+    mvwputch( w, point( left_pane_w + 1, encumb_top - 1 ), BORDER_COLOR, LINE_XXXO ); // '|-'
+    mvwputch( w, point( left_pane_w + mid_pane_w + 2, encumb_top - 1 ), BORDER_COLOR,
+              LINE_XOXX ); // '-|'
+    mvwputch( w, point( left_pane_w + 1, 2 ), BORDER_COLOR, LINE_OXXX ); // '^|^'
+    mvwputch( w, point( left_pane_w + 1, win_h - 1 ), BORDER_COLOR, LINE_XXOX ); // '_|_'
+    mvwputch( w, point( left_pane_w + mid_pane_w + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // '^|^'
+    mvwputch( w, point( left_pane_w + mid_pane_w + 2, win_h - 1 ), BORDER_COLOR, LINE_XXOX ); // '_|_'
 
     wnoutrefresh( w );
 }
@@ -558,6 +563,7 @@ void outfit::sort_armor( Character &guy )
     int left_w   = 0;
     int right_w  = 0;
     int middle_w = 0;
+    int encumb_top = 0;
 
     int tabindex = 0;
     const int tabcount = num_of_parts + 1;
@@ -596,12 +602,13 @@ void outfit::sort_armor( Character &guy )
         w_sort_armor = catacurses::newwin( win_h, win_w, win );
         w_sort_cat = catacurses::newwin( 1, win_w - 4, win + point( 2, 1 ) );
         w_sort_left = catacurses::newwin( cont_h, left_w, win + point( 1, 3 ) );
-        w_sort_middle = catacurses::newwin( cont_h - num_of_parts - 1, middle_w,
+        w_sort_middle = catacurses::newwin( cont_h - num_of_parts - 2, middle_w,
                                             win + point( 2 + left_w, 3 ) );
         w_sort_right = catacurses::newwin( cont_h, right_w,
                                            win + point( 3 + left_w + middle_w, 3 ) );
+        encumb_top = -1 + 3 + cont_h - num_of_parts;
         w_encumb = catacurses::newwin( num_of_parts + 1, middle_w,
-                                       win + point( 2 + left_w, -1 + 3 + cont_h - num_of_parts ) );
+                                       win + point( 2 + left_w, encumb_top ) );
         ui.position_from_window( w_sort_armor );
     } );
     ui.mark_resize();
@@ -659,7 +666,7 @@ void outfit::sort_armor( Character &guy )
         int new_index_upper_bound = std::max( 0, leftListSize - 1 );
         leftListIndex = std::min( leftListIndex, new_index_upper_bound );
 
-        draw_grid( w_sort_armor, left_w, middle_w );
+        draw_grid( w_sort_armor, left_w, middle_w, encumb_top );
 
         werase( w_sort_cat );
         werase( w_sort_left );
@@ -761,7 +768,7 @@ void outfit::sort_armor( Character &guy )
             .offset_y( 4 ) //Header allowance
             .content_size( mid_pane.size )
             .viewport_pos( mid_pane.offset )
-            .viewport_size( cont_h - num_of_parts - 2 )
+            .viewport_size( cont_h - num_of_parts - 3 )
             .apply( w_sort_armor );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1112,7 +1119,7 @@ void outfit::sort_armor( Character &guy )
                 --mid_pane.offset;
             }
         } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
-            const int mid_pane_height = cont_h - num_of_parts - 2;
+            const int mid_pane_height = cont_h - num_of_parts - 3;
             if( mid_pane.offset + mid_pane_height <= static_cast<int>( mid_pane.size ) ) {
                 ++mid_pane.offset;
             }
