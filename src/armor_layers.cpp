@@ -43,7 +43,7 @@ std::vector<std::string> clothing_properties(
     const item &worn_item, int width, const Character &, const bodypart_id &bp );
 std::vector<std::string> clothing_protection( const item &worn_item, int width,
         const bodypart_id &bp );
-std::vector<std::string> clothing_flags_description( const item &worn_item );
+std::vector<std::string> clothing_flags_description( const item &worn_item, const int width );
 
 std::string body_part_names( const std::vector<bodypart_id> &parts )
 {
@@ -187,7 +187,7 @@ mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
     mid_pane_text.emplace_back( "" );
     temp_text = foldstring( clothing_layer( *worn_item_it ), win_width );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
-    temp_text = clothing_flags_description( *worn_item_it );
+    temp_text = clothing_flags_description( *worn_item_it, win_width );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     mid_pane_text.emplace_back( "" );
     temp_text = clothing_properties( *worn_item_it, win_width - 1, c, bp );
@@ -344,48 +344,42 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     return prot;
 }
 
-std::vector<std::string> clothing_flags_description( const item &worn_item )
+std::vector<std::string> clothing_flags_description( const item &worn_item, const int width )
 {
-    std::vector<std::string> description_stack;
+    std::vector<std::string> description_stack, current_description;
 
+    //Handle flag_FIT and flag_VARSIZE as a special case
     if( worn_item.has_flag( flag_FIT ) ) {
-        description_stack.emplace_back( _( "It fits you well." ) );
+        current_description = foldstring( _( "It fits you well." ), width );
+        description_stack.insert( description_stack.end(), current_description.begin(),
+                                  current_description.end() );
     } else if( worn_item.has_flag( flag_VARSIZE ) ) {
-        description_stack.emplace_back( _( "It could be refitted." ) );
+        current_description = foldstring( _( "It could be refitted." ), width );
+        description_stack.insert( description_stack.end(), current_description.begin(),
+                                  current_description.end() );
     }
 
-    if( worn_item.has_flag( flag_HOOD ) ) {
-        description_stack.emplace_back( _( "It has a hood." ) );
-    }
-    if( worn_item.has_flag( flag_POCKETS ) ) {
-        description_stack.emplace_back( _( "It has pockets." ) );
-    }
-    if( worn_item.has_flag( flag_SUN_GLASSES ) ) {
-        description_stack.emplace_back( _( "It keeps the sun out of your eyes." ) );
-    }
-    if( worn_item.has_flag( flag_WATERPROOF ) ) {
-        description_stack.emplace_back( _( "It is waterproof." ) );
-    }
-    if( worn_item.has_flag( flag_WATER_FRIENDLY ) ) {
-        description_stack.emplace_back( _( "It is water friendly." ) );
-    }
-    if( worn_item.has_flag( flag_FANCY ) ) {
-        description_stack.emplace_back( _( "It looks fancy." ) );
-    }
-    if( worn_item.has_flag( flag_SUPER_FANCY ) ) {
-        description_stack.emplace_back( _( "It looks really fancy." ) );
-    }
-    if( worn_item.has_flag( flag_FLOTATION ) ) {
-        description_stack.emplace_back( _( "You will not drown today." ) );
-    }
-    if( worn_item.has_flag( flag_OVERSIZE ) ) {
-        description_stack.emplace_back( _( "It is very bulky." ) );
-    }
-    if( worn_item.has_flag( flag_SWIM_GOGGLES ) ) {
-        description_stack.emplace_back( _( "It helps you to see clearly underwater." ) );
-    }
-    if( worn_item.has_flag( flag_SEMITANGIBLE ) ) {
-        description_stack.emplace_back( _( "It can occupy the same space as other things." ) );
+    //Handle all other flags:
+    const std::vector<std::pair<flag_id, std::string>> flag_descriptions = {
+        { flag_HOOD, "It has a hood." },
+        { flag_POCKETS, "It has pockets." },
+        { flag_SUN_GLASSES, "It keeps the sun out of your eyes." },
+        { flag_WATERPROOF, "It is waterproof." },
+        { flag_WATER_FRIENDLY, "It is water friendly." },
+        { flag_FANCY, "It looks fancy." },
+        { flag_SUPER_FANCY, "It looks really fancy." },
+        { flag_FLOTATION, "You will not drown today." },
+        { flag_OVERSIZE, "It is very bulky." },
+        { flag_SWIM_GOGGLES, "It helps you to see clearly underwater." },
+        { flag_SEMITANGIBLE, "It can occupy the same space as other things." }
+    };
+
+    for( const std::pair<flag_id, std::string> &flag_pair : flag_descriptions ) {
+        if( worn_item.has_flag( std::get<0>( flag_pair ) ) ) {
+            current_description = foldstring( _( std::get<1>( flag_pair ) ), width );
+            description_stack.insert( description_stack.end(), current_description.begin(),
+                                      current_description.end() );
+        }
     }
 
     return description_stack;
