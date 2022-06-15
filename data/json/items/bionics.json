@@ -339,9 +339,9 @@
     "id": "bio_eye_optic",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Telescopic Eyes CBM" },
+    "name": { "str": "Telescopic Lenses CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "An array of high-powered, auto-focusing lenses that replaces much of the material in the inner eye.  This fixes any vision problems and allows for an increased vision range akin to binoculars.",
+    "description": "An array of high-powered, auto-focusing lenses that replaces your natural lenses.  This fixes any mundane vision problems and allows for an increased vision range akin to binoculars.  Once installed they will be impossible to remove, having replaced part of your eyes.",
     "price": 500000,
     "weight": "100 g",
     "difficulty": 5

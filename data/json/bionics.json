@@ -863,34 +863,12 @@
   {
     "id": "bio_eye_optic",
     "type": "bionic",
-    "name": { "str": "Telescopic Eyes" },
-    "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
+    "name": { "str": "Telescopic Lenses" },
+    "description": "The lenses in your eyes have been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any mundane vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
     "flags": [ "ENHANCED_VISION" ],
     "cant_remove_reason": "The Telescopic Lenses are part of %1$s eyes now.  Removing them would leave %2$s blind.",
-    "canceled_mutations": [
-      "HYPEROPIC",
-      "MYOPIC",
-      "URSINE_EYE",
-      "NIGHTVISION3",
-      "NIGHTVISION2",
-      "NIGHTVISION",
-      "BIRD_EYE",
-      "COMPOUND_EYES",
-      "LIZ_IR",
-      "CEPH_VISION",
-      "CEPH_EYES",
-      "ELFA_FNV",
-      "ELFA_NV",
-      "ELFAEYES",
-      "FEL_NV",
-      "FEL_EYE",
-      "INFRARED",
-      "LIZ_EYE",
-      "EYEBULGE",
-      "SEESLEEP"
-    ],
-    "mutation_conflicts": [ "EYESTALKS1", "EYESTALKS2" ]
+    "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ]
   },
   {
     "id": "bio_face_mask",
