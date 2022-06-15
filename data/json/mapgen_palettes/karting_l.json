@@ -4,7 +4,7 @@
     "id": "karting_l",
     "terrain": {
       "+": "t_door_c",
-      "|": "t_wall",
+      "|": "t_sconc_wall",
       ".": "t_pavement",
       "K": "t_pavement",
       "1": "t_window",
