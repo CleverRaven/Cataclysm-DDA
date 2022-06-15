@@ -184,15 +184,12 @@ mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
         temp_text = foldstring( message, win_width );
         mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     }
-    mid_pane_text.emplace_back( "" );
     temp_text = foldstring( clothing_layer( *worn_item_it ), win_width );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     temp_text = clothing_flags_description( *worn_item_it, win_width );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
-    mid_pane_text.emplace_back( "" );
     temp_text = clothing_properties( *worn_item_it, win_width - 1, c, bp );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
-    mid_pane_text.emplace_back( "" );
     temp_text = clothing_protection( *worn_item_it, win_width - 1, bp );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
 
@@ -1115,7 +1112,7 @@ void outfit::sort_armor( Character &guy )
                 --mid_pane.offset;
             }
         } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
-            const int mid_pane_height = cont_h - num_of_parts - 3;
+            const int mid_pane_height = cont_h - num_of_parts - 2 - mid_pane.header_lines;
             if( mid_pane.offset + mid_pane_height <= static_cast<int>( mid_pane.size ) ) {
                 ++mid_pane.offset;
             }
