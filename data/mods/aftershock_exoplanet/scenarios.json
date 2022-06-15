@@ -9,5 +9,16 @@
     "professions": [ "afs_espatier", "afs_rating" ],
     "flags": [ "LONE_START" ],
     "start_name": "Escape Pod"
+  },
+  {
+    "type": "scenario",
+    "id": "passedout",
+    "name": "Passed Out",
+    "points": 1,
+    "description": "// todo..",
+    "allowed_locs": [ "sloc_sewer" ],
+    "professions": [ "homeless" ],
+    "flags": [ "LONE_START" ],
+    "start_name": "Unfamiliar Surroundings"
   }
 ]
