@@ -6105,7 +6105,7 @@ int Character::leak_level()
         const item *it = item_loc.get_item();
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
-                ret += 100 * it->volume() / units::legacy_volume_factor;
+                ret += it->volume() / units::legacy_volume_factor;
             } else if( it->has_flag( flag_LEAK_DAM ) && it->damage() > 0 ) {
                 ret += it->damage_level();
             }
