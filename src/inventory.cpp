@@ -782,23 +782,6 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
     return ret;
 }
 
-int inventory::leak_level( const flag_id &flag ) const
-{
-    int ret = 0;
-
-    for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.has_flag( flag ) ) {
-                if( elem_stack_iter.has_flag( flag_LEAK_ALWAYS ) ) {
-                    ret += elem_stack_iter.volume() / units::legacy_volume_factor;
-                } else if( elem_stack_iter.has_flag( flag_LEAK_DAM ) && elem_stack_iter.damage() > 0 ) {
-                    ret += elem_stack_iter.damage_level();
-                }
-            }
-        }
-    }
-    return ret;
-}
 
 int inventory::worst_item_value( npc *p ) const
 {

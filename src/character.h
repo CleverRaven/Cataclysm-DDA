@@ -2052,8 +2052,8 @@ class Character : public Creature, public visitable
 
         bool covered_with_flag( const flag_id &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
-        // Carried items may leak radiation or chemicals
-        int leak_level( const flag_id &flag ) const;
+        // Amount of radiation (mSv) leaked from carried items.
+        int leak_level();
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
