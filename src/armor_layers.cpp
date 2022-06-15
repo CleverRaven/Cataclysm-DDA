@@ -1117,38 +1117,50 @@ void outfit::sort_armor( Character &guy )
                 ++mid_pane.offset;
             }
         } else if( action == "USAGE_HELP" ) {
-            popup_getkey(
-                _( "Use the [<color_yellow>arrow- or keypad keys</color>] to navigate the left list.\n"
-                   "[<color_yellow>%s</color>] to select highlighted armor for reordering.\n"
-                   "[<color_yellow>%s</color>] / [<color_yellow>%s</color>] to scroll the right list.\n"
-                   "[<color_yellow>%s</color>] to assign special inventory letters to clothing.\n"
-                   "[<color_yellow>%s</color>] to change the side on which item is worn.\n"
-                   "[<color_yellow>%s</color>] to toggle armor visibility on character sprite.\n"
-                   "[<color_yellow>%s</color>] to sort armor into natural layer order.\n"
-                   "[<color_yellow>%s</color>] to equip a new item.\n"
-                   "[<color_yellow>%s</color>] to equip a new item at the currently selected position.\n"
-                   "[<color_yellow>%s</color>] to remove selected armor from oneself.\n"
-                   "\n"
-                   "\n"
-                   "Encumbrance explanation:\n"
-                   "\n"
-                   "<color_light_gray>The first number is the summed encumbrance from all clothing "
-                   "on that bodypart.  The second number is an additional encumbrance penalty "
-                   "caused by wearing either multiple items on one of the bodypart's layers or "
-                   "wearing items the wrong way (e.g. a shirt over a backpack).  "
-                   "The sum of these values is the effective encumbrance value "
-                   "your character has for that bodypart.</color>" ),
-                ctxt.get_desc( "MOVE_ARMOR" ),
-                ctxt.get_desc( "PREV_TAB" ),
-                ctxt.get_desc( "NEXT_TAB" ),
-                ctxt.get_desc( "ASSIGN_INVLETS" ),
-                ctxt.get_desc( "CHANGE_SIDE" ),
-                ctxt.get_desc( "TOGGLE_CLOTH" ),
-                ctxt.get_desc( "SORT_ARMOR" ),
-                ctxt.get_desc( "EQUIP_ARMOR" ),
-                ctxt.get_desc( "EQUIP_ARMOR_HERE" ),
-                ctxt.get_desc( "REMOVE_ARMOR" )
-            );
+            const std::vector<std::string> help_strings = {
+                string_format( _( "[<color_yellow>%s</color>]/[<color_yellow>%s</color>] to scroll the left pane (list of items).\n" ),
+                               ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ) ),
+                string_format( _( "[<color_yellow>%s</color>]/[<color_yellow>%s</color>] to scroll the middle list (item information).\n" ),
+                               ctxt.get_desc( "SCROLL_ITEM_INFO_UP" ), ctxt.get_desc( "SCROLL_ITEM_INFO_DOWN" ) ),
+                string_format( _( "[<color_yellow>%s</color>]/[<color_yellow>%s</color>] to scroll the right list (items grouped by body part).\n" ),
+                               ctxt.get_desc( "PREV_TAB" ), ctxt.get_desc( "NEXT_TAB" ) ),
+                string_format( _( "[<color_yellow>%s</color>]/[<color_yellow>%s</color>] to limit the left pane to a particular body part.\n" ),
+                               ctxt.get_desc( "LEFT" ), ctxt.get_desc( "RIGHT" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to select an item for reordering.\n" ),
+                               ctxt.get_desc( "MOVE_ARMOR" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to assign special inventory letters to clothing.\n" ),
+                               ctxt.get_desc( "ASSIGN_INVLETS" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to change the side on which item is worn.\n" ),
+                               ctxt.get_desc( "CHANGE_SIDE" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to toggle item visibility on character sprite.\n" ),
+                               ctxt.get_desc( "TOGGLE_CLOTH" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to sort worn items into natural layer order.\n" ),
+                               ctxt.get_desc( "SORT_ARMOR" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to equip a new item.\n" ),
+                               ctxt.get_desc( "EQUIP_ARMOR" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to equip a new item at the currently selected position.\n" ),
+                               ctxt.get_desc( "EQUIP_ARMOR_HERE" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to remove selected item from oneself.\n" ),
+                               ctxt.get_desc( "REMOVE_ARMOR" ) ),
+                "\n",
+                _( "Encumbrance explanation:\n" ),
+                _( "<color_light_gray>The first number is the summed encumbrance from all clothing on that bodypart."
+                   "The second number is an additional encumbrance penalty caused by wearing either multiple items "
+                   "on one of the bodypart's layers or wearing items the wrong way (e.g. a shirt over a backpack)."
+                   "The sum of these values is the effective encumbrance value your character has for that bodypart."
+                   "</color>" )
+            };
+            std::string assembled_string = "";
+            for( std::string current_line : help_strings ) {
+                assembled_string += current_line;
+            }
+
+            const auto new_win = []() {
+                return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
+                                                  std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
+            };
+            scrollable_text( new_win, _( "Sort armor help" ), assembled_string );
         } else if( action == "QUIT" ) {
             exit = true;
         }
