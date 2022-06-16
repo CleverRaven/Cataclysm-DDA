@@ -359,17 +359,17 @@ std::vector<std::string> clothing_flags_description( const item &worn_item, cons
 
     //Handle all other flags:
     const std::vector<std::pair<flag_id, std::string>> flag_descriptions = {
-        { flag_HOOD, "It has a hood." },
-        { flag_POCKETS, "It has pockets." },
-        { flag_SUN_GLASSES, "It keeps the sun out of your eyes." },
-        { flag_WATERPROOF, "It is waterproof." },
-        { flag_WATER_FRIENDLY, "It is water friendly." },
-        { flag_FANCY, "It looks fancy." },
-        { flag_SUPER_FANCY, "It looks really fancy." },
-        { flag_FLOTATION, "You will not drown today." },
-        { flag_OVERSIZE, "It is very bulky." },
-        { flag_SWIM_GOGGLES, "It helps you to see clearly underwater." },
-        { flag_SEMITANGIBLE, "It can occupy the same space as other things." }
+        { flag_HOOD, translate_marker( "It has a hood." ) },
+        { flag_POCKETS, translate_marker( "It has pockets." ) },
+        { flag_SUN_GLASSES, translate_marker( "It keeps the sun out of your eyes." ) },
+        { flag_WATERPROOF, translate_marker( "It is waterproof." ) },
+        { flag_WATER_FRIENDLY, translate_marker( "It is water friendly." ) },
+        { flag_FANCY, translate_marker( "It looks fancy." ) },
+        { flag_SUPER_FANCY, translate_marker( "It looks really fancy." ) },
+        { flag_FLOTATION, translate_marker( "You will not drown today." ) },
+        { flag_OVERSIZE, translate_marker( "It is very bulky." ) },
+        { flag_SWIM_GOGGLES, translate_marker( "It helps you to see clearly underwater." ) },
+        { flag_SEMITANGIBLE, translate_marker( "It can occupy the same space as other things." ) }
     };
 
     for( const std::pair<flag_id, std::string> &flag_pair : flag_descriptions ) {
