@@ -434,7 +434,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     } while( action != "CONFIRM" && action != "QUIT" );
 }
 
-/*If name and value fit in field_width, should add a single string equivlaent to trimmed_name_and_value
+/*If name and value fit in field_width, should add a single string equivalent to trimmed_name_and_value
  *If the name would not fit, it is folded, preserving an empty column for values, and
  *The resulting vector of strings is returned
  */
