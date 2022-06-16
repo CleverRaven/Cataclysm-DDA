@@ -2387,7 +2387,7 @@
     "type": "GENERIC",
     "id": "mortar_lime",
     "symbol": "%",
-    "color": "gray",
+    "color": "white",
     "name": { "str_sp": "lime mortar" },
     "description": "Some lime mortar, made from quicklime and aggregate and ready for building.",
     "category": "spare_parts",

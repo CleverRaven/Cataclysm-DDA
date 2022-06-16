@@ -1069,7 +1069,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ " mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_dirt",
     "post_terrain": "t_brick_wall_halfway"
   },
@@ -1082,7 +1082,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ " mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_brick_wall"
   },
@@ -1485,7 +1485,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ], [ " mortar_lime", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_rock_wall_half"
   },
@@ -1498,7 +1498,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ " mortar_lime", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_rock_wall"
   },
@@ -1815,7 +1815,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ " mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_embrasure_brick"
   },
@@ -1868,7 +1868,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ " mortar_lime", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_embrasure_rock"
   },
