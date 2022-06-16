@@ -5387,7 +5387,7 @@
     ],
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "LAKE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6021,7 +6021,7 @@
     "city_sizes": [ 4, 20 ],
     "occurrences": [ 0, 1 ],
     "connections": [ { "point": [ 2, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 3, 0 ] } ],
-    "flags": [ "LAKE" ]
+    "flags": [ "CLASSIC", "LAKE" ]
   },
   {
     "type": "overmap_special",
@@ -7663,7 +7663,7 @@
     "locations": [ "lake_surface" ],
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "LAKE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
