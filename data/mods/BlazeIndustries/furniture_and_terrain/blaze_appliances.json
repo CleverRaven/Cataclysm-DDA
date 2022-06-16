@@ -123,5 +123,20 @@
       { "item": "food_processor", "charges": 0, "prob": 50 },
       { "item": "press", "prob": 50 }
     ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "blaze_washing_machine",
+    "copy-from": "washing_machine",
+    "name": { "str": "full-size washing machine" },
+    "symbol": "W",
+    "categories": [ "cargo" ],
+    "color": "light_blue",
+    "looks_like": "f_washer",
+    "durability": 200,
+    "description": "A medium-sized household washing machine, converted to utilize vehicle power.  When turned on, filthy items will be laundered.",
+    "epower": -400,
+    "size": 540,
+    "item": "household_washing_machine"
   }
 ]
