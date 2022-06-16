@@ -3986,8 +3986,15 @@ void mapgen_palette::reset()
 void mapgen_palette::add( const mapgen_value<std::string> &rh, const add_palette_context &context )
 {
     std::vector<std::string> possible_values = rh.all_possible_results( *context.parameters );
-    cata_assert( !possible_values.empty() );
-    if( possible_values.size() == 1 ) {
+    if( possible_values.empty() ) {
+        if( const std::string *param_name = rh.get_name_if_parameter() ) {
+            debugmsg( "Parameter %s used for palette id in %s but has no possible values",
+                      *param_name, context.context );
+        } else {
+            debugmsg( "Mapgen value for used for palette id in %s has no possible values",
+                      context.context );
+        }
+    } else if( possible_values.size() == 1 ) {
         add( palette_id( possible_values.front() ), context );
     } else {
         std::string param_name;
