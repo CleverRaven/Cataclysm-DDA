@@ -533,7 +533,7 @@
       { "item": "chem_washing_soda", "prob": 20, "charges-min": 1 },
       { "item": "chem_baking_soda", "prob": 20, "charges-min": 1 },
       { "item": "ammonia_hydroxide", "prob": 24, "charges-min": 1 },
-      { "item": "butane_can", "prob": 10 },
+      { "item": "butane_can", "prob": 10 }, 
       { "item": "milk_powder", "prob": 15 },
       { "item": "powder_eggs", "prob": 20 },
       {
