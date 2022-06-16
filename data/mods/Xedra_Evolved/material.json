@@ -107,5 +107,26 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "GOOD"
+  },
+  {
+    "type": "material",
+    "id": "dreamstuff",
+    "name": "Dreamdross",
+    "//": "Brass is the base metal with one fourth the density and added breathability",
+    "density": 2.2,
+    "specific_heat_liquid": 0.49,
+    "specific_heat_solid": 0.39,
+    "latent_heat": 205,
+    "bash_resist": 3,
+    "cut_resist": 4,
+    "bullet_resist": 2,
+    "acid_resist": 16,
+    "fire_resist": 2,
+    "conductive": true,
+    "chip_resist": 15,
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "breathability": "GOOD"
   }
 ]
