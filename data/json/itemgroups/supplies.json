@@ -25,6 +25,8 @@
       [ "transponder", 30 ],
       [ "light_bulb", 60 ],
       [ "lightstrip_inactive", 60 ],
+      [ "compressor", 10 ],
+      [ "hd_compressor", 2 ],
       [ "motor_small", 10 ],
       [ "motor_tiny", 30 ],
       [ "motor_micro", 40 ],
@@ -266,8 +268,18 @@
       { "item": "wire", "prob": 50, "count": [ 1, 10 ] },
       { "item": "wire_barbed", "prob": 20, "count": [ 1, 10 ] },
       [ "duct_tape", 60 ],
+      [ "compressor", 5 ],
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
+      [ "nitrogen_membrane_filter", 1 ],
+      [ "hd_pipe", 5 ],
+      [ "hd_pipe_fittings", 5 ],
+      [ "hd_valve", 5 ],
+      [ "pressure_gauge", 5 ],
+      [ "pyrometer", 2 ],
+      [ "hd_compressor", 1 ],
+      [ "large_pressure_vessel", 1 ],
+      [ "small_pressure_vessel", 1 ],
       [ "bearing", 1 ],
       { "group": "writing_utensils", "prob": 25 },
       [ "cu_pipe", 50 ],
@@ -350,6 +362,18 @@
       [ "oxygen_cylinder", 8 ],
       { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
       { "item": "chem_ethanol", "prob": 10, "charges-min": 250 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "supplies_fluid_catalytic_lab",
+    "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
+    "items": [
+      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "cooking_oil", "prob": 100, "count": 4, "charges-min": 10 },
+      { "item": "chem_washing_soda", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "cooking_oil2", "prob": 100, "count": 4, "charges-min": 10 },
+      { "item": "lamp_oil", "prob": 100, "count": 4, "charges-min": 10 }
     ]
   },
   {

@@ -120,6 +120,7 @@ linked sections:
 | --                      | --                    | --
 | arrange                 | string                | For "layout" style, display child widgets as "rows" or "columns"
 | bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
+| separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | [colors](#colors)       | list of strings       | Color names in a spectrum across variable range
 | [direction](#direction) | string                | Cardinal compass direction like "N" or "SE"
 | [fill](#fill)           | string                | For [graph style](#graph-style), fill using ike "bucket" or "pool"

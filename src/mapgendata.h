@@ -193,7 +193,7 @@ class mapgendata
 
         bool has_flag( jmapgen_flags ) const;
 
-        bool has_join( const cube_direction, const std::string &join_id ) const;
+        bool has_join( cube_direction, const std::string &join_id ) const;
 
         bool has_predecessor() const;
         const oter_id &last_predecessor() const;

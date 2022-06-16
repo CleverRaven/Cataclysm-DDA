@@ -94,6 +94,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
                 }
                 validate_part_count( *veh, 0, angle, original_parts, fake_parts,
                                      active_fakes_by_angle.at( sub_angle ) );
+                REQUIRE( tested_a_fake );
             }
         }
     }
