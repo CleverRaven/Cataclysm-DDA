@@ -1,16 +1,21 @@
 [
   {
+    "type": "palette",
+    "id": "fbmh_2_any_palette",
+    "parameters": {
+      "fbmh_2_generic_palette": {
+        "type": "palette_id",
+        "scope": "omt",
+        "default": { "distribution": [ "fbmh_2_log_palette", "fbmh_2_migo_resin_palette" ] }
+      }
+    },
+    "palettes": [ { "param": "fbmh_2_generic_palette" } ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_2_generic_room_1_1",
     "object": {
-      "parameters": {
-        "fbmh_2_generic_palette": {
-          "type": "palette_id",
-          "scope": "omt",
-          "default": { "distribution": [ "fbmh_2_log_palette", "fbmh_2_migo_resin_palette" ] }
-        }
-      },
       "mapgensize": [ 6, 6 ],
       "rows": [
         "  wwww",
@@ -20,7 +25,7 @@
         "      ",
         "      "
       ],
-      "palettes": [ { "param": "fbmh_2_generic_palette" } ]
+      "palettes": [ "fbmh_2_any_palette" ]
     }
   },
   {

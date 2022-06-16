@@ -3985,7 +3985,8 @@ void mapgen_palette::reset()
 
 void mapgen_palette::add( const mapgen_value<std::string> &rh, const add_palette_context &context )
 {
-    std::vector<std::string> possible_values = rh.all_possible_results( *context.parameters );
+    std::vector<std::string> possible_values =
+        rh.all_possible_results( *context.current_parameters );
     if( possible_values.empty() ) {
         if( const std::string *param_name = rh.get_name_if_parameter() ) {
             debugmsg( "Parameter %s used for palette id in %s but has no possible values",
@@ -4002,7 +4003,7 @@ void mapgen_palette::add( const mapgen_value<std::string> &rh, const add_palette
             param_name = *name;
         } else {
             const auto param_it =
-                context.parameters->add_unique_parameter(
+                context.top_level_parameters->add_unique_parameter(
                     "palette_choice_", rh, cata_variant_type::palette_id,
                     mapgen_parameter_scope::overmap_special );
             param_name = param_it->first;
@@ -4040,6 +4041,7 @@ void mapgen_palette::add( const mapgen_palette &rh, const add_palette_context &c
     }
     add_palette_context new_context = context;
     new_context.ancestors.push_back( rh.id );
+    new_context.current_parameters = &rh.parameters;
 
     for( const mapgen_value<std::string> &recursive_palette : rh.palettes_used ) {
         add( recursive_palette, new_context );
@@ -4146,7 +4148,8 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
 mapgen_palette::add_palette_context::add_palette_context(
     const std::string &ctx, mapgen_parameters *params )
     : context( ctx )
-    , parameters( params )
+    , top_level_parameters( params )
+    , current_parameters( params )
 {}
 
 bool mapgen_function_json::setup_internal( const JsonObject &jo )
