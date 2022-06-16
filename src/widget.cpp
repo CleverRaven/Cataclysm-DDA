@@ -618,7 +618,7 @@ void widget::set_default_var_range( const avatar &ava )
             break;
         case widget_var::bp_encumb:
             _var_min = 0;
-            _var_max = 100; // ???
+            _var_max = 100; // TODO: Is this the correct max value?
             break;
         case widget_var::bp_warmth:
             // From weather.h: Body temperature is measured on a scale of 0u to 10000u,
@@ -628,7 +628,7 @@ void widget::set_default_var_range( const avatar &ava )
             break;
         case widget_var::bp_wetness:
             _var_min = 0;
-            _var_max = 100; // ???
+            _var_max = 1000; // TODO: Is this the correct max value?
             break;
         default:
             break;
