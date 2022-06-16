@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "result": "ammonia",
+    "result": "ammonia_hydroxide",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",

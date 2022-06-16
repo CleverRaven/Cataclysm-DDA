@@ -2653,8 +2653,8 @@
   },
   {
     "type": "material",
-    "id": "ammonia",
-    "name": "Ammonia",
+    "id": "ammonia_hydroxide",
+    "name": "Ammonia Hydroxide",
     "specific_heat_liquid": 3.13,
     "specific_heat_solid": 4.22,
     "latent_heat": 332,
