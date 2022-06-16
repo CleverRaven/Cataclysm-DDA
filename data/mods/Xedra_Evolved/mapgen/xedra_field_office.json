@@ -70,7 +70,7 @@
         { "vehicle": "car", "x": 40, "y": 40, "rotation": 90, "chance": 25 },
         { "vehicle": "beetle", "x": 28, "y": 40, "rotation": 270, "chance": 25 }
       ],
-      "place_monsters": [ { "monster": "GROUP_GOBLIN_SPIDER", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 } ],
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_SPIDER", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.4 } ],
       "place_fields": [
         { "field": "fd_web", "x": [ 5, 23 ], "y": [ 4, 16 ], "repeat": 60 },
         { "field": "fd_web", "x": [ 26, 40 ], "y": [ 4, 16 ], "repeat": 60 },
@@ -137,6 +137,7 @@
         "ssssss______ss______ssssssssssssssssssssssssssss"
       ],
       "palettes": [ "field_office_palette" ],
+      "place_monsters": [ { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 10, 38 ], "y": [ 10, 38 ], "chance": 2, "repeat": [ 1, 4 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ],
@@ -439,10 +440,10 @@
         }
       ],
       "place_monsters": [
-        { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.3 },
-        { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 24, 43 ], "y": [ 29, 47 ], "density": 0.3 },
-        { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 4, 23 ], "y": [ 0, 18 ], "density": 0.3 },
-        { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 24, 43 ], "y": [ 24, 42 ], "density": 0.3 }
+        { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.4 },
+        { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 24, 43 ], "y": [ 29, 47 ], "density": 0.4 },
+        { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 4, 23 ], "y": [ 0, 18 ], "density": 0.4 },
+        { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 24, 43 ], "y": [ 24, 42 ], "density": 0.4 }
       ],
       "palettes": [ "field_office_palette" ]
     }
