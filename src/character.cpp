@@ -6100,8 +6100,8 @@ void Character::mod_rad( int mod )
 int Character::leak_level()
 {
     float ret = 0;
-	
-	// This is bad way to calculate radiatio and should be rewritten some day.
+
+    // This is bad way to calculate radiatio and should be rewritten some day.
     for( const item_location &item_loc : all_items_loc() ) {
         const item *it = item_loc.get_item();
         if( it->has_flag( flag_RADIOACTIVE ) ) {
