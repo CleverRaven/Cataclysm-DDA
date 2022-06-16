@@ -6099,15 +6099,16 @@ void Character::mod_rad( int mod )
 
 int Character::leak_level()
 {
-    int ret = 0;
-
+    float ret = 0;
+	
+	// This is bad way to calculate radiatio and should be rewritten some day.
     for( const item_location &item_loc : all_items_loc() ) {
         const item *it = item_loc.get_item();
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
-                ret += it->volume() / units::legacy_volume_factor;
+                ret += to_gram( it->weight() ) / 250.f;
             } else if( it->has_flag( flag_LEAK_DAM ) && it->damage() > 0 ) {
-                ret += it->damage_level();
+                ret += to_gram( it->weight() ) / 250.f * clamp( 2 * it->damage() / it->max_damage(), 0, 1 );
             }
         }
     }
