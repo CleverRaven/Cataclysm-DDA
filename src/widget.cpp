@@ -1,5 +1,6 @@
 #include "widget.h"
 
+#include "bodypart.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "condition.h"
@@ -618,7 +619,8 @@ void widget::set_default_var_range( const avatar &ava )
             break;
         case widget_var::bp_encumb:
             _var_min = 0;
-            _var_max = 100; // TODO: Is this the correct max value?
+            // Encumbrance can be higher but has no effect above the limit
+            _var_max = encumbrance_limit;
             break;
         case widget_var::bp_warmth:
             // From weather.h: Body temperature is measured on a scale of 0u to 10000u,
