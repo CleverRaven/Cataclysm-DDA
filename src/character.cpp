@@ -5873,6 +5873,12 @@ int Character::base_bmr() const
     Values are for males, and average!
     */
     const int equation_constant = 5;
+    /*
+    There is a temporary fix in get_cardiofit() function that subtracts excessive stamina gained from weight for overweight characters.
+    This temporary fix should be replaced with proper formula.
+
+    FIXME: update weight_factor formula so it limits amount of stamina gain for overweight characters.
+    */
     const int weight_factor = units::to_gram<int>( bodyweight() / 100.0 );
     const int height_factor = 6.25 * height();
     const int age_factor = 5 * age();
@@ -6291,9 +6297,13 @@ int Character::get_cardiofit() const
     int base_cardio_fitness = bmr / 2 + athletics_mod + health_effect + prof_mod + cardio_acc_mod;
 
     float player_weight_modifier = 1.0f;
-    // TODO: add values for underweight characters
-    // It's not realistic to start losing max stamina immediately after character hits the overweight threshold
-    // So let's make character feel the effects of overweight when he is halfway to being obese
+    /*
+    The code snippet below is a temporary band-aid to make overweight characters not gain tons of stamina from their weight thanks to base_bmr() function.
+    It subtracts excessive stamina after max stamina calculations, but it should be replaced with proper formula which adds some limit for max stamina for overweight characters.
+
+    FIXME: update formula in base_bmr() function.
+    TODO: add values for underweight characters. Or remove this snippet if formula eventually gets an update.
+    */
     if( get_bmi() >
         ( character_weight_category::obese + character_weight_category::overweight ) / 2.0f ) {
         player_weight_modifier = std::pow( 1.095f,
