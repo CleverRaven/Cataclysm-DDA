@@ -710,6 +710,28 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
+        for( auto itt = obj.armor->sub_data.begin(); itt != obj.armor->sub_data.end(); ++itt ) {
+            // using empty to signify it has already been consolidated
+            if( !itt->sub_coverage.empty() ) {
+                //check if any further entries should be combined with this one
+                for( auto comp_itt = std::next( itt ); comp_itt != obj.armor->sub_data.end(); ++comp_itt ) {
+                    if( armor_portion_data::should_consolidate( *itt, *comp_itt ) ) {
+                        // they are the same so add the covers and sub covers to the original and then clear them from the other
+                        itt->covers->unify_set( comp_itt->covers.value() );
+                        itt->sub_coverage.insert( comp_itt->sub_coverage.begin(), comp_itt->sub_coverage.end() );
+                        comp_itt->covers->clear();
+                        comp_itt->sub_coverage.clear();
+                    }
+                }
+            }
+        }
+        //remove any now empty entries
+        auto remove_itt = std::remove_if( obj.armor->sub_data.begin(),
+        obj.armor->sub_data.end(), [&]( const armor_portion_data & data ) {
+            return data.sub_coverage.empty() && data.covers.value().none();
+        } );
+        obj.armor->sub_data.erase( remove_itt, obj.armor->sub_data.end() );
+
         // now consolidate all the loaded sub_data to one entry per body part
         for( const armor_portion_data &sub_armor : obj.armor->sub_data ) {
             // for each body part this covers we need to add to the overall data for that bp
