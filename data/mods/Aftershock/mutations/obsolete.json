@@ -114,7 +114,6 @@
     "description": "Short fur has grown to cover your entire body, providing slight protection from cold.",
     "valid": false,
     "types": [ "SKIN" ],
-    "prereqs": [ "SHORTFUR" ],
     "changes_to": [ "MEDIUMFUR" ]
   },
   {
