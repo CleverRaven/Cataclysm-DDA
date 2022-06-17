@@ -235,7 +235,7 @@
       },
       "place_fields": [ { "field": "fd_blood", "x": [ 10, 16 ], "y": [ 13, 15 ], "repeat": [ 3, 7 ] } ],
       "place_npcs": [ { "class": "derelict_dweller", "x": 11, "y": 15 } ],
-      "place_vehicles": [ { "chance": 75, "rotation": 270, "vehicle": "canoe", "x": [ 0, 23 ], "y": [ 12, 15 ] } ]
+      "place_vehicles": [ { "chance": 75, "rotation": 270, "vehicle": "canoe", "x": [ 0, 23 ], "y": [ 2, 5 ] } ]
     }
   },
   {
