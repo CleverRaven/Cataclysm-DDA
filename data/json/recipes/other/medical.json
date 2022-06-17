@@ -10,7 +10,7 @@
     "time": "30 s",
     "autolearn": true,
     "components": [
-      [ [ "rag", 3 ], [ "medical_gauze", 1 ] ],
+      [ [ "cotton_patchwork", 3 ], [ "medical_gauze", 1 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
       [
         [ "disinfectant", 5 ],
@@ -32,7 +32,7 @@
     "autolearn": true,
     "charges": 1,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 1 ] ] ]
   },
   {
     "result": "bandages_makeshift_bleached",
@@ -204,7 +204,7 @@
     "autolearn": true,
     "charges": 2,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "rag", 2 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 2 ] ], [ [ "disinfectant", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -307,7 +307,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ], [ [ "rag", 2 ] ] ]
+    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ], [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -334,7 +334,7 @@
     "time": "5 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "cotton_patchwork", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ], [ "mop", 2 ] ]
     ]
@@ -351,7 +351,7 @@
     "time": "2 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 5 ], [ "medical_gauze", 2 ] ],
+      [ [ "cotton_patchwork", 5 ], [ "medical_gauze", 2 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ]
     ]
@@ -368,7 +368,7 @@
     "time": "2 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 2 ], [ "medical_gauze", 1 ] ],
+      [ [ "cotton_patchwork", 2 ], [ "medical_gauze", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 25 ], [ "medical_tape", 10 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ]
     ]
@@ -385,7 +385,7 @@
     "time": "2 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "cotton_patchwork", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ], [ "mop", 2 ] ]
     ]
@@ -402,7 +402,7 @@
     "time": "2 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "cotton_patchwork", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 4 ], [ "broom", 4 ], [ "2x4", 4 ], [ "pool_cue", 4 ], [ "mop", 4 ] ]
     ]
@@ -419,7 +419,7 @@
     "time": "2 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 5 ], [ "medical_gauze", 2 ] ],
+      [ [ "cotton_patchwork", 5 ], [ "medical_gauze", 2 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ]
     ]
@@ -449,7 +449,7 @@
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_carpentry_basic" } ],
     "components": [
-      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "cotton_patchwork", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
     ]

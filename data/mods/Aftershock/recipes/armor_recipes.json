@@ -11,7 +11,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 14 ] ],
-    "components": [ [ [ "afs_scrap_titanium", 8 ] ], [ [ "rag", 6 ] ] ]
+    "components": [ [ [ "afs_scrap_titanium", 8 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "afs_recall_rig",

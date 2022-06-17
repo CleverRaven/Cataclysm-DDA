@@ -68,7 +68,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 190 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 4 ] ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "cotton_patchwork", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
   },
   {
@@ -82,7 +82,7 @@
     "time": "4 h 30 m",
     "byproducts": [ [ "leather", 21 ] ],
     "using": [ [ "sewing_standard", 30 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "rag", 18 ] ] ],
+    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "cotton_patchwork", 18 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
@@ -115,7 +115,7 @@
       ],
       [ [ "salt", 150 ] ],
       [ [ "leather", 105 ], [ "tanned_hide", 17 ] ],
-      [ [ "rag", 18 ] ]
+      [ [ "cotton_patchwork", 18 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -145,7 +145,7 @@
     "difficulty": 4,
     "time": "6 h 30 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 6 ] ],
+    "byproducts": [ [ "cotton_patchwork", 6 ] ],
     "using": [ [ "sewing_standard", 35 ], [ "clasps", 4 ] ],
     "components": [ [ [ "bone_sturdy", 39, "LIST" ] ], [ [ "leather_armor_elephant", 1 ] ] ],
     "proficiencies": [
@@ -221,7 +221,7 @@
     "autolearn": true,
     "using": [ [ "clasps", 4 ] ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "duct_tape", 350 ] ], [ [ "bag_plastic", 70 ] ], [ [ "rag", 70 ] ] ],
+    "components": [ [ [ "duct_tape", 350 ] ], [ [ "bag_plastic", 70 ] ], [ [ "cotton_patchwork", 70 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
   },
   {
