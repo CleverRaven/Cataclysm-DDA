@@ -595,7 +595,7 @@ static void check_has_cyclic_dependency( const trait_id &mid )
 {
     std::vector<trait_id> already_visited;
     if( ::has_cyclic_dependency( mid, already_visited ) ) {
-        debugmsg( "mutation %s references itself in either of it's prerequsition branches. Program will crash if player would gain this mutation.",
+        debugmsg( "mutation %s references itself in either of it's prerequsition branches.  Program will crash if player would gain this mutation.",
                   mid.c_str() );
     }
 }
@@ -609,7 +609,7 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
         }
 
         if( m == mid ) {
-            debugmsg( "mutation %s refers to itself in %s context. Program will crash if player would gain this mutation",
+            debugmsg( "mutation %s refers to itself in %s context.  Program will crash if player would gain this mutation",
                       mid.c_str(), what.c_str() );
         }
     }
