@@ -1054,11 +1054,12 @@
     "name": "swirling vortex",
     "color": "green",
     "symbol": "#",
-    "visibility": 5,
+    "visibility": -1,
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
+    "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "portal_dungeon_entrance" }
   },
   {
@@ -1083,12 +1084,12 @@
     "name": "hole to outside",
     "color": "green",
     "symbol": "#",
-    "visibility": 5,
+    "visibility": -1,
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
-    "flags": [ "UNCONSUMED" ],
+    "flags": [ "UNCONSUMED", "UNDODGEABLE" ],
     "spell_data": { "id": "portal_dungeon_exit" }
   },
   {
@@ -1113,12 +1114,12 @@
     "name": "Swirling vortex",
     "color": "blue",
     "symbol": "#",
-    "visibility": 5,
+    "visibility": -1,
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
-    "flags": [ "UNCONSUMED" ],
+    "flags": [ "UNCONSUMED", "UNDODGEABLE" ],
     "spell_data": { "id": "portal_dungeon_next_level" }
   },
   {

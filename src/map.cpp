@@ -113,6 +113,7 @@ static const efftype_id effect_crushed( "crushed" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
+static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
@@ -8721,7 +8722,7 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
         return;
     }
 
-    if( may_avoid && c.avoid_trap( pos, tr ) ) {
+    if( !tr.has_flag( json_flag_UNDODGEABLE ) && may_avoid && c.avoid_trap( pos, tr ) ) {
         Character *const pl = c.as_character();
         if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
             pl->add_msg_if_player( _( "You've spotted a %1$s!" ), tr.name() );
