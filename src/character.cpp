@@ -6108,7 +6108,7 @@ int Character::leak_level()
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
                 ret += to_gram( it->weight() ) / 250.f;
             } else if( it->has_flag( flag_LEAK_DAM ) && it->damage() > 0 ) {
-                ret += to_gram( it->weight() ) / 250.f * clamp( 2 * it->damage() / it->max_damage(), 0, 1 );
+                ret += it->damage_level();
             }
         }
     }
