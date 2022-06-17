@@ -3071,13 +3071,13 @@
     "symbol": ",",
     "color": "dark_gray",
     "name": { "str": "neoprene patch", "str_pl": "neoprene patches" },
-    "description": "A moderately sized sheet of neoprene.  Can be used to craft light and stretchable clothing.",
+    "description": "A small neoprene patch.  Can be used to repair neoprene clothing.",
     "price": 1000,
     "price_postapoc": 100,
     "material": [ "neoprene" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "80 g",
-    "volume": "250 ml",
+    "weight": "3 g",
+    "volume": "23 ml",
     "category": "spare_parts"
   },
   {

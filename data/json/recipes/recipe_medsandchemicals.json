@@ -579,7 +579,11 @@
     "using": [ [ "sewing_standard", 1 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "rag", 1 ], [ "bag_plastic", 1 ], [ "heatpack_used", 1 ] ], [ [ "oxy_powder", 5 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "cotton_patchwork", 1 ], [ "bag_plastic", 1 ], [ "heatpack_used", 1 ] ],
+      [ [ "oxy_powder", 5 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1447,7 +1451,7 @@
     "tools": [
       [ [ "pointy_stick", -1 ], [ "pipe", -1 ] ],
       [ [ "flask_glass", -1 ] ],
-      [ [ "rag", -1 ] ],
+      [ [ "cotton_patchwork", -1 ] ],
       [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "closed_loop_extractor_small", 50 ] ],
       [ [ "vac_pump", 300 ] ],
@@ -1480,7 +1484,7 @@
     "tools": [
       [ [ "pipe", -1 ] ],
       [ [ "flask_glass", -1 ] ],
-      [ [ "rag", -1 ] ],
+      [ [ "cotton_patchwork", -1 ] ],
       [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "butane_tank", 1 ], [ "butane_can", 1 ] ],
       [ [ "vac_pump", 300 ] ],
@@ -1512,7 +1516,7 @@
     "tools": [
       [ [ "pointy_stick", -1 ], [ "pipe", -1 ] ],
       [ [ "flask_glass", -1 ] ],
-      [ [ "rag", -1 ] ],
+      [ [ "cotton_patchwork", -1 ] ],
       [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "closed_loop_extractor_large", 100 ] ],
       [ [ "vac_pump", 300 ] ],
@@ -1553,7 +1557,7 @@
         [ "metal_funnel", -1 ]
       ],
       [ [ "flask_glass", -1 ] ],
-      [ [ "rag", -1 ] ],
+      [ [ "cotton_patchwork", -1 ] ],
       [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "butane_tank", 1 ], [ "butane_can", 1 ] ],
       [ [ "vac_pump", 300 ] ],

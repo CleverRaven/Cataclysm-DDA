@@ -279,6 +279,7 @@ player_morale::player_morale() :
     mutations[trait_ROOTS1]        = mutation_data( update_constrained );
     mutations[trait_ROOTS2]        = mutation_data( update_constrained );
     mutations[trait_ROOTS3]        = mutation_data( update_constrained );
+    mutations[trait_CHLOROMORPH]   = mutation_data( update_constrained );
     mutations[trait_LEAVES2]       = mutation_data( update_constrained );
     mutations[trait_LEAVES3]       = mutation_data( update_constrained );
     mutations[trait_MASOCHIST]     = mutation_data( update_masochist );

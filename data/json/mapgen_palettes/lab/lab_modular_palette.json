@@ -319,9 +319,9 @@
       "4": "f_vending_c"
     },
     "monster": {
-      "0": { "monster": "mon_turret_rifle" },
-      "ɜ": { "monster": "mon_turret_rifle" },
-      "ɛ": { "monster": "mon_turret_rifle" }
+      "0": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
+      "ɜ": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
+      "ɛ": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } }
     },
     "items": {
       "3": { "item": "vending_food", "chance": 90 },
@@ -333,7 +333,7 @@
         { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] }
       ],
       "∞": [
-        { "item": "clothing_soldier_set", "chance": 100 },
+        { "item": "clothing_soldier_set_pristine", "chance": 100 },
         { "item": "gear_soldier_sidearm", "chance": 33 },
         { "item": "book_military", "chance": 33 }
       ]

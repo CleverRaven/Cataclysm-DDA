@@ -60,7 +60,10 @@
       },
       "furniture": { "s": "f_sign_warning", "v": "f_vent_pipe" },
       "signs": { "s": { "signage": "Restricted area!  Violators will be shot!" } },
-      "monster": { "S": { "monster": "mon_turret_searchlight" }, "T": { "monster": "mon_turret_rifle" } }
+      "monster": {
+        "S": { "monster": "mon_turret_searchlight" },
+        "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 200, 800 ] } ] } }
+      }
     }
   },
   {

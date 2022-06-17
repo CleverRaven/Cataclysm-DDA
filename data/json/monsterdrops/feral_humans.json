@@ -622,7 +622,8 @@
       { "group": "mil_food_nodrugs", "prob": 40 },
       { "group": "shelter", "prob": 30 },
       { "group": "used_survival_kit", "prob": 80, "damage": [ 1, 4 ] },
-      { "item": "stanag30", "prob": 50, "ammo-item": "223", "charges": [ 0, 10 ] },
+      { "item": "stanag30", "prob": 25, "ammo-item": "223", "charges": [ 0, 10 ] },
+      { "item": "stanag30ranger", "prob": 33, "ammo-item": "556", "charges": [ 0, 30 ] },
       { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 30 ] }
     ]
   },
@@ -681,6 +682,7 @@
       { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "item": "knife_combat", "prob": 100, "damage": [ 3, 4 ] },
       { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 10 ] },
+      { "item": "stanag30ranger", "prob": 1, "ammo-item": "556", "charges": [ 0, 30 ] },
       { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 30 ] }
     ]
   },

@@ -69,7 +69,7 @@ static const efftype_id effect_mending( "mending" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
-static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
+static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 
@@ -149,7 +149,7 @@ int window_panel::get_height() const
             return 0;
         }
     }
-    if( wgt.is_valid() && wgt->_arrange != "columns" ) {
+    if( wgt.is_valid() ) {
         return get_wgt_height( wgt );
     }
     return height;
@@ -1453,7 +1453,7 @@ static void draw_ai_goal( const draw_args &args )
 
     werase( w );
     behavior::tree needs;
-    needs.add( &behavior__node_t_npc_needs.obj() );
+    needs.add( &behavior_node_t_npc_needs.obj() );
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -2020,6 +2020,19 @@ panel_layout &panel_manager::get_current_layout()
     return get_current_layout();
 }
 
+widget *panel_manager::get_current_sidebar()
+{
+    panel_layout layout = get_current_layout();
+    widget *w = nullptr;
+    for( const widget &wgt : widget::get_all() ) {
+        if( wgt._style == "sidebar" && wgt._label.translated() == layout.name() ) {
+            w = const_cast<widget *>( &wgt );
+            break;
+        }
+    }
+    return w;
+}
+
 std::string panel_manager::get_current_layout_id() const
 {
     return current_layout_id;
@@ -2046,6 +2059,10 @@ void panel_manager::init()
     layouts = initialize_default_panel_layouts();
     load();
     update_offsets( get_current_layout().panels().begin()->get_width() );
+    if( get_current_sidebar() != nullptr ) {
+        widget::finalize_label_separator_recursive( get_current_sidebar()->getId(),
+                get_current_sidebar()->_separator );
+    }
 }
 
 void panel_manager::update_offsets( int x )
@@ -2308,8 +2325,11 @@ void panel_manager::show_adm()
 
         if( recalc ) {
             recalc = false;
-
             row_indices.clear();
+            if( get_current_sidebar() != nullptr ) {
+                widget::finalize_label_separator_recursive( get_current_sidebar()->getId(),
+                        get_current_sidebar()->_separator );
+            }
             for( size_t i = 0, row = 0; i < panels.size(); i++ ) {
                 if( panels[i].render() ) {
                     row_indices.emplace( row, i );

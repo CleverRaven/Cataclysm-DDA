@@ -711,7 +711,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Failsafe for tec_none
         if( technique_id == tec_none ) {
-            attack_vector = "HANDS";
+            attack_vector = cur_weapon->is_null() ? "HANDS" : "WEAPON";
         } else {
             attack_vector = martial_arts_data->get_valid_attack_vector( *this,
                             technique_id.obj().attack_vectors );
@@ -723,9 +723,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         }
 
-        // If no weapon is selected, use highest layer of gloves instead.
+        // If no weapon is selected, use highest layer of clothing for attack vector instead.
         if( attack_vector != "WEAPON" ) {
-            worn.current_unarmed_weapon( attack_vector, cur_weapon );
+            cur_weapon = worn.current_unarmed_weapon( attack_vector );
         }
 
         damage_instance d;
@@ -1980,7 +1980,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
 
-    if( technique.side_switch ) {
+    if( technique.side_switch && !t.has_flag( MF_IMMOBILE ) ) {
         const tripoint b = t.pos();
         point new_;
 
@@ -2006,7 +2006,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
     map &here = get_map();
-    if( technique.knockback_dist ) {
+    if( technique.knockback_dist && !t.has_flag( MF_IMMOBILE ) ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
@@ -2014,6 +2014,12 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
+
+        Character *passenger = t.as_character();
+        if( passenger && passenger->in_vehicle ) {
+            here.unboard_vehicle( prev_pos );
+        }
+
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow ) {
             const optional_vpart_position vp0 = here.veh_at( pos() );
@@ -2028,7 +2034,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
                 ( veh0 != nullptr && veh0->player_in_control( get_avatar() ) ) || // Player is driving
-                has_effect( effect_amigara );
+                has_effect( effect_amigara ) ||
+                has_effect( effect_grabbed );
 
             if( !move_issue ) {
                 if( t.pos() != prev_pos ) {

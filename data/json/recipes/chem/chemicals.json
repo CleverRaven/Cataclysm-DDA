@@ -13,7 +13,7 @@
     "autolearn": true,
     "charges": 1,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "rag", -1 ], [ "felt_patch", -1 ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "cotton_patchwork", -1 ], [ "felt_patch", -1 ] ] ],
     "components": [ [ [ "feces_bird", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -89,7 +89,7 @@
       { "id": "CONTAIN", "level": 1 },
       { "id": "SEPARATE", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
     "components": [
       [
         [ "lemon", 8 ],
@@ -229,5 +229,25 @@
       [ [ "lead", 103 ] ],
       [ [ "chem_nitric_acid", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "ammonia",
+    "charges": 2,
+    "byproducts": [ [ "salt_water", 1 ] ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "tools": [
+      [ [ "electrolyzer_makeshift", 10500 ] ],
+      [ [ "ammonia_machine_reactor", 50000 ] ],
+      [ [ "ammonia_machine_pipework", 5000 ] ],
+      [ [ "nitrogen_generator", 150 ] ]
+    ],
+    "components": [ [ [ "salt", 10 ] ], [ [ "water_clean", 2 ] ] ]
   }
 ]

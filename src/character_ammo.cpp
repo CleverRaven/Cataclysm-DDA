@@ -170,7 +170,7 @@ item::reload_option Character::select_ammo( const item &base,
         if( e.target == e.getParent() ) {
             return name;
         } else {
-            return name + " in " + e.getParent()->tname( 1, false, 0, false );
+            return string_format( _( "%s in %s" ), name, e.getParent()->tname( 1, false, 0, false ) );
         }
     } );
     // Pads elements to match longest member and return length
@@ -400,7 +400,11 @@ item::reload_option Character::select_ammo( const item &base, bool prompt, bool 
     } );
 
     if( is_npc() ) {
-        return ammo_list[ 0 ];
+        if( ammo_list[0].ammo.get_item()->ammo_remaining() > 0 ) {
+            return ammo_list[0];
+        } else {
+            return item::reload_option();
+        }
     }
 
     if( !prompt && ammo_list.size() == 1 ) {

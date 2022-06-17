@@ -49,14 +49,13 @@
     "comestible_type": "MED",
     "name": { "str": "adhesive bandage" },
     "description": "A set of small medical dressings, each made of a piece of sterile cloth and a sticky tape, used for small injuries not serious enough to require a full-size bandage.",
-    "weight": "40 g",
-    "volume": "150 ml",
+    "weight": "2 g",
+    "volume": "2 ml",
     "price": 600,
     "price_postapoc": 200,
     "material": "cotton",
     "symbol": "!",
     "color": "white",
-    "charges": 10,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 750 }
   },
@@ -373,7 +372,12 @@
     "symbol": "!",
     "color": "red",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "consume_drug", "moves": 100, "effects": [ { "id": "sleep", "duration": 1000 } ], "used_up_item": "rag" }
+    "use_action": {
+      "type": "consume_drug",
+      "moves": 100,
+      "effects": [ { "id": "sleep", "duration": 1000 } ],
+      "used_up_item": "cotton_patchwork"
+    }
   },
   {
     "id": "codeine",
@@ -1644,7 +1648,7 @@
       "disinfectant_power": 2,
       "bite": 0.5,
       "move_cost": 6000,
-      "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
+      "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
     }
   },
   {

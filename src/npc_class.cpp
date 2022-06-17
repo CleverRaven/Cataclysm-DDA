@@ -9,6 +9,8 @@
 #include <string>
 #include <utility>
 
+#include "avatar.h"
+#include "condition.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item_group.h"
@@ -230,12 +232,29 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
     jo.throw_error( "Invalid distribution type", name );
 }
 
+bool shopkeeper_item_group::can_sell( npc const &guy ) const
+{
+    dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
+    faction *const fac = guy.get_faction();
+
+    return ( fac == nullptr or trust <= guy.get_faction()->trusts_u ) and
+           ( !condition or condition( temp ) );
+}
+
+bool shopkeeper_item_group::can_restock( npc const &guy ) const
+{
+    return !strict or can_sell( guy );
+}
+
 void shopkeeper_item_group::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "group", id );
     optional( jo, false, "trust", trust, 0 );
     optional( jo, false, "strict", strict, false );
     optional( jo, false, "rigid", rigid, false );
+    if( jo.has_member( "condition" ) ) {
+        read_condition<dialogue>( jo, "condition", condition, false );
+    }
 }
 
 void npc_class::load( const JsonObject &jo, const std::string & )
@@ -262,6 +281,9 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
     optional( jo, was_loaded, SHOPKEEPER_CONSUMPTION_RATES, shop_cons_rates_id,
               shopkeeper_cons_rates_id::NULL_ID() );
+    optional( jo, was_loaded, SHOPKEEPER_BLACKLIST, shop_blacklist_id,
+              shopkeeper_blacklist_id::NULL_ID() );
+    optional( jo, was_loaded, "restock_interval", restock_interval, 6_days );
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
@@ -387,6 +409,20 @@ const shopkeeper_cons_rates &npc_class::get_shopkeeper_cons_rates() const
         return null_rates;
     }
     return shop_cons_rates_id.obj();
+}
+
+const shopkeeper_blacklist &npc_class::get_shopkeeper_blacklist() const
+{
+    if( shop_blacklist_id.is_null() ) {
+        shopkeeper_blacklist static const null_blacklist;
+        return null_blacklist;
+    }
+    return shop_blacklist_id.obj();
+}
+
+const time_duration &npc_class::get_shop_restock_interval() const
+{
+    return restock_interval;
 }
 
 int npc_class::roll_strength() const
