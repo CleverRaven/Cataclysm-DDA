@@ -387,6 +387,50 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_BECOME_CAT",
+    "type": "mission_definition",
+    "name": { "str": "Become a cat-person" },
+    "description": "The apocalypse has awakened your true feline purpose: roaming free, cleverly hunting your prey, and being devastatingly adorable.  You long to become the cat-person you've always wanted to be, by whatever means necessary.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {"u_has_effect": "mutagen_feline"},
+    "difficulty": 6,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "48 hours",
+          "decay_start": "48 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_BECOME_WOLF",
+    "type": "mission_definition",
+    "name": { "str": "Become a wolf-person" },
+    "description": "The apocalypse has awakened your true canine purpose: exploring the world, running with your pack, and being fiercely adorable.  You long to become the wolf-person you've always wanted to be, by whatever means necessary.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {"u_has_effect": "mutagen_lupine"},
+    "difficulty": 6,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "48 hours",
+          "decay_start": "48 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
     "id": "MISSION_SOCIAL_BUTTERFLY",
     "type": "mission_definition",
     "name": { "str": "Social butterfly" },
