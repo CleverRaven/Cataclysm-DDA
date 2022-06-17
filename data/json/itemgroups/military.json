@@ -113,6 +113,13 @@
     ]
   },
   {
+    "id": "kitted_heavy_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "pristine_esapi_plates" }, { "group": "custom_heavy_lbv" } ]
+  },
+  {
     "id": "used_kitted_heavy_vest",
     "type": "item_group",
     "//": "ESAPI plates for full vest and pouches",
@@ -178,7 +185,8 @@
         ],
         "prob": 50
       },
-      { "group": "military_ballistic_vest_light", "prob": 10 }
+      { "group": "military_ballistic_vest_light", "prob": 10 },
+      { "group": "military_ballistic_vest_heavy", "prob": 5 }
     ]
   },
   {
@@ -246,7 +254,8 @@
         ],
         "prob": 50
       },
-      { "group": "military_ballistic_vest_light", "prob": 10 }
+      { "group": "military_ballistic_vest_light_pristine", "prob": 10 },
+      { "group": "military_ballistic_vest_heavy_pristine", "prob": 5 }
     ]
   },
   {
@@ -361,6 +370,13 @@
     "//": "light ballistic vest plus plates",
     "subtype": "collection",
     "entries": [ { "item": "ballistic_vest_light", "contents-group": "kitted_light_vest" } ]
+  },
+  {
+    "id": "military_ballistic_vest_heavy_pristine",
+    "type": "item_group",
+    "//": "heavy ballistic vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "kitted_heavy_vest" } ]
   },
   {
     "id": "military_ballistic_vest_heavy",
