@@ -288,11 +288,11 @@
     "color": "white"
   },
   {
-    "type": "MAGAZINE",
+    "type": "GENERIC",
     "category": "other",
     "id": "foot_locker_recharge_station",
     "name": { "str": "foot locker recharging station" },
-    "description": "A universal recharging station integrated into a steel storage compartment.  When set up as an appliance and turned on, it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space, drawing from its internal capacity.",
+    "description": "A universal recharging station integrated into a steel storage compartment.  When set up as an appliance and turned on, it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.",
     "weight": "30000 g",
     "color": "cyan",
     "symbol": "]",
@@ -300,21 +300,16 @@
     "volume": "215 L",
     "price": 105000,
     "price_postapoc": 1400,
-    "ammo_type": [ "battery" ],
-    "capacity": 1000,
     "looks_like": "recharge_station",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 L", "max_contains_weight": "400 kg" },
-      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } }
-    ]
+    "flags": [ "NO_SALVAGE" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 L", "max_contains_weight": "400 kg" } ]
   },
   {
-    "type": "MAGAZINE",
+    "type": "GENERIC",
     "category": "other",
     "id": "box_battery_charger",
     "name": { "str": "box battery charger" },
-    "description": "A small device for recharging batteries integrated into a small wooden storage compartment.  When set up as an appliance and turned on, it will slowly charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space, drawing from its internal capacity.",
+    "description": "A small device for recharging batteries integrated into a small wooden storage compartment.  When set up as an appliance and turned on, it will slowly charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.",
     "weight": "8100 g",
     "color": "cyan",
     "symbol": "]",
@@ -322,13 +317,8 @@
     "volume": "65 L",
     "price": 5000,
     "price_postapoc": 200,
-    "ammo_type": [ "battery" ],
-    "capacity": 500,
     "looks_like": "battery_charger",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "50 L", "max_contains_weight": "100 kg" },
-      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 500 } }
-    ]
+    "flags": [ "NO_SALVAGE" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "50 L", "max_contains_weight": "100 kg" } ]
   }
 ]
