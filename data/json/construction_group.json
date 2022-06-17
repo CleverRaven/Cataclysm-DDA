@@ -1326,6 +1326,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_chain_hoist",
+    "name": "Place Chain Hoist"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },

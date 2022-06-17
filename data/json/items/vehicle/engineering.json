@@ -1,5 +1,19 @@
 [
   {
+    "id": "chain_hoist",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": { "str": "chain hoist" },
+    "description": "Manual lifting equipment featuring a chain and hook.  It could be used to lift heavy loads up to 1.5 metric ton.",
+    "price": 13400,
+    "price_postapoc": 2000,
+    "weight": "14600 g",
+    "volume": "10500 ml",
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "dark_gray"
+  },
+  {
     "id": "cantilever_medium",
     "type": "GENERIC",
     "category": "veh_parts",
