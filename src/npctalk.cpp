@@ -2534,11 +2534,10 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
         int radius = iov.evaluate( d );
         time_duration future = dov_time_in_future.evaluate( d );
         if( future > 0_seconds ) {
-            tripoint_abs_sm pos = project_to<coords::sm>( target_pos );
             get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
                                     calendar::turn + future + 1_seconds,
                                     //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
-                                    -1, pos, radius, transform.str(), key.evaluate( d ) );
+                                    -1, target_pos, radius, transform.str(), key.evaluate( d ) );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
             get_map().invalidate_map_cache( target_pos.z() );
@@ -2561,7 +2560,7 @@ void talk_effect_fun_t<T>::set_place_override( const JsonObject &jo, const std::
         get_timed_events().add( timed_event_type::OVERRIDE_PLACE,
                                 calendar::turn + dov_length.evaluate( d ) + 1_seconds,
                                 //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
-                                -1, tripoint_abs_sm( tripoint_zero ), -1, new_place.evaluate( d ), key.evaluate( d ) );
+                                -1, tripoint_abs_ms( tripoint_zero ), -1, new_place.evaluate( d ), key.evaluate( d ) );
     };
 }
 
@@ -2606,7 +2605,7 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
             time_point tif = calendar::turn + future + 1_seconds;
             //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
             for( const update_mapgen_id &mapgen_update_id : update_ids ) {
-                get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
+                get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::ms>( omt_pos ),
                                         0, mapgen_update_id.str(), key.evaluate( d ) );
             }
 
@@ -2680,7 +2679,8 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
                     get_map().load( revert_sm, true );
                     sm = MAPBUFFER.lookup_submap( revert_sm );
                 }
-                get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
+                get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1,
+                                        project_to<coords::ms>( revert_sm ), 0, "",
                                         sm->get_revert_submap(), key.evaluate( d ) );
             }
         }

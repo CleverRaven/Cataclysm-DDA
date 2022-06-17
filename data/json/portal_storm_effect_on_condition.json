@@ -1242,7 +1242,7 @@
         {
           "id": "EOC_PORTAL_DUNGEON_REWARD_1",
           "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "<", { "const": 5 } ] },
-          "effect": { "u_add_effect": "weakend_inertia", "duration": "2 days" }
+          "effect": { "u_add_effect": "weakened_inertia", "duration": "2 days" }
         },
         {
           "id": "EOC_PORTAL_DUNGEON_REWARD_2",

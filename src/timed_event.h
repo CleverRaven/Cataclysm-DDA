@@ -38,7 +38,7 @@ struct timed_event {
     /** Which faction is responsible for handling this event. */
     int faction_id = -1;
     /** Where the event happens, in global submap coordinates */
-    tripoint_abs_sm map_point = tripoint_abs_sm( tripoint_min );
+    tripoint_abs_ms map_point = tripoint_abs_ms( tripoint_min );
     /** How powerful the effect is */
     int strength = -1;
     /** type of applied effect */
@@ -47,11 +47,11 @@ struct timed_event {
     std::string key;
 
     submap_revert revert;
-    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p, int s,
+    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string key );
-    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p, int s,
+    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string s_id, std::string key );
-    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p, int s,
+    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string s_id, submap_revert &sr, std::string key );
 
     // When the time runs out
@@ -77,11 +77,11 @@ class timed_event_manager
          * through to @ref timed_event::timed_event.
          */
         void add( timed_event_type type, const time_point &when, int faction_id,
-                  const tripoint_abs_sm &where, int strength = -1, std::string key = "" );
+                  const tripoint_abs_ms &where, int strength = -1, std::string key = "" );
         void add( const timed_event_type type, const time_point &when, const int faction_id,
-                  const tripoint_abs_sm &where, int strength, std::string string_id, std::string key = "" );
+                  const tripoint_abs_ms &where, int strength, std::string string_id, std::string key = "" );
         void add( const timed_event_type type, const time_point &when, const int faction_id,
-                  const tripoint_abs_sm &where, int strength, std::string string_id, submap_revert sr,
+                  const tripoint_abs_ms &where, int strength, std::string string_id, submap_revert sr,
                   std::string key = "" );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;

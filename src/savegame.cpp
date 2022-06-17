@@ -1489,7 +1489,7 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         time_point when;
         int faction_id;
         int strength;
-        tripoint_abs_sm where;
+        tripoint_abs_ms where;
         std::string string_id;
         submap_revert revert;
         jo.read( "faction", faction_id );

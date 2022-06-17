@@ -53,7 +53,7 @@ static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
 static const spell_id spell_dks_summon_alrp( "dks_summon_alrp" );
 
-timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
                           int s, std::string key )
     : type( e_t )
     , when( w )
@@ -64,7 +64,7 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
 {
 }
 
-timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
                           int s, std::string s_id, std::string key )
     : type( e_t )
     , when( w )
@@ -76,7 +76,7 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
 {
 }
 
-timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
                           int s, std::string s_id, submap_revert &sr, std::string key )
     : type( e_t )
     , when( w )
@@ -100,7 +100,7 @@ void timed_event::actualize()
 
         case timed_event_type::ROBOT_ATTACK: {
             const tripoint_abs_sm u_pos = player_character.global_sm_location();
-            if( rl_dist( u_pos, map_point ) <= 4 ) {
+            if( rl_dist( u_pos, project_to<coords::sm>( map_point ) ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
                 get_event_bus().send<event_type::becomes_wanted>( player_character.getID() );
@@ -280,16 +280,17 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::DSA_ALRP_SUMMON: {
-            const tripoint_abs_sm u_pos = player_character.global_sm_location();
+            const tripoint_abs_ms u_pos = player_character.global_pos();
+            const tripoint_abs_sm pos = project_to<coords::sm>( map_point );
             if( rl_dist( u_pos, map_point ) <= 4 ) {
-                const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
+                const tripoint spot = here.getlocal( map_point );
                 monster dispatcher( mon_dsa_alien_dispatch );
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell().cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
-                mx_map.load( map_point, false );
-                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, map_point );
+                mx_map.load( pos, false );
+                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, pos );
                 g->load_npcs();
                 here.invalidate_map_cache( map_point.z() );
             }
@@ -298,7 +299,7 @@ void timed_event::actualize()
 
         case timed_event_type::TRANSFORM_RADIUS:
             get_map().transform_radius( ter_furn_transform_id( string_id ), strength,
-                                        tripoint_abs_ms( map_point.x(), map_point.y(), map_point.z() ) );
+                                        map_point );
             get_map().invalidate_map_cache( map_point.z() );
             break;
 
@@ -309,7 +310,7 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::REVERT_SUBMAP: {
-            submap *sm = MAPBUFFER.lookup_submap( map_point );
+            submap *sm = MAPBUFFER.lookup_submap( project_to<coords::sm>( map_point ) );
             sm->revert_submap( revert );
             get_map().invalidate_map_cache( map_point.z() );
             break;
@@ -405,12 +406,12 @@ void timed_event_manager::process()
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id, int strength, std::string key )
 {
-    add( type, when, faction_id, get_player_character().global_sm_location(), strength, "", key );
+    add( type, when, faction_id, get_player_character().global_pos(), strength, "", key );
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id,
-                               const tripoint_abs_sm &where,
+                               const tripoint_abs_ms &where,
                                int strength, std::string key )
 {
     events.emplace_back( type, when, faction_id, where, strength, key );
@@ -418,7 +419,7 @@ void timed_event_manager::add( const timed_event_type type, const time_point &wh
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id,
-                               const tripoint_abs_sm &where,
+                               const tripoint_abs_ms &where,
                                int strength, std::string string_id,
                                std::string key )
 {
@@ -427,7 +428,7 @@ void timed_event_manager::add( const timed_event_type type, const time_point &wh
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id,
-                               const tripoint_abs_sm &where,
+                               const tripoint_abs_ms &where,
                                int strength, std::string string_id, submap_revert sr,
                                std::string key )
 {
