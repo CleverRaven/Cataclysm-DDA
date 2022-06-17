@@ -21,7 +21,7 @@
     "difficulty": 5,
     "max_level": 20,
     "energy_source": "MANA",
-    "spell_class": "DREAMER",
+    "spell_class": "DREAMER"
   },
   {
     "id": "dream_armor",
@@ -42,7 +42,7 @@
     "difficulty": 5,
     "max_level": 20,
     "base_casting_time": 350,
-    "base_energy_cost": 375,
+    "base_energy_cost": 175,
     "min_duration": 6000,
     "max_duration": 60000,
     "duration_increment": 4000
@@ -50,7 +50,7 @@
   {
     "id": "create_dream_dross",
     "type": "SPELL",
-    "name": "Earthshaper Rune",
+    "name": "Bring forth Dreamdross",
     "description": "This ritual pulls a small amount of dreamdross into our world and makes it permanent.  These scraps of dreaming can then be used to make permanent objects.",
     "valid_targets": [ "self" ],
     "min_damage": 1,

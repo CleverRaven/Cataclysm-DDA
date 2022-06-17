@@ -1,0 +1,17 @@
+[
+  {
+    "id": "spell_components_dreamdross",
+    "type": "requirement",
+    "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamdross2",
+    "type": "requirement",
+    "components": [ [ [ "dreamdross_lump", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamdross3",
+    "type": "requirement",
+    "components": [ [ [ "dreamstuff_ingot", 1 ] ] ]
+  }
+]

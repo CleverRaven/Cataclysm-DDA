@@ -20,7 +20,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "mana_modifier": 2500,
+    "mana_regen_multiplier": 0,
     "cancels": [ "DREAMER" ],
-    "spells_learned": [ [ "eat_dream_dross", 1 ] ]
+    "spells_learned": [ [ "eat_dreamdross", 1 ] ]
   }
 ]

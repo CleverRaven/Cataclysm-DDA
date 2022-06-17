@@ -1,0 +1,76 @@
+[
+  {
+    "id": "blurred_aura",
+    "type": "ARMOR",
+    "name": "blurred aura",
+    "description": "Your edges blur and expand and contract in ways that don't reflect reality.  Allows you to dodge two extra attacks in a given turn.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "dreamstuff" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "rapier_dreamdross",
+    "type": "TOOL",
+    "name": { "str": "rapier" },
+    "description": "This is a thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
+    "weight": "500 g",
+    "volume": "1500 ml",
+    "longest_side": "100 cm",
+    "price": 98000,
+    "price_postapoc": 2500,
+    "bashing": 2,
+    "cutting": 31,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
+    "material": [ "dreamstuff" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
+    "flags": [
+      "STAB",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_SWORD"
+    ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 10 } ] } ]
+    },
+    "category": "weapons"
+  },
+  {
+    "id": "armor_dreamdross",
+    "type": "ARMOR",
+    "category": "armor",
+    "copy-from": "armor_lightplate",
+    "name": { "str_sp": "dream armor" },
+    "description": "A summoned medieval armor made from dreamdross.  It shimmers in the light and provides some protection.",
+    "material": [ "dreamstuff" ],
+    "warmth": 0,
+    "material_thickness": 5,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  }
+]

@@ -16,7 +16,7 @@
     "color": "light_blue"
   },
   {
-    "id": "dreamdross",
+    "id": "scrap_dreamdross",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "scrap dreamdross" },

@@ -105,5 +105,27 @@
     "max_duration": "6 h",
     "resist_effects": [ "relative_physics" ],
     "blood_analysis_description": "Hallucinations"
+  },
+  {
+    "type": "effect_type",
+    "id": "night_sight",
+    "name": [ "Night Sight" ],
+    "desc": [ "You can see in the dark." ],
+    "apply_message": "Your sight adjusts to the darkness.",
+    "remove_message": "The darkness loses its shape and your eyes return to their usual hue.",
+    "rating": "good",
+    "flags": [ "NIGHT_VISION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dread_weight",
+    "name": [ "Existential Dread" ],
+    "desc": [ "Is there any point to forward movement?" ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "The air around you chills as existence loses it's appeal!",
+    "remove_message": "The weight is lifted from your mind and the air warms.",
+    "base_mods": { "speed_mod": [ -40 ] },
+    "scaling_mods": { "speed_mod": [ -10 ] }
   }
 ]

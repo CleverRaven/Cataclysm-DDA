@@ -128,5 +128,26 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "GOOD"
+  },
+  {
+    "type": "material",
+    "id": "forged_dreamstuff",
+    "name": "Forged Dreams",
+    "//": "Still ephemerally light but much stronger and used for permanent items.",
+    "density": 3.3,
+    "specific_heat_liquid": 0.49,
+    "specific_heat_solid": 0.39,
+    "latent_heat": 205,
+    "bash_resist": 8,
+    "cut_resist": 9,
+    "bullet_resist": 6,
+    "acid_resist": 16,
+    "fire_resist": 4,
+    "conductive": true,
+    "chip_resist": 15,
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "breathability": "GOOD"
   }
 ]
