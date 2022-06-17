@@ -1085,7 +1085,7 @@
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 1 ],
         [ "felt_patch", 1 ],
         [ "leather", 1 ],
         [ "fur", 1 ],
