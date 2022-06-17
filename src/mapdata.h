@@ -299,6 +299,7 @@ enum class ter_furn_flag : int {
     TFLAG_MURKY,
     TFLAG_AMMOTYPE_RELOAD,
     TFLAG_TRANSPARENT_FLOOR,
+    TFLAG_TOILET_WATER,
 
     NUM_TFLAG_FLAGS
 };
