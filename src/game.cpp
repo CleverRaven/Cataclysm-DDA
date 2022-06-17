@@ -4677,7 +4677,7 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
         if( can_place_monster( monster( mt->id ), target_point ) &&
             ( open_air_allowed || get_map().has_floor( target_point ) ) &&
             ( !outdoor_only || get_map().is_outside( target_point ) ) &&
-            rl_dist( target_point, target ) > min_radius ) {
+            rl_dist( target_point, target ) >= min_radius ) {
             point = target_point;
             return true;
         }

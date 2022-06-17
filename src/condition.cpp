@@ -1721,6 +1721,41 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_npc_anger();
             };
+        } else if( checked_value == "monsters_nearby" ) {
+            cata::optional<var_info> target_var;
+            if( jo.has_object( "target_var" ) ) {
+                read_var_info( jo.get_member( "target_var" ), false );
+            }
+            str_or_var<T> id;
+            if( jo.has_member( "id" ) ) {
+                id = get_str_or_var<T>( jo.get_member( "id" ), "id", false, "" );
+            } else {
+                id.str_val = "";
+            }
+            int_or_var<T> radius_iov = get_int_or_var<T>( jo, "radius", false, 10000 );
+            int_or_var<T> number_iov = get_int_or_var<T>( jo, "number", false, 1 );
+            return [target_var, radius_iov, id, number_iov, is_npc]( const T & d ) {
+                tripoint_abs_ms loc;
+                if( target_var.has_value() ) {
+                    loc = get_tripoint_from_var( target_var, d );
+                } else {
+                    loc = d.actor( is_npc )->global_pos();
+                }
+
+                int radius = radius_iov.evaluate( d );
+                std::vector<Creature *> targets = g->get_creatures_if( [&radius, id, &d,
+                         loc]( const Creature & critter ) {
+                    if( critter.is_monster() ) {
+                        // friendly to the player, not a target for us
+                        return static_cast<const monster *>( &critter )->friendly == 0 &&
+                               radius >= rl_dist( critter.global_pos(), loc ) &&
+                               ( id.evaluate( d ) == "" ||
+                                 static_cast<const monster *>( &critter )->type->id == mtype_id( id.evaluate( d ) ) );
+                    }
+                    return false;
+                } );
+                return targets.size();
+            };
         }
     } else if( jo.has_member( "moon" ) ) {
         return []( const T & ) {
@@ -1741,33 +1776,6 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             tripoint_abs_ms first_point = get_tripoint_from_string( first, d );
             tripoint_abs_ms second_point = get_tripoint_from_string( second, d );
             return rl_dist( first_point, second_point );
-        };
-    } else if( jo.has_member( "monsters_nearby" ) ) {
-        var_info target_var = read_var_info( jo.get_member( "monsters_nearby" ), false );
-        str_or_var<T> id;
-        if( jo.has_member( "id" ) ) {
-            id = get_str_or_var<T>( jo.get_member( "id" ), "id", false, "" );
-        } else {
-            id.str_val = "";
-        }
-        int_or_var<T> radius_iov = get_int_or_var<T>( jo, "radius", false, 10000 );
-        int_or_var<T> number_iov = get_int_or_var<T>( jo, "number", false, 1 );
-        return [target_var, radius_iov, id, number_iov]( const T & d ) {
-
-            tripoint_abs_ms loc = get_tripoint_from_var( target_var, d );
-            int radius = radius_iov.evaluate( d );
-            std::vector<Creature *> targets = g->get_creatures_if( [&radius, id, &d,
-                     loc]( const Creature & critter ) {
-                if( critter.is_monster() ) {
-                    // friendly to the player, not a target for us
-                    return static_cast<const monster *>( &critter )->friendly == 0 &&
-                           radius >= rl_dist( critter.global_pos(), loc ) &&
-                           ( id.evaluate( d ) == "" ||
-                             static_cast<const monster *>( &critter )->type->id == mtype_id( id.evaluate( d ) ) );
-                }
-                return false;
-            } );
-            return targets.size();
         };
     } else if( jo.has_array( "arithmetic" ) ) {
         talk_effect_fun_t<T> arith;

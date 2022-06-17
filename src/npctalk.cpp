@@ -2197,7 +2197,7 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
                 d.actor( false )->i_add( new_item );
             }
         }
-        if( d.has_beta ) {
+        if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
                 popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
@@ -2212,7 +2212,7 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
         container.put_in( item( item_name, calendar::turn, count ),
                           item_pocket::pocket_type::CONTAINER );
         d.actor( false )->i_add( container );
-        if( d.has_beta ) {
+        if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
         }

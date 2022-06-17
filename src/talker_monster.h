@@ -50,6 +50,7 @@ class talker_monster: public talker
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
+        tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
 
         int pain_cur() const override;
