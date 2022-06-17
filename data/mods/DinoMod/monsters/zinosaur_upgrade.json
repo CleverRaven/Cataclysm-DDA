@@ -1618,7 +1618,6 @@
     "type": "MONSTER",
     "id": "mon_zeinonychus_shady",
     "name": { "str_sp": "shady deinonychus zombie" },
-    "copy-from": "mon_zeinonychus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
     "upgrades": { "half_life": 15, "into": "mon_zeinonychus_nightstalker" },
