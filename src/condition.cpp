@@ -1457,7 +1457,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             };
         } else if( checked_value == "var" ) {
             var_info info = read_var_info( jo, false );
-            return [is_npc, info]( const T & d ) {
+            return [info]( const T & d ) {
                 std::string var = read_var_value( info, d );
                 if( !var.empty() ) {
                     return std::stoi( var );
