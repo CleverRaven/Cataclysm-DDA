@@ -1603,5 +1603,10 @@
     "type": "construction_group",
     "id": "build_clay_oven",
     "name": "Build Clay Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_test_conap",
+    "name": "Constructible Appliance Test"
   }
 ]

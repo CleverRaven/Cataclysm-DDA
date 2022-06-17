@@ -887,5 +887,27 @@
     ],
     "damage_reduction": { "all": 5 },
     "requirements": { "removal": { "time": "6 m" } }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_conap",
+    "category": "spare_parts",
+    "name": { "str": "test constructible appliance base item" },
+    "description": "test constructible appliance base item",
+    "volume": "1 ml",
+    "weight": "1 g",
+    "symbol": "?",
+    "color": "white"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_test_conap",
+    "name": { "str": "test constructible appliance" },
+    "symbol": "?",
+    "color": "white",
+    "description": "test constructible appliance",
+    "flags": [ "APPLIANCE", "NO_TAKEDOWN" ],
+    "durability": 1,
+    "item": "test_conap"
   }
 ]

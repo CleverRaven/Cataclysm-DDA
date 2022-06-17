@@ -5658,5 +5658,17 @@
     "components": [ [ [ "rock", 30 ] ], [ [ "fire_brick", 10 ] ], [ [ "clay_lump", 15 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_clay_oven"
+  },
+  {
+    "type": "construction",
+    "id": "constr_test_conap",
+    "group": "build_test_conap",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "1 m",
+    "components": [ [ [ "scrap", 1 ] ], [ [ "e_scrap", 1 ] ] ],
+    "pre_terrain": "f_table",
+    "post_special": "done_appliance",
+    "appliance_base": "test_conap"
   }
 ]
