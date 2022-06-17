@@ -2619,8 +2619,6 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
 }
 
 template<class T>
-<<<<<<< HEAD
-=======
 void talk_effect_fun_t<T>::set_remove_npc( const JsonObject &jo, const std::string &member )
 {
     std::string nclass;
@@ -2653,7 +2651,6 @@ void talk_effect_fun_t<T>::set_alter_timed_events( const JsonObject &jo, const s
 }
 
 template<class T>
->>>>>>> ffc942cc71 (Allow altering timed events time, more eocs for dungeon)
 void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std::string &member )
 {
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", true );
