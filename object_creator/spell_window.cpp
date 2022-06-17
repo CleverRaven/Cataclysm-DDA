@@ -1276,8 +1276,7 @@ void creator::spell_window::populate_fields()
             for( int i = 0; i < static_cast<int>( spell_target::num_spell_targets ); i++ ) {
                 if( sp_t.valid_targets.test( static_cast<spell_target>( i ) ) ) {
                     valid_targets_box.item( i )->setCheckState( Qt::Checked );
-                }
-                else {
+                } else {
                     valid_targets_box.item( i )->setCheckState( Qt::Unchecked );
                 }
             }
@@ -1285,31 +1284,44 @@ void creator::spell_window::populate_fields()
             for( int i = 0; i < static_cast<int>(spell_flag::LAST); i++ ) {
                 if ( sp_t.spell_tags.test(static_cast<spell_flag>( i ) ) ) {
                     spell_flags_box.item( i )->setCheckState( Qt::Checked );
-                }
-                else {
+                } else {
                     spell_flags_box.item( i )->setCheckState( Qt::Unchecked );
                 }
             }
 
             //TODO add read support for learn_spells in the learn_spells_box widget as soon as the magiclysm mod spells are included (since none of the base spells have that property)
 
-            
 
+
+            base_energy_cost_box.setValue( sp_t.base_energy_cost);
+            final_energy_cost_box.setValue( sp_t.final_energy_cost);
             min_range_box.setValue( sp_t.min_range );
+            range_increment_box.setValue( sp_t.range_increment);
             max_range_box.setValue( sp_t.max_range );
             min_damage_box.setValue( sp_t.min_damage );
+            damage_increment_box.setValue( sp_t.damage_increment);
             max_damage_box.setValue( sp_t.max_damage );
             min_aoe_box.setValue( sp_t.min_aoe );
+            aoe_increment_box.setValue( sp_t.aoe_increment);
             max_aoe_box.setValue( sp_t.max_aoe );
+            min_dot_box.setValue( sp_t.min_dot);
+            dot_increment_box.setValue( sp_t.dot_increment);
+            max_dot_box.setValue( sp_t.max_dot);
             base_casting_time_box.setValue( sp_t.base_casting_time );
 
 
+            index = energy_source_box.findText( QString( io::enum_to_string<magic_energy_type>( sp_t.energy_source).c_str() ) );
+            if ( index != -1 ) { // -1 for not found
+                energy_source_box.setCurrentIndex( index );
+            }
 
             index = dmg_type_box.findText( QString( io::enum_to_string<damage_type>( sp_t.dmg_type ).c_str() ) );
             if ( index != -1 ) { // -1 for not found
                 dmg_type_box.setCurrentIndex( index );
             }
-
+            
+            difficulty_box.setValue( sp_t.difficulty );
+            max_level_box.setValue( sp_t.max_level);
             spell_message_box.setText( QString( sp_t.message.translated().c_str() ) );
 
             QStringList mon_ids;
