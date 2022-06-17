@@ -3543,7 +3543,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             you ) : get_map().getlocal( act->coords.front() );
     if( target ) {
         // npcs check for target viability
-        if( !you->is_npc() || !spell_being_cast.is_valid_target( *you, *target ) ) {
+        if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {
             // no turning back now. it's all said and done.
             bool success = act->get_value( 1 ) == 1 ||
                            rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );
