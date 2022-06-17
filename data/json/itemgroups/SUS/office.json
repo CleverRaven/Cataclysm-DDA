@@ -52,7 +52,7 @@
       { "item": "mop", "prob": 60 },
       { "item": "mop_folded", "prob": 35 },
       { "item": "sponge", "prob": 90 },
-      { "item": "rag", "count": [ 1, 6 ] },
+      { "item": "cotton_patchwork", "count": [ 1, 6 ] },
       { "item": "towel", "count": [ 1, 2 ], "prob": 80 },
       { "item": "brush", "prob": 95 },
       { "item": "bucket", "prob": 90 },

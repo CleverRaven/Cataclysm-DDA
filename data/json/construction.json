@@ -5595,7 +5595,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER_SOFT", "level": 1 } ] ],
-    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "rag", 8 ] ] ],
+    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "cotton_patchwork", 8 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_door_glass_c"
