@@ -1158,7 +1158,7 @@
     "id": "mon_endless_hunger",
     "type": "MONSTER",
     "name": { "str": "endless hunger" },
-    "description": "Your mind fills in large shifting images of predators to save you from its actual apperance.",
+    "description": "Your mind fills in large shifting images of predators to save you from its actual appearance.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
