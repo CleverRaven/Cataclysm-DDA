@@ -390,7 +390,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
     "time": "0 s",
-    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.",
+    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.  Can be removed during feature freeze for 0.H",
     "autolearn": true,
     "components": [ [ [ "cotton_patchwork", 1 ] ] ]
   },
