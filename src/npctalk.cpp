@@ -2619,27 +2619,6 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_remove_npc( const JsonObject &jo, const std::string &member )
-{
-    std::string nclass;
-    std::string chatbin;
-    std::string unique_id;
-    JsonObject const jot = jo.get_object( member );
-    optional( jot, false, "class", nclass );
-    optional( jot, false, "chat", chatbin );
-    optional( jot, false, "unique_id", unique_id );
-    function = [nclass, chatbin, unique_id]( const T & ) {
-        for( auto const &npc : overmap_buffer.get_overmap_npcs() ) {
-            if( ( nclass.empty() or npc->myclass == npc_class_id( nclass ) ) and
-                ( chatbin.empty() or npc->chatbin.first_topic == chatbin ) and
-                ( unique_id.empty() or unique_id == npc->get_unique_id() ) ) {
-                overmap_buffer.remove_npc( npc->getID() );
-            }
-        }
-    };
-}
-
-template<class T>
 void talk_effect_fun_t<T>::set_alter_timed_events( const JsonObject &jo, const std::string &member )
 {
     str_or_var<T> key = get_str_or_var<T>( jo.get_member( member ), member, true );
