@@ -199,6 +199,17 @@ std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vp
 std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid );
 std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid );
 
+struct appliance_deconstruct_info {
+    // Only if true the appliance is deconstructible
+    bool can_do;
+    // items you get when deconstructing
+    item_group_id drop_group;
+    // furniture to leave behind (if any)
+    furn_str_id furn_set;
+    appliance_deconstruct_info();
+    bool load( const JsonObject &jsobj, const std::string &member, const std::string &context );
+};
+
 class vpart_category
 {
     public:
@@ -330,6 +341,8 @@ class vpart_info
         const cata::optional<vpslot_workbench> &get_workbench_info() const;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
+
+        appliance_deconstruct_info deconstruct;
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown

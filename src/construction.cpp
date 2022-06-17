@@ -1258,6 +1258,17 @@ bool construct::check_nofloor_above( const tripoint &p )
 bool construct::check_deconstruct( const tripoint &p )
 {
     map &here = get_map();
+
+    optional_vpart_position veh = here.veh_at( p );
+
+    if( veh ) {
+        cata::optional<vpart_reference> vpart = veh->part_with_feature(
+                vpart_bitflags::VPFLAG_APPLIANCE, /*unbroken=*/ false );
+        if( vpart ) {
+            return vpart->info().deconstruct.can_do;
+        }
+    }
+
     if( here.has_furn( p.xy() ) ) {
         return here.furn( p.xy() ).obj().deconstruct.can_do;
     }
@@ -2008,6 +2019,10 @@ void load_construction( const JsonObject &jo )
 
     con.on_display = jo.get_bool( "on_display", true );
     con.dark_craftable = jo.get_bool( "dark_craftable", false );
+
+    if( jo.has_string( "appliance_base" ) ) {
+        con.appliance_base = jo.get_string( "appliance_base" );
+    }
 
     constructions.push_back( con );
     construction_id_map.emplace( con.str_id, con.id );

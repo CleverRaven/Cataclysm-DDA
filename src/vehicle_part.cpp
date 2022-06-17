@@ -718,3 +718,24 @@ std::string vehicle_part::carried_name() const
     }
     return carry_names.top().substr( name_offset );
 }
+
+appliance_deconstruct_info::appliance_deconstruct_info() : can_do( false ),
+    drop_group( item_group_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
+
+bool appliance_deconstruct_info::load( const JsonObject &jsobj, const std::string &member,
+                                       const std::string &context )
+{
+    if( !jsobj.has_object( member ) ) {
+        return false;
+    }
+
+    JsonObject j = jsobj.get_object( member );
+    furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
+
+    can_do = true;
+
+    drop_group = item_group::load_item_group( j.get_member( "items" ), "collection",
+                 "appliance_deconstruct_info for " + context );
+
+    return true;
+}
