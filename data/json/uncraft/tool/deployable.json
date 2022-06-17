@@ -33,7 +33,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 2 ] ], [ [ "steel_chunk", 5 ] ], [ [ "steel_lump", 2 ] ] ]
   },
   {
@@ -43,7 +43,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "60 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "scrap", 12 ] ],
       [ [ "pipe", 2 ] ],
