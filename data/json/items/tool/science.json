@@ -613,13 +613,7 @@
     "color": "light_gray",
     "looks_like": "oxygen_tank",
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "airtight": true,
-        "ammo_restriction": { "ammonia": 8 },
-        "watertight": true
-      }
+      { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "ammonia": 8 }, "watertight": true }
     ]
   },
   {
