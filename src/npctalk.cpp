@@ -3907,13 +3907,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
-<<<<<<< HEAD
-=======
-    } else if( jo.has_member( "remove_npc" ) ) {
-        subeffect_fun.set_remove_npc( jo, "remove_npc" );
     } else if( jo.has_member( "alter_timed_events" ) ) {
         subeffect_fun.set_alter_timed_events( jo, "alter_timed_events" );
->>>>>>> ffc942cc71 (Allow altering timed events time, more eocs for dungeon)
     } else if( jo.has_member( "revert_location" ) ) {
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {
