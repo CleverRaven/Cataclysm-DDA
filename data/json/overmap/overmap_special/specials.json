@@ -5510,7 +5510,7 @@
     ],
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "LAKE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6144,7 +6144,7 @@
     "city_sizes": [ 4, 20 ],
     "occurrences": [ 0, 1 ],
     "connections": [ { "point": [ 2, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 3, 0 ] } ],
-    "flags": [ "LAKE" ]
+    "flags": [ "CLASSIC", "LAKE" ]
   },
   {
     "type": "overmap_special",
@@ -7724,6 +7724,47 @@
   },
   {
     "type": "overmap_special",
+    "id": "o_karting_l",
+    "overmaps": [
+      { "point": [ -1, 1, 0 ], "overmap": "s_lot_south" },
+      { "point": [ -1, 2, 0 ], "overmap": "s_lot_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "karting_0_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "karting_0_1_0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "karting_0_2_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "karting_1_0_0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "karting_1_1_0_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "karting_1_2_0_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "karting_2_0_0_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "karting_2_1_0_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "karting_2_2_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "karting_0_0_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "karting_0_1_1_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "karting_0_2_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "karting_1_0_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "karting_1_1_1_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "karting_1_2_1_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "karting_2_0_1_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "karting_2_1_1_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "karting_2_2_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "karting_0_0_2_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "karting_0_1_2_north" },
+      { "point": [ 2, 0, 2 ], "overmap": "karting_0_2_2_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "karting_1_0_2_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "karting_1_1_2_north" },
+      { "point": [ 2, 1, 2 ], "overmap": "karting_1_2_2_north" },
+      { "point": [ 0, 2, 2 ], "overmap": "karting_2_0_2_north" },
+      { "point": [ 1, 2, 2 ], "overmap": "karting_2_1_2_north" },
+      { "point": [ 2, 2, 2 ], "overmap": "karting_2_2_2_north" }
+    ],
+    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ -1, 1, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 1, 40 ],
+    "city_sizes": [ 6, -1 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Freshwater Research Station",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
@@ -7745,7 +7786,7 @@
     "locations": [ "lake_surface" ],
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "LAKE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

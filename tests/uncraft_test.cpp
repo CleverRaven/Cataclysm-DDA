@@ -15,8 +15,8 @@
 // - Uncraft recipe "difficulty" affects component recovery success using character skill
 // - Damage to the original item reduces the chance of successful component recovery
 
+static const itype_id itype_cotton_patchwork( "cotton_patchwork" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
-static const itype_id itype_rag( "rag" );
 static const itype_id itype_string_6( "string_6" );
 static const itype_id itype_test_knotted_string_ball( "test_knotted_string_ball" );
 static const itype_id itype_test_multitool( "test_multitool" );
@@ -199,28 +199,28 @@ TEST_CASE( "uncraft from a damaged item", "[uncraft][damage]" )
     // Chance of recovering all 100 is about 1 in 5 billion
     SECTION( "1 damage_level: 80 percent chance to recover components" ) {
         yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 1000 );
-        CHECK( yield[itype_rag] == Approx( 80 ).margin( 20 ) );
+        CHECK( yield[itype_cotton_patchwork] == Approx( 80 ).margin( 20 ) );
     }
 
     // 64% chance for each component
     // Recovering more than 90 is billlions-to-one
     SECTION( "2 damage_level: 64 percent chance to recover components" ) {
         yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 2000 );
-        CHECK( yield[itype_rag] == Approx( 64 ).margin( 30 ) );
+        CHECK( yield[itype_cotton_patchwork] == Approx( 64 ).margin( 30 ) );
     }
 
     // 51% chance for each component
     // Recovering more than 80 is billions-to-one
     SECTION( "3 damage_level: 51 percent chance to recover components" ) {
         yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 3000 );
-        CHECK( yield[itype_rag] == Approx( 51 ).margin( 40 ) );
+        CHECK( yield[itype_cotton_patchwork] == Approx( 51 ).margin( 40 ) );
     }
 
     // 41% chance for each component
     // Recovering more than 70 is billions-to-one
     SECTION( "4 damage_level: 41 percent chance to recover components" ) {
         yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 4000 );
-        CHECK( yield[itype_rag] == Approx( 41 ).margin( 40 ) );
+        CHECK( yield[itype_cotton_patchwork] == Approx( 41 ).margin( 40 ) );
     }
 }
 

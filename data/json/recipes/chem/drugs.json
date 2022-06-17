@@ -12,7 +12,7 @@
     "book_learn": [ [ "adv_chemistry", 7 ], [ "recipe_labchem", 7 ] ],
     "charges": 1941,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ], [ [ "rag", -1 ], [ "felt_patch", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ], [ [ "cotton_patchwork", -1 ], [ "felt_patch", -1 ] ] ],
     "components": [
       [ [ "feces_bird", 17 ] ],
       [ [ "formic_acid", 23 ] ],

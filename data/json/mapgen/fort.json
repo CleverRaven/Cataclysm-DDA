@@ -156,7 +156,7 @@
     "id": "fort_crate",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "cannonball_4lb", "prob": 100 }, { "item": "rag", "prob": 50 } ]
+    "entries": [ { "item": "cannonball_4lb", "prob": 100 }, { "item": "cotton_patchwork", "prob": 50 } ]
   },
   {
     "id": "fort_powderbarrel",

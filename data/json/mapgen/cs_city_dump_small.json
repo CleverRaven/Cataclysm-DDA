@@ -8,8 +8,8 @@
       [ "television", 20 ],
       [ "two_way_radio", 10 ],
       [ "eyedrops", 10 ],
-      [ "rag", 20 ],
-      { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
+      [ "cotton_patchwork", 20 ],
+      { "item": "cotton_patchwork", "prob": 20, "custom-flags": [ "FILTHY" ] },
       [ "microwave", 20 ]
     ]
   },

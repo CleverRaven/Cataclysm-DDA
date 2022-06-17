@@ -837,7 +837,11 @@ bool main_menu::opening_screen()
                     world_tab( sel2 > 0 ? world_generator->all_worldnames().at( sel2 - 1 ) : "" );
                     break;
                 case main_menu_opts::LOADCHAR:
-                    start = load_character_tab( world_generator->all_worldnames().at( sel2 ) );
+                    if( static_cast<std::size_t>( sel2 ) < world_generator->all_worldnames().size() ) {
+                        start = load_character_tab( world_generator->all_worldnames().at( sel2 ) );
+                    } else {
+                        popup( _( "No world to load." ) );
+                    }
                     break;
                 case main_menu_opts::NEWCHAR:
                     start = new_character_tab();

@@ -372,7 +372,12 @@
     "symbol": "!",
     "color": "red",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "consume_drug", "moves": 100, "effects": [ { "id": "sleep", "duration": 1000 } ], "used_up_item": "rag" }
+    "use_action": {
+      "type": "consume_drug",
+      "moves": 100,
+      "effects": [ { "id": "sleep", "duration": 1000 } ],
+      "used_up_item": "cotton_patchwork"
+    }
   },
   {
     "id": "codeine",
@@ -1643,7 +1648,7 @@
       "disinfectant_power": 2,
       "bite": 0.5,
       "move_cost": 6000,
-      "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
+      "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
     }
   },
   {
