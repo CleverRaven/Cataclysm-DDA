@@ -824,7 +824,7 @@ static void smash()
         const int max_smashskill = smashskill * ( 1.0f + best_part_to_smash.first->smash_efficiency );
         smashskill = std::min( best_part_to_smash.second + min_smashskill, max_smashskill );
     }
-    const auto bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
+    const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
     // Weariness scaling
     float weary_mult = 1.0f;
     item &weapon = player_character.get_wielded_item();
