@@ -973,14 +973,18 @@ void suffer::from_sunburn( Character &you, bool severe )
         } else if( you.get_wielded_item().has_flag( flag_RAIN_PROTECT )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
-                        && you.get_wielded_item().volume() < 500_ml )
+                        && you.can_use_pockets() )
                    || ( bp == body_part_head
                         && you.worn_with_flag( flag_HOOD )
-                        && you.encumb( body_part_head ) < 10 ) ) {
+                        && you.can_use_hood() )
+                   || ( bp == body_part_mouth
+                        && you.worn_with_flag( flag_COLLAR )
+                        && you.can_use_collar() ) ) {
             // Eyes suffer even in the presence of the checks in this branch!
             // Umbrellas can keep the sun off all bodyparts
             // Pockets can keep the sun off your hands if you don't wield a too large item
             // Hoods can keep the sun off your unencumbered head
+            // Collars can keep the sun off your unencumbered mouth
             continue;
         }
 
