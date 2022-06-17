@@ -3014,8 +3014,8 @@ void debug()
             write_to_file( "timed_event_list.output", [&]( std::ostream & testfile ) {
                 testfile << "|;when;type;key;string_id;strength;map_point;faction_id;" << std::endl;
                 for( const auto &te : get_timed_events().get_all() ) {
-                    testfile << "|;" << to_string( te.when ) << ";" << ( int )te.type << ";" << te.key << ";" <<
-                             te.string_id << ";" << te.strength << ";" << te.map_point << ";" << te.faction_id << ";" <<
+                    testfile << "|;" << to_string( te.when ) << ";" << static_cast<int>( te.type ) << ";" << te.key <<
+                             ";" << te.string_id << ";" << te.strength << ";" << te.map_point << ";" << te.faction_id << ";" <<
                              std::endl;
                 }
 
