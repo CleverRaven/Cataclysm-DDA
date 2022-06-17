@@ -751,7 +751,7 @@
   },
   {
     "type": "ammunition_type",
-    "id": "ammonia_liquid",
+    "id": "ammonia",
     "name": "liquid ammonia",
     "default": "ammonia_liquid"
   }
