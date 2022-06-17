@@ -1059,7 +1059,6 @@
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
-    "flags": [ "UNCONSUMED" ],
     "spell_data": { "id": "portal_dungeon_entrance" }
   },
   {

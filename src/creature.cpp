@@ -158,6 +158,11 @@ tripoint Creature::pos() const
     return get_map().getlocal( location );
 }
 
+tripoint_abs_ms Creature::global_pos() const
+{
+    return location;
+}
+
 void Creature::setpos( const tripoint &p )
 {
     const tripoint_abs_ms old_loc = get_location();

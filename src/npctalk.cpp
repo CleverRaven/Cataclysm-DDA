@@ -2845,7 +2845,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_message( const JsonObject &jo, const std::string &member,
                                         bool is_npc )
 {
-    std::string message = jo.get_string( member );
+    str_or_var<T> message = get_str_or_var<T>( jo.get_member( member ), member );
     const bool snippet = jo.get_bool( "snippet", false );
     const bool same_snippet = jo.get_bool( "same_snippet", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
@@ -2890,19 +2890,19 @@ void talk_effect_fun_t<T>::set_message( const JsonObject &jo, const std::string 
         if( snippet ) {
             if( same_snippet ) {
                 talker *target = d.actor( !is_npc );
-                std::string sid = target->get_value( message + "_snippet_id" );
+                std::string sid = target->get_value( message.evaluate( d ) + "_snippet_id" );
                 if( sid.empty() ) {
-                    sid = SNIPPET.random_id_from_category( message ).c_str();
-                    target->set_value( message + "_snippet_id", sid );
+                    sid = SNIPPET.random_id_from_category( message.evaluate( d ) ).c_str();
+                    target->set_value( message.evaluate( d ) + "_snippet_id", sid );
                 }
                 translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
                         translation() ).translated() );
             } else {
-                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message ).value_or(
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message.evaluate( d ) ).value_or(
                         translation() ).translated() );
             }
         } else {
-            translated_message = _( message );
+            translated_message = _( message.evaluate( d ) );
         }
         Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
         if( !alpha ) {
@@ -3519,6 +3519,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
+    const bool friendly = jo.get_bool( "friendly", false );
 
     duration_or_var<T> dov_lifespan = get_duration_or_var<T>( jo, "lifespan", false, 0_seconds );
     cata::optional<var_info> target_var;
@@ -3531,7 +3532,8 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
                         iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
-            spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed]( const T & d ) {
+                        spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
+            friendly]( const T & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -3569,6 +3571,9 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
                 if( g->spawn_hallucination( spawn_point, target_monster.type->id, lifespan ) ) {
                     Creature *critter = get_creature_tracker().creature_at( spawn_point );
                     if( critter ) {
+                        if( friendly ) {
+                            critter->as_monster()->friendly = -1;
+                        }
                         spawns++;
                         if( get_avatar().sees( *critter ) ) {
                             visible_spawns++;
@@ -3583,6 +3588,9 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
                                             max_radius, spawn_point, outdoor_only, open_air_allowed ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
                 if( spawned ) {
+                    if( friendly ) {
+                        spawned->friendly = -1;
+                    }
                     spawns++;
                     if( get_avatar().sees( *spawned ) ) {
                         visible_spawns++;
@@ -3958,9 +3966,9 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_first_topic( chat_topic );
     } else if( jo.has_string( "sound_effect" ) ) {
         subeffect_fun.set_sound_effect( jo, "sound_effect" );
-    } else if( jo.has_string( "u_message" ) ) {
+    } else if( jo.has_member( "u_message" ) ) {
         subeffect_fun.set_message( jo, "u_message" );
-    } else if( jo.has_string( "npc_message" ) ) {
+    } else if( jo.has_member( "npc_message" ) ) {
         subeffect_fun.set_message( jo, "npc_message", true );
     } else if( jo.has_int( "u_add_wet" ) || jo.has_object( "u_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
