@@ -149,7 +149,7 @@ struct talk_effect_fun_t {
         void set_npc_cbm_reserve_rule( const std::string &setting );
         void set_npc_cbm_recharge_rule( const std::string &setting );
         void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_transform_radius( const JsonObject &jo, const std::string &member );
+        void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_place_override( const JsonObject &jo, const std::string &member );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
         void set_remove_npc( const JsonObject &jo, const std::string &member );
@@ -171,8 +171,8 @@ struct talk_effect_fun_t {
         void set_arithmetic( const JsonObject &jo, const std::string &member, bool no_result );
         void set_set_string_var( const JsonObject &jo, const std::string &member );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
-        void set_spawn_monster( const JsonObject &jo, const std::string &member );
-        void set_field( const JsonObject &jo, const std::string &member );
+        void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_give_equipment( const JsonObject &jo, const std::string &member );
         void set_open_dialogue( const JsonObject &jo );

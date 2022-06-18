@@ -2510,13 +2510,13 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std::string &member,
+        bool is_npc )
 {
     ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
     int_or_var<T> iov = get_int_or_var<T>( jo, member );
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
                                             0_seconds );
-
     cata::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ), false );
@@ -2527,8 +2527,11 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
     } else {
         key.str_val = "";
     }
-    function = [iov, transform, target_var, dov_time_in_future, key]( const T & d ) {
-        tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
+    function = [iov, transform, target_var, dov_time_in_future, key, is_npc]( const T & d ) {
+        tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
+        if( target_var.has_value() ) {
+            target_pos = get_tripoint_from_var<T>( target_var, d );
+        }
 
         int radius = iov.evaluate( d );
         time_duration future = dov_time_in_future.evaluate( d );
@@ -3475,7 +3478,8 @@ void talk_effect_fun_t<T>::set_give_equipment( const JsonObject &jo, const std::
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::string &member,
+        bool is_npc )
 {
     bool group = jo.get_bool( "group", false );
     mtype_id new_monster;
@@ -3507,7 +3511,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     function = [new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
                              iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
                              spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
-                 friendly]( const T & d ) {
+                 friendly, is_npc]( const T & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -3534,7 +3538,10 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         int real_count = iov_real_count.evaluate( d );
         int hallucination_count = iov_hallucination_count.evaluate( d );
         cata::optional<time_duration> lifespan;
-        tripoint target_pos = get_map().getlocal( get_tripoint_from_var<T>( target_var, d ) );
+        tripoint target_pos = d.actor( is_npc )->pos();
+        if( target_var.has_value() ) {
+            target_pos = get_map().getlocal( get_tripoint_from_var<T>( target_var, d ) );
+        }
         int visible_spawns = 0;
         int spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
@@ -3590,7 +3597,8 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
 {
     field_type_str_id new_field = field_type_str_id( jo.get_string( member ) );
     int_or_var<T> iov_intensity = get_int_or_var<T>( jo, "intensity", false, 1 );
@@ -3605,11 +3613,14 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
         target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
     function = [new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
-               hit_player, target_var]( const T & d ) {
+               hit_player, target_var, is_npc]( const T & d ) {
         int radius = iov_radius.evaluate( d );
         int intensity = iov_intensity.evaluate( d );
 
-        tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
+        tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
+        if( target_var.has_value() ) {
+            target_pos = get_tripoint_from_var<T>( target_var, d );
+        }
         for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
                 radius ) ) {
             if( !outdoor_only || get_map().is_outside( dest ) ) {
