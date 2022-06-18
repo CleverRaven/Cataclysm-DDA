@@ -450,6 +450,7 @@ void Item_factory::finalize_pre( itype &obj )
                 ++kv;
             }
         }
+        obj.mod->speedloader_adaptor;
     }
 
     if( obj.gun ) {
@@ -484,6 +485,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         for( pocket_data &magazine : obj.pockets ) {
+            magazine.allowed_speedloaders = obj.mod->speedloader_adaptor;
             if( magazine.type != item_pocket::pocket_type::MAGAZINE ) {
                 continue;
             }
@@ -2149,6 +2151,9 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
+            if( type->mod->speedloader_adaptor.empty() ) {
+                msg += string_format( "gunmod does not specify acceptable speedloaders\n" );
+            }
         }
         if( type->magazine ) {
             for( const ammotype &at : type->magazine->type ) {
@@ -2883,6 +2888,11 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
         slot.acceptable_ammo.clear();
         for( const std::string &e : jo.get_tags( "acceptable_ammo" ) ) {
             slot.acceptable_ammo.insert( ammotype( e ) );
+        }
+    }
+    if( jo.has_array( "speedloader_adaptor" ) ) {
+        for( const std::string id : jo.get_array( "speedloader_adaptor" ) ) {
+            slot.speedloader_adaptor.insert( itype_id( id ) );
         }
     }
 
