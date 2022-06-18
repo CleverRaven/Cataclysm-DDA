@@ -24,6 +24,7 @@ New field | Description
 `"blueprint_requires"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that are required before the upgrade mission can be attempted.
 `"blueprint_excludes"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that prevent the upgrade mission from being attempted if they exist.
 `"blueprint_resources"` | array of `"itype_id"`s.  Items with those ids will be added to the camp inventory after the upgrade mission is completed and can be used for crafting or additional upgrade missions.
+`"blueprint_parameter_names"` | defines human-readable names for any parameter values for this recipe, when used with [parametric mapgen](#parametric-mapgen).
 `"blueprint_needs"` | object which defines the requirements to build this blueprint.  If not given, the game will attempt to autocalculate the needs based on the associated mapgen definition, so usually you need not specify `"blueprint_needs"`.
 
 ### blueprint requires, provides, and excludes
@@ -126,7 +127,91 @@ the `"blueprint_provides"` of the previous upgrade missions.
   },
 ```
 
-This mapgen_update places a large tent in the west central portion of the camp.  The `"place_nested"` references a standard map used in the primitive field camp.
+This mapgen update places a large tent in the west central portion of the camp.  The `"place_nested"` references a standard map used in the primitive field camp.
+
+### Parametric mapgen
+
+It is common to have many similar versions of upgrades which differ only in
+some details.  For example, building the same structure with different
+materials.
+
+In this situation, you can define multiple upgrade options with a single recipe
+and a single mapgen update.  This works as follows.
+
+Put one or more mapgen parameters in the mapgen update.  Mapgen parameters are
+documented in [the MAPGEN docs](doc/MAPGEN.md).  Each parameter should be at
+OMT scope and have a set of options defined e.g. via `"distribution"`, but the
+weights of the different options do not matter; the player will choose between
+them rather than a random choice.
+
+For the player to make this choice we also need human-readable (and
+translatable) descriptions of the parameter options.  Those go in the recipe.
+
+For example, suppose this was your mapgen definition:
+
+```json
+{
+  "type": "mapgen",
+  "method": "json",
+  "nested_mapgen_id": "fbmh_2_generic_room_1_1",
+  "object": {
+    "parameters": {
+      "fbmh_2_generic_palette": {
+        "type": "palette_id",
+        "scope": "omt",
+        "default": { "distribution": [ "fbmh_2_log_palette", "fbmh_2_migo_resin_palette" ] }
+      }
+    },
+    "mapgensize": [ 6, 6 ],
+    "rows": [
+      "  wwww",
+      "  ...w",
+      "    .w",
+      "      ",
+      "      ",
+      "      "
+    ],
+    "palettes": [ { "param": "fbmh_2_generic_palette" } ]
+  }
+}
+```
+
+That defines one parameter with two options.
+
+Then in the recipe definition provide human-readable names for the parameters
+via `"blueprint_parameter_names"`.  This is a JSON object whose keys are the
+parameter names.  Each value is itself a JSON object whose keys are the options
+for that parameter, and values are the human-readable descriptions of what that
+parameter means.  These descriptions will appear in the basecamp upgrade menu.
+For example:
+
+```json
+{
+  "type": "recipe",
+  "activity_level": "MODERATE_EXERCISE",
+  "result": "fbmh_2_generic_room_1_1",
+  "description": "We need some shelter, so build half of a shack with a roof on the northeast side of the camp",
+  "category": "CC_BUILDING",
+  "subcategory": "CSC_BUILDING_BASES",
+  "autolearn": false,
+  "never_learn": true,
+  "construction_blueprint": "fbmh_2_generic_room_NE_1",
+  "blueprint_name": "northeast shack",
+  "blueprint_parameter_names": {
+    "fbmh_2_generic_palette": {
+      "fbmh_2_log_palette": "Log walls and wooden roof",
+      "fbmh_2_migo_resin_palette": "Mi-go resin walls and roof"
+    }
+  },
+  "blueprint_requires": [ { "id": "fbmh_2" } ],
+  "blueprint_provides": [ { "id": "fbmh_2_room_NE" } ],
+  "blueprint_excludes": [ { "id": "fbmh_2_room_NE" } ]
+}
+```
+
+Since each different choice of parameters would naturally lead to different
+requirements, you cannot provide `"blueprint_needs"` to a parametric recipe;
+the needs must be autocalculated.
 
 ## Recipe groups
 Recipe groups serve two purposes: they indicate what recipes can produced by the camp after an upgrade mission is completed, and they indicate what upgrade paths are available and where camps can be placed.
