@@ -8897,7 +8897,9 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
         if( worn_with_flag( flag_ROLLER_INLINE ) ) {
             if( on_road ) {
-                movecost *= 0.5f;
+                if( is_running() ) {
+                    movecost *= 0.5f;
+                }
             } else {
                 movecost *= 1.5f;
             }
@@ -8906,7 +8908,9 @@ int Character::run_cost( int base_cost, bool diag ) const
         // but that also translates into a slower speed when on good surfaces.
         if( worn_with_flag( flag_ROLLER_QUAD ) ) {
             if( on_road ) {
-                movecost *= 0.7f;
+                if( is_running() ) {
+                    movecost *= 0.7f;
+                }
             } else {
                 movecost *= 1.3f;
             }
@@ -8915,7 +8919,9 @@ int Character::run_cost( int base_cost, bool diag ) const
         // and fairly slower as well
         if( worn_with_flag( flag_ROLLER_ONE ) ) {
             if( on_road ) {
-                movecost *= 0.85f;
+                if( is_running() ) {
+                    movecost *= 0.85f;
+                }
             } else {
                 movecost *= 1.1f;
             }
