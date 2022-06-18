@@ -234,13 +234,19 @@
     "color": "yellow_red",
     "categories": [ "utility" ],
     "location": "center",
-    "description": "Manual lifting equipment featuring a chain and hook.  It could be used to lift heavy loads up to 1.5 metric ton.",
+    "description": "Manual lifting equipment featuring a chain and hook.  It could be used to lift heavy loads up to 1.5 metric tons.",
     "broken_color": "yellow_red",
     "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 50,
+    "breaks_into": [ { "item": "pipe", "count": [ 2, 20 ] }, { "item": "scrap", "count": [ 2, 12 ] } ],
     "qualities": [ [ "LIFT", 3 ] ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+    },
     "item": "chain_hoist",
     "flags": [ "APPLIANCE" ]
   },
