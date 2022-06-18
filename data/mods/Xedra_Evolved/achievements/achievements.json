@@ -75,7 +75,7 @@
         "event_statistic": "avatar_gains_mutation",
         "is": "==",
         "target": [ "mutation_id", "DREAMSMITH" ],
-        "description": "Gained access to dream forged magic",
+        "description": "Gained access to dreamsmith magic",
         "visible": "when_achievement_completed"
       }
     ]

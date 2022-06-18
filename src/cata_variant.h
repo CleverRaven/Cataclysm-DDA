@@ -321,10 +321,6 @@ struct convert<cata_variant_type::mutation_category_id> :
     convert_string_id<mutation_category_id> {};
 
 template<>
-struct convert<cata_variant_type::mutation_id> :
-    convert_string_id<mutation_id> {};
-
-template<>
 struct convert<cata_variant_type::nested_mapgen_id> : convert_string_id<nested_mapgen_id> {};
 
 template<>
