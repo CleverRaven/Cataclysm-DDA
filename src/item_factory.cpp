@@ -710,8 +710,6 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
-
-
         // now consolidate all the loaded sub_data to one entry per body part
         for( const armor_portion_data &sub_armor : obj.armor->sub_data ) {
             // for each body part this covers we need to add to the overall data for that bp
@@ -756,9 +754,7 @@ void Item_factory::finalize_post( itype &obj )
 
                             // add layers that are covered by sublimbs
                             for( const layer_level &ll : sub_armor.layers ) {
-                                if( std::count( it.layers.begin(), it.layers.end(), ll ) == 0 ) {
-                                    it.layers.push_back( ll );
-                                }
+                                it.layers.insert( ll );
                             }
 
 
@@ -811,9 +807,7 @@ void Item_factory::finalize_post( itype &obj )
 
                             // add additional sub coverage locations to the original list
                             for( const sub_bodypart_str_id &sbp : sub_armor.sub_coverage ) {
-                                if( std::find( it.sub_coverage.begin(), it.sub_coverage.end(), sbp ) == it.sub_coverage.end() ) {
-                                    it.sub_coverage.push_back( sbp );
-                                }
+                                it.sub_coverage.insert( sbp );
                             }
                         }
                     }
@@ -1030,7 +1024,9 @@ void Item_factory::finalize_post( itype &obj )
         for( armor_portion_data &armor_data : obj.armor->data ) {
             // if an item or location has no layer data then default to the flags for the item
             if( armor_data.layers.empty() ) {
-                armor_data.layers = default_layers;
+                for( const layer_level &ll : default_layers ) {
+                    armor_data.layers.insert( ll );
+                }
             } else {
                 armor_data.has_unique_layering = true;
                 // add any unique layer entries to the items total layer info
@@ -1044,24 +1040,11 @@ void Item_factory::finalize_post( itype &obj )
         for( armor_portion_data &armor_data : obj.armor->sub_data ) {
             // if an item or location has no layer data then default to the flags for the item
             if( armor_data.layers.empty() ) {
-                armor_data.layers = default_layers;
+                for( const layer_level &ll : default_layers ) {
+                    armor_data.layers.insert( ll );
+                }
             } else {
                 armor_data.has_unique_layering = true;
-            }
-        }
-
-        // now that layering is resolved hard code rules for footwear always being rigid
-        // anything that covers the feet is rigid
-        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
-            auto is_normal = std::find( armor_data.layers.begin(), armor_data.layers.end(),
-                                        layer_level::NORMAL );
-            auto is_legs = std::find_if( armor_data.sub_coverage.begin(),
-            armor_data.sub_coverage.end(), []( const sub_bodypart_id sbp ) {
-                return sbp->parent == body_part_foot_l || sbp->parent == body_part_foot_r;
-            } );
-
-            if( is_normal != armor_data.layers.end() && is_legs != armor_data.sub_coverage.end() ) {
-                armor_data.rigid = true;
             }
         }
 
@@ -1696,6 +1679,7 @@ void Item_factory::init()
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "LUX_METER", &iuse::lux_meter );
     add_iuse( "CALORIES_INTAKE_TRACKER", &iuse::calories_intake_tracker );
+    add_iuse( "VOLTMETER", &iuse::voltmeter );
 
     add_actor( std::make_unique<ammobelt_actor>() );
     add_actor( std::make_unique<cauterize_actor>() );
@@ -2529,6 +2513,10 @@ void itype_variant_data::load( const JsonObject &jo )
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", alt_name );
     mandatory( jo, false, "description", alt_description );
+    optional( jo, false, "symbol", alt_sym, cata::nullopt );
+    if( jo.has_string( "color" ) ) {
+        alt_color = color_from_string( jo.get_string( "color" ) );
+    }
     optional( jo, false, "ascii_picture", art );
     optional( jo, false, "weight", weight );
     optional( jo, false, "append", append );
@@ -2681,7 +2669,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
             for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
                 // only assume to add the non hanging locations
                 if( !sbp->secondary ) {
-                    sub_coverage.push_back( sbp );
+                    sub_coverage.insert( sbp );
                 }
             }
         }
@@ -2801,8 +2789,7 @@ void islot_armor::load( const JsonObject &jo )
 
     optional( jo, was_loaded, "warmth", warmth, 0 );
     optional( jo, false, "non_functional", non_functional, itype_id() );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_bonus,
-              mass_reader{}, 0_gram );
+    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
     optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "valid_mods", valid_mods );

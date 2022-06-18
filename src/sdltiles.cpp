@@ -2654,6 +2654,10 @@ static bool text_input_active_when_regaining_focus = false;
 
 void StartTextInput()
 {
+    // prevent sending spurious empty SDL_TEXTEDITING events
+    if( SDL_IsTextInputActive() == SDL_TRUE ) {
+        return;
+    }
 #if defined(__ANDROID__)
     SDL_StartTextInput();
 #else

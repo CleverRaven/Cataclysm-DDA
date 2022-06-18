@@ -484,7 +484,7 @@ class game
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
-        bool portal_storm_query( const distraction_type type, const std::string &text );
+        bool portal_storm_query( distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &dest_loc );
 
@@ -1025,6 +1025,7 @@ class game
         void update_unique_npc_location( std::string id, point_abs_om loc );
         point_abs_om get_unique_npc_location( std::string id );
         bool unique_npc_exists( std::string id );
+        void unique_npc_despawn( std::string id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
         queued_global_effect_on_conditions;

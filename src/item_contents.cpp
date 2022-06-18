@@ -6,6 +6,7 @@
 #include <string>
 #include <type_traits>
 
+#include "avatar.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -34,33 +35,32 @@
 
 static const flag_id json_flag_CASING( "CASING" );
 
-class pocket_favorite_callback : public uilist_callback
-{
-    private:
-        std::list<item_pocket> *pockets = nullptr;
-        // whitelist or blacklist, for interactions
-        bool whitelist = true;
-    public:
-        explicit pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {}
-        void refresh( uilist *menu ) override;
-        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
-};
-
 void pocket_favorite_callback::refresh( uilist *menu )
 {
+    if( needs_to_refresh ) {
+        refresh_columns( menu );
+        needs_to_refresh = false;
+    }
+
     item_pocket *selected_pocket = nullptr;
     int i = 0;
-    for( item_pocket &pocket : *pockets ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+    int pocket_num = 0;
+    for( std::pair<item_pocket *, int> &pocket_val : saved_pockets ) {
+        item_pocket *pocket = pocket_val.first;
+        if( pocket == nullptr || ( pocket->get_pocket_data()  &&
+                                   !pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) ) {
+            ++i;
             continue;
         }
 
         if( i == menu->selected ) {
-            selected_pocket = &pocket;
+            selected_pocket = pocket;
+            pocket_num = pocket_val.second + 1;
             break;
         }
         ++i;
     }
+
 
     if( selected_pocket != nullptr && selected_pocket->is_allowed() ) {
         std::vector<iteminfo> info;
@@ -72,7 +72,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
                         c_light_gray, string_format( _( "Press a key to add to %s" ),
                                 colorize( whitelist ? _( "whitelist" ) : _( "blacklist" ), c_light_blue ) ) );
 
-        selected_pocket->general_info( info, menu->selected + 1, true );
+        selected_pocket->general_info( info, pocket_num, true );
         starty += fold_and_print( menu->window, point( startx, starty ), width,
                                   c_light_gray, format_item_info( info, {} ) ) + 1;
 
@@ -82,7 +82,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
                                   c_light_gray, format_item_info( info, {} ) ) + 1;
 
         info.clear();
-        selected_pocket->contents_info( info, menu->selected + 1, true );
+        selected_pocket->contents_info( info, pocket_num, true );
         fold_and_print( menu->window, point( startx, starty ), width,
                         c_light_gray, format_item_info( info, {} ) );
     }
@@ -90,31 +90,143 @@ void pocket_favorite_callback::refresh( uilist *menu )
     wnoutrefresh( menu->window );
 }
 
-static std::string keys_text()
+pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organize,
+        uilist &pocket_selector )
 {
-    return
-        colorize( "p", c_light_green ) + _( " priority, " ) +
-        colorize( "d", c_light_green ) + _( " toggle auto pickup, " ) +
-        colorize( "u", c_light_green ) + _( " toggle auto unload, " ) +
-        colorize( "i", c_light_green ) + _( " item, " ) +
-        colorize( "c", c_light_green ) + _( " category, " ) +
-        colorize( "w", c_light_green ) + _( " whitelist, " ) +
-        colorize( "b", c_light_green ) + _( " blacklist, " ) +
-        colorize( "x", c_light_green ) + _( " clear" );
+    this->to_organize = to_organize;
+
+    for( item *i : to_organize ) {
+        add_pockets( *i, pocket_selector, "" );
+    }
 }
 
-bool pocket_favorite_callback::key( const input_context &, const input_event &event, int,
+void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
+        std::string depth )
+{
+    if( !i.get_all_standard_pockets().empty() ) {
+        pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
+        // pad list with empty entries for the items themselves
+        saved_pockets.emplace_back( nullptr, 0 );
+    }
+    int pocket_num = 1;
+    for( item_pocket *it_pocket : i.get_all_standard_pockets() ) {
+        std::string temp = string_format( "%d -", pocket_num );
+
+        pocket_selector.addentry( 0, true, '\0', string_format( "%s%s %s/%s",
+                                  depth,
+                                  temp,
+                                  vol_to_info( "", "", it_pocket->contains_volume() ).sValue,
+                                  vol_to_info( "", "", it_pocket->max_contains_volume() ).sValue ) );
+        // pocket number is displayed from 1 stored from 0
+        saved_pockets.emplace_back( it_pocket, pocket_num - 1 );
+        pocket_num++;
+
+        // display the items
+        for( item *it : it_pocket->all_items_top() ) {
+            // check for pockets in that pocket
+            add_pockets( *it, pocket_selector, depth + "  " );
+        }
+    }
+}
+
+void pocket_favorite_callback::refresh_columns( uilist *menu )
+{
+    // rebuild the list of rows can't fully clear or the menu will close
+    // clear all but one entry repopulate then delete that initial
+    menu->entries.clear();
+    saved_pockets.clear();
+    for( item *i : to_organize ) {
+        add_pockets( *i, *menu, "" );
+    }
+    // there might be a better way to refresh this
+    menu->setup();
+}
+
+void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_pocket )
+{
+    uilist selector_menu;
+
+    if( item_to_move.second == nullptr ) {
+        selector_menu.title = _( "Select an item from the pocket" );
+        std::vector<item *> item_list;
+        for( item *it_in : selected_pocket->all_items_top() ) {
+            item_list.emplace_back( it_in );
+        }
+
+        std::sort( item_list.begin(), item_list.end() );
+
+        for( const item *it : item_list ) {
+            selector_menu.addentry( it->display_name() );
+        }
+
+        if( selector_menu.entries.empty() ) {
+            popup( std::string( _( "No items in the pocket." ) ), PF_GET_KEY );
+        } else {
+            selector_menu.query();
+        }
+
+        if( selector_menu.ret >= 0 ) {
+            item_to_move = { item_list[selector_menu.ret], selected_pocket };
+        }
+
+        if( item_to_move.first != nullptr ) {
+            menu->settext( string_format( "%s: %s", _( "Moving" ), item_to_move.first->display_name() ) );
+            refresh_columns( menu );
+
+            // if we have an item already selected for moving update some info
+            auto itt = saved_pockets.begin();
+            for( uilist_entry &entry : menu->entries ) {
+                if( entry.enabled && !itt->first->can_contain( *item_to_move.first ).success() ) {
+                    entry.enabled = false;
+                }
+
+                // make sure we dont try to put anything in itself
+                if( entry.enabled ) {
+                    for( item_pocket *pocket : item_to_move.first->get_all_standard_pockets() ) {
+                        if( itt->first == pocket ) {
+                            entry.enabled = false;
+                        }
+                    }
+                }
+
+                // move through the pockets as you process entries
+                ++itt;
+            }
+
+
+
+
+        }
+    } else {
+        // storage should mimick character inserting
+        get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
+
+        // reset the moved item
+        item_to_move = { nullptr, nullptr };
+
+        menu->settext( title );
+
+        refresh_columns( menu );
+    }
+}
+
+bool pocket_favorite_callback::key( const input_context &ctxt, const input_event &event, int,
                                     uilist *menu )
 {
     item_pocket *selected_pocket = nullptr;
     int i = 0;
-    for( item_pocket &pocket : *pockets ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+    int pocket_num = 0;
+    for( std::pair<item_pocket *, int> &pocket_val : saved_pockets ) {
+        item_pocket *pocket = pocket_val.first;
+        if( pocket == nullptr || ( pocket->get_pocket_data()  &&
+                                   !pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) ) {
+            ++i;
             continue;
         }
 
         if( i == menu->selected ) {
-            selected_pocket = &pocket;
+            selected_pocket = pocket;
+            pocket_num = pocket_val.second + 1;
             break;
         }
         ++i;
@@ -123,22 +235,24 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         return false;
     }
 
-    const char input = event.get_first_input();
-    if( input == 'w' ) {
+    const std::string &action = ctxt.input_to_action( event );
+    //popup( string_format( "%s, %s, %s.", event.long_description(),
+    //                      event.short_description(), action ) );
+    if( action == "FAV_WHITELIST" ) {
         whitelist = true;
         return true;
-    } else if( input == 'b' ) {
+    } else if( action == "FAV_BLACKLIST" ) {
         whitelist = false;
         return true;
-    } else if( input == 'p' ) {
+    } else if( action == "FAV_PRIORITY" ) {
         string_input_popup popup;
         popup.title( string_format( _( "Enter Priority (current priority %d)" ),
                                     selected_pocket->settings.priority() ) );
         selected_pocket->settings.set_priority( popup.query_int() );
-    } else if( input == 'd' ) {
+    } else if( action == "FAV_AUTO_PICKUP" ) {
         selected_pocket->settings.set_disabled( !selected_pocket->settings.is_disabled() );
         return true;
-    } else if( input == 'u' ) {
+    } else if( action == "FAV_AUTO_UNLOAD" ) {
         selected_pocket->settings.set_unloadable( !selected_pocket->settings.is_unloadable() );
         return true;
     }
@@ -146,8 +260,13 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
 
     const std::string remove_prefix = "<color_light_red>-</color> ";
     const std::string add_prefix = "<color_green>+</color> ";
+    if( action == "FAV_MOVE_ITEM" ) {
+        move_item( menu, selected_pocket );
 
-    if( input == 'i' ) {
+        return true;
+    }
+
+    if( action == "FAV_ITEM" ) {
         const cata::flat_set<itype_id> &listed_itypes = whitelist
                 ? selected_pocket->settings.get_item_whitelist()
                 : selected_pocket->settings.get_item_blacklist();
@@ -215,7 +334,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
 
         return true;
-    } else if( input == 'c' ) {
+    } else if( action == "FAV_CATEGORY" ) {
         // Get all categories and sort by name
         std::vector<item_category> all_cat = item_category::get_all();
         const cata::flat_set<item_category_id> &listed_cat = whitelist
@@ -249,10 +368,69 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
             }
         }
         return true;
-    } else if( input == 'x' ) {
-        const int pocket_num = menu->selected + 1;
+    } else if( action == "FAV_CLEAR" ) {
         if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
             selected_pocket->settings.clear();
+        }
+    } else if( action == "FAV_CONTEXT_MENU" ) {
+        uilist cmenu( _( "Action to take on this pocket" ), {} );
+        cmenu.addentry( 0, true, inp_mngr.get_first_char_for_action( "FAV_MOVE_ITEM", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_MOVE_ITEM" ) );
+        cmenu.addentry( 1, true, inp_mngr.get_first_char_for_action( "FAV_ITEM", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_ITEM" ) );
+        cmenu.addentry( 2, true, inp_mngr.get_first_char_for_action( "FAV_CATEGORY", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_CATEGORY" ) );
+        cmenu.addentry( 3, true, inp_mngr.get_first_char_for_action( "FAV_WHITELIST", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_WHITELIST" ) );
+        cmenu.addentry( 4, true, inp_mngr.get_first_char_for_action( "FAV_BLACKLIST", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_BLACKLIST" ) );
+        cmenu.addentry( 5, true, inp_mngr.get_first_char_for_action( "FAV_PRIORITY", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_PRIORITY" ) );
+        cmenu.addentry( 6, true, inp_mngr.get_first_char_for_action( "FAV_AUTO_PICKUP", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_AUTO_PICKUP" ) );
+        cmenu.addentry( 7, true, inp_mngr.get_first_char_for_action( "FAV_AUTO_UNLOAD", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_AUTO_UNLOAD" ) );
+        cmenu.addentry( 8, true, inp_mngr.get_first_char_for_action( "FAV_CLEAR", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_CLEAR" ) );
+        cmenu.query();
+
+        std::string ev;
+        switch( cmenu.ret ) {
+            case 0:
+                ev = "FAV_MOVE_ITEM";
+                break;
+            case 1:
+                ev = "FAV_ITEM";
+                break;
+            case 2:
+                ev = "FAV_CATEGORY";
+                break;
+            case 3:
+                ev = "FAV_WHITELIST";
+                break;
+            case 4:
+                ev = "FAV_BLACKLIST";
+                break;
+            case 5:
+                ev = "FAV_PRIORITY";
+                break;
+            case 6:
+                ev = "FAV_AUTO_PICKUP";
+                break;
+            case 7:
+                ev = "FAV_AUTO_UNLOAD";
+                break;
+            case 8:
+                ev = "FAV_CLEAR";
+                break;
+            default:
+                break;
+
+        }
+        const std::vector<input_event> evlist = inp_mngr.get_input_for_action( ev, "INVENTORY" );
+        if( cmenu.ret >= 0 && cmenu.ret <= 8 && !evlist.empty() ) {
+            return key( ctxt, evlist.front(), -1, menu );
+
         }
     }
 
@@ -579,7 +757,8 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         }
         if( !pocket.rigid() && (
                 !pocket.settings.get_item_whitelist().empty() ||
-                !pocket.settings.get_category_whitelist().empty() ) ) {
+                !pocket.settings.get_category_whitelist().empty() ||
+                pocket.settings.priority() > 0 ) ) {
             ignore_rigidity = true;
         }
         if( !pocket.can_contain( it ).success() || ( !ignore_rigidity && nested && !pocket.rigid() ) ) {
@@ -600,8 +779,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             continue;
         }
         if( parent_pkt_selected ) {
-            if( !nested_content_pocket->settings.get_category_whitelist().empty() ||
-                !nested_content_pocket->settings.get_item_whitelist().empty() ) {
+            if( ret.second->better_pocket( *nested_content_pocket, it, true ) ) {
                 // item is whitelisted in nested pocket, prefer that over parent pocket
                 ret.second = nested_content_pocket;
             }
@@ -2079,23 +2257,15 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
     }
 }
 
-void item_contents::favorite_settings_menu( const std::string &item_name )
+void item_contents::favorite_settings_menu( item *i )
 {
-    pocket_favorite_callback cb( &contents );
-    int num_container_pockets = 0;
-    std::map<int, std::string> pocket_name;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            pocket_name[num_container_pockets] =
-                string_format( "%s/%s",
-                               vol_to_info( "", "", pocket.contains_volume() ).sValue,
-                               vol_to_info( "", "", pocket.max_contains_volume() ).sValue );
-            num_container_pockets++;
-        }
-    }
+
+    std::vector<item *> to_organize;
     uilist pocket_selector;
-    pocket_selector.title = item_name;
-    pocket_selector.text = keys_text() + "\n ";
+    to_organize.push_back( i );
+    pocket_favorite_callback cb( to_organize, pocket_selector );
+    pocket_selector.title = remove_color_tags( i->display_name() );
+    pocket_selector.text = cb.title;
     pocket_selector.callback = &cb;
     pocket_selector.w_x_setup = 0;
     pocket_selector.w_width_setup = []() {
@@ -2108,9 +2278,21 @@ void item_contents::favorite_settings_menu( const std::string &item_name )
     pocket_selector.w_height_setup = []() {
         return TERMY;
     };
-    for( int i = 1; i <= num_container_pockets; i++ ) {
-        pocket_selector.addentry( 0, true, '\0', string_format( "%d - %s", i, pocket_name[i - 1] ) );
-    }
+    pocket_selector.input_category = "INVENTORY";
+    pocket_selector.additional_actions = { { "FAV_PRIORITY", translation() },
+        { "FAV_AUTO_PICKUP", translation() },
+        { "FAV_AUTO_UNLOAD", translation() },
+        { "FAV_ITEM", translation() },
+        { "FAV_CATEGORY", translation() },
+        { "FAV_WHITELIST", translation() },
+        { "FAV_BLACKLIST", translation() },
+        { "FAV_CLEAR", translation() },
+        { "FAV_MOVE_ITEM", translation() },
+        { "FAV_CONTEXT_MENU", translation() }
+    };
+    // we override confirm
+    pocket_selector.allow_confirm = false;
+    pocket_selector.allow_additional = true;
 
     pocket_selector.query();
 }

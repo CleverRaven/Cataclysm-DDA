@@ -105,7 +105,7 @@ struct construction {
         //can be build in the dark
         bool dark_craftable = false;
 
-        float activity_level = NO_EXERCISE;
+        float activity_level = MODERATE_EXERCISE;
     private:
         std::string get_time_string() const;
 };
@@ -122,7 +122,8 @@ construction_id construction_menu( bool blueprint );
 void complete_construction( Character *you );
 bool can_construct_furn_ter( const construction &con, furn_id const &furn, ter_id const &ter );
 bool can_construct( const construction &con, const tripoint &p );
-bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con );
+bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
+                       bool can_construct_skip = false );
 std::vector<construction *> constructions_by_group( const construction_group_str_id &group );
 std::vector<construction *> constructions_by_filter( std::function<bool( construction const & )>
         const &filter );

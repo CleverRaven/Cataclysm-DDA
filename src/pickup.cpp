@@ -338,6 +338,8 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
         add_msg( m_bad, _( "You're overburdened!" ) );
     }
 
+    player_character.recoil = MAX_RECOIL;
+
     return !problem;
 }
 

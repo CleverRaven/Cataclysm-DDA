@@ -22,7 +22,7 @@
     "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 3,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 4,
     "hp": 20,
     "description": "Small, thin predatory bipedal dinosaur with a long head and sharp teeth and long grasping claws.",
@@ -52,7 +52,7 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 4,
     "armor_bash": 4,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
@@ -68,7 +68,7 @@
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -89,7 +89,7 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 2,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 4,
     "armor_bash": 3,
     "armor_cut": 2,
@@ -107,7 +107,7 @@
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -127,7 +127,7 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 5,
-    "melee_cut": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "armor_bash": 4,
     "armor_cut": 3,
     "armor_bullet": 2,
@@ -144,7 +144,7 @@
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -166,7 +166,7 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 7,
-    "melee_cut": 12,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "armor_bash": 4,
     "armor_cut": 3,
     "armor_bullet": 2,
@@ -183,7 +183,7 @@
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -203,7 +203,7 @@
     "melee_skill": 7,
     "melee_dice": 2,
     "melee_dice_sides": 2,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 4,
     "armor_bash": 3,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
@@ -219,7 +219,7 @@
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -230,7 +230,7 @@
     "speed": 75,
     "melee_dice": 4,
     "melee_dice_sides": 5,
-    "melee_cut": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "armor_bash": 10,
     "hp": 270,
     "zombify_into": "mon_zacrocanthosaurus",
@@ -278,7 +278,7 @@
     "default_faction": "appalachiosaurus",
     "speed": 130,
     "attack_cost": 130,
-    "melee_cut": 14,
+    "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
     "hp": 200,
     "zombify_into": "mon_zappalachiosaurus",
     "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail.  The snout is long with six ridges.",
@@ -294,7 +294,7 @@
     "morale": 80,
     "speed": 60,
     "attack_cost": 60,
-    "melee_cut": 13,
+    "melee_damage": [ { "damage_type": "cut", "amount": 13 } ],
     "dodge": 6,
     "hp": 250,
     "zombify_into": "mon_zorgosaurus",
@@ -322,7 +322,7 @@
     "melee_skill": 7,
     "melee_dice": 3,
     "melee_dice_sides": 4,
-    "melee_cut": 14,
+    "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
     "dodge": 5,
     "armor_bash": 4,
     "armor_cut": 2,
@@ -339,7 +339,7 @@
     "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "LONGSWIPE", 25 ] ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -362,7 +362,7 @@
     "melee_skill": 7,
     "melee_dice": 3,
     "melee_dice_sides": 4,
-    "melee_cut": 13,
+    "melee_damage": [ { "damage_type": "cut", "amount": 13 } ],
     "armor_bash": 12,
     "armor_cut": 12,
     "armor_bullet": 12,
@@ -379,7 +379,7 @@
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWARMS", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -389,7 +389,7 @@
     "default_faction": "daspletosaurus",
     "melee_dice": 4,
     "melee_dice_sides": 5,
-    "melee_cut": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "hp": 280,
     "zombify_into": "mon_zaspletosaurus",
     "description": "Bipedal dinosaur with long sharp teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms, with a feathered mullet and tail.",
@@ -415,7 +415,7 @@
     "melee_skill": 8,
     "melee_dice": 5,
     "melee_dice_sides": 8,
-    "melee_cut": 10,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 5,
     "armor_bash": 4,
     "armor_cut": 2,
@@ -433,7 +433,7 @@
     "harvest": "dino_large_feather_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -454,7 +454,7 @@
     "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 2,
-    "melee_cut": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 8,
     "vision_day": 50,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
@@ -481,7 +481,7 @@
     "harvest": "mammal_leather",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -501,7 +501,7 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 8,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
@@ -526,7 +526,7 @@
     ],
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -575,7 +575,7 @@
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 8,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
@@ -589,7 +589,7 @@
     "vision_night": 5,
     "harvest": "bird_small",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -611,7 +611,7 @@
     "melee_skill": 5,
     "melee_dice": 3,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
@@ -630,7 +630,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -652,7 +652,7 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
@@ -670,7 +670,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -691,7 +691,7 @@
     "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 6,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
@@ -710,7 +710,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -731,7 +731,7 @@
     "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 8,
-    "melee_cut": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 6,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
@@ -763,7 +763,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -784,7 +784,7 @@
     "melee_skill": 7,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_cut": 8,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 6,
     "armor_bash": 2,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
@@ -805,7 +805,7 @@
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK", "SOUND" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -816,7 +816,7 @@
     "morale": 40,
     "speed": 120,
     "attack_cost": 120,
-    "melee_cut": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 5,
     "hp": 35,
     "vision_night": 1,
@@ -842,7 +842,7 @@
     "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 6,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
@@ -861,7 +861,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -881,7 +881,7 @@
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 1,
-    "melee_cut": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 8,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
@@ -896,7 +896,47 @@
     "harvest": "mammal_tiny",
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_issi",
+    "name": { "str_sp": "issi" },
+    "looks_like": "mon_apatosaurus",
+    "species": [ "DINOSAUR" ],
+    "default_faction": "herbivore_dino",
+    "symbol": "D",
+    "color": "white",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "bodytype": "ostrich",
+    "material": [ "flesh" ],
+    "aggression": -10,
+    "morale": 50,
+    "speed": 100,
+    "melee_skill": 5,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "armor_bash": 6,
+    "armor_cut": 2,
+    "armor_bullet": 2,
+    "families": [ "prof_intro_biology", "prof_wp_dino" ],
+    "weakpoint_sets": [ "wps_sauropod_body" ],
+    "vision_day": 50,
+    "melee_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "dodge": 4,
+    "hp": 150,
+    "description": "A large bipedal plant eating dinosaur with a long neck and tail and leathery skin.",
+    "reproduction": { "baby_egg": "egg_issi", "baby_count": 3, "baby_timer": 12 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 10 ] ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
+    "harvest": "mammal_large_leather",
+    "vision_night": 5,
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -949,7 +989,7 @@
     "harvest": "dino_sauropod",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1030,7 +1070,7 @@
     "speed": 80,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "dodge": 6,
     "armor_cut": 5,
     "families": [ "prof_intro_biology", "prof_wp_dino", "prof_wp_nat_armored" ],
@@ -1040,7 +1080,8 @@
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY" ],
-    "harvest": "mammal_tiny"
+    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
+    "harvest": "mammal_small_leather"
   },
   {
     "type": "MONSTER",
@@ -1054,13 +1095,13 @@
     "weight": "1000 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
-    "aggression": -20,
-    "morale": 50,
+    "aggression": -10,
+    "morale": 90,
     "speed": 20,
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_cut": 10,
+    "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "dodge": 4,
     "armor_bash": 3,
     "armor_cut": 10,
@@ -1081,8 +1122,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1113,13 +1153,13 @@
     "weight": "1000 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
-    "aggression": -20,
-    "morale": 50,
+    "aggression": -5,
+    "morale": 100,
     "speed": 25,
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_cut": 1,
+    "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
     "dodge": 4,
     "armor_bash": 15,
     "armor_cut": 18,
@@ -1141,8 +1181,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "PET_MOUNTABLE" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1165,7 +1204,7 @@
     "copy-from": "mon_ankylosaurus",
     "hp": 365,
     "zombify_into": "mon_zedmontonia",
-    "melee_cut": 10,
+    "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "armor_bash": 20,
     "armor_cut": 20,
     "armor_bullet": 10,
@@ -1193,7 +1232,7 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "dodge": 4,
     "armor_bash": 4,
     "armor_cut": 2,
@@ -1224,7 +1263,7 @@
     "harvest": "mammal_large_leather",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1237,7 +1276,7 @@
     "speed": 80,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 3,
@@ -1354,7 +1393,7 @@
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1398,7 +1437,7 @@
     "zombify_into": "mon_zosmoceratops",
     "description": "A massive rhino-like dinosaur with an ornate spiked neck crest and two long horns curving up and to the sides from above its eyes.",
     "reproduction": { "baby_egg": "egg_kosmoceratops", "baby_count": 24, "baby_timer": 23 },
-    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "STRETCH_ATTACK", 7 ] ]
+    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 7 ] ]
   },
   {
     "type": "MONSTER",
@@ -1412,7 +1451,7 @@
     "zombify_into": "mon_zorosaurus",
     "description": "A massive rhino-like dinosaur with a tall bony crest from which two long wicked horns emerge.",
     "reproduction": { "baby_egg": "egg_torosaurus", "baby_count": 20, "baby_timer": 24 },
-    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ]
+    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 5 ] ]
   },
   {
     "type": "MONSTER",
@@ -1434,7 +1473,7 @@
     "melee_skill": 8,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_cut": 15,
+    "melee_damage": [ { "damage_type": "stab", "amount": 15 } ],
     "dodge": 4,
     "armor_bash": 4,
     "armor_cut": 4,
@@ -1453,7 +1492,7 @@
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1473,7 +1512,7 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 5,
     "vision_day": 50,
     "families": [ "prof_intro_biology", "prof_wp_flying" ],
@@ -1487,7 +1526,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY" ],
     "harvest": "bird_small",
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1550,7 +1589,7 @@
     "melee_skill": 8,
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_cut": 16,
+    "melee_damage": [ { "damage_type": "cut", "amount": 16 } ],
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 6,
@@ -1567,6 +1606,6 @@
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   }
 ]

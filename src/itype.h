@@ -301,11 +301,11 @@ struct armor_portion_data {
     // Where does this cover if any
     cata::optional<body_part_set> covers;
 
-    std::vector<sub_bodypart_str_id> sub_coverage;
+    std::set<sub_bodypart_str_id> sub_coverage;
 
 
     // What layer does it cover if any
-    std::vector<layer_level> layers;
+    std::set<layer_level> layers;
 
     // these are pre-calc values to save us time later
 
@@ -649,6 +649,8 @@ struct itype_variant_data {
     translation alt_name;
     translation alt_description;
     ascii_art_id art;
+    cata::optional<std::string> alt_sym;
+    cata::optional<nc_color> alt_color = cata::nullopt;
 
     bool append = false; // if the description should be appended to the base description.
 

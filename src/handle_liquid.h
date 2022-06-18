@@ -114,9 +114,9 @@ bool handle_liquid( item &liquid, const item *source = nullptr, int radius = 0,
                     const monster *source_mon = nullptr );
 
 /* Not to be used directly. Use liquid_handler::handle_liquid instead. */
-bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
-                              const vehicle *const source_veh, const int part_num,
-                              const monster *const /*source_mon*/, liquid_dest_opt &target );
+bool perform_liquid_transfer( item &liquid, const tripoint *source_pos,
+                              const vehicle *source_veh, int part_num,
+                              const monster * /*source_mon*/, liquid_dest_opt &target );
 } // namespace liquid_handler
 
 #endif // CATA_SRC_HANDLE_LIQUID_H

@@ -21,6 +21,7 @@
 #include "ascii_art.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -118,6 +119,8 @@ static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
+
+static const bodygraph_id bodygraph_full_body_iteminfo( "full_body_iteminfo" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_cig( "cig" );
@@ -389,6 +392,59 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
+static time_duration get_shortest_lifespan_from_components( const item &craft )
+{
+    const item *shortest_lifespan_component = nullptr;
+    time_duration shortest_lifespan = 0_turns;
+    for( const item &it : craft.components ) {
+        if( it.goes_bad() ) {
+            time_duration lifespan = it.get_shelf_life() - it.get_rot();
+            if( !shortest_lifespan_component || ( lifespan < shortest_lifespan ) ) {
+                shortest_lifespan_component = &it;
+                shortest_lifespan = shortest_lifespan_component->get_shelf_life() -
+                                    shortest_lifespan_component->get_rot();
+            }
+        }
+    }
+    return shortest_lifespan;
+}
+
+static bool shelf_life_less_than_each_component( const item &craft )
+{
+    for( const item &it : craft.components ) {
+        if( it.goes_bad() && it.is_comestible() && it.get_shelf_life() < craft.get_shelf_life() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// There are two ways rot is inherited:
+// 1) Inherit the remaining lifespan of the component with the lowest remaining lifespan
+// 2) Inherit the relative rot of the component with the highest relative rot
+//
+// Method 1 is used when the result of the recipe has a lower maximum shelf life than all of
+// its component's maximum shelf lives. Relative rot is not good to inherit in this case because
+// it can make an extremely short resultant remaining lifespan on the product.
+//
+// Method 2 is used when any component has a longer maximum shelf life than the result does.
+// Inheriting the lowest remaining lifespan can not be used in this case because it would break
+// food preservation recipes.
+static void inherit_rot_from_components( item &it )
+{
+    if( shelf_life_less_than_each_component( it ) ) {
+        const time_duration shortest_lifespan = get_shortest_lifespan_from_components( it );
+        if( shortest_lifespan > 0_turns && shortest_lifespan < it.get_shelf_life() ) {
+            it.set_rot( it.get_shelf_life() - shortest_lifespan );
+        }
+    } else {
+        const item *most_rotten = get_most_rotten_component( it );
+        if( most_rotten ) {
+            it.set_relative_rot( most_rotten->get_relative_rot() );
+        }
+    }
+}
+
 item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
     : item( "craft", calendar::turn )
 {
@@ -403,10 +459,7 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         active = true;
         last_temp_check = bday;
         if( goes_bad() ) {
-            const item *most_rotten = get_most_rotten_component( *this );
-            if( most_rotten ) {
-                set_relative_rot( most_rotten->get_relative_rot() );
-            }
+            inherit_rot_from_components( *this );
         }
     }
 
@@ -424,12 +477,13 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     }
 }
 
-item::item( const recipe *rec, item &component )
+item::item( const recipe *rec, int qty, item &component )
     : item( "disassembly", calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
     craft_data_->disassembly = true;
+    craft_data_->batch_size = qty;
     std::list<item>items( { component } );
     components = items;
 
@@ -437,10 +491,7 @@ item::item( const recipe *rec, item &component )
         active = true;
         last_temp_check = bday;
         if( goes_bad() ) {
-            const item *most_rotten = get_most_rotten_component( *this );
-            if( most_rotten ) {
-                set_relative_rot( most_rotten->get_relative_rot() );
-            }
+            inherit_rot_from_components( *this );
         }
     }
 
@@ -808,19 +859,46 @@ bool item::covers( const sub_bodypart_id &bp ) const
     }
 
     bool does_cover = false;
+    bool subpart_cover = false;
+
     iterate_covered_sub_body_parts_internal( get_side(), [&]( const sub_bodypart_str_id & covered ) {
         does_cover = does_cover || bp == covered;
     } );
-    return does_cover;
+
+    // check if a piece of ablative armor covers the location
+    for( const item_pocket *pocket : get_all_contained_pockets() ) {
+        // if the pocket is ablative and not empty we should check it
+        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+            // get the contained plate
+            const item &ablative_armor = pocket->front();
+
+            subpart_cover = subpart_cover || ablative_armor.covers( bp );
+        }
+    }
+
+    return does_cover || subpart_cover;
 }
 
 bool item::covers( const bodypart_id &bp ) const
 {
     bool does_cover = false;
+    bool subpart_cover = false;
     iterate_covered_body_parts_internal( get_side(), [&]( const bodypart_str_id & covered ) {
         does_cover = does_cover || bp == covered;
     } );
-    return does_cover;
+
+    // check if a piece of ablative armor covers the location
+    for( const item_pocket *pocket : get_all_contained_pockets() ) {
+        // if the pocket is ablative and not empty we should check it
+        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+            // get the contained plate
+            const item &ablative_armor = pocket->front();
+
+            subpart_cover = subpart_cover || ablative_armor.covers( bp );
+        }
+    }
+
+    return does_cover || subpart_cover;
 }
 
 cata::optional<side> item::covers_overlaps( const item &rhs ) const
@@ -2013,7 +2091,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             // only ever do the effect for a snippet the first time you see it
             if( !get_avatar().has_seen_snippet( snip_id ) ) {
                 // Have looked at the item so call the on examine EOC for the snippet
-                const cata::optional<talk_effect_t> examine_effect = SNIPPET.get_EOC_by_id( snip_id );
+                const cata::optional<talk_effect_t<dialogue>> examine_effect = SNIPPET.get_EOC_by_id( snip_id );
                 if( examine_effect.has_value() ) {
                     // activate the effect
                     dialogue d( get_talker_for( get_avatar() ), nullptr );
@@ -3147,16 +3225,16 @@ bool item::armor_full_protection_info( std::vector<iteminfo> &info,
                 return a.id();
             } );
             std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered );
-            std::string coverage = "<bold>Protection for</bold>:";
+            std::string coverage = _( "<bold>Protection for</bold>:" );
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
             info.emplace_back( "ARMOR", coverage );
 
             // the following function need one representative sub limb from which to query data
-            armor_material_info( info, parts, 0, false, p.sub_coverage.front() );
-            armor_attribute_info( info, parts, 0, false, p.sub_coverage.front() );
-            armor_protection_info( info, parts, 0, false, p.sub_coverage.front() );
+            armor_material_info( info, parts, 0, false, *p.sub_coverage.begin() );
+            armor_attribute_info( info, parts, 0, false, *p.sub_coverage.begin() );
+            armor_protection_info( info, parts, 0, false, *p.sub_coverage.begin() );
             ret = true;
             divider_needed = true;
         }
@@ -3549,11 +3627,16 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const std::string space = "  ";
     body_part_set covered_parts = get_covered_body_parts();
     bool covers_anything = covered_parts.any();
+    const bool show_bodygraph = get_option<bool>( "ITEM_BODYGRAPH" ) &&
+                                parts->test( iteminfo_parts::ARMOR_BODYGRAPH );
+
+    if( show_bodygraph || parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
+        insert_separation_line( info );
+    }
 
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
-        insert_separation_line( info );
-        std::string coverage = _( "<bold>Covers</bold>:" );
         std::vector<sub_bodypart_id> covered = get_covered_sub_body_parts();
+        std::string coverage = _( "<bold>Covers</bold>:" );
 
         if( !covered.empty() ) {
             std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered );
@@ -3567,6 +3650,44 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
 
         info.emplace_back( "ARMOR", coverage );
+    }
+
+    if( show_bodygraph ) {
+        auto bg_cb = [this]( const bodygraph_part * bgp, const std::string & sym ) {
+            if( !bgp ) {
+                return colorize( sym, bodygraph_full_body_iteminfo->fill_color );
+            }
+            std::set<sub_bodypart_id> grp { bgp->sub_bodyparts.begin(), bgp->sub_bodyparts.end() };
+            for( const bodypart_id &bid : bgp->bodyparts ) {
+                grp.insert( bid->sub_parts.begin(), bid->sub_parts.end() );
+            }
+            nc_color clr = c_dark_gray;
+            int cov_val = 0;
+            for( const sub_bodypart_id &sid : grp ) {
+                int tmp = get_coverage( sid );
+                cov_val = tmp > cov_val ? tmp : cov_val;
+            }
+            if( cov_val <= 5 ) {
+                clr = c_dark_gray;
+            } else if( cov_val <= 10 ) {
+                clr = c_light_gray;
+            } else if( cov_val <= 25 ) {
+                clr = c_light_red;
+            } else if( cov_val <= 60 ) {
+                clr = c_yellow;
+            } else if( cov_val <= 80 ) {
+                clr = c_green;
+            } else {
+                clr = c_light_green;
+            }
+            return colorize( sym, clr );
+        };
+        std::vector<std::string> bg_lines = get_bodygraph_lines( get_player_character(), bg_cb,
+                                            bodygraph_full_body_iteminfo );
+        for( const std::string &line : bg_lines ) {
+            info.emplace_back( "ARMOR", line );
+        }
+        insert_separation_line( info );
     }
 
     if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_rigid() ) {
@@ -4811,6 +4932,9 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
     int dmg_bash = damage_melee( damage_type::BASH );
     int dmg_cut  = damage_melee( damage_type::CUT );
     int dmg_stab = damage_melee( damage_type::STAB );
+
+    Character &player_character = get_player_character();
+
     if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
         insert_separation_line( info );
         std::string sep;
@@ -4831,25 +4955,62 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
     }
 
     if( dmg_bash || dmg_cut || dmg_stab ) {
-        if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
+        int stam = 0;
+        float stam_pct = 0.0f;
+        std::map<std::string, double> dps_data;
+
+        bool base_tohit = parts->test( iteminfo_parts::BASE_TOHIT );
+        bool base_moves = parts->test( iteminfo_parts::BASE_MOVES );
+        bool base_dps = parts->test( iteminfo_parts::BASE_DPS );
+        bool base_stamina = parts->test( iteminfo_parts::BASE_STAMINA );
+        bool base_dpstam = parts->test( iteminfo_parts::BASE_DPSTAM );
+
+        if( base_stamina || base_dpstam ) {
+            stam = player_character.get_total_melee_stamina_cost( this ) * -1;
+            stam_pct = truncf( stam * 1000.0 / player_character.get_stamina_max() ) / 10;
+        }
+
+        if( base_dps || base_dpstam ) {
+            dps_data = dps( true, false );
+        }
+
+        if( base_tohit ) {
             info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
                                iteminfo::show_plus, type->m_to_hit );
         }
 
-        if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
+        if( base_moves ) {
             info.emplace_back( "BASE", _( "Base moves per attack: " ), "",
                                iteminfo::lower_is_better, attack_time() );
-
         }
 
-        if( parts->test( iteminfo_parts::BASE_DPS ) ) {
+        if( base_dps ) {
             info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
-            const std::map<std::string, double> &dps_data = dps( true, false );
             std::string sep;
             for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
                 info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
                                    dps_entry.second );
+                sep = space;
+            }
+            info.emplace_back( "BASE", "" );
+        }
+
+        if( base_stamina ) {
+            info.emplace_back( "BASE", _( "<bold>Stamina use</bold>: Costs " ), "", iteminfo::no_newline );
+            info.emplace_back( "BASE", ( stam_pct ? _( "about " ) : _( "less than " ) ), "",
+                               iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better,
+                               ( stam_pct > 0.1 ? stam_pct : 0.1 ) );
+            info.emplace_back( "BASE", _( "% stamina to swing." ), "" );
+        }
+
+        if( base_dpstam ) {
+            info.emplace_back( "BASE", _( "Typical damage per stamina:" ), "" );
+            std::string sep;
+            for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
+                info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
+                                   iteminfo::no_newline | iteminfo::is_decimal,
+                                   100 * dps_entry.second / stam );
                 sep = space;
             }
             info.emplace_back( "BASE", "" );
@@ -4871,7 +5032,6 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         }
     }
 
-    Character &player_character = get_player_character();
     // display which martial arts styles character can use with this weapon
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
         const std::string valid_styles = player_character.martial_arts_data->enumerate_known_styles(
@@ -5525,6 +5685,9 @@ int item::engine_displacement() const
 
 const std::string &item::symbol() const
 {
+    if( has_itype_variant() && _itype_variant->alt_sym ) {
+        return *_itype_variant->alt_sym;
+    }
     return type->sym;
 }
 
@@ -6393,6 +6556,9 @@ nc_color item::color() const
     if( is_corpse() ) {
         return corpse->color;
     }
+    if( has_itype_variant() && _itype_variant->alt_color ) {
+        return *_itype_variant->alt_color;
+    }
     return type->color;
 }
 
@@ -6401,31 +6567,7 @@ int item::price( bool practical ) const
     int res = 0;
 
     visit_items( [&res, practical]( const item * e, item * ) {
-        if( e->rotten() ) {
-            // TODO: Special case things that stay useful when rotten
-            return VisitResponse::NEXT;
-        }
-
-        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
-        if( e->damage() > 0 ) {
-            // maximal damage level is 4, maximal reduction is 40% of the value.
-            child -= child * static_cast<double>( e->damage_level() ) / 10;
-        }
-
-        if( e->count_by_charges() || e->made_of( phase_id::LIQUID ) ) {
-            // price from json data is for default-sized stack
-            child *= e->charges / static_cast<double>( e->type->stack_size );
-
-        } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
-            // items with integral magazines may contain ammunition which can affect the price
-            child += item( e->ammo_data(), calendar::turn, e->ammo_remaining() ).price( practical );
-
-        } else if( e->is_tool() && e->type->tool->max_charges != 0 ) {
-            // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
-            child *= e->ammo_remaining() / static_cast<double>( std::max( e->type->charges_default(), 1 ) );
-        }
-
-        res += child;
+        res += e->price_no_contents( practical );
         return VisitResponse::NEXT;
     } );
 
@@ -6439,8 +6581,12 @@ int item::price_no_contents( bool practical ) const
     }
     int price = units::to_cent( practical ? type->price_post : type->price );
     if( damage() > 0 ) {
-        // maximal damage level is 4, maximal reduction is 40% of the value.
-        price -= price * static_cast< double >( damage_level() ) / 10;
+        // maximal damage level is 4, maximal reduction is 80% of the value.
+        price -= price * static_cast< double >( damage_level() ) / 5;
+    }
+
+    if( is_filthy() ) {
+        price *= 0.8;
     }
 
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
@@ -7500,18 +7646,11 @@ std::vector<layer_level> item::get_layer( bodypart_id bp ) const
             if( bp == bpid ) {
                 // if the item has additional pockets and is on the torso it should also be strapped
                 if( bp == body_part_torso && contents.has_additional_pockets() ) {
-                    const auto it = std::find_if( data.layers.begin(), data.layers.end(), []( layer_level ll ) {
-                        return ll == layer_level::BELTED || ll == layer_level::WAIST;
-                    } );
-                    //if the item doesn't already cover belted
-                    if( it == data.layers.end() ) {
-                        std::vector<layer_level> with_belted = data.layers;
-                        with_belted.push_back( layer_level::BELTED );
-                        return with_belted;
-                    }
-                    return data.layers;
+                    std::set<layer_level> with_belted = data.layers;
+                    with_belted.insert( layer_level::BELTED );
+                    return std::vector<layer_level>( with_belted.begin(), with_belted.end() );
                 } else {
-                    return data.layers;
+                    return std::vector<layer_level>( data.layers.begin(), data.layers.end() );
                 }
             }
         }
@@ -7533,18 +7672,11 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
                 // if the item has additional pockets and is on the torso it should also be strapped
                 if( ( sbp == sub_body_part_torso_upper || sbp == sub_body_part_torso_lower ) &&
                     contents.has_additional_pockets() ) {
-                    const auto it = std::find_if( data.layers.begin(), data.layers.end(), []( layer_level ll ) {
-                        return ll == layer_level::BELTED || ll == layer_level::WAIST;
-                    } );
-                    //if the item doesn't already cover belted
-                    if( it == data.layers.end() ) {
-                        std::vector<layer_level> with_belted = data.layers;
-                        with_belted.push_back( layer_level::BELTED );
-                        return with_belted;
-                    }
-                    return data.layers;
+                    std::set<layer_level> with_belted = data.layers;
+                    with_belted.insert( layer_level::BELTED );
+                    return std::vector<layer_level>( with_belted.begin(), with_belted.end() );
                 } else {
-                    return data.layers;
+                    return std::vector<layer_level>( data.layers.begin(), data.layers.end() );
                 }
             }
         }
@@ -13926,9 +14058,9 @@ const item &item::legacy_front() const
     return contents.legacy_front();
 }
 
-void item::favorite_settings_menu( const std::string &item_name )
+void item::favorite_settings_menu()
 {
-    contents.favorite_settings_menu( item_name );
+    contents.favorite_settings_menu( this );
 }
 
 void item::combine( const item_contents &read_input, bool convert )

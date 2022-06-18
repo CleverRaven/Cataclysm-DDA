@@ -268,20 +268,13 @@
     "type": "GUN",
     "symbol": "(",
     "color": "white",
+    "copy-from": "compbow",
     "name": { "str": "Aztlani bow" },
     "description": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles.\n\nWith its drawing aid system currently disabled, firing it will require truly superhuman strength.  It can be activated to toggle it drawing assist functionality.",
     "price": 50000,
     "material": [ "superalloy", "qt_steel", "wood" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "BELTED", "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
-    "skill": "archery",
     "min_strength": 40,
-    "ammo": [ "arrow" ],
-    "weight": "2000 g",
-    "volume": "3500 ml",
-    "longest_side": "183 cm",
     "price_postapoc": 40000,
-    "bashing": 10,
     "armor_data": {
       "armor": [
         {
@@ -296,22 +289,16 @@
         }
       ]
     },
-    "reload_noise_volume": 3,
-    "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 17 },
     "range": 25,
     "dispersion": 1000,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
     "use_action": {
       "menu_text": "Activate",
       "type": "transform",
       "target": "azabow_on",
       "msg": "You connect the bow to your UPS.",
-      "need_charges": 1,
-      "need_charges_msg": "The UPS is out of charges.",
-      "active": true
+      "ammo_scale": 0
     }
   },
   {
@@ -319,43 +306,18 @@
     "type": "GUN",
     "symbol": "(",
     "color": "white",
+    "copy-from": "azabow_off",
     "name": { "str": "Aztlani bow (active)", "str_pl": "Aztlani bows (active)" },
     "description": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles.\n\nWith its drawing aid system enabled, it can be much more easily drawn, at the cost of a modest amount of UPS power consumption per arrow.  It can be activated to toggle it drawing assist functionality.",
-    "price": 50000,
-    "material": [ "superalloy", "qt_steel", "wood" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "BELTED", "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
-    "skill": "archery",
     "min_strength": 20,
-    "ammo": [ "arrow" ],
-    "weight": "2000 g",
-    "volume": "3500 ml",
-    "longest_side": "183 cm",
-    "price_postapoc": 40000,
-    "bashing": 10,
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 20,
-          "coverage": 5,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
-    "reload_noise_volume": 3,
-    "loudness": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 17 },
-    "range": 25,
-    "dispersion": 1000,
-    "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "use_action": { "menu_text": "Deactivate", "type": "transform", "target": "azabow_off", "msg": "You disconnect the UPS." }
+    "ups_charges": 12,
+    "use_action": {
+      "menu_text": "Deactivate",
+      "ammo_scale": 0,
+      "type": "transform",
+      "target": "azabow_off",
+      "msg": "You disconnect the UPS."
+    }
   },
   {
     "id": "aza_sword",
@@ -381,19 +343,13 @@
   {
     "id": "scrapbow",
     "looks_like": "longbow",
+    "copy-from": "compositebow",
     "type": "GUN",
-    "symbol": "(",
-    "color": "yellow",
     "name": { "str": "salvage bow" },
     "description": "A bow made from readily-available materials, and quickly and cheaply put together.  It is not made to be pretty, but to get a job done.  Its nocks and string are made of shape-memory alloy that help increase string tension in the string.  The memory alloy requires a UPS source to be activated.",
     "price": 38000,
     "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "BELTED", "WATER_FRIENDLY", "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
-    "skill": "archery",
-    "min_strength": 12,
     "ups_charges": 4,
-    "ammo": [ "arrow" ],
     "weight": "540 g",
     "volume": "2500 ml",
     "longest_side": "152 cm",
@@ -412,13 +368,10 @@
         }
       ]
     },
-    "reload_noise_volume": 3,
-    "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 12 },
     "range": 14,
     "dispersion": 850,
     "durability": 6,
-    "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },

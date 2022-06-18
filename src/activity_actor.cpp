@@ -94,6 +94,7 @@ static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
@@ -2533,6 +2534,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             player_character.activity.targets = temp_selected_items;
             player_character.activity.str_values = { temp_filter, "true" };
         } else {
+            // Warning: this can add a redundant menu activity to the backlog.
+            // It will prevent deleting the smart pointer of the selected item_location
+            // if the backlog is not sanitized.
             player_activity eat_menu( new_act );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
@@ -2852,6 +2856,8 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
         target.remove_item();
     }
+
+    who.recoil = MAX_RECOIL;
 }
 
 void unload_activity_actor::serialize( JsonOut &jsout ) const
@@ -3968,7 +3974,6 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( reloadable.is_gun() ) {
-        who.recoil = MAX_RECOIL;
         if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
             add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
         }
@@ -3979,9 +3984,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
 
-    // Volume change should only affect container that cantains the "base" item
+    who.recoil = MAX_RECOIL;
+
+    // Volume change should only affect container that contains the "base" item
     // For example a reloaded gun mod never "spills" from the gun
-    // It just affect the container that cantains the gun
+    // It just affects the container that contains the gun
     if( !reload_targets[0].has_parent() ) {
         debugmsg( "item_location of item to be reloaded is not available" );
         return;
@@ -4316,7 +4323,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         return;
     }
     if( act.targets.back()->typeId() == itype_disassembly ) {
-        act.position = act.targets.back()->charges;
+        act.position = act.targets.back()->get_making_batch_size();
     }
     target = who.create_in_progress_disassembly( act.targets.back() );
     act.targets.pop_back();
@@ -5642,14 +5649,20 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
     act.values.clear();
 
-    // Return to eat menu activity if it is in the activity backlog.
+    // Return to first eat or consume meds menu activity in the backlog.
     for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
-        if( iter->id() == ACT_CONSUME ) {
-            iter = who.backlog.erase( iter );
-        }
-        if( iter->id() == ACT_EAT_MENU ) {
+        if( iter->id() == ACT_EAT_MENU ||
+            iter->id() == ACT_CONSUME_MEDS_MENU ) {
             iter->auto_resume = true;
             break;
+        }
+    }
+    // Clear the backlog of any activities that will not auto resume.
+    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ) {
+        if( !iter->auto_resume ) {
+            iter = who.backlog.erase( iter );
+        } else {
+            ++iter;
         }
     }
 }

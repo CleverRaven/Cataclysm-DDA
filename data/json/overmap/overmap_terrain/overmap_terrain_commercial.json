@@ -1606,6 +1606,33 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "textile_mill_museum_0a0",
+      "textile_mill_museum_0a1",
+      "textile_mill_museum_0a2",
+      "textile_mill_museum_0b0",
+      "textile_mill_museum_0b1",
+      "textile_mill_museum_0b2",
+      "textile_mill_museum_1a0",
+      "textile_mill_museum_1a1",
+      "textile_mill_museum_1a2",
+      "textile_mill_museum_1b0",
+      "textile_mill_museum_1b1",
+      "textile_mill_museum_1b2",
+      "textile_mill_museum_2a0",
+      "textile_mill_museum_2a1",
+      "textile_mill_museum_2a2",
+      "textile_mill_museum_2b0",
+      "textile_mill_museum_2b1",
+      "textile_mill_museum_2b2"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "textile mill museum",
+    "color": "light_blue",
+    "extend": { "flags": [ "SOURCE_TAILORING" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "urban_25_3",
       "urban_25_4",
       "urban_25_5",
@@ -1664,30 +1691,30 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_gas_g1", "s_gas_g0" ],
-    "name": "gas station",
+    "copy-from": "s_gas",
     "sym": "g",
-    "color": "light_blue",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
     "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_gas_g1_roof", "s_gas_g0_roof" ],
+    "name": "gas station roof",
+    "copy-from": "s_gas_g1"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_gas_b11",
-    "name": "reception",
+    "name": "bunker reception",
+    "copy-from": "generic_city_building_no_sidewalk",
     "sym": "R",
-    "color": "red",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "s_gas_b20", "s_gas_b21" ],
     "name": "bunker",
+    "copy-from": "generic_city_building_no_sidewalk",
     "sym": "B",
-    "color": "red",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "red"
   }
 ]

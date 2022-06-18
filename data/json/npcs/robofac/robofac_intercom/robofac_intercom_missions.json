@@ -196,6 +196,7 @@
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
+    "end": { "effect": { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -292,17 +293,14 @@
     "end": {
       "update_mapgen": [
         {
-          "om_terrain": "robofachq_surface_parking",
-          "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 0, "y": 0 } ]
-        },
-        {
           "om_terrain": "robofachq_surface_entrance",
           "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 6, "y": 7 } ]
         }
       ],
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 4 },
-        { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+        { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -398,7 +396,8 @@
     "end": {
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 8 },
-        { "u_add_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" }
+        { "u_add_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -640,7 +639,10 @@
       }
     },
     "end": {
-      "effect": [ { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" } ]
+      "effect": [
+        { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+      ]
     },
     "fail": {
       "effect": [ { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "no" } ]
@@ -750,7 +752,10 @@
     "difficulty": 5,
     "value": 0,
     "end": {
-      "effect": [ { "u_add_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" } ]
+      "effect": [
+        { "u_add_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

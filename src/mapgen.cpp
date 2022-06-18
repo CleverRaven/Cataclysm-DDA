@@ -3041,6 +3041,31 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         }
 };
 
+class jmapgen_remove_npcs : public jmapgen_piece
+{
+    public:
+        std::string npc_class;
+        std::string unique_id;
+        jmapgen_remove_npcs( const JsonObject &jsi, const std::string & /*context*/ ) {
+            optional( jsi, false, "class", npc_class );
+            optional( jsi, false, "unique_id", unique_id );
+        }
+        void apply( const mapgendata &dat, const jmapgen_int & /*x*/, const jmapgen_int & /*y*/,
+                    const std::string & /*context*/ ) const override {
+            for( auto const &npc : overmap_buffer.get_npcs_near_omt(
+                     project_to<coords::omt>( dat.m.get_abs_sub() ), 0 ) ) {
+                if( !npc->is_dead() and
+                    ( npc_class.empty() or npc->idz == npc_class_id( npc_class ) ) and
+                    ( unique_id.empty() or unique_id == npc->get_unique_id() ) ) {
+                    overmap_buffer.remove_npc( npc->getID() );
+                    if( !unique_id.empty() ) {
+                        g->unique_npc_despawn( unique_id );
+                    }
+                }
+            }
+        }
+};
+
 // Removes furniture, traps, vehicles, items, fields, graffiti
 class jmapgen_remove_all : public jmapgen_piece
 {
@@ -4068,6 +4093,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_monster_group>( jo, "place_monsters", context_ );
     objects.load_objects<jmapgen_vehicle>( jo, "place_vehicles", context_ );
     objects.load_objects<jmapgen_remove_vehicles>( jo, "remove_vehicles", context_ );
+    objects.load_objects<jmapgen_remove_npcs>( jo, "remove_npcs", context_ );
     objects.load_objects<jmapgen_trap>( jo, "place_traps", context_ );
     objects.load_objects<jmapgen_furniture>( jo, "place_furniture", context_ );
     objects.load_objects<jmapgen_terrain>( jo, "place_terrain", context_ );
@@ -6385,26 +6411,30 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction,
+                           bool may_spawn_locked )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction,
+                        may_spawn_locked );
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction, bool may_spawn_locked )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction,
+                        may_spawn_locked );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction, bool may_spawn_locked )
 {
     return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks,
-                        faction );
+                        faction, may_spawn_locked );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction,
+                           bool may_spawn_locked )
 {
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
@@ -6416,8 +6446,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         return nullptr;
     }
 
-    // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    auto veh = std::make_unique<vehicle>( *this, type, veh_fuel, veh_status );
+    auto veh = std::make_unique<vehicle>( *this, type, veh_fuel, veh_status, may_spawn_locked );
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
@@ -6430,7 +6459,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     // for backwards compatibility, we always spawn with a pivot point of (0,0) so
     // that the mount at (0,0) is located at the spawn position.
     veh->precalc_mounts( 0, dir, point() );
-    //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
+
     std::unique_ptr<vehicle> placed_vehicle_up =
         add_vehicle_to_map( std::move( veh ), merge_wrecks );
     vehicle *placed_vehicle = placed_vehicle_up.get();
@@ -6452,7 +6481,6 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
 
         rebuild_vehicle_level_caches();
         placed_vehicle->place_zones( *this );
-        //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
     }
     return placed_vehicle;
 }
@@ -6482,6 +6510,9 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
          part != frame_indices.end(); part++ ) {
         const tripoint p = veh_to_add->global_part_pos3( *part );
 
+        if( veh_to_add->part( *part ).is_fake ) {
+            continue;
+        }
         //Don't spawn anything in water
         if( has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) && !can_float ) {
             return nullptr;
@@ -6517,45 +6548,63 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              *
              * the overlap span is still a mess, though.
              */
-
+            std::unique_ptr<RemovePartHandler> handler_ptr;
+            bool did_merge = false;
             for( const tripoint &map_pos : first_veh->get_points( true ) ) {
                 std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
                         part_status_flag::any );
                 if( !parts_to_move.empty() ) {
                     // Store target_point by value because first_veh->parts may reallocate
                     // to a different address after install_part()
-                    const point target_point = first_veh->get_parts_at( map_pos, "",
-                                               part_status_flag:: any ).front()->mount;
+                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( map_pos, "",
+                            part_status_flag:: any );
+                    // This happens if this location is occupied by a fake part.
+                    if( first_veh_parts.empty() || first_veh_parts.front()->is_fake ) {
+                        continue;
+                    }
+                    did_merge = true;
+                    const point target_point = first_veh_parts.front()->mount;
                     const point source_point = parts_to_move.front()->mount;
                     for( const vehicle_part *vp : parts_to_move ) {
                         // TODO: change mount points to be tripoint
                         first_veh->install_part( target_point, *vp );
                     }
 
+                    if( !handler_ptr ) {
+                        // This is a heuristic: we just assume the default handler is good enough when called
+                        // on the main game map. And assume that we run from some mapgen code if called on
+                        // another instance.
+                        if( !g || &get_map() != this ) {
+                            handler_ptr = std::make_unique<MapgenRemovePartHandler>( *this );
+                        }
+                    }
                     // this could probably be done in a single loop with installing parts above
                     std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
                     std::set<int> parts_to_check;
                     for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
-                        veh_to_add->remove_part( parts_in_square[index] );
+                        if( handler_ptr ) {
+                            veh_to_add->remove_part( parts_in_square[index], *handler_ptr );
+                        } else {
+                            veh_to_add->remove_part( parts_in_square[index] );
+                        }
                         parts_to_check.insert( parts_in_square[index] );
                     }
-                    veh_to_add->find_and_split_vehicles( parts_to_check );
+                    veh_to_add->find_and_split_vehicles( *this, parts_to_check );
                 }
             }
 
-            // TODO: more targeted damage around the impact site
-            first_veh->smash( *this );
-            first_veh->enable_refresh();
-
-            // TODO: entangle the old vehicle and the new vehicle somehow, perhaps with tow cables
-            // or something like them, to make them harder to separate
-            std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( veh_to_add ), true );
-            if( new_veh != nullptr ) {
-                new_veh->smash( *this );
-                return new_veh;
+            if( did_merge ) {
+                // TODO: more targeted damage around the impact site
+                first_veh->smash( *this );
+                // TODO: entangle the old vehicle and the new vehicle somehow, perhaps with tow cables
+                // or something like them, to make them harder to separate
+                std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( veh_to_add ), true );
+                if( new_veh != nullptr ) {
+                    new_veh->smash( *this );
+                    return new_veh;
+                }
+                return nullptr;
             }
-            return nullptr;
-
         } else if( impassable( p ) ) {
             if( !merge_wrecks ) {
                 return nullptr;
@@ -6577,6 +6626,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
         veh_to_add->smash( *this );
     }
 
+    veh_to_add->refresh();
     return veh_to_add;
 }
 

@@ -386,27 +386,17 @@
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" },
-          "=",
-          { "global_val": "var", "var_name": "ps_str" },
-          "+",
-          { "const": 20 }
+          { "u_val": "fatigue" },
+          "+=",
+          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 20 } ] }
         ]
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_stamina" },
-          "=",
-          { "global_val": "var", "var_name": "ps_str" },
-          "+",
-          { "const": 50 }
+          { "u_val": "stamina" },
+          "+=",
+          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 50 } ] }
         ]
-      },
-      {
-        "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" } ]
-      },
-      {
-        "arithmetic": [ { "u_val": "stamina" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_stamina" } ]
       },
       { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
     ]

@@ -4019,8 +4019,9 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
     // the other characters around should be able to profit as well.
     const bool do_effects = p.can_hear( source, volume ) && !p.in_sleep_state();
     std::string sound = "music";
-    if( calendar::once_every( 5_minutes ) ) {
-        // Every 5 minutes, describe the music
+    if( calendar::once_every( time_duration::from_minutes(
+                                  get_option<int>( "DESCRIBE_MUSIC_FREQUENCY" ) ) ) ) {
+        // Every X minutes, describe the music
         const std::string music = get_music_description();
         if( !music.empty() ) {
             sound = music;
@@ -5246,6 +5247,7 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p->pos(), 0_degrees, 0, 0, false );
+    veh->suspend_refresh();
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return cata::nullopt;
@@ -5272,7 +5274,7 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
             return 0;
         }
     }
-
+    veh->enable_refresh();
     here.add_vehicle_to_cache( veh );
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
@@ -10031,6 +10033,28 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
     }
 
     return cata::nullopt;
+}
+
+cata::optional<int> iuse::voltmeter( Character *p, item *it, bool, const tripoint & )
+{
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
+    if( !pnt_ ) {
+        return cata::nullopt;
+    }
+
+    const map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( *pnt_ );
+
+    if( !vp ) {
+        p->add_msg_if_player( _( "There's nothing to measure there." ) );
+        return cata::nullopt;
+    }
+    if( vp->vehicle().fuel_left( itype_battery, true ) ) {
+        p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
+    } else {
+        p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );
+    }
+    return it->type->charges_to_use();
 }
 
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const

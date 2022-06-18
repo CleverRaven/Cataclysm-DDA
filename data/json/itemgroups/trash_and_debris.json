@@ -40,7 +40,7 @@
       [ "razor_blade", 5 ],
       [ "stick", 1 ],
       [ "can_drink", 10 ],
-      [ "rag", 1 ],
+      [ "cotton_patchwork", 1 ],
       [ "spray_can", 5 ],
       [ "syringe", 5 ],
       { "group": "tinware", "prob": 30 },
@@ -77,6 +77,7 @@
     "type": "item_group",
     "id": "trash_forest",
     "items": [
+      { "item": "twig", "prob": 100, "count-min": 5, "count-max": 20 },
       [ "rock", 80 ],
       [ "rock_flaking", 80 ],
       [ "flint", 20 ],
@@ -120,8 +121,8 @@
       [ "jar_glass_sealed", 5 ],
       [ "jar_3l_glass_sealed", 5 ],
       [ "string_6", 5 ],
-      [ "rag", 5 ],
-      { "item": "rag", "prob": 5, "custom-flags": [ "FILTHY" ] },
+      [ "cotton_patchwork", 5 ],
+      { "item": "cotton_patchwork", "prob": 5, "custom-flags": [ "FILTHY" ] },
       { "group": "ammo_casings", "prob": 3 },
       [ "box_small", 3 ],
       [ "box_medium", 3 ],
@@ -183,7 +184,7 @@
       { "item": "matches", "prob": 60, "charges-min": 0, "charges-max": 20 },
       [ "syringe", 8 ],
       [ "tinder", 1 ],
-      [ "rag", 1 ],
+      [ "cotton_patchwork", 1 ],
       [ "hairpin", 1 ],
       [ "sandbox_kit", 1 ],
       [ "sheet_kevlar_layered", 1 ],
@@ -257,6 +258,51 @@
       [ "hose", 10 ],
       [ "wheel_mount_medium", 10 ],
       [ "alternator_car", 10 ]
+    ]
+  },
+  {
+    "id": "collapsed_building_rubble",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A building has collapsed. Perhaps from a bomb, perhaps from a fire",
+    "//2": "This stuff survived and lies inside the ruins but is really crude and damaged.",
+    "items": [
+      { "item": "string_36", "prob": 2, "count": [ 5, 40 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "frame", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "hdframe", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "metal_tank", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "screen_mesh", "prob": 2, "count": [ 1, 2 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "metal_tank_little", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "water_faucet", "prob": 2, "count": [ 1, 2 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "peephole", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "cu_pipe", "prob": 2, "count": [ 2, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "chain", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "rope_6", "prob": 2, "count": [ 1, 2 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "rope_30", "prob": 2, "count": [ 0, 1 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "rebar", "prob": 8, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "brick", "prob": 20, "count": [ 10, 20 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "pipe", "prob": 5, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "nail", "prob": 2, "count": [ 0, 1 ], "charges-min": 3, "charges-max": 15 },
+      { "item": "wire", "prob": 3, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "charcoal", "prob": 3, "charges": [ 3, 7 ] },
+      { "item": "scrap_copper", "prob": 2, "count": [ 2, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "sheet_metal", "prob": 2, "count": [ 1, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "sheet_metal_small", "prob": 2, "count": [ 1, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "spike", "prob": 5, "count": [ 2, 4 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "hinge", "prob": 2, "count": [ 1, 2 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "steel_lump", "prob": 5, "count": [ 2, 5 ] },
+      { "item": "steel_chunk", "prob": 5, "count": [ 5, 10 ] }
+    ]
+  },
+  {
+    "id": "collapsed_building_outside",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A building has collapsed. Perhaps from a bomb, perhaps from a fire",
+    "//2": "This is the stuff that fell outside and lies on the ground in the open.",
+    "items": [
+      { "item": "rebar", "prob": 2, "count": [ 5, 10 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "brick", "prob": 20, "count": [ 15, 30 ], "damage-min": 0, "damage-max": 3 }
     ]
   }
 ]

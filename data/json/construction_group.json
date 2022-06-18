@@ -1016,6 +1016,11 @@
   },
   {
     "type": "construction_group",
+    "id": "fill_recess_with_dirt",
+    "name": "Fill Recess With Dirt"
+  },
+  {
+    "type": "construction_group",
     "id": "glass_pit",
     "name": "Glass Pit"
   },
@@ -1143,6 +1148,21 @@
     "type": "construction_group",
     "id": "place_water_purifier",
     "name": "Place Stationary Water Purifier"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_foodco",
+    "name": "Place FOODCO"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chemlab",
+    "name": "Place Onboard Chemistry Lab"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_weldrig",
+    "name": "Place Welding Rig"
   },
   {
     "type": "construction_group",
@@ -1308,6 +1328,26 @@
     "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_nitrogen_generator",
+    "name": "Place Makeshift Nitrogen Generator"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ammonia_machine_reactor",
+    "name": "Place Makeshift Ammonia Machine Reactor"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ammonia_machine_pipework",
+    "name": "Place Makeshift Ammonia Machine Pipework"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_electrolyzer_makeshift",
+    "name": "Place Makeshift Electrolyzer"
   },
   {
     "type": "construction_group",

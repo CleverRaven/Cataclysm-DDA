@@ -688,6 +688,7 @@ bool do_turn()
                         sounds::process_sound_markers( &guy );
                     }
                 }
+                explosion_handler::process_explosions();
                 sounds::process_sound_markers( &u );
                 if( !u.activity && g->uquit != QUIT_WATCH
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
@@ -775,6 +776,7 @@ bool do_turn()
     // Apply sounds from previous turn to monster and NPC AI.
     sounds::process_sounds();
     const int levz = m.get_abs_sub().z();
+    u.process_turn();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( levz, true );
@@ -797,7 +799,6 @@ bool do_turn()
         }
     }
     g->mon_info_update();
-    u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         ui_manager::redraw();
         refresh_display();

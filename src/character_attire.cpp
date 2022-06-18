@@ -230,6 +230,8 @@ Character::wear( item_location item_wear, bool interactive )
 
     auto result = wear_item( to_wear_copy, interactive );
     if( !result ) {
+        // set it to no longer be sided
+        to_wear_copy.set_side( side::BOTH );
         if( was_weapon ) {
             weapon = to_wear_copy;
         } else {
@@ -311,6 +313,8 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
         guy.calc_encumbrance();
         guy.calc_discomfort();
     }
+
+    guy.recoil = MAX_RECOIL;
 
     return new_item_it;
 }
@@ -407,6 +411,7 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
         recalc_sight_limits();
         calc_encumbrance();
         calc_discomfort();
+        recoil = MAX_RECOIL;
         return true;
     } else {
         return false;
@@ -613,17 +618,21 @@ int Character::shoe_type_count( const itype_id &it ) const
 
 bool outfit::one_per_layer_change_side( item &it, const Character &guy ) const
 {
-    const bool item_one_per_layer = it.has_flag( json_flag_ONE_PER_LAYER );
+    // test with a swapped side
+    item it_copy( it );
+    it_copy.swap_side();
+
+    const bool item_one_per_layer = it_copy.has_flag( json_flag_ONE_PER_LAYER );
     for( const item &worn_item : worn ) {
         if( item_one_per_layer && worn_item.has_flag( json_flag_ONE_PER_LAYER ) ) {
-            const cata::optional<side> sidedness_conflict = it.covers_overlaps( worn_item );
+            const cata::optional<side> sidedness_conflict = it_copy.covers_overlaps( worn_item );
             if( sidedness_conflict ) {
                 const std::string player_msg = string_format(
                                                    _( "Your %s conflicts with %s, so you cannot swap its side." ),
-                                                   it.tname(), worn_item.tname() );
+                                                   it_copy.tname(), worn_item.tname() );
                 const std::string npc_msg = string_format(
                                                 _( "<npcname>'s %s conflicts with %s so they cannot swap its side." ),
-                                                it.tname(), worn_item.tname() );
+                                                it_copy.tname(), worn_item.tname() );
                 guy.add_msg_player_or_npc( m_info, player_msg, npc_msg );
                 return false;
             }
@@ -634,7 +643,8 @@ bool outfit::one_per_layer_change_side( item &it, const Character &guy ) const
 
 bool outfit::check_rigid_change_side( item &it, const Character &guy ) const
 {
-    if( !check_rigid_conflicts( it, it.get_side() ).success() ) {
+    if( !check_rigid_conflicts( it,
+                                it.get_side() == side::LEFT ? side::RIGHT : side::LEFT ).success() ) {
         const std::string player_msg = string_format(
                                            _( "Your %s conflicts with hard armor on your other side so you can't swap it." ),
                                            it.tname() );
@@ -649,7 +659,7 @@ bool outfit::check_rigid_change_side( item &it, const Character &guy ) const
 
 bool Character::change_side( item &it, bool interactive )
 {
-    if( !it.swap_side() ) {
+    if( !it.is_sided() ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,
                                    _( "You cannot swap the side on which your %s is worn." ),
@@ -660,16 +670,15 @@ bool Character::change_side( item &it, bool interactive )
     }
 
     if( !worn.one_per_layer_change_side( it, *this ) ) {
-        // revert the side swap since it isn't valid
-        it.swap_side();
         return false;
     }
 
     if( !worn.check_rigid_change_side( it, *this ) ) {
-        // revert the side swap since it isn't valid
-        it.swap_side();
         return false;
     }
+
+    //if made it here then swap the item
+    it.swap_side();
 
     if( interactive ) {
         add_msg_player_or_npc( m_info, _( "You swap the side on which your %s is worn." ),
@@ -1273,11 +1282,14 @@ void outfit::check_rigid_sidedness( item &clothing ) const
         //nothing to do
         return;
     }
-
-    // we can assume both isn't an option because it'll be caught in can_wear
-    if( check_rigid_conflicts( clothing, side::LEFT ).success() ) {
+    bool ls = check_rigid_conflicts( clothing, side::LEFT ).success();
+    bool rs = check_rigid_conflicts( clothing, side::RIGHT ).success();
+    if( ls && rs ) {
+        clothing.set_side( side::BOTH );
+    } else if( ls ) {
         clothing.set_side( side::LEFT );
     } else {
+        // this is a fallback option if it must be something
         clothing.set_side( side::RIGHT );
     }
 }
@@ -1545,8 +1557,8 @@ int outfit::pocket_warmth() const
 {
     int warmth = 0;
     for( const item &w : worn ) {
-        if( w.has_flag( flag_POCKETS ) && w.get_warmth() > warmth ) {
-            warmth = w.get_warmth();
+        if( w.has_flag( flag_POCKETS ) ) {
+            warmth = std::max( warmth, w.get_warmth() );
         }
     }
     return warmth;
@@ -1556,8 +1568,8 @@ int outfit::hood_warmth() const
 {
     int warmth = 0;
     for( const item &w : worn ) {
-        if( w.has_flag( flag_HOOD ) && w.get_warmth() > warmth ) {
-            warmth = w.get_warmth();
+        if( w.has_flag( flag_HOOD ) ) {
+            warmth = std::max( warmth, w.get_warmth() );
         }
     }
     return warmth;
@@ -1567,15 +1579,15 @@ int outfit::collar_warmth() const
 {
     int warmth = 0;
     for( const item &w : worn ) {
-        if( w.has_flag( flag_COLLAR ) && w.get_warmth() > warmth ) {
-            warmth = w.get_warmth();
+        if( w.has_flag( flag_COLLAR ) ) {
+            warmth = std::max( warmth, w.get_warmth() );
         }
     }
     return warmth;
 }
 
 std::list<item> outfit::use_amount( const itype_id &it, int quantity,
-                                    std::list<item> &used, const std::function<bool( const item & )> filter,
+                                    std::list<item> &used, const std::function<bool( const item & )> &filter,
                                     Character &wearer )
 {
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
@@ -2018,8 +2030,10 @@ item *outfit::best_shield()
     return ret;
 }
 
-item *outfit::current_unarmed_weapon( const std::string &attack_vector, item *cur_weapon )
+item *outfit::current_unarmed_weapon( const std::string &attack_vector )
 {
+    item *cur_weapon = &null_item_reference();
+
     for( item &worn_item : worn ) {
         bool covers = false;
 
@@ -2343,4 +2357,46 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
         }
     }
     return pd;
+}
+
+void outfit::organize_items_menu()
+{
+    std::vector<item *> to_organize;
+    uilist pocket_selector;
+    for( item &i : worn ) {
+        to_organize.push_back( &i );
+    }
+    pocket_favorite_callback cb( to_organize, pocket_selector );
+
+    pocket_selector.title = _( "Inventory Organization" );
+    pocket_selector.text = cb.title;
+    pocket_selector.callback = &cb;
+    pocket_selector.w_x_setup = 0;
+    pocket_selector.w_width_setup = []() {
+        return TERMX;
+    };
+    pocket_selector.pad_right_setup = []() {
+        return std::max( TERMX / 2, TERMX - 50 );
+    };
+    pocket_selector.w_y_setup = 0;
+    pocket_selector.w_height_setup = []() {
+        return TERMY;
+    };
+    pocket_selector.input_category = "INVENTORY";
+    pocket_selector.additional_actions = { { "FAV_PRIORITY", translation() },
+        { "FAV_AUTO_PICKUP", translation() },
+        { "FAV_AUTO_UNLOAD", translation() },
+        { "FAV_ITEM", translation() },
+        { "FAV_CATEGORY", translation() },
+        { "FAV_WHITELIST", translation() },
+        { "FAV_BLACKLIST", translation() },
+        { "FAV_CLEAR", translation() },
+        { "FAV_MOVE_ITEM", translation() },
+        { "FAV_CONTEXT_MENU", translation() }
+    };
+    // we override confirm
+    pocket_selector.allow_confirm = false;
+    pocket_selector.allow_additional = true;
+
+    pocket_selector.query();
 }

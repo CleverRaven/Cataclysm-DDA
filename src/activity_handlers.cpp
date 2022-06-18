@@ -1300,9 +1300,11 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             break;
     }
 
+    you->recoil = MAX_RECOIL;
+
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
-    // if its mutli-tile butchering,then restart the backlog.
+    // if it's mutli-tile butchering, then restart the backlog.
     resume_for_multi_activities( *you );
 }
 
@@ -1644,6 +1646,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             }
 
             you->mod_stamina( -pulp_effort );
+            you->recoil = MAX_RECOIL;
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy

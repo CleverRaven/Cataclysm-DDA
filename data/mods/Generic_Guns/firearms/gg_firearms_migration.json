@@ -337,7 +337,7 @@
     "replace": "shot_pipe_double"
   },
   {
-    "id": [ "saiga_410", "rm120c", "rm20", "bigun", "saiga_12", "tavor_12", "bigun", "USAS_12" ],
+    "id": [ "saiga_410", "rm120c", "rm20", "bigun", "saiga_12", "tavor_12", "aa_12", "bigun", "USAS_12" ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
   },
@@ -360,5 +360,10 @@
     "id": [ "remington_870_breacher" ],
     "type": "MIGRATION",
     "replace": "shot_short_pump"
+  },
+  {
+    "id": [ "m26_mass_standalone" ],
+    "type": "MIGRATION",
+    "replace": "small_shotgun"
   }
 ]

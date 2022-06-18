@@ -106,7 +106,7 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": "3 m",
     "qualities": [  ],
-    "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ] ] ],
+    "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ], [ "leaves", 80 ] ] ],
     "pre_terrain": "t_improvised_shelter",
     "post_terrain": "t_improvised_shelter_filled"
   },
@@ -227,6 +227,30 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 60 ], [ "material_sand", 600 ] ] ],
     "pre_terrain": "t_water_sh",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_water_murky",
+    "group": "fill_shallow_water_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 50 ], [ "material_sand", 500 ] ] ],
+    "pre_terrain": "t_water_murky",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_recess",
+    "group": "fill_recess_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 10 ] ] ],
+    "pre_terrain": "t_puddle",
     "post_terrain": "t_dirt"
   },
   {
@@ -1117,7 +1141,6 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "material_soil", 25 ] ] ],
     "dark_craftable": true,
     "pre_terrain": "t_dirtmound",
     "post_terrain": "t_dirt",
@@ -2148,7 +2171,8 @@
     "time": "1 m",
     "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_table"
+    "post_terrain": "f_table",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2185,7 +2209,8 @@
     "components": [ [ [ "workbench", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_workbench"
+    "post_terrain": "f_workbench",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2267,7 +2292,8 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "withered", 50 ] ] ],
+    "//": "12,5 liters",
+    "components": [ [ [ "leaves", 125 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_leaves_pile"
@@ -2282,7 +2308,8 @@
     "components": [ [ [ "hammock", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.  Must be supported on at least two sides.",
     "pre_special": "check_support",
-    "post_terrain": "f_hammock"
+    "post_terrain": "f_hammock",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2294,7 +2321,8 @@
     "components": [ [ [ "hammock_net", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.  Must be supported on at least two sides.",
     "pre_special": "check_support",
-    "post_terrain": "f_hammock_net"
+    "post_terrain": "f_hammock_net",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2456,7 +2484,8 @@
     "components": [ [ [ "anvil", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_anvil"
+    "post_terrain": "f_anvil",
+    "activity_level": "MODERATE_EXERCISE"
   },
   {
     "type": "construction",
@@ -2468,7 +2497,8 @@
     "components": [ [ [ "char_forge", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_forge"
+    "post_terrain": "f_forge",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2480,7 +2510,8 @@
     "components": [ [ [ "still", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_still"
+    "post_terrain": "f_still",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2531,7 +2562,8 @@
     "time": "10 m",
     "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_hay"
+    "post_terrain": "f_hay",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3106,7 +3138,8 @@
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_up_OK",
     "pre_terrain": "t_rock",
-    "post_special": "done_mine_upstair"
+    "post_special": "done_mine_upstair",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
@@ -3174,7 +3207,8 @@
     "time": "5 m",
     "components": [ [ [ "fridge", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3185,7 +3219,8 @@
     "time": "5 m",
     "components": [ [ [ "minifridge", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3196,7 +3231,8 @@
     "time": "5 m",
     "components": [ [ [ "freezer", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3207,7 +3243,8 @@
     "time": "5 m",
     "components": [ [ [ "minifreezer", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3217,6 +3254,40 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "oven", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_foodco",
+    "group": "place_foodco",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "craftrig", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_chemlab",
+    "group": "place_chemlab",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "chemlab", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_welding_rig",
+    "group": "place_weldrig",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "weldrig", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -3229,7 +3300,8 @@
     "time": "5 m",
     "components": [ [ [ "stationary_water_purifier", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3239,6 +3311,51 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "arcade_machine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_nitrogen_generator",
+    "group": "place_nitrogen_generator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "nitrogen_generator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_ammonia_machine_reactor",
+    "group": "place_ammonia_machine_reactor",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "ammonia_machine_reactor", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_ammonia_machine_pipework",
+    "group": "place_ammonia_machine_pipework",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "ammonia_machine_pipework", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_electrolyzer_makeshift",
+    "group": "place_electrolyzer_makeshift",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "electrolyzer_makeshift", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -3251,7 +3368,8 @@
     "time": "5 m",
     "components": [ [ [ "forge", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3262,7 +3380,8 @@
     "time": "5 m",
     "components": [ [ [ "kiln", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3273,7 +3392,8 @@
     "time": "5 m",
     "components": [ [ [ "drill_press", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3284,7 +3404,8 @@
     "time": "5 m",
     "components": [ [ [ "tablesaw", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3295,7 +3416,8 @@
     "time": "5 m",
     "components": [ [ [ "mitresaw", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3306,7 +3428,8 @@
     "time": "5 m",
     "components": [ [ [ "bandsaw", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3317,7 +3440,8 @@
     "time": "5 m",
     "components": [ [ [ "router", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3328,7 +3452,8 @@
     "time": "5 m",
     "components": [ [ [ "planer", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3339,7 +3464,8 @@
     "time": "5 m",
     "components": [ [ [ "jointer", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3350,7 +3476,8 @@
     "time": "5 m",
     "components": [ [ [ "hydraulic_press", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3361,7 +3488,8 @@
     "time": "5 m",
     "components": [ [ [ "air_compressor", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3373,7 +3501,8 @@
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "solar_panel", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3385,7 +3514,8 @@
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "reinforced_solar_panel", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3397,7 +3527,8 @@
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "solar_panel_v2", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3409,7 +3540,8 @@
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "reinforced_solar_panel_v2", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3420,7 +3552,8 @@
     "time": "5 m",
     "components": [ [ [ "large_space_heater", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3431,7 +3564,8 @@
     "time": "5 m",
     "components": [ [ [ "small_space_heater", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3442,7 +3576,8 @@
     "time": "6 m",
     "components": [ [ [ "small_storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3453,7 +3588,8 @@
     "time": "6 m",
     "components": [ [ [ "medium_storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3464,7 +3600,8 @@
     "time": "6 m",
     "components": [ [ [ "storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3475,7 +3612,8 @@
     "time": "6 m",
     "components": [ [ [ "large_storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3486,7 +3624,8 @@
     "time": "6 m",
     "components": [ [ [ "battery_car", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3497,7 +3636,8 @@
     "time": "6 m",
     "components": [ [ [ "household_washing_machine", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3508,7 +3648,8 @@
     "time": "6 m",
     "components": [ [ [ "household_dishwasher", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3519,7 +3660,8 @@
     "time": "6 m",
     "components": [ [ [ "autoclave", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
   },
   {
     "type": "construction",
@@ -3530,7 +3672,8 @@
     "time": "5 s",
     "components": [ [ [ "standing_lamp", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",
@@ -3541,7 +3684,8 @@
     "time": "5 s",
     "components": [ [ [ "standing_floodlight", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",
@@ -3552,7 +3696,8 @@
     "time": "4 m",
     "components": [ [ [ "foot_locker_recharge_station", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
   },
   {
     "type": "construction",
@@ -3563,7 +3708,8 @@
     "time": "2 m",
     "components": [ [ [ "box_battery_charger", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3576,7 +3722,8 @@
     "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ] ],
     "pre_flags": "WIRED_WALL",
     "pre_special": "check_no_wiring",
-    "post_special": "done_wiring"
+    "post_special": "done_wiring",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3880,7 +4027,8 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
     "pre_terrain": "t_clay",
-    "post_special": "done_extract_maybe_revert_to_dirt"
+    "post_special": "done_extract_maybe_revert_to_dirt",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
@@ -3893,7 +4041,8 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
     "pre_terrain": "t_claymound",
-    "post_special": "done_extract_maybe_revert_to_dirt"
+    "post_special": "done_extract_maybe_revert_to_dirt",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
@@ -4035,7 +4184,8 @@
     "pre_special": "check_no_trap",
     "post_special": "done_mark_firewood",
     "dark_craftable": true,
-    "post_flags": [ "keep_items" ]
+    "post_flags": [ "keep_items" ],
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",
@@ -4048,7 +4198,8 @@
     "pre_special": "check_no_trap",
     "post_special": "done_mark_practice_target",
     "dark_craftable": true,
-    "post_flags": [ "keep_items" ]
+    "post_flags": [ "keep_items" ],
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",
@@ -4699,6 +4850,24 @@
     "post_terrain": "t_pit_shallow",
     "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
     "post_special": "done_dig_grave",
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_exhume"
+  },
+  {
+    "type": "construction",
+    "id": "constr_exhume_new",
+    "skill": "survival",
+    "group": "dig_a_shallow_pit",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "17m",
+    "on_display": true,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "pre_terrain": "t_grave_new",
+    "post_terrain": "t_pit_shallow",
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
+    "post_special": "done_dig_grave_nospawn",
+    "post_flags": [ "keep_items" ],
     "activity_level": "EXTRA_EXERCISE",
     "do_turn_special": "do_turn_exhume"
   },
@@ -5427,7 +5596,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER_SOFT", "level": 1 } ] ],
-    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "rag", 8 ] ] ],
+    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "cotton_patchwork", 8 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_door_glass_c"

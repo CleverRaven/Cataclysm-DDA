@@ -6138,6 +6138,24 @@ void Character::mod_stamina( int mod )
     if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
         return;
     }
+
+    float quarter_thresh = 0.25 * get_stamina_max();
+    float half_thresh = 0.5 * get_stamina_max();
+
+    std::string quarter_stam_counter_str = get_value( "quarter_stam_counter" );
+    int quarter_stam_counter = quarter_stam_counter_str.empty() ? 0 : std::stoi(
+                                   quarter_stam_counter_str );
+
+    if( stamina > half_thresh && stamina + mod < half_thresh ) {
+        set_value( "got_to_half_stam", "true" );
+    }
+
+    if( stamina > quarter_thresh && stamina + mod < quarter_thresh && quarter_stam_counter < 5 ) {
+        quarter_stam_counter++;
+        set_value( "quarter_stam_counter", std::to_string( quarter_stam_counter ) );
+        mod_healthy_mod( 1, 5 );
+    }
+
     stamina += mod;
     if( stamina < 0 ) {
         add_effect( effect_winded, 10_turns );
@@ -8081,6 +8099,25 @@ std::string Character::is_snuggling() const
     return "nothing";
 }
 
+// If the player is not wielding anything big, check if hands can be put in pockets
+bool Character::can_use_pockets() const
+{
+    // TODO Check that the pocket actually has enough space for the wielded item?
+    return weapon.volume() < 500_ml;
+}
+
+// If the player's head is not encumbered, check if hood can be put up
+bool Character::can_use_hood() const
+{
+    return encumb( body_part_head ) < 10;
+}
+
+// If the player's mouth is not encumbered, check if collar can be put up
+bool Character::can_use_collar() const
+{
+    return encumb( body_part_mouth ) < 10;
+}
+
 std::map<bodypart_id, int> Character::bonus_item_warmth() const
 {
     const int pocket_warmth = worn.pocket_warmth();
@@ -8091,19 +8128,15 @@ std::map<bodypart_id, int> Character::bonus_item_warmth() const
     for( const bodypart_id &bp : get_all_body_parts() ) {
         ret.emplace( bp, 0 );
 
-        // If the player is not wielding anything big, check if hands can be put in pockets
-        if( ( bp == body_part_hand_l || bp == body_part_hand_r ) &&
-            weapon.volume() < 500_ml ) {
+        if( ( bp == body_part_hand_l || bp == body_part_hand_r ) && can_use_pockets() ) {
             ret[bp] += pocket_warmth;
         }
 
-        // If the player's head is not encumbered, check if hood can be put up
-        if( bp == body_part_head && encumb( body_part_head ) < 10 ) {
+        if( bp == body_part_head && can_use_hood() ) {
             ret[bp] += hood_warmth;
         }
 
-        // If the player's mouth is not encumbered, check if collar can be put up
-        if( bp == body_part_mouth && encumb( body_part_mouth ) < 10 ) {
+        if( bp == body_part_mouth && can_use_collar() ) {
             ret[bp] += collar_warmth;
         }
     }
@@ -9625,7 +9658,6 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::HOSTILE;
             case MATT_NULL:
-            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
@@ -10007,6 +10039,8 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
         loc.remove_item();
     }
+
+    get_player_character().recoil = MAX_RECOIL;
 
     return true;
 }
@@ -11037,7 +11071,8 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
     moves -= item_store_cost( put, container, penalties, base_cost );
     if( check_best_pkt && pk_type == item_pocket::pocket_type::CONTAINER &&
         container.get_all_contained_pockets().size() > 1 ) {
-        container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1 );
+        // Bypass pocket settings (assuming the item is manually stored)
+        container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1, false, false, true );
     } else {
         container.put_in( i_rem( &put ), pk_type );
     }

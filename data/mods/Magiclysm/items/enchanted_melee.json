@@ -909,7 +909,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES", "GREAT_HAMMERS" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ], [ "HAMMER", 1 ] ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 7, "need_wielding": true },
@@ -975,6 +975,7 @@
     "symbol": "/",
     "material": [ "steel", "plastic" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
+    "weapon_category": [ "BATONS" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": {
       "menu_text": "Extend to staff",
@@ -1001,6 +1002,7 @@
     "symbol": "/",
     "material": [ "steel", "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
     "use_action": {
       "menu_text": "Retract to baton",

@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "name": { "str": "balaclava" },
     "description": "A warm covering that protects the head and face from the cold.",
-    "weight": "40 g",
+    "weight": "70 g",
     "volume": "250 ml",
     "price": 3500,
     "price_postapoc": 50,
@@ -43,7 +43,7 @@
     "category": "clothing",
     "name": { "str": "bandana" },
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
-    "weight": "42 g",
+    "weight": "35 g",
     "volume": "250 ml",
     "price": 600,
     "price_postapoc": 10,
@@ -181,6 +181,7 @@
         "id": "blue_mask_dust",
         "name": { "str": "blue dust mask" },
         "description": "It's colored light blue.",
+        "color": "blue",
         "weight": 25,
         "append": true
       },
@@ -188,6 +189,7 @@
         "id": "black_mask_dust",
         "name": { "str": "black dust mask" },
         "description": "It's colored black.",
+        "color": "dark_gray",
         "weight": 15,
         "append": true
       },
@@ -195,6 +197,7 @@
         "id": "flower_mask_dust",
         "name": { "str": "flower dust mask" },
         "description": "It's yellow and decorated in a pattern full of flowers.",
+        "color": "yellow",
         "weight": 6,
         "append": true
       },
@@ -202,6 +205,7 @@
         "id": "camo_mask_dust",
         "name": { "str": "camo dust mask" },
         "description": "It's painted in camouflage dye.",
+        "color": "green",
         "weight": 4,
         "append": true
       },
@@ -209,6 +213,8 @@
         "id": "mustache_mask_dust",
         "name": { "str": "mustache dust mask" },
         "description": "It has a large mustache painted on it.",
+        "symbol": "w",
+        "color": "dark_gray",
         "weight": 2,
         "append": true
       },
@@ -216,6 +222,8 @@
         "id": "skull_mask_dust",
         "name": { "str": "skull dust mask" },
         "description": "It's black and with a skull mouth decoration.",
+        "symbol": "S",
+        "color": "dark_gray",
         "weight": 2,
         "append": true
       },
@@ -223,6 +231,7 @@
         "id": "cartoon_mask_dust",
         "name": { "str": "cartoon dust mask" },
         "description": "It has cartoon characters painted on it.",
+        "color": "light_red",
         "weight": 2,
         "append": true
       },
@@ -230,6 +239,7 @@
         "id": "steampunk_mask_dust",
         "name": { "str": "steampunk dust mask" },
         "description": "It's colored black and with a steampunk design.  Very fashionable.",
+        "color": "dark_gray",
         "weight": 2,
         "append": true
       },
@@ -237,6 +247,7 @@
         "id": "flag_mask_dust",
         "name": { "str": "flag dust mask" },
         "description": "It's embroidered with the pattern of an American flag.  Perfect for a real patriot.",
+        "color": "light_red",
         "weight": 2,
         "append": true
       }
