@@ -4457,7 +4457,7 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
     "active": true,
-    "cost": 2,
+    "cost": 3,
     "time": 1,
     "fatigue": true,
     "kcal": true,
