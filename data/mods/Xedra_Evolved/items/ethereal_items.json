@@ -23,8 +23,8 @@
   {
     "id": "rapier_dreamdross",
     "type": "TOOL",
-    "name": { "str": "rapier" },
-    "description": "This is a thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
+    "name": { "str": "dreamdross rapier" },
+    "description": "This is a thin ephemeral sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
     "weight": "500 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -51,6 +51,39 @@
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 10 } ] } ]
+    },
+    "category": "weapons"
+  },
+  {
+    "id": "dagger_dreamdross",
+    "type": "TOOL",
+    "name": { "str": "dreamdross fighting knife" },
+    "description": "This ephemeral dagger is 15 inches long from the hilt to the tip. the blade itself is a pearly white color and is extremely sharp double edged blade.",
+    "weight": "145 g",
+    "volume": "250 ml",
+    "longest_side": "38 cm",
+    "price": 4000,
+    "price_postapoc": 750,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
+    "stab": 16,
+    "material": [ "dreamstuff" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "RAPID", "WBLOCK_1", "PRECISE" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ] [ "BUTCHER", 5 ] ],
+    "flags": [
+      "STAB",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_KNIFE"
+    ],
+    "weapon_category": [ "KNIVES" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 8 } ] } ]
     },
     "category": "weapons"
   },
