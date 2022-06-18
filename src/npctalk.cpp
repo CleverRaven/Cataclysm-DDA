@@ -2510,8 +2510,7 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std::string &member )
 {
     ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
     int_or_var<T> iov = get_int_or_var<T>( jo, member );
@@ -3476,8 +3475,7 @@ void talk_effect_fun_t<T>::set_give_equipment( const JsonObject &jo, const std::
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::string &member )
 {
     bool group = jo.get_bool( "group", false );
     mtype_id new_monster;
@@ -3592,8 +3590,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &member,
-                                      bool is_npc )
+void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &member )
 {
     field_type_str_id new_field = field_type_str_id( jo.get_string( member ) );
     int_or_var<T> iov_intensity = get_int_or_var<T>( jo, "intensity", false, 1 );
