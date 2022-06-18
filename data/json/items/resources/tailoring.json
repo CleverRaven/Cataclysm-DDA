@@ -349,7 +349,7 @@
     "id": "sheet_felt_patchwork",
     "copy-from": "sheet_felt",
     "type": "GENERIC",
-    "name": { "str_sp": "patchwork felt sheets" },
+    "name": { "str": "patchwork felt sheet", "str_pl": "patchwork felt sheets" },
     "description": "A patchwork felt sheet, sewn together in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "//": "150GSM felt",
     "price": 500,
