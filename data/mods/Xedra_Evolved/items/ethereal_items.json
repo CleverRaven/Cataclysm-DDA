@@ -70,7 +70,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_1", "PRECISE" ],
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ] [ "BUTCHER", 5 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ],
     "flags": [
       "STAB",
       "UNBREAKABLE_MELEE",
