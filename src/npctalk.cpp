@@ -2528,7 +2528,7 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
     } else {
         key.str_val = "";
     }
-    function = [iov, transform, target_var, is_npc, dov_time_in_future, key]( const T & d ) {
+    function = [iov, transform, target_var, dov_time_in_future, key]( const T & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
 
         int radius = iov.evaluate( d );
@@ -3506,7 +3506,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
+    function = [new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
                         iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
                         spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
             friendly]( const T & d ) {
@@ -3607,7 +3607,7 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
-    function = [is_npc, new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
+    function = [new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
             hit_player, target_var]( const T & d ) {
         int radius = iov_radius.evaluate( d );
         int intensity = iov_intensity.evaluate( d );
