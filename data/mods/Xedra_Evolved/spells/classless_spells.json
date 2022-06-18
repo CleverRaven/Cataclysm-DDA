@@ -24,7 +24,7 @@
     "id": "dread_weight",
     "type": "SPELL",
     "name": "Weight of Dread",
-    "description": "Everything around you faces an existential crisis and moves slower as a result.  Including things that you wouldn't expect to suffer from existential crises, like the undead.  The air around the targets extremities chills dramatically.  Higher levels allow a bigger AoE, and longer effect.",
+    "description": "Everything around you faces an existential crisis and moves slower as a result.  Including things that you wouldn't expect to suffer from existential crises, like the undead.  The air around the targets' extremities chills dramatically.  Higher levels allow a bigger AoE, and longer effect.",
     "effect": "attack",
     "effect_str": "effect_dread_weight",
     "shape": "blast",

@@ -123,7 +123,7 @@
     "desc": [ "Is there any point to forward movement?" ],
     "max_intensity": 4,
     "int_add_val": 1,
-    "apply_message": "The air around you chills as existence loses it's appeal!",
+    "apply_message": "The air around you chills as existence loses its appeal!",
     "remove_message": "The weight is lifted from your mind and the air warms.",
     "base_mods": { "speed_mod": [ -40 ] },
     "scaling_mods": { "speed_mod": [ -10 ] }
