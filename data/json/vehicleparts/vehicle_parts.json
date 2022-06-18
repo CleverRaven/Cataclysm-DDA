@@ -46,7 +46,7 @@
     "type": "item_group",
     "id": "ig_vp_cloth",
     "subtype": "collection",
-    "entries": [ { "item": "rag", "count": [ 3, 6 ] } ]
+    "entries": [ { "item": "cotton_patchwork", "count": [ 3, 6 ] } ]
   },
   {
     "type": "item_group",
@@ -1245,7 +1245,7 @@
       "STABLE",
       "UNMOUNT_ON_DAMAGE"
     ],
-    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "rag", "count": [ 5, 10 ] } ]
+    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "cotton_patchwork", "count": [ 5, 10 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -1927,7 +1927,7 @@
     },
     "flags": [ "FOLDABLE" ],
     "pseudo_tools": [ { "id": "towel", "hotkey": "t" } ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "rag", "count": [ 1, 6 ] } ]
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
   },
   {
     "type": "vehicle_part",

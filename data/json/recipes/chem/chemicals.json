@@ -13,7 +13,7 @@
     "autolearn": true,
     "charges": 1,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "rag", -1 ], [ "felt_patch", -1 ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "cotton_patchwork", -1 ], [ "felt_patch", -1 ] ] ],
     "components": [ [ [ "feces_bird", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -89,7 +89,7 @@
       { "id": "CONTAIN", "level": 1 },
       { "id": "SEPARATE", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
     "components": [
       [
         [ "lemon", 8 ],

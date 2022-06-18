@@ -1959,6 +1959,10 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
         return false;
     }
 
+    if( myclass->get_shopkeeper_blacklist().matches( it, *this ) ) {
+        return false;
+    }
+
     // TODO: Base on inventory
     return at_price >= 0;
 }
@@ -2026,7 +2030,7 @@ void npc::shop_restock()
         return;
     }
 
-    restock = calendar::turn + 6_days;
+    restock = calendar::turn + myclass->get_shop_restock_interval();
     if( is_player_ally() ) {
         return;
     }

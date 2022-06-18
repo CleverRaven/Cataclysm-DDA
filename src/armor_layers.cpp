@@ -674,9 +674,10 @@ void outfit::sort_armor( Character &guy )
         }
 
         // Left header
-        mvwprintz( w_sort_left, point_zero, c_light_gray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, 0, c_light_gray, string_format( _( "Storage (%s)" ),
-                     volume_units_abbr() ) );
+        std:: string storage_header = string_format( _( "Storage (%s)" ), volume_units_abbr() );
+        trim_and_print( w_sort_left, point_zero, left_w - utf8_width( storage_header ) - 1, c_light_gray,
+                        _( "(Innermost)" ) );
+        right_print( w_sort_left, 0, 0, c_light_gray, storage_header );
         // Left list
         const int max_drawindex = std::min( leftListSize - leftListOffset, leftListLines );
         int storage_character_allowance = 5; //Sufficient for " x.yz", will increase if necessary
@@ -692,7 +693,7 @@ void outfit::sort_armor( Character &guy )
             units::volume worn_armor_capacity = tmp_worn[itemindex]->get_total_capacity();
             double worn_armor_storage = convert_volume( units::to_milliliter( worn_armor_capacity ) );
             std::string storage_string = string_format( "%.2f", worn_armor_storage );
-            const int current_character_allowance = worn_armor_storage > 0 ? storage_string.length() : 0;
+            const int current_character_allowance = worn_armor_storage > 0 ? utf8_width( storage_string ) : 0;
             storage_character_allowance = std::max( current_character_allowance + 1,
                                                     storage_character_allowance );
 
@@ -716,19 +717,21 @@ void outfit::sort_armor( Character &guy )
                 mvwprintz( w_sort_left, point( offset_x - 1, drawindex + 1 ), c_cyan, _( "H" ) );
             }
         }
+        if( leftListSize == 0 ) {
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            trim_and_print( w_sort_left, point( 0, 1 ), left_w, c_light_blue, _( "<empty>" ) );
+        }
 
         // Left footer
         mvwprintz( w_sort_left, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
-        if( leftListOffset + leftListLines < leftListSize ) {
-            // TODO: replace it by right_print()
-            mvwprintz( w_sort_left, point( left_w - utf8_width( _( "<more>" ) ), cont_h - 1 ),
-                       c_light_blue, _( "<more>" ) );
-        }
-        if( leftListSize == 0 ) {
-            // TODO: replace it by right_print()
-            mvwprintz( w_sort_left, point( left_w - utf8_width( _( "<empty>" ) ), cont_h - 1 ),
-                       c_light_blue, _( "<empty>" ) );
-        }
+
+        scrollbar() //Left list scrollbar at far left
+        .offset_x( 0 )
+        .offset_y( 4 ) //Header allowance
+        .content_size( leftListSize )
+        .viewport_pos( leftListOffset )
+        .viewport_size( cont_h - 2 )
+        .apply( w_sort_armor );
 
         // Items stats
         if( leftListSize > 0 ) {
@@ -743,8 +746,11 @@ void outfit::sort_armor( Character &guy )
         guy.print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
-        mvwprintz( w_sort_right, point_zero, c_light_gray, _( "(Innermost)" ) );
-        right_print( w_sort_right, 0, 0, c_light_gray, _( "Encumbrance" ) );
+        std::string encumbrance_header = _( "Encumbrance" );
+        trim_and_print( w_sort_right, point_zero, right_w - utf8_width( encumbrance_header ) - 1,
+                        c_light_gray,
+                        _( "(Innermost)" ) );
+        right_print( w_sort_right, 0, 0, c_light_gray, encumbrance_header );
 
         const auto &combine_bp = [&guy]( const bodypart_id & cover ) -> bool {
             const bodypart_id opposite = cover.obj().opposite_part;
@@ -756,6 +762,9 @@ void outfit::sort_armor( Character &guy )
         // Right list
         rightListSize = 0;
         for( const bodypart_id &cover : armor_cat ) {
+            if( cover == bodypart_id( "bp_null" ) ) {
+                continue;
+            }
             if( !combine_bp( cover ) || rl.count( cover.obj().opposite_part ) == 0 ) {
                 rightListSize += items_cover_bp( guy, cover ).size() + 1;
                 rl.insert( cover );
@@ -768,6 +777,8 @@ void outfit::sort_armor( Character &guy )
         }
         int pos = 1;
         int curr = 0;
+        int encumbrance_char_allowance = 4; //Enough for " 99+", will increase if necessary
+        int item_name_offset = 2;
         for( const bodypart_id &cover : rl ) {
             if( cover == bodypart_id( "bp_null" ) ) {
                 continue;
@@ -781,25 +792,33 @@ void outfit::sort_armor( Character &guy )
             for( layering_item_info &elem : items_cover_bp( guy, cover ) ) {
                 if( curr >= rightListOffset && pos <= rightListLines ) {
                     nc_color color = elem.penalties.color_for_stacking_badness();
-                    trim_and_print( w_sort_right, point( 2, pos ), right_w - 5, color,
-                                    elem.name );
                     char plus = elem.penalties.badness() > 0 ? '+' : ' ';
-                    mvwprintz( w_sort_right, point( right_w - 4, pos ), c_light_gray, "%3d%c",
-                               elem.encumber, plus );
+                    std::string encumbrance_string = string_format( "%d%c", elem.encumber, plus );
+                    if( utf8_width( encumbrance_string ) + 1 > encumbrance_char_allowance ) {
+                        encumbrance_char_allowance = utf8_width( encumbrance_string ) + 1;
+                    }
+                    trim_and_print( w_sort_right, point( item_name_offset, pos ),
+                                    right_w - item_name_offset - encumbrance_char_allowance, color,
+                                    elem.name );
+                    right_print( w_sort_right, pos, 0, c_light_gray, encumbrance_string );
                     pos++;
                 }
                 curr++;
             }
         }
+        scrollbar() //Right list scrollbar (on left side of right list)
+        .offset_x( 2 + left_w + middle_w )
+        .offset_y( 4 ) //Header allowance
+        .content_size( rightListSize )
+        .viewport_pos( rightListOffset )
+        .viewport_size( cont_h - 2 )
+        .apply( w_sort_armor );
 
         // Right footer
         mvwprintz( w_sort_right, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
-        if( rightListOffset + rightListLines < rightListSize ) {
-            // TODO: replace it by right_print()
-            mvwprintz( w_sort_right, point( right_w - utf8_width( _( "<more>" ) ), cont_h - 1 ), c_light_blue,
-                       _( "<more>" ) );
-        }
+
         // F5
+        wnoutrefresh( w_sort_armor ); // Required to show scrollbars
         wnoutrefresh( w_sort_cat );
         wnoutrefresh( w_sort_left );
         wnoutrefresh( w_sort_middle );

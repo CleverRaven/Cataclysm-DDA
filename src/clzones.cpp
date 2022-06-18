@@ -806,37 +806,53 @@ bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
 const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
         const zone_type_id &type, const faction_id &fac ) const
 {
+    std::vector<zone_data const *> ret = get_zones_at( where, type, fac );
+    if( !ret.empty() ) {
+        return ret.front();
+    }
+
+    return nullptr;
+}
+
+std::vector<zone_data const *> zone_manager::get_zones_at( const tripoint_abs_ms &where,
+        const zone_type_id &type, const faction_id &fac ) const
+{
+    std::vector<zone_data const *> ret;
     for( const zone_data &zone : zones ) {
         if( zone.has_inside( where ) && zone.get_type() == type && zone.get_faction() == fac ) {
-            return &zone;
+            ret.emplace_back( &zone );
         }
     }
     map &here = get_map();
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( const zone_data *zone : vzones ) {
         if( zone->has_inside( where ) && zone->get_type() == type && zone->get_faction() == fac ) {
-            return zone;
+            ret.emplace_back( zone );
         }
     }
-    return nullptr;
+    return ret;
 }
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
                                     const zone_type_id &ztype, const faction_id &fac ) const
 {
-    const zone_data *zone = get_zone_at( where, ztype, fac );
-    if( !zone || !it ) {
+    std::vector<zone_data const *> const zones = get_zones_at( where, ztype, fac );
+    if( zones.empty() || !it ) {
         return false;
     }
-    const loot_options &options = dynamic_cast<const loot_options &>( zone->get_options() );
-    std::string filter_string = options.get_mark();
-    if( ztype == zone_type_LOOT_CUSTOM ) {
-        auto const z = item_filter_from_string( filter_string );
-
-        return z( *it );
-    }
-    if( ztype == zone_type_LOOT_ITEM_GROUP ) {
-        return item_group::group_contains_item( item_group_id( filter_string ), it->typeId() );
+    for( zone_data const *zone : zones ) {
+        loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
+        std::string const filter_string = options.get_mark();
+        bool has = false;
+        if( ztype == zone_type_LOOT_CUSTOM ) {
+            auto const z = item_filter_from_string( filter_string );
+            has = z( *it );
+        } else if( ztype == zone_type_LOOT_ITEM_GROUP ) {
+            has = item_group::group_contains_item( item_group_id( filter_string ), it->typeId() );
+        }
+        if( has ) {
+            return true;
+        }
     }
 
     return false;
@@ -1485,8 +1501,10 @@ void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id
 {
     zone_manager &mgr = zone_manager::get_manager();
     auto options = zone_options::create( type );
+    tripoint const s_ = std::min( start, end );
+    tripoint const e_ = std::max( start, end );
     if( type == zone_type_LOOT_CUSTOM or type == zone_type_LOOT_ITEM_GROUP ) {
         dynamic_cast<loot_options *>( &*options )->set_mark( filter );
     }
-    mgr.add( name, type, fac, false, true, start, end, options, false, true, pmap );
+    mgr.add( name, type, fac, false, true, s_, e_, options, false, true, pmap );
 }
