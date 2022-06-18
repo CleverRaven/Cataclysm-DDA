@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "chain hoist" },
-    "description": "Manual lifting equipment featuring a chain and hook.  It could be used to lift heavy loads up to 1.5 metric ton.",
+    "description": "Manual lifting equipment featuring a chain and hook.  It could be used to lift heavy loads up to 1.5 metric tons.",
     "price": 13400,
     "price_postapoc": 2000,
     "weight": "14600 g",
