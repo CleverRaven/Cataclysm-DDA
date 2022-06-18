@@ -1,11 +1,13 @@
 #ifndef CATA_SRC_SHOP_CONS_RATE_H
 #define CATA_SRC_SHOP_CONS_RATE_H
 
-#include "dialogue.h"
+#include "generic_factory.h"
 #include "type_id.h"
 #include "units.h"
 
 class JsonObject;
+class npc;
+struct dialogue;
 
 constexpr char const *SHOPKEEPER_CONSUMPTION_RATES = "shopkeeper_consumption_rates";
 constexpr char const *SHOPKEEPER_BLACKLIST = "shopkeeper_blacklist";
@@ -19,6 +21,13 @@ struct icg_entry {
 
     bool operator==( icg_entry const &rhs ) const;
     bool matches( item const &it, npc const &beta ) const;
+};
+
+class icg_entry_reader : public generic_typed_reader<icg_entry_reader>
+{
+    public:
+        static icg_entry _part_get_next( JsonObject const &jo );
+        static icg_entry get_next( JsonValue &jv );
 };
 
 struct shopkeeper_cons_rate_entry: public icg_entry {

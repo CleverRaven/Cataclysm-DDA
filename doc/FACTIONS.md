@@ -17,6 +17,16 @@ An NPC faction looks like this:
     "lone_wolf_faction": true,
     "wealth": 75000000,
     "currency": "FMCNote",
+    "price_rules": [
+      { "item": "money_strap_FMCNote", "fixed_adj": 0 },
+      { "category": "tools", "markup": 1.5 },
+      {
+        "group": "test_item_group",
+        "markup": 2.0,
+        "fixed_adj": 0.1,
+        "condition": { "npc_has_var": "thirsty", "type": "bool", "context": "allnighter", "value": "yes" }
+      }
+    ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,
@@ -58,6 +68,7 @@ Field | Meaning
 `"food_supply"` | integer, the number of calories available to the faction.  Has no effect in play currently.
 `"wealth"` | integer, number of post-apocalyptic currency in cents that that faction has to purchase stuff.
 `"currency"` | string, the item `"id"` of the faction's preferred currency.  Faction shopkeeps will trade faction current at 100% value, for both selling and buying.
+`"price_rules"` | array, allows defining `markup` and/or `fixed_adj` for an `item`/`category`/`group`. `markup` is only used when an NPC is selling to the avatar and defaults to `1`. `fixed_adj` is used instead of adjustment based on social skill and intelligence stat and can be used to define secondary currencies. Lower entries override higher ones. For conditionals, the avatar is used as alpha and the evaluating npc as beta
 `"relations"` | dictionary, a description of how the faction sees other factions.  See below
 `"mon_faction"` | string, optional.  The monster faction `"name"` of the monster faction that this faction counts as.  Defaults to "human" if unspecified.
 `"lone_wolf_faction"` | bool, optional. This is a proto/micro faction template that is used to generate 1-person factions for dynamically spawned NPCs, defaults to "false" if unspecified.

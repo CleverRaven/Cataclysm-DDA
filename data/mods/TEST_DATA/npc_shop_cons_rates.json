@@ -57,8 +57,9 @@
     "type": "npc",
     "id": "test_npc_trader",
     "class": "test_npc_trader_class",
+    "faction": "debuggers",
     "attitude": 1,
-    "mission": 0,
+    "mission": 3,
     "chat": "TALK_TEST_START"
   }
 ]
