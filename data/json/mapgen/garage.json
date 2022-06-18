@@ -20,7 +20,7 @@
         " |c..M#MM#M....M#MM#M.|,",
         " |c..M#MM#M....M#MM#M.|,",
         " |K..MMMMMMMMMMMMMMMM.|,",
-        " |m...................|,",
+        " |m..................á|,",
         " |---l...........HHHHH|,",
         " |ts|c...........HLLLL|,",
         " |-+|p...........Hbbbb|,",
@@ -34,6 +34,7 @@
       ],
       "terrain": {
         " ": "t_region_groundcover_urban",
+        "á": "f_chain_hoist",
         "E": "t_pavement",
         ",": "t_concrete",
         "U": "t_concrete",
@@ -263,7 +264,7 @@
         " |..MMMMMM..|-+-|f6ddd|X",
         " |m.........|&.s|-----|X",
         " |---....---|---|LLLLL|X",
-        " |..............|bbbbb|X",
+        " |á.............|bbbbb|X",
         " |WWWW..WWWW|...+.....|X",
         " |c........c|-------+-|X",
         " |c.xx..xx.p|xx.+T|<..OX",
@@ -275,6 +276,7 @@
       ],
       "terrain": {
         " ": "t_region_groundcover_urban",
+        "á": "f_chain_hoist",
         "E": "t_pavement",
         "X": "t_sidewalk",
         "U": "t_sidewalk",

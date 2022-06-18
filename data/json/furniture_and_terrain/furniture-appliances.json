@@ -84,6 +84,39 @@
   },
   {
     "type": "furniture",
+    "id": "f_chain_hoist",
+    "name": "chain hoist",
+    "looks_like": "f_machinery_light",
+    "description": "Manual lifting equipment featuring a chain and hook.  It could be used to lift heavy loads up to 1.5 metric tons when converted into an appliance.",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": -1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "chain_hoist" },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 18, 20 ] },
+        { "item": "chain", "prob": 80 },
+        { "item": "grip_hook", "prob": 95 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "items": [
+        { "item": "pipe", "count": 2, "prob": 80 },
+        { "item": "chain", "prob": 40 },
+        { "item": "scrap", "count": [ 3, 8 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_dishwasher",
     "name": "dishwasher",
     "looks_like": "f_oven",
