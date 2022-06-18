@@ -508,6 +508,19 @@
     "components": [ [ [ "cotton_patchwork", 12 ] ] ]
   },
   {
+    "result": "storage_line",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
     "type": "recipe",
     "activity_level": "fake",
     "result": "toolbox_empty",
