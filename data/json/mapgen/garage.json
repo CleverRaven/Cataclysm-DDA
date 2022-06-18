@@ -34,7 +34,6 @@
       ],
       "terrain": {
         " ": "t_region_groundcover_urban",
-        "á": "f_chain_hoist",
         "E": "t_pavement",
         ",": "t_concrete",
         "U": "t_concrete",
@@ -57,6 +56,7 @@
       },
       "furniture": {
         "6": "f_console_broken",
+        "á": "f_chain_hoist",
         "A": "f_air_conditioner",
         "L": "f_locker",
         "b": "f_bench",
@@ -276,7 +276,6 @@
       ],
       "terrain": {
         " ": "t_region_groundcover_urban",
-        "á": "f_chain_hoist",
         "E": "t_pavement",
         "X": "t_sidewalk",
         "U": "t_sidewalk",
@@ -300,6 +299,7 @@
       },
       "toilets": { "&": {  } },
       "furniture": {
+        "á": "f_chain_hoist",
         "6": "f_console_broken",
         "A": "f_air_conditioner",
         "L": "f_locker",
