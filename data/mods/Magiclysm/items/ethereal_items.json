@@ -289,6 +289,7 @@
     "name": { "str": "Wicked Bonespear" },
     "description": "This is a wicked spear/halberd hybrid entirely created of bone.",
     "material": [ "bone" ],
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
     "flags": [
       "UNBREAKABLE_MELEE",
       "REACH_ATTACK",
@@ -603,6 +604,7 @@
     "name": { "str": "flaming sword" },
     "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
     "flags": [
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
@@ -634,6 +636,7 @@
     "name": { "str": "decaying boneclub" },
     "description": "A pulsating club made of bone, stained with an ever-moving blood coating eager to absorb the living.",
     "material": [ "bone", "flesh" ],
+    "weapon_category": [ "BATONS" ],
     "flags": [
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
@@ -801,6 +804,7 @@
     "symbol": "[",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "weapon_category": [ "CLAWS" ],
     "flags": [
       "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",

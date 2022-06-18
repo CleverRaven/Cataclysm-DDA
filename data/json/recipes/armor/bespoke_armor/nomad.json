@@ -83,7 +83,7 @@
     "difficulty": 5,
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "sewing_standard", 90 ], [ "fabric_lycra", 24 ], [ "tailoring_cotton_patchwork", 2 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 24 ], [ "tailoring_cotton_patchwork", 2 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_elastics" },
@@ -102,7 +102,7 @@
     "difficulty": 4,
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 3 ] ],
-    "using": [ [ "sewing_standard", 90 ], [ "tailoring_cotton_patchwork", 2 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [
       [ [ "shorts_cargo", 1 ], [ "pants_cargo", 1 ] ],

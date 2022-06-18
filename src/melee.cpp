@@ -711,7 +711,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Failsafe for tec_none
         if( technique_id == tec_none ) {
-            attack_vector = "HANDS";
+            attack_vector = cur_weapon->is_null() ? "HANDS" : "WEAPON";
         } else {
             attack_vector = martial_arts_data->get_valid_attack_vector( *this,
                             technique_id.obj().attack_vectors );

@@ -4838,7 +4838,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                        const int missing = cur_veh.discharge_battery( 1, false );
+                        const int missing = cur_veh.discharge_battery( 1, true );
                         // Around 85% efficient; a few of the discharges don't actually recharge
                         if( missing == 0 && !one_in( 7 ) ) {
                             if( n.is_vehicle_battery() ) {

@@ -138,9 +138,10 @@ Within these are the standard list of JSON objects having "type": "proficiency".
 Regarding `default_time_multiplier` and `default_fail_multiplier`, these specify the maximum penalty
 for lacking the proficiency when crafting a recipe that involves it.
 
-- For proficiencies that represent core basic knowledge and foundational principles, the `time` multiplier should usually be low (1.5 or so), and the `fail` multiplier should be high (4 or more).
-- For "flavor" proficiencies that offer a small boost, these should be around 1.5 each.
-- Most other proficiencies should be in the 2-3 range for both values.
+- For proficiencies that represent core basic knowledge and foundational principles, the `time` multiplier should usually be low (1.5 or so), and the `fail` multiplier should be high (1.4 or more).
+- For "flavor" proficiencies that offer a small boost, these should be around 1.5 for time and 1 to 1.1 for fail.
+- Most other proficiencies should be in the 2-3 range for time values and 1.2-1.3 for fail.
+- In general fail rates should range from 1.1 to 1.5, while time rates should range from 1.5 to 5.
 
 ### bonuses
 

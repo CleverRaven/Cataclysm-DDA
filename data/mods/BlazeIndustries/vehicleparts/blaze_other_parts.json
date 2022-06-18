@@ -10,7 +10,7 @@
     "broken_symbol": "#",
     "broken_color": "dark_gray",
     "durability": 250,
-    "size": 4000,
+    "size": 8000,
     "item": "vehicle_shelving",
     "location": "center",
     "requirements": {
