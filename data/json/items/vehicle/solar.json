@@ -21,15 +21,24 @@
     "copy-from": "solar_panel",
     "id": "folding_solar_panel",
     "name": { "str": "collapsible solar array" },
-    "description": "Electronic device that can convert solar radiation into electric power.  Useful for a vehicle.",
+    "description": "Electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a common, inexpensive type made with polycrystalline silicon cells.",
     "price": 120000,
     "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
+    "copy-from": "folding_solar_panel",
+    "id": "folding_solar_panel_v2",
+    "name": { "str": "advanced collapsible solar array" },
+    "description": "Electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a high-efficiency type made with monocrystalline silicon cells.",
+    "price": 220000,
+    "price_postapoc": 3500
+  },
+  {
+    "type": "GENERIC",
     "id": "reinforced_solar_panel",
     "name": { "str": "reinforced solar panel" },
-    "description": "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal panel.  Useful for a vehicle.",
+    "description": "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal panel.",
     "weight": "24153 g",
     "color": "light_blue",
     "material": [ "glass", "steel" ],
@@ -41,10 +50,8 @@
   {
     "type": "GENERIC",
     "id": "solar_panel_v2",
-    "name": { "str": "upgraded solar panel" },
-    "description": "Electronic device that can convert solar radiation into electric power.  This panel has been upgraded to convert more sunlight into power.  Useful for a vehicle.",
-    "weight": "18494 g",
-    "volume": "4500 ml",
+    "name": { "str": "advanced solar panel" },
+    "description": "Electronic device that can convert solar radiation into electric power.  This one is a high-efficiency type made with monocrystalline silicon cells.",
     "price": 190000,
     "price_postapoc": 3000,
     "copy-from": "solar_panel"
@@ -52,11 +59,8 @@
   {
     "type": "GENERIC",
     "id": "reinforced_solar_panel_v2",
-    "name": { "str": "upgraded reinforced solar panel" },
-    "description": "An upgraded solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal upgraded panel.  Useful for a vehicle.",
-    "weight": "29062 g",
-    "to_hit": -5,
-    "volume": "7500 ml",
+    "name": { "str": "advanced reinforced solar panel" },
+    "description": "An advanced solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal advanced panel.",
     "price": 240000,
     "price_postapoc": 3500,
     "copy-from": "reinforced_solar_panel"
@@ -65,7 +69,7 @@
     "type": "GENERIC",
     "id": "solar_cell",
     "name": { "str": "solar cell" },
-    "description": "A small electronic device that can convert solar radiation into electric power.  Useful for crafting.",
+    "description": "A small electronic device that can convert solar radiation into electric power.  This one is a common, inexpensive type made of polycrystalline silicon.",
     "weight": "500 g",
     "symbol": ";",
     "volume": "250 ml",
@@ -73,5 +77,14 @@
     "price": 5000,
     "price_postapoc": 100,
     "copy-from": "solar_panel"
+  },
+  {
+    "type": "GENERIC",
+    "id": "solar_cell_v2",
+    "name": { "str": "advanced solar cell" },
+    "description": "A small electronic device that can convert solar radiation into electric power.  This one is a high-efficiency type made of monocrystalline silicon.",
+    "price": 15000,
+    "price_postapoc": 300,
+    "copy-from": "solar_cell"
   }
 ]
