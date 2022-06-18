@@ -95,22 +95,6 @@
     ]
   },
   {
-    "id": "avchievement_gains_dreamer_trait",
-    "type": "achievement",
-    "name": "Dream deeply and truly"
-    "description": "You've gained the ability to bring forth your dreams into reality.",
-    "requirements": [
-      {
-        "event_statistic": "avatar_last_crosses_mutation_threshold",
-        "is": "==",
-        "target": [ "mutation_category_id", "FISH" ],
-        "description": "crossed fish mutation threshold",
-        "visible": "when_achievement_completed"
-      }
-    ]
-    "drop_fields": [ "character" ]
-  },
-  {
     "id": "avatar_gains_dreamer_trait",
     "type": "event_transformation",
     "event_type": "gains_mutation",
