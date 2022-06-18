@@ -154,6 +154,7 @@
     "food_supply": 115200,
     "wealth": 75000000,
     "currency": "FMCNote",
+    "price_rules": [ { "item": "money_strap_FMCNote", "fixed_adj": 0 }, { "item": "money_bundle_FMCNote", "fixed_adj": 0 } ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,

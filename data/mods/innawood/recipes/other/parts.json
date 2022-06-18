@@ -215,6 +215,6 @@
     "autolearn": true,
     "book_learn": [ [ "mag_fieldrepair", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_superior_short", 1, "LIST" ] ], [ [ "duct_tape", 20 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 4 ], [ "leather_belt", 1 ], [ "rope_superior_short", 1, "LIST" ] ], [ [ "duct_tape", 20 ] ] ]
   }
 ]

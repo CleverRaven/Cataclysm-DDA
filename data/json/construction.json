@@ -231,6 +231,30 @@
   },
   {
     "type": "construction",
+    "id": "constr_fill_water_murky",
+    "group": "fill_shallow_water_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 50 ], [ "material_sand", 500 ] ] ],
+    "pre_terrain": "t_water_murky",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_recess",
+    "group": "fill_recess_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 10 ] ] ],
+    "pre_terrain": "t_puddle",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_fill_swater_sh",
     "group": "fill_salt_water_with_dirt",
     "category": "CONSTRUCT",
@@ -1117,7 +1141,6 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "material_soil", 25 ] ] ],
     "dark_craftable": true,
     "pre_terrain": "t_dirtmound",
     "post_terrain": "t_dirt",
@@ -3236,6 +3259,39 @@
   },
   {
     "type": "construction",
+    "id": "app_foodco",
+    "group": "place_foodco",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "craftrig", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_chemlab",
+    "group": "place_chemlab",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "chemlab", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_welding_rig",
+    "group": "place_weldrig",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "weldrig", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_water_purifier",
     "group": "place_water_purifier",
     "category": "APPLIANCE",
@@ -3257,6 +3313,50 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_nitrogen_generator",
+    "group": "place_nitrogen_generator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "nitrogen_generator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_ammonia_machine_reactor",
+    "group": "place_ammonia_machine_reactor",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "ammonia_machine_reactor", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_ammonia_machine_pipework",
+    "group": "place_ammonia_machine_pipework",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "ammonia_machine_pipework", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_electrolyzer_makeshift",
+    "group": "place_electrolyzer_makeshift",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "electrolyzer_makeshift", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
   },
   {
     "type": "construction",
@@ -4754,6 +4854,24 @@
   },
   {
     "type": "construction",
+    "id": "constr_exhume_new",
+    "skill": "survival",
+    "group": "dig_a_shallow_pit",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "17m",
+    "on_display": true,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "pre_terrain": "t_grave_new",
+    "post_terrain": "t_pit_shallow",
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
+    "post_special": "done_dig_grave_nospawn",
+    "post_flags": [ "keep_items" ],
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_exhume"
+  },
+  {
+    "type": "construction",
     "id": "constr_arcfurnace",
     "group": "build_arc_furnace",
     "category": "FURN",
@@ -5477,7 +5595,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER_SOFT", "level": 1 } ] ],
-    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "rag", 8 ] ] ],
+    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "cotton_patchwork", 8 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_door_glass_c"

@@ -120,6 +120,7 @@ linked sections:
 | --                      | --                    | --
 | arrange                 | string                | For "layout" style, display child widgets as "rows" or "columns"
 | bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
+| separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | [colors](#colors)       | list of strings       | Color names in a spectrum across variable range
 | [direction](#direction) | string                | Cardinal compass direction like "N" or "SE"
 | [fill](#fill)           | string                | For [graph style](#graph-style), fill using ike "bucket" or "pool"
@@ -227,6 +228,48 @@ The above might yield:
 ```
 Sound: 8  Focus: 105  Move: 120
 Str: 8  Dex: 9  Int: 7  Per: 11
+```
+
+These layout widgets can be nested to produce web-style layouts:
+
+```json
+[
+  {
+    "id": "overmap_5x5",
+    "type": "widget",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 5,
+    "height": 5,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "location_text_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "lighting_desc", "moon_phase_desc", "wind_desc", "env_temp_desc" ]
+  },
+  {
+    "id": "layout_location_columns",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "label": "Location",
+    "widgets": [ "overmap_5x5", "location_text_layout" ],
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]
+```
+
+The above would produce something like:
+
+```
+FFF..  Lighting:    bright
+FF...  Moon:        Waxing crescent
+FF..P  Wind:        Light Breeze =>
+F...|  Temperature: 16C
+F...|
 ```
 
 Where do all these numeric widgets and their values come from? These are variable widgets, discussed

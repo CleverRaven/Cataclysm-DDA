@@ -126,7 +126,7 @@ using omt_scoring_fn = std::function<omt_score( tripoint_abs_omt )>;
  * @param max_cost Maximum path cost (optional)
  */
 simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
-        const tripoint_abs_omt &dest, const int radius, omt_scoring_fn scorer,
+        const tripoint_abs_omt &dest, int radius, omt_scoring_fn scorer,
         cata::optional<int> max_cost = cata::nullopt );
 
 } // namespace pf

@@ -129,6 +129,7 @@
     "material": [ "milk" ],
     "volume": "500 ml",
     "charges": 32,
+    "flags": [ "NO_AUTO_CONSUME" ],
     "fun": -1
   },
   {

@@ -132,6 +132,133 @@
     "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
+    "id": "bikini_top",
+    "type": "ARMOR",
+    "name": { "str": "bikini top" },
+    "description": "A simple bikini top.",
+    "variant_type": "generic",
+    "variants": [
+      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 30 },
+      {
+        "id": "black_bikini_top",
+        "name": { "str": "black bikini top" },
+        "description": "It's colored black.",
+        "color": "dark_gray",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "white_bikini_top",
+        "name": { "str": "white bikini top" },
+        "description": "It's colored white.",
+        "color": "white",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_bikini_top",
+        "name": { "str": "red bikini top" },
+        "description": "It's colored red.",
+        "color": "red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "blue_bikini_top",
+        "name": { "str": "blue bikini top" },
+        "description": "It's colored blue.",
+        "color": "blue",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "flag_bikini_top",
+        "name": { "str": "flag bikini top" },
+        "description": "It's embroidered with the pattern of an American flag.",
+        "weight": 7,
+        "append": true
+      },
+      {
+        "id": "pink_bikini_top",
+        "name": { "str": "pink bikini top" },
+        "description": "It's colored neon pink.  Pretty flashy.",
+        "color": "pink",
+        "weight": 6,
+        "append": true
+      },
+      {
+        "id": "tropical_bikini_top",
+        "name": { "str": "tropical bikini top" },
+        "description": "It's green and has a tropical design.",
+        "color": "light_green",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "floral_bikini_top",
+        "name": { "str": "floral bikini top" },
+        "description": "It's colored yellow and has a floral design.",
+        "color": "yellow",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "camo_bikini_top",
+        "name": { "str": "camo bikini top" },
+        "description": "It has camouflage dye, perfect for those soldiers on a beach leave.",
+        "color": "green",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "skull_bikini_top",
+        "name": { "str": "skull bikini top" },
+        "description": "It's colored black and with a skull pattern.  Works wonders to communicate your happiness on the beach.",
+        "symbol": "S",
+        "color": "dark_gray",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "maid_bikini_top",
+        "name": { "str": "maid bikini top" },
+        "description": "It's colored black and with white frilly decorations.  You are not sure that this is a common attire for the beach.",
+        "color": "dark_gray",
+        "weight": 1,
+        "append": true
+      }
+    ],
+    "weight": "32 g",
+    "volume": "250 ml",
+    "price": 1800,
+    "price_postapoc": 50,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "bra",
+    "color": "light_red",
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "bikini_top_short",
+    "repairs_like": "bikini_top",
+    "type": "ARMOR",
+    "name": { "str": "short bikini top" },
+    "description": "A very short bikini top.  It doesn't cover much but was in fashion before the world ended.",
+    "weight": "15 g",
+    "volume": "150 ml",
+    "price": 1800,
+    "price_postapoc": 10,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "bikini_top",
+    "color": "red",
+    "material_thickness": 0.01,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
     "id": "flag_swimsuit",
     "//": "the flag_swimsuit was first, so that's why this ID is used for all swimsuits",
     "repairs_like": "leotard",
@@ -463,11 +590,82 @@
     ]
   },
   {
+    "id": "wetsuit_booties",
+    "type": "ARMOR",
+    "name": { "str": "pair of swimming booties", "str_pl": "pairs of swimming booties" },
+    "description": "A pair of neoprene swimming booties, with individual toes.",
+    "weight": "130 g",
+    "volume": "1 L",
+    "price": 6800,
+    "price_postapoc": 250,
+    "material": [ "neoprene" ],
+    "symbol": "[",
+    "looks_like": "boots_rubber",
+    "color": "dark_gray",
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l",
+          "foot_sole_r",
+          "foot_sole_l"
+        ],
+        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 15,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "wetsuit_booties_thick",
+    "type": "ARMOR",
+    "copy-from": "wetsuit_booties",
+    "repairs_like": "wetsuit_booties",
+    "name": { "str": "pair of thick swimming booties", "str_pl": "pairs of thick swimming booties" },
+    "description": "A pair of thick neoprene swimming booties, with individual toes.",
+    "weight": "160 g",
+    "warmth": 50,
+    "material_thickness": 5,
+    "environmental_protection": 4,
+    "extend": { "flags": [ "NORMAL" ] },
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l",
+          "foot_sole_r",
+          "foot_sole_l"
+        ],
+        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 } ],
+        "encumbrance": 24,
+        "coverage": 100
+      }
+    ]
+  },
+  {
     "id": "wetsuit",
     "type": "ARMOR",
     "name": { "str": "wetsuit" },
     "description": "A full-body neoprene wetsuit.",
-    "weight": "1360 g",
+    "weight": "825 g",
     "volume": "5 L",
     "price": 12000,
     "price_postapoc": 500,
@@ -704,7 +902,7 @@
     "type": "ARMOR",
     "name": { "str": "spring suit" },
     "description": "A long-sleeved spring wetsuit with pink color details and cleavage-enhancing, hip-accentuating construction.  Not as protective as a full-body suit, but also less restrictive.",
-    "weight": "360 g",
+    "weight": "550 g",
     "volume": "4 L",
     "price": 10000,
     "price_postapoc": 500,

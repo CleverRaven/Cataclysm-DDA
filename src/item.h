@@ -207,7 +207,7 @@ class item : public visitable
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
         /** For constructing in-progress disassemblies */
-        item( const recipe *rec, item &component );
+        item( const recipe *rec, int qty, item &component );
 
         // Legacy constructor for constructing from string rather than itype_id
         // TODO: remove this and migrate code using it.
@@ -936,7 +936,7 @@ class item : public visitable
          * does not have that quality, or lacks enough charges to have that quality.
          * @param strict_boiling True if containers must be empty to have BOIL quality
          */
-        int get_quality( const quality_id &id, const bool strict_boiling = true ) const;
+        int get_quality( const quality_id &id, bool strict_boiling = true ) const;
 
         /**
          * Return true if this item's type is counted by charges
@@ -962,7 +962,7 @@ class item : public visitable
         /**
         * Calculates rot per hour at given temperature.
         */
-        float get_hourly_rotpoints_at_temp( const int temp ) const;
+        float get_hourly_rotpoints_at_temp( int temp ) const;
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -1532,9 +1532,9 @@ class item : public visitable
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it, const bool nested = false,
-                                   const bool ignore_rigidity = false,
-                                   const bool ignore_pkt_settings = true,
+        ret_val<bool> can_contain( const item &it, bool nested = false,
+                                   bool ignore_rigidity = false,
+                                   bool ignore_pkt_settings = true,
                                    const item_location &parent_it = item_location() ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
@@ -1952,7 +1952,7 @@ class item : public visitable
          */
         int get_warmth() const;
         /** Returns the warmth on the body part of the item on a specific bp. */
-        int get_warmth( const bodypart_id bp ) const;
+        int get_warmth( bodypart_id bp ) const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
@@ -1971,23 +1971,23 @@ class item : public visitable
         /**
          * Returns clothing layer for body part.
          */
-        std::vector<layer_level> get_layer( const bodypart_id bp ) const;
+        std::vector<layer_level> get_layer( bodypart_id bp ) const;
 
         /**
          * Returns clothing layer for sub bodypart .
          */
-        std::vector<layer_level> get_layer( const sub_bodypart_id sbp ) const;
+        std::vector<layer_level> get_layer( sub_bodypart_id sbp ) const;
 
         /**
          * Returns true if an item has a given layer level on a specific part.
          * matches to any layer within the vector input.
          */
-        bool has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const;
+        bool has_layer( const std::vector<layer_level> &ll, bodypart_id bp ) const;
 
         /**
          * Returns true if an item has a given layer level on a specific subpart.
          */
-        bool has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id sbp ) const;
+        bool has_layer( const std::vector<layer_level> &ll, sub_bodypart_id sbp ) const;
 
         /**
          * Returns true if an item has any of the given layer levels.
@@ -2704,7 +2704,7 @@ class item : public visitable
         /**
          * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
-        void favorite_settings_menu( const std::string &item_name );
+        void favorite_settings_menu();
 
         void combine( const item_contents &read_input, bool convert = false );
 

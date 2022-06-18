@@ -460,7 +460,7 @@
     "id": "m26_mass_mod",
     "copy-from": "m26_mass",
     "type": "GUNMOD",
-    "name": { "str": "M26-MASS", "str_pl": "M25-MASSes" },
+    "name": { "str": "M26-MASS", "str_pl": "M26-MASSes" },
     "description": "An underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },

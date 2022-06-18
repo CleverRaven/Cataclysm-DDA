@@ -28,6 +28,7 @@
 /objwin/
 /save/
 /src/version.h
+/src/prefix.h
 /sound/
 /templates/
 /tools/format/json_formatter.cgi

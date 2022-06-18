@@ -567,6 +567,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         case MGOAL_CONDITION: {
             mission_goal_condition_context cc;
             cc.alpha = get_talker_for( player_character );
+            cc.has_alpha = true;
             // Skip the NPC check if the mission was obtained via a scenario/profession/hobby
             if( npc_id.is_valid() || type->origins.empty() || type->origins.size() != 1 ||
                 type->origins.front() != mission_origin::ORIGIN_GAME_START ) {
@@ -579,6 +580,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                     return false;
                 }
                 cc.beta = get_talker_for( *n );
+                cc.has_beta = true;
                 for( auto &mission : n->chatbin.missions_assigned ) {
                     if( mission->get_assigned_player_id() == player_character.getID() ) {
                         cc.missions_assigned.push_back( mission );

@@ -302,7 +302,7 @@
     "time": "60 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "components": [ [ [ "rag", 2 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
     "result": "smg_40_mag",

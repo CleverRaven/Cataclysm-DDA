@@ -30,9 +30,15 @@ Format:
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
-    { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true }
+    { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
+    { 
+        "group": "example_shopkeeper_itemgroup4",
+        "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
+    }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
+  "shopkeeper_blacklist": "test_blacklist",
+  "restock_interval": "6 days",
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
@@ -41,12 +47,15 @@ There are a couple of items in the above template that may not be self explanato
 * `"sells_belongings": false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
 *`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
+* `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
+* `"restock_interval"`: optional. Default is 6 days
 
 ##### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:
 - `"group"` : Identifies an item group to include in the possible shop rotation
 - `"trust"` : (_optional_) If the faction's trust with the player is below this value, items in this group will not be available for sale (Defaults to 0)
-- `"strict"` : (_optional_) If true, items in this group cannot be traded back to the player if traded to the NPC. (Defaults to false)
+- `"condition"` : (_optional_) Checked alongside trust with the avatar as alpha and the evaluating NPC as beta. See [Player or NPC conditions](#player-or-npc-conditions).
+- `"strict"` : (_optional_) If true, items in this group will not be available for restocking unless the conditions are met. (Defaults to false)
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 
 #### NPC
@@ -546,6 +555,13 @@ The player will have one response text if a condition is true, and another if it
 ### text
 Will be shown to the user, no further meaning.
 
+Text boxes; dialogue in general is a convenient space to sprinkle in descriptive text, something that isn't necessarily being said by any interlocutor
+but something the player character, npc or speaking entity express, do or generally interact with given a context
+there are many ways to present this, ultimately is up to the writer, and their preferred style.
+
+Currently you may add a `&` as the first character in dialogue, this deletes quotation round the output text, denotes the descriptive nature of the displayed
+text, use `\"` escaped double quotes to indicate the start of actual dialogue.
+
 ### trial
 Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, `"PERSUADE"`, `"INTIMIDATE"`, or `"CONDITION"`. If `"NONE"` is used, the `failure` object is not read, otherwise it's mandatory.
 
@@ -624,14 +640,18 @@ One of `"for_item"` or `"for_category"`, and each can either be a single string 
 ## Dialogue Effects
 The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
-`variable_object`: This is either an object or array describing a variable name. It can either describe an int or a time duration. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum and the value will be randomly between the two. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
+`variable_object`: This is either an object, an `arithmetic` expression(see arithmetic below) or array describing a variable name. It can either describe an int or a time duration. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum and the value will be randomly between the two. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
 
 example json:
 ```
 "effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
-  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" } ]
+  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" },
+  {
+    "u_spawn_monster": "mon_absence",
+    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
+  } ]
 
 ```
 
@@ -911,7 +931,8 @@ Condition | Type | Description
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
 `"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
 `"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
-`"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` ( or the value of the variable described see `variable_object` above) number of NPC allies.
+`"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` (or the value of the variable described; see `variable_object` above) number of NPC allies _within the reality bubble_.
+`"npc_allies_global"` | int or variable_object | `true` if the player character has at least `npc_allies_global` (or the value of the variable as above) number of NPC allies _anywhere_.
 `"is_by_radio"` | simple string | `true` if the player is talking to the NPC over a radio.
 `"u_available" or "npc_available"` | simple string | `true` if u or the NPC does not have effect `"currently_busy"`.
 `"u_following" or "npc_following"` | simple string | `true` if u or the NPC is following the player character.
@@ -1020,8 +1041,10 @@ Example | Description
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
 `"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
+`"arithmetic"` | An arithmetic expression with no result.   
 ```
 "condition": { "compare_int": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, ">", { "const": 5 } ] }
+"real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] },
 ```
 
 #### Sample responses with conditions and effects
