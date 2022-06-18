@@ -15,7 +15,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "egg_dino_theropod", 1 ], [ "egg_velociraptor", 1 ], [ "egg_deinonychus", 1 ], [ "egg_utahraptor", 1 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ]
   },
   {
@@ -34,7 +34,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "egg_dino", 1 ], [ "egg_ankylosaurus", 1 ], [ "egg_stegosaurus", 1 ], [ "egg_pachycephalosaurus", 1 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ]
   },
   {
@@ -58,7 +58,7 @@
         [ "egg_acrocanthosaurus", 1 ],
         [ "egg_tyrannosaurus", 1 ]
       ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ]
   },
   {

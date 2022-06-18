@@ -2206,7 +2206,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void set_floor_cache_dirty( const int z ) override {
             get_map().set_floor_cache_dirty( z );
         }
-        void removed( vehicle &veh, const int part ) override;
+        void removed( vehicle &veh, int part ) override;
         void spawn_animal_from_part( item &base, const tripoint &loc ) override {
             base.release_monster( loc, 1 );
         }

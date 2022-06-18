@@ -769,7 +769,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "rag", 20 ], [ "sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "cotton_patchwork", 20 ], [ "sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -795,7 +795,7 @@
       [ [ "spring", 2 ] ],
       [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
       [ [ "pipe_fittings", 4 ] ],
-      [ [ "rag", 8 ] ]
+      [ [ "cotton_patchwork", 8 ] ]
     ]
   },
   {
@@ -905,6 +905,6 @@
     "time": "1 s",
     "autolearn": true,
     "components": [ [ [ "cotton_patchwork", 1 ] ] ],
-    "//": "This is intended to be an interim measure until all recipes can be moved away from using or creating rags.  Once that's done this can be considered obsolete"
+    "//": "This is intended to be an interim measure until all recipes can be moved away from using or creating rags.  Once we're sure rags are gone, this can be obsolete."
   }
 ]

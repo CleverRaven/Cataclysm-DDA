@@ -372,7 +372,12 @@
     "symbol": "!",
     "color": "red",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "consume_drug", "moves": 100, "effects": [ { "id": "sleep", "duration": 1000 } ], "used_up_item": "rag" }
+    "use_action": {
+      "type": "consume_drug",
+      "moves": 100,
+      "effects": [ { "id": "sleep", "duration": 1000 } ],
+      "used_up_item": "cotton_patchwork"
+    }
   },
   {
     "id": "codeine",
@@ -1007,6 +1012,32 @@
       "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
     }
+  },
+  {
+    "id": "wintergreen_oil",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "wintergreen oil" },
+    "description": "An ointment infused with wintergreen oil.  Has mild antiseptic properties and can ease the pain caused by wounds.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 50,
+    "material": [ "oil" ],
+    "symbol": "~",
+    "color": "yellow",
+    "phase": "liquid",
+    "fun": -5,
+    "spoils_in": "60 days",
+    "use_action": {
+      "type": "heal",
+      "disinfectant_power": 1,
+      "bleed": 0,
+      "bite": 0.85,
+      "move_cost": 2500,
+      "effects": [ { "id": "pkill2", "duration": "1 h" } ]
+    },
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ]
   },
   {
     "id": "mugwort_oil",
@@ -1644,7 +1675,7 @@
       "disinfectant_power": 2,
       "bite": 0.5,
       "move_cost": 6000,
-      "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
+      "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
     }
   },
   {

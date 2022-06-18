@@ -45,7 +45,7 @@
     "subtype": "collection",
     "id": "mon_zombie_hulk_death_drops",
     "entries": [
-      { "item": "rag", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
+      { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
       { "group": "pants", "damage": [ 1, 4 ] },
       { "group": "default_zombie_items" },
       { "group": "wallets", "damage": [ 1, 4 ] }
@@ -110,7 +110,7 @@
     "id": "mon_zombie_thorny_death_drops",
     "subtype": "collection",
     "entries": [
-      { "item": "rag", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
+      { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
       { "group": "pants", "damage": [ 1, 4 ] },
       { "group": "shoes", "damage": [ 1, 4 ] },
       { "group": "default_zombie_items" },
