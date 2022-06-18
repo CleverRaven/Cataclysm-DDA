@@ -43,7 +43,7 @@ std::vector<std::string> clothing_properties(
     const item &worn_item, int width, const Character &, const bodypart_id &bp );
 std::vector<std::string> clothing_protection( const item &worn_item, int width,
         const bodypart_id &bp );
-std::vector<std::string> clothing_flags_description( const item &worn_item, const int width );
+std::vector<std::string> clothing_flags_description( const item &worn_item, int width );
 
 std::string body_part_names( const std::vector<bodypart_id> &parts )
 {
@@ -60,11 +60,8 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
         std::string current_part = body_part_name_accusative( part );
         std::string opposite_part = body_part_name_accusative( part->opposite_part );
         std::string part_group = body_part_name_accusative( part, 2 );
-        for( std::string already_listed : names ) {
-            if( already_listed == current_part ) {
-                duplicate = true;
-                break;
-            } else if( already_listed == part_group ) {
+        for( const std::string &already_listed : names ) {
+            if( already_listed == current_part || already_listed == part_group ) {
                 duplicate = true;
                 break;
             } else if( already_listed == opposite_part ) {
@@ -270,12 +267,12 @@ void add_category_and_values( std::vector<std::string> &current_text, const int 
                               const std::string &category_name,
                               const std::vector<std::pair<std::string, std::string>> &names_and_values )
 {
-    if( names_and_values.size() == 0 ) {
+    if( names_and_values.empty() ) {
         current_text.emplace_back( trim_by_length( category_name, field_width ) );
     } else {
         const std::string separator = ", ";
         const std::string spacer = " ";
-        std::string assembled_value = "";
+        std::string assembled_value;
         for( size_t i = 0; i < names_and_values.size() ; ++i ) {
             if( i == 0 ) {
                 assembled_value += spacer;
@@ -289,12 +286,28 @@ void add_category_and_values( std::vector<std::string> &current_text, const int 
             current_text.emplace_back( trimmed_name_and_value( category_name, assembled_value, field_width ) );
         } else {
             current_text.emplace_back( trim_by_length( category_name, field_width ) );
-            for( std::pair<std::string, std::string> name_and_value : names_and_values ) {
+            for( const std::pair<std::string, std::string> &name_and_value : names_and_values ) {
                 current_text.emplace_back( trimmed_name_and_value( spacer + name_and_value.first,
                                            name_and_value.second, field_width ) );
             }
         }
     }
+}
+
+std::vector<std::pair<std::string, std::string>> collect_protection_subvalues(
+            const resistances &worst_res, const resistances &best_res, const resistances &median_res,
+            const bool display_median, const damage_type type )
+{
+    std::vector<std::pair<std::string, std::string>> subvalues;
+    subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
+                                            worst_res.type_resist( type ) ) ) );
+    if( display_median ) {
+        subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
+                                                median_res.type_resist( type ) ) ) );
+    }
+    subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
+                                            best_res.type_resist( type ) ) ) );
+    return subvalues;
 }
 
 std::vector<std::string> clothing_protection( const item &worn_item, const int width,
@@ -324,30 +337,12 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
     // bash ballistic and cut can have more involved info based on armor complexity
     if( percent_worst > 0 ) {
-
-        std::vector<std::pair<std::string, std::string>> bash_subvalues, cut_subvalues, ballistic_subvalues;
-        bash_subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
-                                     worst_res.type_resist( damage_type::BASH ) ) ) );
-        cut_subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
-                                    worst_res.type_resist( damage_type::CUT ) ) ) );
-        ballistic_subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
-                                          worst_res.type_resist( damage_type::BULLET ) ) ) );
-
-        if( display_median ) {
-            bash_subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
-                                         median_res.type_resist( damage_type::BASH ) ) ) );
-            cut_subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
-                                        median_res.type_resist( damage_type::CUT ) ) ) );
-            ballistic_subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
-                                              median_res.type_resist( damage_type::BULLET ) ) ) );
-        }
-
-        bash_subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
-                                     best_res.type_resist( damage_type::BASH ) ) ) );
-        cut_subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
-                                    best_res.type_resist( damage_type::CUT ) ) ) );
-        ballistic_subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
-                                          best_res.type_resist( damage_type::BULLET ) ) ) );
+        std::vector<std::pair<std::string, std::string>> bash_subvalues = collect_protection_subvalues(
+                    worst_res, best_res, median_res, display_median, damage_type::BASH );
+        std::vector<std::pair<std::string, std::string>> cut_subvalues = collect_protection_subvalues(
+                    worst_res, best_res, median_res, display_median, damage_type::CUT );;
+        std::vector<std::pair<std::string, std::string>> ballistic_subvalues = collect_protection_subvalues(
+                    worst_res, best_res, median_res, display_median, damage_type::BULLET );;
 
         add_category_and_values( prot, width, _( "Bash:" ), bash_subvalues );
         add_category_and_values( prot, width, _( "Cut:" ), cut_subvalues );
@@ -373,7 +368,8 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
 
 std::vector<std::string> clothing_flags_description( const item &worn_item, const int width )
 {
-    std::vector<std::string> description_stack, current_description;
+    std::vector<std::string> description_stack;
+    std::vector<std::string> current_description;
 
     //Handle flag_FIT and flag_VARSIZE as a special case
     if( worn_item.has_flag( flag_FIT ) ) {
@@ -1179,8 +1175,8 @@ void outfit::sort_armor( Character &guy )
                    "The sum of these values is the effective encumbrance value your character has for that bodypart."
                    "</color>" )
             };
-            std::string assembled_string = "";
-            for( std::string current_line : help_strings ) {
+            std::string assembled_string;
+            for( const std::string &current_line : help_strings ) {
                 assembled_string += current_line;
             }
 
