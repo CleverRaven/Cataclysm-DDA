@@ -57,7 +57,7 @@
   {
     "id": "dagger_dreamdross",
     "type": "TOOL",
-    "name": { "str": "dreamdross fighting knife", "str_pl": "dreamdross fighting knives"  },
+    "name": { "str": "dreamdross fighting knife", "str_pl": "dreamdross fighting knives" },
     "description": "This ephemeral dagger is 15 inches long from the hilt to the tip. the blade itself is a pearly white color and is extremely sharp double edged blade.",
     "weight": "145 g",
     "volume": "250 ml",

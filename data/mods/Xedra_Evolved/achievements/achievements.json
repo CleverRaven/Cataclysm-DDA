@@ -37,5 +37,109 @@
     "name": "Your name is considered to be cold iron.",
     "hidden_by": [ "achievement_kill_10000_changelings" ],
     "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 100000 } ]
+  },
+  {
+    "id": "avchievement_gains_dreamer_trait",
+    "type": "achievement",
+    "name": "Never Wake again",
+    "requirements": [
+      {
+        "event_statistic": "avatar_gains_mutation",
+        "is": "==",
+        "target": [ "mutation_id", "DREAMER" ],
+        "description": "Gained access to dream magic.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_eater_trait",
+    "type": "achievement",
+    "name": "Destroy what doesn't belong.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_gains_mutation",
+        "is": "==",
+        "target": [ "mutation_id", "EATER" ],
+        "description": "Gained access to eater magic.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_dreamsmith_trait",
+    "type": "achievement",
+    "name": "Forged by dreams",
+    "requirements": [
+      {
+        "event_statistic": "avatar_gains_mutation",
+        "is": "==",
+        "target": [ "mutation_id", "DREAMSMITH" ],
+        "description": "Gained access to dreamsmith magic",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_inventor_trait",
+    "type": "achievement",
+    "name": "This has a small, but fascinating, chance of actually working! Let's do it!",
+    "requirements": [
+      {
+        "event_statistic": "avatar_gains_mutation",
+        "is": "==",
+        "target": [ "mutation_id", "INVENTOR" ],
+        "description": "Gained access to mad genius inventions.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_dreamer_trait",
+    "type": "achievement",
+    "name": "Dream deeply and truly"
+    "description": "You've gained the ability to bring forth your dreams into reality.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "FISH" ],
+        "description": "crossed fish mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_gains_dreamer_trait",
+    "type": "event_transformation",
+    "event_type": "gains_mutation",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "achievement_lvl_1_deduction",
+    "type": "achievement",
+    "name": { "str": "<color_green>(Investigation)</color> Insight" },
+    "description": "Sherlock Holmes you are not but you definitely see more details than you did before.",
+    "requirements": [ { "event_statistic": "num_gains_deduction_level_1", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "avatar_gains_deduction_level_1",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "deduction" ] },
+      "new_level": { "equals": [ "int", "1" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_deduction_level_1",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_deduction_level_1",
+    "description": { "str_sp": "Investigation skill level 1 gained" }
   }
 ]
