@@ -6097,12 +6097,12 @@ void Character::mod_rad( int mod )
     set_rad( std::max( 0, get_rad() + mod ) );
 }
 
-int Character::leak_level()
+int Character::leak_level() const
 {
-    float ret = 0;
+    float ret = 0.f;
 
     // This is bad way to calculate radiatio and should be rewritten some day.
-    for( const item_location &item_loc : all_items_loc() ) {
+    for( const item_location &item_loc : const_cast<Character *>( this )->all_items_loc() ) {
         const item *it = item_loc.get_item();
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
