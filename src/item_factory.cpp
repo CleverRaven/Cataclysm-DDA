@@ -450,7 +450,7 @@ void Item_factory::finalize_pre( itype &obj )
                 ++kv;
             }
         }
-        obj.mod->speedloader_adaptor;
+        //obj.mod->speedloader_adaptor;
     }
 
     if( obj.gun ) {
@@ -485,9 +485,14 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         for( pocket_data &magazine : obj.pockets ) {
-            magazine.allowed_speedloaders = obj.mod->speedloader_adaptor;
             if( magazine.type != item_pocket::pocket_type::MAGAZINE ) {
                 continue;
+            }
+            else {
+                if (!(obj.mod->speedloader_adaptor.empty())) {
+                   // crashes the game durring loading without creating a crash.log
+                   magazine.allowed_speedloaders.insert(obj.mod->speedloader_adaptor.begin(), obj.mod->speedloader_adaptor.end());
+                }
             }
             migrate_ammo_map( magazine.ammo_restriction );
         }
@@ -2151,9 +2156,10 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
-            if( type->mod->speedloader_adaptor.empty() ) {
-                msg += string_format( "gunmod does not specify acceptable speedloaders\n" );
-            }
+            //keeps showing up on irrelevant gunmods
+            //if( type->mod->speedloader_adaptor.empty() ) {
+            //    msg += string_format( "gunmod does not specify acceptable speedloaders\n" );
+            //}
         }
         if( type->magazine ) {
             for( const ammotype &at : type->magazine->type ) {
