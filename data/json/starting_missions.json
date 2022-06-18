@@ -392,7 +392,7 @@
     "name": { "str": "Become a cat-person" },
     "description": "The apocalypse has awakened your true feline purpose: roaming free, cleverly hunting your prey, and being devastatingly adorable.  You long to become the cat-person you've always wanted to be, by whatever means necessary.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": {"or": [{"u_has_effect": "mutagen_feline"}, {"u_has_trait": "THRESH_FELINE"} ]},
+    "goal_condition": {"or": [{"u_has_effect": "mutagen_feline"}, {"u_has_trait": "THRESH_FELINE"}, {"u_has_trait": "FELINE_EARS"}, {"u_has_trait": "FEL_EYE"}, {"u_has_trait": "FEL_NV"}, {"u_has_trait": "FELINE_FUR"}]},
     "difficulty": 6,
     "value": 0,
     "end": {
@@ -414,7 +414,7 @@
     "name": { "str": "Become a wolf-person" },
     "description": "The apocalypse has awakened your true canine purpose: exploring the world, running with your pack, and being fiercely adorable.  You long to become the wolf-person you've always wanted to be, by whatever means necessary.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": {"or": [{"u_has_effect": "mutagen_lupine"}, {"u_has_trait": "THRESH_LUPINE"} ]},
+    "goal_condition": {"or": [{"u_has_effect": "mutagen_lupine"}, {"u_has_trait": "THRESH_LUPINE"}, {"u_has_trait": "LUPINE_EARS"}, {"u_has_trait": "LUPINE_FUR"} ]},
     "difficulty": 6,
     "value": 0,
     "end": {
