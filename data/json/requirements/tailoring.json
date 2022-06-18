@@ -176,7 +176,7 @@
         [ "mushroom", 1 ]
       ],
       [
-        [ "ammonia", 2 ],
+        [ "ammonia_liquid", 2 ],
         [ "vinegar", 16 ],
         [ "ash", 100 ],
         [ "tanbark", 1 ],

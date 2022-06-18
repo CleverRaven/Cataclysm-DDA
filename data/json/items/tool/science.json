@@ -598,6 +598,25 @@
     "looks_like": "oxygen_tank"
   },
   {
+    "id": "pressure_tank",
+    "type": "TOOL",
+    "name": { "str": "pressurized tank" },
+    "description": "This is a tank designed to hold high pressure gasses.",
+    "weight": "2268 g",
+    "volume": "3 L",
+    "price": 1000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "looks_like": "oxygen_tank",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "rigid": true, "airtight": true, "max_contains_volume": "1600 ml", "watertight": true }
+    ]
+  },
+  {
     "id": "hygrometer",
     "type": "TOOL",
     "category": "tools",
