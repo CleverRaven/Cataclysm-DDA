@@ -3479,7 +3479,10 @@
   {
     "type": "overmap_special",
     "id": "bandit_cabin",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bandit_cabin_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bandit_cabin_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bandit_cabin_roof_north" }
+    ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
@@ -3493,7 +3496,11 @@
       { "point": [ 0, 0, 0 ], "overmap": "bandit_camp_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "bandit_camp_2_north" },
       { "point": [ 0, 1, 0 ], "overmap": "bandit_camp_3_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "bandit_camp_4_north" }
+      { "point": [ 1, 1, 0 ], "overmap": "bandit_camp_4_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bandit_camp_1_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "bandit_camp_2_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "bandit_camp_3_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "bandit_camp_4_roof_north" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
@@ -4278,14 +4285,16 @@
     "id": "bandit_garage",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "bandit_garage_1_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "bandit_garage_2_north" }
+      { "point": [ 1, 0, 0 ], "overmap": "bandit_garage_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bandit_garage_1_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "bandit_garage_2_roof_north" }
     ],
     "locations": [ "forest" ],
     "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road" } ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
