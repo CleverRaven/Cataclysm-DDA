@@ -1518,7 +1518,7 @@
     "warmth": 50,
     "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS" ],
+    "flags": [ "VARSIZE", "POCKETS", "SOFT", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": [ 11, 22 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
