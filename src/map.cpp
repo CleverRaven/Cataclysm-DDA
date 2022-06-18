@@ -6250,7 +6250,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
                     sym == '.' ) )  {
                 // default terrain '.' and
                 // non-default field symbol -> field symbol overrides terrain
-                memory_sym = sym = field_symbol[0];
+                memory_sym = sym = static_cast<uint8_t>( field_symbol[0] );
             }
             tercol = fe->color();
         }

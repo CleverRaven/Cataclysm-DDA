@@ -2106,7 +2106,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             } else {
                 tmp.clear_itype_variant();
             }
-            sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
+            sym = static_cast<uint8_t>( tmp.symbol().empty() ? ' ' : tmp.symbol().front() );
             col = tmp.color();
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
@@ -2119,7 +2119,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 col = tmp->color;
             }
         } else if( category == TILE_CATEGORY::OVERMAP_NOTE ) {
-            sym = id[5];
+            sym = static_cast<uint8_t>( id[5] );
             col = color_from_string( id.substr( 7, id.length() - 1 ) );
         }
         // Special cases for walls
@@ -2320,7 +2320,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         default:
             // player
             if( string_starts_with( found_id, "player_" ) ) {
-                seed = get_player_character().name[0];
+                seed = std::hash<std::string> {}( get_player_character().name );
                 break;
             }
             // NPC

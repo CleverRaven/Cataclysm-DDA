@@ -857,9 +857,17 @@ inline bool one_char_symbol_reader( const JsonObject &jo, const std::string &mem
         return false;
     }
     if( sym_as_string.size() != 1 ) {
-        jo.throw_error( member_name + " must be exactly one ASCII character", member_name );
+        jo.throw_error(
+            string_format( "%s must be exactly one ASCII character but was %zu characters",
+                           member_name, sym_as_string.size() ), member_name );
     }
-    sym = sym_as_string.front();
+    uint8_t c = sym_as_string.front();
+    if( c > 127 ) {
+        jo.throw_error(
+            string_format( "%s must be exactly one ASCII character but was non-ASCII (%u)",
+                           member_name, c ), member_name );
+    }
+    sym = c;
     return true;
 }
 

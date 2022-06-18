@@ -599,6 +599,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
 char rand_char();
 int special_symbol( int sym );
+int special_symbol( char sym );
 
 // Remove spaces from the start and the end of a string.
 std::string trim( const std::string &s );

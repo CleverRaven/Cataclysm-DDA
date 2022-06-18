@@ -237,12 +237,16 @@ int talker_npc::parse_mod( const std::string &attribute, const int factor ) cons
     } else if( attribute == "POS_FEAR" ) {
         modifier = std::max( 0, me_npc->op_of_u.fear );
     } else if( attribute == "AGGRESSION" ) {
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
         modifier = me_npc->personality.aggression;
     } else if( attribute == "ALTRUISM" ) {
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
         modifier = me_npc->personality.altruism;
     } else if( attribute == "BRAVERY" ) {
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
         modifier = me_npc->personality.bravery;
     } else if( attribute == "COLLECTOR" ) {
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
         modifier = me_npc->personality.collector;
     } else if( attribute == "MISSIONS" ) {
         modifier = me_npc->assigned_missions_value() / OWED_VAL;

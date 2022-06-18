@@ -236,7 +236,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             if( !picked_up ) {
                 break;
             } else {
-                const int invlet = newit.invlet;
+                const char invlet = newit.invlet;
                 newit = it;
                 newit.invlet = invlet;
             }
