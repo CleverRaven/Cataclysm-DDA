@@ -598,12 +598,12 @@
     "looks_like": "oxygen_tank"
   },
   {
-    "id": "ammonia_tank",
+    "id": "pressure_tank",
     "type": "TOOL",
-    "name": { "str": "ammonia tank" },
-    "description": "This is a tank of compressed ammonia gas.  Extremely useful, just not by itself.",
+    "name": { "str": "pressurized tank" },
+    "description": "This is a tank designed to hold high pressure gasses.",
     "weight": "2268 g",
-    "volume": "1500 ml",
+    "volume": "3 L",
     "price": 1000,
     "price_postapoc": 500,
     "to_hit": -4,
@@ -614,10 +614,10 @@
     "looks_like": "oxygen_tank",
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE",
+        "pocket_type": "CONTAINER",
         "rigid": true,
         "airtight": true,
-        "ammo_restriction": { "ammonia_liquid": 8 },
+        "max_contains_volume": "1600 ml",
         "watertight": true
       }
     ]

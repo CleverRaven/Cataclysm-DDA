@@ -257,7 +257,7 @@
     "ammo_type": "propane"
   },
   {
-    "id": "ammonia_liquid",
+    "id": "ammonia",
     "type": "AMMO",
     "name": { "str_sp": "liquid ammonia" },
     "description": "Liquid ammonia, held under high pressure.",
@@ -267,7 +267,7 @@
     "stack_size": 10,
     "category": "chems",
     "phase": "liquid",
-    "container": "ammonia_tank",
+    "container": "pressure_tank",
     "material": "ammonia_liquid",
     "symbol": "~",
     "color": "yellow",
