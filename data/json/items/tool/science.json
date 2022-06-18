@@ -613,13 +613,7 @@
     "color": "light_gray",
     "looks_like": "oxygen_tank",
     "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "airtight": true,
-        "max_contains_volume": "1600 ml",
-        "watertight": true
-      }
+      { "pocket_type": "CONTAINER", "rigid": true, "airtight": true, "max_contains_volume": "1600 ml", "watertight": true }
     ]
   },
   {
