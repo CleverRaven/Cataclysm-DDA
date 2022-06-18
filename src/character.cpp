@@ -8899,6 +8899,8 @@ int Character::run_cost( int base_cost, bool diag ) const
             if( on_road ) {
                 if( is_running() ) {
                     movecost *= 0.5f;
+                } else if( is_walking() ) {
+                    movecost *= 0.85f;
                 }
             } else {
                 movecost *= 1.5f;
@@ -8910,6 +8912,8 @@ int Character::run_cost( int base_cost, bool diag ) const
             if( on_road ) {
                 if( is_running() ) {
                     movecost *= 0.7f;
+                } else if( is_walking() ) {
+                    movecost *= 0.85f;
                 }
             } else {
                 movecost *= 1.3f;
@@ -8921,6 +8925,8 @@ int Character::run_cost( int base_cost, bool diag ) const
             if( on_road ) {
                 if( is_running() ) {
                     movecost *= 0.85f;
+                } else if( is_walking() ) {
+                    movecost *= 0.9f;
                 }
             } else {
                 movecost *= 1.1f;
