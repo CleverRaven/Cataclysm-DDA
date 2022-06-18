@@ -6101,7 +6101,7 @@ float Character::leak_level() const
 {
     float ret = 0.f;
 
-    // This is bad way to calculate radiatio and should be rewritten some day.
+    // This is bad way to calculate radiation and should be rewritten some day.
     for( const item_location &item_loc : const_cast<Character *>( this )->all_items_loc() ) {
         const item *it = item_loc.get_item();
         if( it->has_flag( flag_RADIOACTIVE ) ) {
