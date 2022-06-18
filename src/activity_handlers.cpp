@@ -1646,6 +1646,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             }
 
             you->mod_stamina( -pulp_effort );
+            you->recoil = MAX_RECOIL;
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
