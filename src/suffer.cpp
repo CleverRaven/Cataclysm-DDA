@@ -1134,7 +1134,7 @@ void suffer::from_radiation( Character &you )
 {
     map &here = get_map();
     // checking for radioactive items in inventory
-    const int item_radiation = you.leak_level();
+    const float item_radiation = you.leak_level();
     const int map_radiation = here.get_radiation( you.pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 

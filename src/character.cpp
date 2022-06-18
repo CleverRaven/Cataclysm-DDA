@@ -6097,7 +6097,7 @@ void Character::mod_rad( int mod )
     set_rad( std::max( 0, get_rad() + mod ) );
 }
 
-int Character::leak_level() const
+float Character::leak_level() const
 {
     float ret = 0.f;
 
