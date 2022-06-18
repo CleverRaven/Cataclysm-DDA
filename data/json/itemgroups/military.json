@@ -880,7 +880,7 @@
       { "group": "guns_rifle_milspec", "prob": 10 },
       { "item": "human_flesh", "prob": 4, "count-min": 1, "count-max": 10 },
       { "item": "bone_human", "prob": 10, "count-min": 1, "count-max": 5 },
-      { "item": "rag", "prob": 10, "count-min": 1, "count-max": 10, "custom-flags": [ "FILTHY" ] },
+      { "item": "cotton_patchwork", "prob": 10, "count-min": 1, "count-max": 10, "custom-flags": [ "FILTHY" ] },
       { "item": "sheet_metal", "prob": 22 },
       { "item": "seat", "prob": 4 },
       { "item": "chain", "prob": 20 },
