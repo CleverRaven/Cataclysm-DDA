@@ -836,7 +836,7 @@
     "type": "mission_definition",
     "name": { "str": "Investigate Strange Location" },
     "goal": "MGOAL_GO_TO",
-    "description": "You could find this place upside down, dizzy and blindfolded.  It's presence is too altered to allow the mercy of ignorance.",
+    "description": "You could find this place upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
     "difficulty": 0,
     "value": 0,
     "start": { "assign_mission_target": { "var": { "global_val": "portal_dungeon" } } }
