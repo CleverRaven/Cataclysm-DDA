@@ -397,7 +397,7 @@
           "natural_spring_south",
           "natural_spring_east",
           "natural_spring_west",
-          "cave",
+          "cave_innawood",
           "special_forest"
         ],
         "sparseness_adjacency_factor": 4,
