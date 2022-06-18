@@ -7,57 +7,58 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 ```C++
 {
     // This spell exists in json as a template for contributors to see the possible values of the spell
-	"id": "example_template",                                 // id of the spell, used internally. not translated
-	"type": "SPELL",
-	"name": "Template Spell",                                 // name of the spell that shows in game
-	"description": "This is a template to show off all the available values",
-	"valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
-	"effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
-	"effect_str": "template",                                 // special. see below
-  "effect_on_conditions": ["template"],                     // special. see below
-  "shape": "blast",                                         // the "shape" of the spell's area of effect. uses the aoe stat
-	"extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
-	"affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ], // body parts affected by effects
-	"flags": [ "SILENT", "LOUD", "SOMATIC", "VERBAL", "NO_HANDS", "NO_LEGS", "SPAWN_GROUP" ], // see "Spell Flags" below
-  "spell_class": "NONE",                                    //
-	"base_casting_time": 100,                                 // this is the casting time (in moves)
-	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
-	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
-  "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
-	"difficulty": 12,                                         // the difficulty to learn/cast the spell
-	"max_level": 10,                                          // maximum level you can achieve in the spell
-  "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
-  "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
-  "accuracy_increment": 1.5
-	"min_damage": 0,                                          // minimum damage (or "starting" damage)
-	"max_damage": 100,                                        // maximum damage the spell can achieve
-	"damage_increment": 2.5,                                  // to get damage (and any of the other below stats) multiply this by spell's level and add to minimum damage
-	"min_aoe": 0,                                             // area of effect, or range of variance
-	"max_aoe": 5,
-	"aoe_increment": 0.1,
-	"min_range": 1,                                           // range of the spell
-	"max_range": 10,
-	"range_increment": 2,
-	"min_dot": 0,                                             // damage over time
-	"max_dot": 2,
-	"dot_increment": 0.1,
-	"min_duration": 0,                                        // duration of spell effect in moves (if the spell has a special effect)
-	"max_duration": 1000,
-	"duration_increment": 4,
-	"min_pierce": 0,                                          // how much of the spell pierces armor
-	"max_pierce": 1,
-	"pierce_increment": 0.1,
-	"field_id": "fd_blood",                                   // the string id of the field (currently hardcoded)
-	"field_chance": 100,                                      // one_in( field_chance ) chance of spawning a field per tile in aoe
-	"min_field_intensity": 10,                                // field intensity of fields generated
-	"max_field_intensity": 10,
-	"field_intensity_increment": 1,
-	"field_intensity_variance": 0.1                           // the field can range in intensity from -variance as a percent to +variance as a percent i.e. this spell would be 9-11
-	"sound_type": "combat",                                   // the type of sound. possible types are: background, weather, music, movement, speech, activity, destructive_activity, alarm, combat, alert, order
-	"sound_description": "a whoosh",                          // the sound description. in the form of "You hear %s" by default it is "an explosion"
-	"sound_ambient": true,                                    // whether or not this is treated as an ambient sound or not
-	"sound_id": "misc",                                       // the sound id
-	"sound_variant": "shockwave"                              // the sound variant
+    "id": "example_template",                                 // id of the spell, used internally. not translated
+    "type": "SPELL",
+    "name": "Template Spell",                                 // name of the spell that shows in game
+    "description": "This is a template to show off all the available values",
+    "valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
+    "effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
+    "effect_str": "template",                                 // special. see below
+    "effect_on_conditions": ["template"],                     // special. see below
+    "shape": "blast",                                         // the "shape" of the spell's area of effect. uses the aoe stat
+    "extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
+    "affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ], // body parts affected by effects
+    "flags": [ "SILENT", "LOUD", "SOMATIC", "VERBAL", "NO_HANDS", "NO_LEGS", "SPAWN_GROUP" ], // see "Spell Flags" below
+    "spell_class": "NONE",                                    //
+    "base_casting_time": 100,                                 // this is the casting time (in moves)
+    "base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
+    "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
+    "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
+    "difficulty": 12,                                         // the difficulty to learn/cast the spell
+    "max_level": 10,                                          // maximum level you can achieve in the spell
+    "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
+    "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
+    "accuracy_increment": 1.5
+    "min_damage": 0,                                          // minimum damage (or "starting" damage)
+    "max_damage": 100,                                        // maximum damage the spell can achieve
+    "damage_increment": 2.5,                                  // to get damage (and any of the other below stats) multiply this by spell's level and add to minimum damage
+    "min_aoe": 0,                                             // area of effect, or range of variance
+    "max_aoe": 5,
+    "aoe_increment": 0.1,
+    "min_range": 1,                                           // range of the spell
+    "max_range": 10,
+    "range_increment": 2,
+    "min_dot": 0,                                             // damage over time
+    "max_dot": 2,
+    "dot_increment": 0.1,
+    "min_duration": 0,                                        // duration of spell effect in moves (if the spell has a special effect)
+    "max_duration": 1000,
+    "duration_increment": 4,
+    "min_pierce": 0,                                          // how much of the spell pierces armor
+    "max_pierce": 1,
+    "pierce_increment": 0.1,
+    "field_id": "fd_blood",                                   // the string id of the field (currently hardcoded)
+    "field_chance": 100,                                      // one_in( field_chance ) chance of spawning a field per tile in aoe
+    "min_field_intensity": 10,                                // field intensity of fields generated
+    "max_field_intensity": 10,
+    "field_intensity_increment": 1,
+    "field_intensity_variance": 0.1                           // the field can range in intensity from -variance as a percent to +variance as a percent i.e. this spell would be 9-11
+    "sound_type": "combat",                                   // the type of sound. possible types are: background, weather, music, movement, speech, activity, destructive_activity, alarm, combat, alert, order
+    "sound_description": "a whoosh",                          // the sound description. in the form of "You hear %s" by default it is "an explosion"
+    "sound_ambient": true,                                    // whether or not this is treated as an ambient sound or not
+    "sound_id": "misc",                                       // the sound id
+    "sound_variant": "shockwave",                             // the sound variant
+    "learn_spells": { "create_atomic_light": 5, "megablast": 10 }   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
   }
 ```
 Most of the default values for the above are either 0 or "NONE", so you may leave out most of the values if they do not pertain to your spell.
@@ -232,7 +233,7 @@ Min and max values must always have the same sign, but it can be negative eg. in
 
 ### Learning Spells
 
-Currently there is only one way of learning spells that is implemented: learning a spell from an item, through a use_action.  An example is shown below:
+Currently there are two ways of learning spells that is implemented: learning a spell from an item(through a use_action) and from spells that have the learn_spells property.  An example of an use item is shown below:
 
 ```json
 {
@@ -253,6 +254,23 @@ Currently there is only one way of learning spells that is implemented: learning
 ```
 
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
+
+Below is an example of the learn_spells property:
+```json
+  {
+    "id": "phase_door",
+    "type": "SPELL",
+    "name": "Phase Door",
+    "description": "Teleports you in a random direction a short distance.",
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "valid_targets": [ "none" ],
+    "max_level": 10,
+    "difficulty": 2,
+    "spell_class": "MAGUS",
+    "learn_spells": { "dimension_door": 10 }
+  },
+```
 
 
 ### Spells in professions and NPC classes
