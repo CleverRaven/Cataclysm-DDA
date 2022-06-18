@@ -260,7 +260,7 @@
     "type": "snippet",
     "category": "PORTAL_STORM_DUNGEON_ANGRY",
     "text": [
-      "You hear an angry voice shouting \"BEGONE! YOU ARE TOO BLAND AND RIGID FOR THIS PARADISE!\"",
+      "You hear an angry voice shouting \"BEGONE!  YOU ARE TOO BLAND AND RIGID FOR THIS PARADISE!\"",
       "You hear an angry voice shouting \"YOU DARE INTRUDE AND ASSERT YOUR CONCEPTS OF TIME AND SPACE?\"",
       "You hear an angry voice shouting \"COMING HERE WAS A MISTAKE YOU WILL HAVE SEVERAL ETERNITIES TO REGRET!\"",
       "You hear an angry voice shouting \"ENTRANCE TO THIS PLACE IS NOT TOLERATED FOR STATIC FORMS SUCH AS YOURS!\"",
@@ -282,7 +282,7 @@
       "You hear a scared voice saying \"You will only find loss and torment here, flee while you can.\"",
       "You hear a scared voice saying \"This place will damage you as it has damaged us, leave it.\"",
       "You hear a scared voice saying \"Every moment you stay here your status as a physical object is damaged.  Leave while you are still real enough.\"",
-      "You hear a scared voice saying \"You can hurt us but not kill us in a way that matters.  We WILL win, save us the pain of destroying you. \""
+      "You hear a scared voice saying \"You can hurt us but not kill us in a way that matters.  We WILL win, save us the pain of destroying you.\""
     ]
   },
   {
@@ -316,8 +316,8 @@
     "category": "PORTAL_STORM_DUNGEON_FUTURE",
     "text": [
       "You hear your own voice screaming \"I'm you from the future, please leave now while we still can and let me cease to have been.\"",
-      "You hear your own voice saying \"I never learn do I? I remember this, being you and hearing me telling me to stop this.  I didn't listen then so I guess we're doomed.\"",
-      "You hear your own voice whispering \"I understand why we did it. I even think we could be at a kind of peace with the result, if only I remembered what we were. Or would that hurt more?\"",
+      "You hear your own voice saying \"I never learn do I?  I remember this, being you and hearing me telling me to stop this.  I didn't listen then so I guess we're doomed.\"",
+      "You hear your own voice whispering \"I understand why we did it.  I even think we could be at a kind of peace with the result, if only I remembered what we were.  Or would that hurt more?\"",
       "You hear your own voice asking \"Did I really look like that?  Is that all we used to be, so small but solid?\"",
       "You hear your own voice sadly saying \"I wish I could say it ends well, but we both know better.\"",
       "You hear your own voice saying \"I wonder when it went wrong, at what point was it too late?\"",
@@ -342,13 +342,13 @@
     "type": "snippet",
     "category": "PORTAL_STORM_DUNGEON_MEMORIES",
     "text": [
-      "You experience a false? memory of your friend saying \"You need to stop this, you can't wake up if you keep going.\"",
-      "You experience a false? memory of your parent saying \"No more, please why would you prefer a coma to waking up?\"",
-      "You experience a false? memory of a policeman saying \"You won't get away with it, I know you can hear me.\"",
-      "You experience a false? memory of a bland man saying \"All you need to do to end this dream is die in it.\"",
-      "You experience a false? memory of a relative saying \"Please give up this dream, come back to us.\"",
-      "You experience a false? memory of a doctor saying \"The body is perfectly healthy, they could wake up at any time or never.\"",
-      "You experience a false? memory of a stranger saying \"Can you feel this?  Or this?  Ha ha maybe you aren't faking.  Of course it means you don't need this either, ha ha.\""
+      "You experience a false memory of your friend saying \"You need to stop this, you can't wake up if you keep going.\"",
+      "You experience a false memory of your parent saying \"No more, please why would you prefer a coma to waking up?\"",
+      "You experience a false memory of a policeman saying \"You won't get away with it, I know you can hear me.\"",
+      "You experience a false memory of a bland man saying \"All you need to do to end this dream is die in it.\"",
+      "You experience a false memory of a relative saying \"Please give up this dream, come back to us.\"",
+      "You experience a false memory of a doctor saying \"The body is perfectly healthy, they could wake up at any time or never.\"",
+      "You experience a false memory of a stranger saying \"Can you feel this?  Or this?  Ha ha maybe you aren't faking.  Of course it means you don't need this either, ha ha.\""
     ]
   },
   {
