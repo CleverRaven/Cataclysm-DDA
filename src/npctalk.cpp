@@ -3507,9 +3507,9 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
-                        iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
-                        spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
-            friendly]( const T & d ) {
+                             iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
+                             spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
+                 friendly]( const T & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -3608,7 +3608,7 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
         target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
     function = [new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
-            hit_player, target_var]( const T & d ) {
+               hit_player, target_var]( const T & d ) {
         int radius = iov_radius.evaluate( d );
         int intensity = iov_intensity.evaluate( d );
 
