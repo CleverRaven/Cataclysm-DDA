@@ -348,6 +348,12 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     casting_time_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     casting_time_label.show();
 
+    duration_label.setParent( this );
+    duration_label.setText( QString("duration") );
+    duration_label.resize( default_text_box_size );
+    duration_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    duration_label.show();
+
     energy_source_label.setParent( this );
     energy_source_label.setText( QString( "energy source" ) );
     energy_source_label.resize( default_text_box_size );
@@ -592,6 +598,23 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         write_json();
     } );
 
+
+
+    min_duration_box.setParent(this);
+    min_duration_box.resize(default_text_box_size);
+    min_duration_box.move(QPoint(col* default_text_box_width, row++* default_text_box_height));
+    min_duration_box.setToolTip(QString(_("The duration of the spell at level 0")));
+    min_duration_box.setMaximum( INT_MAX );
+    // disabled for now as it does nothing in game
+    min_duration_box.show();
+    QObject::connect( &min_duration_box, &QSpinBox::textChanged,
+        [&]() {
+            editable_spell.min_duration = min_duration_box.value();
+            max_duration_box.setValue(std::max(max_duration_box.value(), editable_spell.min_duration));
+            editable_spell.min_duration = max_duration_box.value();
+            write_json();
+        } );
+
     energy_source_box.setParent( this );
     energy_source_box.resize( default_text_box_size );
     energy_source_box.move( QPoint( col * default_text_box_width,
@@ -697,13 +720,20 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
                                    _( "The components required in order to cast the spell. Leave empty for no components." ) ) );
     components_box.show();
     QStringList all_requirements;
+    all_requirements.append( QString("NONE") );
     for( const requirement_data &req : requirement_data::get_all() ) {
         all_requirements.append( QString( req.id().c_str() ) );
     }
     components_box.addItems( all_requirements );
     QObject::connect( &components_box, &QComboBox::currentTextChanged,
     [&]() {
-        editable_spell.spell_components = requirement_id( components_box.currentText().toStdString() );
+        std::string selected = components_box.currentText().toStdString();
+        requirement_id rq_components;
+        if( selected == "NONE") {
+            editable_spell.spell_components = rq_components;
+        } else {
+            editable_spell.spell_components = requirement_id( selected );
+        }
         write_json();
     } );
 
@@ -920,6 +950,22 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         write_json();
     } );
 
+
+
+    duration_increment_box.setParent(this);
+    duration_increment_box.resize(default_text_box_size);
+    duration_increment_box.move(QPoint(col* default_text_box_width, row++* default_text_box_height));
+    duration_increment_box.setToolTip(QString(_("Amount of dot increased per level of the spell")));
+    duration_increment_box.setMaximum(INT_MAX);
+    duration_increment_box.setMinimum(INT_MIN);
+    duration_increment_box.show();
+    QObject::connect(&duration_increment_box, &QDoubleSpinBox::textChanged,
+        [&]() {
+            editable_spell.duration_increment = duration_increment_box.value();
+            write_json();
+        });
+
+
     affected_bps_label.setParent( this );
     affected_bps_label.setText( QString( "affected body parts" ) );
     affected_bps_label.resize( default_text_box_size );
@@ -1099,6 +1145,24 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         write_json();
     } );
 
+
+
+
+    max_duration_box.setParent(this);
+    max_duration_box.resize(default_text_box_size);
+    max_duration_box.move(QPoint(col* default_text_box_width, row++* default_text_box_height));
+    max_duration_box.setToolTip(QString(_("The maximum duration the spell can achieve")));
+    max_duration_box.setMaximum(INT_MAX);
+    max_duration_box.setMinimum(INT_MIN);
+    max_duration_box.show();
+    QObject::connect(&max_duration_box, &QSpinBox::textChanged,
+        [&]() {
+            editable_spell.max_duration = max_duration_box.value();
+            min_duration_box.setValue(std::min(min_duration_box.value(), max_duration_box.value()));
+            editable_spell.min_duration = min_duration_box.value();
+            write_json();
+        });
+
     affected_bps_box.setParent( this );
     affected_bps_box.resize( QSize( default_text_box_width, default_text_box_height * 4 ) );
     affected_bps_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
@@ -1258,6 +1322,8 @@ void creator::spell_window::populate_fields()
 
     for ( const spell_type& sp_t : spell_type::get_all() ) {
         if ( sp_t.id.c_str() == s ) {
+
+            editable_spell = default_spell_type();
             editable_spell.targeted_monster_ids = sp_t.targeted_monster_ids; //Need to set this first to output the right json later
             
             id_box.setText ( QString( sp_t.id.c_str() ) );
@@ -1307,6 +1373,9 @@ void creator::spell_window::populate_fields()
             min_dot_box.setValue( sp_t.min_dot);
             dot_increment_box.setValue( sp_t.dot_increment);
             max_dot_box.setValue( sp_t.max_dot);
+            min_duration_box.setValue( sp_t.min_duration);
+            duration_increment_box.setValue( sp_t.duration_increment);
+            max_duration_box.setValue( sp_t.max_duration);
             base_casting_time_box.setValue( sp_t.base_casting_time );
 
 
@@ -1323,6 +1392,24 @@ void creator::spell_window::populate_fields()
             difficulty_box.setValue( sp_t.difficulty );
             max_level_box.setValue( sp_t.max_level);
             spell_message_box.setText( QString( sp_t.message.translated().c_str() ) );
+
+
+            std::string cmp = sp_t.spell_components.c_str();
+            if(cmp != "") {
+                index = components_box.findText( QString( cmp.c_str()) );
+
+                if (index != -1) { // -1 for not found
+                    components_box.setCurrentIndex( index );
+                }
+            } else {
+                index = components_box.findText( QString("NONE") );
+
+                if (index != -1) { // -1 for not found
+                    components_box.setCurrentIndex(index);
+                }
+            }
+
+
 
             QStringList mon_ids;
             for( const mtype_id& mon_id : sp_t.targeted_monster_ids ) {
