@@ -1487,7 +1487,11 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [ [ [ "stock_pot", 1 ] ], [ [ "heavy_wire_rack", 1 ] ], [ [ "tin_plate", 1 ], [ "ceramic_plate", 1 ], [ "mess_tray", 1 ] ] ]
+    "components": [
+      [ [ "stock_pot", 1 ] ],
+      [ [ "heavy_wire_rack", 1 ] ],
+      [ [ "tin_plate", 1 ], [ "ceramic_plate", 1 ], [ "mess_tray", 1 ] ]
+    ]
   },
   {
     "result": "clay_dutch_oven",
