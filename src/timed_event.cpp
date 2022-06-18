@@ -403,13 +403,13 @@ void timed_event_manager::process()
     }
 }
 
-void timed_event_manager::add( const timed_event_type type, const time_point &when,
+void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id, int strength, std::string key )
 {
     add( type, when, faction_id, get_player_character().global_pos(), strength, "", key );
 }
 
-void timed_event_manager::add( const timed_event_type type, const time_point &when,
+void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_ms &where,
                                int strength, std::string key )
@@ -417,7 +417,7 @@ void timed_event_manager::add( const timed_event_type type, const time_point &wh
     events.emplace_back( type, when, faction_id, where, strength, key );
 }
 
-void timed_event_manager::add( const timed_event_type type, const time_point &when,
+void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_ms &where,
                                int strength, std::string string_id,
@@ -426,7 +426,7 @@ void timed_event_manager::add( const timed_event_type type, const time_point &wh
     events.emplace_back( type, when, faction_id, where, strength, string_id, key );
 }
 
-void timed_event_manager::add( const timed_event_type type, const time_point &when,
+void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_ms &where,
                                int strength, std::string string_id, submap_revert sr,
