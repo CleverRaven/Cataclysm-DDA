@@ -222,5 +222,22 @@
       [ [ "chem_glycerol", 4 ], [ "lard", 1 ] ],
       [ [ "garlic_clove", 6 ], [ "garlic", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_acetone",
+    "charges": 2,
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "1 h",
+    "batch_time_factors": [ 80, 2 ],
+    "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "chem_acetic_acid", 3 ] ], [ [ "material_limestone", 54 ], [ "material_quicklime", 24 ] ] ]
   }
 ]
