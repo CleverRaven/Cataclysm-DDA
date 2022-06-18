@@ -5069,10 +5069,7 @@
     "points": 0,
     "flags": [ "NO_BONUS_ITEMS" ],
     "items": {
-      "both": {
-        "items": [ "felinesuit", "fur_collar",  "socks", "sneakers" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
-      },
+      "both": { "items": [ "felinesuit", "fur_collar", "socks", "sneakers" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "boxer_shorts", "tank_top" ],
       "female": [ "bra", "panties" ]
     },
@@ -5086,10 +5083,7 @@
     "points": 0,
     "flags": [ "NO_BONUS_ITEMS" ],
     "items": {
-      "both": {
-        "items": [ "wolfsuit", "leather_collar", "socks", "sneakers" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
-      },
+      "both": { "items": [ "wolfsuit", "leather_collar", "socks", "sneakers" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "boxer_shorts", "tank_top" ],
       "female": [ "bra", "panties" ]
     },
