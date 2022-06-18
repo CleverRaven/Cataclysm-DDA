@@ -266,6 +266,37 @@ std::vector<std::string> clothing_properties(
     return props;
 }
 
+void add_category_and_values( std::vector<std::string> &current_text, const int field_width,
+                              const std::string &category_name,
+                              const std::vector<std::pair<std::string, std::string>> &names_and_values )
+{
+    if( names_and_values.size() == 0 ) {
+        current_text.emplace_back( trim_by_length( category_name, field_width ) );
+    } else {
+        const std::string separator = ", ";
+        const std::string spacer = " ";
+        std::string assembled_value = "";
+        for( size_t i = 0; i < names_and_values.size() ; ++i ) {
+            if( i == 0 ) {
+                assembled_value += spacer;
+            } else {
+                assembled_value += separator;
+            }
+            assembled_value += names_and_values[i].first + spacer + names_and_values[i].second;
+        }
+        int required_oneline_width = utf8_width( category_name + spacer + assembled_value );
+        if( required_oneline_width <= field_width ) {
+            current_text.emplace_back( trimmed_name_and_value( category_name, assembled_value, field_width ) );
+        } else {
+            current_text.emplace_back( trim_by_length( category_name, field_width ) );
+            for( std::pair<std::string, std::string> name_and_value : names_and_values ) {
+                current_text.emplace_back( trimmed_name_and_value( spacer + name_and_value.first,
+                                           name_and_value.second, field_width ) );
+            }
+        }
+    }
+}
+
 std::vector<std::string> clothing_protection( const item &worn_item, const int width,
         const bodypart_id &bp )
 {
@@ -293,36 +324,34 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
     // bash ballistic and cut can have more involved info based on armor complexity
     if( percent_worst > 0 ) {
-        std::string subpoint_offset = " ";
-        prot.emplace_back( _( "Bash:" ) );
-        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Worst:" ), string_format( "%.2f",
-                           worst_res.type_resist( damage_type::BASH ) ), width ) );
-        if( display_median ) {
-            prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Median:" ), string_format( "%.2f",
-                               median_res.type_resist( damage_type::BASH ) ), width ) );
-        }
-        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Best:" ), string_format( "%.2f",
-                           best_res.type_resist( damage_type::BASH ) ), width ) );
 
-        prot.emplace_back( _( "Cut:" ) );
-        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Worst:" ), string_format( "%.2f",
-                           worst_res.type_resist( damage_type::CUT ) ), width ) );
-        if( display_median ) {
-            prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Median:" ), string_format( "%.2f",
-                               median_res.type_resist( damage_type::CUT ) ), width ) );
-        }
-        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Best:" ), string_format( "%.2f",
-                           best_res.type_resist( damage_type::CUT ) ), width ) );
+        std::vector<std::pair<std::string, std::string>> bash_subvalues, cut_subvalues, ballistic_subvalues;
+        bash_subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
+                                     worst_res.type_resist( damage_type::BASH ) ) ) );
+        cut_subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
+                                    worst_res.type_resist( damage_type::CUT ) ) ) );
+        ballistic_subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
+                                          worst_res.type_resist( damage_type::BULLET ) ) ) );
 
-        prot.emplace_back( _( "Ballistic:" ) );
-        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Worst:" ), string_format( "%.2f",
-                           worst_res.type_resist( damage_type::BULLET ) ), width ) );
         if( display_median ) {
-            prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Median:" ), string_format( "%.2f",
-                               median_res.type_resist( damage_type::BULLET ) ), width ) );
+            bash_subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
+                                         median_res.type_resist( damage_type::BASH ) ) ) );
+            cut_subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
+                                        median_res.type_resist( damage_type::CUT ) ) ) );
+            ballistic_subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
+                                              median_res.type_resist( damage_type::BULLET ) ) ) );
         }
-        prot.emplace_back( trimmed_name_and_value( subpoint_offset + _( "Best:" ), string_format( "%.2f",
-                           best_res.type_resist( damage_type::BULLET ) ), width ) );
+
+        bash_subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
+                                     best_res.type_resist( damage_type::BASH ) ) ) );
+        cut_subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
+                                    best_res.type_resist( damage_type::CUT ) ) ) );
+        ballistic_subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
+                                          best_res.type_resist( damage_type::BULLET ) ) ) );
+
+        add_category_and_values( prot, width, _( "Bash:" ), bash_subvalues );
+        add_category_and_values( prot, width, _( "Cut:" ), cut_subvalues );
+        add_category_and_values( prot, width, _( "Ballistic:" ), ballistic_subvalues );
     } else {
         add_folded_name_and_value( prot, _( "Bash:" ),
                                    string_format( "%.2f", best_res.type_resist( damage_type::BASH ) ), width );
