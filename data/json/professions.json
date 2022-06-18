@@ -5063,7 +5063,7 @@
   },
   {
     "type": "profession",
-    "id": "lost_cat",
+    "id": "awakened_cat",
     "name": { "male": "Awakened Cat Boy", "female": "Awakened Cat Girl" },
     "description": "Just yesterday you were at a convention with your friends.  Now, the world is falling apart.  Though you long to see them again, something about the collapse of society unlocks a deep, feline desire to explore!  And maybe even become what you've secretly wanted all your life...",
     "points": 0,
@@ -5080,7 +5080,7 @@
   },
   {
     "type": "profession",
-    "id": "lost_wolf",
+    "id": "awakened_wolf",
     "name": { "male": "Awakened Wolf Boy", "female": "Awakened Wolf Girl" },
     "description": "Just yesterday you were at a convention with your friends.  Now, the world is falling apart.  Though you long to see them again, something about the collapse of society unlocks a deep, canine desire to run free and find your pack!  And maybe even become what you've secretly wanted all your life...",
     "points": 0,
