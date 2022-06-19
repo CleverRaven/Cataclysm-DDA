@@ -303,7 +303,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         }
     } else {
         auto const mag_filter = []( item_pocket const & pck ) {
-            return pck.is_type( item_pocket::pocket_type::MAGAZINE ) or
+            return pck.is_type( item_pocket::pocket_type::MAGAZINE ) ||
                    pck.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
         };
         for( item_pocket *pocket : contents.get_pockets( mag_filter ) ) {
@@ -6545,7 +6545,7 @@ std::string item::display_name( unsigned int quantity ) const
 bool item::is_collapsed() const
 {
     return !contents.get_pockets( []( item_pocket const & pocket ) {
-        return pocket.settings.is_collapsed() and pocket.is_standard_type();
+        return pocket.settings.is_collapsed() && pocket.is_standard_type();
     } ).empty();
 }
 

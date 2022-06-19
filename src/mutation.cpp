@@ -1042,7 +1042,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
                 return;
             }
         } else {
-            if( mut_vit != vitamin_id::NULL_ID() and vitamin_get( mut_vit ) >= 2200 ) {
+            if( mut_vit != vitamin_id::NULL_ID() && vitamin_get( mut_vit ) >= 2200 ) {
                 test_crossing_threshold( cat );
             }
             if( mutate_towards( valid, cat, 2 ) ) {

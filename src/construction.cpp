@@ -2189,13 +2189,13 @@ build_reqs get_build_reqs_for_furn_ter_ids(
                 if( pre_build.category == construction_category_REPAIR ) {
                     continue;
                 }
-                if( ( pre_build.post_terrain.empty() or
-                      ( !pre_build.post_is_furniture and
-                        ter_id( pre_build.post_terrain ) != base_ter ) ) and
-                    ( pre_build.pre_terrain.empty() or
-                      ( pre_build.post_is_furniture and
-                        ter_id( pre_build.pre_terrain ) == base_ter ) ) and
-                    pre_build.post_terrain == build_pre_ter and
+                if( ( pre_build.post_terrain.empty() ||
+                      ( !pre_build.post_is_furniture &&
+                        ter_id( pre_build.post_terrain ) != base_ter ) ) &&
+                    ( pre_build.pre_terrain.empty() ||
+                      ( pre_build.post_is_furniture &&
+                        ter_id( pre_build.pre_terrain ) == base_ter ) ) &&
+                    pre_build.post_terrain == build_pre_ter &&
                     pre_build.pre_terrain != build.post_terrain ) {
                     if( total_builds.find( pre_build.id ) == total_builds.end() ) {
                         total_builds[pre_build.id] = 0;

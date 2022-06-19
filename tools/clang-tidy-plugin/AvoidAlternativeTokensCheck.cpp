@@ -66,13 +66,13 @@ static void CheckOperator( AvoidAlternativeTokensCheck &Check,
         return;
     }
 
-    if( Replacement == "!=" and operatorString != "not_eq" ) {
+    if( Replacement == "!=" && operatorString != "not_eq" ) {
         // This happens in the compiler-generated code inside a forach loop and
         // in some other generated code
         return;
     }
 
-    if( Replacement == "!" and operatorString != "not" ) {
+    if( Replacement == "!" && operatorString != "not" ) {
         // This happens in some compiler-generated code
         return;
     }
