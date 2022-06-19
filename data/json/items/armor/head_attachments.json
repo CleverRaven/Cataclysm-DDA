@@ -214,7 +214,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Kevlar nape protector" },
-    "description": "A custom made Kevlar strengthened nape protector intended to be attached on a hard hat or helmet to protect your nape against cuts and slashing attacks.",
+    "description": "A custom-made Kevlar strengthened nape protector intended to be attached on a hard hat or helmet to protect your nape against cuts and slashing attacks.",
     "weight": "40 g",
     "volume": "500 ml",
     "price": 6500,
