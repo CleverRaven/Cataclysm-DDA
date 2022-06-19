@@ -9889,7 +9889,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
 
         int moves = 0;
 
-        for( auto ptype : {
+        for( item_pocket::pocket_type ptype : {
                  item_pocket::pocket_type::CONTAINER,
                  item_pocket::pocket_type::MAGAZINE_WELL,
                  item_pocket::pocket_type::MAGAZINE

@@ -2802,7 +2802,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         contents_change_handler handler;
         bool changed = false;
 
-        for( auto ptype : {
+        for( item_pocket::pocket_type ptype : {
                  item_pocket::pocket_type::CONTAINER,
                  item_pocket::pocket_type::MAGAZINE_WELL,
                  item_pocket::pocket_type::MAGAZINE
