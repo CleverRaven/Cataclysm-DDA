@@ -609,7 +609,7 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
         }
 
         if( m == mid ) {
-            debugmsg( "mutation %s refers to itself in %s context.  The program will crash if player gains this mutation.",
+            debugmsg( "mutation %s refers to itself in %s context.  The program will crash if the player gains this mutation.",
                       mid.c_str(), what.c_str() );
         }
     }
