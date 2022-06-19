@@ -7567,7 +7567,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         encumber = portion_data->encumber;
         if( is_gun() ) {
             encumber += volume() * portion_data->volume_encumber_modifier /
-                        portion_data->volume_per_encumbrance;
+                        armor_portion_data::volume_per_encumbrance;
         }
 
         // encumbrance from added or modified pockets

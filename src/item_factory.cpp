@@ -684,7 +684,7 @@ void Item_factory::finalize_post( itype &obj )
                     }
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
-                                    data.volume_per_encumbrance;
+                                    armor_portion_data::volume_per_encumbrance;
             }
 
             // Precalc average thickness per portion
@@ -882,7 +882,7 @@ void Item_factory::finalize_post( itype &obj )
                     }
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
-                                    data.volume_per_encumbrance;
+                                    armor_portion_data::volume_per_encumbrance;
             }
         }
 
