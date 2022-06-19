@@ -153,7 +153,7 @@
     "id": "cotton_patchwork",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str_sp": "cotton patch" },
+    "name": { "str": "cotton patch", "str_pl": "cotton patches" },
     "description": "A 6 inch square cotton patch, suitable for use in repairing and tailoring of clothing.",
     "weight": "5 g",
     "volume": "6 ml",

@@ -60,7 +60,7 @@
   {
     "type": "furniture",
     "id": "f_maianthemum_stellatum",
-    "name": "starry false solomon's seal",
+    "name": "starry false Solomon's seal",
     "description": "The blossoms of this flower look like stars in the night sky.  Its crimson berries are edible.",
     "symbol": "f",
     "color": "white",
@@ -219,7 +219,7 @@
   {
     "type": "furniture",
     "id": "f_jerusalem_artichoke",
-    "name": "jerusalem artichoke plant",
+    "name": "Jerusalem artichoke plant",
     "description": "Looking similar to the sunflower, this tall plant has a nutritious tuber.",
     "looks_like": "f_sunflower",
     "symbol": "f",
@@ -390,7 +390,7 @@
   {
     "type": "furniture",
     "id": "f_japanese_knotweed",
-    "name": "japanese knotweed",
+    "name": "Japanese knotweed",
     "description": "An invasive species originating from Japan.  The stem looks like it might contain some water.",
     "symbol": ",",
     "looks_like": "f_cattails",

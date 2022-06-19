@@ -1226,7 +1226,7 @@
   {
     "type": "COMESTIBLE",
     "id": "jerusalem_artichoke_sauteed",
-    "name": { "str": "sauteed jerusalem artichoke" },
+    "name": { "str": "sauteed Jerusalem artichoke" },
     "copy-from": "jerusalem_artichoke",
     "color": "brown",
     "spoils_in": "2 days",
