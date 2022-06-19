@@ -354,7 +354,7 @@
       { "group": "snacks", "prob": 820 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
       [ "eyedrops", 10 ],
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       { "item": "paper", "prob": 30, "count": [ 30, 80 ] },
       [ "foon", 30 ],
       [ "spork", 30 ],
@@ -371,7 +371,7 @@
     "items": [
       { "group": "ammo_pocket_batteries", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "jumper_cable", 20 ],
@@ -952,7 +952,7 @@
       [ "mobile_memory_card", 5 ],
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 35, "charges-min": 0 },
-      [ "rag", 1 ],
+      [ "cotton_patchwork", 1 ],
       [ "claw_bar", 3 ],
       [ "crowbar", 18 ],
       [ "halligan", 1 ],
@@ -990,7 +990,7 @@
       [ "fetus", 1 ],
       [ "joint", 20 ],
       [ "mag_porn", 20 ],
-      [ "rag", 1 ],
+      [ "cotton_patchwork", 1 ],
       [ "hairpin", 1 ],
       { "group": "newspaper_recent", "prob": 5 },
       [ "flyer", 10 ],
@@ -1229,7 +1229,7 @@
       [ "jar_glass_sealed", 80 ],
       { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
       { "item": "bleach", "prob": 60, "charges-min": 10 },
-      { "item": "ammonia", "prob": 60, "charges-min": 10 },
+      { "item": "ammonia_liquid", "prob": 60, "charges-min": 10 },
       { "item": "chem_baking_soda", "prob": 60, "charges-min": 10 },
       [ "syringe", 30 ],
       [ "punch_dagger", 12 ],
@@ -1655,7 +1655,7 @@
       { "item": "crack", "prob": 16, "charges": [ 1, 4 ] },
       { "item": "lsd", "prob": 24, "container-item": "bag_zipper", "charges": [ 1, 5 ] },
       { "group": "ammo_casings", "prob": 20, "container-item": "bag_zipper", "count": [ 1, 5 ] },
-      { "item": "rag", "custom-flags": [ "FILTHY" ], "prob": 20 },
+      { "item": "cotton_patchwork", "custom-flags": [ "FILTHY" ], "prob": 20 },
       { "item": "slime_scrap", "prob": 3, "container-item": "bag_zipper" },
       { "item": "raw_hleather", "prob": 1, "container-item": "bag_zipper" }
     ]
@@ -2102,7 +2102,7 @@
       { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 30, "charges-min": 1 },
       { "item": "bleach", "prob": 10, "charges-min": 6 },
-      { "item": "ammonia", "prob": 12, "charges-min": 6 },
+      { "item": "ammonia_liquid", "prob": 12, "charges-min": 6 },
       { "item": "chem_washing_soda", "prob": 10 },
       { "item": "chem_baking_soda", "prob": 10 },
       { "item": "chem_calcium_chloride", "prob": 2 },
@@ -2624,13 +2624,13 @@
     "id": "mil_base_bed_hospital",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "blanket", "prob": 50 }, { "item": "rag", "prob": 100, "custom-flags": [ "FILTHY" ] } ]
+    "entries": [ { "item": "blanket", "prob": 50 }, { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] } ]
   },
   {
     "id": "mil_base_table_hospital",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "bandages", "prob": 25 }, { "item": "rag", "prob": 100, "custom-flags": [ "FILTHY" ] } ]
+    "entries": [ { "item": "bandages", "prob": 25 }, { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] } ]
   },
   {
     "id": "mil_base_books",
@@ -2698,7 +2698,7 @@
       { "item": "bag_iv", "prob": 60 },
       { "item": "bag_body_bag", "prob": 40 },
       { "item": "syringe", "prob": 30 },
-      { "item": "rag", "prob": 60, "custom-flags": [ "FILTHY" ] },
+      { "item": "cotton_patchwork", "prob": 60, "custom-flags": [ "FILTHY" ] },
       { "item": "coat_lab", "prob": 20 },
       { "item": "blanket", "prob": 20 },
       { "item": "sheet", "prob": 20 },

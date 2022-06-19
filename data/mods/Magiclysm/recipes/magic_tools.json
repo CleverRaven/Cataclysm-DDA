@@ -13,7 +13,7 @@
       [ [ "knife_butcher_plus_one", 1 ] ],
       [ [ "knife_carving_plus_one", 1 ] ],
       [ [ "knife_meat_cleaver_plus_one", 1 ] ],
-      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "leather", 2 ], [ "cotton_patchwork", 2 ] ],
       [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
     ]
   },
@@ -31,7 +31,7 @@
       [ [ "knife_butcher_plus_two", 1 ] ],
       [ [ "knife_carving_plus_two", 1 ] ],
       [ [ "knife_meat_cleaver_plus_two", 1 ] ],
-      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "leather", 2 ], [ "cotton_patchwork", 2 ] ],
       [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
     ]
   },

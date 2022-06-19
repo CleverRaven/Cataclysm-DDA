@@ -106,7 +106,7 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": "3 m",
     "qualities": [  ],
-    "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ] ] ],
+    "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ], [ "leaves", 80 ] ] ],
     "pre_terrain": "t_improvised_shelter",
     "post_terrain": "t_improvised_shelter_filled"
   },
@@ -2292,7 +2292,8 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "withered", 50 ] ] ],
+    "//": "12,5 liters",
+    "components": [ [ [ "leaves", 125 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_leaves_pile"
@@ -3256,6 +3257,39 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_foodco",
+    "group": "place_foodco",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "craftrig", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_chemlab",
+    "group": "place_chemlab",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "chemlab", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_welding_rig",
+    "group": "place_weldrig",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "weldrig", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
   },
   {
     "type": "construction",
@@ -5573,7 +5607,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER_SOFT", "level": 1 } ] ],
-    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "rag", 8 ] ] ],
+    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "cotton_patchwork", 8 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_door_glass_c"

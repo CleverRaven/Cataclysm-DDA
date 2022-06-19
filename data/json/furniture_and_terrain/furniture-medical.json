@@ -62,7 +62,7 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 12 },
-        { "item": "rag", "count": [ 30, 33 ] },
+        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
         { "item": "nail", "charges": [ 8, 10 ] },
         { "item": "cable", "charges": [ 1, 2 ], "prob": 50 }
       ]
@@ -77,7 +77,7 @@
         { "item": "2x4", "count": [ 2, 5 ] },
         { "item": "nail", "charges": [ 3, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] },
-        { "item": "rag", "count": [ 20, 30 ] }
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] }
       ]
     }
   },

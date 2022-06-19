@@ -1216,5 +1216,63 @@
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "OVERSIZE", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 17, "coverage": 85, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "ammo_satchel_leather",
+    "type": "ARMOR",
+    "name": { "str": "leather ammo satchel" },
+    "description": "A sturdy leather ammo bag worn at the waist.  It is capable of holding a single large magazine close at hand.",
+    "weight": "590 g",
+    "volume": "500 ml",
+    "price": 2000,
+    "price_postapoc": 2000,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "brown",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "chestpouch_leather",
+    "type": "ARMOR",
+    "name": { "str": "leather chest ammo pouch", "str_pl": "leather chest ammo pouches" },
+    "description": "A leather ammo pouch that can be strapped to your chest and hold a single magazine close at hand.",
+    "weight": "1140 g",
+    "volume": "250 ml",
+    "price": 1250,
+    "price_postapoc": 2000,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "brown",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_SMALL" ],
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   }
 ]

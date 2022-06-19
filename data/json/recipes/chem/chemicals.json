@@ -13,7 +13,7 @@
     "autolearn": true,
     "charges": 1,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "rag", -1 ], [ "felt_patch", -1 ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "cotton_patchwork", -1 ], [ "felt_patch", -1 ] ] ],
     "components": [ [ [ "feces_bird", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -89,7 +89,7 @@
       { "id": "CONTAIN", "level": 1 },
       { "id": "SEPARATE", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
     "components": [
       [
         [ "lemon", 8 ],
@@ -125,7 +125,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "chem_washing_soda",
-    "byproducts": [ [ "ammonia", 4 ], [ "chem_calcium_chloride", 51 ] ],
+    "byproducts": [ [ "ammonia_liquid", 4 ], [ "chem_calcium_chloride", 51 ] ],
     "charges": 41,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -136,7 +136,7 @@
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 6 ], [ "recipe_labchem", 5 ], [ "atomic_survival", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "salt_water", 3 ] ], [ [ "material_limestone", 8 ] ], [ [ "ammonia", 4 ] ] ]
+    "components": [ [ [ "salt_water", 3 ] ], [ [ "material_limestone", 8 ] ], [ [ "ammonia_liquid", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -291,7 +291,7 @@
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "chem_sodium", 142 ] ],
-      [ [ "ammonia", 1 ] ],
+      [ [ "ammonia_liquid", 1 ] ],
       [ [ "chem_ammonium_nitrate", 238 ] ],
       [ [ "lead", 103 ] ],
       [ [ "chem_nitric_acid", 1 ] ]
@@ -300,7 +300,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "ammonia",
+    "result": "ammonia_liquid",
     "charges": 2,
     "byproducts": [ [ "salt_water", 1 ] ],
     "category": "CC_CHEM",
