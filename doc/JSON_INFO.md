@@ -2460,7 +2460,8 @@ at level `2` to the item.
 "cardio_multiplier": 1.5, // Multiply total cardio fitness by this amount
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
-"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"mending_modifier": 1.2, // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"spells_learned": [ [ "spell_slime_spray", 1 ] ], // spells learned and the level they're at after gaining the trait/mutation.
 "transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transform into
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
