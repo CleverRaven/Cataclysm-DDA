@@ -41,6 +41,11 @@
         { "item": "boots_scrap", "prob": 20 },
         { "item": "armguard_scrap", "prob": 20 },
         { "item": "cuirass_scrap", "prob": 10 },
+        { "item": "loincloth_fur", "prob": 10 },
+        { "item": "footrags_fur", "prob": 10 },
+        { "item": "gloves_wraps_fur", "prob": 10 },
+        { "item": "bellywrap_fur", "prob": 5 },
+        { "item": "chestwrap_fur", "prob": 5 },
         { "item": "longsword", "prob": 100 }
       ]
     },
@@ -50,7 +55,7 @@
     "type": "MONSTER",
     "id": "mon_orc_archer",
     "name": { "str": "orc archer" },
-    "description": "This green brute is a orc archer.  It looks at you with a bow in hand and smiles silently as it aims at you.",
+    "description": "This green brute is an orc archer.  It looks at you with a bow in hand and smiles silently as it aims at you.",
     "copy-from": "mon_orc_warrior",
     "melee_skill": 2,
     "death_drops": {
@@ -61,6 +66,11 @@
         { "item": "boots_scrap", "prob": 40 },
         { "item": "armguard_scrap", "prob": 40 },
         { "item": "cuirass_scrap", "prob": 40 },
+        { "item": "loincloth_fur", "prob": 10 },
+        { "item": "footrags_fur", "prob": 10 },
+        { "item": "gloves_wraps_fur", "prob": 10 },
+        { "item": "bellywrap_fur", "prob": 5 },
+        { "item": "chestwrap_fur", "prob": 5 },
         { "item": "longbow", "prob": 100 },
         { "item": "sheath", "contents-item": "knife_combat", "prob": 50 },
         { "item": "quiver_large", "contents-group": "quiver_orc_archer", "prob": 100 }
@@ -107,6 +117,11 @@
         { "item": "boots_scrap", "prob": 10 },
         { "item": "armguard_scrap", "prob": 30 },
         { "item": "cuirass_scrap", "prob": 20 },
+        { "item": "loincloth_fur", "prob": 10 },
+        { "item": "footrags_fur", "prob": 10 },
+        { "item": "gloves_wraps_fur", "prob": 10 },
+        { "item": "bellywrap_fur", "prob": 5 },
+        { "item": "chestwrap_fur", "prob": 5 },
         { "item": "warhammer", "prob": 100 }
       ]
     }
