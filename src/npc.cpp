@@ -1417,9 +1417,9 @@ void npc::stow_item( item &it )
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
     } else if( can_stash( it ) ) {
-        item &ret = i_add( remove_item( it ), true, nullptr, nullptr, true, false );
+        item_location ret = i_add( remove_item( it ), true, nullptr, nullptr, true, false );
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret->tname() );
         }
         moves -= 15;
     } else { // No room for weapon, so we drop it
@@ -1959,6 +1959,10 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
         return false;
     }
 
+    if( myclass->get_shopkeeper_blacklist().matches( it, *this ) ) {
+        return false;
+    }
+
     // TODO: Base on inventory
     return at_price >= 0;
 }
@@ -2026,7 +2030,7 @@ void npc::shop_restock()
         return;
     }
 
-    restock = calendar::turn + 6_days;
+    restock = calendar::turn + myclass->get_shop_restock_interval();
     if( is_player_ally() ) {
         return;
     }
@@ -2134,13 +2138,13 @@ void npc::update_worst_item_value()
     }
 }
 
-int npc::value( const item &it ) const
+double npc::value( const item &it ) const
 {
     int market_price = it.price( true );
     return value( it, market_price );
 }
 
-int npc::value( const item &it, int market_price ) const
+double npc::value( const item &it, double market_price ) const
 {
     if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
         // NPCs won't be interested in buying active explosives

@@ -115,7 +115,7 @@
       [ "can_drink", 60 ],
       [ "flyer", 30 ],
       [ "box_small", 30 ],
-      [ "rag", 20 ],
+      [ "cotton_patchwork", 20 ],
       [ "bag_plastic", 20 ],
       [ "news_regional", 15 ],
       [ "mag_news", 15 ]
@@ -312,7 +312,8 @@
       { "item": "salt_water", "prob": 20, "charges-min": 1 },
       { "item": "detergent", "prob": 10, "charges": [ 1, 20 ] },
       { "item": "bleach", "prob": 10, "charges-min": 10 },
-      { "item": "ammonia", "prob": 10, "charges-min": 10 },
+      { "item": "ammonia_liquid", "prob": 10, "charges-min": 10 },
+      { "item": "ammonia_hydroxide", "prob": 10, "charges-min": 10 },
       { "item": "iodine", "prob": 10, "charges": [ 1, 10 ] },
       [ "oxy_powder", 10 ],
       [ "ash", 5 ],

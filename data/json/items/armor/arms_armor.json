@@ -595,7 +595,7 @@
     "category": "armor",
     "name": { "str": "pair of Kevlar gambeson sleeves", "str_pl": "pairs of Kevlar gambeson sleeves" },
     "description": "A pair sleeves made from aramid with strips of soft body armor sewn on top to simulate quilting.",
-    "weight": "920 g",
+    "weight": "986 g",
     "volume": "840 ml",
     "price": 1200,
     "price_postapoc": 400,

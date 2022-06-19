@@ -49,11 +49,10 @@ static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_chisel( "chisel" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
-static const itype_id itype_needle_bone( "needle_bone" );
+static const itype_id itype_kevlar_shears( "kevlar_shears" );
 static const itype_id itype_pockknife( "pockknife" );
-static const itype_id itype_rag( "rag" );
-static const itype_id itype_scissors( "scissors" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
+static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_thread( "thread" );
@@ -232,13 +231,13 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
     GIVEN( "an appropriate book" ) {
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
-        item &craftbook = dummy.i_add( item( "manual_electronics" ) );
-        REQUIRE( craftbook.is_book() );
-        REQUIRE_FALSE( craftbook.type->book->recipes.empty() );
+        item_location craftbook = dummy.i_add( item( "manual_electronics" ) );
+        REQUIRE( craftbook->is_book() );
+        REQUIRE_FALSE( craftbook->type->book->recipes.empty() );
         REQUIRE_FALSE( dummy.knows_recipe( r ) );
 
         WHEN( "the player read it and has an appropriate skill" ) {
-            dummy.identify( craftbook );
+            dummy.identify( *craftbook );
             dummy.set_knowledge_level( r->skill_used, 2 );
             // Secondary skills are just set to be what the autolearn requires
             // but the primary is not
@@ -262,7 +261,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 }
             }
             AND_WHEN( "he gets rid of the book" ) {
-                dummy.i_rem( &craftbook );
+                craftbook.remove_item();
 
                 THEN( "he can't brew the recipe anymore" ) {
                     // update the crafting inventory cache
@@ -276,8 +275,8 @@ TEST_CASE( "available_recipes", "[recipes]" )
     GIVEN( "an eink pc with a sushi recipe" ) {
         const recipe *r2 = &recipe_id( recipe_sushi_rice ).obj();
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
-        item &eink = dummy.i_add( item( "eink_tablet_pc" ) );
-        eink.set_var( "EIPC_RECIPES", ",sushi_rice," );
+        item_location eink = dummy.i_add( item( "eink_tablet_pc" ) );
+        eink->set_var( "EIPC_RECIPES", ",sushi_rice," );
         REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
 
         WHEN( "the player holds it and has an appropriate skill" ) {
@@ -294,7 +293,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 }
             }
             AND_WHEN( "he gets rid of the tablet" ) {
-                dummy.i_rem( &eink );
+                eink.remove_item();
 
                 THEN( "he can't make the recipe anymore" ) {
                     // update the crafting inventory cache
@@ -347,10 +346,10 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 }
             }
             AND_WHEN( "he has the cookbook in his inventory" ) {
-                item &cookbook = who.i_add( item( "brewing_cookbook" ) );
+                item_location cookbook = who.i_add( item( "brewing_cookbook" ) );
 
-                REQUIRE( cookbook.is_book() );
-                REQUIRE_FALSE( cookbook.type->book->recipes.empty() );
+                REQUIRE( cookbook->is_book() );
+                REQUIRE_FALSE( cookbook->type->book->recipes.empty() );
 
                 THEN( "he shows it to you" ) {
                     // update the crafting inventory cache
@@ -470,14 +469,14 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     avatar dummy;
     clear_character( dummy );
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
-    item &ups = dummy.i_add( item( "UPS_off" ) );
-    item ups_mag( ups.magazine_default() );
+    item_location ups = dummy.i_add( item( "UPS_off" ) );
+    item ups_mag( ups->magazine_default() );
     ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
-    ret_val<bool> result = ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    ret_val<bool> result = ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
     INFO( result.c_str() );
     REQUIRE( result.success() );
-    REQUIRE( dummy.has_item( ups ) );
-    REQUIRE( ups.ammo_remaining() == 500 );
+    REQUIRE( dummy.has_item( *ups ) );
+    REQUIRE( ups->ammo_remaining() == 500 );
     REQUIRE( dummy.available_ups() == 500 );
 }
 
@@ -792,7 +791,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
 }
 
 static std::map<quality_id, itype_id> quality_to_tool = {{
-        { qual_CUT, itype_pockknife }, { qual_SEW, itype_needle_bone }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_scissors }
+        { qual_CUT, itype_pockknife }, { qual_SEW, itype_sewing_kit }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_kevlar_shears }
     }
 };
 
@@ -883,13 +882,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
 {
     SECTION( "lvl 0 -> 1" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_blanket, 175, 0, true );
+            test_skill_progression( recipe_blanket, 174, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_blanket, 173, 50, true );
+            test_skill_progression( recipe_blanket, 172, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_blanket, 173, 100, true );
+            test_skill_progression( recipe_blanket, 172, 100, true );
         }
     }
     SECTION( "lvl 1 -> 2" ) {
@@ -905,24 +904,24 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 2 -> lvl 3" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 6291, 0, true );
+            test_skill_progression( recipe_vambrace_larmor, 6298, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 5230, 50, true );
+            test_skill_progression( recipe_vambrace_larmor, 5236, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 4836, 100, true );
+            test_skill_progression( recipe_vambrace_larmor, 4841, 100, true );
         }
     }
     SECTION( "lvl 3 -> lvl 4" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 12138, 0, true );
+            test_skill_progression( recipe_armguard_larmor, 12131, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 10003, 50, true );
+            test_skill_progression( recipe_armguard_larmor, 9997, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9203, 100, true );
+            test_skill_progression( recipe_armguard_larmor, 9197, 100, true );
         }
     }
     SECTION( "lvl 4 -> 5" ) {
@@ -1715,14 +1714,14 @@ TEST_CASE( "recipe byproducts and byproduct groups", "[recipes][crafting]" )
 
 TEST_CASE( "tools with charges as components", "[crafting]" )
 {
-    const int rags_in_recipe = 4;
-    const int threads_in_recipe = 3;
+    const int cotton_sheets_in_recipe = 2;
+    const int threads_in_recipe = 10;
     map &m = get_map();
     Character &c = get_player_character();
     item pocketknife( itype_pockknife );
     item sew_kit( itype_sewing_kit );
     item thread( "thread" );
-    item rag( "rag" );
+    item sheet_cotton( "sheet_cotton" );
     thread.charges = 100;
     sew_kit.put_in( thread, item_pocket::pocket_type::MAGAZINE );
     REQUIRE( sew_kit.ammo_remaining() == 100 );
@@ -1734,7 +1733,7 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
         REQUIRE( m.i_at( c.pos() ).empty() );
         c.i_add_or_drop( sew_kit );
         c.i_add_or_drop( thread );
-        c.i_add_or_drop( rag, rags_in_recipe );
+        c.i_add_or_drop( sheet_cotton, cotton_sheets_in_recipe );
         WHEN( "crafting a balaclava" ) {
             craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos() );
             cmd.execute( true );
@@ -1742,32 +1741,32 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
                 CHECK( !res.is_null() );
                 CHECK( res.is_craft() );
-                int rags = 0;
+                int cotton_sheets = 0;
                 int threads = 0;
                 for( const item &comp : res.components ) {
-                    if( comp.typeId() == itype_rag ) {
-                        rags += comp.count_by_charges() ? comp.charges : 1;
+                    if( comp.typeId() == itype_sheet_cotton ) {
+                        cotton_sheets += comp.count_by_charges() ? comp.charges : 1;
                     } else if( comp.typeId() == itype_thread ) {
                         threads += comp.count_by_charges() ? comp.charges : 1;
                     } else {
                         FAIL( "found unexpected component " << comp.typeId().str() );
                     }
                 }
-                CHECK( rags == rags_in_recipe );
+                CHECK( cotton_sheets == cotton_sheets_in_recipe );
                 CHECK( threads == threads_in_recipe );
-                rags = 0;
+                cotton_sheets = 0;
                 threads = 0;
                 int threads_in_tool = 0;
                 for( const item &i : m.i_at( c.pos() ) ) {
-                    if( i.typeId() == itype_rag ) {
-                        rags += i.count_by_charges() ? i.charges : 1;
+                    if( i.typeId() == itype_sheet_cotton ) {
+                        cotton_sheets += i.count_by_charges() ? i.charges : 1;
                     } else if( i.typeId() == itype_thread ) {
                         threads += i.count_by_charges() ? i.charges : 1;
                     } else if( i.typeId() == itype_sewing_kit ) {
                         threads_in_tool += i.ammo_remaining();
                     }
                 }
-                CHECK( rags == 0 );
+                CHECK( cotton_sheets == 0 );
                 CHECK( threads == 100 - threads_in_recipe );
                 CHECK( threads_in_tool == 100 );
             }
@@ -1781,7 +1780,7 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
         REQUIRE( pack_loc->is_container_empty() );
         c.i_add_or_drop( sew_kit );
         c.i_add_or_drop( thread );
-        c.i_add_or_drop( rag, rags_in_recipe );
+        c.i_add_or_drop( sheet_cotton, cotton_sheets_in_recipe );
         WHEN( "crafting a balaclava" ) {
             craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos() );
             cmd.execute( true );
@@ -1789,32 +1788,32 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
                 CHECK( !res.is_null() );
                 CHECK( res.is_craft() );
-                int rags = 0;
+                int cotton_sheets = 0;
                 int threads = 0;
                 for( const item &comp : res.components ) {
-                    if( comp.typeId() == itype_rag ) {
-                        rags += comp.count_by_charges() ? comp.charges : 1;
+                    if( comp.typeId() == itype_sheet_cotton ) {
+                        cotton_sheets += comp.count_by_charges() ? comp.charges : 1;
                     } else if( comp.typeId() == itype_thread ) {
                         threads += comp.count_by_charges() ? comp.charges : 1;
                     } else {
                         FAIL( "found unexpected component " << comp.typeId().str() );
                     }
                 }
-                CHECK( rags == rags_in_recipe );
+                CHECK( cotton_sheets == cotton_sheets_in_recipe );
                 CHECK( threads == threads_in_recipe );
-                rags = 0;
+                cotton_sheets = 0;
                 threads = 0;
                 int threads_in_tool = 0;
                 for( const item *i : pack_loc->all_items_top() ) {
-                    if( i->typeId() == itype_rag ) {
-                        rags += i->count_by_charges() ? i->charges : 1;
+                    if( i->typeId() == itype_sheet_cotton ) {
+                        cotton_sheets += i->count_by_charges() ? i->charges : 1;
                     } else if( i->typeId() == itype_thread ) {
                         threads += i->count_by_charges() ? i->charges : 1;
                     } else if( i->typeId() == itype_sewing_kit ) {
                         threads_in_tool += i->ammo_remaining();
                     }
                 }
-                CHECK( rags == 0 );
+                CHECK( cotton_sheets == 0 );
                 CHECK( threads == 100 - threads_in_recipe );
                 CHECK( threads_in_tool == 100 );
             }

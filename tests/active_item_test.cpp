@@ -24,8 +24,8 @@ TEST_CASE( "active_items_processed_regularly", "[item]" )
     cata::optional<std::list<item>::iterator> wear_success = player_character.wear_item( storage );
     REQUIRE( wear_success );
 
-    item *inventory_item = player_character.try_add( active_item );
-    REQUIRE( inventory_item != nullptr );
+    item_location inventory_item = player_character.try_add( active_item );
+    REQUIRE( inventory_item != item_location::nowhere );
     REQUIRE( inventory_item->charges == active_item_ticks );
 
     bool wield_success = player_character.wield( active_item );

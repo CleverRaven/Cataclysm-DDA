@@ -185,7 +185,7 @@
       [ [ "knife_butcher", 1 ] ],
       [ [ "knife_carving", 1 ] ],
       [ [ "knife_meat_cleaver", 1 ] ],
-      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "leather", 2 ], [ "cotton_patchwork", 2 ] ],
       [ [ "cordage_short", 2, "LIST" ] ]
     ]
   },
@@ -939,7 +939,7 @@
     "time": "2 m",
     "autolearn": true,
     "using": [ [ "flammable_liquid", 100 ] ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -1487,7 +1487,11 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [ [ [ "stock_pot", 1 ] ], [ [ "heavy_wire_rack", 1 ] ], [ [ "tin_plate", 1 ] ] ]
+    "components": [
+      [ [ "stock_pot", 1 ] ],
+      [ [ "heavy_wire_rack", 1 ] ],
+      [ [ "tin_plate", 1 ], [ "ceramic_plate", 1 ], [ "mess_tray", 1 ] ]
+    ]
   },
   {
     "result": "clay_dutch_oven",
