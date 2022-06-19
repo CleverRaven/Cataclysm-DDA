@@ -301,8 +301,8 @@ static void do_blast( const tripoint &p, const float power,
 
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            vp->vehicle().damage( vp->part_index(), force, fire ? damage_type::HEAT : damage_type::BASH,
-                                  false );
+            vp->vehicle().damage( here, vp->part_index(), force,
+                                  fire ? damage_type::HEAT : damage_type::BASH, false );
         }
 
         Creature *critter = creatures.creature_at( pt, true );
@@ -457,7 +457,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         if( here.impassable( target ) ) {
             if( optional_vpart_position vp = here.veh_at( target ) ) {
-                vp->vehicle().damage( vp->part_index(), damage / 10 );
+                vp->vehicle().damage( here, vp->part_index(), damage / 10 );
             } else {
                 here.bash( target, damage / 100, true );
             }

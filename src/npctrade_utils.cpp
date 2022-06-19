@@ -29,7 +29,7 @@ void _consume_item( item_location elem, consume_queue &consumed, consume_cache &
     if( contents.empty() ) {
         auto it = cache.find( elem->typeId() );
         if( it == cache.end() ) {
-            int const rate = guy.myclass->get_shopkeeper_cons_rates().get_rate( *elem );
+            int const rate = guy.myclass->get_shopkeeper_cons_rates().get_rate( *elem, guy );
             int const rate_init = rate >= 0 ? rate * to_days<int>( elapsed ) : -1;
             it = cache.emplace( elem->typeId(), rate_init ).first;
         }

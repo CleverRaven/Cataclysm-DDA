@@ -12,6 +12,7 @@
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "game.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
@@ -418,11 +419,17 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             continue;
         }
 
+        bool rope_ladder = false;
         const maptile &parent_tile = maptile_at_internal( cur );
         const auto &parent_terrain = parent_tile.get_ter_t();
         if( settings.allow_climb_stairs && cur.z > min.z &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
-            tripoint dest( cur.xy(), cur.z - 1 );
+            cata::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                                cur.z - 1, rope_ladder, false, cur );
+            if( !opt_dest ) {
+                continue;
+            }
+            tripoint dest = opt_dest.value();
             if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
@@ -432,7 +439,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
         if( settings.allow_climb_stairs && cur.z < max.z &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
-            tripoint dest( cur.xy(), cur.z + 1 );
+            cata::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                                cur.z + 1, rope_ladder, false, cur );
+            if( !opt_dest ) {
+                continue;
+            }
+            tripoint dest = opt_dest.value();
             if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,

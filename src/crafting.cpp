@@ -672,9 +672,9 @@ static cata::optional<item_location> wield_craft( Character &p, item &craft )
     return cata::nullopt;
 }
 
-static item *set_item_inventory( Character &p, item &newit )
+static item_location set_item_inventory( Character &p, item &newit )
 {
-    item *ret_val = nullptr;
+    item_location ret_val = item_location::nowhere;
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
@@ -685,7 +685,7 @@ static item *set_item_inventory( Character &p, item &newit )
         } else if( !p.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
             put_into_vehicle_or_drop( p, item_drop_reason::too_heavy, { newit } );
         } else {
-            ret_val = &p.i_add( newit );
+            ret_val = p.i_add( newit );
             add_msg( m_info, "%c - %s", ret_val->invlet == 0 ? ' ' : ret_val->invlet,
                      ret_val->tname() );
         }
@@ -2392,7 +2392,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     if( activity.id() != ACT_DISASSEMBLE ) {
         player_activity new_act;
         // When disassembling items with charges, prompt the player to specify amount
-        int num_dis = 0;
+        int num_dis = 1;
         if( obj.count_by_charges() ) {
             if( !disassemble_all && obj.charges > 1 ) {
                 string_input_popup popup_input;
@@ -2408,23 +2408,17 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             }
         }
         if( obj.typeId() != itype_disassembly ) {
-            if( num_dis != 0 ) {
-                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
-            } else {
-                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                           recipe_time_flag::ignore_proficiencies ) ) );
-            }
+            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                       recipe_time_flag::ignore_proficiencies ) * num_dis ) );
         } else {
             new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * std::max( obj.get_making_batch_size(), 1 ) ) );
+                                       recipe_time_flag::ignore_proficiencies ) * obj.get_making_batch_size() ) );
         }
         new_act.targets.emplace_back( std::move( target ) );
 
         // index is used as a bool that indicates if we want recursive uncraft.
         new_act.index = false;
-        // Unused position attribute used to store ammo to disassemble
-        new_act.position = std::min( num_dis, obj.charges );
+        new_act.position = num_dis;
         new_act.values.push_back( disassemble_all );
         assign_activity( new_act );
     } else {
@@ -2534,7 +2528,7 @@ void Character::complete_disassemble( item_location target )
                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
     new_act.targets = activity.targets;
     new_act.index = activity.index;
-    new_act.position = std::min( num_dis, obj.charges );
+    new_act.position = num_dis;
     assign_activity( new_act );
 }
 

@@ -487,7 +487,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
     "description": "The shuffling corpse of a large bipedal dinosaur covered with tattered feathers and black putrid liquid.  Long claws protrude from its hands.",
     "burn_into": "mon_zanzu_scorched",
-    "fungalize_into": "mon_zothronychus_fungus",
+    "fungalize_into": "mon_zanzu_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zanzu_UPGRADE" }
   },
   {
@@ -555,6 +555,34 @@
     "burn_into": "mon_zutahraptor_scorched",
     "fungalize_into": "mon_zutahraptor_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zutahraptor_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zissi",
+    "name": { "str_sp": "issi zombie" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_zapatosaurus",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "speed": 55,
+    "melee_dice": 4,
+    "melee_dice_sides": 7,
+    "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
+    "armor_bash": 8,
+    "armor_cut": 8,
+    "armor_bullet": 6,
+    "hp": 175,
+    "description": "Large, long-necked, two-legged dinosaur corpse with a long tail.",
+    "burn_into": "mon_zissi_scorched",
+    "fungalize_into": "mon_zissi_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zissi_UPGRADE" },
+    "special_attacks": [
+      [ "scratch", 10 ],
+      [ "GRAB", 20 ],
+      { "type": "bite", "cooldown": 10 },
+      { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
+    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -1038,6 +1066,7 @@
     "burn_into": "mon_zosmoceratops_scorched",
     "fungalize_into": "mon_zosmoceratops_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zosmoceratops_UPGRADE" },
+    "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 7 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -1051,7 +1080,7 @@
     "burn_into": "mon_zorosaurus_scorched",
     "fungalize_into": "mon_zorosaurus_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zorosaurus_UPGRADE" },
-    "special_attacks": [ { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ]
+    "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 5 ] ]
   },
   {
     "type": "MONSTER",
@@ -1182,6 +1211,22 @@
       "FILTHY",
       "HIT_AND_RUN"
     ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zissi_juvenile",
+    "name": { "str": "juvenile issi zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "looks_like": "mon_issi",
+    "burn_into": "mon_zissi_scorched",
+    "fungalize_into": "mon_zissi_fungus",
+    "upgrades": { "half_life": 14, "into": "mon_zissi" },
+    "volume": "500 L",
+    "weight": "500 kg",
+    "bodytype": "ostrich",
+    "hp": 100,
+    "speed": 100,
+    "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] } ]
   },
   {
     "type": "MONSTER",

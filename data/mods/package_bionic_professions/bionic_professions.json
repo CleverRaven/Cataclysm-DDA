@@ -543,7 +543,7 @@
             "contents-item": [ "shoulder_strap", "acog_scope" ],
             "custom-flags": [ "auto_wield" ]
           },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "us_ballistic_vest_pristine" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" }
         ]
       },

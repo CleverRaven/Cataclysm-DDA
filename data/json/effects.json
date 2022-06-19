@@ -1681,6 +1681,14 @@
   },
   {
     "type": "effect_type",
+    "id": "pkill_wintergreen",
+    "pkill_addict_reduces": true,
+    "base_mods": { "pkill_max_val": [ 15 ], "pkill_tick": [ 50 ], "pkill_min": [ 1 ], "pkill_chance": [ 45 ] },
+    "rating": "good",
+    "blood_analysis_description": "Ate wintergreen leaves"
+  },
+  {
+    "type": "effect_type",
     "id": "webbed",
     "name": [ "Webbed" ],
     "desc": [ "You are covered in webs!" ],
@@ -2098,7 +2106,7 @@
     "type": "effect_type",
     "id": "chafing",
     "name": [ "Uncomfortable" ],
-    "desc": [ "Your %s is uncomfortable.  Wearing something soft under your hard armor would help" ],
+    "desc": [ "Your %s is uncomfortable.  Wearing something soft under your hard armor would help." ],
     "max_intensity": 1,
     "part_descs": true,
     "base_mods": { "speed_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 2 ], "pain_max_val": [ -1 ] }

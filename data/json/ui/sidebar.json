@@ -5,6 +5,7 @@
     "style": "sidebar",
     "label": { "str": "custom", "ctxt": "UI sidebar" },
     "width": 36,
+    "separator": ": ",
     "widgets": [
       "hitpoints_all_narrow_graphs_layout",
       "stats_narrow_layout",
@@ -25,7 +26,8 @@
       "vital_numbers_layout",
       "bodypart_armor_outer_layout",
       "bodypart_status_layout",
-      "bodypart_status_sym_layout"
+      "bodypart_status_sym_layout",
+      "bodygraph_hp_layout"
     ]
   }
 ]

@@ -113,6 +113,13 @@
     ]
   },
   {
+    "id": "kitted_heavy_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "pristine_esapi_plates" }, { "group": "custom_heavy_lbv" } ]
+  },
+  {
     "id": "used_kitted_heavy_vest",
     "type": "item_group",
     "//": "ESAPI plates for full vest and pouches",
@@ -178,7 +185,8 @@
         ],
         "prob": 50
       },
-      { "group": "military_ballistic_vest_light", "prob": 10 }
+      { "group": "military_ballistic_vest_light", "prob": 10 },
+      { "group": "military_ballistic_vest_heavy", "prob": 5 }
     ]
   },
   {
@@ -222,6 +230,36 @@
   },
   {
     "id": "military_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "kitted_medium_vest", "prob": 100 },
+          {
+            "collection": [
+              { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "pristine_esapi_plates" },
+              { "group": "loaded_lbv" }
+            ],
+            "prob": 50
+          }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "level_3_vest", "variant": "national_guard_armor_vest", "contents-group": "pristine_esapi_front_plates" },
+          { "group": "loaded_lbv" }
+        ],
+        "prob": 50
+      },
+      { "group": "military_ballistic_vest_light_pristine", "prob": 10 },
+      { "group": "military_ballistic_vest_heavy_pristine", "prob": 5 }
+    ]
+  },
+  {
+    "id": "us_ballistic_vest_pristine",
     "type": "item_group",
     "//": "ESAPI vest plus plates",
     "subtype": "collection",
@@ -283,11 +321,62 @@
     ]
   },
   {
+    "id": "military_ballistic_vest_light_pristine",
+    "type": "item_group",
+    "//": "light ballistic vests you could get away with in the army",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      }
+    ]
+  },
+  {
     "id": "ballistic_vest_light_pristine",
     "type": "item_group",
     "//": "light ballistic vest plus plates",
     "subtype": "collection",
     "entries": [ { "item": "ballistic_vest_light", "contents-group": "kitted_light_vest" } ]
+  },
+  {
+    "id": "military_ballistic_vest_heavy_pristine",
+    "type": "item_group",
+    "//": "heavy ballistic vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "kitted_heavy_vest" } ]
   },
   {
     "id": "military_ballistic_vest_heavy",
@@ -419,7 +508,7 @@
       { "item": "knuckle_steel_forged", "prob": 5 },
       { "item": "battery_ups", "prob": 10 },
       { "item": "bandages", "prob": 30 },
-      { "item": "adhesive_bandages", "prob": 20 },
+      { "item": "adhesive_bandages", "prob": 20, "count": [ 1, 20 ] },
       { "item": "cotton_ball", "prob": 20 },
       { "item": "iodine", "prob": 5 },
       { "item": "prussian_blue", "prob": 5 },
@@ -621,7 +710,7 @@
       { "item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
       { "item": "boots_combat", "prob": 50 },
       { "item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
-      { "item": "adhesive_bandages", "prob": 10, "charges-min": 1, "charges-max": 6 },
+      { "item": "adhesive_bandages", "prob": 10, "count": [ 1, 20 ] },
       { "item": "cig", "prob": 60, "charges-min": 1, "charges-max": 20 },
       { "item": "knife_combat", "prob": 30 },
       { "item": "pockknife", "prob": 30 },
@@ -807,7 +896,7 @@
       { "group": "guns_rifle_milspec", "prob": 10 },
       { "item": "human_flesh", "prob": 4, "count-min": 1, "count-max": 10 },
       { "item": "bone_human", "prob": 10, "count-min": 1, "count-max": 5 },
-      { "item": "rag", "prob": 10, "count-min": 1, "count-max": 10, "custom-flags": [ "FILTHY" ] },
+      { "item": "cotton_patchwork", "prob": 10, "count-min": 1, "count-max": 10, "custom-flags": [ "FILTHY" ] },
       { "item": "sheet_metal", "prob": 22 },
       { "item": "seat", "prob": 4 },
       { "item": "chain", "prob": 20 },

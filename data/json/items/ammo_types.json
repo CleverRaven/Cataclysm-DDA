@@ -314,7 +314,7 @@
   {
     "type": "ammunition_type",
     "id": "lamp_oil",
-    "name": "lamp oil",
+    "name": "kerosene",
     "default": "lamp_oil"
   },
   {
@@ -748,5 +748,11 @@
     "id": "green_pen_ink",
     "name": "green pen ink",
     "default": "green_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "ammonia_liquid",
+    "name": "liquid ammonia",
+    "default": "ammonia_liquid"
   }
 ]

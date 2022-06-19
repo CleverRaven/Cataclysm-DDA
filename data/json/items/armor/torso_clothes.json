@@ -310,7 +310,7 @@
     "type": "ARMOR",
     "name": { "str": "leather apron" },
     "description": "An apron made of leather.",
-    "weight": "680 g",
+    "weight": "1925 g",
     "volume": "2250 ml",
     "price": 1500,
     "price_postapoc": 50,
