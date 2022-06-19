@@ -622,8 +622,6 @@ void vehicle::thrust( int thd, int z )
  * maximum reverse velocity
  * 
  * @param amount The amount to change the cruise velocity by.
- * 
- * @return the cruise velocity.
  */
 void vehicle::cruise_thrust( int amount )
 {
