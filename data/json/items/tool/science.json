@@ -615,7 +615,7 @@
     "pocket_data": [
       { "pocket_type": "CONTAINER", "rigid": true, "airtight": true, "max_contains_volume": "1600 ml", "watertight": true }
     ],
-	"flags": [ "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD" ]
   },
   {
     "id": "hygrometer",
