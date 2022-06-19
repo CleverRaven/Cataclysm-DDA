@@ -1347,7 +1347,7 @@
   {
     "type": "construction_group",
     "id": "place_electrolyzer_makeshift",
-    "name": "Place Makeshift Electrolyzer"
+    "name": "Place Makeshift Water Electrolyzer"
   },
   {
     "type": "construction_group",
