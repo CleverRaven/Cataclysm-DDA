@@ -12,6 +12,6 @@
   {
     "id": "spell_components_dreamdross3",
     "type": "requirement",
-    "components": [ [ [ "dreamstuff_ingot", 1 ] ] ]
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ]
   }
 ]

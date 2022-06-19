@@ -125,6 +125,7 @@
     "conductive": true,
     "chip_resist": 15,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "salvaged_into": "scrap_dreamdross",
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "GOOD"
@@ -146,6 +147,8 @@
     "conductive": true,
     "chip_resist": 15,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "repaired_with": "forged_dreamstuff_ingot",
+    "salvaged_into": "dreamdross_lump",
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "GOOD"

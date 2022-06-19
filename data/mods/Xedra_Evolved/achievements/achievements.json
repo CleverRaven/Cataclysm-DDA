@@ -46,7 +46,7 @@
       {
         "event_statistic": "avatar_gains_mutation",
         "is": "==",
-        "target": [ "mutation_id", "DREAMER" ],
+        "target": [ "trait_id", "DREAMER" ],
         "description": "Gained access to dream magic.",
         "visible": "when_achievement_completed"
       }
@@ -60,7 +60,7 @@
       {
         "event_statistic": "avatar_gains_mutation",
         "is": "==",
-        "target": [ "mutation_id", "EATER" ],
+        "target": [ "trait_id", "EATER" ],
         "description": "Gained access to eater magic.",
         "visible": "when_achievement_completed"
       }
@@ -74,7 +74,7 @@
       {
         "event_statistic": "avatar_gains_mutation",
         "is": "==",
-        "target": [ "mutation_id", "DREAMSMITH" ],
+        "target": [ "trait_id", "DREAMSMITH" ],
         "description": "Gained access to dream forging magic",
         "visible": "when_achievement_completed"
       }
@@ -88,7 +88,7 @@
       {
         "event_statistic": "avatar_gains_mutation",
         "is": "==",
-        "target": [ "mutation_id", "INVENTOR" ],
+        "target": [ "trait_id", "INVENTOR" ],
         "description": "Gained access to mad genius inventions.",
         "visible": "when_achievement_completed"
       }

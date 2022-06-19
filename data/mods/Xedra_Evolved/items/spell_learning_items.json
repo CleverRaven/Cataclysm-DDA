@@ -1,0 +1,63 @@
+[
+  {
+    "id": "magick_8_ball",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "Magick 8-Ball" },
+    "description": "A fortune-telling device from the 1950s.  If you shake it and look at the bottom it will give you detailed step by step instructions on how to do… something.",
+    "weight": "40 g",
+    "volume": "150 ml",
+    "longest_side": "12 cm",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "dream_armor" ] }
+  },
+  {
+    "id": "deck_of_cards",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
+    "description": "A deck of intricately designed tarot cards.  When you lay out your future they seem to be trying to tell you to take a leap of faith.",
+    "weight": "50 g",
+    "volume": "10 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": ",",
+    "color": "red",
+    "use_action": { "type": "learn_spell", "spells": [ "spring_heeled_leap" ] }
+  },
+  {
+    "id": "occult_seal",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "occult seal" },
+    "description": "An intricate occult seal.  When you glance at the bottom left corner you hear the sound of the ocean and smell the sea and a river starts flowing through point to point of the seal.",
+    "weight": "50 g",
+    "volume": "10 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": ",",
+    "color": "red",
+    "use_action": { "type": "learn_spell", "spells": [ "banish_nether_monsters" ] }
+  },
+  {
+    "id": "hurricane_lamp_thorns",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "hurricane lamp with thorns", "str_pl": "hurricane lamps with thorns" },
+    "description": "An old style hurricane lamp.  The handle appears to made of vines covered in sharp thorns.",
+    "weight": "50 g",
+    "volume": "10 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": ",",
+    "color": "red",
+    "use_action": { "type": "learn_spell", "spells": [ "banish_dark_monsters" ] }
+  }
+]

@@ -52,18 +52,18 @@
     "ammo_type": "components"
   },
   {
-    "id": "dreamstuff_ingot",
+    "id": "forged_dreamstuff_ingot",
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "dreamdross ingot",
-    "description": "An ingot of dreamdross.  About 3cm by 7cm by 12cm in size, ready to be used for various reality forging tasks.",
+    "description": "A forged ingot of dreamdross.  About 3cm by 7cm by 12cm in size, ready to be used for various reality forging tasks.",
     "weight": "500 g",
     "volume": "250 ml",
     "price": 6399,
     "price_postapoc": 5000,
     "bashing": 6,
     "to_hit": -3,
-    "material": [ "dreamstuff" ],
+    "material": [ "forged_dreamstuff" ],
     "symbol": "=",
     "color": "light_blue"
   }
