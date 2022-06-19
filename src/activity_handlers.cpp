@@ -1646,6 +1646,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             }
 
             you->mod_stamina( -pulp_effort );
+            you->recoil = MAX_RECOIL;
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
@@ -3543,7 +3544,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             you ) : get_map().getlocal( act->coords.front() );
     if( target ) {
         // npcs check for target viability
-        if( !you->is_npc() || !spell_being_cast.is_valid_target( *you, *target ) ) {
+        if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {
             // no turning back now. it's all said and done.
             bool success = act->get_value( 1 ) == 1 ||
                            rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );

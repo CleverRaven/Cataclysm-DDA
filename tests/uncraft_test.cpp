@@ -51,12 +51,11 @@ static std::map<itype_id, int> repeat_uncraft( Character &they, const itype_id &
 
     for( int rep = 0; rep < repeat; ++rep ) {
         // Add another instance of the disassembly item
-        item &it = they.i_add( item( dis_itype ) );
+        item_location it = they.i_add( item( dis_itype ) );
         if( damage > 0 ) {
-            it.set_damage( damage );
+            it->set_damage( damage );
         }
-        it_loc = item_location( they, &it );
-        it_dis_loc = they.create_in_progress_disassembly( it_loc );
+        it_dis_loc = they.create_in_progress_disassembly( it );
 
         // Clear away bits
         clear_map();

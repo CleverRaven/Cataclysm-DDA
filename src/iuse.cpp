@@ -10035,6 +10035,28 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
     return cata::nullopt;
 }
 
+cata::optional<int> iuse::voltmeter( Character *p, item *it, bool, const tripoint & )
+{
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
+    if( !pnt_ ) {
+        return cata::nullopt;
+    }
+
+    const map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( *pnt_ );
+
+    if( !vp ) {
+        p->add_msg_if_player( _( "There's nothing to measure there." ) );
+        return cata::nullopt;
+    }
+    if( vp->vehicle().fuel_left( itype_battery, true ) ) {
+        p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
+    } else {
+        p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );
+    }
+    return it->type->charges_to_use();
+}
+
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {

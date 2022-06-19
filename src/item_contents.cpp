@@ -732,12 +732,12 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 }
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, const item *avoid, const bool allow_sealed, const bool ignore_settings,
+        item_location &this_loc, const item *avoid, const bool allow_sealed, const bool ignore_settings,
         const bool nested, bool ignore_rigidity )
 {
     // @TODO: this could be made better by doing a plain preliminary volume check.
     // if the total volume of the parent is not sufficient, a child won't have enough either.
-    std::pair<item_location, item_pocket *> ret = { parent, nullptr };
+    std::pair<item_location, item_pocket *> ret = { this_loc, nullptr };
     std::vector<item_pocket *> valid_pockets;
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
@@ -771,21 +771,21 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
     }
     const bool parent_pkt_selected = !!ret.second;
     for( item_pocket *pocket : valid_pockets ) {
-        item_pocket *const nested_content_pocket =
-            pocket->best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
-        if( !nested_content_pocket ||
-            ( !nested_content_pocket->rigid() && pocket->remaining_volume() < it.volume() ) ) {
+        std::pair<item_location, item_pocket *const> nested_content_pocket =
+            pocket->best_pocket_in_contents( this_loc, it, avoid, allow_sealed, ignore_settings );
+        if( !nested_content_pocket.second ||
+            ( !nested_content_pocket.second->rigid() && pocket->remaining_volume() < it.volume() ) ) {
             // no nested pocket found, or the nested pocket is soft and the parent is full
             continue;
         }
         if( parent_pkt_selected ) {
-            if( ret.second->better_pocket( *nested_content_pocket, it, true ) ) {
+            if( ret.second->better_pocket( *nested_content_pocket.second, it, true ) ) {
                 // item is whitelisted in nested pocket, prefer that over parent pocket
-                ret.second = nested_content_pocket;
+                ret = nested_content_pocket;
             }
             continue;
         }
-        ret.second = nested_content_pocket;
+        ret = nested_content_pocket;
     }
     return ret;
 }

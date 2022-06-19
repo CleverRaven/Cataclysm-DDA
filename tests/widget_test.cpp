@@ -1223,8 +1223,8 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_light_gray>Unknown</color>" );
 
     // Acquire and wear a radiation badge
-    item &rad_badge = ava.i_add( item( itype_rad_badge ) );
-    ava.worn.wear_item( ava, rad_badge, false, false );
+    item_location rad_badge = ava.i_add( item( itype_rad_badge ) );
+    ava.worn.wear_item( ava, *rad_badge, false, false );
 
     // Color indicator is shown when character has radiation badge
     ava.set_rad( 0 );

@@ -106,7 +106,7 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": "3 m",
     "qualities": [  ],
-    "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ] ] ],
+    "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ], [ "leaves", 80 ] ] ],
     "pre_terrain": "t_improvised_shelter",
     "post_terrain": "t_improvised_shelter_filled"
   },
@@ -2292,7 +2292,8 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "withered", 50 ] ] ],
+    "//": "12,5 liters",
+    "components": [ [ [ "leaves", 125 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_leaves_pile"

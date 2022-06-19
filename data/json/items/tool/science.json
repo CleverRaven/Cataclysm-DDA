@@ -477,7 +477,7 @@
     "id": "ammonia_machine_reactor",
     "type": "TOOL",
     "name": { "str": "makeshift ammonia machine reactor" },
-    "description": "A huge appliance built from salvaged industrial equipment which produces ammonia via the Haber–Bosch process from hydrogen and nitrogen.  As it uses primitive catalysts for the reaction, energy efficiency is very low.  This one is powered by electricity.",
+    "description": "A huge appliance built from salvaged industrial equipment which produces ammonia via the Haber-Bosch process from hydrogen and nitrogen.  As it uses primitive catalysts for the reaction, energy efficiency is very low.  This one is powered by electricity.",
     "//": "Consumes 200 MJ for 1 kg of NH3.",
     "weight": "340 kg",
     "volume": "200 L",
@@ -596,6 +596,25 @@
     "max_charges": 24,
     "charges_per_use": 1,
     "looks_like": "oxygen_tank"
+  },
+  {
+    "id": "pressure_tank",
+    "type": "TOOL",
+    "name": { "str": "pressurized tank" },
+    "description": "This is a tank designed to hold high pressure gasses.",
+    "weight": "2268 g",
+    "volume": "3 L",
+    "price": 1000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "looks_like": "oxygen_tank",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "rigid": true, "airtight": true, "max_contains_volume": "1600 ml", "watertight": true }
+    ]
   },
   {
     "id": "hygrometer",
@@ -872,9 +891,11 @@
     "price": 6000,
     "price_postapoc": 250,
     "ammo": [ "battery" ],
+    "charges_per_use": 1,
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic" ],
+    "use_action": [ "VOLTMETER" ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
@@ -898,9 +919,11 @@
     "price": 9000,
     "price_postapoc": 250,
     "ammo": [ "battery" ],
+    "charges_per_use": 1,
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic" ],
+    "use_action": [ "VOLTMETER" ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [

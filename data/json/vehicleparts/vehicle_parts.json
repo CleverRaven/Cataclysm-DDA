@@ -1802,6 +1802,15 @@
   },
   {
     "type": "vehicle_part",
+    "id": "advanced_foldable_solar_panel",
+    "copy-from": "foldable_solar_panel",
+    "name": { "str": "advanced collapsible solar array" },
+    "proportional": { "epower": 2 },
+    "description": "A small array of high-efficiency solar panels designed to be able to fold into one another.",
+    "item": "folding_solar_panel_v2"
+  },
+  {
+    "type": "vehicle_part",
     "id": "reinforced_solar_panel",
     "copy-from": "solar_panel",
     "looks_like": "solar_panel",
@@ -1832,7 +1841,7 @@
     "type": "vehicle_part",
     "id": "solar_panel_v2",
     "copy-from": "solar_panel",
-    "name": { "str": "upgraded solar panel" },
+    "name": { "str": "advanced solar panel" },
     "looks_like": "solar_panel",
     "description": "A high performance solar panel.",
     "item": "solar_panel_v2",
@@ -1850,7 +1859,7 @@
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "solar_cell", "count": [ 1, 6 ] }
+      { "item": "solar_cell_v2", "count": [ 1, 6 ] }
     ]
   },
   {
