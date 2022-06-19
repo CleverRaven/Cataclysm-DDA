@@ -338,7 +338,7 @@
     "name": { "str": "Beverly shear" },
     "description": "A massive bench-mounted device with a short guillotine blade mounted to a long lever.  Designed for making straight or curved cuts through sheet metal up to 3 millimeters thick.",
     "//": "Based on the Beverly B-2 Throatless Shear, 10 gauge capacity - as was furniture - values based on real world Beverly B-2 Throatless Shear",
-    "weight": "15875 g",
+    "weight": "15880 g",
     "volume": "18 L",
     "longest_side": "100 cm",
     "price": 10000,
