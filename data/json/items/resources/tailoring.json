@@ -496,7 +496,7 @@
     "id": "sheet_nylon_patchwork",
     "copy-from": "sheet_nylon",
     "type": "GENERIC",
-    "name": { "str_sp": "patchwork synthetic fabric clothing parts" },
+    "name": { "str_sp": "patchwork synthetic fabric sheet" },
     "description": "A sheet of fabric, sewn together from synthetic fabric patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "//": ".5mm thick, 250gsm",
     "price": 1000,
