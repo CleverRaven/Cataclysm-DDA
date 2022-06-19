@@ -15,9 +15,39 @@
     "entries": [ { "drop": "raw_dandelion", "base_num": [ 1, 4 ] } ]
   },
   {
-    "id": "burdoc_harv",
+    "id": "burdock_harv",
     "type": "harvest",
     "entries": [ { "drop": "raw_burdock", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "salsify_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "salsify_raw" } ]
+  },
+  {
+    "id": "m_stellatum_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "m_stellatum_berries", "base_num": [ 1, 3 ] } ]
+  },
+  {
+    "id": "wild_carrot_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "carrot_wild" } ]
+  },
+  {
+    "id": "jerusalem_artichoke_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "jerusalem_artichoke", "base_num": [ 1, 3 ] } ]
+  },
+  {
+    "id": "wild_sarsaparilla_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "wild_sarsaparilla_root" } ]
+  },
+  {
+    "id": "salsify_seed_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "seed_salsify_raw", "base_num": [ 1, 4 ] } ]
   },
   {
     "id": "chamomille_harv",
@@ -265,6 +295,21 @@
     "id": "alder_harv",
     "type": "harvest",
     "entries": [ { "drop": "alder_bark", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
+  },
+  {
+    "id": "young_leaves_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "young_leaves", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
+  },
+  {
+    "id": "japanese_knotweed_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "japanese_knotweed_stem", "base_num": [ 1, 2 ] } ]
+  },
+  {
+    "id": "wintergreen_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "wintergreen_berry", "base_num": [ 1, 4 ] }, { "drop": "wintergreen_leaves", "base_num": [ 1, 2 ] } ]
   },
   {
     "id": "fish_tiny",

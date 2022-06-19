@@ -8032,7 +8032,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
 {
     inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
-            if( try_add( *it, /*avoid=*/nullptr, it ) == nullptr ) {
+            if( try_add( *it, /*avoid=*/nullptr, it ) == item_location::nowhere ) {
                 std::string profession_id = "<none>";
                 profession_id = prof->ident().str();
                 debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
@@ -8041,9 +8041,9 @@ void Character::migrate_items_to_storage( bool disintegrate )
                 return VisitResponse::ABORT;
             }
         } else {
-            item &added = i_add( *it, true, /*avoid=*/nullptr, it,
-                                 /*allow_drop=*/false, /*allow_wield=*/!has_wield_conflicts( *it ) );
-            if( added.is_null() ) {
+            item_location added = i_add( *it, true, /*avoid=*/nullptr,
+                                         it, /*allow_drop=*/false, /*allow_wield=*/!has_wield_conflicts( *it ) );
+            if( added == item_location::nowhere ) {
                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
             }
         }
@@ -8099,6 +8099,25 @@ std::string Character::is_snuggling() const
     return "nothing";
 }
 
+// If the player is not wielding anything big, check if hands can be put in pockets
+bool Character::can_use_pockets() const
+{
+    // TODO Check that the pocket actually has enough space for the wielded item?
+    return weapon.volume() < 500_ml;
+}
+
+// If the player's head is not encumbered, check if hood can be put up
+bool Character::can_use_hood() const
+{
+    return encumb( body_part_head ) < 10;
+}
+
+// If the player's mouth is not encumbered, check if collar can be put up
+bool Character::can_use_collar() const
+{
+    return encumb( body_part_mouth ) < 10;
+}
+
 std::map<bodypart_id, int> Character::bonus_item_warmth() const
 {
     const int pocket_warmth = worn.pocket_warmth();
@@ -8109,19 +8128,15 @@ std::map<bodypart_id, int> Character::bonus_item_warmth() const
     for( const bodypart_id &bp : get_all_body_parts() ) {
         ret.emplace( bp, 0 );
 
-        // If the player is not wielding anything big, check if hands can be put in pockets
-        if( ( bp == body_part_hand_l || bp == body_part_hand_r ) &&
-            weapon.volume() < 500_ml ) {
+        if( ( bp == body_part_hand_l || bp == body_part_hand_r ) && can_use_pockets() ) {
             ret[bp] += pocket_warmth;
         }
 
-        // If the player's head is not encumbered, check if hood can be put up
-        if( bp == body_part_head && encumb( body_part_head ) < 10 ) {
+        if( bp == body_part_head && can_use_hood() ) {
             ret[bp] += hood_warmth;
         }
 
-        // If the player's mouth is not encumbered, check if collar can be put up
-        if( bp == body_part_mouth && encumb( body_part_mouth ) < 10 ) {
+        if( bp == body_part_mouth && can_use_collar() ) {
             ret[bp] += collar_warmth;
         }
     }
@@ -9855,19 +9870,19 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
         }
         const bool allow_wield = !wielded_has_it && weapon.magazine_current() != &it;
         const int prev_charges = it.charges;
-        auto &ni = this->i_add( it, true, avoid,
-                                original_inventory_item, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
-        if( ni.is_null() ) {
+        item_location ni = i_add( it, true, avoid,
+                                  original_inventory_item, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
+        if( ni == item_location::nowhere ) {
             // failed to add
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
-        } else if( &ni == &it ) {
+        } else if( &*ni == &it ) {
             // merged into the original stack, restore original charges
             it.charges = prev_charges;
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
         } else {
             // successfully added
-            add_msg( _( "You put the %s in your inventory." ), ni.tname() );
-            add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname() );
+            add_msg( _( "You put the %s in your inventory." ), ni->tname() );
+            add_msg( m_info, "%c - %s", ni->invlet == 0 ? ' ' : ni->invlet, ni->tname() );
         }
     }
     return true;
@@ -9888,8 +9903,17 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
-        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
-            moves += this->item_handling_cost( *contained );
+
+        for( item_pocket::pocket_type ptype : {
+                 item_pocket::pocket_type::CONTAINER,
+                 item_pocket::pocket_type::MAGAZINE_WELL,
+                 item_pocket::pocket_type::MAGAZINE
+             } ) {
+
+            for( item *contained : it.all_items_top( ptype, true ) ) {
+                moves += this->item_handling_cost( *contained );
+            }
+
         }
         assign_activity( player_activity( unload_activity_actor( moves, loc ) ) );
 
@@ -11071,7 +11095,8 @@ void Character::store( item_pocket *pocket, item &put, bool penalties, int base_
     }
 
     item_location char_item( *this, &null_item_reference() );
-    item_pocket *pkt_best = pocket->best_pocket_in_contents( char_item, put, nullptr, false, false );
+    item_pocket *pkt_best = pocket->best_pocket_in_contents( char_item, put, nullptr, false,
+                            false ).second;
     if( !!pkt_best && pocket->better_pocket( *pkt_best, put, true ) ) {
         pocket = pkt_best;
     }

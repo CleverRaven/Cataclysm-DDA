@@ -56,6 +56,7 @@
       { "monster": "mon_pentaceratops", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_torosaurus", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_triceratops", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_oryctodromeus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dimorphodon", "weight": 20, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_pteranodon", "weight": 20, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_quetzalcoatlus", "weight": 5, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
@@ -74,7 +75,8 @@
       { "monster": "mon_scutellosaurus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dyoplosaurus", "weight": 20, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_camptosaurus", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_pachycephalosaurus", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_pachycephalosaurus", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_oryctodromeus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -129,7 +131,8 @@
       { "monster": "mon_pachyrhinosaurus_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_pentaceratops_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_torosaurus_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_triceratops_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_triceratops_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_oryctodromeus_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
     ]
   },
   {

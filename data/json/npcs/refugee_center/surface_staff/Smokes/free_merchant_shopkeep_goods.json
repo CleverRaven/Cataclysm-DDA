@@ -53,7 +53,7 @@
     "id": "FREE_MERCHANTS_Shop_Parts_Tailoring",
     "subtype": "distribution",
     "items": [
-      { "item": "rag", "count": [ 5, 10 ], "prob": 40 },
+      { "item": "cotton_patchwork", "count": [ 5, 10 ], "prob": 40 },
       { "group": "SUS_tailoring_materials", "count": [ 1, 2 ] },
       { "group": "SUS_tailoring_fasteners", "count": [ 2, 3 ] }
     ]

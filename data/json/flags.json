@@ -2054,5 +2054,10 @@
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
     "info": "This is meant for exosuit foot plating."
+  },
+  {
+    "id": "VOLTMETER",
+    "type": "json_flag",
+    "info": "This tool can test for voltage."
   }
 ]

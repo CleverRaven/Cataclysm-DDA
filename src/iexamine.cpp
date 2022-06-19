@@ -186,7 +186,6 @@ static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
-
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
 static const material_id material_steel( "steel" );
@@ -1193,11 +1192,11 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_avatar() ) {
             continue;
-        } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+        } else if( here.has_flag( "ELEVATOR", critter.pos() ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( here.ter( candidate ) != ter_id( "t_elevator" ) &&
+                    if( !here.has_flag( "ELEVATOR", candidate ) &&
                         here.passable( candidate ) &&
                         !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
@@ -1208,6 +1207,32 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         }
     }
 
+    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
+        for( auto it = items.begin(); it != items.end(); ) {
+            here.add_item_or_charges( dest, *it );
+            it = here.i_rem( src, it );
+        }
+    };
+
+    const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
+        for( const tripoint &candidate : closest_points_first( pos, 10 ) )
+        {
+            if( here.has_flag( "ELEVATOR", candidate ) ) {
+                return candidate;
+            }
+        }
+        return pos;
+    };
+
+    // move along every item in the elevator
+    for( const tripoint &pos : closest_points_first( you.pos(), 10 ) ) {
+        if( here.has_flag( "ELEVATOR", pos ) ) {
+            map_stack items = here.i_at( pos );
+            tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
+            move_item( items, pos, dest );
+        }
+    }
+
     // move the player
     g->vertical_move( movez, false );
 
@@ -1215,12 +1240,12 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_avatar() ) {
             continue;
-        } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+        } else if( here.has_flag( "ELEVATOR", critter.pos() ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( you.pos(), 10 ) ) {
-                    if( here.ter( candidate ) == ter_id( "t_elevator" ) &&
+                    if( here.has_flag( "ELEVATOR", candidate ) &&
                         candidate != you.pos() &&
                         !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
@@ -5495,6 +5520,23 @@ static void mill_activate( Character &you, const tripoint &examp )
         return;
     }
 
+    std::set<std::string, localized_comparator> no_final_product;
+    for( const item &it : here.i_at( examp ) ) {
+        const cata::value_ptr<islot_milling> mdata = it.type->milling_data;
+        if( mdata ) {
+            const int charges = it.count() * mdata->conversion_rate_;
+            if( charges <= 0 ) {
+                no_final_product.emplace( it.tname() );
+            }
+        }
+    }
+    if( !no_final_product.empty()
+        && !query_yn( _( "The following items have insufficient charges and will "
+                         "not produce anything.  Continue?\n<color_white>%s</color>" ),
+                      enumerate_as_string( no_final_product ) ) ) {
+        return;
+    }
+
     for( item &it : here.i_at( examp ) ) {
         if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
@@ -5645,25 +5687,36 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         return;
     }
 
-    for( item &it : items ) {
+    for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+        item &it = *iter;
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
-            item result( mdata.into_, start_time + milling_time,
-                         ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
-            result.components.push_back( it );
-            // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const flag_id &f : it.type->get_flags() ) {
-                if( f->craft_inherit() ) {
-                    result.set_flag( f );
+            const int charges = it.count() * mdata.conversion_rate_;
+            if( charges <= 0 ) {
+                // not enough material, just remove the item
+                // (may happen if the player did not add enough charges to the mill
+                // or if the conversion rate is changed between versions)
+                iter = items.erase( iter );
+            } else {
+                item result( mdata.into_, start_time + milling_time, charges );
+                result.components.push_back( it );
+                // copied from item::inherit_flags, which can not be called here because it requires a recipe.
+                for( const flag_id &f : it.type->get_flags() ) {
+                    if( f->craft_inherit() ) {
+                        result.set_flag( f );
+                    }
                 }
+                result.recipe_charges = result.charges;
+                // Set flag to tell set_relative_rot() to calc from bday not now
+                result.set_flag( flag_PROCESSING_RESULT );
+                result.set_relative_rot( it.get_relative_rot() );
+                result.unset_flag( flag_PROCESSING_RESULT );
+                it = result;
+                ++iter;
             }
-            result.recipe_charges = result.charges;
-            // Set flag to tell set_relative_rot() to calc from bday not now
-            result.set_flag( flag_PROCESSING_RESULT );
-            result.set_relative_rot( it.get_relative_rot() );
-            result.unset_flag( flag_PROCESSING_RESULT );
-            it = result;
+        } else {
+            ++iter;
         }
     }
     here.furn_set( examp, next_mill_type );
@@ -6047,6 +6100,13 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
                 here.furn_set( examp, f_water_mill );
             } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
                 here.furn_set( examp, f_wind_mill );
+            }
+            for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
+                if( it->typeId() == itype_fake_milling_item ) {
+                    it = items_here.erase( it );
+                } else {
+                    ++it;
+                }
             }
             add_msg( m_info, _( "You stop the milling process." ) );
             break;

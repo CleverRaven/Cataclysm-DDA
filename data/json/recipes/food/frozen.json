@@ -34,6 +34,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ],
         [ "cherries", 1 ],
@@ -66,6 +67,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ],
         [ "cherries", 1 ],
@@ -103,6 +105,7 @@
         [ "blueberries", 2 ],
         [ "blueberries_cooked", 2 ],
         [ "irradiated_blueberries", 2 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 2 ],
         [ "irradiated_blackberries", 2 ],
         [ "cherries", 2 ],
@@ -135,6 +138,7 @@
         [ "blueberries", 2 ],
         [ "blueberries_cooked", 2 ],
         [ "irradiated_blueberries", 2 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 2 ],
         [ "irradiated_blackberries", 2 ],
         [ "cherries", 2 ],
@@ -193,6 +197,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -224,6 +229,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -261,6 +267,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -295,6 +302,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -358,6 +366,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -426,6 +435,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
