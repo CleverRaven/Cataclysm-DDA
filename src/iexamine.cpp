@@ -179,7 +179,6 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_tree_spile( "tree_spile" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
-static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
