@@ -616,6 +616,15 @@ void vehicle::thrust( int thd, int z )
     }
 }
 
+/**
+ * If the amount is positive, increase the cruise velocity by the amount, but not above the maximum
+ * velocity. If the amount is negative, decrease the cruise velocity by the amount, but not below the
+ * maximum reverse velocity
+ * 
+ * @param amount The amount to change the cruise velocity by.
+ * 
+ * @return the cruise velocity.
+ */
 void vehicle::cruise_thrust( int amount )
 {
     if( amount == 0 ) {
@@ -655,6 +664,11 @@ void vehicle::cruise_thrust( int amount )
     }
 }
 
+/**
+ * `turn` is a function that takes an angle as an argument and turns the vehicle in that direction
+ * @param deg The angle to turn the vehicle.
+ * @return The turn_dir is being returned.
+ */
 void vehicle::turn( units::angle deg )
 {
     if( deg == 0_degrees ) {
@@ -669,6 +683,11 @@ void vehicle::turn( units::angle deg )
     turn_dir = round_to_multiple_of( turn_dir, 15_degrees );
 }
 
+/**
+ * "Stop the vehicle, optionally updating the map cache."
+ * @param update_cache Whether to update the map cache.
+ * @return A reference to the map object.
+ */
 void vehicle::stop( bool update_cache )
 {
     velocity = 0;
@@ -1197,6 +1216,19 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     return ret;
 }
 
+/**
+ * The function handles the trap that the vehicle is running over
+ *The code starts by checking if the player has a trap. If they do, 
+ *it removes the trap and sets up an explosion to happen when the player 
+ *leaves. Next, it checks for items that can be spawned on top of this tile. 
+ *It then spawns those items in order from first to second (or third). 
+ *Finally, it checks if there are any traps left and explodes them all at once if so.
+ * 
+ * @param p The location of the trap
+ * @param part The part number of the wheel that ran over the trap.
+ *
+ * @return A vehicle_handle_trap_data object.
+ */
 void vehicle::handle_trap( const tripoint &p, int part )
 {
     int pwh = part_with_feature( part, VPFLAG_WHEEL, true );
@@ -1269,6 +1301,11 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 }
 
+/**
+ * The code check if a part of the vehicle has an animal fuel type.
+ * 
+ * @return A boolean value.
+ */
 bool vehicle::has_harnessed_animal() const
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
@@ -1297,10 +1334,14 @@ void vehicle::selfdrive( const point &p )
             }
         }
     }
+    /*The first variable is angle, which represents the direction of rotation. 
+    *The second variable is delta, which represents how much to turn in a given time period.*/
     units::angle turn_delta = 15_degrees * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0_degrees ) {
+        // calculates what effect steering has on velocity and thrusts accordingly based on this effectiveness value (eff)
         float eff = steering_effectiveness();
+        
         if( eff == -2 ) {
             return;
         }
@@ -1314,6 +1355,8 @@ void vehicle::selfdrive( const point &p )
         }
         turn( turn_delta );
     }
+   /* Checking if the player is pressing the up or down arrow key. If they are, it will increase or
+   decrease the velocity of the vehicle. */
     if( p.y != 0 ) {
         int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
         if( cruise_on ) {
@@ -1542,6 +1585,12 @@ float vehicle::forward_velocity() const
     return velocity * dot;
 }
 
+/**
+ * If the vehicle is skidding, the velocity vector is the same as the move vector, otherwise it's the
+ * same as the face vector
+ * 
+ * @return A vector of the vehicle's velocity.
+ */
 rl_vec2d vehicle::velo_vec() const
 {
     rl_vec2d ret;
@@ -1692,7 +1741,21 @@ static units::angle get_corrected_turn_dir( const units::angle &turn_dir,
     }
     return normalize( corrected_turn_dir );
 }
-
+/**
+ * The code is trying to determine if the driver is attempting to turn on the rails.
+ * If so, it will then calculate a corrected turn direction and return true.
+ * The code is a function that allows the vehicle to turn on rails when it has wheels on them.
+ * The function returns true if the vehicle can turn on rails, false otherwise.
+ * 
+ *  The function is called from the `vehicle::turn` function, which is called from the
+ * `vehicle::control` function, which is called from the `vehicle::update` function, which is called
+ * from the `game::update` function, which is called from the `game::run` function, which is called
+ * from the `main` function
+ * 
+ * @param corrected_turn_dir the direction the vehicle is trying to turn
+ * 
+ * @return A bool.
+ */
 bool vehicle::allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const
 {
     bool allow_turn_on_rail = false;
@@ -1831,6 +1894,7 @@ vehicle *vehicle::act_on_map()
         return this;
     }
 
+    //* Checking if the vehicle is on a terrain that it can move on. */
     const float wheel_traction_area = here.vehicle_wheel_traction( *this );
     const float traction = k_traction( wheel_traction_area );
     if( traction < 0.001f ) {
