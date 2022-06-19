@@ -233,7 +233,7 @@ Min and max values must always have the same sign, but it can be negative eg. in
 
 ### Learning Spells
 
-Currently there are two ways of learning spells that is implemented: learning a spell from an item(through a use_action) and from spells that have the learn_spells property.  An example of an use item is shown below:
+Currently there multiple ways of learning spells that are implemented: learning a spell from an item(through a use_action), from spells that have the learn_spells property and from traits/mutations.  An example of an use item is shown below:
 
 ```json
 {
@@ -271,6 +271,7 @@ Below is an example of the learn_spells property:
     "learn_spells": { "dimension_door": 10 }
   },
 ```
+Traits/mutations have the spells_learned property, see the [JSON_INFO](JSON_INFO.md) documentation for details.
 
 
 ### Spells in professions and NPC classes
