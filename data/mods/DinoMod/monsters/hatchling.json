@@ -310,6 +310,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "green and magenta hatchling",
+    "default_faction": "herbivore_young",
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 30, "into": "mon_scutellosaurus" }
   },
@@ -421,6 +422,15 @@
     "type": "MONSTER",
     "copy-from": "mon_pachyrhinosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_triceratops_juvenile" }
+  },
+  {
+    "id": "mon_oryctodromeus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "green and purple hatchling",
+    "default_faction": "herbivore_young",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 30, "into": "mon_oryctodromeus" }
   },
   {
     "id": "mon_dimorphodon_hatchling",
