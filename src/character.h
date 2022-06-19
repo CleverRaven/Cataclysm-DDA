@@ -1762,12 +1762,13 @@ class Character : public Creature, public visitable
          * @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
          * @avoid is the item to not put @it into
          */
-        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr,
-                     const item *original_inventory_item = nullptr, bool allow_drop = true,
-                     bool allow_wield = true, bool ignore_pkt_settings = false );
+        item_location i_add( item it, bool should_stack = true, const item *avoid = nullptr,
+                             const item *original_inventory_item = nullptr, bool allow_drop = true,
+                             bool allow_wield = true, bool ignore_pkt_settings = false );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
-        item *try_add( item it, const item *avoid = nullptr, const item *original_inventory_item = nullptr,
-                       bool allow_wield = true, bool ignore_pkt_settings = false );
+        item_location try_add( item it, const item *avoid = nullptr,
+                               const item *original_inventory_item = nullptr, bool allow_wield = true,
+                               bool ignore_pkt_settings = false );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -2778,6 +2779,10 @@ class Character : public Creature, public visitable
         player_activity get_destination_activity() const;
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
+
+        bool can_use_pockets() const;
+        bool can_use_hood() const;
+        bool can_use_collar() const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
         std::map<bodypart_id, int> bonus_item_warmth() const;
         /** Can the player lie down and cover self with blankets etc. **/

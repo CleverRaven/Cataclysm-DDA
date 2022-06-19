@@ -3232,9 +3232,9 @@ bool item::armor_full_protection_info( std::vector<iteminfo> &info,
             info.emplace_back( "ARMOR", coverage );
 
             // the following function need one representative sub limb from which to query data
-            armor_material_info( info, parts, 0, false, p.sub_coverage.front() );
-            armor_attribute_info( info, parts, 0, false, p.sub_coverage.front() );
-            armor_protection_info( info, parts, 0, false, p.sub_coverage.front() );
+            armor_material_info( info, parts, 0, false, *p.sub_coverage.begin() );
+            armor_attribute_info( info, parts, 0, false, *p.sub_coverage.begin() );
+            armor_protection_info( info, parts, 0, false, *p.sub_coverage.begin() );
             ret = true;
             divider_needed = true;
         }
@@ -7646,18 +7646,11 @@ std::vector<layer_level> item::get_layer( bodypart_id bp ) const
             if( bp == bpid ) {
                 // if the item has additional pockets and is on the torso it should also be strapped
                 if( bp == body_part_torso && contents.has_additional_pockets() ) {
-                    const auto it = std::find_if( data.layers.begin(), data.layers.end(), []( layer_level ll ) {
-                        return ll == layer_level::BELTED || ll == layer_level::WAIST;
-                    } );
-                    //if the item doesn't already cover belted
-                    if( it == data.layers.end() ) {
-                        std::vector<layer_level> with_belted = data.layers;
-                        with_belted.push_back( layer_level::BELTED );
-                        return with_belted;
-                    }
-                    return data.layers;
+                    std::set<layer_level> with_belted = data.layers;
+                    with_belted.insert( layer_level::BELTED );
+                    return std::vector<layer_level>( with_belted.begin(), with_belted.end() );
                 } else {
-                    return data.layers;
+                    return std::vector<layer_level>( data.layers.begin(), data.layers.end() );
                 }
             }
         }
@@ -7679,18 +7672,11 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
                 // if the item has additional pockets and is on the torso it should also be strapped
                 if( ( sbp == sub_body_part_torso_upper || sbp == sub_body_part_torso_lower ) &&
                     contents.has_additional_pockets() ) {
-                    const auto it = std::find_if( data.layers.begin(), data.layers.end(), []( layer_level ll ) {
-                        return ll == layer_level::BELTED || ll == layer_level::WAIST;
-                    } );
-                    //if the item doesn't already cover belted
-                    if( it == data.layers.end() ) {
-                        std::vector<layer_level> with_belted = data.layers;
-                        with_belted.push_back( layer_level::BELTED );
-                        return with_belted;
-                    }
-                    return data.layers;
+                    std::set<layer_level> with_belted = data.layers;
+                    with_belted.insert( layer_level::BELTED );
+                    return std::vector<layer_level>( with_belted.begin(), with_belted.end() );
                 } else {
-                    return data.layers;
+                    return std::vector<layer_level>( data.layers.begin(), data.layers.end() );
                 }
             }
         }
@@ -10143,12 +10129,11 @@ bool item::can_contain_partial( const item &it ) const
     return can_contain( i_copy ).success();
 }
 
-std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
         const bool nested, bool ignore_rigidity )
 {
-    item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings,
+    return contents.best_pocket( it, this_loc, avoid, allow_sealed, ignore_settings,
                                  nested, ignore_rigidity );
 }
 

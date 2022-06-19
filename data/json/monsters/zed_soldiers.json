@@ -262,7 +262,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored", "prof_wp_nat_armored", "prof_wp_hulk" ],
     "bleed_rate": 0,
     "vision_day": 50,
-    "vision_night": 10,
+    "vision_night": 4,
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },

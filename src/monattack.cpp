@@ -5067,7 +5067,7 @@ bool mattack::riotbot( monster *z )
                 foe->i_add( handcuffs );
             } else {
                 handcuffs.set_flag( flag_NO_UNWIELD );
-                foe->wield( foe->i_add( handcuffs ) );
+                foe->wield( *foe->i_add( handcuffs ) );
                 foe->moves -= 300;
                 add_msg( _( "The robot puts handcuffs on you." ) );
             }

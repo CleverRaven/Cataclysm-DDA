@@ -175,7 +175,6 @@ struct widget_clause {
          * If a clause also has a "condition" field, that condition must also return true in order
          * for that clause to be usable.
          */
-
         static int get_val_for_id( const std::string &clause_id,
                                    const widget_id &wgt, bool skip_condition = false );
         static const translation &get_text_for_id( const std::string &clause_id,
@@ -197,7 +196,6 @@ class widget
         widget_id id;
         std::vector<std::pair<widget_id, mod_id>> src;
         bool was_loaded = false;
-
         const widget_clause *get_clause( const std::string &clause_id = "" ) const;
         std::vector<const widget_clause *> get_clauses() const;
 
@@ -213,12 +211,17 @@ class widget
         translation _label;
         // Width of the longest label within this layout's widgets (for "rows")
         int _label_width = 0;
+        // Separator used to separate the label from the text. This is inherited from any parent widgets if none is found.
+        std::string _separator;
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var = widget_var::last;
         // Minimum meaningful var value, set by set_default_var_range
         int _var_min = INT_MIN;
         // Maximum meaningful var value, set by set_default_var_range
         int _var_max = INT_MAX;
+        // True if this widget has an explicitly defined separator. False if it is inherited.
+        bool explicit_separator;
+
         // Normal var range (low, high), set by set_default_var_range
         std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
         // Body part variable is linked to
@@ -261,6 +264,9 @@ class widget
         static void finalize();
         // Recursively derive _label_width for nested layouts in this widget
         static int finalize_label_width_recursive( const widget_id &id );
+        // Recursively derive _separator for nested layouts in this widget
+        static void finalize_label_separator_recursive( const widget_id &id,
+                const std::string &label_separator );
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
