@@ -69,7 +69,8 @@
       [ "4seat_pickup", 125 ],
       [ "extended_pickup", 65 ],
       [ "4x4_car", 500 ],
-      [ "underlift_tow_truck", 250 ]
+      [ "underlift_tow_truck", 250 ],
+      [ "garbage_truck", 400 ]
     ]
   },
   {
@@ -178,7 +179,8 @@
       [ "tatra_truck", 300 ],
       [ "4x4_car", 400 ],
       [ "extended_pickup", 65 ],
-      [ "underlift_tow_truck", 250 ]
+      [ "underlift_tow_truck", 250 ],
+      [ "garbage_truck", 200 ]
     ]
   },
   {
@@ -316,7 +318,8 @@
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
       [ "4x4_car", 200 ],
-      [ "underlift_tow_truck", 250 ]
+      [ "underlift_tow_truck", 250 ],
+      [ "garbage_truck", 200 ]
     ]
   },
   {
@@ -419,7 +422,8 @@
       [ "hippie_van", 700 ],
       [ "van_full-size", 500 ],
       [ "van_mini", 300 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 500 ],
+      [ "garbage_truck", 500 ]
     ]
   },
   {
@@ -442,7 +446,8 @@
       [ "cube_van_cheap", 400 ],
       [ "pickup", 500 ],
       [ "hippie_van", 350 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 500 ],
+      [ "garbage_truck", 500 ]
     ]
   },
   {
