@@ -98,7 +98,7 @@
       "items": [
         { "item": "pipe", "count": [ 18, 20 ] },
         { "item": "chain", "prob": 80 },
-        { "item": "grip_hook", "prob": 95 },
+        { "item": "grip_hook", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] }
       ]
     },
