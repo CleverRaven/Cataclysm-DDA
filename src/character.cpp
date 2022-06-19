@@ -9903,8 +9903,17 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
-        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
-            moves += this->item_handling_cost( *contained );
+
+        for( item_pocket::pocket_type ptype : {
+                 item_pocket::pocket_type::CONTAINER,
+                 item_pocket::pocket_type::MAGAZINE_WELL,
+                 item_pocket::pocket_type::MAGAZINE
+             } ) {
+
+            for( item *contained : it.all_items_top( ptype, true ) ) {
+                moves += this->item_handling_cost( *contained );
+            }
+
         }
         assign_activity( player_activity( unload_activity_actor( moves, loc ) ) );
 
