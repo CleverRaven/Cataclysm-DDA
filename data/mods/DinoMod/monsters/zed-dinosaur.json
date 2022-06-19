@@ -487,7 +487,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
     "description": "The shuffling corpse of a large bipedal dinosaur covered with tattered feathers and black putrid liquid.  Long claws protrude from its hands.",
     "burn_into": "mon_zanzu_scorched",
-    "fungalize_into": "mon_zothronychus_fungus",
+    "fungalize_into": "mon_zanzu_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zanzu_UPGRADE" }
   },
   {
