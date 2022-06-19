@@ -665,7 +665,6 @@ void vehicle::cruise_thrust( int amount )
 /**
  * `turn` is a function that takes an angle as an argument and turns the vehicle in that direction
  * @param deg The angle to turn the vehicle.
- * @return The turn_dir is being returned.
  */
 void vehicle::turn( units::angle deg )
 {
@@ -1224,8 +1223,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
  * 
  * @param p The location of the trap
  * @param part The part number of the wheel that ran over the trap.
- *
- * @return A vehicle_handle_trap_data object.
  */
 void vehicle::handle_trap( const tripoint &p, int part )
 {
@@ -1751,8 +1748,6 @@ static units::angle get_corrected_turn_dir( const units::angle &turn_dir,
  * from the `main` function
  * 
  * @param corrected_turn_dir the direction the vehicle is trying to turn
- * 
- * @return A bool.
  */
 bool vehicle::allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const
 {
