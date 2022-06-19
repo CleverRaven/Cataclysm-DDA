@@ -11218,7 +11218,7 @@ void game::start_hauling( const tripoint &pos )
 }
 
 cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
-        bool peeking, const tripoint pos )
+        bool peeking, const tripoint &pos )
 {
     const bool is_avatar = u.pos() == pos;
     const int omtilesz = SEEX * 2;
