@@ -518,6 +518,8 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "tailoring_nylon_patchwork", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
