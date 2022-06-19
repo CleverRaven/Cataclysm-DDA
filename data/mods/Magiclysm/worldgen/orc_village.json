@@ -15,7 +15,10 @@
       "I": "t_rock_wall_half",
       ".": "t_dirt"
     },
-    "items": { "U": { "item": "orc_village_foodstuffs", "repeat": [ 1, 3 ], "chance": 80 }, "=": { "item": "orc_village_storage", "chance": 70, "repeat": [ 1, 3 ] } },
+    "items": {
+      "U": { "item": "orc_village_foodstuffs", "repeat": [ 1, 3 ], "chance": 80 },
+      "=": { "item": "orc_village_storage", "chance": 70, "repeat": [ 1, 3 ] }
+    },
     "furniture": {
       "t": "f_logstool",
       "o": "f_firering",
@@ -110,9 +113,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "orc_palette" ],
       "nested": { "X": { "chunks": [ [ "human_gore", 9 ], [ "null", 1 ] ] } },
-      "place_monsters": [
-        { "monster": "GROUP_ORC", "x": [ 3, 21 ], "y": [ 4, 19 ], "density": 0.6, "repeat": [ 3, 6 ] }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ORC", "x": [ 3, 21 ], "y": [ 4, 19 ], "density": 0.6, "repeat": [ 3, 6 ] } ]
     }
   },
   {
