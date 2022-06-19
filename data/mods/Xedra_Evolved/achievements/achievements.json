@@ -83,7 +83,7 @@
   {
     "id": "avchievement_gains_inventor_trait",
     "type": "achievement",
-    "name": "This has a small, but fascinating, chance of actually working! Let's do it!",
+    "name": "This has a small, but fascinating, chance of actually working!  Let's do it!",
     "requirements": [
       {
         "event_statistic": "avatar_gains_mutation",

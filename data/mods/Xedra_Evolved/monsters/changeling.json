@@ -297,7 +297,6 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 30,
     "vision_night": 3,
-    "death_drops": { "item": "scrap_dreamdross", "count": [ 1, 4 ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The % bursts into a rain of pollen!" },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES" ]
   },
@@ -478,7 +477,6 @@
     "luminance": 0,
     "harvest": "demihuman",
     "special_attacks": [ [ "RANGED_PULL", 10 ], [ "GRAB_DRAG", 3 ] ],
-    "death_drops": { "item": "scrap_dreamdross", "count": [ 1, 4 ] },
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
   }

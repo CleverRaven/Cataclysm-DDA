@@ -137,7 +137,7 @@
         "ssssss______ss______ssssssssssssssssssssssssssss"
       ],
       "palettes": [ "field_office_palette" ],
-      "place_monsters": [ { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 10, 38 ], "y": [ 10, 38 ], "chance": 2, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 10, 23 ], "y": [ 10, 23 ], "chance": 2, "repeat": [ 1, 4 ] }, "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 26, 38 ], "y": [ 26, 38 ], "chance": 2, "repeat": [ 1, 4 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ],
