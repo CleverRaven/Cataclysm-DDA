@@ -577,7 +577,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "summer hard hat" },
-    "description": "A hard plastic hat worn in construction or industrial sites, with a sun shield around it to serve as sun protection.  Cover your eyes of sun glare, and better protects you from the heat of a summer day.",
+    "description": "A hard plastic hat worn in construction or industrial sites, with a sun shield around it to serve as sun protection.  Shields your eyes from sun glare, and better protects you from the heat of a summer day.",
     "weight": "470 g",
     "volume": "2750 ml",
     "price": 1200,
