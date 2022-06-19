@@ -229,7 +229,7 @@
         { "item": "novels", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "phones", "chance": 5, "repeat": [ 0, 1 ] }
       ],
-      "ж": [ { "item": "milspec_arsenal_only_guns_or_ammo", "chance": 100 } ],
+      "ж": [ { "item": "milspec_arsenal_only_guns_or_ammo_or_armor", "chance": 100 } ],
       "Ж": [
         { "item": "supplies_mechanics_milspec", "chance": 50, "repeat": [ 1, 6 ] },
         { "item": "supplies_spares_vehicle", "chance": 50, "repeat": [ 1, 4 ] },

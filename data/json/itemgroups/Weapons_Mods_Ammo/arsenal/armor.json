@@ -25,5 +25,14 @@
       { "item": "glasses_bal", "prob": 60, "count": [ 1, 2 ] },
       { "item": "powered_earmuffs", "prob": 60, "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "arsenal_armor+plates",
+    "subtype": "collection",
+    "items": [
+      { "group": "arsenal_armor_armor", "count": [ 2, 4 ] },
+      { "group": "pristine_esapi_plates", "prob": 100, "count": [ 2, 6 ] }
+    ]
   }
 ]
