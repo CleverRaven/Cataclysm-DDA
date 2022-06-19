@@ -1498,6 +1498,7 @@
     "type": "MONSTER",
     "id": "mon_oryctodromeus",
     "name": { "str_sp": "oryctodromeus" },
+    "looks_like": "mon_eoraptor",
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
