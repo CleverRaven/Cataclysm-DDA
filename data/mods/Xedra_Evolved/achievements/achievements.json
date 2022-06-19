@@ -56,10 +56,7 @@
     "id": "avatar_gains_trait_dreamer",
     "type": "event_transformation",
     "event_type": "gains_mutation",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" },
-      "trait": { "equals": [ "trait_id", "DREAMER" ] }
-    },
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "trait": { "equals": [ "trait_id", "DREAMER" ] } },
     "drop_fields": [ "character", "trait" ]
   },
   {
