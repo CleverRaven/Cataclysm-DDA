@@ -670,7 +670,7 @@
     ],
     "warmth": 20,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS", "SOFT" ],
+    "flags": [ "VARSIZE", "POCKETS", "SOFT", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
