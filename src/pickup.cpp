@@ -242,9 +242,9 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, &it,
-                             /*allow_drop=*/false, /*allow_wield=*/false, false );
-            if( added_it.is_null() ) {
+            item_location added_it = player_character.i_add( newit, true, nullptr, &it,
+                                     /*allow_drop=*/false, /*allow_wield=*/false, false );
+            if( added_it == item_location::nowhere ) {
                 // failed to add, fill pockets if it's a stack
                 if( newit.count_by_charges() ) {
                     int remaining_charges = newit.charges;
@@ -264,7 +264,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                         picked_up = true;
                     }
                 }
-            } else if( &added_it == &it ) {
+            } else if( &*added_it == &it ) {
                 // merged to the original stack, restore original charges
                 it.charges -= newit.charges;
             } else {

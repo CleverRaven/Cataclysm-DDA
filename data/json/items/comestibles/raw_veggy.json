@@ -78,7 +78,7 @@
   {
     "type": "COMESTIBLE",
     "id": "jerusalem_artichoke",
-    "name": { "str": "jerusalem artichoke" },
+    "name": { "str": "Jerusalem artichoke" },
     "weight": "40 g",
     "longest_side": "10 cm",
     "price": 100,
@@ -1099,7 +1099,7 @@
   {
     "type": "COMESTIBLE",
     "id": "japanese_knotweed_stem",
-    "name": { "str_sp": "japanese knotweed stems" },
+    "name": { "str_sp": "Japanese knotweed stems" },
     "weight": "60 g",
     "flags": [ "FREEZERBURN", "RAW" ],
     "color": "light_green",
@@ -1108,7 +1108,7 @@
     "symbol": "%",
     "quench": 6,
     "calories": 25,
-    "description": "Some young japanese knotweed stems.  They taste a bit like rhubarb and contain good amounts of vitamin A.  Refreshing.",
+    "description": "Some young Japanese knotweed stems.  They taste a bit like rhubarb and contain good amounts of vitamin A.  Refreshing.",
     "price": 40,
     "price_postapoc": 10,
     "material": [ "veggy" ],

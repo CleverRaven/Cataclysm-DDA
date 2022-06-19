@@ -672,9 +672,9 @@ static cata::optional<item_location> wield_craft( Character &p, item &craft )
     return cata::nullopt;
 }
 
-static item *set_item_inventory( Character &p, item &newit )
+static item_location set_item_inventory( Character &p, item &newit )
 {
-    item *ret_val = nullptr;
+    item_location ret_val = item_location::nowhere;
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
@@ -685,7 +685,7 @@ static item *set_item_inventory( Character &p, item &newit )
         } else if( !p.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
             put_into_vehicle_or_drop( p, item_drop_reason::too_heavy, { newit } );
         } else {
-            ret_val = &p.i_add( newit );
+            ret_val = p.i_add( newit );
             add_msg( m_info, "%c - %s", ret_val->invlet == 0 ? ' ' : ret_val->invlet,
                      ret_val->tname() );
         }

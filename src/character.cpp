@@ -8032,7 +8032,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
 {
     inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
-            if( try_add( *it, /*avoid=*/nullptr, it ) == nullptr ) {
+            if( try_add( *it, /*avoid=*/nullptr, it ) == item_location::nowhere ) {
                 std::string profession_id = "<none>";
                 profession_id = prof->ident().str();
                 debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
@@ -8041,9 +8041,9 @@ void Character::migrate_items_to_storage( bool disintegrate )
                 return VisitResponse::ABORT;
             }
         } else {
-            item &added = i_add( *it, true, /*avoid=*/nullptr, it,
-                                 /*allow_drop=*/false, /*allow_wield=*/!has_wield_conflicts( *it ) );
-            if( added.is_null() ) {
+            item_location added = i_add( *it, true, /*avoid=*/nullptr,
+                                         it, /*allow_drop=*/false, /*allow_wield=*/!has_wield_conflicts( *it ) );
+            if( added == item_location::nowhere ) {
                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
             }
         }
@@ -9870,19 +9870,19 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
         }
         const bool allow_wield = !wielded_has_it && weapon.magazine_current() != &it;
         const int prev_charges = it.charges;
-        auto &ni = this->i_add( it, true, avoid,
-                                original_inventory_item, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
-        if( ni.is_null() ) {
+        item_location ni = i_add( it, true, avoid,
+                                  original_inventory_item, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
+        if( ni == item_location::nowhere ) {
             // failed to add
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
-        } else if( &ni == &it ) {
+        } else if( &*ni == &it ) {
             // merged into the original stack, restore original charges
             it.charges = prev_charges;
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
         } else {
             // successfully added
-            add_msg( _( "You put the %s in your inventory." ), ni.tname() );
-            add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname() );
+            add_msg( _( "You put the %s in your inventory." ), ni->tname() );
+            add_msg( m_info, "%c - %s", ni->invlet == 0 ? ' ' : ni->invlet, ni->tname() );
         }
     }
     return true;
@@ -9903,8 +9903,17 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
-        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
-            moves += this->item_handling_cost( *contained );
+
+        for( item_pocket::pocket_type ptype : {
+                 item_pocket::pocket_type::CONTAINER,
+                 item_pocket::pocket_type::MAGAZINE_WELL,
+                 item_pocket::pocket_type::MAGAZINE
+             } ) {
+
+            for( item *contained : it.all_items_top( ptype, true ) ) {
+                moves += this->item_handling_cost( *contained );
+            }
+
         }
         assign_activity( player_activity( unload_activity_actor( moves, loc ) ) );
 
@@ -11086,7 +11095,8 @@ void Character::store( item_pocket *pocket, item &put, bool penalties, int base_
     }
 
     item_location char_item( *this, &null_item_reference() );
-    item_pocket *pkt_best = pocket->best_pocket_in_contents( char_item, put, nullptr, false, false );
+    item_pocket *pkt_best = pocket->best_pocket_in_contents( char_item, put, nullptr, false,
+                            false ).second;
     if( !!pkt_best && pocket->better_pocket( *pkt_best, put, true ) ) {
         pocket = pkt_best;
     }
