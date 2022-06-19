@@ -39,18 +39,35 @@
     "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 100000 } ]
   },
   {
-    "id": "avchievement_gains_dreamer_trait",
+    "id": "achievement_gains_dreamer_trait",
     "type": "achievement",
     "name": "Never Wake again",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_mutation",
+        "event_statistic": "num_gains_trait_dreamer",
         "is": "==",
         "target": [ "trait_id", "DREAMER" ],
         "description": "Gained access to dream magic.",
         "visible": "when_achievement_completed"
       }
     ]
+  },
+  {
+    "id": "avatar_gains_trait_dreamer",
+    "type": "event_transformation",
+    "event_type": "gains_mutation",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "trait": { "equals": [ "trait_id", "DREAMER" ] }
+    },
+    "drop_fields": [ "character", "trait" ]
+  },
+  {
+    "id": "num_gains_trait_dreamer",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_trait_dreamer",
+    "description": { "str_sp": "Dreamer Trait Gained" }
   },
   {
     "id": "avchievement_gains_eater_trait",
