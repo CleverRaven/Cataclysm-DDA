@@ -600,7 +600,12 @@
     "name": { "str_sp": "Japanese knotweed stems" },
     "description": "Some Japanese knotweed stems, prepared for planting.",
     "charges": 2,
-    "seed_data": { "plant_name": "Japanese knotweed", "fruit": "japanese_knotweed_stem", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "Japanese knotweed",
+      "fruit": "japanese_knotweed_stem",
+      "byproducts": [ "withered" ],
+      "grow": "91 days"
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -618,7 +623,12 @@
     "name": { "str_sp": "starry false Solomon's seal seeds" },
     "description": "Some starry false Solomon's seal seeds.",
     "charges": 2,
-    "seed_data": { "plant_name": "starry false Solomon's seal", "fruit": "m_stellatum_berries", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "starry false Solomon's seal",
+      "fruit": "m_stellatum_berries",
+      "byproducts": [ "withered" ],
+      "grow": "91 days"
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -627,7 +637,12 @@
     "name": { "str_sp": "wild sarsaparilla seeds" },
     "description": "Some wild sarsaparilla seeds.",
     "charges": 2,
-    "seed_data": { "plant_name": "wild sarsaparilla", "fruit": "wild_sarsaparilla_root", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "wild sarsaparilla",
+      "fruit": "wild_sarsaparilla_root",
+      "byproducts": [ "withered" ],
+      "grow": "91 days"
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -645,7 +660,12 @@
     "name": { "str_sp": "wintergreen seeds" },
     "description": "Some wintergreen seeds.",
     "charges": 2,
-    "seed_data": { "plant_name": "wintergreen", "fruit": "wintergreen_berry", "byproducts": [ "wintergreen_leaves", "withered" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "wintergreen",
+      "fruit": "wintergreen_berry",
+      "byproducts": [ "wintergreen_leaves", "withered" ],
+      "grow": "91 days"
+    }
   },
   {
     "type": "COMESTIBLE",
