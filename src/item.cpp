@@ -10129,12 +10129,11 @@ bool item::can_contain_partial( const item &it ) const
     return can_contain( i_copy ).success();
 }
 
-std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
         const bool nested, bool ignore_rigidity )
 {
-    item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings,
+    return contents.best_pocket( it, this_loc, avoid, allow_sealed, ignore_settings,
                                  nested, ignore_rigidity );
 }
 
