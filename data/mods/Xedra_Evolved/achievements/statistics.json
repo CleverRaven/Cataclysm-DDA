@@ -1,0 +1,15 @@
+[
+  {
+    "id": "avatar_changeling_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "CHANGELING" ] } }
+  },
+  {
+    "id": "num_avatar_changeling_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_changeling_kills",
+    "description": { "str": "changeling killed", "str_pl": "changelings killed" }
+  }
+]

@@ -89,7 +89,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "frame", 1 ] ], [ [ "recharge_station", 1 ] ], [ [ "heavy_battery_cell", 1 ] ] ]
+    "components": [ [ [ "frame", 1 ] ], [ [ "recharge_station", 1 ] ] ]
   },
   {
     "result": "box_battery_charger",
@@ -106,6 +106,6 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "frame_wood", 1 ] ], [ [ "battery_charger", 1 ] ], [ [ "medium_battery_cell", 1 ] ] ]
+    "components": [ [ [ "frame_wood", 1 ] ], [ [ "battery_charger", 1 ] ] ]
   }
 ]

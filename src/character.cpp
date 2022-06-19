@@ -8099,6 +8099,25 @@ std::string Character::is_snuggling() const
     return "nothing";
 }
 
+// If the player is not wielding anything big, check if hands can be put in pockets
+bool Character::can_use_pockets() const
+{
+    // TODO Check that the pocket actually has enough space for the wielded item?
+    return weapon.volume() < 500_ml;
+}
+
+// If the player's head is not encumbered, check if hood can be put up
+bool Character::can_use_hood() const
+{
+    return encumb( body_part_head ) < 10;
+}
+
+// If the player's mouth is not encumbered, check if collar can be put up
+bool Character::can_use_collar() const
+{
+    return encumb( body_part_mouth ) < 10;
+}
+
 std::map<bodypart_id, int> Character::bonus_item_warmth() const
 {
     const int pocket_warmth = worn.pocket_warmth();
@@ -8109,19 +8128,15 @@ std::map<bodypart_id, int> Character::bonus_item_warmth() const
     for( const bodypart_id &bp : get_all_body_parts() ) {
         ret.emplace( bp, 0 );
 
-        // If the player is not wielding anything big, check if hands can be put in pockets
-        if( ( bp == body_part_hand_l || bp == body_part_hand_r ) &&
-            weapon.volume() < 500_ml ) {
+        if( ( bp == body_part_hand_l || bp == body_part_hand_r ) && can_use_pockets() ) {
             ret[bp] += pocket_warmth;
         }
 
-        // If the player's head is not encumbered, check if hood can be put up
-        if( bp == body_part_head && encumb( body_part_head ) < 10 ) {
+        if( bp == body_part_head && can_use_hood() ) {
             ret[bp] += hood_warmth;
         }
 
-        // If the player's mouth is not encumbered, check if collar can be put up
-        if( bp == body_part_mouth && encumb( body_part_mouth ) < 10 ) {
+        if( bp == body_part_mouth && can_use_collar() ) {
             ret[bp] += collar_warmth;
         }
     }

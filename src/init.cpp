@@ -283,6 +283,7 @@ void DynamicDataLoader::initialize()
     add( "start_location", &start_locations::load );
     add( "scenario", &scenario::load_scenario );
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
+    add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
     add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
@@ -624,6 +625,7 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     scent_type::reset();
     score::reset();
+    shopkeeper_blacklist::reset();
     shopkeeper_cons_rates::reset();
     Skill::reset();
     skill_boost::reset();

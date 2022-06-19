@@ -195,6 +195,7 @@ cata::optional<int> trimmer_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> unfold_generic( Character *, item *, bool, const tripoint & );
 cata::optional<int> unpack_item( Character *, item *, bool, const tripoint & );
 cata::optional<int> vibe( Character *, item *, bool, const tripoint & );
+cata::optional<int> voltmeter( Character *p, item *it, bool, const tripoint & );
 cata::optional<int> vortex( Character *, item *, bool, const tripoint & );
 cata::optional<int> wash_all_items( Character *, item *, bool, const tripoint & );
 cata::optional<int> wash_hard_items( Character *, item *, bool, const tripoint & );

@@ -17,7 +17,7 @@
     "elec_resist": 2,
     "chip_resist": 6,
     "wind_resist": 70,
-    "repaired_with": "rag",
+    "repaired_with": "cotton_patchwork",
     "breathability": "AVERAGE",
     "salvaged_into": "cotton_patchwork",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
