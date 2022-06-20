@@ -452,12 +452,13 @@
     "id": "prisonbreak",
     "name": "Prison",
     "points": -4,
-    "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight… you might need to expedite your escape plans.",
+    "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the police officers joined hands with them… you might need to expedite your escape plans.",
     "allowed_locs": [ "sloc_prison" ],
     "start_name": "Prison",
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_assassin",
       "convict_embezzler",
       "convict_drugs",
       "convict_political",
@@ -478,6 +479,7 @@
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_assassin",
       "convict_embezzler",
       "convict_drugs",
       "convict_political",
@@ -611,6 +613,8 @@
       "specops",
       "national_guard",
       "politician",
+      "hitman",
+      "assassin",
       "mili_pilot",
       "mili_medic",
       "mili_burner",
@@ -756,5 +760,30 @@
       "major-general"
     ],
     "missions": [ "MISSION_MANSION_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "aircraft_carrier_start",
+    "name": "CVN Sailor",
+    "points": 4,
+    "description": "For some reason your mission off the coast of North Korea was ended in the middle of a lake, in an unknown location.  You have no idea what's happened, but now you have more important things to do.",
+    "start_name": "Aircraft Carrier",
+    "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
+    "professions": [
+      "unemployed",
+      "electrician",
+      "chef",
+      "sailor",
+      "marine",
+      "seal",
+      "diver_navy",
+      "medic",
+      "mili_pilot",
+      "mili_medic",
+      "major-general",
+      "nco",
+      "combat-engineer"
+    ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]

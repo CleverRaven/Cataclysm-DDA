@@ -327,7 +327,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         }
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
-    obj->active = active || obj->item_counter;
+    obj->active = active || obj->item_counter || obj->has_temperature();
     if( p.is_worn( *obj ) ) {
         if( !obj->is_armor() ) {
             item_location il = item_location( p, obj );
@@ -2695,7 +2695,8 @@ cata::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripo
     std::vector<item_location> targets;
     if( opt ) {
         const int moves = opt.moves();
-        targets.emplace_back( p, &p.i_add( mag ) );
+        item_location loc = p.i_add( mag );
+        targets.emplace_back( loc );
         targets.push_back( std::move( opt.ammo ) );
         p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
     }
@@ -3352,8 +3353,6 @@ void heal_actor::load( const JsonObject &obj )
     bite = obj.get_float( "bite", 0.0f );
     infect = obj.get_float( "infect", 0.0f );
 
-    long_action = obj.get_bool( "long_action", false );
-
     if( obj.has_array( "effects" ) ) {
         for( const JsonObject e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
@@ -3413,19 +3412,17 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
-    // NPCs can use first aid now, but they can't perform long actions
-    if( long_action && &patient == &p && !p.is_npc() ) {
-        // Assign first aid long action.
-        p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname() ) ) );
-        p.activity.targets.emplace_back( p, &it );
-        p.activity.str_values.emplace_back( hpp.c_str() );
-        p.moves = 0;
-        return 0;
-    }
+    p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname(),
+                                        patient.getID() ) ) );
 
-    p.moves -= cost;
-    p.add_msg_if_player( m_good, _( "You use your %s." ), it.tname() );
-    return it.type->charges_to_use();
+    // Player: Only time this item_location gets used in firstaid::finish() is when activating the item's
+    // container from the inventory window, so an item_on_person impl is all that is needed.
+    // Otherwise the proper item_location provided by menu selection supercedes it in consume::finish().
+    // NPC: Will only use its inventory for first aid items.
+    p.activity.targets.emplace_back( p, &it );
+    p.activity.str_values.emplace_back( hpp.c_str() );
+    p.moves = 0;
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> heal_actor::clone() const
@@ -3580,8 +3577,11 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         practice_amount += infect * 10.0f;
     }
 
-    if( long_action ) {
-        healer.add_msg_if_player( _( "You finish using the %s." ), it.tname() );
+    healer.add_msg_if_player( _( "You finish using the %s." ), it.tname() );
+
+    if( u_see && !healer.is_avatar() ) {
+        //~ Healing complete message. %1$s is healer name, %2$s is item name.
+        add_msg( _( "%1$s finishes using the %2$s." ), healer.disp_name(), it.tname() );
     }
 
     for( const auto &eff : effects ) {
@@ -3732,12 +3732,8 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
                 add_msg( m_info, _( "Never mind." ) );
                 return bodypart_id( "bp_null" ); // canceled
             }
-        }
-        // Brick healing if using a first aid kit for the first time.
-        if( long_action && healer.activity.id() != ACT_FIRSTAID ) {
-            // Cancel and wait for activity completion.
             return healed;
-        } else if( healer.activity.id() == ACT_FIRSTAID ) {
+        } else {
             // Completed activity, extract body part from it.
             healed =  bodypart_id( healer.activity.str_values[0] );
         }
@@ -3751,10 +3747,6 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
         healed = pick_part_to_heal( healer, patient, menu_header, limb_power, head_bonus, torso_bonus,
                                     get_stopbleed_level( healer ), bite, infect, force, get_bandaged_level( healer ),
                                     get_disinfected_level( healer ) );
-    }
-
-    if( healed != bodypart_id( "bp_null" ) ) {
-        finish_using( healer, patient, it,  healed );
     }
 
     return healed;
@@ -4046,6 +4038,7 @@ void saw_barrel_actor::load( const JsonObject &jo )
     assign( jo, "cost", cost );
 }
 
+//Todo: Make this consume charges if performed with a tool that uses charges.
 cata::optional<int> saw_barrel_actor::use( Character &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {

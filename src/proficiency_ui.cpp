@@ -25,7 +25,7 @@
 
 using display_prof_deps = std::pair<display_proficiency, std::vector<proficiency_id>>;
 
-struct _prof_window {
+struct prof_window {
     input_context ctxt;
     weak_ptr_fast<ui_adaptor> ui;
     catacurses::window w_border;
@@ -45,10 +45,10 @@ struct _prof_window {
     int top_prof = 0;
     int current_cat = 0;
 
-    _prof_window() = delete;
-    _prof_window( _prof_window & ) = delete;
-    _prof_window( _prof_window && ) = delete;
-    explicit _prof_window( const Character *u ) : u( u ) {}
+    prof_window() = delete;
+    prof_window( prof_window & ) = delete;
+    prof_window( prof_window && ) = delete;
+    explicit prof_window( const Character *u ) : u( u ) {}
     shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
     void filter();
     std::vector<display_prof_deps *> &get_current_set();
@@ -61,12 +61,12 @@ struct _prof_window {
     void run();
 };
 
-std::vector<display_prof_deps *> &_prof_window::get_current_set()
+std::vector<display_prof_deps *> &prof_window::get_current_set()
 {
     return filter_str.empty() ? profs_by_cat[current_cat] : filtered_profs;
 }
 
-void _prof_window::filter()
+void prof_window::filter()
 {
     enum class _prof_filter_prefix {
         LEARNED,
@@ -126,7 +126,7 @@ void _prof_window::filter()
     }
 }
 
-void _prof_window::populate_categories()
+void prof_window::populate_categories()
 {
     for( display_proficiency &p : u->display_proficiencies() ) {
         all_profs.push_back( { p, {} } );
@@ -156,7 +156,7 @@ void _prof_window::populate_categories()
     }
 }
 
-void _prof_window::draw_details()
+void prof_window::draw_details()
 {
     werase( w_details );
     std::vector<display_prof_deps *> &cur_set = get_current_set();
@@ -203,7 +203,7 @@ void _prof_window::draw_details()
     wnoutrefresh( w_details );
 }
 
-void _prof_window::draw_profs()
+void prof_window::draw_profs()
 {
     werase( w_profs );
     std::vector<display_prof_deps *> &cur_set = get_current_set();
@@ -219,7 +219,7 @@ void _prof_window::draw_profs()
     wnoutrefresh( w_profs );
 }
 
-void _prof_window::draw_header()
+void prof_window::draw_header()
 {
     const int w = catacurses::getmaxx( w_header );
     werase( w_header );
@@ -240,7 +240,7 @@ void _prof_window::draw_header()
     wnoutrefresh( w_header );
 }
 
-void _prof_window::draw_borders()
+void prof_window::draw_borders()
 {
     const int w = catacurses::getmaxx( w_border );
     const int h = catacurses::getmaxy( w_border );
@@ -270,7 +270,7 @@ void _prof_window::draw_borders()
     wnoutrefresh( w_border );
 }
 
-void _prof_window::init_ui_windows()
+void prof_window::init_ui_windows()
 {
     const int h = std::min( 28, TERMY );
     const int w = std::min( 120, TERMX );
@@ -286,7 +286,7 @@ void _prof_window::init_ui_windows()
     w_details = catacurses::newwin( max_rows, column_width, origin + point( center + 1, 5 ) );
 }
 
-shared_ptr_fast<ui_adaptor> _prof_window::create_or_get_ui_adaptor()
+shared_ptr_fast<ui_adaptor> prof_window::create_or_get_ui_adaptor()
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {
@@ -306,7 +306,7 @@ shared_ptr_fast<ui_adaptor> _prof_window::create_or_get_ui_adaptor()
     return current_ui;
 }
 
-void _prof_window::run()
+void prof_window::run()
 {
     if( !u ) {
         return;
@@ -406,6 +406,6 @@ void _prof_window::run()
 
 void show_proficiencies_window( const Character &u )
 {
-    _prof_window w( &u );
+    prof_window w( &u );
     w.run();
 }

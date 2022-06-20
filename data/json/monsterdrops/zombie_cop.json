@@ -14,6 +14,7 @@
       { "group": "cop_shoes", "damage": [ 1, 4 ] },
       { "group": "cop_torso", "damage": [ 1, 4 ] },
       { "group": "cop_weapons", "prob": 50, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
+      { "group": "cop_holster", "damage": [ 1, 4 ] },
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
@@ -52,13 +53,11 @@
       [ "armor_riot", 20 ],
       [ "airhorn", 5 ],
       [ "bandages", 10 ],
-      [ "adhesive_bandages", 10 ],
+      { "item": "adhesive_bandages", "prob": 10, "count": [ 1, 20 ] },
       [ "tacvest", 5 ],
       { "item": "heavy_flashlight", "prob": 35, "charges": [ 0, 300 ] },
-      [ "holster", 25 ],
       [ "kevlar", 35 ],
       [ "armguard_cut_resistant", 2 ],
-      [ "bholster", 3 ],
       [ "legpouch_large", 5 ],
       [ "pocket_firstaid", 10 ],
       [ "police_belt", 20 ],
@@ -109,13 +108,13 @@
   {
     "id": "cop_weapons",
     "type": "item_group",
-    "items": [
-      { "group": "cop_melee", "prob": 60 },
-      {
-        "distribution": [ { "group": "longguns_cop", "prob": 20, "contents-item": "shoulder_strap" }, { "group": "sidearms_cop", "prob": 80 } ],
-        "prob": 50
-      }
-    ]
+    "items": [ { "group": "cop_melee", "prob": 60 }, { "group": "longguns_cop", "prob": 10, "contents-item": "shoulder_strap" } ]
+  },
+  {
+    "id": "cop_holster",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "holster", "contents-group": "sidearms_cop", "prob": 20 }, { "item": "holster", "prob": 80 } ]
   },
   {
     "id": "mon_zombie_swat_death_drops",
@@ -145,7 +144,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "adhesive_bandages", "prob": 30 },
+          { "item": "adhesive_bandages", "prob": 30, "count": [ 1, 20 ] },
           { "item": "bandages", "prob": 30 },
           { "group": "full_1st_aid", "prob": 20 }
         ],

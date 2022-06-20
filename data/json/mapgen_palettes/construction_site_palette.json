@@ -1,0 +1,127 @@
+[
+  {
+    "id": "small_utility_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [
+      [ "excavator", 20 ],
+      [ "trencher", 20 ],
+      [ "welding_cart", 40 ],
+      [ "engine_crane", 60 ],
+      [ "oa_work_light", 80 ],
+      [ "portable_generator", 100 ]
+    ]
+  },
+  {
+    "type": "palette",
+    "id": "construction_site_palette",
+    "parameters": {
+      "wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_concrete", 12 ],
+            [ "t_pit_shallow", 3 ],
+            [ "t_pit", 2 ],
+            [ "t_brick_wall_halfway", 10 ],
+            [ "t_brick_wall", 5 ],
+            [ "t_adobe_brick_wall_halfway", 4 ],
+            [ "t_adobe_brick_wall", 2 ],
+            [ "t_wall_half", 8 ],
+            [ "t_wall", 4 ],
+            [ "t_reb_cage", 4 ],
+            [ "t_concrete_wall", 2 ]
+          ]
+        }
+      },
+      "lawn_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_region_soil", 5 ], [ "t_region_groundcover", 3 ] ] } },
+      "block-or-not": { "type": "furn_str_id", "default": { "distribution": [ [ "f_barricade_road", 1 ], [ "f_null", 1 ] ] } }
+    },
+    "terrain": {
+      " ": { "param": "lawn_type", "fallback": "t_region_soil" },
+      "|": { "param": "wall_type", "fallback": "t_brick_wall_halfway" },
+      "-": {
+        "switch": { "param": "lawn_type", "fallback": "t_region_soil" },
+        "cases": { "t_region_soil": "t_region_soil", "t_region_groundcover": "t_region_groundcover" }
+      },
+      ".": {
+        "switch": { "param": "wall_type", "fallback": "t_brick_wall_halfway" },
+        "cases": {
+          "t_concrete": "t_concrete",
+          "t_pit_shallow": "t_region_soil",
+          "t_pit": "t_pit_shallow",
+          "t_brick_wall_halfway": "t_concrete",
+          "t_brick_wall": "t_concrete",
+          "t_adobe_brick_wall_halfway": "t_concrete",
+          "t_adobe_brick_wall": "t_concrete",
+          "t_wall_half": "t_concrete",
+          "t_wall": "t_concrete",
+          "t_reb_cage": "t_concrete",
+          "t_concrete_wall": "t_concrete"
+        }
+      },
+      "#": {
+        "switch": { "param": "wall_type", "fallback": "t_brick_wall_halfway" },
+        "cases": {
+          "t_concrete": "t_concrete",
+          "t_pit_shallow": "t_pit_shallow",
+          "t_pit": "t_pit",
+          "t_brick_wall_halfway": "t_brick_wall_halfway",
+          "t_brick_wall": "t_brick_wall_halfway",
+          "t_adobe_brick_wall_halfway": "t_adobe_brick_wall_halfway",
+          "t_adobe_brick_wall": "t_adobe_brick_wall_halfway",
+          "t_wall_half": "t_wall_half",
+          "t_wall": "t_wall_half",
+          "t_reb_cage": "t_reb_cage",
+          "t_concrete_wall": "t_reb_cage"
+        }
+      },
+      "s": "t_sandmound",
+      "@": "t_dirtmound"
+    },
+    "furniture": {
+      "X": [ [ "f_crate_c", 2 ], "f_crate_o", "f_cardboard_box" ],
+      "-": { "param": "block-or-not", "fallback": "f_null" },
+      "T": "f_tourist_table",
+      "c": "f_camp_chair",
+      "{": "f_dumpster",
+      "1": "f_pallet_cement",
+      "2": {
+        "switch": { "param": "wall_type", "fallback": "t_brick_wall_halfway" },
+        "cases": {
+          "t_concrete": "f_pallet_brick",
+          "t_pit_shallow": "f_pallet_cement",
+          "t_pit": "f_pallet_cement",
+          "t_brick_wall_halfway": "f_pallet_brick",
+          "t_brick_wall": "f_pallet_brick",
+          "t_adobe_brick_wall_halfway": "f_pallet_brick_adobe",
+          "t_adobe_brick_wall": "f_pallet_brick_adobe",
+          "t_wall_half": "f_stack_plank",
+          "t_wall": "f_stack_plank",
+          "t_reb_cage": "f_pallet_cement",
+          "t_concrete_wall": "f_pallet_cement"
+        }
+      }
+    },
+    "items": {
+      "T": [
+        { "item": "power_tools", "chance": 10 },
+        { "item": "tools_construction", "chance": 25 },
+        { "item": "tools_carpentry", "chance": 10 },
+        { "item": "tools_earthworking", "chance": 5 },
+        { "item": "hardware_plumbing", "chance": 5 },
+        { "item": "paint", "chance": 3 }
+      ],
+      "c": [
+        { "item": "clothing_work_hat", "chance": 33 },
+        { "item": "clothing_work_gloves", "chance": 25 },
+        { "item": "magazines", "chance": 3 },
+        { "item": "misc_smoking", "chance": 10 }
+      ],
+      "{": { "item": "hardware_trash", "chance": 66, "repeat": [ 1, 4 ] },
+      "X": [
+        { "item": "hardware_bulk", "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "plumbing_bulk", "chance": 60, "repeat": [ 1, 3 ] }
+      ]
+    }
+  }
+]

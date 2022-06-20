@@ -109,9 +109,7 @@ static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
-static const std::string flag_UNCRAFT_BY_QUANTITY( "UNCRAFT_BY_QUANTITY" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
-static const std::string flag_UNCRAFT_SINGLE_CHARGE( "UNCRAFT_SINGLE_CHARGE" );
 
 class basecamp;
 
@@ -674,9 +672,9 @@ static cata::optional<item_location> wield_craft( Character &p, item &craft )
     return cata::nullopt;
 }
 
-static item *set_item_inventory( Character &p, item &newit )
+static item_location set_item_inventory( Character &p, item &newit )
 {
-    item *ret_val = nullptr;
+    item_location ret_val = item_location::nowhere;
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
@@ -687,7 +685,7 @@ static item *set_item_inventory( Character &p, item &newit )
         } else if( !p.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
             put_into_vehicle_or_drop( p, item_drop_reason::too_heavy, { newit } );
         } else {
-            ret_val = &p.i_add( newit );
+            ret_val = p.i_add( newit );
             add_msg( m_info, "%c - %s", ret_val->invlet == 0 ? ' ' : ret_val->invlet,
                      ret_val->tname() );
         }
@@ -908,7 +906,7 @@ bool Character::craft_skill_gain( const item &craft, const int &num_practice_tic
     }
 
     const int skill_cap = making.get_skill_cap();
-    const int batch_size = craft.charges;
+    const int batch_size = craft.get_making_batch_size();
     // NPCs assisting or watching should gain experience...
     for( npc *helper : get_crafting_helpers() ) {
         // If the NPC can understand what you are doing, they gain more exp
@@ -1205,7 +1203,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     }
 
     const recipe &making = craft.get_making();
-    const int batch_size = craft.charges;
+    const int batch_size = craft.get_making_batch_size();
     std::list<item> &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
     const bool should_heat = making.hot_result();
@@ -1389,6 +1387,8 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         }
     }
 
+    recoil = MAX_RECOIL;
+
     inv->restack( *this );
 }
 
@@ -1485,7 +1485,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
     if( !craft.has_tools_to_continue() ) {
 
         const std::vector<std::vector<tool_comp>> &tool_reqs = rec.simple_requirements().get_tools();
-        const int batch_size = craft.charges;
+        const int batch_size = craft.get_making_batch_size();
 
         std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
@@ -2088,7 +2088,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
         }
 
         // Account for batch size
-        ret *= craft.charges;
+        ret *= craft.get_making_batch_size();
 
         // Only for the next 5% progress
         ret /= 20;
@@ -2098,7 +2098,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
 
         // If just starting consume the remainder as well
         if( start_craft ) {
-            ret += ( charges * craft.charges ) % 20;
+            ret += ( charges * craft.get_making_batch_size() ) % 20;
         }
         return ret;
     };
@@ -2236,7 +2236,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
     }
 
     if( !obj.is_ammo() ) { //we get ammo quantity to disassemble later on
-        if( obj.count_by_charges() && !r.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
+        if( obj.count_by_charges() ) {
             // Create a new item to get the default charges
             int qty = r.create_result().charges;
             if( obj.charges < qty ) {
@@ -2290,7 +2290,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
         new_disassembly = item( orig_item );
     } else {
         const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
-        new_disassembly = item( &r, orig_item );
+        new_disassembly = item( &r, activity.position, orig_item );
 
         // Remove any batteries, ammo, contents and mods first
         remove_ammo( orig_item, *this );
@@ -2299,15 +2299,8 @@ item_location Character::create_in_progress_disassembly( item_location target )
             orig_item.spill_contents( pos() );
         }
         if( orig_item.count_by_charges() ) {
-            // remove the charges that one would get from crafting it
-            if( !r.has_flag( flag_UNCRAFT_BY_QUANTITY ) ) {
-                //subtract selected number of rounds to disassemble
-                orig_item.charges -= activity.position;
-                new_disassembly.charges = activity.position;
-            } else {
-                orig_item.charges -= r.create_result().charges;
-                new_disassembly.charges = r.create_result().charges;
-            }
+            //subtract selected number of rounds to disassemble
+            orig_item.charges -= activity.position;
         }
     }
     // remove the item, except when it's counted by charges and still has some
@@ -2399,8 +2392,8 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     if( activity.id() != ACT_DISASSEMBLE ) {
         player_activity new_act;
         // When disassembling items with charges, prompt the player to specify amount
-        int num_dis = 0;
-        if( obj.count_by_charges() && !r.has_flag( flag_UNCRAFT_BY_QUANTITY ) ) {
+        int num_dis = 1;
+        if( obj.count_by_charges() ) {
             if( !disassemble_all && obj.charges > 1 ) {
                 string_input_popup popup_input;
                 const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
@@ -2415,23 +2408,17 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             }
         }
         if( obj.typeId() != itype_disassembly ) {
-            if( num_dis != 0 ) {
-                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
-            } else {
-                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                           recipe_time_flag::ignore_proficiencies ) ) );
-            }
+            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                       recipe_time_flag::ignore_proficiencies ) * num_dis ) );
         } else {
             new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * std::max( obj.charges, 1 ) ) );
+                                       recipe_time_flag::ignore_proficiencies ) * obj.get_making_batch_size() ) );
         }
         new_act.targets.emplace_back( std::move( target ) );
 
         // index is used as a bool that indicates if we want recursive uncraft.
         new_act.index = false;
-        // Unused position attribute used to store ammo to disassemble
-        new_act.position = std::min( num_dis, obj.charges );
+        new_act.position = num_dis;
         new_act.values.push_back( disassemble_all );
         assign_activity( new_act );
     } else {
@@ -2520,7 +2507,7 @@ void Character::complete_disassemble( item_location target )
     }
     int num_dis = 1;
     const item &obj = *activity.targets.back().get_item();
-    if( obj.count_by_charges() && !next_recipe.has_flag( flag_UNCRAFT_BY_QUANTITY ) ) {
+    if( obj.count_by_charges() ) {
         // get_value( 0 ) is true if the player wants to disassemble all charges
         if( !activity.get_value( 0 ) && obj.charges > 1 ) {
             string_input_popup popup_input;
@@ -2541,7 +2528,7 @@ void Character::complete_disassemble( item_location target )
                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
     new_act.targets = activity.targets;
     new_act.index = activity.index;
-    new_act.position = std::min( num_dis, obj.charges );
+    new_act.position = num_dis;
     assign_activity( new_act );
 }
 
@@ -2585,13 +2572,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             int compcount = comp.count;
             item newit( comp.type, calendar::turn );
             if( dis_item.count_by_charges() ) {
-                if( dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
-                    // Counted-by-charge items that can be disassembled individually
-                    // have their component count multiplied by the number of charges.
-                    compcount *= std::min( dis_item.charges, dis.create_result().charges );
-                } else {
-                    compcount *= activity.position;
-                }
+                compcount *= activity.position;
             }
             const bool is_liquid = newit.made_of( phase_id::LIQUID );
             if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
@@ -2784,7 +2765,7 @@ void drop_or_handle( const item &newit, Character &p )
 void remove_ammo( item &dis_item, Character &p )
 {
     dis_item.remove_items_with( [&p]( const item & it ) {
-        if( it.is_irremovable() || ( !it.is_gunmod() && !it.is_toolmod() ) ) {
+        if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || it.is_magazine() ) ) {
             return false;
         }
         drop_or_handle( it, p );

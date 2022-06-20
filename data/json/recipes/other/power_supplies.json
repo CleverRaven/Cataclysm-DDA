@@ -43,15 +43,35 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "folding_solar_panel_v2",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding" }
+    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "reinforced_solar_panel_v2",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "difficulty": 10,
+    "difficulty": 2,
     "time": "2 h",
     "reversible": true,
-    "book_learn": [ [ "textbook_robots", 8 ] ],
-    "using": [ [ "welding_standard", 5 ] ],
+    "autolearn": true,
+    "using": [ [ "welding_standard", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
@@ -59,7 +79,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -415,11 +435,11 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "difficulty": 10,
+    "difficulty": 9,
     "time": "50 m",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "textbook_robots", 8 ] ],
+    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [
@@ -427,13 +447,29 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "solar_cell", 8 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "solar_panel", 1 ] ]
-    ]
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell_v2", 12 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "large_storage_battery",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 4 ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "components": [ [ [ "storage_battery", 2 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -453,7 +489,7 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [ [ [ "small_storage_battery", 14 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "small_storage_battery", 10 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -474,13 +510,7 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [
-      [ [ "medium_storage_battery", 5 ] ],
-      [ [ "small_storage_battery", 10 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "cable", 5 ] ]
-    ]
+    "components": [ [ [ "medium_storage_battery", 5 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -500,7 +530,7 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [ [ [ "small_storage_battery", 80 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "small_storage_battery", 50 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -549,8 +579,10 @@
     "difficulty": 4,
     "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "time": "1 h",
+    "reversible": true,
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
     "components": [
+      [ [ "compressor", 1 ] ],
       [ [ "cu_pipe", 3 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "sheet_metal_small", 5 ] ],

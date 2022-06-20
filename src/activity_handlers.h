@@ -60,11 +60,7 @@ enum class butcher_type : int {
 enum class do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
-    CAN_DO_PREREQ,          // for constructions - can't build the main construction, but can build the pre-req
-    CAN_DO_PREREQ_2,        // Can do the second pre-req deep below the desired one.
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
-    NO_COMPONENTS_PREREQ,   // need components to build the pre-requisite for the actual desired construction
-    NO_COMPONENTS_PREREQ_2, // need components to the second pre-req deep.
     DONT_HAVE_SKILL,        // don't have the required skill
     NO_ZONE,                // There is no required zone anymore
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
@@ -173,7 +169,6 @@ void eat_menu_do_turn( player_activity *act, Character *you );
 void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
-void fill_pit_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
 void fish_do_turn( player_activity *act, Character *you );
 void game_do_turn( player_activity *act, Character *you );
@@ -213,7 +208,6 @@ do_turn_functions;
 void atm_finish( player_activity *act, Character *you );
 void butcher_finish( player_activity *act, Character *you );
 void eat_menu_finish( player_activity *act, Character *you );
-void fill_pit_finish( player_activity *act, Character *you );
 void fish_finish( player_activity *act, Character *you );
 void generic_game_finish( player_activity *act, Character *you );
 void gunmod_add_finish( player_activity *act, Character *you );

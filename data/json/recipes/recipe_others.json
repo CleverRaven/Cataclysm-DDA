@@ -24,7 +24,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 6 ] ], [ [ "down_feather", 40 ] ] ]
   },
   {
     "type": "recipe",
@@ -38,7 +38,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 60 ] ], [ [ "down_feather", 1160 ] ] ]
   },
   {
     "type": "recipe",
@@ -51,7 +51,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -64,7 +64,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "straw_pile", 3 ], [ "withered", 15 ], [ "pine_bough", 10 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "straw_pile", 3 ], [ "withered", 15 ], [ "pine_bough", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -164,7 +164,7 @@
     "time": "28 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "components": [ [ [ "tarp", 2 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "tarp", 2 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -181,7 +181,7 @@
     "time": "32 m",
     "autolearn": true,
     "using": [ [ "adhesive", 3 ] ],
-    "components": [ [ [ "tarp", 6 ] ], [ [ "tent_pole", 6 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "bag_plastic", 3 ] ] ]
+    "components": [ [ [ "tarp", 6 ] ], [ [ "tent_pole", 6 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "plastic_sheet_small", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -332,6 +332,7 @@
     "components": [
       [ [ "sewing_kit", 1 ] ],
       [ [ "scissors", 1 ] ],
+      [ [ "kevlar_shears", 1 ] ],
       [ [ "knitting_needles", 1 ] ],
       [ [ "awl_steel", 1 ] ],
       [ [ "needle_curved", 1 ] ],
@@ -372,7 +373,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 20, "LIST" ] ]
     ]
   },
   {
@@ -429,6 +430,7 @@
     "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "skewer_bone", 2 ], [ "splinter", 2 ] ] ]
   },
   {
@@ -498,7 +500,11 @@
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 1.5 },
       { "proficiency": "prof_closures_waterproofing" }
     ],
-    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ], [ "tanned_hide", 4 ] ], [ [ "filament", 40, "LIST" ] ] ]
+    "components": [
+      [ [ "stick", 10 ], [ "2x4", 5 ] ],
+      [ [ "leather", 64 ], [ "sheet_leather_patchwork", 8 ], [ "tanned_hide", 8 ] ],
+      [ [ "filament", 40, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -543,7 +549,7 @@
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 },
       { "proficiency": "prof_furriery" }
     ],
-    "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ], [ "sheet_fur_patchwork", 4 ] ], [ [ "filament", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -765,7 +771,7 @@
     "using": [ [ "filament", 50 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "superglue", 1 ] ], [ [ "rag", 6 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "superglue", 1 ] ], [ [ "cotton_patchwork", 6 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -873,7 +879,7 @@
     "components": [
       [ [ "xacto", 1 ] ],
       [ [ "saw", 1 ], [ "bow_saw", 1 ] ],
-      [ [ "rag", 1 ], [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ] ]
+      [ [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_patchwork", 1 ] ]
     ]
   },
   {
@@ -1352,7 +1358,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ], [ [ "charcoal", 75 ] ] ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 75 ] ] ],
     "flags": [ "FULL_MAGAZINE" ]
   },
   {
@@ -1366,7 +1372,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "rag", 4 ] ], [ [ "charcoal", 300 ] ] ],
+    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 300 ] ] ],
     "flags": [ "FULL_MAGAZINE" ]
   },
   {
@@ -1382,7 +1388,7 @@
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1508,7 +1514,13 @@
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "components": [
       [ [ "rx12_injector", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [
+        [ "cotton_patchwork", 2 ],
+        [ "leather", 2 ],
+        [ "cordage", 1, "LIST" ],
+        [ "duct_tape", 10 ],
+        [ "medical_tape", 20 ]
+      ]
     ]
   },
   {
@@ -1706,6 +1718,38 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "extension_cable",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "soldering_standard", 50 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cable", 300 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "long_extension_cable",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "soldering_standard", 90 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cable", 900 ] ], [ [ "scrap", 2 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "metal_funnel",
     "category": "CC_OTHER",
@@ -1765,9 +1809,25 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 60 ] ],
+    "using": [ [ "sewing_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "leather", 4 ], [ "fur", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "leather_funnel",
+    "id_suffix": "from_sheets",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "tailor",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
+    "components": [ [ [ "sheet_leather_patchwork", 1 ], [ "tanned_hide", 1 ], [ "sheet_fur_patchwork", 1 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1994,9 +2054,9 @@
     "book_learn": [ [ "scots_tailor", 3 ], [ "scots_cookbook", 7 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [
-      [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 10 ], [ "tanned_pelt", 2 ], [ "fur", 10 ] ],
+      [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 16 ], [ "tanned_pelt", 2 ], [ "fur", 16 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "rag", 3 ] ],
+      [ [ "cotton_patchwork", 3 ] ],
       [ [ "adhesive", 1, "LIST" ], [ "medical_tape", 50 ] ]
     ]
   },
@@ -2014,7 +2074,7 @@
     "using": [ [ "cordage_short", 2 ] ],
     "components": [
       [ [ "leather", 1 ], [ "fur", 1 ] ],
-      [ [ "rag", 1 ] ],
+      [ [ "cotton_patchwork", 1 ] ],
       [ [ "razor_shaving", 1 ] ],
       [ [ "mirror", 1 ] ],
       [ [ "plastic_chunk", 1 ], [ "skewer_bone", 4 ], [ "splinter", 4 ] ]
@@ -2032,7 +2092,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage_short", 4 ] ],
-    "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ], [ [ "rag", 1 ] ], [ [ "scissors", 1 ] ], [ [ "mirror", 1 ] ] ]
+    "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ], [ [ "cotton_patchwork", 1 ] ], [ [ "scissors", 1 ] ], [ [ "mirror", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2072,7 +2132,7 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "rag", 1 ], [ "brush", 1 ], [ "dish_towel", 1 ] ] ]
+    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "cotton_patchwork", 1 ], [ "brush", 1 ], [ "dish_towel", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2259,7 +2319,7 @@
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 10 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 10 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -2314,6 +2374,32 @@
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "rebar", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_pipe",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "pipe", 10 ] ], [ [ "rope_any_short", 2, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_copper_pipe",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "cu_pipe", 10 ] ], [ [ "rope_any_short", 2, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -2419,12 +2505,28 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "10 m",
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "tailoring_leather_patchwork", 8 ] ],
+    "byproducts": [ [ "leather", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
+    "//": "The quantity of leather is accurate to the weight, but keeping it below requirements guideline time. Split to two recipes due to mixed materials"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "leather_tarp",
+    "id_suffix": "from_pelts",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "120 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "tailoring_fur_patchwork", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ] ]
+    "//": "making from pelts takes longer due to extra processing time to scrape the fur off"
   },
   {
     "type": "recipe",
@@ -2710,5 +2812,17 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "pilot_light", 1 ] ] ]
+  },
+  {
+    "result": "archery_target_box",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "8 m",
+    "autolearn": true,
+    "using": [ [ "fabric_standard", 200 ], [ "marking_hard", 10, "LIST" ] ],
+    "components": [ [ [ "box_medium", 1 ] ] ]
   }
 ]

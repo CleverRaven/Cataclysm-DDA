@@ -16,6 +16,7 @@
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "ui.h"
 #include "units_fwd.h"
 #include "visitable.h"
 
@@ -39,7 +40,7 @@ class item_contents
           * checks all items contained in every pocket
           * only checks CONTAINER pocket type
           */
-        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
                 bool nested = false, bool ignore_rigidity = false );
 
@@ -63,8 +64,8 @@ class item_contents
          * @param it the item being put in
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
-        ret_val<bool> can_contain( const item &it, const bool ignore_pkt_settings = true ) const;
-        ret_val<bool> can_contain_rigid( const item &it, const bool ignore_pkt_settings = true ) const;
+        ret_val<bool> can_contain( const item &it, bool ignore_pkt_settings = true ) const;
+        ret_val<bool> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         /**
@@ -72,7 +73,7 @@ class item_contents
          * @param ammo item to be loaded in
          * @param now whether the currently contained ammo/magazine should be taken into account
          */
-        bool can_reload_with( const item &ammo, const bool now ) const;
+        bool can_reload_with( const item &ammo, bool now ) const;
 
         // Returns true if contents are empty (ignoring item mods, since they aren't contents)
         bool empty() const;
@@ -107,6 +108,10 @@ class item_contents
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<const item *> all_items_top() const;
+
+        /** returns a list of pointers to all visible or remembered content items that are not mods */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -248,7 +253,7 @@ class item_contents
         /**
          * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
-        void favorite_settings_menu( const std::string &item_name );
+        void favorite_settings_menu( item *i );
 
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy );
@@ -308,7 +313,7 @@ class item_contents
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( Character *carrier, const tripoint &pos, float insulation = 1,
+        void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         bool item_has_uses_recursive() const;
@@ -359,6 +364,34 @@ class item_contents
         struct item_contents_helper;
 
         friend struct item_contents_helper;
+};
+
+class pocket_favorite_callback : public uilist_callback
+{
+    private:
+        std::vector<std::tuple<item_pocket *, int, uilist_entry *>> saved_pockets;
+        // whitelist or blacklist, for interactions
+        bool whitelist = true;
+        std::pair<item *, item_pocket *> item_to_move = { nullptr, nullptr };
+        uilist_entry *current_parent = nullptr;
+
+        bool needs_to_refresh = false;
+
+        // items to create pockets for
+        std::vector<item *> to_organize;
+
+        void move_item( uilist *menu, item_pocket *selected_pocket );
+
+        void refresh_columns( uilist *menu );
+
+        void add_pockets( item &i, uilist &pocket_selector, std::string depth );
+    public:
+        explicit pocket_favorite_callback( std::vector<item *> to_organize, uilist &pocket_selector );
+        void refresh( uilist *menu ) override;
+        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
+
+        const std::string title = _( "Modify pocket settings and move items between pockets.\n" );
+
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

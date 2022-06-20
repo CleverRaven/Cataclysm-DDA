@@ -3,8 +3,8 @@
     "id": "saiga10mag",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "Saiga shotgun 10-round magazine" },
-    "description": "A removable plastic magazine for the Saiga shotgun.  Holds 10 rounds.",
+    "name": { "str": "imported 10-round shotgun magazine" },
+    "description": "A removable plastic 10-round box magazine, for use with imported firearms chambered in 12 gauge shells.",
     "variant_type": "gun",
     "variants": [
       {
@@ -29,8 +29,8 @@
     "id": "saiga30mag",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "Saiga shotgun 30-round drum magazine" },
-    "description": "A removable plastic magazine for the Saiga shotgun.  Holds 30 rounds.",
+    "name": { "str": "imported 30-round shotgun drum magazine" },
+    "description": "A removable plastic 30-round drum magazine, for use with imported firearms chambered in 12 gauge shells.",
     "variant_type": "gun",
     "variants": [
       {
@@ -115,5 +115,39 @@
     "capacity": 8,
     "flags": [ "SPEEDLOADER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
+  },
+  {
+    "id": "m26_mass_mag_3",
+    "type": "MAGAZINE",
+    "name": { "str": "M26-MASS 3-round magazine" },
+    "description": "Small 3-round box magazine for M26-MASS underbarrel shotgun.",
+    "variant_type": "gun",
+    "weight": "22 g",
+    "volume": "38 ml",
+    "price": 1400,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "shot" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 3 } } ]
+  },
+  {
+    "id": "m26_mass_mag_5",
+    "type": "MAGAZINE",
+    "name": { "str": "M26-MASS 5-round magazine" },
+    "description": "Small 5-round box magazine for M26-MASS underbarrel shotgun.",
+    "variant_type": "gun",
+    "weight": "36 g",
+    "volume": "62 ml",
+    "price": 1700,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "shot" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   }
 ]

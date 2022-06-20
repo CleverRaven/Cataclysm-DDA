@@ -491,16 +491,18 @@ class Character : public Creature, public visitable
         void print_health() const;
 
         /** Getters for health values exclusive to characters */
-        int get_healthy() const;
-        int get_healthy_mod() const;
+        int get_lifestyle() const;
+        int get_daily_health() const;
+        int get_health_tally() const;
 
         /** Modifiers for health values exclusive to characters */
-        void mod_healthy( int nhealthy );
-        void mod_healthy_mod( int nhealthy_mod, int cap );
+        void mod_livestyle( int nhealthy );
+        void mod_daily_health( int nhealthy_mod, int cap );
+        void mod_health_tally( int mod );
 
         /** Setters for health values exclusive to characters */
-        void set_healthy( int nhealthy );
-        void set_healthy_mod( int nhealthy_mod );
+        void set_lifestyle( int nhealthy );
+        void set_daily_health( int nhealthy_mod );
 
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
@@ -598,7 +600,7 @@ class Character : public Creature, public visitable
         std::vector<aim_type> get_aim_types( const item &gun ) const;
         int point_shooting_limit( const item &gun ) const;
         double fastest_aiming_method_speed( const item &gun, double recoil,
-                                            const Target_attributes target_attributes = Target_attributes() ) const;
+                                            Target_attributes target_attributes = Target_attributes() ) const;
         int most_accurate_aiming_method_limit( const item &gun ) const;
         double aim_factor_from_volume( const item &gun ) const;
         double aim_factor_from_length( const item &gun ) const;
@@ -617,7 +619,7 @@ class Character : public Creature, public visitable
 
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
         double aim_per_move( const item &gun, double recoil,
-                             const Target_attributes target_attributes = Target_attributes() ) const;
+                             Target_attributes target_attributes = Target_attributes() ) const;
 
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
@@ -711,7 +713,7 @@ class Character : public Creature, public visitable
         /** get best quality item that this character has */
         item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
-        virtual void update_health( int external_modifiers = 0 );
+        virtual void update_health();
         /** Updates all "biology" by one turn. Should be called once every turn. */
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
@@ -883,7 +885,6 @@ class Character : public Creature, public visitable
         int dodges_left;
 
         double recoil = MAX_RECOIL;
-        double steadiness = 1.0;
 
         std::string custom_profession;
 
@@ -946,6 +947,10 @@ class Character : public Creature, public visitable
         bool scored_crit( float target_dodge, const item &weap ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
         int attack_speed( const item &weap ) const;
+        /** Returns cost (in stamina) of attacking with given item, or wielded item if nullptr (no modifiers, worst possible is -50) */
+        int get_base_melee_stamina_cost( const item *weap = nullptr ) const;
+        /** Returns total cost (in stamina) of attacking with given item, or wielded item if nullptr (modified by skill and walk/crouch/prone, worst possible is -50) */
+        int get_total_melee_stamina_cost( const item *weap = nullptr ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
         /** Check if we can attack upper limbs **/
@@ -1312,20 +1317,20 @@ class Character : public Creature, public visitable
         void mod_cost_timer( const trait_id &mut, int mod );
 
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
-        void mutate( const int &true_random_chance, const bool use_vitamins );
+        void mutate( const int &true_random_chance, bool use_vitamins );
         void mutate( );
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
         bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
                           const vitamin_id &mut_vit, const bool &terminal ) const;
         bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation in a category and mutate_towards() it */
-        void mutate_category( const mutation_category_id &mut_cat, const bool use_vitamins );
+        void mutate_category( const mutation_category_id &mut_cat, bool use_vitamins );
         void mutate_category( const mutation_category_id &mut_cat );
         /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
-        bool mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit,
+        bool mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
                              int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const trait_id &mut, const vitamin_id &mut_vit );
+        bool mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat );
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
@@ -1507,7 +1512,8 @@ class Character : public Creature, public visitable
         trinary consume( item &target, bool force = false, bool refuel = false );
 
         /**
-         * Stores an item inside another consuming moves proportional to weapon skill and volume
+         * Stores an item inside another consuming moves proportional to weapon skill and volume.
+         * Note: This method bypasses pocket settings.
          * @param container Container in which to store the item
          * @param put Item to add to the container
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
@@ -1572,7 +1578,8 @@ class Character : public Creature, public visitable
                                          bool empty = true ) const;
 
         /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts,
+                                         std::string name_override = std::string() ) const;
 
         void process_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
@@ -1757,12 +1764,13 @@ class Character : public Creature, public visitable
          * @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
          * @avoid is the item to not put @it into
          */
-        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr,
-                     const item *original_inventory_item = nullptr, bool allow_drop = true,
-                     bool allow_wield = true, bool ignore_pkt_settings = false );
+        item_location i_add( item it, bool should_stack = true, const item *avoid = nullptr,
+                             const item *original_inventory_item = nullptr, bool allow_drop = true,
+                             bool allow_wield = true, bool ignore_pkt_settings = false );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
-        item *try_add( item it, const item *avoid = nullptr, const item *original_inventory_item = nullptr,
-                       bool allow_wield = true, bool ignore_pkt_settings = false );
+        item_location try_add( item it, const item *avoid = nullptr,
+                               const item *original_inventory_item = nullptr, bool allow_wield = true,
+                               bool ignore_pkt_settings = false );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -1969,9 +1977,9 @@ class Character : public Creature, public visitable
         int book_fun_for( const item &book, const Character &p ) const;
 
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
-                             const bool ignore_pkt_settings = true ) const;
+                             bool ignore_pkt_settings = true ) const;
         bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr,
-                                     const bool ignore_pkt_settings = true ) const;
+                                     bool ignore_pkt_settings = true ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
 
@@ -2149,7 +2157,7 @@ class Character : public Creature, public visitable
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
         //returns true if the warning is now beyond final and results in hostility.
-        bool add_faction_warning( const faction_id &id );
+        bool add_faction_warning( const faction_id &id ) const;
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
 
@@ -2386,7 +2394,6 @@ class Character : public Creature, public visitable
         int cash = 0;
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
-        bool just_changed_target = true;
         // Save favorite ammo location
         item_location ammo_location;
         std::set<tripoint_abs_omt> camps;
@@ -2774,6 +2781,10 @@ class Character : public Creature, public visitable
         player_activity get_destination_activity() const;
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
+
+        bool can_use_pockets() const;
+        bool can_use_hood() const;
+        bool can_use_collar() const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
         std::map<bodypart_id, int> bonus_item_warmth() const;
         /** Can the player lie down and cover self with blankets etc. **/
@@ -3299,8 +3310,9 @@ class Character : public Creature, public visitable
         int enchantment_speed_bonus = 0;
 
         /** How healthy the character is. */
-        int healthy = 0;
-        int healthy_mod = 0;
+        int lifestyle = 0;
+        int daily_health = 0;
+        int health_tally = 0;
 
         // Our bmr at no activity level
         int base_bmr() const;
@@ -3334,7 +3346,7 @@ class Character : public Creature, public visitable
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
         /** warnings from a faction about bad behavior */
-        std::map<faction_id, std::pair<int, time_point>> warning_record;
+        mutable std::map<faction_id, std::pair<int, time_point>> warning_record;
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
          * key into @ref mutation_data), the value describes the status of the mutation.

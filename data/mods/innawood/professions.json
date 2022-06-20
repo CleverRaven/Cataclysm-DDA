@@ -19,5 +19,19 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "lost_tribal",
+    "name": "Lost Tribal",
+    "description": "You were out gathering for the tribe when the sky broke and the gods called to you, then you collapsed.  When you woke up, you were in an unfamiliar place with new memories crowding your thoughts.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_fibers", "prof_knapping" ],
+    "items": {
+      "both": {
+        "items": [ "cloak_leather", "footrags_leather", "chestwrap_leather", "loincloth_fur", "stone_chopper", "straw_basket" ]
+      }
+    }
   }
 ]

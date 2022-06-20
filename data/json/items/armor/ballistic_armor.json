@@ -21,6 +21,7 @@
         "id": "swat_ballistic_vest",
         "name": { "str": "SWAT ballistic vest" },
         "description": "This version is colored black, and was once used by specialized police forces.  \"SWAT\" is emblazoned on the back.",
+        "color": "dark_gray",
         "weight": 1,
         "append": true
       }
@@ -199,6 +200,37 @@
     ]
   },
   {
+    "id": "scrap_esapi_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "scrap ESAPI plate" },
+    "//": "some crude metal chopped and bent to fit into a plate carrier. not great, but better than nothing. added the cotton component cause i'd imagine a jagged piece of metal would cut through a ballistic vest and this is based on the existing scrap armor",
+    "//2": "requested in https://github.com/CleverRaven/Cataclysm-DDA/issues/49477",
+    "description": "A flat piece of salvaged steel, crudely cut and bent into the shape of an ESAPI ballistic plate.  It's wrapped in rags to cover the sharp edges.  Better than nothing, but it's heavy, and not very strong.  This is intended to be inserted into a ballistic vest, and can't be worn on its own.",
+    "weight": "900 g",
+    "//3": "30cm x 25cm x 1.5cm",
+    "volume": "188 ml",
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "budget_steel", "cotton" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 3,
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 90, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "encumbrance": 2,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
+  },
+  {
     "id": "esbi_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -215,6 +247,37 @@
     "non_functional": "destroyed_medium_ceramic_plate",
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 1, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+  },
+  {
+    "id": "scrap_esbi_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "scrap ESBI plate" },
+    "//": "some crude metal chopped and bent to fit into a plate carrier. not great, but better than nothing. added the cotton component cause i'd imagine a jagged piece of metal would cut through a ballistic vest and this is based on the existing scrap armor",
+    "//2": "requested in https://github.com/CleverRaven/Cataclysm-DDA/issues/49477",
+    "description": "A flat piece of salvaged steel, crudely cut and bent into the shape of an ESAPI ballistic plate.  It's wrapped in rags to cover the sharp edges.  Better than nothing, but it's heavy, and not very strong.  This is intended to be inserted into a ballistic vest, and can't be worn on its own.",
+    "weight": "450 g",
+    "//3": "18cm x 20cm x 1.5cm",
+    "volume": "188 ml",
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "budget_steel", "cotton" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 3,
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 90, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "encumbrance": 1,
+        "coverage": 35,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
   },
   {
     "id": "destroyed_large_ceramic_plate",
@@ -415,6 +478,7 @@
         "id": "ballistic_vest_light_olive",
         "name": { "str": "olive light ballistic vest (mag pouches)", "str_pl": "olive light ballistic vests (mag pouches)" },
         "description": "It's styled in a dark olive color.",
+        "color": "light_green",
         "weight": 4,
         "append": true
       },
@@ -422,6 +486,7 @@
         "id": "ballistic_vest_light_tan",
         "name": { "str": "tan light ballistic vest (mag pouches)", "str_pl": "tan light ballistic vests (mag pouches)" },
         "description": "It's styled in a tan color.",
+        "color": "brown",
         "weight": 4,
         "append": true
       },
@@ -429,6 +494,7 @@
         "id": "ballistic_vest_light_black",
         "name": { "str": "black light ballistic vest (mag pouches)", "str_pl": "black light ballistic vests (mag pouches)" },
         "description": "It's colored dark gray, like something a contractor might wear.",
+        "color": "dark_gray",
         "weight": 4,
         "append": true
       },
@@ -436,6 +502,7 @@
         "id": "ballistic_vest_light_future",
         "name": { "str": "hexagonal light ballistic vest (mag pouches)", "str_pl": "hexagonal light ballistic vests (mag pouches)" },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
+        "symbol": "O",
         "weight": 1,
         "append": true
       },
@@ -443,6 +510,8 @@
         "id": "ballistic_vest_light_punisher",
         "name": { "str": "skull light ballistic vest (mag pouches)", "str_pl": "skull light ballistic vests (mag pouches)" },
         "description": "Someone has spray-painted a large white skull on the front.",
+        "symbol": "S",
+        "color": "white",
         "weight": 1,
         "append": true
       },
@@ -450,6 +519,8 @@
         "id": "ballistic_vest_light_meme",
         "name": { "str": "gaudy light ballistic vest (mag pouches)", "str_pl": "gaudy light ballistic vests (mag pouches)" },
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
+        "symbol": "#",
+        "color": "light_red",
         "weight": 1,
         "append": true
       }
@@ -518,6 +589,7 @@
         "id": "ballistic_vest_light_olive",
         "name": { "str": "olive light ballistic vest (storage pouch)", "str_pl": "olive light ballistic vests (storage pouch)" },
         "description": "It's styled in a dark olive color.",
+        "color": "light_green",
         "weight": 4,
         "append": true
       },
@@ -525,6 +597,7 @@
         "id": "ballistic_vest_light_tan",
         "name": { "str": "tan light ballistic vest (storage pouch)", "str_pl": "tan light ballistic vests (storage pouch)" },
         "description": "It's styled in a tan color.",
+        "color": "brown",
         "weight": 4,
         "append": true
       },
@@ -532,6 +605,7 @@
         "id": "ballistic_vest_light_black",
         "name": { "str": "black light ballistic vest (storage pouch)", "str_pl": "black light ballistic vests (storage pouch)" },
         "description": "It's colored dark gray, like something a contractor might wear.",
+        "color": "dark_gray",
         "weight": 4,
         "append": true
       },
@@ -539,6 +613,7 @@
         "id": "ballistic_vest_light_future",
         "name": { "str": "hexagonal light ballistic vest (storage pouch)", "str_pl": "hexagonal light ballistic vests (storage pouch)" },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
+        "symbol": "O",
         "weight": 1,
         "append": true
       },
@@ -546,6 +621,8 @@
         "id": "ballistic_vest_light_punisher",
         "name": { "str": "skull light ballistic vest (storage pouch)", "str_pl": "skull light ballistic vests (storage pouch)" },
         "description": "Someone has spray-painted a large white skull on the front.",
+        "symbol": "S",
+        "color": "white",
         "weight": 1,
         "append": true
       },
@@ -553,6 +630,8 @@
         "id": "ballistic_vest_light_meme",
         "name": { "str": "gaudy light ballistic vest (storage pouch)", "str_pl": "gaudy light ballistic vests (storage pouch)" },
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
+        "symbol": "#",
+        "color": "light_red",
         "weight": 1,
         "append": true
       }
@@ -601,6 +680,7 @@
         "id": "ballistic_vest_light_olive",
         "name": { "str": "olive light ballistic vest (shoulder pouch)", "str_pl": "olive light ballistic vests (shoulder pouch)" },
         "description": "It's styled in a dark olive color.",
+        "color": "light_green",
         "weight": 4,
         "append": true
       },
@@ -608,6 +688,7 @@
         "id": "ballistic_vest_light_tan",
         "name": { "str": "tan light ballistic vest (shoulder pouch)", "str_pl": "tan light ballistic vests (shoulder pouch)" },
         "description": "It's styled in a tan color.",
+        "color": "brown",
         "weight": 4,
         "append": true
       },
@@ -615,6 +696,7 @@
         "id": "ballistic_vest_light_black",
         "name": { "str": "black light ballistic vest (shoulder pouch)", "str_pl": "black light ballistic vests (shoulder pouch)" },
         "description": "It's colored dark gray, like something a contractor might wear.",
+        "color": "dark_gray",
         "weight": 4,
         "append": true
       },
@@ -625,6 +707,7 @@
           "str_pl": "hexagonal light ballistic vests (shoulder pouch)"
         },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
+        "symbol": "O",
         "weight": 1,
         "append": true
       },
@@ -632,6 +715,8 @@
         "id": "ballistic_vest_light_punisher",
         "name": { "str": "skull light ballistic vest (shoulder pouch)", "str_pl": "skull light ballistic vests (shoulder pouch)" },
         "description": "Someone has spray-painted a large white skull on the front.",
+        "symbol": "S",
+        "color": "white",
         "weight": 1,
         "append": true
       },
@@ -639,6 +724,8 @@
         "id": "ballistic_vest_light_meme",
         "name": { "str": "gaudy light ballistic vest (shoulder pouch)", "str_pl": "gaudy light ballistic vests (shoulder pouch)" },
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
+        "symbol": "#",
+        "color": "light_red",
         "weight": 1,
         "append": true
       }
@@ -702,6 +789,7 @@
         "id": "airsoft_stab_vest",
         "name": { "str": "airsoft vest" },
         "description": "A low-cost tactical vest styled in black camouflage, used in cosplay and airsoft.  It'll let you shrug off airsoft pellets like a badass, but its protection is mediocre against anything that's actually dangerous.  It sports several small pouches, and includes touch fasteners to attach identifying patches.",
+        "color": "dark_gray",
         "weight": 1
       }
     ],
@@ -769,6 +857,7 @@
         "id": "press_armor_vest",
         "name": { "str": "press ballistic vest" },
         "description": "Colored a distinctive navy blue and with a flared collar extending up to the chin, this soft body armor was once used by news crews reporting from combat zones.  It provides good protection from shrapnel, and to a lesser degree, low-caliber bullets.  \"PRESS\" is emblazoned prominently on the front lapel and across the back, and it features a pocket for a notebook and pen.",
+        "color": "blue",
         "weight": 1
       }
     ],
@@ -843,6 +932,7 @@
         "id": "fema_armor_vest",
         "name": { "str": "humanitarian ballistic vest" },
         "description": "Bright blue in color, this slim armor vest was used by volunteers and officials from humanitarian groups during the first days of the Cataclysm before order broke down completely.  \"FEMA\" is written on the front lapel and across the back.",
+        "color": "blue",
         "weight": 1
       },
       {

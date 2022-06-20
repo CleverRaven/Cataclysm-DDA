@@ -216,7 +216,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
-        case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";        
+        case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -518,7 +518,7 @@ static void spell_description(
     // Difficulty: 0 ( 0.0 % Failure Chance)
     description << string_format(
                     //~ %1$d - difficulty, %2$s - failure chance
-                    _( "Difficulty: %1$d ( %2$s )" ),
+                    _( "Difficulty: %1$d (%2$s)" ),
                     spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
 
 
@@ -527,7 +527,7 @@ static void spell_description(
     // Casting Cost: 0 (impeded) ( 0 current )
     description << string_format(
                     //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
-                    _( "Casting Cost: %1$s %2$s ( %3$s current ) " ),
+                    _( "Casting Cost: %1$s %2$s (%3$s current) " ),
                     spl.energy_cost_string( chrc ),
                     spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
                     spl.energy_cur_string( chrc ) ) << '\n';
@@ -535,7 +535,7 @@ static void spell_description(
     // Casting Time: 0 (impeded)
     description << string_format(
                     //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
-                    _( "Casting Time: %1$s %2$s ( %3$s base time ) " ),
+                    _( "Casting Time: %1$s %2$s (%3$s base time) " ),
                     to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
                     spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
                     to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time ) ) ) << '\n';
@@ -1621,6 +1621,9 @@ static void character_edit_menu()
         std::stringstream data;
         data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
              np->myclass->get_name() << std::endl;
+        if( !np->get_unique_id().empty() ) {
+            data << string_format( _( "Unique Id: %s" ), np->get_unique_id() ) << std::endl;
+        }
         data << string_format( _( "Faction: %s (api v%d)" ), np->get_faction()->id.str(),
                                np->get_faction_ver() ) << "; "
              << string_format( _( "Attitude: %s" ), npc_attitude_name( np->get_attitude() ) ) << std::endl;
@@ -1834,20 +1837,20 @@ static void character_edit_menu()
         }
         case D_HEALTHY: {
             uilist smenu;
-            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_healthy() );
-            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), you.get_healthy_mod() );
+            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_lifestyle() );
+            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), you.get_daily_health() );
             smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), you.get_rad() );
             smenu.query();
             int value;
             switch( smenu.ret ) {
                 case 0:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_healthy() ) ) {
-                        you.set_healthy( value );
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_lifestyle() ) ) {
+                        you.set_lifestyle( value );
                     }
                     break;
                 case 1:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_healthy_mod() ) ) {
-                        you.set_healthy_mod( value );
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_daily_health() ) ) {
+                        you.set_daily_health( value );
                     }
                     break;
                 case 2:
@@ -2722,7 +2725,9 @@ void debug()
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );
-                player_character.die( nullptr );
+                if( player_character.is_dead_state() ) {
+                    player_character.die( nullptr );
+                }
             }
         }
         break;

@@ -13,7 +13,6 @@ adze
 aerarium
 aerially
 aeterna
-afemode
 afterbirth
 afterimage
 afterlife
@@ -43,6 +42,7 @@ alkahest
 alkalis
 alkyl
 alleghaniensis
+allosaurusid
 allucination
 altamente
 alternators
@@ -131,6 +131,7 @@ balefires
 balogna
 bananope
 bandolier
+bandoliers
 bandsaw
 bangin
 barbute
@@ -143,6 +144,7 @@ basecamps
 baselard
 bashable
 basidiocarp
+basswood
 batching
 batlike
 batrachian
@@ -483,9 +485,12 @@ dragonfire
 dragonhide
 dragonlike
 dragonscale
+draugr
+draugrs
 drawknife
 driers
 drivetrain
+dromaeosaurid
 dromaeosaurus
 dropoff
 droppers
@@ -505,6 +510,7 @@ editable
 edmontonia
 edmontosaurus
 eeds
+efault
 eidolon
 elderberries
 electrochemistry
@@ -514,6 +520,7 @@ electroreceptors
 elete
 elopements
 elytra
+emode
 emove
 emplate
 encumbering
@@ -565,6 +572,7 @@ eyespots
 eyestalks
 f
 faceplates
+faewild
 fakkin
 falcata
 fallfish
@@ -656,6 +664,7 @@ frigger
 frostburn
 frostburnt
 frostnipped
+frostrimed
 froths
 ft
 fuckit
@@ -694,6 +703,8 @@ generalist
 gesticulates
 ghast
 github
+gladii
+glasknife
 glassblowing
 glassteel
 glassworking
@@ -757,6 +768,7 @@ harmonically
 harries
 harvestable
 hauberk
+hauberks
 hbhbh
 hdd
 heartlike
@@ -847,16 +859,18 @@ interjects
 interlayer
 intolerances
 intoxications
+intradimensional
+inulin
 invlet
 invlets
 ironshod
 irremovable
 isable
 isassembled
+issi
 issions
 itemname
 iterating
-ixed
 j
 jabberwock
 jabberwocks
@@ -907,6 +921,7 @@ km
 knapping
 knifehand
 knockback
+knotweed
 knowium
 knuckledusters
 knyf
@@ -938,6 +953,7 @@ latticed
 lavrae
 lawd
 layin
+lb
 lbs
 leache
 leatherbacked
@@ -962,6 +978,7 @@ lightstrip
 lilypad
 lilypads
 listlessly
+lithely
 litheness
 livingrooms
 lizardfolk
@@ -1015,6 +1032,8 @@ massachusetite
 massproduced
 masterkey
 maxwellian
+mayapple
+mayapples
 mbie
 md
 mealgrub
@@ -1069,6 +1088,7 @@ mmm
 moar
 mobbings
 moder
+modularity
 molebots
 molerat
 molluscicide
@@ -1139,6 +1159,7 @@ needin
 needlelike
 neodays
 neotenic
+neotheropod
 netkit
 nettik
 neurodegeneration
@@ -1147,6 +1168,7 @@ neutrite
 nevah
 newsbots
 newsweekly
+ngs
 nibblin
 nibelung
 nichrome
@@ -1198,10 +1220,11 @@ openable
 openair
 opengl
 openingly
-opy
 orichalcum
+ornithomimid
 ornithomimus
 orrery
+oryctodromeus
 otes
 otha
 otherland
@@ -1297,6 +1320,7 @@ poleaxe
 poleyns
 polyaramid
 polycarbonates
+polycrystalline
 polyhedrons
 polymorph
 polymorphed
@@ -1313,6 +1337,7 @@ posteriori
 posthuman
 potboiler
 potentiates
+poufs
 pouncer
 powerplants
 powertool
@@ -1383,6 +1408,7 @@ rainsuit
 rale
 randomize
 rangehands
+rashguard
 raptorial
 ratlike
 rayed
@@ -1407,6 +1433,7 @@ reckonin
 recolherem
 recrafted
 recursively
+redcaps
 redear
 redits
 reenabled
@@ -1750,6 +1777,7 @@ toolmod
 toolset
 toolshelf
 topazes
+topickup
 toque
 toques
 toroids
@@ -1776,6 +1804,7 @@ trifacets
 trilaser
 tripcore
 troglobite
+troodon
 troublin
 tryphillum
 tshirt
@@ -1788,6 +1817,7 @@ turreted
 twere
 txt
 typologies
+tyrannosauroid
 tz
 uality
 uan
@@ -1833,6 +1863,7 @@ unselectable
 unsettlingly
 unsiatable
 unskillfully
+unspecialized
 unstocked
 untampered
 untargeted
@@ -1851,7 +1882,6 @@ usselves
 ustom
 utahraptor
 utilibot
-utopickup
 uttarasanga
 v
 vajra
@@ -1922,6 +1952,7 @@ wibble
 wibbles
 wibbling
 wicking
+wieldable
 willin
 willowbark
 windowframe

@@ -1163,7 +1163,15 @@
     "volume": "12800 ml",
     "longest_side": "25 cm",
     "bashing": 8,
-    "pocket_data": [ { "max_contains_volume": "12 L", "max_contains_weight": "12 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "12 kg",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true
+      }
+    ],
     "extend": { "qualities": [ [ "OVEN", 1 ] ] }
   },
   {

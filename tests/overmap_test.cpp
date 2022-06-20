@@ -8,6 +8,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "map.h"
 #include "omdata.h"
 #include "overmap.h"
@@ -28,10 +29,13 @@ static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
 static const oter_type_str_id oter_type_marina_1( "marina_1" );
 static const oter_type_str_id oter_type_marina_10( "marina_10" );
 static const oter_type_str_id oter_type_marina_11( "marina_11" );
+static const oter_type_str_id oter_type_marina_11_roof( "marina_11_roof" );
 static const oter_type_str_id oter_type_marina_12( "marina_12" );
+static const oter_type_str_id oter_type_marina_12_roof( "marina_12_roof" );
 static const oter_type_str_id oter_type_marina_13( "marina_13" );
 static const oter_type_str_id oter_type_marina_14( "marina_14" );
 static const oter_type_str_id oter_type_marina_15( "marina_15" );
+static const oter_type_str_id oter_type_marina_15_roof( "marina_15_roof" );
 static const oter_type_str_id oter_type_marina_16( "marina_16" );
 static const oter_type_str_id oter_type_marina_17( "marina_17" );
 static const oter_type_str_id oter_type_marina_18( "marina_18" );
@@ -54,7 +58,9 @@ static const oter_type_str_id oter_type_s_gas_b11( "s_gas_b11" );
 static const oter_type_str_id oter_type_s_gas_b20( "s_gas_b20" );
 static const oter_type_str_id oter_type_s_gas_b21( "s_gas_b21" );
 static const oter_type_str_id oter_type_s_gas_g0( "s_gas_g0" );
+static const oter_type_str_id oter_type_s_gas_g0_roof( "s_gas_g0_roof" );
 static const oter_type_str_id oter_type_s_gas_g1( "s_gas_g1" );
+static const oter_type_str_id oter_type_s_gas_g1_roof( "s_gas_g1_roof" );
 static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restaurant_deserted_test" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
@@ -245,6 +251,9 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
     constexpr int num_overmaps = 100;
     constexpr int num_trials_per_overmap = 100;
 
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
     for( int j = 0; j < num_overmaps; ++j ) {
         // overmap objects are really large, so we don't want them on the
         // stack.  Use unique_ptr and put it on the heap
@@ -321,10 +330,13 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_marina_9.id(),
         oter_type_marina_10.id(),
         oter_type_marina_11.id(),
+        oter_type_marina_11_roof.id(),
         oter_type_marina_12.id(),
+        oter_type_marina_12_roof.id(),
         oter_type_marina_13.id(),
         oter_type_marina_14.id(),
         oter_type_marina_15.id(),
+        oter_type_marina_15_roof.id(),
         oter_type_marina_16.id(),
         oter_type_marina_17.id(),
         oter_type_marina_18.id(),
@@ -339,12 +351,17 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_s_gas_b20.id(),
         oter_type_s_gas_b21.id(),
         oter_type_s_gas_g0.id(),
+        oter_type_s_gas_g0_roof.id(),
         oter_type_s_gas_g1.id(),
+        oter_type_s_gas_g1_roof.id(),
         oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
     };
 
     std::unordered_set<oter_type_id> done;
     std::vector<oter_type_id> missing;
+
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
 
     for( const oter_t &ter : overmap_terrains::get_all() ) {
         oter_type_id id = ter.get_type_id();

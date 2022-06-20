@@ -266,6 +266,32 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_oryctodromeus_bio_op",
+    "name": { "str_sp": "oryctodromeus bio-operator" },
+    "copy-from": "mon_oryctodromeus",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor_bash": 3,
+      "armor_cut": 3,
+      "armor_bullet": 3
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  The claws glow menacingly.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "dissect": "dissect_CBM_DINO"
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_dimorphodon_bio_op",
     "name": { "str_sp": "dimorphodon bio-operator" },
     "copy-from": "mon_dimorphodon",

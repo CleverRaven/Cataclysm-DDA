@@ -1078,7 +1078,7 @@
     "type": "martial_art",
     "id": "style_silat",
     "name": { "str": "Silat" },
-    "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
+    "description": "Pencak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
     "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
     "learn_difficulty": 7,
     "primary_skill": "cutting",
@@ -1235,6 +1235,7 @@
     "learn_difficulty": 5,
     "arm_block": 1,
     "leg_block": 3,
+    "force_unarmed": true,
     "prevent_weapon_blocking": true,
     "allow_all_weapons": true,
     "static_buffs": [

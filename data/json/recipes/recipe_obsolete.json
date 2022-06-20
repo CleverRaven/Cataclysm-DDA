@@ -612,6 +612,11 @@
   },
   {
     "type": "recipe",
+    "result": "rifle_case_xs_soft_leather",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "vac_oven_small_full",
     "obsolete": true
   },
@@ -692,6 +697,41 @@
   {
     "type": "recipe",
     "result": "hi_q_distillate_cart",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "thread_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_6_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_36_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_makeshift_6_spinwheel_dissasemble",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "string_6_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "string_36_spinwheel_dissasemble",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_6_spinwheel_dissasemble",
     "obsolete": true
   },
   {

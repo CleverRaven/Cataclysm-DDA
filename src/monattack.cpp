@@ -84,7 +84,10 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "vehicle.h"
+#include "veh_type.h"
 #include "viewer.h"
+#include "vpart_position.h"
 #include "weighted_list.h"
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
@@ -961,6 +964,7 @@ bool mattack::pull_metal_weapon( monster *z )
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
+                foe->recoil = MAX_RECOIL;
             } else {
                 target->add_msg_player_or_npc( m_type,
                                                _( "The %s unsuccessfully attempts to pull your weapon away." ),
@@ -2770,6 +2774,26 @@ bool mattack::ranged_pull( monster *z )
 
     z->moves -= 150;
 
+    const optional_vpart_position veh_part = here.veh_at( target->pos() );
+    if( foe && foe->in_vehicle && veh_part ) {
+        const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
+        if( vp_seatbelt ) {
+            z->moves -= 200;
+            const cata::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
+            target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
+                                           _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
+                                           z->disp_name( false, true ), vp_seatbelt->part().name( false ) );
+            target->add_msg_player_or_npc( m_bad, _( "You're crushed against the %s!" ),
+                                           _( "<npcname> is crushed against the %s!" ),
+                                           vp_seat->part().name( false ) );
+            target->apply_damage( z, bodypart_id( "torso" ), rng( 1, 2 ) );
+            // Damage the thing dragging us as well, since their arms are being strained to pull us
+            z->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+            return true;
+
+        }
+    }
+
     if( dodge_check( z, target ) ) {
         z->moves -= 200;
         game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
@@ -2849,6 +2873,11 @@ bool mattack::ranged_pull( monster *z )
             inp_mngr.pump_events();
             ui_manager::redraw_invalidated();
             refresh_display();
+            // If we're in a vehicle after being dragged, board us onto it
+            // This prevents us from being run over by our own vehicle if we're dragged out of it
+            if( !foe->in_vehicle && here.veh_at( pt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+                here.board_vehicle( pt, foe );
+            }
         }
     }
     // The monster might drag a target that's not on it's z level
@@ -2951,6 +2980,7 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
     Creature *target = z->attack_target();
+    Character *foe = dynamic_cast<Character *>( target );
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return false;
     }
@@ -2962,16 +2992,33 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
 
+    const optional_vpart_position veh_part = get_map().veh_at( target->pos() );
+    if( foe && foe->in_vehicle && veh_part ) {
+        const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
+        if( vp_seatbelt ) {
+            const cata::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
+            target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
+                                           _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
+                                           z->disp_name( false, true ), vp_seatbelt->part().name( false ) );
+            target->add_msg_player_or_npc( m_bad, _( "You're crushed against the %s!" ),
+                                           _( "<npcname> is crushed against the %s!" ),
+                                           vp_seat->part().name( false ) );
+            target->apply_damage( z, bodypart_id( "torso" ), rng( 1, 2 ) );
+            z->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+            return false;
+        }
+    }
+
     // First, grab the target
     grab( z );
 
     if( !target->has_effect( effect_grabbed ) ) { //Can't drag if isn't grabbed, otherwise try and move
         return false;
     }
+    map &here = get_map();
     const tripoint target_square = z->pos() - ( target->pos() - z->pos() );
     if( z->can_move_to( target_square ) &&
         target->stability_roll() < dice( z->type->melee_sides, z->type->melee_dice ) ) {
-        Character *foe = dynamic_cast<Character *>( target );
         monster *zz = dynamic_cast<monster *>( target );
         tripoint zpt = z->pos();
         z->move_to( target_square );
@@ -2985,9 +3032,12 @@ bool mattack::grab_drag( monster *z )
         }
         if( foe != nullptr ) {
             if( foe->in_vehicle ) {
-                get_map().unboard_vehicle( foe->pos() );
+                here.unboard_vehicle( foe->pos() );
             }
             foe->setpos( zpt );
+            if( !foe->in_vehicle && here.veh_at( zpt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+                here.board_vehicle( zpt, foe );
+            }
         } else {
             zz->setpos( zpt );
         }
@@ -5017,7 +5067,7 @@ bool mattack::riotbot( monster *z )
                 foe->i_add( handcuffs );
             } else {
                 handcuffs.set_flag( flag_NO_UNWIELD );
-                foe->wield( foe->i_add( handcuffs ) );
+                foe->wield( *foe->i_add( handcuffs ) );
                 foe->moves -= 300;
                 add_msg( _( "The robot puts handcuffs on you." ) );
             }
@@ -5685,7 +5735,7 @@ bool mattack::kamikaze( monster *z )
             // Timer is out, detonate
             item i_explodes( act_bomb_type, calendar::turn, 0 );
             i_explodes.active = true;
-            i_explodes.process( nullptr, z->pos() );
+            i_explodes.process( get_map(), nullptr, z->pos() );
             return false;
         }
         return false;

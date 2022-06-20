@@ -508,11 +508,11 @@ class pickup_inventory_preset : public inventory_selector_preset
         bool skip_wield_check;
 };
 
-class disassemble_inventory_preset : public pickup_inventory_preset
+class disassemble_inventory_preset : public inventory_selector_preset
 {
     public:
-        disassemble_inventory_preset( const Character &you, const inventory &inv ) :
-            pickup_inventory_preset( you ), you( you ), inv( inv ) {
+        disassemble_inventory_preset( const Character &you, const inventory &inv ) : you( you ),
+            inv( inv ) {
 
             check_components = true;
 
@@ -550,7 +550,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             if( !ret.success() ) {
                 return ret.str();
             }
-            return pickup_inventory_preset::get_denial( loc );
+            return std::string();
         }
 
     protected:
@@ -2292,7 +2292,9 @@ static item_location autodoc_internal( Character &you, Character &patient,
 
         inv_s.clear_items();
         inv_s.add_character_items( you );
-        inv_s.add_character_items( patient );
+        if( you.getID() != patient.getID() ) {
+            inv_s.add_character_items( patient );
+        }
         inv_s.add_nearby_items( radius );
 
         if( inv_s.empty() ) {

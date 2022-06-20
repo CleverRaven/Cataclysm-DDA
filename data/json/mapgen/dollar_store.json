@@ -7,39 +7,40 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "..d....d.ss.........d...",
-        ".........ss..dd.........",
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
+        ".........ss.............",
+        ".........ss.............",
         "....pppp.ss.pppppppp....",
         "...||-P-|++|-P-|---|||..",
-        ".d.|&_______________&|..",
+        "...|&_______________&|..",
         "...|_________________|..",
-        "..d|__#___#___#___#__|d.",
+        "...|__#___#___#___#__|..",
         "...|_lX__lX__lX__lX__|..",
-        "d..|_##__##__##__##__|..",
-        "...|_________________|.d",
+        "...|_##__##__##__##__|..",
+        "...|_________________|..",
         "...|_________________|..",
         "...|{__{{__{{__{{{__{|..",
-        ".d.|{__{{__{{_______{|..",
         "...|{__{{__{{_______{|..",
-        "...|{__{{__{{__{{{__{|.d",
+        "...|{__{{__{{_______{|..",
         "...|{__{{__{{__{{{__{|..",
-        "..d|{_______________{|..",
+        "...|{__{{__{{__{{{__{|..",
+        "...|{_______________{|..",
         "...|{__________|*|+--|..",
-        "d..|_{{{{_{{{{{|_|_lI|..",
+        "...|_{{{{_{{{{{|'|_lI|..",
         "...||||||+||||||T|S_I|..",
-        ".....dsssssU<U4|||||||..",
-        ".d.......d.sUUs........d"
+        "......sssssU<U4|||||||..",
+        "...........sUUs........."
       ],
       "terrain": {
-        "+": "t_reinforced_door_glass_c",
+        "+": "t_laminated_door_glass_c",
         "*": "t_door_c",
-        "-": "t_wall_glass",
+        "-": "t_laminated_glass",
         ".": "t_region_groundcover_urban",
-        "P": "t_wall_glass",
+        "P": "t_laminated_glass",
         "_": "t_floor",
-        "d": "t_region_groundcover_urban",
+        "T": "t_linoleum_gray",
+        "'": "t_linoleum_gray",
         "p": "t_region_groundcover_urban",
         "|": "t_wall_wood",
         "s": "t_sidewalk",
@@ -56,11 +57,12 @@
         "I": "f_desk",
         "S": "f_filing_cabinet",
         "U": "f_dumpster",
-        "X": "f_console_broken",
+        "X": "f_counter",
         "p": "f_region_flower"
       },
       "toilets": { "T": {  } },
       "items": {
+        "X": { "item": "cash_register_random", "chance": 100 },
         "I": { "item": "office", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
         "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
@@ -80,9 +82,7 @@
         { "chance": 65, "repeat": [ 2, 5 ], "item": "dollar_tools", "x": [ 5, 8 ], "y": 20 },
         { "chance": 65, "repeat": [ 5, 13 ], "item": "dollar_kitchen", "x": [ 11, 12 ], "y": [ 13, 17 ] }
       ],
-      "place_vehicles": [
-        { "chance": 75, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "shopping_cart", "x": [ 9, 10 ], "y": [ 11, 19 ] }
-      ],
+      "place_vehicles": [ { "chance": 75, "rotation": 90, "status": 1, "vehicle": "shopping_cart", "x": [ 9, 10 ], "y": [ 11, 19 ] } ],
       "place_signs": [ { "signage": "Dollar Store", "x": 6, "y": 5 }, { "signage": "OPEN 24/7!", "x": 13, "y": 5 } ]
     }
   },
@@ -157,12 +157,12 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "sssssssssssssssssssssss_",
+        "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
         "__ppppppppss||------||__",
         "__p_9_9__pss+.......y|__",
-        "__ppppppppss+........|d_",
-        "d_||---|---||........|__",
+        "__ppppppppss+........|__",
+        "__||---|---||........|__",
         "__|..................|__",
         "__|{.........#..#..#.|__",
         "__|{..{{..{..#..#..#.|__",
@@ -170,26 +170,28 @@
         "__|{..{{..{..##.##.##|__",
         "__|{..{{.............|__",
         "__|{..{{.............|__",
-        "_d|{......{{{{{{{{..{|_d",
+        "__|{......{{{{{{{{..{|__",
         "__|{..{{..{{{{{{{{..{|__",
         "__|{..{{............{|__",
         "__|{..{{............{|__",
         "__|{..{{..{{{{{{{{..{|__",
         "__|{..{{..{{{{{{{{..{|__",
-        "d_|{................{|d_",
+        "__|{................{|__",
         "__|..||*|||--+--|....|__",
-        "__||||T.%|L....I||+|||__",
-        "__d_4|||||S...hI|ssU<U__",
-        "______d__||||||||sssss__"
+        "__||||T'%|L....I||+|||__",
+        "____4|||||S...hI|ssU<U__",
+        "_________||||||||sssss__"
       ],
       "terrain": {
-        "+": "t_reinforced_door_glass_c",
+        "+": "t_door_glass_c",
+        "T": "t_linoleum_gray",
+        "'": "t_linoleum_gray",
+        "%": "t_linoleum_gray",
         "*": "t_door_c",
         "-": "t_wall_glass_alarm",
         ".": "t_floor",
         "_": "t_region_groundcover_urban",
         "p": "t_region_groundcover_urban",
-        "d": "t_region_groundcover_urban",
         "s": "t_sidewalk",
         "|": "t_adobe_brick_wall",
         "U": "t_sidewalk",
@@ -198,7 +200,7 @@
         "9": "t_region_tree"
       },
       "furniture": {
-        "X": "f_console_broken",
+        "X": "f_counter",
         "#": "f_counter",
         "l": "f_stool",
         "{": "f_rack",
@@ -209,10 +211,11 @@
         "L": "f_locker",
         "h": "f_chair",
         "y": "f_indoor_plant",
-        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ]
+        "p": "f_region_flower"
       },
       "toilets": { "T": {  } },
       "items": {
+        "X": { "item": "cash_register_random", "chance": 100 },
         "I": { "item": "office", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
         "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
@@ -228,16 +231,8 @@
         { "chance": 65, "repeat": [ 4, 12 ], "item": "dollar_food", "x": [ 10, 17 ], "y": [ 17, 18 ] }
       ],
       "place_vehicles": [
-        { "chance": 75, "fuel": 0, "rotation": 0, "status": -1, "vehicle": "shopping_cart", "x": [ 15, 16 ], "y": [ 3, 5 ] },
-        {
-          "chance": 75,
-          "fuel": 0,
-          "rotation": 180,
-          "status": 0,
-          "vehicle": "shopping_cart",
-          "x": [ 17, 19 ],
-          "y": [ 3, 5 ]
-        }
+        { "chance": 75, "rotation": 0, "status": -1, "vehicle": "shopping_cart", "x": [ 15, 16 ], "y": [ 3, 5 ] },
+        { "chance": 75, "rotation": 180, "status": 0, "vehicle": "shopping_cart", "x": [ 17, 19 ], "y": [ 3, 5 ] }
       ]
     }
   },

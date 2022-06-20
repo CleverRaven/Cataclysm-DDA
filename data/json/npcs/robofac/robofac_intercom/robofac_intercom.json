@@ -24,24 +24,112 @@
     "bonus_int": { "rng": [ 1, 2 ] },
     "bonus_per": { "rng": [ 1, 2 ] },
     "skills": [ { "skill": "speech", "level": { "dice": [ 2, 2 ] } } ],
-    "shopkeeper_item_group": "NC_ROBOFAC_INTERCOM_trade",
-    "carry_override": "NC_ROBOFAC_INTERCOM_trade",
-    "worn_override": "NC_ROBOFAC_INTERCOM_worn"
+    "carry_override": "EMPTY_GROUP",
+    "worn_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "shopkeeper_item_group": [
+      { "group": "NC_ROBOFAC_INTERCOM_trade", "rigid": true },
+      {
+        "group": "NC_ROBOFAC_INTERCOM_trade_armor",
+        "rigid": true,
+        "condition": {
+          "or": [
+            { "compare_int": [ { "u_val": "var", "var_name": "hub01_good_candidate" }, "==", { "const": 1 } ] },
+            { "compare_int": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, ">=", { "const": 2 } ] }
+          ]
+        }
+      },
+      {
+        "group": "NC_ROBOFAC_INTERCOM_trade_military",
+        "rigid": true,
+        "strict": true,
+        "condition": {
+          "and": [
+            { "compare_int": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "==", { "const": 1 } ] },
+            { "not": { "u_has_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "group": "robofac_gun_mags",
+        "rigid": true,
+        "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+      },
+      {
+        "group": "robofac_gun_kit",
+        "rigid": true,
+        "strict": true,
+        "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+      },
+      {
+        "group": "robofac_gun_exodii",
+        "rigid": true,
+        "strict": true,
+        "condition": {
+          "and": [
+            { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+            {
+              "compare_int": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "==", { "const": 1 } ]
+            }
+          ]
+        }
+      },
+      {
+        "group": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
+        "rigid": true,
+        "condition": {
+          "or": [
+            { "npc_has_var": "npc_bought_protective_gear", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" }
+          ]
+        }
+      }
+    ],
+    "shopkeeper_blacklist": "robofac_blacklist"
   },
   {
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade",
     "subtype": "collection",
-    "entries": [
-      { "group": "robofac_basic_trade", "count": [ 15, 25 ], "prob": 100 },
-      { "group": "robofac_armor_pieces", "count": [ 4, 8 ], "prob": 100 }
-    ]
+    "entries": [ { "group": "robofac_basic_trade", "count": [ 15, 25 ], "prob": 100 } ]
   },
   {
     "type": "item_group",
-    "id": "NC_ROBOFAC_INTERCOM_worn",
+    "id": "NC_ROBOFAC_INTERCOM_trade_armor",
     "subtype": "collection",
-    "entries": [ { "item": "duffelbag" } ]
+    "entries": [ { "group": "robofac_armor_pieces", "count": [ 4, 8 ], "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_trade_military",
+    "subtype": "collection",
+    "entries": [ { "group": "robofac_armor_pieces_military", "count": [ 0, 2 ], "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
+    "subtype": "collection",
+    "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 25 } ]
+  },
+  {
+    "id": "robofac_blacklist",
+    "type": "shopkeeper_blacklist",
+    "entries": [ { "group": "NC_ROBOFAC_gear" } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_robofac_add_free_merchant_camp",
+    "object": {
+      "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 0, "y": 0 } ],
+      "//": "migration from older saved games - remove existing NPCs",
+      "remove_npcs": [
+        { "class": "roabofac_free_merchant", "x": 0, "y": 0 },
+        { "class": "guard", "x": 0, "y": 0 },
+        { "class": "NC_ROBOFAC_FREE_MERCHANT", "x": 0, "y": 0 },
+        { "class": "NC_BOUNTY_HUNTER", "x": 0, "y": 0 }
+      ]
+    }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM",
@@ -75,7 +163,22 @@
         "text": "[Identify yourself before the intercom.]",
         "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
-        "effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_INTERCOM_MAYBE_ADD_FREE_MERCHANT_CAMP",
+              "condition": { "compare_int": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 1 } ] },
+              "effect": [
+                { "mapgen_update": "nest_robofac_add_free_merchant_camp", "om_terrain": "robofachq_surface_parking" },
+                {
+                  "arithmetic": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "=", { "const": 2 } ]
+                },
+                { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
+              ],
+              "false_effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
+            }
+          ]
+        }
       },
       {
         "text": "[Press the button.]",
@@ -633,6 +736,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE",
     "type": "talk_topic",
     "dynamic_line": "We've solved that issue with our more recent prototypes.\"  There is a brief pause.  \"You seem like a good candidate.  We will transfer over the additional pieces to complete that prototype set, with the goal of collecting additional field data.  The core armor platform is solid, and we have been iterating on supplementary pieces we would be willing to trade to you.  Any feedback on their performance would be appreciated.",
+    "speaker_effect": { "effect": { "arithmetic": [ { "u_val": "var", "var_name": "hub01_good_candidate" }, "=", { "const": 1 } ] } },
     "responses": [
       {
         "text": "Thank you.",

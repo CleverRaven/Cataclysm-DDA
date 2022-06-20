@@ -283,6 +283,7 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        shared_ptr_fast<npc> find_npc_by_unique_id( std::string unique_id );
         /**
          * Get all NPCs active on the overmap
          */
@@ -428,7 +429,7 @@ class overmapbuffer
          * @param p is the player's location, which functions as the signal origin
          * only the nemesis horde can 'hear' this signal.
          */
-        void signal_nemesis( const tripoint_abs_sm p );
+        void signal_nemesis( const tripoint_abs_sm &p );
         /**
          * adds a nemesis horde into the hordes list of the overmap where the kill_nemesis mision is targeted
          */

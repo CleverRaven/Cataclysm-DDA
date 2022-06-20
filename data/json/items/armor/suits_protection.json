@@ -179,7 +179,7 @@
     "category": "armor",
     "name": { "str": "leather body armor" },
     "description": "Thick leather body armor.  Light and comfortable.",
-    "weight": "1498 g",
+    "weight": "4400 g",
     "volume": "7 L",
     "price": 12000,
     "price_postapoc": 2500,
@@ -1751,7 +1751,7 @@
     "type": "ARMOR",
     "name": { "str": "gambeson" },
     "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  Or worn on its own, if you can't afford proper armor.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "4140 g",
+    "weight": "2800 g",
     "volume": "3 L",
     "price": 20000,
     "price_postapoc": 750,
@@ -1775,7 +1775,7 @@
     "type": "ARMOR",
     "name": { "str": "gambeson vest" },
     "description": "A thick vest of quilted fabric, designed to be worn underneath mail or other armor.  This one has had its sleeves removed.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "2760 g",
+    "weight": "1400 g",
     "volume": "2 L",
     "price": 20000,
     "price_postapoc": 600,
@@ -1826,7 +1826,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "arming pants" },
     "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.",
-    "weight": "2760 g",
+    "weight": "2100 g",
     "volume": "2 L",
     "price": 14000,
     "price_postapoc": 600,
@@ -1846,7 +1846,7 @@
     "type": "ARMOR",
     "name": { "str": "Kevlar gambeson" },
     "description": "Designed to mimic a thick jacket of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "2760 g",
+    "weight": "11556 g",
     "volume": "2520 ml",
     "price": 20000,
     "price_postapoc": 750,
@@ -1899,7 +1899,7 @@
     "type": "ARMOR",
     "name": { "str": "Kevlar gambeson vest" },
     "description": "Designed to mimic a thick vest of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "1840 g",
+    "weight": "6200 g",
     "volume": "1670 ml",
     "price": 20000,
     "price_postapoc": 600,
@@ -1960,7 +1960,7 @@
     "type": "ARMOR",
     "name": { "str": "Kevlar arming pants", "str_pl": "pairs of Kevlar arming pants" },
     "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.  This one incorporates Kevlar layers added for better protection.",
-    "weight": "1840 g",
+    "weight": "9300 g",
     "volume": "2000 ml",
     "price": 14000,
     "price_postapoc": 600,
@@ -2234,38 +2234,264 @@
     "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "Hub 01 environmental suit" },
-    "description": "A lightweight environmental suit worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
+    "description": "A lightweight environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
     "weight": "4000 g",
     "volume": "14 L",
     "price": 117500,
-    "price_postapoc": 750,
-    "material": [ "nomex" ],
+    "price_postapoc": 2000,
+    "material": [ "nomex", "kevlar", "hc_steel", "thermo_resin", "lycra" ],
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "brown",
+    "//": "2mm Nomex across the entire suit to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 100,
+            "thickness": 2,
+            "//": "Back of hand from the wrist to the knuckles can be stiffer but still needs a little flexibility. This area can afford the most thickness on gloves."
+          },
+          {
+            "type": "thermo_resin",
+            "covered_by_mat": 30,
+            "thickness": 2,
+            "//": "Molded knuckle plates, spacious enough inside the gloves to flex your knuckles fine while providing extra knuckle protection because busting your knuckles sucks."
+          }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_r", "hand_back_l" ],
+        "coverage": 100,
+        "encumbrance": [ 16, 16 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_r", "hand_wrist_r", "hand_palm_l", "hand_wrist_l" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 25,
+            "thickness": 1,
+            "//": "A bit of Kevlar between the third and second knuckles, the part of the fingers where flexibility is least important."
+          },
+          {
+            "type": "lycra",
+            "covered_by_mat": 100,
+            "thickness": 1,
+            "//": "Fingers need to be the most flexible and tactile part of the hand. Lycra/nylon blend (as the lycra material is defined) will give both those qualities while sacrificing the least protection."
+          }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_r", "hand_fingers_l" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "thermo_resin",
+            "covered_by_mat": 85,
+            "thickness": 1,
+            "//": "The boots are reinforced with plastic plates throughout to protect against penetration."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 90,
+            "thickness": 1,
+            "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
+          }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_heel_l", "foot_ankle_r", "foot_heel_r" ],
+        "coverage": 100,
+        "encumbrance": [ 25, 25 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "hc_steel",
+            "covered_by_mat": 25,
+            "thickness": 1,
+            "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1, "//": "Steel toes" },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
     ],
     "warmth": 40,
-    "material_thickness": 2,
     "environmental_protection": 20,
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
+      "target": "robofac_enviro_suit_casual"
+    },
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+  },
+  {
+    "id": "robofac_enviro_suit_casual",
+    "repairs_like": "fsurvivor_suit",
+    "type": "ARMOR",
+    "copy-from": "robofac_enviro_suit",
+    "name": { "str": "Hub 01 environmental suit (casual)", "str_pl": "Hub 01 environmental suits (casual)" },
+    "description": "A lightweight environmental suit incorporating Kevlar-lined boots, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the upper portion has been tied around the waist casually.",
+    "armor": [
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "thermo_resin",
+            "covered_by_mat": 85,
+            "thickness": 1,
+            "//": "The boots are reinforced with plastic plates throughout to protect against penetration."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 90,
+            "thickness": 1,
+            "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
+          }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_heel_l", "foot_ankle_r", "foot_heel_r" ],
+        "coverage": 100,
+        "encumbrance": [ 25, 25 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "hc_steel",
+            "covered_by_mat": 25,
+            "thickness": 1,
+            "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1, "//": "Steel toes" },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear normally",
+      "msg": "You untie the sleeves and put back on the top of the suit.",
+      "target": "robofac_enviro_suit"
+    },
+    "delete": { "flags": [ "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
   },
   {
     "id": "xedra_enviro_suit",
     "copy-from": "robofac_enviro_suit",
     "type": "ARMOR",
     "name": { "str": "activity suit" },
-    "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The letters \"X.E.D.R.A\" are inscribed on its back, and a white shoulder patch on the right arm shows an arrow reaching within rings of concentric circles."
+    "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The letters \"X.E.D.R.A\" are inscribed on its back, and a white shoulder patch on the right arm shows an arrow reaching within rings of concentric circles.",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
+      "target": "xedra_enviro_suit_casual"
+    }
+  },
+  {
+    "id": "xedra_enviro_suit_casual",
+    "copy-from": "robofac_enviro_suit_casual",
+    "type": "ARMOR",
+    "name": { "str": "activity suit (casual)", "str_pl": "activity suits (casual)" },
+    "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The upper portion has been tied around the waist casually.",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear normally",
+      "msg": "You untie the sleeves and put back on the top of the suit.",
+      "target": "xedra_enviro_suit"
+    }
   },
   {
     "id": "stillsuit",
@@ -2419,7 +2645,7 @@
     "warmth": 15,
     "material_thickness": 0.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "POCKETS", "RAINPROOF", "STURDY" ]
   },
   {
     "id": "mil_flight_suit",

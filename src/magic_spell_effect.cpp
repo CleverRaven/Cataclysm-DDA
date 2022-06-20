@@ -47,6 +47,7 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "morale.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -86,6 +87,7 @@ static const species_id species_SLIME( "SLIME" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 namespace spell_detail
 {
@@ -512,6 +514,15 @@ static void damage_targets( const spell &sp, Creature &caster,
         sp.create_field( target );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
             here.add_field( target, fd_fire, 1, 10_minutes );
+
+            Character &player_character = get_player_character();
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flames burst out!" ) );
+                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
         }
         Creature *const cr = creatures.creature_at<Creature>( target );
         if( !cr ) {
@@ -1108,7 +1119,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
             you->mod_pain( -healing );
         }
     } else if( energy_source == "HEALTH" ) {
-        you->mod_healthy( healing );
+        you->mod_livestyle( healing );
     } else {
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
@@ -1212,7 +1223,8 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
-    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0 ) ) {
+    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0, false, "",
+                                         false ) ) {
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
             veh->summon_time_limit = sp.duration_turns();

@@ -16,6 +16,13 @@
     "location": "sling",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You shift the weapon to the front of your body.",
+      "menu_text": "Adjust",
+      "target": "shoulder_strap_front",
+      "moves": 120
+    },
     "armor_data": {
       "armor": [
         {
@@ -24,6 +31,31 @@
           "encumbrance": 0,
           "volume_encumber_modifier": 0.33,
           "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "shoulder_strap_front",
+    "type": "GUNMOD",
+    "name": { "str": "shoulder strap (front)", "str_pl": "shoulder straps (front)" },
+    "description": "A shoulder strap allows the rifle to be worn over your shoulders like a piece of clothing.  Currently the weapon hangs off your front.",
+    "copy-from": "shoulder_strap",
+    "use_action": {
+      "type": "transform",
+      "msg": "You shift the weapon to the back of your body.",
+      "menu_text": "Adjust",
+      "target": "shoulder_strap",
+      "moves": 120
+    },
+    "armor_data": {
+      "armor": [
+        {
+          "covers": [ "torso" ],
+          "coverage": 5,
+          "encumbrance": 0,
+          "volume_encumber_modifier": 0.33,
+          "specifically_covers": [ "torso_hanging_front" ]
         }
       ]
     }

@@ -48,8 +48,8 @@
     "skill_used": "tailor",
     "time": "80 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 60 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 33 ] ],
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "electric_blanket",
@@ -62,9 +62,10 @@
     "skills_required": [ "electronics", 2 ],
     "time": "120 m",
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "soldering_standard", 20 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ],
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "gold_ring",
@@ -164,8 +165,9 @@
     "difficulty": 1,
     "time": "85 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 160 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 33 ] ],
+    "components": [ [ [ "cotton_patchwork", 54 ] ], [ [ "down_feather", 160 ] ] ],
+    "byproducts": [ [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "fur_blanket",
@@ -177,12 +179,11 @@
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
     "time": "80 m",
-    "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 24 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "tailoring_fur_patchwork", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "rag", 30 ] ], [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ] ]
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ], [ "fur", 3 ] ]
   },
   {
     "result": "fur_cat_tail",
@@ -357,7 +358,7 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
+    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
     "result": "gasfilter_m",
@@ -369,7 +370,7 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
+    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
     "result": "gasfilter_l",
@@ -410,8 +411,7 @@
     "time": "75 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 30 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 28 ] ]
   },
   {
     "result": "sleeping_bag_fur_roll",
@@ -423,13 +423,13 @@
     "difficulty": 5,
     "skills_required": [ "survival", 1 ],
     "time": "75 m",
-    "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 17 ], [ "sewing_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "fur", 18 ], [ "tanned_pelt", 3 ], [ "wool_staple", 9 ] ] ]
+    "components": [ [ [ "sheet_fur_patchwork", 3 ], [ "tanned_pelt", 3 ], [ "wool_staple", 9 ] ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ] ]
   },
   {
     "result": "survivor_belt_notools",
@@ -463,7 +463,7 @@
     "time": "6 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 7 ] ],
-    "components": [ [ [ "rag", 5 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 11 ] ] ]
   },
   {
     "type": "recipe",

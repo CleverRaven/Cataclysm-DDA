@@ -49,14 +49,13 @@
     "comestible_type": "MED",
     "name": { "str": "adhesive bandage" },
     "description": "A set of small medical dressings, each made of a piece of sterile cloth and a sticky tape, used for small injuries not serious enough to require a full-size bandage.",
-    "weight": "40 g",
-    "volume": "150 ml",
+    "weight": "2 g",
+    "volume": "2 ml",
     "price": 600,
     "price_postapoc": 200,
     "material": "cotton",
     "symbol": "!",
     "color": "white",
-    "charges": 10,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 750 }
   },
@@ -373,7 +372,12 @@
     "symbol": "!",
     "color": "red",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "consume_drug", "moves": 100, "effects": [ { "id": "sleep", "duration": 1000 } ], "used_up_item": "rag" }
+    "use_action": {
+      "type": "consume_drug",
+      "moves": 100,
+      "effects": [ { "id": "sleep", "duration": 1000 } ],
+      "used_up_item": "cotton_patchwork"
+    }
   },
   {
     "id": "codeine",
@@ -1007,6 +1011,32 @@
       "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
     }
+  },
+  {
+    "id": "wintergreen_oil",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "wintergreen oil" },
+    "description": "An ointment infused with wintergreen oil.  Has mild antiseptic properties and can ease the pain caused by wounds.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 50,
+    "material": [ "oil" ],
+    "symbol": "~",
+    "color": "yellow",
+    "phase": "liquid",
+    "fun": -5,
+    "spoils_in": "60 days",
+    "use_action": {
+      "type": "heal",
+      "disinfectant_power": 1,
+      "bleed": 0,
+      "bite": 0.85,
+      "move_cost": 2500,
+      "effects": [ { "id": "pkill2", "duration": "1 h" } ]
+    },
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ]
   },
   {
     "id": "mugwort_oil",
@@ -1644,7 +1674,7 @@
       "disinfectant_power": 2,
       "bite": 0.5,
       "move_cost": 6000,
-      "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
+      "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
     }
   },
   {

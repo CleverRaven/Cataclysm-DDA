@@ -2162,7 +2162,7 @@ void basecamp::job_assignment_ui()
             if( cur_npc ) {
                 while( true ) {
                     uilist smenu;
-                    smenu.text = _( "Assign job priority ( 0 to disable )" );
+                    smenu.text = _( "Assign job priority (0 to disable)" );
                     int count = 0;
                     std::vector<activity_id> job_vec = cur_npc->job.get_prioritised_vector();
                     smenu.addentry( count, true, 'C', _( "Clear all priorities" ) );
@@ -3005,7 +3005,7 @@ void basecamp::start_crafting( const std::string &type, const mission_id &miss_i
             components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
-                for( const item &byproducts : making.create_byproducts() ) {
+                for( const item &byproducts : making.create_byproducts( batch_size ) ) {
                     comp->companion_mission_inv.add_item( byproducts );
                 }
             }
@@ -3550,10 +3550,7 @@ void basecamp::fortifications_return( const mission_id miss_id )
     }
 }
 
-static void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
-        bool &mirror_vertical, bool &mirror_horizontal, int &rotation );
-
-void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
+static void salt_water_pipe_orientation_adjustment( const point &dir, bool &orthogonal,
         bool &mirror_vertical, bool &mirror_horizontal, int &rotation )
 {
     orthogonal = true;

@@ -136,6 +136,7 @@ class panel_manager
         }
 
         panel_layout &get_current_layout();
+        widget *get_current_sidebar();
         std::string get_current_layout_id() const;
         int get_width_right();
         int get_width_left();

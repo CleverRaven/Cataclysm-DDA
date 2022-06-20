@@ -54,6 +54,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "npctrade.h"
 #include "npctrade_utils.h"
 #include "npctalk.h"
 #include "options.h"
@@ -148,6 +149,7 @@ static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 class monfaction;
@@ -230,7 +232,7 @@ void npc_template::load( const JsonObject &jsobj )
 {
     npc_template tem;
     npc &guy = tem.guy;
-    guy.idz = jsobj.get_string( "id" );
+    guy.idz = npc_class_id( jsobj.get_string( "id" ) );
     guy.name.clear();
     jsobj.read( "name_unique", tem.name_unique );
     jsobj.read( "name_suffix", tem.name_suffix );
@@ -522,7 +524,7 @@ void npc_template::load( const JsonObject &jsobj )
         guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
 
-    npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
+    npc_templates.emplace( string_id<npc_template>( guy.idz.str() ), std::move( tem ) );
 }
 
 void npc_template::reset()
@@ -1081,6 +1083,9 @@ void npc::on_move( const tripoint_abs_ms &old_pos )
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old );
         overmap &om_new = overmap_buffer.get( pos_om_new );
+        if( !unique_id.empty() ) {
+            g->update_unique_npc_location( unique_id, pos_om_new );
+        }
         if( const auto ptr = om_old.erase_npc( getID() ) ) {
             om_new.insert_npc( ptr );
         } else {
@@ -1412,9 +1417,9 @@ void npc::stow_item( item &it )
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
     } else if( can_stash( it ) ) {
-        item &ret = i_add( remove_item( it ), true, nullptr, nullptr, true, false );
+        item_location ret = i_add( remove_item( it ), true, nullptr, nullptr, true, false );
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret->tname() );
         }
         moves -= 15;
     } else { // No room for weapon, so we drop it
@@ -1925,7 +1930,7 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
     }
 
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
-        if( !ig.strict || ig.trust <= get_faction()->trusts_u ) {
+        if( ig.can_sell( *this ) ) {
             continue;
         }
         if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
@@ -1949,12 +1954,17 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
         return true;
     }
 
-    if( it.has_flag( flag_TRADER_AVOID ) ) {
+    if( it.has_flag( flag_TRADER_AVOID ) or it.has_var( VAR_TRADE_IGNORE ) or
+        ( my_fac == nullptr and has_trait( trait_SQUEAMISH ) and it.is_filthy() ) ) {
+        return false;
+    }
+
+    if( myclass->get_shopkeeper_blacklist().matches( it, *this ) ) {
         return false;
     }
 
     // TODO: Base on inventory
-    return at_price > 0;
+    return at_price >= 0;
 }
 
 // Will the NPC freely exchange items with the player?
@@ -2020,7 +2030,7 @@ void npc::shop_restock()
         return;
     }
 
-    restock = calendar::turn + 6_days;
+    restock = calendar::turn + myclass->get_shop_restock_interval();
     if( is_player_ally() ) {
         return;
     }
@@ -2028,8 +2038,7 @@ void npc::shop_restock()
     std::vector<item_group_id> rigid_groups;
     std::vector<item_group_id> value_groups;
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
-        const faction *fac = get_faction();
-        if( !fac || ig.trust <= fac->trusts_u ) {
+        if( ig.can_restock( *this ) ) {
             if( ig.rigid ) {
                 rigid_groups.emplace_back( ig.id );
             } else {
@@ -2040,9 +2049,6 @@ void npc::shop_restock()
     if( value_groups.empty() && rigid_groups.empty() ) {
         return;
     }
-
-    add_fallback_zone( *this );
-    consume_items_in_zones( *this, elapsed );
 
     std::list<item> ret;
     int shop_value = 75000;
@@ -2102,6 +2108,8 @@ void npc::shop_restock()
     }
 
     if( mission == NPC_MISSION_SHOPKEEP ) {
+        add_fallback_zone( *this );
+        consume_items_in_zones( *this, elapsed );
         distribute_items_to_npc_zones( ret, *this );
     } else {
         for( const item &i : ret ) {
@@ -2130,13 +2138,13 @@ void npc::update_worst_item_value()
     }
 }
 
-int npc::value( const item &it ) const
+double npc::value( const item &it ) const
 {
     int market_price = it.price( true );
     return value( it, market_price );
 }
 
-int npc::value( const item &it, int market_price ) const
+double npc::value( const item &it, double market_price ) const
 {
     if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
         // NPCs won't be interested in buying active explosives
@@ -2518,7 +2526,6 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_ATTACK:
             return Attitude::HOSTILE;
         case MATT_NULL:
-        case MATT_UNKNOWN:
         case NUM_MONSTER_ATTITUDES:
             break;
     }
@@ -3354,7 +3361,7 @@ std::set<tripoint> npc::get_path_avoid() const
     map &here = get_map();
     if( rules.has_flag( ally_rule::avoid_doors ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
-            if( here.open_door( p, true, true ) ) {
+            if( here.open_door( *this, p, true, true ) ) {
                 ret.insert( p );
             }
         }
@@ -3537,6 +3544,21 @@ attitude_group npc::get_attitude_group( npc_attitude att ) const
             break;
     }
     return attitude_group::neutral;
+}
+
+void npc::set_unique_id( std::string id )
+{
+    if( !unique_id.empty() ) {
+        debugmsg( "Tried to set unique_id of npc with one already of value: ", unique_id );
+    } else {
+        unique_id = id;
+        g->update_unique_npc_location( id, project_to<coords::om>( get_location().xy() ) );
+    }
+}
+
+std::string npc::get_unique_id() const
+{
+    return unique_id;
 }
 
 void npc::set_mission( npc_mission new_mission )

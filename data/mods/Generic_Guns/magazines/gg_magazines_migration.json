@@ -235,8 +235,11 @@
       "augmag_42rd",
       "augmag_100rd",
       "stanag20",
+      "stanag20ranger",
       "stanag30",
+      "stanag30ranger",
       "stanag40",
+      "stanag40ranger",
       "stanag50",
       "stanag60",
       "stanag60drum",
@@ -290,7 +293,9 @@
       "ruger5",
       "ruger10",
       "stanag5",
+      "stanag5ranger",
       "stanag10",
+      "stanag10ranger",
       "survivor223mag",
       "ruger_makeshiftmag",
       "3006_clip",
@@ -327,6 +332,11 @@
     "replace": "rifle_rail_mag"
   },
   {
+    "id": [ "clip223_10rd" ],
+    "type": "MIGRATION",
+    "replace": "rifle_clip"
+  },
+  {
     "id": [
       "saiga410mag_10rd",
       "saiga410mag_30rd",
@@ -335,7 +345,12 @@
       "USAS10mag",
       "USAS20mag",
       "shotbelt_20",
-      "robofac10"
+      "robofac10",
+      "aa12_box_mag",
+      "aa12_drum_mag",
+      "aa12_vehicle_drum",
+      "m26_mass_mag_3",
+      "m26_mass_mag_5"
     ],
     "type": "MIGRATION",
     "replace": "shot_mag"

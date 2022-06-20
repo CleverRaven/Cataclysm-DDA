@@ -231,6 +231,14 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
     }
+    for( const auto &q : obj.charged_qualities ) {
+        for( const auto &u : q.first.obj().usages ) {
+            if( q.second >= u.first ) {
+                emplace_usage( obj.use_methods, u.second );
+                // I do not know how to get the ammo scale, so hopefully it naturally comes with the item's scale?
+            }
+        }
+    }
 
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
@@ -676,7 +684,7 @@ void Item_factory::finalize_post( itype &obj )
                     }
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
-                                    data.volume_per_encumbrance;
+                                    armor_portion_data::volume_per_encumbrance;
             }
 
             // Precalc average thickness per portion
@@ -702,7 +710,27 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
-
+        for( auto itt = obj.armor->sub_data.begin(); itt != obj.armor->sub_data.end(); ++itt ) {
+            // using empty to signify it has already been consolidated
+            if( !itt->sub_coverage.empty() ) {
+                //check if any further entries should be combined with this one
+                for( auto comp_itt = std::next( itt ); comp_itt != obj.armor->sub_data.end(); ++comp_itt ) {
+                    if( armor_portion_data::should_consolidate( *itt, *comp_itt ) ) {
+                        // they are the same so add the covers and sub covers to the original and then clear them from the other
+                        itt->covers->unify_set( comp_itt->covers.value() );
+                        itt->sub_coverage.insert( comp_itt->sub_coverage.begin(), comp_itt->sub_coverage.end() );
+                        comp_itt->covers->clear();
+                        comp_itt->sub_coverage.clear();
+                    }
+                }
+            }
+        }
+        //remove any now empty entries
+        auto remove_itt = std::remove_if( obj.armor->sub_data.begin(),
+        obj.armor->sub_data.end(), [&]( const armor_portion_data & data ) {
+            return data.sub_coverage.empty() && data.covers.value().none();
+        } );
+        obj.armor->sub_data.erase( remove_itt, obj.armor->sub_data.end() );
 
         // now consolidate all the loaded sub_data to one entry per body part
         for( const armor_portion_data &sub_armor : obj.armor->sub_data ) {
@@ -748,9 +776,7 @@ void Item_factory::finalize_post( itype &obj )
 
                             // add layers that are covered by sublimbs
                             for( const layer_level &ll : sub_armor.layers ) {
-                                if( std::count( it.layers.begin(), it.layers.end(), ll ) == 0 ) {
-                                    it.layers.push_back( ll );
-                                }
+                                it.layers.insert( ll );
                             }
 
 
@@ -803,9 +829,7 @@ void Item_factory::finalize_post( itype &obj )
 
                             // add additional sub coverage locations to the original list
                             for( const sub_bodypart_str_id &sbp : sub_armor.sub_coverage ) {
-                                if( std::find( it.sub_coverage.begin(), it.sub_coverage.end(), sbp ) == it.sub_coverage.end() ) {
-                                    it.sub_coverage.push_back( sbp );
-                                }
+                                it.sub_coverage.insert( sbp );
                             }
                         }
                     }
@@ -846,7 +870,7 @@ void Item_factory::finalize_post( itype &obj )
 
                 // need to account for varsize stuff here and double encumbrance if so
                 if( obj.has_flag( flag_VARSIZE ) ) {
-                    data.encumber *= 2;
+                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );;
                 }
 
                 // Recalc max encumber as well
@@ -858,7 +882,7 @@ void Item_factory::finalize_post( itype &obj )
                     }
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
-                                    data.volume_per_encumbrance;
+                                    armor_portion_data::volume_per_encumbrance;
             }
         }
 
@@ -1022,7 +1046,9 @@ void Item_factory::finalize_post( itype &obj )
         for( armor_portion_data &armor_data : obj.armor->data ) {
             // if an item or location has no layer data then default to the flags for the item
             if( armor_data.layers.empty() ) {
-                armor_data.layers = default_layers;
+                for( const layer_level &ll : default_layers ) {
+                    armor_data.layers.insert( ll );
+                }
             } else {
                 armor_data.has_unique_layering = true;
                 // add any unique layer entries to the items total layer info
@@ -1036,24 +1062,11 @@ void Item_factory::finalize_post( itype &obj )
         for( armor_portion_data &armor_data : obj.armor->sub_data ) {
             // if an item or location has no layer data then default to the flags for the item
             if( armor_data.layers.empty() ) {
-                armor_data.layers = default_layers;
+                for( const layer_level &ll : default_layers ) {
+                    armor_data.layers.insert( ll );
+                }
             } else {
                 armor_data.has_unique_layering = true;
-            }
-        }
-
-        // now that layering is resolved hard code rules for footwear always being rigid
-        // anything that covers the feet is rigid
-        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
-            auto is_normal = std::find( armor_data.layers.begin(), armor_data.layers.end(),
-                                        layer_level::NORMAL );
-            auto is_legs = std::find_if( armor_data.sub_coverage.begin(),
-            armor_data.sub_coverage.end(), []( const sub_bodypart_id sbp ) {
-                return sbp->parent == body_part_foot_l || sbp->parent == body_part_foot_r;
-            } );
-
-            if( is_normal != armor_data.layers.end() && is_legs != armor_data.sub_coverage.end() ) {
-                armor_data.rigid = true;
             }
         }
 
@@ -1688,6 +1701,7 @@ void Item_factory::init()
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "LUX_METER", &iuse::lux_meter );
     add_iuse( "CALORIES_INTAKE_TRACKER", &iuse::calories_intake_tracker );
+    add_iuse( "VOLTMETER", &iuse::voltmeter );
 
     add_actor( std::make_unique<ammobelt_actor>() );
     add_actor( std::make_unique<cauterize_actor>() );
@@ -2521,6 +2535,10 @@ void itype_variant_data::load( const JsonObject &jo )
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", alt_name );
     mandatory( jo, false, "description", alt_description );
+    optional( jo, false, "symbol", alt_sym, cata::nullopt );
+    if( jo.has_string( "color" ) ) {
+        alt_color = color_from_string( jo.get_string( "color" ) );
+    }
     optional( jo, false, "ascii_picture", art );
     optional( jo, false, "weight", weight );
     optional( jo, false, "append", append );
@@ -2673,7 +2691,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
             for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
                 // only assume to add the non hanging locations
                 if( !sbp->secondary ) {
-                    sub_coverage.push_back( sbp );
+                    sub_coverage.insert( sbp );
                 }
             }
         }
@@ -2793,8 +2811,7 @@ void islot_armor::load( const JsonObject &jo )
 
     optional( jo, was_loaded, "warmth", warmth, 0 );
     optional( jo, false, "non_functional", non_functional, itype_id() );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_bonus,
-              mass_reader{}, 0_gram );
+    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
     optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "valid_mods", valid_mods );

@@ -12,6 +12,7 @@
 // Note that it's important to use math.h here, not cmath.  See
 // https://stackoverflow.com/questions/6563810/m-pi-works-with-math-h-but-not-with-cmath-in-visual-studio/6563891
 
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 #define _USE_MATH_DEFINES
 // NOLINTNEXTLINE(modernize-deprecated-headers)
 #include <math.h>

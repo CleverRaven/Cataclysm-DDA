@@ -11,7 +11,7 @@ enum music_id {
     instrument,
     sound,
     title,
-    _LAST
+    LAST
 };
 
 extern std::map<music_id, std::pair<bool, bool>> music_id_list;
@@ -32,5 +32,5 @@ void update_music_id_is_empty_flag( std::string data, bool update );
 // Use io::string_to_enum<music_id>( music_id ) to convert a string to music_id.
 template<>
 struct enum_traits<music::music_id> {
-    static constexpr music::music_id last = music::music_id::_LAST;
+    static constexpr music::music_id last = music::music_id::LAST;
 };

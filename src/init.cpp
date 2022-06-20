@@ -283,6 +283,8 @@ void DynamicDataLoader::initialize()
     add( "start_location", &start_locations::load );
     add( "scenario", &scenario::load_scenario );
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
+    add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
+    add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
@@ -623,6 +625,8 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     scent_type::reset();
     score::reset();
+    shopkeeper_blacklist::reset();
+    shopkeeper_cons_rates::reset();
     Skill::reset();
     skill_boost::reset();
     SNIPPET.clear_snippets();
@@ -800,6 +804,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Cities" ), &city::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
+            { _( "Shop rates" ), &shopkeeper_cons_rates::check_all },
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },

@@ -39,6 +39,7 @@ enum mission_kind : int {
     //  Jobs assigned to companions for external parties
     Scavenging_Patrol_Job,
     Scavenging_Raid_Job,
+    Hospital_Raid_Job,
     Menial_Job,
     Carpentry_Job,
     Forage_Job,
@@ -182,6 +183,7 @@ void field_plant( npc &p, const std::string &place );
 void field_harvest( npc &p, const std::string &place );
 bool scavenging_patrol_return( npc &p );
 bool scavenging_raid_return( npc &p );
+bool hospital_raid_return( npc &p );
 bool labor_return( npc &p );
 bool carpenter_return( npc &p );
 bool forage_return( npc &p );
@@ -219,10 +221,10 @@ std::vector<comp_rank> companion_rank( const comp_list &available, bool adj = tr
 npc_ptr companion_choose( const std::map<skill_id, int> &required_skills = {}, bool silent_failure =
                               false );
 npc_ptr companion_choose_return( const npc &p, const mission_id &miss_id,
-                                 const time_point &deadline, const bool ignore_parameters = false );
+                                 const time_point &deadline, bool ignore_parameters = false );
 npc_ptr companion_choose_return( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                  const mission_id &miss_id, const time_point &deadline,
-                                 const bool by_mission = true, const bool ignore_parameters = false );
+                                 bool by_mission = true, bool ignore_parameters = false );
 npc_ptr companion_choose_return( comp_list &npc_list );
 
 //Return NPC to your party

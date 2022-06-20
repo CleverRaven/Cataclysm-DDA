@@ -369,7 +369,7 @@ class overmap
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
         shared_ptr_fast<npc> find_npc( const character_id &id ) const;
-
+        shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &id ) const;
         const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
             return npcs;
         }
@@ -456,9 +456,9 @@ class overmap
         void move_hordes();
 
         //nemesis movement for "hunted" trait
-        void signal_nemesis( const tripoint_abs_sm p );
+        void signal_nemesis( const tripoint_abs_sm & );
         void move_nemesis();
-        void place_nemesis( const tripoint_abs_omt p );
+        void place_nemesis( const tripoint_abs_omt & );
         bool remove_nemesis(); // returns true if nemesis found and removed
 
         static bool obsolete_terrain( const std::string &ter );

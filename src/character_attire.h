@@ -3,7 +3,6 @@
 #define CATA_SRC_CHARACTER_ATTIRE_H
 
 #include "advanced_inv_listitem.h"
-#include "bodygraph.h"
 #include "bodypart.h"
 #include "color.h"
 #include "item.h"
@@ -14,6 +13,7 @@ class advanced_inv_area;
 class avatar;
 class npc;
 class player_morale;
+struct bodygraph_info;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -87,16 +87,16 @@ class outfit
         // will someone get shocked by zapback
         bool hands_conductive() const;
         bool in_climate_control() const;
-        bool can_pickVolume( const item &it, const bool ignore_pkt_settings = true ) const;
+        bool can_pickVolume( const item &it, bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_wearing_helmet() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
-        cata::optional<const item *> item_worn_with_inv_let( const char invlet ) const;
+        cata::optional<const item *> item_worn_with_inv_let( char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
-        // find the best clothing weapon when unarmed modifies the cur_weapon that is passed in directly
-        item *current_unarmed_weapon( const std::string &attack_vector, item *cur_weapon );
+        // find the best clothing weapon when unarmed modifies
+        item *current_unarmed_weapon( const std::string &attack_vector );
         item_location first_item_covering_bp( Character &guy, bodypart_id bp );
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
@@ -171,8 +171,9 @@ class outfit
         std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter,
                                                 Character &guy );
         bool takeoff( item_location loc, std::list<item> *res, Character &guy );
-        std::list<item> use_amount( const itype_id &it, int quantity,
-                                    std::list<item> &used, const std::function<bool( const item & )> filter, Character &wearer );
+        std::list<item> use_amount(
+            const itype_id &it, int quantity, std::list<item> &used,
+            const std::function<bool( const item & )> &filter, Character &wearer );
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
         cata::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
                 bool interactive, bool do_calc_encumbrance, bool do_sort_items = true, bool quiet = false );
@@ -241,6 +242,8 @@ class outfit
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const;
         std::list<item> remove_items_with( Character &guy,
                                            const std::function<bool( const item & )> &filter, int &count );
+
+        void organize_items_menu();
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );

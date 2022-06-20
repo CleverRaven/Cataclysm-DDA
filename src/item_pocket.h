@@ -30,6 +30,7 @@ class pocket_data;
 struct iteminfo;
 struct itype;
 struct tripoint;
+class map;
 template <typename E> struct enum_traits;
 
 class item_pocket
@@ -149,6 +150,8 @@ class item_pocket
         bool watertight() const;
         bool airtight() const;
         bool inherits_flags() const;
+        // open pockets are always considered transparent
+        bool transparent() const;
         // is this speedloader compatible with this pocket (if any speedloaders are whitelisted)
         bool allows_speedloader( const itype_id &speedloader_id ) const;
 
@@ -198,7 +201,7 @@ class item_pocket
          * @param ammo item to be loaded in
          * @param now whether the currently contained ammo/magazine should be taken into account
          */
-        bool can_reload_with( const item &ammo, const bool now ) const;
+        bool can_reload_with( const item &ammo, bool now ) const;
 
         units::length max_containable_length() const;
         units::length min_containable_length() const;
@@ -276,7 +279,7 @@ class item_pocket
 
         std::string translated_sealed_prefix() const;
         bool detonate( const tripoint &p, std::vector<item> &drops );
-        bool process( const itype &type, Character *carrier, const tripoint &pos,
+        bool process( const itype &type, map &here, Character *carrier, const tripoint &pos,
                       float insulation, temperature_flag flag );
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
@@ -300,7 +303,7 @@ class item_pocket
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( Character *carrier, const tripoint &pos, float insulation = 1,
+        void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
         pocket_type saved_type() const {
             return _saved_type;
@@ -329,9 +332,9 @@ class item_pocket
         *
         * @returns A non-nullptr if a suitable pocket is found.
         */
-        item_pocket *best_pocket_in_contents(
-            item_location &parent, const item &it, const item *avoid,
-            const bool allow_sealed, const bool ignore_settings );
+        std::pair<item_location, item_pocket *> best_pocket_in_contents(
+            item_location &this_loc, const item &it, const item *avoid,
+            bool allow_sealed, bool ignore_settings );
 
         // only available to help with migration from previous usage of std::list<item>
         std::list<item> &edit_contents();
@@ -482,6 +485,8 @@ class pocket_data
         bool open_container = false;
         // items in this pocket pass their flags to the parent item
         bool inherits_flags = false;
+        // the contents of the pocket are visible
+        bool transparent = false;
 
         // a description of the pocket
         translation description;

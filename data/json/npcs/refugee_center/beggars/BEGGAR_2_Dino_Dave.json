@@ -209,7 +209,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         "Well… I had it all pretty together,\u0020",
         {
           "u_has_var": "beggars_recruited",
