@@ -55,7 +55,7 @@
   {
     "id": "avatar_gains_trait_dreamer",
     "type": "event_transformation",
-    "event_type": "gains_mutation",
+    "event_type": "gains_trait",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "trait": { "equals": [ "trait_id", "DREAMER" ] } },
     "drop_fields": [ "character", "trait" ]
   },
@@ -83,7 +83,7 @@
   {
     "id": "avatar_gains_trait_eater",
     "type": "event_transformation",
-    "event_type": "gains_mutation",
+    "event_type": "gains_trait",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "trait": { "equals": [ "trait_id", "EATER" ] } },
     "drop_fields": [ "character", "trait" ]
   },
@@ -111,7 +111,7 @@
   {
     "id": "avatar_gains_trait_dreamsmith",
     "type": "event_transformation",
-    "event_type": "gains_mutation",
+    "event_type": "gains_trait",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "trait": { "equals": [ "trait_id", "DREAMSMITH" ] } },
     "drop_fields": [ "character", "trait" ]
   },
@@ -139,7 +139,7 @@
   {
     "id": "avatar_gains_trait_inventor",
     "type": "event_transformation",
-    "event_type": "gains_mutation",
+    "event_type": "gains_trait",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "trait": { "equals": [ "trait_id", "DREAMSMITH" ] } },
     "drop_fields": [ "character", "trait" ]
   },
