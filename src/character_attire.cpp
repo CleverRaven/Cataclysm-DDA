@@ -1557,8 +1557,8 @@ int outfit::pocket_warmth() const
 {
     int warmth = 0;
     for( const item &w : worn ) {
-        if( w.has_flag( flag_POCKETS ) && w.get_warmth() > warmth ) {
-            warmth = w.get_warmth();
+        if( w.has_flag( flag_POCKETS ) ) {
+            warmth = std::max( warmth, w.get_warmth() );
         }
     }
     return warmth;
@@ -1568,8 +1568,8 @@ int outfit::hood_warmth() const
 {
     int warmth = 0;
     for( const item &w : worn ) {
-        if( w.has_flag( flag_HOOD ) && w.get_warmth() > warmth ) {
-            warmth = w.get_warmth();
+        if( w.has_flag( flag_HOOD ) ) {
+            warmth = std::max( warmth, w.get_warmth() );
         }
     }
     return warmth;
@@ -1579,8 +1579,8 @@ int outfit::collar_warmth() const
 {
     int warmth = 0;
     for( const item &w : worn ) {
-        if( w.has_flag( flag_COLLAR ) && w.get_warmth() > warmth ) {
-            warmth = w.get_warmth();
+        if( w.has_flag( flag_COLLAR ) ) {
+            warmth = std::max( warmth, w.get_warmth() );
         }
     }
     return warmth;

@@ -491,16 +491,18 @@ class Character : public Creature, public visitable
         void print_health() const;
 
         /** Getters for health values exclusive to characters */
-        int get_healthy() const;
-        int get_healthy_mod() const;
+        int get_lifestyle() const;
+        int get_daily_health() const;
+        int get_health_tally() const;
 
         /** Modifiers for health values exclusive to characters */
-        void mod_healthy( int nhealthy );
-        void mod_healthy_mod( int nhealthy_mod, int cap );
+        void mod_livestyle( int nhealthy );
+        void mod_daily_health( int nhealthy_mod, int cap );
+        void mod_health_tally( int mod );
 
         /** Setters for health values exclusive to characters */
-        void set_healthy( int nhealthy );
-        void set_healthy_mod( int nhealthy_mod );
+        void set_lifestyle( int nhealthy );
+        void set_daily_health( int nhealthy_mod );
 
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
@@ -711,7 +713,7 @@ class Character : public Creature, public visitable
         /** get best quality item that this character has */
         item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
-        virtual void update_health( int external_modifiers = 0 );
+        virtual void update_health();
         /** Updates all "biology" by one turn. Should be called once every turn. */
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
@@ -1762,12 +1764,13 @@ class Character : public Creature, public visitable
          * @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
          * @avoid is the item to not put @it into
          */
-        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr,
-                     const item *original_inventory_item = nullptr, bool allow_drop = true,
-                     bool allow_wield = true, bool ignore_pkt_settings = false );
+        item_location i_add( item it, bool should_stack = true, const item *avoid = nullptr,
+                             const item *original_inventory_item = nullptr, bool allow_drop = true,
+                             bool allow_wield = true, bool ignore_pkt_settings = false );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
-        item *try_add( item it, const item *avoid = nullptr, const item *original_inventory_item = nullptr,
-                       bool allow_wield = true, bool ignore_pkt_settings = false );
+        item_location try_add( item it, const item *avoid = nullptr,
+                               const item *original_inventory_item = nullptr, bool allow_wield = true,
+                               bool ignore_pkt_settings = false );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -2778,6 +2781,10 @@ class Character : public Creature, public visitable
         player_activity get_destination_activity() const;
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
+
+        bool can_use_pockets() const;
+        bool can_use_hood() const;
+        bool can_use_collar() const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
         std::map<bodypart_id, int> bonus_item_warmth() const;
         /** Can the player lie down and cover self with blankets etc. **/
@@ -3304,8 +3311,9 @@ class Character : public Creature, public visitable
         int enchantment_speed_bonus = 0;
 
         /** How healthy the character is. */
-        int healthy = 0;
-        int healthy_mod = 0;
+        int lifestyle = 0;
+        int daily_health = 0;
+        int health_tally = 0;
 
         // Our bmr at no activity level
         int base_bmr() const;

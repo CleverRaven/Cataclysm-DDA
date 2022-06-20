@@ -695,7 +695,7 @@ int widget::get_var_value( const avatar &ava ) const
             value = ava.get_fatigue();
             break;
         case widget_var::health:
-            value = ava.get_healthy();
+            value = ava.get_lifestyle();
             break;
         case widget_var::weariness_level:
             value = ava.weariness_level();
@@ -814,6 +814,7 @@ static int custom_draw_func( const draw_args &args )
             int row_num = 0;
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
+
                 const std::string txt = row_widget.layout( u, widt, wgt->_label_width );
                 if( row_wid->has_flag( json_flag_W_DISABLED_WHEN_EMPTY ) && txt.empty() ) {
                     // reclaim the skipped height in the sidebar
@@ -827,6 +828,7 @@ static int custom_draw_func( const draw_args &args )
             // Layout widgets in columns
             // For now, this is the default when calling layout()
             // So, just layout self on a single line
+
             const std::string txt = wgt->layout( u, widt );
             if( disable_empty && txt.empty() ) {
                 // reclaim the skipped height in the sidebar

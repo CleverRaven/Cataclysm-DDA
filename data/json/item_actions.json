@@ -1098,5 +1098,10 @@
     "type": "item_action",
     "id": "CALORIES_INTAKE_TRACKER",
     "name": { "str": "Calories intake tracker" }
+  },
+  {
+    "type": "item_action",
+    "id": "VOLTMETER",
+    "name": { "str": "Test for voltage" }
   }
 ]
