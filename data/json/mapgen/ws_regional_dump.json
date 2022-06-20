@@ -5,7 +5,7 @@
     "method": "json",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "..,..,.....,...,..,..,.,2,.,.,..,..,...,,..,....2,,..'...'....,..'.,..,.2.,.,..,.,....,....,..,,",
         ".-------------------------------------------------,.'.''...'.'.''..'..-------------------------.",
@@ -51,11 +51,11 @@
         { "vehicle": "flatbed_truck", "x": 43, "y": 19, "rotation": 0, "chance": 10 }
       ],
       "place_monsters": [
-        { "monster": "DUMP_ANIMALS", "x": 12, "y": 12 },
-        { "monster": "DUMP_ANIMALS", "x": 36, "y": 12 },
-        { "monster": "DUMP_ANIMALS", "x": 60, "y": 5 },
-        { "monster": "DUMP_ANIMALS", "x": 84, "y": 12 },
-        { "monster": "DUMP_ZOMBIES", "x": 89, "y": 10 }
+        { "monster": "DUMP_ANIMALS", "x": 12, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 36, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 60, "y": 5, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 84, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ZOMBIES", "x": 89, "y": 10, "chance": 6 }
       ]
     }
   },
@@ -65,7 +65,7 @@
     "method": "json",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         ".|.|,y''''''''''''''''''2'''''''''''''''''''''y.2.,.'''''''''''''''',..,2.r.....r.....,...r,|.|.",
         ",|,|.y''''''''''''''''''''''''''''''''''''''''y.,...''''''''''''''''........r...r.r...r.,r.,|,|,",
@@ -119,11 +119,11 @@
         { "vehicle": "flatbed_truck", "x": 43, "y": 7, "rotation": 0, "chance": 10 }
       ],
       "place_monsters": [
-        { "monster": "DUMP_ANIMALS", "x": 12, "y": 12 },
-        { "monster": "DUMP_ANIMALS", "x": 36, "y": 12 },
-        { "monster": "DUMP_ANIMALS", "x": 60, "y": 12 },
-        { "monster": "DUMP_ZOMBIES", "x": 60, "y": 20 },
-        { "monster": "DUMP_ANIMALS", "x": 84, "y": 12 }
+        { "monster": "DUMP_ANIMALS", "x": 12, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 36, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 60, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ZOMBIES", "x": 60, "y": 20, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 84, "y": 12, "chance": 6 }
       ]
     }
   },
@@ -133,7 +133,7 @@
     "method": "json",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         ".|,|,...,...............2..^.^...WW.....^.......2.......................2.R...r..r..R...,w.w|,|.",
         ",|.|..,....................^..^.p.^.^..D...^p............................w..w...R..ww..R,.,.|.|,",
@@ -198,12 +198,12 @@
         { "vehicle": "oa_vg_wreck", "x": [ 48, 71 ], "y": [ 8, 16 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 }
       ],
       "place_monsters": [
-        { "monster": "DUMP_ANIMALS", "x": 12, "y": 12 },
-        { "monster": "DUMP_ANIMALS", "x": 36, "y": 12 },
-        { "monster": "DUMP_ZOMBIES", "x": 37, "y": 15 },
-        { "monster": "DUMP_ANIMALS", "x": 60, "y": 5 },
-        { "monster": "DUMP_ZOMBIES", "x": 60, "y": 12 },
-        { "monster": "DUMP_ANIMALS", "x": 84, "y": 12 }
+        { "monster": "DUMP_ANIMALS", "x": 12, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 36, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ZOMBIES", "x": 37, "y": 15, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 60, "y": 5, "chance": 6 },
+        { "monster": "DUMP_ZOMBIES", "x": 60, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 84, "y": 12, "chance": 6 }
       ]
     }
   },
@@ -213,7 +213,7 @@
     "method": "json",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         ".|,|.,.g.p^g.^gGG.g^.g.G^2G.p.g..pg..p.g......^..2...........a.aapppppppp2pa.a........,..,.,|.|,",
         ",|.|.^.,.gp^g^gp^g.gpg^gpg.g.G.pg.pGp.g.....^..........a...a^apppppppppppppa^a^a........,.,.|,|,",
@@ -276,12 +276,12 @@
         { "vehicle": "oa_vg_wreck", "x": [ 48, 71 ], "y": [ 8, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 }
       ],
       "place_monsters": [
-        { "monster": "DUMP_ANIMALS", "x": 12, "y": 12 },
-        { "monster": "DUMP_ANIMALS", "x": 36, "y": 5 },
-        { "monster": "DUMP_ZOMBIES", "x": 36, "y": 12 },
-        { "monster": "DUMP_ANIMALS", "x": 60, "y": 5 },
-        { "monster": "DUMP_ZOMBIES", "x": 60, "y": 12 },
-        { "monster": "DUMP_ANIMALS", "x": 84, "y": 12 }
+        { "monster": "DUMP_ANIMALS", "x": 12, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 36, "y": 5, "chance": 6 },
+        { "monster": "DUMP_ZOMBIES", "x": 36, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 60, "y": 5, "chance": 6 },
+        { "monster": "DUMP_ZOMBIES", "x": 60, "y": 12, "chance": 6 },
+        { "monster": "DUMP_ANIMALS", "x": 84, "y": 12, "chance": 6 }
       ]
     }
   }
