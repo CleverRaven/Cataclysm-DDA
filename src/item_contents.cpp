@@ -56,11 +56,13 @@ void pocket_favorite_callback::refresh( uilist *menu )
         if( i == menu->selected ) {
             selected_pocket = pocket;
             pocket_num = std::get<1>( pocket_val ) + 1;
-            if( current_parent ) {
-                current_parent->txt = current_parent->txt.substr( 2 );
+            if( current_parent != std::get<2>( pocket_val ) ) {
+                if( current_parent != nullptr ) {
+                    current_parent->txt = current_parent->txt.substr( 2 );
+                }
+                current_parent = std::get<2>( pocket_val );
+                current_parent->txt = "@ " + current_parent->txt;
             }
-            current_parent = std::get<2>( pocket_val );
-            current_parent->txt = "@ " + current_parent->txt;
             break;
         }
         ++i;
@@ -102,19 +104,21 @@ pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organ
     for( item *i : to_organize ) {
         add_pockets( *i, pocket_selector, "" );
     }
+
+    needs_to_refresh = true;
 }
 
 void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
         std::string depth )
 {
-    if( !i.get_all_standard_pockets().empty() ) {
+    if( !i.get_all_contained_pockets().empty() ) {
         pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
         // pad list with empty entries for the items themselves
         saved_pockets.emplace_back( nullptr, 0, nullptr );
     }
     uilist_entry *item_entry = &pocket_selector.entries.back();
     int pocket_num = 1;
-    for( item_pocket *it_pocket : i.get_all_standard_pockets() ) {
+    for( item_pocket *it_pocket : i.get_all_contained_pockets() ) {
         std::string temp = string_format( "%d -", pocket_num );
 
         pocket_selector.addentry( 0, true, '\0', string_format( "%s%s %s/%s",
