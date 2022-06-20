@@ -1,0 +1,24 @@
+[
+  {
+    "id": "spell_oneiric_hammer",
+    "type": "SPELL",
+    "name": "Call Oneiric Hammer",
+    "description": "Creates a crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "LOUD", "VERBAL", "NO_LEGS" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "xe_oneiric_hammer",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DREAMSMITH",
+    "difficulty": 3,
+    "max_level": 20,
+    "base_casting_time": 150,
+    "base_energy_cost": 100,
+    "min_duration": 10000,
+    "max_duration": 50000,
+    "duration_increment": 2000
+  }
+]
