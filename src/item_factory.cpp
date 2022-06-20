@@ -489,7 +489,7 @@ void Item_factory::finalize_pre( itype &obj )
                 continue;
             }
             else {
-                if (!(obj.mod->speedloader_adaptor.empty())) {
+                if (!obj.mod->speedloader_adaptor.empty()) {
                    // crashes the game durring loading without creating a crash.log
                    magazine.allowed_speedloaders.insert(obj.mod->speedloader_adaptor.begin(), obj.mod->speedloader_adaptor.end());
                 }
