@@ -208,6 +208,8 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
 static const std::string flag_SILENT( "SILENT" );
 
+constexpr units::volume armor_portion_data::volume_per_encumbrance;
+
 
 class npc_class;
 
