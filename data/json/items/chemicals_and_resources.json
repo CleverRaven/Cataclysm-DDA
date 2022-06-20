@@ -281,6 +281,7 @@
     "phase": "liquid",
     "charges": 2,
     "category": "chems",
+    "ammo_data": { "ammo_type": "liquid_ammonia" },
     "freezing_point": -78
   },
   {
