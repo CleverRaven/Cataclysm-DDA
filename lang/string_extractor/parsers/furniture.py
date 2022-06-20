@@ -1,5 +1,6 @@
 from ..helper import get_singular_name
 from ..write_text import write_text
+from .examine_action import parse_examine_action
 
 
 def parse_furniture(json, origin):
@@ -18,3 +19,5 @@ def parse_furniture(json, origin):
             write_text(json["bash"]["sound_fail"], origin,
                        comment="Bashing failed sound of furniture \"{}\""
                        .format(name))
+    if "examine_action" in json:
+        parse_examine_action(json["examine_action"], origin)

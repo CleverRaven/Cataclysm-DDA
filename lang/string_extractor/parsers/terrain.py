@@ -1,5 +1,6 @@
 from ..helper import get_singular_name
 from ..write_text import write_text
+from .examine_action import parse_examine_action
 
 
 def parse_terrain(json, origin):
@@ -45,3 +46,5 @@ def parse_terrain(json, origin):
     if "lockpick_message" in json:
         write_text(json["lockpick_message"], origin,
                    comment="Lockpick message of terrain \"{}\"".format(name))
+    if "examine_action" in json:
+        parse_examine_action(json["examine_action"], origin)
