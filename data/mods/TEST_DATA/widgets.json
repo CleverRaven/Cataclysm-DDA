@@ -2,6 +2,7 @@
   {
     "id": "test_activity_clauses",
     "type": "widget",
+    "separator": ": ",
     "label": "Activity",
     "style": "text",
     "clauses": [
@@ -46,6 +47,7 @@
   {
     "id": "test_fatigue_clause_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "clauses": [
       {
@@ -81,6 +83,7 @@
   {
     "id": "test_bp_status_indicator_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "clauses": [
       { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": { "u_has_effect": "bite" } },
@@ -155,6 +158,7 @@
   {
     "id": "test_rad_badge_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "clauses": [
       {
@@ -233,6 +237,7 @@
   {
     "id": "test_thirst_clause_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "clauses": [
       {
@@ -318,6 +323,7 @@
   {
     "id": "test_hunger_clause_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "clauses": [
       { "id": "engorged", "text": "Engorged", "color": "red", "condition": { "u_has_effect": "hunger_engorged" } },
@@ -354,6 +360,7 @@
   {
     "id": "test_move_mode_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "default_clause": { "text": "bugging out", "sym": "-", "color": "dark_gray" },
     "clauses": [
@@ -372,6 +379,7 @@
   {
     "id": "test_lighting_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "clauses": [
       {
@@ -409,6 +417,7 @@
   {
     "id": "test_moon_phase_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "clauses": [
       {
@@ -470,6 +479,7 @@
   {
     "id": "test_health_clause_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "clauses": [
       {
@@ -544,6 +554,7 @@
   {
     "id": "test_body_temp_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "clauses": [
       {
@@ -618,6 +629,7 @@
   {
     "id": "test_body_temp_delta_template",
     "type": "widget",
+    "separator": ": ",
     "style": "clause",
     "default_clause": { "text": "", "sym": "-", "color": "green" },
     "clauses": [
@@ -688,6 +700,7 @@
   {
     "id": "test_bucket_graph",
     "type": "widget",
+    "separator": ": ",
     "style": "graph",
     "label": "BUCKET",
     "width": 4,
@@ -697,6 +710,7 @@
   {
     "id": "test_pool_graph",
     "type": "widget",
+    "separator": ": ",
     "style": "graph",
     "label": "POOL",
     "width": 4,
@@ -706,12 +720,14 @@
   {
     "id": "test_number_widget",
     "type": "widget",
+    "separator": ": ",
     "label": "NUM",
     "style": "number"
   },
   {
     "id": "test_color_number_widget",
     "type": "widget",
+    "separator": ": ",
     "label": "COLORNUM",
     "style": "number",
     "colors": [ "c_red", "c_yellow", "c_green" ]
@@ -719,6 +735,7 @@
   {
     "id": "test_color_graph_widget",
     "type": "widget",
+    "separator": ": ",
     "label": "COLORGRAPH",
     "style": "graph",
     "width": 5,
@@ -728,6 +745,7 @@
   {
     "id": "test_color_graph_10k_widget",
     "type": "widget",
+    "separator": ": ",
     "label": "COLORGRAPH",
     "style": "graph",
     "width": 10,
@@ -738,6 +756,7 @@
   {
     "id": "test_focus_num",
     "type": "widget",
+    "separator": ": ",
     "label": "FOCUS",
     "var": "focus",
     "style": "number"
@@ -745,6 +764,7 @@
   {
     "id": "test_mana_num",
     "type": "widget",
+    "separator": ": ",
     "label": "MANA",
     "var": "mana",
     "style": "number"
@@ -752,6 +772,7 @@
   {
     "id": "test_morale_num",
     "type": "widget",
+    "separator": ": ",
     "label": "MORALE",
     "var": "morale_level",
     "style": "number"
@@ -759,6 +780,7 @@
   {
     "id": "test_rad_badge_text",
     "type": "widget",
+    "separator": ": ",
     "label": "RADIATION",
     "style": "text",
     "default_clause": { "text": "Unknown", "color": "light_gray" },
@@ -767,6 +789,7 @@
   {
     "id": "test_compass_N_nodir_nowidth",
     "type": "widget",
+    "separator": ": ",
     "label": "N",
     "var": "compass_text",
     "style": "text"
@@ -774,6 +797,7 @@
   {
     "id": "test_compass_N_nowidth",
     "type": "widget",
+    "separator": ": ",
     "label": "N",
     "var": "compass_text",
     "style": "text",
@@ -782,6 +806,7 @@
   {
     "id": "test_compass_N",
     "type": "widget",
+    "separator": ": ",
     "label": "N",
     "var": "compass_text",
     "style": "text",
@@ -791,6 +816,7 @@
   {
     "id": "test_compass_legend_1",
     "type": "widget",
+    "separator": ": ",
     "style": "text",
     "var": "compass_legend_text",
     "width": 0,
@@ -800,6 +826,7 @@
   {
     "id": "test_compass_legend_3",
     "type": "widget",
+    "separator": ": ",
     "style": "text",
     "var": "compass_legend_text",
     "height": 3,
@@ -810,6 +837,7 @@
   {
     "id": "test_compass_legend_5",
     "type": "widget",
+    "separator": ": ",
     "style": "text",
     "var": "compass_legend_text",
     "height": 5,
@@ -820,6 +848,7 @@
   {
     "id": "test_speed_num",
     "type": "widget",
+    "separator": ": ",
     "label": "SPEED",
     "var": "speed",
     "style": "number"
@@ -827,6 +856,7 @@
   {
     "id": "test_stamina_num",
     "type": "widget",
+    "separator": ": ",
     "label": "STAMINA",
     "var": "stamina",
     "style": "number"
@@ -834,6 +864,7 @@
   {
     "id": "test_stamina_graph",
     "type": "widget",
+    "separator": ": ",
     "label": "STAMINA",
     "var": "stamina",
     "style": "graph",
@@ -844,6 +875,7 @@
   {
     "id": "test_sound_num",
     "type": "widget",
+    "separator": ": ",
     "label": "SOUND",
     "var": "sound",
     "style": "number"
@@ -851,6 +883,7 @@
   {
     "id": "test_move_num",
     "type": "widget",
+    "separator": ": ",
     "label": "MOVE",
     "var": "move",
     "style": "number"
@@ -858,6 +891,7 @@
   {
     "id": "test_move_cost_num",
     "type": "widget",
+    "separator": ": ",
     "label": "MOVE COST",
     "var": "move_cost",
     "style": "number"
@@ -865,6 +899,7 @@
   {
     "id": "test_move_mode_text",
     "type": "widget",
+    "separator": ": ",
     "label": "MODE",
     "style": "text",
     "copy-from": "test_move_mode_template"
@@ -872,6 +907,7 @@
   {
     "id": "test_move_mode_letter",
     "type": "widget",
+    "separator": ": ",
     "label": "MODE",
     "style": "symbol",
     "copy-from": "test_move_mode_template"
@@ -879,6 +915,7 @@
   {
     "id": "test_move_count_mode_text",
     "type": "widget",
+    "separator": ": ",
     "label": "MOVE/MODE",
     "var": "move_count_mode_text",
     "style": "text"
@@ -887,11 +924,13 @@
     "id": "test_stat_num",
     "//": "Plain text stat widget, for use in column-layout tests where color tags would interfere",
     "type": "widget",
+    "separator": ": ",
     "style": "number"
   },
   {
     "id": "test_str_num",
     "type": "widget",
+    "separator": ": ",
     "label": "STR",
     "var": "stat_str",
     "copy-from": "test_stat_num"
@@ -899,6 +938,7 @@
   {
     "id": "test_dex_num",
     "type": "widget",
+    "separator": ": ",
     "label": "DEX",
     "var": "stat_dex",
     "copy-from": "test_stat_num"
@@ -906,6 +946,7 @@
   {
     "id": "test_int_num",
     "type": "widget",
+    "separator": ": ",
     "label": "INT",
     "var": "stat_int",
     "copy-from": "test_stat_num"
@@ -913,6 +954,7 @@
   {
     "id": "test_per_num",
     "type": "widget",
+    "separator": ": ",
     "label": "PER",
     "var": "stat_per",
     "copy-from": "test_stat_num"
@@ -922,11 +964,13 @@
     "//": "Stat widget with color, to indicate below/at/above normal level",
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_cyan", "c_light_green", "c_green" ],
     "type": "widget",
+    "separator": ": ",
     "style": "number"
   },
   {
     "id": "test_str_color_num",
     "type": "widget",
+    "separator": ": ",
     "label": "STR",
     "var": "stat_str",
     "copy-from": "test_stat_color_num"
@@ -934,6 +978,7 @@
   {
     "id": "test_dex_color_num",
     "type": "widget",
+    "separator": ": ",
     "label": "DEX",
     "var": "stat_dex",
     "copy-from": "test_stat_color_num"
@@ -941,6 +986,7 @@
   {
     "id": "test_int_color_num",
     "type": "widget",
+    "separator": ": ",
     "label": "INT",
     "var": "stat_int",
     "copy-from": "test_stat_color_num"
@@ -948,6 +994,7 @@
   {
     "id": "test_per_color_num",
     "type": "widget",
+    "separator": ": ",
     "label": "PER",
     "var": "stat_per",
     "copy-from": "test_stat_color_num"
@@ -956,6 +1003,7 @@
     "id": "test_health_color_num",
     "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ],
     "type": "widget",
+    "separator": ": ",
     "label": "Health",
     "var": "health",
     "style": "number"
@@ -963,6 +1011,7 @@
   {
     "id": "test_health_clause",
     "type": "widget",
+    "separator": ": ",
     "label": "Health",
     "style": "text",
     "copy-from": "test_health_clause_template"
@@ -970,6 +1019,7 @@
   {
     "id": "test_weather_text",
     "type": "widget",
+    "separator": ": ",
     "label": "Weather",
     "var": "weather_text",
     "style": "text"
@@ -977,6 +1027,7 @@
   {
     "id": "test_weather_text_height5",
     "type": "widget",
+    "separator": ": ",
     "label": "Weather",
     "var": "weather_text",
     "style": "text",
@@ -985,6 +1036,7 @@
   {
     "id": "test_weariness_num",
     "type": "widget",
+    "separator": ": ",
     "label": "WEARINESS",
     "var": "weariness_level",
     "style": "number"
@@ -992,6 +1044,7 @@
   {
     "id": "test_fatigue_clause",
     "type": "widget",
+    "separator": ": ",
     "label": "Rest",
     "style": "text",
     "copy-from": "test_fatigue_clause_template"
@@ -999,6 +1052,7 @@
   {
     "id": "test_hp_head_graph",
     "type": "widget",
+    "separator": ": ",
     "label": "HEAD",
     "var": "bp_hp",
     "bodypart": "head",
@@ -1010,6 +1064,7 @@
   {
     "id": "test_hp_head_num",
     "type": "widget",
+    "separator": ": ",
     "label": "HEAD",
     "var": "bp_hp",
     "bodypart": "head",
@@ -1018,6 +1073,7 @@
   {
     "id": "test_bp_wetness_head_num",
     "type": "widget",
+    "separator": ": ",
     "label": "HEAD WET",
     "var": "bp_wetness",
     "bodypart": "head",
@@ -1026,6 +1082,7 @@
   {
     "id": "test_bp_wetness_torso_num",
     "type": "widget",
+    "separator": ": ",
     "label": "TORSO WET",
     "var": "bp_wetness",
     "bodypart": "torso",
@@ -1034,6 +1091,7 @@
   {
     "id": "test_status_torso_text",
     "type": "widget",
+    "separator": ": ",
     "label": "TORSO STATUS",
     "bodypart": "torso",
     "style": "text",
@@ -1043,6 +1101,7 @@
   {
     "id": "test_status_left_arm_text",
     "type": "widget",
+    "separator": ": ",
     "label": "LEFT ARM STATUS",
     "bodypart": "arm_l",
     "style": "text",
@@ -1052,6 +1111,7 @@
   {
     "id": "test_status_sym_torso_text",
     "type": "widget",
+    "separator": ": ",
     "style": "symbol",
     "label": "TORSO",
     "bodypart": "torso",
@@ -1060,6 +1120,7 @@
   {
     "id": "test_status_sym_left_arm_text",
     "type": "widget",
+    "separator": ": ",
     "style": "symbol",
     "label": "L ARM",
     "bodypart": "arm_l",
@@ -1068,6 +1129,7 @@
   {
     "id": "test_status_legend_text",
     "type": "widget",
+    "separator": ": ",
     "label": "Status Legend",
     "style": "legend",
     "bodyparts": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
@@ -1080,6 +1142,7 @@
   {
     "id": "test_torso_armor_outer_text",
     "type": "widget",
+    "separator": ": ",
     "style": "text",
     "label": "Torso Armor",
     "var": "bp_armor_outer_text",
@@ -1088,6 +1151,7 @@
   {
     "id": "test_overmap_3x3_text",
     "type": "widget",
+    "separator": ": ",
     "var": "overmap_text",
     "style": "text",
     "width": 3,
@@ -1096,6 +1160,7 @@
   {
     "id": "test_thirst_clause",
     "type": "widget",
+    "separator": ": ",
     "label": "THIRST",
     "style": "text",
     "copy-from": "test_thirst_clause_template"
@@ -1103,6 +1168,7 @@
   {
     "id": "test_hunger_clause",
     "type": "widget",
+    "separator": ": ",
     "label": "HUNGER",
     "style": "text",
     "copy-from": "test_hunger_clause_template"
@@ -1110,6 +1176,7 @@
   {
     "id": "test_lighting_clause",
     "type": "widget",
+    "separator": ": ",
     "label": "LIGHTING",
     "style": "text",
     "copy-from": "test_lighting_template"
@@ -1117,6 +1184,7 @@
   {
     "id": "test_moon_phase_clause",
     "type": "widget",
+    "separator": ": ",
     "label": "MOON",
     "style": "text",
     "copy-from": "test_moon_phase_template"
@@ -1124,6 +1192,7 @@
   {
     "id": "test_body_temp_clause",
     "type": "widget",
+    "separator": ": ",
     "label": "Heat",
     "style": "text",
     "copy-from": "test_body_temp_template"
@@ -1131,6 +1200,7 @@
   {
     "id": "test_body_temp_delta_text",
     "type": "widget",
+    "separator": ": ",
     "label": "Temp change",
     "style": "text",
     "copy-from": "test_body_temp_delta_template"
@@ -1138,6 +1208,7 @@
   {
     "id": "test_body_temp_delta_sym",
     "type": "widget",
+    "separator": ": ",
     "label": "Temp change",
     "style": "symbol",
     "copy-from": "test_body_temp_delta_template"
@@ -1145,6 +1216,7 @@
   {
     "id": "test_disabled_when_empty",
     "type": "widget",
+    "separator": ": ",
     "label": "NOT EMPTY",
     "style": "text",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
@@ -1156,6 +1228,7 @@
   {
     "id": "test_clause_number",
     "type": "widget",
+    "separator": ": ",
     "style": "number",
     "label": "Num Values",
     "default_clause": { "value": 1, "color": "dark_gray" },
@@ -1170,6 +1243,7 @@
   {
     "id": "test_clause_text",
     "type": "widget",
+    "separator": ": ",
     "style": "text",
     "label": "Text Values",
     "default_clause": { "text": "None", "color": "dark_gray" },
@@ -1184,6 +1258,7 @@
   {
     "id": "test_clause_sym",
     "type": "widget",
+    "separator": ": ",
     "style": "symbol",
     "label": "Symbol Values",
     "default_clause": { "sym": ".", "color": "dark_gray" },
@@ -1198,6 +1273,7 @@
   {
     "id": "test_clause_legend",
     "type": "widget",
+    "separator": ": ",
     "style": "legend",
     "label": "Legend Values",
     "height": 5,
@@ -1215,6 +1291,7 @@
   {
     "id": "test_weight_clauses_normal",
     "type": "widget",
+    "separator": ": ",
     "label": "Weight",
     "style": "text",
     "clauses": [
@@ -1302,6 +1379,7 @@
   {
     "id": "test_weight_clauses_fun",
     "type": "widget",
+    "separator": ": ",
     "label": "Thiccness",
     "style": "text",
     "clauses": [
@@ -1330,6 +1408,7 @@
   {
     "id": "test_stat_panel",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "test_str_num", "test_dex_num", "test_int_num", "test_per_num" ]
@@ -1337,6 +1416,7 @@
   {
     "id": "test_2_column_layout",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "test_move_num", "test_speed_num" ]
@@ -1344,6 +1424,7 @@
   {
     "id": "test_3_column_layout",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "test_move_num", "test_speed_num", "test_focus_num" ]
@@ -1351,6 +1432,7 @@
   {
     "id": "test_4_column_layout",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "test_move_num", "test_speed_num", "test_focus_num", "test_mana_num" ]
@@ -1358,6 +1440,7 @@
   {
     "id": "test_text_widget",
     "type": "widget",
+    "separator": ": ",
     "label": "CLAUSE",
     "style": "text",
     "strings": [ "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ]
@@ -1365,12 +1448,14 @@
   {
     "id": "test_layout_list",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "widgets": [ "test_text_widget", "test_pool_graph", "test_number_widget" ]
   },
   {
     "id": "test_layout_rows1",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "arrange": "rows",
     "widgets": [ "test_move_num", "test_speed_num", "test_focus_num", "test_mana_num" ]
@@ -1378,6 +1463,7 @@
   {
     "id": "test_layout_rows2",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "arrange": "rows",
     "widgets": [ "test_str_num", "test_dex_num", "test_int_num", "test_per_num" ]
@@ -1385,6 +1471,7 @@
   {
     "id": "test_layout_rows3",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "arrange": "rows",
     "widgets": [ "test_text_widget", "test_pool_graph", "test_number_widget" ]
@@ -1392,6 +1479,7 @@
   {
     "id": "test_layout_rows_in_columns",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "test_overmap_3x3_text", "test_layout_rows1", "test_layout_rows2" ]
@@ -1399,6 +1487,7 @@
   {
     "id": "test_layout_cols_in_cols",
     "type": "widget",
+    "separator": ": ",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "test_layout_rows3", "test_layout_rows_in_columns" ]

@@ -179,24 +179,24 @@ static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
 {
-void from_sunburn( Character &you );
+void from_sunburn( Character &you, bool severe );
 void in_sunlight( Character &you );
 void water_damage( Character &you, const trait_id &mut_id );
 void mutation_power( Character &you, const trait_id &mut_id );
 void while_underwater( Character &you );
 void while_grabbed( Character &you );
 void from_addictions( Character &you );
-void while_awake( Character &you, const int current_stim );
+void while_awake( Character &you, int current_stim );
 void from_chemimbalance( Character &you );
 void from_schizophrenia( Character &you );
-void from_asthma( Character &you, const int current_stim );
+void from_asthma( Character &you, int current_stim );
 void from_item_dropping( Character &you );
 void from_other_mutations( Character &you );
 void from_radiation( Character &you );
 void from_bad_bionics( Character &you );
-void from_stimulants( Character &you, const int current_stim );
+void from_stimulants( Character &you, int current_stim );
 void from_exertion( Character &you );
-void without_sleep( Character &you, const int sleep_deprivation );
+void without_sleep( Character &you, int sleep_deprivation );
 void from_tourniquet( Character &you );
 void from_pain( Character &you );
 } // namespace suffer
@@ -790,28 +790,31 @@ void suffer::from_asthma( Character &you, const int current_stim )
 
 void suffer::in_sunlight( Character &you )
 {
-    int sunlight_nutrition = 0;
     const tripoint position = you.pos();
-    if( get_map().is_outside( position ) && ( g->light_level( position.z ) >= 40 ) ) {
-        const bool leafy = you.has_trait( trait_LEAVES ) ||
-                           you.has_trait( trait_LEAVES2 ) ||
-                           you.has_trait( trait_LEAVES3 );
-        if( leafy ) {
-            const bool leafier = you.has_trait( trait_LEAVES2 );
-            const bool leafiest = you.has_trait( trait_LEAVES3 );
-            const double sleeve_factor = you.armwear_factor();
-            const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
-            const float weather_factor = ( get_weather().weather_id->sun_intensity >=
-                                           sun_intensity_type::normal ) ? 1.0 : 0.5;
-            const int player_local_temp = get_weather().get_temperature( position );
-            const int flux = ( player_local_temp - 65 ) / 2;
-            if( !has_hat ) {
-                sunlight_nutrition += ( 100 + flux ) * weather_factor;
-            }
-            if( leafier ) {
-                const int rate = ( 100 * sleeve_factor + flux ) * 2;
-                sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
-            }
+
+    if( !g->is_in_sunlight( position ) ) {
+        return;
+    }
+
+    const bool leafy = you.has_trait( trait_LEAVES ) ||
+                       you.has_trait( trait_LEAVES2 ) ||
+                       you.has_trait( trait_LEAVES3 );
+    int sunlight_nutrition = 0;
+    if( leafy ) {
+        const bool leafier = you.has_trait( trait_LEAVES2 );
+        const bool leafiest = you.has_trait( trait_LEAVES3 );
+        const double sleeve_factor = you.armwear_factor();
+        const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
+        const float weather_factor = ( get_weather().weather_id->sun_intensity >=
+                                       sun_intensity_type::normal ) ? 1.0 : 0.5;
+        const int player_local_temp = get_weather().get_temperature( position );
+        const int flux = ( player_local_temp - 65 ) / 2;
+        if( !has_hat ) {
+            sunlight_nutrition += ( 100 + flux ) * weather_factor;
+        }
+        if( leafier || leafiest ) {
+            const int rate = ( 100 * sleeve_factor + flux ) * 2;
+            sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
         }
     }
 
@@ -819,13 +822,14 @@ void suffer::in_sunlight( Character &you )
         you.vitamin_mod( vitamin_vitC, 1 );
     }
 
-    if( !g->is_in_sunlight( position ) ) {
-        return;
+    if( you.has_trait( trait_SUNBURN ) ) {
+        suffer::from_sunburn( you, true );
     }
 
-    if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ||
-        you.has_trait( trait_SUNBURN ) ) {
-        suffer::from_sunburn( you );
+    // Albinism and datura have the same effects and do not stack with each other or sunburn.
+    if( !you.has_trait( trait_SUNBURN ) &&
+        ( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) ) {
+        suffer::from_sunburn( you, false );
     }
 
     if( ( you.has_trait( trait_TROGLO ) || you.has_trait( trait_TROGLO2 ) ) &&
@@ -867,85 +871,188 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
     return bp_exposure;
 }
 
-void suffer::from_sunburn( Character &you )
+// Linear interpolation between start and end values.
+// Constant outside of interval (x_start; x_end)
+static float linear_interpolation( float x_start, float y_start, float x_end, float y_end, float x )
 {
-    if( !you.has_trait( trait_ALBINO ) && !you.has_effect( effect_datura ) &&
-        !you.has_trait( trait_SUNBURN ) ) {
-        return;
+    if( x < x_start ) {
+        return y_start;
     }
+    if( x > x_end ) {
+        return y_end;
+    }
+    float interval = x_end - x_start;
+    float perc_to_end = ( x - x_start ) / interval;
+    return ( 1 - perc_to_end ) * y_start + perc_to_end * y_end;
+}
 
-    if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
-        // Albinism and datura have the same effects, once per minute on average
-        if( !one_turn_in( 1_minutes ) ) {
-            return;
-        }
-    } else if( you.has_trait( trait_SUNBURN ) ) {
-        // Sunburn effects occur about 3 times per minute
-        if( !one_turn_in( 20_seconds ) ) {
-            return;
-        }
-    }
+static float light_eff_chance( float exp )
+{
+    // Sharp increase until 5%
+    return linear_interpolation( 0.01, 0.0, 0.05, 1.0, exp );
+}
 
-    // Sunglasses can keep the sun off the eyes.
-    if( !you.has_flag( json_flag_GLARE_RESIST ) &&
-        !( you.wearing_something_on( bodypart_id( "eyes" ) ) &&
-           ( you.worn_with_flag( flag_SUN_GLASSES ) || you.worn_with_flag( flag_BLIND ) ) ) ) {
-        you.add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
-        // Pain (1/60) or loss of focus (59/60)
-        if( one_turn_in( 1_minutes ) ) {
-            you.mod_pain( 1 );
-        } else {
-            you.mod_focus( -1 );
-        }
-    }
-    // Umbrellas can keep the sun off the skin
-    if( you.get_wielded_item().has_flag( flag_RAIN_PROTECT ) ) {
+static float medium_eff_chance( float exp )
+{
+    // Starts at 5%, peaks at 30%
+    return linear_interpolation( 0.05, 0.0, 0.55, 0.25, exp );
+}
+
+static float heavy_eff_chance( float exp )
+{
+    // Starts at 15%, increases to 0.1 at 100%
+    return linear_interpolation( 0.15, 0.0, 1.0, 0.1, exp );
+}
+
+void suffer::from_sunburn( Character &you, bool severe )
+{
+    // Sunburn effects and albinism/datura occur about once per minute
+    if( !one_turn_in( 1_minutes ) ) {
         return;
     }
 
     // TODO: Could factor bodypart_exposure out of Character too
     std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
 
-    // Minimum exposure threshold for pain
-    const float MIN_EXPOSURE = 0.01f;
+    enum Sunburn { None, Focus_Loss, Pain, Damage };
+
+    auto heavy_sunburn = [severe, &you]( bodypart_id bp ) {
+        if( severe ) {
+            // Because hands and feet share an HP pool with arms and legs, and the mouth shares
+            // an HP pool with the head, those parts take an unfair share of damage in relation
+            // to the torso, which only has one part.  Increase torso damage to balance this.
+            if( bp == bodypart_id( "torso" ) ) {
+                you.apply_damage( nullptr, bp, 2 );
+            } else {
+                you.apply_damage( nullptr, bp, 1 );
+            }
+            return Damage;
+        } else {
+            you.mod_pain( 1 );
+            return Pain;
+        }
+    };
+    auto medium_sunburn = [severe, &you] {
+        if( severe )
+        {
+            you.mod_pain( 1 );
+            return Pain;
+        } else
+        {
+            you.mod_focus( -1 );
+            return Focus_Loss;
+        }
+    };
+    auto light_sunburn = [severe, &you] {
+        if( severe )
+        {
+            you.mod_focus( -1 );
+            return Focus_Loss;
+        } else
+        {
+            return None;
+        }
+    };
+
     // Track body parts above the threshold
-    std::vector<std::pair<float, bodypart_id>> affected_bodyparts;
-    // Check each bodypart with exposure above the minimum
-    for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
-        const float exposure = bp_exp.second;
-        // Skip minimally-exposed parts, and skip the eyes (handled by sunglasses)
-        if( exposure <= MIN_EXPOSURE || bp_exp.first == bodypart_id( "eyes" ) ) {
+    std::map<bodypart_id, Sunburn> affected_bodyparts;
+
+    for( auto &bp_exp : bp_exposure ) {
+        bodypart_id bp = bp_exp.first;
+        float exposure = bp_exp.second;
+
+        if( bp == bodypart_id( "eyes" ) ) {
+            // Sunglasses can keep the sun off the eyes.
+            if( you.has_flag( json_flag_GLARE_RESIST )
+                || you.worn_with_flag( flag_SUN_GLASSES )
+                || you.worn_with_flag( flag_BLIND ) ) {
+                continue;
+            }
+            // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
+            exposure = 1.0;
+        } else if( you.get_wielded_item().has_flag( flag_RAIN_PROTECT )
+                   || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
+                        && you.worn_with_flag( flag_POCKETS )
+                        && you.can_use_pockets() )
+                   || ( bp == body_part_head
+                        && you.worn_with_flag( flag_HOOD )
+                        && you.can_use_hood() )
+                   || ( bp == body_part_mouth
+                        && you.worn_with_flag( flag_COLLAR )
+                        && you.can_use_collar() ) ) {
+            // Eyes suffer even in the presence of the checks in this branch!
+            // Umbrellas can keep the sun off all bodyparts
+            // Pockets can keep the sun off your hands if you don't wield a too large item
+            // Hoods can keep the sun off your unencumbered head
+            // Collars can keep the sun off your unencumbered mouth
             continue;
         }
-        affected_bodyparts.emplace_back( exposure, bp_exp.first );
-    }
 
-    // If all body parts are protected, there is no suffering
-    if( affected_bodyparts.empty() ) {
-        return;
-    }
+        float heavy_cumul_chance = heavy_eff_chance( exposure );
+        float medium_cumul_chance = heavy_cumul_chance + medium_eff_chance( exposure );
+        float light_cumul_chance = medium_cumul_chance + light_eff_chance( exposure );
+        float roll = rng_float( 0.0, 1.0 );
 
-    // Sort most affected bodyparts to the front
-    std::sort( affected_bodyparts.begin(), affected_bodyparts.end(), std::greater<> {} );
+        Sunburn eff;
+        if( roll < heavy_cumul_chance ) {
+            eff = heavy_sunburn( bp );
+        } else if( roll < medium_cumul_chance ) {
+            eff = medium_sunburn( );
+        } else if( roll < light_cumul_chance ) {
+            eff = light_sunburn( );
+        } else {
+            // Do nothing. Assert that exposure is lower than 0.05 as above that point at least light_eff should always happen
+            if( exposure > 0.05 ) {
+                debugmsg( "No sunburn effect was applied although the bodypart %s is sufficiently exposed at %f exposure",
+                          body_part_name( bp ), exposure );
+            };
+            eff = None;
+        }
+        affected_bodyparts.emplace( bp, eff );
+    }
 
     std::vector<std::string> affected_part_names;
     std::unordered_set<bodypart_id> excluded_other_parts;
 
-    for( const std::pair<float, bodypart_id> &exp_bp : affected_bodyparts ) {
-        const bodypart_id &bp = exp_bp.second;
-        if( excluded_other_parts.count( bp ) ) {
+    if( affected_bodyparts.empty() ) {
+        return;
+    }
+
+    Sunburn worst_effect = None;
+    bool contains_eyes = false;
+
+    for( const std::pair<const bodypart_id, Sunburn> &exp_bp : affected_bodyparts ) {
+        const bodypart_id &bp = exp_bp.first;
+        const Sunburn effect = exp_bp.second;
+        if( excluded_other_parts.count( bp ) || effect < worst_effect ) {
             continue;
         }
+        if( effect > worst_effect ) {
+            worst_effect = effect;
+            contains_eyes = false;
+            excluded_other_parts.clear();
+            affected_part_names.clear();
+        }
+
         const bodypart_id &opposite_bp = bp->opposite_part;
         // If these are different, we have a left/right part like a leg or arm.
         // If same, it's a central body part with no opposite, like head or torso.
         // Used to generate a simpler message when both arms or both legs are affected.
         int count_limbs = 1;
+        if( bp == bodypart_id( "eyes" ) ) {
+            contains_eyes = true;
+        }
         if( bp != opposite_bp ) {
-            const auto found = bp_exposure.find( opposite_bp );
-            // Is opposite part exposed?
-            if( found != bp_exposure.end() && found->second > MIN_EXPOSURE ) {
-                ++count_limbs;
+            const auto found = affected_bodyparts.find( opposite_bp );
+            // Is opposite part exposed to the same level?
+            // If it has a lower exposure, we don't include it in the message.
+            // If it has a higher exposure we can immediately skip as this bodypart won't be included in the message.
+            if( found != affected_bodyparts.end() ) {
+                if( found->second > effect ) {
+                    continue;
+                } else if( found->second == effect ) {
+                    ++count_limbs;
+                }
                 excluded_other_parts.insert( opposite_bp );
             }
         }
@@ -954,65 +1061,49 @@ void suffer::from_sunburn( Character &you )
         affected_part_names.push_back( bp_name );
     }
 
-    std::string all_parts_list = enumerate_as_string( affected_part_names );
+    const std::string all_parts_list = enumerate_as_string( affected_part_names );
 
-    std::string message;
-    if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
-        //~ %s is a list of body parts.  The plurality integer is the total
-        //~ number of body parts
-        message = n_gettext( "The sunlight is really irritating your %s.",
-                             "The sunlight is really irritating your %s.",
-                             affected_bodyparts.size() );
-    } else if( you.has_trait( trait_SUNBURN ) ) {
-        //~ %s is a list of body parts.  The plurality integer is the total
-        //~ number of body parts
-        message = n_gettext( "The sunlight burns your %s.",
-                             "The sunlight burns your %s.",
-                             affected_bodyparts.size() );
-    }
-    you.add_msg_if_player( m_bad, message, all_parts_list );
+    const int plurality = affected_part_names.size() + contains_eyes;
 
-    // Wake up from skin irritation/burning
-    if( you.has_effect( effect_sleep ) ) {
-        you.wake_up();
-    }
-
-    // Solar Sensitivity (SUNBURN) trait causes injury to exposed parts
-    if( you.has_trait( trait_SUNBURN ) ) {
-        you.mod_pain( 1 );
-        // Check exposure of all body parts
-        for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
-            const bodypart_id &this_part = bp_exp.first;
-            const float exposure = bp_exp.second;
-            // Skip parts with adequate protection
-            if( exposure <= MIN_EXPOSURE ) {
-                continue;
-            }
-            // Don't damage eyes directly, since it takes from head HP (in other words, your head
-            // won't be destroyed if only your eyes are exposed).
-            if( this_part == bodypart_id( "eyes" ) ) {
-                continue;
-            }
-            // Exposure percentage determines likelihood of injury
-            // 10% exposure is 10% chance of injury, naked = 100% chance
-            if( x_in_y( exposure, 1.0 ) ) {
-                // Because hands and feet share an HP pool with arms and legs, and the mouth shares
-                // an HP pool with the head, those parts take an unfair share of damage in relation
-                // to the torso, which only has one part.  Increase torso damage to balance this.
-                if( this_part == bodypart_id( "torso" ) ) {
-                    you.apply_damage( nullptr, this_part, 2 );
-                } else {
-                    you.apply_damage( nullptr, this_part, 1 );
-                }
-            }
+    auto warn_and_wake_up = [ &you, &all_parts_list]
+    ( const char *message, game_message_type type ) {
+        you.add_msg_if_player( type, message, all_parts_list );
+        // Wake up from skin irritation/burning
+        if( you.has_effect( effect_sleep ) ) {
+            you.wake_up();
         }
-    } else {
-        // Albinism/datura causes pain (1/60) or focus loss (59/60)
-        if( one_turn_in( 1_minutes ) ) {
-            you.mod_pain( 1 );
-        } else {
-            you.mod_focus( -1 );
-        }
+    };
+
+    switch( worst_effect ) {
+        case Damage:
+            //~ %s is a list of body parts.  The plurality integer is the total
+            //~ number of body parts (eyes count as 2 body parts)
+            //~ This message indicates damage to bodyparts through sunshine
+            warn_and_wake_up( n_gettext( "Your %s is bathed in sunlight.  It feels like it is burning up.",
+                                         "Your %s are bathed in sunlight.  They feel like they are burning up.",
+                                         plurality ),
+                              m_bad );
+            break;
+        case Pain:
+            //~ %s is a list of body parts.  The plurality integer is the total
+            //~ number of body parts (eyes count as 2 body parts)
+            //~ This message indicates pain through sunshine
+            warn_and_wake_up( n_gettext( "The sunlight burns on your %s.",
+                                         "The sunlight burns on your %s.",
+                                         plurality ),
+                              m_bad );
+            break;
+        case Focus_Loss:
+            //~ %s is a list of body parts.  The plurality integer is the total
+            //~ number of body parts (eyes count as 2 body parts)
+            //~ This message indicates focus loss through sunshine
+            warn_and_wake_up( n_gettext( "The sunlight on your %s irritates you.",
+                                         "The sunlight on your %s irritates you.",
+                                         plurality ),
+                              m_bad );
+            break;
+        case None:
+            break;
     }
 }
 
@@ -1221,12 +1312,7 @@ void suffer::from_radiation( Character &you )
     }
 
     if( !radiogenic && you.get_rad() > 0 ) {
-        // Even if you heal the radiation itself, the damage is done.
-        const int hmod = you.get_healthy_mod();
-        const int health_mod_cap = std::max( -200, 200 - you.get_rad() );
-        if( hmod > health_mod_cap ) {
-            you.set_healthy_mod( health_mod_cap );
-        }
+        you.mod_daily_health( -you.get_rad(), -200 );
     }
 
     if( you.get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( you.get_rad(), 1000 ) ) {
@@ -1625,6 +1711,11 @@ void Character::suffer()
     }
     //Suffer from enchantments
     enchantment_cache->activate_passive( *this );
+    if( calendar::once_every( 30_minutes ) ) {
+        int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
+        int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
+        mod_daily_health( healthy_mod, healthy_mod_cap );
+    }
 }
 
 bool Character::irradiate( float rads, bool bypass )
@@ -1747,7 +1838,7 @@ void Character::mend( int rate_multiplier )
     }
 
     // Being healthy helps.
-    healing_factor *= 1.0f + get_healthy() / 200.0f;
+    healing_factor *= 1.0f + get_lifestyle() / 200.0f;
 
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1

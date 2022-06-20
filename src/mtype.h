@@ -494,7 +494,7 @@ struct mtype {
         void set_strategy();
         void add_goal( const std::string &goal_id );
         const behavior::node_t *get_goals() const;
-        void faction_display( catacurses::window &w, const point &top_left, const int width ) const;
+        void faction_display( catacurses::window &w, const point &top_left, int width ) const;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );

@@ -148,7 +148,7 @@ TEST_CASE( "base cardio", "[cardio][base]" )
     clear_avatar();
 
     // Ensure no initial effects that would affect cardio
-    REQUIRE( they.get_healthy() == 0 );
+    REQUIRE( they.get_lifestyle() == 0 );
     REQUIRE( they.get_skill_level( skill_swimming ) == 0 );
     // Ensure base_bmr and starting cardio are what we expect
     REQUIRE( they.base_bmr() == base_bmr );
@@ -194,7 +194,7 @@ TEST_CASE( "cardio is affected by certain traits", "[cardio][traits]" )
     clear_avatar();
 
     // Ensure no initial effects that would affect cardio
-    REQUIRE( they.get_healthy() == 0 );
+    REQUIRE( they.get_lifestyle() == 0 );
     REQUIRE( they.get_skill_level( skill_swimming ) == 0 );
     // Ensure base_bmr and starting cardio are what we expect
     REQUIRE( they.base_bmr() == base_bmr );
@@ -317,11 +317,11 @@ TEST_CASE( "cardio is affected by character health", "[cardio][health]" )
     clear_avatar();
 
     SECTION( "Hidden health stat adds directly to cardio fitness" ) {
-        they.set_healthy( 0 );
+        they.set_lifestyle( 0 );
         CHECK( they.get_cardiofit() == base_cardio );
-        they.set_healthy( 200 );
+        they.set_lifestyle( 200 );
         CHECK( they.get_cardiofit() == base_cardio + 200 );
-        they.set_healthy( -200 );
+        they.set_lifestyle( -200 );
         CHECK( they.get_cardiofit() == base_cardio - 200 );
     }
 }

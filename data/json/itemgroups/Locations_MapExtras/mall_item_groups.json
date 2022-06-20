@@ -23,8 +23,8 @@
       { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
       [ "wire", 5 ],
       [ "splinter", 10 ],
-      [ "rag", 15 ],
-      { "item": "rag", "prob": 10, "custom-flags": [ "FILTHY" ] },
+      [ "cotton_patchwork", 15 ],
+      { "item": "cotton_patchwork", "prob": 10, "custom-flags": [ "FILTHY" ] },
       [ "plastic_shopping_bag", 10 ]
     ]
   },

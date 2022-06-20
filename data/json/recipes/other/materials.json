@@ -127,6 +127,84 @@
     "components": [ [ [ "copper", 50 ] ] ]
   },
   {
+    "result": "copper",
+    "id_suffix": "medium_batch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 90, 1 ],
+    "autolearn": true,
+    "charges": 50,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "scrap_copper", 1 ], [ "copper_ear", 2 ], [ "cable", 50 ], [ "coin_dime", 25 ], [ "coin_nickel", 10 ] ],
+      [ [ "chem_washing_soda", 2 ] ]
+    ]
+  },
+  {
+    "result": "copper",
+    "id_suffix": "small_batch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 90, 1 ],
+    "autolearn": true,
+    "charges": 24,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [
+        [ "copper_hairpin", 8 ],
+        [ "copper_locket", 6 ],
+        [ "copper_necklace", 6 ],
+        [ "copper_ring", 8 ],
+        [ "cable", 24 ],
+        [ "coin_dime", 12 ],
+        [ "coin_half_dollar", 2 ],
+        [ "coin_quarter", 4 ]
+      ],
+      [ [ "chem_washing_soda", 1 ] ]
+    ]
+  },
+  {
+    "result": "copper",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 90, 1 ],
+    "autolearn": true,
+    "charges": 200,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [
+        [ "scrap_copper", 4 ],
+        [ "copper_ear", 8 ],
+        [ "cu_pipe", 1 ],
+        [ "cable", 200 ],
+        [ "coin_dime", 100 ],
+        [ "coin_nickel", 40 ],
+        [ "coin_half_dollar", 18 ],
+        [ "copper_necklace", 50 ],
+        [ "copper_locket", 50 ]
+      ],
+      [ [ "chem_washing_soda", 4 ] ]
+    ]
+  },
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "plastic_chunk",
@@ -248,6 +326,7 @@
     "skills_required": [ "survival", 3 ],
     "difficulty": 1,
     "time": "15 m",
+    "result_mult": 27,
     "autolearn": true,
     "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 1 ] ] ]
   },
@@ -306,14 +385,14 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "rag",
-    "id_suffix": "from_sheet",
+    "id_suffix": "from_patches",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
-    "time": "1 m",
+    "time": "0 s",
+    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.  Can be removed during feature freeze for 0.H",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "sheet_cotton", 16 ] ], [ [ "filament", 2, "LIST" ] ] ]
+    "components": [ [ [ "cotton_patchwork", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -441,6 +520,7 @@
     "result": "rag",
     "id_suffix": "knitting",
     "category": "CC_OTHER",
+    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
     "difficulty": 2,
@@ -459,6 +539,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
     "batch_time_factors": [ 70, 1 ],
+    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.",
     "time": "18 s",
     "autolearn": true,
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
@@ -475,7 +556,7 @@
     "time": "60 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton", 7 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 12 ] ]
   },
   {
     "type": "recipe",
@@ -495,14 +576,14 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "nylon",
-    "id_suffix": "from_sheet",
+    "id_suffix": "from_scraps",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_nylon", 4 ] ], [ [ "thread", 10 ] ] ]
+    "components": [ [ [ "scrap_nylon", 4 ] ], [ [ "thread", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -570,7 +651,19 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "filament", 15, "LIST" ] ] ]
+    "components": [ [ [ "cotton_patchwork", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
+  },
+  {
+    "result": "cotton_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "scrap_cotton", 4 ] ], [ [ "filament", 15, "LIST" ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",
@@ -582,7 +675,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "neoprene", 5 ] ], [ [ "filament", 15, "LIST" ] ] ]
+    "components": [ [ [ "neoprene", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
   },
   {
     "result": "sheet_nomex_patchwork",
@@ -594,7 +687,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nomex", 5 ] ], [ [ "thread_nomex", 15 ] ] ]
+    "components": [ [ [ "nomex", 8 ] ], [ [ "thread_nomex", 15 ] ] ]
   },
   {
     "type": "recipe",
@@ -1003,6 +1096,19 @@
     "components": [ [ [ "budget_steel_chunk", 4 ] ] ]
   },
   {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "cotton_patchwork",
+    "id_suffix": "from_rags",
+    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "0 s",
+    "autolearn": true,
+    "components": [ [ [ "rag", 1 ] ] ]
+  },
+  {
     "result": "plastic_sheet",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1025,7 +1131,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "bag_plastic", 1 ] ] ]
   },
   {
@@ -1039,7 +1145,79 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "plastic_sheet_small", 8 ] ] ]
+  },
+  {
+    "result": "sheet_faux_fur_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "faux_fur", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
+  },
+  {
+    "result": "sheet_fur_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "fur", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
+  },
+  {
+    "result": "sheet_leather_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "leather", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
+  },
+  {
+    "result": "sheet_felt_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "felt_patch", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
+  },
+  {
+    "result": "sheet_lycra_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "lycra_patch", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
+  },
+  {
+    "result": "sheet_nylon_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
   }
 ]

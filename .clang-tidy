@@ -57,7 +57,6 @@ readability-*,\
 -misc-misplaced-const,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
--misc-redundant-expression,\
 -modernize-avoid-bind,\
 -modernize-avoid-c-arrays,\
 -modernize-loop-convert,\
@@ -68,7 +67,6 @@ readability-*,\
 -performance-no-automatic-move,\
 -performance-trivially-destructible,\
 -performance-unnecessary-value-param,\
--readability-avoid-const-params-in-decls,\
 -readability-convert-member-functions-to-static,\
 -readability-else-after-return,\
 -readability-function-cognitive-complexity,\

@@ -777,7 +777,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     if( potential > 0.0f && critter && damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
     }
-    if( potential > 0.0f && target->pos() == critter->pos() ) {
+    if( potential > 0.0f && target && critter && target->pos() == critter->pos() ) {
         potential *= npc_attack_constants::target_modifier;
     }
     return npc_attack_rating( std::round( potential ), location );

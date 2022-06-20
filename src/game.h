@@ -273,9 +273,11 @@ class game
          */
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint &pos );
-        /** Returns the other end of the stairs (if any). May query, affect u etc.  */
+        /** Returns the other end of the stairs (if any). May query, affect u etc.
+        * @param pos Disable queries and msgs if not the same position as player.
+        */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
-                bool peeking );
+                bool peeking, const tripoint &pos );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc.
          *  Returns true if the z-level changed.
          */
@@ -484,7 +486,7 @@ class game
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
-        bool portal_storm_query( const distraction_type type, const std::string &text );
+        bool portal_storm_query( distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &dest_loc );
 

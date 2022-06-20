@@ -201,7 +201,7 @@ class item_pocket
          * @param ammo item to be loaded in
          * @param now whether the currently contained ammo/magazine should be taken into account
          */
-        bool can_reload_with( const item &ammo, const bool now ) const;
+        bool can_reload_with( const item &ammo, bool now ) const;
 
         units::length max_containable_length() const;
         units::length min_containable_length() const;
@@ -332,9 +332,9 @@ class item_pocket
         *
         * @returns A non-nullptr if a suitable pocket is found.
         */
-        item_pocket *best_pocket_in_contents(
-            item_location &parent, const item &it, const item *avoid,
-            const bool allow_sealed, const bool ignore_settings );
+        std::pair<item_location, item_pocket *> best_pocket_in_contents(
+            item_location &this_loc, const item &it, const item *avoid,
+            bool allow_sealed, bool ignore_settings );
 
         // only available to help with migration from previous usage of std::list<item>
         std::list<item> &edit_contents();

@@ -700,8 +700,9 @@ void Character::load( const JsonObject &data )
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
-    data.read( "healthy", healthy );
-    data.read( "healthy_mod", healthy_mod );
+    data.read( "healthy", lifestyle );
+    data.read( "healthy_mod", daily_health );
+    data.read( "health_tally", health_tally );
 
     // Remove check after 0.F
     if( savegame_loading_version >= 30 ) {
@@ -1196,8 +1197,9 @@ void Character::store( JsonOut &json ) const
     json.member( "custom_profession", custom_profession );
 
     // health
-    json.member( "healthy", healthy );
-    json.member( "healthy_mod", healthy_mod );
+    json.member( "healthy", lifestyle );
+    json.member( "healthy_mod", daily_health );
+    json.member( "health_tally", health_tally );
 
     // needs
     json.member( "thirst", thirst );
