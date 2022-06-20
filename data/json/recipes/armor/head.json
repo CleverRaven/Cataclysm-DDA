@@ -2095,7 +2095,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_fur_patchwork", 2 ] ],
+    "using": [ [ "tailoring_fur_patchwork_simple", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {
