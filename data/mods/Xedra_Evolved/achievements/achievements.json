@@ -44,7 +44,7 @@
     "name": "Never Wake again",
     "requirements": [
       {
-        "event_statistic": "num_gains_trait_dreamer",
+        "event_statistic": "num_gains_mutation_dreamer",
         "is": "==",
         "target": [ "trait_id", "DREAMER" ],
         "description": "Gained access to dream magic.",
@@ -53,17 +53,17 @@
     ]
   },
   {
-    "id": "avatar_gains_trait_dreamer",
+    "id": "avatar_gains_mutation_dreamer",
     "type": "event_transformation",
-    "event_type": "gains_trait",
+    "event_type": "gains_mutation",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "trait": { "equals": [ "trait_id", "DREAMER" ] } },
     "drop_fields": [ "character", "trait" ]
   },
   {
-    "id": "num_gains_trait_dreamer",
+    "id": "num_gains_mutation_dreamer",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_trait_dreamer",
+    "event_transformation": "avatar_gains_mutation_dreamer",
     "description": { "str_sp": "Dreamer Trait Gained" }
   },
   {
@@ -72,7 +72,7 @@
     "name": "Destroy what doesn't belong.",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_trait_eater",
+        "event_statistic": "avatar_gains_mutation_eater",
         "is": "==",
         "target": [ "trait_id", "EATER" ],
         "description": "Gained access to eater magic.",
@@ -81,17 +81,17 @@
     ]
   },
   {
-    "id": "avatar_gains_trait_eater",
+    "id": "avatar_gains_mutation_eater",
     "type": "event_transformation",
-    "event_type": "gains_trait",
+    "event_type": "gains_mutation",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "trait": { "equals": [ "trait_id", "EATER" ] } },
     "drop_fields": [ "character", "trait" ]
   },
   {
-    "id": "num_gains_trait_eater",
+    "id": "num_gains_mutation_eater",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_trait_eater",
+    "event_transformation": "avatar_gains_mutation_eater",
     "description": { "str_sp": "Eater Trait Gained" }
   },
   {
@@ -100,7 +100,7 @@
     "name": "Forged by dreams",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_trait_dreamsmith",
+        "event_statistic": "avatar_gains_mutation_dreamsmith",
         "is": "==",
         "target": [ "trait_id", "DREAMSMITH" ],
         "description": "Gained access to dream forging magic",
@@ -109,17 +109,17 @@
     ]
   },
   {
-    "id": "avatar_gains_trait_dreamsmith",
+    "id": "avatar_gains_mutation_dreamsmith",
     "type": "event_transformation",
-    "event_type": "gains_trait",
+    "event_type": "gains_mutation",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "trait": { "equals": [ "trait_id", "DREAMSMITH" ] } },
     "drop_fields": [ "character", "trait" ]
   },
   {
-    "id": "num_gains_trait_dreamsmith",
+    "id": "num_gains_mutation_dreamsmith",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_trait_dreamsmith",
+    "event_transformation": "avatar_gains_mutation_dreamsmith",
     "description": { "str_sp": "Dreamsmith Trait Gained" }
   },
   {
@@ -128,7 +128,7 @@
     "name": "This has a small, but fascinating, chance of actually working!  Let's do it!",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_trait_inventor",
+        "event_statistic": "avatar_gains_mutation_inventor",
         "is": "==",
         "target": [ "trait_id", "INVENTOR" ],
         "description": "Gained access to mad genius inventions.",
@@ -137,17 +137,17 @@
     ]
   },
   {
-    "id": "avatar_gains_trait_inventor",
+    "id": "avatar_gains_mutation_inventor",
     "type": "event_transformation",
-    "event_type": "gains_trait",
+    "event_type": "gains_mutation",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "trait": { "equals": [ "trait_id", "DREAMSMITH" ] } },
     "drop_fields": [ "character", "trait" ]
   },
   {
-    "id": "num_gains_trait_inventor",
+    "id": "num_gains_mutation_inventor",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_trait_inventor",
+    "event_transformation": "avatar_gains_mutation_inventor",
     "description": { "str_sp": "Mad Genius Trait Gained" }
   },
   {
