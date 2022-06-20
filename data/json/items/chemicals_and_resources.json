@@ -1801,5 +1801,18 @@
     "ammo_type": "components",
     "flags": [ "DETERGENT" ],
     "count": 5
+  },
+  {
+    "id": "pine_resin",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "pine resin" },
+    "description": "A sticky, sludgy mass of sap harvested from a pine tree.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "symbol": "=",
+    "color": "white",
+    "looks_like": "lard"
   }
 ]
