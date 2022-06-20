@@ -97,8 +97,6 @@ pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organ
     for( item *i : to_organize ) {
         add_pockets( *i, pocket_selector, "" );
     }
-
-    needs_to_refresh = true;
 }
 
 void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
