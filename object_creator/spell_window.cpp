@@ -154,18 +154,20 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     QObject::connect( &learn_spells_box, &QTableWidget::cellChanged, [&]() {
         {
-            QTableWidgetItem *cur_widget = learn_spells_box.selectedItems().first();
-            const int cur_row = learn_spells_box.row( cur_widget );
-            QAbstractItemModel *model = learn_spells_box.model();
-            QVariant id_text = model->data( model->index( cur_row, 0 ), Qt::DisplayRole );
-            QVariant lvl_text = model->data( model->index( cur_row, 1 ), Qt::DisplayRole );
+            if( learn_spells_box.selectedItems().length() > 0 ){
+                QTableWidgetItem *cur_widget = learn_spells_box.selectedItems().first();
+                const int cur_row = learn_spells_box.row( cur_widget );
+                QAbstractItemModel *model = learn_spells_box.model();
+                QVariant id_text = model->data( model->index( cur_row, 0 ), Qt::DisplayRole );
+                QVariant lvl_text = model->data( model->index( cur_row, 1 ), Qt::DisplayRole );
 
-            const bool cur_row_empty = id_text.toString().isEmpty() && lvl_text.toString().isEmpty();
-            const bool last_row = cur_row == learn_spells_box.rowCount() - 1;
-            if( last_row && !cur_row_empty ) {
-                learn_spells_box.insertRow( learn_spells_box.rowCount() );
-            } else if( !last_row && cur_row_empty ) {
-                learn_spells_box.removeRow( cur_row );
+                const bool cur_row_empty = id_text.toString().isEmpty() && lvl_text.toString().isEmpty();
+                const bool last_row = cur_row == learn_spells_box.rowCount() - 1;
+                if( last_row && !cur_row_empty ) {
+                    learn_spells_box.insertRow( learn_spells_box.rowCount() );
+                } else if( !last_row && cur_row_empty ) {
+                    learn_spells_box.removeRow( cur_row );
+                }
             }
         }
 
@@ -1323,14 +1325,13 @@ void creator::spell_window::populate_fields()
     for ( const spell_type& sp_t : spell_type::get_all() ) {
         if ( sp_t.id.c_str() == s ) {
 
-            editable_spell = default_spell_type();
             editable_spell.targeted_monster_ids = sp_t.targeted_monster_ids; //Need to set this first to output the right json later
             
             id_box.setText ( QString( sp_t.id.c_str() ) );
             name_box.setText( QString( sp_t.name.translated().c_str() ) );
             description_box.setPlainText( QString( sp_t.description.translated().c_str() ) );
             int index = effect_box.findText( sp_t.effect_name.c_str() );
-            if (index != -1) { // -1 for not found
+            if ( index != -1 ) { // -1 for not found
                 effect_box.setCurrentIndex( index );
             }
             effect_str_box.setText( QString( sp_t.effect_str.c_str() ) );
@@ -1348,16 +1349,37 @@ void creator::spell_window::populate_fields()
             }
 
             for( int i = 0; i < static_cast<int>(spell_flag::LAST); i++ ) {
-                if ( sp_t.spell_tags.test(static_cast<spell_flag>( i ) ) ) {
+                if( sp_t.spell_tags.test(static_cast<spell_flag>( i ) ) ) {
                     spell_flags_box.item( i )->setCheckState( Qt::Checked );
                 } else {
                     spell_flags_box.item( i )->setCheckState( Qt::Unchecked );
                 }
             }
 
-            //TODO add read support for learn_spells in the learn_spells_box widget as soon as the magiclysm mod spells are included (since none of the base spells have that property)
 
+            editable_spell.learn_spells.clear();
+            learn_spells_box.clearContents();
+            learn_spells_box.setRowCount(1);
+            std::map<std::string, int> l_spells = sp_t.learn_spells;
+            if( !l_spells.empty() ) {
+                for ( std::map<std::string, int>::iterator it = l_spells.begin();
+                    it != l_spells.end(); ++it ) {
+                    learn_spells_box.insertRow( 0 );
+                    int learn_at_level = it->second;
+                    const std::string learn_spell_id = it->first;
 
+                    QTableWidgetItem* item = new QTableWidgetItem();
+                    item->setText( QString( learn_spell_id.c_str() ) );
+                    learn_spells_box.setCurrentItem( item );
+                    learn_spells_box.setItem( 0, 0, item );
+
+                    item = new QTableWidgetItem();
+                    item->setText( QString( std::to_string( learn_at_level ).c_str() ) );
+                    learn_spells_box.setCurrentItem( item );
+                    learn_spells_box.setItem( 0, 1, item );
+                }
+            }
+            
 
             base_energy_cost_box.setValue( sp_t.base_energy_cost);
             final_energy_cost_box.setValue( sp_t.final_energy_cost);
@@ -1395,16 +1417,16 @@ void creator::spell_window::populate_fields()
 
 
             std::string cmp = sp_t.spell_components.c_str();
-            if(cmp != "") {
-                index = components_box.findText( QString( cmp.c_str()) );
+            if( cmp != "" ) {
+                index = components_box.findText( QString( cmp.c_str() ) );
 
-                if (index != -1) { // -1 for not found
+                if ( index != -1 ) { // -1 for not found
                     components_box.setCurrentIndex( index );
                 }
             } else {
-                index = components_box.findText( QString("NONE") );
+                index = components_box.findText( QString( "NONE" ) );
 
-                if (index != -1) { // -1 for not found
+                if( index != -1 ) { // -1 for not found
                     components_box.setCurrentIndex(index);
                 }
             }
