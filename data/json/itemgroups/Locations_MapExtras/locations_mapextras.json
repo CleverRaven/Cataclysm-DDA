@@ -163,6 +163,7 @@
       { "item": "ref_matches", "prob": 50, "charges": [ 0, 32 ] },
       { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "small_lighter", "prob": 20, "charges": [ 0, 50 ] },
       [ "rollmat", 60 ],
       [ "tent_kit", 10 ],
       [ "hammock", 5 ],

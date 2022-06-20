@@ -327,6 +327,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
+	"looks_like": "lighter",
     "charges_per_use": 1,
     "pocket_data": [
       {
