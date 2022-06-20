@@ -112,10 +112,10 @@
     "name": { "str": "Oneiric Hammer" },
     "description": "The platonic embodiment of a blacksmiths hammer.  This hammer is necessary to forge or repair items made of forged dreamstuff.",
     "weight": "1337 g",
-    "to_hit": 2,
+    "to_hit": -1,
     "color": "brown",
     "symbol": "/",
-    "material": [ "dreamdross" ],
+    "material": [ "dreamstuff" ],
     "flags": [
       "NONCONDUCTIVE",
       "BELT_CLIP",
