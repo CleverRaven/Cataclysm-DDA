@@ -72,7 +72,7 @@
     "name": "Destroy what doesn't belong.",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_mutation",
+        "event_statistic": "avatar_gains_trait",
         "is": "==",
         "target": [ "trait_id", "EATER" ],
         "description": "Gained access to eater magic.",
@@ -86,7 +86,7 @@
     "name": "Forged by dreams",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_mutation",
+        "event_statistic": "avatar_gains_trait",
         "is": "==",
         "target": [ "trait_id", "DREAMSMITH" ],
         "description": "Gained access to dream forging magic",
@@ -100,20 +100,13 @@
     "name": "This has a small, but fascinating, chance of actually working!  Let's do it!",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_mutation",
+        "event_statistic": "avatar_gains_trait",
         "is": "==",
         "target": [ "trait_id", "INVENTOR" ],
         "description": "Gained access to mad genius inventions.",
         "visible": "when_achievement_completed"
       }
     ]
-  },
-  {
-    "id": "avatar_gains_dreamer_trait",
-    "type": "event_transformation",
-    "event_type": "gains_mutation",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "character" ]
   },
   {
     "id": "achievement_lvl_1_deduction",

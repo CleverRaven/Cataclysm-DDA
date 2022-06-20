@@ -20,5 +20,15 @@
         "text": "I've tracked down rumors an intradimensional contact unit based out a local government building.  I'm going to go recon it, see you in a few days."
       }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [
+      {
+        "id": "xe_survnote_1",
+        "text": "The weird creatures that seem to come out of peoples nightmares don't seem to be able to track by smell like so many of the other monsters.  I wonder if that's because smell isn't a strong sense in dreams?"
+      }
+    ]
   }
 ]
