@@ -421,16 +421,16 @@
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": [ "ammonia_liquid" ],
+    "ammo": [ "ammonia" ],
     "use_action": { "type": "cast_spell", "spell_id": "spell_exosuit_jetpack", "no_fail": true, "level": 5 },
     "flags": [ "CANT_WEAR", "EXO_LARGE_GADGET" ],
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE",
+        "pocket_type": "CONTAINER",
         "description": "This is a tank for ammonia.  Holds up to 5 liters.",
         "rigid": true,
         "watertight": true,
-        "ammo_restriction": { "ammonia_liquid": 1000 }
+        "ammo_restriction": { "ammonia": 1000 }
       }
     ]
   },
