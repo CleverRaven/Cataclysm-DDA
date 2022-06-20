@@ -91,7 +91,7 @@
     "id": "test_rag",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "TEST rag",
+    "name": "TEST cotton patchwork",
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -100,7 +100,7 @@
     "symbol": ",",
     "color": "white",
     "use_action": [
-      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] } },
+      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] } },
       "WASH_HARD_ITEMS"
     ],
     "flags": [ "NO_SALVAGE" ]
@@ -110,7 +110,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "TEST rag bundle",
-    "description": "This is a bundle of 100 rags tied together with a piece of string.",
+    "description": "This is a bundle of 100 cotton patchwork pieces tied together with a piece of string.",
     "weight": "800 g",
     "volume": "2000 ml",
     "price": 0,

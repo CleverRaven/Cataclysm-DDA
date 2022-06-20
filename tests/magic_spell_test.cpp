@@ -608,7 +608,7 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
     // For these effects, positive "damage" is good (adding to internal reservoirs):
     // MANA: p.magic.mod_mana
     // STAMINA: p.mod_stamina
-    // HEALTH: p.mod_healthy (hidden health stat)
+    // HEALTH: p.mod_livestyle (hidden health stat)
     // BIONIC: p.mod_power_level (positive) OR p.mod_stamina (negative)
     //
     // For these effects, negative "damage" is good (reducing the amount of a bad thing)

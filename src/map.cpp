@@ -4838,7 +4838,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                        const int missing = cur_veh.discharge_battery( 1, false );
+                        const int missing = cur_veh.discharge_battery( 1, true );
                         // Around 85% efficient; a few of the discharges don't actually recharge
                         if( missing == 0 && !one_in( 7 ) ) {
                             if( n.is_vehicle_battery() ) {
@@ -8055,26 +8055,26 @@ int map::determine_wall_corner( const tripoint &p ) const
 
         case 8 | 2 | 0 | 4:
             return LINE_XXOX;
-        case 0 | 2 | 0 | 4:
+        case 0 | 2 | 0 | 4: // NOLINT(misc-redundant-expression)
             return LINE_OXOX;
-        case 8 | 0 | 0 | 4:
+        case 8 | 0 | 0 | 4: // NOLINT(misc-redundant-expression)
             return LINE_XOOX;
         case 0 | 0 | 0 | 4:
             return LINE_OXOX; // LINE_OOOX would be better
 
         case 8 | 2 | 1 | 0:
             return LINE_XXXO;
-        case 0 | 2 | 1 | 0:
+        case 0 | 2 | 1 | 0: // NOLINT(misc-redundant-expression)
             return LINE_OXXO;
-        case 8 | 0 | 1 | 0: // NOLINT(bugprone-branch-clone)
+        case 8 | 0 | 1 | 0: // NOLINT(bugprone-branch-clone,misc-redundant-expression)
             return LINE_XOXO;
         case 0 | 0 | 1 | 0:
             return LINE_XOXO; // LINE_OOXO would be better
-        case 8 | 2 | 0 | 0:
+        case 8 | 2 | 0 | 0: // NOLINT(misc-redundant-expression)
             return LINE_XXOO;
-        case 0 | 2 | 0 | 0:
+        case 0 | 2 | 0 | 0: // NOLINT(misc-redundant-expression)
             return LINE_OXOX; // LINE_OXOO would be better
-        case 8 | 0 | 0 | 0:
+        case 8 | 0 | 0 | 0: // NOLINT(misc-redundant-expression)
             return LINE_XOXO; // LINE_XOOO would be better
 
         case 0 | 0 | 0 | 0:

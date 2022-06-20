@@ -1151,6 +1151,21 @@
   },
   {
     "type": "construction_group",
+    "id": "place_foodco",
+    "name": "Place FOODCO"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chemlab",
+    "name": "Place Onboard Chemistry Lab"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_weldrig",
+    "name": "Place Welding Rig"
+  },
+  {
+    "type": "construction_group",
     "id": "place_arcade_machine",
     "name": "Place Arcade Machine"
   },
@@ -1332,7 +1347,7 @@
   {
     "type": "construction_group",
     "id": "place_electrolyzer_makeshift",
-    "name": "Place Makeshift Electrolyzer"
+    "name": "Place Makeshift Water Electrolyzer"
   },
   {
     "type": "construction_group",

@@ -62,15 +62,15 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     clear_map();
 
     g->clear_zombies();
-    item &test_item = player_character.i_add( item( "bot_manhack", calendar::turn_zero,
-                      item::default_charges_tag{} ) );
+    item_location test_item = player_character.i_add( item( "bot_manhack", calendar::turn_zero,
+                              item::default_charges_tag{} ) );
 
-    REQUIRE( player_character.has_item( test_item ) );
+    REQUIRE( player_character.has_item( *test_item ) );
 
     monster *new_manhack = find_adjacent_monster( player_character.pos() );
     REQUIRE( new_manhack == nullptr );
 
-    player_character.invoke_item( &test_item );
+    player_character.invoke_item( &*test_item );
 
     REQUIRE( !player_character.has_item_with( []( const item & it ) {
         return it.typeId() == itype_bot_manhack;

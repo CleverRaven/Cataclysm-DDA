@@ -17,7 +17,7 @@
     "id": "NC_FORGE_LORD_LIBRARIAN",
     "name": { "str": "Forge Librarian" },
     "job_description": "I take care of the books and scrolls.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "trait": "VAULT_DEFENDER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "one_in": 4 },

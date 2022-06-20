@@ -27,6 +27,7 @@
     "price": 10000,
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "MAGIC_FOCUS" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ] } ]
@@ -48,6 +49,7 @@
     "price": 40000,
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 1.25 } ] } ]
@@ -69,6 +71,7 @@
     "price": 1000000,
     "material": [ "wood", "mithril_metal" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
