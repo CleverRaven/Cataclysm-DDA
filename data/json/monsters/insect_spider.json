@@ -2665,6 +2665,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_single",
+    "reproduction": { "baby_egg": "egg_lady_bug", "baby_count": 1, "baby_timer": 30 },
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
     "special_attacks": [
@@ -2754,7 +2755,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_single",
-    "reproduction": { "baby_egg": "egg_lady_bug", "baby_count": 1, "baby_timer": 30 },
+    "reproduction": { "baby_egg": "egg_lady_bug_giant", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
