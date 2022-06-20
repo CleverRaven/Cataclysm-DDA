@@ -208,6 +208,8 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
 static const std::string flag_SILENT( "SILENT" );
 
+constexpr units::volume armor_portion_data::volume_per_encumbrance;
+
 
 class npc_class;
 
@@ -7566,7 +7568,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         encumber = portion_data->encumber;
         if( is_gun() ) {
             encumber += volume() * portion_data->volume_encumber_modifier /
-                        portion_data->volume_per_encumbrance;
+                        armor_portion_data::volume_per_encumbrance;
         }
 
         // encumbrance from added or modified pockets

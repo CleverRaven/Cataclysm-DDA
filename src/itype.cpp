@@ -253,6 +253,26 @@ int armor_portion_data::max_coverage( bodypart_str_id bp ) const
     return std::max( primary_max_coverage, secondary_max_coverage );
 }
 
+bool armor_portion_data::should_consolidate( const armor_portion_data &l,
+        const armor_portion_data &r )
+{
+    //check if the following are equal:
+    return l.encumber == r.encumber &&
+           l.max_encumber == r.max_encumber &&
+           l.volume_encumber_modifier == r.volume_encumber_modifier &&
+           l.coverage == r.coverage &&
+           l.cover_melee == r.cover_melee &&
+           l.cover_ranged == r.cover_ranged &&
+           l.cover_vitals == r.cover_vitals &&
+           l.env_resist == r.env_resist &&
+           l.breathability == r.breathability &&
+           l.rigid == r.rigid &&
+           l.comfortable == r.comfortable &&
+           l.rigid_layer_only == r.rigid_layer_only &&
+           l.materials == r.materials &&
+           l.layers == r.layers;
+}
+
 int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) const
 {
     // this function takes some fixed points for mass to encumbrance and interpolates them to get results for head encumbrance
