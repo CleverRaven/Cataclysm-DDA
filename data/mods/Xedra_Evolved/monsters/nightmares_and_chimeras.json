@@ -27,11 +27,6 @@
     "armor_bullet": 2,
     "luminance": 0,
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "FLIES",
-      "NO_BREATHE"
-    ]
+    "flags": [ "SEES", "HEARS", "FLIES", "NO_BREATHE" ]
   }
 ]
