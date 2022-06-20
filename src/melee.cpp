@@ -2128,7 +2128,7 @@ item &Character::best_shield()
     best_value = best_value == 2 ? 0 : best_value;
     item *best = best_value > 0 ? &weapon : &null_item_reference();
     item *best_worn = worn.best_shield();
-    if( best_worn != nullptr ) {
+    if( best_worn != nullptr && melee::blocking_ability( *best_worn ) >= best_value ) {
         best = best_worn;
     }
 
