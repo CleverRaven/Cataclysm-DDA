@@ -430,7 +430,7 @@
         "description": "This is a tank for pressurized ammonia.  Holds up to 5 liters.",
         "rigid": true,
         "watertight": true,
-        "ammo_restriction": { "ammonia_liquid": 1000 }
+        "ammo_restriction": { "ammonia_liquid": 10 }
       }
     ]
   },
