@@ -162,8 +162,8 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "container", container );
     obj.read( "sealed", sealed );
     if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
-        obj.throw_error( "Transform actor specified both fixed and random target charges",
-                         "target_charges" );
+        obj.throw_error_at( "target_charges",
+                            "Transform actor specified both fixed and random target charges" );
     }
     obj.read( "target_charges", ammo_qty );
     if( obj.has_array( "rand_target_charges" ) ) {
@@ -171,7 +171,8 @@ void iuse_transform::load( const JsonObject &obj )
             random_ammo_qty.push_back( charge );
         }
         if( random_ammo_qty.size() < 2 ) {
-            obj.throw_error( "You must specify two or more values to choose between", "rand_target_charges" );
+            obj.throw_error_at( "rand_target_charges",
+                                "You must specify two or more values to choose between" );
         }
     }
     obj.read( "target_ammo", ammo_type );
@@ -179,14 +180,14 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "countdown", countdown );
 
     if( !ammo_type.is_empty() && !container.is_empty() ) {
-        obj.throw_error( "Transform actor specified both ammo type and container type", "target_ammo" );
+        obj.throw_error_at( "target_ammo", "Transform actor specified both ammo type and container type" );
     }
 
     obj.read( "active", active );
 
     obj.read( "moves", moves );
     if( moves < 0 ) {
-        obj.throw_error( "transform actor specified negative moves", "moves" );
+        obj.throw_error_at( "moves", "transform actor specified negative moves" );
     }
 
     obj.read( "need_fire", need_fire );
@@ -2715,7 +2716,7 @@ void repair_item_actor::load( const JsonObject &obj )
     const std::string skill_string = obj.get_string( "skill" );
     used_skill = skill_id( skill_string );
     if( !used_skill.is_valid() ) {
-        obj.throw_error( "Invalid skill", "skill" );
+        obj.throw_error_at( "skill", "Invalid skill" );
     }
 
     cost_scaling = obj.get_float( "cost_scaling" );
@@ -4519,7 +4520,7 @@ void sew_advanced_actor::load( const JsonObject &obj )
     const std::string skill_string = obj.get_string( "skill" );
     used_skill = skill_id( skill_string );
     if( !used_skill.is_valid() ) {
-        obj.throw_error( "Invalid skill", "skill" );
+        obj.throw_error_at( "skill", "Invalid skill" );
     }
 }
 
@@ -4746,7 +4747,7 @@ void change_scent_iuse::load( const JsonObject &obj )
 {
     scenttypeid = scenttype_id( obj.get_string( "scent_typeid" ) );
     if( !scenttypeid.is_valid() ) {
-        obj.throw_error( "Invalid scent type id.", "scent_typeid" );
+        obj.throw_error_at( "scent_typeid", "Invalid scent type id." );
     }
     if( obj.has_array( "effects" ) ) {
         for( JsonObject e : obj.get_array( "effects" ) ) {

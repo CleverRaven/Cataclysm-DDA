@@ -386,7 +386,7 @@ void widget::load( const JsonObject &jo, const std::string & )
         _bps.clear();
         for( const JsonValue val : jo.get_array( "bodyparts" ) ) {
             if( !val.test_string() ) {
-                jo.throw_error( "Invalid string value in bodyparts array", "bodyparts" );
+                jo.throw_error_at( "bodyparts", "Invalid string value in bodyparts array" );
                 continue;
             }
             _bps.emplace( bodypart_id( val.get_string() ) );

@@ -58,7 +58,7 @@ void move_mode::load( const JsonObject &jo, const std::string &/*src*/ )
 
     std::string exert = jo.get_string( "exertion_level" );
     if( !activity_levels_map.count( exert ) ) {
-        jo.throw_error( "Invalid activity level for move mode %s", id.str() );
+        jo.throw_error_at( id.str(), "Invalid activity level for move mode " + id.str() );
     }
     _exertion_level = activity_levels_map.at( exert );
 

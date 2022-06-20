@@ -154,10 +154,11 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     } else if( type == "practice" ) {
         ident_ = recipe_id( jo.get_string( "id" ) );
         if( jo.has_member( "result" ) ) {
-            jo.throw_error( "Practice recipes should not have result (use byproducts)", "result" );
+            jo.throw_error_at( "result", "Practice recipes should not have result (use byproducts)" );
         }
         if( jo.has_member( "difficulty" ) ) {
-            jo.throw_error( "Practice recipes should not have difficulty (use practice_data)", "difficulty" );
+            jo.throw_error_at( "difficulty",
+                               "Practice recipes should not have difficulty (use practice_data)" );
         }
     } else {
         if( !jo.read( "result", result_, true ) && !result_ ) {
@@ -168,7 +169,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
         if( abstract ) {
-            jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
+            jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
         }
         ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
     }
@@ -249,7 +250,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
     const auto it = activity_levels_map.find( exert );
     if( it == activity_levels_map.end() ) {
-        jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
+        jo.throw_error_at(
+            "activity_level", string_format( "Invalid activity level %s", exert ) );
     }
     exertion = it->second;
 
@@ -415,7 +417,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     } else if( type == "uncraft" ) {
         reversible = true;
     } else {
-        jo.throw_error( "unknown recipe type", "type" );
+        jo.throw_error_at( "type", "unknown recipe type" );
     }
 
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
