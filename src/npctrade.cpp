@@ -50,7 +50,7 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
         } else if( receiver.is_npc() ) {
             npc = receiver.as_npc();
             f_wants = [npc]( item const * it, int price, int market_price ) {
-                return npc->wants_to_buy( *it, price, market_price );
+                return npc->wants_to_buy( *it, price, market_price ).success();
             };
         }
         // spill contained, unwanted items
@@ -208,7 +208,7 @@ int npc_trading::trading_price( Character const &buyer, Character const &seller,
             }
         } else if( buyer.is_npc() ) {
             npc const &np = *buyer.as_npc();
-            if( !np.wants_to_buy( *e, price, market_price ) ) {
+            if( !np.wants_to_buy( *e, price, market_price ).success() ) {
                 return VisitResponse::SKIP;
             }
         }

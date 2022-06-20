@@ -1945,26 +1945,30 @@ ret_val<bool> npc::wants_to_sell( const item &it, int at_price, int /*market_pri
 bool npc::wants_to_buy( const item &it ) const
 {
     const int market_price = it.price( true );
-    return wants_to_buy( it, value( it, market_price ), market_price );
+    return wants_to_buy( it, value( it, market_price ), market_price ).success();
 }
 
-bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<bool> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
-        return true;
+        return ret_val<bool>::make_success();
     }
 
-    if( it.has_flag( flag_TRADER_AVOID ) or it.has_var( VAR_TRADE_IGNORE ) or
-        ( my_fac == nullptr and has_trait( trait_SQUEAMISH ) and it.is_filthy() ) ) {
-        return false;
+    if( it.has_flag( flag_TRADER_AVOID ) || it.has_var( VAR_TRADE_IGNORE ) ) {
+        return ret_val<bool>::make_failure( _( "<npcname> will never buy this" ) );
     }
 
-    if( myclass->get_shopkeeper_blacklist().matches( it, *this ) ) {
-        return false;
+    if( mission != NPC_MISSION_SHOPKEEP && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
+        return ret_val<bool>::make_failure( _( "<npcname> will not buy filthy items" ) );
+    }
+
+    icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );
+    if( bl != nullptr ) {
+        return ret_val<bool>::make_failure( bl->message );
     }
 
     // TODO: Base on inventory
-    return at_price >= 0;
+    return at_price >= 0 ? ret_val<bool>::make_success() : ret_val<bool>::make_failure();
 }
 
 // Will the NPC freely exchange items with the player?

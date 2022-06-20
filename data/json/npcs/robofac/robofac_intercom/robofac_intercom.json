@@ -117,7 +117,7 @@
   {
     "id": "robofac_blacklist",
     "type": "shopkeeper_blacklist",
-    "entries": [ { "group": "NC_ROBOFAC_gear" } ]
+    "entries": [ { "group": "NC_ROBOFAC_gear", "message": "Hub 01 will not buy back their own gear" } ]
   },
   {
     "type": "mapgen",
