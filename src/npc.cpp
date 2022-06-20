@@ -1913,20 +1913,20 @@ bool npc::wants_to_sell( const item &it ) const
         return false;
     }
     const int market_price = it.price( true );
-    return wants_to_sell( it, value( it, market_price ), market_price );
+    return wants_to_sell( it, value( it, market_price ), market_price ).success();
 }
 
-bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<bool> npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
-        return true;
+        return ret_val<bool>::make_success();
     }
 
     // Keep items that we never want to trade and the ones we don't want to trade while in use.
     if( it.has_flag( flag_TRADER_KEEP ) ||
         ( ( !myclass->sells_belongings || it.has_flag( flag_TRADER_KEEP_EQUIPPED ) ) && ( is_worn( it ) ||
                 is_wielding( it ) ) ) ) {
-        return false;
+        return ret_val<bool>::make_failure( _( "<npcname> will never sell this" ) );
     }
 
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
@@ -1934,12 +1934,12 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
             continue;
         }
         if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
-            return false;
+            return ret_val<bool>::make_failure( ig.get_refusal() );
         }
     }
 
     // TODO: Base on inventory
-    return at_price >= 0;
+    return at_price >= 0 ? ret_val<bool>::make_success() : ret_val<bool>::make_failure();
 }
 
 bool npc::wants_to_buy( const item &it ) const

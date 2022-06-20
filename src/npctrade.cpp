@@ -45,7 +45,7 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
         if( giver.is_npc() ) {
             npc = giver.as_npc();
             f_wants = [npc]( item const * it, int price, int market_price ) {
-                return npc->wants_to_sell( *it, price, market_price );
+                return npc->wants_to_sell( *it, price, market_price ).success();
             };
         } else if( receiver.is_npc() ) {
             npc = receiver.as_npc();
@@ -115,7 +115,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
 
         const int price = it.price( true );
         int val = np.value( it );
-        if( np.wants_to_sell( it, val, price ) ) {
+        if( np.wants_to_sell( it, val, price ).success() ) {
             result.emplace_back( np, it, val, static_cast<int>( it.count() ) );
         }
     }
@@ -203,7 +203,7 @@ int npc_trading::trading_price( Character const &buyer, Character const &seller,
 
         if( seller.is_npc() ) {
             npc const &np = *seller.as_npc();
-            if( !np.wants_to_sell( *e, price, market_price ) ) {
+            if( !np.wants_to_sell( *e, price, market_price ).success() ) {
                 return VisitResponse::SKIP;
             }
         } else if( buyer.is_npc() ) {

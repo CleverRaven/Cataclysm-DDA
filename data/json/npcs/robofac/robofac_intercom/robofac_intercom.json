@@ -37,7 +37,8 @@
             { "compare_int": [ { "u_val": "var", "var_name": "hub01_good_candidate" }, "==", { "const": 1 } ] },
             { "compare_int": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, ">=", { "const": 2 } ] }
           ]
-        }
+        },
+        "refusal": "you're not yet qualified to buy this"
       },
       {
         "group": "NC_ROBOFAC_INTERCOM_trade_military",
@@ -53,7 +54,8 @@
       {
         "group": "robofac_gun_mags",
         "rigid": true,
-        "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+        "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+        "refusal": "you need to earn a HWP first"
       },
       {
         "group": "robofac_gun_kit",
@@ -82,7 +84,8 @@
             { "npc_has_var": "npc_bought_protective_gear", "type": "dialogue", "context": "intercom", "value": "yes" },
             { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" }
           ]
-        }
+        },
+        "refusal": "you're not yet qualified to buy this"
       }
     ],
     "shopkeeper_blacklist": "robofac_blacklist"
