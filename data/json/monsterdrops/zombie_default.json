@@ -214,7 +214,7 @@
           { "item": "lighter", "prob": 100, "charges": [ 0, 100 ] },
           { "item": "ref_lighter", "prob": 40, "charges": [ 0, 50 ] },
           { "item": "matches", "prob": 20, "charges": [ 0, 20 ] },
-		  { "item": "small_lighter", "prob": 20, "charges": [ 0, 50 ] }
+          { "item": "small_lighter", "prob": 20, "charges": [ 0, 50 ] }
         ],
         "prob": 30
       },

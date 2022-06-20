@@ -327,16 +327,10 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
-	"looks_like": "lighter",
+    "looks_like": "lighter",
     "charges_per_use": 1,
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "airtight": true,
-        "ammo_restriction": { "butane": 50 },
-        "watertight": true
-      }
+      { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "butane": 50 }, "watertight": true }
     ],
     "use_action": { "type": "firestarter", "moves": 50 },
     "flags": [ "FIRESTARTER", "NO_UNLOAD" ]
