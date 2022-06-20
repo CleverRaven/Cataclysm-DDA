@@ -1,0 +1,41 @@
+[
+  {
+    "id": "achievement_kill_changeling",
+    "type": "achievement",
+    "name": "Smashed a pixie.",
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_kill_10_changelings",
+    "type": "achievement",
+    "name": "Underhill Hunter",
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_kill_100_changelings",
+    "type": "achievement",
+    "name": "Unseelie competition",
+    "hidden_by": [ "achievement_kill_10_changelings" ],
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_kill_1000_changelings",
+    "type": "achievement",
+    "name": "They tell stories to their children of you.",
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 1000 } ]
+  },
+  {
+    "id": "achievement_kill_10000_changelings",
+    "type": "achievement",
+    "name": "Faebane",
+    "hidden_by": [ "achievement_kill_1000_changelings" ],
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 10000 } ]
+  },
+  {
+    "id": "achievement_kill_100000_changelings",
+    "type": "achievement",
+    "name": "Your name is considered to be cold iron.",
+    "hidden_by": [ "achievement_kill_10000_changelings" ],
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 100000 } ]
+  }
+]

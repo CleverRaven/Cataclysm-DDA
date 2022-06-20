@@ -475,6 +475,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_oryctodromeus",
+    "name": "oryctodromeus egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_oryctodromeus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_dimorphodon",
     "name": "dimorphodon egg",
     "copy-from": "egg_dino_small",

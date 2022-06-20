@@ -131,6 +131,7 @@ balefires
 balogna
 bananope
 bandolier
+bandoliers
 bandsaw
 bangin
 barbute
@@ -143,6 +144,7 @@ basecamps
 baselard
 bashable
 basidiocarp
+basswood
 batching
 batlike
 batrachian
@@ -858,6 +860,7 @@ interlayer
 intolerances
 intoxications
 intradimensional
+inulin
 invlet
 invlets
 ironshod
@@ -918,6 +921,7 @@ km
 knapping
 knifehand
 knockback
+knotweed
 knowium
 knuckledusters
 knyf
@@ -1028,6 +1032,8 @@ massachusetite
 massproduced
 masterkey
 maxwellian
+mayapple
+mayapples
 mbie
 md
 mealgrub
@@ -1218,6 +1224,7 @@ orichalcum
 ornithomimid
 ornithomimus
 orrery
+oryctodromeus
 otes
 otha
 otherland
@@ -1313,6 +1320,7 @@ poleaxe
 poleyns
 polyaramid
 polycarbonates
+polycrystalline
 polyhedrons
 polymorph
 polymorphed

@@ -58,7 +58,7 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [
-      [ [ "chem_acetone", 1 ], [ "chem_chloroform", 250 ], [ "ammonia", 1 ] ],
+      [ [ "chem_acetone", 1 ], [ "chem_chloroform", 250 ], [ "ammonia_liquid", 1 ] ],
       [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
       [
         [ "balloon", 2 ],

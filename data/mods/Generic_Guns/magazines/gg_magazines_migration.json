@@ -332,6 +332,11 @@
     "replace": "rifle_rail_mag"
   },
   {
+    "id": [ "clip223_10rd" ],
+    "type": "MIGRATION",
+    "replace": "rifle_clip"
+  },
+  {
     "id": [
       "saiga410mag_10rd",
       "saiga410mag_30rd",
@@ -341,6 +346,9 @@
       "USAS20mag",
       "shotbelt_20",
       "robofac10",
+      "aa12_box_mag",
+      "aa12_drum_mag",
+      "aa12_vehicle_drum",
       "m26_mass_mag_3",
       "m26_mass_mag_5"
     ],

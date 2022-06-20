@@ -43,7 +43,7 @@
       [ "mask_dust", 65 ],
       [ "towel", 40 ],
       [ "vacutainer", 10 ],
-      { "item": "rag", "prob": 1 },
+      { "item": "cotton_patchwork", "prob": 1 },
       { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
       [ "medical_gauze", 10 ],
       [ "medical_tape", 45 ],
@@ -265,7 +265,7 @@
         { "item": "tacoma_drink_token", "x": 6, "y": 11, "faction": "tacoma_commune" },
         { "item": "bucket_wood", "x": 13, "y": 15, "faction": "tacoma_commune" },
         { "item": "sponge", "x": 13, "y": 15, "faction": "tacoma_commune" },
-        { "item": "rag", "x": 13, "y": 15, "faction": "tacoma_commune", "repeat": [ 2, 4 ] },
+        { "item": "cotton_patchwork", "x": 13, "y": 15, "faction": "tacoma_commune", "repeat": [ 2, 4 ] },
         { "item": "glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [ 15, 30 ] },
         { "item": "shot_glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [ 10, 20 ] }
       ]
