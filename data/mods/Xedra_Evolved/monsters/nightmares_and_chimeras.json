@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mon_xe_flying_shark",
+    "type": "MONSTER",
+    "name": { "str": "flying shark" },
+    "description": "It would be funny watching a shark swim through the air, between trees and other objects like kelp under the water.  If it didn't mean the shark was here, now and capable of flying after you.  Clearly something is off, here.",
+    "default_faction": "nightmares",
+    "looks_like": "mon_zhark",
+    "bodytype": "fish",
+    "species": [ "NIGHTMARE" ],
+    "volume": "6250 ml",
+    "weight": "8150 g",
+    "hp": 50,
+    "speed": 100,
+    "material": [ "dreamstuff" ],
+    "symbol": "^",
+    "color": "white_magenta",
+    "aggression": 100,
+    "morale": 105,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "dodge": 3,
+    "armor_bash": 6,
+    "armor_cut": 2,
+    "armor_bullet": 2,
+    "luminance": 0,
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "FLIES",
+      "NO_BREATHE"
+    ]
+  }
+]
