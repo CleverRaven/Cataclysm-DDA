@@ -369,10 +369,11 @@ class item_contents
 class pocket_favorite_callback : public uilist_callback
 {
     private:
-        std::vector<std::pair<item_pocket *, int>> saved_pockets;
+        std::vector<std::tuple<item_pocket *, int, uilist_entry *>> saved_pockets;
         // whitelist or blacklist, for interactions
         bool whitelist = true;
         std::pair<item *, item_pocket *> item_to_move = { nullptr, nullptr };
+        uilist_entry *current_parent = nullptr;
 
         bool needs_to_refresh = false;
 
