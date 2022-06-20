@@ -44,7 +44,7 @@
     "name": "Never Wake again",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_mutation",
+        "event_statistic": "num_gains_mutation",
         "is": "==",
         "target": [ "trait_id", "DREAMER" ],
         "description": "Gained access to dream magic.",
@@ -58,7 +58,7 @@
     "name": "Destroy what doesn't belong.",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_mutation",
+        "event_statistic": "num_gains_mutation",
         "is": "==",
         "target": [ "trait_id", "EATER" ],
         "description": "Gained access to eater magic.",
@@ -72,7 +72,7 @@
     "name": "Forged by dreams",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_mutation",
+        "event_statistic": "num_gains_mutation",
         "is": "==",
         "target": [ "trait_id", "DREAMSMITH" ],
         "description": "Gained access to dream forging magic",
@@ -86,7 +86,7 @@
     "name": "This has a small, but fascinating, chance of actually working!  Let's do it!",
     "requirements": [
       {
-        "event_statistic": "avatar_gains_mutation",
+        "event_statistic": "num_gains_mutation",
         "is": "==",
         "target": [ "trait_id", "INVENTOR" ],
         "description": "Gained access to mad genius inventions.",
