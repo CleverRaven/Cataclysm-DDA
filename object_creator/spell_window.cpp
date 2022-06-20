@@ -1399,6 +1399,9 @@ void creator::spell_window::populate_fields()
             duration_increment_box.setValue( sp_t.duration_increment);
             max_duration_box.setValue( sp_t.max_duration);
             base_casting_time_box.setValue( sp_t.base_casting_time );
+            casting_time_increment_box.setValue( sp_t.casting_time_increment);
+            final_casting_time_box.setValue( sp_t.final_casting_time);
+
 
 
             index = energy_source_box.findText( QString( io::enum_to_string<magic_energy_type>( sp_t.energy_source).c_str() ) );
