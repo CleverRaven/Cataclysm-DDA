@@ -9,7 +9,7 @@
     "difficulty": 1,
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
+    "using": [ [ "sewing_simple", 10 ] ],
     "components": [ [ [ "grass_yarn", 5 ] ] ]
   },
   {
@@ -22,7 +22,7 @@
     "difficulty": 1,
     "time": "110 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_simple", 30 ] ],
     "components": [ [ [ "grass_yarn", 10 ] ] ]
   },
   {
@@ -36,7 +36,7 @@
     "time": "10 m",
     "autolearn": true,
     "id_suffix": "from_sheet",
-    "using": [ [ "sewing_standard", 20 ] ],
+    "using": [ [ "sewing_simple", 20 ] ],
     "components": [ [ [ "grass_sheet", 2 ] ] ]
   },
   {
@@ -48,7 +48,7 @@
     "skill_used": "tailor",
     "time": "80 m",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 33 ] ],
+    "using": [ [ "tailoring_cotton_patchwork_simple", 33 ] ],
     "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
@@ -165,7 +165,7 @@
     "difficulty": 1,
     "time": "85 m",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 33 ] ],
+    "using": [ [ "tailoring_cotton_patchwork_simple", 33 ] ],
     "components": [ [ [ "cotton_patchwork", 54 ] ], [ [ "down_feather", 160 ] ] ],
     "byproducts": [ [ "scrap_cotton", 2 ] ]
   },
@@ -181,7 +181,7 @@
     "time": "80 m",
     "decomp_learn": 0,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "tailoring_fur_patchwork", 10 ] ],
+    "using": [ [ "tailoring_cotton_patchwork_simple", 33 ], [ "tailoring_fur_patchwork_simple", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ], [ "fur", 3 ] ]
   },

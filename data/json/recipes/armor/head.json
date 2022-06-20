@@ -23,7 +23,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
   },
   {
     "result": "beret_wool",
@@ -1380,7 +1380,7 @@
     "skill_used": "tailor",
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 4 ] ],
+    "using": [ [ "tailoring_cotton_patchwork_simple", 4 ] ],
     "byproducts": [ [ "cotton_patchwork", 4 ] ]
   },
   {
@@ -1896,7 +1896,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
+    "using": [ [ "tailoring_cotton_patchwork_simple", 2 ] ]
   },
   {
     "result": "pot_helmet",
@@ -2062,7 +2062,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_fur_patchwork", 1 ] ],
+    "using": [ [ "tailoring_fur_patchwork_simple", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {
@@ -2078,7 +2078,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 3 ] ],
+    "using": [ [ "sewing_simple", 3 ] ],
     "components": [ [ [ "scarf_fur", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
@@ -2229,7 +2229,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 3 ] ],
+    "using": [ [ "tailoring_cotton_patchwork_simple", 3 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

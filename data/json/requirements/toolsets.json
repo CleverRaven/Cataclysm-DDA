@@ -82,6 +82,13 @@
     "components": [ [ [ "filament_durable", 1, "LIST" ] ] ]
   },
   {
+    "id": "sewing_simple",
+    "type": "requirement",
+    "//": "Crafting or repair of fabric simple items where exact shape is not important, such as cloaks and blankets, includes roughly 10 inches of thread.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "filament", 1, "LIST" ] ] ]
+  },
+  {
     "id": "welding_standard",
     "type": "requirement",
     "//": "Crafting of steel/iron items or installation of vehicle parts",

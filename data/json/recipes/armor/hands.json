@@ -713,7 +713,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_small", 6 ] ],
+    "using": [ [ "tailoring_cotton_small_simple", 6 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
