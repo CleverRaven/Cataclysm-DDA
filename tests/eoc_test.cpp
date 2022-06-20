@@ -32,14 +32,14 @@
 #include "type_id.h"
 #include "units.h"
 
-static const effect_on_condition_id eoc_EOC_teleport_test( "EOC_teleport_test" );
+static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
 
 TEST_CASE( "EOC_teleport", "[eoc]" )
 {
     tripoint_abs_ms before = get_avatar().get_location();
     dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
-    eoc_EOC_teleport_test->activate( newDialog );
+    effect_on_condition_EOC_teleport_test->activate( newDialog );
     tripoint_abs_ms after = get_avatar().get_location();
 
     CHECK( before + tripoint_south_east == after );
