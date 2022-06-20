@@ -16,7 +16,7 @@
     "location": "loading port",
     "mod_targets": [ "pistol", "shotgun" ],
     "acceptable_ammo": [ "shot" ],
-    "speedloader_adaptor": [ "shot_speedloader6", "shot_speedloader8"  ],
+    "speedloader_adaptor": [ "shot_speedloader6", "shot_speedloader8" ],
     "min_skills": [ [ "weapon", 2 ], [ "mechanics", 1 ] ]
   }
 ]
