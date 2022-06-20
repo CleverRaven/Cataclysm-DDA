@@ -9,9 +9,9 @@
 #include "enums.h"
 #include "npc.h"
 
+static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 static const vitamin_id vitamin_vitC( "vitC" );
-static const vitamin_id vitamin_calcium( "calcium" );
 
 static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
                            bool sleep_deprivation )
