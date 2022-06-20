@@ -421,7 +421,7 @@
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": [ "ammonia" ],
+    "ammo": [ "ammonia_liquid" ],
     "use_action": { "type": "cast_spell", "spell_id": "spell_exosuit_jetpack", "no_fail": true, "level": 5 },
     "flags": [ "CANT_WEAR", "EXO_LARGE_GADGET" ],
     "pocket_data": [
