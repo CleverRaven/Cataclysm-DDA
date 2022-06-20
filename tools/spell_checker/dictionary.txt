@@ -131,6 +131,7 @@ balefires
 balogna
 bananope
 bandolier
+bandoliers
 bandsaw
 bangin
 barbute
@@ -1223,6 +1224,7 @@ orichalcum
 ornithomimid
 ornithomimus
 orrery
+oryctodromeus
 otes
 otha
 otherland

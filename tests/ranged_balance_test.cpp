@@ -504,7 +504,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Can't hurt at close range.
     shoot_monster( "shotgun_s", {}, "shot_bird", 5, 1, "mon_skeleton_hulk" );
     // Barely injure at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 18, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 25, "mon_skeleton_hulk" );
     // TODO: can't harm heavily armored enemies even at point blank.
 
     // BUCKSHOT

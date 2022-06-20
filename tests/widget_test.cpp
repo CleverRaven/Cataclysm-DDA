@@ -491,25 +491,25 @@ TEST_CASE( "widgets showing avatar health with color for normal value", "[widget
     avatar &ava = get_avatar();
     clear_avatar();
 
-    ava.set_healthy( -200 );
+    ava.set_lifestyle( -200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_red>-200</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_red>Horrible</color>" );
-    ava.set_healthy( -99 );
+    ava.set_lifestyle( -99 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-99</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_red>Very bad</color>" );
-    ava.set_healthy( -49 );
+    ava.set_lifestyle( -49 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-49</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_yellow>Bad</color>" );
-    ava.set_healthy( 0 );
+    ava.set_lifestyle( 0 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_white>0</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_gray>OK</color>" );
-    ava.set_healthy( 49 );
+    ava.set_lifestyle( 49 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>49</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_white>Good</color>" );
-    ava.set_healthy( 99 );
+    ava.set_lifestyle( 99 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>99</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_green>Very good</color>" );
-    ava.set_healthy( 200 );
+    ava.set_lifestyle( 200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_green>200</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_green>Excellent</color>" );
 }
@@ -1223,8 +1223,8 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_light_gray>Unknown</color>" );
 
     // Acquire and wear a radiation badge
-    item &rad_badge = ava.i_add( item( itype_rad_badge ) );
-    ava.worn.wear_item( ava, rad_badge, false, false );
+    item_location rad_badge = ava.i_add( item( itype_rad_badge ) );
+    ava.worn.wear_item( ava, *rad_badge, false, false );
 
     // Color indicator is shown when character has radiation badge
     ava.set_rad( 0 );

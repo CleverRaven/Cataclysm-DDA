@@ -192,7 +192,7 @@
     "type": "COMESTIBLE",
     "//": "abbreviated latin name because the id would get too long otherwise",
     "id": "m_stellatum_berries",
-    "name": { "str_sp": "starry false solomon's seal berries" },
+    "name": { "str_sp": "starry false Solomon's seal berries" },
     "weight": "9 g",
     "color": "red",
     "spoils_in": "3 days",

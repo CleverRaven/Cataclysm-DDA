@@ -49,7 +49,7 @@
     "id": "nylon",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str_sp": "synthetic fabric patch" },
+    "name": { "str": "synthetic fabric patch", "str_pl": "synthetic fabric patches" },
     "description": "This a 6 inch square patch of synthetic fabric.  Unlike you and other natural materials, it won't degrade much with age.  Maybe that's less of a bad thing now.",
     "weight": "9 g",
     "volume": "12 ml",

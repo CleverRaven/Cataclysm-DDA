@@ -3630,11 +3630,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const bool show_bodygraph = get_option<bool>( "ITEM_BODYGRAPH" ) &&
                                 parts->test( iteminfo_parts::ARMOR_BODYGRAPH );
 
-    if( show_bodygraph || parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
-        insert_separation_line( info );
-    }
-
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
+        insert_separation_line( info );
         std::vector<sub_bodypart_id> covered = get_covered_sub_body_parts();
         std::string coverage = _( "<bold>Covers</bold>:" );
 
@@ -3650,44 +3647,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
 
         info.emplace_back( "ARMOR", coverage );
-    }
-
-    if( show_bodygraph ) {
-        auto bg_cb = [this]( const bodygraph_part * bgp, const std::string & sym ) {
-            if( !bgp ) {
-                return colorize( sym, bodygraph_full_body_iteminfo->fill_color );
-            }
-            std::set<sub_bodypart_id> grp { bgp->sub_bodyparts.begin(), bgp->sub_bodyparts.end() };
-            for( const bodypart_id &bid : bgp->bodyparts ) {
-                grp.insert( bid->sub_parts.begin(), bid->sub_parts.end() );
-            }
-            nc_color clr = c_dark_gray;
-            int cov_val = 0;
-            for( const sub_bodypart_id &sid : grp ) {
-                int tmp = get_coverage( sid );
-                cov_val = tmp > cov_val ? tmp : cov_val;
-            }
-            if( cov_val <= 5 ) {
-                clr = c_dark_gray;
-            } else if( cov_val <= 10 ) {
-                clr = c_light_gray;
-            } else if( cov_val <= 25 ) {
-                clr = c_light_red;
-            } else if( cov_val <= 60 ) {
-                clr = c_yellow;
-            } else if( cov_val <= 80 ) {
-                clr = c_green;
-            } else {
-                clr = c_light_green;
-            }
-            return colorize( sym, clr );
-        };
-        std::vector<std::string> bg_lines = get_bodygraph_lines( get_player_character(), bg_cb,
-                                            bodygraph_full_body_iteminfo );
-        for( const std::string &line : bg_lines ) {
-            info.emplace_back( "ARMOR", line );
-        }
-        insert_separation_line( info );
     }
 
     if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_rigid() ) {
@@ -3938,6 +3897,46 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "ARMOR", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
                            iteminfo::no_newline | iteminfo::is_decimal,
                            convert_weight( weight_bonus ) );
+    }
+
+    if( show_bodygraph ) {
+        insert_separation_line( info );
+
+        auto bg_cb = [this]( const bodygraph_part * bgp, const std::string & sym ) {
+            if( !bgp ) {
+                return colorize( sym, bodygraph_full_body_iteminfo->fill_color );
+            }
+            std::set<sub_bodypart_id> grp{ bgp->sub_bodyparts.begin(), bgp->sub_bodyparts.end() };
+            for( const bodypart_id &bid : bgp->bodyparts ) {
+                grp.insert( bid->sub_parts.begin(), bid->sub_parts.end() );
+            }
+            nc_color clr = c_dark_gray;
+            int cov_val = 0;
+            for( const sub_bodypart_id &sid : grp ) {
+                int tmp = get_coverage( sid );
+                cov_val = tmp > cov_val ? tmp : cov_val;
+            }
+            if( cov_val <= 5 ) {
+                clr = c_dark_gray;
+            } else if( cov_val <= 10 ) {
+                clr = c_light_gray;
+            } else if( cov_val <= 25 ) {
+                clr = c_light_red;
+            } else if( cov_val <= 60 ) {
+                clr = c_yellow;
+            } else if( cov_val <= 80 ) {
+                clr = c_green;
+            } else {
+                clr = c_light_green;
+            }
+            return colorize( sym, clr );
+        };
+        std::vector<std::string> bg_lines = get_bodygraph_lines( get_player_character(), bg_cb,
+                                            bodygraph_full_body_iteminfo );
+        for( const std::string &line : bg_lines ) {
+            info.emplace_back( "ARMOR", line );
+        }
+        insert_separation_line( info );
     }
 }
 
@@ -10129,12 +10128,11 @@ bool item::can_contain_partial( const item &it ) const
     return can_contain( i_copy ).success();
 }
 
-std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
         const bool nested, bool ignore_rigidity )
 {
-    item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings,
+    return contents.best_pocket( it, this_loc, avoid, allow_sealed, ignore_settings,
                                  nested, ignore_rigidity );
 }
 

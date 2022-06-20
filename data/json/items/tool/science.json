@@ -477,7 +477,7 @@
     "id": "ammonia_machine_reactor",
     "type": "TOOL",
     "name": { "str": "makeshift ammonia machine reactor" },
-    "description": "A huge appliance built from salvaged industrial equipment which produces ammonia via the Haber–Bosch process from hydrogen and nitrogen.  As it uses primitive catalysts for the reaction, energy efficiency is very low.  This one is powered by electricity.",
+    "description": "A huge appliance built from salvaged industrial equipment which produces ammonia via the Haber-Bosch process from hydrogen and nitrogen.  As it uses primitive catalysts for the reaction, energy efficiency is very low.  This one is powered by electricity.",
     "//": "Consumes 200 MJ for 1 kg of NH3.",
     "weight": "340 kg",
     "volume": "200 L",
