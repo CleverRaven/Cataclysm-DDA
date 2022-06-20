@@ -863,7 +863,8 @@
       { "proficiency": "prof_knife_skills" },
       { "proficiency": "prof_frying" },
       { "proficiency": "prof_frying_bread" }
-    ],    "components": [ [ [ "fish", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
+    ],
+    "components": [ [ [ "fish", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -883,7 +884,8 @@
       { "proficiency": "prof_knife_skills" },
       { "proficiency": "prof_frying" },
       { "proficiency": "prof_frying_bread" }
-    ],    "components": [ [ [ "lobster", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
+    ],
+    "components": [ [ [ "lobster", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1282,8 +1284,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "charges": 8,
-    "proficiencies": [
-      { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_preservation" }, ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_preservation" }, ],
     "components": [
       [ [ "meat_cooked", 1, "LIST" ] ],
       [ [ "edible_blood", 2, "LIST" ] ],
@@ -1922,7 +1923,7 @@
     "autolearn": true,
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" } } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ] ]
   },
   {
@@ -1937,7 +1938,7 @@
     "autolearn": true,
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" } } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ] ] ]
   },
   {
