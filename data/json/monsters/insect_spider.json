@@ -2639,7 +2639,7 @@
     "id": "mon_lady_bug",
     "type": "MONSTER",
     "name": { "str": "lady bug" },
-    "description": "This is a mutated lady bug the size of the dog.  While not as dangerous as her giant sisters, she's still be troublesome to deal with.",
+    "description": "This is a mutated lady bug the size of a dog.  While not as dangerous as her giant sisters, she's still troublesome to deal with.",
     "default_faction": "ladybug",
     "bodytype": "insect",
     "species": [ "INSECT" ],
