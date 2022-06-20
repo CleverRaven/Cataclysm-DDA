@@ -5,7 +5,7 @@
     "category": "exosuit",
     "name": { "str": "steel helmet plate (exosuit)", "str_pl": "steel helmet plates (exosuit)" },
     "description": "Designed to attach to an exosuit's helmet via carbide brackets, this is a sturdy plate of tempered steel.",
-    "weight": "12880 g",
+    "weight": "5 kg",
     "volume": "5 L",
     "material": [ "qt_steel", "vacuum_carbide" ],
     "symbol": "[",
@@ -15,7 +15,7 @@
     "non_functional": "damaged_exo_helmet_steel_plate",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 100,
         "encumbrance": 20

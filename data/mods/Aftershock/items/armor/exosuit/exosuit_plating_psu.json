@@ -5,7 +5,7 @@
     "category": "exosuit",
     "name": { "str": "steel PSU plate (exosuit)", "str_pl": "steel PSU plates (exosuit)" },
     "description": "Designed to attach to an exosuit's power supply unit, this is a sturdy plate of steel.",
-    "weight": "42933 g",
+    "weight": "15 kg",
     "volume": "10 L",
     "material": [ "qt_steel" ],
     "symbol": "[",

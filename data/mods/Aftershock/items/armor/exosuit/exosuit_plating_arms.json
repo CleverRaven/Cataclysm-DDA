@@ -5,7 +5,7 @@
     "category": "exosuit",
     "name": { "str": "steel arm plate (exosuit)", "str_pl": "steel arm plates (exosuit)" },
     "description": "Designed to attach to an exosuit's arms, these are sturdy plates of steel.",
-    "weight": "30 g",
+    "weight": "13500 g",
     "volume": "6500 ml",
     "material": [ "qt_steel" ],
     "symbol": "[",

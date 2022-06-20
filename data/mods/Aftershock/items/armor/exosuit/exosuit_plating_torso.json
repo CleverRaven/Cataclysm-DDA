@@ -5,7 +5,7 @@
     "category": "exosuit",
     "name": { "str": "steel torso plate (exosuit)", "str_pl": "steel torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a sturdy plate of steel.",
-    "weight": "34347 g",
+    "weight": "20 kg",
     "volume": "8 L",
     "material": [ "qt_steel" ],
     "symbol": "[",
