@@ -162,15 +162,7 @@
         { "item": "pantry_liquids", "chance": 25, "repeat": [ 0, 8 ] },
         { "item": "pasta", "chance": 55, "repeat": [ 0, 6 ] }
       ],
-      "G": [
-        { "item": "loaded_lbv", "chance": 45, "repeat": [ 0, 2 ] },
-        { "item": "military_standard_grenades", "chance": 55, "repeat": [ 1, 2 ] },
-        { "item": "infantry_common_gear", "chance": 55 },
-        { "item": "infantry_medical_gear", "chance": 30 },
-        { "item": "guns_milspec", "chance": 50 },
-        { "item": "ammo_milspec", "chance": 50 },
-        { "item": "mags_milspec", "chance": 50 }
-      ],
+      "G": [ { "item": "milspec_arsenal_group_only_guns", "chance": 100 } ],
       "H": [ { "item": "autodoc_supplies", "chance": 100 } ],
       "p": [
         { "item": "chem_home", "chance": 45, "repeat": [ 2, 4 ] },
@@ -197,11 +189,7 @@
         { "item": "pants", "chance": 5 },
         { "item": "shirts", "chance": 5 }
       ],
-      "P": [
-        { "item": "guns_milspec", "chance": 45, "repeat": [ 0, 3 ] },
-        { "item": "ammo_milspec", "chance": 55, "repeat": [ 1, 6 ] },
-        { "item": "mags_milspec", "chance": 55, "repeat": [ 1, 3 ] }
-      ],
+      "P": [ { "item": "milspec_arsenal_group_only_ammo", "chance": 100 } ],
       "Q": [
         { "item": "batteries", "chance": 45, "repeat": [ 0, 2 ] },
         { "item": "electronics", "chance": 55, "repeat": [ 0, 2 ] },
@@ -241,11 +229,7 @@
         { "item": "novels", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "phones", "chance": 5, "repeat": [ 0, 1 ] }
       ],
-      "ж": [
-        { "item": "guns_milspec", "chance": 40, "repeat": [ 1, 3 ] },
-        { "item": "ammo_milspec", "chance": 55, "repeat": [ 1, 5 ] },
-        { "item": "ammo_casings_milspec", "chance": 55, "repeat": [ 1, 5 ] }
-      ],
+      "ж": [ { "item": "milspec_arsenal_only_guns_or_ammo_or_armor", "chance": 100 } ],
       "Ж": [
         { "item": "supplies_mechanics_milspec", "chance": 50, "repeat": [ 1, 6 ] },
         { "item": "supplies_spares_vehicle", "chance": 50, "repeat": [ 1, 4 ] },

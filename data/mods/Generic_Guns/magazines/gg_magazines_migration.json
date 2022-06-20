@@ -332,6 +332,11 @@
     "replace": "rifle_rail_mag"
   },
   {
+    "id": [ "clip223_10rd" ],
+    "type": "MIGRATION",
+    "replace": "rifle_clip"
+  },
+  {
     "id": [
       "saiga410mag_10rd",
       "saiga410mag_30rd",

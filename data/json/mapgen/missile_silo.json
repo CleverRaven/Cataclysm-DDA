@@ -434,15 +434,12 @@
         "b": { "item": "army_bed", "chance": 60 },
         "t": { "item": "trash_cart", "chance": 60 },
         "l": { "item": "bunker_basement_clothing", "chance": 50 },
-        "L": [
-          { "item": "guns_rifle_milspec", "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "mags_milspec", "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "ammo_milspec", "chance": 100, "repeat": [ 15, 60 ] }
-        ],
+        "L": [ { "item": "milspec_arsenal_group_only_guns", "chance": 100 } ],
         "r": [
-          { "item": "grenades", "chance": 100, "repeat": [ 3, 9 ] },
-          { "item": "mil_armor", "chance": 65, "repeat": [ 1, 2 ] },
-          { "item": "gear_soldier_sidearm", "chance": 90, "repeat": [ 1, 2 ] }
+          { "item": "milspec_arsenal_group_only_ammo", "chance": 100 },
+          { "item": "grenade_can_pa120_grenades_full", "chance": 30 },
+          { "item": "c4_box_part", "chance": 100 },
+          { "item": "arsenal_mics_group", "chance": 100 }
         ]
       },
       "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],

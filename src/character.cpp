@@ -525,8 +525,9 @@ Character::Character() :
     dex_bonus = 0;
     per_bonus = 0;
     int_bonus = 0;
-    healthy = 0;
-    healthy_mod = 0;
+    lifestyle = 0;
+    daily_health = 0;
+    health_tally = 0;
     hunger = 0;
     thirst = 0;
     fatigue = 0;
@@ -741,7 +742,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "int" ) {
         mod_int_bonus( modifier );
     } else if( stat == "healthy" ) {
-        mod_healthy( modifier );
+        mod_livestyle( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
     } else {
@@ -1995,7 +1996,7 @@ bool Character::can_switch_to( const move_mode_id &mode ) const
 void Character::expose_to_disease( const diseasetype_id &dis_type )
 {
     const cata::optional<int> &healt_thresh = dis_type->health_threshold;
-    if( healt_thresh && healt_thresh.value() < get_healthy() ) {
+    if( healt_thresh && healt_thresh.value() < get_lifestyle() ) {
         return;
     }
     const std::set<bodypart_str_id> &bps = dis_type->affected_bodyparts;
@@ -2194,7 +2195,7 @@ void Character::recalc_hp()
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
-                       get_int_base(), get_healthy(), get_fat_to_hp() );
+                       get_int_base(), get_lifestyle(), get_fat_to_hp() );
 }
 
 int Character::get_part_hp_max( const bodypart_id &id ) const
@@ -3787,13 +3788,18 @@ int Character::ranged_per_mod() const
     return std::max( ( 20.0 - get_per() ) * 1.2, 0.0 );
 }
 
-int Character::get_healthy() const
+int Character::get_lifestyle() const
 {
-    return healthy;
+    return lifestyle;
 }
-int Character::get_healthy_mod() const
+int Character::get_daily_health() const
 {
-    return healthy_mod;
+    return daily_health;
+}
+
+int Character::get_health_tally() const
+{
+    return health_tally;
 }
 
 /*
@@ -3846,7 +3852,7 @@ void Character::print_health() const
     if( !is_avatar() ) {
         return;
     }
-    int current_health = get_healthy();
+    int current_health = get_lifestyle();
 
     // Illness hides positive health messages
     if( current_health > 0 &&
@@ -3891,23 +3897,26 @@ std::string enum_to_string<character_stat>( character_stat data )
 }
 } // namespace io
 
-void Character::set_healthy( int nhealthy )
+void Character::set_lifestyle( int nhealthy )
 {
-    healthy = nhealthy;
+    lifestyle = nhealthy;
 }
-void Character::mod_healthy( int nhealthy )
+void Character::mod_livestyle( int nhealthy )
 {
     float mut_rate = 1.0f;
     for( const trait_id &mut : get_mutations() ) {
         mut_rate *= mut.obj().healthy_rate;
     }
-    healthy += nhealthy * mut_rate;
+    lifestyle += nhealthy * mut_rate;
+    // Clamp lifestyle between [-200, 200]
+    lifestyle = std::max( lifestyle, -200 );
+    lifestyle = std::min( lifestyle, 200 );
 }
-void Character::set_healthy_mod( int nhealthy_mod )
+void Character::set_daily_health( int nhealthy_mod )
 {
-    healthy_mod = nhealthy_mod;
+    daily_health = nhealthy_mod;
 }
-void Character::mod_healthy_mod( int nhealthy_mod, int cap )
+void Character::mod_daily_health( int nhealthy_mod, int cap )
 {
     // TODO: This really should be a full morale-like system, with per-effect caps
     //       and durations.  This version prevents any single effect from exceeding its
@@ -3930,17 +3939,22 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     }
 
     // If we're already out-of-bounds, we don't need to do anything.
-    if( ( healthy_mod <= low_cap && nhealthy_mod < 0 ) ||
-        ( healthy_mod >= high_cap && nhealthy_mod > 0 ) ) {
+    if( ( daily_health <= low_cap && nhealthy_mod < 0 ) ||
+        ( daily_health >= high_cap && nhealthy_mod > 0 ) ) {
         return;
     }
 
-    healthy_mod += nhealthy_mod;
+    daily_health += nhealthy_mod;
 
     // Since we already bailed out if we were out-of-bounds, we can
     // just clamp to the boundaries here.
-    healthy_mod = std::min( healthy_mod, high_cap );
-    healthy_mod = std::max( healthy_mod, low_cap );
+    daily_health = std::min( daily_health, high_cap );
+    daily_health = std::max( daily_health, low_cap );
+}
+
+void Character::mod_health_tally( int mod )
+{
+    health_tally += mod;
 }
 
 int Character::get_stored_kcal() const
@@ -4271,38 +4285,38 @@ void Character::enforce_minimum_healing()
     }
 }
 
-void Character::update_health( int external_modifiers )
+void Character::update_health()
 {
-    // Limit healthy_mod to [-200, 200].
+    // Limit daily_health to [-200, 200].
     // This also sets approximate bounds for the character's health.
-    if( get_healthy_mod() > get_max_healthy() ) {
-        set_healthy_mod( get_max_healthy() );
-    } else if( get_healthy_mod() < -200 ) {
-        set_healthy_mod( -200 );
+    if( get_daily_health() > get_max_healthy() ) {
+        set_daily_health( get_max_healthy() );
+    } else if( get_daily_health() < -200 ) {
+        set_daily_health( -200 );
     }
 
-    // Active leukocyte breeder will keep your health near 100
-    int effective_healthy_mod = enchantment_cache->modify_value(
-                                    enchant_vals::mod::EFFECTIVE_HEALTH_MOD, 0 );
-    if( effective_healthy_mod == 0 ) {
-        effective_healthy_mod = get_healthy_mod();
+    // Active leukocyte breeder will keep your mean health_tally near 100
+    int effective_daily_health = enchantment_cache->modify_value(
+                                     enchant_vals::mod::EFFECTIVE_HEALTH_MOD, 0 );
+    if( effective_daily_health == 0 ) {
+        effective_daily_health = get_daily_health();
     }
-    int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
-    int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
-    mod_healthy_mod( healthy_mod, healthy_mod_cap );
 
-    // Health tends toward healthy_mod.
-    // For small differences, it changes 4 points per day
-    // For large ones, up to ~40% of the difference per day
-    int health_change = effective_healthy_mod - get_healthy() + external_modifiers;
-    mod_healthy( sgn( health_change ) * std::max( 1, std::abs( health_change ) / 10 ) );
+    if( calendar::once_every( 1_days ) ) {
+        mod_health_tally( effective_daily_health );
+        int mean_daily_health = get_health_tally() / 7;
+        mod_livestyle( mean_daily_health );
+        mod_health_tally( -mean_daily_health );
+    }
 
-    // And healthy_mod decays over time.
-    // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( roll_remainder( get_healthy_mod() * 0.95f ) );
+    if( calendar::once_every( 6_hours ) ) {
+        // And daily_health decays over time.
+        // Slowly near 0, but it's hard to overpower it near +/-100
+        set_daily_health( roll_remainder( get_daily_health() * 0.95f ) );
+    }
 
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Health: %d, Health mod: %d", get_healthy(),
-                   get_healthy_mod() );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Lifestyle: %d, Daily health: %d", get_lifestyle(),
+                   get_daily_health() );
 }
 
 item *Character::best_quality_item( const quality_id &qual )
@@ -4803,7 +4817,7 @@ void Character::check_needs_extremes()
                 mod_fatigue( 5 );
 
                 if( one_in( 10 ) ) {
-                    mod_healthy_mod( -1, -10 );
+                    mod_daily_health( -1, -10 );
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
                 add_msg_if_player( m_bad,
@@ -4811,14 +4825,14 @@ void Character::check_needs_extremes()
                 mod_fatigue( 10 );
 
                 if( one_in( 5 ) ) {
-                    mod_healthy_mod( -2, -10 );
+                    mod_daily_health( -2, -10 );
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
                 add_msg_if_player( m_bad,
                                    _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it feels more like a curse now." ) );
                 mod_fatigue( 40 );
 
-                mod_healthy_mod( -5, -10 );
+                mod_daily_health( -5, -10 );
             }
             // else you pass out for 20 hours, guaranteed
 
@@ -4884,7 +4898,7 @@ void Character::get_sick()
 
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
-    float health_factor = std::pow( 2.0f, get_healthy() / 50.0f );
+    float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
 
     int disease_rarity = static_cast<int>( checks_per_year * health_factor / base_diseases_per_year );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "disease_rarity = %d", disease_rarity );
@@ -5680,7 +5694,7 @@ float Character::healing_rate( float at_rest_quality ) const
         asleep_rate = at_rest_quality * heal_rate * ( 1.0f + mutation_value( "healing_resting" ) );
     }
     if( asleep_rate > 0.0f ) {
-        final_rate += asleep_rate * ( 1.0f + get_healthy() / 200.0f );
+        final_rate += asleep_rate * ( 1.0f + get_lifestyle() / 200.0f );
     }
 
     // Most common case: awake player with no regenerative abilities
@@ -5728,10 +5742,10 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
         rate_medicine *= 1.25;
     }
 
-    if( get_healthy() > 0.0f ) {
-        rate_medicine *= 1.0f + get_healthy() / 200.0f;
+    if( get_lifestyle() > 0.0f ) {
+        rate_medicine *= 1.0f + get_lifestyle() / 200.0f;
     } else {
-        rate_medicine *= 1.0f + get_healthy() / 400.0f;
+        rate_medicine *= 1.0f + get_lifestyle() / 400.0f;
     }
     float primary_hp_mod = mutation_value( "hp_modifier" );
     if( primary_hp_mod < 0.0f ) {
@@ -6153,7 +6167,7 @@ void Character::mod_stamina( int mod )
     if( stamina > quarter_thresh && stamina + mod < quarter_thresh && quarter_stam_counter < 5 ) {
         quarter_stam_counter++;
         set_value( "quarter_stam_counter", std::to_string( quarter_stam_counter ) );
-        mod_healthy_mod( 1, 5 );
+        mod_daily_health( 1, 5 );
     }
 
     stamina += mod;
@@ -6276,7 +6290,7 @@ int Character::get_cardiofit() const
     }
     const int bmr = base_bmr();
     const int athletics_mod = get_skill_level( skill_swimming ) * 10;
-    const int health_effect = get_healthy();
+    const int health_effect = get_lifestyle();
 
     // FIXME: Delete this untruth
     // Traits now exclusively affect cardio, NOT max_stamina directly. In the future, make
@@ -7682,7 +7696,7 @@ void Character::rooted()
         if( x_in_y( 96, time_to_full ) ) {
             vitamin_mod( vitamin_iron, 1 );
             vitamin_mod( vitamin_calcium, 1 );
-            mod_healthy_mod( 5, 50 );
+            mod_daily_health( 5, 50 );
         }
         if( get_thirst() > -40 && x_in_y( 288, time_to_full ) ) {
             mod_thirst( -1 );
@@ -9238,10 +9252,10 @@ void Character::process_one_effect( effect &it, bool is_new )
         mod = 1;
         if( is_new || it.activated( calendar::turn, "H_MOD", val, reduced, mod ) ) {
             int bounded = bound_mod_to_vals(
-                              get_healthy_mod(), val, it.get_max_val( "H_MOD", reduced ),
+                              get_daily_health(), val, it.get_max_val( "H_MOD", reduced ),
                               it.get_min_val( "H_MOD", reduced ) );
             // This already applies bounds, so we pass them through.
-            mod_healthy_mod( bounded, get_healthy_mod() + bounded );
+            mod_daily_health( bounded, get_daily_health() + bounded );
         }
     }
 
@@ -9250,8 +9264,8 @@ void Character::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "HEALTH", val, reduced, mod ) ) {
-            mod_healthy( bound_mod_to_vals( get_healthy(), val,
-                                            it.get_max_val( "HEALTH", reduced ), it.get_min_val( "HEALTH", reduced ) ) );
+            mod_livestyle( bound_mod_to_vals( get_lifestyle(), val,
+                                              it.get_max_val( "HEALTH", reduced ), it.get_min_val( "HEALTH", reduced ) ) );
         }
     }
 
@@ -11215,8 +11229,8 @@ void Character::environmental_revert_effect()
     set_hunger( 0 );
     set_thirst( 0 );
     set_fatigue( 0 );
-    set_healthy( 0 );
-    set_healthy_mod( 0 );
+    set_lifestyle( 0 );
+    set_daily_health( 0 );
     set_stim( 0 );
     set_pain( 0 );
     set_painkiller( 0 );
