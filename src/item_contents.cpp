@@ -56,13 +56,6 @@ void pocket_favorite_callback::refresh( uilist *menu )
         if( i == menu->selected ) {
             selected_pocket = pocket;
             pocket_num = std::get<1>( pocket_val ) + 1;
-            if( current_parent != std::get<2>( pocket_val ) ) {
-                if( current_parent != nullptr ) {
-                    current_parent->txt = current_parent->txt.substr( 2 );
-                }
-                current_parent = std::get<2>( pocket_val );
-                current_parent->txt = "@ " + current_parent->txt;
-            }
             break;
         }
         ++i;
