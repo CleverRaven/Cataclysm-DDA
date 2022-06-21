@@ -1094,15 +1094,31 @@ cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step
     precompute_data();
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
     const bool had_cached_path = !data.path.empty();
-    while( !data.path.empty() && data.path.back().pos != veh_pos ) {
+    const bool two_steps = data.path.size() > 2;
+    const navigation_step first_step = two_steps ? data.path.back() : navigation_step();
+    const navigation_step second_step = two_steps ? data.path.at( data.path.size() - 2 ) :
+                                        navigation_step();
+    bool maintain_speed = false;
+    // If vehicle did not move as far as planned and direction is the same
+    // then it is still accelerating.
+    if( two_steps && square_dist( first_step.pos.xy().raw(), second_step.pos.xy().raw() ) >
+        square_dist( first_step.pos.xy().raw(), veh_pos.xy().raw() ) &&
+        first_step.steering_dir == second_step.steering_dir ) {
         data.path.pop_back();
+        maintain_speed = true;
+        data.path.clear();
+    } else {
+        while( !data.path.empty() && data.path.back().pos != veh_pos ) {
+            data.path.pop_back();
+        }
     }
     if( !data.path.empty() && data.path.back().target_speed_tps > data.max_speed_tps ) {
         data.path.clear();
+        maintain_speed = false;
     }
     if( data.path.empty() ) {
         // if we're just starting out or we've gone off-course use the lowest speed
-        if( had_cached_path || driven_veh.velocity == 0 ) {
+        if( ( had_cached_path && !maintain_speed ) || driven_veh.velocity == 0 ) {
             data.max_speed_tps = MIN_SPEED_TPS;
         }
         auto new_path = compute_path( data.max_speed_tps );
