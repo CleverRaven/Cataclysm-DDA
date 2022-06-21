@@ -1284,7 +1284,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "charges": 8,
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_preservation" }, ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_preservation" } ],
     "components": [
       [ [ "meat_cooked", 1, "LIST" ] ],
       [ [ "edible_blood", 2, "LIST" ] ],
