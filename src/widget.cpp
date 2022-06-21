@@ -1482,7 +1482,9 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                     cur_width += 1;
                     remainder -= 1;
                 }
-                total_width += cur_width;
+                if (cur_width > 0) {
+                    total_width += cur_width;
+                }
                 if( total_width > max_width ) {
                     debugmsg( "widget layout is wider than sidebar allows." );
                 }
