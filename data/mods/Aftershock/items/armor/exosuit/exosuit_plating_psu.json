@@ -71,7 +71,7 @@
     "id": "damaged_exo_psu_plastic",
     "type": "ARMOR",
     "copy-from": "exo_psu_plastic",
-    "name": { "str": "plastic PSU plate (exosuit)", "str_pl": "plastic PSU plates (exosuit)" },
+    "name": { "str": "damaged plastic PSU plate (exosuit)", "str_pl": "damaged plastic PSU plates (exosuit)" },
     "description": "The remains of a plastic PSU plate after taking a strong impact.  Can be repaired in the field.",
     "non_functional": "destroyed_exo_psu_plastic",
     "armor": [
