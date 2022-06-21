@@ -63,15 +63,15 @@
 #include "weather_type.h"
 #include "widget.h"
 
-static const efftype_id effect_got_checked( "got_checked" );
-static const efftype_id effect_mending( "mending" );
+//TODO: Use these variables again later to enhance the limb health widget.
+//static const efftype_id effect_got_checked( "got_checked" );
+//static const efftype_id effect_mending( "mending" );
+//static const flag_id json_flag_SPLINT( "SPLINT" );
+//static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
-static const flag_id json_flag_SPLINT( "SPLINT" );
-static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+//static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
 
-static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
-
-static const trait_id trait_NOPAIN( "NOPAIN" );
+//static const trait_id trait_NOPAIN( "NOPAIN" );
 
 // constructor
 window_panel::window_panel(
