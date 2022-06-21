@@ -1455,7 +1455,6 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Store the (potentially) multi-row text for each column
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
-            int total_width = 0;
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
@@ -1467,7 +1466,6 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                     cur_width += 1;
                     remainder -= 1;
                 }
-                total_width += cur_width;
                 const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
                 // Layout child in this column
                 const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
