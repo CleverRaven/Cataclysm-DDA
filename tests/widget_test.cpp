@@ -1304,11 +1304,11 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         set_time( calendar::turn_zero + 12_hours );
         g->mon_info_update();
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
-               "N:                                  " );
+               "<color_c_dark_gray>N</color>:                                  " );
         CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
-               "N:                                  " );
+               "<color_c_dark_gray>N</color>:                                  " );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
-               "N:                                  " );
+               "<color_c_dark_gray>N</color>:                                  " );
         CHECK( c5s_legend1.layout( ava, sidebar_width ).empty() );
         CHECK( c5s_legend3.layout( ava, sidebar_width ).empty() );
         CHECK( c5s_legend5.layout( ava, sidebar_width ).empty() );
@@ -1323,11 +1323,11 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTHEAST )].size()
                  == 1 );
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
-               "N:                                  " );
+               "<color_c_dark_gray>N</color>:                                  " );
         CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
-               "N:                                  " );
+               "<color_c_dark_gray>N</color>:                                  " );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
-               "N:                                  " );
+               "<color_c_dark_gray>N</color>:                                  " );
         CHECK( c5s_legend1.layout( ava, sidebar_width + 3 ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
