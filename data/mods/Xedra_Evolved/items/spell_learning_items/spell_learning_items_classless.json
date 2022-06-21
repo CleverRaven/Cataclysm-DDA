@@ -1,0 +1,17 @@
+[
+  {
+    "id": "magicians_hat",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "magician's hat" },
+    "description": "Old school cylinder hat, used by illusionists in the whole world.  Maybe it still remember some cool tricks?",
+    "weight": "150 g",
+    "volume": "600 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "0",
+    "color": "green",
+    "use_action": { "type": "learn_spell", "spells": [ "damage_transfer" ] }
+  }
+]
