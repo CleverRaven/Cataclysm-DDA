@@ -263,7 +263,7 @@
     "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "bleach spill" } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "ammonia_liquid",
     "name": { "str_sp": "liquid ammonia" },
     "weight": "124 g",
@@ -272,16 +272,14 @@
     "container": "pressure_tank",
     "sealed": false,
     "symbol": "~",
-    "quench": -96,
-    "healthy": -20,
     "description": "This is anhydrous ammonia, a useful chemical compound.  It must be stored under pressure or refrigerated.  Don't even think about drinking it.",
     "price": 67,
     "price_postapoc": 50,
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 2,
+    "stack_size": 1,
     "category": "chems",
-    "freezing_point": -78
+    "ammo_type": "ammonia_liquid"
   },
   {
     "type": "COMESTIBLE",
