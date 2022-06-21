@@ -1,0 +1,18 @@
+[
+  {
+    "id": "magick_8_ball",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "Magick 8-Ball" },
+    "description": "A fortune-telling device from the 1950s.  If you shake it and look at the bottom it will give you detailed step by step instructions on how to do… something.",
+    "weight": "40 g",
+    "volume": "150 ml",
+    "longest_side": "12 cm",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "dream_armor" ] }
+  }
+]
