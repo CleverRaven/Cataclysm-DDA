@@ -1572,7 +1572,7 @@ nc_color widget::get_label_color()
         case widget_var::bp_hp:
             return display::limb_color( get_avatar(), only_bp(), true, true, true );
         default:
-            return c_dark_gray;
+            return c_light_gray;
     }
 }
 
