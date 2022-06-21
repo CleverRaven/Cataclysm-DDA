@@ -10,8 +10,8 @@
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "forged_dreamstuff" ],
-    "symbol": ",",
-    "color": "red",
+    "symbol": "U",
+    "color": "magenta_yellow",
     "use_action": { "type": "learn_spell", "spells": [ "spell_oneiric_hammer" ] }
   }
 ]

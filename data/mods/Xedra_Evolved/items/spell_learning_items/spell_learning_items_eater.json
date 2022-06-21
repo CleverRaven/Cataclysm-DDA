@@ -11,7 +11,7 @@
     "price_postapoc": 10,
     "material": [ "forged_dreamstuff" ],
     "symbol": ",",
-    "color": "red",
+    "color": "brown",
     "use_action": { "type": "learn_spell", "spells": [ "spring_heeled_leap" ] }
   },
   {
@@ -25,8 +25,8 @@
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "forged_dreamstuff" ],
-    "symbol": ",",
-    "color": "red",
+    "symbol": "%",
+    "color": "dark_gray",
     "use_action": { "type": "learn_spell", "spells": [ "banish_nether_monsters" ] }
   },
   {
@@ -40,8 +40,38 @@
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "forged_dreamstuff" ],
-    "symbol": ",",
-    "color": "red",
+    "symbol": "a",
+    "color": "green",
     "use_action": { "type": "learn_spell", "spells": [ "banish_dark_monsters" ] }
+  },
+  {
+    "id": "glass_berries",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "box of glass berries", "str_pl": "boxes of glass berries" },
+    "description": "A box full of glass berries, when you get distracted you find yourself crunching them in your mouth.  Each one tastes like a mouth full of blood, that slowly changes to espresso.",
+    "weight": "50 g",
+    "volume": "10 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "light_cyan",
+    "use_action": { "type": "learn_spell", "spells": [ "blood_boil" ] }
+  },
+  {
+    "id": "polaroid_of_missing_person",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "polaroid of a missing person", "str_pl": "polaroids of a missing person" },
+    "description": "A polaroid of someone you remember that went missing before the Cataclysm.  It caught a ton of media attention because that were seen near what was shortly after identified as a thin place between dimensions.  The more you stare at the picture you begin to see wounds appear and dissapear on the person.  Sometimes they match your wounds that have healed.",
+    "weight": "50 g",
+    "volume": "10 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "O",
+    "color": "white_magenta",
+    "use_action": { "type": "learn_spell", "spells": [ "self_healing" ] }
   }
 ]
