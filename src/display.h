@@ -136,6 +136,9 @@ std::pair<std::string, nc_color> safe_mode_text_color( bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
 std::pair<std::string, nc_color> weather_text_color( const Character &u );
 
+// Get the color of the label for the compass direction based on danger levels.
+nc_color get_compass_color_for_direction( const cardinal_direction dir );
+
 // Get visible threats by cardinal direction - Already colorized
 std::string colorized_compass_text( cardinal_direction dir, int width );
 std::string colorized_compass_legend_text( int width, int max_height, int &height );

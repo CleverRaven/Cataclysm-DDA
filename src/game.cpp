@@ -11872,7 +11872,7 @@ void game::display_reachability_zones()
             if( cache ) {
                 quadrant =
                     menu_popup( static_cast<int>( debug_rz_display.quadrant ),
-                                /**/{ "NE", "SE", "SW", "NW" } );
+                                /**/ { "NE", "SE", "SW", "NW" } );
             }
             if( cache && quadrant ) {
                 debug_rz_display.r_cache_vertical = *cache;

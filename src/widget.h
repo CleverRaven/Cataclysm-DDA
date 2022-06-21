@@ -281,6 +281,8 @@ class widget
         // label area, so the returned string is equal to max_width.
         std::string layout( const avatar &ava, unsigned int max_width = 0, int label_width = 0,
                             bool skip_pad = false );
+        // Certain widgets should give you colored labels. For those widgets, this function returns the needed color.
+        nc_color get_label_color();
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava, unsigned int max_width );
         // Return a window_panel for rendering this widget at given width (and possibly height)

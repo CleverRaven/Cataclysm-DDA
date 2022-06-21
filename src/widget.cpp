@@ -1339,7 +1339,7 @@ std::string widget::graph( int value ) const
 
 // For widget::layout, process each row to append to the layout string
 static std::string append_line( const std::string &line, bool first_row, int max_width,
-                                const translation &label, int label_width, const std::string &_separator,
+                                const std::string &label, int label_width, const std::string &_separator,
                                 widget_alignment text_align, widget_alignment label_align, bool skip_pad )
 {
     // utf8_width subtracts 1 for each newline; add it back for multiline widgets
@@ -1349,7 +1349,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     int lbl_w = 0;
     std::string lbl;
     if( first_row && !label.empty() ) {
-        lbl = label.translated();
+        lbl = label;
         lbl_w = utf8_width( lbl, true );
         lbl.append( _separator );
     }
@@ -1542,10 +1542,12 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
         size_t strpos = 0;
         int row_num = 0;
         // For multi-line widgets, each line is separated by a '\n' character
+        std::string colored_label = colorize( _label, get_label_color() );
         while( ( strpos = shown.find( '\n' ) ) != std::string::npos && row_num < _height ) {
             // Process line, including '\n'
+
             ret += append_line( shown.substr( 0, strpos + 1 ), row_num == 0, max_width,
-                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
+                                has_flag( json_flag_W_LABEL_NONE ) ? "" : colored_label,
                                 0, _separator, _text_align, _label_align, skip_pad );
             // Delete used token
             shown.erase( 0, strpos + 1 );
@@ -1554,12 +1556,24 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
         if( row_num < _height ) {
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
-                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
+                                has_flag( json_flag_W_LABEL_NONE ) ? "" : colored_label,
                                 row_num == 0 ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
         }
     }
     return ret.find( '\n' ) != std::string::npos || max_width == 0 ?
            ret : trim_by_length( ret, max_width );
+}
+
+nc_color widget::get_label_color()
+{
+    switch( _var ) {
+        case widget_var::compass_text:
+            return display::get_compass_color_for_direction( _direction );
+        case widget_var::bp_hp:
+            return display::limb_color( get_avatar(), only_bp(), true, true, true );
+        default:
+            return c_dark_gray;
+    }
 }
 
 std::string format_widget_multiline( const std::vector<std::string> &keys, int max_height,

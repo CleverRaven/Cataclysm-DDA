@@ -1308,6 +1308,16 @@ static std::string get_compass_for_direction( const cardinal_direction dir, int 
     return ret;
 }
 
+nc_color display::get_compass_color_for_direction( const cardinal_direction dir )
+{
+    const int d = static_cast<int>( dir );
+    nc_color direction_color = get_avatar().get_mon_visible().unique_types[d].empty() &&
+                               get_avatar().get_mon_visible().unique_mons[d].empty() ? c_dark_gray
+                               : ( get_avatar().get_mon_visible().dangerous[d] ? c_light_red : c_light_gray );
+
+    return direction_color;
+}
+
 std::string display::colorized_compass_text( const cardinal_direction dir, int width )
 {
     if( dir == cardinal_direction::num_cardinal_directions ) {
