@@ -1480,7 +1480,8 @@ Similar to `shopkeeper_consumption_rates`
   "entries": [
       { 
         "item": "hammer",
-        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" } 
+        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+        "message": "<npcname> hates this item"
       },
       { "category": "ammo" },
       { "group": "EXODII_basic_trade" }
