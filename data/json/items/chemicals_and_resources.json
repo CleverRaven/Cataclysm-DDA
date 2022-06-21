@@ -279,7 +279,7 @@
     "phase": "liquid",
     "stack_size": 1,
     "category": "chems",
-	"ammo_type": "ammonia_liquid"
+    "ammo_type": "ammonia_liquid"
   },
   {
     "type": "COMESTIBLE",
