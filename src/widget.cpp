@@ -1543,8 +1543,10 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
         int row_num = 0;
         // For multi-line widgets, each line is separated by a '\n' character
         nc_color label_color = get_label_color();
-        bool change_label_color = (label_color != c_light_gray) && !_label.empty() && !has_flag("W_LABEL_NONE");
-        std::string colored_label = (change_label_color ? colorize(_label, get_label_color()) : _label.translated());
+        bool change_label_color = ( label_color != c_light_gray ) && !_label.empty() &&
+                                  !has_flag( "W_LABEL_NONE" );
+        std::string colored_label = ( change_label_color ? colorize( _label,
+                                      get_label_color() ) : _label.translated() );
         while( ( strpos = shown.find( '\n' ) ) != std::string::npos && row_num < _height ) {
             // Process line, including '\n'
 
