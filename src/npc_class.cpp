@@ -246,12 +246,22 @@ bool shopkeeper_item_group::can_restock( npc const &guy ) const
     return !strict or can_sell( guy );
 }
 
+std::string shopkeeper_item_group::get_refusal() const
+{
+    if( refusal.empty() ) {
+        return _( "<npcname> does not trust you enough" );
+    }
+
+    return refusal;
+}
+
 void shopkeeper_item_group::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "group", id );
     optional( jo, false, "trust", trust, 0 );
     optional( jo, false, "strict", strict, false );
     optional( jo, false, "rigid", rigid, false );
+    optional( jo, false, "refusal", refusal );
     if( jo.has_member( "condition" ) ) {
         read_condition<dialogue>( jo, "condition", condition, false );
     }

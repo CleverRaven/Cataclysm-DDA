@@ -16,6 +16,7 @@ struct icg_entry {
     itype_id itype;
     item_category_id category;
     item_group_id item_group;
+    std::string message;
 
     std::function<bool( const dialogue & )> condition;
 
@@ -70,7 +71,7 @@ struct shopkeeper_blacklist {
     static const std::vector<shopkeeper_blacklist> &get_all();
     static void load_blacklist( const JsonObject &jo, std::string const &src );
     void load( const JsonObject &jo, std::string const &src );
-    bool matches( item const &it, npc const &beta ) const;
+    icg_entry const *matches( item const &it, npc const &beta ) const;
 };
 
 #endif // CATA_SRC_SHOP_CONS_RATE_H
