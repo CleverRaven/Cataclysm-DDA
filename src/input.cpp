@@ -654,11 +654,11 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_29,        translate_marker_context( "key name", "JOY_29" ) );
     add_gamepad_keycode_pair( JOY_30,        translate_marker_context( "key name", "JOY_30" ) );
 
-    add_mouse_keycode_pair( MOUSE_BUTTON_LEFT,  translate_marker_context( "key name", "MOUSE_LEFT" ) );
-    add_mouse_keycode_pair( MOUSE_BUTTON_RIGHT, translate_marker_context( "key name", "MOUSE_RIGHT" ) );
-    add_mouse_keycode_pair( SCROLLWHEEL_UP,     translate_marker_context( "key name", "SCROLL_UP" ) );
-    add_mouse_keycode_pair( SCROLLWHEEL_DOWN,   translate_marker_context( "key name", "SCROLL_DOWN" ) );
-    add_mouse_keycode_pair( MOUSE_MOVE,         translate_marker_context( "key name", "MOUSE_MOVE" ) );
+    add_mouse_keycode_pair( static_cast<int>(MouseInput::LeftButtonReleased),  translate_marker_context( "key name", "MOUSE_LEFT" ) );
+    add_mouse_keycode_pair( static_cast<int>(MouseInput::RightButtonReleased), translate_marker_context( "key name", "MOUSE_RIGHT" ) );
+    add_mouse_keycode_pair( static_cast<int>(MouseInput::ScrollWheelUp),       translate_marker_context( "key name", "SCROLL_UP" ) );
+    add_mouse_keycode_pair( static_cast<int>(MouseInput::ScrollWheelDown),     translate_marker_context( "key name", "SCROLL_DOWN" ) );
+    add_mouse_keycode_pair( static_cast<int>(MouseInput::Move),                translate_marker_context( "key name", "MOUSE_MOVE" ) );
 }
 
 int input_manager::get_keycode( const input_event_t inp_type, const std::string &name ) const
