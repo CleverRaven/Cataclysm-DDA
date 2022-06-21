@@ -294,7 +294,7 @@ void scent_map::deserialize( const std::string &data, bool is_type )
         int stmp = 0;
         int count = 0;
         for( auto &elem : grscent ) {
-            for( auto &val : elem ) {
+            for( int &val : elem ) {
                 if( count == 0 ) {
                     buffer >> stmp >> count;
                 }
@@ -467,7 +467,7 @@ void overmap::convert_terrain(
             ter_set( pos, oter_id( new_ + "_north" ) );
         }
 
-        for( const auto &conv : nearby ) {
+        for( const convert_nearby &conv : nearby ) {
             const auto x_it = needs_conversion.find( pos + point( conv.offset.x, 0 ) );
             const auto y_it = needs_conversion.find( pos + point( 0, conv.offset.y ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
@@ -1263,7 +1263,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "camps" );
     json.start_array();
-    for( const auto &i : camps ) {
+    for( const basecamp &i : camps ) {
         json.write( i );
     }
     json.end_array();
@@ -1458,7 +1458,7 @@ void game::unserialize_master( std::istream &fin )
 void mission::serialize_all( JsonOut &json )
 {
     json.start_array();
-    for( auto &e : get_all_active() ) {
+    for( mission *&e : get_all_active() ) {
         e->serialize( json );
     }
     json.end_array();
@@ -1564,7 +1564,7 @@ void global_variables::serialize( JsonOut &jsout ) const
 void timed_event_manager::serialize_all( JsonOut &jsout )
 {
     jsout.start_array();
-    for( const auto &elem : get_timed_events().events ) {
+    for( const timed_event &elem : get_timed_events().events ) {
         jsout.start_object();
         jsout.member( "faction", elem.faction_id );
         jsout.member( "map_point", elem.map_point );

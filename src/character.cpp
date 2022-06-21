@@ -2644,7 +2644,7 @@ std::vector<item_location> Character::nearby( const
         return VisitResponse::NEXT;
     } );
 
-    for( const auto &cur : map_selector( pos(), radius ) ) {
+    for( const map_cursor &cur : map_selector( pos(), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -2653,7 +2653,7 @@ std::vector<item_location> Character::nearby( const
         } );
     }
 
-    for( const auto &cur : vehicle_selector( pos(), radius ) ) {
+    for( const vehicle_cursor &cur : vehicle_selector( pos(), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -2909,7 +2909,7 @@ bool Character::can_use( const item &it, const item &context ) const
                                _( "<npcname> can't use anything while incorporeal." ) );
         return false;
     }
-    const auto &ctx = !context.is_null() ? context : it;
+    const item &ctx = !context.is_null() ? context : it;
 
     if( !meets_requirements( it, ctx ) ) {
         const std::string unmet( enumerate_unmet_requirements( it, ctx ) );
@@ -3128,7 +3128,7 @@ bool Character::meets_stat_requirements( const item &it ) const
 
 bool Character::meets_requirements( const item &it, const item &context ) const
 {
-    const auto &ctx = !context.is_null() ? context : it;
+    const item &ctx = !context.is_null() ? context : it;
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
@@ -4183,7 +4183,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
                 // Unpowered bionics are protected from power surges.
                 continue;
             }
-            const auto &info = i.info();
+            const bionic_data &info = i.info();
             if( info.has_flag( STATIC( json_character_flag( "BIONIC_SHOCKPROOF" ) ) ) ||
                 info.has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
                 continue;
@@ -5180,7 +5180,7 @@ nc_color Character::symbol_color() const
         return cyan_background( basic );
     }
 
-    const auto &fields = get_map().field_at( pos() );
+    const field &fields = get_map().field_at( pos() );
 
     // Priority: electricity, fire, acid, gases
     bool has_elec = false;
@@ -6760,7 +6760,7 @@ void Character::vomit()
     mod_moves( -100 );
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
-            auto &it = _effect_it.second;
+            effect &it = _effect_it.second;
             if( it.get_id() == effect_foodpoison ) {
                 it.mod_duration( -30_minutes );
             } else if( it.get_id() == effect_drunk ) {
@@ -6803,7 +6803,7 @@ tripoint Character::adjacent_tile() const
         }
         // Only consider tile if unoccupied, passable and has no traps
         dangerous_fields = 0;
-        auto &tmpfld = here.field_at( p );
+        field &tmpfld = here.field_at( p );
         for( auto &fld : tmpfld ) {
             const field_entry &cur = fld.second;
             if( cur.is_dangerous() ) {
@@ -9552,7 +9552,7 @@ void Character::process_effects()
 
     // Apply new effects from effect->effect chains
     while( !scheduled_effects.empty() ) {
-        const auto &effect = scheduled_effects.front();
+        const scheduled_effect_t &effect = scheduled_effects.front();
 
         add_effect( effect_source::empty(),
                     effect.eff_id,
@@ -9569,7 +9569,7 @@ void Character::process_effects()
     // Perform immediate effect removals
     while( !terminating_effects.empty() ) {
 
-        const auto &effect = terminating_effects.front();
+        const terminating_effect_t &effect = terminating_effects.front();
 
         remove_effect( effect.eff_id, effect.bp );
 
@@ -9679,7 +9679,7 @@ void Character::shift_destination( const point &shift )
         *next_expected_position += shift;
     }
 
-    for( auto &elem : auto_move_route ) {
+    for( tripoint &elem : auto_move_route ) {
         elem += shift;
     }
 }
@@ -11015,7 +11015,7 @@ void Character::process_items()
     if( !inv_use_ups.empty() ) {
         const int available_charges = available_ups();
         int ups_used = 0;
-        for( const auto &it : inv_use_ups ) {
+        for( item * const &it : inv_use_ups ) {
             // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
             if( it->is_power_armor() && can_interface_armor() && has_power() ) {
                 // Bionic power costs are handled elsewhere
@@ -11409,7 +11409,7 @@ void Character::pause()
     if( in_vehicle && one_in( 8 ) ) {
         VehicleList vehs = here.get_vehicles();
         vehicle *veh = nullptr;
-        for( auto &v : vehs ) {
+        for( wrapped_vehicle &v : vehs ) {
             veh = v.v;
             if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
                 double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +

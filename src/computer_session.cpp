@@ -702,7 +702,7 @@ void computer_session::action_miss_launch()
 
     //Put some smoke gas and explosions at the nuke location.
     const tripoint nuke_location = { get_player_character().pos() - point( 12, 0 ) };
-    for( const auto &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
+    for( const tripoint &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
         if( one_in( 4 ) ) {
             get_map().add_field( loc, fd_smoke, rng( 1, 9 ) );
         }
@@ -1344,7 +1344,7 @@ void computer_session::action_conveyor()
     } else {
         print_line( _( "No items detected at: PLATFORM." ) );
     }
-    for( const auto &it : items ) {
+    for( const item &it : items ) {
         here.add_item_or_charges( unloading, it );
     }
     here.i_clear( platform );
@@ -1354,7 +1354,7 @@ void computer_session::action_conveyor()
     } else {
         print_line( _( "No items detected at: LOADING BAY." ) );
     }
-    for( const auto &it : items ) {
+    for( const item &it : items ) {
         if( !it.made_of_from_type( phase_id::LIQUID ) ) {
             here.add_item_or_charges( platform, it );
         }

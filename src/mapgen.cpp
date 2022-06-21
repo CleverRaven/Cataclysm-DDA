@@ -242,7 +242,7 @@ void map::generate( const tripoint &p, const time_point &when )
         }
     }
 
-    const auto &spawns = terrain_type->get_static_spawns();
+    const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
 
     float spawn_density = 1.0f;
     if( MonsterGroupManager::is_animal( spawns.group ) ) {
@@ -2763,10 +2763,10 @@ class jmapgen_computer : public jmapgen_piece
             computer *cpu =
                 dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z() ), name.translated(),
                                     security );
-            for( const auto &opt : options ) {
+            for( const computer_option &opt : options ) {
                 cpu->add_option( opt );
             }
-            for( const auto &opt : failures ) {
+            for( const computer_failure &opt : failures ) {
                 cpu->add_failure( opt );
             }
             if( target && dat.mission() ) {
@@ -3749,7 +3749,7 @@ void mapgen_palette::add( const mapgen_palette &rh, const add_palette_context &c
         these_placings.insert( these_placings.end(),
                                constrained_placings.begin(), constrained_placings.end() );
     }
-    for( const auto &placing : rh.keys_with_terrain ) {
+    for( const map_key &placing : rh.keys_with_terrain ) {
         keys_with_terrain.insert( placing );
     }
     parameters.check_and_merge( rh.parameters, actual_context );
@@ -3759,7 +3759,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
         const std::string &context, bool require_id, bool allow_recur )
 {
     mapgen_palette new_pal;
-    auto &format_placings = new_pal.format_placings;
+    mapgen_palette::placing_map &format_placings = new_pal.format_placings;
     auto &keys_with_terrain = new_pal.keys_with_terrain;
     if( require_id ) {
         new_pal.id = palette_id( jo.get_string( "id" ) );
@@ -3983,7 +3983,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     if( jo.has_array( "rows" ) ) {
         mapgen_palette palette = mapgen_palette::load_temp( jo, "dda", context_ );
         auto &keys_with_terrain = palette.keys_with_terrain;
-        auto &format_placings = palette.format_placings;
+        mapgen_palette::placing_map &format_placings = palette.format_placings;
 
         if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
             return false;
@@ -6260,7 +6260,7 @@ void map::place_vending( const point &p, const item_group_id &type, bool reinfor
         if( lootable &&
             !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
             furn_set( p, f_vending_o );
-            for( const auto &loc : points_in_radius( { p, abs_sub.z() }, 1 ) ) {
+            for( const tripoint &loc : points_in_radius( { p, abs_sub.z() }, 1 ) ) {
                 if( one_in( 4 ) ) {
                     spawn_item( loc, "glass_shard", rng( 1, 25 ) );
                 }
@@ -6473,7 +6473,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         place_on_submap->is_uniform = false;
         invalidate_max_populated_zlev( p.z );
 
-        auto &ch = get_cache( placed_vehicle->sm_pos.z );
+        level_cache &ch = get_cache( placed_vehicle->sm_pos.z );
         ch.vehicle_list.insert( placed_vehicle );
         add_vehicle_to_cache( placed_vehicle );
 

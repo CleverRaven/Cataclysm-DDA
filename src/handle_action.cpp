@@ -1088,20 +1088,20 @@ static void sleep()
             continue;
         }
 
-        const auto &info = bio.info();
+        const bionic_data &info = bio.info();
         if( info.power_over_time > 0_kJ ) {
             active.push_back( info.name.translated() );
         }
     }
     for( auto &mut : player_character.get_mutations() ) {
-        const auto &mdata = mut.obj();
+        const mutation_branch &mdata = mut.obj();
         if( mdata.cost > 0 && player_character.has_active_mutation( mut ) ) {
             active.push_back( mdata.name() );
         }
     }
 
     // check for deactivating any currently played music instrument.
-    for( auto &item : player_character.inv_dump() ) {
+    for( item *&item : player_character.inv_dump() ) {
         if( item->active && item->get_use( "musical_instrument" ) != nullptr ) {
             player_character.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ),
                                                 item->tname() );
@@ -1194,7 +1194,7 @@ static void loot()
 
     Character &player_character = get_player_character();
     int flags = 0;
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
 
     // reset any potentially disabled zones from a past activity
@@ -1321,7 +1321,7 @@ static void loot()
         case SortLootStatic:
             //temporarily disable personal zones
             for( const auto &i : mgr.get_zones() ) {
-                auto &zone = i.get();
+                zone_data &zone = i.get();
                 if( zone.get_is_personal() && zone.get_enabled() ) {
                     zone.set_enabled( false );
                     zone.set_temporary_disabled( true );
@@ -1336,7 +1336,7 @@ static void loot()
         case SortLootPersonal:
             //temporarily disable non personal zones
             for( const auto &i : mgr.get_zones() ) {
-                auto &zone = i.get();
+                zone_data &zone = i.get();
                 if( !zone.get_is_personal() && zone.get_enabled() ) {
                     zone.set_enabled( false );
                     zone.set_temporary_disabled( true );
@@ -2401,7 +2401,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTOSAFE: {
-            auto &autosafemode_option = get_options().get_option( "AUTOSAFEMODE" );
+            options_manager::cOpt &autosafemode_option = get_options().get_option( "AUTOSAFEMODE" );
             add_msg( m_info, autosafemode_option.value_as<bool>()
                      ? _( "Auto safe mode OFF!" ) : _( "Auto safe mode ON!" ) );
             autosafemode_option.setNext();

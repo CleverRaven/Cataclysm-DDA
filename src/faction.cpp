@@ -943,7 +943,7 @@ void faction_manager::display() const
     while( true ) {
         // create a list of NPCs, visible and the ones on overmapbuffer
         followers.clear();
-        for( const auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;

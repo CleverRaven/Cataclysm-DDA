@@ -374,7 +374,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
-        for( const auto &scen : scenario::get_all() ) {
+        for( const scenario &scen : scenario::get_all() ) {
             if( !scen.has_flag( flag_CHALLENGE ) && !scen.scen_is_blacklisted() &&
                 ( !scen.has_flag( flag_CITY_START ) || cities_enabled ) ) {
                 scenarios.emplace_back( &scen );
@@ -760,7 +760,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Learn recipes
     for( const auto &e : recipe_dict ) {
-        const auto &r = e.second;
+        const recipe &r = e.second;
         if( !r.is_practice() && !r.has_flag( flag_SECRET ) && !knows_recipe( &r ) &&
             has_recipe_requirements( r ) ) {
             learn_recipe( &r );
@@ -825,7 +825,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Activate some mutations right from the start.
     for( const trait_id &mut : get_mutations() ) {
-        const auto &branch = mut.obj();
+        const mutation_branch &branch = mut.obj();
         if( branch.starts_active ) {
             my_mutations[mut].powered = true;
         }
@@ -1894,7 +1894,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 std::string buffer_wielded;
                 std::string buffer_worn;
                 std::string buffer_inventory;
-                for( const auto &it : prof_items ) {
+                for( const item &it : prof_items ) {
                     if( it.has_flag( json_flag_no_auto_equip ) ) { // NOLINT(bugprone-branch-clone)
                         buffer_inventory += it.display_name() + "\n";
                     } else if( it.has_flag( json_flag_auto_wield ) ) {
@@ -1925,7 +1925,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 buffer += pgettext( "set_profession_bionic", "None" ) + std::string( "\n" );
             } else {
                 for( const auto &b : prof_CBMs ) {
-                    const auto &cbm = b.obj();
+                    const bionic_data &cbm = b.obj();
                     if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
                         buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                     } else if( cbm.activated ) {
@@ -2664,7 +2664,7 @@ tab_direction set_skills( avatar &u, pool_type pool )
     ctxt.register_action( "QUIT" );
 
     std::map<skill_id, int> prof_skills;
-    const auto &pskills = u.prof->skills();
+    const profession::StartingSkillList &pskills = u.prof->skills();
 
     std::copy( pskills.begin(), pskills.end(),
                std::inserter( prof_skills, prof_skills.begin() ) );
@@ -3215,8 +3215,8 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     do {
         if( recalc_scens ) {
             sorted_scens.clear();
-            auto &wopts = world_generator->active_world->WORLD_OPTIONS;
-            for( const auto &scen : scenario::get_all() ) {
+            options_manager::options_container &wopts = world_generator->active_world->WORLD_OPTIONS;
+            for( const scenario &scen : scenario::get_all() ) {
                 if( scen.scen_is_blacklisted() ) {
                     continue;
                 }
@@ -3513,7 +3513,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1,
             random_start_location_text );
     select_location.entries.emplace_back( entry_random_start_location );
-    for( const auto &loc : start_locations::get_all() ) {
+    for( const start_location &loc : start_locations::get_all() ) {
         if( get_scenario()->allowed_start( loc.id ) ) {
             std::string loc_name = loc.name();
             if( loc.targets_count() > 1 ) {
@@ -3615,7 +3615,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             bool has_skills = false;
             profession::StartingSkillList list_skills = you.prof->skills();
 
-            for( auto &elem : skillslist ) {
+            for( const Skill *&elem : skillslist ) {
                 int level = you.get_skill_level( elem->ident() );
 
                 // Handle skills from professions
@@ -3681,7 +3681,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 mvwprintz( w_bionics, point( utf8_width( _( "Bionics:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
             } else {
                 for( const auto &b : prof_CBMs ) {
-                    const auto &cbm = b.obj();
+                    const bionic_data &cbm = b.obj();
 
                     if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
                         wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (toggled)" ), cbm.name ) );
@@ -4096,7 +4096,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             if( select_location.ret == RANDOM_START_LOC_ENTRY ) {
                 you.random_start_location = true;
             } else if( select_location.ret >= 0 ) {
-                for( const auto &loc : start_locations::get_all() ) {
+                for( const start_location &loc : start_locations::get_all() ) {
                     if( loc.id.id().to_i() == select_location.ret ) {
                         you.random_start_location = false;
                         you.start_location = loc.id;
@@ -4181,7 +4181,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     if( select_location.ret == RANDOM_START_LOC_ENTRY ) {
                         you.random_start_location = true;
                     } else if( select_location.ret >= 0 ) {
-                        for( const auto &loc : start_locations::get_all() ) {
+                        for( const start_location &loc : start_locations::get_all() ) {
                             if( loc.id.id().to_i() == select_location.ret ) {
                                 you.random_start_location = false;
                                 you.start_location = loc.id;
@@ -4392,7 +4392,7 @@ bool avatar::load_template( const std::string &template_name, pool_type &pool )
             const std::string jobj_start_location = jobj.get_string( "start_location", "" );
 
             // get_scenario()->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
-            for( const auto &loc : start_locations::get_all() ) {
+            for( const class start_location &loc : start_locations::get_all() ) {
                 if( loc.id.str() == jobj_start_location ) {
                     random_start_location = false;
                     this->start_location = loc.id;

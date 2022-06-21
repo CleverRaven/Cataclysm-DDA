@@ -403,7 +403,7 @@ bool talker_character_const::has_stolen_item( const talker &guy ) const
 {
     const Character *owner = guy.get_character();
     if( owner ) {
-        for( auto &elem : me_chr_const->inv_dump() ) {
+        for( const item *&elem : me_chr_const->inv_dump() ) {
             if( elem->is_old_owner( *owner, true ) ) {
                 return true;
             }
@@ -595,7 +595,7 @@ int talker_character_const::get_addiction_intensity( const addiction_id &add_id 
 
 int talker_character_const::get_addiction_turns( const addiction_id &add_id ) const
 {
-    for( const auto &add : me_chr_const->addictions ) {
+    for( const addiction &add : me_chr_const->addictions ) {
         if( add.type == add_id ) {
             return to_turns<int>( add.sated );
         }

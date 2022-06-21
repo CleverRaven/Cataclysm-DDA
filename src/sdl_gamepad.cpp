@@ -324,7 +324,7 @@ void handle_button_event( SDL_Event &event )
 void handle_scheduler_event( SDL_Event &event )
 {
     Uint32 now = event.user.timestamp;
-    for( auto &task : all_tasks )
+    for( gamepad::task_t &task : all_tasks )
         if( task.counter && task.when <= now ) {
             send_input( task.button );
             task.counter += 1;

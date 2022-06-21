@@ -389,7 +389,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
  */
 static void fill_water_collectors( int mmPerHour, bool acid )
 {
-    for( const auto &e : trap::get_funnels() ) {
+    for( const trap * const &e : trap::get_funnels() ) {
         fill_funnels( mmPerHour, acid, *e );
     }
 }

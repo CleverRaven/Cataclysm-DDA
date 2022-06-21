@@ -273,7 +273,7 @@ class hotwire_car_activity_actor : public activity_actor
         tripoint target;
 
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const auto &a = static_cast<const hotwire_car_activity_actor &>( other );
+            const hotwire_car_activity_actor &a = static_cast<const hotwire_car_activity_actor &>( other );
             return target == a.target && moves_total == a.moves_total;
         }
 

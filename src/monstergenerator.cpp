@@ -480,7 +480,7 @@ void MonsterGenerator::finalize_mtypes()
         }
     }
 
-    for( const auto &mon : mon_templates->get_all() ) {
+    for( const mtype &mon : mon_templates->get_all() ) {
         if( !mon.has_flag( MF_NOT_HALLU ) ) {
             hallucination_monsters.push_back( mon.id );
         }

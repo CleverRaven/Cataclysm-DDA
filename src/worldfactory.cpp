@@ -1757,7 +1757,7 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
 
 void WORLD::load_options( JsonIn &jsin )
 {
-    auto &opts = get_options();
+    options_manager &opts = get_options();
 
     jsin.start_array();
     while( !jsin.end_array() ) {

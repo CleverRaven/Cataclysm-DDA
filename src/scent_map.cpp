@@ -52,7 +52,7 @@ static nc_color sev( const size_t level )
 void scent_map::reset()
 {
     for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
+        for( int &val : elem ) {
             val = 0;
         }
     }
@@ -62,7 +62,7 @@ void scent_map::reset()
 void scent_map::decay()
 {
     for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
+        for( int &val : elem ) {
             val = std::max( 0, val - 1 );
         }
     }
