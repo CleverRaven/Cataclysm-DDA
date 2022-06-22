@@ -15,6 +15,6 @@ The first bit of content for Xedra Evolved revolves around a dimension that's re
 3 Map Extra
 A dozen or so items
 2 NPC classes
-4 Magical classes with unique playstyles and spells.  Dreamers, who can summon things from nearby dimensions.  Eaters, who consume the substance of dreams for mana and health and abilities to improve their body and banish monsters not native to this dimension.  Dreamsmiths are the blacksmiths of dreams and can forge dreamdross into a more durable substance that can be repaired.  The Mad Genius is an inventor who borrows the physics of other dimensions to temporarily improve toys and other objects into powerful devices.
+4 Magical classes with unique playstyles and spells.  Dreamers, who can summon things from nearby dimensions.  Eaters, who consume the substance of dreams for mana and health and abilities to improve their body and banish monsters not native to this dimension.  Dreamsmiths are the blacksmiths of dreams and can forge dreamdross into a more durable substance that can be repaired.  The Mad Genius is an inventor who borrows the physics of other dimensions to temporarily improve toys and other objects into powerful devices.  Eater locks out Dreamer and Mad Genius locks out Dreamsmith.  
 1 Vehicle
 And a plethora of other effects, furniture/terrain, missions, lore and other things necessary to support the above.
