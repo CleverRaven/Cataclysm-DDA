@@ -15,7 +15,7 @@
     "non_functional": "damaged_exo_psu_steel",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "torso" ],
         "coverage": 50,
         "encumbrance": 15
@@ -31,7 +31,7 @@
     "non_functional": "destroyed_exo_psu_steel",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "torso" ],
         "coverage": 40,
         "encumbrance": 15
@@ -105,7 +105,7 @@
     "non_functional": "destroyed_exo_psu_vcc_plate",
     "armor": [
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 6 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "torso" ],
         "coverage": 50,
         "encumbrance": 25
@@ -121,7 +121,7 @@
     "non_functional": "destroyed_exo_psu_vcc",
     "armor": [
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "torso" ],
         "coverage": 40,
         "encumbrance": 25

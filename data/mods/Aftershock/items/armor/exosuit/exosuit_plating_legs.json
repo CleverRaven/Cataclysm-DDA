@@ -15,7 +15,7 @@
     "non_functional": "damaged_exo_leg_steel_plate",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 15
@@ -32,7 +32,7 @@
     "non_functional": "destroyed_exo_leg_steel_plate",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 85,
         "encumbrance": 15
@@ -60,7 +60,7 @@
     "non_functional": "damaged_exo_leg_plastic_plate",
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 10
@@ -77,7 +77,7 @@
     "non_functional": "destroyed_exo_leg_plastic_plate",
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 85,
         "encumbrance": 10
@@ -106,7 +106,7 @@
     "non_functional": "damaged_exo_leg_vcc_plate",
     "armor": [
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 6 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -123,7 +123,7 @@
     "non_functional": "destroyed_exo_leg_vcc_plate",
     "armor": [
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 85,
         "encumbrance": 20
