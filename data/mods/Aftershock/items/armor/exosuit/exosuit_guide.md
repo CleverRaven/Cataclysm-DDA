@@ -10,10 +10,12 @@ These are comfortable jumpsuits specially designed to integrate with the frame. 
 Exosuits typically use a single large power supply unit, attached to the back. Auxiliary batteries can be attached as well, extending the runtime. 
 ### Plating
 Each plating has a minimum weight of 500g to represent the connection points. The steel and plastic are based on 6mm thickness, while the VCC is 4mm thick to keep weight managable. Exosuits can accept a wide range of plating. Plastic, steel, and vaccum-cast carbide are common. Improvised armor has been found on frontiers and in the underworld. The plates are rounded, using a ball-and-joint system somewhat resembling a hard diving or EVA suit.
+
 | Plating       | Weight        | Location
 |---            |               |---
 ### Modules
 A variety of modules are available, ranging from sensor packages to batteries to load-bearing modules to jetpacks. These are built in a swappable black box configuration, requiring only that the module be mounted on the suit's connection points.
+
 | Module                        | Description
 |---                            |---
 
