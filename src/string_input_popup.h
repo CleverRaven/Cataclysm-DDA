@@ -82,6 +82,7 @@ class string_input_popup // NOLINT(cata-xy)
         bool custom_window = false;
         catacurses::window w_full;
         catacurses::window w_description;
+        catacurses::window w_title_and_entry;
         std::unique_ptr<scrolling_text_view> desc_view_ptr;
 
         std::unique_ptr<input_context> ctxt_ptr;
