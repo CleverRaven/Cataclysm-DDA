@@ -99,7 +99,7 @@
     "copy-from": "exo_psu_steel",
     "name": { "str": "carbide PSU plate (exosuit)", "str_pl": "carbide PSU plates (exosuit)" },
     "description": "Designed to attach to an exosuit's power supply unit, this is a plate of carbide.",
-    "weight": "4290 g",
+    "weight": "4080 g",
     "volume": "10 L",
     "material": [ "vacuum_carbide" ],
     "non_functional": "destroyed_exo_psu_vcc_plate",

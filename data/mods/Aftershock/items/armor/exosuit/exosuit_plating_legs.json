@@ -99,7 +99,7 @@
     "copy-from": "exo_leg_steel",
     "name": { "str": "carbide leg plating (exosuit)", "str_pl": "carbide leg plates (exosuit)" },
     "description": "Designed to attach to an exosuit's legs, these are sturdy plates of vacuum-cast carbide.",
-    "weight": "41000 g",
+    "weight": "13365 g",
     "volume": "10 L",
     "material": [ "vacuum_carbide" ],
     "material_thickness": 6,

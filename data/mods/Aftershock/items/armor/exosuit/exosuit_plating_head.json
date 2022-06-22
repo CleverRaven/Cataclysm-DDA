@@ -101,7 +101,7 @@
     "copy-from": "exo_helmet_steel",
     "name": { "str": "carbide helmet plate (exosuit)", "str_pl": "carbide helmet plates (exosuit)" },
     "description": "Designed to attach to an exosuit's helmet, this is a plate of vacuum-cast carbide.",
-    "weight": "1287 g",
+    "weight": "4900 g",
     "material": [ "vacuum_carbide" ],
     "looks_like": "power_armor_helmet_basic",
     "non_functional": "damaged_exo_helmet_vcc",
