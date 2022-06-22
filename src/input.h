@@ -156,11 +156,18 @@ std::string get_input_string_from_file( const std::string &fname = "input.txt" )
 
 // Mouse buttons and movement input
 enum class MouseInput : int {
-    LeftButtonReleased = 1,
+    
+    LeftButtonPressed = 1,
+    LeftButtonReleased,
+    
+    RightButtonPressed,
     RightButtonReleased,
+    
     ScrollWheelUp,
     ScrollWheelDown,
+    
     Move
+
 };
 
 enum class input_event_t : int  {
