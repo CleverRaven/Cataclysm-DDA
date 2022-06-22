@@ -1,0 +1,45 @@
+[
+  {
+    "id": "smle_mk3",
+    "copy-from": "rifle_manual",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Short Magazine Lee-Enfield Mk III*" },
+    "//": "Military doctrine stated that soldiers should fit in their 10-round magazine and then reload the rifle with individual 5-round charger clips, inserting the clips through the top of the action and pushing the rounds down into the magazine. As there really isn’t any provision for allowing the weapon to be reloaded by clips whilst it already has a magazine in it, I’m just going to leave it with detachable magazines.",
+    "description": "A venerable bolt-action battle rifle chambered for the .303 cartridge, the SMLE was the standard infantry rifle of the British commonwealth , living on in various forms and iterations even up to the early 1990s.  An icon of the First World War, it features a detachable 10-round box magazine and was renowned for its smooth and ergonomic action, both features allowing the user to put more rounds down range than other contemporary rifles of its time.  In its post-service life, the weapon garnered a well beloved status amongst civilian shooters and was relatively common all around the world, thanks to the high-volumes of rifles produced for both the First and Second World Wars.  The '*' designation in its name indicates a later production SMLE, simplified during the Great War to cut down on cost and machine time by removing the sights’ wind adjustment capabilities, doing away with the magazine cut-off, and deleting the long range sights.",
+    "weight": "3960 g",
+    "volume": "2840 ml",
+    "longest_side": "1132 mm",
+    "price": 80000,
+    "price_postapoc": 3250,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "303" ],
+    "dispersion": 120,
+    "durability": 8,
+    "blackpowder_tolerance": 60,
+    "clip_size": 5,
+    "barrel_volume": "250 ml",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "loading port", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 }, "allowed_speedloaders": [ "3006_clip" ] }
+    ]
+  }
+]
