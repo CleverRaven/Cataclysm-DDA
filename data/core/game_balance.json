@@ -203,6 +203,13 @@
     "value": "unemployed"
   },
   {
+	"type": "EXTERNAL_OPTION",
+    "name": "GENERIC_LOADOUT_ID",
+    "info": "The loadout selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "lo_profession"
+  },
+  {
     "type": "EXTERNAL_OPTION",
     "name": "GENERIC_SCENARIO_ID",
     "info": "The scenario selected by default in the character creator menu.",
