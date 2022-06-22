@@ -2644,7 +2644,7 @@
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "50 L",
-    "weight": "90,75 kg",
+    "weight": "90.75 kg",
     "hp": 120,
     "speed": 105,
     "material": [ "iflesh" ],
