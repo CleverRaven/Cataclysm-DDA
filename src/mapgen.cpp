@@ -7464,15 +7464,10 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         return false;
     }
 
-    tinymap update_tmap;
+    std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
+    tinymap &update_tmap = *p_update_tmap;
     const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
 
-    bool shifted = false;
-    tripoint_abs_ms avatar_pos = get_avatar().get_location();
-    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) + tripoint( 0, 10, 0 ), false );
-        shifted = true;
-    }
     update_tmap.load( sm_pos, true );
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
@@ -7483,8 +7478,11 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
     update_tmap.rotate( rotation );
 
-    if( shifted ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
+        // trigger main map cleanup
+        p_update_tmap.reset();
+        // trigger new traps, etc
+        g->place_player( get_avatar().pos() );
     }
 
     return u;
