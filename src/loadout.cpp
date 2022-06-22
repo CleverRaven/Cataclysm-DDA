@@ -78,6 +78,8 @@ bool string_id<loadout>::is_valid() const
 }
 
 loadout::loadout()
+    : _allow_hobbies(),
+    _replace_initial()
 {
 }
 
@@ -163,21 +165,23 @@ void loadout::load(const JsonObject& jo, const std::string&)
         }
     }
     if (jo.has_string("allow_hobbies")) {
+        bool allow_hobbies;
         if (jo.get_string("allow_hobbies") == "false") {
-            _allow_hobbies = false;
+            allow_hobbies = false;
         }
         else
         {
-            _allow_hobbies = true;
+            allow_hobbies = true;
         }
     }
     if (jo.has_string("replace_initial")) {
+        bool replace_initial;
         if (jo.get_string("replace_initial") == "false") {
-            _replace_initial = false;
+            replace_initial = false;
         }
         else
         {
-            _replace_initial = true;
+            replace_initial = true;
         }
     }
 

@@ -4,28 +4,21 @@
     "id": "lo_profession",
     "name": "Profession Items (default)",
     "description": "This starts your character with the items that are listed with their profession.",
-    "points": 0,
-	"allow_hobbies": true,
-	"replace_initial": false
+    "points": 0
   },
   {
 	"type": "loadout",
     "id": "lo_naked",
     "name": "Naked and Afraid",
     "description": "This starts your character with nothing.",
-    "points": 8,
-	"allow_hobbies": false,
-	"replace_initial": true
+    "points": 8
   },
   {
 	"type": "loadout",
     "id": "lo_shower_victim",
     "name": "Shower Victim",
     "description": "You get a towel and some soap.",
-    "points": 5,
-	"allow_hobbies": false,
-	"replace_initial": true,
-	"is_hobby": false
+    "points": 5
   },
   {
 	"type": "loadout",
@@ -33,7 +26,6 @@
     "id": "lo_lockpicking",
     "name": "Lockpicking",
     "description": "You get a towel and some soap.",
-    "points": 5,
-	"replace_initial": false
+    "points": 5
   }
 ]
