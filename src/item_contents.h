@@ -373,7 +373,6 @@ class pocket_favorite_callback : public uilist_callback
         // whitelist or blacklist, for interactions
         bool whitelist = true;
         std::pair<item *, item_pocket *> item_to_move = { nullptr, nullptr };
-        uilist_entry *current_parent = nullptr;
 
         bool needs_to_refresh = false;
 
