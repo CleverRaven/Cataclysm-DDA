@@ -505,8 +505,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             if( _position < static_cast<int>( ret.size() ) ) {
                 ret.erase( _position, 1 );
             }
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            ctxt->display_menu();
         } else if( action == "SCROLL_INFOBOX_UP" ) {
             description_view->scroll_up();
         } else if( action == "SCROLL_INFOBOX_DOWN" ) {
