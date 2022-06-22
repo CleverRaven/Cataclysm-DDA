@@ -1481,7 +1481,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
             description +=
                 _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
-            description += "\n\n\n";
 
             string_input_popup popup;
             popup
