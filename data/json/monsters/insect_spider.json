@@ -2636,6 +2636,95 @@
     "flags": [ "SEES", "BORES", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ]
   },
   {
+    "id": "mon_lady_bug",
+    "type": "MONSTER",
+    "name": { "str": "lady bug" },
+    "description": "This is a mutated lady bug the size of a big dog.  While not as dangerous as her giant sisters, she's still troublesome to deal with.",
+    "default_faction": "ladybug",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "50 L",
+    "weight": "90750 g",
+    "hp": 120,
+    "speed": 105,
+    "material": [ "iflesh" ],
+    "symbol": "B",
+    "color": "light_red",
+    "morale": 60,
+    "aggression": -10,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "dodge": 2,
+    "armor_bash": 3,
+    "armor_cut": 10,
+    "armor_bullet": 15,
+    "armor_elec": 3,
+    "vision_day": 20,
+    "vision_night": 5,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_single",
+    "reproduction": { "baby_egg": "egg_lady_bug", "baby_count": 1, "baby_timer": 30 },
+    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 4,
+        "accuracy": 4,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 7, "armor_penetration": 4 } ]
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_flying" ],
+    "weakpoints": [
+      {
+        "name": "beneath the outer wings",
+        "coverage": 35,
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.25 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          { "effect": "stunned", "duration": [ 1, 2 ], "chance": 5, "message": "The %s is stunned!", "damage_required": [ 1, 7 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 8, 50 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 15 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 13, 50 ]
+          }
+        ]
+      },
+      {
+        "name": "the wings",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 5, 50 ] } ],
+        "coverage": 15
+      }
+    ],
+    "upgrades": { "age_grow": 14, "into": "mon_lady_bug_giant" }
+  },
+  {
     "id": "mon_lady_bug_giant",
     "type": "MONSTER",
     "name": { "str": "giant lady bug" },
@@ -2665,7 +2754,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_single",
-    "reproduction": { "baby_egg": "egg_lady_bug", "baby_count": 1, "baby_timer": 30 },
+    "reproduction": { "baby_egg": "egg_lady_bug_giant", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
