@@ -40,6 +40,58 @@
     "widgets": [ "str_dex_layout", "int_per_layout", "ln_power_safe_layout" ]
   },
   {
+    "id": "ln_weariness_desc",
+    "type": "widget",
+    "label": "Weary",
+    "style": "text",
+    "var": "weariness_text"
+  },
+  {
+    "id": "ln_transition_graph",
+    "type": "widget",
+    "label": "WTrans",
+    "style": "graph",
+    "symbols": ".\\|",
+    "width": 5,
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "var": "weary_transition_level"
+  },
+  {
+    "id": "ln_activity_desc",
+    "type": "widget",
+    "label": "Act",
+    "copy-from": "activity_desc"
+  },
+  {
+    "id": "ln_malus_desc",
+    "type": "widget",
+    "label": "Malus",
+    "style": "text",
+    "var": "weary_malus_text"
+  },
+  {
+    "id": "ln_weary_active_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "ln_weariness_desc", "ln_activity_desc" ]
+  },
+  {
+    "id": "ln_weary_transition_malus_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "ln_transition_graph", "ln_malus_desc" ]
+  },
+  {
+    "id": "ln_weariness_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness",
+    "arrange": "rows",
+    "widgets": [ "ln_weary_active_layout", "ln_weary_transition_malus_layout" ]
+  },
+  {
     "id": "ln_needs_layout",
     "type": "widget",
     "style": "layout",
@@ -58,7 +110,7 @@
       "ln_limbs_layout",
       "ln_movement_layout",
       "ln_stats_layout",
-      "all_weariness_layout",
+      "ln_weariness_layout",
       "ln_needs_layout",
       "all_location_info_rows_layout",
       "wind_temp_layout",
