@@ -663,6 +663,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
                                     _( "The trait required to learn this spell; if the player has a conflicting trait you cannot learn the spell. You gain the trait when you learn the spell." ) ) );
     spell_class_box.show();
     QStringList all_traits;
+    all_traits.append( QString( "NONE" ) );
     for( const mutation_branch &trait : mutation_branch::get_all() ) {
         all_traits.append( QString( trait.id.c_str() ) );
     }
@@ -747,6 +748,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
                               _( "Uses this skill to calculate spell failure chance." ) ) );
     skill_box.show();
     QStringList all_skills;
+    all_skills.append( QString( "NONE" ) );
     for( const Skill &sk : Skill::skills ) {
         all_skills.append( QString( sk.ident().c_str() ) );
     }
@@ -764,13 +766,20 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
                                row++ *default_text_box_height ) );
     field_id_box.show();
     QStringList all_field_types;
+    all_field_types.append( QString( "NONE" ) );
     for( const field_type &fd_type : field_types::get_all() ) {
         all_field_types.append( QString( fd_type.id.c_str() ) );
     }
     field_id_box.addItems( all_field_types );
     QObject::connect( &field_id_box, &QComboBox::currentTextChanged,
     [&]() {
-        editable_spell.field = field_type_id( field_id_box.currentText().toStdString() );
+        std::string selected = field_id_box.currentText().toStdString();
+        field_type_id field;
+        if( selected == "NONE" ) {
+            editable_spell.field = cata::nullopt;
+        } else {
+            editable_spell.field = field_type_id( selected );
+        }
         write_json();
     } );
 
@@ -1413,6 +1422,21 @@ void creator::spell_window::populate_fields()
             if ( index != -1 ) { // -1 for not found
                 dmg_type_box.setCurrentIndex( index );
             }
+
+
+            std::string cls = sp_t.spell_class.c_str();
+            if( cls != "" ) {
+                index = spell_class_box.findText( QString( cls.c_str() ) );
+                if ( index != -1 ) {
+                    spell_class_box.setCurrentIndex( index );
+                }
+            } else {
+                index = spell_class_box.findText( QString( "NONE" ) );
+                if ( index != -1 ) {
+                    spell_class_box.setCurrentIndex( index );
+                }
+            }
+
             
             difficulty_box.setValue( sp_t.difficulty );
             max_level_box.setValue( sp_t.max_level);
@@ -1422,20 +1446,46 @@ void creator::spell_window::populate_fields()
             std::string cmp = sp_t.spell_components.c_str();
             if( cmp != "" ) {
                 index = components_box.findText( QString( cmp.c_str() ) );
-
-                if ( index != -1 ) { // -1 for not found
+                if ( index != -1 ) {
                     components_box.setCurrentIndex( index );
                 }
             } else {
                 index = components_box.findText( QString( "NONE" ) );
-
-                if( index != -1 ) { // -1 for not found
-                    components_box.setCurrentIndex(index);
+                if( index != -1 ) {
+                    components_box.setCurrentIndex( index );
                 }
             }
 
+            std::string skill = sp_t.skill.c_str();
+            if( skill != "" ) {
+                index = skill_box.findText( QString( skill.c_str() ) );
+                if ( index != -1 ) {
+                    skill_box.setCurrentIndex( index );
+                }
+            } else {
+                index = skill_box.findText( QString( "NONE" ) );
+                if( index != -1 ) {
+                    skill_box.setCurrentIndex( index );
+                }
+            }
 
+            std::string field = sp_t.field->id().str();
+            field_type_id fieldid = sp_t.field->id();
+            field_id_box.setCurrentIndex(field_id_box.findText(QString("NONE")));
+            if(sp_t.field) {
+                index = field_id_box.findText( QString( field.c_str() ) );
+                if ( index != -1 ) {
+                    field_id_box.setCurrentIndex( index );
+                }
+            }
 
+            field_chance_box.setValue( sp_t.field_chance );
+            field_intensity_increment_box.setValue( sp_t.field_intensity_increment);
+            min_field_intensity_box.setValue( sp_t.min_field_intensity);
+            max_field_intensity_box.setValue( sp_t.max_field_intensity);
+            field_intensity_variance_box.setValue( sp_t.field_intensity_variance);
+            
+            
             QStringList mon_ids;
             for( const mtype_id& mon_id : sp_t.targeted_monster_ids ) {
                 mon_ids.append( mon_id->id.c_str() );
