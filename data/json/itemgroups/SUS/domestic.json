@@ -130,6 +130,7 @@
         "distribution": [
           { "item": "matches", "charges-min": 1 },
           { "item": "lighter", "charges-min": 1 },
+          { "item": "small_lighter", "charges-min": 1 },
           { "item": "ref_matches", "charges-min": 1 }
         ],
         "prob": 90
