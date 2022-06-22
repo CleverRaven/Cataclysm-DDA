@@ -282,7 +282,10 @@
       "famasmag",
       "robofac40",
       "robofac100",
-      "robofac50"
+      "robofac50",
+      "usc10mag",
+      "usc15mag",
+      "usc20mag"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"

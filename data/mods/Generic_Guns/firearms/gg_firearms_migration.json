@@ -296,7 +296,8 @@
       "fs2000",
       "robofac_gun",
       "obrez",
-      "mk47"
+      "mk47",
+      "hk_usc45"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
