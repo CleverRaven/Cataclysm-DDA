@@ -92,8 +92,7 @@ void string_input_popup::create_window()
         w_description = catacurses::newwin( description_height, w_width - 1, point( w_x,
                                             w_y + 1 ) );
         desc_view_ptr = std::make_unique<scrolling_text_view>( w_description );
-        description_view = desc_view_ptr.get();
-        description_view->set_text( _description );
+        desc_view_ptr->set_text( _description );
     }
 
     custom_window = false;
@@ -312,8 +311,8 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     wnoutrefresh( w_full );
 
     //Draw scrolling description
-    if( !custom_window && !_description.empty() ) {
-        description_view->draw( _desc_color );
+    if( !custom_window && desc_view_ptr ) {
+        desc_view_ptr->draw( _desc_color );
         wnoutrefresh( w_description );
     }
 }
@@ -506,12 +505,12 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 ret.erase( _position, 1 );
             }
         } else if( action == "SCROLL_INFOBOX_UP" ) {
-            if( description_view ) {
-                description_view->scroll_up();
+            if( desc_view_ptr ) {
+                desc_view_ptr->scroll_up();
             }
         } else if( action == "SCROLL_INFOBOX_DOWN" ) {
-            if( description_view ) {
-                description_view->scroll_down();
+            if( desc_view_ptr ) {
+                desc_view_ptr->scroll_down();
             }
         } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE"
                    || ( action == "ANY_INPUT" && !ev.text.empty() ) ) {
