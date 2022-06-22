@@ -7,21 +7,21 @@
     "points": 0
   },
   {
-	"type": "loadout",
+    "type": "loadout",
     "id": "lo_naked",
     "name": "Naked and Afraid",
     "description": "This starts your character with nothing.",
     "points": 8
   },
   {
-	"type": "loadout",
+    "type": "loadout",
     "id": "lo_shower_victim",
     "name": "Shower Victim",
     "description": "You get a towel and some soap.",
     "points": 5
   },
   {
-	"type": "loadout",
+    "type": "loadout",
     "subtype": "hobby",
     "id": "lo_lockpicking",
     "name": "Lockpicking",

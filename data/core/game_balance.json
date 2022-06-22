@@ -203,7 +203,7 @@
     "value": "unemployed"
   },
   {
-	"type": "EXTERNAL_OPTION",
+    "type": "EXTERNAL_OPTION",
     "name": "GENERIC_LOADOUT_ID",
     "info": "The loadout selected by default in the character creator menu.",
     "stype": "string_input",

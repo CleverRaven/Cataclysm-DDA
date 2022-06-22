@@ -299,7 +299,7 @@ static tab_direction set_traits( avatar &u, pool_type );
 static tab_direction set_scenario( avatar &u, pool_type );
 static tab_direction set_profession( avatar &u, pool_type );
 static tab_direction set_hobbies( avatar &u, pool_type );
-static tab_direction set_loadout(avatar& u, pool_type);
+static tab_direction set_loadout( avatar &u, pool_type );
 static tab_direction set_skills( avatar &u, pool_type );
 static tab_direction set_description( avatar &you, bool allow_reroll, pool_type );
 
@@ -669,16 +669,16 @@ bool avatar::create( character_type type, const std::string &tempname )
                 result = set_hobbies( *this, pool );
                 break;
             case 4:
-                result = set_loadout(*this, pool);
+                result = set_loadout( *this, pool );
                 break;
             case 5:
-                result = set_stats(*this, pool);
+                result = set_stats( *this, pool );
                 break;
             case 6:
-                result = set_traits(*this, pool);
+                result = set_traits( *this, pool );
                 break;
             case 7:
-                result = set_skills(*this, pool);
+                result = set_skills( *this, pool );
                 break;
             case 8:
                 result = set_description( *this, allow_reroll, pool );
@@ -1701,27 +1701,25 @@ static struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
-    bool operator()(const string_id<loadout>& a, const string_id<loadout>& b) {
+    bool operator()( const string_id<loadout> &a, const string_id<loadout> &b ) {
         // The Profession loadout should be listed first and selected by default.
-        const loadout* gen = loadout::generic();
-        if (&b.obj() == gen) {
+        const loadout *gen = loadout::generic();
+        if( &b.obj() == gen ) {
             return false;
-        }
-        else if (&a.obj() == gen) {
+        } else if( &a.obj() == gen ) {
             return true;
         }
 
-        if (sort_by_points) {
+        if( sort_by_points ) {
             return a->point_cost() < b->point_cost();
-        }
-        else {
-            return localized_compare(a->name(),
-                b->name());
+        } else {
+            return localized_compare( a->name(),
+                                      b->name() );
         }
     }
 } loadout_sorter;
 
-tab_direction set_loadout(avatar& u, pool_type pool)
+tab_direction set_loadout( avatar &u, pool_type pool )
 {
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -1735,34 +1733,34 @@ tab_direction set_loadout(avatar& u, pool_type pool)
     catacurses::window w_sorting;
     catacurses::window w_genderswap;
     catacurses::window w_items;
-    const auto init_windows = [&](ui_adaptor& ui) {
+    const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - 10;
-        w = catacurses::newwin(TERMY, TERMX, point_zero);
-        w_description = catacurses::newwin(4, TERMX - 2, point(1, TERMY - 5));
-        w_sorting = catacurses::newwin(1, 55, point(TERMX / 2, 5));
-        w_genderswap = catacurses::newwin(1, 55, point(TERMX / 2, 6));
-        w_items = catacurses::newwin(iContentHeight - 3, 55, point(TERMX / 2, 8));
-        ui.position_from_window(w);
+        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 5 ) );
+        w_sorting = catacurses::newwin( 1, 55, point( TERMX / 2, 5 ) );
+        w_genderswap = catacurses::newwin( 1, 55, point( TERMX / 2, 6 ) );
+        w_items = catacurses::newwin( iContentHeight - 3, 55, point( TERMX / 2, 8 ) );
+        ui.position_from_window( w );
     };
-    init_windows(ui);
-    ui.on_screen_resize(init_windows);
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
-    input_context ctxt("NEW_CHAR_LOADOUTS");
+    input_context ctxt( "NEW_CHAR_LOADOUTS" );
     ctxt.register_cardinal();
-    ctxt.register_action("PAGE_UP", to_translation("Fast scroll up"));
-    ctxt.register_action("PAGE_DOWN", to_translation("Fast scroll down"));
-    ctxt.register_action("HOME");
-    ctxt.register_action("END");
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("CHANGE_GENDER");
-    ctxt.register_action("PREV_TAB");
-    ctxt.register_action("NEXT_TAB");
-    ctxt.register_action("SORT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    ctxt.register_action("FILTER");
-    ctxt.register_action("RESET_FILTER");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("RANDOMIZE");
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "CHANGE_GENDER" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "SORT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_profs = true;
     int profs_length = 0;
@@ -1770,169 +1768,167 @@ tab_direction set_loadout(avatar& u, pool_type pool)
     std::vector<string_id<loadout>> sorted_loadouts;
 
     int iheight = 0;
-    ui.on_redraw([&](const ui_adaptor&) {
-        werase(w);
-        draw_character_tabs(w, _("LOADOUT"));
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w );
+        draw_character_tabs( w, _( "LOADOUT" ) );
 
         // Draw filter indicator
-        for (int i = 1; i < getmaxx(w) - 1; i++) {
-            mvwputch(w, point(i, getmaxy(w) - 1), BORDER_COLOR, LINE_OXOX);
+        for( int i = 1; i < getmaxx( w ) - 1; i++ ) {
+            mvwputch( w, point( i, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXOX );
         }
-        const auto filter_indicator = filterstring.empty() ? _("no filter")
-            : filterstring;
-        mvwprintz(w, point(2, getmaxy(w) - 1), c_light_gray, "<%s>", filter_indicator);
+        const auto filter_indicator = filterstring.empty() ? _( "no filter" )
+                                      : filterstring;
+        mvwprintz( w, point( 2, getmaxy( w ) - 1 ), c_light_gray, "<%s>", filter_indicator );
 
-        const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>(cur_id) < sorted_loadouts.size();
+        const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_loadouts.size();
 
-        werase(w_description);
-        if (cur_id_is_valid) {
+        werase( w_description );
+        if( cur_id_is_valid ) {
             int netPointCost = sorted_loadouts[cur_id]->point_cost() - u.prof->point_cost();
-            bool can_pick = sorted_loadouts[cur_id]->can_pick(u, skill_points_left(u, pool));
-            const std::string clear_line(getmaxx(w) - 2, ' ');
+            bool can_pick = sorted_loadouts[cur_id]->can_pick( u, skill_points_left( u, pool ) );
+            const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
             // Clear the bottom of the screen and header.
-            mvwprintz(w, point(1, 3), c_light_gray, clear_line);
+            mvwprintz( w, point( 1, 3 ), c_light_gray, clear_line );
 
             int pointsForLoadout = sorted_loadouts[cur_id]->point_cost();
             bool negativeLoadout = pointsForLoadout < 0;
-            if (negativeLoadout) {
+            if( negativeLoadout ) {
                 pointsForLoadout *= -1;
             }
             // Draw header.
-            draw_points(w, pool, u, netPointCost);
-            const char* loadout_msg_temp;
-            if (negativeLoadout) {
+            draw_points( w, pool, u, netPointCost );
+            const char *loadout_msg_temp;
+            if( negativeLoadout ) {
                 //~ 1s - profession name, 2d - current character points.
-                loadout_msg_temp = n_gettext("Loadout %1$s earns %2$d point",
-                    "Loadout %1$s earns %2$d points",
-                    pointsForLoadout);
-            }
-            else {
+                loadout_msg_temp = n_gettext( "Loadout %1$s earns %2$d point",
+                                              "Loadout %1$s earns %2$d points",
+                                              pointsForLoadout );
+            } else {
                 //~ 1s - profession name, 2d - current character points.
-                loadout_msg_temp = n_gettext("Loadout %1$s costs %2$d point",
-                    "Loadout %1$s costs %2$d points",
-                    pointsForLoadout);
+                loadout_msg_temp = n_gettext( "Loadout %1$s costs %2$d point",
+                                              "Loadout %1$s costs %2$d points",
+                                              pointsForLoadout );
             }
 
-            int pMsg_length = utf8_width(remove_color_tags(pools_to_string(u, pool)));
-            mvwprintz(w, point(pMsg_length + 9, 3), can_pick ? c_green : c_light_red, loadout_msg_temp,
-                sorted_loadouts[cur_id]->name(),
-                pointsForLoadout);
+            int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
+            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, loadout_msg_temp,
+                       sorted_loadouts[cur_id]->name(),
+                       pointsForLoadout );
 
-            fold_and_print(w_description, point_zero, TERMX - 2, c_green,
-                sorted_loadouts[cur_id]->description());
+            fold_and_print( w_description, point_zero, TERMX - 2, c_green,
+                            sorted_loadouts[cur_id]->description() );
         }
 
         //Draw options
-        calcStartPos(iStartPos, cur_id, iContentHeight, profs_length);
-        const int end_pos = iStartPos + ((iContentHeight > profs_length) ?
-            profs_length : iContentHeight);
+        calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
+        const int end_pos = iStartPos + ( ( iContentHeight > profs_length ) ?
+                                          profs_length : iContentHeight );
         int i;
-        for (i = iStartPos; i < end_pos; i++) {
-            mvwprintz(w, point(2, 5 + i - iStartPos), c_light_gray,
-                "                                             "); // Clear the line
+        for( i = iStartPos; i < end_pos; i++ ) {
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
 
             nc_color col;
-            if (u.lo_hobbies.count(&sorted_loadouts[i].obj()) != 0) {
-                col = (cur_id_is_valid &&
-                    sorted_loadouts[i] == sorted_loadouts[cur_id] ? hilite(c_light_green) : COL_SKILL_USED);
-            }
-            else {
-                col = (cur_id_is_valid && sorted_loadouts[i] == sorted_loadouts[cur_id] ? COL_SELECT : c_light_gray);
+            if( u.lo_hobbies.count( &sorted_loadouts[i].obj() ) != 0 ) {
+                col = ( cur_id_is_valid &&
+                        sorted_loadouts[i] == sorted_loadouts[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
+            } else {
+                col = ( cur_id_is_valid &&
+                        sorted_loadouts[i] == sorted_loadouts[cur_id] ? COL_SELECT : c_light_gray );
             }
 
-            mvwprintz(w, point(2, 5 + i - iStartPos), col,
-                sorted_loadouts[i]->name());
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), col,
+                       sorted_loadouts[i]->name() );
         }
         //Clear rest of space in case stuff got filtered out
-        for (; i < iStartPos + iContentHeight; ++i) {
-            mvwprintz(w, point(2, 5 + i - iStartPos), c_light_gray,
-                "                                             "); // Clear the line
+        for( ; i < iStartPos + iContentHeight; ++i ) {
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
         }
 
-        werase(w_items);
-        werase(w_sorting);
-        werase(w_genderswap);
-        if (cur_id_is_valid) {
+        werase( w_items );
+        werase( w_sorting );
+        werase( w_genderswap );
+        if( cur_id_is_valid ) {
             std::string buffer;
             // Profession addictions
             const auto prof_addictions = sorted_loadouts[cur_id]->addictions();
-            buffer += colorize(_("Addictions:"), c_light_blue) + "\n";
-            if (prof_addictions.empty()) {
-                buffer += pgettext("set_profession_addictions", "None") + std::string("\n");
-            }
-            else {
-                for (const addiction& a : prof_addictions) {
-                    const char* format = pgettext("set_profession_addictions", "%1$s (%2$d)");
-                    buffer += string_format(format, a.type->get_name().translated(), a.intensity) + "\n";
+            buffer += colorize( _( "Addictions:" ), c_light_blue ) + "\n";
+            if( prof_addictions.empty() ) {
+                buffer += pgettext( "set_profession_addictions", "None" ) + std::string( "\n" );
+            } else {
+                for( const addiction &a : prof_addictions ) {
+                    const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
+                    buffer += string_format( format, a.type->get_name().translated(), a.intensity ) + "\n";
                 }
-            }            
+            }
 
             // Profession spells
-            if (!sorted_loadouts[cur_id]->spells().empty()) {
-                buffer += colorize(_("Spells:"), c_light_blue) + "\n";
-                for (const std::pair<spell_id, int> spell_pair : sorted_loadouts[cur_id]->spells()) {
-                    buffer += string_format(_("%s level %d"), spell_pair.first->name, spell_pair.second) + "\n";
+            if( !sorted_loadouts[cur_id]->spells().empty() ) {
+                buffer += colorize( _( "Spells:" ), c_light_blue ) + "\n";
+                for( const std::pair<spell_id, int> spell_pair : sorted_loadouts[cur_id]->spells() ) {
+                    buffer += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
                 }
             }
 
             const auto scroll_msg = string_format(
-                _("Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll."),
-                ctxt.get_desc("LEFT"),
-                ctxt.get_desc("RIGHT"));
-            iheight = print_scrollable(w_items, desc_offset, buffer, c_light_gray, scroll_msg);
+                                        _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
+                                        ctxt.get_desc( "LEFT" ),
+                                        ctxt.get_desc( "RIGHT" ) );
+            iheight = print_scrollable( w_items, desc_offset, buffer, c_light_gray, scroll_msg );
 
-            draw_sorting_indicator(w_sorting, ctxt, loadout_sorter);
+            draw_sorting_indicator( w_sorting, ctxt, loadout_sorter );
 
-            const char* g_switch_msg = u.male ?
-                //~ Gender switch message. 1s - change key name, 2s - profession name.
-                _("Press <color_light_green>%1$s</color> to switch "
-                    "to <color_magenta>%2$s</color> (<color_pink>female</color>).") :
-                //~ Gender switch message. 1s - change key name, 2s - profession name.
-                _("Press <color_light_green>%1$s</color> to switch "
-                    "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>).");
-            fold_and_print(w_genderswap, point_zero, (TERMX / 2), c_light_gray, g_switch_msg,
-                ctxt.get_desc("CHANGE_GENDER"),
-                sorted_loadouts[cur_id]->name());
+            const char *g_switch_msg = u.male ?
+                                       //~ Gender switch message. 1s - change key name, 2s - profession name.
+                                       _( "Press <color_light_green>%1$s</color> to switch "
+                                          "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
+                                       //~ Gender switch message. 1s - change key name, 2s - profession name.
+                                       _( "Press <color_light_green>%1$s</color> to switch "
+                                          "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
+            fold_and_print( w_genderswap, point_zero, ( TERMX / 2 ), c_light_gray, g_switch_msg,
+                            ctxt.get_desc( "CHANGE_GENDER" ),
+                            sorted_loadouts[cur_id]->name() );
         }
 
         scrollbar()
-            .offset_x(0)
-            .offset_y(5)
-            .content_size(profs_length)
-            .viewport_pos(iStartPos)
-            .viewport_size(iContentHeight)
-            .apply(w);
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( profs_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
-        wnoutrefresh(w);
-        wnoutrefresh(w_description);
-        wnoutrefresh(w_items);
-        wnoutrefresh(w_genderswap);
-        wnoutrefresh(w_sorting);
-        });
+        wnoutrefresh( w );
+        wnoutrefresh( w_description );
+        wnoutrefresh( w_items );
+        wnoutrefresh( w_genderswap );
+        wnoutrefresh( w_sorting );
+    } );
 
     do {
-        if (recalc_profs) {
+        if( recalc_profs ) {
             sorted_loadouts = loadout::get_all_hobbies();
 
             // Remove items based on filter
-            const auto new_end = std::remove_if(sorted_loadouts.begin(),
-                sorted_loadouts.end(), [&](const string_id<loadout>& arg) {
-                    return !lcmatch(arg->name(), filterstring);
-                });
-            sorted_loadouts.erase(new_end, sorted_loadouts.end());
+            const auto new_end = std::remove_if( sorted_loadouts.begin(),
+            sorted_loadouts.end(), [&]( const string_id<loadout> &arg ) {
+                return !lcmatch( arg->name(), filterstring );
+            } );
+            sorted_loadouts.erase( new_end, sorted_loadouts.end() );
 
-            if (sorted_loadouts.empty()) {
-                popup(_("Nothing found."));
+            if( sorted_loadouts.empty() ) {
+                popup( _( "Nothing found." ) );
                 filterstring.clear();
                 continue;
             }
-            profs_length = static_cast<int>(sorted_loadouts.size());
+            profs_length = static_cast<int>( sorted_loadouts.size() );
 
             // Sort professions by points.
             // profession_display_sort() keeps "unemployed" at the top.
             loadout_sorter.male = u.male;
-            std::stable_sort(sorted_loadouts.begin(), sorted_loadouts.end(), loadout_sorter);
+            std::stable_sort( sorted_loadouts.begin(), sorted_loadouts.end(), loadout_sorter );
 
             cur_id = 0;
             recalc_profs = false;
@@ -1943,63 +1939,51 @@ tab_direction set_loadout(avatar& u, pool_type pool)
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
 
-        if (action == "DOWN") {
+        if( action == "DOWN" ) {
             cur_id++;
-            if (cur_id > recmax - 1) {
+            if( cur_id > recmax - 1 ) {
                 cur_id = 0;
             }
             desc_offset = 0;
-        }
-        else if (action == "UP") {
+        } else if( action == "UP" ) {
             cur_id--;
-            if (cur_id < 0) {
+            if( cur_id < 0 ) {
                 cur_id = profs_length - 1;
             }
             desc_offset = 0;
-        }
-        else if (action == "PAGE_DOWN") {
-            if (cur_id == recmax - 1) {
+        } else if( action == "PAGE_DOWN" ) {
+            if( cur_id == recmax - 1 ) {
                 cur_id = 0;
-            }
-            else if (cur_id + scroll_rate >= recmax) {
+            } else if( cur_id + scroll_rate >= recmax ) {
                 cur_id = recmax - 1;
-            }
-            else {
+            } else {
                 cur_id += +scroll_rate;
             }
             desc_offset = 0;
-        }
-        else if (action == "PAGE_UP") {
-            if (cur_id == 0) {
+        } else if( action == "PAGE_UP" ) {
+            if( cur_id == 0 ) {
                 cur_id = recmax - 1;
-            }
-            else if (cur_id <= scroll_rate) {
+            } else if( cur_id <= scroll_rate ) {
                 cur_id = 0;
-            }
-            else {
+            } else {
                 cur_id += -scroll_rate;
             }
             desc_offset = 0;
-        }
-        else if (action == "HOME") {
+        } else if( action == "HOME" ) {
             cur_id = 0;
-        }
-        else if (action == "END") {
+        } else if( action == "END" ) {
             cur_id = recmax - 1;
-        }
-        else if (action == "LEFT") {
-            if (desc_offset > 0) {
+        } else if( action == "LEFT" ) {
+            if( desc_offset > 0 ) {
                 desc_offset--;
             }
-        }
-        else if (action == "RIGHT") {
-            if (desc_offset < iheight) {
+        } else if( action == "RIGHT" ) {
+            if( desc_offset < iheight ) {
                 desc_offset++;
             }
-        }
-        else if (action == "CONFIRM") {
+        } else if( action == "CONFIRM" ) {
             // Do not allow selection of hobby if there's a trait conflict
-            const loadout* prof = &sorted_loadouts[cur_id].obj();
+            const loadout *prof = &sorted_loadouts[cur_id].obj();
             bool conflict_found = false;
             /*for (const trait_id& new_trait : prof->get_locked_traits()) {
                 if (u.has_conflicting_trait(new_trait)) {
@@ -2014,20 +1998,19 @@ tab_direction set_loadout(avatar& u, pool_type pool)
                     }
                 }
             }*/
-            if (conflict_found) {
+            if( conflict_found ) {
                 continue;
             }
 
             // Toggle hobby
             bool enabling = false;
-            if (u.lo_hobbies.count(prof) == 0) {
+            if( u.lo_hobbies.count( prof ) == 0 ) {
                 // Add hobby, and decrement point cost
-                u.lo_hobbies.insert(prof);
+                u.lo_hobbies.insert( prof );
                 enabling = true;
-            }
-            else {
+            } else {
                 // Remove hobby and refund point cost
-                u.lo_hobbies.erase(prof);
+                u.lo_hobbies.erase( prof );
             }
 
             // Add or remove traits from hobby
@@ -2050,46 +2033,38 @@ tab_direction set_loadout(avatar& u, pool_type pool)
                 u.toggle_trait_deps(trait);
             }*/
 
-        }
-        else if (action == "CHANGE_GENDER") {
+        } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
             loadout_sorter.male = u.male;
-            if (!loadout_sorter.sort_by_points) {
-                std::sort(sorted_loadouts.begin(), sorted_loadouts.end(), loadout_sorter);
+            if( !loadout_sorter.sort_by_points ) {
+                std::sort( sorted_loadouts.begin(), sorted_loadouts.end(), loadout_sorter );
             }
-        }
-        else if (action == "PREV_TAB") {
+        } else if( action == "PREV_TAB" ) {
             retval = tab_direction::BACKWARD;
-        }
-        else if (action == "NEXT_TAB") {
+        } else if( action == "NEXT_TAB" ) {
             retval = tab_direction::FORWARD;
-        }
-        else if (action == "SORT") {
-        loadout_sorter.sort_by_points = !loadout_sorter.sort_by_points;
+        } else if( action == "SORT" ) {
+            loadout_sorter.sort_by_points = !loadout_sorter.sort_by_points;
             recalc_profs = true;
-        }
-        else if (action == "FILTER") {
+        } else if( action == "FILTER" ) {
             string_input_popup()
-                .title(_("Search:"))
-                .width(60)
-                .description(_("Search by background name."))
-                .edit(filterstring);
+            .title( _( "Search:" ) )
+            .width( 60 )
+            .description( _( "Search by background name." ) )
+            .edit( filterstring );
             recalc_profs = true;
-        }
-        else if (action == "RESET_FILTER") {
-            if (!filterstring.empty()) {
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
                 filterstring = "";
                 recalc_profs = true;
             }
-        }
-        else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
-        }
-        else if (action == "RANDOMIZE") {
-            cur_id = rng(0, profs_length - 1);
+        } else if( action == "RANDOMIZE" ) {
+            cur_id = rng( 0, profs_length - 1 );
         }
 
-    } while (retval == tab_direction::NONE);
+    } while( retval == tab_direction::NONE );
 
     return retval;
 }
