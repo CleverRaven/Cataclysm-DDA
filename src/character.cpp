@@ -455,6 +455,7 @@ static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
@@ -2219,6 +2220,8 @@ void Character::recalc_sight_limits()
     sight_max = 9999;
     vision_mode_cache.reset();
     const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
 
     // Set sight_max.
     if( is_blind() || ( in_sleep_state() && !has_flag( json_flag_SEESLEEP ) && is_avatar() ) ||
@@ -2230,7 +2233,7 @@ void Character::recalc_sight_limits()
     } else if( has_effect( effect_in_pit ) || has_effect( effect_no_sight ) ||
                ( underwater && !has_flag( json_flag_EYE_MEMBRANE ) && !worn_with_flag( flag_SWIM_GOGGLES ) ) ) {
         sight_max = 1;
-    } else if( has_active_mutation( trait_SHELL2 ) ) {
+    } else if( in_shell ) { // NOLINT(bugprone-branch-clone)
         // You can kinda see out a bit.
         sight_max = 2;
     } else if( has_trait( trait_PER_SLIME ) ) {
@@ -3530,9 +3533,10 @@ std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodyp
     for( const bodypart_id &bp : get_all_body_parts() ) {
         ret.emplace( bp, 0 );
     }
-
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
     // Your shell provides complete wind protection if you're inside it
-    if( has_active_mutation( trait_SHELL2 ) ) {
+    if( in_shell ) { // NOLINT(bugprone-branch-clone)
         for( std::pair<const bodypart_id, int> &this_bp : ret ) {
             this_bp.second = 100;
         }
@@ -4972,7 +4976,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     bool websleep = has_trait( trait_WEB_WALKER );
     bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) ||
                     has_trait( trait_WEB_WEAVER ) );
-    bool in_shell = has_active_mutation( trait_SHELL2 );
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
     bool watersleep = has_trait( trait_WATERSLEEP );
 
     map &here = get_map();
