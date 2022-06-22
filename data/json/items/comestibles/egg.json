@@ -355,7 +355,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_lady_bug_giant",
-    "name": { "str": "giant lady bug egg" },
+    "name": { "str": "giant ladybug egg" },
     "copy-from": "egg_insect",
     "color": "red",
     "symbol": "o",
