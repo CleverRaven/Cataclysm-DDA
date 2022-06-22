@@ -729,5 +729,98 @@
         "encumbrance": 7
       }
     ]
+  },
+  {
+    "id": "integrated_shell",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "shell" },
+    "description": "You have a large, protective shell on your back, but unfortunately, it doesn't have enough space to fit inside or store anything, makes wearing anything on your torso impossible, and makes backpacks encumbering.",
+    "weight": "7 kg",
+    "volume": "10 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "chitin_light" ],
+    "symbol": "x",
+    "color": "magenta",
+    "warmth": 5,
+    "environmental_protection": 10,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 10 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "integrated_shell2",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "roomy shell" },
+    "description": "Your shell has grown larger and thicker.  You can hide yourself in it, as well as use it as a backpack, but torso armor is still off limits.",
+    "weight": "9 kg",
+    "volume": "15 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "chitin_light" ],
+    "symbol": "x",
+    "color": "magenta",
+	"pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "7 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "50 cm",
+        "moves": 350
+      }
+	 ],
+    "warmth": 7,
+    "environmental_protection": 13,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 15 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "integrated_shell3",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "nacreous shell" },
+    "description": "Your shell has grown larger and even thicker, and has a pearly sheen to it.  You can hide yourself in it, as well as use it as a backpack, but torso armor is still off limits.",
+    "weight": "9 kg",
+    "volume": "15 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": "x",
+    "color": "magenta",
+	"pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "7 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "50 cm",
+        "moves": 350
+      }
+	 ],
+    "warmth": 7,
+    "environmental_protection": 13,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 20 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   }
 ]
