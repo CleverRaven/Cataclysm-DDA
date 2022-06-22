@@ -54,8 +54,12 @@
       [ [ "mutagen", 1 ] ],
       [
         [ "egg_dino_theropod", 1 ],
-        [ "egg_allosaurus", 1 ],
-        [ "egg_acrocanthosaurus", 1 ],
+        [ "egg_dryptosaurus", 1 ],
+        [ "egg_appalachiosaurus", 1 ],
+        [ "egg_gorgosaurus", 1 ],
+        [ "egg_albertosaurus", 1 ],
+        [ "egg_qianzhousaurus", 1 ],
+        [ "egg_daspletosaurus", 1 ],
         [ "egg_tyrannosaurus", 1 ]
       ],
       [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
