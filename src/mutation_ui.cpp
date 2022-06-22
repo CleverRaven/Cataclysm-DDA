@@ -99,6 +99,9 @@ void avatar::power_mutations()
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        if( !mut.first->player_display ) {
+            continue;
+        }
         if( !mut.first->activated ) {
             passive.push_back( mut.first );
         } else {
