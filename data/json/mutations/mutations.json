@@ -6830,9 +6830,7 @@
     "changes_to": [ "SHELL2" ],
     "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
-    "restricts_gear": [ "torso" ],
-    "destroys_gear": true,
-    "armor": [ { "parts": "torso", "bash": 6, "cut": 14, "bullet": 4 } ]
+    "integrated_armor": [ "integrated_shell" ]
   },
   {
     "type": "mutation",
@@ -6853,9 +6851,7 @@
     "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
-    "restricts_gear": [ "torso" ],
-    "destroys_gear": true,
-    "armor": [ { "parts": "torso", "bash": 9, "cut": 17, "bullet": 6 } ]
+    "integrated_armor": [ "integrated_shell2" ]
   },
   {
     "type": "mutation",
@@ -6873,9 +6869,7 @@
     "category": [ "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 45 } ],
     "active": true,
-    "restricts_gear": [ "torso" ],
-    "destroys_gear": true,
-    "armor": [ { "parts": "torso", "bash": 18, "cut": 32, "bullet": 9 } ]
+    "integrated_armor": [ "integrated_shell3" ]
   },
   {
     "type": "mutation",
