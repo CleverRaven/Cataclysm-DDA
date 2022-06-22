@@ -360,7 +360,7 @@
     "color": "red",
     "symbol": "o",
     "spoils_in": "7 days",
-    "description": "A giant lady bug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry giant translucent lavrae.",
+    "description": "A giant ladybug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry giant translucent larva.",
     "rot_spawn": "GROUP_EGG_LADY_BUG_GIANT",
     "rot_spawn_chance": 50
   },
