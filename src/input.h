@@ -218,6 +218,27 @@ struct input_event {
         : type( t ), edit_refresh( false ) {
         sequence.push_back( s );
     }
+
+    // overloaded function for a mouse input
+    // made for a cleaner code, to get rid of static_cast's from scoped enum to int
+    // 
+    // Instead of:
+    // 
+    //    input_event( static_cast<int>( MouseInput::Move ), ... )
+    //    input_event( static_cast<int>( MouseInput::LeftButtonPressed ), ... )
+    //    input_event( static_cast<int>( MouseInput::RightButtonPressed ), ... )
+    //
+    // we now can just use
+    //
+    //    input_event( MouseInput::Move, ... )
+    //    input_event( MouseInput::LeftButtonPressed, ... )
+    //    input_event( MouseInput::RightButtonPressed, ... )
+    //
+    input_event(const MouseInput s, input_event_t t)
+        : type(t), edit_refresh(false) {
+        sequence.push_back( static_cast<int>( s ) );
+    }
+
     input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
 
     int get_first_input() const;
