@@ -1066,7 +1066,7 @@ void npc::execute_action( npc_action action )
             if( !get_wielded_item() ) {
                 debugmsg( "NPC tried to reload without weapon" );
             }
-            do_reload( *get_wielded_item() );
+            do_reload( get_wielded_item() );
         }
         break;
 
@@ -1523,11 +1523,21 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
     return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
-item &npc::find_reloadable()
+// todo: make visit_items use item_locations and remove this
+static item_location form_loc_recursive( Character *npc, item *node, item *parent )
+{
+    if( parent ) {
+        return item_location( form_loc_recursive( npc, parent, npc->find_parent( *parent ) ), node );
+    }
+
+    return item_location( *npc, node );
+}
+
+item_location npc::find_reloadable()
 {
     auto cached_value = cached_info.find( "reloadables" );
     if( cached_value != cached_info.end() ) {
-        return null_item_reference();
+        return item_location();
     }
     // Check wielded gun, non-wielded guns, mags and tools
     // TODO: Build a proper gun->mag->ammo DAG (Directed Acyclic Graph)
@@ -1535,31 +1545,29 @@ item &npc::find_reloadable()
     // TODO: Make this understand bandoliers, pouches etc.
     // TODO: Cache items checked for reloading to avoid re-checking same items every turn
     // TODO: Make it understand smaller and bigger magazines
-    item *reloadable = nullptr;
-    visit_items( [this, &reloadable]( item * node, item * ) {
+    item_location reloadable;
+    visit_items( [this, &reloadable]( item * node, item * parent ) {
         if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
-        const item_location it_loc = select_ammo( *node ).ammo;
+
+        item_location node_loc = form_loc_recursive( this, node, parent );
+
+        const item_location it_loc = select_ammo( node_loc ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
-            reloadable = node;
+            reloadable = node_loc;
             return VisitResponse::ABORT;
         }
 
         return VisitResponse::NEXT;
     } );
 
-    if( reloadable != nullptr ) {
-        return *reloadable;
+    if( reloadable ) {
+        return reloadable;
     }
 
     cached_info.emplace( "reloadables", 0.0 );
-    return null_item_reference();
-}
-
-const item &npc::find_reloadable() const
-{
-    return const_cast<const item &>( const_cast<npc *>( this )->find_reloadable() );
+    return item_location();
 }
 
 bool npc::can_reload_current()
@@ -1569,24 +1577,24 @@ bool npc::can_reload_current()
         return false;
     }
 
-    return static_cast<bool>( find_usable_ammo( *weapon ) );
+    return static_cast<bool>( find_usable_ammo( weapon ) );
 }
 
-item_location npc::find_usable_ammo( const item &weap )
+item_location npc::find_usable_ammo( const item_location &weap )
 {
-    if( !can_reload( weap ) ) {
+    if( !can_reload( *weap ) ) {
         return item_location();
     }
 
     item_location loc = select_ammo( weap ).ammo;
-    if( !loc || !wants_to_reload_with( weap, *loc ) ) {
+    if( !loc || !wants_to_reload_with( *weap, *loc ) ) {
         return item_location();
     }
 
     return loc;
 }
 
-item_location npc::find_usable_ammo( const item &weap ) const
+item_location npc::find_usable_ammo( const item_location &weap ) const
 {
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
@@ -1895,8 +1903,8 @@ npc_action npc::address_needs( float danger )
         return npc_reload;
     }
 
-    item &reloadable = find_reloadable();
-    if( !reloadable.is_null() ) {
+    item_location reloadable = find_reloadable();
+    if( reloadable ) {
         do_reload( reloadable );
         return npc_noop;
     }
@@ -4677,12 +4685,17 @@ bool npc::complain()
     return false;
 }
 
-void npc::do_reload( const item &it )
+void npc::do_reload( const item_location &it )
 {
+    if( !it ) {
+        debugmsg( "do_reload failed: %s tried to reload a none", name );
+        return;
+    }
+
     item::reload_option reload_opt = select_ammo( it );
 
     if( !reload_opt ) {
-        debugmsg( "do_reload failed: no usable ammo for %s", it.tname() );
+        debugmsg( "do_reload failed: no usable ammo for %s", it->tname() );
         return;
     }
 
@@ -4692,13 +4705,13 @@ void npc::do_reload( const item &it )
     item_location &usable_ammo = reload_opt.ammo;
 
     int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it.ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it.ammo_remaining() ) );
-    int reload_time = item_reload_cost( it, *usable_ammo, qty );
+                                     it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it->ammo_remaining() ) );
+    int reload_time = item_reload_cost( *it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();
     if( !target.reload( *this, std::move( usable_ammo ), qty ) ) {
         debugmsg( "do_reload failed: item %s could not be reloaded with %ld charge(s) of %s",
-                  it.tname(), qty, ammo_name );
+                  it->tname(), qty, ammo_name );
         return;
     }
 
@@ -4706,8 +4719,8 @@ void npc::do_reload( const item &it )
     recoil = MAX_RECOIL;
 
     if( get_player_view().sees( *this ) ) {
-        add_msg( _( "%1$s reloads their %2$s." ), get_name(), it.tname() );
-        sfx::play_variant_sound( "reload", it.typeId().str(), sfx::get_heard_volume( pos() ),
+        add_msg( _( "%1$s reloads their %2$s." ), get_name(), it->tname() );
+        sfx::play_variant_sound( "reload", it->typeId().str(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
     }
 
