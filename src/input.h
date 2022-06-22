@@ -225,6 +225,25 @@ struct input_event {
     void add_input( const int input ) {
         sequence.push_back( input );
     }
+    
+    // overloaded function for a mouse input
+    // made for a cleaner code, to get rid of static_cast's from scoped enum to int
+    // 
+    // Instead of:
+    // 
+    //    add_input( static_cast<int>( MouseInput::Move ) )
+    //    add_input( static_cast<int>( MouseInput::LeftButtonPressed ) )
+    //    add_input( static_cast<int>( MouseInput::RightButtonPressed ) )
+    //
+    // we now can just use
+    //
+    //    add_input( MouseInput::Move )
+    //    add_input( MouseInput::LeftButtonPressed )
+    //    add_input( MouseInput::RightButtonPressed )
+    //
+    void add_input( const MouseInput mouse_input ) {
+        sequence.push_back( static_cast<int>( mouse_input ) );
+    }
 
     bool operator==( const input_event &other ) const {
         return type == other.type && modifiers == other.modifiers && sequence == other.sequence;
@@ -432,7 +451,7 @@ class input_manager
         void add_keyboard_char_keycode_pair( int ch, const std::string &name );
         void add_keyboard_code_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
-        void add_mouse_keycode_pair( int ch, const std::string &name );
+        void add_mouse_keycode_pair( MouseInput mouse_input, const std::string &name );
 
         /**
          * Load keybindings from a json file, override existing bindings.
