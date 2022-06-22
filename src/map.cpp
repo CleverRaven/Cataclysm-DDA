@@ -319,11 +319,23 @@ void map::remove_vehicle_from_cache( vehicle *veh, int zmin, int zmax )
     }
 }
 
+namespace
+{
+void _add_vehicle_to_list( level_cache &ch, vehicle *veh )
+{
+    ch.vehicle_list.insert( veh );
+    if( !veh->loot_zones.empty() ) {
+        ch.zone_vehicles.insert( veh );
+    }
+}
+} // namespace
+
 void map::reset_vehicles_sm_pos()
 {
     int const zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
     int const zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
     for( int z = zmin; z <= zmax; z++ ) {
+        level_cache &ch = get_cache( z );
         for( int x = 0; x < getmapsize(); x++ ) {
             for( int y = 0; y < getmapsize(); y++ ) {
                 tripoint const grid( x, y, z );
@@ -331,6 +343,8 @@ void map::reset_vehicles_sm_pos()
                 if( sm != nullptr ) {
                     for( auto const &elem : sm->vehicles ) {
                         elem->sm_pos = grid;
+                        get_map().add_vehicle_to_cache( &*elem );
+                        _add_vehicle_to_list( ch, &*elem );
                     }
                 }
             }
@@ -352,10 +366,7 @@ void map::update_vehicle_list( const submap *const to, const int zlev )
     // Update vehicle data
     level_cache &ch = get_cache( zlev );
     for( const auto &elem : to->vehicles ) {
-        ch.vehicle_list.insert( elem.get() );
-        if( !elem->loot_zones.empty() ) {
-            ch.zone_vehicles.insert( elem.get() );
-        }
+        _add_vehicle_to_list( ch, elem.get() );
     }
 }
 
