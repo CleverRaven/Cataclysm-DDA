@@ -48,6 +48,18 @@
     ]
   },
   {
+    "id": "nested_hk_usc45",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_usc45", "charges-min": 0, "charges-max": 20 },
+      { "item": "usc20mag" },
+      { "item": "usc20mag", "prob": 50 },
+      { "group": "on_hand_45" }
+    ]
+  },
+  {
     "id": "nested_glock_22",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

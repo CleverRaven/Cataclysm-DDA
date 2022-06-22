@@ -390,7 +390,10 @@
       [ "augmag_42rd", 5 ],
       [ "augmag_100rd", 2 ],
       [ "g36mag_30rd", 15 ],
-      [ "g36mag_100rd", 3 ]
+      [ "g36mag_100rd", 3 ],
+      [ "usc10mag", 5],
+      [ "usc15mag", 7],
+      [ "usc20mag", 20]
     ]
   },
   {

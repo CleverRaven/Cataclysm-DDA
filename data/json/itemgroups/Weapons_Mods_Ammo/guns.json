@@ -474,7 +474,8 @@
       { "group": "nested_weatherby_5", "prob": 15 },
       { "group": "nested_hk417_13", "prob": 40 },
       { "group": "nested_ar15_retool_300blk", "prob": 15 },
-      { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 }
+      { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
+      { "group": "nested_hk_usc45", "prob": 20 }
     ]
   },
   {
