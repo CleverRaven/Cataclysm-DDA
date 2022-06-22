@@ -112,6 +112,9 @@ using itype_id = string_id<itype>;
 class weapon_category;
 using weapon_category_id = string_id<weapon_category>;
 
+class loadout;
+using loadout_id = string_id<loadout>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 

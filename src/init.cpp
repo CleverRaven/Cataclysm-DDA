@@ -47,6 +47,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "loadout.h"
 #include "loading_ui.h"
 #include "lru_cache.h"
 #include "magic.h"
@@ -263,6 +264,7 @@ void DynamicDataLoader::initialize()
     add( "bionic", &bionic_data::load_bionic );
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
+    add( "loadout", &loadout::load_loadout);
     add( "proficiency", &proficiency::load_proficiencies );
     add( "proficiency_category", &proficiency_category::load_proficiency_categories );
     add( "speed_description", &speed_description::load_speed_descriptions );

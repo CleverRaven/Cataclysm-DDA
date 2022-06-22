@@ -31,6 +31,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
+#include "loadout.h"
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
@@ -1696,523 +1697,401 @@ tab_direction set_traits( avatar &u, pool_type pool )
         }
     } while( true );
 }
+static struct {
+    bool sort_by_points = true;
+    bool male = false;
+    /** @related player */
+    bool operator()(const string_id<loadout>& a, const string_id<loadout>& b) {
+        // The Profession loadout should be listed first and selected by default.
+        const loadout* gen = loadout::generic();
+        if (&b.obj() == gen) {
+            return false;
+        }
+        else if (&a.obj() == gen) {
+            return true;
+        }
+
+        if (sort_by_points) {
+            return a->point_cost() < b->point_cost();
+        }
+        else {
+            return localized_compare(a->name(),
+                b->name());
+        }
+    }
+} loadout_sorter;
 
 tab_direction set_loadout(avatar& u, pool_type pool)
 {
-    const int max_trait_points = get_option<int>("MAX_TRAIT_POINTS");
-
-    // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
-    int num_good = 0;
-    int num_bad = 0;
-    // 0 -> traits that take points ( positive traits )
-    // 1 -> traits that give points ( negative traits )
-    // 2 -> neutral traits ( facial hair, skin color, etc )
-    std::vector<trait_id> vStartingTraits[3];
-
-    for (const mutation_branch& traits_iter : mutation_branch::get_all()) {
-        // Don't list blacklisted traits
-        if (mutation_branch::trait_is_blacklisted(traits_iter.id)) {
-            continue;
-        }
-
-        const std::set<trait_id> scentraits = get_scenario()->get_locked_traits();
-        const bool is_scentrait = scentraits.find(traits_iter.id) != scentraits.end();
-
-        // Always show profession locked traits, regardless of if they are forbidden
-        const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
-        const bool is_proftrait = std::find(proftraits.begin(), proftraits.end(),
-            traits_iter.id) != proftraits.end();
-
-        bool is_hobby_locked_trait = false;
-        for (const profession* hobby : u.hobbies) {
-            is_hobby_locked_trait = hobby->is_locked_trait(traits_iter.id);
-            break;
-        }
-
-        // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if (traits_iter.startingtrait || get_scenario()->traitquery(traits_iter.id) || is_proftrait ||
-            is_hobby_locked_trait) {
-            if (traits_iter.points > 0) {
-                vStartingTraits[0].push_back(traits_iter.id);
-
-                if (is_proftrait || is_scentrait) {
-                    continue;
-                }
-
-                if (u.has_trait(traits_iter.id)) {
-                    num_good += traits_iter.points;
-                }
-            }
-            else if (traits_iter.points < 0) {
-                vStartingTraits[1].push_back(traits_iter.id);
-
-                if (is_proftrait || is_scentrait) {
-                    continue;
-                }
-
-                if (u.has_trait(traits_iter.id)) {
-                    num_bad += traits_iter.points;
-                }
-            }
-            else {
-                vStartingTraits[2].push_back(traits_iter.id);
-            }
-        }
-    }
-    //If the third page is empty, only use the first two.
-    const int used_pages = vStartingTraits[2].empty() ? 2 : 3;
-
-    for (auto& vStartingTrait : vStartingTraits) {
-        std::sort(vStartingTrait.begin(), vStartingTrait.end(), trait_display_nocolor_sort);
-    }
-
-    int iCurWorkingPage = 0;
-    int iStartPos[3] = { 0, 0, 0 };
-    int iCurrentLine[3] = { 0, 0, 0 };
-    size_t traits_size[3];
-    bool recalc_traits = false;
-    std::vector<const trait_id*> sorted_traits[3];
-    std::string filterstring;
-
-    for (int i = 0; i < 3; i++) {
-        const size_t size = vStartingTraits[i].size();
-        traits_size[i] = size;
-        sorted_traits[i].reserve(size);
-        for (size_t j = 0; j < size; j++) {
-            sorted_traits[i].emplace_back(&vStartingTraits[i][j]);
-        }
-    }
-
-    size_t iContentHeight = 0;
-    size_t page_width = 0;
-
-    const auto pos_calc = [&]() {
-        for (int i = 0; i < 3; i++) {
-            // Shift start position to avoid iterating beyond end
-            traits_size[i] = sorted_traits[i].size();
-            int total = static_cast<int>(traits_size[i]);
-            int height = static_cast<int>(iContentHeight);
-            iStartPos[i] = std::min(iStartPos[i], std::max(0, total - height));
-        }
-    };
-
-    // this will return the next non empty page
-    // there will always be at least one non-empty page
-    // iCurWorkingPage will always be a non-empty page
-    const auto next_avail_page = [&traits_size, &iCurWorkingPage](bool invert_direction) -> int {
-        int prev_page = iCurWorkingPage < 1 ? 2 : iCurWorkingPage - 1;
-        if (!traits_size[prev_page])
-        {
-            prev_page = prev_page < 1 ? 2 : prev_page - 1;
-            if (!traits_size[prev_page]) {
-                prev_page = prev_page < 1 ? 2 : prev_page - 1;
-            }
-        }
-
-        int next_page = iCurWorkingPage > 1 ? 0 : iCurWorkingPage + 1;
-        if (!traits_size[next_page])
-        {
-            next_page = next_page > 1 ? 0 : next_page + 1;
-            if (!traits_size[next_page]) {
-                next_page = next_page > 1 ? 0 : next_page + 1;
-            }
-        }
-
-        return invert_direction ? prev_page : next_page;
-    };
+    int cur_id = 0;
+    tab_direction retval = tab_direction::NONE;
+    int desc_offset = 0;
+    int iContentHeight = 0;
+    int iStartPos = 0;
 
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_description;
+    catacurses::window w_sorting;
+    catacurses::window w_genderswap;
+    catacurses::window w_items;
     const auto init_windows = [&](ui_adaptor& ui) {
+        iContentHeight = TERMY - 10;
         w = catacurses::newwin(TERMY, TERMX, point_zero);
-        w_description = catacurses::newwin(3, TERMX - 2, point(1, TERMY - 4));
+        w_description = catacurses::newwin(4, TERMX - 2, point(1, TERMY - 5));
+        w_sorting = catacurses::newwin(1, 55, point(TERMX / 2, 5));
+        w_genderswap = catacurses::newwin(1, 55, point(TERMX / 2, 6));
+        w_items = catacurses::newwin(iContentHeight - 3, 55, point(TERMX / 2, 8));
         ui.position_from_window(w);
-        page_width = std::min((TERMX - 4) / used_pages, 38);
-        iContentHeight = TERMY - 9;
-
-        pos_calc();
     };
     init_windows(ui);
     ui.on_screen_resize(init_windows);
 
-    input_context ctxt("NEW_CHAR_TRAITS");
+    input_context ctxt("NEW_CHAR_LOADOUTS");
     ctxt.register_cardinal();
     ctxt.register_action("PAGE_UP", to_translation("Fast scroll up"));
     ctxt.register_action("PAGE_DOWN", to_translation("Fast scroll down"));
     ctxt.register_action("HOME");
     ctxt.register_action("END");
     ctxt.register_action("CONFIRM");
+    ctxt.register_action("CHANGE_GENDER");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("FILTER");
     ctxt.register_action("RESET_FILTER");
-    ctxt.register_action("SORT");
     ctxt.register_action("QUIT");
+    ctxt.register_action("RANDOMIZE");
 
-    bool unsorted = true;
+    bool recalc_profs = true;
+    int profs_length = 0;
+    std::string filterstring;
+    std::vector<string_id<loadout>> sorted_loadouts;
 
+    int iheight = 0;
     ui.on_redraw([&](const ui_adaptor&) {
         werase(w);
-        werase(w_description);
+        draw_character_tabs(w, _("BACKGROUND"));
 
-        draw_character_tabs(w, _("TRAITS"));
-
-        const std::string filter_indicator = filterstring.empty() ?
-            _("no filter") : filterstring;
-        const std::string sortstring = string_format("[%1$s] %2$s: %3$s", ctxt.get_desc("SORT"),
-            _("sort"), unsorted ? _("unsorted") : _("points"));
-
+        // Draw filter indicator
+        for (int i = 1; i < getmaxx(w) - 1; i++) {
+            mvwputch(w, point(i, getmaxy(w) - 1), BORDER_COLOR, LINE_OXOX);
+        }
+        const auto filter_indicator = filterstring.empty() ? _("no filter")
+            : filterstring;
         mvwprintz(w, point(2, getmaxy(w) - 1), c_light_gray, "<%s>", filter_indicator);
-        mvwprintz(w, point(getmaxx(w) - sortstring.size() - 4, getmaxy(w) - 1),
-            c_light_gray, "<%s>", sortstring);
 
-        draw_points(w, pool, u);
-        int full_string_length = 0;
-        const int remaining_points_length = utf8_width(pools_to_string(u, pool), true);
-        if (pool != pool_type::FREEFORM) {
-            std::string full_string =
-                string_format("<color_light_green>%2d/%-2d</color> <color_light_red>%3d/-%-2d</color>",
-                    num_good, max_trait_points, num_bad, max_trait_points);
-            fold_and_print(w, point(remaining_points_length + 3, 3), getmaxx(w) - 2, c_white,
-                full_string);
-            full_string_length = utf8_width(full_string, true) + remaining_points_length + 3;
-        }
-        else {
-            full_string_length = remaining_points_length + 3;
-        }
+        const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>(cur_id) < sorted_loadouts.size();
 
-        for (int iCurrentPage = 0; iCurrentPage < 3; iCurrentPage++) {
-            nc_color col_on_act;
-            nc_color col_off_act;
-            nc_color col_on_pas;
-            nc_color col_off_pas;
-            nc_color col_tr;
-            switch (iCurrentPage) {
-            case 0:
-                col_on_act = COL_TR_GOOD_ON_ACT;
-                col_off_act = COL_TR_GOOD_OFF_ACT;
-                col_on_pas = COL_TR_GOOD_ON_PAS;
-                col_off_pas = COL_TR_GOOD_OFF_PAS;
-                col_tr = COL_TR_GOOD;
-                break;
-            case 1:
-                col_on_act = COL_TR_BAD_ON_ACT;
-                col_off_act = COL_TR_BAD_OFF_ACT;
-                col_on_pas = COL_TR_BAD_ON_PAS;
-                col_off_pas = COL_TR_BAD_OFF_PAS;
-                col_tr = COL_TR_BAD;
-                break;
-            default:
-                col_on_act = COL_TR_NEUT_ON_ACT;
-                col_off_act = COL_TR_NEUT_OFF_ACT;
-                col_on_pas = COL_TR_NEUT_ON_PAS;
-                col_off_pas = COL_TR_NEUT_OFF_PAS;
-                col_tr = COL_TR_NEUT;
-                break;
+        werase(w_description);
+        if (cur_id_is_valid) {
+            int netPointCost = sorted_loadouts[cur_id]->point_cost() - u.prof->point_cost();
+            bool can_pick = sorted_loadouts[cur_id]->can_pick(u, skill_points_left(u, pool));
+            const std::string clear_line(getmaxx(w) - 2, ' ');
+
+            // Clear the bottom of the screen and header.
+            mvwprintz(w, point(1, 3), c_light_gray, clear_line);
+
+            int pointsForLoadout = sorted_loadouts[cur_id]->point_cost();
+            bool negativeLoadout = pointsForLoadout < 0;
+            if (negativeLoadout) {
+                pointsForLoadout *= -1;
             }
-            nc_color hi_on = hilite(col_on_act);
-            nc_color hi_off = hilite(c_white);
-
-            int& start = iStartPos[iCurrentPage];
-            int current = iCurrentLine[iCurrentPage];
-            calcStartPos(start, current, iContentHeight, traits_size[iCurrentPage]);
-            int end = start + static_cast<int>(std::min(traits_size[iCurrentPage], iContentHeight));
-
-            for (int i = start; i < end; i++) {
-                const trait_id& cur_trait = *sorted_traits[iCurrentPage][i];
-                const mutation_branch& mdata = cur_trait.obj();
-                if (current == i && iCurrentPage == iCurWorkingPage) {
-                    int points = mdata.points;
-                    bool negativeTrait = points < 0;
-                    if (negativeTrait) {
-                        points *= -1;
-                    }
-                    mvwprintz(w, point(full_string_length + 3, 3), col_tr,
-                        n_gettext("%s %s %d point", "%s %s %d points", points),
-                        mdata.name(),
-                        negativeTrait ? _("earns") : _("costs"),
-                        points);
-                    fold_and_print(w_description, point_zero,
-                        TERMX - 2, col_tr,
-                        mdata.desc());
-                }
-
-                nc_color cLine = col_off_pas;
-                if (iCurWorkingPage == iCurrentPage) {
-                    cLine = col_off_act;
-                    if (current == i) {
-                        cLine = hi_off;
-                        if (u.has_conflicting_trait(cur_trait)) {
-                            cLine = hilite(c_dark_gray);
-                        }
-                        else if (u.has_trait(cur_trait)) {
-                            cLine = hi_on;
-                        }
-                    }
-                    else {
-                        if (u.has_conflicting_trait(cur_trait) || get_scenario()->is_forbidden_trait(cur_trait)) {
-                            cLine = c_dark_gray;
-
-                        }
-                        else if (u.has_trait(cur_trait)) {
-                            cLine = col_on_act;
-                        }
-                    }
-                }
-                else if (u.has_trait(cur_trait)) {
-                    cLine = col_on_pas;
-
-                }
-                else if (u.has_conflicting_trait(cur_trait) ||
-                    get_scenario()->is_forbidden_trait(cur_trait)) {
-                    cLine = c_light_gray;
-                }
-
-                int cur_line_y = 5 + i - start;
-                int cur_line_x = 2 + iCurrentPage * page_width;
-                mvwprintz(w, point(cur_line_x, cur_line_y), cLine, utf8_truncate(mdata.name(),
-                    page_width - 2));
+            // Draw header.
+            draw_points(w, pool, u, netPointCost);
+            const char* loadout_msg_temp;
+            if (negativeLoadout) {
+                //~ 1s - profession name, 2d - current character points.
+                loadout_msg_temp = n_gettext("Loadout %1$s earns %2$d point",
+                    "Loadout %1$s earns %2$d points",
+                    pointsForLoadout);
+            }
+            else {
+                //~ 1s - profession name, 2d - current character points.
+                loadout_msg_temp = n_gettext("Loadout %1$s costs %2$d point",
+                    "Loadout %1$s costs %2$d points",
+                    pointsForLoadout);
             }
 
-            scrollbar()
-                .offset_x(page_width * iCurrentPage)
-                .offset_y(5)
-                .content_size(traits_size[iCurrentPage])
-                .viewport_pos(start)
-                .viewport_size(iContentHeight)
-                .apply(w);
+            int pMsg_length = utf8_width(remove_color_tags(pools_to_string(u, pool)));
+            mvwprintz(w, point(pMsg_length + 9, 3), can_pick ? c_green : c_light_red, loadout_msg_temp,
+                sorted_loadouts[cur_id]->name(),
+                pointsForLoadout);
+
+            fold_and_print(w_description, point_zero, TERMX - 2, c_green,
+                sorted_loadouts[cur_id]->description());
         }
+
+        //Draw options
+        calcStartPos(iStartPos, cur_id, iContentHeight, profs_length);
+        const int end_pos = iStartPos + ((iContentHeight > profs_length) ?
+            profs_length : iContentHeight);
+        int i;
+        for (i = iStartPos; i < end_pos; i++) {
+            mvwprintz(w, point(2, 5 + i - iStartPos), c_light_gray,
+                "                                             "); // Clear the line
+
+            nc_color col;
+            if (u.lo_hobbies.count(&sorted_loadouts[i].obj()) != 0) {
+                col = (cur_id_is_valid &&
+                    sorted_loadouts[i] == sorted_loadouts[cur_id] ? hilite(c_light_green) : COL_SKILL_USED);
+            }
+            else {
+                col = (cur_id_is_valid && sorted_loadouts[i] == sorted_loadouts[cur_id] ? COL_SELECT : c_light_gray);
+            }
+
+            mvwprintz(w, point(2, 5 + i - iStartPos), col,
+                sorted_loadouts[i]->name());
+        }
+        //Clear rest of space in case stuff got filtered out
+        for (; i < iStartPos + iContentHeight; ++i) {
+            mvwprintz(w, point(2, 5 + i - iStartPos), c_light_gray,
+                "                                             "); // Clear the line
+        }
+
+        werase(w_items);
+        werase(w_sorting);
+        werase(w_genderswap);
+        if (cur_id_is_valid) {
+            std::string buffer;
+            // Profession addictions
+            const auto prof_addictions = sorted_loadouts[cur_id]->addictions();
+            buffer += colorize(_("Addictions:"), c_light_blue) + "\n";
+            if (prof_addictions.empty()) {
+                buffer += pgettext("set_profession_addictions", "None") + std::string("\n");
+            }
+            else {
+                for (const addiction& a : prof_addictions) {
+                    const char* format = pgettext("set_profession_addictions", "%1$s (%2$d)");
+                    buffer += string_format(format, a.type->get_name().translated(), a.intensity) + "\n";
+                }
+            }            
+
+            // Profession spells
+            if (!sorted_loadouts[cur_id]->spells().empty()) {
+                buffer += colorize(_("Spells:"), c_light_blue) + "\n";
+                for (const std::pair<spell_id, int> spell_pair : sorted_loadouts[cur_id]->spells()) {
+                    buffer += string_format(_("%s level %d"), spell_pair.first->name, spell_pair.second) + "\n";
+                }
+            }
+
+            const auto scroll_msg = string_format(
+                _("Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll."),
+                ctxt.get_desc("LEFT"),
+                ctxt.get_desc("RIGHT"));
+            iheight = print_scrollable(w_items, desc_offset, buffer, c_light_gray, scroll_msg);
+
+            draw_sorting_indicator(w_sorting, ctxt, loadout_sorter);
+
+            const char* g_switch_msg = u.male ?
+                //~ Gender switch message. 1s - change key name, 2s - profession name.
+                _("Press <color_light_green>%1$s</color> to switch "
+                    "to <color_magenta>%2$s</color> (<color_pink>female</color>).") :
+                //~ Gender switch message. 1s - change key name, 2s - profession name.
+                _("Press <color_light_green>%1$s</color> to switch "
+                    "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>).");
+            fold_and_print(w_genderswap, point_zero, (TERMX / 2), c_light_gray, g_switch_msg,
+                ctxt.get_desc("CHANGE_GENDER"),
+                sorted_loadouts[cur_id]->name());
+        }
+
+        scrollbar()
+            .offset_x(0)
+            .offset_y(5)
+            .content_size(profs_length)
+            .viewport_pos(iStartPos)
+            .viewport_size(iContentHeight)
+            .apply(w);
 
         wnoutrefresh(w);
         wnoutrefresh(w_description);
+        wnoutrefresh(w_items);
+        wnoutrefresh(w_genderswap);
+        wnoutrefresh(w_sorting);
         });
 
     do {
-        if (recalc_traits) {
-            for (int i = 0; i < 3; i++) {
-                const size_t size = vStartingTraits[i].size();
-                sorted_traits[i].clear();
-                for (size_t j = 0; j < size; j++) {
-                    sorted_traits[i].emplace_back(&vStartingTraits[i][j]);
-                }
-            }
+        if (recalc_profs) {
+            sorted_loadouts = loadout::get_all_hobbies();
 
-            if (!filterstring.empty()) {
-                for (std::vector<const trait_id*>& traits : sorted_traits) {
-                    const auto new_end_iter = std::remove_if(
-                        traits.begin(),
-                        traits.end(),
-                        [&filterstring](const trait_id* trait) {
-                            return !lcmatch(trait->obj().name(), filterstring);
-                        });
+            // Remove items based on filter
+            const auto new_end = std::remove_if(sorted_loadouts.begin(),
+                sorted_loadouts.end(), [&](const string_id<loadout>& arg) {
+                    return !lcmatch(arg->name(), filterstring);
+                });
+            sorted_loadouts.erase(new_end, sorted_loadouts.end());
 
-                    traits.erase(new_end_iter, traits.end());
-                }
-            }
-
-            if (!filterstring.empty() && sorted_traits[0].empty() && sorted_traits[1].empty() &&
-                sorted_traits[2].empty()) {
-                popup(_("Nothing found.")); // another case of black box in tiles
+            if (sorted_loadouts.empty()) {
+                popup(_("Nothing found."));
                 filterstring.clear();
                 continue;
             }
+            profs_length = static_cast<int>(sorted_loadouts.size());
 
-            if (!unsorted) {
-                std::stable_sort(sorted_traits[0].begin(), sorted_traits[0].end(), traits_sorter);
-                std::stable_sort(sorted_traits[1].begin(), sorted_traits[1].end(), traits_sorter);
-            }
+            // Sort professions by points.
+            // profession_display_sort() keeps "unemployed" at the top.
+            loadout_sorter.male = u.male;
+            std::stable_sort(sorted_loadouts.begin(), sorted_loadouts.end(), loadout_sorter);
 
-            // Select the current page, if not empty
-            // There should always be at least one not empty page
-            iCurrentLine[0] = 0;
-            iCurrentLine[1] = 0;
-            iCurrentLine[2] = 0;
-            if (sorted_traits[iCurWorkingPage].empty()) {
-                iCurWorkingPage = 0;
-                if (!sorted_traits[0].empty()) {
-                    iCurWorkingPage = 0;
-                }
-                else if (!sorted_traits[1].empty()) {
-                    iCurWorkingPage = 1;
-                }
-                else if (!sorted_traits[2].empty()) {
-                    iCurWorkingPage = 2;
-                }
-            }
-
-            pos_calc();
-            recalc_traits = false;
+            cur_id = 0;
+            recalc_profs = false;
         }
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if (action == "LEFT") {
-            iCurWorkingPage = next_avail_page(true);
-        }
-        else if (action == "RIGHT") {
-            iCurWorkingPage = next_avail_page(false);
+        const int recmax = profs_length;
+        const int scroll_rate = recmax > 20 ? 10 : 2;
+
+        if (action == "DOWN") {
+            cur_id++;
+            if (cur_id > recmax - 1) {
+                cur_id = 0;
+            }
+            desc_offset = 0;
         }
         else if (action == "UP") {
-            if (iCurrentLine[iCurWorkingPage] == 0) {
-                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            cur_id--;
+            if (cur_id < 0) {
+                cur_id = profs_length - 1;
             }
-            else {
-                iCurrentLine[iCurWorkingPage]--;
-            }
-        }
-        else if (action == "DOWN") {
-            iCurrentLine[iCurWorkingPage]++;
-            if (static_cast<size_t>(iCurrentLine[iCurWorkingPage]) >= traits_size[iCurWorkingPage]) {
-                iCurrentLine[iCurWorkingPage] = 0;
-            }
+            desc_offset = 0;
         }
         else if (action == "PAGE_DOWN") {
-            if (static_cast<size_t>(iCurrentLine[iCurWorkingPage]) == traits_size[iCurWorkingPage] - 1) {
-                iCurrentLine[iCurWorkingPage] = 0;
+            if (cur_id == recmax - 1) {
+                cur_id = 0;
             }
-            else if (static_cast<size_t>(iCurrentLine[iCurWorkingPage] + 10) >=
-                traits_size[iCurWorkingPage]) {
-                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            else if (cur_id + scroll_rate >= recmax) {
+                cur_id = recmax - 1;
             }
             else {
-                iCurrentLine[iCurWorkingPage] += +10;
+                cur_id += +scroll_rate;
             }
+            desc_offset = 0;
         }
         else if (action == "PAGE_UP") {
-            if (iCurrentLine[iCurWorkingPage] == 0) {
-                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            if (cur_id == 0) {
+                cur_id = recmax - 1;
             }
-            else if (static_cast<size_t>(iCurrentLine[iCurWorkingPage] - 10) >=
-                traits_size[iCurWorkingPage]) {
-                iCurrentLine[iCurWorkingPage] = 0;
+            else if (cur_id <= scroll_rate) {
+                cur_id = 0;
             }
             else {
-                iCurrentLine[iCurWorkingPage] += -10;
+                cur_id += -scroll_rate;
             }
+            desc_offset = 0;
         }
         else if (action == "HOME") {
-            iCurrentLine[iCurWorkingPage] = 0;
+            cur_id = 0;
         }
         else if (action == "END") {
-            iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            cur_id = recmax - 1;
+        }
+        else if (action == "LEFT") {
+            if (desc_offset > 0) {
+                desc_offset--;
+            }
+        }
+        else if (action == "RIGHT") {
+            if (desc_offset < iheight) {
+                desc_offset++;
+            }
         }
         else if (action == "CONFIRM") {
-            int inc_type = 0;
-            const trait_id cur_trait = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
-            const mutation_branch& mdata = cur_trait.obj();
-
-            // Look through the profession bionics, and see if any of them conflict with this trait
-            std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait(u.prof->CBMs(), cur_trait);
-            const std::unordered_set<trait_id> conflicting_traits = u.get_conflicting_traits(cur_trait);
-
-            if (u.has_trait(cur_trait)) {
-
-                inc_type = -1;
-
-                if (get_scenario()->is_locked_trait(cur_trait)) {
-                    inc_type = 0;
-                    popup(_("Your scenario of %s prevents you from removing this trait."),
-                        get_scenario()->gender_appropriate_name(u.male));
-                }
-                else if (u.prof->is_locked_trait(cur_trait)) {
-                    inc_type = 0;
-                    popup(_("Your profession of %s prevents you from removing this trait."),
-                        u.prof->gender_appropriate_name(u.male));
-                }
-                for (const profession* hobbies : u.hobbies) {
-                    if (hobbies->is_locked_trait(cur_trait)) {
-                        inc_type = 0;
-                        popup(_("Your background of %s prevents you from removing this trait."),
-                            hobbies->gender_appropriate_name(u.male));
+            // Do not allow selection of hobby if there's a trait conflict
+            const loadout* prof = &sorted_loadouts[cur_id].obj();
+            bool conflict_found = false;
+            /*for (const trait_id& new_trait : prof->get_locked_traits()) {
+                if (u.has_conflicting_trait(new_trait)) {
+                    for (const loadout* lo_hobby : u.lo_hobbies) {
+                        for (const trait_id& suspect_trait : hobby->get_locked_traits()) {
+                            if (are_conflicting_traits(new_trait, suspect_trait)) {
+                                conflict_found = true;
+                                popup(_("The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]."), new_trait->name(),
+                                    hobby->gender_appropriate_name(u.male), suspect_trait->name());
+                            }
+                        }
                     }
                 }
+            }*/
+            if (conflict_found) {
+                continue;
             }
-            else if (!conflicting_traits.empty()) {
-                std::vector<std::string> conflict_names;
-                conflict_names.reserve(conflicting_traits.size());
-                for (const trait_id& trait : conflicting_traits) {
-                    conflict_names.emplace_back(trait->name());
-                }
-                popup(_("You already picked some conflicting traits: %s."),
-                    enumerate_as_string(conflict_names));
-            }
-            else if (get_scenario()->is_forbidden_trait(cur_trait)) {
-                popup(_("The scenario you picked prevents you from taking this trait!"));
-            }
-            else if (u.prof->is_forbidden_trait(cur_trait)) {
-                popup(_("Your profession of %s prevents you from taking this trait."),
-                    u.prof->gender_appropriate_name(u.male));
-            }
-            else if (!cbms_blocking_trait.empty()) {
-                // Grab a list of the names of the bionics that block this trait
-                // So that the player know what is preventing them from taking it
-                std::vector<std::string> conflict_names;
-                conflict_names.reserve(cbms_blocking_trait.size());
-                for (const bionic_id& conflict : cbms_blocking_trait) {
-                    conflict_names.emplace_back(conflict->name.translated());
-                }
-                popup(_("The following bionics prevent you from taking this trait: %s."),
-                    enumerate_as_string(conflict_names));
-            }
-            else if (iCurWorkingPage == 0 && num_good + mdata.points >
-                max_trait_points && pool != pool_type::FREEFORM) {
-                popup(n_gettext("Sorry, but you can only take %d point of advantages.",
-                    "Sorry, but you can only take %d points of advantages.", max_trait_points),
-                    max_trait_points);
 
-            }
-            else if (iCurWorkingPage != 0 && num_bad + mdata.points <
-                -max_trait_points && pool != pool_type::FREEFORM) {
-                popup(n_gettext("Sorry, but you can only take %d point of disadvantages.",
-                    "Sorry, but you can only take %d points of disadvantages.", max_trait_points),
-                    max_trait_points);
-
+            // Toggle hobby
+            bool enabling = false;
+            if (u.lo_hobbies.count(prof) == 0) {
+                // Add hobby, and decrement point cost
+                u.lo_hobbies.insert(prof);
+                enabling = true;
             }
             else {
-                inc_type = 1;
+                // Remove hobby and refund point cost
+                u.lo_hobbies.erase(prof);
             }
 
-            //inc_type is either -1 or 1, so we can just multiply by it to invert
-            if (inc_type != 0) {
-                u.toggle_trait_deps(cur_trait);
-                if (iCurWorkingPage == 0) {
-                    num_good += mdata.points * inc_type;
+            // Add or remove traits from hobby
+            /*for (const trait_id& trait : prof->get_locked_traits()) {
+                if (enabling) {
+                    if (!u.has_trait(trait)) {
+                        u.toggle_trait_deps(trait);
+                    }
+                    continue;
                 }
-                else {
-                    num_bad += mdata.points * inc_type;
+                int from_other_hobbies = u.prof->is_locked_trait(trait) ? 1 : 0;
+                for (const profession* hby : u.hobbies) {
+                    if (hby->ident() != prof->ident() && hby->is_locked_trait(trait)) {
+                        from_other_hobbies++;
+                    }
                 }
+                if (from_other_hobbies > 0) {
+                    continue;
+                }
+                u.toggle_trait_deps(trait);
+            }*/
+
+        }
+        else if (action == "CHANGE_GENDER") {
+            u.male = !u.male;
+            loadout_sorter.male = u.male;
+            if (!loadout_sorter.sort_by_points) {
+                std::sort(sorted_loadouts.begin(), sorted_loadouts.end(), loadout_sorter);
             }
         }
         else if (action == "PREV_TAB") {
-            return tab_direction::BACKWARD;
+            retval = tab_direction::BACKWARD;
         }
         else if (action == "NEXT_TAB") {
-            return tab_direction::FORWARD;
-        }
-        else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
-            return tab_direction::QUIT;
+            retval = tab_direction::FORWARD;
         }
         else if (action == "SORT") {
-            unsorted = !unsorted;
-            recalc_traits = true;
+        loadout_sorter.sort_by_points = !loadout_sorter.sort_by_points;
+            recalc_profs = true;
         }
         else if (action == "FILTER") {
             string_input_popup()
                 .title(_("Search:"))
-                .width(10)
-                .description(_("Search by trait name."))
+                .width(60)
+                .description(_("Search by background name."))
                 .edit(filterstring);
-            recalc_traits = true;
+            recalc_profs = true;
         }
         else if (action == "RESET_FILTER") {
             if (!filterstring.empty()) {
                 filterstring = "";
-                recalc_traits = true;
+                recalc_profs = true;
             }
         }
-    } while (true);
+        else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            retval = tab_direction::QUIT;
+        }
+        else if (action == "RANDOMIZE") {
+            cur_id = rng(0, profs_length - 1);
+        }
+
+    } while (retval == tab_direction::NONE);
+
+    return retval;
 }
 static struct {
     bool sort_by_points = true;
