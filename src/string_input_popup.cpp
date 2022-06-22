@@ -506,9 +506,13 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 ret.erase( _position, 1 );
             }
         } else if( action == "SCROLL_INFOBOX_UP" ) {
-            description_view->scroll_up();
+            if( description_view ) {
+                description_view->scroll_up();
+            }
         } else if( action == "SCROLL_INFOBOX_DOWN" ) {
-            description_view->scroll_down();
+            if( description_view ) {
+                description_view->scroll_down();
+            }
         } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE"
                    || ( action == "ANY_INPUT" && !ev.text.empty() ) ) {
             // paste, input from file, or text input
