@@ -1,0 +1,90 @@
+[
+  {
+    "abstract": "book_research",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "research notes" },
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": 20000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "looks_like": "manual_gun",
+    "intelligence": 8,
+    "time": "10 m"
+  },
+  {
+    "id": "book_leather_fur_armor_research",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "notes on making fur and leather armor", "str_pl": "copies of notes on making fur and leather armor" },
+    "description": "A rough sketchbook of designs and concepts on how to make armor from leather and fur.  Needs to be reviewed further to become useful recipes.",
+    "weight": "2600 g",
+    "volume": "2 L",
+    "price": 6000,
+    "price_postapoc": 1500,
+    "bashing": 4,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "textbook_firstaid",
+    "color": "blue",
+    "skill": "tailor",
+    "required_level": 3,
+    "max_level": 3,
+    "intelligence": 8,
+    "time": "30 m",
+    "use_action": {
+      "target": "book_fur_leather_armor_designs",
+      "msg": "You examine the batch and see that the pickling solution has done its job, so you seal the jar up for storage.",
+      "moves": 5000,
+      "type": "delayed_transform",
+      "transform_age": 201600,
+      "not_ready_msg": "Ideas are still forming in your head."
+    }
+  },
+  {
+    "id": "book_fur_leather_armor_designs",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "designs for fur and leather armor", "str_pl": "copies of designs for making fur and leather armor" },
+    "description": "A rough sketchbook of designs and concepts on how to make armor from leather and fur.  Empty pages have been filled in with step by step designs for how to tailor various pieces of leather and fur armor.",
+    "weight": "2600 g",
+    "volume": "2 L",
+    "price": 6000,
+    "price_postapoc": 1500,
+    "bashing": 4,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "textbook_firstaid",
+    "color": "blue",
+    "skill": "tailor",
+    "proficiencies": [
+      { "proficiency": "prof_closures", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_leatherworking_basic", "time_factor": 0.1, "fail_factor": 0.25 }
+    ],
+    "required_level": 3,
+    "max_level": 3,
+    "intelligence": 8,
+    "time": "30 m"
+  },
+  {
+    "result": "helmet_larmor",
+    "type": "recipe",
+    "//": "move to recipe file in case of decision to move forward with this type of research",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "2 h",
+    "book_learn": [ [ "book_fur_leather_armor_designs", 3 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ]
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "book_leather_fur_armor_research",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 3 ],
+    "time": "2 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "tools": [ [ [ "drawing_tool", 20, "LIST" ] ] ],
+    "components": [
+      [ [ "paper", 20 ], [ "birchbark", 20 ], [ "willowbark", 20 ] ]
+    ]
+  }
+]
