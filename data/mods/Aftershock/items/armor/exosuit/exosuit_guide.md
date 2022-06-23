@@ -22,7 +22,7 @@ Each plating has a minimum weight of 500 g to represent the connection points.  
 
 | Plating              | Weight   
 | ---                  | ---
-| Plastic              |
+| Plastic              | 11.01 kg
 | Tempered Steel       | 44.05 kg
 | Vaccum-cast Carbide  | 65.41 kg 
    
