@@ -315,5 +315,103 @@
     "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "cheap_ammo_pouch",
+    "type": "ARMOR",
+    "name": "cheap ammo bandolier",
+    "description": "Small bandolier with pouches, designed to store a bunch of ammo clips or hold a whole STANAG mag.  This has four small pouches, that perfectly fit standard STANAG 30-round magazines.",
+    "weight": "60 g",
+    "volume": "40 ml",
+    "price": 600,
+    "price_postapoc": 15,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "290 ml",
+        "max_contains_weight": "650 g",
+        "max_item_length": "200 mm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "290 ml",
+        "max_contains_weight": "650 g",
+        "max_item_length": "200 mm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "290 ml",
+        "max_contains_weight": "650 g",
+        "max_item_length": "200 mm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "290 ml",
+        "max_contains_weight": "650 g",
+        "max_item_length": "200 mm"
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "cheap_ammo_pouch_belt223",
+    "type": "ARMOR",
+    "name": { "str": "5.56x45 belt pouch", "str_pl": "5.56x45 belt pouches" },
+    "description": "A large cotton pouch, designed to store a spare ammo belt for the M249 SAW.",
+    "weight": "60 g",
+    "volume": "40 ml",
+    "price": 600,
+    "price_postapoc": 15,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "//": "max_item_length must be 58mm, and max weight ~1400. probably need some tweak. #57981.  Also generic guns has even bigger weight, so 3 kg.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "620 ml",
+        "max_contains_weight": "3000 g",
+        "max_item_length": "60 mm"
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "cheap_ammo_pouch_belt308",
+    "type": "ARMOR",
+    "name": { "str": "7.62x51 belt pouch", "str_pl": "7.62x51 belt pouches" },
+    "description": "A large cotton pouch, designed to store a spare ammo belt for the M240 or M60 machine guns.",
+    "weight": "60 g",
+    "volume": "40 ml",
+    "price": 600,
+    "price_postapoc": 15,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "//": "same as before and max weight ~2000. #57981",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "3000 g",
+        "max_item_length": "72 mm"
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]

@@ -1,11 +1,13 @@
 #ifndef CATA_SRC_SHOP_CONS_RATE_H
 #define CATA_SRC_SHOP_CONS_RATE_H
 
-#include "dialogue.h"
+#include "generic_factory.h"
 #include "type_id.h"
 #include "units.h"
 
 class JsonObject;
+class npc;
+struct dialogue;
 
 constexpr char const *SHOPKEEPER_CONSUMPTION_RATES = "shopkeeper_consumption_rates";
 constexpr char const *SHOPKEEPER_BLACKLIST = "shopkeeper_blacklist";
@@ -14,11 +16,19 @@ struct icg_entry {
     itype_id itype;
     item_category_id category;
     item_group_id item_group;
+    std::string message;
 
     std::function<bool( const dialogue & )> condition;
 
     bool operator==( icg_entry const &rhs ) const;
     bool matches( item const &it, npc const &beta ) const;
+};
+
+class icg_entry_reader : public generic_typed_reader<icg_entry_reader>
+{
+    public:
+        static icg_entry _part_get_next( JsonObject const &jo );
+        static icg_entry get_next( JsonValue &jv );
 };
 
 struct shopkeeper_cons_rate_entry: public icg_entry {
@@ -61,7 +71,7 @@ struct shopkeeper_blacklist {
     static const std::vector<shopkeeper_blacklist> &get_all();
     static void load_blacklist( const JsonObject &jo, std::string const &src );
     void load( const JsonObject &jo, std::string const &src );
-    bool matches( item const &it, npc const &beta ) const;
+    icg_entry const *matches( item const &it, npc const &beta ) const;
 };
 
 #endif // CATA_SRC_SHOP_CONS_RATE_H

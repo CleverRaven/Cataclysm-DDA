@@ -45,8 +45,8 @@ void pocket_favorite_callback::refresh( uilist *menu )
     item_pocket *selected_pocket = nullptr;
     int i = 0;
     int pocket_num = 0;
-    for( std::pair<item_pocket *, int> &pocket_val : saved_pockets ) {
-        item_pocket *pocket = pocket_val.first;
+    for( std::tuple<item_pocket *, int, uilist_entry *> &pocket_val : saved_pockets ) {
+        item_pocket *pocket = std::get<0>( pocket_val );
         if( pocket == nullptr || ( pocket->get_pocket_data()  &&
                                    !pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) ) {
             ++i;
@@ -55,12 +55,11 @@ void pocket_favorite_callback::refresh( uilist *menu )
 
         if( i == menu->selected ) {
             selected_pocket = pocket;
-            pocket_num = pocket_val.second + 1;
+            pocket_num = std::get<1>( pocket_val ) + 1;
             break;
         }
         ++i;
     }
-
 
     if( selected_pocket != nullptr && selected_pocket->is_allowed() ) {
         std::vector<iteminfo> info;
@@ -103,13 +102,22 @@ pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organ
 void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
         std::string depth )
 {
-    if( !i.get_all_standard_pockets().empty() ) {
-        pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
-        // pad list with empty entries for the items themselves
-        saved_pockets.emplace_back( nullptr, 0 );
+    if( i.get_all_contained_pockets().empty() ) {
+        // if it doesn't have pockets skip it
+        return;
     }
+
+    pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
+    // pad list with empty entries for the items themselves
+    saved_pockets.emplace_back( nullptr, 0, nullptr );
+    if( i.is_collapsed() || i.all_pockets_sealed() ) {
+        //is collapsed, or all pockets are sealed skip its nested pockets
+        return;
+    }
+
+    uilist_entry *item_entry = &pocket_selector.entries.back();
     int pocket_num = 1;
-    for( item_pocket *it_pocket : i.get_all_standard_pockets() ) {
+    for( item_pocket *it_pocket : i.get_all_contained_pockets() ) {
         std::string temp = string_format( "%d -", pocket_num );
 
         pocket_selector.addentry( 0, true, '\0', string_format( "%s%s %s/%s",
@@ -118,7 +126,7 @@ void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
                                   vol_to_info( "", "", it_pocket->contains_volume() ).sValue,
                                   vol_to_info( "", "", it_pocket->max_contains_volume() ).sValue ) );
         // pocket number is displayed from 1 stored from 0
-        saved_pockets.emplace_back( it_pocket, pocket_num - 1 );
+        saved_pockets.emplace_back( it_pocket, pocket_num - 1, item_entry );
         pocket_num++;
 
         // display the items
@@ -176,14 +184,14 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
             // if we have an item already selected for moving update some info
             auto itt = saved_pockets.begin();
             for( uilist_entry &entry : menu->entries ) {
-                if( entry.enabled && !itt->first->can_contain( *item_to_move.first ).success() ) {
+                if( entry.enabled && !std::get<0>( *itt )->can_contain( *item_to_move.first ).success() ) {
                     entry.enabled = false;
                 }
 
                 // make sure we dont try to put anything in itself
                 if( entry.enabled ) {
                     for( item_pocket *pocket : item_to_move.first->get_all_standard_pockets() ) {
-                        if( itt->first == pocket ) {
+                        if( std::get<0>( *itt ) == pocket ) {
                             entry.enabled = false;
                         }
                     }
@@ -216,8 +224,8 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
     item_pocket *selected_pocket = nullptr;
     int i = 0;
     int pocket_num = 0;
-    for( std::pair<item_pocket *, int> &pocket_val : saved_pockets ) {
-        item_pocket *pocket = pocket_val.first;
+    for( std::tuple<item_pocket *, int, uilist_entry *> &pocket_val : saved_pockets ) {
+        item_pocket *pocket = std::get<0>( pocket_val );
         if( pocket == nullptr || ( pocket->get_pocket_data()  &&
                                    !pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) ) {
             ++i;
@@ -226,7 +234,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
 
         if( i == menu->selected ) {
             selected_pocket = pocket;
-            pocket_num = pocket_val.second + 1;
+            pocket_num = std::get<1>( pocket_val ) + 1;
             break;
         }
         ++i;
@@ -249,6 +257,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         popup.title( string_format( _( "Enter Priority (current priority %d)" ),
                                     selected_pocket->settings.priority() ) );
         selected_pocket->settings.set_priority( popup.query_int() );
+        return true;
     } else if( action == "FAV_AUTO_PICKUP" ) {
         selected_pocket->settings.set_disabled( !selected_pocket->settings.is_disabled() );
         return true;
@@ -732,12 +741,12 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 }
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, const item *avoid, const bool allow_sealed, const bool ignore_settings,
+        item_location &this_loc, const item *avoid, const bool allow_sealed, const bool ignore_settings,
         const bool nested, bool ignore_rigidity )
 {
     // @TODO: this could be made better by doing a plain preliminary volume check.
     // if the total volume of the parent is not sufficient, a child won't have enough either.
-    std::pair<item_location, item_pocket *> ret = { parent, nullptr };
+    std::pair<item_location, item_pocket *> ret = { this_loc, nullptr };
     std::vector<item_pocket *> valid_pockets;
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
@@ -771,21 +780,21 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
     }
     const bool parent_pkt_selected = !!ret.second;
     for( item_pocket *pocket : valid_pockets ) {
-        item_pocket *const nested_content_pocket =
-            pocket->best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
-        if( !nested_content_pocket ||
-            ( !nested_content_pocket->rigid() && pocket->remaining_volume() < it.volume() ) ) {
+        std::pair<item_location, item_pocket *const> nested_content_pocket =
+            pocket->best_pocket_in_contents( this_loc, it, avoid, allow_sealed, ignore_settings );
+        if( !nested_content_pocket.second ||
+            ( !nested_content_pocket.second->rigid() && pocket->remaining_volume() < it.volume() ) ) {
             // no nested pocket found, or the nested pocket is soft and the parent is full
             continue;
         }
         if( parent_pkt_selected ) {
-            if( ret.second->better_pocket( *nested_content_pocket, it, true ) ) {
+            if( ret.second->better_pocket( *nested_content_pocket.second, it, true ) ) {
                 // item is whitelisted in nested pocket, prefer that over parent pocket
-                ret.second = nested_content_pocket;
+                ret = nested_content_pocket;
             }
             continue;
         }
-        ret.second = nested_content_pocket;
+        ret = nested_content_pocket;
     }
     return ret;
 }

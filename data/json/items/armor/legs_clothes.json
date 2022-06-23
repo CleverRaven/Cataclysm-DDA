@@ -598,7 +598,7 @@
     "volume": "2500 ml",
     "price": 3500,
     "price_postapoc": 250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "green",
@@ -1467,7 +1467,7 @@
     "volume": "2500 ml",
     "price": 4375,
     "price_postapoc": 250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "pants_army",
     "color": "white",
@@ -1518,7 +1518,7 @@
     "warmth": 50,
     "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS" ],
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ],
     "armor": [ { "encumbrance": [ 11, 22 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {

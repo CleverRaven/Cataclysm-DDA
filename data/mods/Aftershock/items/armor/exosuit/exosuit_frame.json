@@ -1,5 +1,28 @@
 [
   {
+    "id": "afs_exo_undersuit",
+    "repairs_like": "thermal_suit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit undersuit" },
+    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, offers nearly no protection and damages easily.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "plastic" ],
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 5 }
+    ],
+    "warmth": 10,
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
+  },
+  {
     "id": "modular_exosuit",
     "type": "TOOL_ARMOR",
     "name": { "str": "exosuit frame" },
@@ -7,6 +30,7 @@
     "weight": "43 kg",
     "volume": "135 L",
     "material": [ "titanium" ],
+    "material_thickness": 2,
     "power_armor": true,
     "symbol": "T",
     "looks_like": "power_armor_basic",
@@ -181,6 +205,14 @@
         "moves": 60
       }
     ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 40,
+        "encumbrance": 20
+      }
+    ],
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
@@ -194,14 +226,6 @@
         "type": "transform"
       },
       "MANAGE_EXOSUIT"
-    ],
-    "armor": [
-      {
-        "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
     ]
   },
   {
@@ -214,14 +238,14 @@
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
-    "power_draw": 7123,
+    "power_draw": 6173,
     "revert_to": "modular_exosuit",
     "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
     "armor": [
       {
         "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "coverage": 100,
+        "coverage": 40,
         "encumbrance": 5
       }
     ]
@@ -241,7 +265,7 @@
     "power_armor": true,
     "material_thickness": 8,
     "environmental_protection": 16,
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ],
+    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "head", "eyes", "mouth" ] } ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES", "SWIM_GOGGLES" ],
     "pocket_data": [
       {

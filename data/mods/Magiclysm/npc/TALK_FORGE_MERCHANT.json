@@ -17,7 +17,7 @@
     "id": "NC_FORGE_LORD",
     "name": { "str": "Wondrous Dreamer" },
     "job_description": "I created this place from dreams and magic.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "trait": "VAULT_DEFENDER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "rng": [ 20, 25 ] },

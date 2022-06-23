@@ -548,6 +548,20 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "SORT_ARMOR",
+    "name": "Scroll item info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "SORT_ARMOR",
+    "name": "Scroll item info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EQUIP_ARMOR",
     "category": "SORT_ARMOR",
     "name": "Equip armor from inventory",

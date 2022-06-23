@@ -47,7 +47,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "bleach", "prob": 90, "charges-min": 20 },
-      { "item": "ammonia", "prob": 75, "charges-min": 20 },
+      { "item": "ammonia_hydroxide", "prob": 75, "charges-min": 20 },
       { "item": "broom", "prob": 95 },
       { "item": "mop", "prob": 60 },
       { "item": "mop_folded", "prob": 35 },

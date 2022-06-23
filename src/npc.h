@@ -944,8 +944,8 @@ class npc : public Character
         int minimum_item_value() const;
         // Find the worst value in our inventory
         void update_worst_item_value();
-        int value( const item &it ) const;
-        int value( const item &it, int market_price ) const;
+        double value( const item &it ) const;
+        double value( const item &it, double market_price ) const;
         bool wear_if_wanted( const item &it, std::string &reason );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const Character &reader ) const;
@@ -978,9 +978,9 @@ class npc : public Character
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
-        bool wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
+        ret_val<bool> wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
+        ret_val<bool> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         bool will_exchange_items_freely() const;
         int max_credit_extended() const;

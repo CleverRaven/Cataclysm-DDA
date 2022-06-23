@@ -748,5 +748,11 @@
     "id": "green_pen_ink",
     "name": "green pen ink",
     "default": "green_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "ammonia_liquid",
+    "name": "ammonia",
+    "default": "ammonia_liquid"
   }
 ]

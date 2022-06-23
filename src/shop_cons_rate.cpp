@@ -94,25 +94,24 @@ void shopkeeper_cons_rates::check_all()
     shop_cons_rate_factory.check();
 }
 
-class icg_entry_reader : public generic_typed_reader<icg_entry_reader>
+icg_entry icg_entry_reader::_part_get_next( JsonObject const &jo )
 {
-    public:
-        static icg_entry _part_get_next( JsonObject const &jo ) {
-            icg_entry ret;
-            optional( jo, false, "item", ret.itype );
-            optional( jo, false, "category", ret.category );
-            optional( jo, false, "group", ret.item_group );
-            if( jo.has_member( "condition" ) ) {
-                read_condition<dialogue>( jo, "condition", ret.condition, false );
-            }
-            return ret;
-        }
-        static icg_entry get_next( JsonValue &jv ) {
-            JsonObject jo = jv.get_object();
-            icg_entry ret( _part_get_next( jo ) );
-            return ret;
-        }
-};
+    icg_entry ret;
+    optional( jo, false, "item", ret.itype );
+    optional( jo, false, "category", ret.category );
+    optional( jo, false, "group", ret.item_group );
+    optional( jo, false, "message", ret.message );
+    if( jo.has_member( "condition" ) ) {
+        read_condition<dialogue>( jo, "condition", ret.condition, false );
+    }
+    return ret;
+}
+icg_entry icg_entry_reader::get_next( JsonValue &jv )
+{
+    JsonObject jo = jv.get_object();
+    icg_entry ret( _part_get_next( jo ) );
+    return ret;
+}
 
 class shopkeeper_cons_rates_reader : public generic_typed_reader<shopkeeper_cons_rates_reader>
 {
@@ -169,12 +168,17 @@ int shopkeeper_cons_rates::get_rate( item const &it, npc const &beta ) const
     return default_rate;
 }
 
-bool shopkeeper_blacklist::matches( item const &it, npc const &beta ) const
+icg_entry const *shopkeeper_blacklist::matches( item const &it, npc const &beta ) const
 {
-    return std::any_of( entries.begin(), entries.end(),
+    auto const el = std::find_if( entries.begin(), entries.end(),
     [&it, &beta]( icg_entry const & rit ) {
         return rit.matches( it, beta );
     } );
+    if( el != entries.end() ) {
+        return &*el;
+    }
+
+    return nullptr;
 }
 
 bool shopkeeper_cons_rates::matches( item const &it, npc const &beta ) const

@@ -5,7 +5,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "bleach", "charges-min": 1, "prob": 40, "container-item": "jug_plastic", "sealed": false },
-      { "item": "ammonia", "charges-min": 1, "prob": 40, "container-item": "jug_plastic", "sealed": false },
+      { "item": "ammonia_liquid", "charges-min": 1, "prob": 40, "container-item": "jug_plastic", "sealed": false },
       {
         "distribution": [ { "item": "honey_glassed", "prob": 20 }, { "item": "honey_bottled", "prob": 80 } ],
         "prob": 30

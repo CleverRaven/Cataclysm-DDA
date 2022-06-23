@@ -1363,7 +1363,7 @@
         "   "
       ],
       "furniture": { "%": "f_standing_tank" },
-      "liquids": { "%": { "liquid": "ammonia", "amount": [ 2, 100 ] } }
+      "liquids": { "%": { "liquid": "ammonia_liquid", "amount": [ 2, 100 ] } }
     }
   },
   {

@@ -16,7 +16,7 @@
     "components": [
       [ [ "feces_bird", 17 ] ],
       [ [ "formic_acid", 23 ] ],
-      [ [ "ammonia", 1 ] ],
+      [ [ "ammonia_liquid", 1 ] ],
       [ [ "chem_sulphuric_acid", 2 ] ],
       [ [ "chem_methanol", 97 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],

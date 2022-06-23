@@ -1417,9 +1417,9 @@ void npc::stow_item( item &it )
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
     } else if( can_stash( it ) ) {
-        item &ret = i_add( remove_item( it ), true, nullptr, nullptr, true, false );
+        item_location ret = i_add( remove_item( it ), true, nullptr, nullptr, true, false );
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret->tname() );
         }
         moves -= 15;
     } else { // No room for weapon, so we drop it
@@ -1913,20 +1913,20 @@ bool npc::wants_to_sell( const item &it ) const
         return false;
     }
     const int market_price = it.price( true );
-    return wants_to_sell( it, value( it, market_price ), market_price );
+    return wants_to_sell( it, value( it, market_price ), market_price ).success();
 }
 
-bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<bool> npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
-        return true;
+        return ret_val<bool>::make_success();
     }
 
     // Keep items that we never want to trade and the ones we don't want to trade while in use.
     if( it.has_flag( flag_TRADER_KEEP ) ||
         ( ( !myclass->sells_belongings || it.has_flag( flag_TRADER_KEEP_EQUIPPED ) ) && ( is_worn( it ) ||
                 is_wielding( it ) ) ) ) {
-        return false;
+        return ret_val<bool>::make_failure( _( "<npcname> will never sell this" ) );
     }
 
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
@@ -1934,37 +1934,41 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
             continue;
         }
         if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
-            return false;
+            return ret_val<bool>::make_failure( ig.get_refusal() );
         }
     }
 
     // TODO: Base on inventory
-    return at_price >= 0;
+    return at_price >= 0 ? ret_val<bool>::make_success() : ret_val<bool>::make_failure();
 }
 
 bool npc::wants_to_buy( const item &it ) const
 {
     const int market_price = it.price( true );
-    return wants_to_buy( it, value( it, market_price ), market_price );
+    return wants_to_buy( it, value( it, market_price ), market_price ).success();
 }
 
-bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<bool> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
-        return true;
+        return ret_val<bool>::make_success();
     }
 
-    if( it.has_flag( flag_TRADER_AVOID ) or it.has_var( VAR_TRADE_IGNORE ) or
-        ( my_fac == nullptr and has_trait( trait_SQUEAMISH ) and it.is_filthy() ) ) {
-        return false;
+    if( it.has_flag( flag_TRADER_AVOID ) || it.has_var( VAR_TRADE_IGNORE ) ) {
+        return ret_val<bool>::make_failure( _( "<npcname> will never buy this" ) );
     }
 
-    if( myclass->get_shopkeeper_blacklist().matches( it, *this ) ) {
-        return false;
+    if( mission != NPC_MISSION_SHOPKEEP && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
+        return ret_val<bool>::make_failure( _( "<npcname> will not buy filthy items" ) );
+    }
+
+    icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );
+    if( bl != nullptr ) {
+        return ret_val<bool>::make_failure( bl->message );
     }
 
     // TODO: Base on inventory
-    return at_price >= 0;
+    return at_price >= 0 ? ret_val<bool>::make_success() : ret_val<bool>::make_failure();
 }
 
 // Will the NPC freely exchange items with the player?
@@ -2138,13 +2142,13 @@ void npc::update_worst_item_value()
     }
 }
 
-int npc::value( const item &it ) const
+double npc::value( const item &it ) const
 {
     int market_price = it.price( true );
     return value( it, market_price );
 }
 
-int npc::value( const item &it, int market_price ) const
+double npc::value( const item &it, double market_price ) const
 {
     if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
         // NPCs won't be interested in buying active explosives
