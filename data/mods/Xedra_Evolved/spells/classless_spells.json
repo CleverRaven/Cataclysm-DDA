@@ -89,7 +89,6 @@
     "max_range": 1,
     "max_level": 20,
     "difficulty": 6,
-    "spell_class": "?????????????",
     "base_casting_time": 200,
     "energy_source": "MANA",
     "base_energy_cost": 600,
