@@ -40,7 +40,8 @@ A variety of modules are available, ranging from sensor packages to batteries to
 | Imager         | Helmet | 50 per use | 500 g  | As the handheld tool, sees through walls.
 | Climb Assist   | Medium | ---        |  5 kg  | Allows the user to climb walls.
 | Jetpack        | Large  | ---        | 10 kg  | An ammonia-fueled jetpack provides a dash across terrain.
-
+| Forcefield     | Medium | 5000       |  5 kg  | Toggles between 25 bash/cut or 40 ballistic/pierce protection.
+| Med Injector   | Small  | ---        | 500 g  | Injects RA21E to treat injuries.
 
 ### Operation
 ### Repairs
