@@ -18,7 +18,7 @@ Exosuits typically use a single large power supply unit, attached to the back.  
 
 
 ### Plating
-Each plating has a minimum weight of 500g to represent the connection points.  The steel and plastic are based on 6mm thickness, while the VCC is 4mm thick to keep weight managable.  Exosuits can accept a wide range of plating.  Plastic, steel, and vaccum-cast carbide are common.  Improvised armor has been found on frontiers and in the underworld.  The plates are rounded, using a ball-and-joint system somewhat resembling a hard diving or EVA suit.
+Each plating has a minimum weight of 500 g to represent the connection points.  The steel and plastic are based on 6mm thickness, while the VCC is 4mm thick to keep weight managable.  Exosuits can accept a wide range of plating.  Plastic, steel, and vaccum-cast carbide are common.  Improvised armor has been found on frontiers and in the underworld.  The plates are rounded, using a ball-and-joint system somewhat resembling a hard diving or EVA suit.
 
 | Plating              | Weight   
 | ---                  | ---
@@ -44,7 +44,11 @@ A variety of modules are available, ranging from sensor packages to batteries to
 | Med Injector   | Small  | ---        | 500 g  | Injects RA21E to treat injuries.
 
 ### Operation
+The basic operation is based on the frame mirroring the pilot's motions.  This works well for movement, though fine manipulation takes practice as pilots must adapt to the suit's feedback.  Once certified, a pilot receives additional training in their field, learning to use their specialized equipemnt.  The exosuit is easily outfitted for hazardous environments ranging from frozen tundra to burning deserts, from underwater to orbit.
+
 ### Repairs
+The frame itself is somewhat difficulty to repair due to the complex components and the titanium used.
+Plating (aside from carbide) can be field repaired as long as the plate has not been completely destroyed.  Destroyed plates can have their connectors salvaged and used to create new plates with the right equipment.  Modules are complicated electronics packed into very tight containers, making repairs extremely difficult.
 
 # Balance
 ### Power Consumption
