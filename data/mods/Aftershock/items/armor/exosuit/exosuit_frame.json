@@ -55,7 +55,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "15 kg",
-        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "flag_restriction": [ "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 60
       },

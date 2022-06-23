@@ -10,11 +10,11 @@ These are comfortable jumpsuits specially designed to integrate with the frame. 
 Exosuits typically use a single large power supply unit, attached to the back.  Auxiliary batteries can be attached as well across the frame, extending the runtime. 
 
 | Name        | Capacity | Fuel    | Weight 
-| ---         | ---      | ---     | --- | ---
+| ---         | ---      | ---     | ---   | ---
 | Battery PSU | 40000    | Battery | 15 kg | 20 L
 | ICE PSU     | 10000    | Gasoline| 20 kg | 25 L
 | Large Aux   | 4000     | Battery | 5 kg  |  5 L
-| Small Aux   | 1000     | Battery | 2 kg | 1 L
+| Small Aux   | 1000     | Battery | 2 kg  | 1 L
 
 
 ### Plating
@@ -43,7 +43,7 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Location | Weight Cap | Volume Cap | Large | Medium | Small | Helmet | PSU
 | ---      | ---        | ---        | ---   | ---    | ---   | ---    | ---
 | Helmet   |  2 L       |  5 kg      | No    | No     | No    | Yes    | No
-| Torso    |  4 L       | 15 kg      | No    | Yes    | Yes   | No     | No 
+| Torso    |  4 L       | 15 kg      | Yes   | Yes    | Yes   | No     | No 
 | Arm      | 10 L       | 10 kg      | No    | Yes    | Yes   | No     | No
 | Leg      | 10 L       | 10 kg      | No    | Yes    | Yes   | No     | No
 | PSU      | 75 L       | 75 kg      | Yes   | Yes    | Yes   | No     | Yes
@@ -62,11 +62,15 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Forcefield     | Medium | 5000       |  5 kg  | Toggles between 25 bash/cut or 40 ballistic/pierce protection.
 | Med Injector   | Small  | ---        | 500 g  | Injects RA21E to treat injuries.
 
-| Storage Module | Volume Cap | Weight Cap | Ckass  | Weight | Description
-| ---            | ---        | ---        | ---    | ---    | ---
-| Rifle Storage  | 9 L        | 10 kg      | Large  | 500 g  | As item Back Holster
-| Melee Storage  | 3750 ml    |  5 kg      | Medium | 500 g  | As item Back Scabbard
-| Storage Pack   | Multiple   | Multiple   | 
+| Storage Module | Volume Cap | Weight Cap | Class  | Weight | Description
+| ---              | ---        | ---        | ---    | ---    | ---
+| Rifle Storage    | 9 L        | 10 kg      | Large  | 500 g  | As item Back Holster
+| Melee Storage    | 3750 ml    |  5 kg      | Medium | 500 g  | As item Back Scabbard
+| Storage Pack     | Multiple   | Multiple   | Large  | 2250 g | As item Large Tactical Backpack
+| Medium Pouch     | 2500 ml    | 5 kg       | Medium | 275 g  |As item Fanny Pack
+| Small Pouch      | 1500 ml    | 5 kg       | Small  | 125 g  | As item Leather Pouch
+| Large Ammo Pouch | Multiple   | Multiple   | Large  | 1750 g | As item Tac Vest
+| Small Ammo Pouch | 2 L        | 4 kg       | Medium | 1050 g | As item Drop Leg Pouches
 
 ### Operation
 The basic operation is based on the frame mirroring the pilot's motions.  This works well for movement, though fine manipulation takes practice as pilots must adapt to the suit's feedback.  Once certified, a pilot receives additional training in their field, learning to use their specialized equipemnt.  The exosuit is easily outfitted for hazardous environments ranging from frozen tundra to burning deserts, from underwater to orbit.
