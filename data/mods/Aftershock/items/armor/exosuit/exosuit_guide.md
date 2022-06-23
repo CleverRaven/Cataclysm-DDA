@@ -9,12 +9,12 @@ These are comfortable jumpsuits specially designed to integrate with the frame. 
 ### PSU
 Exosuits typically use a single large power supply unit, attached to the back.  Auxiliary batteries can be attached as well across the frame, extending the runtime. 
 
-| Name        | Capacity | Fuel    | Weight 
-| ---         | ---      | ---     | ---   | ---
-| Battery PSU | 40000    | Battery | 15 kg | 20 L
-| ICE PSU     | 10000    | Gasoline| 20 kg | 25 L
-| Large Aux   | 4000     | Battery | 5 kg  |  5 L
-| Small Aux   | 1000     | Battery | 2 kg  | 1 L
+| Name        | Capacity | Fuel    | Weight | Volume
+| ---         | ---      | ---     | ---    | ---
+| Battery PSU | 40000    | Battery | 15 kg  | 20 L
+| ICE PSU     | 10000    | Gasoline| 20 kg  | 25 L
+| Large Aux   | 4000     | Battery | 5 kg   |  5 L
+| Small Aux   | 1000     | Battery | 2 kg   | 1 L
 
 
 ### Plating
@@ -62,7 +62,7 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Forcefield     | Medium | 5000       |  5 kg  | Toggles between 25 bash/cut or 40 ballistic/pierce protection.
 | Med Injector   | Small  | ---        | 500 g  | Injects RA21E to treat injuries.
 
-| Storage Module | Volume Cap | Weight Cap | Class  | Weight | Description
+| Storage Module   | Volume Cap | Weight Cap | Class  | Weight | Description
 | ---              | ---        | ---        | ---    | ---    | ---
 | Rifle Storage    | 9 L        | 10 kg      | Large  | 500 g  | As item Back Holster
 | Melee Storage    | 3750 ml    |  5 kg      | Medium | 500 g  | As item Back Scabbard
