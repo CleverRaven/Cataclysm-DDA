@@ -192,15 +192,15 @@ Spells may have any number of flags, for example:
 
 For Spells that have an attack type, these are the available damage types:
 
-* "fire"
+* "heat"
 * "acid"
 * "bash"
-* "bio" - internal damage such as poison
+* "biological" - internal damage such as poison
 * "cold"
 * "cut"
 * "electric"
 * "stab"
-* "none" - this damage type goes through armor altogether. it is the default.
+* "pure" - this damage type goes through armor altogether. it is the default.
 
 ### Spells that level up
 
@@ -475,6 +475,28 @@ You can assign a spell as a special attack for a monster.
   }
 
 ```
+
+To add the enchantment to the item, you need to write the id of your enchantment inside `relic_data` field. For example:
+
+```json
+"relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
+
+```
+
+If your enchantment is relatively small, you can write it right in the thing json, using the same syntaxys as the common enchantment. For example:
+
+```json
+"relic_data": {
+  "passive_effects": [
+    {
+      "has": "WORN",
+      "condition": "ALWAYS",
+      "values": [ { "value": "ARMOR_BULLET", "add": 8 }, { "value": "ARMOR_STAB", "add": 3 }, { "value": "ARMOR_CUT", "add": 3 } ]
+    }
+  ]
+}
+```
+
 
 ### Allowed id for values
 
