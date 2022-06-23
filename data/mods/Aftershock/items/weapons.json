@@ -500,5 +500,31 @@
     "power_draw": 1500,
     "revert_to": "heavy_drill",
     "use_action": { "ammo_scale": 0, "target": "heavy_drill", "msg": "You deactivate the drill.", "type": "transform" }
+  },
+  {
+    "id": "exosuit_claw",
+    "type": "ARMOR",
+    "name": { "str_sp": "exosuit claws" },
+    "description": "A pair of oversized and articulated hydraulic gauntlets with fingertips ending in cruel talons.",
+    "weight": "250 g",
+    "volume": "300 ml",
+    "price": 1100,
+    "price_postapoc": 250,
+    "bashing": 50,
+    "cutting": 10,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "qt_steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "power_armor": true,
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OVERSIZED", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   }
 ]
