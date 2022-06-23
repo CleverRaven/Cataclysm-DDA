@@ -1278,7 +1278,8 @@
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
       [ "toilet_paper", 30 ],
       [ "plunger_toilet", 10 ],
-      [ "plunger_futuristic", 25 ]
+      [ "plunger_futuristic", 25 ],
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {
