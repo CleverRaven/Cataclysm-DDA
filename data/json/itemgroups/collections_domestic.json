@@ -238,7 +238,8 @@
       { "item": "vac_pump", "prob": 3 },
       { "item": "recovery_pump", "prob": 3 },
       { "item": "filter_paper_qualitative", "prob": 5 },
-      { "item": "filter_paper_quantitative", "prob": 5 }
+      { "item": "filter_paper_quantitative", "prob": 5 },
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {
@@ -425,6 +426,7 @@
       { "item": "briefcase", "prob": 2 },
       { "item": "trailmap", "prob": 10 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "lighter", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
@@ -1124,7 +1126,8 @@
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },
       { "item": "toilet_paper", "prob": 10 },
-      { "item": "dish_towel", "prob": 20 }
+      { "item": "dish_towel", "prob": 20 },
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {
