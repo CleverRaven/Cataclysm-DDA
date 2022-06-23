@@ -256,7 +256,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "45" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 160,
     "durability": 9,
     "min_cycle_recoil": 1350,
