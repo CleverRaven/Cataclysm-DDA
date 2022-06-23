@@ -122,8 +122,7 @@
       { "monster": "mon_zombie_brute_ninja", "weight": 175 },
       { "monster": "mon_brute_pupa", "weight": 100 },
       { "monster": "mon_brute_pupa_decoy", "weight": 100 },
-      { "monster": "mon_zombie_hulk", "weight": 245 },
-      { "monster": "mon_gas_zombie", "weight": 140 }
+      { "monster": "mon_zombie_hulk", "weight": 245 }
     ]
   },
   {
@@ -201,7 +200,6 @@
       { "monster": "mon_boomer_glutton", "weight": 245 },
       { "monster": "mon_boomer_huge", "weight": 310 },
       { "monster": "mon_zombie_necro_boomer", "weight": 25 },
-      { "monster": "mon_gas_zombie", "weight": 110 },
       { "monster": "mon_zombie_gasbag", "weight": 310 },
       { "monster": "mon_boomer_claymore", "weight": 50 },
       { "monster": "mon_zombie_relax_gasbag", "weight": 50 }
