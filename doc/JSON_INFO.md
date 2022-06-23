@@ -1480,7 +1480,8 @@ Similar to `shopkeeper_consumption_rates`
   "entries": [
       { 
         "item": "hammer",
-        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" } 
+        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+        "message": "<npcname> hates this item"
       },
       { "category": "ammo" },
       { "group": "EXODII_basic_trade" }
@@ -2380,7 +2381,7 @@ at level `2` to the item.
 "purifiable": false, //Sets if the mutation be purified (default: true)
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
-"player_display": true, //Trait is displayed in the `@` player display menu
+"player_display": true, //Trait is displayed in the `@` player display menu and mutations screen
 "vanity": false, //Trait can be changed any time with no cost, like hair, eye color and skin color
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation

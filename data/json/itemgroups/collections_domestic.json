@@ -425,6 +425,7 @@
       { "item": "briefcase", "prob": 2 },
       { "item": "trailmap", "prob": 10 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "lighter", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },

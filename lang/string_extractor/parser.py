@@ -56,6 +56,7 @@ from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
 from .parsers.practice import parse_practice
 from .parsers.scenario import parse_scenario
+from .parsers.shop_blacklist import parse_shopkeeper_blacklist
 from .parsers.skill import parse_skill
 from .parsers.skill_display_type import parse_skill_display_type
 from .parsers.speech import parse_speech
@@ -198,7 +199,7 @@ parsers = {
     "scenario_blacklist": dummy_parser,
     "scent_type": dummy_parser,
     "score": dummy_parser,
-    "shopkeeper_blacklist": dummy_parser,
+    "shopkeeper_blacklist": parse_shopkeeper_blacklist,
     "shopkeeper_consumption_rates": dummy_parser,
     "skill": parse_skill,
     "skill_boost": dummy_parser,

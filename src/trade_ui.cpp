@@ -62,13 +62,21 @@ std::string trade_preset::get_denial( const item_location &loc ) const
 
     if( _u.is_npc() ) {
         npc const &np = *_u.as_npc();
-        if( !np.wants_to_sell( *loc, price, market_price ) ) {
-            return string_format( _( "%s does not want to sell this" ), np.get_name() );
+        ret_val<bool> const ret = np.wants_to_sell( *loc, price, market_price );
+        if( !ret.success() ) {
+            if( ret.str().empty() ) {
+                return string_format( _( "%s does not want to sell this" ), np.get_name() );
+            }
+            return np.replace_with_npc_name( ret.str() );
         }
     } else if( _trader.is_npc() ) {
         npc const &np = *_trader.as_npc();
-        if( !np.wants_to_buy( *loc, price, market_price ) ) {
-            return string_format( _( "%s does not want to buy this" ), np.get_name() );
+        ret_val<bool> const ret = np.wants_to_buy( *loc, price, market_price );
+        if( !ret.success() ) {
+            if( ret.str().empty() ) {
+                return string_format( _( "%s does not want to buy this" ), np.get_name() );
+            }
+            return np.replace_with_npc_name( ret.str() );
         }
     }
 
