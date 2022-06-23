@@ -512,13 +512,21 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
             /*Note: SCROLL_UP/SCROLL_DOWN should by default only trigger on mousewheel,
              * since up/down arrow were handled above */
-        } else if( action == "PAGE_UP" || action == "SCROLL_UP" ) {
+        } else if( action == "SCROLL_UP" ) {
             if( desc_view_ptr ) {
                 desc_view_ptr->scroll_up();
             }
-        } else if( action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
+        } else if( action == "SCROLL_DOWN" ) {
             if( desc_view_ptr ) {
                 desc_view_ptr->scroll_down();
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( desc_view_ptr ) {
+                desc_view_ptr->page_up();
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( desc_view_ptr ) {
+                desc_view_ptr->page_down();
             }
         } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE"
                    || ( action == "ANY_INPUT" && !ev.text.empty() ) ) {
