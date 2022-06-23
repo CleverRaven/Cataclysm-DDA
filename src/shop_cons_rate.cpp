@@ -100,6 +100,7 @@ icg_entry icg_entry_reader::_part_get_next( JsonObject const &jo )
     optional( jo, false, "item", ret.itype );
     optional( jo, false, "category", ret.category );
     optional( jo, false, "group", ret.item_group );
+    optional( jo, false, "message", ret.message );
     if( jo.has_member( "condition" ) ) {
         read_condition<dialogue>( jo, "condition", ret.condition, false );
     }
@@ -167,12 +168,17 @@ int shopkeeper_cons_rates::get_rate( item const &it, npc const &beta ) const
     return default_rate;
 }
 
-bool shopkeeper_blacklist::matches( item const &it, npc const &beta ) const
+icg_entry const *shopkeeper_blacklist::matches( item const &it, npc const &beta ) const
 {
-    return std::any_of( entries.begin(), entries.end(),
+    auto const el = std::find_if( entries.begin(), entries.end(),
     [&it, &beta]( icg_entry const & rit ) {
         return rit.matches( it, beta );
     } );
+    if( el != entries.end() ) {
+        return &*el;
+    }
+
+    return nullptr;
 }
 
 bool shopkeeper_cons_rates::matches( item const &it, npc const &beta ) const

@@ -1491,5 +1491,110 @@
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "test_layout_rows3", "test_layout_rows_in_columns" ]
+  },
+  {
+    "id": "test_bp_bleed_sym_arm_l",
+    "type": "widget",
+    "style": "symbol",
+    "label": "LA : ",
+    "bodypart": "arm_l",
+    "clauses": [
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "│",
+        "color": "c_light_red_white",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "║",
+        "color": "c_red_white",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "║",
+        "color": "c_red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      }
+    ]
+  },
+  {
+    "id": "test_bp_broken_sym_arm_l",
+    "type": "widget",
+    "style": "symbol",
+    "width": 1,
+    "bodypart": "arm_l",
+    "clauses": [
+      {
+        "id": "broken",
+        "text": "broken",
+        "sym": "ℵ",
+        "color": "c_red_white",
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "intact",
+        "text": "intact",
+        "sym": "‖",
+        "color": "c_dark_gray_white",
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_bp_hpgraph_sym_arm_l",
+    "type": "widget",
+    "style": "graph",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "width": 5,
+    "symbols": " ▏▎▍▍▌▋▊▉█",
+    "fill": "bucket",
+    "colors": [ "c_red_white", "c_light_red_white", "c_yellow_white", "c_light_green_white", "c_green_white" ]
+  },
+  {
+    "id": "test_layout_nopad_nested",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_bp_bleed_sym_arm_l", "test_bp_broken_sym_arm_l", "test_bp_hpgraph_sym_arm_l" ]
+  },
+  {
+    "id": "test_row_nopad",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "test_layout_nopad_nested" ]
+  },
+  {
+    "//": "use sidebar width = 36",
+    "id": "test_layout_nopad",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "separator": "",
+    "widgets": [ "test_row_nopad", "test_row_nopad", "test_row_nopad" ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "//": "use sidebar width = 36",
+    "id": "test_layout_nopad_noflag",
+    "type": "widget",
+    "copy-from": "test_layout_nopad",
+    "flags": [  ]
   }
 ]

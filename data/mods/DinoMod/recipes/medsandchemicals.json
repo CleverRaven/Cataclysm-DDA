@@ -14,7 +14,13 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "egg_dino_theropod", 1 ], [ "egg_velociraptor", 1 ], [ "egg_deinonychus", 1 ], [ "egg_utahraptor", 1 ] ],
+      [
+        [ "egg_velociraptor", 1 ],
+        [ "egg_deinonychus", 1 ],
+        [ "egg_utahraptor", 1 ],
+        [ "egg_dromaeosaurus", 1 ],
+        [ "egg_stenonychosaurus", 1 ]
+      ],
       [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ]
   },
@@ -33,7 +39,14 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "egg_dino", 1 ], [ "egg_ankylosaurus", 1 ], [ "egg_stegosaurus", 1 ], [ "egg_pachycephalosaurus", 1 ] ],
+      [
+        [ "egg_edmontonia", 1 ],
+        [ "egg_nodosaurus", 1 ],
+        [ "egg_ankylosaurus", 1 ],
+        [ "egg_dyoplosaurus", 1 ],
+        [ "egg_stegosaurus", 1 ],
+        [ "egg_scutellosaurus", 1 ]
+      ],
       [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ]
   },
@@ -53,9 +66,12 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [
-        [ "egg_dino_theropod", 1 ],
-        [ "egg_allosaurus", 1 ],
-        [ "egg_acrocanthosaurus", 1 ],
+        [ "egg_dryptosaurus", 1 ],
+        [ "egg_appalachiosaurus", 1 ],
+        [ "egg_gorgosaurus", 1 ],
+        [ "egg_albertosaurus", 1 ],
+        [ "egg_qianzhousaurus", 1 ],
+        [ "egg_daspletosaurus", 1 ],
         [ "egg_tyrannosaurus", 1 ]
       ],
       [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
