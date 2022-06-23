@@ -2205,19 +2205,18 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, _fac_id( you ) ) ||
                 ( mgr.has_near( zone_type_zone_strip, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
                 if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
+                    //Check if on a cargo part
+                    if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+                            false ) ) {
+                        dest_veh = &vp->vehicle();
+                        dest_part = vp->part_index();
+                    } else {
+                        dest_veh = nullptr;
+                        dest_part = -1;
+                    }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) ) {
-                            //here.add_item_or_charges( src_loc, it->first->remove_item( *contained ) );
-                            //Check if on a cargo part
-                            if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                                    false ) ) {
-                                dest_veh = &vp->vehicle();
-                                dest_part = vp->part_index();
-                            } else {
-                                dest_veh = nullptr;
-                                dest_part = -1;
-                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
@@ -2225,16 +2224,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) ) {
-                            //here.add_item_or_charges( src_loc, it->first->remove_item( *contained ) );
-                            //Check if on a cargo part
-                            if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                                    false ) ) {
-                                dest_veh = &vp->vehicle();
-                                dest_part = vp->part_index();
-                            } else {
-                                dest_veh = nullptr;
-                                dest_part = -1;
-                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
@@ -2242,16 +2231,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) ) {
-                            //here.add_item_or_charges( src_loc, it->first->remove_item( *contained ) );
-                            //Check if on a cargo part
-                            if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                                    false ) ) {
-                                dest_veh = &vp->vehicle();
-                                dest_part = vp->part_index();
-                            } else {
-                                dest_veh = nullptr;
-                                dest_part = -1;
-                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
