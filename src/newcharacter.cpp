@@ -1830,7 +1830,7 @@ tab_direction set_loadout( avatar &u, pool_type pool )
                        "                                             " ); // Clear the line
 
             nc_color col;
-            if( u.lo_hobbies.count( &sorted_loadouts[i].obj() ) != 0 ) {
+            if( u.loadouts.count( &sorted_loadouts[i].obj() ) != 0 ) {
                 col = ( cur_id_is_valid &&
                         sorted_loadouts[i] == sorted_loadouts[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             } else {
@@ -1909,7 +1909,7 @@ tab_direction set_loadout( avatar &u, pool_type pool )
 
     do {
         if( recalc_profs ) {
-            sorted_loadouts = loadout::get_all_hobbies();
+            sorted_loadouts = loadout::get_all_loadouts();
 
             // Remove items based on filter
             const auto new_end = std::remove_if( sorted_loadouts.begin(),
@@ -1987,12 +1987,12 @@ tab_direction set_loadout( avatar &u, pool_type pool )
             bool conflict_found = false;
             /*for (const trait_id& new_trait : prof->get_locked_traits()) {
                 if (u.has_conflicting_trait(new_trait)) {
-                    for (const loadout* lo_hobby : u.lo_hobbies) {
-                        for (const trait_id& suspect_trait : hobby->get_locked_traits()) {
+                    for (const loadout* loadout : u.loadouts) {
+                        for (const trait_id& suspect_trait : loadout->get_locked_traits()) {
                             if (are_conflicting_traits(new_trait, suspect_trait)) {
                                 conflict_found = true;
                                 popup(_("The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]."), new_trait->name(),
-                                    hobby->gender_appropriate_name(u.male), suspect_trait->name());
+                                    loadout->gender_appropriate_name(u.male), suspect_trait->name());
                             }
                         }
                     }
@@ -2004,13 +2004,13 @@ tab_direction set_loadout( avatar &u, pool_type pool )
 
             // Toggle hobby
             bool enabling = false;
-            if( u.lo_hobbies.count( prof ) == 0 ) {
+            if( u.loadouts.count( prof ) == 0 ) {
                 // Add hobby, and decrement point cost
-                u.lo_hobbies.insert( prof );
+                u.loadouts.insert( prof );
                 enabling = true;
             } else {
                 // Remove hobby and refund point cost
-                u.lo_hobbies.erase( prof );
+                u.loadouts.erase( prof );
             }
 
             // Add or remove traits from hobby

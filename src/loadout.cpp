@@ -131,10 +131,15 @@ void loadout::load( const JsonObject &jo, const std::string & )
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
         JsonObject name_obj = jo.get_object( "name" );
+        _name_male = to_translation( "profession_male", name_obj.get_string( "male" ) );
+        _name_female = to_translation( "profession_female", name_obj.get_string( "female" ) );
     } else if( jo.has_string( "name" ) ) {
         // Same profession names for male and female in English.
         // Still need to different names in other languages.
         const std::string name = jo.get_string( "name" );
+        _name = to_translation( name );
+        _name_female = to_translation( name );
+        _name_male = to_translation( name );
     } else if( !was_loaded ) {
         jo.throw_error( "missing mandatory member \"name\"" );
     }
@@ -161,6 +166,9 @@ void loadout::load( const JsonObject &jo, const std::string & )
             desc_male = desc;
             desc_female = desc;
         }
+        _description = to_translation( desc );
+        _description_female = to_translation( desc );
+        _description_male = to_translation( desc );
     }
     if( jo.has_string( "allow_hobbies" ) ) {
         bool allow_hobbies;
@@ -252,17 +260,17 @@ const std::vector<loadout> &loadout::get_all()
     return all_loadouts.get_all();
 }
 
-std::vector<string_id<loadout>> loadout::get_all_hobbies()
+std::vector<string_id<loadout>> loadout::get_all_loadouts()
 {
     std::vector<loadout> all = loadout::get_all();
     std::vector<loadout_id> ret;
 
     // remove all non-hobbies from list of professions
-    const auto new_end = std::remove_if( all.begin(),
-    all.end(), [&]( const loadout & arg ) {
-        return !arg.is_hobby();
-    } );
-    all.erase( new_end, all.end() );
+    // const auto new_end = std::remove_if( all.begin(),
+    //all.end(), [&]( const loadout & arg ) {
+    //   return !arg.is_hobby();
+    //} );
+    //all.erase( new_end, all.end() );
 
     // convert to string_id's then return
     for( const loadout &p : all ) {
@@ -368,6 +376,15 @@ bool loadout::has_initialized()
 const string_id<loadout> &loadout::ident() const
 {
     return id;
+}
+
+std::string loadout::gender_appropriate_name( bool male ) const
+{
+    if( male ) {
+        return _name_male.translated();
+    } else {
+        return _name_female.translated();
+    }
 }
 
 std::string loadout::name() const

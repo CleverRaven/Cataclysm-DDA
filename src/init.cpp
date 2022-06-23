@@ -580,6 +580,7 @@ void DynamicDataLoader::unload_data()
     item_controller->reset();
     json_flag::reset();
     limb_score::reset();
+    loadout::reset();
     mapgen_palette::reset();
     materials::reset();
     mission_type::reset();
@@ -795,6 +796,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Crafting recipes" ), &recipe_dictionary::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
             { _( "Scenarios" ), &scenario::check_definitions },
+            { _( "Loadouts" ), &loadout::check_definitions },
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
