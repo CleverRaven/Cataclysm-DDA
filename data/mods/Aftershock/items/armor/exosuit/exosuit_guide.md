@@ -7,7 +7,7 @@ The frame of the exosuit is a relatively simple design, easy to manufacture.  A 
 ### Underlayer
 These are comfortable jumpsuits specially designed to integrate with the frame.  Underlayers are not required for operation, but prevent accidental injury as the frame moves.  Specialized undersuits are built for various environments or combat.
 ### PSU
-Exosuits typically use a single large power supply unit, attached to the back.  Auxiliary batteries can be attached as well, extending the runtime. 
+Exosuits typically use a single large power supply unit, attached to the back.  Auxiliary batteries can be attached as well across the frame, extending the runtime. 
 
 | Name        | Capacity | Fuel    | Weight
 | ---         | ---      | ---     | ---
@@ -27,9 +27,28 @@ Each plating has a minimum weight of 500 g to represent the connection points.  
 | Vaccum-cast Carbide  | 65.41 kg 
    
 ### Modules
-A variety of modules are available, ranging from sensor packages to batteries to load-bearing modules to jetpacks.  These are built in a swappable black box configuration, requiring only that the module be mounted on the suit's connection points.  Modules come in Small, Medium, Large, and Helmet, with the last only designed to work with the exosuit helmet.
+A variety of modules are available, ranging from sensor packages to batteries to load-bearing modules to jetpacks.  These are built in a swappable black box configuration, requiring only that the module be mounted on the suit's connection points. 
 
-| Module         | Size   | Power Draw | Weight | Description
+Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can only be mounted in the exosuit helmet, and the PSU has a unique slot off of the torso.  Modules cannot exceed the volume or weight of the module class. Small and medium modules can fit into larger module slots.
+
+
+| Module Class | Volume | Weight
+| ---          | ---    | ---   
+| Large        |  10 L  |  10 kg | No         | No          | No        | No        | Yes
+| Medium       |  2.5 L |   5 kg |
+| Small        |  0.5 L | 0.5 kg | 
+| Helmet       | 0.25 L | 0.5 kg | Yes        | No          | No        | No        | No
+| PSU          |  25 L  |  25 kg | No
+
+| Location | Weight Cap | Volume Cap | Large | Medium | Small | Helmet | PSU
+| ---      | ---        | ---        | ---   | ---    | ---   | ---    | ---
+| Helmet   |  2 L       |  5 kg      | No    | Yes    | Yes   | No     | No
+| Torso    |  4 L       | 15 kg      | No    | Yes    | Yes   | No     | No 
+| Arm      | 10 L       | 10 kg      | No    | Yes    | Yes   | No     | No
+| Leg      | 10 L       | 10 kg      | No    | Yes    | Yes   | No     | No
+| PSU      | 25 L       | 25 L       | Yes   | Yes    | Yes   | No     | Yes
+
+| Module         | Class  | Power Draw | Weight | Description
 | ---            | ---    | ---        | ---    | ---
 | Large Support  | Large  | 1500       | 10 kg  | Adds an additional 30 kg of carry weight while active.
 | Small Support  | Small  | 1000       |  2 kg  | Adds an additional 20 kg of carry weight while active.
@@ -43,12 +62,19 @@ A variety of modules are available, ranging from sensor packages to batteries to
 | Forcefield     | Medium | 5000       |  5 kg  | Toggles between 25 bash/cut or 40 ballistic/pierce protection.
 | Med Injector   | Small  | ---        | 500 g  | Injects RA21E to treat injuries.
 
+| Storage Module | Volume Cap | Weight Cap | Size   | Weight | Description
+| ---            | ---        | ---        | ---    | ---    | ---
+| Rifle Storage  | 9 L        | 10 kg      | Large  | 500 g  | As item Back Holster
+| Melee Storage  | 3750 ml    |  5 kg      | Medium | 500 g 
+
 ### Operation
 The basic operation is based on the frame mirroring the pilot's motions.  This works well for movement, though fine manipulation takes practice as pilots must adapt to the suit's feedback.  Once certified, a pilot receives additional training in their field, learning to use their specialized equipemnt.  The exosuit is easily outfitted for hazardous environments ranging from frozen tundra to burning deserts, from underwater to orbit.
 
 ### Repairs
 The frame itself is somewhat difficulty to repair due to the complex components and the titanium used.
-Plating (aside from carbide) can be field repaired as long as the plate has not been completely destroyed.  Destroyed plates can have their connectors salvaged and used to create new plates with the right equipment.  Modules are complicated electronics packed into very tight containers, making repairs extremely difficult.
+Plating (aside from carbide) can be field repaired as long as the plate has not been completely destroyed.  Destroyed plates can have their connectors salvaged and used to create new plates with the right equipment.  Modules are complicated electronics packed into very tight containers, making repairs extremely difficult.  Specialized toolkits are issued for each frame allowing field repairs, and powered gantries are available to support the suit for more intensive repairs while recharging.
+See Exosuit Repair Kit, Exosuit Maintenance Gantry
+
 
 # Balance
 ### Power Consumption

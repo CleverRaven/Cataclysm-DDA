@@ -50,34 +50,12 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Torso compartment (Large)",
+        "name": "Torso hardpoints",
         "description": "This is a mount for storing items in the torso.",
         "rigid": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "15 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Torso compartment (Small)",
-        "description": "This is a mount for storing items in the torso.",
-        "rigid": true,
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Torso compartment (Small)",
-        "description": "This is a mount for storing items in the torso.",
-        "rigid": true,
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 60
       },
@@ -106,48 +84,14 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Arm hardpoint 1 (Gadget)",
+        "name": "Arm hardpoints",
         "description": "This is a mount for storing items on the arms.",
         "rigid": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Arm hardpoint 2 (Gadget)",
-        "description": "This is a mount for storing items on the arms.",
-        "rigid": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Arm hardpoint 1 (Small)",
-        "description": "This is a small mount for storing items on the arms.",
-        "rigid": true,
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Arm hardpoint 2 (Small)",
-        "description": "This is a small mount for storing items on the arms.",
-        "rigid": true,
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
-        "moves": 60
-      },
       {
         "pocket_type": "CONTAINER",
         "name": "Leg compartment (Plate)",
@@ -162,48 +106,15 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Leg hardpoint 1 (Large)",
+        "name": "Leg hardpoints",
         "description": "This is a mount for storing items on the legs.",
         "rigid": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 60
       },
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Leg hardpoint 2 (Large)",
-        "description": "This is a mount for storing items on the legs.",
-        "rigid": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Leg hardpoint 1 (Small)",
-        "description": "This is a small mount for storing items on the legs.",
-        "rigid": true,
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Leg hardpoint 2 (Small)",
-        "description": "This is a small mount for storing items on the legs.",
-        "rigid": true,
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
-        "moves": 60
-      }
     ],
     "armor": [
       {
