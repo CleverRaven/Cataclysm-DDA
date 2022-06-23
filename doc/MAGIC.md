@@ -491,7 +491,12 @@ If your enchantment is relatively small, you can write it right in the thing jso
     {
       "has": "WORN",
       "condition": "ALWAYS",
-      "values": [ { "value": "ARMOR_BULLET", "add": 8 }, { "value": "ARMOR_STAB", "add": 3 }, { "value": "ARMOR_CUT", "add": 3 } ]
+      "values": [
+        { "value": "ARMOR_CUT", "add": -4 },
+        { "value": "ARMOR_BASH", "add": -4 },
+        { "value": "ARMOR_STAB", "add": -4 },
+        { "value": "ARMOR_BULLET", "add": -2 }
+      ]    
     }
   ]
 }
