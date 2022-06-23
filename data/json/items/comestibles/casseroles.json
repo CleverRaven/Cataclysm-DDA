@@ -15,6 +15,7 @@
     "description": "It’s cheesy and indulgent, although the mix of tender kernels of corn, veggies, fresh herbs, and a pop of heat keep it in check so it’s not too heavy for the apocalypse.",
     "price": 50,
     "price_postapoc": 100,
+    "material": [ "veggy", "milk" ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -33,6 +34,7 @@
     "description": "Fish noodle casserole is a casserole primarily made with pasta and canned tuna, with canned peas and corn sometimes added.",
     "price": 50,
     "price_postapoc": 100,
+    "material": [ "flesh", "wheat", "veggy" ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -51,6 +53,7 @@
     "description": "New England classic casserole with made with butter, lobster, and crackers, in roughly that order.",
     "price": 60,
     "price_postapoc": 150,
+    "material": ["flesh", "wheat", "milk" ],
     "flags": [ "EATEN_HOT" ]
   }
 ]
