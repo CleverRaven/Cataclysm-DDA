@@ -92,6 +92,7 @@
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 60
+	  },
       {
         "pocket_type": "CONTAINER",
         "name": "Leg compartment (Plate)",
@@ -114,7 +115,7 @@
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 60
-      },
+      }
     ],
     "armor": [
       {
@@ -122,7 +123,7 @@
         "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 40,
         "encumbrance": 20,
-        "layers": "OUTER"
+        "layers": [ "OUTER" ]
       },
       {
         "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],

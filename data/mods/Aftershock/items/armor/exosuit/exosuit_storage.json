@@ -40,7 +40,7 @@
     "weight": "2250 g",
     "volume": "15 L",
     "material": [ "kevlar", "plastic" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_LARGE_GADGET" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_LARGE_GADGET" ]
   },
   {
     "id": "exo_medium_storage",
@@ -48,14 +48,14 @@
     "copy-from": "fanny",
     "repairs_like": "fanny",
     "looks_like": "holster",
-    "color": "green"
+    "color": "green",
     "symbol": "[",
     "name": { "str": "medium pouch (exosuit)", "str_pl": "medium pouches (exosuit)" },
     "description": "A medium storage pouch, mountable on a hardpoint.",
     "weight": "275 g",
     "volume": "2500 ml",
     "material": [ "nylon", "plastic" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_MEDIUM_GADGET" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_MEDIUM_GADGET" ]
   },
   {
     "id": "exo_small_storage",
@@ -64,13 +64,13 @@
     "looks_like": "holster",
     "repairs_like": "fanny",
     "symbol": "[",
-    "color": "green"
+    "color": "green",
     "name": { "str": "small pouch (exosuit)", "str_pl": "small pouches (exosuit)" },
     "description": "A small storage pouch, mountable on a hardpoint.",
     "weight": "125 g",
     "volume": "1050 ml",
     "material": [ "nylon", "plastic" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_SMALL_GADGET" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_SMALL_GADGET" ]
   },
   {
     "id": "exo_large_ammo_pouch",
@@ -78,7 +78,7 @@
     "copy-from": "tacvest",
     "looks_like": "tacvest",
     "symbol": "[",
-    "color": "dark_gray"
+    "color": "dark_gray",
     "name": { "str_sp": "large ammo pouches (exosuit)" },
     "description": "A set of pouches that attach to a hardpoint.",
     "weight": "1750 g",
