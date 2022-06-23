@@ -1339,6 +1339,7 @@ void creator::spell_window::populate_fields()
             id_box.setText ( QString( sp_t.id.c_str() ) );
             name_box.setText( QString( sp_t.name.translated().c_str() ) );
             description_box.setPlainText( QString( sp_t.description.translated().c_str() ) );
+
             int index = effect_box.findText( sp_t.effect_name.c_str() );
             if ( index != -1 ) { // -1 for not found
                 effect_box.setCurrentIndex( index );
@@ -1471,7 +1472,7 @@ void creator::spell_window::populate_fields()
 
             std::string field = sp_t.field->id().str();
             field_type_id fieldid = sp_t.field->id();
-            field_id_box.setCurrentIndex(field_id_box.findText(QString("NONE")));
+            field_id_box.setCurrentIndex( field_id_box.findText( QString( "NONE" ) ) );
             if(sp_t.field) {
                 index = field_id_box.findText( QString( field.c_str() ) );
                 if ( index != -1 ) {
@@ -1480,11 +1481,25 @@ void creator::spell_window::populate_fields()
             }
 
             field_chance_box.setValue( sp_t.field_chance );
-            field_intensity_increment_box.setValue( sp_t.field_intensity_increment);
-            min_field_intensity_box.setValue( sp_t.min_field_intensity);
-            max_field_intensity_box.setValue( sp_t.max_field_intensity);
-            field_intensity_variance_box.setValue( sp_t.field_intensity_variance);
+            field_intensity_increment_box.setValue( sp_t.field_intensity_increment );
+            min_field_intensity_box.setValue( sp_t.min_field_intensity );
+            max_field_intensity_box.setValue( sp_t.max_field_intensity );
+            field_intensity_variance_box.setValue( sp_t.field_intensity_variance );
             
+
+
+            sound_description_box.setText( QString( sp_t.sound_description.translated().c_str() ) );
+            index = sound_type_box.findText( QString( io::enum_to_string( sp_t.sound_type ).c_str() ) );
+            if( index != -1 ) {
+                sound_type_box.setCurrentIndex( index );
+            }
+            sound_id_box.setText( QString( sp_t.sound_id.c_str() ) );
+            sound_variant_box.setText( QString( sp_t.sound_variant.c_str() ) );
+            sound_ambient_box.setCheckState(Qt::Unchecked);
+            if( sp_t.sound_ambient ) {
+                sound_ambient_box.setCheckState( Qt::Checked );
+            }
+
             
             QStringList mon_ids;
             for( const mtype_id& mon_id : sp_t.targeted_monster_ids ) {
