@@ -2569,7 +2569,7 @@
     "name": { "str": "great mantis", "str_pl": "great mantises" },
     "description": "This ferocious cow-sized mantis stalks the fields of New England.  It's probably capable of killing a moose with its powerful arms.",
     "copy-from": "mon_mantis_giant",
-    "proportional": { "hp": 10, "speed": 0.25, "vision_day": 2 },
+    "proportional": { "hp": 3, "speed": 0.25, "vision_day": 2 },
     "volume": "625 L",
     "symbol": "M",
     "color": "red_green",
