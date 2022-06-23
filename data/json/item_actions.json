@@ -822,7 +822,7 @@
   {
     "type": "item_action",
     "id": "MANAGE_EXOSUIT",
-    "name": { "str": "Manage exoskeleton modules" }
+    "name": { "str": "Manage exosuit modules" }
   },
   {
     "type": "item_action",
