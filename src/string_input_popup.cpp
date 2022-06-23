@@ -122,8 +122,10 @@ void string_input_popup::create_context()
 #endif
     ctxt->register_action( "TEXT.INPUT_FROM_FILE" );
     ctxt->register_action( "HELP_KEYBINDINGS" );
-    ctxt->register_action( "SCROLL_INFOBOX_UP" );
-    ctxt->register_action( "SCROLL_INFOBOX_DOWN" );
+    ctxt->register_action( "PAGE_UP" );
+    ctxt->register_action( "PAGE_DOWN" );
+    ctxt->register_action( "SCROLL_UP" );
+    ctxt->register_action( "SCROLL_DOWN" );
     ctxt->register_action( "ANY_INPUT" );
 }
 
@@ -508,11 +510,13 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             if( _position < static_cast<int>( ret.size() ) ) {
                 ret.erase( _position, 1 );
             }
-        } else if( action == "SCROLL_INFOBOX_UP" ) {
+            /*Note: SCROLL_UP/SCROLL_DOWN should by default only trigger on mousewheel,
+             * since up/down arrow were handled above */
+        } else if( action == "PAGE_UP" || action == "SCROLL_UP" ) {
             if( desc_view_ptr ) {
                 desc_view_ptr->scroll_up();
             }
-        } else if( action == "SCROLL_INFOBOX_DOWN" ) {
+        } else if( action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
             if( desc_view_ptr ) {
                 desc_view_ptr->scroll_down();
             }
