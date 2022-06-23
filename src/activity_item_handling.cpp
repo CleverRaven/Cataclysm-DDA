@@ -2216,21 +2216,21 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
-                        if( !contained->made_of( phase_id::LIQUID ) ) {
+                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
                     }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
-                        if( !contained->made_of( phase_id::LIQUID ) ) {
+                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
                     }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
                         // no liquids don't want to spill stuff
-                        if( !contained->made_of( phase_id::LIQUID ) ) {
+                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
