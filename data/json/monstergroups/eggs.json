@@ -158,6 +158,11 @@
   {
     "name": "GROUP_EGG_LADY_BUG",
     "type": "monstergroup",
+    "monsters": [ { "monster": "mon_lady_bug" } ]
+  },
+  {
+    "name": "GROUP_EGG_LADY_BUG_GIANT",
+    "type": "monstergroup",
     "monsters": [ { "monster": "mon_lady_bug_giant" } ]
   },
   {

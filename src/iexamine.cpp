@@ -4772,8 +4772,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    cmenu.addentry( 3, true, 'p', _( "Peek down." ) );
     if( you.has_flag( json_flag_WALL_CLING ) ) {
-        cmenu.addentry( 3, true, 'C', _( "Crawl down." ) );
+        cmenu.addentry( 4, true, 'C', _( "Crawl down." ) );
     }
 
     cmenu.query();
@@ -4925,6 +4926,27 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case 3: {
+            // Peek
+            tripoint where = examp;
+            tripoint below = examp;
+            below.z--;
+            while( here.valid_move( where, below, false, true ) ) {
+                where.z--;
+                below.z--;
+            }
+
+            const int height = examp.z - where.z;
+            add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", height );
+            if( height == 0 ) {
+                you.add_msg_if_player( _( "You can't peek down there." ) );
+                return;
+            }
+
+            g->peek( where );
+            you.add_msg_if_player( _( "You peek over the ledge." ) );
+            break;
+        }
+        case 4: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;

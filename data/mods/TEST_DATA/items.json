@@ -3666,5 +3666,28 @@
         "encumbrance": 15
       }
     ]
+  },
+  {
+    "id": "test_consolidate",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "Item that should be simpler" },
+    "description": "This item should have only 1 armor entry in game since these three are identical.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "robe",
+    "color": "white",
+    "warmth": 10,
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 10 }
+    ]
   }
 ]

@@ -434,17 +434,57 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     } while( action != "CONFIRM" && action != "QUIT" );
 }
 
-// returns single string with left aligned name and right aligned value
-std::string name_and_value( const std::string &name, const std::string &value, int field_width )
+/*If name and value fit in field_width, should add a single string equivalent to trimmed_name_and_value
+ *If the name would not fit, it is folded, preserving an empty column for values, and
+ *The resulting vector of strings is returned
+ */
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                const std::string &value, const int field_width )
 {
-    const int text_width = utf8_width( name ) + utf8_width( value );
-    const int spacing = std::max( field_width, text_width ) - text_width;
-    return name + std::string( spacing, ' ' ) + value;
+    const int name_width = utf8_width( name );
+    const int value_width = utf8_width( value );
+    if( name_width + value_width + 1 >= field_width ) {
+        if( value_width >= field_width ) {
+            debugmsg( "Unable to fit name (%s) and value (%s) in available space (%i)", name, value,
+                      field_width );
+        } else {
+            std::vector<std::string> new_lines;
+            new_lines = foldstring( name, field_width - value_width );
+            const int spacing = field_width - utf8_width( new_lines.back() ) - value_width;
+            new_lines.back() = new_lines.back() + std::string( spacing, ' ' ) + value;
+            current_vector.insert( current_vector.end(), new_lines.begin(), new_lines.end() );
+        }
+    } else {
+        const int spacing = field_width - name_width - value_width;
+        current_vector.emplace_back( name + std::string( spacing, ' ' ) + value );
+    }
 }
 
-std::string name_and_value( const std::string &name, int value, int field_width )
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                const int value, const int field_width )
 {
-    return name_and_value( name, string_format( "%d", value ), field_width );
+    add_folded_name_and_value( current_vector, name, string_format( "%d", value ), field_width );
+}
+
+// returns single string with left aligned name and right aligned value
+std::string trimmed_name_and_value( const std::string &name, const std::string &value,
+                                    const int field_width )
+{
+    const int text_width = utf8_width( name ) + utf8_width( value );
+    if( text_width >= field_width ) {
+        //Since it's easier to abbreviate a string than a number, try to preserve the value
+        std::string trimmed_name = trim_by_length( name, field_width - utf8_width( value ) - 1 );
+        return trimmed_name + " " + value;
+    } else {
+        const int spacing = field_width - text_width;
+        return name + std::string( spacing, ' ' ) + value;
+    }
+}
+
+std::string trimmed_name_and_value( const std::string &name, int const value,
+                                    const int field_width )
+{
+    return trimmed_name_and_value( name, string_format( "%d", value ), field_width );
 }
 
 void center_print( const catacurses::window &w, const int y, const nc_color &FG,

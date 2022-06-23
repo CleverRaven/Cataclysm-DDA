@@ -15,6 +15,8 @@
 #include "weather_type.h"
 #include "widget.h"
 
+#include <clocale>
+
 // Needed for screen scraping
 #if !(defined(TILES) || defined(_WIN32))
 namespace cata_curses_test
@@ -106,6 +108,8 @@ static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
 static const widget_id widget_test_hunger_clause( "test_hunger_clause" );
 static const widget_id widget_test_int_color_num( "test_int_color_num" );
 static const widget_id widget_test_layout_cols_in_cols( "test_layout_cols_in_cols" );
+static const widget_id widget_test_layout_nopad( "test_layout_nopad" );
+static const widget_id widget_test_layout_nopad_noflag( "test_layout_nopad_noflag" );
 static const widget_id widget_test_layout_rows_in_columns( "test_layout_rows_in_columns" );
 static const widget_id widget_test_lighting_clause( "test_lighting_clause" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
@@ -2361,4 +2365,183 @@ TEST_CASE( "widget rows in columns", "[widget]" )
         widget wgt = widget_test_layout_cols_in_cols.obj();
         CHECK( wgt.layout( ava, 68 ) == expected );
     }
+}
+
+static void test_widget_flag_nopad( const bodypart_id &bid, int bleed_int, avatar &ava,
+                                    const widget_id &wgt, bool skip_pad )
+{
+    const int width = 36;
+    const int max_hp = ava.get_part_hp_max( bid );
+    widget w = wgt.obj();
+
+    std::string bleed_txt;
+    if( bleed_int <= 0 ) {
+        bleed_txt.clear();
+    } else if( bleed_int < 11 ) {
+        bleed_txt = "<color_c_light_red_white>│</color>";
+    } else if( bleed_int < 21 ) {
+        bleed_txt = "<color_c_red_white>║</color>";
+    } else {
+        bleed_txt = "<color_c_red_red>║</color>";
+    }
+
+    std::string broken_txt = "<color_c_dark_gray_white>‖</color>";
+
+    GIVEN( "left arm HP full" ) {
+        REQUIRE( ava.get_part_hp_cur( bid ) == max_hp );
+        REQUIRE( !ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt +
+                                    "<color_c_green_white>█████</color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_green_white>█…</color>  "
+                   "LA…  " + broken_txt + "   <color_c_green_white>█…</color>  "
+                   "L…  " + broken_txt + "   <color_c_green_white>█…</color>" );
+        }
+    }
+    GIVEN( "left arm HP 3/4" ) {
+        ava.set_part_hp_cur( bid, ( max_hp * 3 ) / 4 );
+        REQUIRE( ava.get_part_hp_cur( bid ) == ( max_hp * 3 ) / 4 );
+        REQUIRE( !ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt +
+                                    "<color_c_light_green_white>███▋ </color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_light_green_white>█…</color>  "
+                   "LA…  " + broken_txt + "   <color_c_light_green_white>█…</color>  "
+                   "L…  " + broken_txt + "   <color_c_light_green_white>█…</color>" );
+        }
+    }
+    GIVEN( "left arm HP 1/2" ) {
+        ava.set_part_hp_cur( bid, max_hp / 2 );
+        REQUIRE( ava.get_part_hp_cur( bid ) == max_hp / 2 );
+        REQUIRE( !ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt +
+                                    "<color_c_yellow_white>██▍  </color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_yellow_white>█…</color>  "
+                   "LA…  " + broken_txt + "   <color_c_yellow_white>█…</color>  "
+                   "L…  " + broken_txt + "   <color_c_yellow_white>█…</color>" );
+        }
+    }
+    GIVEN( "left arm HP 1/4" ) {
+        ava.set_part_hp_cur( bid, max_hp / 4 );
+        REQUIRE( ava.get_part_hp_cur( bid ) == max_hp / 4 );
+        REQUIRE( !ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt +
+                                    "<color_c_light_red_white>█▎   </color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_light_red_white>█…</color>  "
+                   "LA…  " + broken_txt + "   <color_c_light_red_white>█…</color>  "
+                   "L…  " + broken_txt + "   <color_c_light_red_white>█…</color>" );
+        }
+    }
+    GIVEN( "left arm HP 0" ) {
+        broken_txt = "<color_c_red_white>ℵ</color>";
+        ava.set_part_hp_cur( bid, 0 );
+        REQUIRE( ava.get_part_hp_cur( bid ) == 0 );
+        REQUIRE( ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt + "<color_c_red_white>     </color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_red_white> …</color>  "
+                   "LA…  " + broken_txt + "   <color_c_red_white> …</color>  "
+                   "L…  " + broken_txt + "   <color_c_red_white> …</color>" );
+        }
+    }
+}
+
+TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+    clear_map();
+    ava.reset_all_missions();
+    ava.set_focus( 100 );
+    ava.movecounter = 0;
+
+    // workaround for mbstowcs to process multibyte utf-8 chars
+    setlocale( LC_ALL, "" );
+
+    SECTION( "without flag" ) {
+        const widget_id &wgt = widget_test_layout_nopad_noflag;
+        REQUIRE( !wgt->has_flag( "W_NO_PADDING" ) );
+
+        GIVEN( "left arm bleed intensity = 0" ) {
+            REQUIRE( !ava.has_effect( effect_bleed, body_part_arm_l ) );
+            test_widget_flag_nopad( body_part_arm_l, 0, ava, wgt, false );
+        }
+
+        GIVEN( "left arm bleed intensity = 1" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 1 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 1 );
+            test_widget_flag_nopad( body_part_arm_l, 1, ava, wgt, false );
+        }
+
+        GIVEN( "left arm bleed intensity = 11" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 11 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 11 );
+            test_widget_flag_nopad( body_part_arm_l, 11, ava, wgt, false );
+        }
+
+        GIVEN( "left arm bleed intensity = 21" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 21 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 21 );
+            test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, false );
+        }
+    }
+
+    SECTION( "with flag" ) {
+        const widget_id &wgt = widget_test_layout_nopad;
+        REQUIRE( wgt->has_flag( "W_NO_PADDING" ) );
+
+        GIVEN( "left arm bleed intensity = 0" ) {
+            REQUIRE( !ava.has_effect( effect_bleed, body_part_arm_l ) );
+            test_widget_flag_nopad( body_part_arm_l, 0, ava, wgt, true );
+        }
+
+        GIVEN( "left arm bleed intensity = 1" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 1 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 1 );
+            test_widget_flag_nopad( body_part_arm_l, 1, ava, wgt, true );
+        }
+
+        GIVEN( "left arm bleed intensity = 11" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 11 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 11 );
+            test_widget_flag_nopad( body_part_arm_l, 11, ava, wgt, true );
+        }
+
+        GIVEN( "left arm bleed intensity = 21" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 21 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 21 );
+            test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, true );
+        }
+    }
+
+    setlocale( LC_ALL, "C" );
 }

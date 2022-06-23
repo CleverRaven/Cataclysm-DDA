@@ -1,0 +1,20 @@
+[
+  {
+    "type": "SPELL",
+    "id": "spell_exosuit_jetpack",
+    "name": "Jetpack Flight",
+    "description": "You squat down, build up tension in your legs and release.  You have the ability to target and land in the way to do maximum damage to any target in your way.  Death from above.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE" ],
+    "message": "",
+    "effect": "dash",
+    "effect_str": "downed",
+    "shape": "cone",
+    "min_range": 3,
+    "max_range": 3,
+    "spell_class": "NONE",
+    "difficulty": -20,
+    "max_level": 1,
+    "energy_source": "NONE"
+  }
+]

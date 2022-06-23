@@ -294,7 +294,7 @@ TEST_CASE( "items spawn in their default containers", "[item]" )
     check_spawning_in_container( "water" );
     check_spawning_in_container( "gunpowder" );
     check_spawning_in_container( "nitrox" );
-    check_spawning_in_container( "ammonia" );
+    check_spawning_in_container( "ammonia_hydroxide" );
     check_spawning_in_container( "detergent" );
     check_spawning_in_container( "pale_ale" );
     check_spawning_in_container( "single_malt_whiskey" );
@@ -744,6 +744,15 @@ TEST_CASE( "item_material_density_sanity_check", "[item][!mayfail]" )
             }
         }
     }
+}
+
+TEST_CASE( "armor_entry_consolidate_check", "[item][armor]" )
+{
+    item test_consolidate( "test_consolidate" );
+
+    //check this item has a single armor entry, not 3 like is written in the json explicitly
+
+    CHECK( test_consolidate.find_armor_data()->sub_data.size() == 1 );
 }
 
 TEST_CASE( "rigid_armor_compliance", "[item][armor]" )

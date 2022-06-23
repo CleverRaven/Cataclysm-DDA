@@ -1350,8 +1350,6 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     // radiation attack behavior
     // how hard it is to dodge
     constexpr int att_rad_dodge_diff    = 16;
-    // (1/x) inverse chance to cause mutation.
-    constexpr int att_rad_mutate_chance = 6;
     // min radiation
     constexpr int att_rad_dose_min      = 20;
     // max radiation
@@ -1450,8 +1448,6 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
                 bool rad_proof = !foe->irradiate( rng( att_rad_dose_min, att_rad_dose_max ) );
                 if( rad_proof ) {
                     target->add_msg_if_player( m_good, _( "Your armor protects you from the radiation!" ) );
-                } else if( one_in( att_rad_mutate_chance ) ) {
-                    foe->mutate();
                 } else {
                     target->add_msg_if_player( m_bad, _( "You get pins and needles all over." ) );
                 }
