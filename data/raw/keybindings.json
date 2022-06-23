@@ -3853,7 +3853,7 @@
     "type": "keybinding",
     "id": "FAV_PRIORITY",
     "category": "INVENTORY",
-    "name": "Priority",
+    "name": "Set priority",
     "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
   },
   {
@@ -3874,35 +3874,35 @@
     "type": "keybinding",
     "id": "FAV_ITEM",
     "category": "INVENTORY",
-    "name": "Item",
+    "name": "Whitelist/blacklist item",
     "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_CATEGORY",
     "category": "INVENTORY",
-    "name": "Category",
+    "name": "Whitelist/blacklist category",
     "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_WHITELIST",
     "category": "INVENTORY",
-    "name": "Whitelist",
+    "name": "Switch to modifying whitelist",
     "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_BLACKLIST",
     "category": "INVENTORY",
-    "name": "Blacklist",
+    "name": "Switch to modifying blacklist",
     "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_CLEAR",
     "category": "INVENTORY",
-    "name": "Clear",
+    "name": "Clear entries",
     "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
   },
   {

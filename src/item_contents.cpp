@@ -68,7 +68,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
         const int width = menu->pad_right - 1;
 
         fold_and_print( menu->window, point( 2, 2 ), width,
-                        c_light_gray, string_format( _( "Press a key to add to %s" ),
+                        c_light_gray, string_format( _( "Currently modifying %s" ),
                                 colorize( whitelist ? _( "whitelist" ) : _( "blacklist" ), c_light_blue ) ) );
 
         selected_pocket->general_info( info, pocket_num, true );
