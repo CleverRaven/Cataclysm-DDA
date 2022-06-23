@@ -1780,5 +1780,10 @@
     "id": "rag",
     "type": "MIGRATION",
     "replace": "cotton_patchwork"
+  },
+  {
+  "type": "MIGRATION",
+  "id": "ammonia",
+  "replace": "ammonia_hydroxide"
   }
 ]
