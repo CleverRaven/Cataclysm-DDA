@@ -528,7 +528,7 @@
     "description": "An old recipe from the American Civil War.  First you crush your hardtack into flour with whatever object you have at hand then combine it with the water and regular flour to make a dough.  You're going to want to knead in the dried fruits.  Boil up your dough into bread pudding chunks.  Finally you add the sweetener.  Soldiers would call this a dessert.",
     "price": 50,
     "price_postapoc": 100,
-    "material": [ "flesh", "wheat" ],
+    "material": [ "fruit", "wheat" ],
     "volume": "500 ml",
     "charges": 4,
     "phase": "liquid",
