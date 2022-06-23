@@ -29,7 +29,7 @@
     "weight": "68 g",
     "damage": { "damage_type": "bullet", "amount": 10 },
     "casing": "40x46mm_m212_casing",
-    "extend": { "effects": [ "LARGE_BEANBAG" ] }
+    "extend": { "effects": [ "LARGE_BEANBAG", "NO_PENETRATE_OBSTACLES" ] }
   },
   {
     "id": "40x46mm_m433",

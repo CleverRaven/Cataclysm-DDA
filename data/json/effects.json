@@ -1689,6 +1689,14 @@
   },
   {
     "type": "effect_type",
+    "id": "pkill_wintergreen_oil",
+    "pkill_addict_reduces": true,
+    "base_mods": { "pkill_max_val": [ 30 ], "pkill_tick": [ 42 ], "pkill_min": [ 2 ] },
+    "rating": "good",
+    "blood_analysis_description": "Wintergreen Oil"
+  },
+  {
+    "type": "effect_type",
     "id": "webbed",
     "name": [ "Webbed" ],
     "desc": [ "You are covered in webs!" ],
