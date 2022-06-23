@@ -136,6 +136,7 @@ static const skill_id skill_melee( "melee" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WATERSLEEPER( "WATERSLEEPER" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
@@ -1848,6 +1849,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 {
     item &weapon = player_character.get_wielded_item();
     switch( act ) {
+		bool in_shell = player_character.has_active_mutation( trait_SHELL2 ) ||
+						player_character.has_active_mutation( trait_SHELL3 );
         case ACTION_NULL: // dummy entry
         case NUM_ACTIONS: // dummy entry
         case ACTION_ACTIONMENU: // handled above
@@ -1997,7 +2000,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_OPEN:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't open things while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't open things while you're riding." ) );
@@ -2009,7 +2012,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_CLOSE:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't close things while you're in your shell." ) );
             } else if( player_character.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
@@ -2028,7 +2031,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_SMASH:
             if( has_vehicle_control( player_character ) ) {
                 handbrake();
-            } else if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            } else if( in_shell ) {
                 add_msg( m_info, _( "You can't smash things while you're in your shell." ) );
             } else if( u.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
@@ -2039,7 +2042,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_EXAMINE:
         case ACTION_EXAMINE_AND_PICKUP:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't examine your surroundings while you're in your shell." ) );
             } else if( mouse_target ) {
                 // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
@@ -2050,7 +2053,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_ADVANCEDINV:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't move mass quantities while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
@@ -2063,7 +2066,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_PICKUP:
         case ACTION_PICKUP_ALL:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't pick anything up while you're riding." ) );
@@ -2081,7 +2084,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_GRAB:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't grab things while you're riding." ) );
@@ -2093,7 +2096,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_HAUL:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't haul things while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't haul things while you're riding." ) );
@@ -2105,7 +2108,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_BUTCHER:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't butcher while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't butcher while you're riding." ) );
@@ -2121,7 +2124,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_PEEK:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't peek around corners while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't peek around corners while you're riding." ) );
@@ -2270,7 +2273,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_DIR_DROP:
             if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
                 if( *pnt != player_character.pos() &&
-                    player_character.has_active_mutation( trait_SHELL2 ) ) {
+                    in_shell ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {
                     drop_in_direction( *pnt );
@@ -2293,7 +2296,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_CRAFT:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( player_character.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
@@ -2305,7 +2308,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_RECRAFT:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( player_character.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
@@ -2317,7 +2320,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_LONGCRAFT:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't craft while you're riding." ) );
@@ -2329,7 +2332,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_DISASSEMBLE:
-            if( player_character.controlling_vehicle ) {
+			if( in_shell ) {
+                add_msg( m_info, _( "You can't disassemble while you're in your shell." ) );
+            } else if( player_character.controlling_vehicle ) {
                 add_msg( m_info, _( "You can't disassemble items while driving." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
@@ -2343,7 +2348,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_CONSTRUCT:
             if( player_character.in_vehicle ) {
                 add_msg( m_info, _( "You can't construct while in a vehicle." ) );
-            } else if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            } else if( in_shell ) {
                 add_msg( m_info, _( "You can't construct while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 add_msg( m_info, _( "You can't construct while you're riding." ) );
@@ -2365,7 +2370,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_CONTROL_VEHICLE:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
             } else if( player_character.is_mounted() ) {
                 player_character.dismount();
