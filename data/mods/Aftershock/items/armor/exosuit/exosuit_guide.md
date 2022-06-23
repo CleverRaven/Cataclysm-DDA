@@ -8,19 +8,29 @@ The frame of the exosuit is a relatively simple design, easy to manufacture.  A 
 These are comfortable jumpsuits specially designed to integrate with the frame. Underlayers are not required for operation, but prevent accidental injury as the frame moves. Specialized undersuits are built for various environments or combat.
 ### PSU
 Exosuits typically use a single large power supply unit, attached to the back. Auxiliary batteries can be attached as well, extending the runtime. 
+
+| Name        | Capacity | Fuel    | Weight
+| ---         | ---      | ---     | ---
+| Battery PSU | 40000    | Battery | 15 kg
+| ICE PSU     | 10000    | Gasoline| 20 kg
+| Large Aux   | 4000     | Battery | 5 kg
+| Small Aux   | 1000     | Battery | 2 kg
+
+
 ### Plating
 Each plating has a minimum weight of 500g to represent the connection points. The steel and plastic are based on 6mm thickness, while the VCC is 4mm thick to keep weight managable. Exosuits can accept a wide range of plating. Plastic, steel, and vaccum-cast carbide are common. Improvised armor has been found on frontiers and in the underworld. The plates are rounded, using a ball-and-joint system somewhat resembling a hard diving or EVA suit.
 
-| Plating             | Weight   
-| ---                 | ---
-|Tempered Steel       | 44050
-|Vaccum-cast Carbide  | 65410  
+| Plating              | Weight   
+| ---                  | ---
+| Plastic              |
+| Tempered Steel       | 44.05 kg
+| Vaccum-cast Carbide  | 65.41 kg 
    
 ### Modules
 A variety of modules are available, ranging from sensor packages to batteries to load-bearing modules to jetpacks. These are built in a swappable black box configuration, requiring only that the module be mounted on the suit's connection points.
 
-| Module   | Power Draw | Weight | Description
-| ---      | ---        | ---    | ---
+| Module               | Power Draw | Weight | Description
+| ---                  | ---        | ---    | ---
 
 
 ### Operation
