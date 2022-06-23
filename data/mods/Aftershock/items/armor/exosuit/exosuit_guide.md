@@ -9,12 +9,12 @@ These are comfortable jumpsuits specially designed to integrate with the frame. 
 ### PSU
 Exosuits typically use a single large power supply unit, attached to the back.  Auxiliary batteries can be attached as well across the frame, extending the runtime. 
 
-| Name        | Capacity | Fuel    | Weight |
+| Name        | Capacity | Fuel    | Weight 
 | ---         | ---      | ---     | --- | ---
 | Battery PSU | 40000    | Battery | 15 kg | 20 L
 | ICE PSU     | 10000    | Gasoline| 20 kg | 25 L
 | Large Aux   | 4000     | Battery | 5 kg  |  5 L
-| Small Aux   | 1000     | Battery | 2 kg
+| Small Aux   | 1000     | Battery | 2 kg | 1 L
 
 
 ### Plating
