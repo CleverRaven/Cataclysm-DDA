@@ -261,7 +261,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
     avatar &you = get_avatar();
 
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
         aborted = true;
         act.moves_left = 0;
@@ -305,7 +305,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     restore_view();
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     if( !weapon ) {
         return;
     }
@@ -377,16 +377,16 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
     return actor.clone();
 }
 
-item *aim_activity_actor::get_weapon()
+item_location aim_activity_actor::get_weapon()
 {
     if( fake_weapon.has_value() ) {
         // TODO: check if the player lost relevant bionic/mutation
-        return &fake_weapon.value();
+        return item_location( get_player_character(), &fake_weapon.value() );
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item &weapon = get_player_character().get_wielded_item();
-        return weapon.is_null() ? nullptr : &weapon;
+        return get_player_character().get_wielded_item();
+
     }
 }
 
@@ -405,7 +405,7 @@ bool aim_activity_actor::load_RAS_weapon()
 {
     // TODO: use activity for fetching ammo and loading weapon
     Character &you = get_avatar();
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     const auto ammo_location_is_valid = [&]() -> bool {
         if( !you.ammo_location )
@@ -422,8 +422,8 @@ bool aim_activity_actor::load_RAS_weapon()
         }
         return true;
     };
-    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                              weapon, you.ammo_location ) : you.select_ammo( *gun );
+    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, &*weapon,
+                              &*weapon, you.ammo_location ) : you.select_ammo( *gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -450,7 +450,7 @@ void aim_activity_actor::unload_RAS_weapon()
 {
     // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
     avatar &you = get_avatar();
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     if( !weapon ) {
         return;
     }
@@ -4035,7 +4035,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                        reloadable_name );
     if( who.has_wield_conflicts( reloadable ) ) {
         reload_query.addentry( 1, wield_check, 'w',
-                               _( "Dispose of %s and wield %s" ), who.get_wielded_item().display_name(),
+                               _( "Dispose of %s and wield %s" ), who.get_wielded_item()->display_name(),
                                reloadable_name );
     } else {
         reload_query.addentry( 1, wield_check, 'w', _( "Wield %s" ), reloadable_name );

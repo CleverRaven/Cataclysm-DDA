@@ -95,7 +95,7 @@ npc_attack_rating npc_attack_rating::operator-=( const int rhs )
 void npc_attack_spell::use( npc &source, const tripoint &location ) const
 {
     spell &sp = source.magic->get_spell( attack_spell_id );
-    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_MAGIC_FOCUS ) &&
+    if( source.has_weapon() && !source.get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) &&
         !sp.has_flag( spell_flag::NO_HANDS ) ) {
         source.unwield();
     }
@@ -156,7 +156,7 @@ int npc_attack_spell::base_time_penalty( const npc &source ) const
 {
     const spell &attack_spell = source.magic->get_spell( attack_spell_id );
     int time_penalty = 0;
-    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_MAGIC_FOCUS ) &&
+    if( source.has_weapon() && !source.get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) &&
         !attack_spell.has_flag( spell_flag::NO_HANDS ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
@@ -398,7 +398,7 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
         source.aim( Target_attributes( source.pos(), location ) );
     } else {
         if( source.is_hallucination() ) {
-            gun_mode mode = source.get_wielded_item().gun_current_mode();
+            gun_mode mode = source.get_wielded_item()->gun_current_mode();
             source.pretend_fire( &source, mode.qty, *mode );
         } else {
             source.fire_gun( location );
@@ -588,11 +588,12 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
         return;
     }
 
+    item_location weapon = source.get_wielded_item();
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s throws the %s", source.disp_name(),
-                   source.get_wielded_item().display_name() );
-    item thrown( source.get_wielded_item() );
-    if( source.get_wielded_item().count_by_charges() && source.get_wielded_item().charges > 1 ) {
-        source.get_wielded_item().mod_charges( -1 );
+                   weapon->display_name() );
+    item thrown( *weapon );
+    if( weapon->count_by_charges() && weapon->charges > 1 ) {
+        weapon->mod_charges( -1 );
         thrown.charges = 1;
     } else {
         source.remove_weapon();
