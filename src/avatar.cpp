@@ -129,6 +129,7 @@ static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
@@ -840,6 +841,8 @@ void avatar::vomit()
 
 nc_color avatar::basic_symbol_color() const
 {
+	bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
     if( has_effect( effect_onfire ) ) {
         return c_red;
     }
@@ -849,7 +852,7 @@ nc_color avatar::basic_symbol_color() const
     if( has_effect( effect_boomered ) ) {
         return c_pink;
     }
-    if( has_active_mutation( trait_SHELL2 ) ) {
+    if( in_shell ) { // NOLINT(bugprone-branch-clone)
         return c_magenta;
     }
     if( underwater ) {
@@ -1936,7 +1939,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             }
         }
     }
-    if( has_active_mutation( trait_SHELL2 ) ) {
+    if( has_active_mutation( trait_SHELL2 ) || has_active_mutation( trait_SHELL3 ) ) {
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
