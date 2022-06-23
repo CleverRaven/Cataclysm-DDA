@@ -605,7 +605,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     min_duration_box.resize( default_text_box_size );
     min_duration_box.move( QPoint( col* default_text_box_width, row++* default_text_box_height ) );
     min_duration_box.setToolTip( QString( _( "The duration of the spell at level 0" ) ) );
-    min_duration_box.setMaximum( INT_MAX );e
+    min_duration_box.setMaximum( INT_MAX );
     min_duration_box.show();
     QObject::connect( &min_duration_box, &QSpinBox::textChanged,
         [&]() {
