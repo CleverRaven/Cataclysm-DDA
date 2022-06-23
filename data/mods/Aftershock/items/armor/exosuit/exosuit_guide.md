@@ -1,11 +1,24 @@
 # Exosuit Guide
 
+#Getting started
+
+The exosuit is multirole powered exoskeleton. Like other exoskeletons, it is worn and activated to provide a bonus to the pilot's strength. 
+
+On it's own, the frame is nothing more than that, a frame. Operation requires a power supply, of which there are several options that can be mounted on the frame. These range from large battery packs to compact ICE generators.
+
+Various types of armor plate can be attached to the frame at the head, torso, arms, and legs. An additional armor plate can be installed on the large power supplies, protecting them from damage.
+
+Modules are equipment that enhance the exosuit in various ways. Some are passive, others draw (or provide) power, some are utility tools, others are powerful combat gear.
+
+All of this is managed in the exosuit menu, by 'a'ctivating the item in your inventory. Two options will appear: 'Manage exosuit modules' or 'Turn on'/'Turn off'.
 
 ### Background
 ### Frame
 The frame of the exosuit is a relatively simple design, easy to manufacture.  A titanium frame lined with artificial muscles, studded with connection points allowing quick installation and swapping of plating and modules without specialized equipment. A helmet can be attached to the frame, and the weight is supported by the frame without restricting the pilot's field of view.
+
 ### Underlayer
 These are comfortable jumpsuits specially designed to integrate with the frame.  Underlayers are not required for operation, but prevent accidental injury as the frame moves.  Specialized undersuits are built for various environments or combat.
+
 ### PSU
 Exosuits typically use a single large power supply unit, attached to the back.  Auxiliary batteries can be attached as well across the frame, extending the runtime. 
 
