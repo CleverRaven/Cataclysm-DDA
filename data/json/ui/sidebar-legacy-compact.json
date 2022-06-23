@@ -134,7 +134,7 @@
       "lcom_vehicle_layout",
       "compass_all_layout",
       "bodypart_armor_outer_layout",
-      "body_graph"
+      "bodygraph_hp_layout"
     ]
   }
 ]
