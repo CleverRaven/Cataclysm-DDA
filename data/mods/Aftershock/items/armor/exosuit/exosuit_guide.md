@@ -14,7 +14,7 @@ Exosuits typically use a single large power supply unit, attached to the back.  
 | Battery PSU | 40000    | Battery | 15 kg  | 20 L
 | ICE PSU     | 10000    | Gasoline| 20 kg  | 25 L
 | Large Aux   | 4000     | Battery | 5 kg   |  5 L
-| Small Aux   | 1000     | Battery | 2 kg   | 1 L
+| Small Aux   | 1000     | Battery | 2 kg   |  1 L
 
 
 ### Plating
@@ -67,7 +67,7 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Rifle Storage    | 9 L        | 10 kg      | Large  | 500 g  | As item Back Holster
 | Melee Storage    | 3750 ml    |  5 kg      | Medium | 500 g  | As item Back Scabbard
 | Storage Pack     | Multiple   | Multiple   | Large  | 2250 g | As item Large Tactical Backpack
-| Medium Pouch     | 2500 ml    | 5 kg       | Medium | 275 g  |As item Fanny Pack
+| Medium Pouch     | 2500 ml    | 5 kg       | Medium | 275 g  | As item Fanny Pack
 | Small Pouch      | 1500 ml    | 5 kg       | Small  | 125 g  | As item Leather Pouch
 | Large Ammo Pouch | Multiple   | Multiple   | Large  | 1750 g | As item Tac Vest
 | Small Ammo Pouch | 2 L        | 4 kg       | Medium | 1050 g | As item Drop Leg Pouches
