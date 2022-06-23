@@ -252,6 +252,7 @@
     "price": 160000,
     "price_postapoc": 3100,
     "bashing": 12,
+    "range": 20,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
