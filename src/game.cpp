@@ -110,6 +110,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "loadout.h"
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"

@@ -50,6 +50,10 @@ class loadout
         signed int _point_cost = 0;
         translation _description;
         translation _name;
+        translation _name_male;
+        translation _name_female;
+        translation _description_male;
+        translation _description_female;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
         itypedecvec legacy_starting_items;
@@ -87,7 +91,7 @@ class loadout
         // these should be the only ways used to get at loadouts
         static const loadout *generic(); // points to the generic, default profession
         static const std::vector<loadout> &get_all();
-        static std::vector<string_id<loadout>> get_all_hobbies();
+        static std::vector<string_id<loadout>> get_all_loadouts();
 
         static bool has_initialized();
         // clear profession map, every profession pointer becomes invalid!
@@ -98,6 +102,7 @@ class loadout
         void check_definition() const;
 
         const string_id<loadout> &ident() const;
+        std::string gender_appropriate_name( bool male ) const;
         std::string name() const;
         std::string description() const;
         signed int point_cost() const;

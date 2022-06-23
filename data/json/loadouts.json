@@ -25,7 +25,8 @@
     "subtype": "hobby",
     "id": "lo_lockpicking",
     "name": "Lockpicking",
-    "description": "You get a towel and some soap.",
-    "points": 5
+    "description": "You get a locksmith's kit.",
+    "points": 1,
+    "items": { "both": { "items": [ "picklocks", "fanny" ] } }
   }
 ]
