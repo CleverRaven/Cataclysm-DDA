@@ -1164,7 +1164,7 @@
     "//": "No NETHER or it will run away at low HP",
     "volume": "62500 ml",
     "weight": "11110 g",
-    "hp": 750,
+    "hp": 75,
     "symbol": "H",
     "color": "light_gray",
     "aggression": 100,
@@ -1182,9 +1182,9 @@
       [ "TENTACLE", 2 ],
       {
         "type": "spell",
-        "spell_data": { "id": "spawning_zombie_die", "hit_self": true },
+        "spell_data": { "id": "create_noise", "hit_self": true },
         "cooldown": 20,
-        "monster_message": "The chunk painfully twists and tears itself as it reacts to your presence!"
+        "monster_message": "The chunk twists and tears itself as it reacts to your presence!"
       }
     ],
     "death_function": {
@@ -1201,7 +1201,7 @@
     "name": { "str": "pulsating chunk of unknown material", "str_pl": "pulsating chunks of unknown material" },
     "description": "This formless, pitch-black mass wriggles and pulses on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes.  As it gets closer to you, its pulsing intensifies as if it reacted to you.",
     "symbol": "H",
-    "hp": 1000,
+    "hp": 100,
     "color": "dark_gray",
     "death_drops": "ps_artifact_medium"
   },
@@ -1212,7 +1212,7 @@
     "name": { "str": "resonating chunk of unknown material", "str_pl": "resonating chunks of unknown material" },
     "description": "This formless, pitch-black mass wriggles violently and noisily on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes sparkling with electricity.  As it gets closer to you, its wriggling intensifies and its sparks grow brighter as if it reacted to you.",
     "symbol": "H",
-    "hp": 1250,
+    "hp": 125,
     "color": "dark_gray",
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
     "death_drops": "ps_artifact_strong"
