@@ -1626,7 +1626,12 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "station_radio_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "station_radio_tower_even_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "station_radio_tower_odd_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "station_radio_tower_even_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "station_radio_tower_odd_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "station_radio_tower_top_north" }
     ]
   },
   {
@@ -1635,7 +1640,12 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "station_radio_1_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_1_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "station_radio_1_tower_even_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "station_radio_1_tower_odd_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "station_radio_1_tower_even_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "station_radio_1_tower_odd_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "station_radio_1_tower_top_north" }
     ]
   },
   {
