@@ -160,7 +160,10 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "power_draw": 6173,
     "revert_to": "modular_exosuit",
-    "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
+    "use_action": [
+      { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" },
+      "MANAGE_EXOSUIT"
+    ],
     "armor": [
       {
         "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
