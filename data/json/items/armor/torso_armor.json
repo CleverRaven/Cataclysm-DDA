@@ -589,7 +589,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
-    "description": "A cuirass made from thick chunks of tire secured by simple strings; the loose collection of rubber pieces provides decent but not the most convenient protection.",
+    "description": "A cuirass made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "weight": "4800 g",
     "volume": "5750 ml",
     "price": 20000,
