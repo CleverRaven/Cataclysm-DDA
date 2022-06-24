@@ -22,7 +22,7 @@
     "category": "weapons"
   },
   {
-    "id": "scrap__axe",
+    "id": "scrap_axe",
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
