@@ -132,7 +132,7 @@
       "lcla_weapon_layout",
       "wind_desc",
       "bodypart_armor_outer_layout",
-      "compass_all_layout",
+      "compass_all_danger_layout",
       "bodygraph_hp_layout"
     ]
   }

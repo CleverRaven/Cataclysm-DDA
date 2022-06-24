@@ -1,7 +1,7 @@
 [
   {
     "id": "bodypart_head_status_text",
-	"//": "TODO: This file is six widgets that do exactly the same thing with different body parts and text. Fix that. Make this smaller.",
+    "//": "TODO: This file is six widgets that do exactly the same thing with different body parts and text. Fix that. Make this smaller.",
     "type": "widget",
     "bodypart": "head",
     "style": "text",
@@ -56,7 +56,7 @@
         "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
       }
     ],
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "bodypart_torso_status_text",
@@ -114,7 +114,7 @@
         "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
       }
     ],
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "bodypart_larm_status_text",
@@ -172,7 +172,7 @@
         "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
       }
     ],
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "bodypart_rarm_status_text",
@@ -230,7 +230,7 @@
         "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
       }
     ],
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "bodypart_lleg_status_text",
@@ -288,7 +288,7 @@
         "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
       }
     ],
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "bodypart_rleg_status_text",
@@ -346,6 +346,6 @@
         "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
       }
     ],
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]
