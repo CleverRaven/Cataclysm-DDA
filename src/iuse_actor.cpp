@@ -1573,7 +1573,7 @@ static cata::optional<recipe> find_uncraft_recipe( item x )
         weight += ( altercomps.front().type->weight ) * altercomps.front().count;
     }
     if( weight > x.weight() ) {
-        // Bad disassemble recipe.  Count weight and go next
+        // Bad disassemble recipe
         return cata::nullopt;
     }
     return uncraft;
@@ -1581,8 +1581,7 @@ static cata::optional<recipe> find_uncraft_recipe( item x )
 
 void salvage_actor::cut_up( Character &p, item_location &cut ) const
 {
-    // What materials do we salvage (ids and counts).
-    std::map<itype_id, int> materials_salvaged;
+    // Map of salvaged items (id, count)
     std::map<itype_id, int> salvage;
     std::map<material_id, units::mass> mat_to_weight;
     std::set<material_id> mat_set;
@@ -1598,7 +1597,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         }
     };
 
-    // Decompose the item into irreducible parts
     std::function<void( item )> cut_up_component =
         [&salvage, &mat_set, &distribute_uniformly, &cut_up_component]
     ( item curr ) -> void {
@@ -1623,7 +1621,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
             return;
         }
 
-        // Repeat for any components defined
+        // All intact components are also cut up and destroyed
         if( !curr.components.empty() )
         {
             for( const item &iter : curr.components ) {
@@ -1652,6 +1650,8 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
             }
         } else
         {
+            // No recipe was found so we guess and distribute the weight uniformly.
+            // This is imprecise but it can't be exploited as no recipe exists for the item
             distribute_uniformly( curr );
             return;
         }
@@ -1664,36 +1664,37 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
 
-    float efficiency = 1.0;
+    // Calculate efficiency losses
+    {
+        float efficiency = 1.0;
 
-    // Higher fabrication, less chance of entropy, but still a chance.
-    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
-    if( rng( 1, 10 ) <= entropy_threshold ) {
-        efficiency *= 0.99;
-    }
+        // Higher fabrication, less chance of entropy, but still a chance.
+        /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
+        int entropy_threshold = std::max( 0, 5 - p.get_skill_level( skill_fabrication ) );
+        if( rng( 1, 10 ) <= entropy_threshold ) {
+            efficiency *= 0.9;
+        }
 
-    // Fail dex roll, potentially lose more parts.
-    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
-    if( dice( 3, 4 ) > p.dex_cur ) {
-        efficiency *= 0.95;
-    }
+        // Fail dex roll, potentially lose more parts.
+        /** @EFFECT_DEX randomly reduces component loss when cutting items up */
+        if( dice( 3, 4 ) > p.dex_cur ) {
+            efficiency *= 0.95;
+        }
 
-    // If more than 1 material component can still be salvaged,
-    // chance of losing more components if the item is damaged.
-    // If the item being cut is not damaged, no additional losses will be incurred.
-    if( cut.get_item()->damage() > 0 ) {
+        // If the item being cut is damaged, additional losses will be incurred.
+        // Reinforcing does not decrease losses.
         efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
+
+        // Apply proportional item loss.
+        for( auto &iter : salvage ) {
+            iter.second *= efficiency;
+        }
     }
 
-    // Apply proportional item loss.
-    for( auto &iter : salvage ) {
-        iter.second *= efficiency;
-    }
     // Item loss for weight was applied before(only round once).
     for( const auto &iter : mat_to_weight ) {
         if( const cata::optional<itype_id> id = iter.first->salvaged_into() ) {
-            salvage[*id] += ( iter.second / id->obj().weight );
+            salvage[*id] += iter.second / id->obj().weight;
         }
     }
 
