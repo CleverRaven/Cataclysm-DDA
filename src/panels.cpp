@@ -111,7 +111,7 @@ static std::string trunc_ellipse( const std::string &input, unsigned int trunc )
 
 static int get_wgt_height( const widget_id &wgt )
 {
-    if( wgt->_widgets.empty() || wgt->_arrange == "columns" ) {
+    if( wgt->_widgets.empty() || wgt->_arrange == "columns" || wgt->_arrange == "minimum_columns" ) {
         return wgt->_height > 0 ? wgt->_height : 1;
     }
     int h = 0;

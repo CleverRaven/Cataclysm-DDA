@@ -1471,30 +1471,57 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
             unsigned int total_width = 0;
-            for( const widget_id &wid : _widgets ) {
-                widget cur_child = wid.obj();
-                int cur_width = child_width;
-                if( cur_child._style == "layout" && cur_child._width > 1 ) {
-                    cur_width = cur_child._width;
+            if( _arrange == "minimum_columns" ) {
+                for( const widget_id &wid : _widgets ) {
+                    widget cur_child = wid.obj();
+                    int cur_width = child_width;
+                    if( cur_child._width > 1 ) {
+                        cur_width = cur_child._width;
+                    }
+                    // if last widget make it take the remaining space
+                    if( wid == _widgets.back() ) {
+                        cur_width = avail_width - total_width;
+                    }
+                    if( cur_width > 0 ) {
+                        total_width += cur_width;
+                    }
+                    if( total_width > max_width ) {
+                        debugmsg( "widget layout is wider than sidebar allows." );
+                    }
+                    const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
+                    // Layout child in this column
+                    const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
+                                            label_width, skip_pad_this );
+                    // Store the resulting text for this column
+                    cols.emplace_back( foldstring( txt, skip_pad_this ? 0 : cur_width ) );
+                    widths.emplace_back( cur_width );
                 }
-                // Spread remainder over the first few columns
-                if( remainder > 0 ) {
-                    cur_width += 1;
-                    remainder -= 1;
+            } else { // columns
+                for( const widget_id &wid : _widgets ) {
+                    widget cur_child = wid.obj();
+                    int cur_width = child_width;
+                    if( cur_child._style == "layout" && cur_child._width > 1 ) {
+                        cur_width = cur_child._width;
+                    }
+                    // Spread remainder over the first few columns
+                    if( remainder > 0 ) {
+                        cur_width += 1;
+                        remainder -= 1;
+                    }
+                    if( cur_width > 0 ) {
+                        total_width += cur_width;
+                    }
+                    if( total_width > max_width ) {
+                        debugmsg( "widget layout is wider than sidebar allows." );
+                    }
+                    const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
+                    // Layout child in this column
+                    const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
+                                            label_width, skip_pad_this );
+                    // Store the resulting text for this column
+                    cols.emplace_back( foldstring( txt, skip_pad_this ? 0 : cur_width ) );
+                    widths.emplace_back( cur_width );
                 }
-                if( cur_width > 0 ) {
-                    total_width += cur_width;
-                }
-                if( total_width > max_width ) {
-                    debugmsg( "widget layout is wider than sidebar allows." );
-                }
-                const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
-                // Layout child in this column
-                const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
-                                        label_width, skip_pad_this );
-                // Store the resulting text for this column
-                cols.emplace_back( foldstring( txt, skip_pad_this ? 0 : cur_width ) );
-                widths.emplace_back( cur_width );
             }
             int h_max = 0;
             std::string sep;
