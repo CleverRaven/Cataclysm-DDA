@@ -42,6 +42,7 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "widget.h"
 
 class basecamp;
 class recipe;
@@ -388,6 +389,18 @@ void conditional_t<T>::set_u_has_mission( const JsonObject &jo )
             }
         }
         return false;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_u_monsters_in_direction( const JsonObject &jo )
+{
+    const std::string &dir = jo.get_string( "u_monsters_in_direction" );
+    condition = [dir]( const T & ) {
+        //This string_to_enum function is defined in widget.h. Should it be moved?
+        const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir ) );
+        int monster_count = get_avatar().get_mon_visible().unique_mons[card_dir].size();
+        return monster_count > 0;
     };
 }
 
@@ -2493,6 +2506,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_riding( is_npc );
     } else if( jo.has_string( "u_has_mission" ) ) {
         set_u_has_mission( jo );
+    } else if( jo.has_string( "u_monsters_in_direction" ) ) {
+        set_u_monsters_in_direction( jo );
     } else if( jo.has_int( "u_has_strength" ) || jo.has_object( "u_has_strength" ) ) {
         set_has_strength( jo, "u_has_strength" );
     } else if( jo.has_int( "npc_has_strength" ) || jo.has_object( "npc_has_strength" ) ) {
