@@ -480,19 +480,20 @@ class input_manager
         void add_keyboard_code_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
         void add_mouse_keycode_pair( const MouseInput mouse_input, const std::string &name );
+
         // decorator function around add_mouse_keycode_pair() to reduce code duplication
         // 
         // unstead of
-        // 
-        //   add_mouse_keycode_pair( MouseInput::LeftButtonPressed, translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" ) );
+        //
+        //   add_mouse_keycode_pair( MouseInput::LeftButtonPressed,  translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" ) );
         //   add_mouse_keycode_pair( MouseInput::LeftButtonReleased, translate_marker_context( "key name", "MOUSE_LEFT" ) );
         //   add_mouse_keycode_pair( MouseInput::RightButtonPressed, translate_marker_context( "key name", "MOUSE_RIGHT_PRESSED" ) );
         //   ...
         //
         // we can use
-        // 
-        //   add_mouse_keycode_pair_translated( MouseInput::RightButtonPressed, "MOUSE_LEFT_PRESSED" )
-        //   add_mouse_keycode_pair_translated( MouseInput::RightButtonPressed, "MOUSE_LEFT" )
+        //
+        //   add_mouse_keycode_pair_translated( MouseInput::LeftButtonPressed,  "MOUSE_LEFT_PRESSED" )
+        //   add_mouse_keycode_pair_translated( MouseInput::LeftButtonReleased, "MOUSE_LEFT" )
         //   add_mouse_keycode_pair_translated( MouseInput::RightButtonPressed, "MOUSE_RIGHT_PRESSED" )
         //
         void add_mouse_keycode_pair_translated( const MouseInput mouse_input, const std::string& name_untranslated );
