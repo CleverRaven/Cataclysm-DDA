@@ -481,7 +481,7 @@
     "coverage": 40,
     "flags": [ "TRANSPARENT", "NOITEM" ],
     "crafting_pseudo_item": "spinwheelitem",
-    "deconstruct": { "items": [ { "item": "string_36", "count": 4 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 25 } ] },
+    "deconstruct": { "items": [ { "item": "string_36", "count": 4 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 80 } ] },
     "bash": {
       "str_min": 18,
       "str_max": 50,
@@ -490,7 +490,7 @@
       "items": [
         { "item": "string_36", "count": [ 2, 4 ] },
         { "item": "2x4", "count": [ 10, 20 ] },
-        { "item": "nail", "charges": [ 15, 25 ] }
+        { "item": "nail", "charges": [ 55, 80 ] }
       ]
     }
   },
@@ -507,7 +507,7 @@
     "coverage": 40,
     "flags": [ "TRANSPARENT", "NOITEM" ],
     "crafting_pseudo_item": "spinwheelitem",
-    "deconstruct": { "items": [ { "item": "cordage_36", "count": 4 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 25 } ] },
+    "deconstruct": { "items": [ { "item": "cordage_36", "count": 4 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 80 } ] },
     "bash": {
       "str_min": 18,
       "str_max": 50,
@@ -516,7 +516,7 @@
       "items": [
         { "item": "cordage_36", "count": [ 2, 4 ] },
         { "item": "2x4", "count": [ 10, 20 ] },
-        { "item": "nail", "charges": [ 15, 25 ] }
+        { "item": "nail", "charges": [ 55, 80 ] }
       ]
     }
   },
@@ -534,7 +534,7 @@
     "flags": [ "TRANSPARENT", "NOITEM" ],
     "crafting_pseudo_item": "spinwheelitem",
     "deconstruct": {
-      "items": [ { "item": "cordage_36_leather", "count": 4 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 25 } ]
+      "items": [ { "item": "cordage_36_leather", "count": 4 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 80 } ]
     },
     "bash": {
       "str_min": 18,
@@ -544,7 +544,7 @@
       "items": [
         { "item": "cordage_36_leather", "count": [ 2, 4 ] },
         { "item": "2x4", "count": [ 10, 20 ] },
-        { "item": "nail", "charges": [ 15, 25 ] }
+        { "item": "nail", "charges": [ 55, 80 ] }
       ]
     }
   },

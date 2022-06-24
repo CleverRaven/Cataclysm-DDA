@@ -4226,7 +4226,7 @@
     "required_skills": [ [ "fabrication", 3 ], [ "mechanics", 2 ], [ "tailor", 1 ] ],
     "time": "3 h",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 20 ] ], [ [ "string_36", 4 ] ], [ [ "nail", 25 ] ] ],
+    "components": [ [ [ "2x4", 20 ] ], [ [ "string_36", 4 ] ], [ [ "nail", 80 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_spinwheel"
   },
@@ -4238,7 +4238,7 @@
     "required_skills": [ [ "fabrication", 3 ], [ "mechanics", 2 ], [ "tailor", 1 ] ],
     "time": "3 h",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 20 ] ], [ [ "cordage_36", 4 ] ], [ [ "nail", 25 ] ] ],
+    "components": [ [ [ "2x4", 20 ] ], [ [ "cordage_36", 4 ] ], [ [ "nail", 80 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_spinwheel_cordage"
   },
@@ -4250,7 +4250,7 @@
     "required_skills": [ [ "fabrication", 3 ], [ "mechanics", 2 ], [ "tailor", 1 ] ],
     "time": "3 h",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 20 ] ], [ [ "cordage_36_leather", 4 ] ], [ [ "nail", 25 ] ] ],
+    "components": [ [ [ "2x4", 20 ] ], [ [ "cordage_36_leather", 4 ] ], [ [ "nail", 80 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_spinwheel_leather"
   },
