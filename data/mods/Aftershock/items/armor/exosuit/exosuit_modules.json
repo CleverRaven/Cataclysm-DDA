@@ -561,7 +561,6 @@
       "diesel",
       "jp8",
       "avgas",
-      "biodiesel",
       "lamp_oil",
       "motor_oil",
       "propane"
@@ -579,7 +578,6 @@
           "diesel": 5000,
           "jp8": 5000,
           "avgas": 5000,
-          "biodiesel": 5000,
           "lamp_oil": 5000,
           "motor_oil": 5000,
           "propane": 5000
