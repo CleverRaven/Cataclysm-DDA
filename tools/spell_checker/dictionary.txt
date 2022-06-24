@@ -1614,6 +1614,7 @@ spacebar
 spadelike
 spak
 spall
+spalling
 spasmically
 spearcat
 spearhand
