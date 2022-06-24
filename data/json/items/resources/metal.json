@@ -1108,8 +1108,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum" ],
-    "//": "Density 2.70g/cm³ = 50g/18,5ml",
-    "volume": "18,5 ml",
+    "volume": "18 ml",
     "weight": "50 g",
     "bashing": 1,
     "to_hit": -2
