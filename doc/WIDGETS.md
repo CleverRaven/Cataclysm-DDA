@@ -192,7 +192,7 @@ the "widgets" list field.
 
 The arrangement of child widgets is defined by the "arrange" field, which may be "columns" (default)
 to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Normal columns
-will have their horizontal space split as equally as possible. Whereas minimum_columns will take there exact
+will split their horizontal space as equally as possible. Whereas minimum_columns will take their exact
 amount of space (defaulting to space split like columns) with the last column in the row taking all remaining space.
 
 ```json
