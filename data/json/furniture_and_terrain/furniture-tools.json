@@ -488,7 +488,7 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "string_36", "count": [ 2, 4 ] },
+        { "item": "string_36", "count": [ 2, 4 ] }, 
         { "item": "2x4", "count": [ 10, 20 ] },
         { "item": "nail", "charges": [ 55, 80 ] }
       ]
