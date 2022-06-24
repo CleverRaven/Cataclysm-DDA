@@ -105,7 +105,7 @@
     "id": "chaplet",
     "type": "ARMOR",
     "name": { "str": "chaplet" },
-    "description": "A headdress in the form of wreath made from plant material and woven into a ring.",
+    "description": "A wreath headdress made from plant material woven into a ring.",
     "weight": "46 g",
     "volume": "150 ml",
     "price": 100,
@@ -144,7 +144,7 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "drinking hat" },
-    "description": "This is an improvised harness that can be worn over other headgear or bare head, made from two small liquid containers, a rubber hose, a bundle of steel wire, and some cordage.  A convenient and simple device for hands-free drinking, though the liquid inside would spill if you put it into your backpack.",
+    "description": "An improvised harness that can be worn over other headgear or by itself, made from two small liquid containers, a rubber hose, a bundle of steel wire, and some cordage.  A convenient and simple device for hands-free drinking, though it's not watertight and would spill if you put it into your backpack.",
     "price": 1000,
     "price_postapoc": 50,
     "material": [ "cotton", "plastic" ],
@@ -178,7 +178,7 @@
     "id": "hat_navy",
     "type": "ARMOR",
     "name": { "str": "eight point cap" },
-    "description": "Also known as a utility cover or utility cap, this is an eight pointed hat with a baseball-style vizor at the front.  Commonly seen worn by Marines and sailors, this hat is the standard headwear of both the United States Marine Corps and Navy.",
+    "description": "Also known as a utility cover or utility cap, this is an eight pointed hat with a baseball-style visor at the front.  Commonly worn by Marines and sailors, this hat is the standard headwear of both the United States Marine Corps and Navy.",
     "weight": "92 g",
     "volume": "500 ml",
     "price": 1699,
@@ -382,7 +382,7 @@
     "id": "hat_hard",
     "type": "ARMOR",
     "name": { "str": "hard hat" },
-    "description": "A hard plastic hat worn in construction or industrial sites.  Excellent protection from cuts and percussion.",
+    "description": "A hard plastic hat worn at construction and industrial sites.  Provides excellent protection from cuts and percussion.",
     "weight": "430 g",
     "volume": "2500 ml",
     "price": 1200,
@@ -410,7 +410,7 @@
       {
         "id": "orange_hat_hard",
         "name": { "str": "orange hard hat" },
-        "description": "It's colored orange, commonly used by road construction workers and new hires or site visitors.",
+        "description": "It's colored orange, commonly used by road construction workers, new hires, and site visitors.",
         "color": "light_red",
         "weight": 110,
         "append": true
@@ -418,7 +418,7 @@
       {
         "id": "white_hat_hard",
         "name": { "str": "white hard hat" },
-        "description": "It's colored white, commonly used by anyone in a supervisory position, including managers, architects, engineers and foremen.",
+        "description": "It's colored white, commonly used by anyone in a supervisory position, including managers, architects, engineers, and foremen.",
         "color": "white",
         "weight": 25,
         "append": true
@@ -442,7 +442,7 @@
       {
         "id": "green_hat_hard",
         "name": { "str": "green hard hat" },
-        "description": "It's colored green, commonly used by safety officers or inspectors.",
+        "description": "It's colored green, commonly used by safety officers and inspectors.",
         "color": "green",
         "weight": 10,
         "append": true
@@ -458,7 +458,7 @@
       {
         "id": "pink_hat_hard",
         "name": { "str": "pink hard hat" },
-        "description": "It's colored pink, commonly used by female workers or issued as punishment to regular workers that forgot or lost their hard hat.",
+        "description": "It's colored pink, commonly issued as a punishment to workers that forgot or lost their hard hat.  Or maybe the previous owner just liked pink.",
         "color": "pink",
         "weight": 8,
         "append": true
@@ -474,7 +474,7 @@
       {
         "id": "black_hat_hard",
         "name": { "str": "black hard hat" },
-        "description": "It's colored black like the first real hard hats in history.",
+        "description": "It's colored black, like the first real hard hats in history.",
         "color": "dark_gray",
         "weight": 4,
         "append": true
@@ -482,7 +482,7 @@
       {
         "id": "cartoon_hat_hard",
         "name": { "str": "cartoon hard hat" },
-        "description": "It has cartoon characters stickers all over it.",
+        "description": "It has cartoon character stickers all over it.",
         "weight": 2,
         "append": true
       },
@@ -505,7 +505,7 @@
       {
         "id": "flag_hat_hard",
         "name": { "str": "flag hard hat" },
-        "description": "It's embroidered with the pattern of an American flag.  Protects your head with the power of freedom.",
+        "description": "It's decorated with an American flag pattern.  Protects your head with the power of freedom.",
         "color": "light_red",
         "weight": 2,
         "append": true
@@ -513,7 +513,7 @@
       {
         "id": "steampunk_hat_hard",
         "name": { "str": "steampunk hard hat" },
-        "description": "It's colored black, with industrial gears decorations and a steampunk design.",
+        "description": "It's colored black, with industrial gear decorations and a steampunk design.",
         "color": "dark_gray",
         "weight": 1,
         "append": true
@@ -525,7 +525,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "hooded hard hat" },
-    "description": "A hard plastic hat worn in construction or industrial sites, with a cloth tucked in under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
+    "description": "A hard plastic hat worn at construction and industrial sites, with a cloth tucked under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
     "weight": "470 g",
     "volume": "2750 ml",
     "price": 1200,
@@ -553,7 +553,7 @@
       {
         "id": "orange_hat_hard",
         "name": { "str": "orange hooded hard hat" },
-        "description": "It's colored orange, commonly used by road construction workers and new hires or site visitors.",
+        "description": "It's colored orange, commonly used by road construction workers, new hires, and site visitors.",
         "color": "light_red",
         "weight": 110,
         "append": true
@@ -561,7 +561,7 @@
       {
         "id": "white_hat_hard",
         "name": { "str": "white hooded hard hat" },
-        "description": "It's colored white, commonly used by anyone in a supervisory position, including managers, architects, engineers and foremen.",
+        "description": "It's colored white, commonly used by anyone in a supervisory position, including managers, architects, engineers, and foremen.",
         "color": "white",
         "weight": 25,
         "append": true
@@ -585,7 +585,7 @@
       {
         "id": "green_hat_hard",
         "name": { "str": "green hooded hard hat" },
-        "description": "It's colored green, commonly used by safety officers or inspectors.",
+        "description": "It's colored green, commonly used by safety officers and inspectors.",
         "color": "green",
         "weight": 10,
         "append": true
@@ -601,7 +601,7 @@
       {
         "id": "pink_hat_hard",
         "name": { "str": "pink hooded hard hat" },
-        "description": "It's colored pink, commonly used by female workers or issued as punishment to regular workers that forgot or lost their hard hat.",
+        "description": "It's colored pink, commonly issued as a punishment to regular workers that forgot or lost their hard hat.  Or maybe the previous owner just liked pink.",
         "color": "pink",
         "weight": 8,
         "append": true
@@ -617,7 +617,7 @@
       {
         "id": "black_hat_hard",
         "name": { "str": "black hooded hard hat" },
-        "description": "It's colored black like the first real hard hats in history.",
+        "description": "It's colored black, like the first real hard hats in history.",
         "color": "dark_gray",
         "weight": 4,
         "append": true
@@ -625,7 +625,7 @@
       {
         "id": "cartoon_hat_hard",
         "name": { "str": "cartoon hooded hard hat" },
-        "description": "It has cartoon characters stickers all over it.",
+        "description": "It has cartoon character stickers all over it.",
         "weight": 2,
         "append": true
       },
@@ -648,7 +648,7 @@
       {
         "id": "flag_hat_hard",
         "name": { "str": "flag hooded hard hat" },
-        "description": "It's embroidered with the pattern of an American flag.  Protects your head with the power of freedom.",
+        "description": "It's decorated with an American flag pattern.  Protects your head with the power of freedom.",
         "color": "light_red",
         "weight": 2,
         "append": true
@@ -656,7 +656,7 @@
       {
         "id": "steampunk_hat_hard",
         "name": { "str": "steampunk hooded hard hat" },
-        "description": "It's colored black, with industrial gears decorations and a steampunk design.",
+        "description": "It's colored black, with industrial gear decorations and a steampunk design.",
         "color": "dark_gray",
         "weight": 1,
         "append": true
@@ -725,7 +725,7 @@
     "id": "hat_noise_cancelling",
     "type": "ARMOR",
     "name": { "str": "noise canceling headgear" },
-    "description": "Padding over your ears kept in place by some string.  Blocks incoming sounds.",
+    "description": "Padding over your ears, kept in place by some string.  Blocks incoming sounds.",
     "weight": "72 g",
     "volume": "500 ml",
     "price": 2500,
@@ -746,7 +746,7 @@
     "name": { "str": "sombrero" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a sombrero, sorry.  But brimmed gear gets the anti-glare flag!",
     "//2": "Not a real sombrero, but a felt imitation.",
-    "description": "A felt orange sombrero with traditional white and yellow hand stitching.  The wide brim keeps the sun out of your eyes, and a thin strap hooks around your chin.",
+    "description": "An orange felt sombrero with traditional white and yellow hand stitching.  The wide brim keeps the sun out of your eyes, and a thin strap hooks around your chin.",
     "weight": "140 g",
     "volume": "3500 ml",
     "price": 5500,
@@ -843,7 +843,7 @@
     "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "mail carrier hat" },
-    "description": "A traditional mail carrier's cap, with the US postal service logo embroidered on the front above the plastic cap.  A symbol of a bygone world.",
+    "description": "A traditional mail carrier's cap, with the US postal service logo embroidered on the front above the plastic brim.  A symbol of a bygone world.",
     "weight": "90 g",
     "volume": "750 ml",
     "price": 1000,
@@ -881,7 +881,7 @@
     "id": "straw_hat",
     "type": "ARMOR",
     "name": { "str": "straw hat" },
-    "description": "Hat that is woven out of straw.  Its brim helps keep the sun out of your eyes.",
+    "description": "A hat woven out of straw.  Its brim helps keep the sun out of your eyes.",
     "weight": "50 g",
     "volume": "750 ml",
     "price": 300,
@@ -959,7 +959,7 @@
     "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "turban" },
-    "description": "Rags worn around the head.",
+    "description": "Cloth wound around the head, worn by people of many cultures worldwide.  Some historical examples could be huge and ostentatious, but this one is a very simple design.",
     "weight": "105 g",
     "volume": "250 ml",
     "price": 85,
