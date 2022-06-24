@@ -265,14 +265,6 @@ std::vector<string_id<loadout>> loadout::get_all_loadouts()
     std::vector<loadout> all = loadout::get_all();
     std::vector<loadout_id> ret;
 
-    // remove all non-hobbies from list of professions
-    // const auto new_end = std::remove_if( all.begin(),
-    //all.end(), [&]( const loadout & arg ) {
-    //   return !arg.is_hobby();
-    //} );
-    //all.erase( new_end, all.end() );
-
-    // convert to string_id's then return
     for( const loadout &p : all ) {
         ret.emplace( ret.end(), p.ident() );
     }
