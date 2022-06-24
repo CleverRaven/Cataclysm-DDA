@@ -612,6 +612,11 @@
   },
   {
     "type": "recipe",
+    "result": "rifle_case_xs_soft_leather",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "vac_oven_small_full",
     "obsolete": true
   },

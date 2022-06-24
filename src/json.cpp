@@ -478,14 +478,10 @@ JsonArray::JsonArray( JsonIn &j )
 
 JsonArray::JsonArray( const JsonArray &ja )
 {
-    jsin = ja.jsin;
-    start = ja.start;
-    index = 0;
-    positions = ja.positions;
-    end_ = ja.end_;
-    final_separator = ja.final_separator;
+    *this = ja;
 }
 
+// NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
 JsonArray &JsonArray::operator=( const JsonArray &ja )
 {
     jsin = ja.jsin;

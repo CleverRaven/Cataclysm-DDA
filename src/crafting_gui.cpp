@@ -81,11 +81,11 @@ static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 static std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
-static int craft_info_width( const int window_width );
+static int craft_info_width( int window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
-                              TAB_MODE mode, const bool filtered_unread,
+                              TAB_MODE mode, bool filtered_unread,
                               std::map<std::string, bool> &unread );
 static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
                                  const std::string &subtab,
@@ -492,13 +492,13 @@ class recipe_result_info_cache
 
         void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
                                   std::vector<iteminfo> &details_info );
-        void get_item_details( item &dummy_item, const int quantity_per_batch,
-                               std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges );
-        void get_item_header( item &dummy_item, const int quantity_per_batch, std::vector<iteminfo> &info,
-                              const std::string &classification, const bool uses_charges );
-        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec, const std::string title );
+        void get_item_details( item &dummy_item, int quantity_per_batch,
+                               std::vector<iteminfo> &details_info, const std::string &classification, bool uses_charges );
+        void get_item_header( item &dummy_item, int quantity_per_batch, std::vector<iteminfo> &info,
+                              const std::string &classification, bool uses_charges );
+        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec, const std::string &title );
     public:
-        item_info_data get_result_data( const recipe *rec, const int batch_size, int &scroll_pos,
+        item_info_data get_result_data( const recipe *rec, int batch_size, int &scroll_pos,
                                         const catacurses::window &window );
 };
 
@@ -612,6 +612,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     if( result_uses_charges ) {
         dummy_result.charges = 1;
     }
+    dummy_result.set_var( "recipe_exemplar", rec->ident().str() );
     item dummy_container;
 
     //Several terms are used repeatedly in headers/descriptions, list them here for a single entry/translation point
@@ -638,7 +639,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
             dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
             //Put together the summary in info:
             get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
-            get_item_header( dummy_container, makes_amount, info, in_container_string,
+            get_item_header( dummy_container, 1, info, in_container_string,
                              false ); //Seems reasonable to assume a container won't use charges
             //Put together the details in details_info:
             insert_iteminfo_block_separator( details_info, recipe_result_string );
@@ -646,7 +647,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
                               result_uses_charges );
 
             insert_iteminfo_block_separator( details_info, container_info_string );
-            get_item_details( dummy_container, makes_amount, details_info, container_string, false );
+            get_item_details( dummy_container, 1, details_info, container_string, false );
         } else { //If it's not in a container, just tell us about the item
             //Add a line to the summary:
             get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
@@ -668,7 +669,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
 }
 
 void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
-        const std::string title )
+        const std::string &title )
 {
     info_vec.emplace_back( "DESCRIPTION", "--" );
     info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( title, 0,

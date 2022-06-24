@@ -53,6 +53,7 @@ Use the `Home` key to return to the top.
       - [`points`](#points)
       - [`addictions`](#addictions)
       - [`shopkeeper_consumption_rates`](#shopkeeper_consumption_rates)
+      - [`shopkeeper_blacklist`](#shopkeeper_blacklist)
       - [`skills`](#skills)
       - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
@@ -1458,9 +1459,32 @@ Example:
   "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
   "rates": [ // lower entries override higher ones
       { "item": "hammer", "rate": 1 },
+      { 
+        "item": "hammer",
+        "rate": 10,
+        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" } 
+      },
       { "category": "ammo", "rate": 10 },
       { "group": "EXODII_basic_trade", "rate": 100 }
       { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+  ]
+```
+`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](NPCs.md#player-or-npc-conditions).
+
+#### `shopkeeper_blacklist`
+Similar to `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_blacklist",
+  "id": "basic_blacklist",
+  "entries": [
+      { 
+        "item": "hammer",
+        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+        "message": "<npcname> hates this item"
+      },
+      { "category": "ammo" },
+      { "group": "EXODII_basic_trade" }
   ]
 ```
 
@@ -2357,7 +2381,7 @@ at level `2` to the item.
 "purifiable": false, //Sets if the mutation be purified (default: true)
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
-"player_display": true, //Trait is displayed in the `@` player display menu
+"player_display": true, //Trait is displayed in the `@` player display menu and mutations screen
 "vanity": false, //Trait can be changed any time with no cost, like hair, eye color and skin color
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation
@@ -2437,7 +2461,8 @@ at level `2` to the item.
 "cardio_multiplier": 1.5, // Multiply total cardio fitness by this amount
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
-"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"mending_modifier": 1.2, // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"spells_learned": [ [ "spell_slime_spray", 1 ] ], // spells learned and the level they're at after gaining the trait/mutation.
 "transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transform into
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).

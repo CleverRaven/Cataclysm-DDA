@@ -711,7 +711,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Failsafe for tec_none
         if( technique_id == tec_none ) {
-            attack_vector = "HANDS";
+            attack_vector = cur_weapon->is_null() ? "HANDS" : "WEAPON";
         } else {
             attack_vector = martial_arts_data->get_valid_attack_vector( *this,
                             technique_id.obj().attack_vectors );
@@ -723,9 +723,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         }
 
-        // If no weapon is selected, use highest layer of gloves instead.
+        // If no weapon is selected, use highest layer of clothing for attack vector instead.
         if( attack_vector != "WEAPON" ) {
-            worn.current_unarmed_weapon( attack_vector, cur_weapon );
+            cur_weapon = worn.current_unarmed_weapon( attack_vector );
         }
 
         damage_instance d;
@@ -2128,7 +2128,7 @@ item &Character::best_shield()
     best_value = best_value == 2 ? 0 : best_value;
     item *best = best_value > 0 ? &weapon : &null_item_reference();
     item *best_worn = worn.best_shield();
-    if( best_worn != nullptr ) {
+    if( best_worn != nullptr && melee::blocking_ability( *best_worn ) >= best_value ) {
         best = best_worn;
     }
 

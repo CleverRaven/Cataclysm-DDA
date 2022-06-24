@@ -117,7 +117,7 @@ std::pair<std::string, nc_color> temp_delta_arrows( const Character &u );
 // Character morale, as a color-coded ascii emoticon face
 std::pair<std::string, nc_color> morale_face_color( const avatar &u );
 // Helpers for morale_face_color
-std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const mood_face &face );
+std::pair<std::string, nc_color> morale_emotion( int morale_cur, const mood_face &face );
 
 // Current movement mode and color, as single letter or full word
 std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
@@ -132,16 +132,16 @@ std::pair<std::string, nc_color> str_text_color( const Character &p );
 std::pair<std::string, nc_color> dex_text_color( const Character &p );
 std::pair<std::string, nc_color> int_text_color( const Character &p );
 std::pair<std::string, nc_color> per_text_color( const Character &p );
-std::pair<std::string, nc_color> safe_mode_text_color( const bool classic_mode );
+std::pair<std::string, nc_color> safe_mode_text_color( bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
 std::pair<std::string, nc_color> weather_text_color( const Character &u );
 
 // Get visible threats by cardinal direction - Already colorized
-std::string colorized_compass_text( const cardinal_direction dir, int width );
+std::string colorized_compass_text( cardinal_direction dir, int width );
 std::string colorized_compass_legend_text( int width, int max_height, int &height );
 
 // Get color-coded body graph representing body part HP
-std::string colorized_bodygraph_text( const Character &u, const std::string graph_id, int width,
+std::string colorized_bodygraph_text( const Character &u, std::string graph_id, int width,
                                       int max_height, int &height );
 
 // Define color for displaying the body temperature
@@ -151,17 +151,17 @@ nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool
                      bool infect );
 
 // Color for displaying the given encumbrance level
-nc_color encumb_color( const int level );
+nc_color encumb_color( int level );
 
 // Colorized symbol for the overmap tile at the given location
 std::pair<std::string, nc_color> overmap_tile_symbol_color( const avatar &u,
-        const tripoint_abs_omt &omt, const bool edge_tile, bool &found_mi );
+        const tripoint_abs_omt &omt, bool edge_tile, bool &found_mi );
 // Colorized symbol for an overmap note, given its full text
-std::pair<std::string, nc_color> overmap_note_symbol_color( const std::string note_text );
+std::pair<std::string, nc_color> overmap_note_symbol_color( const std::string &note_text );
 // Mission marker position as an offset within an overmap of given width and height
 point mission_arrow_offset( const avatar &you, int width, int height );
 // Fully colorized newline-separated overmap string of the given size, centered on character
-std::string colorized_overmap_text( const avatar &u, const int width, const int height );
+std::string colorized_overmap_text( const avatar &u, int width, int height );
 // Current overmap position (coordinates)
 std::string overmap_position_text( const tripoint_abs_omt &loc );
 

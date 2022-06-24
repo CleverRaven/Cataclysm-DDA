@@ -192,7 +192,7 @@
     "type": "ARMOR",
     "name": { "str": "wool cloak" },
     "description": "A heavy woolen cloak meant to be thrown over your body.",
-    "weight": "1525 g",
+    "weight": "900 g",
     "volume": "3750 ml",
     "price": 24500,
     "price_postapoc": 750,

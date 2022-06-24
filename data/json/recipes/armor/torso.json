@@ -7,10 +7,10 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "9 h",
+    "time": "7 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 7 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
@@ -24,7 +24,7 @@
     "time": "12 h",
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "reversible": true,
-    "using": [ [ "sewing_standard", 68 ], [ "fabric_standard_nostretch", 4 ], [ "fabric_leather_fur_hide", 7 ] ],
+    "using": [ [ "tailoring_cotton_small", 4 ], [ "tailoring_leather_patchwork", 8 ] ],
     "components": [ [ [ "cordage_superior", 4, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -37,7 +37,7 @@
     "type": "recipe",
     "copy-from": "armor_lamellar",
     "time": "12 h",
-    "using": [ [ "sewing_standard", 51 ], [ "fabric_standard_nostretch", 3 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "tailoring_cotton_small", 3 ], [ "tailoring_leather_patchwork", 6 ] ],
     "components": [ [ [ "cordage_superior", 3, "LIST" ] ] ]
   },
   {
@@ -45,7 +45,7 @@
     "type": "recipe",
     "copy-from": "armor_lamellar",
     "time": "13 h 30 m",
-    "using": [ [ "sewing_standard", 96 ], [ "fabric_standard_nostretch", 6 ], [ "fabric_leather_fur_hide", 9 ] ],
+    "using": [ [ "tailoring_cotton_small", 5 ], [ "tailoring_leather_patchwork", 9 ] ],
     "components": [ [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
@@ -72,8 +72,9 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
+    "using": [ [ "tailoring_fur_patchwork", 1 ] ],
+    "byproducts": [ [ "scrap_fur", 2 ] ],
     "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 12 ], [ "tailoring_fur_small", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.25, "fail_multiplier": 1.25 },
       { "proficiency": "prof_furriery", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
@@ -89,8 +90,8 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
+    "using": [ [ "tailoring_leather_patchwork", 1 ] ],
     "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 12 ], [ "tailoring_leather_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
@@ -103,8 +104,7 @@
     "difficulty": 5,
     "time": "7 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 100 ], [ "fabric_felt", 25 ], [ "button", 2 ] ],
+    "using": [ [ "tailoring_felt_patchwork", 27 ], [ "button", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -131,7 +131,7 @@
     "difficulty": 2,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 2 ], [ "fastener_small", 3 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 3 ] ],
     "components": [ [ [ "wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
@@ -159,26 +159,26 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 18 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 24 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "bellywrap_fur",
     "type": "recipe",
     "copy-from": "bellywrap",
-    "components": [ [ [ "fur", 20 ] ] ]
+    "components": [ [ [ "fur", 24 ] ] ]
   },
   {
     "result": "bellywrap_leather",
     "type": "recipe",
     "copy-from": "bellywrap",
-    "components": [ [ [ "leather", 20 ] ] ]
+    "components": [ [ [ "leather", 24 ] ] ]
   },
   {
     "result": "bellywrap_wool",
     "type": "recipe",
     "copy-from": "bellywrap",
-    "components": [ [ [ "felt_patch", 18 ] ] ]
+    "components": [ [ [ "felt_patch", 40 ] ] ]
   },
   {
     "result": "chestwrap",
@@ -190,7 +190,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "fabric_standard_nostretch", 9 ] ],
+    "components": [ [ [ "sheet_cotton", 3 ], [ "sheet_cotton_patchwork", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -203,7 +203,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "fabric_fur", 12 ] ],
+    "components": [ [ [ "tanned_pelt", 1 ], [ "sheet_fur_patchwork", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -216,7 +216,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "fabric_leather_hide", 2 ] ],
+    "components": [ [ [ "tanned_hide", 1 ], [ "sheet_leather_patchwork", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -229,6 +229,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
+    "components": [ [ [ "sheet_felt_patchwork", 4 ], [ "sheet_felt", 4 ] ] ],
     "using": [ [ "fabric_felt", 9 ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -245,7 +246,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 11 ], [ "fabric_fur_pelt", 2 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 6 ], [ "tailoring_fur_patchwork", 6 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -257,14 +258,14 @@
     "type": "recipe",
     "copy-from": "coat_fur",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 8 ], [ "fabric_fur_pelt", 1 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_fur_patchwork", 4 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_coat_fur",
     "type": "recipe",
     "copy-from": "coat_fur",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 17 ], [ "fabric_fur_pelt", 3 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "coat_faux_fur",
@@ -277,7 +278,7 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 3 ] ],
     "reversible": true,
-    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 17 ], [ "fabric_fauxfur", 12 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 6 ], [ "tailoring_faux_fur_patchwork", 6 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -289,14 +290,14 @@
     "type": "recipe",
     "copy-from": "coat_faux_fur",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 12 ], [ "fabric_fauxfur", 9 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_faux_fur_patchwork", 4 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_coat_faux_fur",
     "type": "recipe",
     "copy-from": "coat_faux_fur",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 17 ], [ "fabric_fauxfur", 18 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_faux_fur_patchwork", 8 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "coat_gut",
@@ -352,7 +353,7 @@
     "difficulty": 8,
     "time": "9 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 1 ], [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -368,7 +369,7 @@
     "type": "recipe",
     "copy-from": "cuirass_lightplate",
     "time": "9 h",
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 1 ], [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -376,7 +377,7 @@
     "type": "recipe",
     "copy-from": "cuirass_lightplate",
     "time": "10 h 10 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 44 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "tailoring_leather_small", 6 ], [ "blacksmithing_standard", 44 ], [ "steel_standard", 10 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -392,7 +393,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 2 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 8 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 8 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
@@ -405,7 +406,7 @@
     "copy-from": "cuirass_scrap",
     "time": "3 h",
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 6 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "xl_cuirass_scrap",
@@ -413,7 +414,7 @@
     "copy-from": "cuirass_scrap",
     "time": "3 h 20 m",
     "using": [ [ "cordage", 3 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 10 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 10 ] ] ]
   },
   {
     "result": "cuirass_tire",
@@ -730,7 +731,7 @@
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "tailor_japanese", 5 ] ],
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 20 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 24 ] ]
   },
   {
     "result": "hoodie",
@@ -743,7 +744,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 14 ], [ "fabric_standard_nostretch", 12 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 40 ] ]
   },
   {
     "result": "house_coat",
@@ -756,7 +757,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 15 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 36 ] ]
   },
   {
     "result": "jacket_leather",
@@ -850,7 +851,7 @@
     "time": "1 h 45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 10 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 16 ] ]
   },
   {
     "result": "long_undertop_sleeveless",
@@ -863,7 +864,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 13 ], [ "fabric_standard_nostretch", 8 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
     "result": "long_undertop_sleeveless",
@@ -875,7 +876,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 2 ] ],
+    "byproducts": [ [ "cotton_patchwork", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "long_undertop", 1 ] ] ]
@@ -891,7 +892,7 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 8 ], [ "fabric_standard_nostretch", 7 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
     "result": "lsurvivor_armor",
@@ -1026,7 +1027,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 3 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 3 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
   },
   {
@@ -1041,7 +1042,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 2 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 2 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
   },
   {
@@ -1055,7 +1056,7 @@
     "time": "9 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 120 ], [ "fabric_felt", 30 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_felt_patchwork", 36 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -1084,7 +1085,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ], [ "fabric_felt", 30 ] ]
+    "using": [ [ "tailoring_felt_patchwork", 18 ] ]
   },
   {
     "result": "poncho",
@@ -1112,7 +1113,7 @@
     "time": "6 h 48 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 27 ], [ "fabric_standard_nostretch", 19 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 16 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -1126,7 +1127,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 5 ] ],
+    "byproducts": [ [ "cotton_patchwork", 8 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster", 1 ] ] ]
@@ -1144,7 +1145,7 @@
     "time": "8 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 50 ], [ "fabric_fur_pelt", 6 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1164,7 +1165,7 @@
     "time": "8 h 30 m",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
-    "using": [ [ "sewing_standard", 50 ], [ "fabric_standard_nostretch", 20 ], [ "fabric_fauxfur", 12 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_faux_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1183,7 +1184,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "fur", 6 ] ],
+    "byproducts": [ [ "fur", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_fur", 1 ] ] ]
@@ -1199,7 +1200,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "faux_fur", 6 ] ],
+    "byproducts": [ [ "faux_fur", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_faux_fur", 1 ] ] ]
@@ -1217,7 +1218,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 50 ], [ "fabric_leather_hide", 4 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "fabric_leather_hide", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1252,7 +1253,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 4 ] ],
+    "byproducts": [ [ "cotton_patchwork", 8 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_survivor", 1 ] ] ]
@@ -1269,7 +1270,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "10 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 115 ], [ "fabric_standard_nostretch", 14 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 12 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ], [ "sleeveless_duster", 1 ] ],
@@ -1309,7 +1310,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 2 ] ],
+    "byproducts": [ [ "cotton_patchwork", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat", 1 ] ] ]
@@ -1326,7 +1327,7 @@
     "time": "6 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 16 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 24 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1340,7 +1341,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "fur", 2 ] ],
+    "byproducts": [ [ "fur", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_fur", 1 ] ] ]
@@ -1356,7 +1357,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "faux_fur", 2 ] ],
+    "byproducts": [ [ "faux_fur", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_faux_fur", 1 ] ] ]
@@ -1374,7 +1375,7 @@
     "time": "7 h 45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 38 ], [ "fabric_fur_pelt", 5 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1394,7 +1395,7 @@
     "time": "7 h 45 m",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
-    "using": [ [ "sewing_standard", 38 ], [ "fabric_standard_nostretch", 10 ], [ "fabric_fauxfur", 10 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "fabric_fauxfur", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1431,7 +1432,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 38 ], [ "fabric_leather_hide", 3 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
@@ -1451,7 +1452,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "11 h 45 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 85 ], [ "fabric_standard_nostretch", 11 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 12 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
@@ -1491,7 +1492,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 4 ] ],
+    "byproducts": [ [ "cotton_patchwork", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_survivor", 1 ] ] ]
@@ -1506,7 +1507,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 2 ] ],
+    "byproducts": [ [ "cotton_patchwork", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "tunic", 1 ] ] ]
@@ -1522,7 +1523,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 8 ], [ "fabric_standard_nostretch", 8 ] ]
+    "using": [ [ "sewing_standard", 8 ], [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
     "result": "sports_bra",
@@ -1535,7 +1536,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_lycra", 2 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
@@ -1543,7 +1544,7 @@
     "type": "recipe",
     "copy-from": "sports_bra",
     "time": "1 h 30 m",
-    "using": [ [ "sewing_standard", 11 ], [ "fabric_lycra", 1 ] ]
+    "using": [ [ "tailoring_lycra_patchwork", 1 ] ]
   },
   {
     "result": "xlsports_bra",
@@ -1556,7 +1557,7 @@
     "time": "1 h 40 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 25 ], [ "fabric_lycra", 4 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
@@ -1571,7 +1572,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
-    "using": [ [ "sewing_standard", 12 ], [ "fabric_standard_nostretch", 6 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
     "result": "maid_dress",
@@ -1583,7 +1584,7 @@
     "time": "3 h 30 m",
     "reversible": true,
     "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 10 ] ]
+    "using": [ [ "tailoring_cotton", 8 ] ]
   },
   {
     "result": "maid_dress_short",
@@ -1595,7 +1596,7 @@
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 6 ] ]
+    "using": [ [ "tailoring_cotton", 6 ] ]
   },
   {
     "result": "sweater",
@@ -1638,7 +1639,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 14 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 14 ] ]
   },
   {
     "result": "tank_top",
@@ -1651,7 +1652,7 @@
     "time": "38 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 4 ], [ "fabric_standard_nostretch", 4 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 4 ] ]
   },
   {
     "result": "tireplate",
@@ -1677,7 +1678,7 @@
     "time": "2 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 8 ], [ "fabric_lycra", 7 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
@@ -1691,7 +1692,7 @@
     "time": "6 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 23 ], [ "fabric_standard_nostretch", 18 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 36 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
   },
   {
@@ -1706,7 +1707,7 @@
     "time": "8 h 20 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 45 ], [ "fabric_fur_pelt", 5 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_fur_patchwork", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1725,7 +1726,7 @@
     "time": "8 h 20 m",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
-    "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 14 ], [ "fabric_fauxfur", 12 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_faux_fur_patchwork", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1745,7 +1746,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 45 ], [ "fabric_leather_hide", 4 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
@@ -1764,7 +1765,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "10 h 30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ], [ "fabric_standard_nostretch", 14 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 16 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army_modern", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
@@ -1804,7 +1805,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 4 ], [ "fabric_standard_nostretch", 5 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 3 ] ]
   },
   {
     "result": "tshirt",
@@ -1816,7 +1817,7 @@
     "skill_used": "tailor",
     "time": "2 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 2 ] ],
+    "byproducts": [ [ "cotton_patchwork", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "longshirt", 1 ] ] ]
@@ -1832,7 +1833,7 @@
     "time": "45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 10 ], [ "fabric_standard_nostretch", 10 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
     "result": "under_armor",
@@ -1845,7 +1846,7 @@
     "time": "55 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_lycra", 4 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
@@ -1859,7 +1860,7 @@
     "time": "45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 4 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 3 ] ]
   },
   {
     "result": "unitard",
@@ -1872,7 +1873,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_lycra", 10 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
@@ -1889,7 +1890,7 @@
     "decomp_learn": 6,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 2 } ],
-    "using": [ [ "armor_kevlar_layered", 64 ] ],
+    "using": [ [ "armor_kevlar_layered", 24 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 1.25 } ]
   },
   {
@@ -1905,7 +1906,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "fabric_leather_hide", 2 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
@@ -1917,7 +1918,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "leather", 5 ] ],
+    "byproducts": [ [ "leather", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "jacket_leather", 1 ] ] ]
@@ -1952,7 +1953,7 @@
     "time": "3 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 100 ], [ "fabric_felt", 13 ] ]
+    "using": [ [ "tailoring_felt_patchwork", 20 ] ]
   },
   {
     "result": "lc_chainmail_vest",
@@ -1964,7 +1965,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "tailoring_cotton_patchwork", 6 ] ],
     "components": [ [ [ "lc_link_sheet", 7 ] ], [ [ "lc_chain_link", 175 ] ], [ [ "lc_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -1973,7 +1974,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "tailoring_cotton_patchwork", 4 ] ],
     "components": [ [ [ "lc_link_sheet", 5 ] ], [ [ "lc_chain_link", 131 ] ], [ [ "lc_wire", 1 ] ] ]
   },
   {
@@ -1981,7 +1982,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "tailoring_cotton_patchwork", 9 ] ],
     "components": [ [ [ "lc_link_sheet", 10 ] ], [ [ "lc_chain_link", 210 ] ], [ [ "lc_wire", 2 ] ] ]
   },
   {
@@ -1994,7 +1995,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "tailoring_cotton_patchwork", 6 ] ],
     "components": [ [ [ "mc_link_sheet", 7 ] ], [ [ "mc_chain_link", 175 ] ], [ [ "mc_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -2003,7 +2004,7 @@
     "type": "recipe",
     "copy-from": "mc_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "tailoring_cotton_patchwork", 4 ] ],
     "components": [ [ [ "mc_link_sheet", 5 ] ], [ [ "mc_chain_link", 131 ] ], [ [ "mc_wire", 1 ] ] ]
   },
   {
@@ -2011,7 +2012,7 @@
     "type": "recipe",
     "copy-from": "mc_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "tailoring_cotton_patchwork", 9 ] ],
     "components": [ [ [ "mc_link_sheet", 10 ] ], [ [ "mc_chain_link", 210 ] ], [ [ "mc_wire", 2 ] ] ]
   },
   {
@@ -2024,7 +2025,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "tailoring_cotton_patchwork", 6 ] ],
     "components": [ [ [ "hc_link_sheet", 7 ] ], [ [ "hc_chain_link", 175 ] ], [ [ "hc_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -2033,7 +2034,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "tailoring_cotton_patchwork", 4 ] ],
     "components": [ [ [ "hc_link_sheet", 5 ] ], [ [ "hc_chain_link", 131 ] ], [ [ "hc_wire", 1 ] ] ]
   },
   {
@@ -2041,7 +2042,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "tailoring_cotton_patchwork", 9 ] ],
     "components": [ [ [ "hc_link_sheet", 10 ] ], [ [ "hc_chain_link", 210 ] ], [ [ "hc_wire", 2 ] ] ]
   },
   {
@@ -2054,7 +2055,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "tailoring_cotton_patchwork", 6 ] ],
     "components": [ [ [ "ch_link_sheet", 7 ] ], [ [ "ch_chain_link", 175 ] ], [ [ "ch_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -2063,7 +2064,7 @@
     "type": "recipe",
     "copy-from": "ch_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "tailoring_cotton_patchwork", 4 ] ],
     "components": [ [ [ "ch_link_sheet", 5 ] ], [ [ "ch_chain_link", 131 ] ], [ [ "ch_wire", 1 ] ] ]
   },
   {
@@ -2071,7 +2072,7 @@
     "type": "recipe",
     "copy-from": "ch_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "tailoring_cotton_patchwork", 9 ] ],
     "components": [ [ [ "ch_link_sheet", 10 ] ], [ [ "ch_chain_link", 210 ] ], [ [ "ch_wire", 2 ] ] ]
   },
   {
@@ -2084,7 +2085,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "tailoring_cotton_patchwork", 6 ] ],
     "components": [ [ [ "qt_link_sheet", 7 ] ], [ [ "qt_chain_link", 175 ] ], [ [ "qt_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -2093,7 +2094,7 @@
     "type": "recipe",
     "copy-from": "qt_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "tailoring_cotton_patchwork", 4 ] ],
     "components": [ [ [ "qt_link_sheet", 5 ] ], [ [ "qt_chain_link", 131 ] ], [ [ "qt_wire", 1 ] ] ]
   },
   {
@@ -2101,7 +2102,7 @@
     "type": "recipe",
     "copy-from": "qt_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "tailoring_cotton_patchwork", 9 ] ],
     "components": [ [ [ "qt_link_sheet", 10 ] ], [ [ "qt_chain_link", 210 ] ], [ [ "qt_wire", 2 ] ] ]
   },
   {
@@ -2678,7 +2679,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton", 1 ], [ "clasps", 3 ], [ "fabric_standard_nostretch", 5 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "clasps", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -2692,7 +2693,7 @@
     "time": "2 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 3 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ], [ "clasps", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   }
 ]

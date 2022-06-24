@@ -32,7 +32,7 @@
         "topic": "TALK_STRANGER_NEUTRAL",
         "effect": "player_weapon_drop",
         "opinion": { "trust": 4, "fear": -3 },
-        "condition": "u_has_weapon"
+        "condition": { "and": [ "u_has_weapon", "u_can_stow_weapon" ] }
       },
       {
         "text": "Don't worry, I'm not going to hurt you",
@@ -96,7 +96,12 @@
     "type": "talk_topic",
     "dynamic_line": { "u_has_weapon": "<drop_it>", "no": "This is my territory, <name_b>." },
     "responses": [
-      { "text": "Drop weapon.", "topic": "TALK_DEMAND_LEAVE", "condition": "u_has_weapon", "effect": "player_weapon_drop" },
+      {
+        "text": "Drop weapon.",
+        "topic": "TALK_DEMAND_LEAVE",
+        "condition": { "and": [ "u_has_weapon", "u_can_stow_weapon" ] },
+        "effect": "player_weapon_drop"
+      },
       {
         "text": "Calm down.  I'm not going to hurt you.",
         "trial": {
@@ -144,7 +149,12 @@
         "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }
       },
-      { "text": "Drop weapon.", "topic": "TALK_MUG", "condition": "u_has_weapon", "effect": "player_weapon_drop" },
+      {
+        "text": "Drop weapon.",
+        "topic": "TALK_MUG",
+        "condition": { "and": [ "u_has_weapon", "u_can_stow_weapon" ] },
+        "effect": "player_weapon_drop"
+      },
       {
         "text": "Put hands up.",
         "topic": "TALK_DONE",

@@ -255,7 +255,7 @@
     "id": "MISSION_DOG_LOVER",
     "type": "mission_definition",
     "name": { "str": "Protect your canine friends" },
-    "description": "You have saved your dogs from the fall of the world, but they could still suffer from danger everywhere.  Police dogs used some kevlar harnesses for protection…  Maybe your friends could use some too?",
+    "description": "You have saved your dogs from the fall of the world, but they could still suffer from danger everywhere.  Police dogs used some Kevlar harnesses for protection…  Maybe your friends could use some too?",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "item": "kevlar_harness",

@@ -400,7 +400,11 @@ item::reload_option Character::select_ammo( const item &base, bool prompt, bool 
     } );
 
     if( is_npc() ) {
-        return ammo_list[ 0 ];
+        if( ammo_list[0].ammo.get_item()->ammo_remaining() > 0 ) {
+            return ammo_list[0];
+        } else {
+            return item::reload_option();
+        }
     }
 
     if( !prompt && ammo_list.size() == 1 ) {

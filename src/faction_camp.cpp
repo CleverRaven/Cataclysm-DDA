@@ -3005,7 +3005,7 @@ void basecamp::start_crafting( const std::string &type, const mission_id &miss_i
             components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
-                for( const item &byproducts : making.create_byproducts() ) {
+                for( const item &byproducts : making.create_byproducts( batch_size ) ) {
                     comp->companion_mission_inv.add_item( byproducts );
                 }
             }
@@ -3550,10 +3550,7 @@ void basecamp::fortifications_return( const mission_id miss_id )
     }
 }
 
-static void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
-        bool &mirror_vertical, bool &mirror_horizontal, int &rotation );
-
-void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
+static void salt_water_pipe_orientation_adjustment( const point &dir, bool &orthogonal,
         bool &mirror_vertical, bool &mirror_horizontal, int &rotation )
 {
     orthogonal = true;

@@ -284,7 +284,7 @@ struct dialogue {
         talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
         dialogue() = default;
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
-        talker *actor( const bool is_beta ) const;
+        talker *actor( bool is_beta ) const;
 
         mutable itype_id cur_item;
         mutable std::string reason;

@@ -219,8 +219,8 @@ class tileset_cache
 {
     public:
         std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
-                const SDL_Renderer_Ptr &renderer, const bool precheck,
-                const bool force, const bool pump_events );
+                const SDL_Renderer_Ptr &renderer, bool precheck,
+                bool force, bool pump_events );
     private:
         class loader;
         std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;

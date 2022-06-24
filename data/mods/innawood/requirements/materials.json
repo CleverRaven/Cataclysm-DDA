@@ -5,7 +5,7 @@
     "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 1 ],
         [ "sheet_cotton_patchwork", 1 ],
         [ "sheet_cotton", 1 ],
         [ "sheet_fibercloth", 1 ],
@@ -29,7 +29,7 @@
     "//": "Materials used for crafting or repairing woven fabrics",
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 1 ],
         [ "sheet_cotton_patchwork", 1 ],
         [ "sheet_cotton", 1 ],
         [ "sheet_fibercloth", 1 ],
@@ -50,7 +50,7 @@
     "//": "Materials used for crafting or repairing non-form fitting clothing",
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 1 ],
         [ "sheet_cotton_patchwork", 1 ],
         [ "sheet_cotton", 1 ],
         [ "sheet_fibercloth", 1 ],

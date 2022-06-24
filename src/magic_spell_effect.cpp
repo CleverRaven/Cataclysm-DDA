@@ -1119,7 +1119,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
             you->mod_pain( -healing );
         }
     } else if( energy_source == "HEALTH" ) {
-        you->mod_healthy( healing );
+        you->mod_livestyle( healing );
     } else {
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }

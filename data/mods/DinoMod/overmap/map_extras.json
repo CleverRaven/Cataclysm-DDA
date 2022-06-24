@@ -232,6 +232,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_issi",
+    "type": "map_extra",
+    "name": { "str": "issi nest" },
+    "description": "An issi nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_issi" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_kosmoceratops",
     "type": "map_extra",
     "name": { "str": "kosmoceratops nest" },

@@ -551,7 +551,7 @@ std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &
 
 bool inventory_holster_preset::is_shown( const item_location &contained ) const
 {
-    if( contained.eventually_contains( holster ) ) {
+    if( contained.eventually_contains( holster ) || holster.eventually_contains( contained ) ) {
         return false;
     }
     if( contained.where() != item_location::type::container
@@ -1212,13 +1212,16 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
     return cur_invlet;
 }
 
-int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pickup_chars )
+int inventory_column::reassign_custom_invlets( int cur_idx, const std::string &pickup_chars )
 {
     for( auto &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
-            elem.custom_invlet = cur_idx < static_cast<int>( pickup_chars.size() ) ? pickup_chars[cur_idx] :
-                                 '\0';
+            elem.custom_invlet =
+                static_cast<uint8_t>(
+                    cur_idx < static_cast<int>( pickup_chars.size() ) ?
+                    pickup_chars[cur_idx] : '\0'
+                );
             cur_idx++;
         }
     }
@@ -1782,7 +1785,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 void inventory_selector::reassign_custom_invlets()
 {
     if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
-        int min_invlet = use_invlet ? '0' : '\0';
+        int min_invlet = static_cast<uint8_t>( use_invlet ? '0' : '\0' );
         for( inventory_column *elem : columns ) {
             elem->prepare_paging();
             min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
@@ -2248,6 +2251,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "SHOW_HIDE_CONTENTS", to_translation( "Show/hide contents" ) );
     ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "TOGGLE_SKIP_UNSELECTABLE" );
+    ctxt.register_action( "ORGANIZE_MENU" );
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -2580,6 +2584,9 @@ item_location inventory_pick_selector::execute()
                 ui_manager::redraw();
             }
             return input.entry->any_item();
+        } else if( input.action == "ORGANIZE_MENU" ) {
+            u.worn.organize_items_menu();
+            return item_location();
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {
@@ -2702,7 +2709,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     for( const item_location &loc : entry.locations ) {
         for( auto iter = to_use.begin(); iter != to_use.end(); ) {
             if( iter->first == loc ) {
-                to_use.erase( iter );
+                iter = to_use.erase( iter );
             } else {
                 ++iter;
             }

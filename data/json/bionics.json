@@ -832,7 +832,7 @@
     "id": "bio_lampoil",
     "type": "bionic",
     "name": { "str": "Oil Generator" },
-    "description": "Slowly generates bionic power out of lamp oil or motor oil.",
+    "description": "Slowly generates bionic power out of kerosene or motor oil.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "fuel_options": [ "lamp_oil", "motor_oil" ],
     "fuel_capacity": 750,

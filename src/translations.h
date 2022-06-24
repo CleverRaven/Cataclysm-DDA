@@ -74,8 +74,8 @@ inline const char *pgettext( const char *context, const char *msgid )
     return TranslationManager::GetInstance().TranslateWithContext( context, msgid );
 }
 
-inline const char *npgettext( const char *const context, const char *const msgid,
-                              const char *const msgid_plural, const unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
+inline const char *npgettext( const char *context, const char *msgid,
+                              const char *msgid_plural, unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 inline const char *npgettext( const char *const context, const char *const msgid,
                               const char *const msgid_plural, const unsigned long long n )

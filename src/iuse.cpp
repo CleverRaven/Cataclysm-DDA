@@ -920,7 +920,7 @@ cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint 
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
     p->add_msg_if_player( m_good, _( "You feel tough." ) );
-    p->mod_healthy_mod( 200, 200 );
+    p->mod_daily_health( 200, 200 );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add_or_drop( syringe );
@@ -1113,8 +1113,8 @@ cata::optional<int> iuse::blech( Character *p, item *it, bool, const tripoint & 
         p->stomach.mod_nutr( -p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
         p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
-        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
-                            it->get_comestible()->healthy * multiplier );
+        p->mod_daily_health( it->get_comestible()->healthy * multiplier,
+                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else if( it->has_flag( flag_ACID ) || it->has_flag( flag_CORROSIVE ) ) {
@@ -1160,8 +1160,8 @@ cata::optional<int> iuse::plantblech( Character *p, item *it, bool, const tripoi
         //reverses the harmful values of drinking fertilizer
         p->stomach.mod_nutr( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
-        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
-                            it->get_comestible()->healthy * multiplier );
+        p->mod_daily_health( it->get_comestible()->healthy * multiplier,
+                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
@@ -1558,7 +1558,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
         p->mod_thirst( 10 );
         p->mod_fatigue( 5 );
         p->vomit(); // no hunger/quench benefit for you
-        p->mod_healthy_mod( -8, -50 );
+        p->mod_daily_health( -8, -50 );
     }
     return it->type->charges_to_use();
 }
@@ -3359,14 +3359,14 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
             const tripoint &pnt = *pnt_;
             if( pnt == p->pos() ) {
                 p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
-                                      p->leak_level( flag_RADIOACTIVE ) );
+                                      static_cast<int>( p->leak_level() ) );
                 break;
             }
             if( npc *const person_ = creatures.creature_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
                                       person.get_name(), person.get_rad(),
-                                      person.leak_level( flag_RADIOACTIVE ) );
+                                      static_cast<int>( person.leak_level() ) );
             }
             break;
         }
@@ -5247,6 +5247,7 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p->pos(), 0_degrees, 0, 0, false );
+    veh->suspend_refresh();
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return cata::nullopt;
@@ -5273,7 +5274,7 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
             return 0;
         }
     }
-
+    veh->enable_refresh();
     here.add_vehicle_to_cache( veh );
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
@@ -5304,7 +5305,7 @@ cata::optional<int> iuse::adrenaline_injector( Character *p, item *it, bool, con
     if( p->has_effect( effect_adrenaline ) ) {
         p->add_msg_if_player( m_bad, _( "Your heart spasms!" ) );
         // Note: not the mod, the health
-        p->mod_healthy( -20 );
+        p->mod_livestyle( -20 );
     }
 
     p->add_effect( effect_adrenaline, 20_minutes );
@@ -10032,6 +10033,28 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
     }
 
     return cata::nullopt;
+}
+
+cata::optional<int> iuse::voltmeter( Character *p, item *it, bool, const tripoint & )
+{
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
+    if( !pnt_ ) {
+        return cata::nullopt;
+    }
+
+    const map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( *pnt_ );
+
+    if( !vp ) {
+        p->add_msg_if_player( _( "There's nothing to measure there." ) );
+        return cata::nullopt;
+    }
+    if( vp->vehicle().fuel_left( itype_battery, true ) ) {
+        p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
+    } else {
+        p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );
+    }
+    return it->type->charges_to_use();
 }
 
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const

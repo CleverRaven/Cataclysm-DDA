@@ -1775,5 +1775,15 @@
     "id": "rabbit_foot",
     "type": "MIGRATION",
     "replace": "rabbit_sample"
+  },
+  {
+    "id": "rag",
+    "type": "MIGRATION",
+    "replace": "cotton_patchwork"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammonia",
+    "replace": "ammonia_hydroxide"
   }
 ]

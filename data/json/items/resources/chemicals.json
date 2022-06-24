@@ -94,7 +94,7 @@
     "symbol": "~",
     "color": "light_gray",
     "description": "Elemental mercury, liquid under normal conditions.  Known for its use in thermometers.",
-    "material": [ "powder_nonflam" ],
+    "material": [ "mercury" ],
     "volume": "250 ml",
     "weight": "13534 mg",
     "phase": "liquid",

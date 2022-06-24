@@ -1064,7 +1064,7 @@
       { "item": "can_drink", "prob": 60 },
       { "item": "flyer", "prob": 30 },
       { "item": "box_small", "prob": 30 },
-      { "item": "rag", "prob": 20 },
+      { "item": "cotton_patchwork", "prob": 20 },
       { "item": "bag_plastic", "prob": 20 },
       { "item": "bag_zipper", "prob": 3 },
       { "item": "bag_zipper_gallon", "prob": 1 },
@@ -1305,7 +1305,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 30 },
       { "item": "radio", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "eyedrops", "prob": 10, "charges": [ 1, 10 ] },
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       { "item": "paper", "prob": 30, "count": [ 10, 30 ] },
       [ "foon", 30 ],
       [ "spork", 30 ],
@@ -1327,7 +1327,7 @@
     "items": [
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       [ "dress_shoes", 20 ],
       [ "longshirt", 30 ],
       [ "polo_shirt", 30 ],
@@ -1353,7 +1353,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 30 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "eyedrops", "prob": 10, "charges": [ 1, 10 ] },
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       { "item": "paper", "prob": 30, "count": [ 10, 30 ] },
       [ "foon", 30 ],
       [ "spork", 30 ],
@@ -1375,7 +1375,7 @@
     "items": [
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
@@ -1405,7 +1405,7 @@
     "items": [
       { "group": "ammo_any_batteries_full", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
@@ -1449,7 +1449,7 @@
     "//": "for cs_tire_shop",
     "items": [
       { "item": "radio", "prob": 30, "charges": [ 0, 100 ] },
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
       [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ],
@@ -1470,7 +1470,7 @@
     "items": [
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
@@ -1501,7 +1501,7 @@
     "items": [
       { "group": "ammo_any_batteries_full", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
-      [ "rag", 30 ],
+      [ "cotton_patchwork", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
@@ -1909,7 +1909,7 @@
       [ "hacksaw", 5 ],
       [ "gloves_rubber", 25 ],
       [ "apron_plastic", 15 ],
-      { "item": "rag", "prob": 10, "custom-flags": [ "FILTHY" ] },
+      { "item": "cotton_patchwork", "prob": 10, "custom-flags": [ "FILTHY" ] },
       [ "bag_plastic", 20 ],
       [ "string_6", 5 ]
     ]
@@ -1928,8 +1928,8 @@
       [ "towel", 20 ],
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
       [ "gloves_medical", 20 ],
-      [ "rag", 15 ],
-      { "item": "rag", "prob": 2, "custom-flags": [ "FILTHY" ] },
+      [ "cotton_patchwork", 15 ],
+      { "item": "cotton_patchwork", "prob": 2, "custom-flags": [ "FILTHY" ] },
       [ "bag_plastic", 20 ],
       [ "jerky", 40 ]
     ]
@@ -2047,7 +2047,7 @@
       [ "knitting_needles", 15 ],
       [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],
-      [ "rag", 20 ],
+      [ "cotton_patchwork", 20 ],
       [ "needle_curved", 10 ],
       [ "nomex", 10 ],
       [ "neoprene", 5 ],

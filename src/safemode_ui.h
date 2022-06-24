@@ -105,10 +105,10 @@ class safemode
         void remove_rule( const std::string &rule_in, Creature::Attitude attitude_in );
         void clear_character_rules();
         rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
-                                  int proximity_in, const bool driving = false ) const;
+                                  int proximity_in, bool driving = false ) const;
 
         bool is_sound_safe( const std::string &sound_name_in, int proximity_in,
-                            const bool driving = false ) const;
+                            bool driving = false ) const;
 
         std::string npc_type_name();
 

@@ -266,6 +266,22 @@
     "petfood": { "food": [ "DINOFOOD_B" ] }
   },
   {
+    "id": "mon_issi_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zissi_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_issi" },
+    "volume": "500 L",
+    "weight": "500 kg",
+    "bodytype": "ostrich",
+    "hp": 100,
+    "speed": 100,
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "EAT_CROP", 10 ]
+    ]
+  },
+  {
     "id": "mon_amargasaurus_juvenile",
     "type": "MONSTER",
     "name": "brown and magenta sauropod juvenile",

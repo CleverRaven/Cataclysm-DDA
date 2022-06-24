@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "name": { "str": "axe ring holster" },
     "description": "A combination of leather and a metal ring to hold an axe on your waist.",
-    "weight": "130 g",
+    "weight": "180 g",
     "volume": "600 ml",
     "price": 3000,
     "price_postapoc": 250,

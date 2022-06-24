@@ -692,6 +692,11 @@ void mutation_branch::check_consistency()
             }
         }
 
+        // We need to display active mutations in the UI.
+        if( mdata.activated && !mdata.player_display ) {
+            debugmsg( "mutation %s is not displayed but set as active" );
+        }
+
         check_has_cyclic_dependency( mid );
 
         ::check_consistency( mdata.prereqs, mid, "prereqs" );

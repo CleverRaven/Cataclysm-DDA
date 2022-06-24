@@ -69,22 +69,24 @@
     "skill_used": "chemistry",
     "difficulty": 3,
     "time": "30 m",
+    "result_mult": 10,
+    "byproducts": [ [ "diesel", 40 ] ],
     "batch_time_factors": [ 80, 4 ],
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "book_learn": [ [ "catalytic_cracking_handbook", 5 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 }, { "id": "EXTRACT", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 40, "LIST" ] ], [ [ "water", 100 ], [ "water_clean", 100 ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "chem_washing_soda", 1 ] ],
       [
-        [ "edible_tallow_lard", 2, "LIST" ],
-        [ "tallow_tainted", 2 ],
-        [ "cooking_oil", 16 ],
-        [ "cooking_oil2", 16 ],
-        [ "any_fat", 6, "LIST" ],
-        [ "ghee", 16 ]
+        [ "edible_tallow_lard", 10, "LIST" ],
+        [ "tallow_tainted", 10 ],
+        [ "cooking_oil", 160 ],
+        [ "cooking_oil2", 160 ],
+        [ "any_fat", 60, "LIST" ],
+        [ "ghee", 160 ]
       ]
     ],
-    "//": "Making lamp oil from (tainted) fat directly is less efficient than using lard/tallow, but allows processing of spoilt fats. See #29770",
+    "//": "Making kerosene from (tainted) fat directly is less efficient than using lard/tallow, but allows processing of spoilt fats. See #29770.  Needs 10% of volume of the fats in washing soda.  I've reduced the yield percentages from what was acheived in this laboratory based article Performance of Thermochemical Conversion of Fat, Oils, and Grease into Kerosene-like Fuel in Different Production Scales.",
     "flags": [ "ALLOW_ROTTEN" ]
   }
 ]

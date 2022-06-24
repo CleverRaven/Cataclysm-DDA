@@ -2292,7 +2292,9 @@ static item_location autodoc_internal( Character &you, Character &patient,
 
         inv_s.clear_items();
         inv_s.add_character_items( you );
-        inv_s.add_character_items( patient );
+        if( you.getID() != patient.getID() ) {
+            inv_s.add_character_items( patient );
+        }
         inv_s.add_nearby_items( radius );
 
         if( inv_s.empty() ) {

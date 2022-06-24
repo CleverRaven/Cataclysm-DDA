@@ -917,7 +917,7 @@ static activity_reason_info find_base_construction(
     }
 
     const construction &build = con == nullptr ? idx.obj() : *con;
-    bool pcb = player_can_build( you, inv, build );
+    bool pcb = player_can_build( you, inv, build, true );
     //already done?
     map &here = get_map();
     const furn_id furn = here.furn( loc );

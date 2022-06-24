@@ -29,6 +29,7 @@
     "monsters": [
       { "monster": "mon_eoraptor_hatchling", "weight": 20 },
       { "monster": "mon_scutellosaurus_hatchling", "weight": 5 },
+      { "monster": "mon_oryctodromeus_hatchling", "weight": 5 },
       { "monster": "mon_dimorphodon_hatchling", "weight": 10 }
     ]
   },
@@ -226,6 +227,11 @@
     "monsters": [ { "monster": "mon_eoraptor_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_issi",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_issi_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_amargasaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_amargasaurus_hatchling" } ]
@@ -349,6 +355,11 @@
     "name": "GROUP_EGG_triceratops",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_triceratops_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_oryctodromeus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_oryctodromeus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_dimorphodon",

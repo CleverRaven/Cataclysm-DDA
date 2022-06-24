@@ -2612,27 +2612,6 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_remove_npc( const JsonObject &jo, const std::string &member )
-{
-    std::string nclass;
-    std::string chatbin;
-    std::string unique_id;
-    JsonObject const jot = jo.get_object( member );
-    optional( jot, false, "class", nclass );
-    optional( jot, false, "chat", chatbin );
-    optional( jot, false, "unique_id", unique_id );
-    function = [nclass, chatbin, unique_id]( const T & ) {
-        for( auto const &npc : overmap_buffer.get_overmap_npcs() ) {
-            if( ( nclass.empty() or npc->myclass == npc_class_id( nclass ) ) and
-                ( chatbin.empty() or npc->chatbin.first_topic == chatbin ) and
-                ( unique_id.empty() or unique_id == npc->get_unique_id() ) ) {
-                overmap_buffer.remove_npc( npc->getID() );
-            }
-        }
-    };
-}
-
-template<class T>
 void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std::string &member )
 {
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", true );
@@ -3041,8 +3020,8 @@ void talk_effect_fun_t<T>::set_mod_healthy( const JsonObject &jo, const std::str
     int_or_var<T> iov_cap = get_int_or_var<T>( jo, "cap" );
 
     function = [is_npc, iov_amount, iov_cap]( const T & d ) {
-        d.actor( is_npc )->mod_healthy_mod( iov_amount.evaluate( d ),
-                                            iov_cap.evaluate( d ) );
+        d.actor( is_npc )->mod_daily_health( iov_amount.evaluate( d ),
+                                             iov_cap.evaluate( d ) );
     };
 }
 
@@ -3905,8 +3884,6 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
-    } else if( jo.has_member( "remove_npc" ) ) {
-        subeffect_fun.set_remove_npc( jo, "remove_npc" );
     } else if( jo.has_member( "revert_location" ) ) {
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {

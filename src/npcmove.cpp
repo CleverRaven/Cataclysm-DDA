@@ -1462,7 +1462,11 @@ void npc::evaluate_best_weapon( const Creature *target )
                        !can_use( *mode.second.target ) || mode.second->get_gun_ups_drain() > ups_charges ||
                        ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                          !mode.second->is_silent() ) ) ) {
-                    compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
+                    if( it->ammo_sufficient( this ) || can_reload_current() ) {
+                        compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
+                    } else {
+                        compare( std::make_shared<npc_attack_melee>( *it ) );
+                    }
                 }
             }
         }
