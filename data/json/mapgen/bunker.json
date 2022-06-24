@@ -31,9 +31,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ":": "t_concrete"
-      }
+      "terrain": { ":": "t_concrete" }
     }
   },
   {

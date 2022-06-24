@@ -27,11 +27,7 @@
     "color": "i_blue",
     "extras": "build",
     "see_cost": 2,
-    "spawns": {
-      "group": "GROUP_VANILLA",
-      "population": [ 4, 12 ],
-      "chance": 90
-    }
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
   },
   {
     "type": "overmap_terrain",
@@ -41,11 +37,7 @@
     "color": "blue",
     "extras": "build",
     "see_cost": 2,
-    "spawns": {
-      "group": "GROUP_VANILLA",
-      "population": [ 4, 12 ],
-      "chance": 90
-    }
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
   },
   {
     "type": "overmap_terrain",
