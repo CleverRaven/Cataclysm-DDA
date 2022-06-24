@@ -4663,8 +4663,8 @@ item map::water_from( const tripoint &p )
     if( has_flag( ter_furn_flag::TFLAG_TOILET_WATER, p ) ) {
         for( item &ret : get_map().i_at( p ) ) {
             if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
-                                          temperatures::cold ) ) );
+                ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                                    temperatures::cold ) );
                 ret.poison = one_in( 3 ) ? 0 : rng( 1, 3 );
             }
             return ret;
