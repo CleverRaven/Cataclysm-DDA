@@ -565,8 +565,18 @@
         "description": "This is a tank for fuel.  Holds up to 5 liters.",
         "rigid": true,
         "watertight": true,
-		"airtight": true,
-        "ammo_restriction": { "gasoline": 5000, "diesel": 5000, "jp8": 5000, "avgas": 5000, "lamp_oil": 5000, "motor_oil": 5000, "propane": 5000, "conc_alcohol": 5000, "ammonia_liquid": 5000 }
+        "airtight": true,
+        "ammo_restriction": {
+          "gasoline": 5000,
+          "diesel": 5000,
+          "jp8": 5000,
+          "avgas": 5000,
+          "lamp_oil": 5000,
+          "motor_oil": 5000,
+          "propane": 5000,
+          "conc_alcohol": 5000,
+          "ammonia_liquid": 5000
+        }
       },
       {
         "pocket_type": "CONTAINER",
