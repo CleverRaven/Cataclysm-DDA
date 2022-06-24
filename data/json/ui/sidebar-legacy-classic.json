@@ -67,12 +67,20 @@
     "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
   {
+    "id": "lcla_vehicle_left_layout",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label" ]
+  },
+  {
     "id": "lcla_vehicle_layout",
     "type": "widget",
     "label": "Vehicle",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label", "vehicle_fuel_desc_label" ]
+    "widgets": [ "lcla_vehicle_left_layout", "vehicle_fuel_desc_label" ]
   },
   {
     "id": "lcla_place_desc",
