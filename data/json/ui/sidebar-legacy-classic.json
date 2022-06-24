@@ -6,6 +6,36 @@
     "label": "HEAD "
   },
   {
+    "id": "lcla_health_torso_graph",
+    "type": "widget",
+    "copy-from": "hp_torso_graph",
+    "label": "TORSO"
+  },
+  {
+    "id": "lcla_health_left_arm_graph",
+    "type": "widget",
+    "copy-from": "hp_left_arm_graph",
+    "label": "L ARM"
+  },
+  {
+    "id": "lcla_health_right_arm_graph",
+    "type": "widget",
+    "copy-from": "hp_right_arm_graph",
+    "label": "R ARM"
+  },
+  {
+    "id": "lcla_health_left_leg_graph",
+    "type": "widget",
+    "copy-from": "hp_left_leg_graph",
+    "label": "L LEG"
+  },
+  {
+    "id": "lcla_health_right_leg_graph",
+    "type": "widget",
+    "copy-from": "hp_right_leg_graph",
+    "label": "R LEG"
+  },
+  {
     "id": "lcla_health_left_layout",
     "type": "widget",
     "style": "layout",
@@ -13,11 +43,11 @@
     "width": 11,
     "widgets": [
       "lcla_health_head_graph",
-      "hp_torso_graph",
-      "hp_left_arm_graph",
-      "hp_right_arm_graph",
-      "hp_left_leg_graph",
-      "hp_right_leg_graph",
+      "lcla_health_torso_graph",
+      "lcla_health_left_arm_graph",
+      "lcla_health_right_arm_graph",
+      "lcla_health_left_leg_graph",
+      "lcla_health_right_leg_graph",
       "power_short_desc"
     ]
   },
