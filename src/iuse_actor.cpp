@@ -1608,16 +1608,10 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         }
 
         // Discard invalid component
-        if( !curr.made_of_any( mat_set ) )
+        // Non-salvageable items are discarded even if made of appropriate material
+        // Items count by charges should be even smaller than base materials and therefore unsalvageable
+        if( !curr.made_of_any( mat_set ) || !curr.is_salvageable() || curr.count_by_charges() )
         {
-            return;
-        }
-
-        // Non-salvageable items but made of appropriate material
-        // Items count by charges should be even smaller than base materials
-        if( !curr.is_salvageable() || curr.count_by_charges() )
-        {
-            distribute_uniformly( curr );
             return;
         }
 
