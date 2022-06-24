@@ -2394,6 +2394,15 @@ at level `2` to the item.
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu and mutations screen
 "vanity": false, //Trait can be changed any time with no cost, like hair, eye color and skin color
+"variants": [ // Cosmetic variants of this mutation
+  {
+    "id": "red", // String (mandatory): id of the variant
+    "name": { "str": "Glass-Half-Full Optimist" } // Name displayed in place of the mutation name
+    "description": "You think the glass is half-full." // Description displayed in place of mutation description, unless append_desc is true.
+    "apped_desc": false // If true, append the description, instead of replacing.
+    "weight": 1 // Used to randomly select variant when this is mutated. Chance of being selected is weight/sum-of-all-weights. If no weight is specified or weight is 0, variant will not be selected.
+  }
+]
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation
 // Both are optional, but if prereqs2 is specified prereqs must also be specified
@@ -4810,6 +4819,8 @@ A list of CBM ids that are implanted in the character.
 (optional, array of strings)
 
 Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
+
+`forced_traits` can also be specified with a variant, as `{ "trait": "trait_id", "variant": "variant_id" }` (replacing just `"trait_id"`).
 
 ## `allowed_locs`
 (optional, array of strings)

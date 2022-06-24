@@ -255,6 +255,52 @@ void reflex_activation_data::deserialize( const JsonObject &jo )
     load( jo );
 }
 
+void trait_and_var::deserialize( const JsonValue &jv )
+{
+    if( jv.test_string() ) {
+        jv.read( trait );
+    } else {
+        JsonObject jo = jv.get_object();
+        jo.read( "trait", trait );
+        jo.read( "variant", variant );
+    }
+}
+
+void trait_and_var::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "trait", trait );
+    jsout.member( "variant", variant );
+
+    jsout.end_object();
+}
+
+std::string trait_and_var::name() const
+{
+    return trait->name( variant );
+}
+
+std::string trait_and_var::desc() const
+{
+    return trait->desc( variant );
+}
+
+void mutation_variant::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    mandatory( jo, false, "name", alt_name );
+    mandatory( jo, false, "description", alt_description );
+
+    optional( jo, false, "append_desc", append_desc );
+    optional( jo, false, "weight", weight );
+}
+
+void mutation_variant::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", raw_name );
@@ -277,6 +323,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fatigue", fatigue, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
+
+    std::vector<mutation_variant> _variants;
+    optional( jo, was_loaded, "variants", _variants );
+    for( mutation_variant &var : _variants ) {
+        var.parent = id;
+        variants.emplace( var.id, var );
+    }
 
     if( jo.has_object( "spawn_item" ) ) {
         JsonObject si = jo.get_object( "spawn_item" );
@@ -556,14 +609,28 @@ std::string mutation_branch::ranged_mutation_message() const
     return raw_ranged_mutation_message.translated();
 }
 
-std::string mutation_branch::name() const
+std::string mutation_branch::name( const std::string &variant ) const
 {
-    return raw_name.translated();
+    auto variter = variants.find( variant );
+    if( variant.empty() || variter == variants.end() ) {
+        return raw_name.translated();
+    }
+
+    return variter->second.alt_name.translated();
 }
 
-std::string mutation_branch::desc() const
+std::string mutation_branch::desc( const std::string &variant ) const
 {
-    return raw_desc.translated();
+    auto variter = variants.find( variant );
+    if( variant.empty() || variter == variants.end() ) {
+        return raw_desc.translated();
+    }
+
+    if( variter->second.append_desc ) {
+        return string_format( "%s  %s", raw_desc.translated(),
+                              variter->second.alt_description.translated() );
+    }
+    return variter->second.alt_description.translated();
 }
 
 static bool has_cyclic_dependency( const trait_id &mid, std::vector<trait_id> already_visited )
@@ -728,6 +795,52 @@ nc_color mutation_branch::get_display_color() const
     }
 }
 
+const mutation_variant *mutation_branch::pick_variant() const
+{
+    weighted_int_list<const mutation_variant *> options;
+    for( const std::pair<const std::string, mutation_variant> &cur : variants ) {
+        options.add( &cur.second, cur.second.weight );
+    }
+
+    const mutation_variant **picked = options.pick();
+
+    if( picked == nullptr ) {
+        return nullptr;
+    }
+    return *picked;
+}
+
+const mutation_variant *mutation_branch::variant( const std::string &id ) const
+{
+    auto iter = variants.find( id );
+    if( id.empty() || iter == variants.end() ) {
+        return nullptr;
+    }
+
+    return &iter->second;
+}
+
+const mutation_variant *mutation_branch::pick_variant_menu() const
+{
+    if( variants.empty() ) {
+        return nullptr;
+    }
+    uilist menu;
+    menu.allow_cancel = false;
+    menu.desc_enabled = true;
+    menu.text = string_format( _( "Pick variant for: %s" ), name() );
+    std::vector<const mutation_variant *> options;
+    for( const std::pair<const std::string, mutation_variant> &var : variants ) {
+        options.emplace_back( &var.second );
+    }
+    for( size_t i = 0; i < options.size(); ++i ) {
+        menu.addentry_desc( i, true, MENU_AUTOASSIGN, name( options[i]->id ), desc( options[i]->id ) );
+    }
+    menu.query();
+
+    return options[menu.ret];
+}
+
 const std::vector<mutation_branch> &mutation_branch::get_all()
 {
     return trait_factory.get_all();
@@ -763,18 +876,18 @@ void dream::load( const JsonObject &jsobj )
     dreams.push_back( newdream );
 }
 
-bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
+bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
-    auto trait_sort_key = []( const trait_id & t ) {
-        return std::make_pair( -t->get_display_color().to_int(), t->name() );
+    auto trait_sort_key = []( const trait_and_var & t ) {
+        return std::make_pair( -t.trait->get_display_color().to_int(), t.name() );
     };
 
     return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
 }
 
-bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept
+bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
-    return localized_compare( a->name(), b->name() );
+    return localized_compare( a.name(), b.name() );
 }
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
@@ -849,7 +962,7 @@ void mutation_branch::load_trait_group( const JsonArray &entries,
             JsonArray subarr = entry.get_array();
 
             trait_id id( subarr.get_string( 0 ) );
-            tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
+            tg.add_entry( std::make_unique<Single_trait_creator>( id, "", subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
             JsonObject subobj = entry.get_object();
@@ -871,7 +984,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
     // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
         for( JsonArray pair : jsobj.get_array( "traits" ) ) {
-            tg.add_trait_entry( trait_id( pair.get_string( 0 ) ), pair.get_int( 1 ) );
+            tg.add_trait_entry( trait_id( pair.get_string( 0 ) ), "", pair.get_int( 1 ) );
         }
         return;
     }
@@ -885,10 +998,10 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
     if( jsobj.has_member( "traits" ) ) {
         for( const JsonValue entry : jsobj.get_array( "traits" ) ) {
             if( entry.test_string() ) {
-                tg.add_trait_entry( trait_id( entry.get_string() ), 100 );
+                tg.add_trait_entry( trait_id( entry.get_string() ), "", 100 );
             } else if( entry.test_array() ) {
                 JsonArray subtrait = entry.get_array();
-                tg.add_trait_entry( trait_id( subtrait.get_string( 0 ) ), subtrait.get_int( 1 ) );
+                tg.add_trait_entry( trait_id( subtrait.get_string( 0 ) ), "", subtrait.get_int( 1 ) );
             } else {
                 JsonObject subobj = entry.get_object();
                 add_entry( tg, subobj );
@@ -936,7 +1049,11 @@ void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
 
     if( obj.has_member( "trait" ) ) {
         trait_id id( obj.get_string( "trait" ) );
-        ptr = std::make_unique<Single_trait_creator>( id, probability );
+        std::string var;
+        if( obj.has_member( "variant" ) ) {
+            var = obj.get_string( "variant" );
+        }
+        ptr = std::make_unique<Single_trait_creator>( id, var, probability );
     } else if( obj.has_member( "group" ) ) {
         ptr = std::make_unique<Trait_group_creator>( trait_group::Trait_group_tag(
                     obj.get_string( "group" ) ),

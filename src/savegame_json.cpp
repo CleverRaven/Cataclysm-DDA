@@ -93,6 +93,7 @@
 #include "morale.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "optional.h"
@@ -524,6 +525,10 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.member( "charge", charge );
     json.member( "powered", powered );
     json.member( "show_sprite", show_sprite );
+    if( variant != nullptr ) {
+        json.member( "variant-parent", variant->parent );
+        json.member( "variant-id", variant->id );
+    }
     json.end_object();
 }
 
@@ -534,6 +539,15 @@ void Character::trait_data::deserialize( const JsonObject &data )
     data.read( "charge", charge );
     data.read( "powered", powered );
     data.read( "show_sprite", show_sprite );
+    if( data.has_member( "variant-parent" ) ) {
+        trait_id parent;
+        std::string variant_id;
+
+        data.read( "variant-parent", parent );
+        data.read( "variant-id", variant_id );
+
+        variant = parent->variant( variant_id );
+    }
 }
 
 void consumption_event::serialize( JsonOut &json ) const

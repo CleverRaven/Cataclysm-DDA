@@ -107,6 +107,46 @@ struct reflex_activation_data {
     void deserialize( const JsonObject &jo );
 };
 
+struct trait_and_var {
+    trait_id trait;
+    std::string variant;
+
+    trait_and_var() = default;
+    trait_and_var( const trait_id &t, const std::string &v ) : trait( t ), variant( v ) {}
+
+
+    void deserialize( const JsonValue &jv );
+    void serialize( JsonOut &jsout ) const;
+
+    std::string name() const;
+    std::string desc() const;
+
+    bool operator==( const trait_and_var &other ) const {
+        return trait == other.trait && variant == other.variant;
+    }
+};
+
+struct mutation_variant {
+    std::string id;
+
+    translation alt_name;
+    translation alt_description;
+
+    // If the description should be appended to the non-variant description
+    bool append_desc = false;
+
+    // Used for automatic selection of variant when mutation is assigned
+    // With 0 weight, the variant will never be automatically assigned
+    int weight = 0;
+
+    // !!THIS MUST BE SET AFTER LOADING!!
+    // This is the trait that the variant corresponds to, so we can save/load correctly
+    trait_id parent;
+
+    void deserialize( const JsonObject &jo );
+    void load( const JsonObject &jo );
+};
+
 struct mutation_branch {
         trait_id id;
         std::vector<std::pair<trait_id, mod_id>> src;
@@ -192,6 +232,9 @@ struct mutation_branch {
         int butchering_quality = 0;
 
         cata::value_ptr<mut_transform> transform;
+
+        // Cosmetic variants of this mutation
+        std::map<std::string, mutation_variant> variants;
 
         std::vector<std::vector<reflex_activation_data>> trigger_list;
 
@@ -353,13 +396,28 @@ struct mutation_branch {
         translation raw_name;
         translation raw_desc;
     public:
-        std::string name() const;
-        std::string desc() const;
+        std::string name( const std::string &variant = "" ) const;
+        std::string desc( const std::string &variant = "" ) const;
 
         /**
          * Returns the color to display the mutation name with.
          */
         nc_color get_display_color() const;
+        /**
+         * Picks a variant out of the possibilities based on their wieghts.
+         * If all have zero weights, returns nullptr
+         */
+        const mutation_variant *pick_variant() const;
+        /**
+         * Returns a pointer to the mutation variant with corresponding id, or nullptr if none exists
+         */
+        const mutation_variant *variant( const std::string &id ) const;
+        /**
+         * Have the player pick a variant out of the options available.
+         * Return a pointer to the variant
+         * Returns nullptr and does not open a menu if there are no variants.
+         */
+        const mutation_variant *pick_variant_menu() const;
         /**
          * Returns true if a character with this mutation shouldn't be able to wear given item.
          */
@@ -509,8 +567,9 @@ bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat );
-bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
-bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
+std::vector<trait_and_var> mutations_var_in_type( const std::string &id );
+bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );

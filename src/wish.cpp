@@ -306,7 +306,7 @@ void debug_menu::wishmutate( Character *you )
                     uilist_entry &entry = wmenu.entries[ i ];
                     entry.extratxt.txt.clear();
                     if( you->has_trait( cb.vTraits[ i ] ) ) {
-                        entry.txt = string_format( _( "%s (active)" ), cb.vTraits[ i ].obj().name() );
+                        entry.txt = string_format( _( "%s (active)" ), cb.vTraits[ i ]->name() );
                         entry.enabled = true;
                         entry.text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
@@ -314,7 +314,7 @@ void debug_menu::wishmutate( Character *you )
                             entry.extratxt.txt = "T";
                         }
                     } else {
-                        entry.txt = cb.vTraits[ i ].obj().name();
+                        entry.txt = cb.vTraits[ i ]->name();
                         entry.enabled = entry.enabled ? true : !cb.only_active;
                         entry.text_color = wmenu.text_color;
                         cb.pTraits[ cb.vTraits[ i ] ] = false;

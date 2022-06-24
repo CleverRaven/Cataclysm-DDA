@@ -795,8 +795,10 @@ void npc::randomize( const npc_class_id &type )
     clear_mutations();
 
     // Add fixed traits
-    for( const auto &tid : trait_group::traits_from( myclass->traits ) ) {
-        set_mutation( tid );
+    for( const trait_and_var &cur : trait_group::traits_from( myclass->traits ) ) {
+        const trait_id &tid = cur.trait;
+        const std::string &var = cur.variant;
+        set_mutation( tid, tid->variant( var ) );
     }
 
     // Run mutation rounds
