@@ -270,6 +270,26 @@
     "widgets": [ "status_hpg_layout_lleg", "status_hpg_layout_rleg" ]
   },
   {
+    "id": "hitpoint_graphs_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+	"label_align": "left",
+    "text_align": "left",
+    "widgets": [ "status_hpg_layout_head", "status_hpg_layout_larm", "status_hpg_layout_lleg" ]
+},
+{
+    "id": "hitpoint_graphs_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+	"label_align": "right",
+    "text_align": "right",
+    "widgets": [ "status_hpg_layout_torso", "status_hpg_layout_rarm", "status_hpg_layout_rleg" ]
+},
+  {
     "id": "hitpoint_nums_top_layout",
     "type": "widget",
     "label": "HP Nums Top",
