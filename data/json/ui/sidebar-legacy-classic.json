@@ -20,7 +20,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "width": 11,
+    "width": 12,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
     "widgets": [
       "pain_desc_no_label",
@@ -41,7 +41,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "width": 6,
+    "width": 7,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
     "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc" ]
   },
@@ -51,7 +51,7 @@
     "label": "Overmap",
     "var": "overmap_text",
     "style": "text",
-    "width": 7,
+    "width": 5,
     "height": 7,
     "text_align": "left",
     "flags": [ "W_LABEL_NONE" ]
@@ -67,20 +67,12 @@
     "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
   {
-    "id": "lcla_vehicle_left_layout",
-    "type": "widget",
-    "label": "Vehicle",
-    "style": "layout",
-    "arrange": "rows",
-    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label" ]
-  },
-  {
     "id": "lcla_vehicle_layout",
     "type": "widget",
     "label": "Vehicle",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "lcla_vehicle_left_layout", "vehicle_fuel_desc_label" ]
+    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label", "vehicle_fuel_desc_label" ]
   },
   {
     "id": "lcla_place_desc",
