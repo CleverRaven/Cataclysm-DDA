@@ -802,19 +802,13 @@
         "id": "squamish",
         "text": "A 43-man squamish jersey made of cotton, printed with the logo of the Gainesville Veeblefetzers."
       },
-      {
-        "id": "london",
-        "text": "A zero-G football jersey made of cotton, printed with the logo of the London Jets."
-      },
+      { "id": "london", "text": "A zero-G football jersey made of cotton, printed with the logo of the London Jets." },
       {
         "id": "endsville",
         "text": "A football jersey made of cotton, printed with the logo of the Endsville Fluffycats."
       },
       { "id": "tokyo", "text": "A baseball jersey made of cotton, printed with the logo of the Tokyo Samurai." },
-      {
-        "id": "basin",
-        "text": "A basketball jersey made of cotton, printed with the logo of the Basin City Blues."
-      },
+      { "id": "basin", "text": "A basketball jersey made of cotton, printed with the logo of the Basin City Blues." },
       {
         "id": "deathrace",
         "text": "A death race jersey made of cotton, printed with Frankenstein's logo and signature."
@@ -828,10 +822,7 @@
         "text": "A hockey jersey made of cotton, printed with the logo of the Monroeville Zombies."
       },
       { "id": "rugby", "text": "A rugby jersey made of cotton, printed with the logo of the Canberra Drop Bears." },
-      {
-        "id": "volleyball",
-        "text": "A volleyball jersey made of cotton, printed with the logo of the Ooarai Ducks."
-      }
+      { "id": "volleyball", "text": "A volleyball jersey made of cotton, printed with the logo of the Ooarai Ducks." }
     ],
     "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 7, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
@@ -1708,8 +1699,14 @@
         "text": "A t-shirt with the text 'I survived the apocalypse and all I got was this lousy T-shirt?'"
       },
       { "id": "zombiebelief", "text": "A t-shirt with the text 'Zombies don't care whether or not you believe.'" },
-      { "id": "cthulhuprez1", "text": "A t-shirt with the text 'Cthulhu for President: Why vote for the lesser evil'." },
-      { "id": "cthulhuprez2", "text": "A t-shirt with the text 'Cthulhu for President: This time the stars are right'." }
+      {
+        "id": "cthulhuprez1",
+        "text": "A t-shirt with the text 'Cthulhu for President: Why vote for the lesser evil'."
+      },
+      {
+        "id": "cthulhuprez2",
+        "text": "A t-shirt with the text 'Cthulhu for President: This time the stars are right'."
+      }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
