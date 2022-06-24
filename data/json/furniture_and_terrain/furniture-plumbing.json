@@ -88,8 +88,8 @@
     "move_cost_mod": 2,
     "coverage": 30,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "LIQUIDCONT" ],
-    "examine_action": "toilet",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "LIQUIDCONT", "TOILET_WATER" ],
+    "examine_action": "finite_water_source",
     "bash": {
       "str_min": 8,
       "str_max": 30,

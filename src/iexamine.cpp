@@ -179,7 +179,6 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_tree_spile( "tree_spile" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
-static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
@@ -1145,31 +1144,6 @@ void iexamine::vending( Character &you, const tripoint &examp )
         } else if( action == "QUIT" ) {
             break;
         }
-    }
-}
-
-/**
- * If there's water, allow its usage but add chance of poison.
- */
-void iexamine::toilet( Character &, const tripoint &examp )
-{
-    map_stack items = get_map().i_at( examp );
-    auto water = items.begin();
-    for( ; water != items.end(); ++water ) {
-        if( water->typeId() == itype_water ) {
-            break;
-        }
-    }
-
-    if( water == items.end() ) {
-        add_msg( m_info, _( "This toilet is empty." ) );
-    } else if( !water->made_of( phase_id::LIQUID ) ) {
-        add_msg( m_info, _( "The toilet water is frozen solid!" ) );
-    } else {
-        // Use a different poison value each time water is drawn from the toilet.
-        water->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
-
-        liquid_handler::handle_liquid_from_ground( water, examp );
     }
 }
 
@@ -6561,7 +6535,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "gaspump", &iexamine::gaspump },
             { "atm", &iexamine::atm },
             { "vending", &iexamine::vending },
-            { "toilet", &iexamine::toilet },
             { "elevator", &iexamine::elevator },
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader_robofac", &iexamine::cardreader_robofac },
