@@ -53,7 +53,7 @@
     "description": "New England classic casserole with made with butter, lobster, and crackers, in roughly that order.",
     "price": 60,
     "price_postapoc": 150,
-    "material": ["flesh", "wheat", "milk" ],
+    "material": [ "flesh", "wheat", "milk" ],
     "flags": [ "EATEN_HOT" ]
   }
 ]
