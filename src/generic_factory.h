@@ -857,9 +857,17 @@ inline bool one_char_symbol_reader( const JsonObject &jo, const std::string &mem
         return false;
     }
     if( sym_as_string.size() != 1 ) {
-        jo.throw_error( member_name + " must be exactly one ASCII character", member_name );
+        jo.throw_error(
+            string_format( "%s must be exactly one ASCII character but was %zu characters",
+                           member_name, sym_as_string.size() ), member_name );
     }
-    sym = sym_as_string.front();
+    uint8_t c = sym_as_string.front();
+    if( c > 127 ) {
+        jo.throw_error(
+            string_format( "%s must be exactly one ASCII character but was non-ASCII (%u)",
+                           member_name, c ), member_name );
+    }
+    sym = c;
     return true;
 }
 
@@ -1205,6 +1213,22 @@ class mass_reader : public generic_typed_reader<units::mass>
         }
         units::mass get_next( JsonValue &jv ) const {
             return read_from_json_string<units::mass>( jv, units::mass_units );
+        }
+};
+
+class money_reader : public generic_typed_reader<units::money>
+{
+    public:
+        bool operator()( const JsonObject &jo, const std::string &member_name,
+                         units::money &member, bool /* was_loaded */ ) const {
+            if( !jo.has_member( member_name ) ) {
+                return false;
+            }
+            member = read_from_json_string<units::money>( jo.get_member( member_name ), units::money_units );
+            return true;
+        }
+        static units::money get_next( JsonValue &jv ) {
+            return read_from_json_string<units::money>( jv, units::money_units );
         }
 };
 

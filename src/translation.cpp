@@ -156,7 +156,9 @@ void translation::deserialize( JsonIn &jsin )
             if( !suggested_pl.first && check_style ) {
                 try {
                     jsin.error( "Cannot autogenerate plural form.  "
-                                "Please specify the plural form explicitly." );
+                                "Please specify the plural form explicitly using "
+                                "'str' and 'str_pl', or 'str_sp' if the singular "
+                                "and plural forms are the same." );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
@@ -244,7 +246,9 @@ void translation::deserialize( JsonIn &jsin )
                     if( !suggested_pl.first && check_style ) {
                         try {
                             jsobj.throw_error( "Cannot autogenerate plural form.  "
-                                               "Please specify the plural form explicitly.",
+                                               "Please specify the plural form explicitly using "
+                                               "'str' and 'str_pl', or 'str_sp' if the singular "
+                                               "and plural forms are the same.",
                                                "str" );
                         } catch( const JsonError &e ) {
                             debugmsg( "(json-error)\n%s", e.what() );

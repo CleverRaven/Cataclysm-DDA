@@ -109,10 +109,10 @@ void wishproficiency( Character *you );
 void debug();
 
 /* Splits a string by @param delimiter and push_back's the elements into _Container */
-template<typename _Container>
-_Container string_to_iterable( const std::string &str, const std::string &delimiter )
+template<typename Container>
+Container string_to_iterable( const std::string &str, const std::string &delimiter )
 {
-    _Container res;
+    Container res;
 
     size_t pos = 0;
     size_t start = 0;
@@ -133,8 +133,8 @@ _Container string_to_iterable( const std::string &str, const std::string &delimi
  * @param delimiter between them
  * @param f is callable that is called to transform each value
  * */
-template<typename _Container, typename Mapper>
-std::string iterable_to_string( const _Container &values, const std::string &delimiter,
+template<typename Container, typename Mapper>
+std::string iterable_to_string( const Container &values, const std::string &delimiter,
                                 const Mapper &f )
 {
     std::string res;
@@ -147,8 +147,8 @@ std::string iterable_to_string( const _Container &values, const std::string &del
     return res;
 }
 
-template<typename _Container>
-std::string iterable_to_string( const _Container &values, const std::string &delimiter )
+template<typename Container>
+std::string iterable_to_string( const Container &values, const std::string &delimiter )
 {
     return iterable_to_string( values, delimiter, []( const std::string & f ) {
         return f;

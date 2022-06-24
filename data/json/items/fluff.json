@@ -32,6 +32,13 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
+    "id": "deck_of_cards_makeshift",
+    "type": "GENERIC",
+    "copy-from": "deck_of_cards",
+    "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
+    "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple design drawn on them."
+  },
+  {
     "id": "family_photo",
     "type": "GENERIC",
     "//": "Unique mission item for the CITY_COP.",
@@ -49,7 +56,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "pom_poms",
-    "name": { "str_pl": "pair of pom poms", "str": "pairs of pom poms" },
+    "name": { "str": "pair of pom poms", "str_pl": "pairs of pom poms" },
     "category": "other",
     "weight": "150 g",
     "color": "red",
@@ -312,7 +319,7 @@
     "id": "xedra_seismograph",
     "type": "ARMOR",
     "name": { "str": "portable seismograph" },
-    "description": "A sturdy steel briefcase, containing what appears to be an old-fashioned drum seismograph.  The stencilled acronyms of its outer case imply it was used by XEDRA as some sort of recording device.\n\nThin parallel lines cover both ends of the drum, but as they approach the middle their vibrations intensify, until the ink fuses into thick red stain.",
+    "description": "A sturdy steel briefcase, containing what appears to be an old-fashioned drum seismograph.  The stenciled acronyms of its outer case imply it was used by XEDRA as some sort of recording device.\n\nThin parallel lines cover both ends of the drum, but as they approach the middle their vibrations intensify, until the ink fuses into thick red stain.",
     "weight": "5000 g",
     "volume": "15750 ml",
     "price": 24000,

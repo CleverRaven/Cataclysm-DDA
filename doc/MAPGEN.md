@@ -60,6 +60,9 @@
     * ["om_terrain"](#om_terrain)
 * [Mission specials](#mission-specials)
     * ["target"](#target)
+* [Map Extras](#map-extras)
+    * ["map_extra"](#map_extra)
+    * [Example: mx_science](#example-mx_science)
 
 # How buildings and terrain are generated
 
@@ -756,6 +759,7 @@ Example:
 | class     | (required, string) the npc class id, see `data/json/npcs/npc.json` or define your own npc class.
 | target    | (optional, bool) this NPC is a mission target.  Only valid for `update_mapgen`.
 | add_trait | (optional, string or string array) this NPC gets these traits, in addition to any from the class definition.
+| unique_id | (optional, string) This is a unique id to descibe the npc, if an npc with this id already exists the command will silently fail.
 
 
 ### Place signs with "signs"
@@ -1386,3 +1390,143 @@ update_mapgen adds new optional keywords to a few mapgen JSON items.
 place_npc, place_monster, and place_computer can take an optional target boolean. If they have `"target": true` and are
 invoked by update_mapgen with a valid mission, then the NPC, monster, or computer will be marked as the target of the
 mission.
+
+# Map Extras
+
+Map extras can be used to place environmental objects and structures that can help create some emergent storytelling. These are placed randomly while exploring the overmap, and can range from simple ponds and groves to full-on crashed spaceships with enemies or NPCs.
+
+### "map_extra"
+
+```JSON
+{
+  "id": "mx_minefield",
+  "type": "map_extra",
+  "name": { "str": "Minefield" },
+  "description": "Mines are scattered here.",
+  "generator": { "generator_method": "map_extra_function", "generator_id": "mx_minefield" },
+  "min_max_zlevel": [ 0, 0 ],
+  "sym": "M",
+  "color": "red",
+  "autonote": true,
+  "flags": [ "MAN_MADE" ]
+}
+```
+
+| Field          | Description
+| ---            | ---
+| generator      | (_optional_) An object defining how and what this extra should spawn.
+| min_max_zlevel | (_optional_) A pair of integers defining the minimum and maximum zlevel in which this extra can spawn. Defaults to none (can spawn at any zlevel).
+| sym            | (_optional_) The symbol to use when marking this extra on the overmap. Defaults to no symbol.
+| color          | (_optional_) The color of the symbol identifying this extra on the overmap. Defaults to white.
+| autonote       | (_optional_) Whether to automatically mark this extra on the overmap. Defaults to false.
+| flags          | (_optional_) List of flags that identify this extra. These flags can be listed in `overmap_feature_flag_settings` to blacklist or whitelist map extras.
+
+The `generator` can use one of 3 methods:
+
+| Method               | Description
+| ---                  | ---
+| `map_extra_function` | The `generator_id` points to a builtin function to generate the extra. See the `builtin_functions` function map in map_extras.cpp for the current list.
+| `mapgen`             | The `generator_id` points to a `om_terrain` string within a `mapgen` definition.
+| `update_mapgen`      | The `generator_id` points to a `update_mapgen_id` string within a `mapgen` definition.
+
+### Example: mx_science
+
+The `mx_science` map extra spawns bodies of scientists as well as a few enemy mobs. The map extra definition is as follows:
+
+```JSON
+{
+  "id": "mx_science",
+  "type": "map_extra",
+  "name": { "str": "Scientists" },
+  "description": "Several corpses of scientists are here.",
+  "generator": { "generator_method": "update_mapgen", "generator_id": "mx_science" },
+  "min_max_zlevel": [ -5, 0 ],
+  "sym": "s",
+  "color": "light_red",
+  "autonote": true
+}
+```
+
+In this case the `generator_id` points to a `mapgen` definition that establishes what objects or structures will spawn at that location:
+
+```JSON
+{
+  "type": "mapgen",
+  "method": "json",
+  "update_mapgen_id": "mx_science",
+  "object": {
+    "rows": [
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "-----------1----------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "----------------------  ",
+      "                        ",
+      "                        "
+    ],
+    "monsters": {
+      " ": { "monster": "GROUP_NETHER_CAPTURED", "chance": 1, "density": 0.0001 },
+      "-": { "monster": "GROUP_NETHER_CAPTURED", "chance": 1, "density": 0.0001 }
+    },
+    "nested": {
+      "-": { "chunks": [ [ "corpse_blood_gibs_science_3x3", 1 ], [ "null", 150 ] ] },
+      "1": { "chunks": [ "corpse_blood_gibs_science_3x3" ] }
+    }
+  }
+}
+```
+
+The nested chunks define the items and fields that may spawn:
+
+```JSON
+{
+  "type": "mapgen",
+  "method": "json",
+  "nested_mapgen_id": "corpse_blood_gibs_science_3x3",
+  "object": {
+    "mapgensize": [ 3, 3 ],
+    "place_items": [ { "item": "map_extra_science", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 100 } ],
+    "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+  }
+}
+```
+
+In order for the map extra to be available for spawning, one or more `region_settings` entries need to be created for it:
+
+```JSON
+{
+  "type": "region_settings",
+  "id": "default",
+  ...
+  "map_extras": {
+    "forest": {
+      "chance": 20,
+      "extras": {
+        "mx_helicopter": 1,
+        "mx_military": 8,
+        "mx_science": 20,
+        "mx_collegekids": 25,
+        ...
+      }
+    }
+  }
+}
+
+```

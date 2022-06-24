@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "coordinates.h"
+#include "mapdata.h"
 #include "type_id.h"
 
 class map;
@@ -81,7 +82,7 @@ bool run_mapgen_update_func( const update_mapgen_id &, mapgendata &dat,
                              bool cancel_on_collision = true );
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
-            const update_mapgen_id & );
+            const update_mapgen_id &, ter_id const &base_ter = t_dirt );
 mapgen_parameters get_map_special_params( const std::string &mapgen_id );
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );

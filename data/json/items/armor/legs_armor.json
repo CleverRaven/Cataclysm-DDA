@@ -848,7 +848,7 @@
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "motorcycle jeans", "str_pl": "pairs of motorcycle jeans" },
-    "description": "A pair of thick jeans interwoven with kevlar for added durability and sporting integrated kneepads and flank protection, typically worn by motorcyclists to protect from road rash.",
+    "description": "A pair of thick jeans interwoven with Kevlar for added durability and sporting integrated kneepads and flank protection, typically worn by motorcyclists to protect from road rash.",
     "weight": "1340 g",
     "volume": "2500 ml",
     "price": 10000,

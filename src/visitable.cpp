@@ -152,14 +152,19 @@ bool read_only_visitable::has_quality( const quality_id &qual, int level, int qt
 /** @relates visitable */
 bool inventory::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    int res = 0;
-    for( const auto &stack : this->items ) {
-        res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
-        if( res >= qty ) {
-            return true;
+    const quality_query query{ qual, level, qty };
+
+    if( qualities_cache.find( query ) == qualities_cache.end() ) {
+        int res = 0;
+        for( const auto &stack : this->items ) {
+            res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
+            if( res >= qty ) {
+                qualities_cache[query] = true;
+            }
         }
     }
-    return false;
+
+    return qualities_cache[query];
 }
 
 /** @relates visitable */

@@ -182,6 +182,8 @@ struct mission_goal_condition_context {
     mission_goal_condition_context() = default;
     std::unique_ptr<talker> alpha;
     std::unique_ptr<talker> beta;
+    bool has_alpha = false;
+    bool has_beta = false;
     std::vector<mission *> missions_assigned;
     mutable std::string reason;
     bool by_radio = false;
@@ -382,6 +384,7 @@ class mission
         /*@{*/
         void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
+        void set_assigned_player_id( const character_id &char_id );
         /*@}*/
 
         /** Assigns the mission to the player. */

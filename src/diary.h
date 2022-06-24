@@ -30,7 +30,7 @@ struct diary_page {
     time_point turn;
     /*accuracy of time recorded in journal entry:
     2 = player has a watch; 1 = player is able to see the sky; 0 = no idea what time is it now*/
-    time_accuracy time_acc;
+    time_accuracy time_acc = time_accuracy::NONE;
     /*mission ids for completed/active and failed missions*/
     std::vector<int> mission_completed;
     std::vector<int> mission_active;

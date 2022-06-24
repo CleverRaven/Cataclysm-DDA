@@ -143,7 +143,7 @@ void game::serialize( std::ostream &fout )
     json.end_array();
     global_variables_instance.serialize( json );
     Messages::serialize( json );
-
+    json.member( "unique_npcs", unique_npcs );
     json.end_object();
 }
 
@@ -269,6 +269,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
             queued_global_effect_on_conditions.push( temp );
         }
         global_variables_instance.unserialize( data );
+        data.read( "unique_npcs", unique_npcs );
         inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );

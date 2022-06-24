@@ -25,7 +25,7 @@ class scoped_weather_override
 {
     public:
         explicit scoped_weather_override( const weather_type_id & );
-        void with_windspeed( const int windspeed_override );
+        void with_windspeed( int windspeed_override );
         scoped_weather_override( const scoped_weather_override & ) = delete;
         scoped_weather_override &operator=( const scoped_weather_override & ) = delete;
         ~scoped_weather_override();

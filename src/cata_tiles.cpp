@@ -485,6 +485,8 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
 
 void tileset_cache::loader::load_tileset( const std::string &img_path, const bool pump_events )
 {
+    cata_assert( sprite_width > 0 );
+    cata_assert( sprite_height > 0 );
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
     cata_assert( tile_atlas );
     tile_atlas_width = tile_atlas->w;
@@ -2099,7 +2101,12 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             } else {
                 tmp = item( found_id, calendar::turn_zero );
             }
-            sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
+            if( !variant.empty() ) {
+                tmp.set_itype_variant( variant );
+            } else {
+                tmp.clear_itype_variant();
+            }
+            sym = static_cast<uint8_t>( tmp.symbol().empty() ? ' ' : tmp.symbol().front() );
             col = tmp.color();
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
@@ -2112,7 +2119,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 col = tmp->color;
             }
         } else if( category == TILE_CATEGORY::OVERMAP_NOTE ) {
-            sym = id[5];
+            sym = static_cast<uint8_t>( id[5] );
             col = color_from_string( id.substr( 7, id.length() - 1 ) );
         }
         // Special cases for walls
@@ -2313,7 +2320,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         default:
             // player
             if( string_starts_with( found_id, "player_" ) ) {
-                seed = get_player_character().name[0];
+                seed = std::hash<std::string> {}( get_player_character().name );
                 break;
             }
             // NPC

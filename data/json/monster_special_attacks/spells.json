@@ -353,7 +353,7 @@
     "id": "shifting_mass",
     "name": { "str": "Shifting Mass Attack" },
     "description": "Drains some of your essence.",
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "base_casting_time": 75,
@@ -386,27 +386,17 @@
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" },
-          "=",
-          { "global_val": "var", "var_name": "ps_str" },
-          "+",
-          { "const": 20 }
+          { "u_val": "fatigue" },
+          "+=",
+          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 20 } ] }
         ]
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_stamina" },
-          "=",
-          { "global_val": "var", "var_name": "ps_str" },
-          "+",
-          { "const": 50 }
+          { "u_val": "stamina" },
+          "+=",
+          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 50 } ] }
         ]
-      },
-      {
-        "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" } ]
-      },
-      {
-        "arithmetic": [ { "u_val": "stamina" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_stamina" } ]
       },
       { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
     ]
@@ -416,7 +406,7 @@
     "id": "impossible_shape_attack",
     "name": { "str": "Impossible Shape Attack" },
     "description": "Hurts you mentally.",
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "base_casting_time": 75,
@@ -548,7 +538,7 @@
     "id": "mon_twisting_blade_attack",
     "name": { "str": "Twisting Blade Attack" },
     "description": "Hurts you mentally.",
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "base_casting_time": 75,
@@ -574,7 +564,7 @@
     "id": "mon_swarm_structure_attack",
     "name": { "str": "Swarm Structure Action" },
     "description": "Teleports and summons monsters.",
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "base_casting_time": 75,

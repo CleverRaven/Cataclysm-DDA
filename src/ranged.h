@@ -65,6 +65,13 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 
 int throw_cost( const Character &c, const item &to_throw );
 
+// check for steadiness for a given pos
+double calc_steadiness( const Character &you, item *weapon, const tripoint &pos,
+                        double predicted_recoil );
+
+double calculate_aim_cap( const Character &you, const tripoint &target );
+
+
 struct Target_attributes {
     int range = 1;
     double size = 0.5;

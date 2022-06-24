@@ -136,7 +136,7 @@
     "id": "lsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "light kevlar jumpsuit" },
+    "name": { "str": "light Kevlar jumpsuit" },
     "description": "A lightweight, hand-built combination armor made of Kevlar with a moisture-wicking core and additional padding in many places.  Protects from the elements as well as from harm.",
     "weight": "5200 g",
     "volume": "10500 ml",
@@ -185,7 +185,7 @@
   {
     "id": "xl_lsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL light kevlar jumpsuit" },
+    "name": { "str": "XL light Kevlar jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -193,7 +193,7 @@
   {
     "id": "xs_lsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS light kevlar jumpsuit" },
+    "name": { "str": "XS light Kevlar jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "looks_like": "lsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -203,7 +203,7 @@
     "id": "survivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "kevlar jumpsuit" },
+    "name": { "str": "Kevlar jumpsuit" },
     "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and substantial padding in many places.  Protects from the elements as well as from harm.",
     "weight": "7500 g",
     "volume": "11500 ml",
@@ -254,7 +254,7 @@
   {
     "id": "xlsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL kevlar jumpsuit" },
+    "name": { "str": "XL Kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -262,7 +262,7 @@
   {
     "id": "xssurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS kevlar jumpsuit" },
+    "name": { "str": "XS Kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -271,7 +271,7 @@
     "id": "hsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "steel-plated kevlar jumpsuit" },
+    "name": { "str": "steel-plated Kevlar jumpsuit" },
     "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and thin steel plating in many places.  Protects from the elements as well as from harm.",
     "weight": "16200 g",
     "volume": "12 L",
@@ -307,7 +307,7 @@
   {
     "id": "xl_hsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL steel-plated kevlar jumpsuit" },
+    "name": { "str": "XL steel-plated Kevlar jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 1.13, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -315,7 +315,7 @@
   {
     "id": "xs_hsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS steel-plated kevlar jumpsuit" },
+    "name": { "str": "XS steel-plated Kevlar jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -324,8 +324,8 @@
     "id": "wsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "fur kevlar jumpsuit" },
-    "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of kevlar and fur.  Protects from the elements as well as from harm.",
+    "name": { "str": "fur Kevlar jumpsuit" },
+    "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of Kevlar and fur.  Protects from the elements as well as from harm.",
     "weight": "8400 g",
     "volume": "14 L",
     "price": 200000,
@@ -360,7 +360,7 @@
   {
     "id": "xl_wsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL fur kevlar jumpsuit" },
+    "name": { "str": "XL fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -368,7 +368,7 @@
   {
     "id": "xs_wsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS fur kevlar jumpsuit" },
+    "name": { "str": "XS fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -376,8 +376,8 @@
   {
     "id": "wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
-    "name": { "str": "faux fur kevlar jumpsuit" },
-    "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of kevlar and faux fur.  Protects from the elements as well as from harm.",
+    "name": { "str": "faux fur Kevlar jumpsuit" },
+    "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of Kevlar and faux fur.  Protects from the elements as well as from harm.",
     "copy-from": "wsurvivor_jumpsuit",
     "material": [ "kevlar", "faux_fur", "lycra" ],
     "armor": [
@@ -398,7 +398,7 @@
   {
     "id": "xs_wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
-    "name": { "str": "XS faux fur kevlar jumpsuit" },
+    "name": { "str": "XS faux fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -406,7 +406,7 @@
   {
     "id": "xl_wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur kevlar jumpsuit" },
+    "name": { "str": "XL faux fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -415,8 +415,8 @@
     "id": "h20survivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "kevlar wetsuit" },
-    "description": "A hand-built combination armor made from a wetsuit padded with thin layers of kevlar.  Protects from the elements as well as from harm.",
+    "name": { "str": "Kevlar wetsuit" },
+    "description": "A hand-built combination armor made from a wetsuit padded with thin layers of Kevlar.  Protects from the elements as well as from harm.",
     "weight": "6400 g",
     "volume": "7000 ml",
     "price": 110000,
@@ -463,7 +463,7 @@
   {
     "id": "xs_h20survivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS kevlar wetsuit" },
+    "name": { "str": "XS Kevlar wetsuit" },
     "copy-from": "h20survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -471,7 +471,7 @@
   {
     "id": "xl_h20survivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL kevlar wetsuit" },
+    "name": { "str": "XL Kevlar wetsuit" },
     "copy-from": "h20survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -480,8 +480,8 @@
     "id": "fsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "kevlar firesuit" },
-    "description": "A heavy, hand-built combination armor made from flame-resistant Nomex padded with layers of kevlar.  Protects from the fire as well as from harm.",
+    "name": { "str": "Kevlar firesuit" },
+    "description": "A heavy, hand-built combination armor made from flame-resistant Nomex padded with layers of Kevlar.  Protects from the fire as well as from harm.",
     "weight": "6800 g",
     "volume": "11500 ml",
     "price": 200000,
@@ -515,7 +515,7 @@
   {
     "id": "xs_fsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS kevlar firesuit" },
+    "name": { "str": "XS Kevlar firesuit" },
     "copy-from": "fsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -523,7 +523,7 @@
   {
     "id": "xl_fsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL kevlar firesuit" },
+    "name": { "str": "XL Kevlar firesuit" },
     "copy-from": "fsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }

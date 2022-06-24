@@ -36,6 +36,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
+#include "unicode.h"
 #include "units_utility.h"
 #include "wcwidth.h"
 
@@ -363,6 +364,9 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // mouse
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
 
     catacurses::window w;
     int width = 0;
@@ -391,7 +395,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ui.on_screen_resize( screen_resize_cb );
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_border( w, BORDER_COLOR, title, c_black_white );
+        draw_border( w, BORDER_COLOR, title );
         for( int line = beg_line, pos_y = text2.y; line < std::min<int>( beg_line + text_h, lines.size() );
              ++line, ++pos_y ) {
             nc_color dummy = c_white;
@@ -407,11 +411,11 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
         ui_manager::redraw();
 
         action = ctxt.handle_input();
-        if( action == "UP" ) {
+        if( action == "UP" || action == "SCROLL_UP" ) {
             if( beg_line > 0 ) {
                 --beg_line;
             }
-        } else if( action == "DOWN" ) {
+        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             if( beg_line < max_beg_line ) {
                 ++beg_line;
             }
@@ -430,17 +434,57 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     } while( action != "CONFIRM" && action != "QUIT" );
 }
 
-// returns single string with left aligned name and right aligned value
-std::string name_and_value( const std::string &name, const std::string &value, int field_width )
+/*If name and value fit in field_width, should add a single string equivalent to trimmed_name_and_value
+ *If the name would not fit, it is folded, preserving an empty column for values, and
+ *The resulting vector of strings is returned
+ */
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                const std::string &value, const int field_width )
 {
-    const int text_width = utf8_width( name ) + utf8_width( value );
-    const int spacing = std::max( field_width, text_width ) - text_width;
-    return name + std::string( spacing, ' ' ) + value;
+    const int name_width = utf8_width( name );
+    const int value_width = utf8_width( value );
+    if( name_width + value_width + 1 >= field_width ) {
+        if( value_width >= field_width ) {
+            debugmsg( "Unable to fit name (%s) and value (%s) in available space (%i)", name, value,
+                      field_width );
+        } else {
+            std::vector<std::string> new_lines;
+            new_lines = foldstring( name, field_width - value_width );
+            const int spacing = field_width - utf8_width( new_lines.back() ) - value_width;
+            new_lines.back() = new_lines.back() + std::string( spacing, ' ' ) + value;
+            current_vector.insert( current_vector.end(), new_lines.begin(), new_lines.end() );
+        }
+    } else {
+        const int spacing = field_width - name_width - value_width;
+        current_vector.emplace_back( name + std::string( spacing, ' ' ) + value );
+    }
 }
 
-std::string name_and_value( const std::string &name, int value, int field_width )
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                const int value, const int field_width )
 {
-    return name_and_value( name, string_format( "%d", value ), field_width );
+    add_folded_name_and_value( current_vector, name, string_format( "%d", value ), field_width );
+}
+
+// returns single string with left aligned name and right aligned value
+std::string trimmed_name_and_value( const std::string &name, const std::string &value,
+                                    const int field_width )
+{
+    const int text_width = utf8_width( name ) + utf8_width( value );
+    if( text_width >= field_width ) {
+        //Since it's easier to abbreviate a string than a number, try to preserve the value
+        std::string trimmed_name = trim_by_length( name, field_width - utf8_width( value ) - 1 );
+        return trimmed_name + " " + value;
+    } else {
+        const int spacing = field_width - text_width;
+        return name + std::string( spacing, ' ' ) + value;
+    }
+}
+
+std::string trimmed_name_and_value( const std::string &name, int const value,
+                                    const int field_width )
+{
+    return trimmed_name_and_value( name, string_format( "%d", value ), field_width );
 }
 
 void center_print( const catacurses::window &w, const int y, const nc_color &FG,
@@ -1169,6 +1213,11 @@ int special_symbol( int sym )
     }
 }
 
+int special_symbol( char sym )
+{
+    return special_symbol( static_cast<uint8_t>( sym ) );
+}
+
 template<typename Prep>
 std::string trim( const std::string &s, Prep prep )
 {
@@ -1208,17 +1257,10 @@ std::string trim_trailing_punctuations( const std::string &s )
 using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wstr = utf8_to_wstr( s );
-        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
-        return wstr_to_utf8( wstr );
-    }
-    std::string res;
-    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
-        return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
-    } );
-    return res;
+    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    std::wstring wstr = utf8_to_wstr( s );
+    f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+    return wstr_to_utf8( wstr );
 }
 
 // find the position of each non-printing tag in a string
@@ -1285,7 +1327,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
 
         x += mk_wcwidth( uc );
 
-        if( uc == split || uc >= 0x2E80 ) { // param split (default ' ') or CJK characters
+        if( uc == split || is_cjk_or_emoji( uc ) ) {
             if( x <= width ) {
                 lastwb = j; // break after character
             } else {
@@ -1384,9 +1426,11 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
     }
 }
 
-void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab_texts,
-                size_t current_tab )
+std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const std::vector<std::string> &tab_texts, size_t current_tab )
 {
+    std::map<size_t, inclusive_rectangle<point>> tab_map;
+
     int width = getmaxx( w );
     for( int i = 0; i < width; i++ ) {
         mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
@@ -1400,16 +1444,75 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
     for( size_t i = 0; i < tab_texts.size(); ++i ) {
         const std::string &tab_text = tab_texts[i];
         draw_tab( w, x, tab_text, i == current_tab );
-        x += utf8_width( tab_text, true ) + tab_step;
+        const int txt_width = utf8_width( tab_text, true );
+        tab_map.emplace( i, inclusive_rectangle<point>( point( x, 1 ), point( x + txt_width, 1 ) ) );
+        x += txt_width + tab_step;
     }
+
+    return tab_map;
 }
 
-void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab_texts,
-                const std::string &current_tab )
+std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const std::vector<std::string> &tab_texts, const std::string &current_tab )
 {
     auto it = std::find( tab_texts.begin(), tab_texts.end(), current_tab );
     cata_assert( it != tab_texts.end() );
-    draw_tabs( w, tab_texts, it - tab_texts.begin() );
+    std::map<size_t, inclusive_rectangle<point>> tab_map =
+                draw_tabs( w, tab_texts, it - tab_texts.begin() );
+    std::map<std::string, inclusive_rectangle<point>> ret_map;
+    for( size_t i = 0; i < tab_texts.size(); i++ ) {
+        if( tab_map.count( i ) > 0 ) {
+            ret_map.emplace( tab_texts.at( i ), tab_map.at( i ) );
+        }
+    }
+    return ret_map;
+}
+
+best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, const int &selected,
+                                const int &allowed_size, const int &spacer_size, const int &continuation_marker_size )
+{
+    int best_fit_length = 0;
+    best_fit returnVal;
+    returnVal.start = 0;
+    returnVal.length = 0;
+    int adjusted_allowed_size = allowed_size;
+    for( int num_fitting = static_cast<int>( size_of_items_to_fit.size() ); num_fitting > 0;
+         --num_fitting ) {
+        //Iterate through all possible places the list can start
+        for( int start_index = 0;
+             start_index <= static_cast<int>( size_of_items_to_fit.size() ) - num_fitting; ++start_index ) {
+            int space_required = 0;
+            int cont_marker_allowance = 0;
+            bool selected_response_included = false;
+            for( int i = start_index; i < ( num_fitting + start_index ); ++i ) {
+                space_required += size_of_items_to_fit[i] + spacer_size;
+                if( i == selected ) {
+                    selected_response_included = true;
+                }
+            }
+            //Check if this selection fits, accounting for an indicator that the list continues at the front if necessary
+            if( start_index != 0 &&
+                start_index + num_fitting != static_cast<int>( size_of_items_to_fit.size() ) ) {
+                cont_marker_allowance = spacer_size + continuation_marker_size;
+            }
+            if( space_required < ( adjusted_allowed_size - cont_marker_allowance ) &&
+                selected_response_included ) {
+                if( space_required > best_fit_length ) {
+                    returnVal.start = start_index;
+                    returnVal.length = num_fitting;
+                    best_fit_length = space_required;
+                }
+            }
+        }
+        //If a fitting option has been found, don't move to fewer entries in the list
+        if( best_fit_length > 0 ) {
+            break;
+            //If not everything fits, need at least one continuation indicator
+        } else if( num_fitting == static_cast<int>( size_of_items_to_fit.size() ) ) {
+            adjusted_allowed_size -= spacer_size + continuation_marker_size;
+        }
+    }
+    return returnVal;
 }
 
 std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
@@ -1430,7 +1533,7 @@ std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_
     const int tab_step = 3; // Step between tabs, two for tab border
     size_t available_width = max_width - 1;
     std::pair<std::vector<std::string>, size_t> tab_list_and_index;
-    std::vector<size_t> tab_width;
+    std::vector<int> tab_width;
     tab_width.resize( original_tab_list.size() );
 
     for( size_t i = 0; i < original_tab_list.size(); ++i ) {
@@ -1442,53 +1545,17 @@ std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_
         }
     }
 
-    //Start by assuming the entire collection will fit, then work your way down until it does
-    size_t best_fit = 0;
-    size_t best_fit_start = 0;
-    size_t best_fit_width = 1;
-    for( size_t num_fitting = original_tab_list.size(); num_fitting > 0; --num_fitting ) {
-        //Iterate through all possible places the list can start
-        for( size_t start_index = 0; start_index <= ( original_tab_list.size() - num_fitting );
-             ++start_index ) {
-            size_t width_required = 0;
-            size_t dummy_tab_allowance = 0;
-            bool current_tab_included = false;
-            for( size_t i = start_index; i < ( num_fitting + start_index ); ++i ) {
-                width_required += tab_width[i] + tab_step;
-                if( i == tab_list_and_index.second ) {
-                    current_tab_included = true;
-                }
-            }
-            //Check if this selection fits, accounting for an indicator that the list continues at the front if necessary
-            if( start_index != 0 && start_index + num_fitting != original_tab_list.size() ) {
-                dummy_tab_allowance = tab_step + 1;
-            }
-            if( ( width_required < ( available_width - dummy_tab_allowance ) ) && current_tab_included ) {
-                if( width_required > best_fit ) {
-                    best_fit_start = start_index;
-                    best_fit_width = num_fitting;
-                    best_fit = width_required;
-                }
-            }
-        }
-        //If a fitting option has been found, don't move to fewer entries in the list
-        if( best_fit > 0 ) {
-            break;
-        }
-        //If not everything fits, need at least one continuation indicator
-        else if( num_fitting == original_tab_list.size() ) {
-            available_width -= 2 + tab_step;
-        }
-    }
+    best_fit tabs_to_print = find_best_fit_in_size( tab_width, tab_list_and_index.second,
+                             available_width, tab_step, 1 );
 
     //Assemble list to return
-    if( best_fit_start != 0 ) { //Signify that the list continues left
+    if( tabs_to_print.start != 0 ) { //Signify that the list continues left
         tab_list_and_index.first.emplace_back( "<" );
     }
-    for( size_t i = best_fit_start; i < original_tab_list.size(); ++i ) {
-        if( i < best_fit_start + best_fit_width ) {
+    for( int i = tabs_to_print.start; i < static_cast<int>( original_tab_list.size() ); ++i ) {
+        if( i < tabs_to_print.start + tabs_to_print.length ) {
             //Update tab_list_and_index to suit new list:
-            if( i == tab_list_and_index.second ) {
+            if( i == static_cast<int>( tab_list_and_index.second ) ) {
                 tab_list_and_index.second = tab_list_and_index.first.size();
             }
             //Assemble the string vector
@@ -1501,8 +1568,8 @@ std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_
             }
         }
     }
-    if( best_fit_start + best_fit_width !=
-        original_tab_list.size() ) { //Signify that the list continues right
+    if( tabs_to_print.start + tabs_to_print.length != static_cast<int>( original_tab_list.size() ) ) {
+        //Signify that the list continues right
         tab_list_and_index.first.emplace_back( ">" );
     }
 
@@ -2000,14 +2067,16 @@ void replace_keybind_tag( std::string &input )
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all )
 {
-    if( all ) {
-        while( input.find( substring ) != std::string::npos ) {
-            replace_substring( input, substring, replacement, false );
+    std::size_t find_after = 0;
+    std::size_t pos = 0;
+    const std::size_t pattern_length = substring.length();
+    const std::size_t replacement_length = replacement.length();
+    while( ( pos = input.find( substring, find_after ) ) != std::string::npos ) {
+        input.replace( pos, pattern_length, replacement );
+        find_after = pos + replacement_length;
+        if( !all ) {
+            break;
         }
-    } else {
-        size_t len = substring.length();
-        size_t offset = input.find( substring );
-        input.replace( offset, len, replacement );
     }
 }
 

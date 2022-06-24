@@ -6,6 +6,7 @@
 #include <climits>
 
 #include "calendar.h"
+#include "condition.h"
 #include "dialogue.h"
 #include "json.h"
 #include "optional.h"
@@ -35,14 +36,16 @@ struct effect_on_condition {
         eoc_type type;
         std::function<bool( const dialogue & )> condition;
         std::function<bool( const dialogue & )> deactivate_condition;
-        talk_effect_t true_effect;
-        talk_effect_t false_effect;
+        talk_effect_t<dialogue> true_effect;
+        talk_effect_t<dialogue> false_effect;
         bool has_deactivate_condition = false;
         bool has_condition = false;
         bool has_false_effect = false;
-        duration_or_var recurrence;
+        duration_or_var<dialogue> recurrence;
         bool activate( dialogue &d ) const;
         bool check_deactivate( dialogue &d ) const;
+        bool test_condition( dialogue &d ) const;
+        void apply_true_effects( dialogue &d ) const;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;

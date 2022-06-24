@@ -14,8 +14,8 @@
     "looks_like": "cowboy_hat",
     "color": "white",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "NONE" ] },
+      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5, "breathability": "GOOD" }
     ],
     "warmth": 10,
     "material_thickness": 1,
@@ -38,13 +38,15 @@
     "looks_like": "balclava",
     "color": "light_red",
     "material_thickness": 4,
+    "warmth": 5,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -63,13 +65,15 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
+    "warmth": 5,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -78,7 +82,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "XL mild steel chainmail coif" },
-    "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
+    "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -88,7 +92,7 @@
     "copy-from": "lc_chainmail_hood",
     "looks_like": "lc_chainmail_hood",
     "name": { "str": "XS mild steel chainmail coif" },
-    "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
+    "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -104,7 +108,7 @@
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -113,7 +117,7 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_hood",
     "name": { "str": "XL medium steel chainmail coif" },
-    "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
+    "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -123,7 +127,7 @@
     "copy-from": "mc_chainmail_hood",
     "looks_like": "mc_chainmail_hood",
     "name": { "str": "XS medium steel chainmail coif" },
-    "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
+    "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -139,7 +143,7 @@
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -148,7 +152,7 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_hood",
     "name": { "str": "XL high steel chainmail coif" },
-    "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
+    "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -158,7 +162,7 @@
     "copy-from": "hc_chainmail_hood",
     "looks_like": "hc_chainmail_hood",
     "name": { "str": "XS high steel chainmail coif" },
-    "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
+    "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -174,7 +178,7 @@
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -183,7 +187,7 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_hood",
     "name": { "str": "XL hardened steel chainmail coif" },
-    "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
+    "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -193,7 +197,7 @@
     "copy-from": "ch_chainmail_hood",
     "looks_like": "ch_chainmail_hood",
     "name": { "str": "XS hardened steel chainmail coif" },
-    "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
+    "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -209,7 +213,7 @@
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
-        "encumbrance": 10
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -218,7 +222,7 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_hood",
     "name": { "str": "XL tempered steel chainmail coif" },
-    "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
+    "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -228,7 +232,7 @@
     "copy-from": "qt_chainmail_hood",
     "looks_like": "qt_chainmail_hood",
     "name": { "str": "XS tempered steel chainmail coif" },
-    "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
+    "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -247,17 +251,17 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
-    "warmth": 30,
+    "warmth": 25,
     "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_gambeson_hood",
     "type": "ARMOR",
     "copy-from": "gambeson_hood",
     "name": { "str": "XL gambeson hood" },
-    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.  Comes in size XL.",
+    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -266,7 +270,7 @@
     "type": "ARMOR",
     "copy-from": "gambeson_hood",
     "name": { "str": "XS gambeson hood" },
-    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.  Comes in size XS.",
+    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -274,8 +278,8 @@
     "id": "k_gambeson_hood",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "kevlar gambeson hood" },
-    "description": "A customized gambeson hood made from kevlar.  Can be worn under helmets.",
+    "name": { "str": "Kevlar gambeson hood" },
+    "description": "A customized gambeson hood made from Kevlar.  Can be worn under helmets.",
     "weight": "340 g",
     "volume": "300 ml",
     "price": 412,
@@ -285,17 +289,17 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
-    "warmth": 30,
+    "warmth": 25,
     "material_thickness": 3.2,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_k_gambeson_hood",
     "type": "ARMOR",
     "copy-from": "k_gambeson_hood",
-    "name": { "str": "XL kevlar gambeson hood" },
-    "description": "A customized gambeson hood made from kevlar.  Can be worn under helmets.  Comes in size XL.",
+    "name": { "str": "XL Kevlar gambeson hood" },
+    "description": "A customized gambeson hood made from Kevlar.  Can be worn under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -303,8 +307,8 @@
     "id": "xs_k_gambeson_hood",
     "type": "ARMOR",
     "copy-from": "k_gambeson_hood",
-    "name": { "str": "XS gambeson hood" },
-    "description": "A customized hood made from quilted fabrics and kevlar.  Can be worn under helmets.  Comes in size XS.",
+    "name": { "str": "XS Kevlar gambeson hood" },
+    "description": "A customized hood made from quilted fabrics and Kevlar.  Can be worn under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -321,11 +325,11 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.3,
-    "environmental_protection": 1,
+    "environmental_protection": 2,
     "flags": [ "WATERPROOF", "OUTER", "SOFT" ],
-    "armor": [ { "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "nomex_hood",
@@ -345,7 +349,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ],
-    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_gut",
@@ -364,7 +368,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_ninja",
@@ -381,11 +385,12 @@
     "looks_like": "balclava",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 5 }
     ],
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE" ]
   }
 ]

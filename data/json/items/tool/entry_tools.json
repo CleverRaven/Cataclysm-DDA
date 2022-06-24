@@ -69,7 +69,8 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRY", 2 ] ],
     "use_action": [ "CROWBAR" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ],
+    "weapon_category": [ "HAND_AXES" ]
   },
   {
     "id": "makeshift_crowbar",

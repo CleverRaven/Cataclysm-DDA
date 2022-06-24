@@ -218,8 +218,8 @@
           "and": [ { "u_has_items": { "item": "mosin44", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ]
         },
         "effect": [
-          { "u_consume_item": "mosin44", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 50 },
+          { "u_consume_item": "mosin44", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -233,8 +233,8 @@
           "and": [ { "u_has_items": { "item": "mosin91_30", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ]
         },
         "effect": [
-          { "u_consume_item": "mosin91_30", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 50 },
+          { "u_consume_item": "mosin91_30", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -280,9 +280,9 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "sig_p230", "count": 1 },
-          { "u_consume_item": "switchblade", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 20 },
+          { "u_consume_item": "sig_p230", "count": 1, "popup": true },
+          { "u_consume_item": "switchblade", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -300,9 +300,9 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "walther_ppk", "count": 1 },
-          { "u_consume_item": "switchblade", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 20 },
+          { "u_consume_item": "walther_ppk", "count": 1, "popup": true },
+          { "u_consume_item": "switchblade", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -320,9 +320,9 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "kp32", "count": 1 },
-          { "u_consume_item": "switchblade", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 20 },
+          { "u_consume_item": "kp32", "count": 1, "popup": true },
+          { "u_consume_item": "switchblade", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -364,8 +364,8 @@
           "and": [ { "u_has_items": { "item": "flamethrower", "count": 1 } }, { "u_has_items": { "item": "mace", "count": 1 } } ]
         },
         "effect": [
-          { "u_consume_item": "flamethrower", "count": 1 },
-          { "u_consume_item": "mace", "count": 1 },
+          { "u_consume_item": "flamethrower", "count": 1, "popup": true },
+          { "u_consume_item": "mace", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -411,9 +411,9 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "hammer_sledge", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 80 },
-          { "u_consume_item": "22_lr", "count": 20 },
+          { "u_consume_item": "hammer_sledge", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 80, "popup": true },
+          { "u_consume_item": "22_lr", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },

@@ -1079,6 +1079,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
         mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.per_max );
 
         werase( w_description );
+        u.reset_stats();
         switch( sel ) {
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );

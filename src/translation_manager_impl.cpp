@@ -53,16 +53,20 @@ void TranslationManager::Impl::ScanTranslationDocuments()
 {
     DebugLog( D_INFO, DC_ALL ) << "[i18n] Scanning core translations from " << locale_dir();
     DebugLog( D_INFO, DC_ALL ) << "[i18n] Scanning mod translations from " << PATH_INFO::user_moddir();
-    std::vector<std::string> core_mo_dirs = get_files_from_path( "LC_MESSAGES", locale_dir(),
-                                            true );
-    std::vector<std::string> mods_mo_dirs = get_files_from_path( "LC_MESSAGES",
-                                            PATH_INFO::user_moddir(),
-                                            true );
-    std::vector<std::string> mo_dirs;
-    mo_dirs.insert( mo_dirs.end(), core_mo_dirs.begin(), core_mo_dirs.end() );
-    mo_dirs.insert( mo_dirs.end(), mods_mo_dirs.begin(), mods_mo_dirs.end() );
-    for( const auto &dir : mo_dirs ) {
-        std::vector<std::string> mo_dir_files = get_files_from_path( ".mo", dir, false, true );
+    std::vector<std::pair<std::string, std::string>> mo_dirs;
+    for( const auto &dir : get_files_from_path( "LC_MESSAGES",
+            PATH_INFO::user_moddir(),
+            true ) ) {
+        mo_dirs.emplace_back( dir, ".mo" );
+    }
+    for( const auto &dir : get_files_from_path( "LC_MESSAGES", locale_dir(),
+            true ) ) {
+        mo_dirs.emplace_back( dir, "cataclysm-dda.mo" );
+    }
+    for( const auto &entry : mo_dirs ) {
+        const auto &dir = entry.first;
+        const auto &pattern = entry.second;
+        std::vector<std::string> mo_dir_files = get_files_from_path( pattern, dir, false, true );
         for( const auto &file : mo_dir_files ) {
             const std::string lang = LanguageCodeOfPath( file );
             if( mo_files.count( lang ) == 0 ) {

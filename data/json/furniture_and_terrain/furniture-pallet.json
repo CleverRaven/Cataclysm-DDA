@@ -1,0 +1,108 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_pallet_brick",
+    "name": "pallet of bricks",
+    "looks_like": "t_brick_wall",
+    "description": "A massive packed-together block of bricks wrapped around with plastic packaging.  It makes for easy storage of building materials for masonry constructions.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost_mod": 5,
+    "required_str": -1,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "brick", "count": 400 }, { "item": "wood_panel", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "items": [
+        { "item": "rock", "count": [ 5, 8 ] },
+        { "item": "splinter", "count": [ 1, 3 ] },
+        { "item": "brick", "count": [ 8, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pallet_brick_adobe",
+    "name": "pallet of adobe bricks",
+    "looks_like": "t_adobe_brick_wall",
+    "description": "A massive packed-together block of adobe bricks wrapped around with plastic packaging.  It makes for easy storage of building materials for masonry constructions.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost_mod": 5,
+    "required_str": -1,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "brick", "count": 400 }, { "item": "wood_panel", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "items": [
+        { "item": "rock", "count": [ 5, 8 ] },
+        { "item": "splinter", "count": [ 1, 3 ] },
+        { "item": "brick", "count": [ 8, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pallet_cement",
+    "name": "pallet of cement bags",
+    "looks_like": "material_cement",
+    "description": "A massive packed-together block of cement bags wrapped around with plastic packaging.  It makes for easy storage of building materials for masonry constructions.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": 5,
+    "required_str": -1,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": 100 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "plastic_sheet", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [
+        { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": [ 8, 12 ] },
+        { "item": "material_cement", "charges": [ 200, 500 ] },
+        { "item": "splinter", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_stack_plank",
+    "name": "stack of wooden planks",
+    "looks_like": "bundle_plank",
+    "description": "Dozens of construction planks tied together for easier transport.  Deconstruct to untie them.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": 5,
+    "required_str": -1,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "FLAMMABLE_ASH" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 120 }, { "item": "rope_6", "count": 2 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "2x4", "count": [ 16, 24 ] }, { "item": "splinter", "count": [ 20, 48 ] } ]
+    }
+  }
+]

@@ -9,7 +9,6 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 80,
     "description": "Nutritious egg laid by a bird.",
     "price": 44,
@@ -154,7 +153,6 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 3,
-    "healthy": 1,
     "calories": 87,
     "description": "An egg belonging to one of reptile species found in New England.",
     "price": 250,
@@ -185,7 +183,7 @@
     "price": 0,
     "price_postapoc": 100,
     "spoils_in": "5 days",
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ] ]
   },
   {
@@ -219,7 +217,6 @@
     "color": "white",
     "symbol": "%",
     "spoils_in": "4 days 16 hours",
-    "healthy": -1,
     "quench": 3,
     "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
     "price": 80,
@@ -231,7 +228,6 @@
     "id": "egg_roach_plague",
     "name": { "str": "plague vector egg" },
     "copy-from": "egg_roach",
-    "healthy": -10,
     "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
     "vitamins": [ [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
@@ -358,6 +354,18 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_lady_bug_giant",
+    "name": { "str": "giant ladybug egg" },
+    "copy-from": "egg_insect",
+    "color": "red",
+    "symbol": "o",
+    "spoils_in": "7 days",
+    "description": "A giant ladybug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry giant translucent larva.",
+    "rot_spawn": "GROUP_EGG_LADY_BUG_GIANT",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_mole_cricket",
     "name": { "str": "mole cricket egg" },
     "copy-from": "egg_insect",
@@ -410,7 +418,6 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 34,
     "description": "Common roe from an unknown fish.",
     "price": 50,
@@ -439,7 +446,7 @@
     "material": [ "powder", "egg" ],
     "primary_material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "charges": 16,
     "fun": -4,
     "freezing_point": -274

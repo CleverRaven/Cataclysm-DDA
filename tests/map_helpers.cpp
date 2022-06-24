@@ -26,12 +26,10 @@
 #include "submap.h"
 #include "type_id.h"
 
-static const faction_id faction_your_followers( "your_followers" );
-
 // Remove all vehicles from the map
-void clear_vehicles()
+void clear_vehicles( map *target )
 {
-    map &here = get_map();
+    map &here = target ? *target : get_map();
     for( wrapped_vehicle &veh : here.get_vehicles() ) {
         here.destroy_vehicle( veh.v );
     }
@@ -50,21 +48,22 @@ void clear_radiation()
     }
 }
 
-void wipe_map_terrain()
+void wipe_map_terrain( map *target )
 {
-    map &here = get_map();
+    map &here = target ? *target : get_map();
     const int mapsize = here.getmapsize() * SEEX;
     for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
         ter_id terrain = z == 0 ? t_grass : z < 0 ? t_rock : t_open_air;
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
                 here.set( { x, y, z}, terrain, f_null );
+                here.partial_con_remove( { x, y, z } );
             }
         }
     }
-    clear_vehicles();
+    clear_vehicles( target );
     here.invalidate_map_cache( 0 );
-    here.build_map_cache( 0 );
+    here.build_map_cache( 0, true );
 }
 
 void clear_creatures()
@@ -115,18 +114,12 @@ void clear_items( const int zlevel )
 void clear_zones()
 {
     zone_manager &zm = zone_manager::get_manager();
-    for( auto zone_ref : zm.get_zones( faction_your_followers ) ) {
-        if( !zone_ref.get().get_is_vehicle() ) {
-            // Trying to delete vehicle zones fails with a message that the zone isn't loaded.
-            // Don't need it right now and the errors spam up the test output, so skip.
-            continue;
-        }
-        zm.remove( zone_ref.get() );
-    }
+    zm.clear();
 }
 
 void clear_map()
 {
+    map &here = get_map();
     // Clearing all z-levels is rather slow, so just clear the ones I know the
     // tests use for now.
     for( int z = -2; z <= 0; ++z ) {
@@ -136,7 +129,7 @@ void clear_map()
     wipe_map_terrain();
     clear_npcs();
     clear_creatures();
-    get_map().clear_traps();
+    here.clear_traps();
     for( int z = -2; z <= 0; ++z ) {
         clear_items( z );
     }
@@ -170,7 +163,7 @@ void build_test_map( const ter_id &terrain )
     }
 
     here.invalidate_map_cache( 0 );
-    here.build_map_cache( 0 );
+    here.build_map_cache( 0, true );
 }
 
 void player_add_headlamp()
@@ -183,15 +176,25 @@ void player_add_headlamp()
     you.worn.wear_item( you, headlamp, false, true );
 }
 
+void set_time_to_day()
+{
+    time_point noon = calendar::turn - time_past_midnight( calendar::turn ) + 12_hours;
+    if( noon < calendar::turn ) {
+        noon = noon + 1_days;
+    }
+    set_time( noon );
+}
+
 // Set current time of day, and refresh map and caches for the new light level
 void set_time( const time_point &time )
 {
     calendar::turn = time;
     g->reset_light_level();
-    int z = get_player_character().posz();
+    Character &you = get_player_character();
+    int z = you.posz();
+    you.recalc_sight_limits();
     map &here = get_map();
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
     here.build_map_cache( z );
-    here.build_lightmap( z, get_player_character().pos() );
 }

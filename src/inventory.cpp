@@ -19,6 +19,7 @@
 #include "inventory_ui.h" // auto inventory blocking
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -44,7 +45,6 @@ static const itype_id itype_heroin( "heroin" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
-static const itype_id itype_water( "water" );
 
 static const material_id material_iron( "iron" );
 
@@ -235,6 +235,7 @@ void inventory::clear()
     items.clear();
     max_empty_liq_cont.clear();
     binned = false;
+    qualities_cache.clear();
 }
 
 void inventory::push_back( const std::list<item> &newits )
@@ -441,6 +442,27 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
+/**
+* Finds the number of charges of the first item that matches ammotype.
+*
+* @param ammotype   Search target.
+* @param items      Stack of items. Search stops at first match.
+* @param [out] item_type Matching type.
+*
+* @return           Number of charges.
+* */
+static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
+                                  itype_id &item_type )
+{
+    for( const auto &candidate : items ) {
+        if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
+            item_type = candidate.typeId();
+            return candidate.charges;
+        }
+    }
+    return 0;
+}
+
 void inventory::form_from_map( const tripoint &origin, int range, const Character *pl,
                                bool assign_invlet,
                                bool clear_path )
@@ -494,7 +516,16 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             const itype *ammo = f.crafting_ammo_item_type();
             if( furn_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
                 // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
+                const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
+                int amount = 0;
+                itype_id ammo_id = ammo->get_id();
+                // Some furniture can consume more than one item type.
+                if( using_ammotype ) {
+                    amount = count_charges_in_list( &ammo->ammo->type, m.i_at( p ), ammo_id );
+                } else {
+                    amount = count_charges_in_list( ammo, m.i_at( p ) );
+                }
+                item furn_ammo( ammo_id, calendar::turn, amount );
                 furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
             }
         }
@@ -524,22 +555,6 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         item water = m.water_from( p );
         if( !water.is_null() ) {
             add_item( water );
-        }
-        // kludge that can probably be done better to check specifically for toilet water to use in
-        // crafting
-        if( m.furn( p )->has_examine( iexamine::toilet ) ) {
-            // get water charges at location
-            map_stack toilet = m.i_at( p );
-            auto water = toilet.end();
-            for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
-                if( candidate->typeId() == itype_water ) {
-                    water = candidate;
-                    break;
-                }
-            }
-            if( water != toilet.end() && water->charges > 0 ) {
-                add_item( *water );
-            }
         }
 
         // keg-kludge
@@ -750,23 +765,6 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
     return ret;
 }
 
-int inventory::leak_level( const flag_id &flag ) const
-{
-    int ret = 0;
-
-    for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.has_flag( flag ) ) {
-                if( elem_stack_iter.has_flag( flag_LEAK_ALWAYS ) ) {
-                    ret += elem_stack_iter.volume() / units::legacy_volume_factor;
-                } else if( elem_stack_iter.has_flag( flag_LEAK_DAM ) && elem_stack_iter.damage() > 0 ) {
-                    ret += elem_stack_iter.damage_level();
-                }
-            }
-        }
-    }
-    return ret;
-}
 
 int inventory::worst_item_value( npc *p ) const
 {
@@ -1144,7 +1142,7 @@ bool inventory::must_use_liq_container( const itype_id &id, int to_use ) const
     return leftover < 0 && leftover * -1 <= total - iter->second;
 }
 
-void inventory::replace_liq_container_count( const std::map<itype_id, int> newmap, bool use_max )
+void inventory::replace_liq_container_count( const std::map<itype_id, int> &newmap, bool use_max )
 {
     for( const auto &it : newmap ) {
         if( !use_max || max_empty_liq_cont.find( it.first ) == max_empty_liq_cont.end() ||

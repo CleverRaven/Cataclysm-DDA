@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "all_enum_values.h"
+#include "avatar.h"
 #include "assign.h"
 #include "cached_options.h"
 #include "cata_assert.h"
@@ -27,6 +28,7 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "distribution.h"
+#include "effect_on_condition.h"
 #include "flood_fill.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -2677,6 +2679,10 @@ special_placement_result overmap_special::place(
     overmap &om, const tripoint_om_omt &origin, om_direction::type dir,
     const city &cit, bool must_be_unexplored ) const
 {
+    if( has_eoc() ) {
+        dialogue d( get_talker_for( get_avatar() ), nullptr );
+        get_eoc()->apply_true_effects( d );
+    }
     const bool blob = has_flag( "BLOB" );
     return data_->place( om, origin, dir, blob, cit, must_be_unexplored );
 }
@@ -2701,7 +2707,10 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "subtype", subtype_, overmap_special_subtype::fixed );
     optional( jo, was_loaded, "locations", default_locations_ );
-
+    if( jo.has_member( "eoc" ) ) {
+        eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), "" );
+        has_eoc_ = true;
+    }
     switch( subtype_ ) {
         case overmap_special_subtype::fixed: {
             shared_ptr_fast<fixed_overmap_special_data> fixed_data =
@@ -4073,7 +4082,7 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
     }
 }
 
-void overmap::signal_nemesis( const tripoint_abs_sm p_abs_sm )
+void overmap::signal_nemesis( const tripoint_abs_sm &p_abs_sm )
 {
     //CONVERT ABS SM TO OM_SM
     point_abs_om omp;
@@ -5896,6 +5905,13 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
         return false;
     }
 
+    if( special.has_eoc() ) {
+        dialogue d( get_talker_for( get_avatar() ), nullptr );
+        if( !special.get_eoc()->test_condition( d ) ) {
+            return false;
+        }
+    }
+
     const std::vector<overmap_special_locations> fixed_terrains = special.required_locations();
 
     return std::all_of( fixed_terrains.begin(), fixed_terrains.end(),
@@ -6244,7 +6260,7 @@ void overmap::place_mongroups()
     }
 }
 
-void overmap::place_nemesis( const tripoint_abs_omt p )
+void overmap::place_nemesis( const tripoint_abs_omt &p )
 {
     tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
     point_abs_om omp;
@@ -6426,6 +6442,16 @@ shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
 {
     for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {
+            return guy;
+        }
+    }
+    return nullptr;
+}
+
+shared_ptr_fast<npc> overmap::find_npc_by_unique_id( const std::string &id ) const
+{
+    for( const auto &guy : npcs ) {
+        if( guy->get_unique_id() == id ) {
             return guy;
         }
     }

@@ -480,17 +480,20 @@ void talk_function::insult_combat( npc &p )
 void talk_function::bionic_install( npc &p )
 {
     avatar &player_character = get_avatar();
-    item_location bionic = game_menus::inv::install_bionic( player_character, player_character, true );
+    item_location bionic = game_menus::inv::install_bionic( p, player_character, true );
 
     if( !bionic ) {
         return;
     }
 
-    const item *tmp = bionic.get_item();
+    item *tmp = bionic.get_item();
+    tmp->set_var( VAR_TRADE_IGNORE, 1 );
     const itype &it = *tmp->type;
 
-    signed int price = tmp->price( true ) * 2;
-    if( !npc_trading::pay_npc( p, price ) ) {
+    signed int price = npc_trading::bionic_install_price( p, player_character, bionic );
+    bool const ret = npc_trading::pay_npc( p, price );
+    tmp->erase_var( VAR_TRADE_IGNORE );
+    if( !ret ) {
         return;
     }
 
@@ -519,9 +522,9 @@ void talk_function::bionic_remove( npc &p )
             bionic_types.push_back( bio.info().itype() );
             if( item::type_is_defined( bio.info().itype() ) ) {
                 item tmp = item( bio.id.str(), calendar::turn_zero );
-                bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+                bionic_names.push_back( tmp.tname() + " - " + format_money( 5000 + ( tmp.price( true ) / 4 ) ) );
             } else {
-                bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
+                bionic_names.push_back( bio.id.str() + " - " + format_money( 5000 ) );
             }
             bionics.push_back( &bio );
         }
@@ -976,10 +979,10 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    mission *reach_safety__mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
-                                     character_id() );
-    reach_safety__mission->assign( get_avatar() );
-    p.goal = reach_safety__mission->get_target();
+    mission *reach_safety_mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
+                                    character_id() );
+    reach_safety_mission->assign( get_avatar() );
+    p.goal = reach_safety_mission->get_target();
     p.set_attitude( NPCATT_LEAD );
 }
 

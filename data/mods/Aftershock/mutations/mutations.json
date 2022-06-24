@@ -212,7 +212,6 @@
     "description": "When were you ever like these creatures, helpless before the changes ravaging this world.",
     "purifiable": false,
     "changes_to": [ "ELDRITCH" ],
-    "prereqs": [ "THRESH_YUGGOTH" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "cancels": [ "PACIFIST" ],
     "category": [ "MIGO" ]
@@ -357,7 +356,7 @@
     "type": "mutation",
     "id": "SMELLY",
     "copy-from": "SMELLY",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": [ "MASTODON", "MIGO" ] }
   },
   {
     "type": "mutation",
@@ -533,7 +532,7 @@
     "type": "mutation",
     "id": "SMELLY2",
     "copy-from": "SMELLY2",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": [ "MASTODON", "MIGO" ] }
   },
   {
     "type": "mutation",
@@ -677,5 +676,47 @@
     "id": "SCHIZOPHRENIC",
     "copy-from": "SCHIZOPHRENIC",
     "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP",
+    "copy-from": "STR_UP",
+    "extend": { "category": [ "MASTODON", "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_2",
+    "copy-from": "STR_UP_2",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_3",
+    "copy-from": "STR_UP_3",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_4",
+    "copy-from": "STR_UP_4",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "WINGS_STUB",
+    "copy-from": "WINGS_STUB",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS",
+    "copy-from": "HORNS",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HEADBUMPS",
+    "copy-from": "HEADBUMPS",
+    "extend": { "category": [ "MASTODON" ] }
   }
 ]

@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "npctrade.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -355,7 +356,9 @@ class wear_inventory_preset: public armor_inventory_preset
         {}
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_armor() && !you.is_worn( *loc ) &&
+            return loc->is_armor() &&
+                   ( !loc.has_parent() || !is_worn_ablative( loc.parent_item(), loc ) ) &&
+                   !you.is_worn( *loc ) &&
                    ( bp != bodypart_id( "bp_null" ) ? loc->covers( bp ) : true );
         }
 
@@ -505,11 +508,11 @@ class pickup_inventory_preset : public inventory_selector_preset
         bool skip_wield_check;
 };
 
-class disassemble_inventory_preset : public pickup_inventory_preset
+class disassemble_inventory_preset : public inventory_selector_preset
 {
     public:
-        disassemble_inventory_preset( const Character &you, const inventory &inv ) :
-            pickup_inventory_preset( you ), you( you ), inv( inv ) {
+        disassemble_inventory_preset( const Character &you, const inventory &inv ) : you( you ),
+            inv( inv ) {
 
             check_components = true;
 
@@ -547,7 +550,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             if( !ret.success() ) {
                 return ret.str();
             }
-            return pickup_inventory_preset::get_denial( loc );
+            return std::string();
         }
 
     protected:
@@ -2289,6 +2292,9 @@ static item_location autodoc_internal( Character &you, Character &patient,
 
         inv_s.clear_items();
         inv_s.add_character_items( you );
+        if( you.getID() != patient.getID() ) {
+            inv_s.add_character_items( patient );
+        }
         inv_s.add_nearby_items( radius );
 
         if( inv_s.empty() ) {
@@ -2411,7 +2417,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_bionic();
+            return ( loc->is_owned_by( you ) or loc->is_owned_by( pa ) ) and loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -2448,7 +2454,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         std::string get_money_amount( const item_location &loc ) {
-            return format_money( loc.get_item()->price( true ) * 2 );
+            return format_money( npc_trading::bionic_install_price( you, pa, loc ) );
         }
 };
 

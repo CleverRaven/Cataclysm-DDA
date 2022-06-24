@@ -467,12 +467,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         for( const auto &vp_variant_pair : vpart_variants ) {
             const std::string &vp_variant = vp_variant_pair.first;
             if( jo_variants.has_string( vp_variant ) ) {
-                def.symbols[ vp_variant ] = jo_variants.get_string( vp_variant )[ 0 ];
+                def.symbols[ vp_variant ] = static_cast<uint8_t>( jo_variants.get_string( vp_variant )[ 0 ] );
             }
         }
     }
     if( jo.has_string( "broken_symbol" ) ) {
-        def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
+        def.sym_broken = static_cast<uint8_t>( jo.get_string( "broken_symbol" )[ 0 ] );
     }
     jo.read( "looks_like", def.looks_like );
 
@@ -1193,6 +1193,21 @@ void vehicle_prototype::load( const JsonObject &jo )
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
     }
+
+    for( JsonObject jzi : jo.get_array( "zones" ) ) {
+        zone_type_id zone_type( jzi.get_member( "type" ).get_string() );
+        std::string name;
+        std::string filter;
+        point pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
+
+        if( jzi.has_string( "name" ) ) {
+            name = jzi.get_string( "name" );
+        }
+        if( jzi.has_string( "filter" ) ) {
+            filter = jzi.get_string( "filter" );
+        }
+        vproto.zone_defs.emplace_back( zone_def{ zone_type, name, filter, pt } );
+    }
 }
 
 void vehicle_prototype::reset()
@@ -1233,6 +1248,20 @@ void vehicle_prototype::finalize()
                           blueprint.part_count(), pt.pos.x, pt.pos.y );
             }
 
+            std::vector<itype_id> migrated;
+            for( auto it = pt.ammo_types.begin(); it != pt.ammo_types.end(); ) {
+                if( item_controller->migrate_id( *it ) != *it ) {
+                    migrated.push_back( item_controller->migrate_id( *it ) );
+                    it = pt.ammo_types.erase( it );
+                } else {
+                    ++it;
+                }
+            }
+
+            for( const itype_id &migrant : migrated ) {
+                pt.ammo_types.insert( migrant );
+            }
+
             if( !base->gun ) {
                 if( pt.with_ammo ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(),
@@ -1250,30 +1279,14 @@ void vehicle_prototype::finalize()
             } else {
                 for( const auto &e : pt.ammo_types ) {
                     const itype *ammo = item::find_type( e );
-                    if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
+                    if( !ammo->ammo || !base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }
                 }
-                if( pt.ammo_types.empty() ) {
-                    if( !base->gun->ammo.empty() ) {
-                        pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
-                    }
+                if( pt.ammo_types.empty() && !base->gun->ammo.empty() ) {
+                    pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
                 }
-            }
-
-            std::vector<itype_id> migrated;
-            for( auto it = pt.ammo_types.begin(); it != pt.ammo_types.end(); ) {
-                if( item_controller->migrate_id( *it ) != *it ) {
-                    migrated.push_back( item_controller->migrate_id( *it ) );
-                    it = pt.ammo_types.erase( it );
-                } else {
-                    ++it;
-                }
-            }
-
-            for( const itype_id &migrant : migrated ) {
-                pt.ammo_types.insert( migrant );
             }
 
             if( type_can_contain( *base, pt.fuel ) || base->magazine ) {

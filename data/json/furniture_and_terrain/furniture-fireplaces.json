@@ -159,5 +159,28 @@
     "deconstruct": { "items": [ { "item": "rock", "count": 20 } ] },
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "examine_action": "fireplace"
+  },
+  {
+    "type": "furniture",
+    "id": "f_clay_oven",
+    "name": "clay oven",
+    "looks_like": "f_fireplace",
+    "description": "A simple clay oven with a chimney, with a firebrick alcove in the middle that can be used to cook food or just to contain a fire.",
+    "symbol": "U",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_oven",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "rock", "count": 30 }, { "item": "fire_brick", "count": 10 } ] },
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rock", "count": [ 20, 30 ] }, { "item": "fire_brick", "count": [ 4, 8 ] } ]
+    }
   }
 ]

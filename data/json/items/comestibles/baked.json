@@ -9,7 +9,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "healthy": 2,
     "calories": 45,
     "description": "Baked muffins made of pumpkin.  Perfect for your fall feast.",
     "price": 50,

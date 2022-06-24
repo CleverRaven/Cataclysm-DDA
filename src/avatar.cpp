@@ -16,6 +16,7 @@
 #include "action.h"
 #include "activity_type.h"
 #include "activity_actor_definitions.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -82,7 +83,6 @@
 #include "vpart_position.h"
 
 static const bionic_id bio_cloak( "bio_cloak" );
-static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -106,26 +106,6 @@ static const itype_id itype_guidebook( "guidebook" );
 static const itype_id itype_mut_longpull( "mut_longpull" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
-
-static const matype_id style_aikido( "style_aikido" );
-static const matype_id style_biojutsu( "style_biojutsu" );
-static const matype_id style_boxing( "style_boxing" );
-static const matype_id style_capoeira( "style_capoeira" );
-static const matype_id style_crane( "style_crane" );
-static const matype_id style_dragon( "style_dragon" );
-static const matype_id style_judo( "style_judo" );
-static const matype_id style_karate( "style_karate" );
-static const matype_id style_krav_maga( "style_krav_maga" );
-static const matype_id style_leopard( "style_leopard" );
-static const matype_id style_muay_thai( "style_muay_thai" );
-static const matype_id style_ninjutsu( "style_ninjutsu" );
-static const matype_id style_pankration( "style_pankration" );
-static const matype_id style_snake( "style_snake" );
-static const matype_id style_taekwondo( "style_taekwondo" );
-static const matype_id style_tai_chi( "style_tai_chi" );
-static const matype_id style_tiger( "style_tiger" );
-static const matype_id style_wingchun( "style_wingchun" );
-static const matype_id style_zui_quan( "style_zui_quan" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
@@ -1193,6 +1173,81 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_your_followers );
 }
 
+bool avatar::cant_see( const tripoint &p )
+{
+
+    // calc based on recoil
+    if( !last_target_pos.has_value() ) {
+        return false;
+    }
+
+    if( aim_cache_dirty ) {
+        rebuild_aim_cache();
+    }
+
+    return aim_cache[p.x][p.y];
+}
+
+void avatar::rebuild_aim_cache()
+{
+    double pi = 2 * acos( 0.0 );
+
+    const tripoint local_last_target = get_map().getlocal( last_target_pos.value() );
+
+    float base_angle = atan2f( local_last_target.y - posy(),
+                               local_last_target.x - posx() );
+
+    // move from -pi to pi, to 0 to 2pi for angles
+    if( base_angle < 0 ) {
+        base_angle = base_angle + 2 * pi;
+    }
+
+    // calc steadiness with player recoil (like they are taking a regular shot not careful etc.
+    float range = 3.0f - 2.8f * calc_steadiness( *this, &get_wielded_item(),
+                  last_target_pos.value(), recoil );
+
+    // pin between pi and negative pi
+    float upper_bound = base_angle + range;
+    float lower_bound = base_angle - range;
+
+    // cap each within 0 - 2pi
+    if( upper_bound > 2 * pi ) {
+        upper_bound = upper_bound - 2 * pi;
+    }
+
+    if( lower_bound < 0 ) {
+        lower_bound = lower_bound + 2 * pi;
+    }
+
+    for( int smx = 0; smx < MAPSIZE_X; ++smx ) {
+        for( int smy = 0; smy < MAPSIZE_Y; ++smy ) {
+
+            float current_angle = atan2f( smy - posy(), smx - posx() );
+
+
+            // move from -pi to pi, to 0 to 2pi for angles
+            if( current_angle < 0 ) {
+                current_angle = current_angle + 2 * pi;
+            }
+
+
+            // some basic angle inclusion math, but also everything with 15 is still seen
+            if( rl_dist( tripoint( point( smx, smy ), pos().z ), pos() ) < 15 ) {
+                aim_cache[smx][smy] = false;
+            } else if( lower_bound > upper_bound ) {
+                aim_cache[smx][smy] = !( current_angle >= lower_bound ||
+                                         current_angle <= upper_bound );
+            } else {
+                aim_cache[smx][smy] = !( current_angle >= lower_bound &&
+                                         current_angle <= upper_bound );
+            }
+        }
+    }
+
+    // set cache as no longer dirty
+    aim_cache_dirty = false;
+}
+
 void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
     if( can_switch_to( new_mode ) ) {
@@ -1203,6 +1258,7 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         move_mode = new_mode;
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
+        recoil = MAX_RECOIL;
     } else {
         add_msg( new_mode->change_message( false, get_steed_type() ) );
     }
@@ -1707,29 +1763,6 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
     }
 }
 
-// ids of martial art styles that are available with the bio_cqb bionic.
-static const std::vector<matype_id> bio_cqb_styles{ {
-        style_aikido,
-        style_biojutsu,
-        style_boxing,
-        style_capoeira,
-        style_crane,
-        style_dragon,
-        style_judo,
-        style_karate,
-        style_krav_maga,
-        style_leopard,
-        style_muay_thai,
-        style_ninjutsu,
-        style_pankration,
-        style_snake,
-        style_taekwondo,
-        style_tai_chi,
-        style_tiger,
-        style_wingchun,
-        style_zui_quan
-    }};
-
 bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
 {
     enum style_selection {
@@ -1737,14 +1770,25 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
         STYLE_OFFSET
     };
 
+    // Check for martial art styles known from active bionics
+    std::set<matype_id> bio_styles;
+    for( const bionic &bio : *you.my_bionics ) {
+        const std::vector<matype_id> &bio_ma_list = bio.id->ma_styles;
+        if( !bio_ma_list.empty() && you.has_active_bionic( bio.id ) ) {
+            bio_styles.insert( bio_ma_list.begin(), bio_ma_list.end() );
+        }
+    }
+    std::vector<matype_id> selectable_styles;
+    if( bio_styles.empty() ) {
+        selectable_styles = ma_styles;
+    } else {
+        selectable_styles.insert( selectable_styles.begin(), bio_styles.begin(), bio_styles.end() );
+    }
+
     // If there are style already, cursor starts there
     // if no selected styles, cursor starts from no-style
 
     // Any other keys quit the menu
-    const std::vector<matype_id> &selectable_styles = you.has_active_bionic(
-                bio_cqb ) ? bio_cqb_styles :
-            ma_styles;
-
     input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
@@ -1784,9 +1828,6 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
 
     if( selection >= STYLE_OFFSET ) {
         // If the currect style is selected, do not change styles
-        if( style_selected == selectable_styles[selection - STYLE_OFFSET] ) {
-            return false;
-        }
 
         avatar &u = const_cast<avatar &>( you );
         style_selected->remove_all_buffs( u );

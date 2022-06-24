@@ -72,7 +72,7 @@
             "effect": "downed",
             "chance": 80,
             "permanent": true,
-            "message": "TThe %s is knocked down, and doesn't look like it can get back up!",
+            "message": "The %s is knocked down, and doesn't look like it can get back up!",
             "damage_required": [ 7, 100 ]
           }
         ],

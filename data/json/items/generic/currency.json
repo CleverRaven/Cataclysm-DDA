@@ -148,7 +148,7 @@
     "description": "A fifty-cent coin, featuring a portrait of John F Kennedy.  You could flip it.",
     "weight": "11 g",
     "volume": "1 ml",
-    "price": 25,
+    "price": 50,
     "price_postapoc": 1,
     "material": [ "copper" ],
     "symbol": "o",
@@ -332,7 +332,8 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": 10000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -432,7 +433,8 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": 100000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -517,5 +519,22 @@
     "symbol": "$",
     "price": 5000000,
     "price_postapoc": 250000
+  },
+  {
+    "type": "GENERIC",
+    "category": "currency",
+    "id": "tacoma_drink_token",
+    "name": { "str": "Tacoma drink token" },
+    "description": "A ordinary looking bottle cap with a stamped logo of the Tacoma ranch on the inside.  You could probably take it back to the bartender with your glass for a small refund.",
+    "price": 0,
+    "price_postapoc": 0,
+    "//": "Dimensions of a bottle cap",
+    "weight": "2 g",
+    "volume": "6 ml",
+    "longest_side": "32 mm",
+    "to_hit": -3,
+    "color": "light_gray",
+    "symbol": "o",
+    "material": [ "tin" ]
   }
 ]

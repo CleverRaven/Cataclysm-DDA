@@ -156,7 +156,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_GAME_MASTER" ]
   },
   {
     "type": "profession",
@@ -235,7 +236,8 @@
       },
       "male": [ "briefs", "socks", "pants", "platinum_bracelet" ],
       "female": [ "bra", "panties", "stockings", "garter_belt", "skirt", "platinum_ear" ]
-    }
+    },
+    "missions": [ "MISSION_ASSASSINATION" ]
   },
   {
     "type": "profession",
@@ -282,7 +284,6 @@
         "items": [
           "gloves_medical",
           "socks",
-          "mask_dust",
           "dress_shirt",
           "pants",
           "dress_shoes",
@@ -294,7 +295,12 @@
           "oxycodone",
           "wristwatch"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "full_1st_aid" }, { "item": "medium_battery_cell", "charges": 500 } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "full_1st_aid" },
+          { "item": "medium_battery_cell", "charges": 500 },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -332,7 +338,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_PATIENT" ]
   },
   {
     "type": "profession",
@@ -536,7 +543,7 @@
             "contents-item": [ "shoulder_strap", "acog_scope" ],
             "custom-flags": [ "auto_wield" ]
           },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "us_ballistic_vest_pristine" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" }
         ]
       },
@@ -645,8 +652,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "jeans", "leather_belt", "boots_steel", "gloves_work", "glasses_safety", "hat_hard", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "items": [ "socks", "jeans", "leather_belt", "boots_steel", "gloves_work", "glasses_safety", "wristwatch" ],
+        "entries": [
+          { "item": "hat_hard", "variant": "yellow_hat_hard" },
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
@@ -692,7 +703,8 @@
       "bio_trickle",
       "bio_trickle"
     ],
-    "items": { "both": [ "subsuit_xl", "footrags", "hat_noise_cancelling" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": { "both": [ "subsuit_xl", "footrags", "hat_noise_cancelling" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",
@@ -721,7 +733,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "camisole", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",
@@ -767,7 +780,8 @@
       ],
       "male": [ "briefs" ],
       "female": [ "panties" ]
-    }
+    },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",
@@ -791,7 +805,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",

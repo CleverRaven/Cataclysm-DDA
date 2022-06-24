@@ -120,7 +120,6 @@ static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
-static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -129,7 +128,6 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
-static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -191,7 +189,6 @@ static const harvest_drop_type_id harvest_drop_skin( "skin" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
@@ -265,7 +262,6 @@ activity_handlers::do_turn_functions = {
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_FILL_PIT, fill_pit_do_turn },
     { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
     { ACT_OPERATION, operation_do_turn },
@@ -316,10 +312,8 @@ activity_handlers::finish_functions = {
     { ACT_VIEW_RECIPE, view_recipe_finish },
     { ACT_WASH, washing_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
-    { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
-    { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish },
 };
@@ -516,7 +510,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     if( action == butcher_type::BLEED && ( corpse_item.has_flag( flag_BLED ) ||
                                            corpse_item.has_flag( flag_QUARTERED ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ||
                                            corpse_item.has_flag( flag_FIELD_DRESS ) ) ) {
-        you.add_msg_if_player( m_info, _( "This corpse hase already been bled." ) );
+        you.add_msg_if_player( m_info, _( "This corpse has already been bled." ) );
         act.targets.pop_back();
         return;
     }
@@ -1248,7 +1242,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             break;
         case butcher_type::FIELD_DRESS: {
             bool success = roll_butchery_dissect( you->get_skill_level( skill_survival ), you->dex_cur,
-                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) < 0;
+                                                  you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) > 0;
             add_msg( success ? m_good : m_warning,
                      SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
                                                    "harvest_drop_default_field_dress_failed" ).value_or( translation() ).translated() );
@@ -1306,9 +1300,11 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             break;
     }
 
+    you->recoil = MAX_RECOIL;
+
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
-    // if its mutli-tile butchering,then restart the backlog.
+    // if it's mutli-tile butchering, then restart the backlog.
     resume_for_multi_activities( *you );
 }
 
@@ -1650,6 +1646,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             }
 
             you->mod_stamina( -pulp_effort );
+            you->recoil = MAX_RECOIL;
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
@@ -3082,6 +3079,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
                  you->disp_name() );
         return;
     }
+    you->set_activity_level( pc->id->activity_level );
     // if you ( or NPC ) are finishing someone else's started construction...
     const construction &built = pc->id.obj();
     if( !you->has_trait( trait_DEBUG_HS ) && !you->meets_skill_requirements( built ) ) {
@@ -3112,6 +3110,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
 
     you->set_moves( 0 );
 
+    pc->id->do_turn_special( here.getlocal( act->placement ), *you );
     pc->counter = std::min( pc->counter, 10000000 );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
@@ -3244,33 +3243,6 @@ void activity_handlers::jackhammer_finish( player_activity *act, Character *you 
             elem.set_var( "activity_var", you->name );
         }
     }
-}
-
-void activity_handlers::fill_pit_do_turn( player_activity *act, Character * )
-{
-    sfx::play_activity_sound( "tool", "shovel", 100 );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-    }
-}
-
-void activity_handlers::fill_pit_finish( player_activity *act, Character *you )
-{
-    const tripoint &pos = act->placement;
-    map &here = get_map();
-    const ter_id ter = here.ter( pos );
-    const ter_id old_ter = ter;
-
-    if( ter == t_pit || ter == t_pit_spiked || ter == t_pit_glass ||
-        ter == t_pit_corpsed ) {
-        here.ter_set( pos, t_pit_shallow );
-    } else {
-        here.ter_set( pos, t_dirt );
-    }
-    you->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
-
-    act->set_to_null();
 }
 
 template<typename fn>
@@ -3572,7 +3544,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             you ) : get_map().getlocal( act->coords.front() );
     if( target ) {
         // npcs check for target viability
-        if( !you->is_npc() || !spell_being_cast.is_valid_target( *you, *target ) ) {
+        if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {
             // no turning back now. it's all said and done.
             bool success = act->get_value( 1 ) == 1 ||
                            rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );
@@ -3700,20 +3672,4 @@ void activity_handlers::study_spell_finish( player_activity *act, Character *you
     if( act->values[2] == -1 ) {
         you->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
     }
-}
-
-//This is just used for robofac_intercom_mission_2
-void activity_handlers::mind_splicer_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-
-    if( act->targets.size() != 1 || !act->targets[0] ) {
-        debugmsg( "Incompatible arguments to: activity_handlers::mind_splicer_finish" );
-        return;
-    }
-    item &data_card = *act->targets[0];
-    you->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
-    you->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
-    data_card.clear_items();
-    data_card.put_in( item( itype_mind_scan_robofac ), item_pocket::pocket_type::SOFTWARE );
 }

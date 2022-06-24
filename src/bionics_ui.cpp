@@ -266,7 +266,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         mvwputch( window, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // -
     }
     mvwputch( window, point( pwr_str_pos - 1, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
-    center_print( window, 0, c_light_red, _( " BIONICS " ) );
+    center_print( window, 0, c_light_red, _( "Bionics" ) );
 
     std::string desc_append = string_format(
                                   _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "

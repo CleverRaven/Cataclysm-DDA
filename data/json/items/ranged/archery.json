@@ -720,6 +720,98 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
+    "id": "takedown_recurbow",
+    "looks_like": "longbow",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "light_gray",
+    "name": { "str": "takedown recurve bow" },
+    "description": "A modern fiberglass bow that can be taken down for storage.  For use by those of somewhat above-average strength.  Use it to disassemble it for storage but don't forget to remove any attached mods.",
+    "price": 38000,
+    "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
+    "material": [ "steel", "plastic" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELTED",
+      "WATER_FRIENDLY",
+      "SHEATH_BOW",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "skill": "archery",
+    "min_strength": 9,
+    "ammo": [ "arrow" ],
+    "weight": "540 g",
+    "volume": "2500 ml",
+    "longest_side": "152 cm",
+    "//2": "When mounted.",
+    "price_postapoc": 2200,
+    "bashing": 12,
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 20,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
+    "reload_noise_volume": 3,
+    "loudness": 8,
+    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "range": 14,
+    "dispersion": 850,
+    "sight_dispersion": 3000,
+    "durability": 6,
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "reload": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "use_action": {
+      "need_wielding": true,
+      "type": "transform",
+      "menu_text": "Disassemble it",
+      "target": "takedown_recurbow_folded",
+      "msg": "You disassemble your bow.",
+      "ammo_scale": 0,
+      "moves": 1500
+    }
+  },
+  {
+    "id": "takedown_recurbow_folded",
+    "looks_like": "longbow",
+    "type": "GENERIC",
+    "symbol": "(",
+    "color": "light_gray",
+    "name": { "str": "takedown recurve bow (folded)", "str_pl": "takedown recurve bows (folded)" },
+    "description": "A modern fiberglass bow that has been taken down for storage.  For use by those of somewhat above-average strength.  Use it to assemble it into shape.",
+    "price": 38000,
+    "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
+    "material": [ "steel", "plastic" ],
+    "weight": "540 g",
+    "volume": "2500 ml",
+    "longest_side": "60 cm",
+    "//2": "When taken down.",
+    "price_postapoc": 2200,
+    "bashing": 12,
+    "use_action": {
+      "need_wielding": true,
+      "type": "transform",
+      "menu_text": "Assemble it",
+      "target": "takedown_recurbow",
+      "msg": "You assemble your bow.",
+      "moves": 1500
+    }
+  },
+  {
     "id": "longbow",
     "type": "GUN",
     "symbol": "(",

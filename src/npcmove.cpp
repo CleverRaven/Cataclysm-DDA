@@ -79,6 +79,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -1461,7 +1462,11 @@ void npc::evaluate_best_weapon( const Creature *target )
                        !can_use( *mode.second.target ) || mode.second->get_gun_ups_drain() > ups_charges ||
                        ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                          !mode.second->is_silent() ) ) ) {
-                    compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
+                    if( it->ammo_sufficient( this ) || can_reload_current() ) {
+                        compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
+                    } else {
+                        compare( std::make_shared<npc_attack_melee>( *it ) );
+                    }
                 }
             }
         }
@@ -2252,7 +2257,7 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 bool npc::can_open_door( const tripoint &p, const bool inside ) const
 {
     return !is_hallucination() && !rules.has_flag( ally_rule::avoid_doors ) &&
-           get_map().open_door( p, inside, true );
+           get_map().open_door( *this, p, inside, true );
 }
 
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
@@ -2413,9 +2418,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             moves -= run_cost( here.combined_movecost( pos(), p ), diag );
         }
         moved = true;
-    } else if( here.open_door( p, !here.is_outside( pos() ), true ) ) {
+    } else if( here.open_door( *this, p, !here.is_outside( pos() ), true ) ) {
         if( !is_hallucination() ) { // hallucinations don't open doors
-            here.open_door( p, !here.is_outside( pos() ) );
+            here.open_door( *this, p, !here.is_outside( pos() ) );
             moves -= 100;
         } else { // hallucinations teleport through doors
             moves -= 100;
@@ -3656,6 +3661,11 @@ void npc::activate_item( item &it )
 
 void npc::heal_player( Character &patient )
 {
+    // Avoid more than one first aid activity at a time.
+    if( Character::has_activity( ACT_FIRSTAID ) ) {
+        return;
+    }
+
     int dist = rl_dist( pos(), patient.pos() );
 
     if( dist > 1 ) {
@@ -3669,7 +3679,7 @@ void npc::heal_player( Character &patient )
     // Close enough to heal!
     bool u_see = player_view.sees( *this ) || player_view.sees( patient );
     if( u_see ) {
-        add_msg( _( "%1$s heals %2$s." ), disp_name(), patient.disp_name() );
+        add_msg( _( "%1$s starts healing %2$s." ), disp_name(), patient.disp_name() );
     }
 
     item &used = get_healing_item( ai_cache.can_heal );
@@ -3726,17 +3736,22 @@ void npc::heal_self()
         }
     }
 
+    // Avoid more than one first aid activity at a time.
+    if( Character::has_activity( ACT_FIRSTAID ) ) {
+        return;
+    }
+
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name() );
         return;
     }
 
-    add_msg_if_player_sees( *this, _( "%s applies a %s" ), disp_name(), used.tname() );
+    add_msg_if_player_sees( *this, _( "%1$s starts applying a %2$s." ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
     int charges_used = used.type->invoke( *this, used, pos(), "heal" ).value_or( 0 );
-    if( used.is_medication() ) {
+    if( used.is_medication() && charges_used > 0 ) {
         consume_charges( used, charges_used );
     }
 }

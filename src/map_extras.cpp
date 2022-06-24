@@ -46,6 +46,7 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "sets_intersect.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "text_snippets.h"
@@ -129,7 +130,6 @@ static const map_extra_id map_extra_mx_house_wasp( "mx_house_wasp" );
 static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
 static const map_extra_id map_extra_mx_looters( "mx_looters" );
 static const map_extra_id map_extra_mx_mayhem( "mx_mayhem" );
-static const map_extra_id map_extra_mx_military( "mx_military" );
 static const map_extra_id map_extra_mx_minefield( "mx_minefield" );
 static const map_extra_id map_extra_mx_null( "mx_null" );
 static const map_extra_id map_extra_mx_point_burned_ground( "mx_point_burned_ground" );
@@ -145,15 +145,12 @@ static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
-static const mongroup_id GROUP_NETHER_CAPTURED( "GROUP_NETHER_CAPTURED" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
 static const mtype_id mon_dermatik( "mon_dermatik" );
-static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
@@ -442,7 +439,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     auto crashed_hull = VehicleGroup_crashed_helicopters->pick();
 
     // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
-    auto veh = std::make_unique<vehicle>( crashed_hull, rng( 1, 33 ), 1 );
+    auto veh = std::make_unique<vehicle>( m, crashed_hull, rng( 1, 33 ), 1 );
 
     veh->turn( dir1 );
 
@@ -557,63 +554,6 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                              10 ) );
         }
     }
-
-    return true;
-}
-
-static bool mx_military( map &m, const tripoint & )
-{
-    int num_bodies = dice( 2, 6 );
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 25 ) ) {
-                if( one_in( 2 ) ) {
-                    m.add_spawn( mon_zombie_bio_op, 1, *p );
-
-                    int splatter_range = rng( 1, 3 );
-                    for( int j = 0; j <= splatter_range; j++ ) {
-                        m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
-                    }
-                } else {
-                    m.add_spawn( mon_dispatch, 1, *p );
-                }
-            } else {
-                m.add_spawn( mon_zombie_soldier, 1, *p );
-                // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
-                if( !one_in( 10 ) ) {
-                    item_group_id group;
-                    // 80% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
-                    if( one_in( 20 ) ) {
-                        group = Item_spawn_data_military_standard_sniper_rifles;
-                    } else if( one_in( 19 ) ) {
-                        group = Item_spawn_data_military_standard_shotguns;
-                    } else if( one_in( 9 ) ) {
-                        group = Item_spawn_data_military_standard_lmgs;
-                    } else {
-                        group = Item_spawn_data_military_standard_assault_rifles;
-                    }
-                    m.place_items( group, 100, *p, *p, true, calendar::start_of_cataclysm );
-                }
-
-                int splatter_range = rng( 1, 3 );
-                for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
-                }
-            }
-        }
-
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-    m.place_spawns( GROUP_MAYBE_MIL, 2, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                    0.1f ); //0.1 = 1-5
-    m.place_items( Item_spawn_data_rare, 25, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                   true, calendar::start_of_cataclysm );
 
     return true;
 }
@@ -1481,6 +1421,9 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
             //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
             if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
                 m.destroy( tripoint( i,  j, abs_sub.z ), true );
+                if( abs_sub.z == 0 ) {
+                    m.ter_set( tripoint( i, j, abs_sub.z ), t_dirt );
+                }
             }
         }
     }
@@ -2788,7 +2731,6 @@ FunctionMap builtin_functions = {
     { map_extra_mx_bandits_block, mx_bandits_block },
     { map_extra_mx_minefield, mx_minefield },
     { map_extra_mx_supplydrop, mx_supplydrop },
-    { map_extra_mx_military, mx_military },
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
     { map_extra_mx_house_spider, mx_house_spider },
@@ -2965,6 +2907,18 @@ bool map_extra::is_valid_for( const mapgendata &md ) const
             return false;
         }
     }
+    if( !md.region.overmap_feature_flag.blacklist.empty() ) {
+        // map extra is blacklisted by flag
+        if( cata::sets_intersect( md.region.overmap_feature_flag.blacklist, get_flags() ) ) {
+            return false;
+        }
+    }
+    if( !md.region.overmap_feature_flag.whitelist.empty() ) {
+        // map extra is not whitelisted by flag
+        if( !cata::sets_intersect( md.region.overmap_feature_flag.whitelist, get_flags() ) ) {
+            return false;
+        }
+    }
 
     return true;
 }
@@ -2983,6 +2937,7 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
     optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
+    optional( jo, was_loaded, "flags", flags_ );
 }
 
 void map_extra::check() const

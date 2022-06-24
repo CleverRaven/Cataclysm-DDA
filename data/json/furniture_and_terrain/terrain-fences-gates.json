@@ -592,7 +592,7 @@
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 16 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -1086,7 +1086,7 @@
     "symbol": ".",
     "color": "brown",
     "looks_like": "t_fencegate_o",
-    "move_cost": 1,
+    "move_cost": 2,
     "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE", "TRANSPARENT" ],
     "connects_to": "WOODFENCE",
     "close": "t_privacy_fencegate_c",

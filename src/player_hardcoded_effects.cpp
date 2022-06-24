@@ -142,7 +142,7 @@ static void eff_fun_spores( Character &u, effect &it )
     // Equivalent to X in 150000 + health * 100
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_M_IMMUNE ) ) && ( one_in( 100 ) &&
-            x_in_y( intense, 900 + u.get_healthy() * 0.6 ) ) ) {
+            x_in_y( intense, 900 + u.get_lifestyle() * 0.6 ) ) ) {
         u.add_effect( effect_fungus, 1_turns, true );
     }
 }
@@ -165,7 +165,7 @@ static void eff_fun_fungus( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
     const bool resists = u.resists_effect( it );
-    const int bonus = u.get_healthy() / 10 + ( resists ? 100 : 0 );
+    const int bonus = u.get_lifestyle() / 10 + ( resists ? 100 : 0 );
 
     // clock the progress
     // hard reverse the clock if you resist fungus
@@ -1004,7 +1004,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
                     // photosynthesis warrants absorbing kcal directly
-                    u.mod_stored_kcal( -43 );
+                    u.mod_stored_kcal( 43 );
                 }
             }
             if( u.get_thirst() >= -40 ) {
@@ -1063,7 +1063,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
                     u.mutate_category( mutation_category_MYCUS );
-                    u.mod_stored_kcal( 87 );
+                    u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );
                 }
@@ -1361,7 +1361,7 @@ void Character::hardcoded_effects( effect &it )
             add_msg_if_player( m_bad, _( "Your head aches faintly." ) );
         }
         if( one_in( 6144 ) ) {
-            mod_healthy_mod( -10, -100 );
+            mod_daily_health( -10, -100 );
             apply_damage( nullptr, bodypart_id( "head" ), rng( 0, 1 ) );
             if( !has_effect( effect_visuals ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is getting fuzzy." ) );
@@ -1369,7 +1369,7 @@ void Character::hardcoded_effects( effect &it )
             }
         }
         if( one_in( 24576 ) ) {
-            mod_healthy_mod( -10, -100 );
+            mod_daily_health( -10, -100 );
             apply_damage( nullptr, bodypart_id( "head" ), rng( 1, 2 ) );
             if( !is_blind() && !sleeping ) {
                 add_msg_if_player( m_bad, _( "Your vision goes black!" ) );
@@ -1466,7 +1466,7 @@ void Character::hardcoded_effects( effect &it )
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
             }
-            recover_factor += get_healthy() / 10;
+            recover_factor += get_lifestyle() / 10;
 
             if( x_in_y( recover_factor, 648000 ) ) {
                 //~ %s is bodypart name.
@@ -1518,7 +1518,7 @@ void Character::hardcoded_effects( effect &it )
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
             }
-            recover_factor += get_healthy() / 10;
+            recover_factor += get_lifestyle() / 10;
 
             if( x_in_y( recover_factor, 5184000 ) ) {
                 //~ %s is bodypart name.

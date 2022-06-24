@@ -379,6 +379,20 @@
     ]
   },
   {
+    "id": "edible_bonemarrow",
+    "type": "requirement",
+    "//": "Any type of edible bone marrow.",
+    "components": [
+      [
+        [ "bone_marrow", 1 ],
+        [ "human_marrow", 1 ],
+        [ "demihuman_marrow", 1 ],
+        [ "mutant_marrow", 1 ],
+        [ "mutant_human_marrow", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "meat_nofish",
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
@@ -756,6 +770,7 @@
         [ "seasoning_italian", 1 ],
         [ "wild_herbs", 1 ],
         [ "soysauce", 1 ],
+        [ "wild_garlic", 1 ],
         [ "garlic_clove", 1 ]
       ]
     ]
@@ -771,6 +786,7 @@
         [ "soysauce", 1 ],
         [ "hot_sauce", 1 ],
         [ "ketchup", 1 ],
+        [ "barbecue_sauce", 1 ],
         [ "horseradish", 1 ],
         [ "sauerkraut", 1 ],
         [ "butter", 1 ]
@@ -824,6 +840,9 @@
         [ "pumpkin", 1 ],
         [ "raspberries", 1 ],
         [ "rose_hips", 1 ],
+        [ "wintergreen_berry", 4 ],
+        [ "mayapple", 2 ],
+        [ "m_stellatum_berries", 2 ],
         [ "strawberries", 1 ],
         [ "huckleberries", 1 ],
         [ "mulberries", 1 ],
@@ -968,6 +987,7 @@
         [ "zucchini", 1 ],
         [ "irradiated_zucchini", 1 ],
         [ "carrot_wild", 1 ],
+        [ "wild_garlic", 2 ],
         [ "spinach", 1 ]
       ]
     ]

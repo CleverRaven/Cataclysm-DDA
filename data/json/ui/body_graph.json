@@ -1,0 +1,12 @@
+[
+  {
+    "id": "body_graph",
+    "type": "widget",
+    "label": "Body Graph",
+    "var": "body_graph",
+    "style": "text",
+    "width": 0,
+    "height": 13,
+    "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
+  }
+]

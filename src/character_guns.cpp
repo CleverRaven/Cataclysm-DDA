@@ -151,8 +151,16 @@ void Character::gunmod_add( item &gun, item &mod )
         return;
     }
 
+    if( !wield( gun ) ) {
+        add_msg_if_player( _( "You can't wield the %1$s." ), gun.tname() );
+        return;
+    }
+
+    // Wielding can create a new item.
+    item &wielded_gun = get_wielded_item();
+
     // any (optional) tool charges that are used during installation
-    auto odds = gunmod_installation_odds( gun, mod );
+    auto odds = gunmod_installation_odds( wielded_gun, mod );
     int roll = odds.first;
     int risk = odds.second;
 
@@ -162,7 +170,7 @@ void Character::gunmod_add( item &gun, item &mod )
     if( mod.is_irremovable() ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
                        colorize( mod.tname(), mod.color_in_inventory() ),
-                       colorize( gun.tname(), gun.color_in_inventory() ) ) ) {
+                       colorize( wielded_gun.tname(), wielded_gun.color_in_inventory() ) ) ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player canceled installation
         }
@@ -172,7 +180,7 @@ void Character::gunmod_add( item &gun, item &mod )
     if( roll < 100 ) {
         uilist prompt;
         prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname(),
-                                     gun.tname() );
+                                     wielded_gun.tname() );
 
         std::vector<std::function<void()>> actions;
 
@@ -211,7 +219,7 @@ void Character::gunmod_add( item &gun, item &mod )
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
     assign_activity( player_activity( gunmod_add_activity_actor( moves, tool ) ) );
-    activity.targets.emplace_back( *this, &gun );
+    activity.targets.emplace_back( *this, &wielded_gun );
     activity.targets.emplace_back( *this, &mod );
     activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)

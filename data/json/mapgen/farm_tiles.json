@@ -5,7 +5,7 @@
     "om_terrain": [ "farm_lot_wire_straight_h" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "                        ",
@@ -41,7 +41,7 @@
     "om_terrain": [ "farm_lot_wire_straight_v" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "# ## ## ## ## ## ## ## #",
         "# ## ## ## ## ## ## ## #",
@@ -77,7 +77,7 @@
     "om_terrain": [ "farm_lot_wire_straight_v_open" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "# ## ## ## ## ## ## ## #",
         "# ## ## ## ## ## ## ## #",
@@ -113,7 +113,7 @@
     "om_terrain": [ "farm_lot_wire_turn_v_open" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "% ## ## ## ## ## ## ## #",
         "% ## ## ## ## ## ## ## #",
@@ -149,7 +149,7 @@
     "om_terrain": [ "farm_lot_M1" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "########################",
         "########################",
@@ -185,7 +185,7 @@
     "om_terrain": [ "farm_lot_wire_turn_h" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "% ######################",
         "%                       ",
@@ -221,7 +221,7 @@
     "om_terrain": [ "farm_lot_wire_turn_v" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "% ## ## ## ## ## ## ## #",
         "% ## ## ## ## ## ## ## #",
@@ -257,7 +257,7 @@
     "om_terrain": [ "dirt_road" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "field",
       "rows": [
         "........////////........",
@@ -297,7 +297,7 @@
     "om_terrain": [ "dirt_road" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "field",
       "rows": [
         "........////////........",
@@ -337,7 +337,7 @@
     "om_terrain": [ "dirt_road" ],
     "weight": 50,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "field",
       "rows": [
         "........////////........",
@@ -377,7 +377,7 @@
     "om_terrain": [ "dirt_road_3way" ],
     "weight": 20,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "field",
       "rotation": [ 1, 1 ],
       "rows": [
@@ -418,7 +418,7 @@
     "om_terrain": [ "dirt_road_3way" ],
     "weight": 20,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "field",
       "rotation": [ 1, 1 ],
       "rows": [
@@ -459,7 +459,7 @@
     "om_terrain": [ "dirt_road_3way" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "field",
       "rotation": [ 1, 1 ],
       "rows": [
@@ -500,7 +500,7 @@
     "om_terrain": [ "dirt_road_turn" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "field",
       "rows": [
         "........................",
@@ -538,7 +538,7 @@
     "om_terrain": [ "dirt_road_turn1" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "field",
       "rows": [
         "........................",
@@ -576,7 +576,7 @@
     "om_terrain": [ "dirt_road_forest" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "forest",
       "rows": [
         "........////////........",
@@ -614,7 +614,7 @@
     "om_terrain": [ "dirt_road_forest" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "forest",
       "rows": [
         "........////////........",
@@ -652,7 +652,7 @@
     "om_terrain": [ "dirt_road_turn_forest" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "forest",
       "rows": [
         "........................",
@@ -690,7 +690,7 @@
     "om_terrain": [ "dirt_road_turn1_forest" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "forest",
       "rows": [
         "........................",
@@ -728,7 +728,7 @@
     "om_terrain": [ "dirt_road_3way_forest" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "predecessor_mapgen": "forest",
       "rotation": [ 1, 1 ],
       "rows": [
@@ -768,7 +768,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 1, 1 ],
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "iiiiii////////////iiiiii",
         "iiii///222//////////iiii",
@@ -814,7 +814,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 1, 1 ],
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "iiiiii////////////iiiiii",
         "iiii///222//////////iiii",
@@ -860,7 +860,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 1, 1 ],
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "************************",
         "*******222**************",
@@ -897,7 +897,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 1, 1 ],
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "************************",
         "*******222**************",
@@ -934,7 +934,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 1, 1 ],
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "************************",
         "*******zzz**************",
@@ -1088,7 +1088,7 @@
         "♦": "t_dirtmound",
         "♣": "t_dirtmound",
         "Ʌ": "t_dirtmound",
-        "_": [ [ "t_dirt", 5 ], [ "t_grass_long", 5 ], [ "t_grass", 16 ] ]
+        "_": "t_region_soil"
       },
       "sealed_item": {
         "♥": { "item": { "item": "seed_tomato" }, "furniture": "f_plant_seedling", "chance": 70 },
@@ -1146,7 +1146,7 @@
         "♦": "t_dirtmound",
         "♣": "t_dirtmound",
         "Ʌ": "t_dirtmound",
-        "_": [ [ "t_dirt", 5 ], [ "t_grass_long", 5 ], [ "t_grass", 16 ] ]
+        "_": "t_region_soil"
       },
       "sealed_item": {
         "♥": { "item": { "item": "seed_tomato" }, "furniture": "f_plant_seedling", "chance": 70 },
@@ -1167,31 +1167,32 @@
       "rotation": [ 3, 3 ],
       "rows": [
         "........................",
-        "................b.......",
         "........................",
-        ".....|||||vvv||||+|v||..",
-        ".....|uufc   8888   y|..",
-        ".....|o              |..",
-        ".....vS  c     hnnh  v..",
-        ".....vu  c     hnnh  v..",
-        ".....|u  c  D        v..",
-        ".....||+|||+||n     Y|..",
-        ".....|r r|t B|n     Y|..",
-        ".....|r r|  B|n     Y|,,",
-        ".....|rrr|S D|n      +,,",
-        ".....||||||+||      a|,,",
-        ".....vn        y|||+|||.",
-        ".....||||+|||||||@@  kv.",
-        ".....|888  @@|dd|@@ hkv.",
-        ".....vn    @@|  |    kv.",
-        ".....|1  h   +  +   g||.",
-        ".....|||kkk|||||||vv||..",
-        ".......|vvv|............",
+        "..u..............-......",
+        ".....#####ooo####*#o##..",
+        ".....#YF47   RRRR   y#..",
+        ".....#3              #..",
+        ".....oO  JA    hffh  o..",
+        ".....o2  5A    hffh  o..",
+        ".....#1  JA          o..",
+        ".....#|+|||+||x     H#..",
+        ".....#6 w|8 B|x   l H#.p",
+        ".....#6 Q|S B|x     H#--",
+        ".....#6gU|8 t|Y      *--",
+        ".....#|||||+||   a  L#--",
+        ".....os        y|||+|##.",
+        ".....#|||+|||||||@@  Io.",
+        ".....#RRR  @@|DD|@@ hIo.",
+        ".....os    @@|  |    Io.",
+        ".....#E  h   +  +   T##.",
+        ".....###III#######oo##..",
+        ".......#ooo#^...........",
         "........................",
         "........................",
         "........................"
       ],
-      "palettes": [ "farm_house" ],
+      "palettes": [ { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] } ],
+      "terrain": { "#": "t_wall_log", "-": "t_concrete" },
       "place_nested": [
         {
           "chunks": [
@@ -1206,59 +1207,8 @@
           "y": 0
         }
       ],
-      "place_loot": [ { "item": "television", "x": 14, "y": [ 9, 12 ], "chance": 100 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "house_farm" ],
-    "weight": 100,
-    "object": {
-      "fill_ter": "t_floor",
-      "rotation": [ 3, 3 ],
-      "rows": [
-        "........................",
-        "................b.......",
-        "........................",
-        ".....||||||vv|| |####|..",
-        ".....|rrr|fouu|      #..",
-        ".....vr  +   S|      #..",
-        ".....|rrr|cc u|+|||  #..",
-        ".....|||||||    1n|7 #..",
-        ".....|k d@@|n     v7 #..",
-        ".....|kh @@|n  hnhv7 #..",
-        ".....vk    |n  hnh|  #..",
-        ".....|y   g|n  hnhv  |,,",
-        ".....||||+||n     v   ,,",
-        ".....+            |   ,,",
-        ".....||||+||D  y  ||+||.",
-        ".....|@@  8||+||     7v.",
-        ".....v@@  8|t D|8    7v.",
-        ".....|d   8|   |8    7v.",
-        ".....|D  1 |BBS|8YYYa||.",
-        ".....|||kkk|||||||v|||..",
-        ".......|vvv|............",
-        "........................",
-        "........................",
-        "........................"
-      ],
-      "palettes": [ "farm_house" ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 25 ],
-            [ "24x24_fence1", 20 ],
-            [ "24x24_fence2", 20 ],
-            [ "24x24_fence3", 20 ],
-            [ "24x24_fence4", 20 ],
-            [ "24x24_fence5", 15 ]
-          ],
-          "x": 0,
-          "y": 0
-        }
-      ],
-      "place_loot": [ { "item": "television", "x": 12, "y": [ 9, 12 ], "chance": 100 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
+      "place_loot": [ { "item": "television", "x": 14, "y": 10, "chance": 90 } ]
     }
   },
   {
@@ -1273,29 +1223,30 @@
         "........................",
         "........................",
         "........................",
-        ".....|#####||vv|||||||..",
-        ".....#7nn7 |fouu|rrrr|..",
-        ".....#7nn7 |    +    v..",
-        ".....|7nn7 |Scc ||||||..",
-        ".....      +    + 8kk|..",
-        ".....||vv|||D   |  h v..",
-        "..b..|d  kk|||| |    v..",
-        ".....v@@  h|BB| |@@ d|..",
-        ".....v@@   +  + ||||||,,",
-        ".....|d    |St|  77  +,,",
-        ".....|    |||||      +,,",
-        ".....||||+|8888     a||.",
-        ".....v1n        hnnh yv.",
-        ".....v      1   hnnh  v.",
-        ".....v  YYY     hnnh yv.",
-        ".....|y      g       ||.",
-        ".....|||nnn||||||vv|||..",
-        ".......|vvv|............",
+        ".....######oo## #ŦŦŦŦ#..",
+        ".....#UwQ|FO43#      Ŧ..",
+        ".....og  +   2#      Ŧ..",
+        ".....#666|5J 1#*###  Ŧ..",
+        ".....#|||||| Y  lE#i Ŧ..",
+        ".....#I d@@|      oi Ŧ..",
+        ".....#Ih @@|x hfh oi Ŧ..",
+        ".....oI    |x hfh #  Ŧ.p",
+        ".....#y b T|x hfh o  #--",
+        "..u..#|||+||      o   --",
+        "....-*           T#   --",
+        ".....#|||+||y     ##*##.",
+        ".....#d   R||+||  Y  io.",
+        ".....o@@  R|t 8|R    io.",
+        ".....#@@  R|  S|R l  io.",
+        ".....#d  E |BB8|RHHHL##.",
+        ".....###III#######o###..",
+        ".......#ooo#^...........",
         "........................",
         "........................",
         "........................"
       ],
-      "palettes": [ "farm_house" ],
+      "palettes": [ { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] } ],
+      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing" },
       "place_nested": [
         {
           "chunks": [
@@ -1310,7 +1261,8 @@
           "y": 0
         }
       ],
-      "place_loot": [ { "item": "television", "x": [ 8, 10 ], "y": 19, "chance": 100 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
+      "place_loot": [ { "item": "television", "x": 12, "y": 10, "chance": 90 } ]
     }
   },
   {
@@ -1325,29 +1277,30 @@
         "........................",
         "........................",
         "........................",
-        ".b...|##|||||||v||||||..",
-        ".....# 7|BBS|@@ 1n|dd|..",
-        ".....# 7|t  |@@   +  |..",
-        ".....|  ||+||   ||||+|..",
-        ".....   +   + h |@@  |..",
-        ".....|  |8  |kkk|d   v..",
-        ".333.# 7|8  |||||   1v..",
-        ".....# 7|8  ynnn|g  n|..",
-        ".....|||||      ||+|||,,",
-        ".333.|rrr|Y          +,,",
-        ".....|r r|Y          +,,",
-        ".....||+||Y  hnnh   a||.",
-        ".....vf S    hnnh    kv.",
-        ".....vo c    hnnh   1kv.",
-        ".....vu c            kv.",
-        ".....|u     g  888  y||.",
-        ".....|||  D||vv|||vv||..",
-        ".......|vvv|............",
+        ".....#ŦŦŦŦŦ##oo#######..",
+        ".....Ŧ     #Y423|66WU#..",
+        ".....Ŧ ifi #F   +   g#..",
+        ".....# ifi #O   |||||#..",
+        ".....      *    + IIR#..",
+        ".....#######J5J |  h o..",
+        "..u..#d  II|||| |    o..",
+        ".....o@@  h|BB| |@@ d#..",
+        ".....#     +  + |||||#.p",
+        ".....o@@  E|St|  iii *--",
+        ".....#d   |||||      *--",
+        ".....#|||+|RRR|     L##.",
+        ".....#E         hffh yo.",
+        ".....o  HHH E   hffh 1o.",
+        ".....o   l      hffh yo.",
+        ".....#y      T|      ##.",
+        ".....### a ######oo###..",
+        ".......#####^...........",
         "........................",
         "........................",
         "........................"
       ],
-      "palettes": [ "farm_house" ],
+      "palettes": [ { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] } ],
+      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing" },
       "place_nested": [
         {
           "chunks": [
@@ -1362,7 +1315,7 @@
           "y": 0
         }
       ],
-      "place_loot": [ { "item": "television", "x": [ 13, 15 ], "y": 10, "chance": 100 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ]
     }
   },
   {
@@ -1377,29 +1330,30 @@
         "........................",
         "........................",
         "........................",
-        ".....||vv||||v||||vv||..",
-        ".....|8    k|rrrr|Scu|..",
-        ".....v1   hk|r   +  uv..",
-        ".....v    g|||||||  ov..",
-        ".....|@@   +d|nnn   f|..",
-        ".....|@@d D|||     |||..",
-        ".....||||+||y      | #..",
-        ".....|BB|     hhh  vh#.b",
-        ".....|  +     nnn a| |,,",
-        ".....| S|     hhh  +  ,,",
-        ".....|t||+||D      +  ,,",
-        ".....|||y  |||8    ||||.",
-        ".....|g    88|8  1   Yv.",
-        ".....v@ 1   @|8    n Yv.",
-        ".....v@   1 @|8   1  Yv.",
-        ".....|d     d|8 g   y||.",
-        ".....|||nnn|||||vvv|||..",
-        ".......|vvv|............",
+        ".....#ŦŦ#######o######..",
+        ".....Ŧ i#BB8|@@ lE|DD#..",
+        ".u...Ŧ i#t S|@@   + b#..",
+        ".....#  #|+||   |||+|#..",
+        ".....   *   + h |@@  #..",
+        ".....#  #R  |III|d   o..",
+        ".jjj.Ŧ i#R  |||||@@ lo..",
+        ".....Ŧ i#R  yxxx|d  E#..",
+        ".....####|      |||+|#.p",
+        ".jjj.#Qg6|H     Y    *--",
+        ".....#q 6|H          *--",
+        ".....#|+||H  hffh   L##.",
+        ".....o2 43   hffh    Io.",
+        ".....o1  JA  hffh   EIo.",
+        ".....oO  5           Io.",
+        ".....#FY J  T  RRR  y##.",
+        ".....###   ##oo###oo##..",
+        ".......#ooo#^...........",
         "........................",
         "........................",
         "........................"
       ],
-      "palettes": [ "farm_house" ],
+      "palettes": [ { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] } ],
+      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing" },
       "place_nested": [
         {
           "chunks": [
@@ -1414,10 +1368,62 @@
           "y": 0
         }
       ],
-      "place_loot": [
-        { "item": "television", "x": [ 8, 10 ], "y": 19, "chance": 100 },
-        { "item": "television", "x": [ 14, 16 ], "y": 7, "chance": 100 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
+      "place_loot": [ { "item": "television", "x": [ 13, 15 ], "y": 10, "chance": 90 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_farm" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rotation": [ 3, 3 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        ".....##oo#########oo##..",
+        ".....#R    I|qw6|5432#..",
+        ".....oE   hI|g  +   1o..",
+        ".....o    T||||||   Oo..",
+        ".....#@@   +D| k    F#..",
+        ".....#@@d Y|||     ###..",
+        ".....#|||+||y      # Ŧ..",
+        ".....#8S|     hhh  ohŦ.p",
+        ".....#  +     fff L# #--",
+        ".....# t|     hhh  *  --",
+        ".....#9||+||Y      *  --",
+        ".....#||y  ||||    ####.",
+        ".....#T    RR|R  E   Ho.",
+        ".....o@ E   @|R    l Ho.",
+        ".....o@  lE @|R   E  Ho.",
+        ".....#d     d|R T   y##.",
+        ".....###xxx#####ooo###..",
+        ".......#####^...........",
+        "....................u...",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] } ],
+      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing" },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 25 ],
+            [ "24x24_fence1", 20 ],
+            [ "24x24_fence2", 20 ],
+            [ "24x24_fence3", 20 ],
+            [ "24x24_fence4", 20 ],
+            [ "24x24_fence5", 15 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
+      "place_loot": [ { "item": "television", "x": [ 8, 10 ], "y": 19, "chance": 90 } ]
     }
   },
   {
@@ -1425,8 +1431,8 @@
     "method": "json",
     "om_terrain": "house_farm_roof",
     "object": {
-      "fill_ter": "t_floor",
       "rotation": [ 3, 3 ],
+      "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",
         "                        ",
@@ -1439,16 +1445,16 @@
         "     |_______________3  ",
         "     |_______________3  ",
         "     |_______________3  ",
-        "     |_______________3  ",
+        "     |_________~_____3  ",
         "     |_______________3  ",
         "     |_______________3  ",
         "     |_______________33 ",
         "     |________________3 ",
         "     |________________3 ",
-        "     |________________3 ",
+        "     |_:______________3 ",
         "     |_______________33 ",
-        "     |--___-----------  ",
-        "       -----            ",
+        "     |-|___5----------  ",
+        "       |---3            ",
         "                        ",
         "                        ",
         "                        "

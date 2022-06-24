@@ -35,6 +35,7 @@ static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
@@ -278,6 +279,7 @@ player_morale::player_morale() :
     mutations[trait_ROOTS1]        = mutation_data( update_constrained );
     mutations[trait_ROOTS2]        = mutation_data( update_constrained );
     mutations[trait_ROOTS3]        = mutation_data( update_constrained );
+    mutations[trait_CHLOROMORPH]   = mutation_data( update_constrained );
     mutations[trait_LEAVES2]       = mutation_data( update_constrained );
     mutations[trait_LEAVES3]       = mutation_data( update_constrained );
     mutations[trait_MASOCHIST]     = mutation_data( update_masochist );
@@ -1081,7 +1083,7 @@ void player_morale::update_constrained_penalty()
         pen += bp_pen( bodypart_id( "head" ), 10 );
     }
     if( has_mutation( trait_ROOTS1 ) || has_mutation( trait_ROOTS2 ) ||
-        has_mutation( trait_ROOTS3 ) ) {
+        has_mutation( trait_ROOTS3 ) || has_mutation( trait_CHLOROMORPH ) ) {
         pen += bp_pen( bodypart_id( "foot_l" ), 5 );
         pen += bp_pen( bodypart_id( "foot_r" ), 5 );
     }

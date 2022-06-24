@@ -158,7 +158,20 @@
       { "monster": "mon_fish_pacu_giant", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 4 ] },
       { "monster": "mon_fish_piranha", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
       { "monster": "mon_fish_arowana", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_fish_arapaima", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] }
+      { "monster": "mon_fish_arapaima", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_piraiba", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_pleco", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_stingray", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_tucunare", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_discus", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_angelfish", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_goldfish", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_koi", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_tilapia", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_sabalo", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_oscar", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_guapote", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_mayaheros", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] }
     ]
   },
   {
@@ -234,7 +247,9 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_capybara", "weight": 60, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_toad", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
+      { "monster": "mon_toad", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_crab", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_fish_pancora", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
   },
   {

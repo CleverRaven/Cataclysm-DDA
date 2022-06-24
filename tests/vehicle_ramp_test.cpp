@@ -76,7 +76,7 @@ static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up
         }
     }
     here.invalidate_map_cache( 0 );
-    here.build_map_cache( 0 );
+    here.build_map_cache( 0, true );
 }
 
 // Algorithm goes as follows:

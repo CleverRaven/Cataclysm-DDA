@@ -81,7 +81,7 @@
         "moves": 200,
         "holster": true,
         "description": "Strap for a gun barrel.",
-        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun" ]
+        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun", "robofac_gun_exodii" ]
       }
     ],
     "armor": [
@@ -174,7 +174,7 @@
         "moves": 200,
         "holster": true,
         "description": "Strap for a gun barrel.",
-        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun" ]
+        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun", "robofac_gun_exodii" ]
       },
       { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] }
     ],

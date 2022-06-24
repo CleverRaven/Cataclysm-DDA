@@ -86,7 +86,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "boat_rental",
+    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2", "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
     "name": "boat rental",
     "sym": "#",
     "color": "white",
@@ -268,7 +268,8 @@
       "cabin_roof_5",
       "cabin_roof_6",
       "cabin_roof_7",
-      "cabin_roof_lapin"
+      "cabin_roof_lapin",
+      "bandit_cabin_roof"
     ],
     "name": "cabin roof",
     "sym": "C",
@@ -444,7 +445,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
+    "id": [
+      "bandit_camp_1",
+      "bandit_camp_2",
+      "bandit_camp_3",
+      "bandit_camp_4",
+      "bandit_camp_1_roof",
+      "bandit_camp_2_roof",
+      "bandit_camp_3_roof",
+      "bandit_camp_4_roof"
+    ],
     "name": "wooden fort",
     "sym": "+",
     "color": "brown",
@@ -483,6 +493,24 @@
     "//": "Pseudo terrain used for Tacoma companion raids",
     "id": "looted_house_basement",
     "name": "looted house basement",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital",
+    "name": "looted hospital",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital_roof",
+    "name": "looted hospital roof",
     "sym": "%",
     "color": "white",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
@@ -591,7 +619,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_garage_1", "bandit_garage_2" ],
+    "id": [ "bandit_garage_1", "bandit_garage_2", "bandit_garage_1_roof", "bandit_garage_2_roof" ],
     "name": "garage",
     "sym": "O",
     "color": "white",

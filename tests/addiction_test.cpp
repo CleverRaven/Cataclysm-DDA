@@ -48,7 +48,7 @@ struct addict_effect_totals {
         dex_bonus += u.dex_cur;
         per_bonus += u.per_cur;
         int_bonus += u.int_cur;
-        health_mod += u.get_healthy_mod();
+        health_mod += u.get_daily_health();
         pkiller += u.get_painkiller();
         pain += u.get_pain();
         focus += u.get_focus();
@@ -62,7 +62,7 @@ static void clear_addictions( Character &u )
     u.addictions.clear();
     u.clear_effects();
     u.moves = 100;
-    u.set_healthy_mod( 0 );
+    u.set_daily_health( 0 );
     u.str_max = 8;
     u.dex_max = 8;
     u.int_max = 8;
@@ -570,7 +570,7 @@ TEST_CASE( "check mutagen addiction effects", "[addiction]" )
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
         CHECK( totals.pain == 0 );
-        CHECK( max_iters * 100 - totals.focus == Approx( 1000 ).margin( 500 ) );
+        CHECK( max_iters * 100 - totals.focus == Approx( 1000 ).margin( 800 ) );
         CHECK( totals.str_bonus == max_iters * 8 );
         CHECK( totals.dex_bonus == max_iters * 8 );
         CHECK( totals.per_bonus == max_iters * 8 );

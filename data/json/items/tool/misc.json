@@ -369,21 +369,6 @@
     "use_action": [ "WATER_PURIFIER" ]
   },
   {
-    "type": "GENERIC",
-    "id": "mind_splicer",
-    "symbol": "o",
-    "color": "white",
-    "name": { "str": "mind splicer kit" },
-    "description": "Surgical forceps, cables and a modified smartphone inside a small plastic pouch.  Assembled to steal the mind of some poor man, these are tools of the creepy high-tech sandman.",
-    "material": [ "plastic" ],
-    "price": 12500,
-    "price_postapoc": 500,
-    "use_action": [ "MIND_SPLICER" ],
-    "volume": "1 L",
-    "weight": "600 g",
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
     "type": "TOOL",
     "id": "gasket_plastic",
     "name": { "str": "plastic gasket" },

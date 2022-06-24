@@ -625,6 +625,40 @@ void mutation_branch::check_consistency()
                 }
             }
         }
+
+        for( const mutation_category_id &cat_id : mdata.category ) {
+            if( !mdata.prereqs.empty() ) {
+                bool found = false;
+                for( const trait_id &prereq_id : mdata.prereqs ) {
+                    const mutation_branch &prereq = prereq_id.obj();
+                    found = found ||
+                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
+                }
+                if( !found ) {
+                    debugmsg( "mutation %s is in category %s but none of its slot 1 prereqs have this category",
+                              mid.c_str(), cat_id.c_str() );
+                }
+            }
+
+            if( !mdata.prereqs2.empty() ) {
+                bool found = false;
+                for( const trait_id &prereq_id : mdata.prereqs2 ) {
+                    const mutation_branch &prereq = prereq_id.obj();
+                    found = found ||
+                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
+                }
+                if( !found ) {
+                    debugmsg( "mutation %s is in category %s but none of its slot 2 prereqs have this category",
+                              mid.c_str(), cat_id.c_str() );
+                }
+            }
+        }
+
+        // We need to display active mutations in the UI.
+        if( mdata.activated && !mdata.player_display ) {
+            debugmsg( "mutation %s is not displayed but set as active" );
+        }
+
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );

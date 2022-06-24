@@ -17,7 +17,7 @@
     "type": "martial_art",
     "id": "style_crt_blade",
     "name": "C.R.I.T Blade-work",
-    "description": "An offensive style centered around rapid slashes and prodding.  Each attack landed increases combat ability but leaves you increasingly vulnerable",
+    "description": "An offensive style centered around rapid slashes and prodding.  Each attack landed increases combat ability but leaves you increasingly vulnerable.",
     "initiate": [ "You prepare to whittle down your enemies.", "%s initiates blade-work." ],
     "arm_block": 99,
     "leg_block": 99,
@@ -25,7 +25,7 @@
       {
         "id": "crt_blade_static",
         "name": "Calculating Eyes",
-        "description": "You have been taught how to properly utilize small to medium-sized sharp weaponry.\n\n+5 cut and stab armor penetration, +1 accuracy",
+        "description": "You have been taught how to properly utilize small to medium-sized sharp weaponry.\n\n+5 cut and stab armor penetration, +1 accuracy.",
         "unarmed_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 0 } ],

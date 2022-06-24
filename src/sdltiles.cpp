@@ -1765,6 +1765,7 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
             return -1;
         // The following are simple translations:
         case SDLK_KP_ENTER:
+            return KEY_ENTER;
         case SDLK_RETURN:
         case SDLK_RETURN2:
             return '\n';
@@ -2653,6 +2654,10 @@ static bool text_input_active_when_regaining_focus = false;
 
 void StartTextInput()
 {
+    // prevent sending spurious empty SDL_TEXTEDITING events
+    if( SDL_IsTextInputActive() == SDL_TRUE ) {
+        return;
+    }
 #if defined(__ANDROID__)
     SDL_StartTextInput();
 #else

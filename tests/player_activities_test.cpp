@@ -831,7 +831,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
         dummy.wield( it_hacksaw );
         REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw );
-        REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
+        REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
         return item_location{dummy, &dummy.get_wielded_item()};
     };
@@ -958,7 +958,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
             dummy.wield( it_hacksaw_elec );
             REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw_elec );
-            REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
+            REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
             item_location hacksaw_elec{ dummy, &dummy.get_wielded_item() };
 
@@ -1696,13 +1696,11 @@ static std::vector<player_activity> get_test_activities( avatar &dummy, map &m )
         player_activity( bookbinder_copy_activity_actor( bookbinder, recipe_water_clean ) ),
         player_activity( consume_activity_actor( item( itype_water_clean ) ) ),
         //player_activity( craft_activity_actor() ),
-        player_activity( dig_activity_actor( 1, p, "", north, 0, "" ) ),
-        player_activity( dig_channel_activity_actor( 1, p, "", north, 0, "" ) ),
         //player_activity( disable_activity_actor() ),
         //player_activity( disassemble_activity_actor( 1 ) ),
         player_activity( drop_activity_actor() ),
         //player_activity( ebooksave_activity_actor( loc, loc ) ),
-        player_activity( firstaid_activity_actor( 1, std::string() ) ),
+        player_activity( firstaid_activity_actor( 1, std::string(), dummy.getID() ) ),
         player_activity( forage_activity_actor( 1 ) ),
         player_activity( gunmod_remove_activity_actor( 1, loc, 0 ) ),
         player_activity( hacking_activity_actor() ),
@@ -1757,11 +1755,9 @@ static void update_cache( map &m )
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
-    m.build_lightmap( 0, get_avatar().pos() );
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
-    m.build_lightmap( 0, get_avatar().pos() );
 }
 
 TEST_CASE( "activity interruption by distractions", "[activity][interruption]" )
@@ -1871,7 +1867,6 @@ TEST_CASE( "activity interruption by distractions", "[activity][interruption]" )
 
             spawn_test_monster( mon_zombie.str(), zombie_pos_near );
             m.add_field( dummy.pos(), field_fd_smoke );
-            update_cache( m );
             std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
 
             CHECK( dists.size() == 2 );

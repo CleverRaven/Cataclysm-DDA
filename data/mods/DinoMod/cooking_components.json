@@ -30,6 +30,7 @@
         [ "egg_anzu", 1 ],
         [ "egg_deinonychus", 1 ],
         [ "egg_utahraptor", 1 ],
+        [ "egg_issi", 1 ],
         [ "egg_stegosaurus", 1 ],
         [ "egg_dyoplosaurus", 1 ],
         [ "egg_ankylosaurus", 1 ],
@@ -67,6 +68,7 @@
         [ "egg_stenonychosaurus", 1 ],
         [ "egg_eoraptor", 1 ],
         [ "egg_scutellosaurus", 1 ],
+        [ "egg_oryctodromeus", 1 ],
         [ "egg_pteranodon", 1 ]
       ]
     ]

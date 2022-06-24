@@ -136,7 +136,7 @@ std::string TranslationPluralRulesEvaluator::ExprToken::ToString() const
 
 Token TranslationPluralRulesEvaluator::GetNextToken( const char *&p )
 {
-    while( *p != '\0' && *p == ' ' ) {
+    while( *p == ' ' ) {
         ++p;
     }
     if( *p == '\0' || *p == ';' ) {

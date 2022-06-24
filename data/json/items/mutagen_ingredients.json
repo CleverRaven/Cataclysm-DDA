@@ -5,7 +5,7 @@
     "symbol": "q",
     "color": "red",
     "name": { "str": "abstract mutagen sample" },
-    "description": "This item needs a description defined, and is copied from mutagen_sample.",
+    "description": "This item needs a description defined, and is copied from abstract mutagen sample.",
     "price": 1000,
     "price_postapoc": 50,
     "material": [ "flesh" ],
@@ -82,7 +82,7 @@
     "id": "elfa_sample",
     "copy-from": "mutagen_sample",
     "color": "light_green",
-    "name": { "str": "elf-a sample" },
+    "name": { "str": "Elf-A sample" },
     "description": "A slurry of responsibility.",
     "material": [ "veggy", "hblood" ]
   },

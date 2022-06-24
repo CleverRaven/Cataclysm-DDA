@@ -37,6 +37,11 @@
     ]
   },
   {
+    "id": "EOC_gunsmith_556_value",
+    "type": "effect_on_condition",
+    "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "556" }
+  },
+  {
     "id": "TALK_GUNSMITH_CONVERT_FROM_TYPE",
     "type": "talk_topic",
     "dynamic_line": {
@@ -63,10 +68,7 @@
             }
           ]
         },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "556" },
-          { "u_sell_item": "556", "count": 200 }
-        ],
+        "effect": [ { "u_sell_item": "556", "count": 200, "true_eocs": "EOC_gunsmith_556_value" } ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
@@ -85,7 +87,7 @@
         },
         "effect": [
           { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "556" },
-          { "u_sell_item": "556", "count": 800 }
+          { "u_sell_item": "556", "count": 800, "true_eocs": "EOC_gunsmith_556_value" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -124,8 +126,14 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76251" },
-          { "u_sell_item": "762_51", "count": 800 }
+          {
+            "u_sell_item": "762_51",
+            "count": 800,
+            "true_eocs": {
+              "id": "EOC_gunsmith_762_51",
+              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76251" }
+            }
+          }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -144,8 +152,14 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76239" },
-          { "u_sell_item": "762_m87", "count": 200 }
+          {
+            "u_sell_item": "762_m87",
+            "count": 200,
+            "true_eocs": {
+              "id": "EOC_gunsmith_762_5m87",
+              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76239" }
+            }
+          }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -184,8 +198,14 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" },
-          { "u_sell_item": "545", "count": 200 }
+          {
+            "u_sell_item": "545",
+            "count": 200,
+            "true_eocs": {
+              "id": "EOC_gunsmith_545",
+              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" }
+            }
+          }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -203,10 +223,7 @@
             }
           ]
         },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" },
-          { "u_sell_item": "545", "count": 800 }
-        ],
+        "effect": [ { "u_sell_item": "545", "count": 800, "true_eocs": "EOC_gunsmith_545" } ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
@@ -224,8 +241,14 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "300" },
-          { "u_sell_item": "300blk", "count": 200 }
+          {
+            "u_sell_item": "300blk",
+            "count": 200,
+            "true_eocs": {
+              "id": "EOC_gunsmith_300blk",
+              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "300" }
+            }
+          }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -243,10 +266,7 @@
             }
           ]
         },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "300" },
-          { "u_sell_item": "300blk", "count": 800 }
-        ],
+        "effect": [ { "u_sell_item": "300blk", "count": 800, "true_eocs": "EOC_gunsmith_300blk" } ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       { "text": "Forget it.", "topic": "TALK_GUNSMITH_SERVICES" }

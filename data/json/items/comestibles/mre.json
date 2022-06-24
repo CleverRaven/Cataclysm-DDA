@@ -8,7 +8,6 @@
     "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 320,
     "description": "A generic MRE entree, you shouldn't see this.",
     "price": 1250,

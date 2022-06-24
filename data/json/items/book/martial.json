@@ -182,7 +182,7 @@
     "type": "BOOK",
     "name": { "str": "The Indonesian Warrior", "str_pl": "copies of The Indonesian Warrior" },
     "price_postapoc": 3000,
-    "description": "A complete guide to Pentjak Silat.",
+    "description": "A complete guide to Pencak Silat.",
     "martial_art": "style_silat"
   },
   {

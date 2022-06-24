@@ -700,8 +700,9 @@ void Character::load( const JsonObject &data )
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
-    data.read( "healthy", healthy );
-    data.read( "healthy_mod", healthy_mod );
+    data.read( "healthy", lifestyle );
+    data.read( "healthy_mod", daily_health );
+    data.read( "health_tally", health_tally );
 
     // Remove check after 0.F
     if( savegame_loading_version >= 30 ) {
@@ -1196,8 +1197,9 @@ void Character::store( JsonOut &json ) const
     json.member( "custom_profession", custom_profession );
 
     // health
-    json.member( "healthy", healthy );
-    json.member( "healthy_mod", healthy_mod );
+    json.member( "healthy", lifestyle );
+    json.member( "healthy_mod", daily_health );
+    json.member( "health_tally", health_tally );
 
     // needs
     json.member( "thirst", thirst );
@@ -2102,6 +2104,11 @@ void npc::load( const JsonObject &data )
         data.read( "myclass", classid );
         myclass = npc_class_id( classid );
     }
+    if( data.has_string( "idz" ) ) {
+        data.read( "idz", idz );
+    } else {
+        idz = myclass;
+    }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
 
@@ -2235,6 +2242,7 @@ void npc::load( const JsonObject &data )
         member.read( p );
         complaints.emplace( member.name(), p );
     }
+    data.read( "unique_id", unique_id );
 }
 
 /*
@@ -2257,6 +2265,7 @@ void npc::store( JsonOut &json ) const
     json.member( "dead", dead );
     json.member( "patience", patience );
     json.member( "myclass", myclass.str() );
+    json.member( "idz", idz.str() );
     json.member( "known_to_u", known_to_u );
     json.member( "personality", personality );
 
@@ -2302,6 +2311,7 @@ void npc::store( JsonOut &json ) const
     json.member( "restock", restock );
 
     json.member( "complaints", complaints );
+    json.member( "unique_id", unique_id );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2682,6 +2692,7 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "comps_used", comps_used );
     jsout.member( "next_failure_point", next_failure_point );
     jsout.member( "tools_to_continue", tools_to_continue );
+    jsout.member( "batch_size", batch_size );
     jsout.member( "cached_tool_selections", cached_tool_selections );
     jsout.end_object();
 }
@@ -2699,6 +2710,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
     obj.read( "comps_used", comps_used );
     next_failure_point = obj.get_int( "next_failure_point", -1 );
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
+    batch_size = obj.get_int( "batch_size", -1 );
     obj.read( "cached_tool_selections", cached_tool_selections );
 }
 
@@ -3009,6 +3021,12 @@ void item::deserialize( const JsonObject &data )
                 contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
             }
         }
+    }
+
+    // FIXME: batch_size migration from charges - remove after 0.G
+    if( is_craft() and craft_data_->batch_size <= 0 ) {
+        craft_data_->batch_size = clamp( charges, 1, charges );
+        charges = 0;
     }
 
     if( !has_itype_variant( false ) && can_have_itype_variant() ) {
@@ -3461,7 +3479,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "owner", owner );
     json.member( "old_owner", old_owner );
     json.member( "theft_time", theft_time );
-    json.member( "parts", parts );
+    json.member( "parts", real_parts() );
     json.member( "tags", tags );
     json.member( "fuel_remainder", fuel_remainder );
     json.member( "fuel_used_last_turn", fuel_used_last_turn );
@@ -4221,6 +4239,21 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "dumping_spot", dumping_spot );
+        json.member( "hidden_missions" );
+        json.start_array();
+        for( const auto &list : hidden_missions ) {
+            json.start_object();
+            json.member( "dir" );
+            json.start_array();
+            for( const auto &miss_id : list ) {
+                json.start_object();
+                json.member( "mission_id", string_of( miss_id.id ) );
+                json.end_object();
+            }
+            json.end_array();
+            json.end_object();
+        }
+        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {
@@ -4290,6 +4323,25 @@ void basecamp::deserialize( const JsonObject &data )
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     data.read( "dumping_spot", dumping_spot );
+    for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
+        std::vector<ui_mission_id> temp;
+        hidden_missions.push_back( temp );
+    }
+    int tab_num = base_camps::TAB_MAIN;
+    for( JsonObject list : data.get_array( "hidden_missions" ) ) {
+        list.allow_omitted_members();
+        for( JsonObject miss_id_json : list.get_array( "dir" ) ) {
+            miss_id_json.allow_omitted_members();
+            std::string miss_id_string;
+            miss_id_json.read( "mission_id", miss_id_string );
+            ui_mission_id miss_id;
+            miss_id.id = mission_id_of( miss_id_string );
+            miss_id.ret = false;
+            hidden_missions[tab_num].push_back( miss_id );
+        }
+        tab_num++;
+    }
+
     for( JsonObject edata : data.get_array( "expansions" ) ) {
         edata.allow_omitted_members();
         expansion_data e;

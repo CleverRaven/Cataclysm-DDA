@@ -1,0 +1,9 @@
+[
+  {
+    "result": "boiled_egg_dino_large",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "components": [ [ [ "boiled_egg_dino", 2 ] ] ]
+  }
+]

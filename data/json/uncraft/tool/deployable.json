@@ -16,5 +16,14 @@
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 10 ] ], [ [ "sheet_metal", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "catalytic_cracking_reactor",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ]
   }
 ]

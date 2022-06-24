@@ -34,13 +34,16 @@ std::string vehicle::disp_name() const
     return string_format( _( "the %s" ), name );
 }
 
-char vehicle::part_sym( const int p, const bool exact ) const
+char vehicle::part_sym( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return ' ';
     }
 
-    const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+    int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
+    if( displayed_part == -1 ) {
+        displayed_part = p;
+    }
 
     const vehicle_part &vp = parts.at( displayed_part );
     const vpart_info &vp_info = part_info( displayed_part );
@@ -74,7 +77,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
         return "";
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount );
+    int displayed_part = part_displayed_at( parts[p].mount, true );
     if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
         parts[ displayed_part ].removed ) {
         return "";
@@ -93,7 +96,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
     return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
 }
 
-nc_color vehicle::part_color( const int p, const bool exact ) const
+nc_color vehicle::part_color( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return c_black;
@@ -111,7 +114,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     if( parm >= 0 ) {
         col = part_info( parm ).color;
     } else {
-        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
 
         if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ) {
             return c_black;
@@ -161,21 +164,24 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param detail Whether or not to show detailed contents for fuel components.
  */
 int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
-                              int p, int hl /*= -1*/, bool detail ) const
+                              int p, int hl /*= -1*/, bool detail, bool include_fakes ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true );
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true, include_fakes );
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
+        const vehicle_part &vp = parts[ pl [ i ] ];
+        if( vp.is_fake && !vp.is_active_fake ) {
+            continue;
+        }
         if( y >= max_y ) {
             mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here…" ) );
             ++y;
             break;
         }
 
-        const vehicle_part &vp = parts[ pl [ i ] ];
 
         std::string partname = vp.name();
 

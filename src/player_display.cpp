@@ -10,6 +10,7 @@
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -179,12 +180,15 @@ void Character::print_encumbrance( const catacurses::window &win, const int line
                               ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, point( 1, 1 + i ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        mvwprintz( win, point( 8, 1 + i ), display::encumb_color( e.encumbrance ), "%3d",
+        int column = std::max( 10, ( width / 2 ) - 3 ); //Ideally the encumbrance data is centred
+        mvwprintz( win, point( column, 1 + i ), display::encumb_color( e.encumbrance ), "%3d",
                    e.encumbrance - e.layer_penalty );
         // separator in low toned color
-        mvwprintz( win, point( 11, 1 + i ), c_light_gray, "+" );
+        column += 3; //Prepared for 3-digit encumbrance
+        mvwprintz( win, point( column, 1 + i ), c_light_gray, "+" );
+        column += 1; // "+"
         // take into account the new encumbrance system for layers
-        mvwprintz( win, point( 12, 1 + i ), display::encumb_color( e.encumbrance ), "%-3d",
+        mvwprintz( win, point( column, 1 + i ), display::encumb_color( e.encumbrance ), "%-3d",
                    e.layer_penalty );
         // print warmth, tethered to right hand side of the window
         mvwprintz( win, point( width - 6, 1 + i ), display::bodytemp_color( *this, bp ), "(% 3d)",
@@ -366,11 +370,13 @@ static void draw_proficiencies_info( const catacurses::window &w_info, const uns
 }
 
 static void draw_stats_tab( const catacurses::window &w_stats, const Character &you,
-                            const unsigned line, const player_display_tab curtab )
+                            const unsigned line, const player_display_tab curtab, const input_context &ctxt )
 {
     werase( w_stats );
     const nc_color title_col = curtab == player_display_tab::stats ? h_light_gray : c_light_gray;
-    center_print( w_stats, 0, title_col, _( title_STATS ) );
+    center_print( w_stats, 0, title_col,
+                  string_format( "[<color_yellow>%s</color>] %s",
+                                 ctxt.get_desc( "VIEW_BODYSTAT" ), _( title_STATS ) ) );
 
     const auto line_color = [curtab, line]( const unsigned line_to_draw ) {
         if( curtab == player_display_tab::stats && line == line_to_draw ) {
@@ -964,7 +970,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
 
     if( customize_character ) {
         right_print( w_tip, 0, 8, c_light_gray, string_format(
-                         _( "[<color_yellow>%s</color>]Customize character" ),
+                         _( "[<color_yellow>%s</color>] Customize character" ),
                          ctxt.get_desc( "SWITCH_GENDER" ) ) );
     }
 
@@ -1124,6 +1130,8 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ui_tip.invalidate_ui();
     } else if( action == "VIEW_PROFICIENCIES" ) {
         show_proficiencies_window( you );
+    } else if( action == "VIEW_BODYSTAT" ) {
+        display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
         uilist cmenu;
         cmenu.title = _( "Customize Character" );
@@ -1335,6 +1343,7 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
     ctxt.register_action( "SWITCH_GENDER", to_translation( "Customize base appearance and name" ) );
     ctxt.register_action( "VIEW_PROFICIENCIES", to_translation( "View character proficiencies" ) );
+    ctxt.register_action( "VIEW_BODYSTAT", to_translation( "View character's body status" ) );
     ctxt.register_action( "SCROLL_INFOBOX_UP", to_translation( "Scroll information box up" ) );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN", to_translation( "Scroll information box down" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1392,7 +1401,7 @@ void Character::disp_info( bool customize_character )
     ui_stats.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_stats_border );
         wnoutrefresh( w_stats_border );
-        draw_stats_tab( w_stats, *this, line, curtab );
+        draw_stats_tab( w_stats, *this, line, curtab, ctxt );
     } );
 
     // TRAITS & BIONICS

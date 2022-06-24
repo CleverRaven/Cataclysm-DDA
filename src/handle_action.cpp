@@ -18,6 +18,7 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -566,7 +567,7 @@ static void open()
         return;
     }
     // Not a vehicle part, just a regular door
-    bool didit = here.open_door( openp, !here.is_outside( player_character.pos() ) );
+    bool didit = here.open_door( player_character, openp, !here.is_outside( player_character.pos() ) );
     if( didit ) {
         player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
     } else {
@@ -701,7 +702,6 @@ static void smash()
     const int move_cost = !player_character.is_armed() ? 80 :
                           player_character.get_wielded_item().attack_time() *
                           0.8;
-    bool didit = false;
     bool mech_smash = false;
     int smashskill;
     ///\EFFECT_STR increases smashing capability
@@ -768,7 +768,8 @@ static void smash()
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
         if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
             maybe_corpse.can_revive() ) {
-            if( maybe_corpse.get_mtype()->bloodType()->has_acid ) {
+            if( maybe_corpse.get_mtype()->bloodType()->has_acid &&
+                !player_character.is_immune_field( fd_acid ) ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     return; // Player doesn't want an acid bath
                 }
@@ -823,11 +824,11 @@ static void smash()
         const int max_smashskill = smashskill * ( 1.0f + best_part_to_smash.first->smash_efficiency );
         smashskill = std::min( best_part_to_smash.second + min_smashskill, max_smashskill );
     }
-    didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
+    const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
     // Weariness scaling
     float weary_mult = 1.0f;
     item &weapon = player_character.get_wielded_item();
-    if( didit ) {
+    if( bash_result.did_bash ) {
         if( !mech_smash ) {
             player_character.set_activity_level( MODERATE_EXERCISE );
             player_character.handle_melee_wear( weapon );
@@ -864,16 +865,20 @@ static void smash()
             }
         }
         player_character.moves -= move_cost * weary_mult;
+        player_character.recoil = MAX_RECOIL;
 
-        if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
-            if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
-                // %s is the smashed furniture
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
-            } else {
-                // %s is the smashed terrain
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.tername( smashp ) );
+        if( !bash_result.success ) {
+            if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
+                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
+                    // %s is the smashed furniture
+                    add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
+                } else {
+                    // %s is the smashed terrain
+                    add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.tername( smashp ) );
+                }
             }
         }
+
     } else {
         add_msg( _( "There's nothing there to smash!" ) );
     }
@@ -2509,6 +2514,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_MEDICAL:
             player_character.disp_medical();
+            break;
+
+        case ACTION_BODYSTATUS:
+            display_bodygraph( get_player_character() );
             break;
 
         case ACTION_MESSAGES:

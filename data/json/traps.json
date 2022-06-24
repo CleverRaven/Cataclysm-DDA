@@ -528,7 +528,9 @@
     "difficulty": 99,
     "action": "lava",
     "flags": [ "CONVECTS_TEMPERATURE" ],
-    "vehicle_data": { "damage": 500 }
+    "vehicle_data": { "damage": 500 },
+    "trigger_message_u": "You stepped into lava!",
+    "trigger_message_npc": "<npcname> stepped into lava!"
   },
   {
     "type": "trap",

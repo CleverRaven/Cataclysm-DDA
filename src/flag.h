@@ -218,6 +218,7 @@ extern const flag_id flag_NO_STERILE;
 extern const flag_id flag_NO_TAKEOFF;
 extern const flag_id flag_NO_UNLOAD;
 extern const flag_id flag_NO_UNWIELD;
+extern const flag_id flag_NO_WEAR_EFFECT;
 extern const flag_id flag_NPC_ACTIVATE;
 extern const flag_id flag_NPC_ALT_ATTACK;
 extern const flag_id flag_NPC_SAFE;

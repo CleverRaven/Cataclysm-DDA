@@ -95,7 +95,17 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
 
     }
     //handles telefragging other creatures
-    if( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
+    int tfrag_attempts = 5;
+    while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
+        //Fail if we run out of telefrag attempts
+        if( tfrag_attempts-- < 1 ) {
+            if( p && display_message ) {
+                p->add_msg_player_or_npc( m_warning, _( "You flicker." ), _( "<npcname> flickers." ) );
+            } else if( get_player_view().sees( critter ) && display_message ) {
+                add_msg( _( "%1$s flickers." ), critter.disp_name() );
+            }
+            return false;
+        }
         Character *const poor_player = dynamic_cast<Character *>( poor_soul );
         if( safe ) {
             if( c_is_u && display_message ) {

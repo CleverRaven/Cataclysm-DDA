@@ -421,7 +421,7 @@ bool vehicle_part::can_reload( const item &obj ) const
     return ammo_capacity( obj.ammo_type() ) > 0;
 }
 
-void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
+void vehicle_part::process_contents( map &here, const tripoint &pos, const bool e_heater )
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
@@ -439,7 +439,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         } else if( enabled && info().has_flag( VPFLAG_HEATED_TANK ) ) {
             flag = temperature_flag::HEATER;
         }
-        base.process( nullptr, pos, 1, flag );
+        base.process( here, nullptr, pos, 1, flag );
     }
 }
 
@@ -607,22 +607,31 @@ bool vehicle_part::is_seat() const
 
 const vpart_info &vehicle_part::info() const
 {
+    static const vpart_info info_none = vpart_info();
     if( !info_cache ) {
-        info_cache = &id.obj();
+        // segmentation fault occurs here during severe vehicle crash
+        // probably this part is removed/destroyed?
+        if( !id.is_null() && id.is_valid() ) {
+            info_cache = &id.obj();
+        } else {
+            info_cache = nullptr;
+            return info_none;
+        }
     }
     return *info_cache;
 }
 
 void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_degradation )
 {
-    if( qty == pt.info().durability || pt.info().durability <= 0 ) {
+    int dur = pt.info().durability;
+    if( qty == dur || dur <= 0 ) {
         pt.base.set_damage( keep_degradation ? pt.base.damage_floor( false ) : 0 );
 
     } else if( qty == 0 ) {
         pt.base.set_damage( pt.base.max_damage() );
 
     } else {
-        int amt = pt.base.max_damage() - pt.base.max_damage() * qty / pt.info().durability;
+        int amt = pt.base.max_damage() - pt.base.max_damage() * qty / dur;
         amt = std::max( amt, pt.base.damage_floor( false ) );
         pt.base.set_damage( amt );
     }
@@ -639,8 +648,9 @@ void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_
 
 bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 {
-    if( pt.info().durability > 0 ) {
-        return pt.base.mod_damage( -( pt.base.max_damage() * qty / pt.info().durability ), dt );
+    int dur = pt.info().durability;
+    if( dur > 0 ) {
+        return pt.base.mod_damage( -( pt.base.max_damage() * qty / dur ), dt );
     } else {
         return false;
     }

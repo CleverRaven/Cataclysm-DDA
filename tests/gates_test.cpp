@@ -23,7 +23,7 @@ TEST_CASE( "doors should be able to open and close", "[gates]" )
         REQUIRE( here.ter( pos ).obj().id == t_door_c->id );
 
         THEN( "the door should be able to open and close" ) {
-            CHECK( here.open_door( pos, true, false ) );
+            CHECK( here.open_door( get_avatar(), pos, true, false ) );
             CHECK( here.ter( pos ).obj().id == t_door_o->id );
 
             CHECK( here.close_door( pos, true, false ) );
@@ -55,7 +55,7 @@ TEST_CASE( "windows should be able to open and close", "[gates]" )
 
     WHEN( "the window is opened from the inside" ) {
         THEN( "the window should be able to open" ) {
-            CHECK( here.open_door( pos, true, false ) );
+            CHECK( here.open_door( get_avatar(), pos, true, false ) );
             CHECK( here.ter( pos ).obj().id == t_window_no_curtains_open->id );
         }
     }
@@ -86,7 +86,7 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
         // make sure there is no sounds before action
         REQUIRE( sounds::get_monster_sounds().first.empty() );
 
-        REQUIRE( here.open_door( pos, true, false ) );
+        REQUIRE( here.open_door( get_avatar(), pos, true, false ) );
         REQUIRE( here.ter( pos ).obj().id == t_door_o->id );
 
         THEN( "the door should make a swish sound" ) {
@@ -114,7 +114,7 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
         // make sure there is no sounds before action
         REQUIRE( sounds::get_monster_sounds().first.empty() );
 
-        REQUIRE( here.open_door( pos, true, false ) );
+        REQUIRE( here.open_door( get_avatar(), pos, true, false ) );
         REQUIRE( here.ter( pos ).obj().id == t_window_no_curtains_open->id );
 
         THEN( "the window should make a swish sound" ) {

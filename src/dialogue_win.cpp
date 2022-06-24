@@ -38,17 +38,6 @@ void dialogue_window::draw( const std::string &npc_name, const std::vector<talk_
     can_scroll_down = print_responses( responses );
     can_scroll_up = scroll_yoffset > 0;
 
-    // Mid - 1 pad - 2 text width
-    // NOLINTNEXTLINE(cata-combine-locals-into-point)
-    const int xoffset = getmaxx( d_win ) / 2 - 1 - 2;
-    // NOLINTNEXTLINE(cata-combine-locals-into-point)
-    const int yoffset = getmaxy( d_win ) - 1 - RESPONSES_LINES + 1;
-    if( can_scroll_up ) {
-        mvwprintz( d_win, point( xoffset, yoffset ), c_light_green, "^^" );
-    }
-    if( can_scroll_down ) {
-        mvwprintz( d_win, point( xoffset, yoffset + RESPONSES_LINES - 2 ), c_light_green, "vv" );
-    }
     wnoutrefresh( d_win );
 }
 
@@ -59,7 +48,7 @@ void dialogue_window::handle_scrolling( const std::string &action, int num_respo
     const bool offscreen_lines = displayable_lines < num_responses;
     int next_offset = 0;
     for( int i = scroll_yoffset; i < num_responses; i++ ) {
-        next_offset += std::get<1>( folded_txt[i] );
+        next_offset += folded_heights[i];
         if( next_offset >= displayable_lines || i == num_responses - 1 ) {
             next_offset = i - scroll_yoffset;
             break;
@@ -67,7 +56,7 @@ void dialogue_window::handle_scrolling( const std::string &action, int num_respo
     }
     int prev_offset = 0;
     for( int i = scroll_yoffset; i >= 0; i-- ) {
-        prev_offset += std::get<1>( folded_txt[i] );
+        prev_offset += folded_heights[i];
         if( prev_offset >= displayable_lines || i == 0 ) {
             prev_offset = i;
             break;
@@ -231,12 +220,12 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
     const int responses_xoffset = 2; // 1 pad + 1 indentation under "Your response"
     const int xmid = getmaxx( d_win ) / 2;
     const int yoffset = getmaxy( d_win ) - 1 - RESPONSES_LINES + 1;
-    const int ymax = getmaxy( d_win ) - 2;
+    int total_length = 0;
 
     // Even if we're scrolled, we have to iterate through the full list of responses, since scroll
     // amount is based on the number of lines *after* folding.
-    int ycurrent = yoffset - scroll_yoffset;
     folded_txt.clear();
+    folded_heights.clear();
     for( size_t i = 0; i < responses.size(); i++ ) {
         //~ %s: hotkey description
         const std::string hotkey_text = string_format( pgettext( "talk option", "%s: " ),
@@ -244,40 +233,38 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
         const int hotkey_width = utf8_width( hotkey_text );
         const int fold_width = xmid - responses_xoffset - hotkey_width - 1;
         const std::vector<std::string> folded = foldstring( responses[i].text, fold_width );
-        if( static_cast<int>( i ) < scroll_yoffset ) {
-            // account for multi-line options
-            ycurrent -= std::max( 0, static_cast<int>( folded.size() ) - 1 );
-        }
-        folded_txt.emplace_back( std::make_tuple( hotkey_text, static_cast<int>( folded.size() ),
-                                 folded ) );
+        folded_heights.emplace_back( static_cast<int>( folded.size() ) );
+        folded_txt.emplace_back( std::make_tuple( hotkey_text, folded ) );
+        total_length += static_cast<int>( folded.size() );
     }
-    for( size_t i = 0; i < responses.size() && ycurrent <= ymax; i++ ) {
-        nc_color color = is_computer ? default_color() : responses[i].color;
-        if( i == static_cast<size_t>( sel_response ) ) {
-            color = hilite( color );
-        }
-        const std::string &hotkey_text = std::get<0>( folded_txt[i] );
-        const std::vector<std::string> &folded = std::get<2>( folded_txt[i] );
-        const int hotkey_width = utf8_width( hotkey_text );
-        const int fold_width = xmid - responses_xoffset - hotkey_width - 1;
-        for( size_t j = 0; j < folded.size(); j++, ycurrent++ ) {
-            if( ycurrent < yoffset ) {
-                // Off screen (above)
-                continue;
-            } else if( ycurrent > ymax ) {
-                // Off screen (below)
-                break;
-            }
-            if( j == 0 ) {
-                // First line; display hotkey
-                mvwprintz( d_win, point( responses_xoffset, ycurrent ), color, hotkey_text );
-            }
-            mvwprintz( d_win, point( responses_xoffset + hotkey_width, ycurrent ), color,
-                       left_justify( folded[j], fold_width, true ) );
-        }
-    }
-    bool more_responses_to_display = ycurrent > ymax;
 
+    best_fit responses_to_print = find_best_fit_in_size( folded_heights, sel_response,
+                                  RESPONSES_LINES );
+
+    int ycurrent = yoffset;
+    int viewport_start_pos = 0;
+    for( size_t i = 0; i < folded_txt.size(); ++i ) {
+        if( static_cast<int>( i ) < responses_to_print.start ) {
+            viewport_start_pos += folded_heights[i];
+        } else if( static_cast<int>( i ) < responses_to_print.start + responses_to_print.length ) {
+            nc_color color = is_computer ? default_color() : responses[i].color;
+            if( i == static_cast<size_t>( sel_response ) ) {
+                color = hilite( color );
+            }
+            const std::string &hotkey_text = std::get<0>( folded_txt[i] );
+            const std::vector<std::string> &folded = std::get<1>( folded_txt[i] );
+            const int hotkey_width = utf8_width( hotkey_text );
+            const int fold_width = xmid - responses_xoffset - hotkey_width - 1;
+            for( size_t j = 0; j < folded.size(); ++j, ++ycurrent ) {
+                if( j == 0 ) {
+                    // First line; display hotkey
+                    mvwprintz( d_win, point( responses_xoffset, ycurrent ), color, hotkey_text );
+                }
+                mvwprintz( d_win, point( responses_xoffset + hotkey_width, ycurrent ), color,
+                           left_justify( folded[j], fold_width, true ) );
+            }
+        }
+    }
     // Actions go on the right column; they're unaffected by scrolling.
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
     ycurrent = yoffset;
@@ -295,5 +282,17 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
         mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Check opinion" ),
                    ctxt.get_desc( "CHECK_OPINION", 1 ) );
     }
-    return more_responses_to_display;
+
+    if( responses_to_print.start > 0 ||
+        responses_to_print.length < static_cast<int>( responses.size() ) ) {
+        scrollbar()
+        .offset_x( getmaxx( d_win ) / 2 - 1 )
+        .offset_y( getmaxy( d_win ) - RESPONSES_LINES )
+        .content_size( total_length )
+        .viewport_pos( viewport_start_pos )
+        .viewport_size( RESPONSES_LINES - 1 )
+        .apply( d_win );
+    }
+
+    return responses_to_print.start + responses_to_print.length < static_cast<int>( folded_txt.size() );
 }

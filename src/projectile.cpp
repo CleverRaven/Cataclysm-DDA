@@ -11,11 +11,13 @@
 #include "debug.h"
 #include "enums.h"
 #include "explosion.h"
+#include "field.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "morale_types.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
@@ -24,6 +26,8 @@ static const field_type_str_id field_fd_foamcrete( "fd_foamcrete" );
 
 static const ter_str_id ter_t_foamcrete_floor( "t_foamcrete_floor" );
 static const ter_str_id ter_t_foamcrete_wall( "t_foamcrete_wall" );
+
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 projectile::projectile() :
     critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
@@ -137,6 +141,8 @@ static void foamcrete_build( const tripoint &p )
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     map &here = get_map();
+    Character &player_character = get_player_character();
+
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
         if( effects.count( ae.id.str() ) > 0 ) {
             for( const tripoint &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
@@ -145,6 +151,19 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
                     const bool check_passable = !ae.aoe_check_passable || here.passable( pt );
                     if( check_sees && check_passable ) {
                         here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
+
+                        if( player_character.has_trait( trait_PYROMANIA ) &&
+                            !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+                            for( const auto &fd : here.field_at( pt ) ) {
+                                if( fd.first->has_fire ) {
+                                    player_character.add_msg_if_player( m_good,
+                                                                        _( "You feel a surge of euphoria as flames burst out!" ) );
+                                    player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                                    player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }

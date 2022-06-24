@@ -15,6 +15,7 @@
 #include "ascii_art.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cata_assert.h"
@@ -282,6 +283,8 @@ void DynamicDataLoader::initialize()
     add( "start_location", &start_locations::load );
     add( "scenario", &scenario::load_scenario );
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
+    add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
+    add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
@@ -452,6 +455,7 @@ void DynamicDataLoader::initialize()
     add( "character_mod", &character_modifier::load_character_modifiers );
     add( "body_part", &body_part_type::load_bp );
     add( "sub_body_part", &sub_body_part_type::load_bp );
+    add( "body_graph", &bodygraph::load_bodygraphs );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
@@ -550,6 +554,7 @@ void DynamicDataLoader::unload_data()
     body_part_type::reset();
     butchery_requirements::reset();
     sub_body_part_type::reset();
+    bodygraph::reset();
     weapon_category::reset();
     clear_techniques_and_martial_arts();
     character_modifier::reset();
@@ -620,6 +625,8 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     scent_type::reset();
     score::reset();
+    shopkeeper_blacklist::reset();
+    shopkeeper_cons_rates::reset();
     Skill::reset();
     skill_boost::reset();
     SNIPPET.clear_snippets();
@@ -666,6 +673,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
+            { _( "Body graphs" ), &bodygraph::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
@@ -759,9 +767,9 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
-            { _( "Effect Types" ), &effect_type::check_consistency },
+            { _( "Effect types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
-            { _( "Addiction Types" ), &add_type::check_add_types },
+            { _( "Addiction types" ), &add_type::check_add_types },
             {
                 _( "Items" ), []()
                 {
@@ -787,7 +795,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },
-            { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
+            { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
@@ -796,6 +804,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Cities" ), &city::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
+            { _( "Shop rates" ), &shopkeeper_cons_rates::check_all },
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
@@ -813,6 +822,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::check_consistency },
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_type::check_consistency },
+            { _( "Body graphs" ), &bodygraph::check_all },
             { _( "Anatomies" ), &anatomy::check_consistency },
             { _( "Spells" ), &spell_type::check_consistency },
             { _( "Transformations" ), &event_transformation::check_consistency },

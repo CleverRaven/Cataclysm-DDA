@@ -50,6 +50,8 @@ struct spawn_point {
 };
 
 template<int sx, int sy>
+// Suppression due to bug in clang-tidy 12
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct maptile_soa {
     ter_id             ter[sx][sy];  // Terrain on each square
     furn_id            frn[sx][sy];  // Furniture on each square

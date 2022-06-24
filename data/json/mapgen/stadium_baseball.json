@@ -5,46 +5,34 @@
     "om_terrain": [ [ "stadium_0_0", "stadium_1_0", "stadium_2_0", "stadium_3_0" ] ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_sidewalk",
+      "fill_ter": "t_pavement",
       "rows": [
-        "sssss.......sssssssssssssssssssss.......ssssssssssssssss.......sssssssssssssssssssss.......sssss",
-        "s!sss.......sssssssssssssssssssss.......ssssssssssssssss.......sssssssssssssssssssss.......sss!s",
-        "ss..........p....p....p....p....p..............................p....p....p....p....p..........ss",
-        "ss..........p....p....p....p....p..............................p....p....p....p....p..........ss",
-        "ss..........p.1..p.1..p.1..p.1..p..............................p.1..p.1..p.1..p.1..p..........ss",
-        "ss..........p....p....p....p....p..............................p....p....p....p....p..........ss",
-        "ss..........p....p....p....p....p..............................p....p....p....p....p..........ss",
-        "ss..........p....p....p....p....p..............................p....p....p....p....p..........ss",
-        "ss............................................................................................ss",
-        "ss............................................................................................ss",
-        "ss............................................................................................ss",
-        "ss............................................................................................ss",
-        "ss............................................................................................ss",
-        "ss............................................................................................ss",
-        "ss............................................................................................ss",
-        "ss............................................................................................ss",
-        "ss......................................!ssssssssssssss!......................................ss",
-        "ssp....p....p....p....p....p....p....pppssssssssssssssssppp....p....p....p....p....p....p.....ss",
-        "ssp....p....p....p....p....p....p....p.psbssssssssssssbsp.p....p....p....p....p....p....p.....ss",
-        "ssp....p....p....p....p....p....p....pp.sbssssssssssssbs.pp....p....p....p....p....p....p....pss",
-        "ssp..2.p..2.p..2.p..2.p..2.p..2.p..2.p.ps&ssssssssssss&sp.p..2.p..2.p..2.p..2.p..2.p..2.p..2.pss",
-        "ssp....p....p....p....p....p....p....pp.ssssssssssssssss.pp....p....p....p....p....p....p....pss",
-        "ssp....p....p....p....p....p....p....p.pssssssssssssssssp.p....p....p....p....p....p....p....pss",
+        "sssss       sssssssssssssssssssss       ssssssssssssssss       sssssssssssssssssssss       sssss",
+        "s!sss       sssssssssssssssssssss       ssssssssssssssss       sssssssssssssssssssss       sss!s",
+        "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
+        "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
+        "ss          ~ 4  ~ 4  ~ 4  ~ 4  ~                              ~ 4  ~ 4  ~ 4  ~ 4  ~          ss",
+        "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
+        "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
+        "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
+        "ss                                                                                            ss",
+        "ss                                                                                            ss",
+        "ss                                                                                            ss",
+        "ss                                                                                            ss",
+        "ss                                                                                            ss",
+        "ss                                                                                            ss",
+        "ss                                                                                            ss",
+        "ss                                                                                            ss",
+        "ss                                      !ssossossossoss!                                      ss",
+        "ss~    ~    ~    ~    ~    ~    ~    ~~~ssssssssssssssss~~~    ~    ~    ~    ~    ~    ~     ss",
+        "ss~    ~    ~    ~    ~    ~    ~    ~ ~sBssssssssssssBs~ ~    ~    ~    ~    ~    ~    ~     ss",
+        "ss~    ~    ~    ~    ~    ~    ~    ~~ sBssssssssssssBs ~~    ~    ~    ~    ~    ~    ~    ~ss",
+        "ss~  5 ~  5 ~  5 ~  5 ~  5 ~  5 ~  5 ~ ~sBssssssssssssBs~ ~  5 ~  5 ~  5 ~  5 ~  5 ~  5 ~  5 ~ss",
+        "ss~    ~    ~    ~    ~    ~    ~    ~~ s&ssssssssssss&s ~~    ~    ~    ~    ~    ~    ~    ~ss",
+        "ss~    ~    ~    ~    ~    ~    ~    ~ ~ssssssssssssssss~ ~    ~    ~    ~    ~    ~    ~    ~ss",
         "s!ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss!s"
       ],
-      "furniture": { "b": "f_bench", "&": "f_trashcan", "!": "f_street_light" },
-      "terrain": {
-        "s": "t_sidewalk",
-        "p": "t_pavement_y",
-        "1": "t_pavement",
-        "2": "t_pavement",
-        " ": "t_region_groundcover_urban",
-        ".": "t_pavement"
-      },
-      "vehicles": {
-        "1": { "vehicle": "parking_garage", "chance": 20, "rotation": 270 },
-        "2": { "vehicle": "parking_garage", "chance": 20, "rotation": 90 }
-      }
+      "palettes": [ "stadium_palette", "stadium_parking_palette" ]
     }
   },
   {
@@ -60,10 +48,10 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "GssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssG",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGssssssssssssssssGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGG││││GGGGGGGGGGGGGGGGGGGGGG││││GGGGGssssssssssssssssGGGGG││││GGGGGGGGGGGGGGGGGGGGGG││││GGGGG",
-        "GGGG││││││GGGGGGGGGGGGGGGGGGGG││││││GGGGssssssssssssssssGGGG││││││GGGGGGGGGGGGGGGGGGGG││││││GGGG",
+        "…ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss…",
+        "*****…………**********************…………*****ssssssssssssssss*****…………**********************…………*****",
+        "*fff*││││*ffffffffffffffffffff*││││*fff*ssssssssssssssss*fff*││││*ffffffffffffffffffff*││││*fff*",
+        "****││││││********************││││││****ssssssssssssssss****││││││********************││││││****",
         "│││││││││││││││││││││││││││││││││││││││││ssssss││ssssss│││││││││││││││││││││││││││││││││││││││││",
         "│T'T|?'?|T|T|T|T|''...''|T|T|T|T|......issssssssssssssssi......|T|T|T|T|''...''|T|T|T|T|T'T|?'?│",
         "│|'|||'||'|'|'|'|'|...|'|'|'|'|'|......-ssssssssssssssss-......|'|'|'|'|'|...|'|'|'|'|'||'|||'|│",
@@ -106,9 +94,9 @@
         "│.nnnnnn...b_b_b_R,,,                                ,;,,,,,,,,,,,,,,,;g gg ,,│││││││..R.nn.nn.│",
         "│.888888...b_b_b_R,,,                                ,,,,,,,,,,,,,,,,,,g    ,,R&.hh.│..R.88.88.│",
         "│..........b_b_b_R,,,                                  ,,,,,,,,,,,,,,,,g    ,,......+..R.......│",
-        "│..........b_b_b_R,,,                                     ,,,,,,,,,,,,,g   ,,,R.B...│..R.88.88.│",
-        "│cccc|.....b_b_b_R,,,                                          ,,,,,,,,g   ,,,R.B..N│..R.nn.nn.│",
-        "│E'''c.....b_b_b_R,,,                                                  g   ,,,R.B...│..R.88.88.│",
+        "│..........b_b_b_R,,,                                     ,,,,,,,,,,,,,g   ,,,R.8...│..R.88.88.│",
+        "│cccc|.....b_b_b_R,,,                                          ,,,,,,,,g   ,,,R.8..N│..R.nn.nn.│",
+        "│E'''c.....b_b_b_R,,,                                                  g   ,,,R.8...│..R.88.88.│",
         "│é'O'c.....______R,,,                                                  g  ,,,,R.....+..........│",
         "│ß'O'c....&│___│_R,,,                                                  g  ,,,,R..hh.│..........│",
         "│''''c.....______R,,,                                                  g  ,,,,│││││││..R.88.88.│",
@@ -147,45 +135,50 @@
         "│..........b___bbbbbbbbbbbb___bbbbbbbbbbbbbbbb___bbbbbbbbbbbbbbbb___bbbbbbbbbbbbb___b..........│",
         "│..........__________________________________________________________________________..........│",
         "│|~||||||..│_bbbbbbbbbbbbbb_│_bbbbbbbbbbbbbbbb_│_bbbbbbbbbbbbbbbb_│_bbbbbbbbbbbbbbb_│..||||||~|│",
-        "│...AAA.|......................................&.......................................|.SSS...│",
+        "│X..AAA.|......................................&.......................................|.SSS...│",
         "│...AAA.|..............................................................................|.......│",
-        "│&......|||||||||||...|||||||||||.....|..................|.....|||||||||||...|||||||||||m....zz│",
-        "│......&|''SSS'''a|...|a'''SSS''|.....|..............2...|.....|''SSS'''a|...|a'''SSS''|m....zz│",
-        "│&......|'''''''''|...|'''''''''|.<.<.|..1...............|.<.<.|'''''''''|...|'''''''''|m.....&│",
-        "│&......|+|+|+|+|'|...|'|+|+|+|+|.|.|.|..................|.|.|.|+|+|+|+|'|...|'|+|+|+|+|m......│",
-        "│.......|'|'|'|'|'|...|'|'|'|'|'|.....|..................|.....|'|'|'|'|'|...|'|'|'|'|'|..&...A│",
-        "│6......|T|T|T|T|''...''|T|T|T|T|.....|..................|.....|T|T|T|T|''...''|T|T|T|T|....&&A│",
+        "│&:::::.|||||||||||...|||||||||||.....|..................|.....|||||||||||...|||||||||||m....zz│",
+        "│.:...:&|''SSS'''a|...|a'''SSS''|.....|..............2...|.....|''SSS'''a|...|a'''SSS''|m....zz│",
+        "│&:...:.|'''''''''|...|'''''''''|.<.<.|..1...............|.<.<.|'''''''''|...|'''''''''|m.....&│",
+        "│&:...:X|+|+|+|+|'|...|'|+|+|+|+|.|.|.|..................|.|.|.|+|+|+|+|'|...|'|+|+|+|+|m......│",
+        "│.:...:X|'|'|'|'|'|...|'|'|'|'|'|.....|..................|.....|'|'|'|'|'|...|'|'|'|'|'|..&...A│",
+        "│6:...:.|T|T|T|T|''...''|T|T|T|T|.....|..................|.....|T|T|T|T|''...''|T|T|T|T|....&&A│",
         "││#####│││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││"
       ],
       "palettes": [ "stadium_palette" ],
       "terrain": { "#": "t_door_metal_locked", "6": "t_gates_mech_control_lab" },
       "items": {
         "E": { "item": "softdrinks_canned", "chance": 40, "repeat": [ 1, 20 ] },
-        "r": { "item": "baseball_souvenir", "chance": 50 },
+        "r": { "item": "baseball_souvenir", "chance": 80 },
         "e": { "item": "fast_fridge", "chance": 25, "repeat": [ 1, 20 ] },
         "u": { "item": "fast_kitchen", "chance": 60, "repeat": [ 1, 10 ] },
-        "é": { "item": "hotdog_fridge", "chance": 70 }
+        "é": { "item": "hotdog_fridge", "chance": 70 },
+        "l": { "item": "baseball_equip", "chance": 30, "repeat": [ 1, 3 ] },
+        "q": { "item": "baseball_equip", "chance": 80, "repeat": [ 1, 2 ] }
       },
       "place_item": [ { "item": "napkin", "x": 93, "y": 75, "chance": 70 }, { "item": "napkin", "x": 5, "y": 48, "chance": 70 } ],
-      "place_items": [
-        { "item": "ketchup_sealed_rng", "x": 5, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "mustard_sealed_rng", "x": 5, "y": 51, "chance": 60, "repeat": [ 1, 2 ] }
+      "place_loot": [
+        { "group": "ketchup_sealed_rng", "x": 5, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "mustard_sealed_rng", "x": 5, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "cash_register_random", "x": 5, "y": [ 48, 50 ] },
+        { "group": "cash_register_random", "x": [ 89, 92 ], "y": 75 },
+        { "group": "cash_register_random", "x": [ 1, 4 ], "y": 72 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 24, 47 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 48, 71 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 72, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 72, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 72, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 24, 47 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 48, 71 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "chance": 5 }
+        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 0, 23 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 0, 23 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 48, 71 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 72, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 72, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 72, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 0, 23 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 24, 47 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 48, 71 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "density": 0.066 }
       ]
     }
   },
@@ -300,7 +293,7 @@
         "││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││"
       ],
       "palettes": [ "stadium_palette" ],
-      "terrain": { " ": "t_shingle_flat_roof" },
+      "terrain": { " ": "t_shingle_flat_roof", "*": "t_open_air" },
       "items": {
         "r": { "item": "arcade_prizes", "chance": 80, "repeat": [ 1, 5 ] },
         "u": { "item": "SUS_coffee_cupboard", "chance": 80 },
@@ -310,22 +303,28 @@
         "e": { "item": "fridgesnacks", "chance": 45, "repeat": [ 1, 6 ] }
       },
       "place_item": [ { "item": "television", "x": 92, "y": 47 } ],
-      "place_items": [ { "item": "beer", "repeat": [ 1, 6 ], "x": 92, "y": [ 50, 55 ], "chance": 70 } ],
+      "place_loot": [
+        { "group": "beer", "repeat": [ 1, 6 ], "x": 92, "y": [ 50, 55 ], "chance": 70 },
+        { "group": "cash_register_random", "x": 6, "y": [ 6, 7 ] },
+        { "group": "cash_register_random", "x": [ 1, 5 ], "y": 50 },
+        { "group": "cash_register_random", "x": [ 90, 91 ], "y": 50 },
+        { "group": "cash_register_random", "x": 89, "y": [ 92, 93 ] }
+      ],
       "place_monsters": [
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 4, 23 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 4, 17 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 4, 17 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 4, 23 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 15 ], "y": [ 24, 47 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 15 ], "y": [ 48, 71 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 15 ], "y": [ 72, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 82, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 82, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 82, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 80, 95 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 80, 95 ], "y": [ 24, 47 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 80, 95 ], "y": [ 48, 71 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "chance": 5 }
+        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 4, 23 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 4, 17 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 4, 17 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 4, 23 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 0, 15 ], "y": [ 24, 47 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 0, 15 ], "y": [ 48, 71 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 0, 15 ], "y": [ 72, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 82, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 82, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 82, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 80, 95 ], "y": [ 0, 23 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 80, 95 ], "y": [ 24, 47 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 80, 95 ], "y": [ 48, 71 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "density": 0.066 }
       ]
     }
   },
@@ -450,7 +449,8 @@
         "?": "t_floor",
         "4": "t_gutter_downspout",
         "#": "t_metal_floor_no_roof",
-        "@": "t_metal_floor_no_roof"
+        "@": "t_metal_floor_no_roof",
+        "*": "t_open_air"
       },
       "furniture": { "#": "f_small_satelitte_dish", "?": "f_sofa", "h": "f_armchair", "6": "f_console_broken" },
       "items": {
@@ -464,23 +464,24 @@
         { "item": "television", "x": 29, "y": 10 },
         { "item": "television", "x": 46, "y": 11 }
       ],
-      "place_items": [
-        { "item": "ketchup_sealed_rng", "x": 4, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "mustard_sealed_rng", "x": 4, "y": 51, "chance": 60, "repeat": [ 1, 2 ] }
+      "place_loot": [
+        { "group": "ketchup_sealed_rng", "x": 4, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "mustard_sealed_rng", "x": 4, "y": 51, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "cash_register_random", "x": 4, "y": [ 49, 50 ] }
       ],
       "place_monsters": [
-        { "monster": "GROUP_HOUSE", "x": [ 30, 47 ], "y": [ 5, 14 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 48, 66 ], "y": [ 5, 14 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 13 ], "y": [ 24, 47 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 13 ], "y": [ 48, 71 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 72, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 83, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 83, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 82, 95 ], "y": [ 24, 47 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 82, 95 ], "y": [ 48, 71 ], "chance": 5 },
-        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "chance": 5 }
+        { "monster": "GROUP_HOUSE", "x": [ 30, 47 ], "y": [ 5, 14 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 48, 66 ], "y": [ 5, 14 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 0, 13 ], "y": [ 24, 47 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 0, 13 ], "y": [ 48, 71 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 72, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 83, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 83, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 0, 23 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 82, 95 ], "y": [ 24, 47 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 82, 95 ], "y": [ 48, 71 ], "density": 0.066 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 72, 95 ], "density": 0.066 }
       ]
     }
   },

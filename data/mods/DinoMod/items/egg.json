@@ -293,6 +293,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_issi",
+    "name": "issi egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_issi"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_amargasaurus",
     "name": "amargasaurus egg",
     "copy-from": "egg_dino_large",
@@ -465,6 +472,13 @@
     "name": "triceratops egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_triceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_oryctodromeus",
+    "name": "oryctodromeus egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_oryctodromeus"
   },
   {
     "type": "COMESTIBLE",

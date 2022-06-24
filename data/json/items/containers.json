@@ -177,8 +177,8 @@
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
     "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
-    "weight": "21 g",
-    "volume": "23 ml",
+    "weight": "40 g",
+    "volume": "42 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
@@ -737,6 +737,17 @@
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
+  },
+  {
+    "id": "box_compact_wood",
+    "type": "GENERIC",
+    "name": { "str": "tiny wooden box", "str_pl": "tiny wooden boxes" },
+    "copy-from": "box_small_wood",
+    "description": "A small wooden box with cap and small handles.",
+    "weight": "200 g",
+    "volume": "6000 ml",
+    "longest_side": "22 cm",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "4000 ml", "max_contains_weight": "80 kg" } ]
   },
   {
     "id": "box_small_wood",
@@ -2765,5 +2776,31 @@
     ],
     "charges_per_use": 1,
     "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "shot_glass",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "shot glass", "str_pl": "shot glasses" },
+    "description": "A standard 1.5 ounce shot glass.",
+    "weight": "100 g",
+    "volume": "116 ml",
+    "longest_side": "58 mm",
+    "price": 300,
+    "price_postapoc": 5,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": "v",
+    "color": "cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "44 ml",
+        "max_contains_weight": "500 g"
+      }
+    ]
   }
 ]

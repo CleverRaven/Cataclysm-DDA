@@ -1,6 +1,20 @@
 [
   {
     "type": "item_group",
+    "id": "NC_ROBOFAC_gear",
+    "subtype": "collection",
+    "entries": [
+      { "group": "robofac_armor_pieces" },
+      { "group": "robofac_armor_pieces_military" },
+      { "group": "robofac_gun_mags" },
+      { "group": "robofac_gun_exodii" },
+      { "group": "robofac_gun_kit" },
+      { "item": "robofac_enviro_suit" },
+      { "item": "robofac_enviro_suit_casual" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "robofac_basic_trade",
     "subtype": "distribution",
     "entries": [
@@ -50,6 +64,54 @@
       [ "robofac_nomex_greaves", 25 ],
       [ "robofac_kevlar_greaves", 25 ],
       [ "robofac_armor_rig", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_armor_pieces_military",
+    "subtype": "distribution",
+    "items": [
+      [ "robofac_military_skirt", 10 ],
+      [ "robofac_military_vambraces", 10 ],
+      [ "robofac_military_greaves", 10 ],
+      [ "robofac_military_mantle", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_gun_mags",
+    "subtype": "collection",
+    "items": [
+      { "item": "robofac40", "count": 5, "prob": 100 },
+      { "item": "robofac60", "count": 5, "prob": 100 },
+      { "item": "robofac20", "count": 5, "prob": 100 },
+      { "item": "robofac10", "count": 5, "prob": 100 },
+      { "item": "robofac50", "count": 2, "prob": 100 },
+      { "item": "robofac100", "count": 2, "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_gun_exodii",
+    "subtype": "collection",
+    "items": [ { "item": "robofac_gun_exodii", "count": 1, "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_gun_kit",
+    "subtype": "collection",
+    "items": [
+      {
+        "collection": [
+          { "item": "robofac_gun", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_ar", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_smg", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_dmr", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_shotgun", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_kit", "prob": 100, "count": 1 }
+        ],
+        "prob": 25
+      }
     ]
   },
   {

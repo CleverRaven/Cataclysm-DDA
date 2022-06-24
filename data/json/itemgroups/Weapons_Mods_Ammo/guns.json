@@ -949,11 +949,7 @@
       { "item": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
       { "item": "usp_45", "prob": 10, "charges": [ 0, 12 ] },
-      { "item": "usp_9mm", "prob": 10, "charges": [ 0, 15 ] },
-      { "item": "kp32", "prob": 1, "charges": [ 0, 7 ] },
-      { "item": "kp3at", "prob": 2, "charges": [ 0, 6 ] },
-      { "item": "rugerlcp", "prob": 2, "charges": [ 0, 6 ] },
-      { "item": "kpf9", "prob": 3, "charges": [ 0, 7 ] }
+      { "item": "usp_9mm", "prob": 10, "charges": [ 0, 15 ] }
     ]
   },
   {

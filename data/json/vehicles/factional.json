@@ -60,6 +60,12 @@
       { "x": -3, "y": 1, "chance": 13, "item_groups": [ "car_kit" ] },
       { "x": -3, "y": 0, "chance": 18, "item_groups": [ "fuel_gasoline" ] },
       { "x": -2, "y": 1, "chance": 13, "items": [ "ax" ] }
+    ],
+    "zones": [
+      { "type": "LOOT_UNSORTED", "x": -2, "y": 0 },
+      { "type": "LOOT_UNSORTED", "x": -2, "y": 1 },
+      { "type": "LOOT_AMMO", "x": -3, "y": 0 },
+      { "type": "LOOT_GUNS", "x": -3, "y": 1 }
     ]
   }
 ]
