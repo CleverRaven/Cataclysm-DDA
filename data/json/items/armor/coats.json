@@ -1117,7 +1117,7 @@
       {
         "id": "camo_jacket_chef",
         "name": { "str": "camo chef's jacket" },
-        "description": "It has a camouflage pattern, perfect for a chefs that wants to hide in the wild.",
+        "description": "It has a camouflage pattern, perfect for chefs that want to hide in the wild.",
         "color": "green",
         "weight": 2,
         "append": true
