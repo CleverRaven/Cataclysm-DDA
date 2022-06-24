@@ -1,0 +1,140 @@
+[
+  {
+    "id": "lcom_limbs_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "hp_head_graph", "hp_left_arm_graph", "hp_left_leg_graph" ]
+  },
+  {
+    "id": "lcom_limbs_mid_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "hp_torso_graph", "hp_right_arm_graph", "hp_right_leg_graph" ]
+  },
+  {
+    "id": "lcom_safe_mood_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "safe_mode_classic_desc", "mood_desc_no_label" ]
+  },
+  {
+    "id": "lcom_limbs_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "stamina_graph_classic", "power_short_desc", "lcom_safe_mood_layout" ]
+  },
+  {
+    "id": "lcom_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "columns",
+    "widgets": [ "lcom_limbs_left_layout", "lcom_limbs_mid_layout", "lcom_limbs_right_layout" ]
+  },
+  {
+    "id": "lcom_sound_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Sound",
+    "arrange": "columns",
+    "widgets": [ "speed_num", "move_mode_letter", "sound_num" ]
+  },
+  {
+    "id": "lcom_stats_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stats",
+    "arrange": "columns",
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num" ]
+  },
+  {
+    "id": "lcom_time_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Time",
+    "arrange": "columns",
+    "widgets": [ "date_desc_no_label", "time_desc_no_label" ]
+  },
+  {
+    "id": "lcom_needs_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label" ]
+  },
+  {
+    "id": "lcom_needs_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "//": "TODO Make the temperature look like it used to.",
+    "widgets": [ "pain_desc_no_label", "body_temp_desc_no_label", "focus_num" ]
+  },
+  {
+    "id": "lcom_needs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs",
+    "arrange": "columns",
+    "widgets": [ "lcom_needs_left_layout", "lcom_needs_right_layout" ]
+  },
+  {
+    "id": "lcom_env_overmap",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 9,
+    "height": 7,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "lcom_env_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "wielding_desc", "style_desc", "place_desc", "weather_desc", "lighting_desc", "wind_desc" ]
+  },
+  {
+    "id": "lcom_env_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Env",
+    "arrange": "columns",
+    "widgets": [ "lcom_env_overmap", "lcom_env_right_layout" ]
+  },
+  {
+    "id": "lcom_vehicle_layout",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "vehicle_fuel_desc_no_label", "vehicle_azimuth_desc_no_label", "vehicle_cruise_desc_no_label" ]
+  },
+  {
+    "id": "legacy_compact_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "compact",
+    "separator": " ",
+    "width": 36,
+    "widgets": [
+      "lcom_limbs_layout",
+      "bodypart_status_sym_layout",
+      "lcom_sound_layout",
+      "lcom_stats_layout",
+      "all_weariness_layout",
+      "lcom_time_layout",
+      "lcom_needs_layout",
+      "lcom_env_layout",
+      "lcom_vehicle_layout",
+      "compass_all_layout",
+      "bodypart_armor_outer_layout",
+      "bodygraph_hp_layout"
+    ]
+  }
+]

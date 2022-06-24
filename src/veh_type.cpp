@@ -467,12 +467,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         for( const auto &vp_variant_pair : vpart_variants ) {
             const std::string &vp_variant = vp_variant_pair.first;
             if( jo_variants.has_string( vp_variant ) ) {
-                def.symbols[ vp_variant ] = jo_variants.get_string( vp_variant )[ 0 ];
+                def.symbols[ vp_variant ] = static_cast<uint8_t>( jo_variants.get_string( vp_variant )[ 0 ] );
             }
         }
     }
     if( jo.has_string( "broken_symbol" ) ) {
-        def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
+        def.sym_broken = static_cast<uint8_t>( jo.get_string( "broken_symbol" )[ 0 ] );
     }
     jo.read( "looks_like", def.looks_like );
 

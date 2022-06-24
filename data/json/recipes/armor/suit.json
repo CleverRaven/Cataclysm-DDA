@@ -1122,7 +1122,7 @@
     "difficulty": 2,
     "time": "150 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ] ],
+    "using": [ [ "sewing_simple", 15 ] ],
     "components": [ [ [ "grass_yarn", 7 ] ] ]
   },
   {
@@ -1136,7 +1136,7 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 34 ] ]
+    "using": [ [ "tailoring_cotton_patchwork_simple", 34 ] ]
   },
   {
     "result": "cloak_fur",
@@ -1151,7 +1151,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
-    "using": [ [ "tailoring_fur_patchwork", 7 ] ],
+    "using": [ [ "tailoring_fur_patchwork_simple", 7 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
@@ -1166,7 +1166,7 @@
     "time": "5 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_leather_patchwork", 8 ] ],
+    "using": [ [ "tailoring_leather_patchwork_simple", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
   },
@@ -1181,7 +1181,7 @@
     "time": "25 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_felt_patchwork", 36 ] ]
+    "using": [ [ "tailoring_felt_patchwork_simple", 36 ] ]
   },
   {
     "result": "entry_suit",

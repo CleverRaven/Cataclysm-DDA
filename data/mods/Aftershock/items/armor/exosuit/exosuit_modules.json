@@ -193,7 +193,7 @@
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
     },
-    "power_draw": 1500,
+    "power_draw": 1000,
     "revert_to": "exo_small_carry",
     "use_action": {
       "ammo_scale": 0,

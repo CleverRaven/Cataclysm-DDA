@@ -2056,8 +2056,8 @@ class Character : public Creature, public visitable
 
         bool covered_with_flag( const flag_id &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
-        // Carried items may leak radiation or chemicals
-        int leak_level( const flag_id &flag ) const;
+        // Amount of radiation (mSv) leaked from carried items.
+        float leak_level() const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
@@ -3222,6 +3222,7 @@ class Character : public Creature, public visitable
         // For display purposes mainly, how far we are from the next level of weariness
         std::pair<int, int> weariness_transition_progress() const;
         int weariness_level() const;
+        int weariness_transition_level() const;
         int weary_threshold() const;
         int weariness() const;
         float activity_level() const;

@@ -522,9 +522,9 @@ void talk_function::bionic_remove( npc &p )
             bionic_types.push_back( bio.info().itype() );
             if( item::type_is_defined( bio.info().itype() ) ) {
                 item tmp = item( bio.id.str(), calendar::turn_zero );
-                bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+                bionic_names.push_back( tmp.tname() + " - " + format_money( 5000 + ( tmp.price( true ) / 4 ) ) );
             } else {
-                bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
+                bionic_names.push_back( bio.id.str() + " - " + format_money( 5000 ) );
             }
             bionics.push_back( &bio );
         }

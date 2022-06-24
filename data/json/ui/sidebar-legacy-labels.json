@@ -1,0 +1,101 @@
+[
+  {
+    "id": "ll_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+    "widgets": [ "hitpoint_graphs_top_layout", "hitpoint_graphs_bottom_layout" ]
+  },
+  {
+    "id": "ll_stamina_speed_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Speed/Move",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph_classic", "speed_num", "move_count_mode_desc" ]
+  },
+  {
+    "id": "ll_movement_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Movement",
+    "arrange": "rows",
+    "widgets": [ "sound_mood_focus_layout", "ll_stamina_speed_move_layout" ]
+  },
+  {
+    "id": "ll_str_dex_power_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Str/Dex/Power",
+    "arrange": "columns",
+    "widgets": [ "str_num", "dex_num", "power_short_desc" ]
+  },
+  {
+    "id": "ll_int_per_safe_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Int/Per/Safe",
+    "arrange": "columns",
+    "widgets": [ "int_num", "per_num", "safe_mode_desc" ]
+  },
+  {
+    "id": "ll_stats_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stats",
+    "arrange": "rows",
+    "widgets": [ "ll_str_dex_power_layout", "ll_int_per_safe_layout" ]
+  },
+  {
+    "id": "ll_pain_thirst_desc_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "pain_desc_label", "thirst_desc_label" ]
+  },
+  {
+    "id": "ll_rest_hunger_desc_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "fatigue_desc_label", "hunger_desc_label" ]
+  },
+  {
+    "id": "ll_heat_weight_desc_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "body_temp_desc_label", "weight_desc_label" ]
+  },
+  {
+    "id": "ll_needs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs",
+    "arrange": "rows",
+    "widgets": [ "ll_pain_thirst_desc_layout", "ll_rest_hunger_desc_layout", "ll_heat_weight_desc_layout" ]
+  },
+  {
+    "id": "legacy_labels_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "labels",
+    "separator": ": ",
+    "width": 44,
+    "widgets": [
+      "ll_limbs_layout",
+      "ll_movement_layout",
+      "ll_stats_layout",
+      "all_weariness_layout",
+      "ll_needs_layout",
+      "all_location_info_rows_layout",
+      "wind_temp_layout",
+      "bodypart_status_layout",
+      "weapon_style_layout",
+      "vehicle_acf_label_layout",
+      "compass_all_layout",
+      "rad_badge_desc"
+    ]
+  }
+]
