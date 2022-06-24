@@ -5550,7 +5550,8 @@
     "description": "You're a real head-turner.  Some people will react well to your appearance, and most people have an easier time trusting you.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "PRETTY" ],
-    "changes_to": [ "BEAUTIFUL2" ]
+    "changes_to": [ "BEAUTIFUL2" ],
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -5562,7 +5563,8 @@
     "description": "You are a vision of beauty.  Some people will react very well to your looks, and most people will trust you immediately.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL" ],
-    "changes_to": [ "BEAUTIFUL3" ]
+    "changes_to": [ "BEAUTIFUL3" ],
+    "category": [ "ELFA", "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -5573,7 +5575,9 @@
     "ugliness": -10,
     "description": "You are incredibly beautiful.  People cannot help themselves due to your charms, and will do whatever they can to please you.",
     "types": [ "ATTRACTIVENESS" ],
-    "prereqs": [ "BEAUTIFUL2" ]
+    "prereqs": [ "BEAUTIFUL2" ],
+    "threshreq": [ "THRESH_ELFA" ],
+    "category": [ "ELFA" ]
   },
   {
     "type": "mutation",
