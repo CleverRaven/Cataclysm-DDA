@@ -1916,7 +1916,7 @@
       { "item": "backpack_hiking", "prob": 3 },
       { "item": "daypack", "prob": 3 },
       { "item": "backpack_tactical_large", "prob": 1 },
-      { "groups": "molle_backpacks_and_accessories", "prob": 1 },
+      { "group": "molle_backpacks_and_accessories", "prob": 1 },
       { "item": "duffelbag", "prob": 5 },
       { "item": "bigback", "prob": 1 },
       { "item": "travelpack", "prob": 5 },
