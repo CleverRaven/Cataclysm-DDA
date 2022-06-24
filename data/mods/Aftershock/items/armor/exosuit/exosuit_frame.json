@@ -27,15 +27,31 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "exosuit frame" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.",
-    "weight": "43 kg",
-    "volume": "135 L",
+    "weight": "45 kg",
+    "volume": "140 L",
     "material": [ "titanium" ],
-    "material_thickness": 2,
     "power_armor": true,
     "symbol": "T",
     "looks_like": "power_armor_basic",
     "color": "light_gray",
     "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "description": "This is a mounting point for helmet plating.",
+        "ablative": true,
+        "flag_restriction": [ "EXO_HELMET_PLATE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Helmet Hardpoint",
+        "description": "This is a series of mounts for helmet equipment.",
+        "rigid": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_HELMET_GADGET" ],
+        "inherits_flags": true,
+        "moves": 60
+      },
       {
         "pocket_type": "CONTAINER",
         "name": "Torso compartment (Plate)",
@@ -120,7 +136,7 @@
     "armor": [
       {
         "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 40,
         "encumbrance": 20,
         "layers": [ "OUTER" ]
@@ -166,43 +182,6 @@
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 40,
         "encumbrance": 5
-      }
-    ]
-  },
-  {
-    "id": "exosuit_helmet",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "exosuit helmet" },
-    "description": "This is a helmet offering mounts for specialized equipment and protection.",
-    "weight": "2500 g",
-    "volume": "5 L",
-    "material": [ "titanium", "plastic" ],
-    "symbol": "n",
-    "looks_like": "power_armor_helmet_basic",
-    "color": "dark_gray",
-    "power_armor": true,
-    "material_thickness": 8,
-    "environmental_protection": 16,
-    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "head", "eyes", "mouth" ] } ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES", "SWIM_GOGGLES" ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "description": "This is a mounting point for helmet plating.",
-        "ablative": true,
-        "flag_restriction": [ "EXO_HELMET_PLATE" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Helmet Hardpoint",
-        "description": "This is a series of mounts for helmet equipment.",
-        "rigid": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
-        "flag_restriction": [ "EXO_HELMET_GADGET" ],
-        "inherits_flags": true,
-        "moves": 60
       }
     ]
   }
