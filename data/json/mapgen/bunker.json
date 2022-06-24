@@ -4,26 +4,27 @@
     "method": "json",
     "om_terrain": [ "bunker" ],
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "                        ",
         " -----------------------",
         " |                     |",
-        " |                     |",
-        " |                     |",
-        " |                     |",
+        " |        aaaa         |",
+        " |        aaaa         |",
+        " |        aaaa         |",
         " |                     |",
         " |     MMMMMMMMMM      |",
         " |     MMMMMMMMMM      |",
         " |     MMMM>>MMMM      |",
-        " |     MM,,,,,,MM      |",
-        " |     MMMM,,MMMM      |",
-        " |     MM,,,,,,MM      |",
-        " //*/  MMMM,,MMMM   /*//",
-        " I#,/  MM,,,,,,MM   /,#I",
+        " |     MM,,==,,MM      |",
+        " |     MM,,,,=,MM      |",
+        " |     MMf,,,=,MM      |",
+        " //*/  MM,,==,,MM   /*//",
+        " I#,/  MM,,tt,,MM   /,#I",
         " I00/  MMMMDDMMMM   /00I",
         " |     MMMM  6MMM      |",
-        " +                     +",
-        " +                     +",
+        " +     H_      _H      +",
+        " +     HHHH  HHHH      +",
         " +                     +",
         " +                     +",
         " +                     +",
@@ -32,6 +33,8 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "H": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "#": "t_floor",
         "*": "t_door_c",
         "+": "t_chaingate_l",
@@ -44,68 +47,29 @@
         "D": "t_door_metal_locked",
         "I": "t_ballistic_glass",
         "M": "t_wall_metal",
-        "|": "t_chainfence_v"
+        "|": "t_chainfence_v",
+        "a": "t_pit_corpsed"
       },
-      "furniture": { "#": "f_table" },
-      "place_monster": [
-        { "monster": "mon_turret_rifle", "x": 9, "y": 10 },
-        { "monster": "mon_turret_rifle", "x": 14, "y": 10 },
-        { "monster": "mon_turret_rifle", "x": 9, "y": 12 },
-        { "monster": "mon_turret_rifle", "x": 14, "y": 12 },
-        { "monster": "mon_turret_rifle", "x": 9, "y": 14 },
-        { "monster": "mon_turret_rifle", "x": 14, "y": 14 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "bunker_basement" ],
-    "weight": 1000,
-    "object": {
-      "//": "TODO: When it was hardcoded, each room had at most one of the bots, grenades, etc. groups in it, but the way it is now, it's possible for a room to have items from both the bots and grenades group in it.",
-      "rows": [
-        "########################",
-        "#MMMMMMMMMMMMMMMMMMMMMM#",
-        "#Mrrrrrrr6    6rrrrrrrM#",
-        "#M       +    +       M#",
-        "#M       |    |       M#",
-        "#M       |    |       M#",
-        "#M       |    |       M#",
-        "#MrrrrrrrM    MrrrrrrrM#",
-        "#MMMMMMMMM    MMMMMMMMM#",
-        "#Mrrrrrrr6    6rrrrrrrM#",
-        "#M       +    +       M#",
-        "#M       |    |       M#",
-        "#M       |    |       M#",
-        "#M       |    |       M#",
-        "#MrrrrrrrM    MrrrrrrrM#",
-        "#MMMMMMMMM    MMMMMMMMM#",
-        "#Mrrrrrrr6    6rrrrrrrM#",
-        "#M       +    +       M#",
-        "#M       |    |       M#",
-        "#M       |    |       M#",
-        "#M       |    |       M#",
-        "#MrrrrrrrM << MrrrrrrrM#",
-        "#MMMMMMMMMMMMMMMMMMMMMM#",
-        "########################"
+      "furniture": {
+        "#": "f_table",
+        "H": "f_sandbag_half",
+        "t": "f_table",
+        "f": "f_55gal_firebarrel"
+      },
+      "traps": { "=": "tr_rollmat" },
+      "monster": { "_": { "monster": "mon_turret_searchlight" } },
+      "place_monsters": [
+        { "monster": "GROUP_MIL_MASS_GRAVE", "density": 0.6, "x": [ 1, 22 ], "y": [ 1, 6 ] },
+        { "monster": "GROUP_MIL_BASE", "density": 0.6, "x": [ 1, 22 ], "y": [ 17, 22 ] },
+        { "monster": "GROUP_MIL_STRONG", "density": 0.4, "x": [ 7, 13 ], "y": [ 10, 14 ] }
       ],
-      "terrain": {
-        " ": "t_floor",
-        "r": "t_floor",
-        "#": "t_soil",
-        "+": "t_door_metal_locked",
-        "6": "t_card_military",
-        "<": "t_stairs_up",
-        "M": "t_wall_metal",
-        "|": "t_ballistic_glass"
-      },
-      "furniture": { "r": "f_rack" },
-      "items": { "r": { "item": "bunker_basement_loot", "chance": 100 } },
-      "place_monster": [
-        { "monster": "mon_mech_combat", "x": 5, "y": 5, "chance": 2 },
-        { "monster": "mon_mech_lifter", "x": 6, "y": 6, "chance": 5 },
-        { "monster": "mon_mech_recon", "x": 7, "y": 6, "chance": 3 }
+      "place_items": [
+        { "item": "mre_accessory_pack", "x": [ 7, 13 ], "y": [ 10, 14 ], "chance": 100, "repeat": [ 5, 12 ] }
+      ],
+      "place_item": [
+        { "item": "mre_package", "x": [ 7, 14 ], "y": [ 10, 14 ], "chance": 100, "repeat": [ 5, 12 ] },
+        { "item": "ash", "x": [ 10, 10 ], "y": [ 13, 13 ], "chance": 100, "repeat": [ 500, 1200 ] },
+        { "item": "223_casing", "x": [ 7, 14 ], "y": [ 10, 14 ], "chance": 100, "repeat": [ 5, 60 ] }
       ]
     }
   },
@@ -136,13 +100,16 @@
         "#MMMMMMMMMM ~ MMMMMMMMM#",
         "#ML *             *  SM#",
         "#MMMMM^MMMMM+MMM*MM2 SM#",
-        "#Ms ME cd|   5M   M   M#",
+        "#Ms ME cd|   9M   M   M#",
         "#Ms ME cd|    M*M*M*M*M#",
         "#Mt *   2M << M1M1M&M&M#",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
         "########################"
       ],
       "palettes": [ "basement_bunker" ],
+      "terrain": {
+        "9": "t_card_reader_broken"
+      },
       "furniture": {
         "r": "f_rack",
         "f": "f_fridge",
@@ -236,13 +203,16 @@
         "#MMMMMMMMMM ~ MMMMMMMMM#",
         "#ML *             *  SM#",
         "#MMMMM^MMMMM+MMM*MM2 SM#",
-        "#Ms ME cd|   5M   M   M#",
+        "#Ms ME cd|   9M   M   M#",
         "#Ms ME cd|    M*M*M*M*M#",
         "#Mt *   2M << M1M1M&M&M#",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
         "########################"
       ],
       "palettes": [ "basement_bunker" ],
+      "terrain": {
+        "9": "t_card_reader_broken"
+      },
       "furniture": {
         "r": "f_rack",
         "f": "f_fridge",
