@@ -540,6 +540,15 @@ void avatar::add_profession_items()
     }
 
     std::list<item> prof_items = prof->items( male, get_mutations() );
+    std::list<const loadout *> loadout_list( loadouts.begin(), loadouts.end() );
+    std::list<item> loadout_items;
+    for( const loadout *it : loadout_list ) {
+        loadout_items = it->items( male, get_mutations() );
+        if( !loadout_items.empty() ) {
+            prof_items.merge( loadout_items );
+            loadout_items.clear();
+        }
+    }
 
     for( item &it : prof_items ) {
         if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
@@ -1852,18 +1861,80 @@ tab_direction set_loadout( avatar &u, pool_type pool )
         werase( w_genderswap );
         if( cur_id_is_valid ) {
             std::string buffer;
-            // Profession addictions
-            const auto prof_addictions = sorted_loadouts[cur_id]->addictions();
-            buffer += colorize( _( "Addictions:" ), c_light_blue ) + "\n";
-            if( prof_addictions.empty() ) {
-                buffer += pgettext( "set_profession_addictions", "None" ) + std::string( "\n" );
+
+            // loadout items
+            const auto loadout_items = sorted_loadouts[cur_id]->items( u.male, u.get_mutations() );
+            buffer += colorize( _( "Loadout items:" ), c_light_blue ) + "\n";
+            if( loadout_items.empty() ) {
+                buffer += pgettext( "set_loadout_item", "None" ) + std::string( "\n" );
             } else {
-                for( const addiction &a : prof_addictions ) {
-                    const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                    buffer += string_format( format, a.type->get_name().translated(), a.intensity ) + "\n";
+                // TODO: If the item group is randomized *at all*, these will be different each time
+                // and it won't match what you actually start with
+                // TODO: Put like items together like the inventory does, so we don't have to scroll
+                // through a list of a dozen forks.
+                std::string buffer_wielded;
+                std::string buffer_worn;
+                std::string buffer_inventory;
+                for( const auto &it : loadout_items ) {
+                    if( it.has_flag( json_flag_no_auto_equip ) ) { // NOLINT(bugprone-branch-clone)
+                        buffer_inventory += it.display_name() + "\n";
+                    } else if( it.has_flag( json_flag_auto_wield ) ) {
+                        buffer_wielded += it.display_name() + "\n";
+                    } else if( it.is_armor() ) {
+                        buffer_worn += it.display_name() + "\n";
+                    } else {
+                        buffer_inventory += it.display_name() + "\n";
+                    }
+                }
+                buffer += colorize( _( "Wielded:" ), c_cyan ) + "\n";
+                buffer += !buffer_wielded.empty() ? buffer_wielded : pgettext( "set_loadout_item_wielded",
+                          "None\n" );
+                buffer += colorize( _( "Worn:" ), c_cyan ) + "\n";
+                buffer += !buffer_worn.empty() ? buffer_worn : pgettext( "set_loadout_item_worn", "None\n" );
+                buffer += colorize( _( "Inventory:" ), c_cyan ) + "\n";
+                buffer += !buffer_inventory.empty() ? buffer_inventory : pgettext( "set_loadout_item_inventory",
+                          "None\n" );
+            }
+
+            // Profession bionics, active bionics shown first
+            auto prof_CBMs = sorted_loadouts[cur_id]->CBMs();
+            std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
+                return a->activated && !b->activated;
+            } );
+            buffer += colorize( _( "Loadout bionics:" ), c_light_blue ) + "\n";
+            if( prof_CBMs.empty() ) {
+                buffer += pgettext( "set_loadout_bionic", "None" ) + std::string( "\n" );
+            } else {
+                for( const auto &b : prof_CBMs ) {
+                    const auto &cbm = b.obj();
+                    if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
+                        buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
+                    } else if( cbm.activated ) {
+                        buffer += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
+                    } else {
+                        buffer += cbm.name + "\n";
+                    }
                 }
             }
 
+            // Profession pet
+            buffer += colorize( _( "Pets:" ), c_light_blue ) + "\n";
+            if( sorted_loadouts[cur_id]->pets().empty() ) {
+                buffer += pgettext( "set_loadout_pets", "None" ) + std::string( "\n" );
+            } else {
+                for( const auto &elem : sorted_loadouts[cur_id]->pets() ) {
+                    monster mon( elem );
+                    buffer += mon.get_name() + "\n";
+                }
+            }
+            // Profession vehicle
+            buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
+            if( sorted_loadouts[cur_id]->vehicle() ) {
+                vproto_id veh_id = sorted_loadouts[cur_id]->vehicle();
+                buffer += veh_id->name.translated() + "\n";
+            } else {
+                buffer += pgettext( "set_loadout_vehicle", "None" ) + std::string( "\n" );
+            }
             // Profession spells
             if( !sorted_loadouts[cur_id]->spells().empty() ) {
                 buffer += colorize( _( "Spells:" ), c_light_blue ) + "\n";
@@ -2013,25 +2084,6 @@ tab_direction set_loadout( avatar &u, pool_type pool )
                 u.loadouts.erase( prof );
             }
 
-            // Add or remove traits from hobby
-            /*for (const trait_id& trait : prof->get_locked_traits()) {
-                if (enabling) {
-                    if (!u.has_trait(trait)) {
-                        u.toggle_trait_deps(trait);
-                    }
-                    continue;
-                }
-                int from_other_hobbies = u.prof->is_locked_trait(trait) ? 1 : 0;
-                for (const profession* hby : u.hobbies) {
-                    if (hby->ident() != prof->ident() && hby->is_locked_trait(trait)) {
-                        from_other_hobbies++;
-                    }
-                }
-                if (from_other_hobbies > 0) {
-                    continue;
-                }
-                u.toggle_trait_deps(trait);
-            }*/
 
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
