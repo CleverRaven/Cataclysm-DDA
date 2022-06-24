@@ -2120,7 +2120,7 @@
     "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of heelys (off)", "str_pl": "pairs of heelys (off)" },
-    "description": "A pair of sneakers with integrated wheels.  Currently the wheels are retracted, making these essentially normal lace-up atheltic shoes.",
+    "description": "A pair of sneakers with integrated wheels.  Currently the wheels are retracted, making these essentially normal lace-up athletic shoes.",
     "weight": "840 g",
     "volume": "1500 ml",
     "price": 10000,
