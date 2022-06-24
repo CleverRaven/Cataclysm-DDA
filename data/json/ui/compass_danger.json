@@ -1,0 +1,82 @@
+[  {
+	"id": "compass_N_danger_label",
+	"type": "widget",
+	"style": "text",
+	"direction": "N",
+	"default_clause": { "text": "N:", "color": "c_dark_gray" },
+	"clauses": [
+      { "id": "danger", "text": "N:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "N" } } ]
+  },
+  {
+	"id": "compass_S_danger_label",
+	"type": "widget",
+	"style": "text",
+	"direction": "S",
+	"default_clause": { "text": "S:", "color": "c_dark_gray" },
+	"clauses": [
+      { "id": "danger", "text": "S:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "S" } } ]
+  },
+  {
+	"id": "compass_E_danger_label",
+	"type": "widget",
+	"style": "text",
+	"direction": "E",
+	"default_clause": { "text": "E:", "color": "c_dark_gray" },
+	"clauses": [
+      { "id": "danger", "text": "E:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "E" } } ]
+  },
+  {
+	"id": "compass_W_danger_label",
+	"type": "widget",
+	"style": "text",
+	"direction": "W",
+	"default_clause": { "text": "W:", "color": "c_dark_gray" },
+	"clauses": [
+      { "id": "danger", "text": "W:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "W" } } ]
+  },
+  {
+	"id": "compass_NE_danger_label",
+	"type": "widget",
+	"style": "text",
+	"direction": "NE",
+	"default_clause": { "text": "NE:", "color": "c_dark_gray" },
+	"clauses": [
+      { "id": "danger", "text": "NE:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "NE" } } ]
+  },
+  {
+	"id": "compass_NW_danger_label",
+	"type": "widget",
+	"style": "text",
+	"direction": "NW",
+	"default_clause": { "text": "NW:", "color": "c_dark_gray" },
+	"clauses": [
+      { "id": "danger", "text": "NW:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "NW" } } ]
+  },
+  {
+	"id": "compass_SE_danger_label",
+	"type": "widget",
+	"style": "text",
+	"direction": "SE",
+	"default_clause": { "text": "SE:", "color": "c_dark_gray" },
+	"clauses": [
+      { "id": "danger", "text": "SE:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "SE" } } ]
+  },
+  {
+	"id": "compass_SW_danger_label",
+	"type": "widget",
+	"style": "text",
+	"direction": "SW",
+	"default_clause": { "text": "SW:", "color": "c_dark_gray" },
+	"clauses": [
+      { "id": "danger", "text": "SW:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "SW" } } ]
+  },
+  {
+    "id": "compass_danger_layout",
+    "type": "widget",
+    "label": "Compass Danger",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "compass_N_danger_label", "compass_S_danger_label", "compass_E_danger_label", "compass_W_danger_label", "compass_NE_danger_label", "compass_NW_danger_label", "compass_SE_danger_label", "compass_SW_danger_label" ],
+    "flags": [ "W_NO_PADDING" ]
+  }
+  ]
