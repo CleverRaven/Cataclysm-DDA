@@ -325,7 +325,11 @@
       "helipad2f_nw",
       "helipad2f_ne",
       "helipad2f_sw",
-      "helipad2f_se"
+      "helipad2f_se",
+      "helipad_roof_nw",
+      "helipad_roof_ne",
+      "helipad_roof_sw",
+      "helipad_roof_se"
     ],
     "copy-from": "generic_mil_helipad"
   },
