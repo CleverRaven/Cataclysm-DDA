@@ -9,7 +9,7 @@
     "difficulty": 1,
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
+    "using": [ [ "sewing_grass", 10 ] ],
     "components": [ [ [ "grass_yarn", 5 ] ] ]
   },
   {
@@ -22,7 +22,7 @@
     "difficulty": 1,
     "time": "110 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_grass", 30 ] ],
     "components": [ [ [ "grass_yarn", 10 ] ] ]
   },
   {
@@ -36,7 +36,7 @@
     "time": "10 m",
     "autolearn": true,
     "id_suffix": "from_sheet",
-    "using": [ [ "sewing_standard", 20 ] ],
+    "using": [ [ "sewing_grass", 20 ] ],
     "components": [ [ [ "grass_sheet", 2 ] ] ]
   },
   {

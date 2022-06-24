@@ -68,6 +68,13 @@
     "components": [ [ [ "filament", 1, "LIST" ] ] ]
   },
   {
+    "id": "sewing_grass",
+    "type": "requirement",
+    "//": "Crafting items made from grass yarn; especially useful for Innawoods before the ability to smith fabric cutting tools.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "filament", 1, "LIST" ] ] ]
+  },
+  {
     "id": "sewing_aramids",
     "type": "requirement",
     "//": "crafting or repair of aramid based fabrics (nomex, kevlar). Aramid threads are abrasive and require a stronger needle. they also have special cutting considerations.",

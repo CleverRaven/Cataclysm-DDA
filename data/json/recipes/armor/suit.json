@@ -1122,7 +1122,7 @@
     "difficulty": 2,
     "time": "150 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ] ],
+    "using": [ [ "sewing_grass", 15 ] ],
     "components": [ [ [ "grass_yarn", 7 ] ] ]
   },
   {
