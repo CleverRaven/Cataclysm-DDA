@@ -75,6 +75,8 @@
     "type": "TOOL",
     "name": "heavy mining drill (on)",
     "description": "This is a portable roadheader, designed to chew through the toughest rock.  Currently active, the drill heads are a blur.",
+    "weight": "45 kg",
+    "volume": "6 L",
     "bashing": 50,
     "cutting": 25,
     "qualities": [ [ "HAMMER", 1 ], [ "DIG", 3 ] ],
