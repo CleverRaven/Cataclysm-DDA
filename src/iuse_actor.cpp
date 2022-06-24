@@ -1544,39 +1544,35 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
 // Used only by salvage_actor::cut_up
 static cata::optional<recipe> find_uncraft_recipe( item x )
 {
-    auto iter = std::find_if( recipe_dict.begin(), recipe_dict.end(),
-    [&]( const std::pair<const recipe_id, recipe> &curr ) {
-        if( curr.second.obsolete || curr.second.result() != x.typeId() || curr.second.makes_amount() > 1 ) {
+    auto is_valid_uncraft = [&x]( recipe curr ) -> bool {
+        if( curr.obsolete || curr.result() != x.typeId() || curr.makes_amount() > 1 || curr.is_null() )
+        {
             return false;
         }
         units::mass weight = 0_gram;
-        for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
+        for( const auto &altercomps : curr.simple_requirements().get_components() )
+        {
             if( !altercomps.empty() && altercomps.front().type ) {
                 weight += altercomps.front().type->weight * altercomps.front().count;
             }
         }
         return weight <= x.weight();
+    };
+
+    // Check uncraft first, then crafting recipes if none was found
+    recipe uncraft = recipe_dictionary::get_uncraft( x.typeId() );
+    if( is_valid_uncraft( uncraft ) ) {
+        return uncraft;
+    }
+
+    auto iter = std::find_if( recipe_dict.begin(), recipe_dict.end(),
+    [&]( const std::pair<const recipe_id, recipe> &curr ) {
+        return is_valid_uncraft( curr.second );
     } );
     if( iter != recipe_dict.end() ) {
         return iter->second;
     }
-
-    // No crafting recipe is available
-    // Check disassemble recipe too
-    recipe uncraft = recipe_dictionary::get_uncraft( x.typeId() );
-    if( uncraft.is_null() ) {
-        return cata::nullopt;
-    }
-    // Found disassemble recipe, check if it is valid
-    units::mass weight = 0_gram;
-    for( const auto &altercomps : uncraft.simple_requirements().get_components() ) {
-        weight += ( altercomps.front().type->weight ) * altercomps.front().count;
-    }
-    if( weight > x.weight() ) {
-        // Bad disassemble recipe
-        return cata::nullopt;
-    }
-    return uncraft;
+    return cata::nullopt;
 }
 
 void salvage_actor::cut_up( Character &p, item_location &cut ) const
