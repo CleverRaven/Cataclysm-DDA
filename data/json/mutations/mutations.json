@@ -1153,7 +1153,7 @@
     "description": "You are a sight to behold.  People who care about such things will react more kindly to you.",
     "starting_trait": true,
     "types": [ "ATTRACTIVENESS" ],
-    "category": [ "ALPHA" ],
+    "category": [ "ALPHA", "ELFA" ],
     "changes_to": [ "BEAUTIFUL" ]
   },
   {
@@ -5551,7 +5551,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "PRETTY" ],
     "changes_to": [ "BEAUTIFUL2" ],
-    "category": [ "ALPHA" ]
+    "category": [ "ALPHA", "ELFA" ]
   },
   {
     "type": "mutation",
