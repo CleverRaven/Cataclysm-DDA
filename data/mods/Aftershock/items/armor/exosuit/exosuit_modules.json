@@ -543,5 +543,66 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 4 } } ],
     "charges_per_use": 1,
     "use_action": [ "JET_INJECTOR" ]
+  },
+  {
+    "id": "exo_back_fuelcell",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit fuel cell power supply", "str_pl": "exosuit fuel cell power supplies" },
+    "description": "Designed to attach to an exosuit's back, this is an adaptive fuel cell generator with an integrated UPS, capable of using nearly any liquid fuel types.  This unit is large and occupies the rear hardpoints.",
+    "weight": "25 kg",
+    "volume": "25 L",
+    "material": [ "qt_steel", "plastic" ],
+    "symbol": "#",
+    "looks_like": "1cyl_combustion",
+    "color": "dark_gray",
+    "ammo": [
+      "gasoline",
+      "chem_ethanol",
+      "methed_alcohol",
+      "denat_alcohol",
+      "chem_methanol",
+      "diesel",
+      "jp8",
+      "avgas",
+      "biodiesel",
+      "lamp_oil",
+      "motor_oil",
+      "propane"
+    ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 40, "covers": [ "torso" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "description": "This is a tank for fuel.  Holds up to 5 liters.",
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": {
+          "gasoline": 5000,
+          "chem_ethanol": 5000,
+          "methed_alcohol": 5000,
+          "denat_alcohol": 5000,
+          "chem_methanol": 5000,
+          "diesel": 5000,
+          "jp8": 5000,
+          "avgas": 5000,
+          "biodiesel": 5000,
+          "lamp_oil": 5000,
+          "motor_oil": 5000,
+          "propane": 5000
+        }
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "This is a mounting point for armor protecting the PSU.",
+        "ablative": true,
+        "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "145 kg",
+        "flag_restriction": [ "EXO_PSU_PLATE" ],
+        "moves": 60
+      }
+    ]
   }
 ]
