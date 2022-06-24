@@ -533,7 +533,9 @@
     "coverage": 40,
     "flags": [ "TRANSPARENT", "NOITEM" ],
     "crafting_pseudo_item": "spinwheelitem",
-    "deconstruct": { "items": [ { "item": "cordage_36_leather", "count": 4 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 25 } ] },
+    "deconstruct": {
+      "items": [ { "item": "cordage_36_leather", "count": 4 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 25 } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 50,
