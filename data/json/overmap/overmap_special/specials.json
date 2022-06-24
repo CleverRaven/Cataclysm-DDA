@@ -888,20 +888,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "military_bunker",
-    "overmaps": [
-      { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
-      { "point": [ 0, 0, 0 ], "overmap": "bunker_south" },
-      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement" }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ] } ],
-    "locations": [ "forest" ],
-    "city_distance": [ 20, -1 ],
-    "occurrences": [ 25, 100 ],
-    "flags": [ "MILITARY", "UNIQUE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "military_bunker_1",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
