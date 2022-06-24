@@ -457,7 +457,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of tire arm guards", "str_pl": "pairs of tire arm guards" },
-    "description": "A pair of arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber pieces provides decent but not the most convenient protection.",
+    "description": "A pair of arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "weight": "4800 g",
     "volume": "4750 ml",
     "price": 20000,
@@ -486,7 +486,7 @@
     "id": "xl_armguard_tire",
     "type": "ARMOR",
     "name": { "str": "pair of XL tire arm guards", "str_pl": "pairs of XL tire arm guards" },
-    "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber pieces provides decent but not the most convenient protection.",
+    "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "copy-from": "armguard_tire",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -497,7 +497,7 @@
     "copy-from": "armguard_tire",
     "looks_like": "armguard_tire",
     "name": { "str": "pair of XS tire arm guards", "str_pl": "pairs of XS tire arm guards" },
-    "description": "A pair of undersized arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber pieces provides decent but not the most convenient protection.",
+    "description": "A pair of undersized arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
