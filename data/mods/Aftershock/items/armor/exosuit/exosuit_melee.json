@@ -73,7 +73,7 @@
   {
     "id": "heavy_drill_on",
     "type": "TOOL",
-    "name": { "str": "heavy mining drill (on)", "str_sp": "heavy mining drills (on)" },
+    "name": { "str": "heavy mining drill (on)", "str_pl": "heavy mining drills (on)" },
     "description": "This is a portable roadheader, designed to chew through the toughest rock.  Currently active, the drill heads are a blur.",
     "weight": "45 kg",
     "volume": "6 L",
