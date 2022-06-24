@@ -406,7 +406,8 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "armor": [ { "encumbrance": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ] } ],
-    "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET" ]
+    "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET" ],
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "mutations": [ "WALL_CLING" ] } ] }
   },
   {
     "id": "exo_jetpack",
