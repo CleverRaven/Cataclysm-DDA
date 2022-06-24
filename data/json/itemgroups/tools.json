@@ -62,7 +62,10 @@
       [ "funnel", 50 ],
       [ "rake", 15 ],
       [ "rake_plastic", 25 ],
-      { "group": "tools_common_small", "prob": 600 }
+      { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
+      [ "saw", 60 ],
+      { "item": "bow_saw", "prob": 50 },
+      { "group": "tools_common_small", "prob": 500 }
     ]
   },
   {
@@ -72,11 +75,8 @@
     "items": [
       [ "hacksaw", 50 ],
       [ "hammer", 80 ],
-      { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
       [ "pliers", 60 ],
       [ "big_pliers", 2 ],
-      [ "saw", 60 ],
-      { "item": "bow_saw", "prob": 50 },
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
       [ "socket_screwdriver_set", 10 ],
