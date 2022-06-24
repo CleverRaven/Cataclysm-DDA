@@ -422,6 +422,10 @@ void DynamicDataLoader::initialize()
         mutation_branch::load_trait_blacklist( jo );
     } );
 
+    add( "TRAIT_MIGRATION", []( const JsonObject & jo ) {
+        mutation_branch::load_trait_migration( jo );
+    } );
+
     // loaded earlier.
     add( "colordef", &load_ignored_type );
     // mod information, ignored, handled by the mod manager

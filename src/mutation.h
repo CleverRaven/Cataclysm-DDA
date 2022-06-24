@@ -126,6 +126,12 @@ struct trait_and_var {
     }
 };
 
+struct trait_replacement {
+    cata::optional<proficiency_id> prof;
+    cata::optional<trait_and_var> trait;
+    bool error = false;
+};
+
 struct mutation_variant {
     std::string id;
 
@@ -452,6 +458,16 @@ struct mutation_branch {
          * Check if the trait with the given ID is blacklisted.
          */
         static bool trait_is_blacklisted( const trait_id &tid );
+
+        /**
+         * Load a trait migration given by JSON object.
+         */
+        static void load_trait_migration( const JsonObject &jo );
+
+        /**
+         * Give the appropriate replacement migrated trait
+         */
+        static const trait_replacement &trait_migration( const trait_id &tid );
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
         static void finalize();

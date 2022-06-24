@@ -82,6 +82,7 @@ Use the `Home` key to return to the top.
     - [Mood Face](#mood-face)
     - [Tool Qualities](#tool-qualities)
     - [Traits/Mutations](#traitsmutations)
+    - [Trait Migrations](#trait-migrations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
     - [Vehicle Parts](#vehicle-parts)
@@ -1338,6 +1339,7 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
 | `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
 
+
 ### Names
 
 ```C++
@@ -2516,6 +2518,42 @@ at level `2` to the item.
 "mana_modifier": 100               // Positive or negative change to total mana pool
 
 ```
+
+### Trait Migrations
+
+A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without noise.
+
+```json
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "dead_trait1",
+    "trait": "new_trait",
+    "variant": "correct_variant"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "trait_now_prof",
+    "proficiency": "prof_old_trait"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "deleted_trait",
+    "remove": true
+  }
+]
+```
+
+| Identifier    | Description
+|---            |---
+| `type`        | Mandatory. String. Must be `"TRAIT_MIGRATION"`
+| `id`          | Mandatory. String. Id of the trait that has been removed.
+| `trait`       | Optional\*. String. Id of the trait this trait is being migrated to.
+| `variant`     | Optional. String. Can only be specified if `trait` is specified. Id of a variant of `trait` that this mutation will be set to.
+| `proficiency` | Optional\*. String. Id of proficiency that will replace this trait.
+| `remove`      | Optional\*. Boolean. If neither `trait` or `variant` are specified, this must be true.
+
+\*One of these three must be specified.
 
 ### Traps
 

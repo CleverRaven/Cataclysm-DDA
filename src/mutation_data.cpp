@@ -37,6 +37,9 @@ using flag_reader = string_id_reader<::json_flag>;
 static TraitSet trait_blacklist;
 static TraitGroupMap trait_groups;
 
+static std::map<trait_id, trait_replacement> trait_migrations;
+static trait_replacement trait_migration_remove{ cata::nullopt, cata::nullopt, true };
+
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
@@ -900,6 +903,40 @@ void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
 bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
 {
     return trait_blacklist.count( tid );
+}
+
+void mutation_branch::load_trait_migration( const JsonObject &jo )
+{
+    // First, load the target
+    trait_id target;
+    jo.read( "id", target );
+
+    // Then, populate the replacement
+    trait_replacement replacement;
+
+    if( jo.has_string( "proficiency" ) ) {
+        jo.read( "proficiency", replacement.prof );
+    } else if( jo.has_string( "trait" ) ) {
+        trait_and_var dat;
+        jo.read( "trait", dat.trait );
+        jo.read( "variant", dat.variant, "" );
+        replacement.trait = dat;
+    } else if( !jo.has_bool( "remove" ) || !jo.get_bool( "remove" ) ) {
+        jo.throw_error( "Specified migration for trait " + target.str() +
+                        ", but did not specify how to migrate!" );
+    }
+
+    trait_migrations.emplace( target, replacement );
+}
+
+const trait_replacement &mutation_branch::trait_migration( const trait_id &tid )
+{
+    auto it = trait_migrations.find( tid );
+    if( it != trait_migrations.end() ) {
+        return it->second;
+    }
+
+    return trait_migration_remove;
 }
 
 void mutation_branch::finalize()
