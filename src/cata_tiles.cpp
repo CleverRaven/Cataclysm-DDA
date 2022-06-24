@@ -1954,12 +1954,26 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
         looks_like = overlay;
     }
 
-    draw_id.clear();
-    str_append( draw_id,
-                ( male ? "overlay_male_" : "overlay_female_" ), over_type, looks_like, "_var_",
-                variant );
-    if( tileset_ptr->find_tile_type( draw_id ) ) {
-        return true;
+    // Try to draw variants, then fall back to drawing the base
+    // We can potentially do this twice for a variant of an active mutation
+    for( int i = 0; i < 2; ++i ) {
+        draw_id.clear();
+        str_append( draw_id,
+                    ( male ? "overlay_male_" : "overlay_female_" ), over_type, looks_like, "_var_",
+                    variant );
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            return true;
+        }
+        draw_id.clear();
+        str_append( draw_id, "overlay_", over_type, looks_like, "_var_", variant );
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            return true;
+        }
+        if( string_starts_with( looks_like, "mutation_active_" ) ) {
+            looks_like = "mutation_" + looks_like.substr( 16 );
+            continue;
+        }
+        break;
     }
     for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
         draw_id.clear();
