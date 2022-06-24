@@ -156,16 +156,16 @@ std::string get_input_string_from_file( const std::string &fname = "input.txt" )
 
 // Mouse buttons and movement input
 enum class MouseInput : int {
-    
+
     LeftButtonPressed = 1,
     LeftButtonReleased,
-    
+
     RightButtonPressed,
     RightButtonReleased,
-    
+
     ScrollWheelUp,
     ScrollWheelDown,
-    
+
     Move
 
 };
@@ -228,9 +228,9 @@ struct input_event {
 
     // overloaded function for a mouse input
     // made for a cleaner code, to get rid of static_cast's from scoped enum to int
-    // 
+    //
     // Instead of:
-    // 
+    //
     //    input_event( static_cast<int>( MouseInput::Move ), ... )
     //    input_event( static_cast<int>( MouseInput::LeftButtonPressed ), ... )
     //    input_event( static_cast<int>( MouseInput::RightButtonPressed ), ... )
@@ -241,8 +241,8 @@ struct input_event {
     //    input_event( MouseInput::LeftButtonPressed, ... )
     //    input_event( MouseInput::RightButtonPressed, ... )
     //
-    input_event(const MouseInput s, input_event_t t)
-        : type(t), edit_refresh(false) {
+    input_event( const MouseInput s, input_event_t t )
+        : type( t ), edit_refresh( false ) {
         sequence.push_back( static_cast<int>( s ) );
     }
 
@@ -253,12 +253,12 @@ struct input_event {
     void add_input( const int input ) {
         sequence.push_back( input );
     }
-    
+
     // overloaded function for a mouse input
     // made for a cleaner code, to get rid of static_cast's from scoped enum to int
-    // 
+    //
     // Instead of:
-    // 
+    //
     //    add_input( static_cast<int>( MouseInput::Move ) )
     //    add_input( static_cast<int>( MouseInput::LeftButtonPressed ) )
     //    add_input( static_cast<int>( MouseInput::RightButtonPressed ) )

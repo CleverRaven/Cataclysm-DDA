@@ -3229,13 +3229,13 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                switch ( ev.button.button ) {
-                case SDL_BUTTON_LEFT:
-                    last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
-                    break;
-                case SDL_BUTTON_RIGHT:
-                    last_input = input_event( MouseInput::RightButtonPressed, input_event_t::mouse );
-                    break;
+                switch( ev.button.button ) {
+                    case SDL_BUTTON_LEFT:
+                        last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        last_input = input_event( MouseInput::RightButtonPressed, input_event_t::mouse );
+                        break;
                 }
                 break;
 

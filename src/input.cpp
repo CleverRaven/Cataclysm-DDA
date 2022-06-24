@@ -501,8 +501,8 @@ void input_manager::add_gamepad_keycode_pair( int ch, const std::string &name )
 
 void input_manager::add_mouse_keycode_pair( const MouseInput mouse_input, const std::string &name )
 {
-    mouse_keycode_to_keyname[static_cast<int>(mouse_input)] = name;
-    mouse_keyname_to_keycode[name] = static_cast<int>(mouse_input);
+    mouse_keycode_to_keyname[static_cast<int>( mouse_input )] = name;
+    mouse_keyname_to_keycode[name] = static_cast<int>( mouse_input );
 }
 
 static constexpr int char_key_beg = ' ';
@@ -656,7 +656,7 @@ void input_manager::init_keycode_mapping()
 
     add_mouse_keycode_pair( MouseInput::LeftButtonPressed,   translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" ) );
     add_mouse_keycode_pair( MouseInput::LeftButtonReleased,  translate_marker_context( "key name", "MOUSE_LEFT" ) );
-    add_mouse_keycode_pair( MouseInput::RightButtonPressed,  translate_marker_context( "key name", "MOUSE_RIGHT_PRESSED") );
+    add_mouse_keycode_pair( MouseInput::RightButtonPressed,  translate_marker_context( "key name", "MOUSE_RIGHT_PRESSED" ) );
     add_mouse_keycode_pair( MouseInput::RightButtonReleased, translate_marker_context( "key name", "MOUSE_RIGHT" ) );
     add_mouse_keycode_pair( MouseInput::ScrollWheelUp,       translate_marker_context( "key name", "SCROLL_UP" ) );
     add_mouse_keycode_pair( MouseInput::ScrollWheelDown,     translate_marker_context( "key name", "SCROLL_DOWN" ) );
