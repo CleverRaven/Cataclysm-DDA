@@ -20,4 +20,5 @@ def parse_furniture(json, origin):
                        comment="Bashing failed sound of furniture \"{}\""
                        .format(name))
     if "examine_action" in json:
-        parse_examine_action(json["examine_action"], origin)
+        parse_examine_action(json["examine_action"], origin,
+                             "furniture \"{}\"".format(name))

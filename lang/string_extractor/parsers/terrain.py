@@ -47,4 +47,5 @@ def parse_terrain(json, origin):
         write_text(json["lockpick_message"], origin,
                    comment="Lockpick message of terrain \"{}\"".format(name))
     if "examine_action" in json:
-        parse_examine_action(json["examine_action"], origin)
+        parse_examine_action(json["examine_action"], origin,
+                             "terrain \"{}\"".format(name))
