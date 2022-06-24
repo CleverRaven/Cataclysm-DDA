@@ -892,7 +892,8 @@
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 0, 0 ], "overmap": "bunker_south" },
-      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement_1" }
+      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement_1" },
+      { "point": [ 0, 0 , 1 ], "overmap": "bunker_roof_south" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ] } ],
     "locations": [ "forest" ],
