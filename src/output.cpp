@@ -1213,6 +1213,11 @@ int special_symbol( int sym )
     }
 }
 
+int special_symbol( char sym )
+{
+    return special_symbol( static_cast<uint8_t>( sym ) );
+}
+
 template<typename Prep>
 std::string trim( const std::string &s, Prep prep )
 {

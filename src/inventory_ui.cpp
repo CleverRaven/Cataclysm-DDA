@@ -1217,8 +1217,11 @@ int inventory_column::reassign_custom_invlets( int cur_idx, const std::string &p
     for( auto &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
-            elem.custom_invlet = cur_idx < static_cast<int>( pickup_chars.size() ) ? pickup_chars[cur_idx] :
-                                 '\0';
+            elem.custom_invlet =
+                static_cast<uint8_t>(
+                    cur_idx < static_cast<int>( pickup_chars.size() ) ?
+                    pickup_chars[cur_idx] : '\0'
+                );
             cur_idx++;
         }
     }
@@ -1782,7 +1785,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 void inventory_selector::reassign_custom_invlets()
 {
     if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
-        int min_invlet = use_invlet ? '0' : '\0';
+        int min_invlet = static_cast<uint8_t>( use_invlet ? '0' : '\0' );
         for( inventory_column *elem : columns ) {
             elem->prepare_paging();
             min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
