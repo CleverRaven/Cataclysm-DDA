@@ -508,6 +508,7 @@
     "//": "Military specification rifles only ever found at military sites.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
+      { "group": "nested_m4_carbine", "prob": 200 },
       { "group": "nested_h&k416a5", "prob": 50 },
       { "group": "nested_m107a1", "prob": 30 },
       { "group": "nested_m134", "prob": 10 },
@@ -523,7 +524,7 @@
       { "group": "nested_rm51_assault_rifle", "prob": 25 },
       { "group": "nested_rm614_lmg", "prob": 10 },
       { "group": "nested_rm88_battle_rifle", "prob": 25 },
-      { "group": "nested_sig_assault_rifle", "prob": 100 },
+      { "group": "nested_sig_assault_rifle", "prob": 50 },
       { "group": "nested_scar_l", "prob": 50 },
       { "group": "nested_scar_h", "prob": 50 },
       { "group": "nested_m110a1", "prob": 50 },
