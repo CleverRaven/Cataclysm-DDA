@@ -505,9 +505,13 @@ void input_manager::add_mouse_keycode_pair( const MouseInput mouse_input, const 
     mouse_keyname_to_keycode[name] = static_cast<int>( mouse_input );
 }
 
-void input_manager::add_mouse_keycode_pair_translated( const MouseInput mouse_input, const std::string& key_name_untranslated )
+void input_manager::add_mouse_keycode_pair_translated
+( const MouseInput mouse_input, const std::string &key_name_untranslated )
 {
-    add_mouse_keycode_pair( mouse_input, translate_marker_context( "key name", key_name_untranslated ) );
+    add_mouse_keycode_pair(
+        mouse_input,
+        translate_marker_context( "key name", key_name_untranslated )
+    );
 }
 
 static constexpr int char_key_beg = ' ';
