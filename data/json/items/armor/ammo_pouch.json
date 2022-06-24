@@ -900,7 +900,7 @@
     "type": "ARMOR",
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-t-and-t-pouch?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "tactical tool pouch", "str_pl": "tactical tool pouches" },
-    "description": "A low profile pouch designed to keep a tools accessible and secure.  Has MOLLE straps for attaching to a vest or can be strapped directly to your chest.",
+    "description": "A low profile pouch designed to keep your tools accessible and secure.  Has MOLLE straps for attaching to a vest or can be strapped directly to your chest.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": 3000,
