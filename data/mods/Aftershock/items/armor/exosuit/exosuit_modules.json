@@ -607,7 +607,7 @@
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": "betavoltaic",
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_MEDIUM_GADGET", "LEAK_DAM", "RADIOACTIVE" ]
   }
 ]
