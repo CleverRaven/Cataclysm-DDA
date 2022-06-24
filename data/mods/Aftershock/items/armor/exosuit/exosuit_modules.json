@@ -604,5 +604,20 @@
         "moves": 60
       }
     ]
+  },
+  {
+    "id": "exo_trickle_charger",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit microgenerator" },
+    "description": "This is a compact radioactive power unit that attaches to an exosuit hardpoint.",
+    "weight": "5 kg",
+    "volume": "2500 ml",
+    "material": [ "plastic", "qt_steel" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "power_trickle": "50 J",
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_MEDIUM_GADGET", "LEAK_DAM", "RADIOACTIVE" ]
   }
 ]
