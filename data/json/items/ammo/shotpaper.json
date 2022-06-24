@@ -15,7 +15,7 @@
     "ammo_type": "shotpaper",
     "recoil": 2000,
     "loudness": 128,
-    "effects": [ "COOKOFF", "BLACKPOWDER", "MUZZLE_SMOKE" ]
+    "effects": [ "COOKOFF", "BLACKPOWDER", "MUZZLE_SMOKE", "RECYCLED" ]
   },
   {
     "id": "shot_paper_bird",
