@@ -50,7 +50,8 @@
         { "liquid": "gasoline", "x": 2, "y": 3, "repeat": [ 200, 1075 ] },
         { "liquid": "diesel", "x": 4, "y": 3, "repeat": [ 200, 1075 ] }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]    }
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "mapgen",
@@ -156,7 +157,8 @@
           "y": [ 15, 16 ]
         }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]    }
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "mapgen",
@@ -305,6 +307,7 @@
           "y": [ 12, 17 ]
         }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]    }
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+    }
   }
 ]
