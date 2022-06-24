@@ -537,7 +537,7 @@
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "noise"
-    },
+  },
   {
     "id": "boomer_claymore_suicide",
     "type": "SPELL",
