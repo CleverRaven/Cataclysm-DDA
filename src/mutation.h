@@ -373,11 +373,6 @@ struct mutation_branch {
          */
         int bionic_slot_bonus( const bodypart_str_id &part ) const;
         /**
-         * Shortcut for getting the name of a (translated) mutation, same as
-         * @code get( mutation_id ).name @endcode
-         */
-        static std::string get_name( const trait_id &mutation_id );
-        /**
          * All known mutations. Key is the mutation id, value is the mutation_branch that you would
          * also get by calling @ref get.
          */

@@ -122,7 +122,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );
                     for( const trait_id &j : mdata.prereqs ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -132,7 +132,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs, 2d:" ) );
                     for( const trait_id &j : mdata.prereqs2 ) {
                         mvwprintz( menu->window, point( startx + 15, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -142,7 +142,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Thresholds required:" ) );
                     for( const trait_id &j : mdata.threshreq ) {
                         mvwprintz( menu->window, point( startx + 21, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -152,7 +152,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Cancels:" ) );
                     for( const trait_id &j : mdata.cancels ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -162,7 +162,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Becomes:" ) );
                     for( const trait_id &j : mdata.replacements ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -172,7 +172,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Add-ons:" ) );
                     for( const string_id<mutation_branch> &j : mdata.additions ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }

@@ -728,11 +728,6 @@ nc_color mutation_branch::get_display_color() const
     }
 }
 
-std::string mutation_branch::get_name( const trait_id &mutation_id )
-{
-    return mutation_id->name();
-}
-
 const std::vector<mutation_branch> &mutation_branch::get_all()
 {
     return trait_factory.get_all();

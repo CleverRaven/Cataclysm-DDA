@@ -1901,7 +1901,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
                 for( const auto &t : prof_traits ) {
-                    buffer += mutation_branch::get_name( t ) + "\n";
+                    buffer += t->name() + "\n";
                 }
             }
 
@@ -2346,7 +2346,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
                 for( const auto &t : prof_traits ) {
-                    buffer += mutation_branch::get_name( t ) + "\n";
+                    buffer += t->name() + "\n";
                 }
             }
 

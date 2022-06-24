@@ -364,8 +364,7 @@ void avatar::power_mutations()
                 switch( menu_mode ) {
                     case mutation_menu_mode::reassigning: {
                         query_popup pop;
-                        pop.message( _( "%s; enter new letter." ),
-                                     mutation_branch::get_name( mut_id ) )
+                        pop.message( _( "%s; enter new letter." ), mut_id->name() )
                         .preferred_keyboard_mode( keyboard_mode::keychar )
                         .context( "POPUP_WAIT" )
                         .allow_cancel( true )
@@ -528,8 +527,7 @@ void avatar::power_mutations()
                     switch( menu_mode ) {
                         case mutation_menu_mode::reassigning: {
                             query_popup pop;
-                            pop.message( _( "%s; enter new letter." ),
-                                         mutation_branch::get_name( mut_id ) )
+                            pop.message( _( "%s; enter new letter." ), mut_id->name() )
                             .preferred_keyboard_mode( keyboard_mode::keychar )
                             .context( "POPUP_WAIT" )
                             .allow_cancel( true )

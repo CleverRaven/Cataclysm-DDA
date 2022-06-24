@@ -101,7 +101,7 @@ void trait_group::debug_spawn()
         for( size_t a = 0; a < 100; a++ ) {
             const auto traits = traits_from( groups[index] );
             for( const string_id<mutation_branch> &tr : traits ) {
-                traitnames[mutation_branch::get_name( tr )]++;
+                traitnames[tr->name()]++;
             }
         }
         // Invert the map to get sorting!
