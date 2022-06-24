@@ -6,8 +6,8 @@
     "direction": "N",
     "default_clause": { "text": "N:", "color": "c_dark_gray" },
     "clauses": [
-      { "id": "danger", "text": "N:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "N" } },
-      { "id": "safe_mode_trigger", "text": "N:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "N" } }
+      { "id": "safe_mode_trigger", "text": "N:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "N" } },
+      { "id": "danger", "text": "N:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "N" } }
     ]
   },
   {
@@ -17,8 +17,8 @@
     "direction": "S",
     "default_clause": { "text": "S:", "color": "c_dark_gray" },
     "clauses": [
-      { "id": "danger", "text": "S:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "S" } },
-      { "id": "safe_mode_trigger", "text": "S:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "S" } }
+      { "id": "safe_mode_trigger", "text": "S:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "S" } },
+      { "id": "danger", "text": "S:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "S" } }
     ]
   },
   {
@@ -28,8 +28,8 @@
     "direction": "E",
     "default_clause": { "text": "E:", "color": "c_dark_gray" },
     "clauses": [
-      { "id": "danger", "text": "E:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "E" } },
-      { "id": "safe_mode_trigger", "text": "E:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "E" } }
+      { "id": "safe_mode_trigger", "text": "E:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "E" } },
+      { "id": "danger", "text": "E:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "E" } }
     ]
   },
   {
@@ -39,8 +39,8 @@
     "direction": "W",
     "default_clause": { "text": "W:", "color": "c_dark_gray" },
     "clauses": [
-      { "id": "danger", "text": "W:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "W" } },
-      { "id": "safe_mode_trigger", "text": "W:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "W" } }
+      { "id": "safe_mode_trigger", "text": "W:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "W" } },
+      { "id": "danger", "text": "W:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "W" } }
     ]
   },
   {
@@ -50,13 +50,8 @@
     "direction": "NE",
     "default_clause": { "text": "NE:", "color": "c_dark_gray" },
     "clauses": [
-      { "id": "danger", "text": "NE:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "NE" } },
-      {
-        "id": "safe_mode_trigger",
-        "text": "NE:",
-        "color": "c_light_red",
-        "condition": { "u_safe_mode_trigger": "NE" }
-      }
+      { "id": "safe_mode_trigger", "text": "NE:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "NE" } },
+      { "id": "danger", "text": "NE:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "NE" } }
     ]
   },
   {
@@ -66,13 +61,8 @@
     "direction": "NW",
     "default_clause": { "text": "NW:", "color": "c_dark_gray" },
     "clauses": [
-      { "id": "danger", "text": "NW:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "NW" } },
-      {
-        "id": "safe_mode_trigger",
-        "text": "NW:",
-        "color": "c_light_red",
-        "condition": { "u_safe_mode_trigger": "NW" }
-      }
+      { "id": "safe_mode_trigger", "text": "NW:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "NW" } },
+      { "id": "danger", "text": "NW:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "NW" } }
     ]
   },
   {
@@ -82,13 +72,8 @@
     "direction": "SE",
     "default_clause": { "text": "SE:", "color": "c_dark_gray" },
     "clauses": [
-      { "id": "danger", "text": "SE:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "SE" } },
-      {
-        "id": "safe_mode_trigger",
-        "text": "SE:",
-        "color": "c_light_red",
-        "condition": { "u_safe_mode_trigger": "SE" }
-      }
+      { "id": "safe_mode_trigger", "text": "SE:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "SE" } },
+      { "id": "danger", "text": "SE:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "SE" } }
     ]
   },
   {
@@ -98,13 +83,8 @@
     "direction": "SW",
     "default_clause": { "text": "SW:", "color": "c_dark_gray" },
     "clauses": [
-      { "id": "danger", "text": "SW:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "SW" } },
-      {
-        "id": "safe_mode_trigger",
-        "text": "SW:",
-        "color": "c_light_red",
-        "condition": { "u_safe_mode_trigger": "SW" }
-      }
+      { "id": "safe_mode_trigger", "text": "SW:", "color": "c_light_red", "condition": { "u_safe_mode_trigger": "SW" } },
+      { "id": "danger", "text": "SW:", "color": "c_light_gray", "condition": { "u_monsters_in_direction": "SW" } }
     ]
   },
   {
