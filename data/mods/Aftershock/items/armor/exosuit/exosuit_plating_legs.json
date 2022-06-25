@@ -18,7 +18,7 @@
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 10
       }
     ]
   },
@@ -35,7 +35,7 @@
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 85,
-        "encumbrance": 15
+        "encumbrance": 10
       }
     ]
   },
@@ -102,7 +102,6 @@
     "weight": "13365 g",
     "volume": "10 L",
     "material": [ "vacuum_carbide" ],
-    "material_thickness": 6,
     "non_functional": "damaged_exo_leg_vcc_plate",
     "armor": [
       {
@@ -126,7 +125,7 @@
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 85,
-        "encumbrance": 20
+        "encumbrance": 10
       }
     ]
   },
