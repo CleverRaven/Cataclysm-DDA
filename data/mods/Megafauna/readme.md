@@ -1,12 +1,18 @@
-**Goals and Scope**
-The goal of the mod is to add extinct megafauna of the late pleistocene and early holocene (about 30.000-8.000 BCE), that the first humans setting foot on the area CDDA mostly uses as a real world counterpart, New England, have encountered.
+**Description**
+Through the portals rupturing reality in the cataclysm, some long extinct animals were drawn into our world. Some distant memory of these Pleistocenic animals may rest deep in your conscious. Long ago, our ancestors encountered this massive Megafauna and may even be responsible for their extinction. 
 
-The mod aims to provide a more realistic fauna for wilderness/stone age playthroughs, especially together with the innawoods mod, or as a more mammal-focused addition together with the DinoMod (testing of compatibility not done yet, though!). Part of that goal is that some species encountered in New England today which are quite new additions to the biosphere (like the wild boar) will be replaced by species more fitting to the time frame. These animals can fill niches for human use, not only regarding meat, but also wool and milk, that are currently only covered by modern day farm animals.
+16 new animals friendly to a more innawood-style playthrough. Hunt them ruthlessly like our ancestors did, or befriend and try to domesticate them. But beware you don't get eaten by them before.
+
+
+**Goals and Scope**
+The goal of the mod is to add extinct megafauna of the late Pleistocene and early holocene (about 30.000-8.000 BCE), that the first humans setting foot on the area CDDA mostly uses as a real world counterpart, New England, have encountered.
+
+The mod aims to provide a more realistic fauna for wilderness/stone age playthroughs, especially together with the innawood mod, or as a more mammal-focused addition together with the DinoMod (testing of compatibility not done yet, though!). Part of that goal is that some species encountered in New England today which are quite new additions to the biosphere (like the wild boar) will be replaced by species more fitting to the time frame. These animals can fill niches for human use, not only regarding meat, but also wool and milk, that are currently only covered by modern day farm animals.
 
 Geographically, species from modern day New England are the focus, again for a more coherent, realistic feel. If evidence is found not too far away in not too different climates (e.g., Great Lakes) thats alright too. If remains of a species have only been found in, e.g., New Mexiko and Texas, they probably wont feature here.
 
 **NOTE**
-This mod is still work-in-progress, but a basic set of 16 new pleistocene-era animals is available, should spawn in new games and be generally useful especially for innawoods players.
+This mod is still work-in-progress, but a basic set of 16 new Pleistocene-era animals is available, should spawn in new games and be generally useful especially for innawood players.
 
 **full list of new animals**
 - woolly mammoths
@@ -91,5 +97,5 @@ Think of specials that could fit (mammoth graveyard, sabrecat caves, watering ho
 *Unlikely, but not unthinkable future additions*
 More widespread scope both timeframe and geographically
 Late Pleistocene Flora
-Touch mapgen to create more realistic pleistocene biomes
+Touch mapgen to create more realistic Pleistocene biomes
 Mutations/Mutagen line fitting the setting (Mammoth Mutagen, for example)
