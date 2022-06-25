@@ -1070,9 +1070,9 @@ std::string widget::value_string( int value, int width_max )
     if( _style == "graph" ) {
         ret += graph( value );
     } else if( _style == "text" ) {
-        ret += text( value, !_clauses.empty(), w );
+        ret += text( !_clauses.empty(), w );
     } else if( _style == "symbol" ) {
-        ret += sym( value, !_clauses.empty() );
+        ret += sym( !_clauses.empty() );
     } else if( _style == "legend" ) {
         ret += sym_text( !_clauses.empty(), w );
     } else if( _style == "number" ) {
@@ -1146,9 +1146,9 @@ std::string widget::text( bool from_condition, int width )
     return _string.translated();
 }
 
-std::string widget::sym( int value, bool from_condition )
+std::string widget::sym( bool from_condition )
 {
-    return from_condition ? sym_cond() : text( value, from_condition );
+    return from_condition ? sym_cond() : text( from_condition, 0 );
 }
 
 std::string widget::sym_text( bool from_condition, int width )

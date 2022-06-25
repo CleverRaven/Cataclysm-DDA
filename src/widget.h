@@ -317,7 +317,7 @@ class widget
         // Return the text clause(s) from all true conditional clauses in this widget
         std::string text_cond( bool no_join = false, int width = 0 );
         // Return the symbol mapped to a given value for "symbol" style
-        std::string sym( int value, bool from_condition );
+        std::string sym( bool from_condition );
         // Return the symbol(s) from all true conditional clauses in this widget
         std::string sym_cond( bool no_join = true,
                               enumeration_conjunction join_type = enumeration_conjunction::none ) const;
