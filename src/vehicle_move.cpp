@@ -275,7 +275,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     if( smart_controller_state ) {
         cur_state.gas_engine_last_turned_on = smart_controller_state->gas_engine_last_turned_on;
     }
-    //create a new state object
+
     cur_state.gas_engine_shutdown_forbidden = gas_engine_shutdown_forbidden;
 
     int opt_mask = prev_mask; // save current engine state, because it will be temporarily modified
@@ -682,9 +682,7 @@ void vehicle::turn( units::angle deg )
 
 /**
  * "Stop the vehicle, optionally updating the map cache."
- * @param update_cache Whether to update the map cache.
- * @return A reference to the map object.
- */
+ * @param update_cache Whether to update the map cache.*/
 void vehicle::stop( bool update_cache )
 {
     velocity = 0;
@@ -1296,12 +1294,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 }
 
-/**
- * The code check if a part of the vehicle has an animal fuel type.
- * 
- * @return A boolean value.
- */
-bool vehicle::has_harnessed_animal() const
+// The code check if a part of the vehicle has an animal fuel type.
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
