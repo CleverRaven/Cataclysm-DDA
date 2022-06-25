@@ -14,8 +14,8 @@
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "80 L",
     "longest_side": "2500 cm",
-    "to-hit": -3,
-    "bashing": 29,
+    "bashing": 45,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "vitamins": [ [ "calcium", 96 ] ]
   }
 ]

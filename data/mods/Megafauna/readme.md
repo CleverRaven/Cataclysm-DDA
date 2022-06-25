@@ -95,3 +95,7 @@ Mutations/Mutagen line fitting the setting (Mammoth Mutagen, for example)
 *eggs* (chicken, ducks, geese) = Auks, but ducks and geese are already fine
 
 *pet* (dogs, cats) = make bobcats pets, dire wolves, larger cats as well?
+
+
+Notes:
+- removed mammal_fur_feline and mammal_fur_lupine harvests since they threw errors
