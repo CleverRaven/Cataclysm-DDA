@@ -454,8 +454,7 @@ int talker_character_const::get_thirst() const
 
 int talker_character_const::get_instant_thirst() const
 {
-    return me_chr_const->get_thirst() - std::max( units::to_milliliter<int>
-            ( me_chr_const->stomach.get_water() / 10 ), 0 );
+    return me_chr_const->get_instant_thirst();
 }
 
 int talker_character_const::get_stored_kcal() const
