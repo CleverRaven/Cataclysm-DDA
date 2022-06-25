@@ -350,7 +350,6 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
 
 void widget::load( const JsonObject &jo, const std::string & )
 {
-    optional( jo, was_loaded, "strings", _strings );
     optional( jo, was_loaded, "width", _width, 1 );
     optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
@@ -412,7 +411,11 @@ void widget::load( const JsonObject &jo, const std::string & )
     if( jo.has_object( "default_clause" ) ) {
         _default_clause.load( jo.get_object( "default_clause" ) );
     }
-
+    if( _style == "text" && _clauses.empty() ) {
+        mandatory( jo, was_loaded, "string", _string );
+    } else {
+        optional( jo, was_loaded, "string", _string );
+    }
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
@@ -1135,12 +1138,12 @@ std::string widget::number( int value, bool from_condition ) const
     return from_condition ? number_cond() : string_format( "%d", value );
 }
 
-std::string widget::text( int value, bool from_condition, int width )
+std::string widget::text( bool from_condition, int width )
 {
     if( from_condition ) {
         return text_cond( false, width );
     }
-    return _strings.at( value ).translated();
+    return _string.translated();
 }
 
 std::string widget::sym( int value, bool from_condition )
@@ -1153,9 +1156,7 @@ std::string widget::sym_text( bool from_condition, int width )
     if( from_condition ) {
         return sym_text_cond( true, width );
     }
-    return enumerate_as_string( _strings.begin(), _strings.end(), []( const translation & t ) {
-        return t.translated();
-    }, enumeration_conjunction::none );
+    return _string.translated();
 }
 
 std::string widget::number_cond( enumeration_conjunction join_type ) const
