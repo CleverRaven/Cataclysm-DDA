@@ -4275,5 +4275,14 @@
     ],
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "city_building",
+    "id": "skate_park_ramp",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "skate_park_up_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "skate_park_down_north" }
+    ]
   }
 ]
