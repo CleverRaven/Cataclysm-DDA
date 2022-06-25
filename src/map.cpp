@@ -185,7 +185,13 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
     traplocs.resize( trap::count() );
 }
 
-map::~map() = default;
+map::~map()
+{
+    if( _main_requires_cleanup ) {
+        get_map().reset_vehicles_sm_pos();
+        get_map().rebuild_vehicle_level_caches();
+    }
+}
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 map &map::operator=( map && ) = default;
 
@@ -301,6 +307,51 @@ void map::clear_vehicle_level_caches( )
     }
 }
 
+void map::remove_vehicle_from_cache( vehicle *veh, int zmin, int zmax )
+{
+    for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+        level_cache *const ch = get_cache_lazy( gridz );
+        if( ch != nullptr ) {
+            ch->vehicle_list.erase( veh );
+            ch->zone_vehicles.erase( veh );
+        }
+        dirty_vehicle_list.erase( veh );
+    }
+}
+
+namespace
+{
+void _add_vehicle_to_list( level_cache &ch, vehicle *veh )
+{
+    ch.vehicle_list.insert( veh );
+    if( !veh->loot_zones.empty() ) {
+        ch.zone_vehicles.insert( veh );
+    }
+}
+} // namespace
+
+void map::reset_vehicles_sm_pos()
+{
+    int const zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+    int const zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+    for( int z = zmin; z <= zmax; z++ ) {
+        level_cache &ch = get_cache( z );
+        for( int x = 0; x < getmapsize(); x++ ) {
+            for( int y = 0; y < getmapsize(); y++ ) {
+                tripoint const grid( x, y, z );
+                submap *const sm = get_submap_at_grid( grid );
+                if( sm != nullptr ) {
+                    for( auto const &elem : sm->vehicles ) {
+                        elem->sm_pos = grid;
+                        get_map().add_vehicle_to_cache( &*elem );
+                        _add_vehicle_to_list( ch, &*elem );
+                    }
+                }
+            }
+        }
+    }
+}
+
 void map::clear_vehicle_list( const int zlev )
 {
     auto *ch = get_cache_lazy( zlev );
@@ -315,10 +366,7 @@ void map::update_vehicle_list( const submap *const to, const int zlev )
     // Update vehicle data
     level_cache &ch = get_cache( zlev );
     for( const auto &elem : to->vehicles ) {
-        ch.vehicle_list.insert( elem.get() );
-        if( !elem->loot_zones.empty() ) {
-            ch.zone_vehicles.insert( elem.get() );
-        }
+        _add_vehicle_to_list( ch, elem.get() );
     }
 }
 
@@ -7214,6 +7262,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         get_cache( grid.z ).field_cache.set( grid.x + grid.y * MAPSIZE );
     }
 
+    bool const main_inbounds =
+        this != &get_map() && get_map().inbounds( project_to<coords::ms>( grid_abs_sub ) );
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
@@ -7222,6 +7272,9 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
             // Always fix submap coordinates for easier Z-level-related operations
             veh->sm_pos = grid;
             iter++;
+            if( main_inbounds ) {
+                _main_requires_cleanup = true;
+            }
         } else {
             if( veh->tracking_on ) {
                 overmap_buffer.remove_vehicle( veh );

@@ -3006,35 +3006,18 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
 
-            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
-            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
-            if( start == end ) {
-                if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( start ) ) ) {
-                    bool remove = vehicles_to_remove.empty();
-                    for( const vproto_id &vpid : vehicles_to_remove ) {
-                        if( vp->vehicle().type == vpid ) {
-                            remove = true;
+            const tripoint start( x.val, y.val, dat.zlevel() );
+            const tripoint end( x.valmax, y.valmax, dat.zlevel() );
+            const tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
+            for( const tripoint &p : range ) {
+                if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
+                    const auto rit = std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(),
+                                                vp->vehicle().type );
+                    if( rit != vehicles_to_remove.end() ) {
+                        if( get_map().inbounds( dat.m.getglobal( start ) ) ) {
+                            get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
                         }
-                    }
-                    if( remove ) {
                         dat.m.destroy_vehicle( &vp->vehicle() );
-                        get_map().clear_vehicle_level_caches();
-                    }
-                }
-            } else {
-                tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
-                for( const tripoint &p : range ) {
-                    if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( p ) ) ) {
-                        bool remove = vehicles_to_remove.empty();
-                        for( const vproto_id &vpid : vehicles_to_remove ) {
-                            if( vp->vehicle().type == vpid ) {
-                                remove = true;
-                            }
-                        }
-                        if( remove ) {
-                            dat.m.destroy_vehicle( &vp->vehicle() );
-                            get_map().clear_vehicle_level_caches();
-                        }
                     }
                 }
             }
@@ -3087,8 +3070,10 @@ class jmapgen_remove_all : public jmapgen_piece
                 dat.m.clear_fields( p );
                 dat.m.delete_graffiti( p );
                 if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
+                    if( get_map().inbounds( dat.m.getglobal( start ) ) ) {
+                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
+                    }
                     dat.m.destroy_vehicle( &vp->vehicle() );
-                    get_map().clear_vehicle_level_caches();
                 }
             }
         }
@@ -7479,15 +7464,10 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         return false;
     }
 
-    tinymap update_tmap;
+    std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
+    tinymap &update_tmap = *p_update_tmap;
     const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
 
-    bool shifted = false;
-    tripoint_abs_ms avatar_pos = get_avatar().get_location();
-    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) + tripoint( 0, 10, 0 ), false );
-        shifted = true;
-    }
     update_tmap.load( sm_pos, true );
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
@@ -7498,8 +7478,11 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
     update_tmap.rotate( rotation );
 
-    if( shifted ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
+        // trigger main map cleanup
+        p_update_tmap.reset();
+        // trigger new traps, etc
+        g->place_player( get_avatar().pos() );
     }
 
     return u;
