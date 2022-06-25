@@ -12,6 +12,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "pocket_firstaid",
+    "looks_like": "book_nonf_zine_news_anlyst",
     "color": "green",
     "skill": "traps",
     "max_level": 2,
