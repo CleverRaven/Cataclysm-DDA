@@ -293,6 +293,26 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "nanuqsaurus",
+    "base_faction": "predator_dino",
+    "hate": [ "animal", "zombie", "human" ],
+    "friendly": [ "nanuqsaurus_juvenile", "nanuqsaurus_hatchling" ],
+    "by_mood": [ "nanuqsaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nanuqsaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "nanuqsaurus", "nanuqsaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nanuqsaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "nanuqsaurus", "nanuqsaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "daspletosaurus",
     "base_faction": "predator_dino",
     "hate": [ "animal", "zombie", "human" ],
