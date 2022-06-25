@@ -3,7 +3,7 @@
     "id": "lcom_spacer",
     "type": "widget",
     "style": "text",
-    "strings": [ "." ],
+    "string": ".",
     "flags": [ "W_LABEL_NONE" ]
   },
   {
