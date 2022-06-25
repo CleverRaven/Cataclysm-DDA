@@ -567,12 +567,50 @@ std::string mutation_branch::desc() const
     return raw_desc.translated();
 }
 
+static bool has_cyclic_dependency( const trait_id &mid, std::vector<trait_id> already_visited )
+{
+    if( contains_trait( already_visited, mid ) ) {
+        return true; // Circular dependency was found.
+    }
+
+    already_visited.push_back( mid );
+
+    // Perform Depth-first search
+    for( const trait_id &current_mutation : mid->prereqs ) {
+        if( has_cyclic_dependency( current_mutation->id, already_visited ) ) {
+            return true;
+        }
+    }
+
+    for( const trait_id &current_mutation : mid->prereqs2 ) {
+        if( has_cyclic_dependency( current_mutation->id, already_visited ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static void check_has_cyclic_dependency( const trait_id &mid )
+{
+    std::vector<trait_id> already_visited;
+    if( has_cyclic_dependency( mid, already_visited ) ) {
+        debugmsg( "mutation %s references itself in either of its prerequsition branches.  The program will crash if the player gains this mutation.",
+                  mid.c_str() );
+    }
+}
+
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
                                const std::string &what )
 {
     for( const auto &m : mvec ) {
         if( !m.is_valid() ) {
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
+        }
+
+        if( m == mid ) {
+            debugmsg( "mutation %s refers to itself in %s context.  The program will crash if the player gains this mutation.",
+                      mid.c_str(), what.c_str() );
         }
     }
 }
@@ -659,7 +697,9 @@ void mutation_branch::check_consistency()
             debugmsg( "mutation %s is not displayed but set as active" );
         }
 
-        ::check_consistency( mdata.prereqs, mid, "prereq" );
+        check_has_cyclic_dependency( mid );
+
+        ::check_consistency( mdata.prereqs, mid, "prereqs" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );
         ::check_consistency( mdata.cancels, mid, "cancels" );

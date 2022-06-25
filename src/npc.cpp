@@ -1500,7 +1500,7 @@ void npc::form_opinion( const Character &you )
     // FEAR
     if( weapon.is_gun() ) {
         // TODO: Make bows not guns
-        if( weapon.is_gun() ) {
+        if( weapon.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
