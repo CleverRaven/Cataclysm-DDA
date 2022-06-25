@@ -113,6 +113,8 @@ static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
+static const flag_id json_flag_DISABLE_FLIGHT("DISABLE_FLIGHT");
+
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
 static const material_id material_hflesh( "hflesh" );
@@ -1037,7 +1039,7 @@ bool monster::digs() const
 
 bool monster::flies() const
 {
-    return has_flag( MF_FLIES );
+    return has_flag( MF_FLIES ) && !has_effect_with_flag( json_flag_DISABLE_FLIGHT );
 }
 
 bool monster::climbs() const
