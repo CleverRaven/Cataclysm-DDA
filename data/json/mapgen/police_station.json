@@ -43,8 +43,8 @@
         "=": "t_door_metal_locked",
         "w": "t_window",
         "4": "t_gutter_downspout",
-        "#": "t_bars",
-        "α": "t_door_bar_locked"
+        "#": "t_sconc_wall",
+        "α": "t_door_metal_c_peep"
       },
       "furniture": {
         "c": "f_counter",
@@ -195,8 +195,8 @@
         "w": "t_window",
         "<": "t_stairs_up",
         "9": "t_gutter_downspout",
-        "#": "t_bars",
-        "α": "t_door_bar_locked"
+        "#": "t_sconc_wall",
+        "α": "t_door_metal_c_peep"
       },
       "furniture": {
         "c": "f_counter",
@@ -280,7 +280,7 @@
         "|": "t_brick_wall",
         ".": "t_floor",
         " ": "t_open_air",
-        "4": "t_door_bar_locked",
+        "4": "t_door_metal_c_peep",
         "*": "t_door_locked",
         "+": "t_door_c",
         "$": "t_reinforced_glass",
@@ -290,7 +290,7 @@
         ">": "t_stairs_down",
         "<": "t_stairs_up",
         "~": "t_gutter_downspout",
-        "#": "t_bars"
+        "#": "t_sconc_wall"
       },
       "furniture": {
         "c": "f_counter",
@@ -466,8 +466,8 @@
         "w": "t_window",
         "<": "t_ladder_up",
         "4": "t_gutter_downspout",
-        "#": "t_bars",
-        "α": "t_door_bar_locked"
+        "#": "t_sconc_wall",
+        "α": "t_door_metal_c_peep"
       },
       "furniture": {
         "c": "f_counter",
