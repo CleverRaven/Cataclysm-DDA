@@ -21,6 +21,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -45,6 +46,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -69,6 +71,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -93,6 +96,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -117,6 +121,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -141,6 +146,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -165,6 +171,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -189,6 +196,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -213,6 +221,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -237,6 +246,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -261,6 +271,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -285,6 +296,32 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zanuqsaurus_scorched",
+    "name": { "str": "scorched nanuqsaurus zombie" },
+    "copy-from": "mon_zanuqsaurus",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "proportional": { "hp": 0.5, "speed": 0.85 },
+    "color": "i_brown",
+    "relative": {
+      "melee_skill": -2,
+      "melee_dice_sides": -1,
+      "armor_bash": 2,
+      "armor_cut": 9,
+      "armor_bullet": 7,
+      "armor_acid": 3,
+      "armor_fire": 15
+    },
+    "bleed_rate": 0,
+    "vision_day": 10,
+    "special_attacks": [ [ "GRAB", 7 ] ],
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -309,6 +346,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -334,6 +372,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -359,6 +398,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -404,6 +444,7 @@
     "special_attacks": [ [ "GRAB", 7 ], [ "LONGSWIPE", 30 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -428,6 +469,7 @@
     "special_attacks": [ [ "GRAB", 7 ], [ "LONGSWIPE", 30 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -452,6 +494,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -476,6 +519,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -500,6 +544,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -524,6 +569,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -548,6 +594,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -572,6 +619,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -596,6 +644,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -620,6 +669,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -644,6 +694,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -668,6 +719,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -692,6 +744,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -716,6 +769,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -740,6 +794,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -764,6 +819,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -788,6 +844,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -812,6 +869,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -836,6 +894,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -860,6 +919,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -884,6 +944,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -908,6 +969,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -932,6 +994,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -956,6 +1019,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -980,6 +1044,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -1004,6 +1069,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -1028,6 +1094,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -1052,6 +1119,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -1076,6 +1144,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -1100,6 +1169,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -1124,6 +1194,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -1148,6 +1219,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
+    "burn_into": [  ],
     "flags": [
       "SEES",
       "HEARS",
