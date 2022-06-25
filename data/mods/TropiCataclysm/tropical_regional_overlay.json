@@ -58,10 +58,10 @@
       },
       "furniture": {
         "f_region_weed": {
-          "f_mutcactus_test": 1
+          "f_mutcactus_test": 10
         },
         "f_region_plain": {
-          "f_mutcactus_test": 1
+          "f_mutcactus_test": 10
         }
       }
     },
