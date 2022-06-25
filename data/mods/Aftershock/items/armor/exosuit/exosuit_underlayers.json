@@ -1,23 +1,21 @@
 [
   {
-    "id": "afs_exo_standard_undersuit",
+    "id": "afs_exo_standard_underlayer",
     "repairs_like": "thermal_suit",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
-    "name": { "str": "exosuit undersuit" },
-    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, offers nearly no protection and damages easily.",
+    "name": { "str": "exosuit underlayer" },
+    "description": "A form-fitting suit meant to be worn by the exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  This standard model uses a scale mail of overlapping plastic disks for incidental protection.",
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
     "material": [ "nomex", "plastic" ],
+    "environmental_protection": 5,
     "armor": [
       {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "head" ],
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 5
       },
@@ -26,7 +24,7 @@
           { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "torso" ],
+        "covers": [ "head", "mouth" ],
         "coverage": 100,
         "encumbrance": 5
       },
@@ -35,60 +33,58 @@
           { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 5
-      },
-      {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 5
       }
     ],
     "warmth": 10,
-    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
+    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
   },
   {
-    "id": "afs_exo_combat_undersuit",
+    "id": "afs_exo_combat_underlayer",
     "repairs_like": "thermal_suit",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
-    "name": { "str": "exosuit combat undersuit" },
-    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, but does offer some protection.",
+    "name": { "str": "exosuit combat underlayer" },
+    "description": "A form-fitting suit meant to be worn by the exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  This model offers tough kevlar to protect from spalling.",
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
     "material": [ "nomex", "kevlar" ],
+    "environmental_protection": 5,
     "armor": [
       {
-        "material": [
-          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "head" ],
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 5
       },
       {
         "material": [
           { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 3.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 5
+        "encumbrance": 10
       },
       {
         "material": [
           { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
         "coverage": 100,
         "encumbrance": 5
       },
@@ -97,33 +93,31 @@
           { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 5
       }
     ],
     "warmth": 10,
-    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
+    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
   },
   {
-    "id": "afs_exo_eva_undersuit",
+    "id": "afs_exo_eva_underlayer",
     "repairs_like": "thermal_suit",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
-    "name": { "str": "exosuit EVA undersuit" },
-    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, but does offer some protection.",
+    "name": { "str": "exosuit EVA underlayer" },
+    "description": "A form-fitting suit meant to be worn by the exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  This model is designed for EVA operation, offering protection against breaches.",
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
     "material": [ "nomex", "nanoprinted_alloy" ],
+    "environmental_protection": 15,
     "armor": [
       {
-        "material": [
-          { "type": "nanoprinted_alloy", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "torso" ],
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 5
       },
@@ -132,7 +126,7 @@
           { "type": "nanoprinted_alloy", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "head", "mouth" ],
         "coverage": 100,
         "encumbrance": 5
       },
@@ -141,56 +135,83 @@
           { "type": "nanoprinted_alloy", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 5
       }
     ],
     "warmth": 10,
-    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
+    "flags": [
+      "EXO_UNDERLAYER",
+      "USE_UPS",
+      "SKINTIGHT",
+      "WATERPROOF",
+      "POWERARMOR_COMPATIBLE",
+      "SOFT",
+      "GAS_PROOF",
+      "RAD_RESIST",
+      "RAINPROOF"
+    ]
   },
   {
-    "id": "afs_exo_utility_undersuit",
+    "id": "afs_exo_hazard_underlayer",
     "repairs_like": "thermal_suit",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
-    "name": { "str": "exosuit utility undersuit" },
-    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, but does offer some protection.",
+    "name": { "str": "exosuit utility underlayer" },
+    "description": "A form-fitting suit meant to be worn by the exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  This model is designed for hazardous environments and sacrifices mobility for extra protection.",
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
     "material": [ "nomex", "kevlar_rigid" ],
+    "environmental_protection": 10,
     "armor": [
+      {
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
       {
         "material": [
           { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10
+      },
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 3.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 5
+        "encumbrance": 15
       },
       {
         "material": [
           { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
-        "encumbrance": 5
-      },
-      {
-        "material": [
-          { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 5
+        "encumbrance": 10
       }
     ],
     "warmth": 10,
-    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
+    "flags": [
+      "EXO_UNDERLAYER",
+      "USE_UPS",
+      "SKINTIGHT",
+      "WATERPROOF",
+      "POWERARMOR_COMPATIBLE",
+      "SOFT",
+      "GAS_PROOF",
+      "RAD_RESIST",
+      "RAINPROOF"
+    ]
   }
 ]
