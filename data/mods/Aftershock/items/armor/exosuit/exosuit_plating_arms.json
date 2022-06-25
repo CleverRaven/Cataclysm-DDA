@@ -20,7 +20,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 5,
-		"layers": [ "OUTER" ]
+        "layers": [ "OUTER" ]
       },
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
@@ -44,7 +44,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 5,
-		"layers": [ "OUTER" ]
+        "layers": [ "OUTER" ]
       },
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
@@ -80,7 +80,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 5,
-		"layers": [ "OUTER" ]
+        "layers": [ "OUTER" ]
       },
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
@@ -104,7 +104,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 5,
-		"layers": [ "OUTER" ]
+        "layers": [ "OUTER" ]
       },
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
@@ -139,7 +139,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 5,
-		"layers": [ "OUTER" ]
+        "layers": [ "OUTER" ]
       },
       {
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
@@ -163,7 +163,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 5,
-		"layers": [ "OUTER" ]
+        "layers": [ "OUTER" ]
       },
       {
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
