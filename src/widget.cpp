@@ -411,7 +411,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     if( jo.has_object( "default_clause" ) ) {
         _default_clause.load( jo.get_object( "default_clause" ) );
     }
-    if( _style == "text" && _clauses.empty() ) {
+    if( _style == "text" && _clauses.empty() && _var == widget_var::last) {
         mandatory( jo, was_loaded, "string", _string );
     } else {
         optional( jo, was_loaded, "string", _string );
