@@ -208,7 +208,6 @@
       "melee_dice": 4,
       "melee_dice_sides": 8,
       "melee_cut": 6,
-      "melee_bash": 6,
       "dodge": 2,
       "armor_bash": 10,
       "armor_cut": 6,
