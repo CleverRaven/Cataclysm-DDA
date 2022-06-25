@@ -1,0 +1,108 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": ["all"],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "region_terrain_and_furniture": {
+      "terrain": {
+        "t_region_groundcover": {
+          "t_grass": 20000,
+          "t_grass_dead": 1000,
+          "t_grass_long": 15000,
+          "t_grass_tall": 10000,
+          "t_dirt": 1000,
+          "t_shrub": 1000,
+          "t_underbrush": 1000
+        },
+        "t_region_shrub": {
+          "t_shrub": 10,
+          "t_shrub_peanut": 1,
+          "t_cholla_cactus": 1,
+          "t_nopal_cactus": 1
+        },
+        "t_region_shrub_fruit": {
+          "t_cholla_cactus": 1,
+          "t_nopal_cactus": 1
+        },
+        "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2 },
+        "t_region_tree": {
+          "t_tree_mango": 2,
+          "t_tree_papaya": 2,
+          "t_tree_pomegranate": 2,
+          "t_tree_coconut": 2,
+          "t_tree_orange": 2,
+          "t_tree_lemon": 2,
+          "t_tree_grapefruit": 2
+        },
+        "t_region_tree_shade": {
+          "t_tree_mango": 2,
+          "t_tree_papaya": 2,
+          "t_tree_pomegranate": 2,
+          "t_tree_coconut": 2,
+          "t_tree_orange": 2,
+          "t_tree_lemon": 2,
+          "t_tree_grapefruit": 2
+        },
+        "t_region_tree_fruit": {
+          "t_tree_mango": 2,
+          "t_tree_papaya": 2,
+          "t_tree_pomegranate": 2,
+          "t_tree_coconut": 2,
+          "t_tree_orange": 2,
+          "t_tree_lemon": 2,
+          "t_tree_grapefruit": 2
+        },
+        "t_region_tree_nut": {
+          "t_tree_coconut": 2
+        }
+      },
+      "furniture": {
+        "f_region_weed": {
+          "f_mutcactus_test": 1
+        },
+        "f_region_plain": {
+          "f_mutcactus_test": 1
+        }
+      }
+    },
+    "forest_mapgen_settings": {
+      "forest_water": {
+        "components": {
+          "trees": {
+            "types": {
+              "t_tree_mango": 2,
+              "t_tree_papaya": 2,
+              "t_tree_pomegranate": 2,
+              "t_tree_coconut": 2,
+              "t_tree_orange": 2,
+              "t_tree_lemon": 2,
+              "t_tree_grapefruit": 2
+            }
+          }
+        }
+      }
+    },
+    "city": {
+      "houses": {
+        "overgrownlot": 20,
+        "overtakenlot": 20
+      }
+    },
+    "weather": {
+      "base_temperature": 16.0,
+      "base_humidity": 80.0,
+      "base_pressure": 1025.0,
+      "base_wind": 6.0,
+      "base_wind_distrib_peaks": 30,
+      "base_wind_season_variation": 64,
+      "spring_temp_manual_mod": 5,
+      "summer_temp_manual_mod": 0,
+      "autumn_temp_manual_mod": 3,
+      "winter_temp_manual_mod": 5,
+      "spring_humidity_manual_mod": 5,
+      "summer_humidity_manual_mod": 20,
+      "autumn_humidity_manual_mod": 20,
+      "winter_humidity_manual_mod": 0
+    }
+  }
+]

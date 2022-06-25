@@ -1,0 +1,132 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": ["all"],
+    "region_terrain_and_furniture": {
+      "terrain": {
+        "t_region_groundcover": { "t_sand": 1 },
+        "t_region_groundcover_swamp": { "t_bog_iron": 1 }
+      },
+      "furniture": {
+        "f_region_weed": {
+          "f_chamomile": 40,
+          "f_datura": 30,
+          "f_bluebell": 20,
+          "f_burdock": 10,
+          "f_dahlia": 10,
+          "f_lily": 10,
+          "f_carrot_wild": 30,
+          "f_salsify": 30,
+          "f_japanese_knotweed": 30,
+          "f_sunflower": 10,
+          "f_mustard": 10,
+          "f_wildcotton": 1,
+          "f_wildsbeet": 1,
+          "f_wildweed": 1,
+          "f_wildpumpkin": 1,
+          "f_wildcorn": 1,
+          "f_wildbeans": 1
+        },
+        "f_region_plain": {
+          "f_dandelion": 60,
+          "f_flower_spurge": 40,
+          "f_chamomile": 40,
+          "f_carrot_wild": 30,
+          "f_salsify": 30,
+          "f_datura": 30,
+          "f_japanese_knotweed": 20,
+          "f_dahlia": 20,
+          "f_maianthemum_stellatum": 20,
+          "f_mutpoppy": 20,
+          "f_black_eyed_susan": 10,
+          "f_flower_tulip": 10,
+          "f_mustard": 10,
+          "f_sunflower": 10,
+          "f_jerusalem_artichoke": 10,
+          "f_lily": 10,
+          "f_chicory": 10,
+          "f_wildcotton": 3,
+          "f_wildsbeet": 3,
+          "f_wildpumpkin": 3,
+          "f_wildcorn": 3,
+          "f_wildweed": 1,
+          "f_wildbeans": 1
+        },
+        "f_region_forest": {
+          "f_burdock": 200,
+          "f_bluebell": 60,
+          "f_wild_sarsaparilla": 60,
+          "f_lily": 50,
+          "f_chamomile": 50,
+          "f_japanese_knotweed": 30,
+          "f_carrot_wild": 30,
+          "f_salsify": 30,
+          "f_dahlia": 20,
+          "f_mutpoppy": 10,
+          "f_maianthemum_stellatum": 10,
+          "f_wintergreen": 10,
+          "f_wildweed": 4,
+          "f_wildcorn": 4,
+          "f_wildbeans": 4
+        },
+        "f_region_forest_dense": {
+          "f_burdock": 200,
+          "f_bluebell": 80,
+          "f_lily": 50,
+          "f_wild_sarsaparilla": 40,
+          "f_salsify": 30,
+          "f_wintergreen": 20,
+          "f_wildweed": 3,
+          "f_wildcorn": 3,
+          "f_wildbeans": 3
+        }
+      }
+    },
+    "forest_mapgen_settings": {
+      "forest_thick": {
+        "terrains": [
+          "forest_thick",
+          "forest_trail_isolated",
+          "forest_trail_end_north",
+          "forest_trail_end_east",
+          "forest_trail_end_south",
+          "forest_trail_end_west",
+          "forest_trail_ns",
+          "forest_trail_ew",
+          "forest_trail_ne",
+          "forest_trail_es",
+          "forest_trail_sw",
+          "forest_trail_wn",
+          "forest_trail_new",
+          "forest_trail_nsw",
+          "forest_trail_esw",
+          "forest_trail_nes",
+          "forest_trail_nesw",
+          "spider_pit_north",
+          "spider_pit_south",
+          "spider_pit_east",
+          "spider_pit_west",
+          "standing_stones",
+          "natural_spring_north",
+          "natural_spring_south",
+          "natural_spring_east",
+          "natural_spring_west",
+          "cave_innawood",
+          "special_forest"
+        ]
+      },
+      "forest_water": {
+        "terrains": [ "forest_water" ]
+      }
+    },
+    "forest_trail_settings": {
+      "trailheads": { "trailhead_basic": 1 }
+    },
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": false,
+      "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ],
+      "clear_whitelist": false,
+      "whitelist": [  ]
+    }
+  }
+]
