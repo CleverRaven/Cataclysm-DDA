@@ -58,13 +58,25 @@
     "type": "item_group",
     "//": "Common household tools",
     "items": [
-      [ "hacksaw", 50 ],
-      [ "hammer", 80 ],
+      [ "bucket", 5 ],
+      [ "funnel", 50 ],
+      [ "rake", 15 ],
+      [ "rake_plastic", 25 ],
       { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
-      [ "pliers", 60 ],
-      [ "big_pliers", 2 ],
       [ "saw", 60 ],
       { "item": "bow_saw", "prob": 50 },
+      { "group": "tools_common_small", "prob": 500 }
+    ]
+  },
+  {
+    "id": "tools_common_small",
+    "type": "item_group",
+    "//": "Common household tools that are small enough to fit in a bag",
+    "items": [
+      [ "hacksaw", 50 ],
+      [ "hammer", 80 ],
+      [ "pliers", 60 ],
+      [ "big_pliers", 2 ],
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
       [ "socket_screwdriver_set", 10 ],
@@ -75,11 +87,9 @@
       [ "socket_wrench_set", 20 ],
       [ "pliers_locking", 20 ],
       [ "xacto", 40 ],
-      [ "bucket", 5 ],
       [ "jumper_cable", 10 ],
       [ "extension_cable", 15 ],
       [ "hd_tow_cable", 5 ],
-      [ "funnel", 50 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
       [ "thermometer", 5 ],
@@ -89,8 +99,6 @@
       [ "metal_file", 10 ],
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
-      [ "rake", 15 ],
-      [ "rake_plastic", 25 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
   },
@@ -280,7 +288,7 @@
     "type": "item_group",
     "//": "Portable tools used by electricians and for electronics repair",
     "items": [
-      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_common_small", "prob": 100 },
       { "item": "soldering_iron", "prob": 100, "charges": [ 0, 50 ] },
       [ "magnifying_glass", 100 ],
       { "item": "voltmeter", "prob": 10, "charges": [ 0, 100 ] },
