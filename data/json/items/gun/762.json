@@ -236,5 +236,52 @@
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag20", "akmag30", "akmag40", "akdrum75" ] } ]
+  },
+  {
+    "id": "vz58_p",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Czechoslovak infantry carbine" },
+    "description": "A cold war era Czechoslovak assault rifle with a fixed wood impregnated plastic buttstock, likely constructed stateside from a pre-1986 imported parts kit or brought back from a 3rd world war zone.  Externally similar to the AK family of rifles, this weapon nevertheless only shares the former’s 7.62x39mm chambering.  Featuring no parts interchangeability with its Russian doppelganger, this firearm makes use of a completely different internal operating system, is far more svelte than its other Warsaw Pact counterparts, and feeds from proprietary box magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "vz58_p",
+        "name": { "str": "Samopal VZ 58 P" },
+        "description": ", "This lightweight and relatively svelte cold war assault rifle was originally developed for use by the Czechoslovak army, in place of the various licenced Kalashnikov rifles which were then prevalent around eastern Europe and members of the Warsaw Pact.  Baring more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no parts interchangeability with its Russian counterpart.  Making use of proprietary magazines, a 15.4 inch barrel, and a higher cyclic rate of fire, the VZ. 58 is regarded by some to be the Kalashnikov’s lesser known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a 3rd world war zone, this particular weapon features a removable wood impregnated plastic buttstock and a p suffixed  designation, which both mark it as an original infantry model.",
+        "weight": 1
+      }
+    ],
+    "weight": "2910 g",
+    "volume": "2050 ml",
+    "longest_side": "84 cm",
+    "price": 118000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic", "wood" ],
+    "color": "brown",
+    "ammo": [ "762" ],
+    "dispersion": 150,
+    "durability": 9,
+    "min_cycle_recoil": 1950,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "vz58mag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
   }
 ]
