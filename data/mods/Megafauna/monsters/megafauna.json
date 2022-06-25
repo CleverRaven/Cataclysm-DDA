@@ -618,7 +618,7 @@
       "armor_cut": 2,
       "melee_damage": [
         {
-          "damage_type": "slash",
+          "damage_type": "cut",
           "amount": 6.0,
           "armor_penetration": 4,
           "armor_multiplier": 1.2,
@@ -819,7 +819,7 @@
       "melee_dice_sides": 8,
       "melee_damage": [
         {
-          "damage_type": "slash",
+          "damage_type": "cut",
           "amount": 6.0,
           "armor_penetration": 4,
           "armor_multiplier": 1.2,
