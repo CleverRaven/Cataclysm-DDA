@@ -179,7 +179,6 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_tree_spile( "tree_spile" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
-static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
@@ -1149,31 +1148,6 @@ void iexamine::vending( Character &you, const tripoint &examp )
 }
 
 /**
- * If there's water, allow its usage but add chance of poison.
- */
-void iexamine::toilet( Character &, const tripoint &examp )
-{
-    map_stack items = get_map().i_at( examp );
-    auto water = items.begin();
-    for( ; water != items.end(); ++water ) {
-        if( water->typeId() == itype_water ) {
-            break;
-        }
-    }
-
-    if( water == items.end() ) {
-        add_msg( m_info, _( "This toilet is empty." ) );
-    } else if( !water->made_of( phase_id::LIQUID ) ) {
-        add_msg( m_info, _( "The toilet water is frozen solid!" ) );
-    } else {
-        // Use a different poison value each time water is drawn from the toilet.
-        water->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
-
-        liquid_handler::handle_liquid_from_ground( water, examp );
-    }
-}
-
-/**
  * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
  */
 void iexamine::elevator( Character &you, const tripoint &examp )
@@ -2060,7 +2034,8 @@ void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
 {
     item harvest = item( itemid );
     if( harvest.has_temperature() ) {
-        harvest.set_item_temperature( temp_to_kelvin( get_weather().get_temperature( you.pos() ) ) );
+        harvest.set_item_temperature( units::from_fahrenheit( get_weather().get_temperature(
+                                          you.pos() ) ) );
     }
     if( !force_drop && you.can_pickVolume( harvest, true ) &&
         you.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -5457,9 +5432,9 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( patient.leak_level( flag_RADIOACTIVE ) ) {
+            if( static_cast<int>( patient.leak_level() ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
-                       patient.leak_level( flag_RADIOACTIVE ) );
+                       static_cast<int>( patient.leak_level() ) );
             }
             break;
         }
@@ -6561,7 +6536,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "gaspump", &iexamine::gaspump },
             { "atm", &iexamine::atm },
             { "vending", &iexamine::vending },
-            { "toilet", &iexamine::toilet },
             { "elevator", &iexamine::elevator },
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader_robofac", &iexamine::cardreader_robofac },

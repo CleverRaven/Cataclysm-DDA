@@ -369,6 +369,84 @@ inline constexpr double to_kilogram( const mass &v )
     return v.value() / 1000000.0;
 }
 
+
+// Specific energy
+const specific_energy specific_energy_min = units::specific_energy(
+            std::numeric_limits<units::specific_energy::value_type>::min(), units::specific_energy::unit_type{} );
+
+const specific_energy specific_energy_max = units::specific_energy(
+            std::numeric_limits<units::specific_energy::value_type>::max(), units::specific_energy::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<value_type, specific_energy_in_joule_per_gram_tag>
+from_joule_per_gram( const value_type v )
+{
+    return quantity<value_type, specific_energy_in_joule_per_gram_tag>( v,
+            specific_energy_in_joule_per_gram_tag{} );
+}
+
+template<typename value_type>
+inline constexpr value_type to_joule_per_gram( const
+        quantity<value_type, specific_energy_in_joule_per_gram_tag> &v )
+{
+    return v.value();
+}
+
+// Temperature
+// Absolute zero - possibly should just be INT_MIN
+const temperature temperature_min = units::temperature( 0, units::temperature::unit_type{} );
+
+const temperature temperature_max = units::temperature(
+                                        std::numeric_limits<units::temperature::value_type>::max(), units::temperature::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_kelvin(
+    const value_type v )
+{
+    return quantity<value_type, temperature_in_kelvin_tag>( v, temperature_in_kelvin_tag{} );
+}
+
+template<typename value_type>
+inline constexpr value_type to_kelvin( const
+                                       quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    return v.value();
+}
+
+constexpr temperature freezing_point = from_kelvin( 273.150f );
+
+template<typename value_type>
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_celcius(
+    const value_type v )
+{
+    return from_kelvin( v ) + freezing_point;
+}
+
+template<typename value_type>
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag>
+from_fahrenheit(
+    const value_type v )
+{
+    return from_kelvin( ( v + 459.67f ) / 1.8f );
+}
+
+template<typename value_type>
+inline constexpr value_type to_celcius( const
+                                        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    return ( v - freezing_point ).value();
+}
+
+template<typename value_type>
+inline constexpr value_type to_fahrenheit( const
+        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    return ( v * 1.8f - from_kelvin( 459.67f ) ).value();
+}
+
+
+// Energy
+
 const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
                           units::energy::unit_type{} );
 
@@ -687,6 +765,18 @@ inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"
     return units::from_kilogram( v );
 }
 
+
+inline constexpr units::temperature operator"" _K( const unsigned long long v )
+{
+    return units::from_kelvin( v );
+}
+
+inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator"" _K(
+    const long double v )
+{
+    return units::from_kelvin( v );
+}
+
 inline constexpr units::energy operator"" _mJ( const unsigned long long v )
 {
     return units::from_millijoule( v );
@@ -909,6 +999,10 @@ static const std::vector<std::pair<std::string, angle>> angle_units = { {
         { "arcmin", 1_arcmin },
         { "°", 1_degrees },
         { "rad", 1_radians },
+    }
+};
+static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
+        { "K", 1_K }
     }
 };
 } // namespace units

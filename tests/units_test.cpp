@@ -297,3 +297,29 @@ TEST_CASE( "rounding" )
     CHECK( round_to_multiple_of( -15_degrees, 15_degrees ) == -15_degrees );
     CHECK( round_to_multiple_of( -360_degrees, 15_degrees ) == -360_degrees );
 }
+
+
+TEST_CASE( "Temperatures", "[temperature]" )
+{
+    SECTION( "Different units match" ) {
+        CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ) );
+        CHECK( units::to_kelvin( units::from_celcius( 0.0 ) ) == Approx( 273.150 ) );
+        CHECK( units::to_kelvin( units::from_fahrenheit( 32.0 ) ) == Approx( 273.150 ) );
+
+        CHECK( units::to_kelvin( units::from_celcius( 0 ) ) == Approx( 273.150 ) );
+        CHECK( units::to_kelvin( units::from_fahrenheit( 32 ) ) == Approx( 273.150 ) );
+
+        CHECK( units::to_kelvin( 273.150_K ) == Approx( 273.150 ) );
+
+        CHECK( units::to_fahrenheit( units::from_kelvin( 100 ) ) == Approx( -279.67 ) );
+        CHECK( units::to_celcius( units::from_kelvin( 100 ) ) == Approx( -173.15 ) );
+    }
+}
+
+TEST_CASE( "Specific energy", "[temperature]" )
+{
+    SECTION( "Different units match" ) {
+        CHECK( units::to_joule_per_gram( units::from_joule_per_gram( 100 ) ) == 100 );
+        CHECK( units::to_joule_per_gram( units::from_joule_per_gram( 100.1 ) ) == Approx( 100.1 ) );
+    }
+}

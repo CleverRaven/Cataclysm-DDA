@@ -235,10 +235,10 @@ enum npc_personality_type : int {
 
 struct npc_personality {
     // All values should be in the -10 to 10 range.
-    signed char aggression;
-    signed char bravery;
-    signed char collector;
-    signed char altruism;
+    int8_t aggression;
+    int8_t bravery;
+    int8_t collector;
+    int8_t altruism;
     npc_personality() {
         aggression = 0;
         bravery    = 0;

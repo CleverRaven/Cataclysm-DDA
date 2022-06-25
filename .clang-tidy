@@ -50,8 +50,6 @@ readability-*,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
 -bugprone-redundant-branch-condition,\
--bugprone-signed-char-misuse,\
--cert-str34-c,\
 -clang-analyzer-core.CallAndMessage,\
 -clang-analyzer-deadcode.DeadStores,\
 -misc-misplaced-const,\
