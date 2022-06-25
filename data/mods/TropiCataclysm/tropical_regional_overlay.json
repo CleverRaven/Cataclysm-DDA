@@ -1,7 +1,7 @@
 [
   {
     "type": "region_overlay",
-    "regions": ["all"],
+    "regions": [ "all" ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
@@ -14,16 +14,8 @@
           "t_shrub": 1000,
           "t_underbrush": 1000
         },
-        "t_region_shrub": {
-          "t_shrub": 10,
-          "t_shrub_peanut": 1,
-          "t_cholla_cactus": 1,
-          "t_nopal_cactus": 1
-        },
-        "t_region_shrub_fruit": {
-          "t_cholla_cactus": 1,
-          "t_nopal_cactus": 1
-        },
+        "t_region_shrub": { "t_shrub": 10, "t_shrub_peanut": 1, "t_cholla_cactus": 1, "t_nopal_cactus": 1 },
+        "t_region_shrub_fruit": { "t_cholla_cactus": 1, "t_nopal_cactus": 1 },
         "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2 },
         "t_region_tree": {
           "t_tree_mango": 2,
@@ -52,18 +44,9 @@
           "t_tree_lemon": 2,
           "t_tree_grapefruit": 2
         },
-        "t_region_tree_nut": {
-          "t_tree_coconut": 2
-        }
+        "t_region_tree_nut": { "t_tree_coconut": 2 }
       },
-      "furniture": {
-        "f_region_weed": {
-          "f_mutcactus_test": 10
-        },
-        "f_region_plain": {
-          "f_mutcactus_test": 10
-        }
-      }
+      "furniture": { "f_region_weed": { "f_mutcactus_test": 10 }, "f_region_plain": { "f_mutcactus_test": 10 } }
     },
     "forest_mapgen_settings": {
       "forest_water": {
@@ -82,12 +65,7 @@
         }
       }
     },
-    "city": {
-      "houses": {
-        "overgrownlot": 20,
-        "overtakenlot": 20
-      }
-    },
+    "city": { "houses": { "overgrownlot": 20, "overtakenlot": 20 } },
     "weather": {
       "base_temperature": 16.0,
       "base_humidity": 80.0,
