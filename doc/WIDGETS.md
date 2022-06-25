@@ -429,7 +429,8 @@ Also see [Graph widgets](#graph-widgets) for some predefined ones you can use or
 Text style widgets display text. They can be very powerful, but are also pretty complex.
 
 The simplest text widget is one that displays static text using the `string` field. If a text widget
-does not have any clauses, it _must_ have the `string` field. The widget below displays a single dot.
+does not have any clauses or a `var` field, it _must_ have the `string` field. The widget below
+displays a single dot.
 ```JSON
 {
   "id": "lcom_spacer",
