@@ -1364,6 +1364,10 @@
     "id": "LEAK_DAM",
     "type": "json_flag"
   },
+    {
+    "id": "LIT",
+    "type": "json_flag"
+  },
   {
     "id": "LITCIG",
     "type": "json_flag"
