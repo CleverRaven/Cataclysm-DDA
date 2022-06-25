@@ -572,6 +572,10 @@ appropriate words in other languages.
 See the [Translatable strings section of JSON_INFO.md](JSON_INFO.md#translatable-strings)
 for more on how these work.
 
+## string
+
+If you have a `text` style widget that has no other options for what to display, it must have a
+`string` field to display instead. This will cause the widget to display a static string.
 
 ## fill
 
