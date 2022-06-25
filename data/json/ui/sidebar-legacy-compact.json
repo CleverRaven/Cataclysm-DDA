@@ -3,7 +3,7 @@
     "id": "lcom_spacer",
     "type": "widget",
     "style": "text",
-    "default_clause": { "text": "." },
+	"strings": [ "." ],
     "flags": [ "W_LABEL_NONE" ]
   },
   {
@@ -11,7 +11,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "lcom_spacer", "bodypart_head_status_text", "hp_head_graph_nolabel" ],
+    "widgets": [ "bodypart_head_status_text", "lcom_spacer", "hp_head_graph_nolabel" ],
     "flags": [ "W_NO_PADDING" ]
   },
   {
