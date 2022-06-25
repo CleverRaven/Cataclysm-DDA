@@ -540,9 +540,9 @@ void talk_function::bionic_remove( npc &p )
 
     signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
+        price = 5000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
     } else {
-        price = 50000;
+        price = 5000;
     }
     if( !npc_trading::pay_npc( p, price ) ) {
         return;
