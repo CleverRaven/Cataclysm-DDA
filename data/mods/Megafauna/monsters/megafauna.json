@@ -20,7 +20,20 @@
     "melee_skill": 7,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_cut": 10,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 4.0,
+        "armor_penetration": 1,
+        "armor_multiplier": 1.2,
+        "damage_multiplier": 1.4
+      },
+      {
+        "damage_type": "stab",
+        "amount": 8.0,
+        "armor_penetration": 8
+      }
+    ],
     "special_attacks": [
       { "id": "cut_throat" },
       { "id": "impale", "cooldown": 10 },
@@ -73,7 +86,12 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 4.0
+      }
+    ],
     "dodge": 2,
     "harvest": "mammal_fur",
     "upgrades": { "age_grow": 360, "into": "mon_sabcat" },
@@ -113,7 +131,13 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_cut": 8,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 8.0,
+        "armor_penetration": 2
+      }
+    ],
     "dodge": 4,
     "armor_bash": 5,
     "armor_stab": 3,
@@ -156,7 +180,12 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 2.0
+      }
+    ],
     "dodge": 2,
     "harvest": "mammal_fur",
     "upgrades": { "age_grow": 360, "into": "mon_cave_lion" },
@@ -178,7 +207,7 @@
     "id": "mon_shortface",
     "type": "MONSTER",
     "name": { "str": "giant short-faced bear" },
-    "description": "A bear weighing about a ton, standing at literal eyelevel with man, as long as it isn't towering above you on it's long, muscular hindlegs.  Has a wide, short snout, giving it's face an almost feline expression. Its not particularly aggressive, but doesn't tolerate threats to itself or its cubs.",
+    "description": "A bear weighing about a ton, standing at literal eyelevel with man, as long as it isn't towering above you on it's long, muscular hindlegs.  Has a wide, short snout, giving it's face an almost feline expression.  Its not particularly aggressive, but doesn't tolerate threats to itself or its cubs.",
     "default_faction": "bear",
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
@@ -195,7 +224,17 @@
     "melee_skill": 8,
     "melee_dice": 4,
     "melee_dice_sides": 8,
-    "melee_cut": 12,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 6.0,
+        "armor_penetration": 2
+      },
+      {
+        "damage_type": "bash",
+        "amount": 6.0
+      }
+    ],
     "dodge": 2,
     "armor_bash": 10,
     "armor_cut": 6,
@@ -237,7 +276,12 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_cut": 3,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 4.0
+      }
+    ],
     "dodge": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "upgrades": { "age_grow": 360, "into": "mon_shortface" },
@@ -246,7 +290,7 @@
   {
     "id": "mon_peccary_flathead",
     "type": "MONSTER",
-    "name": { "str": "flat-headed peccary" },
+    "name": { "str": "flat-headed peccary", "str_pl": "flat-headed peccaries" },
     "description": "A stocky, short-legged, pig-like animal with coarse brown fur.  It is smaller than a wild boar, its distant European cousin, and also a bit smaller than its close relative, the long-nosed peccary.  Different to these, it is a quite social and friendly creature - unless its young are threatened.",
     "looks_like": "mon_boar_wild",
     "default_faction": "pig",
@@ -265,7 +309,17 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 4.0,
+        "armor_penetration": 2
+      },
+      {
+        "damage_type": "bash",
+        "amount": 2.0
+      }
+    ],
     "dodge": 2,
     "armor_bash": 1,
     "armor_cut": 1,
@@ -295,7 +349,12 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 2,
-    "melee_cut": 1,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 4.0
+      }
+    ],
     "dodge": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It squeals happily as you pet it.." },
@@ -317,7 +376,7 @@
     "id": "mon_peccary_longnose",
     "type": "MONSTER",
     "copy-from": "mon_peccary_flathead",
-    "name": { "str": "long-nosed peccary" },
+    "name": { "str": "long-nosed peccary", "str_pl": "long-nosed peccaries" },
     "description": "A stocky, short-legged, pig-like animal with coarse brown fur.  It just a bit smaller than a wild boar, its distant European cousin, but considerably bigger than its close relative, the flat-headed peccary.  Different to the latter, they are solitary and more aggresive, but still appreciators of good food.",
     "volume": "90 L",
     "weight": "70 kg",
@@ -328,7 +387,17 @@
     "melee_skill": 5,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_cut": 4,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 6.0,
+        "armor_penetration": 2
+      },
+      {
+        "damage_type": "bash",
+        "amount": 4.0
+      }
+    ],
     "dodge": 2,
     "armor_bash": 2,
     "armor_cut": 1,
@@ -367,7 +436,18 @@
     "melee_skill": 8,
     "melee_dice": 6,
     "melee_dice_sides": 8,
-    "melee_cut": 14,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 8.0,
+        "armor_penetration": 6
+      },
+      {
+        "damage_type": "bash",
+        "amount": 8.0,
+        "armor_penetration": 4
+      }
+    ],
     "dodge": 1,
     "armor_bash": 10,
     "armor_cut": 6,
@@ -437,7 +517,13 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_cut": 1,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 4.0,
+        "armor_penetration": 1
+      }
+    ],
     "dodge": 1,
     "armor_bash": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
@@ -482,7 +568,18 @@
     "melee_skill": 8,
     "melee_dice": 5,
     "melee_dice_sides": 8,
-    "melee_cut": 14,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 8.0,
+        "armor_penetration": 6
+      },
+      {
+        "damage_type": "bash",
+        "amount": 8.0,
+        "armor_penetration": 6
+      }
+    ],
     "dodge": 1,
     "armor_bash": 12,
     "armor_cut": 2,
@@ -548,7 +645,13 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_cut": 3,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 4.0,
+        "armor_penetration": 1
+      }
+    ],
     "dodge": 1,
     "armor_bash": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
@@ -595,7 +698,18 @@
     "dodge": 3,
     "armor_bash": 2,
     "armor_cut": 2,
-    "melee_cut": 7,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 6.0,
+        "armor_penetration": 3
+      },
+      {
+        "damage_type": "stab",
+        "amount": 5.0,
+        "armor_penetration": 3
+      }
+    ],
     "special_attacks": [ { "id": "cut_throat" }, { "type": "leap", "cooldown": 10, "max_range": 4 } ],
     "vision_day": 30,
     "vision_night": 5,
@@ -640,7 +754,12 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 4.0
+      }
+    ],
     "dodge": 2,
     "upgrades": { "age_grow": 270, "into": "mon_direwolf" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREED", "WARM", "KEENNOSE" ]
@@ -666,7 +785,17 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_cut": 10,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 4.0
+      },
+      {
+        "damage_type": "bash",
+        "amount": 8.0,
+        "armor_penetration": 5
+      }
+    ],
     "special_attacks": [ { "id": "stag_smash" }, { "id": "mutant_antler" }, [ "EAT_CROP", 20 ] ],
     "dodge": 2,
     "armor_bash": 4,
@@ -702,7 +831,12 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 2.0
+      }
+    ],
     "dodge": 2,
     "upgrades": { "age_grow": 270, "into": "mon_stagmoose" },
     "petfood": {
@@ -716,7 +850,7 @@
     "id": "mon_giant_beaver",
     "type": "MONSTER",
     "name": { "str": "giant beaver" },
-    "description": "A big rodent feeding off of wood, known for building dams that set entire regions under water. About the size of a calf.",
+    "description": "A big rodent feeding off of wood, known for building dams that set entire regions under water.  About the size of a calf.",
     "default_faction": "herbivore",
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
@@ -734,7 +868,18 @@
     "melee_skill": 4,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_cut": 8,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 4.0,
+        "armor_penetration": 4
+      },
+      {
+        "damage_type": "bash",
+        "amount": 4.0,
+        "armor_penetration": 2
+      }
+    ],
     "dodge": 2,
     "armor_bash": 3,
     "harvest": "mammal_large_fur",
@@ -759,7 +904,12 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 2.0
+      }
+    ],
     "dodge": 2,
     "upgrades": { "age_grow": 160, "into": "mon_giant_beaver" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "NO_BREED" ]
@@ -785,7 +935,18 @@
     "melee_skill": 4,
     "melee_dice": 4,
     "melee_dice_sides": 8,
-    "melee_cut": 15,
+    "melee_damage": [
+      {
+        "damage_type": "cut",
+        "amount": 10.0,
+        "armor_penetration": 2
+      },
+      {
+        "damage_type": "bash",
+        "amount": 5.0,
+        "armor_penetration": 4
+      }
+    ],
     "special_attacks": [ { "id": "longswipe" }, { "id": "smash" }, [ "EAT_CROP", 5 ], [ "EAT_FOOD", 5 ] ],
     "dodge": 0,
     "armor_bash": 10,
@@ -819,7 +980,13 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 4.0,
+        "armor_penetration": 2
+      }
+    ],
     "dodge": 1,
     "upgrades": { "age_grow": 720, "into": "mon_large_claw_sloth" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "NO_BREED", "CANPLAY" ]
@@ -844,7 +1011,17 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_cut": 5,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 5.0,
+        "armor_penetration": 2
+      },
+      {
+        "damage_type": "bash",
+        "amount": 3.0
+      }
+    ],
     "dodge": 2,
     "armor_bash": 3,
     "starting_ammo": { "milk_raw": 12 },
@@ -883,7 +1060,12 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 1,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 2.0
+      }
+    ],
     "dodge": 2,
     "harvest": "mammal_small_wool",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
@@ -913,7 +1095,18 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_cut": 3,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 6.0,
+        "armor_penetration": 3
+      },
+      {
+        "damage_type": "bash",
+        "amount": 4.0,
+        "armor_penetration": 2
+      }
+    ],
     "dodge": 2,
     "armor_bash": 3,
     "starting_ammo": { "milk_raw": 8 },
@@ -952,7 +1145,12 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 1,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 3.0
+      }
+    ],
     "dodge": 2,
     "harvest": "mammal_small_wool",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
@@ -982,7 +1180,17 @@
     "melee_skill": 5,
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_cut": 5,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 3.0
+      },
+      {
+        "damage_type": "bash",
+        "amount": 5.0,
+        "armor_penetration": 2
+      }
+    ],
     "dodge": 2,
     "armor_bash": 3,
     "starting_ammo": { "milk_raw": 6 },
@@ -1017,7 +1225,12 @@
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_cut": 1,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 2.0
+      }
+    ],
     "dodge": 2,
     "harvest": "mammal_small_wool",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FIRE" ],
@@ -1047,7 +1260,13 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_cut": 4,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 5.0,
+        "armor_penetration": 4
+      }
+    ],
     "dodge": 2,
     "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
@@ -1078,6 +1297,12 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 6,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 1.0
+      }
+    ],
     "dodge": 3,
     "anger_triggers": [  ],
     "harvest": "mammal_large_leather",
@@ -1101,7 +1326,7 @@
   {
     "id": "mon_camelops",
     "type": "MONSTER",
-    "name": { "str": "Camelops" },
+    "name": { "str": "Camelops", "str_pl": "camelops" },
     "description": "A huge, woolly two-humped camel that roams far and wide across the american continent.  It looks at you irritatedly, chewing on some long grass.",
     "default_faction": "herbivore",
     "bodytype": "horse",
@@ -1118,7 +1343,13 @@
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 5.0,
+        "armor_penetration": 2
+      }
+    ],
     "dodge": 2,
     "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
@@ -1150,6 +1381,12 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 6,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 1.0
+      }
+    ],
     "dodge": 3,
     "anger_triggers": [  ],
     "harvest": "mammal_large_leather",
