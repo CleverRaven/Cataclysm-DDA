@@ -4098,8 +4098,8 @@ int Character::get_thirst() const
 
 int Character::get_instant_thirst() const
 {
-    return thirst - std::max(units::to_milliliter<int>
-        (stomach.get_water() / 10), 0);
+    return thirst - std::max( units::to_milliliter<int>
+                              ( stomach.get_water() / 10 ), 0 );
 }
 
 void Character::mod_thirst( int nthirst )
