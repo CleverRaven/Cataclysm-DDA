@@ -29,7 +29,6 @@
 #include "monster.h"
 #include "music.h"
 #include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
@@ -39,6 +38,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units.h"
 #include "veh_type.h" // IWYU pragma: keep
 #include "vehicle.h"
@@ -632,7 +632,7 @@ void sounds::process_sound_markers( Character *you )
 
         // don't print our own noise or things without descriptions
         if( !sound.ambient && ( pos != you->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
-            if( get_option<bool>( "DISTRACTION_NOISE" ) &&
+            if( uistate.distraction_noise &&
                 !you->activity.is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound, you->controlling_vehicle ) ) {
                 const std::string query = string_format( _( "Heard %s!" ),

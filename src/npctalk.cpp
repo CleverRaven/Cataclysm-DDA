@@ -55,7 +55,6 @@
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
-#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -78,6 +77,7 @@
 #include "translation_gendered.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -991,7 +991,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
         return;
     }
 
-    if( get_option<bool>( "DISTRACTION_TALKED_TO" ) &&
+    if( uistate.distraction_conversation &&
         !d.actor( true )->has_effect( effect_under_operation, bodypart_str_id::NULL_ID() ) ) {
         g->cancel_activity_or_ignore_query( distraction_type::talked_to,
                                             string_format( _( "%s talked to you." ),

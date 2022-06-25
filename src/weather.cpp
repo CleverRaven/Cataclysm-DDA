@@ -950,7 +950,7 @@ void weather_manager::update_weather()
         lightning_active = false;
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();
-        if( get_option<bool>( "DISTRACTION_WEATHER_CHANGE" ) &&
+        if( uistate.distraction_weather_change &&
             weather_id != old_weather && weather_id->dangerous &&
             here.get_abs_sub().z() >= 0 && here.is_outside( player_character.pos() )
             && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {
