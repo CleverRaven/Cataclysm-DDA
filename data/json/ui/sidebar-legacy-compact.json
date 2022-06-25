@@ -147,7 +147,6 @@
     "width": 36,
     "widgets": [
       "lcom_limbs_layout",
-      "bodypart_status_sym_layout",
       "lcom_sound_layout",
       "lcom_stats_layout",
       "all_weariness_layout",
@@ -156,7 +155,7 @@
       "lcom_env_layout",
       "lcom_env_alt_layout",
       "lcom_vehicle_layout",
-      "compass_all_layout",
+      "compass_all_danger_layout",
       "bodypart_armor_outer_layout",
       "bodygraph_hp_layout"
     ]

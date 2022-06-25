@@ -1505,7 +1505,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
                                         label_width, skip_pad_this );
                 // Store the resulting text for this column
-                cols.emplace_back( foldstring( txt, skip_pad_this ? 0 : cur_width ) );
+                cols.emplace_back( string_split( txt, '\n' ) );
                 widths.emplace_back( cur_width );
             }
 
