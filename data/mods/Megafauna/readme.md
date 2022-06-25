@@ -40,3 +40,56 @@ This mod is still work-in-progress, but a basic set of 16 new pleistocene-era an
 *eggs* (chicken, ducks, geese) = Auks[WIP]; ducks and geese are still in.
 
 *pet* (dogs, cats) = dire wolves and sabre cats are tamable pets, a few other tameable creatures can be petted as well.
+
+
+**Development Notes/ToDo**
+
+**ToDo**
+*potential candidates for addition with dubious range, or more research needed, or just more time*
+- Soergelia meyfeldis, goatlike (need more research); https://en.wikipedia.org/wiki/Soergelia;
+- Great Auk (Pinguinus impennis), much later extinction but everything else fits, so indeed: why not?
+- Glyptodonts, possibly (https://en.wikipedia.org/wiki/Glyptodont)
+- Harringtonhippus Francesci (https://en.wikipedia.org/wiki/Haringtonhippus)
+- Equus Lambei (https://en.wikipedia.org/wiki/Equus_lambei)
+- Homotherium (https://en.wikipedia.org/wiki/Homotherium)
+- American Cheetah (https://en.wikipedia.org/wiki/American_cheetah)
+
+Possibly also some birds (Titanis/Paracrax/Aiolornis, Auk), if evidence exists and they are cool.
+Possibly some kind of goat, maybe extinct pronghorn species?
+
+*Add/adjust monster groups* [done]
+Blacklist monsters that don't fit time frame:
+- all domesticated animals (cows, pigs, goats, chicken, horses, cats, dogs) [done]
+- introduced species (wild boars) [done]
+- overlapping mutant variants (e.g, dire wolf) [done]
+Add to monstergroups to initiate spawns [done]
+
+---> this should now offer basic functionality
+
+Add new monsters to monster groups/implement spawn:
+- tweak spawn rates
+- consider if spawns should occour in specific types of region (meaning, costum moster groups apart from "forest")
+- extra: make "family" monstergroups that spawn adults and juveniles together in the appropriate season
+
+
+*tests and tweaks*
+- revamp descriptions (goal is immersive description, not wiki info or strategies how to deal with them)
+- tweak factions/categories/sizes
+- tweak combat stats (HP, damage etc 
+    -> f.e., panthera atrox apparently bigger than smilodon?
+    -> giant short faced bear might have been quite fast due to characteristically long limbs
+    -> dire wolf might have been slower than modern wolves due to shorter limbs(theorized that scavanger more than hunter)
+- tweak reproduction data (gestation times, grow-up-times etc)
+
+*Additional/Future*
+Think of cool stuff to do with animal products, like sabrecat teeth or mammoth tusks (i.e., adjust/make new harvest groups)
+In any case, think about if recipes need to be adjusted for anything.
+[done]Think about how some of these could fill gaps for farming, like peccaries as substitute for pig/boars, or anything woolly for... wool.
+[partially done]Maybe add more flavourful special attacks
+Think of specials that could fit (mammoth graveyard, sabrecat caves, watering holes with lots of animals, )
+
+*Unlikely, but not unthinkable future additions*
+More widespread scope both timeframe and geographically
+Late Pleistocene Flora
+Touch mapgen to create more realistic pleistocene biomes
+Mutations/Mutagen line fitting the setting (Mammoth Mutagen, for example)
