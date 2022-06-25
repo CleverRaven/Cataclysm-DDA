@@ -3,6 +3,7 @@
     "id": "thirst_desc_label",
     "type": "widget",
     "label": "Thirst",
+	"//": "Instant thirst takes stomach contents into account",
     "style": "text",
     "clauses": [
       {
