@@ -14,11 +14,16 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "armor": [
-      { "material": [
-        { "type": "lycra", "covered_by_mat": 100, "thickness": 0.5 },
-        { "type": "leather", "covered_by_mat": 90, "thickness": 1.5 }
-      ],
-      "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ], "coverage": 100, "encumbrance": [ 4, 4 ] }
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 1.5 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 6, 6 ],
+        "breathability": "GOOD"
+      }
     ],
     "pocket_data": [
       {
@@ -60,11 +65,16 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "armor": [
-      { "material": [
-        { "type": "lycra", "covered_by_mat": 100, "thickness": 0.5 },
-        { "type": "leather", "covered_by_mat": 90, "thickness": 1.5 }
-      ],
-      "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ], "coverage": 100, "encumbrance": [ 4, 4 ] }
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 1.5 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 6, 6 ],
+        "breathability": "GOOD"
+      }
     ],
     "pocket_data": [
       {
@@ -127,9 +137,7 @@
     "price_postapoc": 1250,
     "material": [ "lycra" ],
     "color": "light_gray",
-    "armor": [
-      { "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ], "coverage": 100, "encumbrance": [ 2, 2 ] }
-    ],
+    "armor": [ { "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ], "coverage": 100, "encumbrance": [ 2, 2 ] } ],
     "proportional": { "weight": 0.5, "volume": 0.75, "warmth": 0.75 },
     "use_action": [  ],
     "material_thickness": 0.5

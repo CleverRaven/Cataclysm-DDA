@@ -87,10 +87,7 @@
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 4 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "armor_nomad_light", 1 ] ] ]
   },
   {
@@ -104,7 +101,11 @@
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 3 ] ],
     "using": [ [ "tailoring_lycra_patchwork", 24 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_elastics" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_elastics" }
+    ],
     "components": [
       [ [ "shorts_cargo", 1 ], [ "pants_cargo", 1 ] ],
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
