@@ -386,6 +386,7 @@
     "id": "mon_nanuqsaurus",
     "name": { "str_sp": "nanuqsaurus" },
     "copy-from": "mon_daspletosaurus",
+    "color": "white",
     "default_faction": "nanuqsaurus",
     "speed": 50,
     "attack_cost": 50,
