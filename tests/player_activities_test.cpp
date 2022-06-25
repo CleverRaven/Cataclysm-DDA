@@ -90,6 +90,7 @@ static const ter_str_id ter_test_t_oxytorch1( "test_t_oxytorch1" );
 static const ter_str_id ter_test_t_oxytorch2( "test_t_oxytorch2" );
 static const ter_str_id ter_test_t_prying1( "test_t_prying1" );
 static const ter_str_id ter_test_t_prying2( "test_t_prying2" );
+static const ter_str_id ter_test_t_prying3( "test_t_prying3" );
 static const ter_str_id ter_test_t_prying4( "test_t_prying4" );
 
 TEST_CASE( "safecracking", "[activity][safecracking]" )
@@ -1398,12 +1399,11 @@ TEST_CASE( "prying", "[activity][prying]" )
 
             REQUIRE( dummy.get_str() == 8 );
 
-            const int prying_moves =
-                to_moves<int>( prying_activity_actor::prying_time(
-                                   *ter_test_t_prying2->prying, prying_tool, dummy ) );
+            const time_duration prying_time = prying_activity_actor::prying_time(
+                                                  *ter_test_t_prying3->prying, prying_tool, dummy );
 
-            THEN( "prying time is 1800 moves" ) {
-                CHECK( Approx( prying_moves ).margin( 20 ) == 1800 );
+            THEN( "prying time is 32 seconds" ) {
+                CHECK( prying_time == 32_seconds );
             }
         }
     }
