@@ -698,7 +698,7 @@
       "special_attacks": [ 
         { "id": "stag_smash" },
         { "id": "mutant_antler" },
-        [ [ "EAT_CROP", 20 ] ]
+        [ "EAT_CROP", 20 ]
       ],
       "dodge": 2,
       "armor_bash": 4,
@@ -829,8 +829,8 @@
       "special_attacks": [ 
         { "id": "longswipe" },
         { "id": "smash" },
-        [ [ "EAT_CROP", 5 ] ],
-        [ [ "EAT_FOOD", 5 ] ]
+        [ "EAT_CROP", 5 ],
+        [ "EAT_FOOD", 5 ]
       ],
       "dodge": 0,
       "armor_bash": 10,
