@@ -1,18 +1,21 @@
 **Description**
-Through the portals rupturing reality in the cataclysm, some long extinct animals were drawn into our world. Some distant memory of these Pleistocenic animals may rest deep in your conscious. Long ago, our ancestors encountered this massive Megafauna and may even be responsible for their extinction. 
+Through the portals rupturing reality in the cataclysm, you were sucked into a world yet untouched by humans. Here you encounter massive animals that seem almost out of place, but eerily familiar at the same time. You know this megafauna went extinct just around the time your ancestors first set foot on this land some 10.000 years ago. Distant memories of these Pleistocenic animals rest deep in your conscious. 
 
-16 new animals friendly to a more innawood-style playthrough. Hunt them ruthlessly like our ancestors did, or befriend and try to domesticate them. But beware you don't get eaten by them before.
+Adds 16 lorefriendly megafauna species especially suited for innawood playthroughs. Features all-time favorites like Woolly Mammoths, Mastodons and Sabre-toothed Cats. Hunt them ruthlessly like our ancestors did, or befriend and try to domesticate them. But beware you don't get eaten or trampled before.
 
+At the same time, species introduced in modern times are removed! E.g.: wild boars, cows, cats, dogs, ... 
 
-**Goals and Scope**
-The goal of the mod is to add extinct megafauna of the late Pleistocene and early holocene (about 30.000-8.000 BCE), that the first humans setting foot on the area CDDA mostly uses as a real world counterpart, New England, have encountered.
+--------
 
-The mod aims to provide a more realistic fauna for wilderness/stone age playthroughs, especially together with the innawood mod, or as a more mammal-focused addition together with the DinoMod (testing of compatibility not done yet, though!). Part of that goal is that some species encountered in New England today which are quite new additions to the biosphere (like the wild boar) will be replaced by species more fitting to the time frame. These animals can fill niches for human use, not only regarding meat, but also wool and milk, that are currently only covered by modern day farm animals.
+**Detailed Goals and Scope**
+The goal of the mod is to add extinct megafauna of the late Pleistocene and early holocene era (about 30.000-8.000 BCE), which the first humans setting foot on the area CDDA mostly uses as a real world counterpart, New England, have encountered.
 
-Geographically, species from modern day New England are the focus, again for a more coherent, realistic feel. If evidence is found not too far away in not too different climates (e.g., Great Lakes) thats alright too. If remains of a species have only been found in, e.g., New Mexiko and Texas, they probably wont feature here.
+The mod aims to provide a more realistic fauna for wilderness/stone age playthroughs, especially together with the innawood mod, or as a more mammal-focused addition together with the DinoMod (testing of compatibility not done yet, though!). Species encountered in New England today which are quite new additions to the biosphere (like the wild boar) will be replaced by species more fitting to the time frame. These animals can fill niches for human use, not only regarding meat, but also wool and milk, that are currently only covered by modern day farm animals (which are rare finds in the wild).
+
+Geographically, species from modern day New England are the focus, again for a more coherent, realistic feel. If evidence is found not too far away in not too different climates (e.g., Great Lakes) thats alright, too. If remains of a species have only been found in, e.g., New Mexiko and Texas, they *probably* wont feature here (although might be considered if cool enough).
 
 **NOTE**
-This mod is still work-in-progress, but a basic set of 16 new Pleistocene-era animals is available, should spawn in new games and be generally useful especially for innawood players.
+This mod is still work-in-progress, but a basic set of 16 new Pleistocene-era animals is available, should spawn in new games and be generally useful especially for innawood players. They might be unbalanced, both statwise and spawnwise. Do ping me if you encounter any stuff like that! 
 
 **full list of new animals**
 - woolly mammoths
