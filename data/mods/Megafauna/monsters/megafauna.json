@@ -21,18 +21,8 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 4.0,
-        "armor_penetration": 1,
-        "armor_multiplier": 1.2,
-        "damage_multiplier": 1.4
-      },
-      {
-        "damage_type": "stab",
-        "amount": 8.0,
-        "armor_penetration": 8
-      }
+      { "damage_type": "cut", "amount": 4.0, "armor_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 },
+      { "damage_type": "stab", "amount": 8.0, "armor_penetration": 8 }
     ],
     "special_attacks": [
       { "id": "cut_throat" },
@@ -86,12 +76,7 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 4.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 4.0 } ],
     "dodge": 2,
     "harvest": "mammal_fur",
     "upgrades": { "age_grow": 360, "into": "mon_sabcat" },
@@ -131,13 +116,7 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 8.0,
-        "armor_penetration": 2
-      }
-    ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 8.0, "armor_penetration": 2 } ],
     "dodge": 4,
     "armor_bash": 5,
     "armor_stab": 3,
@@ -180,12 +159,7 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 2.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 2.0 } ],
     "dodge": 2,
     "harvest": "mammal_fur",
     "upgrades": { "age_grow": 360, "into": "mon_cave_lion" },
@@ -224,17 +198,7 @@
     "melee_skill": 8,
     "melee_dice": 4,
     "melee_dice_sides": 8,
-    "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 6.0,
-        "armor_penetration": 2
-      },
-      {
-        "damage_type": "bash",
-        "amount": 6.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 6.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 6.0 } ],
     "dodge": 2,
     "armor_bash": 10,
     "armor_cut": 6,
@@ -276,12 +240,7 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 4.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 4.0 } ],
     "dodge": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "upgrades": { "age_grow": 360, "into": "mon_shortface" },
@@ -309,17 +268,7 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 4.0,
-        "armor_penetration": 2
-      },
-      {
-        "damage_type": "bash",
-        "amount": 2.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 4.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 2.0 } ],
     "dodge": 2,
     "armor_bash": 1,
     "armor_cut": 1,
@@ -349,12 +298,7 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 2,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 4.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 4.0 } ],
     "dodge": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It squeals happily as you pet it.." },
@@ -387,17 +331,7 @@
     "melee_skill": 5,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 6.0,
-        "armor_penetration": 2
-      },
-      {
-        "damage_type": "bash",
-        "amount": 4.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 6.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 4.0 } ],
     "dodge": 2,
     "armor_bash": 2,
     "armor_cut": 1,
@@ -437,16 +371,8 @@
     "melee_dice": 6,
     "melee_dice_sides": 8,
     "melee_damage": [
-      {
-        "damage_type": "stab",
-        "amount": 8.0,
-        "armor_penetration": 6
-      },
-      {
-        "damage_type": "bash",
-        "amount": 8.0,
-        "armor_penetration": 4
-      }
+      { "damage_type": "stab", "amount": 8.0, "armor_penetration": 6 },
+      { "damage_type": "bash", "amount": 8.0, "armor_penetration": 4 }
     ],
     "dodge": 1,
     "armor_bash": 10,
@@ -517,13 +443,7 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 4.0,
-        "armor_penetration": 1
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 4.0, "armor_penetration": 1 } ],
     "dodge": 1,
     "armor_bash": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
@@ -569,16 +489,8 @@
     "melee_dice": 5,
     "melee_dice_sides": 8,
     "melee_damage": [
-      {
-        "damage_type": "stab",
-        "amount": 8.0,
-        "armor_penetration": 6
-      },
-      {
-        "damage_type": "bash",
-        "amount": 8.0,
-        "armor_penetration": 6
-      }
+      { "damage_type": "stab", "amount": 8.0, "armor_penetration": 6 },
+      { "damage_type": "bash", "amount": 8.0, "armor_penetration": 6 }
     ],
     "dodge": 1,
     "armor_bash": 12,
@@ -645,13 +557,7 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 4.0,
-        "armor_penetration": 1
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 4.0, "armor_penetration": 1 } ],
     "dodge": 1,
     "armor_bash": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
@@ -699,16 +605,8 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 6.0,
-        "armor_penetration": 3
-      },
-      {
-        "damage_type": "stab",
-        "amount": 5.0,
-        "armor_penetration": 3
-      }
+      { "damage_type": "cut", "amount": 6.0, "armor_penetration": 3 },
+      { "damage_type": "stab", "amount": 5.0, "armor_penetration": 3 }
     ],
     "special_attacks": [ { "id": "cut_throat" }, { "type": "leap", "cooldown": 10, "max_range": 4 } ],
     "vision_day": 30,
@@ -754,12 +652,7 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "stab",
-        "amount": 4.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "stab", "amount": 4.0 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 270, "into": "mon_direwolf" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREED", "WARM", "KEENNOSE" ]
@@ -785,17 +678,7 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_damage": [
-      {
-        "damage_type": "stab",
-        "amount": 4.0
-      },
-      {
-        "damage_type": "bash",
-        "amount": 8.0,
-        "armor_penetration": 5
-      }
-    ],
+    "melee_damage": [ { "damage_type": "stab", "amount": 4.0 }, { "damage_type": "bash", "amount": 8.0, "armor_penetration": 5 } ],
     "special_attacks": [ { "id": "stag_smash" }, { "id": "mutant_antler" }, [ "EAT_CROP", 20 ] ],
     "dodge": 2,
     "armor_bash": 4,
@@ -831,12 +714,7 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 2.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 2.0 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 270, "into": "mon_stagmoose" },
     "petfood": {
@@ -869,16 +747,8 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 4.0,
-        "armor_penetration": 4
-      },
-      {
-        "damage_type": "bash",
-        "amount": 4.0,
-        "armor_penetration": 2
-      }
+      { "damage_type": "cut", "amount": 4.0, "armor_penetration": 4 },
+      { "damage_type": "bash", "amount": 4.0, "armor_penetration": 2 }
     ],
     "dodge": 2,
     "armor_bash": 3,
@@ -904,12 +774,7 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 2.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 2.0 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 160, "into": "mon_giant_beaver" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "NO_BREED" ]
@@ -936,16 +801,8 @@
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 10.0,
-        "armor_penetration": 2
-      },
-      {
-        "damage_type": "bash",
-        "amount": 5.0,
-        "armor_penetration": 4
-      }
+      { "damage_type": "cut", "amount": 10.0, "armor_penetration": 2 },
+      { "damage_type": "bash", "amount": 5.0, "armor_penetration": 4 }
     ],
     "special_attacks": [ { "id": "longswipe" }, { "id": "smash" }, [ "EAT_CROP", 5 ], [ "EAT_FOOD", 5 ] ],
     "dodge": 0,
@@ -980,13 +837,7 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 4.0,
-        "armor_penetration": 2
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 4.0, "armor_penetration": 2 } ],
     "dodge": 1,
     "upgrades": { "age_grow": 720, "into": "mon_large_claw_sloth" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "NO_BREED", "CANPLAY" ]
@@ -1011,17 +862,7 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_damage": [
-      {
-        "damage_type": "stab",
-        "amount": 5.0,
-        "armor_penetration": 2
-      },
-      {
-        "damage_type": "bash",
-        "amount": 3.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "stab", "amount": 5.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 3.0 } ],
     "dodge": 2,
     "armor_bash": 3,
     "starting_ammo": { "milk_raw": 12 },
@@ -1060,12 +901,7 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 2.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 2.0 } ],
     "dodge": 2,
     "harvest": "mammal_small_wool",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
@@ -1096,16 +932,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 8,
     "melee_damage": [
-      {
-        "damage_type": "stab",
-        "amount": 6.0,
-        "armor_penetration": 3
-      },
-      {
-        "damage_type": "bash",
-        "amount": 4.0,
-        "armor_penetration": 2
-      }
+      { "damage_type": "stab", "amount": 6.0, "armor_penetration": 3 },
+      { "damage_type": "bash", "amount": 4.0, "armor_penetration": 2 }
     ],
     "dodge": 2,
     "armor_bash": 3,
@@ -1145,12 +973,7 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 3.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 3.0 } ],
     "dodge": 2,
     "harvest": "mammal_small_wool",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
@@ -1180,17 +1003,7 @@
     "melee_skill": 5,
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_damage": [
-      {
-        "damage_type": "stab",
-        "amount": 3.0
-      },
-      {
-        "damage_type": "bash",
-        "amount": 5.0,
-        "armor_penetration": 2
-      }
-    ],
+    "melee_damage": [ { "damage_type": "stab", "amount": 3.0 }, { "damage_type": "bash", "amount": 5.0, "armor_penetration": 2 } ],
     "dodge": 2,
     "armor_bash": 3,
     "starting_ammo": { "milk_raw": 6 },
@@ -1225,12 +1038,7 @@
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 2.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 2.0 } ],
     "dodge": 2,
     "harvest": "mammal_small_wool",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FIRE" ],
@@ -1260,13 +1068,7 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 5.0,
-        "armor_penetration": 4
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 5.0, "armor_penetration": 4 } ],
     "dodge": 2,
     "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
@@ -1297,12 +1099,7 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 1.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 1.0 } ],
     "dodge": 3,
     "anger_triggers": [  ],
     "harvest": "mammal_large_leather",
@@ -1343,13 +1140,7 @@
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 8,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 5.0,
-        "armor_penetration": 2
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 5.0, "armor_penetration": 2 } ],
     "dodge": 2,
     "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
@@ -1381,12 +1172,7 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 1.0
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 1.0 } ],
     "dodge": 3,
     "anger_triggers": [  ],
     "harvest": "mammal_large_leather",
