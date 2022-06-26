@@ -50,13 +50,7 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     QObject::connect( &item_list_total_box, &QListWidget::itemDoubleClicked, this, 
             &item_group_window::selected_item_doubleclicked );
     row += 10;
-
-    for( const itype* i : item_controller->all() ) {
-        item option(i, calendar::turn_zero);
-        QListWidgetItem* new_item = new QListWidgetItem( QString( option.typeId().c_str() ) );
-        item_list_total_box.addItem( new_item );
-    }
-
+    item_list_populate_filtered();
 
     group_search_label.setParent( this );
     group_search_label.setText( QString( "Search groups" ) );
@@ -146,29 +140,8 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
                          ( max_row ) * default_text_box_height ) );
 }
 
-static std::string check_errors( const item_group_id &sp )
-{
-    std::string errors;
-    const auto add_newline = []( std::string & error ) {
-        if( !error.empty() ) {
-            error += '\n';
-        }
-    };
-    if( sp.is_empty() ) {
-        errors = "item_group id is empty";
-    }
-    return errors;
-}
-
 void creator::item_group_window::write_json()
 {
-    /*const std::string errors = check_errors(editable_item_group);
-
-    if( !errors.empty() ) {
-        item_group_json.setText( QString( errors.c_str() ) );
-        return;
-    }*/
-
     std::ostringstream stream;
     JsonOut jo( stream );
 
@@ -228,18 +201,8 @@ void creator::item_group_window::deleteEntriesLine()
 
 void creator::item_group_window::items_search_return_pressed()
 {
-    std::string itemID;
     std::string searchQuery = item_search_box.text().toStdString();
-    item_list_total_box.clear();
-    for (const itype* i : item_controller->all()) {
-        item option(i, calendar::turn_zero);
-        itemID = option.typeId().c_str();
-        if (itemID.find(searchQuery) != std::string::npos) {
-            QListWidgetItem* new_item = new QListWidgetItem(
-                QString(option.typeId().c_str()));
-            item_list_total_box.addItem(new_item);
-        }
-    }
+    item_list_populate_filtered( searchQuery );
 }
 
 void creator::item_group_window::group_search_return_pressed()
@@ -267,6 +230,40 @@ void creator::item_group_window::group_list_populate_filtered( std::string searc
             }
         }
     }
+}
+
+void creator::item_group_window::item_list_populate_filtered( std::string searchQuery )
+{
+    std::string itemID;
+    item_list_total_box.clear();
+    if ( searchQuery == "" ) {
+        for (const itype* i : item_controller->all()) {
+            item tmpItem(i, calendar::turn_zero);
+            QListWidgetItem* new_item = new QListWidgetItem( QString( tmpItem.typeId().c_str() ) );
+            set_item_tooltip( new_item, tmpItem );
+            item_list_total_box.addItem( new_item );
+        }
+    } else {
+        for ( const itype* i : item_controller->all() ) {
+            item tmpItem(i, calendar::turn_zero);
+            itemID = tmpItem.typeId().c_str();
+            if( itemID.find( searchQuery ) != std::string::npos ) {
+                QListWidgetItem* new_item = new QListWidgetItem(
+                    QString(tmpItem.typeId().c_str() ) );
+                set_item_tooltip( new_item, tmpItem );
+                item_list_total_box.addItem( new_item );
+            }
+        }
+    }
+}
+
+void creator::item_group_window::set_item_tooltip(QListWidgetItem* new_item, item tmpItem)
+{
+    std::string tooltip = "id: ";
+    tooltip += tmpItem.typeId().c_str();
+    tooltip += "\nname: ";
+    tooltip += tmpItem.tname().c_str();
+    new_item->setToolTip( QString( _( tooltip.c_str() ) ) );
 }
 
 void creator::item_group_window::entries_add_item( QListWidgetItem* cur_widget, bool group )

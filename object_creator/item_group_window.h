@@ -41,7 +41,9 @@ class item_group_window : public QMainWindow
         void items_search_return_pressed();
         void group_search_return_pressed();
         void group_list_populate_filtered( std::string searchQuery = "" );
+        void item_list_populate_filtered( std::string searchQuery = "" );
         void entries_add_item( QListWidgetItem* cur_widget, bool group );
+        void set_item_tooltip(QListWidgetItem* new_item, item tmpItem);
         void selected_item_doubleclicked();
         void selected_group_doubleclicked();
 
