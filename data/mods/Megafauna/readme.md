@@ -59,6 +59,7 @@ This mod is still work-in-progress, but a basic set of 16 new Pleistocene-era an
 - Equus Lambei (https://en.wikipedia.org/wiki/Equus_lambei)
 - Homotherium (https://en.wikipedia.org/wiki/Homotherium)
 - American Cheetah (https://en.wikipedia.org/wiki/American_cheetah)
+- Tapir veroensis https://en.wikipedia.org/wiki/Tapirus_veroensis 
 
 Possibly also some birds (Titanis/Paracrax/Aiolornis, Auk), if evidence exists and they are cool.
 Possibly some kind of goat, maybe extinct pronghorn species?
