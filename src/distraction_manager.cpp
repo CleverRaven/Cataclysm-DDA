@@ -80,7 +80,6 @@ void distraction_manager_gui::show()
     ctx.register_action( "HELP_KEYBINDINGS" );
     ctx.register_cardinal();
     ctx.register_action( "CONFIRM" );
-    ctx.register_action( "QUIT" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Draw border
@@ -92,7 +91,7 @@ void distraction_manager_gui::show()
 
         // Draw header
         werase( w_header );
-        fold_and_print( w_header, point( 0, 0 ), getmaxx( w_header ), c_white, string_format( _( "%s" ),
+        fold_and_print( w_header, point_zero, getmaxx( w_header ), c_white, string_format( _( "%s" ),
                         configurable_distractions[currentLine].second.c_str() ) );
 
         // Draw horizontal line and corner pieces of the table
