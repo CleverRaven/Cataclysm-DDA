@@ -1593,7 +1593,7 @@
   {
     "id": "leech_flower",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
+    "comestible_type": "MED",
     "name": { "str": "leech flower" },
     "color": "blue",
     "weight": "10 g",
