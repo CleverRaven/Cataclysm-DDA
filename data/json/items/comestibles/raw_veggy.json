@@ -107,7 +107,6 @@
     "color": "light_green",
     "calories": 12,
     "spoils_in": "3 days",
-    "healthy": 1,
     "description": "Also called ramps, this delicate leafy vegetable is healthy and a tasty ingredient for many dishes.",
     "symbol": ",",
     "flags": [ "RAW" ],
@@ -1093,8 +1092,7 @@
     "material": [ "veggy" ],
     "volume": "45 ml",
     "fun": -5,
-    "healthy": 1,
-    "vitamins": [ [ "vitC", 1 ], [ "vitA", 3 ] ]
+    "vitamins": [ [ "vitC", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1114,8 +1112,7 @@
     "material": [ "veggy" ],
     "volume": "62 ml",
     "longest_side": "20 cm",
-    "healthy": 1,
-    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ] ]
+    "vitamins": [ [ "vitC", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
