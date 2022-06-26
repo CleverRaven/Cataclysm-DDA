@@ -67,7 +67,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "plastic chin guard" },
-    "description": "A common plastic chin guard designed to be attached to the strapps of any common hard hat or helmet.",
+    "description": "A common plastic chin guard designed to be attached to the straps of any common hard hat or helmet.",
     "weight": "5 g",
     "volume": "10 ml",
     "price": 100,
