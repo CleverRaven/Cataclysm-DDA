@@ -91,8 +91,8 @@ void distraction_manager_gui::show()
 
         // Draw header
         werase( w_header );
-        fold_and_print( w_header, point_zero, getmaxx( w_header ), c_white, string_format( _( "%s" ),
-                        configurable_distractions[currentLine].second.c_str() ) );
+        fold_and_print( w_header, point_zero, getmaxx( w_header ), c_white,
+                        configurable_distractions[currentLine].second.c_str() );
 
         // Draw horizontal line and corner pieces of the table
         for( int x = 0; x < 78; x++ ) {
