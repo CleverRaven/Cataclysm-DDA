@@ -363,6 +363,12 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
 
+    translation localized_width;
+    optional( jo, was_loaded, "localized_width", localized_width, translation() );
+    if( !localized_width.empty() ) {
+        _width = std::stoi( localized_width.translated() );
+    }
+
     if( _style == "sidebar" ) {
         mandatory( jo, was_loaded, "separator", _separator );
         explicit_separator = true;
@@ -1460,13 +1466,22 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 debugmsg( "widget layout has no widgets" );
             }
             // Number of spaces between columns
-            const int col_padding = 2;
+            const int col_padding = std::stoi( pgettext( "Override padding count for the sidebar", "2" ) );
             // Subtract column padding to get space available for widgets
             const int avail_width = max_width - col_padding * ( num_widgets - 1 );
             // Divide available width equally among all widgets
             const int child_width = avail_width / num_widgets;
+            // Total widget width w/o padding
+            const int total_widget_width = std::accumulate( _widgets.begin(), _widgets.end(), 0,
+            [child_width]( int sum, const widget_id & wid ) {
+                widget cur_child = wid.obj();
+                return sum + ( cur_child._style == "layout" &&
+                               cur_child._width > 1 ? cur_child._width : child_width );
+            } );
+            // Total widget width with padding
+            const int total_widget_padded_width = total_widget_width + col_padding * ( num_widgets - 1 );
             // Keep remainder to distribute
-            int remainder = avail_width % num_widgets;
+            int remainder = max_width - total_widget_padded_width;
             // Store the (potentially) multi-row text for each column
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
