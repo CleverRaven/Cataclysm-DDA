@@ -281,6 +281,7 @@ static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescue
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_FELINE_FLEXIBILITY( "FELINE_FLEXIBILITY" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
@@ -9774,7 +9775,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const bool fungus = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ||
                         m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS,
                                 dest_loc ); //fungal furniture has no slowing effect on Mycus characters
-    const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
+    const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour || !u.has_trait( trait_FELINE_FLEXIBILITY ) && ( mcost_to > 2 ||
                             mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
                         !( u.has_trait( trait_M_IMMUNE ) && fungus );
@@ -9912,7 +9913,7 @@ point game::place_player( const tripoint &dest_loc )
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) && !one_in( 3 ) &&
         !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
-        ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
+        ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour || !u.has_trait( trait_FELINE_FLEXIBILITY ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         if( u.is_mounted() ) {
             const int sharp_damage = rng( 1, 10 );
@@ -12133,7 +12134,7 @@ bool game::slip_down( bool check_for_traps )
     int slip = 100 / std::max( 1, u.dex_cur + u.str_cur );
     add_msg_debug( debugmode::DF_GAME, "Base slip chance %d%%", slip );
 
-    if( u.has_proficiency( proficiency_prof_parkour ) ) {
+    if( u.has_proficiency( proficiency_prof_parkour ) || u.has_trait( trait_FELINE_FLEXIBILITY ) {
         slip /= 2;
         add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
     }
