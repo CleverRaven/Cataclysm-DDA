@@ -9278,10 +9278,8 @@ void Character::process_one_effect( effect &it, bool is_new )
 
     // Handle miss messages
     const std::vector<std::pair<translation, int>> &msgs = it.get_miss_msgs();
-    if( !msgs.empty() ) {
-        for( const auto &i : msgs ) {
-            add_miss_reason( i.first.translated(), static_cast<unsigned>( i.second ) );
-        }
+    for( const auto &i : msgs ) {
+        add_miss_reason( i.first.translated(), static_cast<unsigned>( i.second ) );
     }
 
     // Handle vitamins

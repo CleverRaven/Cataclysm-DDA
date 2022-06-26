@@ -1076,12 +1076,10 @@ ret_val<bool> outfit::power_armor_conflicts( const item &clothing ) const
         }
         if( !clothing.covers( body_part_torso ) ) {
             bool power_armor = false;
-            if( !worn.empty() ) {
-                for( const item &elem : worn ) {
-                    if( elem.is_power_armor() ) {
-                        power_armor = true;
-                        break;
-                    }
+            for( const item &elem : worn ) {
+                if( elem.is_power_armor() ) {
+                    power_armor = true;
+                    break;
                 }
             }
             if( !power_armor ) {

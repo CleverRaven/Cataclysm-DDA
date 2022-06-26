@@ -1830,17 +1830,17 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
             };
         } else if( weather_aspect == "windpower" ) {
             return [min, max]( const T & d, int input ) {
-                get_weather().weather_precise->windpower = handle_min_max<T>( d, input, min, max );;
+                get_weather().weather_precise->windpower = handle_min_max<T>( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "humidity" ) {
             return [min, max]( const T & d, int input ) {
-                get_weather().weather_precise->humidity = handle_min_max<T>( d, input, min, max );;
+                get_weather().weather_precise->humidity = handle_min_max<T>( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "pressure" ) {
             return [min, max]( const T & d, int input ) {
-                get_weather().weather_precise->pressure = handle_min_max<T>( d, input, min, max );;
+                get_weather().weather_precise->pressure = handle_min_max<T>( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         }
