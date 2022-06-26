@@ -12347,7 +12347,8 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
                 double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
                 env_temperature = units::from_fahrenheit( weather_temperature + enviroment_mod + local_mod );
             } else {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + units::from_fahrenheit( enviroment_mod + local_mod );
+                env_temperature = units::from_fahrenheit( units::to_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) +
+                                  enviroment_mod + local_mod );
             }
 
             switch( flag ) {
