@@ -284,7 +284,6 @@ extern const flag_id flag_SWIM_GOGGLES;
 extern const flag_id flag_TANGLE;
 extern const flag_id flag_TARDIS;
 extern const flag_id flag_THERMOMETER;
-extern const flag_id flag_THIN_OBSTACLE;
 extern const flag_id flag_TINDER;
 extern const flag_id flag_TOBACCO;
 extern const flag_id flag_TOURNIQUET;
