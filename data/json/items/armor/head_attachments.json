@@ -62,6 +62,24 @@
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "mouth" ] } ]
   },
   {
+    "id": "plastic_chin_guard",
+    "repairs_like": "mouthpiece",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "plastic chin guard" },
+    "description": "A common plastic chin guard designed to be attached to the strapps of any common hard hat or helmet.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "price": 100,
+    "price_postapoc": 1,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "material_thickness": 0.1,
+    "flags": [ "HELMET_MANDIBLE_GUARD_STRAPPED", "CANT_WEAR" ],
+    "armor": [ { "coverage": 60, "covers": [ "mouth" ], "specifically_covers": [ "mouth_chin" ] } ]
+  },
+  {
     "id": "counterweight pouch",
     "repairs_like": "ankle_wallet_pouch",
     "type": "ARMOR",
