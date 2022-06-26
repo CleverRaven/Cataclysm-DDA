@@ -561,6 +561,21 @@ void panel_manager::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
+// Dummy render pass to recalculate layout height
+static void dummy_wgt_render( const widget_id &wid, int width )
+{
+    if( wid.is_null() || !wid.is_valid() ) {
+        return;
+    }
+    if( wid->_style == "sidebar" ) {
+        for( const widget_id &subw : wid->_widgets ) {
+            dummy_wgt_render( subw, width );
+        }
+    }
+    widget w = wid.obj();
+    w.layout( get_avatar(), width, 0, w.has_flag( "W_NO_PADDING" ) );
+}
+
 static void draw_border_win( catacurses::window &w, const std::vector<int> &column_widths,
                              int popup_height )
 {
@@ -790,6 +805,8 @@ void panel_manager::show_adm()
             to_map_font_dimension( width, h );
             // tell the game that the main screen might have a different size now.
             g->mark_main_ui_adaptor_resize();
+            // run a dummy render to set the initial height of each widget
+            dummy_wgt_render( widget_id( current_layout_id ), width_right );
             recalc = true;
         } else if( !swapping && ( action == "RIGHT" || action == "LEFT" ) ) {
             // there are only two columns
