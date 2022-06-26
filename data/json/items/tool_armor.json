@@ -302,6 +302,56 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "Pocket for a face shield or a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
       }
     ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "head" ] } ]
