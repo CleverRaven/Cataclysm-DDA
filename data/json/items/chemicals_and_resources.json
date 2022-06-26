@@ -470,10 +470,7 @@
     "use_action": [ "SEWAGE" ],
     "container": "bottle_plastic",
     "sealed": false,
-    "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 5,
-    "healthy": -20,
     "description": "A sample of sewage from a treatment plant.  Gross.",
     "price": 0,
     "price_postapoc": 0,
@@ -1257,15 +1254,11 @@
     "color": "green",
     "container": "bottle_plastic",
     "sealed": false,
-    "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 5,
-    "healthy": -2,
     "description": "Turbid liquid from the sewers with an awful stench.",
     "volume": "250 ml",
     "phase": "liquid",
-    "category": "chems",
-    "fun": -20
+    "category": "chems"
   },
   {
     "type": "AMMO",
