@@ -251,7 +251,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     if( calendar::once_every( 12_hours ) ) {
         const int sleep_health_mult = get_value( "sleep_health_mult" ) == "2" ? 2 : 1;
-        mod_healthy_mod( sleep_health_mult * to_hours<int>( get_daily_sleep() ), 10 );
+        mod_daily_health( sleep_health_mult * to_hours<int>( get_daily_sleep() ), 10 );
         set_value( "sleep_health_mult", "1" );
     }
     if( calendar::once_every( 1_days ) ) {
