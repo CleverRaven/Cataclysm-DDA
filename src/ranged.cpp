@@ -1692,7 +1692,7 @@ static int print_aim( Character &you, const catacurses::window &w, int line_numb
     };
 
     const double range = rl_dist( you.pos(), pos );
-    line_number = print_steadiness( w, line_number, steadiness );
+    line_number = print_steadiness( w, ++line_number, steadiness );
     return print_ranged_chance( you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
                                 dispersion,
                                 confidence_config,
@@ -2451,7 +2451,7 @@ void target_ui::init_window_and_input()
             height = 28;
         } else {
             // Go all out
-            height = 32;
+            height = 33;
         }
     }
 

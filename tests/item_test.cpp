@@ -196,9 +196,8 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_filthy.cold_up(); // 3 C (276.15 K)
     liquid_filthy.set_flag( json_flag_FILTHY );
 
-    // Temperature is in terms of 0.000001 K
-    REQUIRE( std::floor( liquid_hot.temperature / 100000 ) == 333 );
-    REQUIRE( std::floor( liquid_cold.temperature / 100000 ) == 276 );
+    REQUIRE( units::to_kelvin( liquid_hot.temperature ) == Approx( 333.15 ) );
+    REQUIRE( units::to_kelvin( liquid_cold.temperature ) == Approx( 276.15 ) );
     REQUIRE( liquid_hot.has_flag( json_flag_HOT ) );
     REQUIRE( liquid_cold.has_flag( json_flag_COLD ) );
 
@@ -294,7 +293,7 @@ TEST_CASE( "items spawn in their default containers", "[item]" )
     check_spawning_in_container( "water" );
     check_spawning_in_container( "gunpowder" );
     check_spawning_in_container( "nitrox" );
-    check_spawning_in_container( "ammonia" );
+    check_spawning_in_container( "ammonia_hydroxide" );
     check_spawning_in_container( "detergent" );
     check_spawning_in_container( "pale_ale" );
     check_spawning_in_container( "single_malt_whiskey" );
@@ -744,6 +743,15 @@ TEST_CASE( "item_material_density_sanity_check", "[item][!mayfail]" )
             }
         }
     }
+}
+
+TEST_CASE( "armor_entry_consolidate_check", "[item][armor]" )
+{
+    item test_consolidate( "test_consolidate" );
+
+    //check this item has a single armor entry, not 3 like is written in the json explicitly
+
+    CHECK( test_consolidate.find_armor_data()->sub_data.size() == 1 );
 }
 
 TEST_CASE( "rigid_armor_compliance", "[item][armor]" )

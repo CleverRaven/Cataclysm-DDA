@@ -5,5 +5,11 @@
     "label": "Wield",
     "style": "text",
     "var": "wielding_text"
+  },
+  {
+    "id": "wielding_desc_no_label",
+    "type": "widget",
+    "copy-from": "wielding_desc",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

@@ -588,6 +588,7 @@
       { "item": "shot_suppressor", "prob": 1 },
       { "item": "brass_catcher", "prob": 15 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "small_lighter", "prob": 5, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 5, "charges": [ 0, 50 ] },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 40, "charges": [ 0, 300 ] },

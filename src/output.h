@@ -366,8 +366,14 @@ std::string satiety_bar( int calpereffv );
 std::string healthy_bar( int healthy );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
-std::string name_and_value( const std::string &name, int value, int field_width );
-std::string name_and_value( const std::string &name, const std::string &value, int field_width );
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                int value, int field_width );
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                const std::string &value, int field_width );
+std::string trimmed_name_and_value( const std::string &name, int value,
+                                    int field_width );
+std::string trimmed_name_and_value( const std::string &name, const std::string &value,
+                                    int field_width );
 
 void wputch( const catacurses::window &w, nc_color FG, int ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
@@ -599,6 +605,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
 char rand_char();
 int special_symbol( int sym );
+int special_symbol( char sym );
 
 // Remove spaces from the start and the end of a string.
 std::string trim( const std::string &s );

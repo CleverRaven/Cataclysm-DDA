@@ -224,6 +224,9 @@ struct part_material {
     float thickness; //portion thickness of this material
     bool ignore_sheet_thickness = false; //if the def should ignore thickness of materials sheets
 
+    bool operator ==( const part_material &comp ) const {
+        return id == comp.id && cover == comp.cover && thickness == comp.thickness;
+    }
     part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
     part_material( material_id id, int cover, float thickness ) :
         id( id ), cover( cover ), thickness( thickness ) {}
@@ -257,7 +260,7 @@ enum class encumbrance_modifier_type : int {
 struct armor_portion_data {
 
     // The base volume for an item
-    const units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
+    static constexpr units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
 
     // descriptors used to infer encumbrance
     std::vector<encumbrance_modifier> encumber_modifiers;
@@ -343,6 +346,9 @@ struct armor_portion_data {
      * coverage. However only cover 35% of the overall leg.
      */
     int max_coverage( bodypart_str_id bp ) const;
+
+    // checks if two entries are similar enough to be consolidated
+    static bool should_consolidate( const armor_portion_data &l, const armor_portion_data &r );
 
     // helper function to return encumbrance value by descriptor and weight
     int calc_encumbrance( units::mass weight, bodypart_id bp ) const;

@@ -29,6 +29,7 @@ enum class widget_var : int {
     max_mana,       // Current maximum mana, integer
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
+    weary_transition_level, // Current weariness level, integer
     stat_str,       // Base STR (strength) stat, integer
     stat_dex,       // Base DEX (dexterity) stat, integer
     stat_int,       // Base INT (intelligence) stat, integer
@@ -56,6 +57,7 @@ enum class widget_var : int {
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
     safe_mode_text, // Safe mode text, color string
+    safe_mode_classic_text, // Safe mode text, classic mode color string.
     style_text,     // Active martial arts style name
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string
@@ -277,7 +279,8 @@ class widget
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
         // label area, so the returned string is equal to max_width.
-        std::string layout( const avatar &ava, unsigned int max_width = 0, int label_width = 0 );
+        std::string layout( const avatar &ava, unsigned int max_width = 0, int label_width = 0,
+                            bool skip_pad = false );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava, unsigned int max_width );
         // Return a window_panel for rendering this widget at given width (and possibly height)

@@ -50,6 +50,7 @@ struct shopkeeper_item_group {
     item_group_id id = item_group_id( "EMPTY_GROUP" );
     int trust = 0;
     bool strict = false;
+    std::string refusal;
     std::function<bool( const dialogue & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
@@ -61,6 +62,7 @@ struct shopkeeper_item_group {
 
     bool can_sell( npc const &guy ) const;
     bool can_restock( npc const &guy ) const;
+    std::string get_refusal() const;
 
     void deserialize( const JsonObject &jo );
 };

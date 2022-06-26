@@ -684,7 +684,7 @@ void Item_factory::finalize_post( itype &obj )
                     }
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
-                                    data.volume_per_encumbrance;
+                                    armor_portion_data::volume_per_encumbrance;
             }
 
             // Precalc average thickness per portion
@@ -709,6 +709,28 @@ void Item_factory::finalize_post( itype &obj )
                 }
             }
         }
+
+        for( auto itt = obj.armor->sub_data.begin(); itt != obj.armor->sub_data.end(); ++itt ) {
+            // using empty to signify it has already been consolidated
+            if( !itt->sub_coverage.empty() ) {
+                //check if any further entries should be combined with this one
+                for( auto comp_itt = std::next( itt ); comp_itt != obj.armor->sub_data.end(); ++comp_itt ) {
+                    if( armor_portion_data::should_consolidate( *itt, *comp_itt ) ) {
+                        // they are the same so add the covers and sub covers to the original and then clear them from the other
+                        itt->covers->unify_set( comp_itt->covers.value() );
+                        itt->sub_coverage.insert( comp_itt->sub_coverage.begin(), comp_itt->sub_coverage.end() );
+                        comp_itt->covers->clear();
+                        comp_itt->sub_coverage.clear();
+                    }
+                }
+            }
+        }
+        //remove any now empty entries
+        auto remove_itt = std::remove_if( obj.armor->sub_data.begin(),
+        obj.armor->sub_data.end(), [&]( const armor_portion_data & data ) {
+            return data.sub_coverage.empty() && data.covers.value().none();
+        } );
+        obj.armor->sub_data.erase( remove_itt, obj.armor->sub_data.end() );
 
         // now consolidate all the loaded sub_data to one entry per body part
         for( const armor_portion_data &sub_armor : obj.armor->sub_data ) {
@@ -860,7 +882,7 @@ void Item_factory::finalize_post( itype &obj )
                     }
                 }
                 data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
-                                    data.volume_per_encumbrance;
+                                    armor_portion_data::volume_per_encumbrance;
             }
         }
 
@@ -2832,21 +2854,24 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "sub", slot.subtype, strict );
 
     if( slot.def_charges > slot.max_charges ) {
-        jo.throw_error( "initial_charges is larger than max_charges", "initial_charges" );
+        jo.throw_error_at( "initial_charges", "initial_charges is larger than max_charges" );
     }
 
     if( jo.has_array( "rand_charges" ) ) {
         if( jo.has_member( "initial_charges" ) ) {
-            jo.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both.",
-                            "rand_charges" );
+            jo.throw_error_at(
+                "rand_charges",
+                "You can have a fixed initial amount of charges, or randomized.  Not both." );
         }
         for( const int charge : jo.get_array( "rand_charges" ) ) {
             slot.rand_charges.push_back( charge );
         }
         if( slot.rand_charges.size() == 1 ) {
             // see item::item(...) for the use of this array
-            jo.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!",
-                            "rand_charges" );
+            jo.throw_error_at(
+                "rand_charges",
+                "a rand_charges array with only one entry will be ignored, it needs at least 2 "
+                "entries!" );
         }
     }
 }
@@ -3079,7 +3104,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
-        jo.throw_error( "cannot specify both nutrition and calories", "nutrition" );
+        jo.throw_error_at( "nutrition", "cannot specify both nutrition and calories" );
     }
 
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
@@ -3887,7 +3912,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     for( JsonArray cur : jarr ) {
         const auto sk = skill_id( cur.get_string( 0 ) );
         if( !sk.is_valid() ) {
-            jo.throw_error( string_format( "invalid skill: %s", sk.c_str() ), "min_skills" );
+            jo.throw_error_at( "min_skills", string_format( "invalid skill: %s", sk.c_str() ) );
         }
         def.min_skills[ sk ] = cur.get_int( 1 );
     }
@@ -4196,18 +4221,18 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
             // Populate charged qualities or regular qualities, preventing duplicates
             if( member == "charged_qualities" ) {
                 if( def.charged_qualities.count( quali.first ) > 0 ) {
-                    curr.throw_error( "Duplicated charged quality", 0 );
+                    curr.throw_error( 0, "Duplicated charged quality" );
                 }
                 def.charged_qualities.insert( quali );
             } else {
                 if( def.qualities.count( quali.first ) > 0 ) {
-                    curr.throw_error( "Duplicated quality", 0 );
+                    curr.throw_error( 0, "Duplicated quality" );
                 }
                 def.qualities.insert( quali );
             }
         }
     } else {
-        jo.throw_error( "Qualities list is not an array", member );
+        jo.throw_error_at( member, "Qualities list is not an array" );
     }
 }
 
@@ -4237,12 +4262,12 @@ void Item_factory::set_properties_from_json( const JsonObject &jo, const std::st
         for( JsonArray curr : jo.get_array( member ) ) {
             const auto prop = std::pair<std::string, std::string>( curr.get_string( 0 ), curr.get_string( 1 ) );
             if( def.properties.count( prop.first ) > 0 ) {
-                curr.throw_error( "Duplicated property", 0 );
+                curr.throw_error( 0, "Duplicated property" );
             }
             def.properties.insert( prop );
         }
     } else {
-        jo.throw_error( "Properties list is not an array", member );
+        jo.throw_error_at( member, "Properties list is not an array" );
     }
 }
 
@@ -4540,7 +4565,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     if( subtype == "old" || subtype == "distribution" ) {
         type = Item_group::G_DISTRIBUTION;
     } else if( subtype != "collection" ) {
-        jsobj.throw_error( "unknown item group type", "subtype" );
+        jsobj.throw_error_at( "subtype", "unknown item group type" );
     }
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
                                           jsobj.get_int( "magazine", 0 ), context );

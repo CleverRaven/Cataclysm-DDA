@@ -4387,6 +4387,21 @@ int Character::weariness_level() const
     return level;
 }
 
+int Character::weariness_transition_level() const
+{
+    int amount = weariness();
+    int threshold = weary_threshold();
+    amount -= threshold * get_option<float>( "WEARY_INITIAL_STEP" );
+    while( amount >= 0 ) {
+        amount -= threshold;
+        if( threshold > 20 ) {
+            threshold *= get_option<float>( "WEARY_THRESH_SCALING" );
+        }
+    }
+
+    return std::abs( amount );
+}
+
 float Character::maximum_exertion_level() const
 {
     switch( weariness_level() ) {
@@ -6109,6 +6124,25 @@ void Character::mod_rad( int mod )
         return;
     }
     set_rad( std::max( 0, get_rad() + mod ) );
+}
+
+float Character::leak_level() const
+{
+    float ret = 0.f;
+
+    // This is bad way to calculate radiation and should be rewritten some day.
+    for( const item_location &item_loc : const_cast<Character *>( this )->all_items_loc() ) {
+        const item *it = item_loc.get_item();
+        if( it->has_flag( flag_RADIOACTIVE ) ) {
+            if( it->has_flag( flag_LEAK_ALWAYS ) ) {
+                ret += to_gram( it->weight() ) / 250.f;
+            } else if( it->has_flag( flag_LEAK_DAM ) && it->damage() > 0 ) {
+                ret += it->damage_level();
+            }
+        }
+    }
+
+    return ret;
 }
 
 int Character::get_stamina() const
@@ -9002,7 +9036,7 @@ void Character::place_corpse()
     }
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, get_name() );
-    body.set_item_temperature( 310.15 );
+    body.set_item_temperature( units::from_celcius( 37 ) );
     map &here = get_map();
     for( item *itm : tmp ) {
         here.add_item_or_charges( pos(), *itm );
