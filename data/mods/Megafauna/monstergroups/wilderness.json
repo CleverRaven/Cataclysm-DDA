@@ -12,15 +12,13 @@
         "monster": "mon_peccary_flathead",
         "weight": 15,
         "cost_multiplier": 0,
-        "pack_size": [ 5, 10 ],
-        "conditions": [  ]
+        "pack_size": [ 5, 10 ]
       },
       {
         "monster": "mon_peccary_longnose",
         "weight": 12,
         "cost_multiplier": 0,
-        "pack_size": [ 1, 1 ],
-        "conditions": [  ]
+        "pack_size": [ 1, 1 ]
       },
       { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
@@ -31,8 +29,7 @@
         "monster": "mon_large_claw_sloth",
         "weight": 6,
         "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ],
-        "conditions": [  ]
+        "pack_size": [ 1, 2 ]
       },
       { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_woodox", "weight": 12, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
@@ -1365,15 +1362,13 @@
         "monster": "mon_peccary_flathead",
         "weight": 12,
         "cost_multiplier": 0,
-        "pack_size": [ 5, 10 ],
-        "conditions": [  ]
+        "pack_size": [ 5, 10 ]
       },
       {
         "monster": "mon_peccary_longnose",
         "weight": 10,
         "cost_multiplier": 0,
-        "pack_size": [ 1, 1 ],
-        "conditions": [  ]
+        "pack_size": [ 1, 1 ]
       },
       { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
@@ -1384,8 +1379,7 @@
         "monster": "mon_large_claw_sloth",
         "weight": 10,
         "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ],
-        "conditions": [  ]
+        "pack_size": [ 1, 2 ]
       },
       { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_woodox", "weight": 12, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
@@ -1820,15 +1814,13 @@
         "monster": "mon_peccary_flathead",
         "weight": 30,
         "cost_multiplier": 0,
-        "pack_size": [ 5, 10 ],
-        "conditions": [  ]
+        "pack_size": [ 5, 10 ]
       },
       {
         "monster": "mon_peccary_longnose",
         "weight": 20,
         "cost_multiplier": 0,
-        "pack_size": [ 1, 1 ],
-        "conditions": [  ]
+        "pack_size": [ 1, 1 ]
       },
       { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
@@ -1839,8 +1831,7 @@
         "monster": "mon_large_claw_sloth",
         "weight": 20,
         "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ],
-        "conditions": [  ]
+        "pack_size": [ 1, 2 ]
       },
       { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_woodox", "weight": 20, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
