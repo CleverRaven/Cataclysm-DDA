@@ -12134,9 +12134,13 @@ bool game::slip_down( bool check_for_traps )
     int slip = 100 / std::max( 1, u.dex_cur + u.str_cur );
     add_msg_debug( debugmode::DF_GAME, "Base slip chance %d%%", slip );
 
-    if( u.has_proficiency( proficiency_prof_parkour ) || u.has_trait( trait_FELINE_FLEXIBILITY ) {
+    if( u.has_proficiency( proficiency_prof_parkour ) && !u.has_trait( trait_FELINE_FLEXIBILITY ) {
         slip /= 2;
         add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
+    }
+    if( u.has_trait( trait_FELINE_FLEXIBILITY ) {
+        slip /= 2;
+        add_msg( m_info, _( "Your feline flexibility makes it easier to climb." ) );
     }
     if( u.has_trait( trait_BADKNEES ) ) {
         slip *= 2;
