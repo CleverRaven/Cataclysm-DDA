@@ -952,7 +952,7 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
     // the other ASCII chars follow from there.
     const int in_image_offset = entry.get_int( "offset" );
     if( in_image_offset >= size ) {
-        entry.throw_error( "invalid offset (out of range)", "offset" );
+        entry.throw_error_at( "offset", "invalid offset (out of range)" );
     }
     // color, of the ASCII char. Can be -1 to indicate all/default colors.
     int FG = -1;
@@ -976,7 +976,7 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
     } else if( scolor == "DEFAULT" ) {
         FG = -1;
     } else {
-        entry.throw_error( "invalid color for ASCII", "color" );
+        entry.throw_error_at( "color", "invalid color for ASCII" );
     }
     // Add an offset for bold colors (ncurses has this bold attribute,
     // this mimics it). bold does not apply to default color.
@@ -1154,7 +1154,7 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
                 int weight = vo.get_int( "weight" );
                 // negative weight is invalid
                 if( weight < 0 ) {
-                    vo.throw_error( "Invalid weight for sprite variation (<0)", objname );
+                    vo.throw_error_at( objname, "Invalid weight for sprite variation (<0)" );
                 }
                 // int sprite means one sprite
                 if( vo.has_int( "sprite" ) ) {
@@ -1175,7 +1175,7 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
                 if( v.size() != 1 &&
                     v.size() != 2 &&
                     v.size() != 4 ) {
-                    vo.throw_error( "Invalid number of sprites (not 1, 2, or 4)", objname );
+                    vo.throw_error_at( objname, "Invalid number of sprites (not 1, 2, or 4)" );
                 }
                 vs.add( v, weight );
             }

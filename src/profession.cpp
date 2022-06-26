@@ -616,7 +616,7 @@ json_item_substitution::substitution::info::info( const JsonValue &value )
         jo.read( "item", new_item, true );
         ratio = jo.get_float( "ratio" );
         if( ratio <= 0.0 ) {
-            jo.throw_error( "Ratio must be positive", "ratio" );
+            jo.throw_error_at( "ratio", "Ratio must be positive" );
         }
     }
 }

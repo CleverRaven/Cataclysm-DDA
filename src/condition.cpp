@@ -307,7 +307,7 @@ void read_condition( const JsonObject &jo, const std::string &member_name,
             return sub_condition( d );
         };
     } else {
-        jo.throw_error( "invalid condition syntax", member_name );
+        jo.throw_error_at( member_name, "invalid condition syntax" );
     }
 }
 

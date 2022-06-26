@@ -869,7 +869,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
                                         const std::string &subtype )
 {
     if( subtype != "distribution" && subtype != "collection" && subtype != "old" ) {
-        jsobj.throw_error( "unknown trait group type", "subtype" );
+        jsobj.throw_error_at( "subtype", "unknown trait group type" );
     }
 
     Trait_group &tg = make_group_or_throw( gid, subtype == "collection" || subtype == "old" );
