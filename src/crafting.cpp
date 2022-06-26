@@ -2403,6 +2403,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
                     add_msg( _( "Never mind." ) );
                     return false;
                 }
+                num_dis = std::min( num_dis, obj.charges );
             } else {
                 num_dis = obj.charges;
             }
@@ -2519,6 +2520,7 @@ void Character::complete_disassemble( item_location target )
                 activity.set_to_null();
                 return;
             }
+            num_dis = std::min( num_dis, obj.charges );
         } else {
             num_dis = obj.charges;
         }

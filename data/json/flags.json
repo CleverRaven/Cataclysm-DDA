@@ -1985,6 +1985,11 @@
     "info": "This is meant for large exosuit gadgets, larger than 5 L."
   },
   {
+    "id": "EXO_UNDERLAYER",
+    "type": "json_flag",
+    "info": "This is meant for exosuit underlayers."
+  },
+  {
     "id": "EXO_HELMET_PLATE",
     "type": "json_flag",
     "info": "This is meant for exosuit helmet plating."
