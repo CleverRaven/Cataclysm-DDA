@@ -160,7 +160,7 @@ std::string display::get_temp( const Character &u )
     std::string temp;
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
         u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
-        temp = print_temperature( units::to_fahrenheit( get_weather().get_temperature( u.pos() ) ) );
+        temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
         return "-";

@@ -101,7 +101,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos );
 // If scale is Fahrenheit: temperature(100) will return "100F"
 //
 // Use the decimals parameter to set number of decimal places returned in string.
-std::string print_temperature( double fahrenheit, int decimals = 0 );
+std::string print_temperature( units::temperature temperature, int decimals = 0 );
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 

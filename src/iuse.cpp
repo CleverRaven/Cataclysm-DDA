@@ -8904,10 +8904,10 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
     if( it->has_flag( flag_THERMOMETER ) ) {
         if( it->typeId() == itype_thermometer ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                                  print_temperature( units::to_fahrenheit( player_local_temp ) ) );
+                                  print_temperature( player_local_temp ) );
         } else {
             p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
-                                  print_temperature( units::to_fahrenheit( player_local_temp ) ) );
+                                  print_temperature( player_local_temp ) );
         }
     }
     if( it->has_flag( flag_HYGROMETER ) ) {
@@ -8949,9 +8949,8 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
                               velocity_units( VU_WIND ) );
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
-            print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
-                units::to_fahrenheit( player_local_temp ) ) );
+            print_temperature( units::from_fahrenheit( get_local_windchill( weatherPoint.temperature,
+                               weatherPoint.humidity, windpower / 100 ) + units::to_fahrenheit( player_local_temp ) ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }

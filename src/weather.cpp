@@ -568,7 +568,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
                           _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
                           to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                           city_name,
-                          weather.weather_id->name, print_temperature( get_weather().temperature )
+                          weather.weather_id->name, print_temperature( units::from_fahrenheit( get_weather().temperature ) )
                       );
 
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
@@ -622,7 +622,8 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         weather_report += string_format(
                               _( "%s… %s. Highs of %s. Lows of %s. " ),
                               day, forecast->name,
-                              print_temperature( high ), print_temperature( low )
+                              print_temperature( units::from_fahrenheit( high ) ),
+                              print_temperature( units::from_fahrenheit( low ) )
                           );
     }
     *weather.weather_precise = weatherPoint;
@@ -632,7 +633,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
 /**
  * Print temperature (and convert to Celsius if Celsius display is enabled.)
  */
-std::string print_temperature( double fahrenheit, int decimals )
+std::string print_temperature( units::temperature temperature, int decimals )
 {
     const auto text = [&]( const double value ) {
         return string_format( "%.*f", decimals, value );
@@ -640,12 +641,13 @@ std::string print_temperature( double fahrenheit, int decimals )
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         return string_format( pgettext( "temperature in Celsius", "%sC" ),
-                              text( temp_to_celsius( fahrenheit ) ) );
+                              text( units::to_celcius( temperature ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
-                              text( temp_to_kelvin( fahrenheit ) ) );
+                              text( units::to_kelvin( temperature ) ) );
     } else {
-        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), text( fahrenheit ) );
+        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ),
+                              text( units::to_fahrenheit( temperature ) ) );
     }
 }
 
