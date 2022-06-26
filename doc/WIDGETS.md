@@ -118,7 +118,7 @@ linked sections:
 
 | field                   | type                  | description
 | --                      | --                    | --
-| arrange                 | string                | For "layout" style, display child widgets as "rows" or "columns"
+| arrange                 | string                | For "layout" style, display child widgets as "rows", "columns" or "minimum_columns"
 | bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
 | separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | [colors](#colors)       | list of strings       | Color names in a spectrum across variable range
@@ -191,8 +191,9 @@ Use widgets with "style": "layout" to arrange child widgets in sidebar panels, g
 the "widgets" list field.
 
 The arrangement of child widgets is defined by the "arrange" field, which may be "columns" (default)
-to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Widgets in
-the same row will have their horizontal space split as equally as possible.
+to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Normal columns
+will split their horizontal space as equally as possible. Whereas minimum_columns will take their exact
+amount of space (defaulting to space split like columns) with the last column in the row taking all remaining space.
 
 ```json
 [
@@ -1048,4 +1049,3 @@ few custom widgets, then using "copy-from" and "extend" on the custom sidebar ob
 
 These two extra widgets, "current_max_mana_nums_layout" and "mana_graph_layout", will be appended to
 the custom sidebar sections whenever a game with the Magiclysm mod is loaded.
-

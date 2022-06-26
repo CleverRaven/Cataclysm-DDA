@@ -2329,7 +2329,7 @@ TEST_CASE( "widget rows in columns", "[widget]" )
             brown_dot, brown_dot, brown_dot, "  MOVE: 0     STR: 8    \n",
             brown_dot, h_brown_dot, brown_dot, "  SPEED: 100  DEX: 8    \n",
             brown_dot, brown_dot, brown_dot, "  FOCUS: 100  INT: 8    \n",
-            "            MANA: 1000  PER: 8    "
+            "  MANA: 1000  PER: 8    "
         }, "" );
         widget wgt = widget_test_layout_rows_in_columns.obj();
         CHECK( wgt.layout( ava, 34 ) == expected );
@@ -2360,7 +2360,7 @@ TEST_CASE( "widget rows in columns", "[widget]" )
                 brown_dot,
                 "  FOCUS: 100  INT: 8   \n"
             }, "" ),
-            "                                               MANA: 1000  PER: 8   "
+            "                                     MANA: 1000  PER: 8   "
         }, "" );
         widget wgt = widget_test_layout_cols_in_cols.obj();
         CHECK( wgt.layout( ava, 68 ) == expected );

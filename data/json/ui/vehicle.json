@@ -50,6 +50,14 @@
     "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label", "vehicle_fuel_desc_label" ]
   },
   {
+    "id": "vehicle_acf_label_layout_columns",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label", "vehicle_fuel_desc_label" ]
+  },
+  {
     "id": "vehicle_acf_no_label_layout",
     "type": "widget",
     "label": "Vehicle",

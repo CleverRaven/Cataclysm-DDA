@@ -185,7 +185,13 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
     traplocs.resize( trap::count() );
 }
 
-map::~map() = default;
+map::~map()
+{
+    if( _main_requires_cleanup ) {
+        get_map().reset_vehicles_sm_pos();
+        get_map().rebuild_vehicle_level_caches();
+    }
+}
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 map &map::operator=( map && ) = default;
 
@@ -301,6 +307,51 @@ void map::clear_vehicle_level_caches( )
     }
 }
 
+void map::remove_vehicle_from_cache( vehicle *veh, int zmin, int zmax )
+{
+    for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+        level_cache *const ch = get_cache_lazy( gridz );
+        if( ch != nullptr ) {
+            ch->vehicle_list.erase( veh );
+            ch->zone_vehicles.erase( veh );
+        }
+        dirty_vehicle_list.erase( veh );
+    }
+}
+
+namespace
+{
+void _add_vehicle_to_list( level_cache &ch, vehicle *veh )
+{
+    ch.vehicle_list.insert( veh );
+    if( !veh->loot_zones.empty() ) {
+        ch.zone_vehicles.insert( veh );
+    }
+}
+} // namespace
+
+void map::reset_vehicles_sm_pos()
+{
+    int const zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+    int const zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+    for( int z = zmin; z <= zmax; z++ ) {
+        level_cache &ch = get_cache( z );
+        for( int x = 0; x < getmapsize(); x++ ) {
+            for( int y = 0; y < getmapsize(); y++ ) {
+                tripoint const grid( x, y, z );
+                submap *const sm = get_submap_at_grid( grid );
+                if( sm != nullptr ) {
+                    for( auto const &elem : sm->vehicles ) {
+                        elem->sm_pos = grid;
+                        get_map().add_vehicle_to_cache( &*elem );
+                        _add_vehicle_to_list( ch, &*elem );
+                    }
+                }
+            }
+        }
+    }
+}
+
 void map::clear_vehicle_list( const int zlev )
 {
     auto *ch = get_cache_lazy( zlev );
@@ -315,10 +366,7 @@ void map::update_vehicle_list( const submap *const to, const int zlev )
     // Update vehicle data
     level_cache &ch = get_cache( zlev );
     for( const auto &elem : to->vehicles ) {
-        ch.vehicle_list.insert( elem.get() );
-        if( !elem->loot_zones.empty() ) {
-            ch.zone_vehicles.insert( elem.get() );
-        }
+        _add_vehicle_to_list( ch, elem.get() );
     }
 }
 
@@ -1436,7 +1484,8 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     bool result = true;
 
     if( current_submap->is_open_air( l ) &&
-        !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) ) {
+        !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) &&
+        new_target_furniture != f_null ) {
         const ter_id current_ter = current_submap->get_ter( l );
         debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
                   "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
@@ -4635,23 +4684,23 @@ item map::water_from( const tripoint &p )
     weather_manager &weather = get_weather();
     if( has_flag( ter_furn_flag::TFLAG_SALT_WATER, p ) ) {
         item ret( "salt_water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
-                                  temperatures::cold ) ) );
+        ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                            temperatures::cold ) );
         return ret;
     }
 
     if( has_flag( ter_furn_flag::TFLAG_CHOCOLATE, p ) ) {
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
-                                  temperatures::cold ) ) );
+        ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                            temperatures::cold ) );
         return ret;
     }
 
     if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
         for( item &ret : get_map().i_at( p ) ) {
             if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
-                                          temperatures::cold ) ) );
+                ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                                    temperatures::cold ) );
                 ret.poison = rng( 1, 6 );
                 ret.get_comestible()->parasites = 5;
                 ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
@@ -4663,8 +4712,8 @@ item map::water_from( const tripoint &p )
     if( has_flag( ter_furn_flag::TFLAG_TOILET_WATER, p ) ) {
         for( item &ret : get_map().i_at( p ) ) {
             if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
-                                          temperatures::cold ) ) );
+                ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                                    temperatures::cold ) );
                 ret.poison = one_in( 3 ) ? 0 : rng( 1, 3 );
             }
             return ret;
@@ -4674,15 +4723,15 @@ item map::water_from( const tripoint &p )
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
-                                  temperatures::cold ) ) );
+        ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                            temperatures::cold ) );
         ret.poison = rng( 1, 7 );
         return ret;
     }
 
     item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-    ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
-                              temperatures::cold ) ) );
+    ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                                        temperatures::cold ) );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id->has_examine( iexamine::water_source ) ) {
         int poison_chance = 0;
@@ -7214,6 +7263,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         get_cache( grid.z ).field_cache.set( grid.x + grid.y * MAPSIZE );
     }
 
+    bool const main_inbounds =
+        this != &get_map() && get_map().inbounds( project_to<coords::ms>( grid_abs_sub ) );
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
@@ -7222,6 +7273,9 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
             // Always fix submap coordinates for easier Z-level-related operations
             veh->sm_pos = grid;
             iter++;
+            if( main_inbounds ) {
+                _main_requires_cleanup = true;
+            }
         } else {
             if( veh->tracking_on ) {
                 overmap_buffer.remove_vehicle( veh );
@@ -7466,7 +7520,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
 
     item sap( "maple_sap", calendar::turn );
 
-    sap.set_item_temperature( temp_to_kelvin( get_temperature( p ) ) );
+    sap.set_item_temperature( units::from_fahrenheit( get_temperature( p ) ) );
     sap.charges = new_charges;
 
     // Is there a proper container?

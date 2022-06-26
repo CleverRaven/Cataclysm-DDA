@@ -57,12 +57,14 @@
     "difficulty": 5,
     "time": "4 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "sewing_standard", 90 ], [ "fabric_lycra", 24 ], [ "tailoring_cotton_patchwork", 4 ] ],
+    "using": [ [ "sewing_standard", 90 ], [ "tailoring_lycra_patchwork", 24 ], [ "tailoring_leather_patchwork", 4 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_elastics" },
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
     ],
     "components": [
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
@@ -83,13 +85,9 @@
     "difficulty": 5,
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "tailoring_lycra_patchwork", 24 ], [ "tailoring_cotton_patchwork", 2 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_elastics" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "armor_nomad_light", 1 ] ] ]
   },
   {
@@ -102,8 +100,12 @@
     "difficulty": 4,
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 3 ] ],
-    "using": [ [ "tailoring_cotton_patchwork", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "using": [ [ "tailoring_lycra_patchwork", 24 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_elastics" }
+    ],
     "components": [
       [ [ "shorts_cargo", 1 ], [ "pants_cargo", 1 ] ],
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],

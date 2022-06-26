@@ -1,23 +1,17 @@
 [
   {
-    "id": "lcla_health_head_graph",
-    "type": "widget",
-    "copy-from": "hp_head_graph",
-    "label": "HEAD "
-  },
-  {
     "id": "lcla_health_left_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "width": 11,
+    "width": 12,
     "widgets": [
-      "lcla_health_head_graph",
-      "hp_torso_graph",
-      "hp_left_arm_graph",
-      "hp_right_arm_graph",
-      "hp_left_leg_graph",
-      "hp_right_leg_graph",
+      "status_hpg_layout_head",
+      "status_hpg_layout_torso",
+      "status_hpg_layout_larm",
+      "status_hpg_layout_rarm",
+      "status_hpg_layout_lleg",
+      "status_hpg_layout_rleg",
       "power_short_desc"
     ]
   },
@@ -47,7 +41,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "width": 6,
+    "width": 7,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
     "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc" ]
   },
@@ -57,7 +51,7 @@
     "label": "Overmap",
     "var": "overmap_text",
     "style": "text",
-    "width": 7,
+    "width": 5,
     "height": 7,
     "text_align": "left",
     "flags": [ "W_LABEL_NONE" ]
@@ -73,12 +67,20 @@
     "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
   {
+    "id": "lcla_vehicle_left_layout",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label" ]
+  },
+  {
     "id": "lcla_vehicle_layout",
     "type": "widget",
     "label": "Vehicle",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label", "vehicle_fuel_desc_label" ]
+    "widgets": [ "lcla_vehicle_left_layout", "vehicle_fuel_desc_label" ]
   },
   {
     "id": "lcla_place_desc",
@@ -128,7 +130,6 @@
     "width": 44,
     "widgets": [
       "lcla_health_layout",
-      "bodypart_status_sym_layout",
       "ll_movement_layout",
       "lcla_vehicle_layout",
       "all_weariness_layout",
@@ -139,7 +140,7 @@
       "lcla_weapon_layout",
       "wind_desc",
       "bodypart_armor_outer_layout",
-      "compass_all_layout",
+      "compass_all_danger_layout",
       "bodygraph_hp_layout"
     ]
   }

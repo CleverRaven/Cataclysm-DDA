@@ -1,11 +1,31 @@
 [
   {
-    "id": "ln_limbs_layout",
+    "id": "ln_limbs_left_layout",
     "type": "widget",
     "style": "layout",
     "label": "Limbs",
     "arrange": "rows",
-    "widgets": [ "hitpoints_head_torso_layout", "hitpoints_arms_layout", "hitpoints_legs_layout" ]
+    "label_align": "left",
+    "text_align": "left",
+    "widgets": [ "status_hpg_layout_head", "status_hpg_layout_larm", "status_hpg_layout_lleg" ]
+  },
+  {
+    "id": "ln_limbs_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+    "label_align": "right",
+    "text_align": "right",
+    "widgets": [ "status_hpg_layout_torso", "status_hpg_layout_rarm", "status_hpg_layout_rleg" ]
+  },
+  {
+    "id": "ln_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "columns",
+    "widgets": [ "ln_limbs_left_layout", "ln_limbs_right_layout" ]
   },
   {
     "id": "ln_focus_move_layout",
@@ -114,10 +134,9 @@
       "ln_needs_layout",
       "all_location_info_rows_layout",
       "wind_temp_layout",
-      "bodypart_status_layout",
       "weapon_style_layout",
       "vehicle_acf_label_layout",
-      "compass_all_layout",
+      "compass_all_danger_layout",
       "rad_badge_desc"
     ]
   }
