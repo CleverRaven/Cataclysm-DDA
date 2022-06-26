@@ -2421,6 +2421,14 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            if( you.is_npc() ) {
+                int const price = npc_trading::bionic_install_price( you, pa, loc );
+                ret_val<bool> const refusal =
+                    you.as_npc()->wants_to_sell( *loc, price, loc->price( true ) );
+                if( !refusal.success() ) {
+                    return you.replace_with_npc_name( refusal.str() );
+                }
+            }
             const ret_val<bool> installable = pa.is_installable( loc, false );
             return installable.str();
         }
