@@ -2666,7 +2666,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( units::from_fahrenheit( get_weather().get_temperature( loc ) ) );
+            act_item.set_item_temperature( get_weather().get_temperature( loc ) );
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)

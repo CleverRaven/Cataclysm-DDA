@@ -235,8 +235,8 @@ class submap : maptile_soa<SEEX, SEEY>
             cosmetics.push_back( ins );
         }
 
-        int get_temperature() const {
-            return temperature;
+        units::temperature get_temperature() const {
+            return units::from_fahrenheit( temperature );
         }
 
         void set_temperature( int new_temperature ) {
