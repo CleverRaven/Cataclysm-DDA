@@ -299,7 +299,7 @@
     "id": "robofacmultimag",
     "type": "MAGAZINE",
     "name": { "str": "HWP 40/50-round 4.6/5.7 magazine" },
-    "description": "A high-capacity box magazine for use with the Hub 01 Hybrid Weapons Platform.  This magazine has plates on the back that can be shifted inwards to accomadate either 4.6x30mm or 5.7x28mm.",
+    "description": "A high-capacity box magazine for use with the Hub 01 Hybrid Weapons Platform.  This magazine has plates on the back that can be shifted inwards to accommodate either 4.6x30mm or 5.7x28mm.",
     "weight": "250 g",
     "volume": "330 ml",
     "longest_side": "220 mm",
