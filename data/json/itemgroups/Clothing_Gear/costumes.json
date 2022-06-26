@@ -67,7 +67,7 @@
       { "item": "leg_bag", "prob": 10 },
       { "item": "leg_bag", "variant": "steampunk_leg_bag", "prob": 15 },
       { "item": "leg_bag", "variant": "skull_leg_bag", "prob": 15 },
-      { "item": "clown_nose", "prob": 20 },,
+      { "item": "clown_nose", "prob": 20 },
       { "item": "plastic_mandible_guard", "prob": 5 }
       { "item": "leg_sheath6", "prob": 20 },
       { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 1 },
