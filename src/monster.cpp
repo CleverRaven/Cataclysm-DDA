@@ -113,7 +113,7 @@ static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
-static const flag_id json_flag_DISABLE_FLIGHT("DISABLE_FLIGHT");
+static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
@@ -1521,7 +1521,8 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_downed ) {
-        if( type->bodytype == "insect" || type->bodytype == "spider" || type->bodytype == "crab" ) {
+        if( type->bodytype == "insect" || type->bodytype == "insect_flying" || type->bodytype == "spider" ||
+            type->bodytype == "crab" ) {
             return x_in_y( 3, 4 );
         } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
                           has_flag( MF_FLIES ) || has_flag( MF_IMMOBILE );
