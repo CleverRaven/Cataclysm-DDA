@@ -11,6 +11,7 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "make_static.h"
 #include "output.h"
@@ -108,6 +109,26 @@ static item food_or_food_container( const item &it )
     // if it contains an item, it's a food container. it will also contain only one item.
     return it.num_item_stacks() > 0 ? it.only_item() : it;
 }
+
+// Test that every comestible heathy is <=0 and >=-1
+TEST_CASE( "comestible_health_bounds", "[comestible]" )
+{
+    for( const itype *it : item_controller->all() ) {
+        if( !it->comestible ) {
+            continue;
+        }
+        const std::string &comest_type = it->comestible->comesttype;
+        if( comest_type != "FOOD" && comest_type != "DRINK" ) {
+            continue;
+        }
+        const islot_comestible &comest = *it->comestible;
+
+        INFO( it->get_id() );
+        CHECK( comest.healthy <= 0 );
+        CHECK( comest.healthy >= -1 );
+    }
+}
+
 
 TEST_CASE( "recipe_permutations", "[recipe]" )
 {
