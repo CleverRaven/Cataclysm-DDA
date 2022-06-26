@@ -29,6 +29,8 @@ static const recipe_id recipe_veggy_wild_cooked( "veggy_wild_cooked" );
 static const item_category_id mutagen( "mutagen" );
 static const item_category_id drugs( "drugs" );
 
+static const std::vector<vitamin_id> mutagen_vit_list{ vitamin_id( "mutagen" ), vitamin_id( "mutagen_apha" ), vitamin_id( "mutagen_batrachian" ), vitamin_id( "mutagen_beast" ), vitamin_id( "mutagen_bird" ), vitamin_id( "mutagen_cattle" ), vitamin_id( "mutagen_cephalopod" ), vitamin_id( "mutagen_chimera" ), vitamin_id( "mutagen_elfa" ), vitamin_id( "mutagen_feline" ), vitamin_id( "mutagen_fish" ), vitamin_id( "mutagen_gastropod" ), vitamin_id( "mutagen_human" ), vitamin_id( "mutagen_insect" ), vitamin_id( "mutagen_lizard" ), vitamin_id( "mutagen_lupine" ), vitamin_id( "mutagen_medical" ), vitamin_id( "mutagen_mouse" ), vitamin_id( "mutagen_plant" ), vitamin_id( "mutagen_rabbit" ), vitamin_id( "mutagen_raptor" ), vitamin_id( "mutagen_rat" ), vitamin_id( "mutagen_slime" ), vitamin_id( "mutagen_spider" ), vitamin_id( "mutagen_troglobite" ), vitamin_id( "mutagen_ursine" ) };
+
 struct all_stats {
     statistics<int> calories;
 };
@@ -113,6 +115,17 @@ static item food_or_food_container( const item &it )
     return it.num_item_stacks() > 0 ? it.only_item() : it;
 }
 
+static bool has_mutagen_vit( const islot_comestible &comest )
+{
+    const std::map<vitamin_id, int> &vits = comest.default_nutrition.vitamins;
+    for( const vitamin_id &vit : mutagen_vit_list ) {
+        if( vits.find( vit ) != vits.end() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Test that every comestible heathy is <=0 and >=-1
 TEST_CASE( "comestible_health_bounds", "[comestible]" )
 {
@@ -122,7 +135,7 @@ TEST_CASE( "comestible_health_bounds", "[comestible]" )
         }
         const islot_comestible &comest = *it->comestible;
         const std::string &comest_type = comest.comesttype;
-        if( comest_type != "FOOD" && comest_type != "DRINK" ) {
+        if( comest_type != "FOOD" && comest_type != "DRINK" || has_mutagen_vit( comest ) ) {
             continue;
         }
 
