@@ -1354,6 +1354,24 @@
     "use_action": [  ]
   },
   {
+    "id": "water_bleached",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": { "str_sp": "bleached water" },
+    "description": "Water with a small amount of bleach added to it with the purpose of disinfecting it.  It is safe to drink, but tastes and smells unpleasantly of chlorine.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 50,
+    "symbol": "~",
+    "color": "light_cyan",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "quench": 50,
+    "fun": -3,
+    "flags": [ "EATEN_COLD" ]
+  },
+  {
     "id": "water_mineral",
     "copy-from": "water",
     "type": "COMESTIBLE",

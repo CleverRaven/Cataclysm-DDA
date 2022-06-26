@@ -18,6 +18,58 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_sodium_nitrate",
+    "byproducts": [ [ "ammonia_liquid", 1 ] ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "25 m",
+    "charges": 90,
+    "book_learn": [ [ "textbook_anarch", 7 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [
+      [ [ "chem_ammonium_nitrate", 225 ] ],
+      [ [ "chem_washing_soda", 123 ], [ "chem_baking_soda", 114 ], [ "lye_powder", 90 ], [ "lye", 3 ] ],
+      [ [ "water_clean", 1 ], [ "water", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_sodium_nitrate",
+    "id_suffix": "from_acid",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "25 m",
+    "charges": 90,
+    "book_learn": [ [ "textbook_anarch", 7 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "components": [
+      [ [ "chem_nitric_acid", 1 ] ],
+      [ [ "chem_washing_soda", 123 ], [ "chem_baking_soda", 114 ], [ "lye_powder", 90 ], [ "lye", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_potassium_chloride",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "25 m",
+    "charges": 1200,
+    "book_learn": [ [ "textbook_anarch", 7 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "components": [ [ [ "chem_muriatic_acid", 1 ] ], [ [ "chem_potassium_hydroxide", 1200 ], [ "lye_potassium", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "formic_acid",
     "id_suffix": "from_oxalic_acid",
     "byproducts": [ [ "chem_glycerol", 20 ] ],
@@ -264,6 +316,97 @@
       [ [ "lead", 103 ] ],
       [ [ "chem_nitric_acid", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_tnt",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "2 h",
+    "charges": 227,
+    "book_learn": [ [ "recipe_labchem", 6 ], [ "textbook_anarch", 8 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [
+      [ [ "chem_toluene", 105 ] ],
+      [ [ "chem_nitric_acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ] ],
+      [ [ "water_clean", 2 ] ],
+      [ [ "chem_baking_soda", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_petn",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "1 h",
+    "charges": 790,
+    "book_learn": [ [ "recipe_labchem", 6 ], [ "textbook_anarch", 8 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "silver_small", -1 ] ], [ [ "chem_slaked_lime", -1 ] ], [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [
+      [ [ "chem_ethanol", 115 ] ],
+      [ [ "chem_formaldehyde", 1 ] ],
+      [ [ "chem_acetone", 1 ] ],
+      [ [ "chem_nitric_acid", 1 ] ],
+      [ [ "chem_baking_soda", 5 ] ],
+      [ [ "water_clean", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_petn",
+    "id_suffix": "using_acids",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "3 h",
+    "charges": 790,
+    "book_learn": [ [ "recipe_labchem", 6 ], [ "textbook_anarch", 8 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "silver_small", -1 ] ], [ [ "chem_slaked_lime", -1 ] ], [ [ "surface_heat", 60, "LIST" ] ] ],
+    "components": [
+      [ [ "chem_ethanol", 115 ] ],
+      [ [ "chem_formaldehyde", 1 ] ],
+      [ [ "chem_nitric_acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_urea_nitrate",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "20 m",
+    "charges": 738,
+    "autolearn": true,
+    "book_learn": [ [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ], [ "recipe_labchem", 3 ], [ "atomic_survival", 2 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "components": [ [ [ "chem_nitric_acid", 1 ] ], [ [ "chem_urea", 275 ] ] ]
+  },
+  
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "bleach_waterdisinfectant",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "survival",
+    "time": "1 s",
+    "charges": 125,
+    "autolearn": true,
+    "components": [ [ [ "bleach", 1 ] ] ]
   },
   {
     "type": "recipe",

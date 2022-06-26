@@ -55,6 +55,8 @@
       [ "fungicide", 20 ],
       [ "insecticide", 30 ],
       { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 },
+      { "item": "chem_sodium_nitrate", "prob": 15, "charges-min": 10, "charges-max": 50 },
+      [ "chem_urea", 10 ],
       [ "sickle", 40 ],
       { "group": "tools_toolbox", "prob": 10 },
       [ "bullwhip", 30 ],

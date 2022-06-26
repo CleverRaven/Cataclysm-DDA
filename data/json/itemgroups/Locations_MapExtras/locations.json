@@ -1309,6 +1309,7 @@
       [ "material_niter", 5 ],
       [ "chem_rdx", 5 ],
       [ "chem_hmtd", 10 ],
+      [ "chem_tnt", 20 ],
       [ "tool_anfo_charge", 2 ]
     ]
   },

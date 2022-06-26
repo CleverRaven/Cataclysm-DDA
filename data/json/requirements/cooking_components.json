@@ -806,6 +806,7 @@
         [ "seasoning_salt", 1 ],
         [ "pepper", 2 ],
         [ "chem_saltpetre", 1 ],
+        [ "chem_sodium_nitrate", 1 ],
         [ "chem_black_powder", 47 ]
       ]
     ]

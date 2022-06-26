@@ -122,7 +122,8 @@
         "collection": [
           { "item": "salt", "prob": 100 },
           { "item": "sugar", "prob": 25 },
-          { "item": "chem_saltpetre", "prob": 10 },
+          { "item": "chem_saltpetre", "prob": 5 },
+          { "item": "chem_sodium_nitrate", "prob": 5 },
           { "item": "yeast", "prob": 30 }
         ],
         "prob": 50

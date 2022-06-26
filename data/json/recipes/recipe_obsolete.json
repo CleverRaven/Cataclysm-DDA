@@ -774,5 +774,23 @@
     "result": "chem_black_powder",
     "id_suffix": "generic",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fertilizer_commercial",
+    "id_suffix": "simple",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pur_tablets",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_nitric_acid",
+    "id_suffix": "from_muriatic",
+    "obsolete": true
   }
 ]

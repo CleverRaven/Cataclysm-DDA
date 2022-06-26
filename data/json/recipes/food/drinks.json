@@ -267,6 +267,18 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water_bleached",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "charges": 30,
+    "autolearn": true,
+    "components": [ [ [ "water", 30 ] ], [ [ "bleach_waterdisinfectant", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "tea_wild_sarsaparilla",
     "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
