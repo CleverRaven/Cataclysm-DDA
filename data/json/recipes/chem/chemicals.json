@@ -396,7 +396,7 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [ [ [ "chem_nitric_acid", 1 ] ], [ [ "chem_urea", 275 ] ] ]
   },
-  
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "bleach_waterdisinfectant",
