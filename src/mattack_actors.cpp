@@ -79,7 +79,7 @@ bool leap_actor::call( monster &z ) const
     }
 
     if( !forbidden_effects_any.empty() ) {
-        for( const efftype_id effect : forbidden_effects_any ) {
+        for( const efftype_id &effect : forbidden_effects_any ) {
             if( z.has_effect( effect ) ) {
                 return false;
             }
@@ -88,7 +88,7 @@ bool leap_actor::call( monster &z ) const
 
     if( !forbidden_effects_all.empty() ) {
         bool failed = true;
-        for( const efftype_id effect : forbidden_effects_all ) {
+        for( const efftype_id &effect : forbidden_effects_all ) {
             if( !z.has_effect( effect ) ) {
                 failed = false;
             }
@@ -100,7 +100,7 @@ bool leap_actor::call( monster &z ) const
 
     if( !required_effects_any.empty() ) {
         bool failed = true;
-        for( const efftype_id effect : required_effects_any ) {
+        for( const efftype_id &effect : required_effects_any ) {
             if( z.has_effect( effect ) ) {
                 failed = false;
             }
@@ -111,7 +111,7 @@ bool leap_actor::call( monster &z ) const
     }
 
     if( !required_effects_all.empty() ) {
-        for( const efftype_id effect : required_effects_all ) {
+        for( const efftype_id &effect : required_effects_all ) {
             if( !z.has_effect( effect ) ) {
                 return false;
             }
@@ -231,7 +231,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     }
 
     if( !forbidden_effects_any.empty() ) {
-        for( const efftype_id effect : forbidden_effects_any ) {
+        for( const efftype_id &effect : forbidden_effects_any ) {
             if( mon.has_effect( effect ) ) {
                 return false;
             }
@@ -240,7 +240,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
     if( !forbidden_effects_all.empty() ) {
         bool failed = true;
-        for( const efftype_id effect : forbidden_effects_all ) {
+        for( const efftype_id &effect : forbidden_effects_all ) {
             if( !mon.has_effect( effect ) ) {
                 failed = false;
             }
@@ -252,7 +252,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
     if( !required_effects_any.empty() ) {
         bool failed = true;
-        for( const efftype_id effect : required_effects_any ) {
+        for( const efftype_id &effect : required_effects_any ) {
             if( mon.has_effect( effect ) ) {
                 failed = false;
             }
@@ -263,7 +263,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     }
 
     if( !required_effects_all.empty() ) {
-        for( const efftype_id effect : required_effects_all ) {
+        for( const efftype_id &effect : required_effects_all ) {
             if( !mon.has_effect( effect ) ) {
                 return false;
             }
@@ -396,7 +396,7 @@ bool melee_actor::call( monster &z ) const
     }
 
     if( !forbidden_effects_any.empty() ) {
-        for( const efftype_id effect : forbidden_effects_any ) {
+        for( const efftype_id &effect : forbidden_effects_any ) {
             if( z.has_effect( effect ) ) {
                 return false;
             }
@@ -405,7 +405,7 @@ bool melee_actor::call( monster &z ) const
 
     if( !forbidden_effects_all.empty() ) {
         bool failed = true;
-        for( const efftype_id effect : forbidden_effects_all ) {
+        for( const efftype_id &effect : forbidden_effects_all ) {
             if( !z.has_effect( effect ) ) {
                 failed = false;
             }
@@ -417,7 +417,7 @@ bool melee_actor::call( monster &z ) const
 
     if( !required_effects_any.empty() ) {
         bool failed = true;
-        for( const efftype_id effect : required_effects_any ) {
+        for( const efftype_id &effect : required_effects_any ) {
             if( z.has_effect( effect ) ) {
                 failed = false;
             }
@@ -428,7 +428,7 @@ bool melee_actor::call( monster &z ) const
     }
 
     if( !required_effects_all.empty() ) {
-        for( const efftype_id effect : required_effects_all ) {
+        for( const efftype_id &effect : required_effects_all ) {
             if( !z.has_effect( effect ) ) {
                 return false;
             }

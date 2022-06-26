@@ -322,7 +322,7 @@
     "id": "maimed_mandible",
     "name": [ "Maimed Mandibles" ],
     "//": "Given by weakpoints, used to disable bites if specified in the bite def",
-    "desc": [ "Your mandibles are unuseable.  What, you don't have mandibles?  Then it must be a bug if you have it." ]
+    "desc": [ "Your mandibles are unusable.  What, you don't have mandibles?  Then it must be a bug if you have it." ]
   },
   {
     "type": "effect_type",
