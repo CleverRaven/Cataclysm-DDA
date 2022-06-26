@@ -669,9 +669,11 @@ std::string print_pressure( double pressure, int decimals )
     return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
-int get_local_windchill( double temperature_f, double humidity, double wind_mph )
+units::temperature get_local_windchill( units::temperature temperature, double humidity, double wind_mph )
 {
     double windchill_f = 0;
+	
+	const double temperature_f = units::to_fahrenheit( temperature );
 
     if( temperature_f < 50 ) {
         /// Model 1, cold wind chill (only valid for temps below 50F)
@@ -691,7 +693,7 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         // Convert to meters per second.
         double wind_meters_per_sec = wind_mph * 0.44704;
-        double temperature_c = temp_to_celsius( temperature_f );
+        double temperature_c = units::to_celcius( temperature );
 
         // Cap the vapor pressure term to 50C of extra heat, as this term
         // otherwise grows logistically to an asymptotic value of about 2e7
@@ -705,7 +707,7 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
         windchill_f = windchill_c * 9 / 5;
     }
 
-    return std::ceil( windchill_f );
+    return units::from_fahrenheit( std::ceil( windchill_f ) );
 }
 
 nc_color get_wind_color( double windpower )

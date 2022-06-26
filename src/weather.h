@@ -105,8 +105,8 @@ std::string print_temperature( units::temperature temperature, int decimals = 0 
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
-// Return windchill offset in degrees F, starting from given temperature, humidity and wind
-int get_local_windchill( double temperature_f, double humidity, double wind_mph );
+// Return windchill offset starting from given temperature, humidity and wind
+units::temperature get_local_windchill( units::temperature temperature, double humidity, double wind_mph );
 
 int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
