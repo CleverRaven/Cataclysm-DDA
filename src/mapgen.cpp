@@ -1766,7 +1766,11 @@ class jmapgen_npc : public jmapgen_piece
                                                       unique_id );
                 return;
             }
-            character_id npc_id = dat.m.place_npc( point( x.get(), y.get() ), chosen_id );
+            tripoint const dst( x.get(), y.get(), dat.m.get_abs_sub().z() );
+            character_id npc_id = dat.m.place_npc( dst.xy(), chosen_id );
+            if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
+                dat.m.queue_main_cleanup();
+            }
             if( dat.mission() && target ) {
                 dat.mission()->set_target_npc_id( npc_id );
             }
@@ -2402,8 +2406,12 @@ class jmapgen_vehicle : public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            dat.m.add_vehicle( chosen_id, point( x.get(), y.get() ), random_entry( rotation ),
+            tripoint const dst( x.get(), y.get(), dat.m.get_abs_sub().z() );
+            dat.m.add_vehicle( chosen_id, dst.xy(), random_entry( rotation ),
                                fuel, status, true, faction );
+            if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
+                dat.m.queue_main_cleanup();
+            }
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -3043,6 +3051,9 @@ class jmapgen_remove_npcs : public jmapgen_piece
                     overmap_buffer.remove_npc( npc->getID() );
                     if( !unique_id.empty() ) {
                         g->unique_npc_despawn( unique_id );
+                    }
+                    if( get_map().inbounds( npc->get_location() ) ) {
+                        g->remove_npc( npc->getID() );
                     }
                 }
             }
