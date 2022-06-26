@@ -26,6 +26,9 @@
 
 static const recipe_id recipe_veggy_wild_cooked( "veggy_wild_cooked" );
 
+static const item_category_id mutagen( "mutagen" );
+static const item_category_id drugs( "drugs" );
+
 struct all_stats {
     statistics<int> calories;
 };
@@ -114,7 +117,7 @@ static item food_or_food_container( const item &it )
 TEST_CASE( "comestible_health_bounds", "[comestible]" )
 {
     for( const itype *it : item_controller->all() ) {
-        if( !it->comestible || it->category_force == item_category_id( "mutagen" ) ) {
+        if( !it->comestible || it->category_force == mutagen || it->category_force == drugs ) {
             continue;
         }
         const islot_comestible &comest = *it->comestible;
