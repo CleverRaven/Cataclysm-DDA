@@ -31,6 +31,8 @@ static const item_category_id drugs( "drugs" );
 
 static const std::vector<vitamin_id> mutagen_vit_list{ vitamin_id( "mutagen" ), vitamin_id( "mutagen_apha" ), vitamin_id( "mutagen_batrachian" ), vitamin_id( "mutagen_beast" ), vitamin_id( "mutagen_bird" ), vitamin_id( "mutagen_cattle" ), vitamin_id( "mutagen_cephalopod" ), vitamin_id( "mutagen_chimera" ), vitamin_id( "mutagen_elfa" ), vitamin_id( "mutagen_feline" ), vitamin_id( "mutagen_fish" ), vitamin_id( "mutagen_gastropod" ), vitamin_id( "mutagen_human" ), vitamin_id( "mutagen_insect" ), vitamin_id( "mutagen_lizard" ), vitamin_id( "mutagen_lupine" ), vitamin_id( "mutagen_medical" ), vitamin_id( "mutagen_mouse" ), vitamin_id( "mutagen_plant" ), vitamin_id( "mutagen_rabbit" ), vitamin_id( "mutagen_raptor" ), vitamin_id( "mutagen_rat" ), vitamin_id( "mutagen_slime" ), vitamin_id( "mutagen_spider" ), vitamin_id( "mutagen_troglobite" ), vitamin_id( "mutagen_ursine" ) };
 
+static const std::vector<itype_id> marloss_food{ itype_id( "marloss_berry" ), itype_id( "marloss_gel" ), itype_id( "marloss_seed" ) };
+
 struct all_stats {
     statistics<int> calories;
 };
@@ -130,7 +132,8 @@ static bool has_mutagen_vit( const islot_comestible &comest )
 TEST_CASE( "comestible_health_bounds", "[comestible]" )
 {
     for( const itype *it : item_controller->all() ) {
-        if( !it->comestible || it->category_force == mutagen || it->category_force == drugs ) {
+        if( !it->comestible || it->category_force == mutagen || it->category_force == drugs ||
+            std::count( marloss_food.begin(), marloss_food.end(), it->get_id() ) ) {
             continue;
         }
         const islot_comestible &comest = *it->comestible;
