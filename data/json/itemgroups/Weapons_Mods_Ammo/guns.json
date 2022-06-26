@@ -389,7 +389,7 @@
       { "group": "nested_sks", "prob": 1 },
       { "group": "nested_win70", "prob": 2 },
       { "group": "nested_1895sbl", "prob": 1 },
-      { "group": "nested_fn_ps90", "prob": 30 },
+      { "group": "nested_fn_ps90", "prob": 1 },
       { "group": "nested_aksemi", "prob": 2 }
     ]
   },
