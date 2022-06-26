@@ -6,13 +6,7 @@
       "is_animal": true,
       "monsters": [
         { "monster": "mon_peccary_flathead", "weight": 12, "cost_multiplier": 0, "pack_size": [ 5, 10 ] },
-        {
-          "monster": "mon_peccary_longnose",
-          "weight": 10,
-          "cost_multiplier": 0,
-          "pack_size": [ 1, 1 ],
-          "conditions": [  ]
-        },
+        { "monster": "mon_peccary_longnose", "weight": 10, "cost_multiplier": 0 },
         { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
         { "monster": "mon_woodox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
         { "monster": "mon_bison", "weight": 10, "cost_multiplier": 0, "pack_size": [ 6, 12 ] },
@@ -39,7 +33,6 @@
         { "monster": "mon_large_claw_sloth" },
         { "monster": "mon_bat", "weight": 10 },
         { "monster": "mon_bobcat", "weight": 10 },
-        { "monster": "mon_chicken", "weight": 10 },
         { "monster": "mon_chipmunk", "weight": 10 },
         { "monster": "mon_crow", "weight": 10 },
         { "monster": "mon_raven", "weight": 10 },
