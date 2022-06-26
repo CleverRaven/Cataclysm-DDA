@@ -80,7 +80,19 @@
       "spring_humidity_manual_mod": 5,
       "summer_humidity_manual_mod": 20,
       "autumn_humidity_manual_mod": 20,
-      "winter_humidity_manual_mod": 0
+      "winter_humidity_manual_mod": 0,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "early_portal_storm",
+        "portal_storm"
+      ]
     }
   }
 ]

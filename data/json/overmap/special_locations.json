@@ -139,5 +139,11 @@
     "type": "overmap_location",
     "id": "open_air",
     "terrains": [ "open_air" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "desert",
+    "terrains": [ "field" ],
+    "//":  "placeholder ID"
   }
 ]
