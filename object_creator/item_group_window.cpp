@@ -122,6 +122,8 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     entries_box.insertColumn( 0 );
     entries_box.insertRow( 0 );
     entries_box.setHorizontalHeaderLabels( QStringList{ "X", "GI", "Item", "Prob" } );
+    entries_box.verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    entries_box.verticalHeader()->setDefaultSectionSize(12);
     entries_box.verticalHeader()->hide();
     entries_box.horizontalHeader()->resizeSection( 0, default_text_box_width * 0.25 );
     entries_box.horizontalHeader()->resizeSection( 1, default_text_box_width * 0.25 );
@@ -267,91 +269,62 @@ void creator::item_group_window::group_list_populate_filtered( std::string searc
     }
 }
 
+void creator::item_group_window::entries_add_item( QListWidgetItem* cur_widget, bool group )
+{
+    const int last_row = entries_box.rowCount() - 1;
+    QAbstractItemModel* model = entries_box.model();
+    QVariant item_text = model->data( model->index( last_row, 1 ), Qt::DisplayRole );
+    QVariant prob_text = model->data( model->index( last_row, 2 ), Qt::DisplayRole );
+
+    const bool last_row_empty = item_text.toString().isEmpty() && prob_text.toString().isEmpty();
+    if( !last_row_empty ) {
+        entries_box.insertRow( entries_box.rowCount() );
+    }
+
+    QWidget* pWidget = new QWidget();
+    QPushButton* btnitem = new QPushButton();
+    btnitem->setText( "X" );
+    connect( btnitem, &QPushButton::clicked, this, &item_group_window::deleteEntriesLine );
+    QHBoxLayout* pLayout = new QHBoxLayout( pWidget );
+    pLayout->addWidget( btnitem );
+    pLayout->setAlignment( Qt::AlignCenter );
+    pLayout->setContentsMargins( 0, 0, 0, 0 );
+    pWidget->setLayout( pLayout );
+    entries_box.setCellWidget( entries_box.rowCount() - 1, 0, pWidget );
+
+    QTableWidgetItem* item = new QTableWidgetItem();
+    if (group) {
+        item->setText( QString( "G" ) );
+    } else {
+        item->setText( QString( "I" ) );
+    }
+    entries_box.setItem(entries_box.rowCount() - 1, 1, item);
+
+    item = new QTableWidgetItem();
+    item->setText(cur_widget->text());
+    entries_box.setItem(entries_box.rowCount() - 1, 2, item);
+
+    item = new QTableWidgetItem();
+    item->setText( QString( "100" ) );
+    entries_box.setItem( entries_box.rowCount() - 1, 3, item );
+
+    delete cur_widget;
+
+    write_json();
+}
+
 void creator::item_group_window::selected_group_doubleclicked()
 {
     if (group_list_total_box.selectedItems().length() > 0) {
         QListWidgetItem* cur_widget = group_list_total_box.selectedItems().first();
-
-        const int last_row = entries_box.rowCount() - 1;
-        QAbstractItemModel* model = entries_box.model();
-        QVariant item_text = model->data( model->index( last_row, 1 ), Qt::DisplayRole );
-        QVariant prob_text = model->data( model->index( last_row, 2 ), Qt::DisplayRole );
-
-        const bool last_row_empty = item_text.toString().isEmpty() && prob_text.toString().isEmpty();
-        if( !last_row_empty ) {
-            entries_box.insertRow( entries_box.rowCount() );
-        }
-
-        QWidget* pWidget = new QWidget();
-        QPushButton* btnitem = new QPushButton();
-        btnitem->setText( "X" );
-        connect( btnitem, &QPushButton::clicked, this, &item_group_window::deleteEntriesLine );
-        QHBoxLayout* pLayout = new QHBoxLayout( pWidget );
-        pLayout->addWidget( btnitem );
-        pLayout->setAlignment( Qt::AlignCenter );
-        pLayout->setContentsMargins( 0, 0, 0, 0 );
-        pWidget->setLayout( pLayout );
-        entries_box.setCellWidget( entries_box.rowCount() - 1, 0, pWidget );
-
-        QTableWidgetItem* item = new QTableWidgetItem();
-        item->setText( QString( "G" ) );
-        entries_box.setItem(entries_box.rowCount() - 1, 1, item);
-
-        item = new QTableWidgetItem();
-        item->setText(cur_widget->text());
-        entries_box.setItem(entries_box.rowCount() - 1, 2, item);
-
-        item = new QTableWidgetItem();
-        item->setText( QString( "100" ) );
-        entries_box.setItem( entries_box.rowCount() - 1, 3, item );
-
-        delete cur_widget;
-
+        entries_add_item(cur_widget, true);
     }
-    write_json();
 }
 
 void creator::item_group_window::selected_item_doubleclicked()
 {
     if (item_list_total_box.selectedItems().length() > 0) {
         QListWidgetItem* cur_widget = item_list_total_box.selectedItems().first();
-
-
-        const int last_row = entries_box.rowCount() - 1;
-        QAbstractItemModel* model = entries_box.model();
-        QVariant item_text = model->data(model->index(last_row, 1), Qt::DisplayRole);
-        QVariant prob_text = model->data(model->index(last_row, 2), Qt::DisplayRole);
-
-        const bool last_row_empty = item_text.toString().isEmpty() && prob_text.toString().isEmpty();
-        if (!last_row_empty) {
-            entries_box.insertRow(entries_box.rowCount());
-        }
-
-        QWidget* pWidget = new QWidget();
-        QPushButton* btnitem = new QPushButton();
-        btnitem->setText("X");
-        connect( btnitem, &QPushButton::clicked, this, &item_group_window::deleteEntriesLine );
-        QHBoxLayout* pLayout = new QHBoxLayout( pWidget );
-        pLayout->addWidget( btnitem );
-        pLayout->setAlignment( Qt::AlignCenter );
-        pLayout->setContentsMargins( 0, 0, 0, 0 );
-        pWidget->setLayout( pLayout );
-        entries_box.setCellWidget( entries_box.rowCount() - 1, 0, pWidget );
-
-        QTableWidgetItem* item = new QTableWidgetItem();
-        item->setText( QString( "I" ) );
-        entries_box.setItem(entries_box.rowCount() - 1, 1, item);
-
-        item = new QTableWidgetItem();
-        item->setText(cur_widget->text());
-        entries_box.setItem(entries_box.rowCount() - 1, 2, item);
-
-        item = new QTableWidgetItem();
-        item->setText( QString( "100" ) );
-        entries_box.setItem( entries_box.rowCount() - 1, 3, item );
-
-        delete cur_widget;
-
+        entries_add_item(cur_widget, false);
     }
-    write_json();
 }
