@@ -68,7 +68,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
         const int width = menu->pad_right - 1;
 
         fold_and_print( menu->window, point( 2, 2 ), width,
-                        c_light_gray, string_format( _( "Press a key to add to %s" ),
+                        c_light_gray, string_format( _( "Currently modifying %s" ),
                                 colorize( whitelist ? _( "whitelist" ) : _( "blacklist" ), c_light_blue ) ) );
 
         selected_pocket->general_info( info, pocket_num, true );
@@ -102,11 +102,19 @@ pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organ
 void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
         std::string depth )
 {
-    if( !i.get_all_contained_pockets().empty() ) {
-        pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
-        // pad list with empty entries for the items themselves
-        saved_pockets.emplace_back( nullptr, 0, nullptr );
+    if( i.get_all_contained_pockets().empty() ) {
+        // if it doesn't have pockets skip it
+        return;
     }
+
+    pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
+    // pad list with empty entries for the items themselves
+    saved_pockets.emplace_back( nullptr, 0, nullptr );
+    if( i.is_collapsed() || i.all_pockets_sealed() ) {
+        //is collapsed, or all pockets are sealed skip its nested pockets
+        return;
+    }
+
     uilist_entry *item_entry = &pocket_selector.entries.back();
     int pocket_num = 1;
     for( item_pocket *it_pocket : i.get_all_contained_pockets() ) {

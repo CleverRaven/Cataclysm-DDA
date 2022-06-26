@@ -2502,7 +2502,7 @@ void veh_interact::display_veh()
     std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
     for( auto &structural_part : structural_parts ) {
         const int p = structural_part;
-        int sym = veh->part_sym( p, false, false );
+        char sym = veh->part_sym( p, false, false );
         nc_color col = veh->part_color( p, false, false );
 
         const point q = ( veh->part( p ).mount + dd ).rotate( 3 );
@@ -2526,7 +2526,7 @@ void veh_interact::display_veh()
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color( cpart, false, false ) : c_black;
-    int sym = cpart >= 0 ? veh->part_sym( cpart, false, false ) : ' ';
+    char sym = cpart >= 0 ? veh->part_sym( cpart, false, false ) : ' ';
     mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
               special_symbol( sym ) );
     wnoutrefresh( w_disp );

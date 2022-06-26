@@ -4979,8 +4979,8 @@ bool mattack::riotbot( monster *z )
         }
     }
 
-    //already arrested?
-    //and yes, if the player has no hands, we are not going to arrest him.
+    // Already arrested?
+    // And yes, if the player has no hands, we are not going to arrest them.
     if( foe != nullptr &&
         ( foe->get_wielded_item().typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
         z->anger = 0;
@@ -5001,19 +5001,19 @@ bool mattack::riotbot( monster *z )
 
     const int dist = rl_dist( z->pos(), target->pos() );
 
-    //we need empty hands to arrest
+    // We need empty hands to arrest
     if( foe && foe->is_avatar() && !foe->is_armed() ) {
 
         sounds::sound( z->pos(), 15, sounds::sound_t::electronic_speech,
                        _( "Please stay in place, citizen, do not make any movements!" ), false, "speech",
                        z->type->id.str() );
 
-        //we need to come closer and arrest
+        // We need to come closer and arrest
         if( !z->is_adjacent( foe, false ) ) {
             return true;
         }
 
-        //Strain the atmosphere, forcing the player to wait. Let him feel the power of law!
+        // Strain the atmosphere, forcing the player to wait. Let them feel the power of the law!
         if( !one_in( 10 ) ) {
             foe->add_msg_player_or_npc( _( "The robot carefully scans you." ),
                                         _( "The robot carefully scans <npcname>." ) );
@@ -5022,10 +5022,10 @@ bool mattack::riotbot( monster *z )
 
         enum {ur_arrest, ur_resist, ur_trick};
 
-        //arrest!
+        // Arrest!
         uilist amenu;
         amenu.allow_cancel = false;
-        amenu.text = _( "The riotbot orders you to present your hands and be cuffed." );
+        amenu.text = _( "The robot orders you to present your hands and be cuffed." );
 
         amenu.addentry( ur_arrest, true, 'a', _( "Allow yourself to be arrested." ) );
         amenu.addentry( ur_resist, true, 'r', _( "Resist arrest!" ) );
@@ -5049,7 +5049,7 @@ bool mattack::riotbot( monster *z )
             const bool is_uncanny = foe->has_active_bionic( bio_uncanny_dodge ) &&
                                     foe->get_power_level() > bio_uncanny_dodge.obj().power_trigger &&
                                     !one_in( 3 );
-            ///\EFFECT_DEX >13 allows and increases chance to slip out of riot bot handcuffs
+            ///\EFFECT_DEX >13 allows and increases chance to slip out of handcuffs
             const bool is_dex = foe->dex_cur > 13 && !one_in( foe->dex_cur - 11 );
 
             if( is_uncanny || is_dex ) {
@@ -5065,7 +5065,7 @@ bool mattack::riotbot( monster *z )
                 handcuffs.set_flag( flag_NO_UNWIELD );
                 foe->wield( *foe->i_add( handcuffs ) );
                 foe->moves -= 300;
-                add_msg( _( "The robot puts handcuffs on you." ) );
+                add_msg( m_bad, _( "The robot puts handcuffs on you." ) );
             }
 
             sounds::sound( z->pos(), 5, sounds::sound_t::electronic_speech,
@@ -5087,17 +5087,17 @@ bool mattack::riotbot( monster *z )
 
         if( choice == ur_trick ) {
 
-            ///\EFFECT_INT >10 allows and increases chance of successful feign death against riot bot
+            ///\EFFECT_INT >10 allows and increases chance of successful feign death
             if( !one_in( foe->int_cur - 10 ) ) {
 
                 add_msg( m_good,
-                         _( "You fall to the ground and feign a sudden convulsive attack.  Though you're obviously still alive, the riotbot cannot tell the difference between your 'attack' and a potentially fatal medical condition.  It backs off, signaling for medical help." ) );
+                         _( "You fall to the ground and feign a sudden convulsive attack.  Though you're obviously still alive, the robot cannot tell the difference between your 'attack' and a potentially fatal medical condition.  It backs off, signaling for medical help." ) );
 
                 z->moves -= 300;
                 z->anger = -rng( 0, 50 );
                 return true;
             } else {
-                add_msg( m_bad, _( "Your awkward movements do not fool the riotbot." ) );
+                add_msg( m_bad, _( "Your awkward movements do not fool the robot." ) );
                 foe->moves -= 100;
                 bad_trick = true;
             }
@@ -5141,7 +5141,7 @@ bool mattack::riotbot( monster *z )
                        target->posy() + rng( 0, delta ) - rng( 0, delta ),
                        target->posz() );
 
-        //~ Sound of a riotbot using its blinding flash
+        //~ Sound of a riot control bot using its blinding flash
         sounds::sound( z->pos(), 3, sounds::sound_t::combat, _( "fzzzzzt" ), false, "misc", "flash" );
 
         std::vector<tripoint> traj = line_to( z->pos(), dest, 0, 0 );

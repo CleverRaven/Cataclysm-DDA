@@ -986,7 +986,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             if( drop->phase == phase_id::LIQUID ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                    obj.set_item_temperature( corpse_item->temperature );
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
@@ -1008,7 +1008,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                    obj.set_item_temperature( corpse_item->temperature );
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
@@ -1027,7 +1027,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                    obj.set_item_temperature( corpse_item->temperature );
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
@@ -1077,7 +1077,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( item_charges > 0 ) {
             item ruined_parts( leftover_id, calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
-            ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
+            ruined_parts.set_item_temperature( corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
             if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", you.name );
@@ -1361,9 +1361,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
-        if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( temp_to_kelvin( std::max( get_weather().get_temperature( you->pos() ),
-                                         temperatures::cold ) ) );
+        if( liquid.has_temperature() && units::to_joule_per_gram( liquid.specific_energy ) < 0 ) {
+            liquid.set_item_temperature( std::max( units::from_fahrenheit( get_weather().get_temperature(
+                    you->pos() ) ), temperatures::cold ) );
         }
 
         // 2. Transfer charges.
