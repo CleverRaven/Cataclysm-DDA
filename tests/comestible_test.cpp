@@ -114,14 +114,14 @@ static item food_or_food_container( const item &it )
 TEST_CASE( "comestible_health_bounds", "[comestible]" )
 {
     for( const itype *it : item_controller->all() ) {
-        if( !it->comestible ) {
-            continue;
-        }
-        const std::string &comest_type = it->comestible->comesttype;
-        if( comest_type != "FOOD" && comest_type != "DRINK" ) {
+        if( !it->comestible || it->category_force == item_category_id( "mutagen" ) ) {
             continue;
         }
         const islot_comestible &comest = *it->comestible;
+        const std::string &comest_type = comest.comesttype;
+        if( comest_type != "FOOD" && comest_type != "DRINK" ) {
+            continue;
+        }
 
         INFO( it->get_id() );
         CHECK( comest.healthy <= 0 );
