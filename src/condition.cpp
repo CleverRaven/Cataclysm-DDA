@@ -1748,7 +1748,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     if( critter.is_monster() ) {
                         // friendly to the player, not a target for us
                         return static_cast<const monster *>( &critter )->friendly == 0 &&
-                               radius >= rl_dist( critter.global_pos(), loc ) &&
+                               radius >= rl_dist( critter.get_location(), loc ) &&
                                ( id.evaluate( d ) == "" ||
                                  static_cast<const monster *>( &critter )->type->id == mtype_id( id.evaluate( d ) ) );
                     }

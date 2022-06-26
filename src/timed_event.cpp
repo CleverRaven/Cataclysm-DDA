@@ -58,10 +58,11 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     : type( e_t )
     , when( w )
     , faction_id( f_id )
-    , map_point( p )
+    , map_square( p )
     , strength( s )
     , key( key )
 {
+    map_point = project_to<coords::sm>( map_square );
 }
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
@@ -69,11 +70,12 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     : type( e_t )
     , when( w )
     , faction_id( f_id )
-    , map_point( p )
+    , map_square( p )
     , strength( s )
     , string_id( s_id )
     , key( key )
 {
+    map_point = project_to<coords::sm>( map_square );
 }
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
@@ -81,11 +83,12 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     : type( e_t )
     , when( w )
     , faction_id( f_id )
-    , map_point( p )
+    , map_square( p )
     , strength( s )
     , string_id( s_id )
     , key( key )
 {
+    map_point = project_to<coords::sm>( map_square );
     revert = sr;
 }
 
@@ -100,7 +103,7 @@ void timed_event::actualize()
 
         case timed_event_type::ROBOT_ATTACK: {
             const tripoint_abs_sm u_pos = player_character.global_sm_location();
-            if( rl_dist( u_pos, project_to<coords::sm>( map_point ) ) <= 4 ) {
+            if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
                 get_event_bus().send<event_type::becomes_wanted>( player_character.getID() );
@@ -280,17 +283,16 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::DSA_ALRP_SUMMON: {
-            const tripoint_abs_ms u_pos = player_character.global_pos();
-            const tripoint_abs_sm pos = project_to<coords::sm>( map_point );
+            const tripoint_abs_sm u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
-                const tripoint spot = here.getlocal( map_point );
+                const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
                 monster dispatcher( mon_dsa_alien_dispatch );
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell().cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
-                mx_map.load( pos, false );
-                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, pos );
+                mx_map.load( map_point, false );
+                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, map_point );
                 g->load_npcs();
                 here.invalidate_map_cache( map_point.z() );
             }
@@ -299,7 +301,7 @@ void timed_event::actualize()
 
         case timed_event_type::TRANSFORM_RADIUS:
             get_map().transform_radius( ter_furn_transform_id( string_id ), strength,
-                                        map_point );
+                                        map_square );
             get_map().invalidate_map_cache( map_point.z() );
             break;
 
@@ -310,7 +312,7 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::REVERT_SUBMAP: {
-            submap *sm = MAPBUFFER.lookup_submap( project_to<coords::sm>( map_point ) );
+            submap *sm = MAPBUFFER.lookup_submap( map_point );
             sm->revert_submap( revert );
             get_map().invalidate_map_cache( map_point.z() );
             break;
@@ -406,7 +408,7 @@ void timed_event_manager::process()
 void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id, int strength, std::string key )
 {
-    add( type, when, faction_id, get_player_character().global_pos(), strength, "", key );
+    add( type, when, faction_id, get_player_character().get_location(), strength, "", key );
 }
 
 void timed_event_manager::add( timed_event_type type, const time_point &when,
