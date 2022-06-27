@@ -20,6 +20,7 @@
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "mapgen_functions.h"
@@ -153,10 +154,11 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     } else if( type == "practice" ) {
         ident_ = recipe_id( jo.get_string( "id" ) );
         if( jo.has_member( "result" ) ) {
-            jo.throw_error( "Practice recipes should not have result (use byproducts)", "result" );
+            jo.throw_error_at( "result", "Practice recipes should not have result (use byproducts)" );
         }
         if( jo.has_member( "difficulty" ) ) {
-            jo.throw_error( "Practice recipes should not have difficulty (use practice_data)", "difficulty" );
+            jo.throw_error_at( "difficulty",
+                               "Practice recipes should not have difficulty (use practice_data)" );
         }
     } else {
         if( !jo.read( "result", result_, true ) && !result_ ) {
@@ -167,7 +169,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
         if( abstract ) {
-            jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
+            jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
         }
         ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
     }
@@ -248,7 +250,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
     const auto it = activity_levels_map.find( exert );
     if( it == activity_levels_map.end() ) {
-        jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
+        jo.throw_error_at(
+            "activity_level", string_format( "Invalid activity level %s", exert ) );
     }
     exertion = it->second;
 
@@ -312,7 +315,15 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         mandatory( jo, was_loaded, "category", category );
         mandatory( jo, was_loaded, "subcategory", subcategory );
         assign( jo, "description", description, strict );
-        assign( jo, "reversible", reversible, strict );
+
+        if( jo.has_bool( "reversible" ) ) {
+            assign( jo, "reversible", reversible, strict );
+        } else if( jo.has_object( "reversible" ) ) {
+            reversible = true;
+            // Convert duration to time in moves
+            uncraft_time = to_moves<int>( read_from_json_string<time_duration>
+                                          ( jo.get_object( "reversible" ).get_member( "time" ), time_duration::units ) );
+        }
 
         if( jo.has_member( "byproducts" ) ) {
             if( this->reversible ) {
@@ -323,6 +334,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 itype_id byproduct( arr.get_string( 0 ) );
                 byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
+        }
+        if( jo.has_member( "byproduct_group" ) ) {
+            if( this->reversible ) {
+                jo.throw_error( "Recipe cannot be reversible and have byproducts" );
+            }
+            byproduct_group = item_group::load_item_group( jo.get_member( "byproduct_group" ),
+                              "collection", "byproducts of recipe " + ident_.str() );
         }
         assign( jo, "construction_blueprint", blueprint );
         if( !blueprint.is_empty() ) {
@@ -389,10 +407,17 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
+        if( jo.has_member( "byproduct_group" ) ) {
+            if( this->reversible ) {
+                jo.throw_error( "Recipe cannot be reversible and have byproducts" );
+            }
+            byproduct_group = item_group::load_item_group( jo.get_member( "byproduct_group" ),
+                              "collection", "byproducts of recipe " + ident_.str() );
+        }
     } else if( type == "uncraft" ) {
         reversible = true;
     } else {
-        jo.throw_error( "unknown recipe type", "type" );
+        jo.throw_error_at( "type", "unknown recipe type" );
     }
 
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
@@ -585,34 +610,87 @@ std::vector<item> recipe::create_results( int batch ) const
     return items;
 }
 
-std::vector<item> recipe::create_byproducts( int batch ) const
+static void create_byproducts_legacy( const std::map<itype_id, int> &bplist,
+                                      std::vector<item> &bps_out, int batch )
 {
-    std::vector<item> bps;
-    for( const auto &e : byproducts ) {
+    for( const auto &e : bplist ) {
         item obj( e.first, calendar::turn, item::default_charges_tag{} );
         if( obj.has_flag( flag_VARSIZE ) ) {
             obj.set_flag( flag_FIT );
         }
-
         if( obj.count_by_charges() ) {
             obj.charges *= e.second * batch;
-            bps.push_back( obj );
-
+            bps_out.push_back( obj );
         } else {
             if( !obj.craft_has_charges() ) {
                 obj.charges = 0;
             }
             for( int i = 0; i < e.second * batch; ++i ) {
-                bps.push_back( obj );
+                bps_out.push_back( obj );
             }
         }
+    }
+}
+
+static void create_byproducts_group( const item_group_id &bplist, std::vector<item> &bps_out,
+                                     int batch )
+{
+    std::vector<item> ret = item_group::items_from( bplist, calendar::turn );
+    for( item &it : ret ) {
+        if( it.count_by_charges() ) {
+            it.charges *= batch;
+        } else {
+            if( !it.craft_has_charges() ) {
+                it.charges = 0;
+            }
+            for( int i = 0; i < batch; ++i ) {
+                bps_out.push_back( it );
+            }
+        }
+    }
+    bps_out.insert( bps_out.end(), ret.begin(), ret.end() );
+}
+
+std::vector<item> recipe::create_byproducts( int batch ) const
+{
+    std::vector<item> bps;
+    if( !byproducts.empty() ) {
+        create_byproducts_legacy( byproducts, bps, batch );
+    }
+    if( !!byproduct_group ) {
+        create_byproducts_group( *byproduct_group, bps, batch );
     }
     return bps;
 }
 
+std::map<itype_id, int> recipe::get_byproducts() const
+{
+    std::map<itype_id, int> ret;
+    if( !byproducts.empty() ) {
+        ret.insert( byproducts.begin(), byproducts.end() );
+    }
+    if( !!byproduct_group ) {
+        std::vector<item> tmp = item_group::items_from( *byproduct_group );
+        for( const item &i : tmp ) {
+            if( i.count_by_charges() ) {
+                ret.emplace( i.typeId(), i.charges );
+            } else {
+                ret.emplace( i.typeId(), 1 );
+            }
+        }
+    }
+    return ret;
+}
+
 bool recipe::has_byproducts() const
 {
-    return !byproducts.empty();
+    return !byproducts.empty() || !!byproduct_group;
+}
+
+bool recipe::in_byproducts( const itype_id &it ) const
+{
+    return ( !byproducts.empty() && byproducts.find( it ) != byproducts.end() ) ||
+           ( !!byproduct_group && item_group::group_contains_item( *byproduct_group, it ) );
 }
 
 std::string recipe::required_proficiencies_string( const Character *c ) const
@@ -941,10 +1019,20 @@ std::function<bool( const item & )> recipe::get_component_filter(
         result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
     const bool flags_forbid_rotten =
         static_cast<bool>( flags & recipe_filter_flags::no_rotten );
+    const bool flags_forbid_favorites =
+        static_cast<bool>( flags & recipe_filter_flags::no_favorite );
     std::function<bool( const item & )> rotten_filter = return_true<item>;
     if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {
             return !component.rotten();
+        };
+    }
+
+    // Disallow crafting using favorited items as components
+    std::function<bool( const item & )> favorite_filter = return_true<item>;
+    if( flags_forbid_favorites ) {
+        favorite_filter = []( const item & component ) {
+            return !component.is_favorite;
         };
     }
 
@@ -971,9 +1059,11 @@ std::function<bool( const item & )> recipe::get_component_filter(
         };
     }
 
-    return [ rotten_filter, frozen_filter, magazine_filter ]( const item & component ) {
+    return [ rotten_filter, favorite_filter, frozen_filter,
+                   magazine_filter ]( const item & component ) {
         return is_crafting_component( component ) &&
                rotten_filter( component ) &&
+               favorite_filter( component ) &&
                frozen_filter( component ) &&
                magazine_filter( component );
     };

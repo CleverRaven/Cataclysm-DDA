@@ -95,6 +95,8 @@ static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+
 enum change_types : int {
     OPENCURTAINS = 0,
     OPENBOTH,
@@ -307,8 +309,12 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
     add_toggle( pgettext( "electronics menu option", "freezer" ),
                 keybind( "TOGGLE_FREEZER" ), "FREEZER" );
+    add_toggle( pgettext( "electronics menu option", "arcade" ),
+                keybind( "TOGGLE_ARCADE" ), "ARCADE" );
     add_toggle( pgettext( "electronics menu option", "space heater" ),
                 keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
+    add_toggle( pgettext( "electronics menu option", "heated tank" ),
+                keybind( "TOGGLE_HEATED_TANK" ), "HEATED_TANK" );
     add_toggle( pgettext( "electronics menu option", "cooler" ),
                 keybind( "TOGGLE_COOLER" ), "COOLER" );
     add_toggle( pgettext( "electronics menu option", "recharger" ),
@@ -353,9 +359,21 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 add_msg( _( "Camera system won't turn on" ) );
             }
             map &m = get_map();
-            m.invalidate_map_cache( m.get_abs_sub().z );
+            m.invalidate_map_cache( m.get_abs_sub().z() );
             refresh();
         } );
+    }
+
+    if( has_part( "ARCADE" ) ) {
+        item *arc_itm = nullptr;
+        for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
+            if( arc_vp.part().enabled ) {
+                arc_itm = &arc_vp.part().base;
+                break;
+            }
+        }
+        options.emplace_back( -1, !!arc_itm, keybind( "ARCADE" ), _( "Play arcade machine" ) );
+        actions.emplace_back( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, false, tripoint() ); } );
     }
 }
 
@@ -512,6 +530,7 @@ void vehicle::smash_security_system()
         }
     }
     Character &player_character = get_player_character();
+    map &here = get_map();
     //controls and security must both be valid
     if( c >= 0 && s >= 0 ) {
         ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
@@ -521,7 +540,7 @@ void vehicle::smash_security_system()
         int rand = rng( 1, 100 );
 
         if( percent_controls > rand ) {
-            damage_direct( c, part_info( c ).durability / 4 );
+            damage_direct( here, c, part_info( c ).durability / 4 );
 
             if( parts[ c ].removed || parts[ c ].is_broken() ) {
                 player_character.controlling_vehicle = false;
@@ -532,7 +551,7 @@ void vehicle::smash_security_system()
             }
         }
         if( percent_alarm > rand ) {
-            damage_direct( s, part_info( s ).durability / 5 );
+            damage_direct( here, s, part_info( s ).durability / 5 );
             // chance to disable alarm immediately, or disable on destruction
             if( percent_alarm / 4 > rand || parts[ s ].is_broken() ) {
                 is_alarm_on = false;
@@ -552,7 +571,7 @@ std::string vehicle::tracking_toggle_string()
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    if( mgr.has_near( zone_type_VEHICLE_PATROL, global_square_location().raw(), 60 ) ) {
+    if( mgr.has_near( zone_type_VEHICLE_PATROL, global_square_location(), 60 ) ) {
         enable_patrol();
     } else {
         g->zones_manager();
@@ -829,7 +848,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 }
 
-void vehicle::plug_in( const tripoint &pos )
+item vehicle::init_cord( const tripoint &pos )
 {
     item powercord( "power_cord" );
     powercord.set_var( "source_x", pos.x );
@@ -838,11 +857,57 @@ void vehicle::plug_in( const tripoint &pos )
     powercord.set_var( "state", "pay_out_cable" );
     powercord.active = true;
 
+    return powercord;
+}
+
+void vehicle::plug_in( const tripoint &pos )
+{
+    item powercord = init_cord( pos );
+
     if( powercord.get_use( "CABLE_ATTACH" ) ) {
         powercord.get_use( "CABLE_ATTACH" )->call( get_player_character(), powercord, powercord.active,
                 pos );
     }
 
+}
+
+void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
+{
+
+    item cord = init_cord( source_pos );
+    map &here = get_map();
+
+    const optional_vpart_position target_vp = here.veh_at( target_pos );
+    const optional_vpart_position source_vp = here.veh_at( source_pos );
+
+    if( !target_vp ) {
+        return;
+    }
+    vehicle *const target_veh = &target_vp->vehicle();
+    vehicle *const source_veh = &source_vp->vehicle();
+    if( source_veh == target_veh ) {
+        return ;
+    }
+
+    tripoint target_global = here.getabs( target_pos );
+    // TODO: make sure there is always a matching vpart id here. Maybe transform this into
+    // a iuse_actor class, or add a check in item_factory.
+    const vpart_id vpid( cord.typeId().str() );
+
+    point vcoords = source_vp->mount();
+    vehicle_part source_part( vpid, "", vcoords, item( cord ) );
+    source_part.target.first = target_global;
+    source_part.target.second = target_veh->global_square_location().raw();
+    source_veh->install_part( vcoords, source_part );
+
+    vcoords = target_vp->mount();
+    vehicle_part target_part( vpid, "", vcoords, item( cord ) );
+    tripoint source_global( cord.get_var( "source_x", 0 ),
+                            cord.get_var( "source_y", 0 ),
+                            cord.get_var( "source_z", 0 ) );
+    target_part.target.first = source_global;
+    target_part.target.second = source_veh->global_square_location().raw();
+    target_veh->install_part( vcoords, target_part );
 }
 
 bool vehicle::fold_up()
@@ -907,7 +972,7 @@ bool vehicle::fold_up()
     try {
         std::ostringstream veh_data;
         JsonOut json( veh_data );
-        json.write( parts );
+        json.write( real_parts() );
         bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
     } catch( const JsonError &e ) {
         debugmsg( "Error storing vehicle: %s", e.c_str() );
@@ -1354,7 +1419,7 @@ void vehicle::transform_terrain()
         } else {
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
-            damage( vp.part_index(), v_damage, damage_type::BASH, false );
+            damage( here, vp.part_index(), v_damage, damage_type::BASH, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
@@ -1423,7 +1488,7 @@ void vehicle::operate_planter()
                     here.set( loc, t_dirt, f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
-                    damage( planter_id, rng( 1, 10 ), damage_type::BASH, false );
+                    damage( here, planter_id, rng( 1, 10 ), damage_type::BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
                                    "hit_vehicle" );
                 }
@@ -1561,19 +1626,34 @@ bool vehicle::is_open( int part_index ) const
 bool vehicle::can_close( int part_index, Character &who )
 {
     creature_tracker &creatures = get_creature_tracker();
-    for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
-        for( auto const &partID : vec ) {
-            const Creature *const mon = creatures.creature_at( global_part_pos3( parts[partID] ) );
-            if( mon ) {
-                if( mon->is_avatar() ) {
-                    who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
-                } else if( mon->is_monster() ) {
-                    // TODO: Houseflies, mosquitoes, etc shouldn't count
-                    who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
-                } else {
-                    who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
+    part_index = get_non_fake_part( part_index );
+    std::vector<std::vector<int>> openable_parts = find_lines_of_parts( part_index, "OPENABLE" );
+    if( openable_parts.empty() ) {
+        std::vector<int> base_element;
+        base_element.push_back( part_index );
+        openable_parts.emplace_back( base_element );
+    }
+    for( const std::vector<int> &vec : openable_parts ) {
+        for( int partID : vec ) {
+            // Check the part for collisions, then if there's a fake part present check that too.
+            while( partID >= 0 ) {
+                const Creature *const mon = creatures.creature_at( global_part_pos3( parts[partID] ) );
+                if( mon ) {
+                    if( mon->is_avatar() ) {
+                        who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
+                    } else if( mon->is_monster() ) {
+                        // TODO: Houseflies, mosquitoes, etc shouldn't count
+                        who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
+                    } else {
+                        who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
+                    }
+                    return false;
                 }
-                return false;
+                if( parts[partID].has_fake ) {
+                    partID = parts[partID].fake_part_at;
+                } else {
+                    partID = -1;
+                }
             }
         }
     }
@@ -1582,7 +1662,7 @@ bool vehicle::can_close( int part_index, Character &who )
 
 void vehicle::open_all_at( int p )
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true );
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
     for( auto &elem : parts_here ) {
         if( part_flag( elem, VPFLAG_OPENABLE ) ) {
             // Note that this will open multi-square and non-multipart parts in the tile. This
@@ -1600,8 +1680,17 @@ void vehicle::open_all_at( int p )
  */
 void vehicle::open_or_close( const int part_index, const bool opening )
 {
+    const auto part_open_or_close = [&]( const int parti, const bool opening ) {
+        vehicle_part &prt = parts.at( parti );
+        prt.open = opening;
+        if( prt.is_fake ) {
+            parts.at( prt.fake_part_to ).open = opening;
+        } else if( prt.has_fake ) {
+            parts.at( prt.fake_part_at ).open = opening;
+        }
+    };
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
-    parts[part_index].open = opening;
+    part_open_or_close( part_index, opening );
     insides_dirty = true;
     map &here = get_map();
     here.set_transparency_cache_dirty( sm_pos.z );
@@ -1612,9 +1701,9 @@ void vehicle::open_or_close( const int part_index, const bool opening )
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
                                  parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
     }
-    for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
-        for( auto const &partID : vec ) {
-            parts[partID].open = opening;
+    for( const std::vector<int> &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
+        for( const int &partID : vec ) {
+            part_open_or_close( partID, opening );
         }
     }
 
@@ -1752,7 +1841,7 @@ void vehicle::use_washing_machine( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from your vehicle's tanks." ) );
+                 _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled from the water tanks." ) );
     }
 }
 
@@ -1809,7 +1898,7 @@ void vehicle::use_dishwasher( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled with water from your vehicle's tanks." ) );
+                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled from the water tanks" ) );
     }
 }
 
@@ -2026,15 +2115,20 @@ void vpart_position::form_inventory( inventory &inv )
 
     if( vp_cargo ) {
         const vehicle_stack items = vehicle().get_items( vp_cargo->part_index() );
-        inv += std::list<item>( items.begin(), items.end() );
+        for( auto &it : items ) {
+            if( it.empty_container() && it.is_watertight_container() ) {
+                const int count = it.count_by_charges() ? it.charges : 1;
+                inv.update_liq_container_count( it.typeId(), count );
+            }
+            inv.add_item( it );
+        }
     }
 
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
     if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet, 0 ) ) {
-        for( const std::pair<const itype_id, int> &it : vehicle().fuels_left() ) {
-            item fuel( it.first, calendar::turn_zero );
-            if( fuel.made_of( phase_id::LIQUID ) ) {
-                fuel.charges = it.second;
+        for( const item *it : vehicle().fuel_items_left() ) {
+            if( it->made_of( phase_id::LIQUID ) ) {
+                item fuel( *it );
                 inv.add_item( fuel );
             }
         }
@@ -2046,7 +2140,7 @@ void vpart_position::form_inventory( inventory &inv )
 }
 
 // Handles interactions with a vehicle in the examine menu.
-void vehicle::interact_with( const vpart_position &vp )
+void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
 {
     map &here = get_map();
     avatar &player_character = get_avatar();
@@ -2069,8 +2163,11 @@ void vehicle::interact_with( const vpart_position &vp )
     const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
+    // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
+    const bool vp_has_items = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
+    const bool map_has_items = here.has_items( vp.pos() );
 
-    bool is_appliance = has_tag( "APPLIANCE" );
+    bool is_appliance = has_tag( flag_APPLIANCE );
 
     enum {
         EXAMINE,
@@ -2100,8 +2197,9 @@ void vehicle::interact_with( const vpart_position &vp )
     uilist selectmenu;
 
 
+    selectmenu.addentry( EXAMINE, true, 'e',
+                         is_appliance ? _( "Examine appliance" ) : _( "Examine vehicle" ) );
     if( !is_appliance ) {
-        selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
         selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
     } else {
         selectmenu.addentry( PLUG, true, 'g', _( "Plug in appliance" ) );
@@ -2145,7 +2243,7 @@ void vehicle::interact_with( const vpart_position &vp )
                              ? _( "Deactivate the dishwasher" )
                              : _( "Activate the dishwasher (1.5 hours)" ) );
     }
-    if( here.has_items( vp.pos() ) ) {
+    if( with_pickup && ( vp_has_items || map_has_items ) ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
     if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
@@ -2341,7 +2439,11 @@ void vehicle::interact_with( const vpart_position &vp )
             return;
         }
         case EXAMINE: {
-            g->exam_vehicle( *this );
+            if( is_appliance ) {
+                g->exam_appliance( *this, vp.mount() );
+            } else {
+                g->exam_vehicle( *this );
+            }
             return;
         }
         case TRACK: {

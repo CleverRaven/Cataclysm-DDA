@@ -33,6 +33,53 @@ except ImportError:
     from gi.repository import Vips
 
 
+# variable for silent script run (no output to terminal)
+run_silent = True
+
+# variable for progress bar support (tqdm module dependency)
+no_tqdm = False
+
+
+# progress bar setup
+# requires tqdm module, if not installed prompts
+# to ask permission to install it via PIP
+# it also can work without it, in 'CONCISE mode',
+# where output is limited to stages of processing
+def setup_progress_bar() -> str:
+    global no_tqdm
+    global tqdm
+    try:
+        from tqdm import tqdm
+        no_tqdm = False
+        return 'VERBOSE'
+    except ImportError:
+        from tkinter.messagebox import askyesno
+        txt_title = "compose.py: TQDM module not installed"
+        txt_message = "VERBOSE mode requires TQDM module"
+        " to display progress bar(s). "
+        "Do you want to install TQDM "
+        "(and it's dependencies) via PIP?"
+        if askyesno(txt_title, txt_message):
+            try:
+                sub = subprocess.Popen([sys.executable,
+                                       '-m', 'pip', 'install', "tqdm"],
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.STDOUT)
+                print(sub.communicate()[0].decode("utf-8"))
+                from tqdm import tqdm
+                no_tqdm = False
+                return 'VERBOSE'
+            except ImportError:  # still no go, fall back to CONCISE mode
+                print("Could not install/import TQDM module."
+                      " Display in CONCISE mode instead.")
+                no_tqdm = True
+                return 'CONCISE'
+        else:  # fall back to CONCISE mode
+            print("Display is in CONCISE mode.")
+            no_tqdm = True
+            return 'CONCISE'
+
+
 class LevelTrackingFilter(logging.Filter):
     """
     Logging handler that will remember the highest level that was called
@@ -203,7 +250,7 @@ class Tileset:
                 f'Error: cannot open directory {self.source_dir}')
 
         self.processed_ids = []
-        info_path = self.source_dir / 'tile_info.json'
+        info_path = self.source_dir.joinpath('tile_info.json')
         self.sprite_width = 16
         self.sprite_height = 16
         self.pixelscale = 1
@@ -225,7 +272,7 @@ class Tileset:
         properties = {}
 
         for candidate_path in (self.source_dir, self.output_dir):
-            properties_path = candidate_path / PROPERTIES_FILENAME
+            properties_path = candidate_path.joinpath(PROPERTIES_FILENAME)
             if os.access(properties_path, os.R_OK):
                 properties = read_properties(properties_path)
                 if properties:
@@ -248,7 +295,7 @@ class Tileset:
         Convert a composing tileset into a package readable by the game
         '''
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        tileset_confpath = self.output_dir / self.determine_conffile()
+        tileset_confpath = self.output_dir.joinpath(self.determine_conffile())
         typed_sheets = {
             'main': [],
             'filler': [],
@@ -274,16 +321,23 @@ class Tileset:
                 sheet_type = 'main'
 
             log.info('parsing %s tilesheet %s', sheet_type, sheet.name)
+            if not run_silent:
+                print("Composing [" + sheet_type +
+                      "] tilesheet [" + sheet.name + "]...",
+                      end=' ' if no_tqdm else '\n', flush=True)
             if sheet_type != 'fallback':
                 sheet.walk_dirs()
-
                 # TODO: generate JSON first
                 # then create sheets if there are no errors
-
+                if no_tqdm and not run_silent:
+                    print("done.", flush=True)
+                if not run_silent:
+                    print("Saving output PNG...", end=' ', flush=True)
                 # write output PNGs
                 if not sheet.write_composite_png():
                     continue
-
+                if not run_silent:
+                    print("done.", flush=True)
                 sheet.max_index = self.pngnum
 
             typed_sheets[sheet_type].append(sheet)
@@ -300,7 +354,8 @@ class Tileset:
             fillers: bool,
         ) -> None:
             # the list must be empty without use_all
-            for unused_png in unused:
+            mode = unused if no_tqdm or run_silent else tqdm(unused)
+            for unused_png in mode:
                 if unused_png in self.processed_ids:
                     if not fillers:
                         log.warning(
@@ -387,6 +442,8 @@ class Tileset:
 
         # save the config
         write_to_json(tileset_confpath, output_conf, self.format_json)
+        if no_tqdm and not run_silent:
+            print("done.", flush=True)
 
     def handle_unreferenced_sprites(
         self,
@@ -443,9 +500,9 @@ class Tilesheet:
         output_root = self.name.split('.png')[0]
         dir_name = \
             f'pngs_{output_root}_{self.sprite_width}x{self.sprite_height}'
-        self.subdir_path = tileset.source_dir / dir_name
+        self.subdir_path = tileset.source_dir.joinpath(dir_name)
 
-        self.output = tileset.output_dir / self.name
+        self.output = tileset.output_dir.joinpath(self.name)
 
         self.tile_entries = []
         self.null_image = \
@@ -471,22 +528,23 @@ class Tilesheet:
         '''
         Find and process all JSON and PNG files within sheet directory
         '''
-        all_files = sorted(os.walk(self.subdir_path), key=lambda d: d[0])
-        excluded_paths = [  # TODO: dict by parent dirs
-            self.subdir_path / ignored_path for ignored_path in self.exclude
-        ]
 
-        for subdir_fpath, dirs, filenames in all_files:
-            subdir_fpath = Path(subdir_fpath)
-            if excluded_paths:
+        def filtered_tree(excluded):
+            for root, dirs, filenames in os.walk(self.subdir_path):
                 # replace dirs in-place to prevent walking down excluded paths
-                dirs[:] = [
-                    d for d in dirs
-                    if subdir_fpath / d not in excluded_paths
-                ]
+                dirs[:] = [d for d in dirs
+                           if Path(root).joinpath(d) not in excluded]
+                yield [root, dirs, filenames]
 
+        sorted_files = sorted(
+            filtered_tree(list(map(self.subdir_path.joinpath, self.exclude))),
+            key=lambda d: d[0]
+        )
+        mode = sorted_files if no_tqdm or run_silent else tqdm(sorted_files)
+        for subdir_fpath, dirs, filenames in mode:
+            subdir_fpath = Path(subdir_fpath)
             for filename in sorted(filenames):
-                filepath = subdir_fpath / filename
+                filepath = subdir_fpath.joinpath(filename)
 
                 if filepath.suffixes == ['.png']:
                     self.process_png(filepath)
@@ -827,12 +885,20 @@ def main() -> Union[int, ComposingException]:
         help='Only output the tile_config.json')
     arg_parser.add_argument(
         '--fail-fast', dest='fail_fast', action='store_true',
-        help='Stop immediately after an error has occured')
+        help='Stop immediately after an error has occurred')
     arg_parser.add_argument(
         '--loglevel', dest='loglevel',
         choices=['INFO', 'WARNING', 'ERROR'],  # 'DEBUG', 'CRITICAL'
         default='WARNING',
         help="set verbosity level")
+    arg_parser.add_argument(
+        "--feedback", dest="feedback",
+        choices=['SILENT', 'CONCISE', 'VERBOSE'],
+        default="SILENT",
+        help="When SILENT no output to terminal is given (run silently)."
+        " CONCISE displays limited progress feedbeck with no dependency"
+        " required. VERBOSE displays progress bar(s) that require TQDM"
+        " module (will prompt for installation if absent).")
 
     args_dict = vars(arg_parser.parse_args())
 
@@ -845,6 +911,19 @@ def main() -> Union[int, ComposingException]:
         failfast_handler = FailFastHandler()
         failfast_handler.setLevel(logging.ERROR)
         log.addHandler(failfast_handler)
+
+    if args_dict['feedback'] == 'SILENT':
+        global run_silent
+        run_silent = True
+
+    if args_dict['feedback'] == 'VERBOSE':
+        run_silent = False
+        args_dict['feedback'] = setup_progress_bar()  # may fallback to CONCISE
+
+    if args_dict['feedback'] == 'CONCISE':
+        run_silent = False
+        global no_tqdm
+        no_tqdm = True  # equal to concise display
 
     # compose the tileset
     try:

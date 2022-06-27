@@ -26,9 +26,13 @@
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
       [ "stanag5", 2 ],
+      [ "stanag5ranger", 1 ],
       [ "stanag10", 5 ],
+      [ "stanag10ranger", 2 ],
       [ "stanag20", 10 ],
+      [ "stanag20ranger", 3 ],
       [ "stanag30", 20 ],
+      [ "stanag30ranger", 5 ],
       [ "stanag40", 2 ],
       [ "stanag50", 2 ],
       [ "stanag60", 3 ],
@@ -101,6 +105,7 @@
       { "item": "hk46bigmag", "prob": 5, "charges": [ 0, 40 ] },
       { "item": "m9bigmag", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "mp5bigmag", "prob": 20, "charges": [ 0, 50 ] },
+      { "item": "stanag30ranger", "prob": 5, "charges": [ 0, 30 ] },
       { "item": "stanag30", "prob": 20, "charges": [ 0, 30 ] },
       { "item": "ump45mag", "prob": 20, "charges": [ 0, 25 ] },
       { "item": "usp45mag", "prob": 10, "charges": [ 0, 12 ] },
@@ -108,6 +113,20 @@
       { "item": "as50mag", "prob": 2, "charges": [ 0, 10 ] },
       { "item": "hk417mag_20rd", "prob": 20, "charges": [ 0, 20 ] }
     ]
+  },
+  {
+    "id": "stanag_30_random",
+    "type": "item_group",
+    "//": "one of the possible 30 round stanags",
+    "subtype": "distribution",
+    "entries": [ { "item": "stanag30", "prob": 80 }, { "item": "stanag30ranger", "prob": 20 } ]
+  },
+  {
+    "id": "stanag_10_random",
+    "type": "item_group",
+    "//": "one of the possible 10 round stanags",
+    "subtype": "distribution",
+    "entries": [ { "item": "stanag10", "prob": 80 }, { "item": "stanag10ranger", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -163,6 +182,8 @@
       [ "ccpmag", 4 ],
       [ "ccpmag_9rd", 1 ],
       [ "xd_10_mag", 1 ],
+      [ "ruger_57mag", 10 ],
+      [ "ruger_57_10_round_mag", 10 ],
       [ "wp22mag", 7 ]
     ]
   },
@@ -205,6 +226,7 @@
       [ "j22mag", 1 ],
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
+      { "item": "fnp90mag", "prob": 2, "charges": [ 0, 50 ] },
       [ "ppkmag", 15 ],
       [ "usp9mag_10rd", 5 ],
       [ "usp9mag_18rd", 5 ],
@@ -325,9 +347,13 @@
       { "item": "ruger90", "prob": 5 },
       { "item": "ruger100", "prob": 5 },
       { "item": "stanag5", "prob": 60 },
+      { "item": "stanag5ranger", "prob": 5 },
       { "item": "stanag10", "prob": 5 },
+      { "item": "stanag10ranger", "prob": 2 },
       { "item": "stanag20", "prob": 5 },
+      { "item": "stanag20ranger", "prob": 2 },
       { "item": "stanag30", "prob": 5 },
+      { "item": "stanag30ranger", "prob": 3 },
       { "item": "stanag40", "prob": 3 },
       { "item": "ar10mag_20rd", "prob": 30 },
       { "item": "akmag30", "prob": 5 }
@@ -348,6 +374,7 @@
       [ "akmag20", 40 ],
       [ "akmag40", 40 ],
       [ "akdrum75", 30 ],
+      [ "fnp90mag", 15 ],
       [ "falmag", 100 ],
       [ "falbigmag", 50 ],
       [ "g3mag", 80 ],
@@ -363,7 +390,10 @@
       [ "augmag_42rd", 5 ],
       [ "augmag_100rd", 2 ],
       [ "g36mag_30rd", 15 ],
-      [ "g36mag_100rd", 3 ]
+      [ "g36mag_100rd", 3 ],
+      [ "usc10mag", 5 ],
+      [ "usc15mag", 7 ],
+      [ "usc20mag", 20 ]
     ]
   },
   {

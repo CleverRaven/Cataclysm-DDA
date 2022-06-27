@@ -22,8 +22,6 @@
 #include "type_id.h"
 #include "visitable.h"
 
-static const itype_id itype_iv_purifier( "iv_purifier" );
-
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
@@ -239,11 +237,10 @@ TEST_CASE( "Generated character with category mutations", "[mutation]" )
         CHECK( u.mutation_category_level.empty() );
     }
 
-    SECTION( "Category mutations can be purified" ) {
+    SECTION( "Category mutations can be removed" ) {
         u.toggle_trait_deps( trait_TAIL_FLUFFY );
         CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
-        item purifier( itype_iv_purifier );
-        iuse::purify_iv( &u, &purifier, true, tripoint_zero );
+        u.remove_mutation( trait_TAIL_FLUFFY );
         CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
     }
 }

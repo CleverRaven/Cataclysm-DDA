@@ -3,7 +3,7 @@
     "type": "npc_class",
     "id": "NC_BONE_SEER",
     "name": { "str": "Bone Seer" },
-    "job_description": "I wish to sing the song of the Bones",
+    "job_description": "I wish to sing the song of the Bones.",
     "traits": [
       { "trait": "OUTDOORSMAN" },
       { "trait": "HEAVYSLEEPER" },
@@ -243,7 +243,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_COOPER2",
-    "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he… he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realises it.  To him, the end justifies any means.",
+    "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he… he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the Cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realises it.  To him, the end justifies any means.",
     "speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
     "responses": [
       { "text": "Well… shit.  Maybe we should talk about something else.", "topic": "TALK_BONE_SEER" },

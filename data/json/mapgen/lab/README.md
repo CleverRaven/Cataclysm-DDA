@@ -92,7 +92,7 @@ None of these require json changes to enact, but JSON-ideas for lab special effe
 
 ## Room generation
 
-The most common source of randomness *within* a map is to create a 7x7 or 9x9 room and give it random contents by using place_nested.  Don't place rooms directly, instead we use an intermediate map chunk called a 'spawn' which encodes more information and randomizes between all the kinds of rooms that would satisify those requirements.
+The most common source of randomness *within* a map is to create a 7x7 or 9x9 room and give it random contents by using place_nested.  Don't place rooms directly, instead we use an intermediate map chunk called a 'spawn' which encodes more information and randomizes between all the kinds of rooms that would satisfy those requirements.
 
 * lab_spawn_7x7 - a 7x7 room with no guarantees on where the doors are.
 * lab_spawn_7x7_crossdoors - a 7x7 room with doors only in the middle of each border wall.

@@ -34,6 +34,7 @@ class vehicle;
 enum vpart_bitflags : int {
     VPFLAG_ARMOR,
     VPFLAG_APPLIANCE,
+    VPFLAG_ARCADE,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
     VPFLAG_CONE_LIGHT,
@@ -49,6 +50,7 @@ enum vpart_bitflags : int {
     VPFLAG_SEATBELT,
     VPFLAG_SIMPLE_PART,
     VPFLAG_SPACE_HEATER,
+    VPFLAG_HEATED_TANK,
     VPFLAG_COOLER,
     VPFLAG_WHEEL,
     VPFLAG_ROTOR,
@@ -502,6 +504,13 @@ struct vehicle_prototype {
         itype_id fuel = itype_id::NULL_ID();
     };
 
+    struct zone_def {
+        zone_type_id zone_type;
+        std::string name;
+        std::string filter;
+        point pt;
+    };
+
     vehicle_prototype();
     vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
@@ -511,6 +520,7 @@ struct vehicle_prototype {
     translation name;
     std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
+    std::vector<zone_def> zone_defs;
 
     std::unique_ptr<vehicle> blueprint;
 

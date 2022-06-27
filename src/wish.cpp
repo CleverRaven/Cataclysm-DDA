@@ -347,12 +347,12 @@ void debug_menu::wisheffect( Character &p )
             descstr << eff.disp_name() << '\n';
         }
 
-        descstr << "Intensity threshold: ";
+        descstr << _( "Intensity threshold: " );
         descstr <<  colorize( std::to_string( to_seconds<int>( efft.intensity_duration() ) ),
                               c_yellow );
         descstr << "s | ";
 
-        descstr << "Max: ";
+        descstr << _( "Max: " );
         int max_duration = to_seconds<int>( eff.get_max_duration() );
         descstr << colorize( std::to_string( max_duration ), c_yellow );
         descstr << "s\n";
@@ -417,8 +417,10 @@ void debug_menu::wisheffect( Character &p )
             only_active = !only_active;
             for( uilist_entry &entry : efmenu.entries ) {
                 if( only_active ) {
-                    const int duration = to_seconds<int>( effects[entry.retval - offset].get_duration() );
-                    entry.enabled = duration > 0 || entry.retval < offset;
+                    if( entry.retval >= offset ) {
+                        const int duration = to_seconds<int>( effects[entry.retval - offset].get_duration() );
+                        entry.enabled = duration > 0 || entry.retval < offset;
+                    }
                 } else {
                     entry.enabled = true;
                 }
@@ -471,6 +473,9 @@ void debug_menu::wisheffect( Character &p )
                 }
             } else {
                 eff.set_duration( 0_seconds );
+                if( only_active ) {
+                    entry.enabled = false;
+                }
             }
 
             entry.ctxt.clear();

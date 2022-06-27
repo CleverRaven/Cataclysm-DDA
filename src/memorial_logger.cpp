@@ -44,7 +44,6 @@
 #include "overmapbuffer.h"
 #include "past_games_info.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
@@ -358,14 +357,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << eol;
 
     file << _( "Equipment:" ) << eol;
-    for( const item &elem : u.worn ) {
-        item next_item = elem;
-        file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
-        if( next_item.charges > 0 ) {
-            file << " (" << next_item.charges << ")";
-        }
-        file << eol;
-    }
+    u.worn.write_text_memorial( file, indent, eol );
     file << eol;
 
     //Inventory
@@ -842,12 +834,11 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::gains_addiction: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                add_type type = e.get<add_type>( "add_type" );
-                const std::string &type_name = addiction_type_name( type );
+                addiction_id type = e.get<addiction_id>( "add_type" );
                 //~ %s is addiction name
                 add( pgettext( "memorial_male", "Became addicted to %s." ),
                      pgettext( "memorial_female", "Became addicted to %s." ),
-                     type_name );
+                     type->get_type_name().translated() );
             }
             break;
         }
@@ -938,12 +929,11 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::loses_addiction: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                add_type type = e.get<add_type>( "add_type" );
-                const std::string &type_name = addiction_type_name( type );
+                addiction_id type = e.get<addiction_id>( "add_type" );
                 //~ %s is addiction name
                 add( pgettext( "memorial_male", "Overcame addiction to %s." ),
                      pgettext( "memorial_female", "Overcame addiction to %s." ),
-                     type_name );
+                     type->get_type_name().translated() );
             }
             break;
         }

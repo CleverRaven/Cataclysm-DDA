@@ -44,5 +44,19 @@
       { "monster": "mon_mutant_camouflaged", "weight": 60 },
       { "monster": "mon_mutant_alpha", "weight": 10 }
     ]
+  },
+  {
+    "name": "GROUP_RATKIN_EVOLVED",
+    "type": "monstergroup",
+    "default": "mon_black_ratkin",
+    "monsters": [
+      { "monster": "mon_black_ratkin" },
+      { "monster": "mon_lab_ratkin", "weight": 200 },
+      { "monster": "mon_big_rat", "weight": 320 },
+      { "monster": "mon_zap_rat", "weight": 280 },
+      { "monster": "mon_tunnel_rat", "weight": 180 },
+      { "monster": "mon_teke_mouse", "weight": 160 },
+      { "monster": "mon_mausketeer", "weight": 90 }
+    ]
   }
 ]

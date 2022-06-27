@@ -1,0 +1,23 @@
+[
+  {
+    "id": "morale_num",
+    "type": "widget",
+    "label": "Morale",
+    "var": "morale_level",
+    "style": "number"
+  },
+  {
+    "id": "mood_desc_label",
+    "type": "widget",
+    "label": "Mood",
+    "style": "text",
+    "var": "mood_text",
+    "//": "Uses display::morale_face_color"
+  },
+  {
+    "id": "mood_desc_no_label",
+    "type": "widget",
+    "copy-from": "mood_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

@@ -3,10 +3,12 @@
 
 #include "cata_catch.h"
 #include "cata_utility.h"
+#include "item.h"
 #include "mongroup.h"
 #include "options.h"
 #include "options_helpers.h"
 
+static const mtype_id mon_null( "mon_null" );
 static const mtype_id mon_test_CBM( "mon_test_CBM" );
 static const mtype_id mon_test_bovine( "mon_test_bovine" );
 static const mtype_id mon_test_non_shearable( "mon_test_non_shearable" );
@@ -137,4 +139,16 @@ TEST_CASE( "Event-based monsters from an event-only mongroup", "[monster][mongro
             }
         }
     }
+}
+
+TEST_CASE( "Using mon_null as mongroup default monster", "[mongroup]" )
+{
+    mongroup_id test_group1( "test_default_monster" );
+    mongroup_id test_group2( "test_group_default_monster" );
+    mongroup_id test_group3( "test_event_only" );
+    mongroup_id test_group4( "test_event_mongroup" );
+    CHECK( test_group1->defaultMonster == mon_null );
+    CHECK( test_group2->defaultMonster == mon_null );
+    CHECK( test_group3->defaultMonster == mon_null );
+    CHECK( test_group4->defaultMonster != mon_null );
 }

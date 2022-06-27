@@ -18,7 +18,7 @@
     "environmental_protection": 1,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "eyepatch_leather",
@@ -36,7 +36,7 @@
     "color": "light_gray",
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_sunglasses",
@@ -55,8 +55,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fitover_sunglasses",
@@ -75,8 +75,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "OUTER", "FRAGILE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "FRAGILE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_bal",
@@ -97,8 +97,8 @@
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_bifocal",
@@ -118,8 +118,8 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_eye",
@@ -138,8 +138,8 @@
     "color": "cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_monocle",
@@ -159,8 +159,8 @@
     "color": "cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 20, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 20, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_reading",
@@ -181,8 +181,8 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_safety",
@@ -202,8 +202,26 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER" ],
-    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+  },
+  {
+    "id": "glass_goggles",
+    "type": "ARMOR",
+    "name": { "str": "pair of glass goggles", "str_pl": "pairs of glass goggles" },
+    "description": "A pair of old-fashioned goggles with thick glass lenses, somewhat similar to those worn by the pilots of open-cockpit aircraft, but more crude looking.  Won't protect your eyes from physical harm, but can keep hazardous chemicals out.",
+    "weight": "90 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 200,
+    "material": [ "glass" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_cyan",
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY", "FRAGILE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "goggles_ski",
@@ -224,7 +242,7 @@
     "material_thickness": 2,
     "environmental_protection": 6,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "goggles_welding",
@@ -246,7 +264,7 @@
     "environmental_protection": 6,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
-    "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "iggaak",
@@ -265,8 +283,8 @@
     "color": "light_gray",
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 9, "coverage": 90, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 9, "coverage": 90, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "sunglasses",
@@ -285,8 +303,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "sunglasses_bifocal",
@@ -305,8 +323,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "sunglasses_eye",
@@ -325,8 +343,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "sunglasses_reading",
@@ -346,8 +364,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_glasses_bifocal",
@@ -367,8 +385,8 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_glasses_eye",
@@ -387,8 +405,8 @@
     "color": "yellow",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_glasses_reading",
@@ -409,8 +427,8 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_sunglasses_bifocal",
@@ -429,8 +447,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_sunglasses_eye",
@@ -449,8 +467,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_sunglasses_reading",
@@ -470,8 +488,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "transition_glasses_bifocal",
@@ -490,8 +508,8 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "transition_glasses_eye",
@@ -510,8 +528,8 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "transition_glasses_reading",
@@ -531,8 +549,8 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_transition_glasses_bifocal",
@@ -551,8 +569,8 @@
     "color": "white",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_transition_glasses_eye",
@@ -571,8 +589,8 @@
     "color": "white",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_transition_glasses_reading",
@@ -592,7 +610,7 @@
     "color": "white",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   }
 ]

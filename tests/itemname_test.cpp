@@ -24,14 +24,14 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate" );
+                CHECK( name == "<color_c_light_green>||</color>\u00A0bookplate" );
             }
         }
 
         WHEN( "the item is oversized" ) {
             std::string name = item( "bootsheath" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath" );
+                CHECK( name == "<color_c_light_green>||</color>\u00A0ankle sheath" );
             }
         }
 
@@ -47,7 +47,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             }
 
             THEN( "the item name says its too small" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>tunic (too small)" );
+                CHECK( name == "<color_c_light_green>||</color>\u00A0tunic (too small)" );
             }
         }
 
@@ -60,14 +60,14 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
             THEN( "the item name says its too small" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too small)" );
+                CHECK( name == "<color_c_light_green>||</color>\u00A0bookplate (too small)" );
             }
         }
 
         WHEN( "the item is oversized" ) {
             std::string name = item( "bootsheath" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath" );
+                CHECK( name == "<color_c_light_green>||</color>\u00A0ankle sheath" );
             }
         }
 
@@ -83,7 +83,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             }
 
             THEN( "the item name says its tiny" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>tunic (tiny!)" );
+                CHECK( name == "<color_c_light_green>||</color>\u00A0tunic (tiny!)" );
             }
         }
 
@@ -96,14 +96,14 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
             THEN( "the item name says its too big" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too big)" );
+                CHECK( name == "<color_c_light_green>||</color>\u00A0bookplate (too big)" );
             }
         }
 
         WHEN( "the item is oversized" ) {
             std::string name = item( "bootsheath" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath (huge!)" );
+                CHECK( name == "<color_c_light_green>||</color>\u00A0ankle sheath (huge!)" );
             }
         }
 
@@ -119,7 +119,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             }
 
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>tunic" );
+                CHECK( name == "<color_c_light_green>||</color>\u00A0tunic" );
             }
         }
     }
@@ -144,7 +144,7 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
 
     // Check empty quiver display
     CHECK( quiver.display_name() ==
-           "<color_c_light_green>||\u00A0</color>"
+           "<color_c_light_green>||</color>\u00A0"
            "test quiver (0)" );
 
     // Insert one arrow
@@ -152,7 +152,7 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     // Expect 1 arrow remaining and displayed
     CHECK( quiver.ammo_remaining() == 10 );
     CHECK( quiver.display_name() ==
-           "<color_c_light_green>||\u00A0</color>"
+           "<color_c_light_green>||</color>\u00A0"
            "test quiver > test wooden broadhead arrows (10)" );
 }
 

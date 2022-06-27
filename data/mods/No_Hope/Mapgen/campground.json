@@ -118,48 +118,5 @@
     "om_terrain": [ [ "campground_1a", "campground_1b" ], [ "campground_2a", "campground_2b" ] ],
     "type": "mapgen",
     "weight": 10000
-  },
-  {
-    "method": "json",
-    "om_terrain": [ "campground_roof" ],
-    "type": "mapgen",
-    "weight": 10000,
-    "object": {
-      "rows": [
-        "                        ",
-        "             ___________",
-        "             |.........I",
-        "             |.........I",
-        "             |.........I",
-        "             |.........I",
-        "             |.........I",
-        "             ---o......I",
-        "                |......I",
-        "                |......I",
-        "                |......I",
-        "                |......I",
-        "                --------",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "_": "t_gutter_north",
-        "-": "t_gutter_south",
-        "|": "t_gutter_west",
-        "I": "t_gutter_east",
-        "o": "t_gutter_drop"
-      }
-    }
   }
 ]

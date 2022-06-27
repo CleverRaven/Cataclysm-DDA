@@ -1,5 +1,38 @@
 [
   {
+    "id": "MISSION_ROBOFAC_MERC_1_GOLD",
+    "type": "mission_definition",
+    "name": { "str": "Retrieve chunks of gold for Cranberry" },
+    "description": "Cranberry, a mercenary for Hub 01, has agreed to pay in full for their contract for every 200 units of gold that you can bring them.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "followup": "MISSION_ROBOFAC_MERC_1_GOLD",
+    "value": 50000,
+    "item": "gold_small",
+    "count": 200,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "I'm still assigned to finding gold.  If you want to keep bringing it to me, I'm willing to keep paying you.  Eight scrip per lot.",
+      "accepted": "Great!  Thanks.",
+      "rejected": "That's fine.  I really need to get back to being productive anyway.",
+      "advice": "Banks and security vans are where I've had the most luck.  I'd start there.",
+      "inquire": "Hi again.  Got some gold for me?",
+      "success": "I appreciate it.  Here's the scrip; don't spend it all in one place.",
+      "success_lie": "…",
+      "failure": "…"
+    },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
+        { "u_add_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+      ]
+    }
+  },
+  {
     "type": "item_group",
     "id": "bionics_sci",
     "subtype": "distribution",
@@ -65,6 +98,24 @@
     "base_faction": "animal"
   },
   {
+    "id": "vitA",
+    "type": "vitamin",
+    "vit_type": "vitamin",
+    "name": { "str": "Vitamin A" },
+    "min": -8400,
+    "max": 3600,
+    "rate": "180 m"
+  },
+  {
+    "id": "vitB",
+    "type": "vitamin",
+    "vit_type": "vitamin",
+    "name": { "str": "Vitamin B12" },
+    "min": -5600,
+    "max": 2000,
+    "rate": "360 m"
+  },
+  {
     "id": "1st_aid",
     "type": "GENERIC",
     "category": "drugs",
@@ -78,7 +129,7 @@
     "symbol": "!",
     "color": "red",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR" ]
+    "flags": [ "NO_REPAIR", "OBSOLETE" ]
   },
   {
     "id": "tool_rdx_charge",
@@ -100,7 +151,7 @@
       "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
       "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "OBSOLETE" ]
   },
   {
     "id": "tool_anfo_charge",
@@ -122,7 +173,7 @@
       "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
       "shrapnel": 12600
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "OBSOLETE" ]
   },
   {
     "type": "terrain",
@@ -133,7 +184,7 @@
     "color": "magenta",
     "move_cost": 0,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "OBSOLETE" ],
     "bash": {
       "str_min": 3,
       "str_max": 45,
@@ -159,7 +210,7 @@
     "color": "light_green",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "OBSOLETE" ],
     "bash": {
       "str_min": 50,
       "str_max": 400,
@@ -199,7 +250,7 @@
     "color": "dark_gray",
     "move_cost": 10,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -243,7 +294,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 75,
-    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -293,7 +344,7 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -341,7 +392,7 @@
     "color": "yellow",
     "move_cost": 8,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -397,7 +448,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_floor",
       "items": [
@@ -444,7 +495,7 @@
     "coverage": 50,
     "light_emitted": 10,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_floor",
       "items": [
@@ -490,7 +541,7 @@
     "looks_like": "f_machinery_old",
     "move_cost": 0,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE", "OBSOLETE" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -528,7 +579,7 @@
   {
     "id": "adv_UPS_off",
     "type": "TOOL",
-    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
+    "name": { "str": "advanced UPS", "str_pl": "advanced UPSes" },
     "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel batteries rather than regular batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "weight": "453 g",
     "volume": "2 L",
@@ -549,7 +600,7 @@
         "item_restriction": [ "heavy_atomic_battery_cell" ]
       }
     ],
-    "flags": [ "IS_UPS" ]
+    "flags": [ "IS_UPS", "OBSOLETE" ]
   },
   {
     "type": "GENERIC",
@@ -562,6 +613,17 @@
     "symbol": ",",
     "material": [ "paper" ],
     "volume": "250 ml",
+    "price": 0,
+    "flags": [ "OBSOLETE" ]
+  },
+  {
+    "id": "rifle_case_xs_soft_leather",
+    "type": "ARMOR",
+    "copy-from": "rifle_case_soft_leather",
+    "looks_like": "rifle_case_soft_leather",
+    "name": { "str": "long leather rifle case" },
+    "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE", "UNDERSIZE", "OBSOLETE" ],
     "price": 0
   }
 ]

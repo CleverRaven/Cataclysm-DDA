@@ -28,11 +28,11 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
+        "            ; ;;;;;;    ",
+        "            ; ;;;;;;    ",
+        "            ; ;;;;;;    ",
+        "              ;;;;;;    ",
+        "              ;;;;;;    ",
         "                        ",
         "                        ",
         ";;;;;;                  ",
@@ -53,6 +53,7 @@
         ";;;;;;;;;;;;;;;;;;;;    ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmw_2_common_palette" ]
     }
   },
@@ -202,6 +203,38 @@
         { "point": "furniture", "id": "f_bench", "x": 5, "y": 15 },
         { "point": "furniture", "id": "f_bench", "x": 6, "y": 15 },
         { "point": "furniture", "id": "f_55gal_firebarrel", "x": 5, "y": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_common_tanner",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " t r",
+        " h B",
+        "   r",
+        "    "
+      ],
+      "palettes": [ "fbmw_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_tanner",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_common_tanner" ], "x": 15, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_salt_water_pump",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirt", "x": 12, "x2": 12, "y": 0, "y2": 1 },
+        { "point": "terrain", "id": "t_salt_water_pump", "x": 12, "y": 2 }
       ]
     }
   }

@@ -22,6 +22,7 @@
       [ "spell_scroll_chilling_touch", 50 ],
       [ "spell_scroll_magic_missile", 50 ],
       [ "spell_scroll_bleed", 50 ],
+      [ "spell_scroll_disruption_bolt", 50 ],
       [ "spell_scroll_shocking_lash", 50 ],
       [ "spell_scroll_bless", 25 ],
       [ "spell_scroll_create_atomic_lamp", 25 ],
@@ -139,7 +140,10 @@
       [ "bio_sneeze_beam", 50 ],
       [ "spell_scroll_banishment_lesser", 30 ],
       [ "spell_scroll_nova_flare", 25 ],
-      [ "spell_scroll_freezing_touch", 40 ]
+      [ "spell_scroll_freezing_touch", 40 ],
+      [ "spell_scroll_focused_bolt", 4 ],
+      [ "spell_scroll_rupture", 4 ],
+      [ "spell_scroll_cause_rot", 4 ]
     ]
   },
   {
@@ -164,6 +168,7 @@
       [ "pyro", 60 ],
       [ "eshaper_spellbook", 60 ],
       [ "techno_em", 60 ],
+      [ "animist_spirits", 60 ],
       [ "wizard_advanced", 60 ],
       [ "stat_up_spellbook", 45 ]
     ]
@@ -173,6 +178,7 @@
     "type": "item_group",
     "items": [
       [ "animist_shadows", 5 ],
+      [ "forbidden_tome", 1 ],
       [ "magus_spellbook", 15 ],
       [ "magus_spellbook_move", 30 ],
       [ "translocate_spellbook", 20 ],

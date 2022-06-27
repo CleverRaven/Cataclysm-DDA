@@ -134,7 +134,7 @@
     "material": [ "steel" ],
     "charges_per_use": 1,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 1000 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "thread": 1000 } } ],
     "sub": "sewing_kit",
     "use_action": [
       {
@@ -159,25 +159,6 @@
         "tool_quality": 1,
         "cost_scaling": 0.1,
         "move_cost": 500
-      },
-      {
-        "type": "sew_advanced",
-        "materials": [
-          "cotton",
-          "leather",
-          "lycra",
-          "wool",
-          "fur",
-          "faux_fur",
-          "nomex",
-          "kevlar",
-          "neoprene",
-          "gutskin",
-          "plastic",
-          "kevlar_rigid"
-        ],
-        "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD" ]
@@ -197,7 +178,7 @@
     "color": "red",
     "ammo": [ "thread" ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 1000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "thread": 1000 } } ]
   },
   {
     "id": "borealmosin_clip",

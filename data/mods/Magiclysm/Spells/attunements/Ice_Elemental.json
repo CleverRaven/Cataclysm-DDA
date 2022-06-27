@@ -54,7 +54,7 @@
   {
     "id": "cold_heart_slow",
     "type": "SPELL",
-    "name": "Cold Heart slowdown",
+    "name": "Cold Heart Slowdown",
     "description": "Causes slowdown from the Cold Heart spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
     "effect": "attack",

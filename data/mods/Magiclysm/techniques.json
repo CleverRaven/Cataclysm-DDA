@@ -1,0 +1,18 @@
+[
+  {
+    "type": "technique",
+    "id": "DIVIDE",
+    "name": "The Great Divide",
+    "//": "VORPAL in fact, but with another weight (-250 -> 99)",
+    "melee_allowed": true,
+    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 2 } ],
+    "crit_tec": true,
+    "weighting": 0,
+    "messages": [
+      "Snicker-snack!  You slice through %s like a hot knife slices through butter.",
+      "Snicker-snack!  <npcname> slices through %s like a hot knife slices through butter."
+    ],
+    "description": "Cut damage multiply by 2, crit only",
+    "attack_vectors": [ "WEAPON" ]
+  }
+]

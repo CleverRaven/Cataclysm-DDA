@@ -13,7 +13,9 @@
     "comfort": 3,
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
-    "deconstruct": { "items": [ { "item": "pipe", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "rope_6" } ] },
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
+    },
     "required_str": 20
   },
   {
@@ -101,7 +103,7 @@
   {
     "type": "furniture",
     "id": "f_autodoc_cheap",
-    "name": "salvaged autodoc",
+    "name": "salvaged Autodoc",
     "symbol": "&",
     "color": "light_red",
     "copy-from": "f_autodoc",
@@ -160,7 +162,7 @@
       "items": [
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
         { "item": "steel_chunk", "count": [ 3, 6 ] },
-        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "cotton_patchwork", "count": [ 40, 55 ] },
         { "item": "afs_material_1", "count": [ 10, 20 ] }
       ]
     }
@@ -186,7 +188,7 @@
         { "item": "steel_chunk", "count": [ 1, 2 ] },
         { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
         { "item": "plastic_sheet", "count": [ 10, 15 ] },
-        { "item": "rag", "count": [ 20, 30 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
         { "item": "afs_material_1", "count": [ 10, 20 ] },
         { "item": "afs_magnet_2", "count": [ 1, 3 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
@@ -203,7 +205,7 @@
         { "item": "steel_chunk", "count": [ 3, 6 ] },
         { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "plastic_chunk", "count": [ 20, 30 ] },
-        { "item": "rag", "count": [ 20, 30 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
         { "item": "afs_material_1", "count": [ 10, 20 ] },
         { "item": "afs_magnet_2", "count": [ 1, 3 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
@@ -344,7 +346,7 @@
     "id": "f_nano_forge",
     "name": "nano forge",
     "looks_like": "f_forge",
-    "description": "Matrioshka Fabritechnics created this portable nanotech forge for when expeditions are setting up a basecamp far from population centers.  Once deployed it can be used to craft ultratech marvels that otherwise are too minute for human crafting.  Often used in combination with a diamond press.",
+    "description": "Matrioshka Fabritechnics nano forge looks like a solid black box.  Apertures for ingredients open with a hum as the console commands are entered.  DO NOT INSERT ANY PART OF YOUR ANATOMY.",
     "symbol": "*",
     "color": "light_gray",
     "move_cost_mod": -1,
@@ -1048,7 +1050,7 @@
     "type": "furniture",
     "id": "f_toposcan_scanner",
     "name": "DIRT scanner array",
-    "description": "Mounted on a self-stabilizing gymbal, this high-tech sphere is full of various sensors and scanners that automatically map out the surrounding terrain with an amazing accuracy.",
+    "description": "Mounted on a self-stabilizing gimbal, this high-tech sphere is full of various sensors and scanners that automatically map out the surrounding terrain with an amazing accuracy.",
     "looks_like": "f_satellite",
     "symbol": "{",
     "color": "light_gray",

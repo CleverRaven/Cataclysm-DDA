@@ -20,7 +20,7 @@ static void check_reload_time( std::string weapon, std::string ammo,
     if( container.empty() ) {
         get_map().add_item( test_origin, item( ammo ) );
     } else {
-        shooter.worn.emplace_back( container );
+        shooter.worn.wear_item( shooter, item( container ), false, false );
         shooter.i_add( item( ammo, calendar::turn_zero, 1 ) );
     }
 

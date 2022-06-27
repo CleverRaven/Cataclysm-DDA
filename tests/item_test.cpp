@@ -57,11 +57,11 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer() == layer_level::UNDERWEAR );
-    CHECK( item( "10gal_hat" ).get_layer() == layer_level::REGULAR );
-    CHECK( item( "baldric" ).get_layer() == layer_level::WAIST );
-    CHECK( item( "armor_lightplate" ).get_layer() == layer_level::OUTER );
-    CHECK( item( "legrig" ).get_layer() == layer_level::BELTED );
+    CHECK( item( "arm_warmers" ).get_layer().front() == layer_level::SKINTIGHT );
+    CHECK( item( "10gal_hat" ).get_layer().front() == layer_level::NORMAL );
+    // intentionally no waist layer check since it is obsoleted
+    CHECK( item( "armor_lightplate" ).get_layer().front() == layer_level::OUTER );
+    CHECK( item( "legrig" ).get_layer().front() == layer_level::BELTED );
 }
 
 TEST_CASE( "gun_layer", "[item]" )
@@ -70,7 +70,7 @@ TEST_CASE( "gun_layer", "[item]" )
     item mod( "shoulder_strap" );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
     gun.put_in( mod, item_pocket::pocket_type::MOD );
-    CHECK( gun.get_layer() == layer_level::BELTED );
+    CHECK( gun.get_layer().front() == layer_level::BELTED );
 }
 
 TEST_CASE( "stacking_cash_cards", "[item]" )
@@ -196,9 +196,8 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_filthy.cold_up(); // 3 C (276.15 K)
     liquid_filthy.set_flag( json_flag_FILTHY );
 
-    // Temperature is in terms of 0.000001 K
-    REQUIRE( std::floor( liquid_hot.temperature / 100000 ) == 333 );
-    REQUIRE( std::floor( liquid_cold.temperature / 100000 ) == 276 );
+    REQUIRE( units::to_kelvin( liquid_hot.temperature ) == Approx( 333.15 ) );
+    REQUIRE( units::to_kelvin( liquid_cold.temperature ) == Approx( 276.15 ) );
     REQUIRE( liquid_hot.has_flag( json_flag_HOT ) );
     REQUIRE( liquid_cold.has_flag( json_flag_COLD ) );
 
@@ -294,7 +293,7 @@ TEST_CASE( "items spawn in their default containers", "[item]" )
     check_spawning_in_container( "water" );
     check_spawning_in_container( "gunpowder" );
     check_spawning_in_container( "nitrox" );
-    check_spawning_in_container( "ammonia" );
+    check_spawning_in_container( "ammonia_hydroxide" );
     check_spawning_in_container( "detergent" );
     check_spawning_in_container( "pale_ale" );
     check_spawning_in_container( "single_malt_whiskey" );
@@ -699,4 +698,137 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
             }
         }
     }
+}
+
+static bool assert_maximum_density_for_material( const item &target )
+{
+    if( to_milliliter( target.volume() ) == 0 ) {
+        return false;
+    }
+    const std::map<material_id, int> mats = target.made_of();
+    if( !mats.empty() ) {
+
+        double item_density = static_cast<double>( to_gram( target.weight() ) ) / static_cast<double>
+                              ( to_milliliter( target.volume() ) );
+        double max_density = 0;
+        for( const auto &m : mats ) {
+            // this test will NOT pass right now so for now check but allow failing
+            max_density += m.first.obj().density() * m.second / target.type->mat_portion_total;
+        }
+        INFO( target.type_name() );
+        CHECK( item_density <= max_density );
+
+        return item_density > max_density;
+    }
+
+    // fallback return
+    return false;
+}
+
+TEST_CASE( "item_material_density_sanity_check", "[item][!mayfail]" )
+{
+    // randomize items so you get varied failures when testing densities
+    std::vector<const itype *> all_items = item_controller->all();
+    std::shuffle( std::begin( all_items ), std::end( all_items ), rng_get_engine() );
+
+    // only allow so many failures before stopping
+    int number_of_failures = 0;
+
+    for( const itype *type : all_items ) {
+        const item sample( type, calendar::turn_zero, item::solitary_tag{} );
+        if( assert_maximum_density_for_material( sample ) ) {
+            number_of_failures++;
+            if( number_of_failures > 20 ) {
+                break;
+            }
+        }
+    }
+}
+
+TEST_CASE( "armor_entry_consolidate_check", "[item][armor]" )
+{
+    item test_consolidate( "test_consolidate" );
+
+    //check this item has a single armor entry, not 3 like is written in the json explicitly
+
+    CHECK( test_consolidate.find_armor_data()->sub_data.size() == 1 );
+}
+
+TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
+{
+    avatar &guy = get_avatar();
+    clear_avatar();
+    // check if you can swap a rigid armor
+    item test_armguard( "test_armguard" );
+    REQUIRE( guy.wield( test_armguard ) );
+
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+
+    CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
+
+    guy.change_side( *guy.worn.top_items_loc( guy ).front().get_item() );
+
+    CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::RIGHT );
+
+
+    // check if you can't wear 3 rigid armors
+    clear_avatar();
+
+    item first_test_armguard( "test_armguard" );
+    REQUIRE( guy.wield( first_test_armguard ) );
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+
+    item second_test_armguard( "test_armguard" );
+    REQUIRE( guy.wield( second_test_armguard ) );
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+
+    item third_test_armguard( "test_armguard" );
+    REQUIRE( guy.wield( third_test_armguard ) );
+    REQUIRE( !guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+}
+
+TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
+{
+    avatar &guy = get_avatar();
+    clear_avatar();
+
+    item test_armguard( "test_armguard" );
+    item second_test_armguard( "test_armguard" );
+    item splint( "arm_splint" );
+    item second_splint( "arm_splint" );
+    item third_splint( "arm_splint" );
+
+    // check if you can wear a splint
+    clear_avatar();
+
+    guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
+    REQUIRE( guy.wield( splint ) );
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+
+    // check if you cannot wear a splint if something rigid is on that arm
+    clear_avatar();
+
+    REQUIRE( guy.wield( test_armguard ) );
+    guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+
+    CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
+    // swap side to the broken arm side
+    guy.change_side( *guy.worn.top_items_loc( guy ).front().get_item() );
+    // should fail to wear
+    REQUIRE( guy.wield( second_splint ) );
+    REQUIRE( !guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+
+    // check if you can wear a splint if nothing rigid is on that arm
+    clear_avatar();
+
+    REQUIRE( guy.wield( second_test_armguard ) );
+    guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+
+    CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
+
+    // should be able to wear the arm is open
+    REQUIRE( guy.wield( third_splint ) );
+    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
 }

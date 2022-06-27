@@ -1,0 +1,138 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_RC_Shoppers_add",
+    "//": "Adds random survivors visiting the refugee center to shop",
+    "recurrence": 3000,
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_near_om_location": "evac_center_13", "range": 30 },
+        { "not": { "u_near_om_location": "evac_center_13", "range": 2 } },
+        "is_day",
+        { "one_in_chance": 10 },
+        { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
+        {
+          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "RC_Shoppers", "op": "<", "time": "1 d" }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "nest_RandEnc_RC_Shoppers_add", "om_terrain": "evac_center_13" },
+      { "u_add_var": "RandEnc", "type": "timer", "context": "RC_Shoppers", "time": true },
+      {
+        "u_location_variable": { "global_val": "randenc_shoppers_loc" },
+        "target_params": { "om_terrain": "evac_center_13" }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "RC_Shoppers_visiting" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_RC_Shoppers_remove",
+    "recurrence": 200,
+    "global": true,
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "RC_Shoppers", "op": ">", "time": "6 h" },
+            "is_night"
+          ]
+        },
+        { "compare_int": [ { "global_val": "var", "var_name": "RC_Shoppers_visiting" }, "==", { "const": 1 } ] },
+        { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
+      ]
+    },
+    "effect": [
+      {
+        "mapgen_update": "nest_RandEnc_RC_Shoppers_remove",
+        "om_terrain": "evac_center_13",
+        "target_var": { "global_val": "randenc_shoppers_loc" }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "RC_Shoppers_visiting" }, "=", { "const": 0 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_RC_JohnBailey_add",
+    "//": "Specific travelling NPC John Bailey stops in at the refugee center.  Regardless of where you meet him, you can't meet John more than once per 3 days.",
+    "recurrence": 3200,
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_near_om_location": "evac_center_13", "range": 30 },
+        { "not": { "u_near_om_location": "evac_center_13", "range": 2 } },
+        "is_day",
+        { "one_in_chance": 15 },
+        { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
+        {
+          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "JohnBailey", "op": "<", "time": "3 d" }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "nest_RandEnc_RC_JohnBailey_add", "om_terrain": "evac_center_13" },
+      { "u_add_var": "RandEnc", "type": "timer", "context": "JohnBailey", "time": true },
+      {
+        "u_location_variable": { "global_val": "randenc_johnbailey_loc" },
+        "target_params": { "om_terrain": "evac_center_13" }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "RC_JohnBailey_visiting" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_RC_JohnBailey_remove",
+    "recurrence": 200,
+    "global": true,
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "JohnBailey", "op": ">", "time": "6 h" },
+            "is_night"
+          ]
+        },
+        { "compare_int": [ { "global_val": "var", "var_name": "RC_JohnBailey_visiting" }, "==", { "const": 1 } ] },
+        { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
+      ]
+    },
+    "effect": [
+      {
+        "mapgen_update": "nest_RandEnc_RC_Shoppers_remove",
+        "om_terrain": "evac_center_13",
+        "target_var": { "global_val": "randenc_johnbailey_loc" }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "RC_JohnBailey_visiting" }, "=", { "const": 0 } ] }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_RC_Shoppers_add",
+    "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
+    "object": { "place_npcs": [ { "class": "RC_survivor_visiting", "x": 20, "y": 23 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_RC_Shoppers_remove",
+    "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
+    "object": { "remove_npcs": [ { "class": "RC_survivor_visiting", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_RC_JohnBailey_add",
+    "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
+    "object": { "place_npcs": [ { "class": "RC_John_Bailey_visiting", "x": 19, "y": 21, "unique_id": "John_Bailey" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_RC_JohnBailey_remove",
+    "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
+    "object": { "remove_npcs": [ { "class": "RC_John_Bailey_visiting", "x": 0, "y": 0, "unique_id": "John_Bailey" } ] }
+  }
+]

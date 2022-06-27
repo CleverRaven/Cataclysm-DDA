@@ -43,7 +43,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "DIGGABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PIT_FILLABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
     "//": "left diggable to clean out corpses-KA101"
   },
@@ -70,7 +70,7 @@
     "connects_to": "PIT_DEEP",
     "move_cost": 10,
     "trap": "tr_spike_pit",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "PIT_FILLABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
     "examine_action": "pit"
   },
@@ -97,7 +97,7 @@
     "connects_to": "PIT_DEEP",
     "move_cost": 10,
     "trap": "tr_glass_pit",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "PIT_FILLABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
     "examine_action": "pit"
   },

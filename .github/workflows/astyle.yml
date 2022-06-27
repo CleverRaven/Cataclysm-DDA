@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         fetch-depth: 1
 
@@ -38,8 +38,10 @@ jobs:
     - name: astyle check
       run: make astyle-check
 
+    - name: Format
+      if: failure()
+      run: make astyle-fast
+
     - name: Display Corrections
       if: failure()
-      run: |
-        make astyle
-        git diff
+      run: git diff

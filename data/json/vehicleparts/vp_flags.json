@@ -260,6 +260,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ARCADE",
+    "type": "json_flag"
+  },
+  {
     "id": "BEEPER",
     "type": "json_flag"
   },
@@ -318,7 +322,7 @@
   {
     "id": "E_DIESEL_FUEL",
     "type": "json_flag",
-    "info": "Burns diesel or JP8 fuel from a tank in the vehicle.  Can also burn biodiesel or lamp oil, though somewhat less efficiently."
+    "info": "Burns diesel or JP8 fuel from a tank in the vehicle.  Can also burn biodiesel or kerosene, though somewhat less efficiently."
   },
   {
     "id": "E_HEATER",
@@ -338,6 +342,10 @@
   },
   {
     "id": "FLUIDTANK",
+    "type": "json_flag"
+  },
+  {
+    "id": "GASTANK",
     "type": "json_flag"
   },
   {
@@ -374,6 +382,10 @@
   },
   {
     "id": "HARNESS_human",
+    "type": "json_flag"
+  },
+  {
+    "id": "HEATED_TANK",
     "type": "json_flag"
   },
   {

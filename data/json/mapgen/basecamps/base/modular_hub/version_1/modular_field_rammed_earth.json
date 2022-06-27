@@ -9,7 +9,7 @@
       "v": "t_window_empty",
       "w": "t_wall_rammed_earth"
     },
-    "furniture": {  }
+    "furniture": { ";": "f_clear", ".": "f_clear", "+": "f_clear", "v": "f_clear", "w": "f_clear" }
   },
   {
     "type": "mapgen",

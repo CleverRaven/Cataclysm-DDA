@@ -62,7 +62,7 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 12 },
-        { "item": "rag", "count": [ 30, 33 ] },
+        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
         { "item": "nail", "charges": [ 8, 10 ] },
         { "item": "cable", "charges": [ 1, 2 ], "prob": 50 }
       ]
@@ -77,7 +77,7 @@
         { "item": "2x4", "count": [ 2, 5 ] },
         { "item": "nail", "charges": [ 3, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] },
-        { "item": "rag", "count": [ 20, 30 ] }
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] }
       ]
     }
   },
@@ -85,7 +85,7 @@
     "type": "furniture",
     "id": "f_autoclave",
     "name": "autoclave",
-    "description": "A device that can steam its contents at high enough tempuratures to completely sterilize them, killing any possible contaminants.",
+    "description": "A device that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.",
     "symbol": "0",
     "color": "light_blue_white",
     "move_cost_mod": 3,
@@ -129,7 +129,7 @@
     "type": "furniture",
     "id": "f_autoclave_full",
     "name": "filled autoclave",
-    "description": "A device that can steam its contents at high enough tempuratures to completely sterilize them, killing any possible contaminants.",
+    "description": "A device that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.",
     "symbol": "0",
     "color": "light_blue_white",
     "move_cost_mod": 3,
@@ -172,7 +172,7 @@
     "type": "furniture",
     "id": "f_sample_freezer",
     "name": "sample freezer",
-    "description": "A specialized freezer capable of maintaining tempuratures of -80 Celsieus, and is often used only for the preservation of delicate scientific samples.",
+    "description": "A specialized freezer capable of maintaining temperatures of -80 Celsius, and is often used only for the preservation of delicate scientific samples.",
     "symbol": "[",
     "bgcolor": "white",
     "move_cost_mod": 2,

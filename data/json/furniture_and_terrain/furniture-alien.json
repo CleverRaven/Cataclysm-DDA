@@ -151,7 +151,7 @@
     "type": "furniture",
     "id": "f_alien_table",
     "name": "fleshy altar",
-    "description": "This pulsing protuberance juts from the floor, its sides covered in scaled, oozing skin.  The surface is flat, but undulates softly.  A handful of unidentifiable appendages reach from the sides, suggesting a sort of nightmarish living autodoc.",
+    "description": "This pulsing protuberance juts from the floor, its sides covered in scaled, oozing skin.  The surface is flat, but undulates softly.  A handful of unidentifiable appendages reach from the sides, suggesting a sort of nightmarish living Autodoc.",
     "symbol": "n",
     "color": "pink",
     "move_cost_mod": -1,
@@ -188,6 +188,53 @@
         { "item": "exodii_motor", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 0, 2 ] },
         { "item": "scrap_copper", "count": [ 2, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_exodii_signpost",
+    "name": "pictographic signpost",
+    "looks_like": "f_sign",
+    "description": "This simple scrap metal sign has a series of pictographs on it depicting what seems to be a trade interaction.  There is a crude but understandable directions map beneath it.",
+    "symbol": "!",
+    "color": "red",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN" ],
+    "deconstruct": { "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "sheet_metal_small", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] } ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_EXODII_SIGNPOST_FALSE",
+          "condition": { "u_has_mission": "directions_exodii_signpost" },
+          "effect": [
+            {
+              "u_message": "You study the signpost.  It shows a similar set of directions to the ones you already have.  You cross-reference them and don't learn anything new.",
+              "popup": true
+            }
+          ]
+        },
+        {
+          "id": "EOC_EXODII_SIGNPOST",
+          "condition": { "not": { "u_has_mission": "directions_exodii_signpost" } },
+          "effect": [
+            {
+              "u_message": "You study the signpost.  It shows simply drawn pictograms of a pair of hands holding out an object, and another pair taking the object and offering a pouch in return.  Beneath the pictures there's a crude but understandable map with arrows pointing to what looks like some kind of castle.  You do your best to relate those to landmarks you know about, and mark the likely location on your map.",
+              "popup": true
+            },
+            { "assign_mission": "directions_exodii_signpost" }
+          ]
+        }
       ]
     }
   },

@@ -395,9 +395,14 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
     if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
         source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
-        source.aim( Target_attributes( target_size_in_moa( source.pos(), location ) ) );
+        source.aim( Target_attributes( source.pos(), location ) );
     } else {
-        source.fire_gun( location );
+        if( source.is_hallucination() ) {
+            gun_mode mode = source.get_wielded_item().gun_current_mode();
+            source.pretend_fire( &source, mode.qty, *mode );
+        } else {
+            source.fire_gun( location );
+        }
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s fires %s", source.disp_name(),
                        gun.display_name() );
     }
@@ -565,8 +570,8 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 
 void npc_attack_throw::use( npc &source, const tripoint &location ) const
 {
-    if( !source.is_wielding( source.get_wielded_item() ) ) {
-        if( !source.wield( source.get_wielded_item() ) ) {
+    if( !source.is_wielding( thrown_item ) ) {
+        if( !source.wield( thrown_item ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
@@ -597,11 +602,20 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
 
 bool npc_attack_throw::can_use( const npc &source ) const
 {
+    // Don't throw anything if we're hallucination
+    // TODO: make an analogue of pretend_fire function
+    if( source.is_hallucination() ) {
+        return false;
+    }
+
+    if( !source.is_wielding( thrown_item ) && !source.can_wield( thrown_item ).success() ) {
+        return false;
+    }
+
     item single_item( thrown_item );
     if( single_item.count_by_charges() ) {
         single_item.charges = 1;
     }
-
 
     // Always allow throwing items that are flagged as throw now to
     // get rid of dangerous items ASAP, even if ranged attacks aren't allowed
@@ -763,7 +777,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     if( potential > 0.0f && critter && damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
     }
-    if( potential > 0.0f && target->pos() == critter->pos() ) {
+    if( potential > 0.0f && target && critter && target->pos() == critter->pos() ) {
         potential *= npc_attack_constants::target_modifier;
     }
     return npc_attack_rating( std::round( potential ), location );

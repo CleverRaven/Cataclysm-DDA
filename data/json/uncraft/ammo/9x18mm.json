@@ -13,8 +13,7 @@
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 4 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "9x18mmP2",
@@ -30,8 +29,7 @@
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 5 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "9x18mmfmj",
@@ -47,7 +45,6 @@
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 4 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

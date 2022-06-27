@@ -33,9 +33,11 @@ class move_mode
 {
 
         friend class generic_factory<move_mode>;
+        friend struct mod_tracker;
 
         bool was_loaded = false;
         move_mode_id id;
+        std::vector<std::pair<move_mode_id, mod_id>> src;
 
         std::map<steed_type, translation> change_messages_success;
         std::map<steed_type, translation> change_messages_fail;
@@ -70,6 +72,7 @@ class move_mode
 
         move_mode() = default;
 
+        // name: walk, run, crouch, prone
         std::string name() const;
         std::string change_message( bool success, steed_type steed ) const;
 

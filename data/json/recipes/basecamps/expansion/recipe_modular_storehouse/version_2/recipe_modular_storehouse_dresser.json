@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_1",
+    "result": "fbms_2_dresser_1",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -29,7 +29,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_2",
+    "result": "fbms_2_dresser_2",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -56,7 +56,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_3",
+    "result": "fbms_2_dresser_3",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -83,7 +83,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_4",
+    "result": "fbms_2_dresser_4",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -110,7 +110,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_5",
+    "result": "fbms_2_dresser_5",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -137,7 +137,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_6",
+    "result": "fbms_2_dresser_6",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -164,7 +164,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_7",
+    "result": "fbms_2_dresser_7",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -191,7 +191,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_8",
+    "result": "fbms_2_dresser_8",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -218,7 +218,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_9",
+    "result": "fbms_2_dresser_9",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -245,7 +245,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_10",
+    "result": "fbms_2_dresser_10",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -272,7 +272,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_11",
+    "result": "fbms_2_dresser_11",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -299,7 +299,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_12",
+    "result": "fbms_2_dresser_12",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -326,7 +326,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_13",
+    "result": "fbms_2_dresser_13",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -353,7 +353,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_14",
+    "result": "fbms_2_dresser_14",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -380,7 +380,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_15",
+    "result": "fbms_2_dresser_15",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -407,7 +407,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_storehouse_dresser_16",
+    "result": "fbms_2_dresser_16",
     "description": "Place 12 dressers forming 1 ½ aisle for storage (2000 L storage, contents not visible from a distance, doesn't block LoS)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",

@@ -43,6 +43,9 @@ then
         fi
     done
     files_list "$( git merge-base "$base" HEAD^2 )..HEAD^2"
+elif [ -n "$GIT_LOCAL_BASE_REF" ]
+then
+    files_list "$GIT_LOCAL_BASE_REF..HEAD"
 else
     echo 'Neither $TRAVIS nor $GITHUB_BASE_REF was defined' >&2
     exit 1

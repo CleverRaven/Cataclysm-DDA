@@ -3,7 +3,7 @@
 #include "filesystem.h"
 #include "string_formatter.h"
 #include "translation_document.h"
-#include "translation_manager.h"
+#include "translation_manager_impl.h"
 
 #if defined(LOCALIZE)
 
@@ -79,7 +79,7 @@ TEST_CASE( "TranslationManager loading benchmark", "[.][benchmark][translations]
     BENCHMARK( "Load Russian" ) {
         TranslationManager manager;
         manager.LoadDocuments( std::vector<std::string> {"./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo"} );
-        return manager;
+        return manager.Translate( "battery" );
     };
 }
 

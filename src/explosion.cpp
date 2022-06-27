@@ -133,7 +133,7 @@ namespace explosion_handler
 static int ballistic_damage( float velocity, float mass )
 {
     // Damage is square root of Joules, dividing by 2000 because it's dividing by 2 and
-    // converting mass from grams to kg. The inital term is simply a scaling factor.
+    // converting mass from grams to kg. The initial term is simply a scaling factor.
     return 4.0 * std::sqrt( ( velocity * velocity * mass ) / 2000.0 );
 }
 // Calculate cross-sectional area of a steel sphere in cm^2 based on mass of fragment.
@@ -301,8 +301,8 @@ static void do_blast( const tripoint &p, const float power,
 
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            vp->vehicle().damage( vp->part_index(), force, fire ? damage_type::HEAT : damage_type::BASH,
-                                  false );
+            vp->vehicle().damage( here, vp->part_index(), force,
+                                  fire ? damage_type::HEAT : damage_type::BASH, false );
         }
 
         Creature *critter = creatures.creature_at( pt, true );
@@ -457,7 +457,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         if( here.impassable( target ) ) {
             if( optional_vpart_position vp = here.veh_at( target ) ) {
-                vp->vehicle().damage( vp->part_index(), damage / 10 );
+                vp->vehicle().damage( here, vp->part_index(), damage / 10 );
             } else {
                 here.bash( target, damage / 100, true );
             }
@@ -481,7 +481,7 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
-    _explosions.emplace_back( p, ex );
+    _explosions.emplace_back( get_map().getglobal( p ), ex );
 }
 
 void _make_explosion( const tripoint &p, const explosion_data &ex )
@@ -868,7 +868,7 @@ void resonance_cascade( const tripoint &p )
 void process_explosions()
 {
     for( const queued_explosion &ex : _explosions ) {
-        _make_explosion( ex.first, ex.second );
+        _make_explosion( get_map().getlocal( ex.first ), ex.second );
     }
     _explosions.clear();
 }

@@ -23,7 +23,6 @@
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "500 ml",
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "falmag", "falbigmag", "fal_makeshiftmag" ] } ]
   },
   {
@@ -49,7 +48,6 @@
     "min_cycle_recoil": 2700,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] } ]
   },
   {
@@ -66,7 +64,7 @@
     "price_postapoc": 10000,
     "to_hit": -4,
     "bashing": 18,
-    "material": [ "hardsteel" ],
+    "material": [ "qt_steel" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "308" ],
@@ -108,6 +106,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ]
   },
@@ -148,7 +147,6 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] } ]
   },
   {
@@ -187,7 +185,8 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ]
   },
@@ -227,7 +226,8 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ]
   },
@@ -279,7 +279,6 @@
     "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "min_cycle_recoil": 2700,
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -334,7 +333,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "HK417 A2" },
-    "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
+    "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas-operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
     "weight": "4220 g",
     "volume": "4000 ml",
     "longest_side": "914 mm",
@@ -352,7 +351,6 @@
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "adjustable_stock" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] } ]
   },
   {
@@ -361,7 +359,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "M110A1" },
-    "description": "A derivative of H&K's G28 with an aluminum upper receiver to meet US Army weight requirements.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
+    "description": "A derivative of H&K's G28 with an aluminum upper receiver to meet US Army weight requirements.  It is a gas-operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
     "weight": "3800 g",
     "volume": "4000 ml",
     "longest_side": "1028 mm",
@@ -378,7 +376,6 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "default_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] } ]
   },
   {
@@ -387,7 +384,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "AR-10" },
-    "description": "Somewhat similar to the later AR-15, the AR-10 is a gas operated, rotating bolt rifle chambered for 7.62x51mm rounds.",
+    "description": "Somewhat similar to the later AR-15, the AR-10 is a gas-operated, rotating bolt rifle chambered for 7.62x51mm rounds.",
     "weight": "3290 g",
     "volume": "4250 ml",
     "longest_side": "1050 mm",
@@ -403,7 +400,6 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 2700,
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ar10mag_20rd", "ar10_makeshiftmag" ] } ]
   }
 ]

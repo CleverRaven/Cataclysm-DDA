@@ -3,7 +3,7 @@
     "id": "mon_laserturret_xray",
     "type": "MONSTER",
     "name": { "str": "x-ray laser turret" },
-    "description": "The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the x-ray laser cannon system with three barrels.  Each barrel will fire once and be exhausted until the part can be replaced.",
+    "description": "The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the art x-ray laser cannon system with three barrels.  Each barrel will fire once and be exhausted until the part can be replaced.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 20,

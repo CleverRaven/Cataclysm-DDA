@@ -322,8 +322,7 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
         if( r->obsolete ) {
             return false;
         }
-        return item == r->result() ||
-               ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
+        return item == r->result() || r->in_byproducts( item );
     } );
 
     return res;
@@ -522,8 +521,8 @@ void recipe_dictionary::finalize()
     finalize_internal( recipe_dict.recipes );
     finalize_internal( recipe_dict.uncraft );
 
-    for( auto &e : recipe_dict.recipes ) {
-        auto &r = e.second;
+    for( const auto &e : recipe_dict.recipes ) {
+        const recipe &r = e.second;
 
         if( r.obsolete ) {
             continue;
@@ -538,8 +537,16 @@ void recipe_dictionary::finalize()
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
-        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result().str() ) ) ) {
-            recipe_dict.uncraft[ recipe_id( r.result().str() ) ] = r;
+
+        const string_id<recipe> uncraft_id = recipe_id( r.result().str() );
+        if( r.is_reversible() && !recipe_dict.uncraft.count( uncraft_id ) ) {
+            recipe_dict.uncraft[ uncraft_id ] = r;
+
+            if( r.uncraft_time > 0 ) {
+                // If a specified uncraft time has been given, use that in the uncraft
+                // recipe rather than the original.
+                recipe_dict.uncraft[ uncraft_id ].time = r.uncraft_time;
+            }
         }
     }
 
@@ -551,7 +558,7 @@ void recipe_dictionary::finalize()
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / 12.5_ml;
-            auto &bk = recipe_dict.uncraft[rid];
+            recipe &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
             bk.result_ = id;
             bk.reversible = true;

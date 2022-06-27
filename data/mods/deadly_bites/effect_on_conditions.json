@@ -1,0 +1,83 @@
+[
+  {
+    "id": "MISSION_INFECTED_START_FIND_ANTIVIRALS",
+    "type": "mission_definition",
+    "name": { "str": "Find Antivirals Before You Die!" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "origins": [ "ORIGIN_GAME_START" ],
+    "item": "antivirals"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_deadly_virus",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "zombie_virus", "intensity": 1, "duration": "PERMANENT" },
+      { "assign_mission": "MISSION_INFECTED_START_FIND_ANTIVIRALS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONSUMED_ANTIVIRAL",
+    "condition": { "u_has_effect": "antivirals" },
+    "effect": [ { "u_add_effect": "antivirals", "duration": "16 hours" }, { "u_message": "You take an antiviral.", "type": "info" } ],
+    "false_effect": [
+      { "u_add_effect": "antivirals", "duration": "16 hours" },
+      { "u_message": "You take an antiviral.", "type": "info" },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_REDUCE_ZVIRUS1",
+            "condition": {
+              "and": [
+                { "u_has_effect": "zombie_virus", "intensity": 2 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 2 } ] }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "zombie_virus", "intensity": 1, "duration": "PERMANENT" },
+              {
+                "u_message": "You seem to be feeling a little better, but the prickling sensation remains.",
+                "type": "good"
+              }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_ZVIRUS2",
+            "condition": {
+              "and": [
+                { "u_has_effect": "zombie_virus", "intensity": 3 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 3 } ] }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "zombie_virus", "intensity": 2, "duration": "PERMANENT" },
+              {
+                "u_message": "You no longer feel uncomfortably itchy, but your skin is still concerningly pale.",
+                "type": "good"
+              }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_ZVIRUS3",
+            "condition": {
+              "and": [
+                { "u_has_effect": "zombie_virus", "intensity": 4 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 4 } ] }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "zombie_virus", "intensity": 3, "duration": "PERMANENT" },
+              {
+                "u_message": "Some of the lesions on your skin have begun to heal, but the itchiness remains.",
+                "type": "good"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

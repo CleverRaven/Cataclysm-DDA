@@ -11,6 +11,12 @@
   },
   {
     "type": "mutation",
+    "id": "WEAKSCENT",
+    "copy-from": "WEAKSCENT",
+    "extend": { "category": [ "SYLVAN", "VAMP" ] }
+  },
+  {
+    "type": "mutation",
     "id": "NMELD",
     "name": "Nature's Boon",
     "points": 3,
@@ -42,8 +48,26 @@
   },
   {
     "type": "mutation",
+    "id": "SMELLY2",
+    "copy-from": "SMELLY2",
+    "extend": { "category": [ "SYLVAN" ] }
+  },
+  {
+    "type": "mutation",
     "id": "PHEROMONE_MAMMAL",
     "copy-from": "PHEROMONE_MAMMAL",
+    "extend": { "category": [ "SYLVAN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FASTHEALER",
+    "copy-from": "FASTHEALER",
+    "extend": { "category": [ "SYLVAN", "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FASTHEALER2",
+    "copy-from": "FASTHEALER2",
     "extend": { "category": [ "SYLVAN" ] }
   },
   {
@@ -111,7 +135,7 @@
     "threshreq": [ "THRESH_SYLVAN" ],
     "category": [ "SYLVAN" ],
     "cancels": [ "BADCARDIO" ],
-    "max_stamina_modifier": 1.5,
+    "cardio_multiplier": 1.8,
     "stamina_regen_modifier": 0.25
   }
 ]

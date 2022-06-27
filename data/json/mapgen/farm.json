@@ -182,11 +182,11 @@
       "rows": [
         "                        ",
         "   IIII  ####W###W###   ",
-        " III__III#____rrr___#   ",
-        "II______III________s#   ",
-        "I________A_________s#   ",
-        "II______III________s#   ",
-        " III__III#__________W   ",
+        " IIIffIII#____rrr___#   ",
+        "IIffffffIII________s#   ",
+        "IffffffffA_________s#   ",
+        "IIffffffIII________s#   ",
+        " IIIffIII#__________W   ",
         "   IIII  #_______O__#   ",
         "         ####MMMM####   ",
         "                 O      ",
@@ -205,7 +205,7 @@
         " F  DDDDDDDDDDDDDDDD  F ",
         "FF                    F "
       ],
-      "terrain": { "I": [ "t_wall_metal" ] },
+      "terrain": { "I": [ "t_wall_metal" ], "f": [ "t_metal_floor" ] },
       "items": { "r": { "item": "farming_tools", "chance": 25 } },
       "sealed_item": { "D": { "item": { "item": "seed_oats" }, "furniture": "f_plant_harvest", "chance": 70 } },
       "place_item": [
@@ -306,6 +306,16 @@
         "FF                    F "
       ],
       "items": { "r": { "item": "tools_earthworking", "chance": 20 } },
+      "terrain": {
+        "♥": "t_dirtfloor",
+        "♠": "t_dirtfloor",
+        "♦": "t_dirtfloor",
+        "♣": "t_dirtfloor",
+        "Ʌ": "t_dirtfloor",
+        "Δ": "t_dirtfloor",
+        "‡": "t_dirtfloor",
+        "%": "t_dirtfloor"
+      },
       "sealed_item": {
         "D": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 },
         "♥": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_harvest", "chance": 100 },

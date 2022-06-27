@@ -12,12 +12,7 @@
     "blueprint_name": "east storage wing",
     "blueprint_requires": [ { "id": "fbms_0" } ],
     "blueprint_provides": [ { "id": "fbms_east" } ],
-    "blueprint_excludes": [ { "id": "fbms_east" } ],
-    "blueprint_needs": {
-      "time": "1 d",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 48 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbms_east" } ]
   },
   {
     "type": "recipe",
@@ -32,12 +27,7 @@
     "blueprint_name": "west storage wing",
     "blueprint_requires": [ { "id": "fbms_0" } ],
     "blueprint_provides": [ { "id": "fbms_west" } ],
-    "blueprint_excludes": [ { "id": "fbms_west" } ],
-    "blueprint_needs": {
-      "time": "1 d",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 48 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbms_west" } ]
   },
   {
     "type": "recipe",
@@ -52,12 +42,7 @@
     "blueprint_name": "northwest storeroom corner",
     "blueprint_requires": [ { "id": "fbms_west" } ],
     "blueprint_provides": [ { "id": "fbms_northwest" } ],
-    "blueprint_excludes": [ { "id": "fbms_northwest" } ],
-    "blueprint_needs": {
-      "time": "10 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 17 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbms_northwest" } ]
   },
   {
     "type": "recipe",
@@ -72,12 +57,7 @@
     "blueprint_name": "southwest storeroom corner",
     "blueprint_requires": [ { "id": "fbms_west" } ],
     "blueprint_provides": [ { "id": "fbms_southwest" } ],
-    "blueprint_excludes": [ { "id": "fbms_southwest" } ],
-    "blueprint_needs": {
-      "time": "10 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 17 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbms_southwest" } ]
   },
   {
     "type": "recipe",
@@ -92,12 +72,7 @@
     "blueprint_name": "northeast storeroom corner",
     "blueprint_requires": [ { "id": "fbms_east" } ],
     "blueprint_provides": [ { "id": "fbms_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbms_northeast" } ],
-    "blueprint_needs": {
-      "time": "10 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 17 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbms_northeast" } ]
   },
   {
     "type": "recipe",
@@ -112,12 +87,7 @@
     "blueprint_name": "southeast storeroom corner",
     "blueprint_requires": [ { "id": "fbms_east" } ],
     "blueprint_provides": [ { "id": "fbms_southeast" } ],
-    "blueprint_excludes": [ { "id": "fbms_southeast" } ],
-    "blueprint_needs": {
-      "time": "10 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 17 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbms_southeast" } ]
   },
   {
     "type": "recipe",
@@ -132,12 +102,7 @@
     "blueprint_name": "south storeroom entrance",
     "blueprint_requires": [ { "id": "fbms_southeast" }, { "id": "fbms_southwest" } ],
     "blueprint_provides": [ { "id": "fbms_south" } ],
-    "blueprint_excludes": [ { "id": "fbms_south" } ],
-    "blueprint_needs": {
-      "time": "1 d 18 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 58 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbms_south" } ]
   },
   {
     "type": "recipe",
@@ -152,12 +117,7 @@
     "blueprint_name": "north storeroom entrance",
     "blueprint_requires": [ { "id": "fbms_northeast" }, { "id": "fbms_northwest" } ],
     "blueprint_provides": [ { "id": "fbms_north" } ],
-    "blueprint_excludes": [ { "id": "fbms_north" } ],
-    "blueprint_needs": {
-      "time": "1 d 18 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 58 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbms_north" } ]
   },
   {
     "type": "recipe",
@@ -172,11 +132,6 @@
     "blueprint_name": "north storeroom entrance",
     "blueprint_requires": [ { "id": "fbms_north" }, { "id": "fbms_south" } ],
     "blueprint_provides": [ { "id": "fbms_center" } ],
-    "blueprint_excludes": [ { "id": "fbms_center" } ],
-    "blueprint_needs": {
-      "time": "3 d 18 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 120 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbms_center" } ]
   }
 ]

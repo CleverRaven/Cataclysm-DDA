@@ -72,7 +72,7 @@ The various ways this artifact can charge and use charges.
 
 ### passive_add_procgen_values and passive_mult_procgen_values
 
-As the names suggest, these are *passive* benefits/penalties to having the artifact (ie. always present without activating the artifact's abilities).  **Add** values add or subtract from existing scores, and **mult** values multiply them.  These are entered as a list of possible 'abilities' the artifact could get. It does not by default get all these abilities, rather when it spawns it selects from the list provided.
+As the names suggest, these are *passive* benefits/penalties to having the artifact (i.e. always present without activating the artifact's abilities).  **Add** values add or subtract from existing scores, and **mult** values multiply them.  A multiply value of -1 is -100% and a multiply of 2.5 is +250%. These are entered as a list of possible 'abilities' the artifact could get. It does not by default get all these abilities, rather when it spawns it selects from the list provided.
 
 - **weight:** the weight of this value in the list, to be chosen randomly
 - **min_value:** the minimum possible value for this value type. for add must be an integer, for mult it can be a float
@@ -80,6 +80,13 @@ As the names suggest, these are *passive* benefits/penalties to having the artif
 - **type:** the type of enchantment value. see MAGIC.md for detailed documentation on enchantment values
 - **increment:** the increment that is used for the power multiplier
 - **power_per_increment:** the power value per increment
+- **ench_has:** where the artifact must be in inventory for the enchantment to take effect
+
+#### ench_has
+
+- **wield** This enchantment or spell only takes effect while the artifact is wielded
+- **worn** This enchantment or spell only takes effect while the artifact is wielded or worn
+- **held** This enchantment or spell only takes effect while the artifact is wielded, worn, or in inventory
 
 ### type_weights
 This determines the relative weight of the 'add' and 'mult' types.  When generated, an artifact first decides if it is going to apply an 'add' or a 'mult' ability based on the type_weights of each.  Then it uses the weights of the entries under the selected type to pick an ability.  This continues cycling until the artifact reaches the defined power level.  Possible values right now that are functional are:

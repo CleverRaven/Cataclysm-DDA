@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "fbmh_wad_palette",
     "terrain": { ";": "t_dirt", ".": "t_floor_primitive", "+": "t_door_makeshift_c", "v": "t_wall_wattle_half", "w": "t_wall_wattle" },
-    "furniture": {  }
+    "furniture": { ";": "f_clear", ".": "f_clear", "+": "f_clear", "v": "f_clear", "w": "f_clear" }
   },
   {
     "type": "mapgen",

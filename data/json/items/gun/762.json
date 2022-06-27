@@ -32,9 +32,9 @@
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
   },
   {
@@ -73,6 +73,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40" ] } ]
@@ -83,7 +84,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "SKS" },
-    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
+    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
     "ascii_picture": "sks",
     "weight": "3850 g",
     "volume": "2838 ml",
@@ -114,11 +115,19 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 }, "allowed_speedloaders": [ "762x39_clip" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "762": 10 },
+        "allowed_speedloaders": [ "762x39_clip" ]
+      }
+    ]
   },
   {
     "id": "aksemi",
@@ -152,6 +161,7 @@
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
@@ -192,5 +202,39 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
+  },
+  {
+    "id": "mk47",
+    "type": "GUN",
+    "name": { "str": "Mk47 Mutant" },
+    "copy-from": "rifle_semi",
+    "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo.",
+    "weight": "2540 g",
+    "volume": "2300 ml",
+    "longest_side": "930 mm",
+    "price": 170000,
+    "price_postapoc": 4000,
+    "to_hit": { "balance": "neutral", "grip": "solid", "length": "long", "surface": "point" },
+    "bashing": 12,
+    "material": [ "plastic", "steel" ],
+    "looks_like": "ar15",
+    "ammo": [ "762" ],
+    "built_in_mods": [ "pistol_grip" ],
+    "dispersion": 150,
+    "durability": 7,
+    "loudness": 9,
+    "min_cycle_recoil": 1350,
+    "reload": 420,
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag20", "akmag30", "akmag40", "akdrum75" ] } ]
   }
 ]

@@ -20,6 +20,7 @@ void reset();
 std::map<recipe_id, translation> get_recipes_by_bldg( const std::string &bldg );
 std::map<recipe_id, translation> get_recipes_by_id( const std::string &id,
         const std::string &om_terrain_id = "ANY" );
+std::string get_building_of_recipe( const std::string &recipe );
 } // namespace recipe_group
 
 #endif // CATA_SRC_RECIPE_GROUPS_H

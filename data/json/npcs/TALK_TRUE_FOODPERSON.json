@@ -536,7 +536,7 @@
       { "text": "I AM THE ONE!", "topic": "TALK_DONE", "effect": "hostile", "opinion": { "trust": -20, "value": -20 } },
       {
         "condition": { "not": { "u_has_trait": "PROF_FOODP" } },
-        "text": "Wow calm down, it's just a prank bro.",
+        "text": "Wow, calm down, it's just a prank bro.",
         "topic": "TALK_DONE",
         "opinion": { "trust": -20, "value": -20 }
       },

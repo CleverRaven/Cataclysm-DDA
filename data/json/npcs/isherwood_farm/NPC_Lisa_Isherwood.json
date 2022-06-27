@@ -50,7 +50,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "Hi, this is a nice farm, your family live here?",
+        "text": "Hi, this is a nice farm, your family lives here?",
         "topic": "TALK_ISHERWOOD_LISA_TALK1",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },

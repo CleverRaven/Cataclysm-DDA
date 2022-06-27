@@ -71,7 +71,7 @@
     "subtype": "hobby",
     "id": "caffeine_junkie",
     "name": "Caffeine Dependence",
-    "description": "Coffee was your faithful companion every morning, and without it you feel like a zombie.  Thanks to all the actual zombies shambling about, getting your caffiene fix will be much harder now.",
+    "description": "Coffee was your faithful companion every morning, and without it you feel like a zombie.  Thanks to all the actual zombies shambling about, getting your caffeine fix will be much harder now.",
     "points": -1,
     "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ]
@@ -84,14 +84,15 @@
     "description": "You liked to make your own costumes and wear them to various conventions.  Now that everyone is dead or dying, maybe this will be useful for something else.",
     "points": 1,
     "skills": [ { "level": 1, "name": "tailor" } ],
-    "proficiencies": [ "prof_closures", "prof_leatherworking_basic" ]
+    "proficiencies": [ "prof_closures", "prof_leatherworking_basic" ],
+    "missions": [ "MISSION_COSPLAY" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "lockpicking",
     "name": "Lockpicking",
-    "description": "Whether it was for fun, innocent utilty, or criminal intent, you learned the basics of how to silently pick locks.  Now, being able to get into secured places just got a lot more useful.",
+    "description": "Whether it was for fun, innocent utility, or criminal intent, you learned the basics of how to silently pick locks.  Now, being able to get into secured places just got a lot more useful.",
     "points": 1,
     "proficiencies": [ "prof_lockpicking" ],
     "skills": [ { "level": 1, "name": "traps" } ]
@@ -286,7 +287,8 @@
     "description": "You are an incredibly social individual, with the projection and vocabulary to make people listen.",
     "points": 1,
     "skills": [ { "level": 3, "name": "speech" } ],
-    "traits": [ "BOOMING_VOICE" ]
+    "traits": [ "BOOMING_VOICE" ],
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
   },
   {
     "type": "profession",
@@ -370,7 +372,7 @@
     "subtype": "hobby",
     "id": "melee_training",
     "name": "Melee Training",
-    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
     "points": 6,
     "skills": [
       { "level": 2, "name": "melee" },
@@ -437,7 +439,8 @@
     "description": "You are skilled in maneuvering on skates.  You suffer lower penalties to dodging and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
     "points": 2,
     "skills": [ { "level": 2, "name": "dodge" } ],
-    "traits": [ "PROF_SKATER" ]
+    "traits": [ "PROF_SKATER" ],
+    "missions": [ "MISSION_SKATES" ]
   },
   {
     "type": "profession",
@@ -453,7 +456,7 @@
     "subtype": "hobby",
     "id": "car_rebuilding",
     "name": "Car Restoration",
-    "description": "Spending time every weekend in your garage working on an old classic car was your favorite pasttime.  You never finished the car, but at least you learned a little over the years.",
+    "description": "Spending time every weekend in your garage working on an old classic car was your favorite pastime.  You never finished the car, but at least you learned a little over the years.",
     "points": 2,
     "skills": [ { "level": 3, "name": "mechanics" }, { "level": 1, "name": "driving" } ]
   },
@@ -475,7 +478,8 @@
     "description": "You were deep into the fashion scene, keeping up on the latest trends and even modelling clothes yourself.  Having style and good looks is just as, if not more, important to you than practicality.",
     "points": 2,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "tailor" } ],
-    "traits": [ "STYLISH" ]
+    "traits": [ "STYLISH" ],
+    "missions": [ "MISSION_STYLISH" ]
   },
   {
     "type": "profession",
@@ -505,7 +509,8 @@
     "description": "As the Game Master, you've guided players' journeys through dungeons and fortresses.  Now, you're the last member of your party.",
     "points": 2,
     "traits": [ "PROF_DICEMASTER" ],
-    "skills": [ { "level": 2, "name": "speech" } ]
+    "skills": [ { "level": 2, "name": "speech" } ],
+    "missions": [ "MISSION_GAME_MASTER" ]
   },
   {
     "type": "profession",
@@ -534,6 +539,15 @@
     "description": "Your ability to play point or post will beat the undead in overtime.",
     "points": 2,
     "skills": [ { "level": 2, "name": "throw" }, { "level": 2, "name": "dodge" }, { "level": 1, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "football",
+    "name": "Football",
+    "description": "You could have gone pro if the world hadn't ended, but at least you've gone longer than most.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "throw" }, { "level": 1, "name": "dodge" }, { "level": 2, "name": "swimming" } ]
   },
   {
     "type": "profession",
@@ -616,7 +630,8 @@
       { "level": 1, "name": "swimming" },
       { "level": 1, "name": "dodge" }
     ],
-    "traits": [ "PROF_SKATER" ]
+    "traits": [ "PROF_SKATER" ],
+    "missions": [ "MISSION_SKATES" ]
   },
   {
     "type": "profession",
@@ -626,7 +641,8 @@
     "description": "Your time in the rink has taught you that sometimes the best way forward is straight through whoever's trying to block you.",
     "points": 3,
     "skills": [ { "level": 2, "name": "bashing" }, { "level": 2, "name": "swimming" }, { "level": 1, "name": "melee" } ],
-    "traits": [ "PROF_SKATER" ]
+    "traits": [ "PROF_SKATER" ],
+    "missions": [ "MISSION_SKATES" ]
   },
   {
     "type": "profession",
@@ -756,7 +772,7 @@
     "id": "meditation",
     "name": "Meditation",
     "description": "You make a habit of clearing your thoughts and finding your center, even amidst the chaos of the world.",
-    "points": 2,
-    "traits": [ "SELFAWARE", "SPIRITUAL" ]
+    "points": 3,
+    "traits": [ "OPTIMISTIC", "SPIRITUAL" ]
   }
 ]

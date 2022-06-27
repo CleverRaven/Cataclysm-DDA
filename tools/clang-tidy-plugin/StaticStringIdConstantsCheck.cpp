@@ -72,6 +72,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type )
 
     static const std::unordered_map<std::string, std::string> HardcodedPrefixes = {
         { "activity_type", "" },
+        { "add_type", "addiction_" },
         { "ammunition_type", "ammo_" },
         { "bionic_data", "" },
         { "fault", "" },
@@ -122,6 +123,15 @@ static std::string GetCanonicalName( const CXXRecordDecl *Type, const StringRef 
     static const std::string anon_prefix = "_anonymous_namespace___";
     if( StringRef( Result ).startswith( anon_prefix ) ) {
         Result.erase( Result.begin(), Result.begin() + anon_prefix.size() );
+    }
+
+    // Remove double underscores since they are reserved identifiers
+    while( true ) {
+        size_t double_underscores = Result.find( "__" );
+        if( double_underscores == std::string::npos ) {
+            break;
+        }
+        Result.erase( Result.begin() + double_underscores );
     }
 
     return Result;

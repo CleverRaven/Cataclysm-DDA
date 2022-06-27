@@ -1,0 +1,8 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "CHANGELING",
+    "description": "a creature from under the hill",
+    "fear_triggers": [ "HURT" ]
+  }
+]

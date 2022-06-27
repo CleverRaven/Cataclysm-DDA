@@ -81,8 +81,10 @@
     "copy-from": "kevlar_harness",
     "color": "light_red",
     "name": { "str": "chainmail dog coat" },
-    "description": "Protecteth yon hund fram ful daemons!  You could put this on a friendly dog.",
-    "//": "Description is reference to Churl scenario text - 'protect your dog from foul undead'.",
+    "description": {
+      "str": "Protecteth yon hund fram ful daemons!  You could put this on a friendly dog.",
+      "//~": "Description is reference to Churl scenario text - 'protect your dog from foul undead'."
+    },
     "price": 25000,
     "price_postapoc": 3500,
     "material": [ "iron", "budget_steel" ],

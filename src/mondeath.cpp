@@ -81,7 +81,12 @@ item *mdeath::normal( monster &z )
         if( pulverized ) {
             return splatter( z );
         } else {
-            return make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+            const float damage = std::floor( corpse_damage * itype::damage_scale );
+            item *corpse = make_mon_corpse( z, static_cast<int>( damage ) );
+            if( corpse->is_null() ) {
+                return nullptr;
+            }
+            return corpse;
         }
     }
     return nullptr;
@@ -187,6 +192,9 @@ item *mdeath::splatter( monster &z )
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
+        if( corpse.is_null() ) {
+            return nullptr;
+        }
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
@@ -273,7 +281,7 @@ item *make_mon_corpse( monster &z, int damageLvl )
     // All corpses are at 37 C at time of death
     // This may not be true but anything better would be way too complicated
     if( z.is_warm() ) {
-        corpse.set_item_temperature( 310.15 );
+        corpse.set_item_temperature( units::from_celcius( 37 ) );
     }
     corpse.set_damage( damageLvl );
     if( z.has_effect( effect_no_ammo ) ) {

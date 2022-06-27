@@ -319,7 +319,7 @@
     "om_terrain": [ "p_resort_1mm" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_concrete",
       "rows": [
         "W..PP..............PP..W",
         "W..PP..............PP..W",

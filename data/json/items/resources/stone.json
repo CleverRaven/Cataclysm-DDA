@@ -22,6 +22,13 @@
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
   },
   {
+    "type": "AMMO",
+    "id": "flint",
+    "copy-from": "rock_flaking",
+    "name": { "str": "flint" },
+    "description": "A chunk of flint, the kind of rock that can make sparks if stuck against high-carbon steel.  It also chips in a semi-predictable way if struck, leaving a sharp edge."
+  },
+  {
     "type": "GENERIC",
     "id": "rock_large",
     "symbol": ";",
@@ -36,5 +43,18 @@
     "bashing": 28,
     "to_hit": -2,
     "qualities": [ [ "ANVIL", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rock_wool_bat",
+    "symbol": "#",
+    "color": "brown",
+    "name": { "str": "fiber insulation batt" },
+    "//": "I am assuming this is made of rock wool, but it could also be fiberglass.  There is almost no practical difference for our purposes.",
+    "description": "A foil-wrapped batt of fibrous insulation: fire and moisture resistant, used for hot appliances like dishwashers and ovens.",
+    "category": "spare_parts",
+    "material": "epoxy",
+    "weight": "150 g",
+    "volume": "3 L"
   }
 ]

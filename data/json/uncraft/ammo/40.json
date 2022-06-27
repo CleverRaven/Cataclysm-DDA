@@ -11,8 +11,7 @@
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 3 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "40sw",
@@ -26,7 +25,6 @@
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 6 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

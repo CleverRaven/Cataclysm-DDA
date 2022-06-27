@@ -1,5 +1,11 @@
 [
   {
+    "type": "palette",
+    "id": "fbmc_shelter_palette_standard",
+    "terrain": { "w": "t_wall", "d": "t_door_c" },
+    "furniture": { "w": "f_clear", "d": "f_clear" }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmc_shelter_bedroom_SE",
@@ -11,7 +17,7 @@
         "d   ",
         "w   "
       ],
-      "palettes": [ "fbmc_shelter_palette" ]
+      "palettes": [ "fbmc_shelter_palette_standard" ]
     }
   },
   {
@@ -32,7 +38,7 @@
         "d   ",
         "w   "
       ],
-      "palettes": [ "fbmc_shelter_palette" ]
+      "palettes": [ "fbmc_shelter_palette_standard" ]
     }
   },
   {
@@ -54,7 +60,7 @@
         "    w",
         "  www"
       ],
-      "palettes": [ "fbmc_shelter_palette" ]
+      "palettes": [ "fbmc_shelter_palette_standard" ]
     }
   },
   {
@@ -75,7 +81,7 @@
         "   d",
         "   w"
       ],
-      "palettes": [ "fbmc_shelter_palette" ]
+      "palettes": [ "fbmc_shelter_palette_standard" ]
     }
   },
   {
@@ -96,7 +102,7 @@
         "   d",
         "   w"
       ],
-      "palettes": [ "fbmc_shelter_palette" ]
+      "palettes": [ "fbmc_shelter_palette_standard" ]
     }
   },
   {

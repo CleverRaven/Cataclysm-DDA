@@ -109,69 +109,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "s_pizza_parlor_roof",
-    "weight": 20000,
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "|222222222222222        ",
-        "|..............5        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|.&............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|.&............3        ",
-        "|.A............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|>.............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|..............3        ",
-        "|.=............3        ",
-        "----------------        "
-      ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_ladder_down",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "A": "f_air_conditioner" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 13 ], "y": [ 3, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 20 ],
-            [ "roof_2x2_utilities", 20 ],
-            [ "roof_2x2_golf", 3 ],
-            [ "roof_3x3_wine", 3 ],
-            [ "roof_4x4_utility_1", 20 ]
-          ],
-          "x": [ 4, 11 ],
-          "y": [ 5, 15 ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_pizza_parlor_1" ],
     "weight": 100000,
     "object": {
@@ -263,69 +200,6 @@
         "c": { "item": "pizza_soda", "chance": 25 }
       },
       "place_vehicles": [ { "vehicle": "bicycle", "x": [ 1, 3 ], "y": [ 20, 23 ], "chance": 35, "rotation": 270 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "s_pizza_parlor_roof_1",
-    "weight": 20000,
-    "object": {
-      "fill_ter": "t_tar_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                  222222",
-        "                  |:...3",
-        "     22222222222222..X.3",
-        "     |.................3",
-        "     |.................3",
-        "     |.................3",
-        "     |.................3",
-        "     |.................3",
-        "     |.................3",
-        "     ||................3",
-        "      |................3",
-        "      |................3",
-        "      |.&..............3",
-        "      |.A..............3",
-        "      |................3",
-        "      |................3",
-        "..... |-|..............3",
-        ".....   |.........||||||",
-        ".....   |.....###>#     ",
-        ".....   ------#####     ",
-        ".....                   "
-      ],
-      "terrain": {
-        ".": "t_tar_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "#": "t_grate",
-        ">": "t_ladder_down"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster", "X": "f_small_satelitte_dish", "A": "f_air_conditioner" },
-      "place_items": [ { "item": "roof_trash", "x": [ 7, 20 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_2x2_golf", 5 ],
-            [ "roof_3x3_wine", 5 ],
-            [ "roof_4x4_utility_1", 30 ]
-          ],
-          "x": [ 7, 15 ],
-          "y": [ 9, 13 ]
-        }
-      ]
     }
   }
 ]

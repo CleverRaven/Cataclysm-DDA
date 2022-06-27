@@ -114,6 +114,28 @@
     ]
   },
   {
+    "result": "broken_turret_artisans",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "rifle_assault", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_crows_m240",
     "type": "uncraft",
     "activity_level": "fake",

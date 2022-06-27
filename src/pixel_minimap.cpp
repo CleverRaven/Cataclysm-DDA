@@ -225,7 +225,8 @@ void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
 
 void pixel_minimap::prepare_cache_for_updates( const tripoint &center )
 {
-    const tripoint new_center_sm = get_map().get_abs_sub() + ms_to_sm_copy( center );
+    // TODO: fix point types
+    const tripoint new_center_sm = get_map().get_abs_sub().raw() + ms_to_sm_copy( center );
     const tripoint center_sm_diff = cached_center_sm - new_center_sm;
 
     //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed.
@@ -302,7 +303,8 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
     const level_cache &access_cache = here.access_cache( sm_pos.z );
     const bool nv_goggle = get_player_character().get_vision_modes()[NV_GOGGLES];
 
-    submap_cache &cache_item = get_cache_at( here.get_abs_sub() + sm_pos );
+    // TODO: fix point types
+    submap_cache &cache_item = get_cache_at( here.get_abs_sub().raw() + sm_pos );
     const tripoint ms_pos = sm_to_ms_copy( sm_pos );
 
     cache_item.touched = true;
@@ -449,7 +451,8 @@ void pixel_minimap::render( const tripoint &center )
 
 void pixel_minimap::render_cache( const tripoint &center )
 {
-    const tripoint sm_center = get_map().get_abs_sub() + ms_to_sm_copy( center );
+    // TODO: fix point types
+    const tripoint sm_center = get_map().get_abs_sub().raw() + ms_to_sm_copy( center );
     const tripoint sm_offset = tripoint{
         total_tiles_count.x / SEEX / 2,
         total_tiles_count.y / SEEY / 2, 0

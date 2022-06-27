@@ -214,10 +214,12 @@ struct overmap_ravine_settings {
 
 struct map_extras {
     unsigned int chance;
-    weighted_int_list<std::string> values;
+    weighted_int_list<map_extra_id> values;
 
     map_extras() : chance( 0 ) {}
     explicit map_extras( const unsigned int embellished ) : chance( embellished ) {}
+
+    map_extras filtered_by( const mapgendata & ) const;
 };
 
 struct region_terrain_and_furniture_settings {

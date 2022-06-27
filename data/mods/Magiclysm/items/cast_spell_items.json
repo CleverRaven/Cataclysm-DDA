@@ -16,7 +16,7 @@
     "container": "flask_glass",
     "color": "light_blue",
     "comestible_type": "DRINK",
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "phase": "liquid",
     "price": 2500,
     "freezing_point": 4
@@ -53,7 +53,7 @@
     "container": "flask_glass",
     "color": "yellow",
     "comestible_type": "DRINK",
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "phase": "liquid",
     "price": 3000,
     "freezing_point": 4

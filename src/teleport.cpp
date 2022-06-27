@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
@@ -47,10 +48,9 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     return teleport_to_point( critter, new_pos, safe, add_teleglow );
 }
 
-bool teleport::teleport_to_point( Creature &critter, const tripoint &target, bool safe,
+bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                                   bool add_teleglow, bool display_message )
 {
-
     if( critter.pos() == target ) {
         return false;
     }
@@ -65,11 +65,22 @@ bool teleport::teleport_to_point( Creature &critter, const tripoint &target, boo
         }
         return false;
     }
+    tripoint_abs_ms avatar_pos = get_avatar().get_location();
+    bool shifted = false;
+    if( !here.inbounds( target ) ) {
+        const tripoint_abs_ms abs_ms( here.getabs( target ) );
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
+        shifted = true;
+        target = here.getlocal( abs_ms );
+    }
     //handles teleporting into solids.
     if( here.impassable( target ) ) {
         if( safe ) {
             if( c_is_u && display_message ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
+            }
+            if( shifted ) {
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
         }
@@ -84,17 +95,33 @@ bool teleport::teleport_to_point( Creature &critter, const tripoint &target, boo
 
     }
     //handles telefragging other creatures
-    if( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
+    int tfrag_attempts = 5;
+    while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
+        //Fail if we run out of telefrag attempts
+        if( tfrag_attempts-- < 1 ) {
+            if( p && display_message ) {
+                p->add_msg_player_or_npc( m_warning, _( "You flicker." ), _( "<npcname> flickers." ) );
+            } else if( get_player_view().sees( critter ) && display_message ) {
+                add_msg( _( "%1$s flickers." ), critter.disp_name() );
+            }
+            return false;
+        }
         Character *const poor_player = dynamic_cast<Character *>( poor_soul );
         if( safe ) {
             if( c_is_u && display_message ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
+            }
+            if( shifted ) {
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
         } else if( poor_player && ( poor_player->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                                     poor_player->has_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
             if( display_message ) {
                 poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+            }
+            if( shifted ) {
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
         } else {
@@ -124,10 +151,10 @@ bool teleport::teleport_to_point( Creature &critter, const tripoint &target, boo
             poor_soul->check_dead_state();
         }
     }
-
     critter.setpos( target );
     //player and npc exclusive teleporting effects
     if( p ) {
+        g->place_player( p->pos() );
         if( add_teleglow ) {
             p->add_effect( effect_teleglow, 30_minutes );
         }

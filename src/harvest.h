@@ -54,6 +54,7 @@ class harvest_drop_type
 
     private:
         harvest_drop_type_id id;
+        std::vector<std::pair<harvest_drop_type_id, mod_id>> src;
         bool is_group_;
         bool dissect_only_;
         bool was_loaded = false;
@@ -65,6 +66,7 @@ class harvest_drop_type
         std::string msg_dissect_success;
         std::string msg_dissect_fail;
         friend class generic_factory<harvest_drop_type>;
+        friend struct mod_tracker;
 };
 
 // Could be reused for butchery
@@ -98,6 +100,7 @@ class harvest_list
         itype_id leftovers = itype_id( "ruined_chunks" );
 
         harvest_id id;
+        std::vector<std::pair<harvest_id, mod_id>> src;
 
         std::string message() const;
 

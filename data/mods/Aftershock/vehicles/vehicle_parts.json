@@ -10,7 +10,7 @@
     "looks_like": "trunk",
     "location": "center",
     "durability": 200,
-    "description": "This is little more than a sheetmetal basin welded to the bottom of the vehicle, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
+    "description": "This is little more than a sheet metal basin welded to the bottom of the vehicle, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
     "size": 600,
     "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
   },
@@ -325,7 +325,7 @@
     "proportional": { "epower": 6.0 },
     "item": "solar_panel_v3",
     "durability": 40,
-    "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
+    "description": "An extremely high-performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
@@ -363,6 +363,41 @@
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "exo_gantry",
+    "name": { "str": "exosuit maintenance gantry" },
+    "symbol": "T",
+    "categories": [ "utility" ],
+    "color": "light_gray",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "looks_like": "welding_rig",
+    "damage_modifier": 10,
+    "durability": 200,
+    "description": "A gantry for supporting an exosuit upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when active.",
+    "size": 800,
+    "bonus": 600,
+    "item": "afs_metal_rig",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "RECHARGE" ],
+    "pseudo_tools": [
+      { "id": "welder", "hotkey": "w" },
+      { "id": "soldering_iron", "hotkey": "s" },
+      { "id": "exo_repair_kit", "hotkey": "e" }
+    ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 6 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "scrap", "count": [ 3, 6 ] },
+      { "item": "welder", "charges": 0, "prob": 50 }
     ]
   }
 ]

@@ -67,6 +67,7 @@ static monster *spawn_zombie_at_range( const int range )
 
 TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 {
+    get_player_character().setpos( main_npc_start_tripoint );
     clear_map_and_put_player_underground();
     clear_vehicles();
     scoped_weather_override sunny_weather( weather_sunny );
@@ -165,8 +166,8 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 
                 ps.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
-                item *stored_ps = main_npc.try_add( ps );
-                REQUIRE( stored_ps != nullptr );
+                item_location stored_ps = main_npc.try_add( ps );
+                REQUIRE( stored_ps != item_location::nowhere );
 
                 THEN( "NPC activates their power armor successfully" ) {
                     // target is not exposed, so regen_ai_cache is used to have the npc re-assess threat and store the target.

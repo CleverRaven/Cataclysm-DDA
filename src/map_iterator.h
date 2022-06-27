@@ -33,24 +33,31 @@ class tripoint_range
 
                 point_generator( const Tripoint &_p, const tripoint_range &_range )
                     : p( _p ), range( _range ) {
+                    // Make sure we start on a valid point
+                    if( range.predicate && !( *range.predicate )( p ) && p != range.endp ) {
+                        operator++();
+                    }
                 }
 
                 // Increment x, then if it goes outside range, "wrap around" and increment y
                 // Same for y and z
                 inline point_generator &operator++() {
-                    traits::x( p )++;
-                    if( traits::x( p ) <= traits::x( range.maxp ) ) {
-                        return *this;
-                    }
+                    do {
+                        traits::x( p )++;
+                        if( traits::x( p ) <= traits::x( range.maxp ) ) {
+                            continue;
+                        }
 
-                    traits::y( p )++;
-                    traits::x( p ) = traits::x( range.minp );
-                    if( traits::y( p ) <= traits::y( range.maxp ) ) {
-                        return *this;
-                    }
+                        traits::y( p )++;
+                        traits::x( p ) = traits::x( range.minp );
+                        if( traits::y( p ) <= traits::y( range.maxp ) ) {
+                            continue;
+                        }
 
-                    traits::z( p )++;
-                    traits::y( p ) = traits::y( range.minp );
+                        traits::z( p )++;
+                        traits::y( p ) = traits::y( range.minp );
+                    } while( range.predicate && !( *range.predicate )( p ) && p != range.endp );
+
                     return *this;
                 }
 
@@ -74,6 +81,10 @@ class tripoint_range
 
         Tripoint minp;
         Tripoint maxp;
+
+        Tripoint endp;
+
+        cata::optional<std::function<bool( const Tripoint & )>> predicate;
     public:
         using value_type = typename point_generator::value_type;
         using difference_type = typename point_generator::difference_type;
@@ -81,8 +92,15 @@ class tripoint_range
         using reference = typename point_generator::reference;
         using iterator_category = typename point_generator::iterator_category;
 
+        tripoint_range( const Tripoint &_minp, const Tripoint &_maxp,
+                        const std::function<bool( const Tripoint & )> &pred ) :
+            minp( _minp ), maxp( _maxp ), predicate( pred )  {
+            endp = Tripoint( minp.xy(), traits::z( maxp ) + 1 );
+        }
+
         tripoint_range( const Tripoint &_minp, const Tripoint &_maxp ) :
             minp( _minp ), maxp( _maxp ) {
+            endp = Tripoint( minp.xy(), traits::z( maxp ) + 1 );
         }
 
         point_generator begin() const {
@@ -92,12 +110,21 @@ class tripoint_range
         point_generator end() const {
             // Return the point AFTER the last one
             // That is, point under (in z-levels) the first one, but one z-level below the last one
-            return point_generator( Tripoint( minp.xy(), traits::z( maxp ) + 1 ), *this );
+            return point_generator( endp, *this );
         }
 
         size_t size() const {
-            Tripoint range( maxp - minp );
-            return std::max( ++traits::x( range ) * ++traits::y( range ) * ++traits::z( range ), 0 );
+            if( !predicate ) {
+                Tripoint range( traits::x( maxp ) - traits::x( minp ), traits::y( maxp ) - traits::y( minp ),
+                                traits::z( maxp ) - traits::z( minp ) );
+                return std::max( ++traits::x( range ) * ++traits::y( range ) * ++traits::z( range ), 0 );
+            } else {
+                size_t count = 0;
+                for( point_generator it = begin(); it != end(); ++it ) {
+                    ++count;
+                }
+                return count;
+            }
         }
 
         bool empty() const {
@@ -128,6 +155,37 @@ inline tripoint_range<Tripoint> points_in_radius( const Tripoint &center, const 
     static_assert( Tripoint::dimension == 3, "Requires tripoint type" );
     const tripoint offset( radius, radius, radiusz );
     return tripoint_range<Tripoint>( center - offset, center + offset );
+}
+
+template<typename Tripoint>
+inline tripoint_range<Tripoint> points_in_radius_circ( const Tripoint &center, const int radius,
+        const int radiusz = 0 )
+{
+    static_assert( Tripoint::dimension == 3, "Requires tripoint type" );
+    const tripoint offset( radius, radius, radiusz );
+    return tripoint_range<Tripoint>( center - offset,
+    center + offset, [center, radius]( const Tripoint & pt ) {
+        return trig_dist( center, pt ) < radius + 0.5f;
+    } );
+}
+
+/* Template vodoo to allow passing lambdas to the below function without a compiler complaint
+ * Courtesy of
+ * https://stackoverflow.com/questions/13358672/how-to-convert-a-lambda-to-an-stdfunction-using-templates#13359347
+ */
+template <typename T>
+struct tripoint_predicate_fun {
+    using type = T;
+};
+
+template<typename Tripoint>
+inline tripoint_range<Tripoint> points_in_radius_where( const Tripoint &center, const int radius,
+        const typename tripoint_predicate_fun<std::function<bool( const Tripoint &pt )>>::type &func,
+        const int radiusz = 0 )
+{
+    static_assert( Tripoint::dimension == 3, "Requires tripoint type" );
+    const tripoint offset( radius, radius, radiusz );
+    return tripoint_range<Tripoint>( center - offset, center + offset, func );
 }
 
 #endif // CATA_SRC_MAP_ITERATOR_H

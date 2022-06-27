@@ -1,87 +1,5 @@
 [
   {
-    "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY",
-    "monsters": [
-      { "monster": "mon_zombie_technician", "weight": 200, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_hazmat", "weight": 250, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_electric", "weight": 100, "cost_multiplier": 5 },
-      { "monster": "mon_skitterbot", "weight": 100, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_cop", "weight": 100, "cost_multiplier": 5 }
-    ]
-  },
-  {
-    "id": "radiation_equipment",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "hazmat_torso", "prob": 30 },
-      { "group": "hazmat_full", "prob": 10 },
-      { "group": "clothing_work_set", "prob": 20 },
-      { "group": "lab_torso", "prob": 20 },
-      { "group": "hazmat_mask", "prob": 30 },
-      { "group": "rad_gear", "prob": 30 }
-    ]
-  },
-  {
-    "id": "radiation_meds",
-    "type": "item_group",
-    "subtype": "collection",
-    "items": [
-      { "item": "iodine", "prob": 50 },
-      { "item": "prussian_blue", "prob": 75 },
-      { "item": "1st_aid", "prob": 50 },
-      { "item": "gloves_medical", "prob": 20 },
-      { "item": "rag", "prob": 30, "custom-flags": [ "FILTHY" ] },
-      { "group": "drugs_emergency", "prob": 30 },
-      { "group": "drugs_heal_simple", "prob": 20 },
-      { "group": "drugs_analgesic", "prob": 10 }
-    ]
-  },
-  {
-    "id": "repair_storage",
-    "type": "item_group",
-    "subtype": "collection",
-    "items": [
-      { "group": "tools_common", "prob": 50 },
-      { "group": "tools_electronics", "prob": 50 },
-      { "group": "tools_lighting_industrial", "prob": 20 },
-      { "group": "supplies_electronics", "prob": 50 },
-      { "group": "hardware", "prob": 75 },
-      { "group": "hardware_plumbing", "prob": 75 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "decontamination",
-    "subtype": "collection",
-    "items": [
-      { "item": "soap", "prob": 20 },
-      { "item": "towel", "prob": 20 },
-      { "item": "saline", "prob": 20 },
-      { "item": "detergent", "prob": 20 },
-      { "item": "mop", "prob": 10 },
-      { "item": "boots_rubber", "prob": 10 },
-      { "item": "gloves_rubber", "prob": 20 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "packaging",
-    "subtype": "collection",
-    "items": [
-      { "item": "bag_plastic", "prob": 90 },
-      { "item": "bubblewrap", "prob": 60 },
-      { "item": "bag_canvas", "prob": 50 },
-      { "item": "bag_canvas_small", "prob": 50 },
-      { "item": "box_small", "prob": 40 },
-      { "item": "wrapper", "prob": 60 },
-      { "item": "paper", "prob": 10 },
-      { "item": "cup_plastic", "prob": 10 },
-      { "item": "styrofoam_cup", "prob": 10 }
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
@@ -109,7 +27,7 @@
         "'f**|MP PPPPP|----==-------XXXXXXXXNXXXXXXXX-----==-----|PPZPPPZPPP|**f'",
         "'f**|TTTTTTTT| C K     KXXXXXXX!Q!!!!!Q!XXXXXX J        |TTTTTTTTTT|**f'",
         "'f**|--------4 C K   KKKXCCMMCX!!UUUUU!!XMMCCX J    J C 4----------|**f'",
-        "'f**|(       N C K     KXCXXXCX!!UUUUU!!XCXXCX J    J C N         (|**f'",
+        "'f**|        N C K     KXCXXXCX!!UUUUU!!XCXXCX J    J C N          |**f'",
         "'f**| CCCCCCCMCC    C  CC1 XXCCCCCC3CCCCCCX 2     M   CCMCCCCCCCCC |**f'",
         "'f**| C      N C K  CCCC  KXXXX!!UUUUU!!XXX CCCCCCM J C N        C |**f'",
         "'f**| C |----4 C K        KXXXX!!UUUUU!!XXX       M J C 4------| C |**f'",
@@ -121,14 +39,14 @@
         "'f**| C |]  x|x   x|x  ]|  |---N------------|  |.       |c  > >| C |**f'",
         "'f**| C |] hd|dh hd|dh ]|  |##| 4|rG  Gr|B B|  |. htth  |dh >Q>| C |**f'",
         "'f**| C |]  x|x   x|x  ]|  |  |Y----))--|B B|  |. htth  |------| C |**f'",
-        "'f**| C |] hd|dh hd|dh ]|  |F | 4dh   hd|B B|  +       ^|<  + ?| C |**f'",
-        "'f**| C |]  x|x   x|x  ]|  |V |YRRxR4Y6R|-+-|  |  oaao  +   |--| C |**f'",
+        "'f**| C |] hd|dh hd|dh ]|  |F | 4|6h  hd|B B|  +       ^|<  + ?| C |**f'",
+        "'f**| C |]  x|x   x|x  ]|  |V |YRRRR4YRR|-+-|  |  oaao  +   |--| C |**f'",
         "'f**| C |^              +  +  +         +      |  oaao ^|<  + ?| C |**f'",
         "'f**| C |----------------==|---|---++---|----==|---------------| C |**f'",
         "'f**| C |M  KKKKKKKKKKKK   |A AAAAR  RAAAA A|   JJJJJJJJJJJ    | C |**f'",
         "'f**| CCMCC                |A     D  D     A|J              CCCMCC |**f'",
         "'f**|   N C KKKKKKKKKKKK   |A ^oo^R  R^oo^ A|J  JJW MMMMMCCCC  N   |**f'",
-        "'f**| ( 4 C                |-------++-------|J  J W MMMMM      4 ( |**f'",
+        "'f**|   4 C                |-------++-------|J  J W MMMMM      4   |**f'",
         "'f**|   N C KKKKKKKKKKKK   |gggR{{R  R{{Rggg|J  JJW MMMMMCCCC  N   |**f'",
         "'f**| CCMCC                |g%%D%%D  D%%D%%g|J              CCCMCC |**f'",
         "'f**| C |M  KKKKKKKKKKKK   |gggR{{R  R{{Rggg|   WWWWWWWWWWW    N C |**f'",
@@ -159,9 +77,9 @@
         "'f**L_____________________Lss******ss******ssL_____________________L**f'",
         "'f**L____________________Ls##ssss##ss##ssss##sL____________________L**f'",
         "'f**L___________________Lss--w=w---DD---w=w--ssL___________________L**f'",
-        "'fsss__________________Lssswdh  ^hx  xhA  hdwsssL__________________sssf'",
-        "'fs(s__________________Ls(swxh   hd  dh   hxws(sL__________________s(sf'",
-        "'fsss__________________Lsss--w-w---DD---w-w--sssL__________________sssf'",
+        "'f**L__________________Lssswdh  ^hx  xhA  hdwsssL__________________L**f'",
+        "'f**L__________________Lssswxh   hd  dh   hxwsssL__________________L**f'",
+        "'f**L__________________Lsss--w-w---DD---w-w--sssL__________________L**f'",
         "'ffffGGGGGGGGGGGGGGGGGGffffffffffffGGffffffffffffGGGGGGGGGGGGGGGGGGffff'",
         "[[[[L__________________LssssssssssssssssssssssssL__________________L[[[[",
         "[[[[L__________________LssssssssssssssssssssssssL__________________L[[[["
@@ -286,34 +204,34 @@
       "toilets": { "?": {  } },
       "vendingmachines": { "V": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "items": {
-        "S": { "item": "clothing_outdoor_set", "chance": 50 },
-        "c": { "item": "repair_storage", "chance": 80 },
-        "j": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
-        "]": { "item": "file_room", "chance": 80 },
-        "q": { "item": "supplies_electronics", "chance": 70, "repeat": [ 1, 4 ] },
+        "S": { "item": "clothing_outdoor_set", "chance": 20 },
+        "c": { "item": "repair_storage", "chance": 20 },
+        "j": { "item": "cleaning", "chance": 20, "repeat": [ 1, 3 ] },
+        "]": { "item": "file_room", "chance": 20 },
+        "q": { "item": "supplies_electronics", "chance": 20, "repeat": [ 1, 4 ] },
         "K": { "item": "pre_irradiated_food", "chance": 20, "repeat": [ 1, 4 ] },
         "[": { "item": "pre_irradiated_food", "chance": 10, "repeat": [ 1, 4 ] },
         "J": { "item": "irradiated_food", "chance": 20, "repeat": [ 1, 4 ] },
         "A": { "item": "radiation_equipment", "chance": 20, "repeat": [ 1, 2 ] },
-        "W": { "item": "packaging", "chance": 80, "repeat": [ 1, 15 ] },
+        "W": { "item": "packaging", "chance": 20, "repeat": [ 1, 15 ] },
         "#": { "item": "office_breakroom", "chance": 20 },
         "o": { "item": "office_breakroom", "chance": 20 },
         "a": { "item": "office_breakroom", "chance": 60 },
-        "d": { "item": "cubical_office", "chance": 60 },
-        ".": { "item": "coffee_shop", "chance": 50 },
-        "B": { "item": "radiation_meds", "chance": 50 },
+        "d": { "item": "cubical_office", "chance": 20 },
+        ".": { "item": "coffee_shop", "chance": 20 },
+        "B": { "item": "radiation_meds", "chance": 20 },
         "{": { "item": "decontamination", "chance": 15 },
         "%": { "item": "decontamination", "chance": 15 },
         "g": { "item": "decontamination", "chance": 15 }
       },
       "place_loot": [
-        { "group": "guns_pistol_common", "x": 34, "y": 26, "chance": 50, "ammo": 0, "magazine": 100, "repeat": [ 1, 2 ] },
-        { "group": "ammo_pistol_common", "x": 39, "y": 26, "chance": 50, "repeat": [ 1, 5 ] },
-        { "group": "prison_armor", "x": 39, "y": 26, "chance": 50, "repeat": [ 1, 2 ] }
+        { "group": "guns_pistol_common", "x": 34, "y": 26, "chance": 20, "ammo": 0, "magazine": 20, "repeat": [ 1, 2 ] },
+        { "group": "ammo_pistol_common", "x": 39, "y": 26, "chance": 20, "repeat": [ 1, 5 ] },
+        { "group": "prison_armor", "x": 39, "y": 26, "chance": 20, "repeat": [ 1, 2 ] }
       ],
       "liquids": { "T": { "liquid": "water_clean", "amount": [ 200, 600 ] } },
       "fields": { "U": { "field": "fd_nuke_gas", "intensity": 3, "age": 990 }, "/": { "field": "fd_shock_vent" } },
-      "monster": { "(": { "monster": "mon_turret_rifle" }, "!": { "monster": "mon_hazmatbot", "chance": 5 } },
+      "monster": { "!": { "monster": "mon_hazmatbot", "chance": 5 } },
       "monsters": {
         "h": { "monster": "GROUP_ZOMBIE", "chance": 50 },
         "o": { "monster": "GROUP_ZOMBIE", "chance": 50 },
@@ -331,148 +249,14 @@
         { "text": "Decontamination", "x": 37, "y": 39 }
       ],
       "place_vehicles": [
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": -1, "x": 8, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "x": 23, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": 1, "x": 47, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": -1, "x": 60, "y": 48 },
-        {
-          "vehicle": "industrial_transport",
-          "chance": 25,
-          "fuel": -1,
-          "rotation": 90,
-          "status": -1,
-          "x": 10,
-          "y": 62
-        },
-        { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "x": 20, "y": 62 },
-        { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": 1, "x": 53, "y": 62 },
-        {
-          "vehicle": "industrial_transport",
-          "chance": 25,
-          "fuel": -1,
-          "rotation": 90,
-          "status": -1,
-          "x": 62,
-          "y": 62
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [
-      [ "irradiator_1_3_roof", "irradiator_1_2_roof", "irradiator_1_1_roof" ],
-      [ "irradiator_1_6_roof", "irradiator_1_5_roof", "irradiator_1_4_roof" ],
-      [ "irradiator_1_9_roof", "irradiator_1_8_roof", "irradiator_1_7_roof" ]
-    ],
-    "weight": 25000,
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "     |------------------------------------------------------------3     ",
-        "     5............................................................5     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |....}.......................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |......................................................&.&...3     ",
-        "     |...................................................AAA&.&...3     ",
-        "     |......................................................&.&...3     ",
-        "     |...................................................AAA&.&...3     ",
-        "     |......................................................&.&...3     ",
-        "     |...................................................AAA&.&...3     ",
-        "     |......................................................&.&...3     ",
-        "     |...................................................AAA&.&...3     ",
-        "     |......................................................&.&...3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |............................................................3     ",
-        "     |.................................................RR.........3     ",
-        "     |.................................................RR.........3     ",
-        "     |............................................................3     ",
-        "     |..CC.......SSSSS.SSSSS.SSSSS.SSSSS...........D........D.....3     ",
-        "     |..CC.......SSSSS.SSSSS.SSSSS.SSSSS..........................3     ",
-        "     5............................................................5     ",
-        "     |------------------------------------------------------------3     ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        ",
-        "                           |----------------3                           ",
-        "                           |................3                           ",
-        "                           |................5                           ",
-        "                           |----------------3                           ",
-        "                                                                        ",
-        "                                                                        ",
-        "                                                                        "
-      ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "|": "t_gutter_west",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "5": "t_gutter_drop",
-        "}": "t_ladder_down",
-        "R": "t_radio_tower"
-      },
-      "furniture": {
-        "&": "f_roof_turbine_vent",
-        "S": "f_solar_unit",
-        "D": "f_satellite",
-        "A": "f_air_conditioner",
-        "C": "f_cellphone_booster"
-      },
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 5 ],
-            [ "roof_4x4_survivor", 15 ],
-            [ "roof_16x16_help", 25 ],
-            [ "roof_4x4_holdout", 5 ],
-            [ "roof_6x6_utility", 45 ],
-            [ "roof_5x5_coop", 5 ]
-          ],
-          "x": [ 11, 23 ],
-          "y": [ 5, 23 ]
-        }
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 0, "x": 8, "y": 48, "status": 1 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 180, "x": 23, "y": 48, "status": 1 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 0, "status": 1, "x": 47, "y": 48 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 180, "x": 60, "y": 48, "status": 1 },
+        { "vehicle": "industrial_transport", "chance": 25, "fuel": 0, "rotation": 90, "status": 1, "x": 10, "y": 62 },
+        { "vehicle": "industrial_transport", "chance": 25, "fuel": 0, "rotation": 90, "x": 20, "y": 62, "status": 1 },
+        { "vehicle": "industrial_transport", "chance": 25, "fuel": 0, "rotation": 90, "status": 1, "x": 53, "y": 62 },
+        { "vehicle": "industrial_transport", "chance": 25, "fuel": 0, "rotation": 90, "status": 1, "x": 62, "y": 62 }
       ]
     }
   }

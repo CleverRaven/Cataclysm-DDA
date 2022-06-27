@@ -491,32 +491,33 @@
       "fill_ter": "t_linoleum_gray",
       "rows": [
         "||||||||||||||||||||||||",
-        "|@@∞|,|∞@@|`````|```````",
+        "|@@∞|,|∞@@|`````|```î```",
         "|r,,+,+,hr|`````#```````",
-        "|rh,|,|,,r|``|##|```î```",
-        "|||||ê|||||``|`<|``````|",
-        "|@@∞|,|∞@@|``|||||||||||",
-        "|r,,+,+,hr|``|||||||||||",
-        "|rh,|,|,,r|``||qqqqqqq||",
-        "|||||,|||||``||,,,,,,,||",
-        "|9,S|ê,,,,|``||,,≠≠≠≠≠||",
-        "|9,,|,hfh,|``||,,,ê,,,||",
+        "|rh,|,|,,r|``|##||||||||",
+        "|||||ê|||||``|`<||||||||",
+        "|@@∞|,|∞@@|``|||||QQQQ||",
+        "|r,,+,+,hr|``|||||,,,Q||",
+        "|rh,|,|,,r|``||||||¥=|||",
+        "|||||,|||||``||qqqq,,q||",
+        "|9,S|ê,,,,|``||,,,,,,q||",
+        "|9,,|,hfh,#``=,,ê≠≠≠≠≠||",
         "|||+|,hfh,#``=,,,≠≠≠≠≠||",
-        "|t+,#,hfh,#``=,,,,,ɜ,,||",
-        "|||,|,hfh,|`6||qqq,,qq||",
-        "|t+,|ê,,,,|``|||||=¥||||",
-        "|||||,|||||``||,$,êA,Q||",
-        "|@@∞|,|∞@@|``||,$,NN,Q||",
-        "|r,,+,+,,r|``|||||||||||",
-        "|rh,|,|,hr|``|||||||||||",
-        "|||||ê|||||``|`<|``````|",
-        "|@@∞|,|∞@@|``|##|``î````",
+        "|t+,#,hfh,|`6||,,,,ɜ,q||",
+        "|||,|,hfh,|``||qqqq,,q||",
+        "|t+,|ê,,,,|``||||||¥=|||",
+        "|||||,|||||``||,$,êA,N||",
+        "|@@∞|,|∞@@|``||,$,NNYN||",
+        "|r,,+,+,,r|``|||||||$|||",
+        "|rh,|,|,hr|``|||||,,,V||",
+        "|||||ê|||||``|`<||||||||",
+        "|@@∞|,|∞@@|``|##||||||||",
         "|r,,+,+,,r|`````#```````",
-        "|rh,|,|,hr|`````|```````",
+        "|rh,|,|,hr|`````|```î```",
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "terrain": { "ɜ": "t_metal_floor", "¥": "t_card_science_security_black", "ƶ": "t_card_science_security_magenta" },
+      "terrain": { "¥": "t_card_science_security_black", "ƶ": "t_card_science_security_magenta" },
+      "place_furniture": [ { "furn": "f_mannequin", "x": 18, "y": 18 } ],
       "place_monsters": [
         { "monster": "GROUP_LAB_MILITARY", "x": [ 1, 12 ], "y": [ 1, 22 ], "chance": 100, "repeat": [ 3, 8 ] },
         { "monster": "GROUP_LAB_MILITARY", "x": [ 16, 20 ], "y": [ 8, 12 ], "chance": 100, "repeat": [ 1, 3 ] }
@@ -525,6 +526,8 @@
       "place_monster": [ { "monster": [ "mon_mech_recon", "mon_mech_combat" ], "x": 15, "y": [ 15, 16 ], "chance": 85 } ],
       "items": {
         "q": { "item": "guns_milspec", "chance": 40, "repeat": [ 1, 2 ] },
+        "Q": { "item": "SUS_rivtech_loot", "chance": 80 },
+        "V": { "item": "UPS_power", "chance": 100, "repeat": [ 1, 2 ] },
         "r": { "item": "tools_gunsmith", "chance": 10 },
         "N": [ { "item": "tools_gunsmith", "chance": 100 }, { "item": "mechanics", "chance": 50 } ],
         "≠": [
@@ -532,11 +535,12 @@
           { "item": "mags_milspec", "chance": 40, "repeat": [ 1, 2 ] }
         ]
       },
+      "place_nested": [ { "chunks": [ "power_armor_roulette" ], "x": 18, "y": 18 } ],
       "computers": {
         "6": {
           "name": "Magazine Entrance",
           "security": 6,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 6 } ],
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }

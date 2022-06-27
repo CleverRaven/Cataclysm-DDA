@@ -35,6 +35,7 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "memory_fast.h"
+#include "mission_companion.h"
 #include "npc_attack.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -205,7 +206,7 @@ enum npc_mission : int {
 };
 
 struct npc_companion_mission {
-    std::string mission_id;
+    mission_id miss_id;
     tripoint_abs_omt position;
     std::string role_id;
     cata::optional<tripoint_abs_omt> destination;
@@ -234,10 +235,10 @@ enum npc_personality_type : int {
 
 struct npc_personality {
     // All values should be in the -10 to 10 range.
-    signed char aggression;
-    signed char bravery;
-    signed char collector;
-    signed char altruism;
+    int8_t aggression;
+    int8_t bravery;
+    int8_t collector;
+    int8_t altruism;
     npc_personality() {
         aggression = 0;
         bravery    = 0;
@@ -533,7 +534,7 @@ struct npc_follower_rules {
 
 struct dangerous_sound {
     tripoint abs_pos;
-    sounds::sound_t type = sounds::sound_t::_LAST;
+    sounds::sound_t type = sounds::sound_t::LAST;
     int volume = 0;
 };
 
@@ -589,6 +590,11 @@ struct npc_short_term_cache {
     // friendly creature.
     // returns nullopt if not applicable
     cata::optional<int> closest_enemy_to_friendly_distance() const;
+};
+
+struct npc_need_goal_cache {
+    tripoint_abs_omt goal;
+    tripoint_abs_omt omt_loc;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -790,6 +796,7 @@ class npc : public Character
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void apply_ownership_to_inv();
+        void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
@@ -834,6 +841,7 @@ class npc : public Character
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
         std::string name_and_activity() const;
+        std::string name_and_maybe_activity() const override;
         /// Returns current status (Sleeping, Guarding, In Combat, etc.), or current activity
         std::string get_current_status() const;
         /// Returns the current activity name (reading, disassembling, etc.), or "nothing"
@@ -888,6 +896,13 @@ class npc : public Character
             return hallucination;
         }
 
+        // true if the NPC produces electrical radiation
+        // TODO: make this way less hard coded
+        bool is_electrical() const override {
+            // only beep on Rubik for now
+            return has_trait( trait_id( "EXODII_BODY_1" ) );
+        }
+
         // Ally of or traveling with p
         bool is_friendly( const Character &p ) const;
         // Leading the player
@@ -929,8 +944,8 @@ class npc : public Character
         int minimum_item_value() const;
         // Find the worst value in our inventory
         void update_worst_item_value();
-        int value( const item &it ) const;
-        int value( const item &it, int market_price ) const;
+        double value( const item &it ) const;
+        double value( const item &it, double market_price ) const;
         bool wear_if_wanted( const item &it, std::string &reason );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const Character &reader ) const;
@@ -963,9 +978,9 @@ class npc : public Character
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
-        bool wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
+        ret_val<bool> wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
+        ret_val<bool> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         bool will_exchange_items_freely() const;
         int max_credit_extended() const;
@@ -1282,8 +1297,7 @@ class npc : public Character
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
         npc_class_id myclass; // What's our archetype?
-        // A temp variable used to inform the game which npc json to use as a template
-        std::string idz;
+        npc_class_id idz; // actual npc template used
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
@@ -1300,6 +1314,8 @@ class npc : public Character
         std::map<std::string, time_point> complaints;
 
         npc_short_term_cache ai_cache;
+
+        std::map<npc_need, npc_need_goal_cache> goal_cache;
     public:
         const std::shared_ptr<npc_attack> &get_current_attack() const {
             return ai_cache.current_attack;
@@ -1376,19 +1392,20 @@ class npc : public Character
         void set_known_to_u( bool known );
 
         /// Set up (start) a companion mission.
-        void set_companion_mission( npc &p, const std::string &mission_id );
+        void set_companion_mission( npc &p, const mission_id &miss_id );
         void set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
-                                    const std::string &mission_id );
+                                    const mission_id &miss_id );
         void set_companion_mission(
             const tripoint_abs_omt &omt_pos, const std::string &role_id,
-            const std::string &mission_id, const tripoint_abs_omt &destination );
+            const mission_id &miss_id, const tripoint_abs_omt &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
         cata::optional<tripoint_abs_omt> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
-
+        void set_unique_id( std::string id );
+        std::string get_unique_id() const;
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -1408,6 +1425,8 @@ class npc : public Character
         std::vector<sphere> find_dangerous_explosives() const;
 
         npc_companion_mission comp_mission;
+
+        std::string unique_id;
 };
 
 /** An NPC with standard stats */

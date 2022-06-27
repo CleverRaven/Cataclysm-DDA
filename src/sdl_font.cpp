@@ -604,6 +604,7 @@ void FontFallbackList::OutputChar( const SDL_Renderer_Ptr &renderer,
         for( auto it = fonts.begin(); it != fonts.end(); ++it ) {
             if( std::next( it ) == fonts.end() || ( *it )->isGlyphProvided( ch ) ) {
                 cached = glyph_font.emplace( ch, it ).first;
+                break;
             }
         }
     }

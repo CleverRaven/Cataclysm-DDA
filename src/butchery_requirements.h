@@ -26,6 +26,7 @@ class butchery_requirements
     public:
         bool was_loaded = false;
         string_id<butchery_requirements> id;
+        std::vector<std::pair<string_id<butchery_requirements>, mod_id>> src;
 
         // tries to find the requirement with the highest speed bonus. if it fails it returns cata::nullopt
         std::pair<float, requirement_id> get_fastest_requirements(
@@ -35,7 +36,7 @@ class butchery_requirements
         void load( const JsonObject &jo, const std::string & );
         static const std::vector<butchery_requirements> &get_all();
         static void check_consistency();
-        static void reset_all();
+        static void reset();
         bool is_valid() const;
     private:
         // int is speed bonus

@@ -5,7 +5,6 @@
     "name": "Sugar Kin",
     "threshold_mut": "SUGAR",
     "mutagen_message": "How sweet!",
-    "iv_message": "You inject some more fizz into your syrup.",
     "memorial_message": "Crystallized."
   }
 ]

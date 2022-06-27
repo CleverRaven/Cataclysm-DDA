@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "cata_catch.h"
 #include "distribution.h"
 

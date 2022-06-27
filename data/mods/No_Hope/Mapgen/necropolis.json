@@ -1,126 +1,5 @@
 [
   {
-    "name": "GROUP_NECROPOLIS",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_zombie", "weight": 10 },
-      { "monster": "mon_irradiated_wanderer_1", "weight": 90 },
-      { "monster": "mon_irradiated_wanderer_2", "weight": 10 },
-      { "monster": "mon_irradiated_wanderer_3", "weight": 1 }
-    ]
-  },
-  {
-    "id": "building_rubble",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "rock", "prob": 25 },
-      { "item": "scrap", "prob": 10 },
-      { "item": "splinter", "prob": 10 },
-      { "item": "rebar", "prob": 25 },
-      { "item": "nail", "prob": 5 },
-      { "item": "glass_shard", "prob": 15, "count": [ 1, 8 ] },
-      { "item": "wire", "prob": 5 },
-      { "item": "splinter", "prob": 20 }
-    ]
-  },
-  {
-    "id": "vehicle_scrapped",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "chain", "prob": 10 },
-      { "item": "steel_chunk", "prob": 30 },
-      { "item": "spring", "prob": 5 },
-      { "item": "steel_lump", "prob": 30 },
-      { "item": "steel_plate", "prob": 30 },
-      { "item": "hard_plate", "prob": 30 },
-      { "item": "frame", "prob": 20 },
-      { "item": "bearing", "prob": 5 },
-      { "item": "cu_pipe", "prob": 5 },
-      { "item": "scrap", "prob": 20 },
-      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
-      { "item": "wire", "prob": 5 }
-    ]
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "........................................................................",
-        ".....................C..................................................",
-        "...............................ssssssss|-v---v-|.....#..................",
-        ".......#.......................ssssssssw  @@d  |................#.......",
-        "...............................|-;-vvv-|  @@   v........................",
-        "...............................|c ccOcc|       v........................",
-        "........................#......vc     c|       |........................",
-        "................#..............vc     f|+|+|-+-|..........x.............",
-        "..........x....................v         |r|c B|.....#..................",
-        "...#........................|--|o       ?|-|S B|........................",
-        "................C...........|r +    nn  ?|r|c t|........................",
-        "............................|--|c   nn  ?|+|-+-|...........#............",
-        "............................|tS|c       ?|     |........................",
-        "............................v  +         +   @@v........................",
-        ".........#..................|--| ----|   |   @@v........................",
-        "....................#.......|           P|    d|........................",
-        "............................|  hnnh  |;;-|-vvv-|........................",
-        "............................v  hnnh  |sssssss...........................",
-        "............................v  hnnh  vsssssss...........................",
-        "....#.....x.................|        |ss.....................#..........",
-        ".............#..............|-vv--vv-|ss......#......X..................",
-        "......................................ss................................",
-        "......................................ss................................",
-        "...............X......................ss................................",
-        ".qQQQQQQQQQQQQQQQQQQQQQQQq......sssssssssssssssss8777777777777777777778.",
-        ".q.......................q.....ssssssssssssssssss8ssrrrrrrrrrrsssssssr8.",
-        ".q..|-vv-|----|-|-----|..q....ss_________________9sssssssssssssssssssr8.",
-        ".q..|ccSc|BtcS|r|d @@ |..q...ss__________________9sssssssssssssssZZssr8.",
-        ".q..|c   |B   | +  @@ v..q..ss___________________9sssssssssssssssZZssr8.",
-        ".q..vO   |--+-|-|     |..q.ss____________________9sssssssssssssssssssr8.",
-        ".q..vc          +     v..qss_____________________9sssssssssssssssssssr8.",
-        ".q..|f   |c    ?| ddd |..qss_____________________9sssssssssssssssZZssr8.",
-        ".q..|-| -|c    ?|-----|..qss_________________s...8sssZZssssZZssssZZssr8.",
-        ".q....|        ?v........qss________________ss...8sssZZssssZZssssssssr8.",
-        ".q....V hnnh    |........qss________________ss...8sssssssssssssssssssr8.",
-        ".q....V hnnh    ;sssssssssss_______,,_______ss...8sssssssssssssssZZssr8.",
-        ".q....V         ;sssssssssss_______,,_______ss...8srrrrrrrrrsssssZZssr8.",
-        ".q....|      ooP|....s...qss_______,,_______ss..|------------|rssssssr8.",
-        ".q....|;|--+----|--|es...qss________________ss..|rrrrrrrrrrrr|rssssssr8.",
-        ".q..ssss|r         =_______________,,_______ss..wc          r|rssZZssr8.",
-        ".q..shss|r         =_______________,,_______ss..wc  rr  rr  r|rssZZssr8.",
-        ".q..snss|r         =_______________,,_______ss..wc  rr  rr  r|rssssssr8.",
-        ".q..shss|r         =________________________ss..|r           [sssssssr8.",
-        ".q..ssss|r         =_______________,,_______ss..wc  rr       [sssssssr8.",
-        ".q......|----------|.....qss_______,,_______ss..wc  rr  cc  r|rssssssr8.",
-        ".q.......................qss_______,,_______ss..wc      6   r|rssZZssr8.",
-        ".qQQQQQQQQQQQQQQQQQQQQQQQqss________________ss..|rcccr  c   r|rssZZssr8.",
-        "..........................ss_______,,_______ss..|-www-[[-www-|777777778."
-      ],
-      "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-      "toilets": { "t": {  } },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.1 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "electric_car", "x": 15, "y": 41, "chance": 75, "rotation": 0 },
-        { "vehicle": "flatbed_truck", "x": 55, "y": 30, "chance": 50, "rotation": 180 }
-      ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_1", "necropolis_a_2", "necropolis_a_3" ],
-      [ "necropolis_a_10", "necropolis_a_11", "necropolis_a_12" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
-  },
-  {
     "method": "json",
     "object": {
       "fill_ter": "t_floor",
@@ -175,7 +54,7 @@
         ".|-{{{-sss-ssssssM.MMMsMMmm]]]]]]]]]]]]]]]]]mmMMMMMs_M_M___,,_______sss."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": {  },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },

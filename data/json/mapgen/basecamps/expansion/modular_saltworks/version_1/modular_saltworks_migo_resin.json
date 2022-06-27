@@ -2,8 +2,22 @@
   {
     "type": "palette",
     "id": "fbmsw_migo_resin_palette",
-    "terrain": { ".": "t_floor_resin", "~": "t_swater_sh", "o": "t_wall_resin_cage", "w": "t_wall_resin", "+": "t_resin_hole_c" },
+    "terrain": {
+      ".": "t_floor_resin",
+      "b": "t_floor_resin",
+      "r": "t_floor_resin",
+      "t": "t_floor_resin",
+      "#": "t_floor_resin",
+      "c": "t_floor_resin",
+      "H": "t_floor_resin",
+      "O": "t_floor_resin",
+      "~": "t_swater_sh",
+      "o": "t_wall_resin_cage",
+      "w": "t_wall_resin",
+      "+": "t_resin_hole_c"
+    },
     "furniture": {
+      ".": "f_clear",
       "b": "f_bench",
       "r": "f_rack",
       "t": "f_table",
@@ -11,8 +25,10 @@
       "c": "f_counter",
       "H": "f_wood_keg",
       "O": "f_fvat_empty",
-      "^": "f_still",
-      "s": "f_woodstove"
+      "~": "f_clear",
+      "o": "f_clear",
+      "w": "f_clear",
+      "+": "f_clear"
     }
   },
   {

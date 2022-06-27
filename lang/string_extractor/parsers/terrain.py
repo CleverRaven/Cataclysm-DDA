@@ -1,5 +1,6 @@
 from ..helper import get_singular_name
 from ..write_text import write_text
+from .examine_action import parse_examine_action
 
 
 def parse_terrain(json, origin):
@@ -33,3 +34,18 @@ def parse_terrain(json, origin):
         if "sound" in json["hacksaw"]:
             write_text(json["hacksaw"]["sound"], origin,
                        comment="Hacksaw sound of terrain \"{}\"".format(name))
+    if "prying" in json:
+        if "message" in json["prying"]:
+            write_text(json["prying"]["message"], origin,
+                       comment="Prying message of terrain \"{}\"".format(name))
+        if "prying_data" in json["prying"]:
+            if "failure" in json["prying"]["prying_data"]:
+                write_text(json["prying"]["prying_data"]["failure"], origin,
+                           comment="Prying failure of terrain \"{}\""
+                           .format(name))
+    if "lockpick_message" in json:
+        write_text(json["lockpick_message"], origin,
+                   comment="Lockpick message of terrain \"{}\"".format(name))
+    if "examine_action" in json:
+        parse_examine_action(json["examine_action"], origin,
+                             "terrain \"{}\"".format(name))

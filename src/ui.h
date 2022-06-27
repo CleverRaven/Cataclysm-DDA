@@ -157,7 +157,7 @@ struct uilist_entry {
         uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
 
-    inclusive_rectangle<point> drawn_rect;
+    cata::optional<inclusive_rectangle<point>> drawn_rect;
 };
 
 /**
@@ -426,6 +426,8 @@ class uilist // NOLINT(cata-xy)
         bool allow_anykey = false;
         // return UILIST_CANCEL on "QUIT" action, default true
         bool allow_cancel = true;
+        // return retval on "CONFIRM" action, default true
+        bool allow_confirm = true;
         // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
         // and unhandled by callback, default false.
         bool allow_additional = false;
@@ -433,6 +435,8 @@ class uilist // NOLINT(cata-xy)
 
     private:
         report_color_error _color_error = report_color_error::yes;
+        input_context create_main_input_context() const;
+        input_context create_filter_input_context() const;
 
     public:
         // Iternal states
@@ -471,7 +475,9 @@ class uilist // NOLINT(cata-xy)
 
         bool started = false;
 
-        uilist_entry *find_entry_by_coordinate( const point &p );
+        bool recalc_start = false;
+
+        int find_entry_by_coordinate( const point &p ) const;
 
     public:
         // Results

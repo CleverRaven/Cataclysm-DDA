@@ -165,7 +165,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmk_2_brewery_concrete",
-    "description": "Let's build a the concrete brewery.",
+    "description": "Let's build a concrete brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

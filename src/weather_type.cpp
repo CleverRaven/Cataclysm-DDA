@@ -72,6 +72,12 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
             return "silent";
         case weather_sound_category::portal_storm:
             return "portal_storm";
+        case weather_sound_category::clear:
+            return "clear";
+        case weather_sound_category::sunny:
+            return "sunny";
+        case weather_sound_category::cloudy:
+            return "cloudy";
         case weather_sound_category::last:
             break;
     }

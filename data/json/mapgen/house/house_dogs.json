@@ -5,7 +5,7 @@
     "monsters": [
       { "monster": "mon_null", "weight": 730 },
       { "monster": "mon_zombie_dog", "weight": 135, "cost_multiplier": 0, "pack_size": [ 5, 8 ] },
-      { "monster": "mon_dog_zombie_rot", "weight": 135, "cost_multiplier": 0, "pack_size": [ 1, 4 ] }
+      { "monster": "mon_dog_zombie_rot", "weight": 135, "cost_multiplier": 1, "pack_size": [ 1, 4 ] }
     ]
   },
   {
@@ -30,7 +30,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".!%%....p.---...........",
+        ".[%%....p.```...........",
         ".%###o####o*o##########.",
         ".%#EI  y| RRRR   sHHHHo.",
         ".%# I E +            Ho.",
@@ -42,27 +42,23 @@
         ".#|||||+| hfh |  Y    #.",
         ".#U|d     hfh |6     Oo.",
         ".#>+          |7432F51#.",
-        ".###+###&###&###o######.",
-        ".oB  S#^~~~~~~........$.",
-        ".#B8 t#%~~~~~~........$.",
-        ".######%~~~~~~........$.",
-        ".$....................$.",
-        ".$....................$.",
-        ".$....................$.",
-        ".$....................$.",
-        ".$....................$.",
-        ".$....................$.",
-        ".$$$$$$$$$$$$$$$$$$$$$$.",
+        ".###+###¶###¶###o######.",
+        ".oB  S#^``````........Ŧ.",
+        ".#B8 t#%``````........Ŧ.",
+        ".######%``````........Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".ɤ....................ɤ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
-      "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "$": "t_fence",
-        "~": "t_concrete",
-        "&": "t_door_glass_c",
-        "!": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ]
-      },
+      "palettes": [
+        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] },
+        "standard_domestic_landscaping_palette"
+      ],
       "set": [
         { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": 0, "repeat": [ 1, 2 ] },
         { "point": "terrain", "id": "t_tree_young", "x": [ 2, 14 ], "y": [ 17, 21 ], "repeat": [ 3, 5 ] }

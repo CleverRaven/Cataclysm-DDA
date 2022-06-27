@@ -14,7 +14,7 @@
       {
         "id": "buff_biojutsu_static",
         "name": "Biojutsu Stance",
-        "description": "void player::ApplyBiojutsuStatic() {\n    blocks_left += 2;\n    set_hit_bonus( get_hit_bonus() + 1 );\n}\n\n+2 Blocks attempts, +1 Accuracy.",
+        "description": "void player::ApplyBiojutsuStatic() {\n    blocks_left += 2;\n    set_hit_bonus( get_hit_bonus() + 1 );\n}\n\n+2 block attempts, +1 accuracy.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_blocks": 2,
@@ -25,7 +25,7 @@
       {
         "id": "buff_biojutsu_onblock",
         "name": "Binary Hardening",
-        "description": "player@CDDA:/root$ sudo apt install improved-armor\nplayer@CDDA:/root$ sudo apt update\n\n+3 Bash, Cut, and Stab Armor.\nLasts 3 turns.  Stacks 3 times.",
+        "description": "player@CDDA:/root$ sudo apt install improved-armor\nplayer@CDDA:/root$ sudo apt update\n\n+3 bash, cut, and stab armor.\nLasts 4 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
@@ -42,7 +42,7 @@
       {
         "id": "buff_biojutsu_onkill",
         "name": "Optimization",
-        "description": ">10 LOCATE TARGET\n>20 EXECUTE TARGET\n>30 GOTO 10\n\n+1 Accuracy, +2 all damage.\nLasts 3 turns.  Stacks 3 times.",
+        "description": ">10 LOCATE TARGET\n>20 EXECUTE TARGET\n>30 GOTO 10\n\n+1 accuracy, +15% damage.\nLasts 3 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
@@ -117,14 +117,14 @@
       {
         "id": "buff_lizard_static1",
         "name": "Lizard's Cunning",
-        "description": "Through patience and observation, you know how to turn the tide of battle in your favor.\n\n+2 Accuracy, 2 Block Effectiveness.",
+        "description": "Through patience and observation, you know how to turn the tide of battle in your favor.\n\n+2 accuracy, +2 blocking effectiveness.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 2.0 }, { "stat": "hit", "scale": 2.0 } ]
       },
       {
         "id": "buff_lizard_static2",
         "name": "Lizard's Haven",
-        "description": "Staying near a wall further improves your chances to hit and avoid damage.\n\n+2 Accuracy, 2 Block Effectiveness when near a wall.",
+        "description": "Staying near a wall further improves your chances to hit and avoid damage.\n\n+2 accuracy, +2 blocking effectiveness when near a wall.",
         "unarmed_allowed": true,
         "wall_adjacent": true,
         "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 2.0 }, { "stat": "hit", "scale": 2.0 } ]
@@ -144,7 +144,7 @@
       {
         "id": "buff_lizard_onpause1",
         "name": "Lizard's Perch",
-        "description": "From your high vantage point, you can strike downward and deal more damage.\n\n+10% damage while near a wall.\nLasts 4 turns.",
+        "description": "From your high vantage point, you can strike downward and deal more damage.\n\n+10% damage while near a wall.\nLasts 3 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "wall_adjacent": true,
@@ -158,7 +158,7 @@
       {
         "id": "buff_lizard_onpause2",
         "name": "Lizard's Venom",
-        "description": "Your venom is a long lasting pain that your opponents will never forget.\n\n+15% damage.\nLasts 4 turns.",
+        "description": "Your venom is a long lasting pain that your opponents will never forget.\n\n+15% damage.\nLasts 5 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 5,
@@ -196,7 +196,7 @@
       {
         "id": "buff_scorpion_onattack",
         "name": "Scorpion's Intimidation",
-        "description": "Nothing is scarier than an angry scorpion.  Your attacks can keep others at bay.\n\n+1 Dodge attempts.\nLasts 1 turn.",
+        "description": "Nothing is scarier than an angry scorpion.  Your attacks can keep others at bay.\n\n+1 dodge attempt.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -207,7 +207,7 @@
       {
         "id": "buff_scorpion_onmove",
         "name": "Scorpion's Charge",
-        "description": "Rush forward and catch your prey!\n\n+10% damage.\nEnables \"Pincer Strike\" technique.\nStacks 2 times.  Lasts 2 turns.",
+        "description": "Rush forward and catch your prey!\n\n+10% damage.\nEnables \"Pincer Strike\" technique.\nLasts 2 turns.  Stacks 2 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "unarmed_allowed": true,
         "buff_duration": 2,
@@ -233,7 +233,7 @@
       {
         "id": "buff_toad_static",
         "name": "Toad's Iron Skin",
-        "description": "Your body is as strong as iron but only if you don't move.\n\nGain Bash, Cut, and Stab Armor equal to 100% of Strength.",
+        "description": "Your body is as strong as iron, but only if you don't move.\n\nBash, cut, and stab armor increased by 100% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 1.0 },
@@ -246,7 +246,7 @@
       {
         "id": "buff_toad_onmove",
         "name": "Iron Skin Dissipation",
-        "description": "Moving causes you to lose your iron skin.\n\n-1 bash, cut, and stab armor.\nLasts 5 turns.  Stacks 5 times.",
+        "description": "Moving causes you to lose your iron skin.\n\nBash, cut, and stab armor reduced by 20% of Strength.\nLasts 5 turns.  Stacks 5 times.",
         "unarmed_allowed": true,
         "buff_duration": 5,
         "max_stacks": 5,
@@ -262,7 +262,7 @@
       {
         "id": "buff_toad_onpause",
         "name": "Toad's Meditation",
-        "description": "By concentrating for a moment, you can bolster the strength of your iron skin.\n\nGain Bash, Cut, and Stab Armor equal to 50% of Strength.\nLasts 2 turns.",
+        "description": "By concentrating for a moment, you can bolster the strength of your iron skin.\n\nBash, cut, and stab armor increased by 50% of Strength.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 2,
@@ -303,7 +303,7 @@
       {
         "id": "buff_venom_snake_static",
         "name": "Viper's Patience",
-        "description": "Every snake waits for the perfect moment to strike.  Turn your opponents' mistakes into your opportunity to strike!\n\n+1 Accuracy, +5% Critical Hit Chance.",
+        "description": "Every snake waits for the perfect moment to strike.  Turn your opponents' mistakes into your opportunity to strike!\n\n+1 dodge attempt, +1 accuracy, +5% critical hit chance.",
         "unarmed_allowed": true,
         "bonus_dodges": 1,
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "crit_chance", "scale": 5.0 } ]
@@ -313,7 +313,7 @@
       {
         "id": "buff_venom_snake_oncrit",
         "name": "Viper's Venom",
-        "description": "Your venom is a harsh reminder to never tease a predator.\n\n+15% damage.\nLasts 4 turn.",
+        "description": "Your venom is a harsh reminder to never tease a predator.\n\n+15% damage.\nLasts 4 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 4,
@@ -328,7 +328,7 @@
       {
         "id": "buff_venom_snake_onhit",
         "name": "Viper's Rattle",
-        "description": "You are terrifying monster on the battlefield!  Opponents will have a harder time fighting back.\n\n+1 Accuracy, +1.0 Dodging skill.\nLasts 3 turns.  Stacks 2 times",
+        "description": "You are terrifying monster on the battlefield!  Opponents will have a harder time fighting back.\n\n+1 accuracy, +1.0 Dodging skill.\nLasts 3 turns.  Stacks 2 times.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "buff_duration": 3,
@@ -416,6 +416,7 @@
     "name": "Biojutsu Cleave",
     "messages": [ "You quickly cleave through %s and those nearby", "<npcname> quickly cleaves through %s and those nearby" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "weapon_categories_allowed": "BIONIC_WEAPONRY",
     "melee_allowed": true,
     "weighting": 2,
     "crit_tec": true,
@@ -438,7 +439,7 @@
     "type": "technique",
     "id": "tec_lizard_tail",
     "name": "Lizard Tail",
-    "messages": [ "You leap andkick %s", "<npcname> leaps and kicks %s" ],
+    "messages": [ "You leap and kick %s", "<npcname> leaps and kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_ok": true,

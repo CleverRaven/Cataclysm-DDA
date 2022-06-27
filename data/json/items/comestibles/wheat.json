@@ -8,7 +8,6 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -10,
-    "healthy": 1,
     "calories": 667,
     "description": "Raw wheat, not very tasty.",
     "price": 120,
@@ -19,6 +18,26 @@
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
     "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "grain_boiled",
+    "looks_like": "buckwheat_cooked",
+    "name": { "str_sp": "boiled grain" },
+    "spoils_in": "10 days",
+    "weight": "260 g",
+    "color": "brown",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 705,
+    "description": "Whole wheat or barley kernels that have been boiled in water.  Very bland on their own, but will do if you can't prepare them in a different way.",
+    "price": 20,
+    "price_postapoc": 100,
+    "material": [ "wheat" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 34 ] ],
+    "fun": -1
   },
   {
     "type": "COMESTIBLE",
@@ -177,7 +196,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -15,
-    "healthy": 1,
     "calories": 131,
     "description": "Dry flakes of flattened grain.  Tasty and nutritious when cooked, it also doubles as food for horses while dry.",
     "price": 7500,
@@ -199,7 +217,6 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -10,
-    "healthy": 1,
     "calories": 335,
     "description": "Raw oats.",
     "price": 120,
@@ -220,7 +237,6 @@
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 151,
     "description": "A filling and nutritious New England classic that has sustained pioneers and captains of industry alike.",
     "price": 500,
@@ -240,7 +256,6 @@
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 112,
     "description": "A filling and nutritious New England classic that has been improved with the addition of extra wholesome ingredients.",
     "price": 550,
@@ -250,7 +265,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -261,7 +276,6 @@
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 121,
     "description": "Fluffy and delicious pancakes with real maple syrup.",
     "price": 550,
@@ -272,7 +286,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 6 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -286,13 +300,13 @@
     "price": 650,
     "price_postapoc": 75,
     "fun": 4,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 30 ], [ "calcium", 4 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 4 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "blood_pancakes",
     "copy-from": "pancakes",
-    "name": { "str": "Blodplättar" },
+    "name": { "str": "blodplättar" },
     "weight": "80 g",
     "spoils_in": "2 days 12 hours",
     "color": "black",
@@ -312,7 +326,6 @@
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 110,
     "description": "Slices of bread dipped in a milk and egg mixture then fried.",
     "price": 600,
@@ -323,7 +336,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -343,7 +356,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 3 ], [ "calcium", 15 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "calcium", 15 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -354,7 +367,6 @@
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 446,
     "description": "Crunchy and delicious waffles with real maple syrup, made sweeter and healthier with the addition of wholesome fruit.",
     "price": 600,
@@ -364,7 +376,7 @@
     "volume": "375 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -413,7 +425,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
-    "healthy": 1,
     "calories": 296,
     "description": "A delicious baked pie with a sweet fruit filling.",
     "price": 1250,
@@ -424,7 +435,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "//": "these vitamins are only for pies that may spawn.  generally they will be inherited from the fruit used.",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -446,7 +457,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -459,7 +470,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "healthy": 1,
     "calories": 157,
     "description": "A tasty and nutritious mixture of oats, honey, and other ingredients that has been baked until crisp.",
     "price": 350,
@@ -483,7 +493,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 4,
-    "healthy": -1,
     "calories": 300,
     "description": "A sweet and delicious baked pie with pure maple syrup.",
     "price": 1850,
@@ -494,7 +503,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 4 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -547,7 +556,6 @@
     "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 260,
     "description": "Filling bread buns, taste good with tea on a Sunday morning breakfast.",
     "price": 550,
@@ -558,7 +566,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
     "id": "sponge_cake",
@@ -578,7 +586,7 @@
     "calories": 278,
     "fun": 4,
     "spoils_in": 420,
-    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 5 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {

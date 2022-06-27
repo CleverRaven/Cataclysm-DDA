@@ -34,7 +34,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
+        "rigid": true,
         "ammo_restriction": { "10mm": 6, "40": 6 },
         "allowed_speedloaders": [ "40_speedloader6" ]
       }
@@ -149,16 +149,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "62 ml",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp5_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ]
   },
   {
     "id": "m1911_10",
@@ -237,7 +228,7 @@
       {
         "id": "p220_10",
         "name": { "str": "SIG P220 10mm" },
-        "description": "The Sig Sauer P220 was developed for the Swiss military in 1975, and its simplified action was later used in most other Sig Sauer designs, including the P226.  The all-steel construction adds heft to this model, which is chambered in hard-hitting 10mm Auto.",
+        "description": "The SIG Sauer P220 was developed for the Swiss military in 1975, and its simplified action was later used in most other SIG Sauer designs, including the P226.  The all-steel construction adds heft to this model, which is chambered in hard-hitting 10mm Auto.",
         "weight": 1
       }
     ],
@@ -319,15 +310,6 @@
     "ammo": "10mm",
     "min_cycle_recoil": 675,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "103 ml",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "103 ml", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
   }
 ]

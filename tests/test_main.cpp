@@ -41,7 +41,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "pldata.h"
 #include "rng.h"
 #include "type_id.h"
 #include "weather.h"

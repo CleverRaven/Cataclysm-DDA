@@ -88,6 +88,10 @@ struct advanced_inv_save_state {
             pane_right.deserialize( jo, prefix + "pane_right_" );
         }
 };
+
+extern void save_inv_state( JsonOut &json );
+extern void load_inv_state( const JsonObject &jo );
+
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -197,6 +201,7 @@ class uistatedata
             json.start_object();
 
             transfer_save.serialize( json, "transfer_save_" );
+            save_inv_state( json );
 
             /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
             // non array stuffs
@@ -258,6 +263,7 @@ class uistatedata
             jo.allow_omitted_members();
 
             transfer_save.deserialize( jo, "transfer_save_" );
+            load_inv_state( jo );
             // the rest
             jo.read( "ags_pay_gas_selected_pump", ags_pay_gas_selected_pump );
             jo.read( "adv_inv_container_location", adv_inv_container_location );

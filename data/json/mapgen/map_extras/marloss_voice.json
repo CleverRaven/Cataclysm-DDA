@@ -42,7 +42,6 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "1": "t_null" },
       "npcs": { "1": { "class": "marloss_voice" } },
       "nested": { "2": { "chunks": [ [ "marloss_zealot", 50 ], [ "null", 50 ] ] } }
     }

@@ -527,13 +527,13 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
     /* this is a kind of gross hijack of the dialogue responses effect system, but I don't want to
      * write that code in two places so here it goes.
      */
-    talk_effect_t talk_effects;
+    talk_effect_t<::dialogue> talk_effects;
     talk_effects.load_effect( jo, "effect" );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         npc *beta_npc = g->find_npc( miss->get_npc_id() );
         ::dialogue d( get_talker_for( get_avatar() ),
                       beta_npc == nullptr ? nullptr : get_talker_for( beta_npc ) );
-        for( const talk_effect_fun_t &effect : talk_effects.effects ) {
+        for( const talk_effect_fun_t<::dialogue> &effect : talk_effects.effects ) {
             effect( d );
         }
         for( const auto &mission_function : funcs ) {
@@ -541,7 +541,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         }
     };
 
-    for( talk_effect_fun_t &effect : talk_effects.effects ) {
+    for( talk_effect_fun_t<::dialogue> &effect : talk_effects.effects ) {
         auto rewards = effect.get_likely_rewards();
         if( !rewards.empty() ) {
             likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );

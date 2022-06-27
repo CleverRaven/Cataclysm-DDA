@@ -15,7 +15,7 @@
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
-//     I.e. a group with 1 monster at frequency will have 50% chance to spawn
+//     I.e. a group with 1 monster at frequency 500 will have 50% chance to spawn
 //     the default monster.
 //     In the same spirit, if you have a total point count of over 1000, the
 //     default monster will never get picked, and nor will the others past the
@@ -135,7 +135,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         if( valid_entry && it->is_group() ) {
             MonsterGroupResult tmp = GetResultFromGroup( it->group, quantity, &monster_found );
             if( monster_found ) {
-                // Valid monster found withing subgroup, break early
+                // Valid monster found within subgroup, break early
                 spawn_details = tmp;
                 break;
             } else if( quantity ) {
@@ -370,9 +370,10 @@ bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
     if( monster_blacklist.count( m.str() ) > 0 ) {
         return true;
     }
-    // Return true if the whitelist mode is exclusive and either whitelist is populated.
+    // Return true if the whitelist mode is exclusive and any whitelist is populated.
     return monster_whitelist_is_exclusive &&
-           ( !monster_whitelist.empty() || !monster_categories_whitelist.empty() );
+           ( !monster_whitelist.empty() || !monster_categories_whitelist.empty() ||
+             !monster_species_whitelist.empty() );
 }
 
 void MonsterGroupManager::FinalizeMonsterGroups()
@@ -417,8 +418,14 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
         g = monsterGroupMap[g.name];
         extending = true;
     }
+    bool explicit_def_null = false;
     if( !extending || jo.has_string( "default" ) ) {
         g.defaultMonster = mtype_id( jo.get_string( "default", "mon_null" ) );
+        if( jo.has_string( "default" ) && g.defaultMonster == mon_null ) {
+            explicit_def_null = true;
+        }
+    } else if( extending && !jo.has_string( "default" ) && g.defaultMonster == mon_null ) {
+        explicit_def_null = true;
     }
     g.is_animal = jo.get_bool( "is_animal", false );
     if( jo.has_array( "monsters" ) ) {
@@ -490,7 +497,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
             g.monsters.push_back( new_mon_group );
         }
         // If no default monster specified, use the highest frequency spawn as the default
-        if( g.defaultMonster == mon_null ) {
+        if( g.defaultMonster == mon_null && !explicit_def_null ) {
             g.defaultMonster = max_freq.first;
         }
     }
@@ -526,6 +533,8 @@ void MonsterGroupManager::ClearMonsterGroups()
     monster_whitelist_is_exclusive = false;
     monster_categories_blacklist.clear();
     monster_categories_whitelist.clear();
+    monster_species_blacklist.clear();
+    monster_species_whitelist.clear();
 }
 
 static void check_group_def( const mongroup_id &g )

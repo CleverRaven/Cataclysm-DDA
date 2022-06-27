@@ -16,6 +16,7 @@
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "ui.h"
 #include "units_fwd.h"
 #include "visitable.h"
 
@@ -36,17 +37,18 @@ class item_contents
 
         /**
           * returns an item_location and pointer to the best pocket that can contain the item @it
+          * checks all items contained in every pocket
           * only checks CONTAINER pocket type
           */
-        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
+                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
+                bool nested = false, bool ignore_rigidity = false );
 
-        units::length max_containable_length() const;
+        units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
-        units::volume max_containable_volume() const;
+        units::volume max_containable_volume( bool unrestricted_pockets_only = false ) const;
 
         std::set<flag_id> magazine_flag_restrictions() const;
-
         /**
          * returns whether any of the pockets contained is compatible with the specified item.
          * Does not check if the item actually fits volume/weight wise
@@ -60,9 +62,10 @@ class item_contents
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
          * @param it the item being put in
+         * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
-        ret_val<bool> can_contain( const item &it ) const;
-        ret_val<bool> can_contain_rigid( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, bool ignore_pkt_settings = true ) const;
+        ret_val<bool> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         /**
@@ -70,11 +73,12 @@ class item_contents
          * @param ammo item to be loaded in
          * @param now whether the currently contained ammo/magazine should be taken into account
          */
-        bool can_reload_with( const item &ammo, const bool now ) const;
+        bool can_reload_with( const item &ammo, bool now ) const;
 
-        // does not ignore mods
-        bool empty_real() const;
+        // Returns true if contents are empty (ignoring item mods, since they aren't contents)
         bool empty() const;
+        // Returns true if contents are empty of everything including mods
+        bool empty_with_no_mods() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
         // checks if CONTAINER pockets are all full
@@ -95,7 +99,8 @@ class item_contents
 
     public:
         /** returns a list of pointers to all top-level items */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+        /** if unloading is true it ignores items in pockets that are flagged to not unload */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
 
@@ -103,6 +108,10 @@ class item_contents
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<const item *> all_items_top() const;
+
+        /** returns a list of pointers to all visible or remembered content items that are not mods */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -138,26 +147,40 @@ class item_contents
         units::length item_length_modifier() const;
 
         // gets the total weight capacity of all pockets
-        units::mass total_container_weight_capacity() const;
+        units::mass total_container_weight_capacity( bool unrestricted_pockets_only = false ) const;
 
         /**
           * gets the total volume available to be used.
           * does not guarantee that an item of that size can be inserted.
           */
-        units::volume total_container_capacity() const;
+        units::volume total_container_capacity( bool unrestricted_pockets_only = false ) const;
 
         // Gets the total volume of every is_standard_type container
-        units::volume total_standard_capacity() const;
+        units::volume total_standard_capacity( bool unrestricted_pockets_only = false ) const;
 
-        units::volume remaining_container_capacity() const;
-        units::volume total_contained_volume() const;
+        units::volume remaining_container_capacity( bool unrestricted_pockets_only = false ) const;
+        units::volume total_contained_volume( bool unrestricted_pockets_only = false ) const;
+        units::mass remaining_container_capacity_weight( bool unrestricted_pockets_only = false ) const;
+        units::mass total_contained_weight( bool unrestricted_pockets_only = false ) const;
         units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
 
+        // get all holsters
+        int get_used_holsters() const;
+        int get_total_holsters() const;
+        units::volume get_total_holster_volume() const;
+        units::volume get_used_holster_volume() const;
+
         // gets all CONTAINER pockets contained in this item
-        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
-        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_contained_pockets() const;
+        std::vector<item_pocket *> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_standard_pockets() const;
+        std::vector<item_pocket *> get_all_standard_pockets();
+        std::vector<const item_pocket *>
+        get_pockets( std::function<bool( item_pocket const & )> const &filter ) const;
+        std::vector<item_pocket *>
+        get_pockets( std::function<bool( item_pocket const & )> const &filter );
 
         // called when adding an item as pockets
         // to a molle item
@@ -169,11 +192,14 @@ class item_contents
         // returns the item that was attached
         item remove_pocket( int index );
 
+        // retrieves the pocket in contents corresponding to the added pocket item
+        const item_pocket *get_added_pocket( int index ) const;
+
         std::vector<const item *> get_added_pockets() const;
 
         bool has_additional_pockets() const;
 
-        int get_additional_pocket_encumbrance( ) const;
+        int get_additional_pocket_encumbrance( float mod ) const;
         int get_additional_space_used() const;
         units::mass get_additional_weight() const;
         units::volume get_additional_volume() const;
@@ -227,7 +253,7 @@ class item_contents
         /**
          * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
-        void favorite_settings_menu( const std::string &item_name );
+        void favorite_settings_menu( item *i );
 
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy );
@@ -279,6 +305,7 @@ class item_contents
 
         // whether the contents has a pocket with the associated type
         bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_unrestricted_pockets() const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
                            item_pocket::pocket_type pk_type ) const;
 
@@ -286,7 +313,7 @@ class item_contents
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( Character *carrier, const tripoint &pos, float insulation = 1,
+        void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         bool item_has_uses_recursive() const;
@@ -294,6 +321,9 @@ class item_contents
         bool same_contents( const item_contents &rhs ) const;
         // can this item be used as a funnel?
         bool is_funnel_container( units::volume &bigger_than ) const;
+        // the container has restrictions
+        bool is_restricted_container() const;
+        bool is_single_restricted_container() const;
         /**
          * @relates visitable
          * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
@@ -325,7 +355,8 @@ class item_contents
 
         // pockets that have been custom added
         std::vector<item> additional_pockets;
-        int additional_pockets_encumbrance = 0; // NOLINT(cata-serialize)
+        // TODO make this work with non torso items
+        units::volume additional_pockets_volume = 0_ml; // NOLINT(cata-serialize)
 
         // an abstraction for how many 'spaces' of this item have been used attaching additional pockets
         int additional_pockets_space_used = 0; // NOLINT(cata-serialize)
@@ -333,6 +364,33 @@ class item_contents
         struct item_contents_helper;
 
         friend struct item_contents_helper;
+};
+
+class pocket_favorite_callback : public uilist_callback
+{
+    private:
+        std::vector<std::tuple<item_pocket *, int, uilist_entry *>> saved_pockets;
+        // whitelist or blacklist, for interactions
+        bool whitelist = true;
+        std::pair<item *, item_pocket *> item_to_move = { nullptr, nullptr };
+
+        bool needs_to_refresh = false;
+
+        // items to create pockets for
+        std::vector<item *> to_organize;
+
+        void move_item( uilist *menu, item_pocket *selected_pocket );
+
+        void refresh_columns( uilist *menu );
+
+        void add_pockets( item &i, uilist &pocket_selector, std::string depth );
+    public:
+        explicit pocket_favorite_callback( std::vector<item *> to_organize, uilist &pocket_selector );
+        void refresh( uilist *menu ) override;
+        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
+
+        const std::string title = _( "Modify pocket settings and move items between pockets.\n" );
+
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

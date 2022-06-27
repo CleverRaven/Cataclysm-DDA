@@ -12,7 +12,7 @@
     "id": "m4_carbine",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "mounted m4 carbine" },
+    "name": { "str": "mounted M4 carbine" },
     "item": "m4_carbine",
     "breaks_into": [ { "item": "m4_carbine", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
@@ -21,7 +21,7 @@
     "id": "mounted_ak47",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "mounted AK47" },
+    "name": { "str": "mounted AK-47" },
     "item": "ak47",
     "breaks_into": [ { "item": "ak47", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
@@ -30,7 +30,7 @@
     "id": "mounted_ak74",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "mounted AK74" },
+    "name": { "str": "mounted AK-74" },
     "item": "ak74",
     "breaks_into": [ { "item": "ak74", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }

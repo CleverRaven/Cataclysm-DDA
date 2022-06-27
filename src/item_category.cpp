@@ -45,6 +45,11 @@ void item_category::load_item_cat( const JsonObject &jo, const std::string &src 
     item_category_factory.load( jo, src );
 }
 
+void item_category::reset()
+{
+    item_category_factory.reset();
+}
+
 void item_category::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );

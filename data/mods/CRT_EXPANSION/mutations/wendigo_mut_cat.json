@@ -4,16 +4,9 @@
     "id": "SYLVAN",
     "name": "Sylvan Avenger",
     "threshold_mut": "THRESH_SYLVAN",
-    "mutagen_message": "Nearby plants seem to bend towards you for a moment and then they shift back into place.",
-    "iv_message": "A serene feeling of terror grips you as become acutely aware of the flora and fauna beckoning towards you.",
-    "iv_min_mutations": 2,
-    "iv_additional_mutations": 3,
-    "iv_additional_mutations_chance": 3,
-    "iv_hunger": 15,
-    "iv_thirst": 20,
-    "iv_pain": 5,
-    "iv_fatigue": -5,
-    "memorial_message": "Reclaimed by nature."
+    "mutagen_message": "A serene feeling of terror grips you as become acutely aware of the flora and fauna beckoning towards you.",
+    "memorial_message": "Reclaimed by nature.",
+    "vitamin": "mutagen_sylvan"
   },
   {
     "id": "mutagen_sylvan",
@@ -21,17 +14,58 @@
     "type": "COMESTIBLE",
     "name": "sylvan avenger mutagen",
     "description": "Mutagen cocktail simply labeled 'C.R.I.T R&D.'",
-    "use_action": { "type": "mutagen", "mutation_category": "SYLVAN" }
+    "vitamins": [ [ "mutagen_sylvan", 175 ], [ "mutagen", 125 ] ]
   },
   {
     "id": "iv_mutagen_sylvan",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "sylvan avenger serum",
-    "description": "A super-concentrated peat-brown substance with glittering green flecks that reminds you of a tree.  You need a syringe to inject it… if you really want to?",
+    "name": "sylvan avenger mutagenic primer",
+    "description": "A super-concentrated peat-brown substance with glittering green flecks that reminds you of a tree.",
     "color": "light_gray",
     "healthy": -2,
-    "use_action": { "type": "mutagen_iv", "mutation_category": "SYLVAN" }
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the sylvan avenger mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_sylvan", 450, 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_sylvan",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Sylvan Avenger Mutagen" },
+    "excess": "mutagen_sylvan",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_sylvan",
+    "name": [ "Sylvan Mutation", "Sylvan Transformation", "Sylvan Metamorphosis" ],
+    "desc": [
+      "You consumed sylvan avenger mutagen.",
+      "You consumed a large amount of sylvan avenger mutagen.",
+      "You consumed a life-changing amount of sylvan avenger mutagen."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Sylvan Avenger Mutagen Contamination"
   },
   {
     "type": "dream",

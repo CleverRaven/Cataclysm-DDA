@@ -15,6 +15,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonOut;
@@ -42,6 +43,7 @@ struct enum_traits<side> {
 struct sub_body_part_type {
 
     sub_bodypart_str_id id;
+    std::vector<std::pair<sub_bodypart_str_id, mod_id>> src;
     sub_bodypart_str_id opposite;
 
 
@@ -72,6 +74,9 @@ struct sub_body_part_type {
     static void load_bp( const JsonObject &jo, const std::string &src );
 
     void load( const JsonObject &jo, const std::string &src );
+
+    // combine matching body part strings together for printing
+    static std::vector<translation> consolidate( std::vector<sub_bodypart_id> &covered );
 
     // Clears all bps
     static void reset();

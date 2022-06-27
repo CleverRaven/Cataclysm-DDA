@@ -110,7 +110,7 @@ class texture
 class layer_variant
 {
     public:
-        std::string item;
+        std::string id;
         std::map<std::string, int> sprite;
         int layer;
         int total_weight;
@@ -155,7 +155,8 @@ class tileset
 
     public:
 
-        std::unordered_map<std::string, std::vector<layer_variant>> layer_data;
+        std::unordered_map<std::string, std::vector<layer_variant>> item_layer_data;
+        std::unordered_map<std::string, std::vector<layer_variant>> field_layer_data;
 
         void clear();
 
@@ -218,8 +219,8 @@ class tileset_cache
 {
     public:
         std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
-                const SDL_Renderer_Ptr &renderer, const bool precheck,
-                const bool force, const bool pump_events );
+                const SDL_Renderer_Ptr &renderer, bool precheck,
+                bool force, bool pump_events );
     private:
         class loader;
         std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;

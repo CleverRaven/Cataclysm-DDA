@@ -39,13 +39,13 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_fix_controls",
     "method": "json",
-    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_radio_tower_fix_tower",
     "method": "json",
-    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -91,7 +91,8 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "p": "t_pit" }
+      "terrain": { "p": "t_pit" },
+      "furniture": { "p": "f_clear" }
     }
   },
   {
@@ -126,7 +127,8 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "p": "t_pit" }
+      "terrain": { "p": "t_pit" },
+      "furniture": { "p": "f_clear" }
     }
   },
   {
@@ -161,7 +163,8 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "p": "t_palisade", "g": "t_palisade_gate", "r": "t_palisade_pulley" }
+      "terrain": { "p": "t_palisade", "g": "t_palisade_gate", "r": "t_palisade_pulley" },
+      "furniture": { "p": "f_clear", "g": "f_clear", "r": "f_clear" }
     }
   },
   {
@@ -196,7 +199,8 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "p": "t_palisade", "g": "t_palisade_gate", "r": "t_palisade_pulley" }
+      "terrain": { "p": "t_palisade", "g": "t_palisade_gate", "r": "t_palisade_pulley" },
+      "furniture": { "p": "f_clear", "g": "f_clear", "r": "f_clear" }
     }
   },
   {

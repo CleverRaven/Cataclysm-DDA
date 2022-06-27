@@ -42,6 +42,11 @@ void disease_type::load( const JsonObject &jo, const std::string & )
 
 }
 
+void disease_type::reset()
+{
+    disease_factory.reset();
+}
+
 const std::vector<disease_type> &disease_type::get_all()
 {
     return disease_factory.get_all();

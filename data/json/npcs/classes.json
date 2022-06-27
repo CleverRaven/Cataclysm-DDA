@@ -240,6 +240,7 @@
     "name": { "str": "Soldier" },
     "job_description": "I'm just here for the paycheck.",
     "traits": [ { "group": "BG_survival_story_SOLDIER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "bonus_str": { "rng": [ 0, 2 ] },
     "bonus_dex": { "one_in": 2 },
     "bonus_int": { "rng": [ 0, -2 ] },
@@ -411,7 +412,7 @@
   {
     "type": "npc_class",
     "id": "NC_CITY_COP",
-    "name": { "str": "former cop" },
+    "name": { "str": "Former Cop" },
     "job_description": "I used to be a police officer, but I'm just a survivor now.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,

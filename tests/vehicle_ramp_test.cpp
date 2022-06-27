@@ -9,6 +9,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "creature_tracker.h"
 #include "game.h"
 #include "game_constants.h"
 #include "map.h"
@@ -239,6 +240,10 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     const int start_z = drop_pos ? 1 : 0;
 
     const tripoint map_starting_point( 60, 60, start_z );
+
+    // Make sure the avatar is out of the way
+    Character &player_character = get_player_character();
+    player_character.setpos( map_starting_point + point( 5, 5 ) );
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, 180_degrees, 1, 0 );
 
     REQUIRE( veh_ptr != nullptr );
@@ -277,6 +282,15 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     }
     REQUIRE( z_span.size() > 1 );
 
+    creature_tracker &creatures = get_creature_tracker();
+    Creature *existing_creature =
+        creatures.creature_at<Creature>( map_starting_point );
+    if( existing_creature ) {
+        CAPTURE( existing_creature->as_character() );
+        CAPTURE( existing_creature->as_avatar() );
+        CAPTURE( existing_creature->is_monster() );
+        REQUIRE( !existing_creature );
+    }
     monster *dmon_p = g->place_critter_at( debug_mon, map_starting_point );
     REQUIRE( dmon_p );
     monster &dmon = *dmon_p;

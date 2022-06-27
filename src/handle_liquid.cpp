@@ -51,7 +51,11 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
 {
     act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
-    act.coords.push_back( veh.global_pos3() );
+    if( part_num != -1 ) {
+        act.coords.push_back( veh.global_part_pos3( part_num ) );
+    } else {
+        act.coords.push_back( veh.global_pos3() );
+    }
     act.str_values.push_back( serialize( liquid ) );
 }
 
@@ -249,7 +253,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         if( veh == source_veh && veh->has_part( "FLUIDTANK", false ) ) {
             for( const vpart_reference &vp : veh->get_avail_parts( "FLUIDTANK" ) ) {
                 if( vp.part().get_base().can_reload_with( liquid, true ) ) {
-                    menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill avaliable tank" ) );
+                    menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill available tank" ) );
                     actions.emplace_back( [ &, veh]() {
                         target.veh = veh;
                         target.dest_opt = LD_VEH;
@@ -331,9 +335,9 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     return true;
 }
 
-static bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
-                                     const vehicle *const source_veh, const int part_num,
-                                     const monster *const /*source_mon*/, liquid_dest_opt &target )
+bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
+                              const vehicle *const source_veh, const int part_num,
+                              const monster *const /*source_mon*/, liquid_dest_opt &target )
 {
     if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -368,7 +372,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             // not on ground or similar. TODO: implement storing arbitrary container locations.
             if( target.item_loc && create_activity() ) {
                 serialize_liquid_target( player_character.activity, target.item_loc );
-            } else if( player_character.pour_into( *target.item_loc, liquid ) ) {
+            } else if( player_character.pour_into( *target.item_loc, liquid, true ) ) {
                 if( target.item_loc->needs_processing() ) {
                     // Polymorphism fail, have to introspect into the type to set the target container as active.
                     switch( target.item_loc.where() ) {

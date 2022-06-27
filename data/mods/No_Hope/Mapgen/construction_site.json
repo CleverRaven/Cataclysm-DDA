@@ -413,16 +413,5 @@
       ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 16, "y": 2, "chance": 50, "fuel": 20, "rotation": 270 } ]
     }
-  },
-  {
-    "id": "small_utility_vehicles",
-    "type": "vehicle_group",
-    "vehicles": [
-      [ "excavator", 100 ],
-      [ "trencher", 80 ],
-      [ "engine_crane", 60 ],
-      [ "welding_cart", 40 ],
-      [ "portable_generator", 20 ]
-    ]
   }
 ]

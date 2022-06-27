@@ -2,6 +2,7 @@
   {
     "id": "glassblowing_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Art of Glassblowing", "str_pl": "copies of The Art of Glassblowing" },
     "description": "A textbook that illustrates the science and technique of the ancient art of glassblowing.",
     "weight": "1620 g",
@@ -22,6 +23,7 @@
   {
     "id": "plastics_book",
     "type": "BOOK",
+    "category": "manuals",
     "looks_like": "glassblowing_book",
     "name": {
       "str": "Plastics & Polymers: Projects for the Classroom",
@@ -46,6 +48,7 @@
   {
     "id": "theater_props",
     "type": "BOOK",
+    "category": "manuals",
     "looks_like": "glassblowing_book",
     "name": {
       "str": "The Prop Builder's Molding and Casting Handbook",
@@ -73,6 +76,7 @@
   {
     "id": "jewelry_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Antique Adornments", "str_pl": "copies of Antique Adornments" },
     "description": "A comprehensive and illustrated history of crown, bracelet, necklace and others.",
     "weight": "600 g",
@@ -84,7 +88,6 @@
     "color": "blue",
     "skill": "fabrication",
     "required_level": 6,
-    "max_level": 6,
     "proficiencies": [
       { "proficiency": "prof_fine_metalsmithing", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false },
       { "proficiency": "prof_gem_setting", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false }
@@ -95,6 +98,7 @@
   {
     "id": "mag_fabrication",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Crafty Crafter's Quarterly", "str_pl": "Crafty Crafter's Quarterlies" },
     "description": "A fun quarterly magazine all about macaroni art and things you can make by supergluing found objects together.",
     "weight": "60 g",
@@ -114,6 +118,7 @@
   {
     "id": "manual_fabrication",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "101 Crafts for Beginners", "str_pl": "copies of 101 Crafts for Beginners" },
     "description": "A large, paperback book detailing a hundred and one beginner's projects in fabrication.",
     "weight": "510 g",
@@ -132,6 +137,7 @@
   {
     "id": "recipe_arrows",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Fletcher's Friend", "str_pl": "copies of The Fletcher's Friend" },
     "description": "This hefty book is devoted to folks looking to handcraft their own arrows.  It starts with a hip and snappy disclaimer about the risks, both physical and legal, of using explosives and flammable materials.  Look for its companion, \"The Bowyer's Buddy\"!",
     "weight": "1454 g",
@@ -151,6 +157,7 @@
   {
     "id": "recipe_bows",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Bowyer's Buddy", "str_pl": "copies of The Bowyer's Buddy" },
     "description": "This hefty book is dedicated to craftsfolk and outdoors-y types looking to make their own bows.  It recommends its companion volume \"The Fletcher's Friend\" for instructions on producing their ammunition.",
     "weight": "1454 g",
@@ -170,6 +177,7 @@
   {
     "id": "recipe_bullets",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Handloader's Helper", "str_pl": "copies of The Handloader's Helper" },
     "description": "Everything you could ever want to know about handloading ammunition, sealed with a… childproof cover.  Apparently a liability thing, because the chapter on explosive rounds covers them in excellent detail too.",
     "weight": "1454 g",
@@ -189,6 +197,7 @@
   {
     "id": "recipe_caseless",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Rivtech design binder" },
     "description": "This Rivtech binder warns that \"Unauthorized readers are our best test subjects.\" With good reason: it contains complete design specs and technical drawings for their entire line of products.",
     "weight": "1409 g",
@@ -208,6 +217,7 @@
   {
     "id": "recipe_lab_cvd",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "lab journal-Gustav", "str_pl": "lab journals-Gustav" },
     "description": "This paper notebook is mostly full of boring logs, experimental observations and notes.  Mixed in, however, are musings on how to use the lab's vapor deposition machine to deposit amorphous carbon in a diamond-like form onto common metals.  The author's intended goal was a better non-stick frying pan, but you can think of a couple of better uses for it.",
     "weight": "2000 g",
@@ -228,6 +238,7 @@
   {
     "id": "recipe_melee",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Streetfighter's Sidekick", "str_pl": "copies of The Streetfighter's Sidekick" },
     "description": "A sizable how-to guide for making hand-to-hand combat weapons.  Though the processes are thoroughly detailed and several illustrations are provided, they rely heavily on technical jargon.  More for machinists-turned-weaponsmiths than streetfighters, really.",
     "weight": "954 g",
@@ -246,6 +257,7 @@
   {
     "id": "textbook_armeast",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Art of Japanese Armormaking", "str_pl": "copies of The Art of Japanese Armormaking" },
     "description": "This in-depth and technical text details various forms of ancient Japanese armor crafting, and is well illustrated with lots of photos.",
     "weight": "654 g",
@@ -266,6 +278,7 @@
   {
     "id": "textbook_armschina",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Arms and Armor of Imperial China", "str_pl": "copies of Arms and Armor of Imperial China" },
     "description": "This textbook details the military history of ancient China, with a particular focus on the nature of historical arms and armor.  It also details some of the equipment used by other cultures that came into conflict with the empire over various dynasties.",
     "weight": "654 g",
@@ -286,6 +299,7 @@
   {
     "id": "textbook_armwest",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Studies in Historic Armorsmithing", "str_pl": "copies of Studies in Historic Armorsmithing" },
     "description": "This in-depth and technical text details various forms of ancient European armor crafting, and is well illustrated with lots of photos.",
     "weight": "654 g",
@@ -306,6 +320,7 @@
   {
     "id": "textbook_fabrication",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "DIY Compendium", "str_pl": "copies of DIY Compendium" },
     "description": "A thick, hardbound book detailing countless projects for inventions that claim to improve all aspects of life.",
     "weight": "2100 g",
@@ -326,6 +341,7 @@
   {
     "id": "textbook_fireman",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "A History of Firefighting", "str_pl": "copies of A History of Firefighting" },
     "description": "This in-depth and technical text details the history of firefighting from ancient times into the modern era, with a focus on the technology used to save lives.",
     "weight": "528 g",
@@ -344,6 +360,7 @@
   {
     "id": "textbook_weapeast",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Swords of the Samurai", "str_pl": "copies of The Swords of the Samurai" },
     "description": "This in-depth and technical text details various forms of ancient Japanese sword smithing, and is well illustrated with step by step photo instructions.",
     "weight": "654 g",
@@ -364,6 +381,7 @@
   {
     "id": "textbook_weapwest",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Historic Weaponsmith", "str_pl": "copies of The Historic Weaponsmith" },
     "description": "This in-depth and technical text details various forms of ancient European weapon smithing, and is well illustrated with step by step photo instructions.",
     "weight": "654 g",
@@ -384,6 +402,7 @@
   {
     "id": "welding_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Welding and Metallurgy", "str_pl": "copies of Welding and Metallurgy" },
     "description": "A rather technical textbook that illustrates the science and technique of becoming a better welder.",
     "weight": "2100 g",
@@ -404,6 +423,7 @@
   {
     "id": "101_carpentry",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "101 Home Repairs", "str_pl": "copies of 101 Home Repairs" },
     "description": "A paperback book detailing 101 home repair projects for the novice carpenter.",
     "weight": "454 g",
@@ -426,6 +446,7 @@
   {
     "id": "carpentry_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Complete Home Repair Guide", "str_pl": "copies of The Complete Home Repair Guide" },
     "description": "A massive book that details virtually every aspect of remodeling and repairing a home, with concise terminology aimed at experienced carpenters.",
     "weight": "2490 g",
@@ -451,6 +472,7 @@
   {
     "id": "mag_carpentry",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Birdhouse Monthly", "str_pl": "Birdhouse Monthlies" },
     "description": "A riveting periodical all about birdhouses and their construction.",
     "weight": "60 g",
@@ -471,6 +493,7 @@
   {
     "id": "manual_carpentry",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Building for Beginners", "str_pl": "copies of Building for Beginners" },
     "description": "A large, paperback book detailing several beginner's projects in construction.",
     "weight": "454 g",
@@ -493,6 +516,7 @@
   {
     "id": "textbook_carpentry",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Engineering 301", "str_pl": "copies of Engineering 301" },
     "description": "A textbook on civil engineering and construction.",
     "weight": "1587 g",
@@ -513,6 +537,7 @@
   {
     "id": "reference_fabrication1",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Machinery's Handbook", "str_pl": "copies of Machinery's Handbook" },
     "description": "This classic reference work contains extensive, dense chapters and tables on materials, metrology, toolmaking, gears, threading and more.  This recent edition includes extensive data on what were the latest techniques in additive manufacturing.  If you need to know how best complete a certain machining operation, the answer lies somewhere in these pages.",
     "weight": "454 g",
@@ -531,6 +556,7 @@
   {
     "id": "concrete_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Concrete Constructions", "str_pl": "copies of Concrete Constructions" },
     "description": "A collection of notable uses of concrete.  Contains detailed directions on how to mix and use cement to form useful aggregates.",
     "weight": "600 g",
@@ -547,5 +573,23 @@
     "max_level": 4,
     "intelligence": 9,
     "time": "30 m"
+  },
+  {
+    "id": "recipe_migo_plate",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "WX010 Living Armor Observations", "str_pl": "copies of WX010 Living Armor Observations" },
+    "description": "This sheaf of papers seems to describe maintenance on a new form of ballistic armor.  \"the regenerative plates though promising for field use do require maintenance or combat to stop from becoming overgrown\".",
+    "weight": "50 g",
+    "volume": "500 ml",
+    "price": 125000,
+    "price_postapoc": 10,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 1,
+    "intelligence": 8,
+    "time": "15 m"
   }
 ]

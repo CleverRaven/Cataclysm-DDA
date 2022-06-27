@@ -55,18 +55,18 @@
 #define STRING(x) STRING2(x)
 
 #if defined(__GNUC__)
-#define __FUNCTION_NAME__ __PRETTY_FUNCTION__
+#define CATA_FUNCTION_NAME __PRETTY_FUNCTION__
 #else
-#define __FUNCTION_NAME__ __func__
+#define CATA_FUNCTION_NAME __func__
 #endif
 
 /**
  * Debug message of level D_ERROR and class D_MAIN, also includes the source
- * file name and line, uses varg style arguments, teh first argument must be
+ * file name and line, uses varg style arguments, the first argument must be
  * a printf style format string.
  */
 
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __FUNCTION_NAME__, __VA_ARGS__)
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), CATA_FUNCTION_NAME, __VA_ARGS__)
 
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname,

@@ -1,9 +1,11 @@
 from .parsers.achievement import parse_achievement
 from .parsers.activity_type import parse_activity_type
+from .parsers.addiction_type import parse_addiction_type
 from .parsers.ammunition_type import parse_ammunition_type
 from .parsers.bionic import parse_bionic
 from .parsers.body_part import parse_body_part
 from .parsers.character_mod import parse_character_mod
+from .parsers.city import parse_city
 from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
@@ -37,6 +39,7 @@ from .parsers.overmap_terrain import parse_overmap_terrain
 from .parsers.palette import parse_palette
 from .parsers.profession import parse_profession
 from .parsers.proficiency import parse_proficiency
+from .parsers.proficiency_category import parse_proficiency_category
 from .parsers.recipe import parse_recipe
 from .parsers.recipe_category import parse_recipe_category
 from .parsers.recipe_group import parse_recipe_group
@@ -53,6 +56,7 @@ from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
 from .parsers.practice import parse_practice
 from .parsers.scenario import parse_scenario
+from .parsers.shop_blacklist import parse_shopkeeper_blacklist
 from .parsers.skill import parse_skill
 from .parsers.skill_display_type import parse_skill_display_type
 from .parsers.speech import parse_speech
@@ -73,6 +77,7 @@ from .parsers.vehicle_part import parse_vehicle_part
 from .parsers.vehicle_part_category import parse_vehicle_part_category
 from .parsers.vehicle_spawn import parse_vehicle_spawn
 from .parsers.vitamin import parse_vitamin
+from .parsers.weakpoint_set import parse_weakpoint_set
 from .parsers.weapon_category import parse_weapon_category
 from .parsers.weather_type import parse_weather_type
 from .parsers.widget import parse_widget
@@ -85,6 +90,7 @@ def dummy_parser(json, origin):
 parsers = {
     "achievement": parse_achievement,
     "activity_type": parse_activity_type,
+    "addiction_type": parse_addiction_type,
     "ammo": parse_generic,
     "ammo_effect": dummy_parser,
     "ammunition_type": parse_ammunition_type,
@@ -95,11 +101,14 @@ parsers = {
     "behavior": dummy_parser,
     "bionic": parse_bionic,
     "bionic_item": parse_generic,
+    "body_graph": dummy_parser,
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
     "character_mod": parse_character_mod,
+    "charge_migration_blacklist": dummy_parser,
     "charge_removal_blacklist": dummy_parser,
+    "city": parse_city,
     "city_building": dummy_parser,
     "clothing_mod": parse_clothing_mod,
     "comestible": parse_generic,
@@ -168,6 +177,7 @@ parsers = {
     "overmap_land_use_code": parse_overmap_land_use_code,
     "overmap_location": dummy_parser,
     "overmap_special": dummy_parser,
+    "overmap_special_migration": dummy_parser,
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,
     "pet_armor": parse_generic,
@@ -176,6 +186,7 @@ parsers = {
     "profession": parse_profession,
     "profession_item_substitutions": dummy_parser,
     "proficiency": parse_proficiency,
+    "proficiency_category": parse_proficiency_category,
     "recipe": parse_recipe,
     "recipe_category": parse_recipe_category,
     "recipe_group": parse_recipe_group,
@@ -188,6 +199,8 @@ parsers = {
     "scenario_blacklist": dummy_parser,
     "scent_type": dummy_parser,
     "score": dummy_parser,
+    "shopkeeper_blacklist": parse_shopkeeper_blacklist,
+    "shopkeeper_consumption_rates": dummy_parser,
     "skill": parse_skill,
     "skill_boost": dummy_parser,
     "skill_display_type": parse_skill_display_type,
@@ -218,6 +231,7 @@ parsers = {
     "vehicle_placement": dummy_parser,
     "vehicle_spawn": parse_vehicle_spawn,
     "vitamin": parse_vitamin,
+    "weakpoint_set": parse_weakpoint_set,
     "weapon_category": parse_weapon_category,
     "weather_type": parse_weather_type,
     "wheel": parse_generic,

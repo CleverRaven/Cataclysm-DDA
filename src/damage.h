@@ -65,7 +65,9 @@ struct damage_instance {
     damage_instance( damage_type dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
                      float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f );
     void mult_damage( double multiplier, bool pre_armor = false );
+    void mult_type_damage( double multiplier, damage_type dt );
     float type_damage( damage_type dt ) const;
+    float type_arpen( damage_type dt ) const;
     float total_damage() const;
     void clear();
     bool empty() const;
@@ -125,7 +127,9 @@ struct resistances {
     resistances();
 
     // If to_self is true, we want armor's own resistance, not one it provides to wearer
-    explicit resistances( const item &armor, bool to_self = false );
+    explicit resistances( const item &armor, bool to_self = false, int roll = 0,
+                          const bodypart_id &bp = bodypart_id() );
+    explicit resistances( const item &armor, bool to_self, int roll, const sub_bodypart_id &bp );
     explicit resistances( monster &monster );
     void set_resist( damage_type dt, float amount );
     float type_resist( damage_type dt ) const;
@@ -133,6 +137,9 @@ struct resistances {
     float get_effective_resist( const damage_unit &du ) const;
 
     resistances &operator+=( const resistances &other );
+    bool operator==( const resistances &other );
+    resistances operator*( float mod ) const;
+    resistances operator/( float mod ) const;
 };
 
 const std::map<std::string, damage_type> &get_dt_map();

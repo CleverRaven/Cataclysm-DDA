@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
+#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
@@ -81,10 +82,6 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::LESSON_PICKUP: return "LESSON_PICKUP";
         case tut_lesson::LESSON_EXAMINE: return "LESSON_EXAMINE";
         case tut_lesson::LESSON_INTERACT: return "LESSON_INTERACT";
-        case tut_lesson::LESSON_FULL_INV: return "LESSON_FULL_INV";
-        case tut_lesson::LESSON_WIELD_NO_SPACE: return "LESSON_WIELD_NO_SPACE";
-        case tut_lesson::LESSON_AUTOWIELD: return "LESSON_AUTOWIELD";
-        case tut_lesson::LESSON_ITEM_INTO_INV: return "LESSON_ITEM_INTO_INV";
         case tut_lesson::LESSON_GOT_ARMOR: return "LESSON_GOT_ARMOR";
         case tut_lesson::LESSON_GOT_WEAPON: return "LESSON_GOT_WEAPON";
         case tut_lesson::LESSON_GOT_FOOD: return "LESSON_GOT_FOOD";
@@ -103,7 +100,6 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::LESSON_DRANK_WATER: return "LESSON_DRANK_WATER";
         case tut_lesson::LESSON_ACT_GRENADE: return "LESSON_ACT_GRENADE";
         case tut_lesson::LESSON_ACT_BUBBLEWRAP: return "LESSON_ACT_BUBBLEWRAP";
-        case tut_lesson::LESSON_OVERLOADED: return "LESSON_OVERLOADED";
         case tut_lesson::LESSON_GUN_LOAD: return "LESSON_GUN_LOAD";
         case tut_lesson::LESSON_GUN_FIRE: return "LESSON_GUN_FIRE";
         case tut_lesson::LESSON_RECOIL: return "LESSON_RECOIL";
@@ -193,10 +189,6 @@ void tutorial_game::per_turn()
         } else {
             add_message( tut_lesson::LESSON_DARK_NO_FLASH );
         }
-    }
-
-    if( !player_character.get_wielded_item().is_null() ) {
-        add_message( tut_lesson::LESSON_WIELD_NO_SPACE );
     }
 
     if( player_character.get_wielded_item().ammo_remaining( &player_character ) > 0 ) {
@@ -390,6 +382,8 @@ void tutorial_game::add_message( tut_lesson lesson )
     }
     tutorials_seen[lesson] = true;
     g->invalidate_main_ui_adaptor();
-    popup( SNIPPET.get_snippet_by_id( snippet_id( io::enum_to_string<tut_lesson>( lesson ) ) ).value_or(
-               translation() ).translated(), PF_ON_TOP );
+    std::string translated_lesson = SNIPPET.get_snippet_by_id( snippet_id(
+                                        io::enum_to_string<tut_lesson>( lesson ) ) ).value_or( translation() ).translated();
+    replace_keybind_tag( translated_lesson );
+    popup( translated_lesson, PF_ON_TOP );
 }

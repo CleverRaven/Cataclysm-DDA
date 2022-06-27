@@ -8,11 +8,6 @@ TranslationManager &TranslationManager::GetInstance()
     return singleton;
 }
 
-TranslationManager::TranslationManager()
-{
-    impl = std::make_unique<TranslationManagerImpl>();
-}
-
 std::unordered_set<std::string> TranslationManager::GetAvailableLanguages()
 {
     return impl->GetAvailableLanguages();

@@ -34,13 +34,16 @@ std::string vehicle::disp_name() const
     return string_format( _( "the %s" ), name );
 }
 
-char vehicle::part_sym( const int p, const bool exact ) const
+char vehicle::part_sym( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return ' ';
     }
 
-    const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+    int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
+    if( displayed_part == -1 ) {
+        displayed_part = p;
+    }
 
     const vehicle_part &vp = parts.at( displayed_part );
     const vpart_info &vp_info = part_info( displayed_part );
@@ -74,7 +77,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
         return "";
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount );
+    int displayed_part = part_displayed_at( parts[p].mount, true );
     if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
         parts[ displayed_part ].removed ) {
         return "";
@@ -93,7 +96,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
     return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
 }
 
-nc_color vehicle::part_color( const int p, const bool exact ) const
+nc_color vehicle::part_color( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return c_black;
@@ -111,7 +114,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     if( parm >= 0 ) {
         col = part_info( parm ).color;
     } else {
-        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
 
         if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ) {
             return c_black;
@@ -161,21 +164,24 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param detail Whether or not to show detailed contents for fuel components.
  */
 int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
-                              int p, int hl /*= -1*/, bool detail ) const
+                              int p, int hl /*= -1*/, bool detail, bool include_fakes ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true );
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true, include_fakes );
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
+        const vehicle_part &vp = parts[ pl [ i ] ];
+        if( vp.is_fake && !vp.is_active_fake ) {
+            continue;
+        }
         if( y >= max_y ) {
             mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here…" ) );
             ++y;
             break;
         }
 
-        const vehicle_part &vp = parts[ pl [ i ] ];
 
         std::string partname = vp.name();
 
@@ -491,10 +497,12 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
         return;
     }
 
+    // Color is based on how much vehicle is straining beyond its safe velocity
     const float strain = this->strain();
     nc_color col_vel = strain <= 0 ? c_light_blue :
                        ( strain <= 0.2 ? c_yellow :
                          ( strain <= 0.4 ? c_light_red : c_red ) );
+    // Get cruising (target) velocity, and current (actual) velocity
     int t_speed = static_cast<int>( convert_velocity( cruise_velocity, VU_VEHICLE ) );
     int c_speed = static_cast<int>( convert_velocity( velocity, VU_VEHICLE ) );
     auto ndigits = []( int value ) {
@@ -507,8 +515,11 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
     int t_offset = ndigits( t_speed );
     int c_offset = ndigits( c_speed );
 
+    // Target cruising velocity in green
     mvwprintz( win, p, c_light_green, "%d", t_speed );
     mvwprintz( win, p + point( t_offset + spacing, 0 ), c_light_gray, "<" );
+    // Current velocity in color indicating engine strain
     mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%d", c_speed );
+    // Units of speed (mph, km/h, t/t)
     mvwprintz( win, p + point( t_offset  + c_offset + 1 + 3 * spacing, 0 ), c_light_gray, type );
 }

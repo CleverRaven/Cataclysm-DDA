@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.4)
+cmake_minimum_required(VERSION 3.20)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/third-party)
 
@@ -63,7 +63,10 @@ if (TILES)
 
     target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
-
+    if(NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
+        target_precompile_headers(cataclysm-tiles-common PUBLIC
+            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+    endif ()
     if (LOCALIZE)
         target_include_directories(cataclysm-tiles-common PUBLIC
                 ${LIBINTL_INCLUDE_DIR}
@@ -123,6 +126,7 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common ole32.lib)
         target_link_libraries(cataclysm-tiles-common oleaut32.lib)
         target_link_libraries(cataclysm-tiles-common version.lib)
+        target_link_libraries(cataclysm-tiles-common setupapi.lib)
         if (BACKTRACE)
             target_link_libraries(cataclysm-tiles-common dbghelp.lib)
             if (LIBBACKTRACE)

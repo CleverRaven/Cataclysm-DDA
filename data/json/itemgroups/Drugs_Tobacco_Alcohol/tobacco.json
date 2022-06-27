@@ -69,7 +69,11 @@
         ]
       },
       {
-        "distribution": [ { "item": "lighter", "charges": [ 0, 100 ] }, { "item": "matches", "charges": [ 1, 20 ] } ]
+        "distribution": [
+          { "item": "lighter", "charges": [ 0, 100 ] },
+          { "item": "matches", "charges": [ 1, 20 ] },
+          { "item": "ref_matches", "charges": [ 1, 32 ] }
+        ]
       }
     ]
   }

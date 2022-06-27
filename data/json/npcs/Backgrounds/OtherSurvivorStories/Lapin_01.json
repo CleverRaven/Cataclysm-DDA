@@ -1,0 +1,57 @@
+[
+  {
+    "id": "BOSS_Lapin_01_Story1",
+    "type": "talk_topic",
+    "dynamic_line": "Actually, yeah.  It's a long shot but we could follow it if you like.  I ran into another survivor once - don't think she made it, she was heading to a nearby mall, and that place was overrun.  She mentioned seeing a guy taking care of his cabin in the woods though.  Said she thought about checking on him, but that was when things were all going nuts, and she decided against it.  I got some directions and never followed through on it.",
+    "responses": [
+      {
+        "text": "Let's see how to get there and go check on the guy.",
+        "topic": "BOSS_Lapin_01_Story2",
+        "condition": {
+          "and": [
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
+            },
+            { "npc_has_trait": "BOSS_Lapin_01" },
+            { "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "lapin" } }
+          ]
+        },
+        "effect": { "assign_mission": "directions_lapin" },
+        "switch": true
+      },
+      { "text": "<done_conversation>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BOSS_Lapin_01_Story2",
+    "type": "talk_topic",
+    "dynamic_line": "*shows you on your map where to find it.  \"This looks right to me.",
+    "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "directions_lapin",
+    "type": "mission_definition",
+    "name": { "str": "Check out that cabin in the woods" },
+    "description": "Maybe still a guy in a cabin in the woods.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "Cabin_Lapin", "om_terrain": "cabin_lapin", "reveal_radius": 5, "search_range": 400 },
+      "effect": { "u_add_var": "directions", "type": "BOSS", "context": "mission", "value": "lapin" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Maybe still a guy in a cabin in the woods.",
+      "offer": "Maybe still a guy in a cabin in the woods.",
+      "accepted": "Good good.",
+      "rejected": "Sure, fine.",
+      "advice": "Maybe bring like a bat or something?",
+      "inquire": "How is the search going?",
+      "success": "Great.",
+      "success_lie": "Great.",
+      "failure": "Not that surprising."
+    }
+  }
+]

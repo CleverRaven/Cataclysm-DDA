@@ -47,7 +47,7 @@ void live_view::show( const tripoint &p )
             const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
             const int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
 
-            const int max_height = TERMY / 2;
+            const int max_height = pixel_minimap_option ? TERMY / 2 : TERMY;
             const int line_limit = max_height - 2;
             const visibility_variables &cache = get_map().get_visibility_variables_cache();
             int line_out = START_LINE;
@@ -66,7 +66,7 @@ void live_view::show( const tripoint &p )
             int line_out = START_LINE;
             g->pre_print_all_tile_info( mouse_position, win, line_out, getmaxy( win ) - 2, cache );
             draw_border( win );
-            center_print( win, 0, c_white, _( "< <color_green>Mouse View</color> >" ) );
+            center_print( win, 0, c_white, _( "< <color_green>Mouse view</color> >" ) );
             wnoutrefresh( win );
         } );
     }

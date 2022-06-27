@@ -26,6 +26,7 @@ struct overmap_location {
 
         // Used by generic_factory
         string_id<overmap_location> id;
+        std::vector<std::pair<string_id<overmap_location>, mod_id>> src;
         bool was_loaded = false;
 
     private:
