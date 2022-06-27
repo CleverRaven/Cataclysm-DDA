@@ -1561,7 +1561,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc_unread = highlight_unread_recipes;
             keepline = true;
             if( static_cast<size_t>( line + 1 ) < current.size() ) {
-                line++;;
+                line++;
             } else {
                 line--;
             }

@@ -2198,10 +2198,8 @@ void npc::load( const JsonObject &data )
 
     std::vector<tripoint_abs_omt> companion_mission_pts;
     data.read( "companion_mission_points", companion_mission_pts );
-    if( !companion_mission_pts.empty() ) {
-        for( auto pt : companion_mission_pts ) {
-            companion_mission_points.push_back( pt );
-        }
+    for( auto pt : companion_mission_pts ) {
+        companion_mission_points.push_back( pt );
     }
 
     if( !data.read( "companion_mission_time", companion_mission_t ) ) {

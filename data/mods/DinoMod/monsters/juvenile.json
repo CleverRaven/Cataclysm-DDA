@@ -156,6 +156,20 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
+    "id": "mon_nanuqsaurus_juvenile",
+    "type": "MONSTER",
+    "name": "nanuqsaurus juvenile",
+    "description": "This large, bipedal dinosaur juvenile has long, sharp teeth and fluffy white feathers.",
+    "default_faction": "nanuqsaurus_juvenile",
+    "copy-from": "mon_nanuqsaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_nanuqsaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_daspletosaurus_juvenile",
     "type": "MONSTER",
     "name": "daspletosaurus juvenile",

@@ -1569,6 +1569,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_thirst();
             };
+        } else if( checked_value == "instant_thirst" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_instant_thirst();
+            };
         } else if( checked_value == "stored_kcal" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_stored_kcal();
@@ -1830,17 +1834,17 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
             };
         } else if( weather_aspect == "windpower" ) {
             return [min, max]( const T & d, int input ) {
-                get_weather().weather_precise->windpower = handle_min_max<T>( d, input, min, max );;
+                get_weather().weather_precise->windpower = handle_min_max<T>( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "humidity" ) {
             return [min, max]( const T & d, int input ) {
-                get_weather().weather_precise->humidity = handle_min_max<T>( d, input, min, max );;
+                get_weather().weather_precise->humidity = handle_min_max<T>( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "pressure" ) {
             return [min, max]( const T & d, int input ) {
-                get_weather().weather_precise->pressure = handle_min_max<T>( d, input, min, max );;
+                get_weather().weather_precise->pressure = handle_min_max<T>( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         }
