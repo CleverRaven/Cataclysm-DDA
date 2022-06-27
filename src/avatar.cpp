@@ -852,7 +852,7 @@ nc_color avatar::basic_symbol_color() const
     if( has_effect( effect_boomered ) ) {
         return c_pink;
     }
-    if( in_shell ) { // NOLINT(bugprone-branch-clone)
+    if( in_shell ) {
         return c_magenta;
     }
     if( underwater ) {
