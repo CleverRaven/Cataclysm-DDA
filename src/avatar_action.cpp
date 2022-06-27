@@ -156,7 +156,7 @@ static bool check_water_affect_items( avatar &you )
 
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
-	bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
         if( in_shell ) {
@@ -946,7 +946,7 @@ void avatar_action::eat( avatar &you, const item_location &loc,
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
-	bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( in_shell ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
