@@ -237,13 +237,13 @@ bool shopkeeper_item_group::can_sell( npc const &guy ) const
     dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
     faction *const fac = guy.get_faction();
 
-    return ( fac == nullptr or trust <= guy.get_faction()->trusts_u ) and
-           ( !condition or condition( temp ) );
+    return ( fac == nullptr || trust <= guy.get_faction()->trusts_u ) &&
+           ( !condition || condition( temp ) );
 }
 
 bool shopkeeper_item_group::can_restock( npc const &guy ) const
 {
-    return !strict or can_sell( guy );
+    return !strict || can_sell( guy );
 }
 
 std::string shopkeeper_item_group::get_refusal() const

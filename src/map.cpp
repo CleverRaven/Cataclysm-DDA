@@ -4104,7 +4104,7 @@ bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
             if( !check_only ) {
-                if( ( u.is_npc() or u.is_avatar() ) and
+                if( ( u.is_npc() || u.is_avatar() ) &&
                     !vp->vehicle().handle_potential_theft( *u.as_character() ) ) {
                     return false;
                 }
