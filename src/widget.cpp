@@ -369,8 +369,8 @@ void widget::load( const JsonObject &jo, const std::string & )
         explicit_separator = true;
         explicit_padding = true;
     } else {
-        explicit_separator = ( jo.get_string( "separator" ) );
-        explicit_padding = ( jo.get_int( "padding" ) );
+        explicit_separator = jo.has_string( "separator" );
+        explicit_padding = jo.has_string( "padding" );
         optional( jo, was_loaded, "separator", _separator, default_separator );
         optional( jo, was_loaded, "padding", _padding, 2 );
     }
@@ -487,7 +487,7 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
     for( const widget_id &wid : w->_widgets ) {
         widget::finalize_inherited_fields_recursive( wid,
                 w->explicit_separator ? w->_separator : label_separator,
-                w->explicit_padding ? w->_padding : padding );
+                w->explicit_padding ? w->_padding : col_padding );
     }
 }
 
