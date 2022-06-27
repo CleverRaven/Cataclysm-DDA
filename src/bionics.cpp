@@ -1082,8 +1082,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( weather.windspeed + vehwindspeed,
                            cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
-        add_msg_if_player( m_info, _( "Temperature: %s." ),
-                           print_temperature( player_local_temp ) );
+        add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
         const w_point weatherPoint = *weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
