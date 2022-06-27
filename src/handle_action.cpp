@@ -1849,8 +1849,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 {
     item &weapon = player_character.get_wielded_item();
     switch( act ) {
-	    bool in_shell = player_character.has_active_mutation( trait_SHELL2 ) ||
-                        player_character.has_active_mutation( trait_SHELL3 );
+            bool in_shell = player_character.has_active_mutation( trait_SHELL2 ) ||
+                            player_character.has_active_mutation( trait_SHELL3 );
         case ACTION_NULL: // dummy entry
         case NUM_ACTIONS: // dummy entry
         case ACTION_ACTIONMENU: // handled above
