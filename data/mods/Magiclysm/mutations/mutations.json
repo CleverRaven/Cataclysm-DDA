@@ -163,11 +163,9 @@
   {
     "type": "mutation",
     "id": "TOE_CLAWS",
-    "name": { "str": "Clawed Feet" },
-    "copy-from": "RAP_TALONS",
-    "description": "Your toenails have grown long and sharp, preventing you from wearing shoes, but providing you with a set of powerful claws on your feet.  Fortunately they don't impede your movement.",
-    "category": [ "DRAGON_BLACK", "LIZARD" ],
-    "changes_to": [ "DRAGON_FEET" ]
+    "copy-from": "TOE_CLAWS",
+    "changes_to": [ "DRAGON_FEET" ],
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
