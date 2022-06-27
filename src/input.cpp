@@ -654,18 +654,20 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_29,        translate_marker_context( "key name", "JOY_29" ) );
     add_gamepad_keycode_pair( JOY_30,        translate_marker_context( "key name", "JOY_30" ) );
 
-    static const std::vector<std::pair<MouseInput, std::string>> mouse_keycode_pairs = {
-        { MouseInput::LeftButtonPressed,   translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" ) },
-        { MouseInput::LeftButtonReleased,  translate_marker_context( "key name", "MOUSE_LEFT" ) },
-        { MouseInput::RightButtonPressed,  translate_marker_context( "key name", "MOUSE_RIGHT_PRESSED" ) },
-        { MouseInput::RightButtonReleased, translate_marker_context( "key name", "MOUSE_RIGHT" ) },
-        { MouseInput::ScrollWheelUp,       translate_marker_context( "key name", "SCROLL_UP" ) },
-        { MouseInput::ScrollWheelDown,     translate_marker_context( "key name", "SCROLL_DOWN" ) },
-        { MouseInput::Move,                translate_marker_context( "key name", "MOUSE_MOVE" ) },
-    };
-    for( const auto &v : mouse_keycode_pairs ) {
-        add_mouse_keycode_pair( v.first, v.second );
-    }
+    add_mouse_keycode_pair( MouseInput::LeftButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::LeftButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_LEFT" ) );
+    add_mouse_keycode_pair( MouseInput::RightButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_RIGHT_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::RightButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_RIGHT" ) );
+    add_mouse_keycode_pair( MouseInput::ScrollWheelUp,
+                            translate_marker_context( "key name", "SCROLL_UP" ) );
+    add_mouse_keycode_pair( MouseInput::ScrollWheelDown,
+                            translate_marker_context( "key name", "SCROLL_DOWN" ) );
+    add_mouse_keycode_pair( MouseInput::Move,
+                            translate_marker_context( "key name", "MOUSE_MOVE" ) );
 
 }
 
