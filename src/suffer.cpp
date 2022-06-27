@@ -1950,8 +1950,8 @@ void Character::sound_hallu()
 
 void Character::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )
 {
-	bool in_shell = has_active_mutation( trait_SHELL2 ) ||
-					has_active_mutation( trait_SHELL3 );
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
     if( saturation < 1 ) {
         return;
     }
