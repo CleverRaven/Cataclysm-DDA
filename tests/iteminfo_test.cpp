@@ -41,7 +41,7 @@ static const itype_id itype_zentai( "zentai" );
 
 static const material_id material_wool( "wool" );
 
-static const recipe_id recipe_pur_tablets( "pur_tablets" );
+static const recipe_id recipe_iodine( "iodine" );
 
 static const skill_id skill_survival( "survival" );
 
