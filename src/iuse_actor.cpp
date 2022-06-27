@@ -1545,18 +1545,8 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
 static cata::optional<recipe> find_uncraft_recipe( item x )
 {
     auto is_valid_uncraft = [&x]( recipe curr ) -> bool {
-        if( curr.obsolete || curr.result() != x.typeId() || curr.makes_amount() > 1 || curr.is_null() )
-        {
-            return false;
-        }
-        units::mass weight = 0_gram;
-        for( const auto &altercomps : curr.simple_requirements().get_components() )
-        {
-            if( !altercomps.empty() && altercomps.front().type ) {
-                weight += altercomps.front().type->weight * altercomps.front().count;
-            }
-        }
-        return weight <= x.weight();
+        return !( curr.obsolete || curr.result() != x.typeId()
+                  || curr.makes_amount() > 1 || curr.is_null() );
     };
 
     // Check uncraft first, then crafting recipes if none was found
@@ -1585,21 +1575,50 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         mat_set.insert( mat.first );
     }
 
-    auto distribute_uniformly = [&mat_to_weight]( item x ) -> void {
+    // Calculate efficiency losses
+    float efficiency = 1.0;
+    // Higher fabrication, less chance of entropy, but still a chance.
+    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
+    int entropy_threshold = std::max( 0, 5 - p.get_skill_level( skill_fabrication ) );
+    if( rng( 1, 10 ) <= entropy_threshold ) {
+        efficiency *= 0.9;
+    }
+
+    // Fail dex roll, potentially lose more parts.
+    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
+    if( dice( 3, 4 ) > p.dex_cur ) {
+        efficiency *= 0.95;
+    }
+
+    // If the item being cut is damaged, additional losses will be incurred.
+    // Reinforcing does not decrease losses.
+    efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
+
+    // Apply proportional item loss.
+    for( auto &iter : salvage ) {
+        iter.second *= efficiency;
+    }
+
+    auto distribute_uniformly = [&mat_to_weight]( item x, float efficiency ) -> void {
         const float mat_total = std::max( x.type->mat_portion_total, 1 );
         for( const auto &type : x.made_of() )
         {
-            mat_to_weight[type.first] += x.weight() * ( static_cast<float>( type.second ) / mat_total );
+            mat_to_weight[type.first] += x.weight() * ( static_cast<float>( type.second ) / mat_total ) *
+            efficiency;
         }
     };
 
-    std::function<void( item )> cut_up_component =
+    // efficiency is decreased every time the ingredients of a recipe have more mass than the output
+    // num is passed along until we reach a basic component
+    std::function<void( item, int, float )> cut_up_component =
         [&salvage, &mat_set, &distribute_uniformly, &cut_up_component]
-    ( item curr ) -> void {
+    ( item curr, int num, float eff_curr ) -> void {
+
         // If it is one of the basic components, add it into the list
         if( curr.type->is_basic_component() )
         {
-            salvage[curr.typeId()] ++;
+            int num_adjusted = static_cast<int>( num * eff_curr );
+            salvage[curr.typeId()] += num_adjusted;
             return;
         }
 
@@ -1615,7 +1634,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         if( !curr.components.empty() )
         {
             for( const item &iter : curr.components ) {
-                cut_up_component( iter );
+                cut_up_component( iter, num, eff_curr );
             }
             return;
         }
@@ -1625,63 +1644,45 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         if( uncraft )
         {
             const requirement_data requirements = uncraft->simple_requirements();
+
+            units::mass ingredient_weight = 0_gram;
+            for( const auto &altercomps : requirements.get_components() ) {
+                if( !altercomps.empty() && altercomps.front().type ) {
+                    ingredient_weight += altercomps.front().type->weight * altercomps.front().count;
+                }
+            }
+            // We must decrease efficiency so on avg no more mass is salvaged than the original item weighed
+            eff_curr *= std::min( static_cast<float>( curr.weight().value() ) / static_cast<float>
+                                  ( ingredient_weight.value() ), 1.0f );
+
             // Find default components set from recipe
             for( const auto &altercomps : requirements.get_components() ) {
                 const item_comp &comp = altercomps.front();
                 if( comp.type->count_by_charges() ) {
                     item next = item( comp.type, calendar::turn, comp.count );
-                    cut_up_component( next );
+                    cut_up_component( next, num, eff_curr );
                 } else {
                     item next = item( comp.type, calendar::turn );
-                    for( int i = 0; i < comp.count; i++ ) {
-                        cut_up_component( next );
-                    }
+                    cut_up_component( next, num * comp.count, eff_curr );
                 }
             }
         } else
         {
             // No recipe was found so we guess and distribute the weight uniformly.
             // This is imprecise but it can't be exploited as no recipe exists for the item
-            distribute_uniformly( curr );
+            distribute_uniformly( curr, eff_curr );
             return;
         }
     };
 
     // Decompose the item into irreducible parts
-    cut_up_component( *cut.get_item() );
+    cut_up_component( *cut.get_item(), 1, efficiency );
 
 
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
 
-    // Calculate efficiency losses
-    {
-        float efficiency = 1.0;
-
-        // Higher fabrication, less chance of entropy, but still a chance.
-        /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-        int entropy_threshold = std::max( 0, 5 - p.get_skill_level( skill_fabrication ) );
-        if( rng( 1, 10 ) <= entropy_threshold ) {
-            efficiency *= 0.9;
-        }
-
-        // Fail dex roll, potentially lose more parts.
-        /** @EFFECT_DEX randomly reduces component loss when cutting items up */
-        if( dice( 3, 4 ) > p.dex_cur ) {
-            efficiency *= 0.95;
-        }
-
-        // If the item being cut is damaged, additional losses will be incurred.
-        // Reinforcing does not decrease losses.
-        efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
-
-        // Apply proportional item loss.
-        for( auto &iter : salvage ) {
-            iter.second *= efficiency;
-        }
-    }
-
-    // Item loss for weight was applied before(only round once).
+    // Add the uniformly distributed mass to the relevant salvage items
     for( const auto &iter : mat_to_weight ) {
         if( const cata::optional<itype_id> id = iter.first->salvaged_into() ) {
             salvage[*id] += iter.second / id->obj().weight;
