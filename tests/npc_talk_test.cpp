@@ -1154,7 +1154,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.cash = 13;
     beta.op_of_u.owed = 14;
     player_character.set_skill_level( skill, 8 );
-    get_weather().weather_precise->temperature = units::from_fahrenheit(21);
+    get_weather().weather_precise->temperature = units::from_fahrenheit( 21 );
     get_weather().weather_precise->windpower = 15;
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
@@ -1375,7 +1375,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( calendar::turn == time_point( 1 ) );
 
-    get_weather().weather_precise->temperature = units::from_fahrenheit(20);
+    get_weather().weather_precise->temperature = units::from_fahrenheit( 20 );
     get_weather().clear_temp_cache();
     // "Sets temperature to 2."
     effects = d.responses[ 1 ].success;
