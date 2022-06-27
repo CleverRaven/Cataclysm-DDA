@@ -369,7 +369,7 @@ void widget::load( const JsonObject &jo, const std::string & )
         explicit_separator = true;
         explicit_padding = true;
     } else {
-        explicit_separator = ( jo.get_string( "separator") );
+        explicit_separator = ( jo.get_string( "separator" ) );
         explicit_padding = ( jo.get_int( "padding" ) );
         optional( jo, was_loaded, "separator", _separator, default_separator );
         optional( jo, was_loaded, "padding", _padding, 2 );
@@ -475,17 +475,19 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
         return;
     }
     if( !w->explicit_separator ) {
-            w->_separator = label_separator;
-        }
-        if( !w->explicit_padding ) {
-            w->_padding = col_padding;
-        }
+        w->_separator = label_separator;
+    }
+    if( !w->explicit_padding ) {
+        w->_padding = col_padding;
+    }
     if( w->_widgets.empty() ) {
         return;
     }
     // If we get here, we have a layout that contains nested widgets.
     for( const widget_id &wid : w->_widgets ) {
-        widget::finalize_inherited_fields_recursive( wid, w->explicit_separator ? w->_separator : label_separator, w->explicit_padding ? w->_padding : padding );
+        widget::finalize_inherited_fields_recursive( wid,
+                w->explicit_separator ? w->_separator : label_separator,
+                w->explicit_padding ? w->_padding : padding );
     }
 }
 
