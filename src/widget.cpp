@@ -362,15 +362,17 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "text_align", _text_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
-    optional( jo, was_loaded, "padding", _padding, 2 );
 
     if( _style == "sidebar" ) {
         mandatory( jo, was_loaded, "separator", _separator );
+        mandatory( jo, was_loaded, "padding", _padding );
         explicit_separator = true;
+        explicit_padding = true;
     } else {
         explicit_separator = ( jo.get_string( "separator") );
         explicit_padding = ( jo.get_int( "padding" ) );
         optional( jo, was_loaded, "separator", _separator, default_separator );
+        optional( jo, was_loaded, "padding", _padding, 2 );
     }
     _height = _height_max;
     _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
@@ -474,13 +476,9 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
     }
     if( !w->explicit_separator ) {
             w->_separator = label_separator;
-            return;
-        } else {
-            return;
         }
         if( !w->explicit_padding ) {
             w->_padding = col_padding;
-            return;
         }
     if( w->_widgets.empty() ) {
         return;
@@ -494,7 +492,7 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
 void widget::finalize()
 {
     for( const widget &wgt : widget::get_all() ) {
-        if( wgt.explicit_separator ) {
+        if( wgt.explicit_separator || wgt.explicit_padding ) {
             widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
         }
         widget::finalize_label_width_recursive( wgt.getId() );
