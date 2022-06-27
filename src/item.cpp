@@ -4968,7 +4968,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
         if( base_stamina || base_dpstam ) {
             stam = player_character.get_total_melee_stamina_cost( this ) * -1;
-            stam_pct = truncf( stam * 1000.0 / player_character.get_stamina_max() ) / 10;
+            stam_pct = std::truncf( stam * 1000.0 / player_character.get_stamina_max() ) / 10;
         }
 
         if( base_dps || base_dpstam ) {

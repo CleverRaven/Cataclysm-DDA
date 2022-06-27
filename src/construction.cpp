@@ -1442,16 +1442,16 @@ void construct::done_wiring( const tripoint &p, Character &/*who*/ )
 
         bounding_box vehicle_box = veh->get_bounding_box( false );
         point size;
-        size.x = abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
-        size.y = abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+        size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+        size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
 
         vehicle &veh_target = vp->vehicle();
         if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
             bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
 
             point target_size;
-            target_size.x = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
-            target_size.y = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+            target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+            target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
 
             if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
                 size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
