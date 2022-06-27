@@ -7,6 +7,7 @@
       {
         "id": "leg",
         "name": "a leg",
+        "difficulty": { "melee": 3, "ranged": 3 },
         "damage_mult": { "all": 0.66 },
         "crit_mult": { "all": 0.66 },
         "coverage_mult": { "point": 0.75 },
@@ -76,6 +77,31 @@
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "cut": 1.5 },
         "coverage": 5
+      },
+      {
+        "id": "antenna",
+        "name": "the antennae",
+        "difficulty": { "melee": 4, "ranged": 8 },
+        "damage_mult": { "all": 0.5 },
+        "armor_mult": { "all": 0.5 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 0, 20 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 6 ],
+            "chance": 50,
+            "message": "The %s is stunned!",
+            "damage_required": [ 21, 100 ]
+          }
+        ],
+        "coverage": 3,
+        "coverage_mult": { "point": 0.5 }
       },
       {
         "id": "head",
@@ -159,6 +185,31 @@
         "coverage": 15
       },
       {
+        "id": "antenna",
+        "name": "the antennae",
+        "difficulty": { "melee": 4, "ranged": 8 },
+        "damage_mult": { "all": 0.5 },
+        "armor_mult": { "all": 0.5 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 0, 20 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 50,
+            "message": "The %s is stunned!",
+            "damage_required": [ 21, 100 ]
+          }
+        ],
+        "coverage": 8,
+        "coverage_mult": { "point": 0.5 }
+      },
+      {
         "id": "mandible",
         "name": "the mandibles",
         "crit_mult": { "all": 1.25 },
@@ -206,14 +257,14 @@
         "id": "abdomen",
         "name": "the abdomen",
         "coverage": 30,
-        "effects": [ { "effect": "maimed_stinger", "chance": 10, "duration": [ 5, 30 ], "message": "The %s retracts its stinger!" } ]
+        "effects": [ { "effect": "maimed_stinger", "chance": 100, "duration": [ 5, 30 ], "message": "The %s retracts its stinger!" } ]
       },
       {
         "id": "stinger",
         "name": "the stinger",
-        "difficulty": { "melee": 8, "ranged": 15 },
+        "difficulty": { "melee": 8, "ranged": 12 },
         "coverage_mult": { "broad": 2 },
-        "coverage": 2,
+        "coverage": 5,
         "effects": [ { "effect": "maimed_stinger", "chance": 25, "duration": 86400, "message": "The %s's stinger is disabled!" } ]
       }
     ]
@@ -246,7 +297,7 @@
             "damage_required": [ 21, 100 ]
           }
         ],
-        "coverage": 20
+        "coverage": 10
       },
       {
         "id": "wings_down",
@@ -267,7 +318,7 @@
             "damage_required": [ 25, 100 ]
           }
         ],
-        "coverage": 20
+        "coverage": 10
       }
     ]
   },
@@ -277,6 +328,7 @@
     "weakpoints": [
       {
         "id": "armor_thick",
+        "name": "a thick part of its armor",
         "armor_mult": { "all": 1.5 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "cut": 1.5 },
@@ -284,14 +336,14 @@
         "effects": [
           {
             "effect": "maimed_armor",
-            "chance": 5,
+            "chance": 15,
             "duration": 86400,
             "message": "The %s's armor cracks!",
             "damage_required": [ 10, 30 ]
           },
           {
             "effect": "maimed_armor",
-            "chance": 15,
+            "chance": 50,
             "duration": 86400,
             "message": "The %s's armor cracks!",
             "damage_required": [ 31, 100 ]
@@ -303,7 +355,7 @@
         "name": "a crack in the armor",
         "armor_mult": { "all": 0.33 },
         "crit_mult": { "all": 1.2 },
-        "coverage": 10,
+        "coverage": 15,
         "required_effects": [ "maimed_armor" ]
       },
       {
@@ -320,6 +372,7 @@
   {
     "type": "weakpoint_set",
     "id": "wps_arthropod_spider",
+    "//": "TODO: When webweavers get the spinneret attack add a disabling WP",
     "weakpoints": [
       {
         "id": "leg",
@@ -377,6 +430,7 @@
         ],
         "coverage": 5
       },
+      { "id": "antenna", "coverage": 0 },
       {
         "id": "eye",
         "name": "the eye",

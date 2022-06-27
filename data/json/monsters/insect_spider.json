@@ -1653,7 +1653,8 @@
     "armor_cut": 5,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
-    "weakpoints": [ { "id": "stinger", "coverage": 0 } ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
     "special_attacks": [ [ "DERMATIK", 25 ] ],
@@ -1675,8 +1676,9 @@
     "speed": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
     "vision_night": 8,
-    "delete": { "flags": [ "FLIES" ], "special_attacks": [ "DERMATIK" ] }
+    "delete": { "weakpoints": [ { "id": "stinger" } ], "flags": [ "FLIES" ], "special_attacks": [ "DERMATIK" ] }
   },
   {
     "id": "mon_dermatik_incubator_deer",
@@ -1770,7 +1772,8 @@
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "//": "No stinging, for now",
-    "weakpoints": [ { "id": "stinger", "coverage": 0 } ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
@@ -1821,7 +1824,8 @@
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "//": "No stinging, for now",
-    "weakpoints": [ { "id": "stinger", "coverage": 0 } ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 14, "into": "mon_ant_acid_soldier" },
@@ -1887,7 +1891,8 @@
     "armor_elec": 4,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
-    "weakpoints": [ { "id": "stinger", "coverage": 0 }, { "id": "abdomen", "coverage": 50, "armor_mult": { "all": 0.75 } } ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 50, "armor_mult": { "all": 0.25 } } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "harvest": "arachnid_acid_queen",
@@ -1923,7 +1928,8 @@
     "bleed_rate": 80,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
-    "weakpoints": [ { "id": "stinger", "coverage": 0 } ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "ACID", 15 ] ],
@@ -1984,7 +1990,8 @@
     "armor_bullet": 11,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
-    "weakpoints": [ { "id": "stinger", "coverage": 0 }, { "id": "abdomen", "coverage": 50, "armor_mult": { "all": 0.75 } } ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 50, "armor_mult": { "all": 0.25 } } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "armor_elec": 3,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_large",
@@ -2021,7 +2028,8 @@
     "bleed_rate": 80,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
-    "weakpoints": [ { "id": "stinger", "coverage": 0 } ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
@@ -2693,7 +2701,37 @@
     "armor_bullet": 10,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
-    "weakpoints": [ { "id": "mandible", "coverage": 10 } ],
+    "weakpoints": [
+      {
+        "id": "mandible",
+        "name": "the mandibles",
+        "difficulty": { "ranged": 5, "melee": 3 },
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 1, 10 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's mandibles are destroyed!",
+            "damage_required": [ 41, 100 ]
+          }
+        ],
+        "coverage": 10
+      }
+    ],
     "vision_day": 8,
     "vision_night": 5,
     "harvest": "arachnid",
